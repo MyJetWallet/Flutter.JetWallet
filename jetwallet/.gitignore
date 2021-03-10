@@ -30,7 +30,8 @@
 .pub-cache/
 .pub/
 /build/*
-!/build/web/
+# if we want to keep web build in github
+# !/build/web/ 
 
 # Web related
 lib/generated_plugin_registrant.dart
