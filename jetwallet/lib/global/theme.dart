@@ -5,8 +5,8 @@ import 'package:jetwallet/global/const.dart';
 final globalSpotTheme = ThemeData(
     primaryColor: primColor,
     scaffoldBackgroundColor: backColor,
-    fontFamily: GoogleFonts.raleway().fontFamily,
-    textTheme: GoogleFonts.ralewayTextTheme(
+    fontFamily: GoogleFonts.notoSans().fontFamily,
+    textTheme: GoogleFonts.notoSansTextTheme(
       ThemeData(brightness: Brightness.dark).textTheme,
     ),
     buttonTheme: ButtonThemeData(
