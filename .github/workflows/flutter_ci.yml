@@ -52,7 +52,10 @@ jobs:
         utcOffset: "+00:00"
         
      - name: Check Service dir
-       run: ls 
+       run: |
+        pwd
+        ls 
+        echo "hello"
                   
      - name: Publish image
        uses: docker/build-push-action@v1
