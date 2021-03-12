@@ -11,11 +11,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:jetwallet/spot_home/spot_home.dart';
 
 void main() {
-  /* TODO: KChart breakes tests, but it will be replaced, so commenting the tests out until it's done
   testWidgets('Spot home smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(SpotHome());
 
     expect(find.text('SPOT APPLICATION'), findsOneWidget);
     expect(find.text('SPOT ERROR'), findsNothing);
-  });*/
+  });
 }
