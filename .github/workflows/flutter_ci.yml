@@ -27,6 +27,16 @@ jobs:
      - run: flutter pub get
      - run: flutter analyze --no-fatal-infos
      - run: flutter test
+     
+     - name: Publish image
+       uses: docker/build-push-action@v1
+       with:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
+        tags: latest
+     
  
 # build_web:
 #   name: Build Flutter for web
@@ -44,31 +54,31 @@ jobs:
 #     - run: flutter clean
 #     - run: flutter build web --release
      
- release_docker:
-   name: Release Docker image
-   needs: [flutter_test]
-   runs-on: ubuntu-latest
-   steps:
-   
-     - name: Get current time
-       uses: MyJetTools/get-current-time@v2
-       id: current-time
-       with:
-        format: YYYY-MM-DD HH:mm:ss
-        utcOffset: "+00:00"
-        
-     - name: Check Service dir
-       run: |
-        pwd
-        ls 
-        echo "hello"
-                  
-     - name: Publish image
-       uses: docker/build-push-action@v1
-       with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: docker.pkg.github.com
-        repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
-        tags: latest
-        build_args: app_version=myjetwallet.flutter.jetwallet-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+# release_docker:
+#   name: Release Docker image
+#   needs: [flutter_test]
+#   runs-on: ubuntu-latest
+#   steps:
+#   
+#     - name: Get current time
+#       uses: MyJetTools/get-current-time@v2
+#       id: current-time
+#       with:
+#        format: YYYY-MM-DD HH:mm:ss
+#        utcOffset: "+00:00"
+#        
+#     - name: Check Service dir
+#       run: |
+#        pwd
+#        ls 
+#        echo "hello"
+#                  
+#     - name: Publish image
+#       uses: docker/build-push-action@v1
+#       with:
+#        username: ${{ github.actor }}
+#        password: ${{ secrets.GITHUB_TOKEN }}
+#        registry: docker.pkg.github.com
+#        repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
+#        tags: latest
+#        build_args: app_version=myjetwallet.flutter.jetwallet-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
