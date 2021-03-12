@@ -50,6 +50,9 @@ jobs:
        with:
         format: YYYY-MM-DD HH:mm:ss
         utcOffset: "+00:00"
+        
+     - name: Check Service dir
+       run: ls ./
             
      - name: Publish image
        uses: docker/build-push-action@v1
@@ -57,6 +60,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
+        path: ./
         repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
         tags: latest
         build_args: app_version=myjetwallet.flutter.jetwallet-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
