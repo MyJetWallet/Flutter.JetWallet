@@ -28,7 +28,7 @@ RUN flutter config --enable-web
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
-RUN flutter build web
+RUN flutter build web --release
 
 # Stage 2 - Create the run-time image
 FROM nginx
