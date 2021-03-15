@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/global/theme.dart';
+import 'package:jetwallet/spot_home/signalr/signalr.dart';
 import 'package:jetwallet/spot_home/widgets/kchart.dart';
 
 class _SpotScaffold extends StatelessWidget {
@@ -7,10 +8,18 @@ class _SpotScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Center(child: Text("SPOT APPLICATION"))),
-      body: TextButton(
-          child: Center(child: Text("SHOW ME THE CHART")),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => KChart()))),
+      body: Column(
+        children: [
+          TextButton(
+              child: Center(child: Text("SHOW ME THE CHART")),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => KChart()))),
+          TextButton(
+              child: Center(child: Text("SHOW ME SignalR")),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SpotSignalR()))),
+        ],
+      ),
     );
   }
 }
