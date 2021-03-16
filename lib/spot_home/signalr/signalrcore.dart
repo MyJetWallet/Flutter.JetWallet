@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/global/const.dart';
+import 'package:jetwallet/spot_home/signalr/model/bidask.dart';
 import 'package:signalr_core/signalr_core.dart';
-
-import 'package:universal_io/io.dart';
 
 class SpotSignalRCore extends StatefulWidget {
   SpotSignalRCore({Key key}) : super(key: key);
@@ -17,7 +14,8 @@ class SpotSignalRCore extends StatefulWidget {
 class _SpotSignalRCoreState extends State<SpotSignalRCore> {
   HubConnection hubConnection;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  List<dynamic> uidata = ["Received data:"];
+
+  SpotBidAsk spotBidAsk;
 
   @override
   void initState() {
@@ -28,28 +26,38 @@ class _SpotSignalRCoreState extends State<SpotSignalRCore> {
 
   @override
   Widget build(BuildContext context) {
+    final totalPrices = spotBidAsk.prices.length;
+    final hasData = (spotBidAsk != null && spotBidAsk.prices.length > 0);
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(title: Center(child: Text("SPOT SignalR"))),
-      /*floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.cast_connected),
-        onPressed: () async {
-          if (hubConnection.state != HubConnectionState.connected) {
-            await hubConnection.start();
-            print("Connect $hubConnection.state \n");
-          }
-        },
-      ),*/
-      body: ListView.builder(
-        itemCount: uidata.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Text(
-            uidata[index],
-            style: TextStyle(color: Colors.white),
-          );
-        },
-      ),
-    );
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Center(child: Text("SPOT SignalR")),
+        ),
+        body: ListView.builder(
+            itemCount: hasData ? totalPrices : 1,
+            itemBuilder: (context, index) {
+              return hasData
+                  ? ListTile(
+                      title: Text(
+                        "ID: " +
+                            spotBidAsk.prices[index].id +
+                            "  DateTime: " +
+                            DateTime.fromMillisecondsSinceEpoch(
+                                    spotBidAsk.prices[index].dateTime,
+                                    isUtc: false)
+                                .toString() +
+                            "  Bid: " +
+                            spotBidAsk.prices[index].bid.toString() +
+                            "  Ask: " +
+                            spotBidAsk.prices[index].ask.toString() +
+                            "  Lag : " +
+                            (spotBidAsk.now - spotBidAsk.prices[index].dateTime)
+                                .toString(),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  : Text("NO DATA");
+            }));
   }
 
   Future<void> initSignalR() async {
@@ -57,11 +65,6 @@ class _SpotSignalRCoreState extends State<SpotSignalRCore> {
     hubConnection = HubConnectionBuilder()
         .withUrl(
           urlSignalR,
-          /*HttpConnectionOptions(
-              accessTokenFactory: () => Future.value('test'),
-              // client: IOClient(HttpClient()..badCertificateCallback = (x, y, z) => true),
-              logging: (level, message) => print(message),
-            )*/
         )
         .build();
     print(hubConnection.state.toString());
@@ -70,23 +73,8 @@ class _SpotSignalRCoreState extends State<SpotSignalRCore> {
     print(hubConnection.state.toString());
     hubConnection.invoke("Init", args: ["User"]);
     hubConnection.on("spot-bidask", (data) {
-      uidata.add(data.toString());
+      spotBidAsk = SpotBidAsk.fromJson(data.first);
       setState(() {});
     });
   }
-
-  /* _buttonTapped() async {
-    print(hubConnection.state);
-    if (hubConnection.state == HubConnectionState.connected) {
-      final res = await hubConnection.invoke(
-        "Init",
-        args: ["Dima"],
-      ).catchError((error) {
-        print(error.toString());
-      });
-
-      final snackBar = SnackBar(content: Text('SignalR Method Response: $res'));
-      _scaffoldKey.currentState.showSnackBar(snackBar);
-    }
-  }*/
 }
