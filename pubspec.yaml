@@ -12,25 +12,28 @@ dependencies:
   flutter:
     sdk: flutter
   k_chart: ^0.1.1
-  http: ^0.12.1
-  signalr_flutter: ^0.1.0
+  # http: ^0.13.0
+  # web_socket_channel: ^1.1.0
+  # dio: ^3.0.10
+  # signalr_flutter: ^0.1.0
+  universal_io: ^2.0.1
   signalr_core: ^1.0.8  
   cupertino_icons: ^1.0.2
-  lint: ^1.5.3
-  bloc: ^7.0.0-nullsafety.3
-  flutter_bloc: ^7.0.0-nullsafety.5
+  # lint: ^1.5.3
+  # bloc: ^7.0.0-nullsafety.3
+  # flutter_bloc: ^7.0.0-nullsafety.5
   # hydrated_bloc: ^6.1.0
-  bloc_test: ^8.0.0-nullsafety.5
-  freezed: ^0.14.0+1
-  hive: ^2.0.0
-  intl: ^0.17.0
+  # bloc_test: ^8.0.0-nullsafety.5
+  # freezed: ^0.14.0+1
+  # hive: ^2.0.0
+  # intl: ^0.17.0
   # url_launcher: ^6.0.2
-  shared_preferences: ^2.0.3
-  fluro: ^2.0.3
-  sprung: ^3.0.0
+  # shared_preferences: ^2.0.3
+  # fluro: ^2.0.3
+  # sprung: ^3.0.0
   # google_fonts: ^2.0.0
-  animations: ^2.0.0
-  connectivity: ^3.0.2 
+  # animations: ^2.0.0
+  # connectivity: ^3.0.2 
   # Connectivity is not supporting Windows and Linux as in 3.0.2, so the possible workaround is to turn to fuchsia
   # void _enablePlatformOverrideForDesktop() {
   # if (!kIsWeb && (Platform.isWindows || Platform.isLinux)) {
