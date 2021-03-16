@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   k_chart: ^0.1.1
+  http: ^0.12.1
+  signalr_flutter: ^0.1.0
   signalr_core: ^1.0.8  
   cupertino_icons: ^1.0.2
   lint: ^1.5.3
