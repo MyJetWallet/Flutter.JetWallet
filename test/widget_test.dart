@@ -14,7 +14,7 @@ void main() {
   testWidgets('Spot home smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(SpotHome());
 
-    expect(find.text('SPOT APPLICATION'), findsOneWidget);
-    expect(find.text('SPOT ERROR'), findsNothing);
+    expect(find.text('SPOT Technical PoC'), findsOneWidget);
+    expect(find.text('Error'), findsNothing);
   });
 }
