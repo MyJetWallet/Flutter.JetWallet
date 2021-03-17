@@ -10,14 +10,22 @@ class _SpotScaffold extends StatelessWidget {
       appBar: AppBar(title: Center(child: Text("SPOT Technical PoC"))),
       body: Column(
         children: [
-          TextButton(
-              child: Center(child: Text("SHOW ME THE CHART")),
-              onPressed: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => KChart()))),
-          TextButton(
-              child: Center(child: Text("SHOW ME Wallet API Integration")),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => WalletAPIScreen()))),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextButton(
+                child: Center(child: Text("Show me the Chart")),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => KChartScreen()))),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextButton(
+                child: Center(child: Text("Show me Wallet API Integration")),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WalletAPIScreen()))),
+          ),
         ],
       ),
     );

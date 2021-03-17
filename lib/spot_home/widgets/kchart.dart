@@ -6,6 +6,21 @@ import 'package:k_chart/flutter_k_chart.dart';
 import 'package:k_chart/k_chart_widget.dart';
 import 'package:http/http.dart' as http;
 
+class KChartScreen extends StatelessWidget {
+  const KChartScreen({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Chart Example"),
+      ),
+      body: KChart(),
+    );
+  }
+}
+
 class KChart extends StatefulWidget {
   KChart({Key key, this.title}) : super(key: key);
 
