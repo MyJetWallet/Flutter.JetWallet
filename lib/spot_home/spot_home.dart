@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/global/theme.dart';
-import 'package:jetwallet/spot_home/signalr/signalrcore.dart';
+import 'package:jetwallet/spot_home/signalr/walletapi_screen.dart';
 import 'package:jetwallet/spot_home/widgets/kchart.dart';
 
 class _SpotScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text("SPOT APPLICATION"))),
+      appBar: AppBar(title: Center(child: Text("SPOT Technical PoC"))),
       body: Column(
         children: [
           TextButton(
@@ -15,9 +15,9 @@ class _SpotScaffold extends StatelessWidget {
               onPressed: () => Navigator.push(
                   context, MaterialPageRoute(builder: (context) => KChart()))),
           TextButton(
-              child: Center(child: Text("SHOW ME SignalR_Core")),
+              child: Center(child: Text("SHOW ME Wallet API Integration")),
               onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SpotSignalRCore()))),
+                  MaterialPageRoute(builder: (context) => WalletAPIScreen()))),
         ],
       ),
     );
