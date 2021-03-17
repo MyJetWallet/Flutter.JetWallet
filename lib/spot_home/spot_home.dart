@@ -10,13 +10,13 @@ class _SpotScaffold extends StatelessWidget {
       appBar: AppBar(title: Center(child: Text("SPOT Technical PoC"))),
       body: Column(
         children: [
-          Padding(
+          /*Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
                 child: Center(child: Text("Show me the Chart")),
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => KChartScreen()))),
-          ),
+          ),*/
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
