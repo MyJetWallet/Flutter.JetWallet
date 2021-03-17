@@ -44,7 +44,7 @@ class _KChartState extends State<KChart> {
   void initState() {
     super.initState();
     getData('1day');
-    rootBundle.loadString('depth.json').then((result) {
+    rootBundle.loadString('json/depth.json').then((result) {
       final parseJson = json.decode(result);
       Map tick = parseJson['tick'];
       var bids = tick['bids']

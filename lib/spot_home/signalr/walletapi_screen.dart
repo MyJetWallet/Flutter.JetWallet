@@ -20,19 +20,7 @@ class WalletAPIScreen extends StatelessWidget {
                 vertical: MediaQuery.of(context).size.height * 0.01,
                 horizontal: MediaQuery.of(context).size.width * 0.01,
               ),
-              width: MediaQuery.of(context).size.width * 0.47,
-              height: MediaQuery.of(context).size.height * 0.96,
-              decoration: BoxDecoration(border: Border.all(color: Colors.teal)),
-              child: BidAskWidget()),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.02,
-          ),
-          Container(
-              padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.01,
-                horizontal: MediaQuery.of(context).size.width * 0.01,
-              ),
-              width: MediaQuery.of(context).size.width * 0.47,
+              width: MediaQuery.of(context).size.width * 0.96,
               height: MediaQuery.of(context).size.height * 0.96,
               decoration: BoxDecoration(border: Border.all(color: Colors.teal)),
               child: BidAskWidget()),

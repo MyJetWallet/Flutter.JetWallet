@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jetwallet/global/const.dart';
 import 'package:jetwallet/spot_home/signalr/bidask/model/bidask_model.dart';
 import 'package:signalr_core/signalr_core.dart';
@@ -25,6 +26,7 @@ class _BidAskWidgetState extends State<BidAskWidget> {
   Widget build(BuildContext context) {
     int totalPrices = 0;
     bool hasData = false;
+    final formatter = NumberFormat("######.0000");
 
     if (spotBidAsk != null) {
       totalPrices = spotBidAsk.prices.length ?? 0;
@@ -41,7 +43,7 @@ class _BidAskWidgetState extends State<BidAskWidget> {
                         spotBidAsk.prices[index].id,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 40,
+                          fontSize: 30,
                         ),
                       ),
                     ),
@@ -58,7 +60,7 @@ class _BidAskWidgetState extends State<BidAskWidget> {
                             (spotBidAsk.now - spotBidAsk.prices[index].dateTime)
                                 .toString() +
                             "ms",
-                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                        style: TextStyle(color: Colors.white60, fontSize: 10),
                       ),
                     ),
                   ),
@@ -66,7 +68,7 @@ class _BidAskWidgetState extends State<BidAskWidget> {
                     child: Column(
                       children: [
                         Text("BID", style: TextStyle(color: Colors.amber)),
-                        Text((spotBidAsk.prices[index].bid).toString(),
+                        Text(formatter.format(spotBidAsk.prices[index].bid),
                             style: TextStyle(color: Colors.amberAccent))
                       ],
                     ),
@@ -75,7 +77,7 @@ class _BidAskWidgetState extends State<BidAskWidget> {
                     child: Column(
                       children: [
                         Text("ASK", style: TextStyle(color: Colors.yellow)),
-                        Text(spotBidAsk.prices[index].ask.toString(),
+                        Text(formatter.format(spotBidAsk.prices[index].ask),
                             style: TextStyle(color: Colors.yellowAccent))
                       ],
                     ),
