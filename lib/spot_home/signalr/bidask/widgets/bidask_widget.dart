@@ -14,7 +14,7 @@ class BidAskWidget extends StatefulWidget {
 
 class _BidAskWidgetState extends State<BidAskWidget> {
   HubConnection hubConnection;
-  SpotBidAsk spotBidAsk;
+  SpotBidAsk currentTick, lastTick;
 
   @override
   void initState() {
@@ -26,64 +26,104 @@ class _BidAskWidgetState extends State<BidAskWidget> {
   Widget build(BuildContext context) {
     int totalPrices = 0;
     bool hasData = false;
-    final formatter = NumberFormat("######.0000");
+    bool hasLastTick = false;
+    final formatter = NumberFormat("######0.0000");
 
-    if (spotBidAsk != null) {
-      totalPrices = spotBidAsk.prices.length ?? 0;
-      hasData = (spotBidAsk != null && spotBidAsk.prices.length > 0);
+    if (currentTick != null) {
+      totalPrices = currentTick.prices.length ?? 0;
+      hasData = (currentTick != null && currentTick.prices.length > 0);
+      hasLastTick = (lastTick != null &&
+          lastTick.prices.length == currentTick.prices.length);
     }
+
     return hasData
         ? ListView.builder(
             itemCount: totalPrices,
             itemBuilder: (context, index) {
+              num delta = 0;
+              if (hasLastTick) if (currentTick.prices[index].id ==
+                  lastTick.prices[index].id)
+                delta =
+                    currentTick.prices[index].bid - lastTick.prices[index].bid;
+
               return ListTile(
                   title: Center(
                     child: FittedBox(
-                      child: Text(
-                        spotBidAsk.prices[index].id,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                        ),
+                      child: Row(
+                        children: [
+                          Text(
+                            currentTick.prices[index].id,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                            ),
+                          ),
+                          _tickWidget(delta),
+                        ],
                       ),
                     ),
                   ),
                   subtitle: Center(
-                    child: FittedBox(
-                      child: Text(
-                        "DateTime: " +
-                            DateTime.fromMillisecondsSinceEpoch(
-                                    spotBidAsk.prices[index].dateTime,
-                                    isUtc: false)
-                                .toString() +
-                            "  Lag : " +
-                            (spotBidAsk.now - spotBidAsk.prices[index].dateTime)
-                                .toString() +
-                            "ms",
-                        style: TextStyle(color: Colors.white60, fontSize: 10),
-                      ),
+                    child: Text(
+                      "DateTime: " +
+                          DateTime.fromMillisecondsSinceEpoch(
+                                  currentTick.prices[index].dateTime,
+                                  isUtc: false)
+                              .toString() +
+                          "  Lag : " +
+                          (currentTick.now - currentTick.prices[index].dateTime)
+                              .toString() +
+                          "ms",
+                      style: TextStyle(color: Colors.white60, fontSize: 8),
                     ),
                   ),
-                  leading: FittedBox(
-                    child: Column(
-                      children: [
-                        Text("BID", style: TextStyle(color: Colors.amber)),
-                        Text(formatter.format(spotBidAsk.prices[index].bid),
-                            style: TextStyle(color: Colors.amberAccent))
-                      ],
-                    ),
+                  leading: Column(
+                    children: [
+                      Text("BID", style: TextStyle(color: Colors.amber)),
+                      Text(formatter.format(currentTick.prices[index].bid),
+                          style: TextStyle(color: Colors.amberAccent)),
+                    ],
                   ),
-                  trailing: FittedBox(
-                    child: Column(
-                      children: [
-                        Text("ASK", style: TextStyle(color: Colors.yellow)),
-                        Text(formatter.format(spotBidAsk.prices[index].ask),
-                            style: TextStyle(color: Colors.yellowAccent))
-                      ],
-                    ),
+                  trailing: Column(
+                    children: [
+                      Text("ASK", style: TextStyle(color: Colors.yellow)),
+                      Text(formatter.format(currentTick.prices[index].ask),
+                          style: TextStyle(color: Colors.yellowAccent))
+                    ],
                   ));
             })
         : Text("NO DATA");
+  }
+
+  Widget _tickWidget(num d) {
+    num delta = d ?? 0;
+    if (delta > 0)
+      return Row(
+        children: [
+          Icon(
+            Icons.trending_up,
+            color: Colors.green,
+          ),
+        ],
+      );
+    if (delta < 0)
+      return Row(
+        children: [
+          Icon(
+            Icons.trending_down,
+            color: Colors.red,
+          ),
+        ],
+      );
+    else
+      return Row(
+        children: [
+          Icon(
+            Icons.trending_flat,
+            color: Colors.blue,
+          ),
+        ],
+      );
   }
 
   Future<void> _initSignalR() async {
@@ -97,7 +137,8 @@ class _BidAskWidgetState extends State<BidAskWidget> {
     await hubConnection.start();
     hubConnection.invoke("Init", args: ["User"]);
     hubConnection.on("spot-bidask", (data) {
-      spotBidAsk = SpotBidAsk.fromJson(data.first);
+      lastTick = currentTick ?? null;
+      currentTick = SpotBidAsk.fromJson(data.first);
       setState(() {});
     });
   }
