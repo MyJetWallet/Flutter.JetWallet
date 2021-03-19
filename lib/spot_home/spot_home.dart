@@ -7,7 +7,7 @@ class _SpotScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text("SPOT Technical PoC"))),
+      appBar: AppBar(title: Center(child: Text("Wallet Technical PoC"))),
       body: Column(
         children: [
           /*Padding(
