@@ -70,7 +70,7 @@ jobs:
        uses: JamesIves/github-pages-deploy-action@4.1.1
        with:
          branch: web-app 
-         folder: build 
+         folder: build/web
      
      # Upload generated web files to the artifacts.
      - uses: actions/upload-artifact@v1
