@@ -64,7 +64,7 @@ jobs:
      - run: flutter build web --release
      
      - name: ls
-     - run: ls -R
+       run: ls -R
      
      # Upload generated web files to the artifacts.
      - uses: actions/upload-artifact@v1
