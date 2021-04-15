@@ -70,7 +70,7 @@ jobs:
      - uses: actions/upload-artifact@v1
        with:
          name: release-web-${{ github.run_number }}
-         path: /build/web
+         path: ./build/web/
          retention-days: 5    
      
      
