@@ -41,7 +41,7 @@ jobs:
     # Upload generated apk to the artifacts.
     - uses: actions/upload-artifact@v1
       with:
-        name: release-apk
+        name: release-apk-${{ github.run_number }}
         path: build/app/outputs/apk/release/app-release.apk  
         retention-days: 5
     
