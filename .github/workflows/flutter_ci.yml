@@ -65,6 +65,12 @@ jobs:
      
      - name: ls
        run: ls -R
+       
+     - name: Deploy 🚀
+       uses: JamesIves/github-pages-deploy-action@4.1.1
+       with:
+         branch: web-app 
+         folder: build 
      
      # Upload generated web files to the artifacts.
      - uses: actions/upload-artifact@v1
