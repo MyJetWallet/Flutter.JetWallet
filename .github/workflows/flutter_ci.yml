@@ -28,14 +28,14 @@ jobs:
      - run: flutter analyze --no-fatal-infos
      - run: flutter test
      
-     - name: Publish image
-       uses: docker/build-push-action@v1
-       with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: docker.pkg.github.com
-        repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
-        tags: latest
+#     - name: Publish image
+#       uses: docker/build-push-action@v1
+#       with:
+#        username: ${{ github.actor }}
+#        password: ${{ secrets.GITHUB_TOKEN }}
+#        registry: docker.pkg.github.com
+#        repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
+#        tags: latest
         
      
  web_app:
@@ -61,17 +61,13 @@ jobs:
      - run: flutter doctor -v
      - run: flutter upgrade
      - run: flutter config --enable-web
-     - run: mkdir /app/
-     - run: COPY . /app/
-     - run: cd ./app
      - run: flutter build web --release
-     - run: cd ..
      
      # Upload generated web files to the artifacts.
      - uses: actions/upload-artifact@v1
        with:
          name: release-web-${{ github.run_number }}
-         path: /app/build/web
+         path: /build/web
          retention-days: 5    
      
      
