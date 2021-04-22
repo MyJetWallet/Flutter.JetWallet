@@ -24,4 +24,4 @@ jobs:
       - run: flutter test
       - run: flutter clean
       - run: flutter build web --release
-
+      - run: flutter build apk --build-number=${{ github.run_number }}
