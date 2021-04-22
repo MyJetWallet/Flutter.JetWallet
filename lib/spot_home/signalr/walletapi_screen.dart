@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/spot_home/signalr/bidask/widgets/bidask_widget.dart';
 
 class WalletAPIScreen extends StatelessWidget {
-  WalletAPIScreen({Key key}) : super(key: key);
+  WalletAPIScreen({Key? key}) : super(key: key);
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Widget _getLayout(BuildContext context) {
     return Padding(
@@ -23,7 +23,7 @@ class WalletAPIScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.96,
               height: MediaQuery.of(context).size.height * 0.96,
               decoration: BoxDecoration(border: Border.all(color: Colors.teal)),
-              child: BidAskWidget()),
+              child: const BidAskWidget()),
         ],
       ),
     );
@@ -34,7 +34,7 @@ class WalletAPIScreen extends StatelessWidget {
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Center(child: Text("SPOT Wallet API Integration")),
+          title: const Center(child: Text('SPOT Wallet API Integration')),
         ),
         body: _getLayout(context));
   }
