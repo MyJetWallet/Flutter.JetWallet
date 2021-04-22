@@ -1,5 +1,9 @@
 class Price {
-  Price({required this.id, required this.dateTime, required this.bid, required this.ask});
+  Price(
+      {required this.id,
+      required this.dateTime,
+      required this.bid,
+      required this.ask});
 
   factory Price.fromJson(Map<String, dynamic> json) {
     return Price(
@@ -21,7 +25,8 @@ class SpotBidAsk {
 
   factory SpotBidAsk.fromJson(Map<String, dynamic> json) {
     final prices = <Price>[];
-    json['prices'].forEach((Map<String, dynamic> price) => prices.add(Price.fromJson(price)));
+    json['prices'].forEach(
+        (Map<String, dynamic> price) => prices.add(Price.fromJson(price)));
 
     return SpotBidAsk(
       prices: prices,

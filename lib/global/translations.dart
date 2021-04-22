@@ -42,14 +42,16 @@ class GlobalTranslations {
 
     _locale = Locale(lang, '');
 
-    final jsonContent = await rootBundle.loadString('locale/i18n_${_locale.languageCode}.json');
+    final jsonContent =
+        await rootBundle.loadString('locale/i18n_${_locale.languageCode}.json');
     _localizedValues = json.decode(jsonContent) as Map;
     onLocaleChangedCallback(language);
 
     return null;
   }
 
-  static final GlobalTranslations _translations = GlobalTranslations._internal();
+  static final GlobalTranslations _translations =
+      GlobalTranslations._internal();
 }
 
 GlobalTranslations t = GlobalTranslations();
