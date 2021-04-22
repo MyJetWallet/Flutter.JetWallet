@@ -5,14 +5,13 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:jetwallet/spot_home/spot_home.dart';
 
 void main() {
   testWidgets('Spot home smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(SpotHome());
+    await tester.pumpWidget(const SpotHome());
 
     expect(find.text('Wallet Technical PoC'), findsOneWidget);
     expect(find.text('Error'), findsNothing);

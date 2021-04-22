@@ -116,7 +116,7 @@ linter:
     - sort_constructors_first # DO sort constructor declarations before other members.
     - sort_unnamed_constructors_first # DO sort unnamed constructor declarations first, before named ones.
     # - super_goes_last # DO place the super call last in a constructor initialization list.
-    - type_annotate_public_apis # PREFER type annotating public APIs.
+#    - type_annotate_public_apis # PREFER type annotating public APIs.
     - type_init_formals # DON'T type annotate initializing formals.
     - unawaited_futures # DO await functions that return a Future inside of an async function body.
     - unnecessary_await_in_return # Avoid returning an awaited expression when the expression type is assignable to the function's return type.
@@ -178,7 +178,7 @@ linter:
 
     # Pub rules.
     - package_names # DO use lowercase_with_underscores for package names.
-    - sort_pub_dependencies # DO sort pub dependencies in pubspec.yaml.
+#    - sort_pub_dependencies # DO sort pub dependencies in pubspec.yaml.
 analyzer:
   strong-mode:
     # Stricter type checks.

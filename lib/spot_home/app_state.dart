@@ -4,4 +4,4 @@ class AppState {
   AppState.initialState();
 }
 
-AppState appStateReducer(AppState state, dynamic action) => AppState();
+AppState appStateReducer(AppState state, action) => AppState();

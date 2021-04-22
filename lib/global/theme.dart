@@ -13,6 +13,6 @@ final globalSpotTheme = ThemeData(
       ThemeData(brightness: Brightness.dark).textTheme,
     ),*/
     buttonTheme: ButtonThemeData(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       buttonColor: primColor,
     ));

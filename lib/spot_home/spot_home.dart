@@ -10,7 +10,7 @@ class _SpotScaffold extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: TextButton(
                 onPressed: () => Navigator.push<MaterialPageRoute>(context,
                     MaterialPageRoute(builder: (context) => WalletAPIScreen())),
