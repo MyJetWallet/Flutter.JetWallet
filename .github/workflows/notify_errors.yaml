@@ -3,7 +3,7 @@ name: telegram message
 on: 
   workflow_dispatch:
   workflow_run:
-    workflows: ["CI test build", "Release API client nuget", "Update nuget"]
+    workflows: ["Flutter CI", "Flutter run", "Flutter pull request"]
     types:
       - completed
 
