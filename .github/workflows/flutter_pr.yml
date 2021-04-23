@@ -1,4 +1,4 @@
-name: Flutter run
+name: Flutter pull request
 
 on:
   #push:
