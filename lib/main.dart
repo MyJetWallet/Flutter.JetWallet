@@ -13,9 +13,9 @@ Future<void> main() async {
 
   // #730 Don't delete the line bellow. Platform.localeName requires some delay on iOS
   // to get localization string. Otherwise it's null
-  await Future<dynamic>.delayed(const Duration(seconds: 1));
-  final locale = Platform.localeName.split('').take(2).join().toString();
-  await initLocale(configStorage, locale);
+  // await Future<dynamic>.delayed(const Duration(seconds: 1));
+  // final locale = Platform.localeName.split('').take(2).join().toString();
+  // await initLocale(configStorage, locale);
 
   // Crashlytics.instance.enableInDevMode = true;
   // Crashlytics.instance.log('test log');

@@ -18,7 +18,7 @@ dependencies:
   injector: ^2.0.0
   redux_thunk: ^0.4.0
   shared_preferences: ^2.0.5
-  firebase_crashlytics: ^2.0.1
+#  firebase_crashlytics: ^2.0.1
   intl: ^0.17.0
   universal_io: ^2.0.4
   signalr_core: ^1.1.1
@@ -34,6 +34,9 @@ flutter:
     - assets/
     - depth.json
     - assets/json/depth.json
+    - assets/home.jpeg
+    - assets/tick.png
+    - locale/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/global/theme.dart';
 import 'package:jetwallet/spot_home/signalr/walletapi_screen.dart';
 
 class _SpotScaffold extends StatelessWidget {
@@ -33,10 +32,6 @@ class SpotHome extends StatefulWidget {
 class _SpotHomeState extends State<SpotHome> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'JetWallet',
-      theme: globalSpotTheme,
-      home: _SpotScaffold(),
-    );
+    return _SpotScaffold();
   }
 }
