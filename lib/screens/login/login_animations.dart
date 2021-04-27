@@ -73,8 +73,9 @@ class StaggerAnimation extends StatelessWidget {
                     width: buttonZoomOut.value == 70.0
                         ? buttonSqueezeAnimation.value as double
                         : buttonZoomOut.value as double,
-                    height:
-                        buttonZoomOut.value == 70.0 ? 60.0 : buttonZoomOut.value as double,
+                    height: buttonZoomOut.value == 70.0
+                        ? 60.0
+                        : buttonZoomOut.value as double,
                     alignment: FractionalOffset.center,
                     decoration: BoxDecoration(
                       color: const Color.fromRGBO(247, 64, 106, 1),
