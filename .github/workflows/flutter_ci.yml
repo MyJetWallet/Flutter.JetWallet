@@ -25,8 +25,8 @@ jobs:
           ls
           echo "hello"
       - run: flutter pub get
-      - run: flutter analyze --no-fatal-infos
-      - run: flutter test
+#      - run: flutter analyze --no-fatal-infos
+#      - run: flutter test
 
       - name: Publish image
         uses: docker/build-push-action@v1
