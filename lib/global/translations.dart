@@ -13,12 +13,11 @@ class GlobalTranslations {
 
   late Locale _locale;
   Map<dynamic, dynamic>? _localizedValues;
-  late void Function(String) onLocaleChangedCallback;
 
   Iterable<Locale> supportedLocales() =>
       _supportedLanguages.map<Locale>((lang) => Locale(lang, ''));
 
-  String? text(String key) {
+  String text(String key) {
     if (_localizedValues == null) {
       return 'No localization for $key';
     }
@@ -26,7 +25,7 @@ class GlobalTranslations {
     if (_localizedValues?[key] == null) {
       return '** $key not found';
     } else {
-      return _localizedValues?[key].toString();
+      return _localizedValues![key].toString();
     }
   }
 
@@ -45,7 +44,6 @@ class GlobalTranslations {
     final jsonContent =
         await rootBundle.loadString('locale/i18n_${_locale.languageCode}.json');
     _localizedValues = json.decode(jsonContent) as Map;
-    onLocaleChangedCallback(language);
 
     return null;
   }

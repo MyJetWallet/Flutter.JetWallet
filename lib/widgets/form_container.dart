@@ -14,7 +14,7 @@ class FormContainer extends StatelessWidget {
           Form(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const <Widget>[
+              children: <Widget>[
                 InputFieldArea(
                   hint: 'Username',
                   obscure: false,

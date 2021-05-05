@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:jetwallet/app_state.dart';
+import 'package:jetwallet/screens/wallet/wallet_screen.dart';
+import 'package:jetwallet/signal_r/signal_r_service.dart';
+import 'package:redux/redux.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,10 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'Index 0: Home',
       style: optionStyle,
     ),
-    Text(
-      'Index 1: Wallet',
-      style: optionStyle,
-    ),
+    WalletScreen(),
     Text(
       'Index 2: Account',
       style: optionStyle,
@@ -34,32 +36,40 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+    return StoreConnector<AppState, Store<AppState>>(
+      converter: (store) => store,
+      onInit: (store) {
+        SignalRService(store).initSignalR();
+      },
+      builder: (context, store) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Home Screen'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Wallet',
+          body: Center(
+            child: _widgetOptions.elementAt(_selectedIndex),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Account',
+          bottomNavigationBar: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_balance_wallet),
+                label: 'Wallet',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: 'Account',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _onItemTapped,
           ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
+        );
+      },
     );
   }
 }

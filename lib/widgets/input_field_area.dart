@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/screens/login/login_screen.dart';
 
 class InputFieldArea extends StatelessWidget {
-  const InputFieldArea({
+  InputFieldArea({
     required this.hint,
     required this.obscure,
     required this.icon,
