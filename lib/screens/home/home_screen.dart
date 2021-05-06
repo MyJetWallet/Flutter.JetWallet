@@ -17,10 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
     WalletScreen(),
     Text(
       'Index 2: Account',
@@ -44,17 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, store) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Home Screen'),
+            title: const Text('Spot Wallet'),
           ),
           body: Center(
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.account_balance_wallet),
                 label: 'Wallet',
