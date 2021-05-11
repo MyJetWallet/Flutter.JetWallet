@@ -23,7 +23,8 @@ Function initBuildVersion() {
     final version = packageInfo.version;
     final buildNumber = packageInfo.buildNumber;
 
-    store.dispatch(SetCurrentBuildVersion(version: version, build: buildNumber));
+    store
+        .dispatch(SetCurrentBuildVersion(version: version, build: buildNumber));
   };
 }
 

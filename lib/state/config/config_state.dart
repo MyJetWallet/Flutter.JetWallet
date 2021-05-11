@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:jetwallet/state/config/config_actions.dart';
 import 'package:redux/redux.dart';
+import 'package:meta/meta.dart';
 
 @immutable
 class AppConfigState {
-  const AppConfigState({required this.appVersion, required this.appBuildNumber});
+  const AppConfigState(
+      {required this.appVersion, required this.appBuildNumber});
 
   factory AppConfigState.empty() {
     return const AppConfigState(appVersion: '', appBuildNumber: '');

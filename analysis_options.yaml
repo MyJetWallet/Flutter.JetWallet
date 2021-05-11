@@ -37,7 +37,7 @@ linter:
     - avoid_returning_null # AVOID returning null from members whose return type is bool, double, int, or num.
     - avoid_returning_null_for_void # AVOID returning null for void.
     - avoid_returning_this # AVOID returning this from methods just to enable a fluent interface.
-    - avoid_setters_without_getters # DON'T define a setter without a corresponding getter.
+#    - avoid_setters_without_getters # DON'T define a setter without a corresponding getter.
     - avoid_shadowing_type_parameters # AVOID shadowing type parameters.
     - avoid_single_cascade_in_expression_statements # AVOID single cascade in expression statements.
 #    - avoid_types_on_closure_parameters # AVOID annotating types for function expression parameters.

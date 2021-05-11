@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:injector/injector.dart';
 import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/wallet/wallet_screen.dart';
+import 'package:jetwallet/screens/home/account/account_screen.dart';
+import 'package:jetwallet/screens/home/wallet/wallet_screen.dart';
 import 'package:jetwallet/signal_r/signal_r_service.dart';
 import 'package:redux/redux.dart';
 
@@ -13,15 +15,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final signalRService = Injector.appInstance.get<SignalRService>();
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    WalletScreen(),
-    Text(
-      'Index 2: Account',
-      style: optionStyle,
-    ),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const WalletScreen(),
+    AccountScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -35,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return StoreConnector<AppState, Store<AppState>>(
       converter: (store) => store,
       onInit: (store) {
-        SignalRService(store).initSignalR();
+        final token = store.state.userState.token;
+        signalRService.init(token);
       },
       builder: (context, store) {
         return Scaffold(

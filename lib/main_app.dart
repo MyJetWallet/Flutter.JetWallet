@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:jetwallet/app_navigator/navigator_middleware.dart';
 import 'package:jetwallet/global/theme.dart';
-import 'package:jetwallet/navigation/my_custom_route.dart';
 import 'package:jetwallet/screens/home/home_screen.dart';
+import 'package:jetwallet/screens/loader/loader.dart';
 import 'package:jetwallet/screens/login/login_screen.dart';
 import 'package:jetwallet/app_state.dart';
+import 'package:jetwallet/screens/login/registration/registration_screen.dart';
+import 'package:jetwallet/screens/notifier/notifier.dart';
+import 'package:jetwallet/screens/splash/splash_screen.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -18,6 +22,7 @@ Store<AppState> buildStore() => Store<AppState>(
       initialState: AppState.initialState(),
       middleware: [
         thunkMiddleware,
+        navigatorMiddleware,
         LoggingMiddleware.printer(),
       ],
     );
@@ -40,40 +45,29 @@ class MainApp extends StatelessWidget {
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
+        navigatorKey: AppNavigator.navigatorKey,
         title: 'Spot Jet Wallet',
         theme: globalSpotTheme,
-        home: const LoginScreen(),
+        home: SplashScreen(),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        onGenerateRoute: (RouteSettings settings) {
-          switch (settings.name) {
-            case '/login':
-              return MyCustomRoute(
-                builder: (_) => const LoginScreen(),
-                settings: settings,
-              );
-
-            case '/home':
-              return MyCustomRoute(
-                builder: (_) => Scaffold(
-                  appBar: AppBar(
-                    title: const Text('Home Screen'),
-                  ),
-                  body: const Center(
-                    child: Text('Home Screen'),
-                  ),
-                ),
-                settings: settings,
-              );
-          }
+        builder: (_, widget) {
+          return Stack(
+            children: [
+              widget ?? Container(),
+              const Loader(),
+              const Notifier(),
+            ],
+          );
         },
         supportedLocales: t.supportedLocales(),
         routes: <String, WidgetBuilder>{
-          '/login': (context) => const SizedBox(),
+          '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
+          '/registration': (context) => const RegistrationScreen(),
         },
       ),
     );
