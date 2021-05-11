@@ -1,4 +1,4 @@
-name: telegram message
+name: telegram release
 
 on: 
   workflow_dispatch:
@@ -19,6 +19,6 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO_FLUTTER }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        args: Release android version https://github.com/${{ github.repository }}/actions, action finished. Number - ${{ github.run_number }}
+        args: Release android version https://github.com/${{ github.repository }}/actions, action finished.
         
 
