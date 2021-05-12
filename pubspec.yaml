@@ -11,22 +11,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # TOOLKIT
+  cupertino_icons: ^1.0.2 # IOS icons
+  auto_size_text: ^3.0.0-nullsafety.0 # automatically resizes text to fit perfectly within its bounds
+  universal_io: ^2.0.4 # Cross-platform 'dart:io' that works in all platforms
+  package_info_plus: ^1.0.0 # querying information about the application package
+
+  # NETWORKING:
+  dio: ^4.0.0 # http client
+  pretty_dio_logger: ^1.1.1 # logger for dio
+  signalr_core: ^1.1.1 # plugin for .net SignalR client
+
+  # INTERNATIONALIZATION:
   flutter_localizations:
     sdk: flutter
-  dio: ^4.0.0
-  pretty_dio_logger: ^1.1.1
-  flutter_redux: ^0.8.2
-  injector: ^2.0.0
-  redux_thunk: ^0.4.0
-  shared_preferences: ^2.0.5
-#  firebase_crashlytics: ^2.0.1
   intl: ^0.17.0
-  universal_io: ^2.0.4
-  signalr_core: ^1.1.1
-  cupertino_icons: ^1.0.2
-  package_info_plus: ^1.0.0
-  redux_logging: 0.5.0
-  auto_size_text: ^3.0.0-nullsafety.0
+
+  # LOCAL STORAGE:
+  shared_preferences: ^2.0.5
+
+  # STATE MANAGEMENT
+  hooks_riverpod: ^0.14.0+2 # riverpod with hooks from Remi Rousselet
+  flutter_hooks: ^0.16.0  # additional hooks' functionality
 
 dev_dependencies:
   flutter_test:
@@ -35,11 +42,15 @@ dev_dependencies:
   # RULES:
   lint: ^1.5.3
 
+  # AUTOGEN:
+  freezed: ^0.14.1+3 # generation for immutable classes that has a simple syntax/API
+  build_runner: ^2.0.1 # generating files using Dart code
+  json_serializable: ^4.1.1 # dart build system builders for handling JSON
+
 flutter:
   uses-material-design: true
   assets:
     - assets/
-    - locale/
 
   # ADD FONT EXAMPLE:
   # 1. Not all fonts are working in all languages, some of them not work with Cyrillic languages suppose

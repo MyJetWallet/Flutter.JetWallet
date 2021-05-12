@@ -7,8 +7,6 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:jetwallet/spot_home/spot_home.dart';
-
 void main() {
   testWidgets('Spot home smoke test', (WidgetTester tester) async {
     // await tester.pumpWidget(const SpotHome());
