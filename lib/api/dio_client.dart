@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:jetwallet/api/model/common_response.dart';
-import 'package:jetwallet/global/const.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
+import '../global/const.dart';
+import 'model/common_response.dart';
 
 class DioClient extends Interceptor {
   DioClient() {

@@ -1,6 +1,7 @@
-import 'package:jetwallet/screens/loader/loader_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:meta/meta.dart';
+import 'package:redux/redux.dart';
+
+import 'loader_actions.dart';
 
 @immutable
 class LoaderState {

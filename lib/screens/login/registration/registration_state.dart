@@ -1,6 +1,7 @@
-import 'package:jetwallet/screens/login/registration/registration_actions.dart';
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
+
+import 'registration_actions.dart';
 
 @immutable
 class RegistrationState {

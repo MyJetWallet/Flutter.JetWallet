@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jetwallet/screens/notifier/actions.dart';
 import 'package:redux/redux.dart';
+
+import 'actions.dart';
 
 @immutable
 class NotifierState {

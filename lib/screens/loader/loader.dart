@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/loader/loader_view_model.dart';
+
+import '../../app_state.dart';
+import 'loader_view_model.dart';
 
 class Loader extends StatefulWidget {
   const Loader({Key? key}) : super(key: key);

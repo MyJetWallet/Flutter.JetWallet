@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/home/wallet/wallet_view_model.dart';
+
+import '../../../app_state.dart';
+import 'wallet_view_model.dart';
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -30,10 +31,10 @@ class WalletScreen extends StatelessWidget {
                 ),
               ),
               const Padding(
-                padding: const EdgeInsets.only(top: 16, bottom: 8),
+                padding: EdgeInsets.only(top: 16, bottom: 8),
                 child: Text(
                   'Currencies',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),

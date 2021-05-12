@@ -2,12 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:injector/injector.dart';
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/login/registration/registration_view_model.dart';
-import 'package:jetwallet/screens/login/widgets/sign_in_button.dart';
-import 'package:jetwallet/screens/login/widgets/styles.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
+
+import '../../../api/spot_wallet_client.dart';
+import '../../../app_state.dart';
+import '../../../state/config/config_storage.dart';
+import '../widgets/sign_in_button.dart';
+import '../widgets/styles.dart';
+import 'registration_view_model.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);

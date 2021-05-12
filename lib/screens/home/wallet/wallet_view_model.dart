@@ -1,6 +1,7 @@
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/home/wallet/wallet_models.dart';
 import 'package:redux/redux.dart';
+
+import '../../../app_state.dart';
+import 'wallet_models.dart';
 
 class WalletViewModel {
   WalletViewModel({required this.assets, required this.assetBalanceList});

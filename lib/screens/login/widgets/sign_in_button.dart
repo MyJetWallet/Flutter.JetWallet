@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/screens/login/login_screen.dart';
 
 class SignIn extends StatelessWidget {
   const SignIn({
@@ -23,7 +22,7 @@ class SignIn extends StatelessWidget {
       decoration: BoxDecoration(
         // color: Color.fromRGBO(247, 64, 106, 1),
         color: color,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
       child: Text(
         text,

@@ -1,8 +1,9 @@
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/global/translations.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:redux/redux.dart';
+
+import '../../app_state.dart';
+import '../../global/translations.dart';
+import 'config_storage.dart';
 
 Future<void> initLocale(ConfigStorage storage, String deviceLanguage) async {
   var language = deviceLanguage;

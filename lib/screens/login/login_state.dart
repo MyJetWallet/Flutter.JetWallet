@@ -1,6 +1,7 @@
-import 'package:jetwallet/screens/login/login_actions.dart';
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
+
+import 'login_actions.dart';
 
 @immutable
 class LoginState {

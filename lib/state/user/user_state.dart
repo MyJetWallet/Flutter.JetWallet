@@ -1,6 +1,7 @@
-import 'package:jetwallet/state/user/user_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:meta/meta.dart';
+import 'package:redux/redux.dart';
+
+import 'user_actions.dart';
 
 @immutable
 class UserState {

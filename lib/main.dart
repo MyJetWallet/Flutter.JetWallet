@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
-import 'package:jetwallet/api/dio_client.dart';
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/main_app.dart';
-import 'package:jetwallet/signal_r/signal_r_service.dart';
-import 'package:jetwallet/state/config/config_actions.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
+import 'api/dio_client.dart';
+import 'api/spot_wallet_client.dart';
+import 'main_app.dart';
+import 'signal_r/signal_r_service.dart';
+import 'state/config/config_actions.dart';
+import 'state/config/config_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

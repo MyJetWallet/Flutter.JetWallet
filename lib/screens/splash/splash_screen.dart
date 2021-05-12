@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:injector/injector.dart';
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/loader/loader_actions.dart';
-import 'package:jetwallet/screens/login/widgets/styles.dart';
-import 'package:jetwallet/screens/splash/splash_actions.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
 import 'package:redux/redux.dart';
+
+import '../../api/spot_wallet_client.dart';
+import '../../app_state.dart';
+import '../../state/config/config_storage.dart';
+import '../loader/loader_actions.dart';
+import '../login/widgets/styles.dart';
+import 'splash_actions.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({Key? key}) : super(key: key);

@@ -7,14 +7,14 @@ import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:injector/injector.dart';
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/login/login_animations.dart';
-import 'package:jetwallet/screens/login/login_view_model.dart';
-import 'package:jetwallet/screens/login/widgets/my_tick.dart';
-import 'package:jetwallet/screens/login/widgets/sign_in_button.dart';
-import 'package:jetwallet/screens/login/widgets/sign_up_link.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
+
+import '../../api/spot_wallet_client.dart';
+import '../../app_state.dart';
+import '../../state/config/config_storage.dart';
+import 'login_view_model.dart';
+import 'widgets/my_tick.dart';
+import 'widgets/sign_in_button.dart';
+import 'widgets/sign_up_link.dart';
 import 'widgets/styles.dart';
 
 class LoginScreen extends StatefulWidget {

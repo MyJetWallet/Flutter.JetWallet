@@ -1,9 +1,10 @@
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/global/const.dart';
-import 'package:jetwallet/screens/home/wallet/wallet_actions.dart';
-import 'package:jetwallet/screens/home/wallet/wallet_models.dart';
-import 'package:signalr_core/signalr_core.dart';
 import 'package:redux/redux.dart';
+import 'package:signalr_core/signalr_core.dart';
+
+import '../app_state.dart';
+import '../global/const.dart';
+import '../screens/home/wallet/wallet_actions.dart';
+import '../screens/home/wallet/wallet_models.dart';
 
 class SignalRService {
   SignalRService(this.store) {

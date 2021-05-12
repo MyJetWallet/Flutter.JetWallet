@@ -1,11 +1,12 @@
-import 'package:jetwallet/screens/home/wallet/wallet_state.dart';
-import 'package:jetwallet/screens/loader/loader_state.dart';
-import 'package:jetwallet/screens/login/login_state.dart';
-import 'package:jetwallet/screens/login/registration/registration_state.dart';
-import 'package:jetwallet/screens/notifier/reducer.dart';
-import 'package:jetwallet/state/config/config_state.dart';
-import 'package:jetwallet/state/user/user_state.dart';
 import 'package:meta/meta.dart';
+
+import 'screens/home/wallet/wallet_state.dart';
+import 'screens/loader/loader_state.dart';
+import 'screens/login/login_state.dart';
+import 'screens/login/registration/registration_state.dart';
+import 'screens/notifier/reducer.dart';
+import 'state/config/config_state.dart';
+import 'state/user/user_state.dart';
 
 @immutable
 class AppState {

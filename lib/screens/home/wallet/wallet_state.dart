@@ -1,7 +1,8 @@
-import 'package:jetwallet/screens/home/wallet/wallet_actions.dart';
-import 'package:jetwallet/screens/home/wallet/wallet_models.dart';
-import 'package:redux/redux.dart';
 import 'package:meta/meta.dart';
+import 'package:redux/redux.dart';
+
+import 'wallet_actions.dart';
+import 'wallet_models.dart';
 
 @immutable
 class WalletState {

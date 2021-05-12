@@ -1,11 +1,12 @@
 import 'package:injector/injector.dart';
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/app_navigator/actions.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/loader/loader_actions.dart';
-import 'package:jetwallet/signal_r/signal_r_service.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
 import 'package:redux/redux.dart';
+
+import '../../../api/spot_wallet_client.dart';
+import '../../../app_navigator/actions.dart';
+import '../../../app_state.dart';
+import '../../../signal_r/signal_r_service.dart';
+import '../../../state/config/config_storage.dart';
+import '../../loader/loader_actions.dart';
 
 Function logOut() {
   return (Store<AppState> store) async {

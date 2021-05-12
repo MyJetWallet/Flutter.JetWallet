@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/home/account/account_actions.dart';
 import 'package:redux/redux.dart';
+
+import '../../../app_state.dart';
+import 'account_actions.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);

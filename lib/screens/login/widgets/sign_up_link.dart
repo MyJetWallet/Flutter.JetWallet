@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/api/model/common_response.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp(this.onPressed, {Key? key}) : super(key: key);

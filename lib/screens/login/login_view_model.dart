@@ -1,9 +1,10 @@
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/app_navigator/actions.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/login/login_actions.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
 import 'package:redux/redux.dart';
+
+import '../../api/spot_wallet_client.dart';
+import '../../app_navigator/actions.dart';
+import '../../app_state.dart';
+import '../../state/config/config_storage.dart';
+import 'login_actions.dart';
 
 class LoginViewModel {
   LoginViewModel({

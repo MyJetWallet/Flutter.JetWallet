@@ -1,15 +1,16 @@
-import 'package:jetwallet/api/dio_client.dart';
-import 'package:jetwallet/api/model/authentication.dart';
-import 'package:jetwallet/api/model/authorization.dart';
-import 'package:jetwallet/api/model/common_response.dart';
-import 'package:jetwallet/api/model/refresh.dart';
-import 'package:jetwallet/api/model/registration.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/global/const.dart';
-import 'package:jetwallet/screens/home/account/account_actions.dart';
-import 'package:jetwallet/screens/loader/loader_actions.dart';
-import 'package:jetwallet/screens/notifier/actions.dart';
 import 'package:redux/redux.dart';
+
+import '../app_state.dart';
+import '../global/const.dart';
+import '../screens/home/account/account_actions.dart';
+import '../screens/loader/loader_actions.dart';
+import '../screens/notifier/actions.dart';
+import 'dio_client.dart';
+import 'model/authentication.dart';
+import 'model/authorization.dart';
+import 'model/common_response.dart';
+import 'model/refresh.dart';
+import 'model/registration.dart';
 
 class SpotWalletClient {
   SpotWalletClient(this._client);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/app_navigator/actions.dart';
 import 'package:redux/redux.dart';
+
+import 'actions.dart';
 
 mixin AppNavigator {
   static final GlobalKey<NavigatorState> navigatorKey =

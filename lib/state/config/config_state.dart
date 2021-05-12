@@ -1,6 +1,7 @@
-import 'package:jetwallet/state/config/config_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:meta/meta.dart';
+import 'package:redux/redux.dart';
+
+import 'config_actions.dart';
 
 @immutable
 class AppConfigState {

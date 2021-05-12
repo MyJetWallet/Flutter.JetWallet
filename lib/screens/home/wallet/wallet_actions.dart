@@ -1,6 +1,7 @@
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/home/wallet/wallet_models.dart';
 import 'package:redux/redux.dart';
+
+import '../../../app_state.dart';
+import 'wallet_models.dart';
 
 class SetAssets {
   SetAssets(this.assets);
@@ -65,7 +66,7 @@ Function handleAssets(AssetListModel assetListModel) {
     final balancesAssertsIds = <String>[];
 
     assetListModel.assets.forEach((assetDto) {
-      var element =
+      final element =
           store.state.walletState.getOrCreateAssetBalance(assetDto.symbol);
       element.symbol = assetDto.symbol;
       //todo change to icon

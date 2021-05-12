@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:injector/injector.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/screens/home/account/account_screen.dart';
-import 'package:jetwallet/screens/home/wallet/wallet_screen.dart';
-import 'package:jetwallet/signal_r/signal_r_service.dart';
 import 'package:redux/redux.dart';
+
+import '../../app_state.dart';
+import '../../signal_r/signal_r_service.dart';
+import 'account/account_screen.dart';
+import 'wallet/wallet_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     const WalletScreen(),
-    AccountScreen(),
+    const AccountScreen(),
   ];
 
   void _onItemTapped(int index) {

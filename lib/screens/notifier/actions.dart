@@ -1,5 +1,6 @@
-import 'package:jetwallet/app_state.dart';
 import 'package:redux/redux.dart';
+
+import '../../app_state.dart';
 
 class ShowError {
   ShowError(this.message);

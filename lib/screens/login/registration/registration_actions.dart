@@ -1,13 +1,14 @@
-import 'package:jetwallet/api/model/authorization.dart';
-import 'package:jetwallet/api/model/registration.dart';
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/app_navigator/actions.dart';
-import 'package:jetwallet/app_state.dart';
-import 'package:jetwallet/global/const.dart';
-import 'package:jetwallet/screens/loader/loader_actions.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
-import 'package:jetwallet/state/user/user_actions.dart';
 import 'package:redux/redux.dart';
+
+import '../../../api/model/authorization.dart';
+import '../../../api/model/registration.dart';
+import '../../../api/spot_wallet_client.dart';
+import '../../../app_navigator/actions.dart';
+import '../../../app_state.dart';
+import '../../../global/const.dart';
+import '../../../state/config/config_storage.dart';
+import '../../../state/user/user_actions.dart';
+import '../../loader/loader_actions.dart';
 
 class SetEmail {
   SetEmail(this.email);

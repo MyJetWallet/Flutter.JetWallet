@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:jetwallet/app_state.dart';
+
+import '../../app_state.dart';
 
 class Notifier extends StatelessWidget {
   const Notifier({Key? key}) : super(key: key);
