@@ -1,37 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:injector/injector.dart';
-import 'package:jetwallet/api/dio_client.dart';
-import 'package:jetwallet/api/spot_wallet_client.dart';
-import 'package:jetwallet/main_app.dart';
-import 'package:jetwallet/signal_r/signal_r_service.dart';
-import 'package:jetwallet/state/config/config_actions.dart';
-import 'package:jetwallet/state/config/config_storage.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+import 'auth/ui/auth.dart';
+import 'router/ui/router.dart';
+import 'shared/theme/theme_data.dart';
 
-  final spotWalletClient = SpotWalletClient(DioClient());
-  Injector.appInstance
-      .registerDependency<SpotWalletClient>(() => spotWalletClient);
-
-  final configStorage = ConfigStorage();
-  Injector.appInstance.registerDependency<ConfigStorage>(() => configStorage);
-
-  //TODO(Vova): fix localization. Currently it doesn't work on Web.
-  // #730 Don't delete the line bellow. Platform.localeName requires some delay on iOS
-  // to get localization string. Otherwise it's null
-  // await Future<dynamic>.delayed(const Duration(seconds: 1));
-  // final locale = Platform.localeName.split('').take(2).join().toString();
-  // await initLocale(configStorage, locale);
-
-  final store = buildStore()..dispatch(initBuildVersion());
-
-  final signalRService = SignalRService(store);
-  Injector.appInstance.registerDependency<SignalRService>(() => signalRService);
-
+void main() {
   runApp(
-    MainApp(
-      store: store,
+    ProviderScope(
+      child: MyApp(),
     ),
   );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: appTheme,
+      initialRoute: AppRouter.routeName,
+      routes: {
+        AppRouter.routeName: (context) => AppRouter(),
+        Authentication.routeName: (context) => Authentication(),
+      },
+    );
+  }
 }
