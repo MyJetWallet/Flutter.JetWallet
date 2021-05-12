@@ -22,7 +22,9 @@ jobs:
       - run: flutter pub get
 #      - run: flutter analyze --no-fatal-infos
 #      - run: flutter test
-      - run: flutter build web --release --build-number=${{ github.run_number }}
+      - run: |
+          sed -i 's/version: 1.0.0+1/version: 1.0.0+${{ github.run_number }}/' ./pubspec.yaml
+      - run: flutter build web --release
 
       - name: Check Service dir
         run: |
