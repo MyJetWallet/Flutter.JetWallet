@@ -2,9 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../router/state/providers/router_stpod.dart';
 import '../../../../router/state/union/router_union.dart';
-import '../../../../shared/services/local_storage_service.dart';
-import '../../../model/login_model.dart';
-import '../../../model/register_model.dart';
+import '../../../../shared/source/services/local_storage_service.dart';
+import '../../../model/authentication/login_request_model.dart';
+import '../../../model/authentication/register_request_model.dart';
 import '../../../source/repository/auth_repository.dart';
 import '../../providers/auth_model_stpod.dart';
 import '../../providers/auth_screen_stpod.dart';
@@ -28,7 +28,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final credentials = read(credentialsNotipod);
     final router = read(routerStpod);
 
-    final model = RegisterModel(
+    final model = RegisterRequestModel(
       email: credentials.emailController.text,
       password: credentials.passwordController.text,
     );
@@ -58,7 +58,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final credentials = read(credentialsNotipod);
     final router = read(routerStpod);
 
-    final model = LoginModel(
+    final model = LoginRequestModel(
       email: credentials.emailController.text,
       password: credentials.passwordController.text,
     );

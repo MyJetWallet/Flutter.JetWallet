@@ -1,20 +1,20 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../model/register_model.dart';
+import '../../../model/authentication/register_request_model.dart';
 
-part 'register_dto.g.dart';
+part 'register_request_dto.g.dart';
 
 @JsonSerializable()
-class RegisterDto {
-  const RegisterDto({
+class RegisterRequestDto {
+  const RegisterRequestDto({
     required this.email,
     required this.password,
     this.captcha,
     this.phone,
   });
 
-  factory RegisterDto.fromModel(RegisterModel model) {
-    return RegisterDto(
+  factory RegisterRequestDto.fromModel(RegisterRequestModel model) {
+    return RegisterRequestDto(
       email: model.email,
       password: model.password,
       captcha: model.captcha,
@@ -22,7 +22,7 @@ class RegisterDto {
     );
   }
 
-  Map<String, dynamic> toJson() => _$RegisterDtoToJson(this);
+  Map<String, dynamic> toJson() => _$RegisterRequestDtoToJson(this);
 
   final String email;
   final String password;

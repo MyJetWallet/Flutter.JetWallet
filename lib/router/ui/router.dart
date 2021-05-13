@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../app/screens/navigation/ui/navigation.dart';
 
-import '../../app/home.dart';
 import '../../auth/ui/auth.dart';
 import '../../shared/components/splash_screen.dart';
 import '../state/providers/router_fpod.dart';
@@ -21,7 +21,7 @@ class AppRouter extends HookWidget {
       body: fpod.when(
         data: (_) {
           return router.state.when(
-            authorised: () => Home(),
+            authorised: () => Navigation(),
             unauthorised: () => Authentication(),
           );
         },
