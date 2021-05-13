@@ -17,18 +17,7 @@ class AuthButton extends HookWidget {
 
     return Center(
       child: InkWell(
-        onTap: () async {
-          final result = await notifier.authenticate(authScreen.state);
-
-          result.maybeWhen(
-            error: (e, st) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(e.toString())),
-              );
-            },
-            orElse: () {},
-          );
-        },
+        onTap: () => notifier.authenticate(authScreen.state),
         child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 100.0,

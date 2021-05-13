@@ -1,17 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../router/state/providers/router_stpod.dart';
-import '../../../router/state/union/router_union.dart';
-import '../../../shared/services/local_storage_service.dart';
-import '../../model/login_model.dart';
-import '../../model/register_model.dart';
-import '../../source/repository/auth_repository.dart';
-import '../providers/auth_model_stpod.dart';
-import '../providers/auth_screen_stpod.dart';
-import '../providers/credentials_notipod.dart';
+import '../../../../router/state/providers/router_stpod.dart';
+import '../../../../router/state/union/router_union.dart';
+import '../../../../shared/services/local_storage_service.dart';
+import '../../../model/login_model.dart';
+import '../../../model/register_model.dart';
+import '../../../source/repository/auth_repository.dart';
+import '../../providers/auth_model_stpod.dart';
+import '../../providers/auth_screen_stpod.dart';
+import '../../providers/credentials_notipod.dart';
+import 'union/authentication_union.dart';
 
-class AuthenticationNotifier extends StateNotifier<void> {
-  AuthenticationNotifier(this.read) : super(null);
+class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
+  AuthenticationNotifier(this.read) : super(const Input());
 
   final Reader read;
 
@@ -33,17 +34,21 @@ class AuthenticationNotifier extends StateNotifier<void> {
     );
 
     try {
-      final authModel = await AuthRepository.register(model);
+      state = const Loading();
 
-      print(authModel.toString());
+      final authModel = await AuthRepository.register(model);
 
       read(authModelStpod).state = authModel;
 
       await LocalStorageService.setString(tokenKey, authModel.token);
 
       router.state = const Authorised();
+
+      state = const Input();
+
       return const AsyncValue.data(null);
     } catch (e, st) {
+      state = Input(e, st);
       router.state = const Unauthorised();
       return AsyncValue.error(e, st);
     }
@@ -59,17 +64,21 @@ class AuthenticationNotifier extends StateNotifier<void> {
     );
 
     try {
-      final authModel = await AuthRepository.login(model);
+      state = const Loading();
 
-      print(authModel.toString());
+      final authModel = await AuthRepository.login(model);
 
       read(authModelStpod).state = authModel;
 
       await LocalStorageService.setString(tokenKey, authModel.token);
 
-      read(routerStpod).state = const Authorised();
+      router.state = const Authorised();
+
+      state = const Input();
+
       return const AsyncValue.data(null);
     } catch (e, st) {
+      state = Input(e, st);
       router.state = const Unauthorised();
       return AsyncValue.error(e, st);
     }
