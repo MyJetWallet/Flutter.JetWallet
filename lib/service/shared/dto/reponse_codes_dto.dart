@@ -11,6 +11,8 @@ class ResponseCodesDto {
   factory ResponseCodesDto.fromJson(Map<String, dynamic> json) =>
       _$ResponseCodesDtoFromJson(json);
 
+  Map<String, dynamic> toJson() => _$ResponseCodesDtoToJson(this);
+
   final ApiResponseCodes result;
 }
 

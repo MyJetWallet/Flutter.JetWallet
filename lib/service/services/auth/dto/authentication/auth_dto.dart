@@ -17,6 +17,8 @@ class AuthDto {
   factory AuthDto.fromJson(Map<String, dynamic> json) =>
       _$AuthDtoFromJson(json);
 
+  Map<String, dynamic> toJson() => _$AuthDtoToJson(this);
+
   AuthModel toModel() {
     return AuthModel(
       token: token,
