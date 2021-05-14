@@ -5,8 +5,8 @@ import '../../app/screens/navigation/ui/navigation.dart';
 
 import '../../auth/ui/auth.dart';
 import '../../shared/components/splash_screen.dart';
-import '../state/providers/router_fpod.dart';
-import '../state/providers/router_stpod.dart';
+import '../providers/router_fpod.dart';
+import '../providers/router_stpod.dart';
 
 class AppRouter extends HookWidget {
   static const routeName = '/';

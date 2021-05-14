@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../state/providers/auth_screen_stpod.dart';
-import '../../state/providers/authentication_notipod.dart';
+import '../../providers/auth_screen_stpod.dart';
+import '../../providers/authentication_notipod.dart';
 
 class AuthButton extends HookWidget {
   const AuthButton({

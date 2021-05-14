@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../shared/components/loader.dart';
 import '../../shared/components/spacers.dart';
-import '../state/notifiers/authentication_notifier/union/authentication_union.dart';
-import '../state/providers/auth_screen_stpod.dart';
-import '../state/providers/authentication_notipod.dart';
-import '../state/providers/credentials_notipod.dart';
+import '../notifiers/authentication_notifier/union/authentication_union.dart';
+import '../providers/auth_screen_stpod.dart';
+import '../providers/authentication_notipod.dart';
+import '../providers/credentials_notipod.dart';
 import 'components/app_version_text.dart';
 import 'components/auth_button.dart';
 import 'components/auth_divider.dart';
