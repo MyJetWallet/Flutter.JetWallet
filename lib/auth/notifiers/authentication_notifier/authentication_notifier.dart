@@ -36,7 +36,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
-      final authModel = await AuthService.register(model);
+      final authModel = await AuthService().register(model);
 
       read(authModelStpod).state = authModel;
 
@@ -66,7 +66,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
-      final authModel = await AuthService.login(model);
+      final authModel = await AuthService().login(model);
 
       read(authModelStpod).state = authModel;
 

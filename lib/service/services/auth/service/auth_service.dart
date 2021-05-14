@@ -4,25 +4,30 @@ import '../model/authentication/register_request_model.dart';
 import '../model/authorization/authorization_request_model.dart';
 import '../model/authorization/authorization_response_model.dart';
 
+import 'auth_service_abstract.dart';
 import 'services/authorization_service.dart';
 import 'services/login_service.dart';
 import 'services/logout_service.dart';
 import 'services/regiser_service.dart';
 
-class AuthService {
-  static Future<AuthModel> register(RegisterRequestModel model) {
+class AuthService implements AuthServiceAbstract {
+  @override
+  Future<AuthModel> register(RegisterRequestModel model) {
     return registerService(model);
   }
 
-  static Future<AuthModel> login(LoginRequestModel model) {
+  @override
+  Future<AuthModel> login(LoginRequestModel model) {
     return loginService(model);
   }
 
-  static Future<void> logout() {
+  @override
+  Future<void> logout() {
     return logoutService();
   }
 
-  static Future<AuthorizationResponseModel> authorize(
+  @override
+  Future<AuthorizationResponseModel> authorize(
     AuthorizationRequestModel model,
   ) {
     return authorizationService(model);
