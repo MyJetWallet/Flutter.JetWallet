@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/ui.dart';
+import '../constants.dart';
 
 final appTheme = ThemeData(
   primaryColor: primaryColor,
