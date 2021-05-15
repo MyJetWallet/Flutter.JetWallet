@@ -1,4 +1,4 @@
-import '../../../profile/profile.dart';
+import '../../../profile/ui/profile.dart';
 import '../../../wallet/wallet.dart';
 
 const screens = [

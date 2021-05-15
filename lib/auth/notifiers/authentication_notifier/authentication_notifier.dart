@@ -2,19 +2,23 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../router/providers/router_stpod.dart';
 import '../../../router/providers/union/router_union.dart';
-import '../../../service/services/auth/model/authentication/login_request_model.dart';
-import '../../../service/services/auth/model/authentication/register_request_model.dart';
-import '../../../service/services/auth/service/auth_service.dart';
+import '../../../service/services/authentication/model/login_request_model.dart';
+import '../../../service/services/authentication/model/register_request_model.dart';
+import '../../../service/services/authentication/service/authentication_service.dart';
 import '../../../shared/services/local_storage_service.dart';
-import '../../providers/auth_model_stpod.dart';
 import '../../providers/auth_screen_stpod.dart';
+import '../../providers/authentication_model_stpod.dart';
 import '../../providers/credentials_notipod.dart';
 import 'union/authentication_union.dart';
 
 class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
-  AuthenticationNotifier(this.read) : super(const Input());
+  AuthenticationNotifier({
+    required this.read,
+    required this.authenticationService,
+  }) : super(const Input());
 
   final Reader read;
+  final AuthenticationService authenticationService;
 
   Future<AsyncValue<void>> authenticate(AuthScreen authScreen) async {
     if (authScreen == AuthScreen.signIn) {
@@ -36,11 +40,16 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
-      final authModel = await AuthService().register(model);
+      final authModel = await authenticationService.register(model);
 
-      read(authModelStpod).state = authModel;
+      read(authenticationModelStpod).state = authModel;
 
-      await LocalStorageService.setString(tokenKey, authModel.token);
+      await LocalStorageService().setString(tokenKey, authModel.token);
+
+      await LocalStorageService().setString(
+        refreshTokenKey,
+        authModel.refreshToken,
+      );
 
       router.state = const Authorised();
 
@@ -66,11 +75,16 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
-      final authModel = await AuthService().login(model);
+      final authModel = await authenticationService.login(model);
 
-      read(authModelStpod).state = authModel;
+      read(authenticationModelStpod).state = authModel;
 
-      await LocalStorageService.setString(tokenKey, authModel.token);
+      await LocalStorageService().setString(tokenKey, authModel.token);
+
+      await LocalStorageService().setString(
+        refreshTokenKey,
+        authModel.refreshToken,
+      );
 
       router.state = const Authorised();
 

@@ -18,8 +18,6 @@ import 'components/text_fields/email_text_field.dart';
 import 'components/text_fields/password_text_field.dart';
 
 class Authentication extends HookWidget {
-  static const routeName = '/auth';
-
   @override
   Widget build(BuildContext context) {
     final credentials = useProvider(credentialsNotipod);

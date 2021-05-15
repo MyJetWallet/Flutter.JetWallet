@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'auth/ui/auth.dart';
 import 'router/ui/router.dart';
 import 'shared/theme/theme_data.dart';
 
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRouter.routeName,
       routes: {
         AppRouter.routeName: (context) => AppRouter(),
-        Authentication.routeName: (context) => Authentication(),
       },
     );
   }
