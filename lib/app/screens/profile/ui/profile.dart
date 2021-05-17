@@ -38,7 +38,7 @@ class Profile extends HookWidget {
                 const Text(
                   'Profile',
                 ),
-                SpaceH15(),
+                const SpaceH15(),
                 TextButton(
                   onPressed: () {
                     notifier.logout();

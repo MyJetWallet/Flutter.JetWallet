@@ -14,7 +14,6 @@ class Navigation extends HookWidget {
     final navigation = useProvider(navigationStpod);
 
     return Scaffold(
-      backgroundColor: Colors.black87,
       body: SafeArea(
         child: screens[navigation.state],
       ),
