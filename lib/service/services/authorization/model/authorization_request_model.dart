@@ -5,7 +5,7 @@ part 'authorization_request_model.freezed.dart';
 @freezed
 class AuthorizationRequestModel with _$AuthorizationRequestModel {
   const factory AuthorizationRequestModel({
-    required String token,
+    required String authToken,
     String? publicKeyPem,
   }) = _AuthorizationRequestModel;
 }

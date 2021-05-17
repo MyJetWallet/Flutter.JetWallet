@@ -8,18 +8,18 @@ part 'authorization_request_dto.g.dart';
 class AuthorizationRequestDto {
   AuthorizationRequestDto({
     required this.authToken,
-    this.publicKeyPam,
+    this.publicKeyPem,
   });
 
   factory AuthorizationRequestDto.fromModel(AuthorizationRequestModel model) {
     return AuthorizationRequestDto(
-      authToken: model.token,
-      publicKeyPam: model.publicKeyPem,
+      authToken: model.authToken,
+      publicKeyPem: model.publicKeyPem,
     );
   }
 
   Map<String, dynamic> toJson() => _$AuthorizationRequestDtoToJson(this);
 
   final String authToken;
-  final String? publicKeyPam;
+  final String? publicKeyPem;
 }

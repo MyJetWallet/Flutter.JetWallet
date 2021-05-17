@@ -6,7 +6,7 @@ part 'authorization_refresh_request_model.freezed.dart';
 class AuthorizationRefreshRequestModel with _$AuthorizationRefreshRequestModel {
   const factory AuthorizationRefreshRequestModel({
     String? signature,
-    required String refreshToken,
+    required String token,
     required String requestTime,
   }) = _RefreshRequestModel;
 }

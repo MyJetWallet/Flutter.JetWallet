@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../auth/notifiers/authentication_model_notifier.dart';
+import '../../../auth/model/auth_model.dart';
+import '../../../auth/notifiers/auth_model_notifier.dart';
 import '../../../router/providers/union/router_union.dart';
-import '../../../service/services/authentication/model/authentication_model.dart';
-import '../../../service/services/authentication/model/authentication_refresh_request_model.dart';
-import '../../../service/services/authentication/service/authentication_service.dart';
+import '../../../service/services/authorization/model/authorization_refresh_request_model.dart';
+import '../../../service/services/authorization/service/authorization_service.dart';
 import '../../services/local_storage_service.dart';
 import '../helpers/retry_request.dart';
 
@@ -16,24 +16,22 @@ Future<void> interceptor401({
   required ErrorInterceptorHandler handler,
   required StateController<RouterUnion> router,
   required GlobalKey<ScaffoldState> routerKey,
-  required AuthenticationModel authModel,
-  required AuthenticationModelNotifier authModelNotifier,
-  required AuthenticationService authenticationService,
+  required AuthModel authModel,
+  required AuthModelNotifier authModelNotifier,
+  required AuthorizationService authorizationService,
   required LocalStorageService localStorageService,
 }) async {
   var refreshSuccess = true;
 
-  final refreshModel = AuthenticationRefreshRequestModel(
-    refreshToken: authModel.refreshToken,
+  final refreshRequest = AuthorizationRefreshRequestModel(
+    token: authModel.token,
+    requestTime: DateTime.now().toUtc().toString(),
   );
 
   try {
-    final response = await authenticationService.refresh(refreshModel);
+    final response = await authorizationService.refresh(refreshRequest);
 
-    authModelNotifier.updateBothTokens(
-      response.token,
-      response.refreshToken,
-    );
+    authModelNotifier.updateToken(response.token);
   } catch (e) {
     refreshSuccess = false;
 
@@ -44,7 +42,7 @@ Future<void> interceptor401({
       (route) => route.isFirst == true,
     );
 
-    // remove stored token and refreshToken from storage
+    // remove stored token from storage
     await localStorageService.clearStorage();
   }
 

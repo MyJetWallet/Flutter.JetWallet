@@ -14,7 +14,7 @@ Future<AuthorizationResponseModel> authorizationService(
   final requestDto = AuthorizationRequestDto.fromModel(model);
 
   final response = await dio.post(
-    '$tradingAuthBaseUrl/authorization/authorization',
+    '$walletApiBaseUrl/authorization/authorization',
     data: requestDto.toJson(),
   );
 
@@ -22,7 +22,7 @@ Future<AuthorizationResponseModel> authorizationService(
 
   final responseDto = AuthorizationResponseDto.fromJson(responseData);
 
-  handleResponseCodes(responseDto.responseCodes);
+  handleResponseCodes(responseDto.result);
 
   return responseDto.toModel();
 }

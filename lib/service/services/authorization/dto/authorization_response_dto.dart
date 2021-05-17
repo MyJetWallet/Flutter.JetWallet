@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../shared/dto/reponse_codes_dto.dart';
 import '../model/authorization_response_model.dart';
 
 part 'authorization_response_dto.g.dart';
@@ -8,7 +7,7 @@ part 'authorization_response_dto.g.dart';
 @JsonSerializable()
 class AuthorizationResponseDto {
   AuthorizationResponseDto({
-    required this.responseCodes,
+    required this.result,
     required this.token,
   });
 
@@ -21,8 +20,7 @@ class AuthorizationResponseDto {
     );
   }
 
-  @JsonKey(name: 'result')
-  final ResponseCodesDto responseCodes;
+  final String result;
   @JsonKey(name: 'data')
   final String token;
 }

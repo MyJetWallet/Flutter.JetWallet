@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'auth/providers/authentication_model_notipod.dart';
+import 'auth/providers/auth_model_notipod.dart';
 import 'router/providers/router_key_pod.dart';
 import 'router/providers/router_stpod.dart';
 import 'service/services/authentication/service/authentication_service.dart';
@@ -11,11 +11,15 @@ import 'shared/dio/dio_without_interceptors.dart';
 import 'shared/services/local_storage_service.dart';
 
 final authenticationServicePod = Provider<AuthenticationService>((ref) {
-  return AuthenticationService(dioWithoutInterceptors());
+  final authModel = ref.watch(authModelNotipod);
+
+  return AuthenticationService(dioWithoutInterceptors(authModel.token));
 });
 
 final authorizationServicePod = Provider<AuthorizationService>((ref) {
-  return AuthorizationService(dioWithoutInterceptors());
+  final authModel = ref.watch(authModelNotipod);
+
+  return AuthorizationService(dioWithoutInterceptors(authModel.token));
 });
 
 final localStorageServicePod = Provider<LocalStorageService>((ref) {
@@ -23,11 +27,11 @@ final localStorageServicePod = Provider<LocalStorageService>((ref) {
 });
 
 final dioPod = Provider<Dio>((ref) {
-  final router = ref.watch(routerStpod);
+  final router = ref.watch(routerStpod.notifier);
   final routerKey = ref.watch(routerKeyPod);
-  final authModel = ref.watch(authenticationModelNotipod);
-  final authModelNotifier = ref.watch(authenticationModelNotipod.notifier);
-  final authenticationService = ref.watch(authenticationServicePod);
+  final authModel = ref.watch(authModelNotipod);
+  final authModelNotifier = ref.watch(authModelNotipod.notifier);
+  final authorizationService = ref.watch(authorizationServicePod);
   final storageService = ref.watch(localStorageServicePod);
 
   return basicDio(
@@ -35,7 +39,7 @@ final dioPod = Provider<Dio>((ref) {
     routerKey: routerKey,
     authModel: authModel,
     authModelNotifier: authModelNotifier,
-    authenticationService: authenticationService,
+    authorizationService: authorizationService,
     localStorageService: storageService,
   );
 });
