@@ -10,22 +10,6 @@ import 'shared/dio/basic_dio.dart';
 import 'shared/dio/dio_without_interceptors.dart';
 import 'shared/services/local_storage_service.dart';
 
-final authenticationServicePod = Provider<AuthenticationService>((ref) {
-  final authModel = ref.watch(authModelNotipod);
-
-  return AuthenticationService(dioWithoutInterceptors(authModel.token));
-});
-
-final authorizationServicePod = Provider<AuthorizationService>((ref) {
-  final authModel = ref.watch(authModelNotipod);
-
-  return AuthorizationService(dioWithoutInterceptors(authModel.token));
-});
-
-final localStorageServicePod = Provider<LocalStorageService>((ref) {
-  return LocalStorageService();
-});
-
 final dioPod = Provider<Dio>((ref) {
   final router = ref.watch(routerStpod.notifier);
   final routerKey = ref.watch(routerKeyPod);
@@ -42,4 +26,26 @@ final dioPod = Provider<Dio>((ref) {
     authorizationService: authorizationService,
     localStorageService: storageService,
   );
+});
+
+final dioWithoutInterceptorsPod = Provider<Dio>((ref) {
+  final authModel = ref.watch(authModelNotipod);
+
+  return dioWithoutInterceptors(authModel.token);
+});
+
+final authenticationServicePod = Provider<AuthenticationService>((ref) {
+  final dio = ref.watch(dioWithoutInterceptorsPod);
+
+  return AuthenticationService(dio);
+});
+
+final authorizationServicePod = Provider<AuthorizationService>((ref) {
+  final dio = ref.watch(dioWithoutInterceptorsPod);
+
+  return AuthorizationService(dio);
+});
+
+final localStorageServicePod = Provider<LocalStorageService>((ref) {
+  return LocalStorageService();
 });

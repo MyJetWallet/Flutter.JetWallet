@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../app/screens/navigation/ui/navigation.dart';
 import '../../auth/ui/auth.dart';
-import '../../shared/components/splash_screen.dart';
 import '../providers/router_fpod.dart';
 import '../providers/router_key_pod.dart';
 import '../providers/router_stpod.dart';
+import 'components/splash_screen.dart';
 
 class AppRouter extends HookWidget {
   static const routeName = '/';

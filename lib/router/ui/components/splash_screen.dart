@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/styles.dart';
-import 'loader.dart';
+import '../../../shared/components/loader.dart';
+import '../../../shared/theme/styles.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
