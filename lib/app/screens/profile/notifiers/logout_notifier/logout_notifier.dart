@@ -19,7 +19,8 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
   Future<void> logout() async {
     try {
       state = const Loading();
-
+      
+      // todo uncomment
       // await authorizationService.logout();
 
       await localStorageService.clearStorage();

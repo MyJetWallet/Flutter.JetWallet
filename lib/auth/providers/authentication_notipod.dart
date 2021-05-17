@@ -9,7 +9,7 @@ import 'credentials_notipod.dart';
 
 final authenticationNotipod =
     StateNotifierProvider<AuthenticationNotifier, AuthenticationUnion>((ref) {
-  final router = ref.watch(routerStpod);
+  final router = ref.watch(routerStpod.notifier);
   final credentials = ref.watch(credentialsNotipod);
   final credentialsNotifier = ref.watch(credentialsNotipod.notifier);
   final authModelNotifier = ref.watch(authenticationModelNotipod.notifier);

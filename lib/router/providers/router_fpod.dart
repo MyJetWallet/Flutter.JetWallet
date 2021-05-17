@@ -7,10 +7,7 @@ import 'router_stpod.dart';
 import 'union/router_union.dart';
 
 final routerFpod = FutureProvider<void>((ref) async {
-  // It's not recommended to use ref.read() inside the body of provider.
-  // But this was necessary because we have ciricular dependency
-  // with routerStpod which results in infinite loop.
-  final router = ref.read(routerStpod);
+  final router = ref.watch(routerStpod.notifier);
   final authModel = ref.watch(authenticationModelNotipod.notifier);
   final storageService = ref.watch(localStorageServicePod);
 

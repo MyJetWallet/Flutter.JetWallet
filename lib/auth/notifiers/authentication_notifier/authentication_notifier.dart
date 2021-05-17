@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../router/providers/union/router_union.dart';
+import '../../../service/services/authentication/model/authentication_model.dart';
 import '../../../service/services/authentication/model/login_request_model.dart';
 import '../../../service/services/authentication/model/register_request_model.dart';
 import '../../../service/services/authentication/service/authentication_service.dart';
@@ -29,15 +30,12 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final LocalStorageService storageService;
 
   Future<void> authenticate(AuthScreen authScreen) async {
-    if (authScreen == AuthScreen.signIn) {
-      await _login();
-    } else {
-      await _register();
-    }
-  }
+    final registerModel = RegisterRequestModel(
+      email: credentials.emailController.text,
+      password: credentials.passwordController.text,
+    );
 
-  Future<void> _register() async {
-    final model = RegisterRequestModel(
+    final loginModel = LoginRequestModel(
       email: credentials.emailController.text,
       password: credentials.passwordController.text,
     );
@@ -45,46 +43,19 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
-      final authModel = await authenticationService.register(model);
+      AuthenticationModel authModel;
+
+      if (authScreen == AuthScreen.signIn) {
+        authModel = await authenticationService.login(loginModel);
+      } else {
+        authModel = await authenticationService.register(registerModel);
+      }
 
       authModelNotifier.state = authModel;
 
       await storageService.setString(tokenKey, authModel.token);
 
-      await storageService.setString(
-        refreshTokenKey,
-        authModel.refreshToken,
-      );
-
-      router.state = const Authorised();
-
-      state = const Input();
-
-      credentialsNotifier.clear();
-    } catch (e, st) {
-      state = Input(e, st);
-    }
-  }
-
-  Future<void> _login() async {
-    final model = LoginRequestModel(
-      email: credentials.emailController.text,
-      password: credentials.passwordController.text,
-    );
-
-    try {
-      state = const Loading();
-
-      final authModel = await authenticationService.login(model);
-
-      authModelNotifier.state = authModel;
-
-      await storageService.setString(tokenKey, authModel.token);
-
-      await storageService.setString(
-        refreshTokenKey,
-        authModel.refreshToken,
-      );
+      await storageService.setString(refreshTokenKey, authModel.refreshToken);
 
       router.state = const Authorised();
 
