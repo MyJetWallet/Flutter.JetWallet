@@ -24,7 +24,6 @@ https://myjetwallet.github.io/Flutter.JetWallet/
 ```dart
 // Service
 class NameDto {}
-class NameRepository {}
 class NameService {}
 
 // Model
