@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'auth/providers/authentication_model_stpod.dart';
+import 'auth/providers/authentication_model_notipod.dart';
 import 'router/providers/router_key_pod.dart';
 import 'router/providers/router_stpod.dart';
 import 'service/services/authentication/service/authentication_service.dart';
@@ -24,16 +24,18 @@ final localStorageServicePod = Provider<LocalStorageService>((ref) {
 
 final dioPod = Provider<Dio>((ref) {
   final router = ref.watch(routerStpod);
-  final authModel = ref.watch(authenticationModelStpod);
   final routerKey = ref.watch(routerKeyPod);
+  final authModel = ref.watch(authenticationModelNotipod);
+  final authModelNotifier = ref.watch(authenticationModelNotipod.notifier);
   final authenticationService = ref.watch(authenticationServicePod);
   final storageService = ref.watch(localStorageServicePod);
 
   return basicDio(
-    router,
-    authModel,
-    routerKey,
-    authenticationService,
-    storageService,
+    router: router,
+    routerKey: routerKey,
+    authModel: authModel,
+    authModelNotifier: authModelNotifier,
+    authenticationService: authenticationService,
+    localStorageService: storageService,
   );
 });

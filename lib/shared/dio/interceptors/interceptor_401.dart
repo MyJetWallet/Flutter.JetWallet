@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../auth/notifiers/authentication_model_notifier.dart';
 import '../../../router/providers/union/router_union.dart';
 import '../../../service/services/authentication/model/authentication_model.dart';
 import '../../../service/services/authentication/model/authentication_refresh_request_model.dart';
@@ -9,28 +10,29 @@ import '../../../service/services/authentication/service/authentication_service.
 import '../../services/local_storage_service.dart';
 import '../helpers/retry_request.dart';
 
-Future<void> interceptor401(
-  Dio dio,
-  DioError dioError,
-  ErrorInterceptorHandler handler,
-  StateController<RouterUnion> router,
-  StateController<AuthenticationModel> authModel,
-  GlobalKey<ScaffoldState> routerKey,
-  AuthenticationService authenticationService,
-  LocalStorageService localStorageService,
-) async {
+Future<void> interceptor401({
+  required Dio dio,
+  required DioError dioError,
+  required ErrorInterceptorHandler handler,
+  required StateController<RouterUnion> router,
+  required GlobalKey<ScaffoldState> routerKey,
+  required AuthenticationModel authModel,
+  required AuthenticationModelNotifier authModelNotifier,
+  required AuthenticationService authenticationService,
+  required LocalStorageService localStorageService,
+}) async {
   var refreshSuccess = true;
 
   final refreshModel = AuthenticationRefreshRequestModel(
-    refreshToken: authModel.state.refreshToken,
+    refreshToken: authModel.refreshToken,
   );
 
   try {
     final response = await authenticationService.refresh(refreshModel);
 
-    authModel.state = authModel.state.copyWith(
-      token: response.token,
-      refreshToken: response.refreshToken,
+    authModelNotifier.updateBothTokens(
+      response.token,
+      response.refreshToken,
     );
   } catch (e) {
     refreshSuccess = false;
@@ -50,7 +52,7 @@ Future<void> interceptor401(
     try {
       final response = await retryRequest(
         dioError.requestOptions,
-        authModel.state.token,
+        authModel.token,
       );
       handler.resolve(response);
     } catch (e) {
