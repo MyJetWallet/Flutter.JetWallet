@@ -11,11 +11,13 @@ import '../../../shared/services/local_storage_service.dart';
 import '../../providers/auth_screen_stpod.dart';
 import '../auth_model_notifier.dart';
 import '../credentials_notifier/credentials_notifier.dart';
+import '../credentials_notifier/state/credentials_state.dart';
 import 'union/authentication_union.dart';
 
 class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   AuthenticationNotifier({
     required this.router,
+    required this.credentialsState,
     required this.credentialsNotifier,
     required this.authModelNotifier,
     required this.authenticationService,
@@ -24,6 +26,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   }) : super(const Input());
 
   final StateController<RouterUnion> router;
+  final CredentialsState credentialsState;
   final CredentialsNotifier credentialsNotifier;
   final AuthModelNotifier authModelNotifier;
   final AuthenticationService authenticationService;
@@ -31,16 +34,14 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final LocalStorageService storageService;
 
   Future<void> authenticate(AuthScreen authScreen) async {
-    final creds = credentialsNotifier.state;
-
     final loginRequest = LoginRequestModel(
-      email: creds.emailController.text,
-      password: creds.passwordController.text,
+      email: credentialsState.emailController.text,
+      password: credentialsState.passwordController.text,
     );
 
     final registerRequest = RegisterRequestModel(
-      email: creds.emailController.text,
-      password: creds.passwordController.text,
+      email: credentialsState.emailController.text,
+      password: credentialsState.passwordController.text,
     );
 
     try {
