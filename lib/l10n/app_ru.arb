@@ -1,0 +1,14 @@
+{
+    "jetWalletAppVersion": "Версия приложения Jet Wallet",
+    "dontHaveAnAccount": "Нет аккаунта?",
+    "haveAnAccount": "Уже есть аккаунт?",
+    "signIn": "Логин",
+    "signUp": "Зарегистрироваться",
+    "email": "Эмейл",
+    "password": "Пароль",
+    "repeatPassword": "Повторный пароль",
+    "balance": "Баланс",
+    "currencies": "Валюты",
+    "profile": "Профиль",
+    "logout": "Выйти"
+}

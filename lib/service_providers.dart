@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'auth/providers/auth_model_notipod.dart';
@@ -49,3 +50,5 @@ final authorizationServicePod = Provider<AuthorizationService>((ref) {
 final localStorageServicePod = Provider<LocalStorageService>((ref) {
   return LocalStorageService();
 });
+
+final intlPod = ScopedProvider<AppLocalizations?>(null);

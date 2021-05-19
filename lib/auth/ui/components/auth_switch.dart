@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../service_providers.dart';
 import '../../providers/auth_screen_stpod.dart';
 import '../../providers/credentials_notipod.dart';
 
@@ -14,6 +15,7 @@ class AuthSwitch extends HookWidget {
   Widget build(BuildContext context) {
     final authScreen = useProvider(authScreenStpod);
     final notifier = useProvider(credentialsNotipod.notifier);
+    final intl = useProvider(intlPod);
 
     return InkWell(
       splashColor: Colors.transparent,
@@ -29,8 +31,8 @@ class AuthSwitch extends HookWidget {
       },
       child: Text(
         authScreen.state == AuthScreen.signIn
-            ? "Don't have an account? Sign Up"
-            : 'Have an account? Sign In',
+            ? '${intl!.dontHaveAnAccount} ${intl.signUp}'
+            : '${intl!.haveAnAccount} ${intl.signIn}',
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
         softWrap: true,
