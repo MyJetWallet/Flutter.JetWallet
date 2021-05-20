@@ -52,6 +52,7 @@ dev_dependencies:
   json_serializable: ^4.1.1 # dart build system builders for handling JSON
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/

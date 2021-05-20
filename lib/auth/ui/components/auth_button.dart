@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../service_providers.dart';
 import '../../providers/auth_screen_stpod.dart';
 import '../../providers/authentication_notipod.dart';
 
@@ -14,6 +15,7 @@ class AuthButton extends HookWidget {
   Widget build(BuildContext context) {
     final authScreen = useProvider(authScreenStpod);
     final notifier = useProvider(authenticationNotipod.notifier);
+    final intl = useProvider(intlPod);
 
     return Center(
       child: InkWell(
@@ -28,7 +30,7 @@ class AuthButton extends HookWidget {
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Text(
-            authScreen.state == AuthScreen.signIn ? 'Sign In' : 'Sign Up',
+            authScreen.state == AuthScreen.signIn ? intl!.signIn : intl!.signUp,
             style: const TextStyle(
               fontSize: 20.0,
               color: Colors.white,

@@ -1,0 +1,17 @@
+{
+    "jetWalletAppVersion": "Jet Wallet App Version",
+    "@jetWalletAppVersion": {
+      "description": "Shown at the AuthPage, under SignIn Button"
+    },
+    "dontHaveAnAccount": "Don't have an account?",
+    "haveAnAccount": "Have an account?",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "repeatPassword": "Repeat Password",
+    "balance": "Balance",
+    "currencies": "Currencies",
+    "profile": "Profile",
+    "logout": "Logout"
+}

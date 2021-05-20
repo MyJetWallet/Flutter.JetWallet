@@ -1,5 +1,5 @@
-import '../../../profile/profile.dart';
-import '../../../wallet/wallet.dart';
+import '../../../profile/ui/profile.dart';
+import '../../../wallet/ui/wallet.dart';
 
 const screens = [
   Wallet(),

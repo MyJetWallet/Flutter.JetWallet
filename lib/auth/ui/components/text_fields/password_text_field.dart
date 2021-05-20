@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../service_providers.dart';
 import 'text_field_styles.dart';
 
 class PasswordTextField extends HookWidget {
@@ -15,6 +17,7 @@ class PasswordTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final isObscure = useState(true);
 
     return TextFormField(
@@ -26,6 +29,7 @@ class PasswordTextField extends HookWidget {
           isObscure.value = !isObscure.value;
         },
         isRepeat: isRepeat,
+        intl: intl,
       ),
     );
   }

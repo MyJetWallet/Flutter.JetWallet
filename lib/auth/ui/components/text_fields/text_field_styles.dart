@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 TextStyle baseFieldStyle = const TextStyle(
   color: Colors.white,
@@ -18,16 +19,19 @@ InputDecoration baseFieldDecoration = const InputDecoration(
   ),
 );
 
-InputDecoration emailFieldDecoration = baseFieldDecoration.copyWith(
-  icon: const Icon(
-    Icons.person_outline,
-    color: Colors.white,
-  ),
-  hintText: 'Email',
-);
+InputDecoration emailFieldDecoration(AppLocalizations? intl) {
+  return baseFieldDecoration.copyWith(
+    icon: const Icon(
+      Icons.person_outline,
+      color: Colors.white,
+    ),
+    hintText: intl!.email,
+  );
+}
 
 InputDecoration passwordFieldDecoration({
   required Function() onSuffixTap,
+  required AppLocalizations? intl,
   bool isRepeat = false,
 }) {
   return baseFieldDecoration.copyWith(
@@ -42,6 +46,6 @@ InputDecoration passwordFieldDecoration({
       ),
       onPressed: onSuffixTap,
     ),
-    hintText: isRepeat ? 'Repeat Password' : 'Password',
+    hintText: isRepeat ? intl!.repeatPassword : intl!.password,
   );
 }
