@@ -11,49 +11,70 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # TOOLKIT
+  cupertino_icons: ^1.0.2 # IOS icons
+  auto_size_text: ^3.0.0-nullsafety.0 # automatically resizes text to fit perfectly within its bounds
+  universal_io: ^2.0.4 # Cross-platform 'dart:io' that works in all platforms
+  package_info_plus: ^1.0.0 # querying information about the application package
+
+  # NETWORKING:
+  dio: ^4.0.0 # http client
+  pretty_dio_logger: ^1.1.1 # logger for dio
+  signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
+  json_annotation: ^4.0.0 # annotations used by json_serializable
+#  connectivity: ^3.0.4 # internet connection checker
+
+  # INTERNATIONALIZATION:
   flutter_localizations:
     sdk: flutter
-  dio: ^4.0.0
-  pretty_dio_logger: ^1.1.1
-  flutter_redux: ^0.8.2
-  injector: ^2.0.0
-  redux_thunk: ^0.4.0
-  shared_preferences: ^2.0.5
-#  firebase_crashlytics: ^2.0.1
   intl: ^0.17.0
-  universal_io: ^2.0.4
-  signalr_core: ^1.1.1
-  cupertino_icons: ^1.0.2
-  package_info_plus: ^1.0.0
-  redux_logging: 0.5.0
-  auto_size_text: ^3.0.0-nullsafety.0
+
+  # LOCAL STORAGE:
+  shared_preferences: ^2.0.5
+
+  # STATE MANAGEMENT
+  hooks_riverpod: ^0.14.0+2 # riverpod with hooks from Remi Rousselet
+  flutter_hooks: ^0.16.0  # additional hooks' functionality
+
+  # OTHER:
+  freezed_annotation: ^0.14.1 # Annotations for the freezed
+  mockito: ^5.0.7 # Mocking objects
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # RULES:
+  lint: ^1.5.3
+
+  # AUTOGEN:
+  freezed: ^0.14.1+3 # generation for immutable classes that has a simple syntax/API
+  build_runner: ^2.0.1 # generating files using Dart code
+  json_serializable: ^4.1.1 # dart build system builders for handling JSON
+
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/
-    - locale/
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
+  # ADD FONT EXAMPLE:
+  # 1. Not all fonts are working in all languages, some of them not work with Cyrillic languages suppose
+  # 2. Rebuild the app after installing a new font
   # fonts:
-  #   - family: Schyler
+  #   # You can add as many families as you want
+  #   - family: MyFamily # can be any name
   #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  #       - asset: assets/fonts/MyFamily.ttf
+  #         weight: 300   # You can specify weight from 100 to 900
+  #         style: italic # You can specify style of the font
+  #       - asset: assets/fonts/MyFamily.ttf # You can add as many assets as you want per family
+  #         weight: 400
+  
+  # ADD ASSET EXAMPLE:
+  # assets:
+  #   # make accessible the whole folder (assets) - without inner folders
+  #   - assets/
+  #   # make accessible a single file (image.png)
+  #   - assets/image.png
