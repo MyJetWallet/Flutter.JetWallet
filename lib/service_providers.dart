@@ -7,6 +7,7 @@ import 'router/providers/router_key_pod.dart';
 import 'router/providers/router_stpod.dart';
 import 'service/services/authentication/service/authentication_service.dart';
 import 'service/services/authorization/service/authorization_service.dart';
+import 'service/services/signal_r/service/signal_r_service.dart';
 import 'shared/dio/basic_dio.dart';
 import 'shared/dio/dio_without_interceptors.dart';
 import 'shared/services/local_storage_service.dart';
@@ -52,3 +53,7 @@ final localStorageServicePod = Provider<LocalStorageService>((ref) {
 });
 
 final intlPod = ScopedProvider<AppLocalizations>(null);
+
+final signalRServicePod = Provider<SignalRService>((ref) {
+  return SignalRService();
+});
