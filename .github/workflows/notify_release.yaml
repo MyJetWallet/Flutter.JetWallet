@@ -20,5 +20,3 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO_FLUTTER }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         args: Release android version https://github.com/${{ github.repository }}/actions, action finished.
-        
-

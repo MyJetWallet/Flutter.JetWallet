@@ -21,5 +21,3 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO_FLUTTER }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         args: Repository https://github.com/${{ github.repository }}/actions, action finished with error. (${{ github.event.workflow_run.workflow }})
-        
-

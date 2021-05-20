@@ -3,8 +3,6 @@ name: Flutter CI
 on:
   push:
     branches: [ master ]
-  #pull_request:
-  #  branches: [ master ]
 
 jobs:
   flutter_test:
@@ -44,4 +42,3 @@ jobs:
           registry: docker.pkg.github.com
           repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
           tags: latest
-
