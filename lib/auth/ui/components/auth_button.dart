@@ -30,7 +30,7 @@ class AuthButton extends HookWidget {
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Text(
-            authScreen.state == AuthScreen.signIn ? intl!.signIn : intl!.signUp,
+            authScreen.state == AuthScreen.signIn ? intl.signIn : intl.signUp,
             style: const TextStyle(
               fontSize: 20.0,
               color: Colors.white,

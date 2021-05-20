@@ -38,7 +38,7 @@ class Profile extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  intl!.profile,
+                  intl.profile,
                 ),
                 const SpaceH15(),
                 TextButton(

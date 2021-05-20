@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/components/spacers.dart';
-
+import '../../../shared/models/currency_model.dart';
 import 'components/currencies_header.dart';
-import 'components/currency_card.dart';
+import 'components/currency_button/currency_button.dart';
 import 'components/wallet_balance.dart';
 
-const temp = 'https://bitcoin.org/img/icons/opengraph.png?1621091491';
+const _mockCurrency = CurrencyModel(
+  name: 'Bitcoin',
+  symbol: 'BTC',
+  image: 'https://bitcoin.org/img/icons/opengraph.png?1621091491',
+  amount: 10,
+  baseCurrencySymbol: 'USD',
+  baseCurrencyAmount: 430202,
+);
 
 class Wallet extends StatelessWidget {
   const Wallet();
@@ -21,13 +28,8 @@ class Wallet extends StatelessWidget {
           const SpaceH20(),
           const CurrenciesHeader(),
           for (var i = 0; i < 20; i++)
-            const CurrencyCard(
-              name: 'Bitcoin',
-              symbol: 'BTC',
-              image: temp,
-              amount: 0,
-              baseCurrencySymbol: 'USD',
-              baseCurrencyAmount: 0,
+            const CurrencyButton(
+              currency: _mockCurrency,
             )
         ],
       ),

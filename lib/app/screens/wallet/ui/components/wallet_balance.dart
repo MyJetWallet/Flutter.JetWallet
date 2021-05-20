@@ -13,7 +13,7 @@ class WalletBalance extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          intl!.balance,
+          intl.balance,
           style: const TextStyle(
             color: Colors.grey,
           ),

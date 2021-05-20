@@ -22,7 +22,7 @@ class AppRouter extends HookWidget {
 
     return ProviderScope(
       overrides: [
-        intlPod.overrideWithValue(AppLocalizations.of(context)),
+        intlPod.overrideWithValue(AppLocalizations.of(context)!),
       ],
       child: Scaffold(
         key: key,

@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../shared/models/currency_model.dart';
+
 class CurrencyCard extends StatelessWidget {
   const CurrencyCard({
     Key? key,
-    required this.name,
-    required this.symbol,
-    required this.image,
-    required this.amount,
-    required this.baseCurrencySymbol,
-    required this.baseCurrencyAmount,
+    required this.currency,
   }) : super(key: key);
 
-  final String name;
-  final String symbol;
-  final String image;
-  final int amount;
-  final String baseCurrencySymbol;
-  final int baseCurrencyAmount;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +21,24 @@ class CurrencyCard extends StatelessWidget {
           SizedBox(
             height: 35.0,
             width: 35.0,
-            child: Image.network(image),
+            child: Image.network(currency.image),
           ),
           const SizedBox(
             width: 10.0,
           ),
           Text(
-            name,
+            currency.name,
             style: const TextStyle(
               fontSize: 16.0,
             ),
           ),
           const Spacer(),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('$amount $symbol'),
+              Text('${currency.amount} ${currency.symbol}'),
               Text(
-                '$baseCurrencySymbol $baseCurrencyAmount',
+                '${currency.baseCurrencySymbol} ${currency.baseCurrencyAmount}',
                 style: const TextStyle(
                   color: Colors.grey,
                 ),

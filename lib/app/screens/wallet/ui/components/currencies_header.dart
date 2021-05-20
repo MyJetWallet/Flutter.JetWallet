@@ -14,7 +14,7 @@ class CurrenciesHeader extends HookWidget {
     final intl = useProvider(intlPod);
 
     return Text(
-      intl!.currencies,
+      intl.currencies,
       style: const TextStyle(
         fontSize: 18.0,
         fontWeight: FontWeight.bold,

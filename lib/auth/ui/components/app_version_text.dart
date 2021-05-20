@@ -14,7 +14,7 @@ class AppVersionText extends HookWidget {
     final intl = useProvider(intlPod);
 
     return Text(
-      '${intl!.jetWalletAppVersion} 1.0.0',
+      '${intl.jetWalletAppVersion} 1.0.0',
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       softWrap: true,

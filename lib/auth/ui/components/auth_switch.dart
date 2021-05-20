@@ -31,8 +31,8 @@ class AuthSwitch extends HookWidget {
       },
       child: Text(
         authScreen.state == AuthScreen.signIn
-            ? '${intl!.dontHaveAnAccount} ${intl.signUp}'
-            : '${intl!.haveAnAccount} ${intl.signIn}',
+            ? '${intl.dontHaveAnAccount} ${intl.signUp}'
+            : '${intl.haveAnAccount} ${intl.signIn}',
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
         softWrap: true,

@@ -12,4 +12,10 @@ final appTheme = ThemeData(
     ),
     buttonColor: primaryColor,
   ),
+  textTheme: const TextTheme(
+    bodyText1: TextStyle(),
+    bodyText2: TextStyle(),
+  ).apply(
+    bodyColor: Colors.black,
+  ),
 );

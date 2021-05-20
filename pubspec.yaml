@@ -38,6 +38,7 @@ dependencies:
 
   # OTHER:
   freezed_annotation: ^0.14.1 # Annotations for the freezed
+  mockito: ^5.0.7 # Mocking objects
 
 dev_dependencies:
   flutter_test:

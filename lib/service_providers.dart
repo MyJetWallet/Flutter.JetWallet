@@ -51,4 +51,4 @@ final localStorageServicePod = Provider<LocalStorageService>((ref) {
   return LocalStorageService();
 });
 
-final intlPod = ScopedProvider<AppLocalizations?>(null);
+final intlPod = ScopedProvider<AppLocalizations>(null);
