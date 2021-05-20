@@ -59,7 +59,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       final authorizationRequest = AuthorizationRequestModel(
         authToken: authenticationModel.token,
-        publicKeyPem: '',
+        publicKeyPem: 'string',
       );
 
       final authorizationModel = await authorizationService.authorize(
