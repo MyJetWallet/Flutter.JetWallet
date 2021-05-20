@@ -23,7 +23,7 @@ class BalancesDto {
               ))
           .toList());
 
-  List<BalanceDto> balances;
+  final List<BalanceDto> balances;
 }
 
 @JsonSerializable()
@@ -40,9 +40,9 @@ class BalanceDto {
 
   Map<String, dynamic> toJson() => _$BalanceDtoToJson(this);
 
-  String assetId;
-  num balance;
-  num reserve;
-  String lastUpdate;
-  num sequenceId;
+  final String assetId;
+  final double balance;
+  final double reserve;
+  final String lastUpdate;
+  final double sequenceId;
 }

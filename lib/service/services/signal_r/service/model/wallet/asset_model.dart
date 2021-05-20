@@ -6,7 +6,7 @@ part 'asset_model.freezed.dart';
 class AssetsModel with _$AssetsModel {
   const factory AssetsModel({
     required List<AssetModel> assets,
-    required int now,
+    required double now,
   }) = _AssetsModel;
 }
 
@@ -15,6 +15,9 @@ class AssetModel with _$AssetModel {
   const factory AssetModel({
     required String symbol,
     required String description,
-    required num accuracy,
+    required double accuracy,
+    required int depositMode,
+    required int withdrawalMode,
+    required int tagType,
   }) = _AssetModel;
 }

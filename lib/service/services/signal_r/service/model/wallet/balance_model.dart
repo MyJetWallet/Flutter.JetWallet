@@ -11,9 +11,9 @@ class BalancesModel with _$BalancesModel {
 class BalanceModel with _$BalanceModel {
   const factory BalanceModel({
     required String assetId,
-    required num balance,
-    required num reserve,
+    required double balance,
+    required double reserve,
     required String lastUpdate,
-    required num sequenceId,
+    required double sequenceId,
   }) = _BalanceModel;
 }

@@ -4,6 +4,8 @@ const urlSignalR1 = 'http://20.50.189.25:8080/signalr';
 
 // SignalR messages
 const initMessage = 'Init';
+const pingMessage = 'ping';
+const pongMessage = 'pong';
 const assetListMessage = 'asset-list';
 const spotWalletBalancesMessage = 'spot-wallet-balances';
 

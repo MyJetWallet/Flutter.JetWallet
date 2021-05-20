@@ -21,13 +21,16 @@ class AssetsDto {
                   symbol: asset.symbol,
                   description: asset.description,
                   accuracy: asset.accuracy,
+                  depositMode: asset.depositMode,
+                  withdrawalMode: asset.withdrawalMode,
+                  tagType: asset.tagType,
                 ))
             .toList(),
         now: now,
       );
 
-  List<AssetDto> assets;
-  int now;
+  final List<AssetDto> assets;
+  final double now;
 }
 
 @JsonSerializable()
@@ -36,13 +39,19 @@ class AssetDto {
     required this.symbol,
     required this.description,
     required this.accuracy,
+    required this.depositMode,
+    required this.withdrawalMode,
+    required this.tagType,
   });
 
   factory AssetDto.fromJson(Map<String, dynamic> json) => _$AssetDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$AssetDtoToJson(this);
 
-  String symbol;
-  String description;
-  num accuracy;
+  final String symbol;
+  final String description;
+  final double accuracy;
+  final int depositMode;
+  final int withdrawalMode;
+  final int tagType;
 }
