@@ -8,14 +8,17 @@ class BottomNavigationItem extends HookWidget {
     Key? key,
     required this.index,
     required this.icon,
+    required this.name,
   }) : super(key: key);
 
   final int index;
   final IconData icon;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
     final navigation = useProvider(navigationStpod);
+    final color = navigation.state == index ? Colors.black : Colors.grey;
 
     return Expanded(
       child: InkResponse(
@@ -23,12 +26,20 @@ class BottomNavigationItem extends HookWidget {
         onTap: () => navigation.state = index,
         child: Container(
           padding: const EdgeInsets.symmetric(
-            vertical: 18.0,
+            vertical: 8.0,
           ),
-          child: Icon(
-            icon,
-            size: 25.0,
-            color: navigation.state == index ? Colors.black : Colors.grey,
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                size: 24.0,
+                color: color,
+              ),
+              Text(
+                name,
+                style: TextStyle(color: color),
+              ),
+            ],
           ),
         ),
       ),

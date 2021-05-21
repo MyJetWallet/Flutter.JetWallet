@@ -40,6 +40,10 @@ dependencies:
   # OTHER:
   freezed_annotation: ^0.14.1 # Annotations for the freezed
 
+  charts:
+    git:
+      url: https://github.com/MyJetWallet/Flutter.Charts
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
