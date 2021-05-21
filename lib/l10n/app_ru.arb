@@ -10,5 +10,7 @@
     "balance": "Баланс",
     "currencies": "Валюты",
     "profile": "Профиль",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "wallet": "Кошелек",
+    "chart": "График"
 }
