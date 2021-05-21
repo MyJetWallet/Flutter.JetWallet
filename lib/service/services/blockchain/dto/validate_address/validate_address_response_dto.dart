@@ -23,3 +23,19 @@ class ValidateAddressResponseDto {
 
   final bool isValid;
 }
+
+@JsonSerializable()
+class ValidateAddressFullResponseDto {
+  ValidateAddressFullResponseDto({
+    required this.result,
+    required this.data,
+  });
+
+  factory ValidateAddressFullResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ValidateAddressFullResponseDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ValidateAddressFullResponseDtoToJson(this);
+
+  final String result;
+  final ValidateAddressResponseDto? data;
+}

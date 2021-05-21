@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/qr_button.dart';
+import '../../../../components/qr_button.dart';
 
 class DepositField extends StatelessWidget {
   const DepositField({

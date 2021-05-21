@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../shared/components/spacers.dart';
-import '../../../components/qr_button.dart';
+import '../../../../../../shared/components/spacers.dart';
+import '../../../../components/qr_button.dart';
 
 class WithdrawTextField extends StatelessWidget {
   const WithdrawTextField({

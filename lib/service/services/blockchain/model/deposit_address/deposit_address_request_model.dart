@@ -5,7 +5,6 @@ part 'deposit_address_request_model.freezed.dart';
 @freezed
 class DepositAddressRequestModel with _$DepositAddressRequestModel {
   const factory DepositAddressRequestModel({
-    required String walletId,
     required String assetSymbol,
   }) = _DepositAddressRequestModel;
 }
