@@ -26,16 +26,17 @@ class AppRouter extends HookWidget {
       ],
       child: Scaffold(
         key: key,
-        backgroundColor: Colors.white,
-        body: fpod.when(
-          data: (_) {
-            return router.state.when(
-              authorised: () => Navigation(),
-              unauthorised: () => Authentication(),
-            );
-          },
-          loading: () => SplashScreen(),
-          error: (e, st) => Text('$e'),
+        body: SafeArea(
+          child: fpod.when(
+            data: (_) {
+              return router.state.when(
+                authorised: () => Navigation(),
+                unauthorised: () => Authentication(),
+              );
+            },
+            loading: () => SplashScreen(),
+            error: (e, st) => Text('$e'),
+          ),
         ),
       ),
     );

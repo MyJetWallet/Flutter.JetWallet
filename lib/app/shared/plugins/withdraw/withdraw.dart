@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/components/spacers.dart';
-import '../../models/currency_model.dart';
+import '../../../screens/wallet/models/asset_with_balance_model.dart';
 import 'components/amount_text_field.dart';
 import 'components/withdraw_send_button.dart';
 import 'components/withdraw_text_field.dart';
@@ -12,14 +12,14 @@ class Withdraw extends StatelessWidget {
     required this.currency,
   });
 
-  final CurrencyModel currency;
+  final AssetWithBalanceModel currency;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Withdraw ${currency.name}',
+          'Withdraw ${currency.description}',
         ),
       ),
       body: SafeArea(

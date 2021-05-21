@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../shared/models/currency_model.dart';
+import '../../../../models/asset_with_balance_model.dart';
+
+const _temp = 'https://i.imgur.com/cvNa7tH.png';
 
 class CurrencyCard extends StatelessWidget {
   const CurrencyCard({
@@ -8,7 +10,7 @@ class CurrencyCard extends StatelessWidget {
     required this.currency,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  final AssetWithBalanceModel currency;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,13 @@ class CurrencyCard extends StatelessWidget {
           SizedBox(
             height: 35.0,
             width: 35.0,
-            child: Image.network(currency.image),
+            child: Image.network(_temp),
           ),
           const SizedBox(
             width: 10.0,
           ),
           Text(
-            currency.name,
+            currency.description,
             style: const TextStyle(
               fontSize: 16.0,
             ),
@@ -36,10 +38,10 @@ class CurrencyCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('${currency.amount} ${currency.symbol}'),
-              Text(
-                '${currency.baseCurrencySymbol} ${currency.baseCurrencyAmount}',
-                style: const TextStyle(
+              Text('${currency.balance} ${currency.symbol}'),
+              const Text(
+                'USD 0.0',
+                style: TextStyle(
                   color: Colors.grey,
                 ),
               ),
