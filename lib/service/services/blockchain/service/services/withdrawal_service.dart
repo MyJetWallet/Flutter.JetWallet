@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 
 import '../../../../shared/constants.dart';
-import '../../../../shared/dto/response_dto.dart';
 import '../../../../shared/helpers/handle_response_codes.dart';
 import '../../dto/withdrawal/withdrawal_request_dto.dart';
 import '../../dto/withdrawal/withdrawal_response_dto.dart';
@@ -21,7 +20,7 @@ Future<WithdrawalResponseModel> withdrawalService(
 
   final responseData = response.data as Map<String, dynamic>;
 
-  final responseDto = ResponseDto<WithdrawalResponseDto>.fromJson(responseData);
+  final responseDto = WithdrawalFullResponseDto.fromJson(responseData);
 
   handleResponseCodes(responseDto.result);
 

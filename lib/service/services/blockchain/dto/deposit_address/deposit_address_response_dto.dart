@@ -7,9 +7,9 @@ part 'deposit_address_response_dto.g.dart';
 @JsonSerializable()
 class DepositAddressResponseDto {
   DepositAddressResponseDto({
-    required this.address,
-    required this.memo,
-    required this.memoType,
+    this.address,
+    this.memo,
+    this.memoType,
   });
 
   factory DepositAddressResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -25,7 +25,23 @@ class DepositAddressResponseDto {
     );
   }
 
-  final String address;
-  final String memo;
-  final String memoType;
+  final String? address;
+  final String? memo;
+  final String? memoType;
+}
+
+@JsonSerializable()
+class DepositAddressFullResponseDto {
+  DepositAddressFullResponseDto({
+    required this.result,
+    this.data,
+  });
+
+  factory DepositAddressFullResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$DepositAddressFullResponseDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DepositAddressFullResponseDtoToJson(this);
+
+  final String result;
+  final DepositAddressResponseDto? data;
 }

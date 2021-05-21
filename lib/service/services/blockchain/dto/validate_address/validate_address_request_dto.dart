@@ -7,7 +7,6 @@ part 'validate_address_request_dto.g.dart';
 @JsonSerializable()
 class ValidateAddressRequestDto {
   ValidateAddressRequestDto({
-    required this.walletId,
     required this.assetSymbol,
     required this.toAddress,
   });
@@ -19,7 +18,6 @@ class ValidateAddressRequestDto {
     ValidateAddressRequestModel model,
   ) {
     return ValidateAddressRequestDto(
-      walletId: model.walletId,
       assetSymbol: model.assetSymbol,
       toAddress: model.toAddress,
     );
@@ -27,7 +25,6 @@ class ValidateAddressRequestDto {
 
   Map<String, dynamic> toJson() => _$ValidateAddressRequestDtoToJson(this);
 
-  final String walletId;
   final String assetSymbol;
   final String toAddress;
 }

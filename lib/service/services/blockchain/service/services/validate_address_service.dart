@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 
 import '../../../../shared/constants.dart';
-import '../../../../shared/dto/response_dto.dart';
 import '../../../../shared/helpers/handle_response_codes.dart';
 import '../../dto/validate_address/validate_address_request_dto.dart';
 import '../../dto/validate_address/validate_address_response_dto.dart';
@@ -21,7 +20,7 @@ Future<ValidateAddressResponseModel> validateAddressService(
 
   final responseData = response.data as Map<String, dynamic>;
 
-  final responseDto = ResponseDto<ValidateAddressResponseDto>.fromJson(
+  final responseDto = ValidateAddressFullResponseDto.fromJson(
     responseData,
   );
 

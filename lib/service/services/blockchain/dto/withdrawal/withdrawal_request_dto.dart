@@ -8,7 +8,6 @@ part 'withdrawal_request_dto.g.dart';
 class WithdrawalRequestDto {
   WithdrawalRequestDto({
     required this.requestId,
-    required this.walletId,
     required this.assetSymbol,
     required this.amount,
     required this.toAddress,
@@ -20,7 +19,6 @@ class WithdrawalRequestDto {
   factory WithdrawalRequestDto.fromModel(WithdrawalRequestModel model) {
     return WithdrawalRequestDto(
       requestId: model.requestId,
-      walletId: model.walletId,
       assetSymbol: model.assetSymbol,
       amount: model.amount,
       toAddress: model.toAddress,
@@ -30,7 +28,6 @@ class WithdrawalRequestDto {
   Map<String, dynamic> toJson() => _$WithdrawalRequestDtoToJson(this);
 
   final String requestId;
-  final String walletId;
   final String assetSymbol;
   final int amount;
   final String toAddress;

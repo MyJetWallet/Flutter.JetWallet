@@ -5,8 +5,8 @@ part 'deposit_address_response_model.freezed.dart';
 @freezed
 class DepositAddressResponseModel with _$DepositAddressResponseModel {
   const factory DepositAddressResponseModel({
-    required String address,
-    required String memo,
-    required String memoType,
+    String? address,
+    String? memo,
+    String? memoType,
   }) = _DepositAddressResponseModel;
 }
