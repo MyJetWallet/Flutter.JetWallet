@@ -26,5 +26,5 @@ Future<ValidateAddressResponseModel> validateAddressService(
 
   handleResponseCodes(responseDto.result);
 
-  return responseDto.data.toModel();
+  return responseDto.data!.toModel();
 }

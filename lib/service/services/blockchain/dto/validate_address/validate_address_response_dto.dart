@@ -37,5 +37,5 @@ class ValidateAddressFullResponseDto {
   Map<String, dynamic> toJson() => _$ValidateAddressFullResponseDtoToJson(this);
 
   final String result;
-  final ValidateAddressResponseDto data;
+  final ValidateAddressResponseDto? data;
 }

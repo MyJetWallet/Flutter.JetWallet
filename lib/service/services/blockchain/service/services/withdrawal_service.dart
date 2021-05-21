@@ -24,5 +24,5 @@ Future<WithdrawalResponseModel> withdrawalService(
 
   handleResponseCodes(responseDto.result);
 
-  return responseDto.data.toModel();
+  return responseDto.data!.toModel();
 }

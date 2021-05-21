@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../shared/components/spacers.dart';
+import '../../../../../../shared/components/spacers.dart';
 
 class AmountTextField extends StatelessWidget {
   const AmountTextField({

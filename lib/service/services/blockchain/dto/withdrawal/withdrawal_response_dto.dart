@@ -43,5 +43,5 @@ class WithdrawalFullResponseDto {
   Map<String, dynamic> toJson() => _$WithdrawalFullResponseDtoToJson(this);
 
   final String result;
-  final WithdrawalResponseDto data;
+  final WithdrawalResponseDto? data;
 }
