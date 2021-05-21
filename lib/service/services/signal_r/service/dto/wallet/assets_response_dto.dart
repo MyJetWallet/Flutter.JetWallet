@@ -11,7 +11,8 @@ class AssetsDto {
     required this.now,
   });
 
-  factory AssetsDto.fromJson(Map<String, dynamic> json) => _$AssetsDtoFromJson(json);
+  factory AssetsDto.fromJson(Map<String, dynamic> json) =>
+      _$AssetsDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$AssetsDtoToJson(this);
 
@@ -44,7 +45,8 @@ class AssetDto {
     required this.tagType,
   });
 
-  factory AssetDto.fromJson(Map<String, dynamic> json) => _$AssetDtoFromJson(json);
+  factory AssetDto.fromJson(Map<String, dynamic> json) =>
+      _$AssetDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$AssetDtoToJson(this);
 

@@ -12,12 +12,15 @@ import 'model/wallet/server_time_model.dart';
 
 class SignalRService {
   static const _pingTime = 3;
+
   Timer? _pongTimer;
   Timer? _pingTimer;
+
   late HubConnection? _hubConnection;
-  final StreamController<AssetsModel> _assetsModelStreamController = StreamController();
-  final StreamController<BalancesModel> _balancesModelStreamController = StreamController();
-  final StreamController<ServerTimeModel> _serverTimeStreamController = StreamController();
+
+  final _assetsModelStreamController = StreamController<AssetsModel>();
+  final _balancesModelStreamController = StreamController<BalancesModel>();
+  final _serverTimeStreamController = StreamController<ServerTimeModel>();
 
   Future<void> init(String token) async {
     _hubConnection = HubConnectionBuilder()
@@ -30,8 +33,10 @@ class SignalRService {
         .build();
 
     _hubConnection
-      // ignore: avoid_print
-      ?..onclose((error) => print('HubConnection: Connection closed with $error'))
+      ?..onclose(
+        // ignore: avoid_print
+        (error) => print('HubConnection: Connection closed with $error'),
+      )
       ..on(assetListMessage, (data) {
         final json = data?.first as Map<String, dynamic>;
         final assets = AssetsDto.fromJson(json).toModel();
@@ -72,15 +77,24 @@ class SignalRService {
     _hubConnection = null;
   }
 
-  Stream<AssetsModel> getAssetsStream() => _assetsModelStreamController.stream;
+  Stream<AssetsModel> getAssetsStream() {
+    return _assetsModelStreamController.stream;
+  }
 
-  Stream<BalancesModel> getBalancesStream() => _balancesModelStreamController.stream;
+  Stream<BalancesModel> getBalancesStream() {
+    return _balancesModelStreamController.stream;
+  }
 
-  Stream<ServerTimeModel> getServerTimeStream() => _serverTimeStreamController.stream;
+  Stream<ServerTimeModel> getServerTimeStream() {
+    return _serverTimeStreamController.stream;
+  }
 
   void _startPing() {
-    _pingTimer = Timer.periodic(const Duration(seconds: _pingTime), (timer) async {
-      await _hubConnection?.invoke(pingMessage);
-    });
+    _pingTimer = Timer.periodic(
+      const Duration(seconds: _pingTime),
+      (timer) async {
+        await _hubConnection?.invoke(pingMessage);
+      },
+    );
   }
 }

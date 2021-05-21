@@ -10,7 +10,8 @@ class ServerTimeDto {
     required this.now,
   });
 
-  factory ServerTimeDto.fromJson(Map<String, dynamic> json) => _$ServerTimeDtoFromJson(json);
+  factory ServerTimeDto.fromJson(Map<String, dynamic> json) =>
+      _$ServerTimeDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$ServerTimeDtoToJson(this);
 
