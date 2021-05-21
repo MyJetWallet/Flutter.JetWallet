@@ -23,7 +23,7 @@ dependencies:
   pretty_dio_logger: ^1.1.1 # logger for dio
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
   json_annotation: ^4.0.0 # annotations used by json_serializable
-#  connectivity: ^3.0.4 # internet connection checker
+  # connectivity: ^3.0.4 # internet connection checker
 
   # INTERNATIONALIZATION:
   flutter_localizations:
@@ -39,7 +39,10 @@ dependencies:
 
   # OTHER:
   freezed_annotation: ^0.14.1 # Annotations for the freezed
-  mockito: ^5.0.7 # Mocking objects
+
+  charts:
+    git:
+      url: https://github.com/MyJetWallet/Flutter.Charts
 
 dev_dependencies:
   flutter_test:

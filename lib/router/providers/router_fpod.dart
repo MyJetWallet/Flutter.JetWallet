@@ -10,6 +10,7 @@ final routerFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod.notifier);
   final authModel = ref.watch(authModelNotipod.notifier);
   final storageService = ref.watch(localStorageServicePod);
+  final signalRService = ref.watch(signalRServicePod);
 
   final token = await storageService.getString(tokenKey);
 
@@ -17,6 +18,7 @@ final routerFpod = FutureProvider<void>((ref) async {
     router.state = const Unauthorised();
   } else {
     authModel.updateToken(token);
+    await signalRService.init(token);
     router.state = const Authorised();
   }
 });

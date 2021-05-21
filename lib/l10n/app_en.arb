@@ -13,5 +13,7 @@
     "balance": "Balance",
     "currencies": "Currencies",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "wallet": "Wallet",
+    "chart": "Chart"
 }
