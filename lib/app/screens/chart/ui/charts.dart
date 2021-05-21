@@ -1,4 +1,6 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:charts/entity/instrument_entity.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:charts/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
