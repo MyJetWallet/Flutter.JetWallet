@@ -7,23 +7,23 @@ import 'assets_spod.dart';
 import 'balances_spod.dart';
 
 final assetsWithBalancesPod = Provider<List<AssetWithBalanceModel>>((ref) {
-  final assetsStream = ref.watch(assetsSpod);
-  final balancesStream = ref.watch(balancesSpod);
+  final assets = ref.watch(assetsSpod);
+  final balances = ref.watch(balancesSpod);
 
-  var assets = <AssetModel>[];
-  var balances = <BalanceModel>[];
+  var newAssets = <AssetModel>[];
+  var newBalances = <BalanceModel>[];
   final assetsWithBalances = <AssetWithBalanceModel>[];
 
-  assetsStream.whenData((value) {
-    assets = value.assets;
+  assets.whenData((value) {
+    newAssets = List.from(value.assets);
   });
 
-  balancesStream.whenData((value) {
-    balances = value.balances;
+  balances.whenData((value) {
+    newBalances = List.from(value.balances);
   });
 
-  if (assets.isNotEmpty) {
-    for (final i in assets) {
+  if (newAssets.isNotEmpty) {
+    for (final i in newAssets) {
       assetsWithBalances.add(
         AssetWithBalanceModel(
           // asset
@@ -44,8 +44,8 @@ final assetsWithBalancesPod = Provider<List<AssetWithBalanceModel>>((ref) {
     }
   }
 
-  if (balances.isNotEmpty) {
-    for (final balance in balances) {
+  if (newBalances.isNotEmpty) {
+    for (final balance in newBalances) {
       for (final asset in assetsWithBalances) {
         if (asset.symbol == balance.assetId) {
           final index = assetsWithBalances.indexOf(asset);
