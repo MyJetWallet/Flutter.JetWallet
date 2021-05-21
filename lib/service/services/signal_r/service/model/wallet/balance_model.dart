@@ -4,7 +4,9 @@ part 'balance_model.freezed.dart';
 
 @freezed
 class BalancesModel with _$BalancesModel {
-  const factory BalancesModel({required List<BalanceModel> balances}) = _BalancesModel;
+  const factory BalancesModel({
+    required List<BalanceModel> balances,
+  }) = _BalancesModel;
 }
 
 @freezed

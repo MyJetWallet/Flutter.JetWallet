@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../shared/components/spacers.dart';
+import '../../../screens/wallet/models/asset_with_balance_model.dart';
 import '../../helpers/navigator_push.dart';
-import '../../models/currency_model.dart';
 import '../deposit/deposit.dart';
 import '../withdraw/withdraw.dart';
 import 'components/currency_details_balance.dart';
@@ -10,12 +11,12 @@ import 'components/currency_details_button.dart';
 import 'components/currency_details_header.dart';
 import 'components/currency_details_history.dart';
 
-class CurrencyDetails extends StatelessWidget {
+class CurrencyDetails extends HookWidget {
   const CurrencyDetails({
     required this.currency,
   });
 
-  final CurrencyModel currency;
+  final AssetWithBalanceModel currency;
 
   @override
   Widget build(BuildContext context) {

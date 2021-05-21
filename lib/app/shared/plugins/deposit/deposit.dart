@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/components/spacers.dart';
-import '../../models/currency_model.dart';
+import '../../../screens/wallet/models/asset_with_balance_model.dart';
 import 'components/deposit_field.dart';
 
 class Deposit extends StatelessWidget {
@@ -9,14 +9,14 @@ class Deposit extends StatelessWidget {
     required this.currency,
   });
 
-  final CurrencyModel currency;
+  final AssetWithBalanceModel currency;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Deposit ${currency.name}',
+          'Deposit ${currency.description}',
         ),
       ),
       body: Padding(

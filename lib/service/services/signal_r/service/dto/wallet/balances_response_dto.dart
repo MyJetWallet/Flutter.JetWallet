@@ -6,9 +6,12 @@ part 'balances_response_dto.g.dart';
 
 @JsonSerializable()
 class BalancesDto {
-  BalancesDto({required this.balances});
+  BalancesDto({
+    required this.balances,
+  });
 
-  factory BalancesDto.fromJson(Map<String, dynamic> json) => _$BalancesDtoFromJson(json);
+  factory BalancesDto.fromJson(Map<String, dynamic> json) =>
+      _$BalancesDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$BalancesDtoToJson(this);
 
@@ -36,7 +39,8 @@ class BalanceDto {
     required this.sequenceId,
   });
 
-  factory BalanceDto.fromJson(Map<String, dynamic> json) => _$BalanceDtoFromJson(json);
+  factory BalanceDto.fromJson(Map<String, dynamic> json) =>
+      _$BalanceDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$BalanceDtoToJson(this);
 
