@@ -29,19 +29,3 @@ class WithdrawalResponseDto {
   final String txId;
   final String txUrl;
 }
-
-@JsonSerializable()
-class WithdrawalFullResponseDto {
-  WithdrawalFullResponseDto({
-    required this.result,
-    required this.data,
-  });
-
-  factory WithdrawalFullResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawalFullResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$WithdrawalFullResponseDtoToJson(this);
-
-  final String result;
-  final WithdrawalResponseDto? data;
-}

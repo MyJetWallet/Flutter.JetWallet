@@ -7,7 +7,6 @@ part 'authorization_response_dto.g.dart';
 @JsonSerializable()
 class AuthorizationResponseDto {
   AuthorizationResponseDto({
-    required this.result,
     required this.token,
   });
 
@@ -20,7 +19,6 @@ class AuthorizationResponseDto {
     );
   }
 
-  final String result;
   @JsonKey(name: 'data')
   final String token;
 }
