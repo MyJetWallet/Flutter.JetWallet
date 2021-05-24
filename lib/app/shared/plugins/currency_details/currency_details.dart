@@ -10,7 +10,6 @@ import 'components/currency_details_balance.dart';
 import 'components/currency_details_button.dart';
 import 'components/currency_details_header.dart';
 import 'components/currency_details_history.dart';
-import 'helpers/currency_modes.dart';
 
 class CurrencyDetails extends HookWidget {
   const CurrencyDetails({
@@ -36,7 +35,7 @@ class CurrencyDetails extends HookWidget {
                 currency: currency,
               ),
               const SpaceH20(),
-              if (isDepositMode(currency))
+              if (currency.isDepositMode)
                 CurrencyDetailsButton(
                   name: 'Deposit',
                   onTap: () {
@@ -47,7 +46,7 @@ class CurrencyDetails extends HookWidget {
                   },
                 ),
               const SpaceH20(),
-              if (isWithdrawalMode(currency))
+              if (currency.isWithdrawalMode)
                 CurrencyDetailsButton(
                   name: 'Withdraw',
                   onTap: () {

@@ -17,4 +17,10 @@ class AssetWithBalanceModel with _$AssetWithBalanceModel {
     required String lastUpdate,
     required double sequenceId,
   }) = _AssetWithBalanceModel;
+
+  const AssetWithBalanceModel._();
+
+  bool get isDepositMode => depositMode == 0;
+
+  bool get isWithdrawalMode => withdrawalMode == 0;
 }
