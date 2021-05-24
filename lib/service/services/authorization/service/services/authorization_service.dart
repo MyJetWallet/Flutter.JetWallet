@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../shared/constants.dart';
-import '../../../../shared/helpers/handle_response_codes.dart';
+import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../../authorization/dto/authorization_request_dto.dart';
 import '../../../authorization/dto/authorization_response_dto.dart';
 import '../../../authorization/model/authorization_request_model.dart';
@@ -20,9 +20,9 @@ Future<AuthorizationResponseModel> authorizationService(
 
   final responseData = response.data as Map<String, dynamic>;
 
-  final responseDto = AuthorizationResponseDto.fromJson(responseData);
+  final data = handleFullResponse<String>(responseData);
 
-  handleResponseCodes(responseDto.result);
+  final responseDto = AuthorizationResponseDto.fromJson(data);
 
   return responseDto.toModel();
 }

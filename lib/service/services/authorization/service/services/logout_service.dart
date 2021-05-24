@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../shared/constants.dart';
-import '../../../../shared/helpers/handle_response_codes.dart';
-import '../../dto/logout_response_dto.dart';
+import '../../../../shared/helpers/handle_api_responses.dart';
 
 Future<void> logoutService(Dio dio) async {
   final response = await dio.post(
@@ -11,7 +10,5 @@ Future<void> logoutService(Dio dio) async {
 
   final responseData = response.data as Map<String, dynamic>;
 
-  final responseDto = LogoutResponseDto.fromJson(responseData);
-
-  handleResponseCodes(responseDto.result);
+  handleResultResponse(responseData);
 }
