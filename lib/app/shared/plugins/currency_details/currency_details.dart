@@ -35,25 +35,27 @@ class CurrencyDetails extends HookWidget {
                 currency: currency,
               ),
               const SpaceH20(),
-              CurrencyDetailsButton(
-                name: 'Deposit',
-                onTap: () {
-                  navigatorPush(
-                    context,
-                    Deposit(currency: currency),
-                  );
-                },
-              ),
+              if (currency.isDepositMode)
+                CurrencyDetailsButton(
+                  name: 'Deposit',
+                  onTap: () {
+                    navigatorPush(
+                      context,
+                      Deposit(currency: currency),
+                    );
+                  },
+                ),
               const SpaceH20(),
-              CurrencyDetailsButton(
-                name: 'Withdraw',
-                onTap: () {
-                  navigatorPush(
-                    context,
-                    Withdraw(currency: currency),
-                  );
-                },
-              ),
+              if (currency.isWithdrawalMode)
+                CurrencyDetailsButton(
+                  name: 'Withdraw',
+                  onTap: () {
+                    navigatorPush(
+                      context,
+                      Withdraw(currency: currency),
+                    );
+                  },
+                ),
               const SpaceH20(),
               CurrencyDetailsButton(
                 name: 'Convert',
