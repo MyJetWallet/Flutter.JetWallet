@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../app/screens/navigation/ui/navigation.dart';
-import '../../auth/ui/auth.dart';
+import '../../app/screens/navigation/view/navigation.dart';
+import '../../auth/view/auth.dart';
 import '../../service_providers.dart';
 import '../../shared/components/loader.dart';
 import '../providers/router_fpod.dart';
