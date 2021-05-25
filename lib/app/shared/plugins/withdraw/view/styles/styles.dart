@@ -1,32 +1,11 @@
 import 'package:flutter/material.dart';
 
-const InputDecoration baseWithdrawFieldDecoration = InputDecoration(
-  hintStyle: TextStyle(
-    color: Colors.grey,
-  ),
-  enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(
-      width: 2.0,
-    ),
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(
-      width: 2.0,
-    ),
-  ),
-  border: OutlineInputBorder(),
-);
+import '../../../../styles/base_field_decoration.dart';
 
-InputDecoration widthdrawAddressDecoration =
-    baseWithdrawFieldDecoration.copyWith(
+InputDecoration widthdrawAddressDecoration = baseFieldDecoration.copyWith(
   hintText: 'Withdraw Address',
 );
 
-InputDecoration widthdrawTagDecoration = baseWithdrawFieldDecoration.copyWith(
+InputDecoration widthdrawTagDecoration = baseFieldDecoration.copyWith(
   hintText: 'Withdraw Tag',
-);
-
-InputDecoration widthdrawAmountDecoration =
-    baseWithdrawFieldDecoration.copyWith(
-  hintText: 'Amount',
 );

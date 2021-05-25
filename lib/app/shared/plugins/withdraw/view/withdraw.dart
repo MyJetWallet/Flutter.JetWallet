@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/spacers.dart';
 import '../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../styles/amount_field_decoration.dart';
 import '../notifiers/state/withdraw_state.dart';
 import '../providers/withdraw_notipod.dart';
 import 'components/amount_text_field.dart';
@@ -68,7 +69,7 @@ class Withdraw extends HookWidget {
                 AmountTextField(
                   title: 'Amount',
                   onChanged: (value) => withdrawNotifier.updateAmount(value),
-                  decoration: widthdrawAmountDecoration,
+                  decoration: amountFieldDecoration,
                 ),
                 const SpaceH10(),
                 WithdrawSendButton(
