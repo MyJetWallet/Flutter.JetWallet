@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../service_providers.dart';
+import '../../providers/package_info_fpod.dart';
 
 class AppVersionText extends HookWidget {
   const AppVersionText({
@@ -12,9 +13,13 @@ class AppVersionText extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
+    final package = useProvider(packageInfoFpod);
 
     return Text(
-      '${intl.jetWalletAppVersion} 1.0.0',
+      '${intl.jetWalletAppVersion} ${package.maybeWhen(
+        data: (data) => "${data.version}:${data.buildNumber}",
+        orElse: () => "1.0.0",
+      )}',
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       softWrap: true,
