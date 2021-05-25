@@ -40,10 +40,12 @@ dependencies:
   # OTHER:
   freezed_annotation: ^0.14.1 # Annotations for the freezed
   mocktail: ^0.1.2 # mocking library with null-safety support
-
+  
+  # OWN LIBS:
   charts:
     git:
       url: https://github.com/MyJetWallet/Flutter.Charts
+      branch: master
 
 dev_dependencies:
   flutter_test:

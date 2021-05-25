@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../screens/wallet/models/asset_with_balance_model.dart';
 import '../../helpers/navigator_push.dart';
+import '../convert/view/convert.dart';
 import '../deposit/view/deposit.dart';
 import '../withdraw/view/withdraw.dart';
 import 'components/currency_details_balance.dart';
@@ -59,7 +60,12 @@ class CurrencyDetails extends HookWidget {
               const SpaceH20(),
               CurrencyDetailsButton(
                 name: 'Convert',
-                onTap: () {},
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    Convert(currency: currency),
+                  );
+                },
               ),
               const SpaceH20(),
               CurrencyDetailsHistory(),
