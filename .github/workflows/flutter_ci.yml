@@ -26,7 +26,7 @@ jobs:
       - run: |
           sed -i 's/version: 1.0.0+1/version: 1.0.0+${{ github.run_number }}/' ./pubspec.yaml
           cat ./pubspec.yaml
-      - run: flutter build web --release --no-sound-null-safety
+      - run: flutter build web --release
 
       - name: Check Service dir
         run: |
