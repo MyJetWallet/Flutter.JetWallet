@@ -1,6 +1,6 @@
 /// Handles common response with [result] and [data] from the API
-/// If data is a primitive type then pass T as primitive type
-/// else pass just Map in the generic field
+/// If data is a primitive type then pass [T] as primitive type
+/// else pass just [Map] in the generic field
 Map<String, dynamic> handleFullResponse<T>(Map<String, dynamic> json) {
   final result = json['result'] as String;
 
