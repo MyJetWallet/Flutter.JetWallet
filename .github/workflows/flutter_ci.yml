@@ -16,10 +16,10 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-
+      - run: git checkout 2.0.6 && flutter precache
       - run: dart --version
       - run: flutter --version
-      - run: flutter pub upgrade
+      - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
       - run: flutter analyze
       - run: flutter test
