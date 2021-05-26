@@ -9,6 +9,7 @@ import 'service/services/authentication/service/authentication_service.dart';
 import 'service/services/authorization/service/authorization_service.dart';
 import 'service/services/blockchain/service/blockchain_service.dart';
 import 'service/services/signal_r/service/signal_r_service.dart';
+import 'service/services/swap/service/swap_service.dart';
 import 'shared/dio/basic_dio.dart';
 import 'shared/dio/dio_without_interceptors.dart';
 import 'shared/services/local_storage_service.dart';
@@ -63,4 +64,10 @@ final blockchainServicePod = Provider<BlockchainService>((ref) {
   final dio = ref.watch(dioPod);
 
   return BlockchainService(dio);
+});
+
+final swapServicePod = Provider<SwapService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return SwapService(dio);
 });
