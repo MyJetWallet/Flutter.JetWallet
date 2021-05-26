@@ -19,7 +19,8 @@ jobs:
         with:
           channel: "stable"
 
-      - run: git checkout 2.0.6 && flutter precache
+      - run: flutter downgrade v2.0.6
+      - run: flutter doctor
       - run: dart --version
       - run: flutter --version
       - run: flutter pub get
