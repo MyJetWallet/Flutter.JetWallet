@@ -12,3 +12,4 @@ const spotWalletBalancesMessage = 'spot-wallet-balances';
 // API URLs
 const tradingAuthBaseUrl = 'https://trading-auth-test.mnftx.biz/auth/v1';
 const walletApiBaseUrl = 'https://wallet-api-spot.mnftx.biz/api/v1';
+const tradingBaseUrl = 'https://trading-api-test.mnftx.biz/api/v1';
