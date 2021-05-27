@@ -8,10 +8,12 @@ class ConvertAmountField extends StatelessWidget {
     Key? key,
     required this.symbol,
     required this.onChanged,
+    required this.controller,
   }) : super(key: key);
 
   final String symbol;
   final Function(String) onChanged;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class ConvertAmountField extends StatelessWidget {
           height: 40.0,
           width: 150.0,
           child: TextField(
+            controller: controller,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,

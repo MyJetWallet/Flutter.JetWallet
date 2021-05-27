@@ -20,20 +20,12 @@ jobs:
           channel: 'stable' #'beta' 'dev', 'alpha', default to: 'stable'
           # flutter-version: '1.12.x' # you can also specify exact version of flutter
 
-      # Get flutter dependencies.
+      - run: dart --version
+      - run: flutter --version
       - run: flutter pub get
-
-      # Check for any formatting issues in the code.
-      # - run: flutter format --set-exit-if-changed .
-
-      # Statically analyze the Dart code for any errors.
-      # - run: flutter analyze .
-
-      # Run widget tests for our flutter project.
-      # - run: flutter test
-
-      # run_number
-      - run: echo ${{ github.run_number }}
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: flutter analyze
+      - run: flutter test
 
       # Build apk.
       - run: flutter build apk --build-number=${{ github.run_number }}

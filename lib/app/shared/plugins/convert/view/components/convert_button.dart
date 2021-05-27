@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class RequestQuoteButton extends StatelessWidget {
-  const RequestQuoteButton({
+class ConvertButton extends StatelessWidget {
+  const ConvertButton({
     Key? key,
+    required this.name,
     required this.onPressed,
   }) : super(key: key);
 
+  final String name;
   final Function() onPressed;
 
   @override
@@ -17,9 +19,9 @@ class RequestQuoteButton extends StatelessWidget {
           const Color(0xFFF5F5F5),
         ),
       ),
-      child: const Text(
-        'Request Quote',
-        style: TextStyle(
+      child:  Text(
+        name,
+        style: const TextStyle(
           color: Colors.black,
         ),
       ),
