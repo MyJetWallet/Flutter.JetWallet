@@ -7,14 +7,13 @@ part 'get_quote_response_model.g.dart';
 class GetQuoteResponseModel with _$GetQuoteResponseModel {
   const factory GetQuoteResponseModel({
     required String operationId,
-    required int price,
+    required double price,
     required String fromAsset,
     required String toAsset,
-    @JsonKey(name: 'fromAssetVolume') required int fromAssetAmount,
-    @JsonKey(name: 'toAssetVolume') required int toAssetAmount,
+    @JsonKey(name: 'fromAssetVolume') required double fromAssetAmount,
+    @JsonKey(name: 'toAssetVolume') required double toAssetAmount,
     required bool isFromFixed,
-    @JsonKey(name: 'actualTimeInSecond')
-    required int expirationTimer,
+    @JsonKey(name: 'actualTimeInSecond') required int expirationTimer,
   }) = _GetQuoteResponseModel;
 
   factory GetQuoteResponseModel.fromJson(Map<String, dynamic> json) =>

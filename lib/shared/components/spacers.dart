@@ -54,3 +54,14 @@ class SpaceW5 extends StatelessWidget {
     );
   }
 }
+
+class SpaceW10 extends StatelessWidget {
+  const SpaceW10();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 10,
+    );
+  }
+}

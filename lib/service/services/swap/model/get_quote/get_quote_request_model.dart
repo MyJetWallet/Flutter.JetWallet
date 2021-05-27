@@ -6,10 +6,10 @@ part 'get_quote_request_model.g.dart';
 @freezed
 class GetQuoteRequestModel with _$GetQuoteRequestModel {
   const factory GetQuoteRequestModel({
+    @JsonKey(name: 'fromAssetVolume') double? fromAssetAmount,
+    @JsonKey(name: 'toAssetVolume') double? toAssetAmount,
     required String fromAsset,
     required String toAsset,
-    @JsonKey(name: 'fromAssetVolume') required int fromAssetAmount,
-    @JsonKey(name: 'toAssetVolume') required int toAssetAmount,
     required bool isFromFixed,
   }) = _GetQuoteRequestModel;
 
