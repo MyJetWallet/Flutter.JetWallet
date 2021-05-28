@@ -11,8 +11,8 @@ part 'convert_state.freezed.dart';
 class ConvertState with _$ConvertState {
   const factory ConvertState({
     double? amount,
-    Stream<int>? quoteTime,
     GetQuoteResponseModel? quoteResponse,
+    @Default(false) bool isConfirmLoading,
     @Default(RequestQuote()) ConvertUnion union,
     required TextEditingController amountTextController,
     required AssetWithBalanceModel from,
