@@ -14,7 +14,7 @@ class ExecuteQuoteResponseModel with _$ExecuteQuoteResponseModel {
     @JsonKey(name: 'fromAssetVolume') required double fromAssetAmount,
     @JsonKey(name: 'toAssetVolume') required double toAssetAmount,
     required bool isFromFixed,
-    @JsonKey(name: 'actualTimeInSecond') required int expirationTimer,
+    @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
   }) = _ExecuteQuoteResponseModel;
 
   factory ExecuteQuoteResponseModel.fromJson(Map<String, dynamic> json) =>

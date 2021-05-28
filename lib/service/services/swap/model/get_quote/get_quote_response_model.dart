@@ -13,7 +13,7 @@ class GetQuoteResponseModel with _$GetQuoteResponseModel {
     @JsonKey(name: 'fromAssetVolume') required double fromAssetAmount,
     @JsonKey(name: 'toAssetVolume') required double toAssetAmount,
     required bool isFromFixed,
-    @JsonKey(name: 'actualTimeInSecond') required int expirationTimer,
+    @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
   }) = _GetQuoteResponseModel;
 
   factory GetQuoteResponseModel.fromJson(Map<String, dynamic> json) =>

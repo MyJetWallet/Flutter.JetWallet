@@ -5,12 +5,10 @@ import '../../../../../service/services/swap/model/get_quote/get_quote_request_m
 import '../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
 import '../../../../../service/services/swap/service/swap_service.dart';
 import '../../../../screens/wallet/models/asset_with_balance_model.dart';
-import '../helpers/quote_timer.dart';
 import '../helpers/sorted_list_of_currencies.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
 
-// TODO consider to refactor this notifier to smaller ones
 class ConvertNotifier extends StateNotifier<ConvertState> {
   ConvertNotifier({
     required this.defaultState,
@@ -65,9 +63,6 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       state = state.copyWith(
         quoteResponse: response,
         union: const ResponseQuote(),
-        quoteTime: quoteTimer(
-          response.expirationTimer - 1,
-        ).asBroadcastStream(),
       );
     } catch (e) {
       state = state.copyWith(union: RequestQuote('$e'));
@@ -76,6 +71,8 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
 
   /// Return [true] if convert was successful else [false]
   Future<String> executeQuote() async {
+    state = state.copyWith(isConfirmLoading: true);
+
     final quote = state.quoteResponse!;
 
     final model = ExecuteQuoteRequestModel(
@@ -104,11 +101,9 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
             fromAssetAmount: response.fromAssetAmount,
             toAssetAmount: response.toAssetAmount,
             isFromFixed: response.isFromFixed,
-            expirationTimer: response.expirationTimer,
+            expirationTime: response.expirationTime,
           ),
-          quoteTime: quoteTimer(
-            response.expirationTimer - 1,
-          ).asBroadcastStream(),
+          isConfirmLoading: false,
         );
 
         return "Something wrong happend, but don't worry, we updated the price";
@@ -129,8 +124,8 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     state = state.copyWith(
       union: const RequestQuote(),
       quoteResponse: null,
-      quoteTime: null,
       amount: 0.0,
+      isConfirmLoading: false,
     );
   }
 

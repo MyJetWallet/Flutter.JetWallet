@@ -45,12 +45,6 @@ class Convert extends HookWidget {
             },
             orElse: () {},
           );
-
-          if (state.quoteTime != null) {
-            state.quoteTime!.listen((event) {
-              if (event == 0) notifier.toRequestQuote();
-            });
-          }
         },
         child: SingleChildScrollView(
           child: Padding(
@@ -94,9 +88,8 @@ class Convert extends HookWidget {
                   ),
                 if (state.union is ResponseQuote)
                   ConvertResposneQuote(
-                    quote: state.quoteResponse!,
+                    state: state,
                     notifier: notifier,
-                    quoteTime: state.quoteTime!,
                   ),
               ],
             ),
