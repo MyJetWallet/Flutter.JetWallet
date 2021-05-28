@@ -6,7 +6,7 @@ import '../../../../../service/services/blockchain/model/deposit_address/deposit
 import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_response_model.dart';
 import '../../../../../service_providers.dart';
 
-final chartsFpod = FutureProvider.family<CandlesResponseModel, String>(
+final chartsInitFpod = FutureProvider.family<CandlesResponseModel, String>(
   (ref, instrumentId) {
     final chartsService = ref.watch(chartsServicePod);
 
@@ -21,3 +21,9 @@ final chartsFpod = FutureProvider.family<CandlesResponseModel, String>(
     return chartsService.getCandles(model);
   },
 );
+
+// final chartInitFpod = FutureProvider<void>((ref) {
+//   // final notifier = ref.watch(chartNotipod.notifier);
+//   // request to the API and go the data
+//   // notifier.initUpdate(data)
+// });

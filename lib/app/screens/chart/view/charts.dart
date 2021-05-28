@@ -103,3 +103,41 @@ class MyNotifier extends StateNotifier<ChartsState> {
 final myNotifierNotipod = StateNotifierProvider<MyNotifier, ChartsState>((ref) {
   return MyNotifier();
 });
+=======
+// final chartInitFpod = FutureProvider.family<void, String>((ref, instrumentId) {
+//   return
+//   // final notifier = ref.watch(chartNotipod.notifier);
+//   // request to the API and go the data
+//   // notifier.initUpdate(data)
+// });
+//
+// class MyWidget extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final future = useProvider(chartInitFpod);
+//     // final state = useProvider(chartNotipod);
+//     // final notifier = useProvider(chartNotipod.notifier);
+//     return future.when(
+//       data: (_) {
+//         // return Chart(
+//         //     data: state.array,
+//         //     isLoading: state.isLoading,
+//         //     onCandle: () => notifier.updateCandle(),
+//         //     );
+//       },
+//       loading: () => Loader(),
+//       error: (e, _) => Text(e.toString()),
+//     );
+//   }
+// }
+// class MyNotifier extends StateNotifier<ChartsState> {
+//   MyNotifier() : super(const ChartsState());
+//   void update() {
+//     // make request
+//     state = newState;
+//   }
+// // ...
+// }
+// final myNotifierNotipod = StateNotifierProvider<MyNotifier, ChartsState>((ref) {
+//   return MyNotifier();
+// });
