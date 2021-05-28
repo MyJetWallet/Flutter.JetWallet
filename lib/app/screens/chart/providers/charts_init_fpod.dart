@@ -1,13 +1,12 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/service/services/charts/model/get_candles/candles_request_model.dart';
-import 'package:jetwallet/service/services/charts/model/get_candles/candles_response_model.dart';
 
-import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_request_model.dart';
-import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_response_model.dart';
 import '../../../../../service_providers.dart';
+import '../../../../service/services/charts/model/get_candles/candles_request_model.dart';
+import 'charts_notipod.dart';
 
-final chartsInitFpod = FutureProvider.family<CandlesResponseModel, String>(
-  (ref, instrumentId) {
+final chartsInitFpod = FutureProvider.family<void, String>(
+  (ref, instrumentId) async {
+    final chartsNotipod = ref.watch(chartNotipod.notifier);
     final chartsService = ref.watch(chartsServicePod);
 
     final model = CandlesRequestModel(
@@ -18,12 +17,8 @@ final chartsInitFpod = FutureProvider.family<CandlesResponseModel, String>(
       candleType: 0,
     );
 
-    return chartsService.getCandles(model);
+    final candles = await chartsService.getCandles(model);
+
+    chartsNotipod.initCandles(candles.candles);
   },
 );
-
-// final chartInitFpod = FutureProvider<void>((ref) {
-//   // final notifier = ref.watch(chartNotipod.notifier);
-//   // request to the API and go the data
-//   // notifier.initUpdate(data)
-// });
