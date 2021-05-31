@@ -6,5 +6,5 @@ import '../../../../service_providers.dart';
 final balancesSpod = StreamProvider<BalancesModel>((ref) {
   final signalRService = ref.watch(signalRServicePod);
 
-  return signalRService.getBalancesStream();
+  return signalRService.balances();
 });
