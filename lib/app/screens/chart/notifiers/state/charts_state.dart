@@ -1,5 +1,7 @@
+import 'package:charts/entity/k_line_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../../../service/services/charts/model/get_candles/candles_response_model.dart';
+
+import 'charts_union.dart';
 
 part 'charts_state.freezed.dart';
 
@@ -7,7 +9,6 @@ part 'charts_state.freezed.dart';
 class ChartsState with _$ChartsState {
   const factory ChartsState({
     required List<CandleModel> candles,
+    @Default(Loading()) ChartsUnion union,
   }) = _ChartsState;
 }
-
-
