@@ -32,7 +32,6 @@
 .pub/
 /build/
 pubspec.lock
-**/ios/Flutter/.last_build_id
 
 # Generated Dart files
 *.config.dart
@@ -92,6 +91,7 @@ app.*.map.json
 **/ios/Flutter/app.zip
 **/ios/Flutter/flutter_assets/
 **/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/.last_build_id
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 
