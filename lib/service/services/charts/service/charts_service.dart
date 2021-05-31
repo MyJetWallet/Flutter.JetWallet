@@ -10,8 +10,8 @@ class ChartsService {
   final Dio dio;
 
   Future<CandlesResponseModel> getCandles(
-      CandlesRequestModel model,
-      ) {
+    CandlesRequestModel model,
+  ) {
     return getCandlesService(dio, model);
   }
 }

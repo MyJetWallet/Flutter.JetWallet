@@ -5,7 +5,7 @@ class ProviderLogger extends ProviderObserver {
   void didUpdateProvider(ProviderBase provider, Object? newValue) {
     // ignore: avoid_print
     print(
-'''
+      '''
 ∫ ✅ UPDATED PROVIDER ✅
 ∫ Provider: "${provider.name ?? provider.runtimeType}",
 ∫ Value: "$newValue"                                   
@@ -18,7 +18,7 @@ class ProviderLogger extends ProviderObserver {
   void didAddProvider(ProviderBase provider, Object? value) {
     // ignore: avoid_print
     print(
-'''
+      '''
 ∫ ⚡ ADDED PROVIDER ⚡
 ∫ Provider: "${provider.name ?? provider.runtimeType}",
 ∫ Value: "$value"                                   
@@ -31,7 +31,7 @@ class ProviderLogger extends ProviderObserver {
   void didDisposeProvider(ProviderBase provider) {
     // ignore: avoid_print
     print(
-'''
+      '''
 ∫ 🗑️ DISPOSED PROVIDER 🗑️
 ∫ Provider: "${provider.name ?? provider.runtimeType}",                           
 ➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫
@@ -43,7 +43,7 @@ class ProviderLogger extends ProviderObserver {
   void mayHaveChanged(ProviderBase provider) {
     // ignore: avoid_print
     print(
-'''
+      '''
 ∫ 💡 PROVIDER CHANGED 💡
 ∫ Provider: "${provider.name ?? provider.runtimeType}",                           
 ➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫➫
