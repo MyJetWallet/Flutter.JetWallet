@@ -6,11 +6,17 @@ import 'router/view/router.dart';
 import 'shared/provider_logger.dart';
 import 'shared/theme/theme_data.dart';
 
+// Just type providers here to exclude from logger
+// Remember to unstage the changes from your commit
+final providers = <String>[];
+
 void main() {
   runApp(
     ProviderScope(
       observers: [
-        ProviderLogger(),
+        ProviderLogger(
+          exludedProviders: providers,
+        ),
       ],
       child: MyApp(),
     ),
