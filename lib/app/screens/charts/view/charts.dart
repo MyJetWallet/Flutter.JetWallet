@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'components/chart_view.dart';
 
-class Charts extends HookWidget {
+class Charts extends StatelessWidget {
   const Charts();
 
   @override
@@ -18,7 +18,10 @@ class Charts extends HookWidget {
           ),
         ),
         body: const TabBarView(
-          children: [],
+          children: [
+            ChartView('BTCUSD'),
+            ChartView('ETHUSD'),
+          ],
         ),
       ),
     );

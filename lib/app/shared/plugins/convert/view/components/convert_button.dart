@@ -19,7 +19,7 @@ class ConvertButton extends StatelessWidget {
           const Color(0xFFF5F5F5),
         ),
       ),
-      child:  Text(
+      child: Text(
         name,
         style: const TextStyle(
           color: Colors.black,

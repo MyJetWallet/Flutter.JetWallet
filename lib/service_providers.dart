@@ -7,6 +7,7 @@ import 'router/providers/router_key_pod.dart';
 import 'router/providers/router_stpod.dart';
 import 'service/services/authentication/service/authentication_service.dart';
 import 'service/services/blockchain/service/blockchain_service.dart';
+import 'service/services/chart/service/chart_service.dart';
 import 'service/services/signal_r/service/signal_r_service.dart';
 import 'service/services/swap/service/swap_service.dart';
 import 'shared/dio/basic_dio.dart';
@@ -63,4 +64,10 @@ final swapServicePod = Provider<SwapService>((ref) {
   final dio = ref.watch(dioPod);
 
   return SwapService(dio);
+});
+
+final chartServicePod = Provider<ChartService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return ChartService(dio);
 });
