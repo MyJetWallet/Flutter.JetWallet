@@ -5,7 +5,7 @@ import '../../../../../service/services/swap/model/get_quote/get_quote_request_m
 import '../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
 import '../../../../../service/services/swap/service/swap_service.dart';
 import '../../../../screens/wallet/models/asset_with_balance_model.dart';
-import '../helpers/sorted_list_of_currencies.dart';
+import '../helpers/remove_element.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
 
@@ -130,13 +130,13 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   }
 
   void _updateFromList() {
-    final newFromList = sortedListOfCurrencies(currencies, state.to);
+    final newFromList = removeElement(state.to, currencies);
 
     state = state.copyWith(fromList: newFromList);
   }
 
   void _updateToList() {
-    final newToList = sortedListOfCurrencies(currencies, state.from);
+    final newToList = removeElement(state.from, currencies);
 
     state = state.copyWith(toList: newToList);
   }

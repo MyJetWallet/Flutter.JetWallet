@@ -6,5 +6,5 @@ import '../../../../service_providers.dart';
 final serverTimeSpod = StreamProvider<ServerTimeModel>((ref) {
   final signalRService = ref.watch(signalRServicePod);
 
-  return signalRService.getServerTimeStream();
+  return signalRService.serverTime();
 });
