@@ -6,5 +6,5 @@ import '../../../../service_providers.dart';
 final assetsSpod = StreamProvider<AssetsModel>((ref) {
   final signalRService = ref.watch(signalRServicePod);
 
-  return signalRService.getAssetsStream();
+  return signalRService.assets();
 });
