@@ -45,7 +45,7 @@ dependencies:
   charts:
     git:
       url: https://github.com/MyJetWallet/Flutter.Charts
-      ref: develop
+      ref: master
 
 dependency_overrides:
   # Analyzer 1.6.0 is broken with dart 2.13
