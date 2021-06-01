@@ -1,4 +1,4 @@
-import 'package:charts/entity/k_line_entity.dart';
+import 'package:charts/entity/candle_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'candles_response_model.freezed.dart';

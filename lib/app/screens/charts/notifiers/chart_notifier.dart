@@ -1,4 +1,4 @@
-import 'package:charts/entity/k_line_entity.dart';
+import 'package:charts/entity/candle_model.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
