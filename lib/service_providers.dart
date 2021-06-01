@@ -6,7 +6,6 @@ import 'auth/providers/auth_model_notipod.dart';
 import 'router/providers/router_key_pod.dart';
 import 'router/providers/router_stpod.dart';
 import 'service/services/authentication/service/authentication_service.dart';
-import 'service/services/authorization/service/authorization_service.dart';
 import 'service/services/blockchain/service/blockchain_service.dart';
 import 'service/services/chart/service/chart_service.dart';
 import 'service/services/signal_r/service/signal_r_service.dart';
@@ -20,7 +19,7 @@ final dioPod = Provider<Dio>((ref) {
   final routerKey = ref.watch(routerKeyPod);
   final authModel = ref.watch(authModelNotipod);
   final authModelNotifier = ref.watch(authModelNotipod.notifier);
-  final authorizationService = ref.watch(authorizationServicePod);
+  final authService = ref.watch(authServicePod);
   final storageService = ref.watch(localStorageServicePod);
 
   return basicDio(
@@ -28,8 +27,8 @@ final dioPod = Provider<Dio>((ref) {
     routerKey: routerKey,
     authModel: authModel,
     authModelNotifier: authModelNotifier,
-    authorizationService: authorizationService,
-    localStorageService: storageService,
+    authService: authService,
+    storageService: storageService,
   );
 });
 
@@ -39,16 +38,10 @@ final dioWithoutInterceptorsPod = Provider<Dio>((ref) {
   return dioWithoutInterceptors(authModel.token);
 });
 
-final authenticationServicePod = Provider<AuthenticationService>((ref) {
+final authServicePod = Provider<AuthenticationService>((ref) {
   final dio = ref.watch(dioWithoutInterceptorsPod);
 
   return AuthenticationService(dio);
-});
-
-final authorizationServicePod = Provider<AuthorizationService>((ref) {
-  final dio = ref.watch(dioWithoutInterceptorsPod);
-
-  return AuthorizationService(dio);
 });
 
 final localStorageServicePod = Provider<LocalStorageService>((ref) {

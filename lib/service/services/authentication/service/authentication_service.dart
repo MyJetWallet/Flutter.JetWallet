@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 
-import '../model/authentication_model.dart';
-import '../model/authentication_refresh_request_model.dart';
-import '../model/authentication_refresh_response_model.dart';
-import '../model/login_request_model.dart';
-import '../model/register_request_model.dart';
+import '../model/authenticate/authentication_model.dart';
+import '../model/authenticate/login_request_model.dart';
+import '../model/authenticate/register_request_model.dart';
+import '../model/logout/logout_request_model.dart';
+import '../model/refresh/auth_refresh_request_model.dart';
+import '../model/refresh/auth_refresh_response_model.dart';
 import 'services/login_service.dart';
+import 'services/logout_service.dart';
 import 'services/refresh_service.dart';
 import 'services/register_service.dart';
 
@@ -22,9 +24,11 @@ class AuthenticationService {
     return loginService(dio, model);
   }
 
-  Future<AuthenticationRefreshResponseModel> refresh(
-    AuthenticationRefreshRequestModel model,
-  ) {
+  Future<AuthRefreshResponseModel> refresh(AuthRefreshRequestModel model) {
     return refreshService(dio, model);
+  }
+
+  Future<void> logout(LogoutRequestModel model) {
+    return logoutService(dio, model);
   }
 }

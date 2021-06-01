@@ -1,12 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../router/providers/union/router_union.dart';
-import '../../../service/services/authentication/model/authentication_model.dart';
-import '../../../service/services/authentication/model/login_request_model.dart';
-import '../../../service/services/authentication/model/register_request_model.dart';
+import '../../../service/services/authentication/model/authenticate/authentication_model.dart';
+import '../../../service/services/authentication/model/authenticate/login_request_model.dart';
+import '../../../service/services/authentication/model/authenticate/register_request_model.dart';
 import '../../../service/services/authentication/service/authentication_service.dart';
-import '../../../service/services/authorization/model/authorization_request_model.dart';
-import '../../../service/services/authorization/service/authorization_service.dart';
+import '../../../shared/helpers/current_platform.dart';
 import '../../../shared/services/local_storage_service.dart';
 import '../../providers/auth_screen_stpod.dart';
 import '../auth_model_notifier.dart';
@@ -20,8 +19,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     required this.credentialsState,
     required this.credentialsNotifier,
     required this.authModelNotifier,
-    required this.authenticationService,
-    required this.authorizationService,
+    required this.authService,
     required this.storageService,
   }) : super(const Input());
 
@@ -29,46 +27,38 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final CredentialsState credentialsState;
   final CredentialsNotifier credentialsNotifier;
   final AuthModelNotifier authModelNotifier;
-  final AuthenticationService authenticationService;
-  final AuthorizationService authorizationService;
+  final AuthenticationService authService;
   final LocalStorageService storageService;
 
   Future<void> authenticate(AuthScreen authScreen) async {
     final loginRequest = LoginRequestModel(
       email: credentialsState.emailController.text,
       password: credentialsState.passwordController.text,
+      platform: currentPlatform,
     );
 
     final registerRequest = RegisterRequestModel(
       email: credentialsState.emailController.text,
       password: credentialsState.passwordController.text,
+      platform: currentPlatform,
     );
 
     try {
       state = const Loading();
 
-      AuthenticationModel authenticationModel;
+      AuthenticationModel authModel;
 
       if (authScreen == AuthScreen.signIn) {
-        authenticationModel = await authenticationService.login(loginRequest);
+        authModel = await authService.login(loginRequest);
       } else {
-        authenticationModel = await authenticationService.register(
-          registerRequest,
-        );
+        authModel = await authService.register(registerRequest);
       }
 
-      final authorizationRequest = AuthorizationRequestModel(
-        authToken: authenticationModel.token,
-        publicKeyPem: 'string',
-      );
+      await storageService.setString(tokenKey, authModel.token);
+      await storageService.setString(refreshTokenKey, authModel.refreshToken);
 
-      final authorizationModel = await authorizationService.authorize(
-        authorizationRequest,
-      );
-
-      await storageService.setString(tokenKey, authorizationModel.token);
-
-      authModelNotifier.updateToken(authorizationModel.token);
+      authModelNotifier.updateToken(authModel.token);
+      authModelNotifier.updateRefreshToken(authModel.refreshToken);
 
       router.state = const Authorised();
 

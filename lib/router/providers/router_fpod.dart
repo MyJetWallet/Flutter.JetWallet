@@ -12,11 +12,13 @@ final routerFpod = FutureProvider<void>((ref) async {
   final storageService = ref.watch(localStorageServicePod);
 
   final token = await storageService.getString(tokenKey);
+  final refreshToken = await storageService.getString(refreshTokenKey);
 
-  if (token == null) {
+  if (token == null || refreshToken == null) {
     router.state = const Unauthorised();
   } else {
     authModel.updateToken(token);
+    authModel.updateRefreshToken(refreshToken);
     router.state = const Authorised();
   }
 });
