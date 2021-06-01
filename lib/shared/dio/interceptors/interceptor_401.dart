@@ -31,7 +31,6 @@ Future<void> interceptor401({
   try {
     final response = await authService.refresh(refreshRequest);
 
-    await storageService.setString(tokenKey, response.token);
     await storageService.setString(refreshTokenKey, response.refreshToken);
 
     authModelNotifier.updateToken(response.token);
@@ -46,7 +45,7 @@ Future<void> interceptor401({
       (route) => route.isFirst == true,
     );
 
-    // remove token and refreshToken from storage
+    // remove refreshToken from storage
     await storageService.clearStorage();
   }
 

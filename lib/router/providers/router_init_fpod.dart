@@ -7,8 +7,8 @@ import 'union/router_union.dart';
 
 final routerInitFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod);
-  final signalRService = ref.watch(signalRServicePod);
   final authModel = ref.watch(authModelNotipod);
+  final signalRService = ref.watch(signalRServicePod);
 
   if (router.state == const Unauthorised()) {
     // todo dispose signalR
