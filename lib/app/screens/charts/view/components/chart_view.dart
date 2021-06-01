@@ -25,6 +25,11 @@ class ChartView extends HookWidget {
             onResolutionChanged: (resolution) {
               chartNotifier.fetchCandles(resolution, instrumentId);
             },
+            onChartTypeChanged: (type) {
+              chartNotifier.updateChartType(type);
+            },
+            chartType: chartState.type,
+            candleResolution: chartState.resolution,
             candles: chartState.candles,
           ),
           loading: () => LoadingChartView(),
