@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../auth/model/auth_model.dart';
 import '../../../auth/notifiers/auth_model_notifier.dart';
 import '../../../router/providers/union/router_union.dart';
-import '../../../service/services/authorization/model/authorization_refresh_request_model.dart';
-import '../../../service/services/authorization/service/authorization_service.dart';
+import '../../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
+import '../../../service/services/authentication/service/authentication_service.dart';
 import '../../services/local_storage_service.dart';
 import '../helpers/retry_request.dart';
 
@@ -18,20 +18,24 @@ Future<void> interceptor401({
   required GlobalKey<ScaffoldState> routerKey,
   required AuthModel authModel,
   required AuthModelNotifier authModelNotifier,
-  required AuthorizationService authorizationService,
-  required LocalStorageService localStorageService,
+  required AuthenticationService authService,
+  required LocalStorageService storageService,
 }) async {
   var refreshSuccess = true;
 
-  final refreshRequest = AuthorizationRefreshRequestModel(
-    token: authModel.token,
+  final refreshRequest = AuthRefreshRequestModel(
+    refreshToken: authModel.token,
     requestTime: DateTime.now().toUtc().toString(),
   );
 
   try {
-    final response = await authorizationService.refresh(refreshRequest);
+    final response = await authService.refresh(refreshRequest);
+
+    await storageService.setString(tokenKey, response.token);
+    await storageService.setString(refreshTokenKey, response.refreshToken);
 
     authModelNotifier.updateToken(response.token);
+    authModelNotifier.updateRefreshToken(response.refreshToken);
   } catch (e) {
     refreshSuccess = false;
 
@@ -42,8 +46,8 @@ Future<void> interceptor401({
       (route) => route.isFirst == true,
     );
 
-    // remove stored token from storage
-    await localStorageService.clearStorage();
+    // remove token and refreshToken from storage
+    await storageService.clearStorage();
   }
 
   if (refreshSuccess) {

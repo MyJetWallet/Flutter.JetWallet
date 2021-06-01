@@ -1,11 +1,12 @@
-import '../../dto/authentication_response_dto.dart';
-import '../../model/authentication_model.dart';
+import '../../model/authenticate/authentication_model.dart';
 
-AuthenticationModel handleAuthResponse(AuthenticationResponseDto dto) {
-  final result = dto.result;
+AuthenticationModel handleAuthResponse(Map<String, dynamic> json) {
+  final response = AuthResponseModel.fromJson(json);
+
+  final result = response.result;
 
   if (result == 0) {
-    return dto.authDto.toModel();
+    return response.authModel;
   } else if (result == -9) {
     throw 'Expired';
   } else if (result == -8) {

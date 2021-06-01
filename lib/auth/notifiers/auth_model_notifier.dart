@@ -7,11 +7,16 @@ class AuthModelNotifier extends StateNotifier<AuthModel> {
       : super(
           const AuthModel(
             token: '',
+            refreshToken: '',
             publicKeyPem: '',
           ),
         );
 
   void updateToken(String token) {
     state = state.copyWith(token: token);
+  }
+
+  void updateRefreshToken(String refreshToken) {
+    state = state.copyWith(refreshToken: refreshToken);
   }
 }
