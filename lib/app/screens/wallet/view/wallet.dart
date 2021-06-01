@@ -13,7 +13,7 @@ class Wallet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final assetsWithBalances = useProvider(assetsWithBalancesPod);
+    final assets = useProvider(assetsWithBalancesPod);
 
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -22,8 +22,7 @@ class Wallet extends HookWidget {
           WalletBalance(),
           const SpaceH20(),
           const CurrenciesHeader(),
-          for (final asset in assetsWithBalances)
-            CurrencyButton(currency: asset)
+          for (final asset in assets) CurrencyButton(currency: asset)
         ],
       ),
     );

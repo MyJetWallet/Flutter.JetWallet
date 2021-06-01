@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../service_providers.dart';
 import '../../../../screens/wallet/models/asset_with_balance_model.dart';
 import '../../../../screens/wallet/providers/assets_with_balances_pod.dart';
-import '../helpers/sorted_list_of_currencies.dart';
+import '../helpers/remove_element.dart';
 import '../notifier/convert_notifier.dart';
 import '../notifier/convert_state.dart';
 
@@ -31,9 +31,9 @@ ConvertState _defaultConvertState(
   List<AssetWithBalanceModel> currencies,
   AssetWithBalanceModel from,
 ) {
-  final toList = sortedListOfCurrencies(currencies, from);
+  final toList = removeElement(from, currencies);
   final to = toList.first;
-  final fromList = sortedListOfCurrencies(currencies, to);
+  final fromList = removeElement(to, currencies);
 
   return ConvertState(
     from: from,

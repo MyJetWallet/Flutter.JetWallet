@@ -6,8 +6,10 @@ const urlSignalR1 = 'http://20.50.189.25:8080/signalr';
 const initMessage = 'Init';
 const pingMessage = 'ping';
 const pongMessage = 'pong';
-const assetListMessage = 'asset-list';
-const spotWalletBalancesMessage = 'spot-wallet-balances';
+const assetsMessage = 'asset-list';
+const balancesMessage = 'spot-wallet-balances';
+const instrumentsMessage = 'spot-insrument-list';
+const bidAskMessage = 'spot-bidask';
 
 // API URLs
 const tradingAuthBaseUrl = 'https://trading-auth-test.mnftx.biz/auth/v1';
