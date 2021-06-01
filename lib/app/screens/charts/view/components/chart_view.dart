@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../providers/charts_init_fpod.dart';
-import '../../providers/charts_notipod.dart';
+import '../../providers/chart_init_fpod.dart';
+import '../../providers/chart_notipod.dart';
 import 'loading_chart_view.dart';
 
 class ChartView extends HookWidget {
@@ -14,22 +14,25 @@ class ChartView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initCharts = useProvider(chartsInitFpod(instrumentId));
-    final chartsNotifier = useProvider(chartNotipod.notifier);
-    final chartsState = useProvider(chartNotipod);
+    final initCharts = useProvider(chartInitFpod(instrumentId));
+    final chartNotifier = useProvider(chartNotipod.notifier);
+    final chartState = useProvider(chartNotipod);
 
     return initCharts.when(
       data: (data) {
-        return chartsState.union.when(
+        return chartState.union.when(
           candles: () => Chart(
-            onResolutionChanged: (resolution) =>
-                chartsNotifier.fetchCandles(resolution, instrumentId),
-            candles: chartsState.candles,
+            onResolutionChanged: (resolution) {
+              chartNotifier.fetchCandles(resolution, instrumentId);
+            },
+            candles: chartState.candles,
           ),
           loading: () => LoadingChartView(),
-          error: (String error) => Center(
-            child: Text(error),
-          ),
+          error: (String error) {
+            return Center(
+              child: Text(error),
+            );
+          },
         );
       },
       loading: () => LoadingChartView(),

@@ -2,19 +2,17 @@ import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service_providers.dart';
-import '../../../../service/services/charts/model/get_candles/candles_request_model.dart';
+import '../../../../service/services/chart/model/get_candles/candles_request_model.dart';
 import '../helpers/round_down_date.dart';
-import 'charts_notipod.dart';
+import 'chart_notipod.dart';
 
-final chartsInitFpod = FutureProvider.family.autoDispose<void, String>(
+final chartInitFpod = FutureProvider.family.autoDispose<void, String>(
   (ref, instrumentId) async {
-    final chartsNotipod = ref.watch(chartNotipod.notifier);
-    final chartsService = ref.watch(chartsServicePod);
+    final notifier = ref.watch(chartNotipod.notifier);
+    final chartService = ref.watch(chartServicePod);
 
     final toDate = DateTime.now().toUtc();
-    final depth = DataFeedUtil.calculateHistoryDepth(
-      'm',
-    );
+    final depth = DataFeedUtil.calculateHistoryDepth('m');
     final fromDate = toDate.subtract(depth.intervalBackDuration);
 
     final model = CandlesRequestModel(
@@ -25,8 +23,8 @@ final chartsInitFpod = FutureProvider.family.autoDispose<void, String>(
       candleType: 0,
     );
 
-    final candles = await chartsService.getCandles(model);
+    final candles = await chartService.candles(model);
 
-    chartsNotipod.updateCandles(candles.candles);
+    notifier.updateCandles(candles.candles);
   },
 );

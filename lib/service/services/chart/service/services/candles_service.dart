@@ -4,7 +4,7 @@ import '../../../../shared/constants.dart';
 import '../../model/get_candles/candles_request_model.dart';
 import '../../model/get_candles/candles_response_model.dart';
 
-Future<CandlesResponseModel> getCandlesService(
+Future<CandlesResponseModel> candlesService(
   Dio dio,
   CandlesRequestModel model,
 ) async {

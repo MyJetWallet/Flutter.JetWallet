@@ -2,16 +2,16 @@ import 'package:dio/dio.dart';
 
 import '../model/get_candles/candles_request_model.dart';
 import '../model/get_candles/candles_response_model.dart';
-import 'services/get_candles_service.dart';
+import 'services/candles_service.dart';
 
-class ChartsService {
-  ChartsService(this.dio);
+class ChartService {
+  ChartService(this.dio);
 
   final Dio dio;
 
-  Future<CandlesResponseModel> getCandles(
+  Future<CandlesResponseModel> candles(
     CandlesRequestModel model,
   ) {
-    return getCandlesService(dio, model);
+    return candlesService(dio, model);
   }
 }
