@@ -10,6 +10,7 @@ import 'service/services/blockchain/service/blockchain_service.dart';
 import 'service/services/chart/service/chart_service.dart';
 import 'service/services/signal_r/service/signal_r_service.dart';
 import 'service/services/swap/service/swap_service.dart';
+import 'service/services/wallet/service/wallet_service.dart';
 import 'shared/dio/basic_dio.dart';
 import 'shared/dio/dio_without_interceptors.dart';
 import 'shared/services/local_storage_service.dart';
@@ -33,9 +34,7 @@ final dioPod = Provider<Dio>((ref) {
 });
 
 final dioWithoutInterceptorsPod = Provider<Dio>((ref) {
-  final authModel = ref.watch(authModelNotipod);
-
-  return dioWithoutInterceptors(authModel.token);
+  return dioWithoutInterceptors();
 });
 
 final authServicePod = Provider<AuthenticationService>((ref) {
@@ -70,4 +69,10 @@ final chartServicePod = Provider<ChartService>((ref) {
   final dio = ref.watch(dioPod);
 
   return ChartService(dio);
+});
+
+final walletServicePod = Provider<WalletService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return WalletService(dio);
 });

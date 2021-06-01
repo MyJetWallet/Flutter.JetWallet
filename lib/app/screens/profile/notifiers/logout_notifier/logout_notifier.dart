@@ -28,7 +28,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
 
       await authService.logout(model);
 
-      // remove token and refreshToken from storage
+      // remove refreshToken from storage
       await storageService.clearStorage();
 
       router.state = const Unauthorised();
