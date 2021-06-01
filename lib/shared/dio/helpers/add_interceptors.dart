@@ -15,7 +15,7 @@ void addInterceptors({
   required GlobalKey<ScaffoldState> routerKey,
   required AuthModel authModel,
   required AuthModelNotifier authModelNotifier,
-  required AuthorizationService  authorizationService,
+  required AuthorizationService authorizationService,
   required LocalStorageService localStorageService,
 }) {
   dio.interceptors.add(
