@@ -9,6 +9,7 @@ class LoadingChartView extends StatelessWidget {
       children: [
         Chart(
           onResolutionChanged: (resolution) {},
+          onChartTypeChanged: (chartType) {},
           candles: const [],
         ),
         Loader(),

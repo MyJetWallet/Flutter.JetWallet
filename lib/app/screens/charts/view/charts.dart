@@ -18,6 +18,7 @@ class Charts extends StatelessWidget {
           ),
         ),
         body: const TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             ChartView('BTCUSD'),
             ChartView('ETHUSD'),

@@ -1,4 +1,5 @@
 import 'package:charts/entity/candle_model.dart';
+import 'package:charts/entity/candle_type_enum.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,11 +12,18 @@ import 'state/chart_union.dart';
 class ChartNotifier extends StateNotifier<ChartState> {
   ChartNotifier({
     required this.chartService,
-  }) : super(const ChartState(candles: []));
+  }) : super(
+          const ChartState(
+            candles: [],
+            type: ChartType.candle,
+            resolution: 'm',
+          ),
+        );
 
   final ChartService chartService;
 
   Future<void> fetchCandles(String resolution, String instrumentId) async {
+    updateResolution(resolution);
     state = state.copyWith(union: const Loading());
 
     final toDate = DateTime.now().toUtc();
@@ -45,5 +53,13 @@ class ChartNotifier extends StateNotifier<ChartState> {
       candles: candles,
       union: const Candles(),
     );
+  }
+
+  void updateChartType(ChartType type) {
+    state = state.copyWith(type: type);
+  }
+
+  void updateResolution(String resolution) {
+    state = state.copyWith(resolution: resolution);
   }
 }
