@@ -12,11 +12,13 @@ import 'state/chart_union.dart';
 class ChartNotifier extends StateNotifier<ChartState> {
   ChartNotifier({
     required this.chartService,
-  }) : super(const ChartState(
-          candles: [],
-          type: ChartType.candle,
-          resolution: 'm',
-        ));
+  }) : super(
+          const ChartState(
+            candles: [],
+            type: ChartType.candle,
+            resolution: 'm',
+          ),
+        );
 
   final ChartService chartService;
 
