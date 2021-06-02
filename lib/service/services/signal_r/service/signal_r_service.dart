@@ -6,15 +6,15 @@ import 'package:signalr_core/signalr_core.dart';
 import '../../../../auth/providers/auth_model_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../shared/constants.dart';
-import 'dto/wallet/assets_response_dto.dart';
-import 'dto/wallet/balances_response_dto.dart';
-import 'dto/wallet/server_time_response_dto.dart';
+import '../dto/assets_response_dto.dart';
+import '../dto/balances_response_dto.dart';
+import '../dto/server_time_response_dto.dart';
+import '../model/asset_model.dart';
+import '../model/balance_model.dart';
+import '../model/instruments_model.dart';
+import '../model/prices_model.dart';
+import '../model/server_time_model.dart';
 import 'helpers/signal_r_log.dart';
-import 'model/wallet/asset_model.dart';
-import 'model/wallet/balance_model.dart';
-import 'model/wallet/instruments_model.dart';
-import 'model/wallet/prices_model.dart';
-import 'model/wallet/server_time_model.dart';
 
 class SignalRService {
   SignalRService(this.read);
@@ -102,7 +102,6 @@ class SignalRService {
     _pingTimer = Timer.periodic(
       const Duration(seconds: _pingTime),
       (_) {
-        signalRLog('Ping');
         if (_connection.state == HubConnectionState.connected) {
           _connection.invoke(pingMessage);
         }
@@ -111,8 +110,6 @@ class SignalRService {
   }
 
   void _startPong() {
-    signalRLog('Pong');
-
     _pongTimer = Timer(
       const Duration(seconds: _pingTime * 3),
       () {

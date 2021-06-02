@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../model/wallet/server_time_model.dart';
+import '../model/server_time_model.dart';
 
 part 'server_time_response_dto.g.dart';
 

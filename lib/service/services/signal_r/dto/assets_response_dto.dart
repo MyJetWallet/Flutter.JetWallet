@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../model/wallet/asset_model.dart';
+import '../model/asset_model.dart';
 
 part 'assets_response_dto.g.dart';
 
