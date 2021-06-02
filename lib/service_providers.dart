@@ -50,7 +50,9 @@ final localStorageServicePod = Provider<LocalStorageService>((ref) {
 final intlPod = ScopedProvider<AppLocalizations>(null);
 
 final signalRServicePod = Provider<SignalRService>((ref) {
-  return SignalRService();
+  final authModel = ref.watch(authModelNotipod);
+
+  return SignalRService(authModel.token);
 });
 
 final blockchainServicePod = Provider<BlockchainService>((ref) {
