@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../auth/providers/auth_model_notipod.dart';
-import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
 import '../../service_providers.dart';
+import '../../shared/helpers/refresh_token.dart';
 import '../../shared/services/local_storage_service.dart';
 import 'router_stpod.dart';
 import 'union/router_union.dart';
@@ -11,31 +11,34 @@ final routerFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod.notifier);
   final authModel = ref.watch(authModelNotipod.notifier);
   final storageService = ref.watch(localStorageServicePod);
-  final authService = ref.watch(authServicePod);
 
-  final refreshToken = await storageService.getString(refreshTokenKey);
+  final token = await storageService.getString(refreshTokenKey);
 
-  if (refreshToken == null) {
+  if (token == null) {
     router.state = const Unauthorised();
   } else {
+    authModel.updateRefreshToken(token);
+
     try {
-      final model = AuthRefreshRequestModel(
-        refreshToken: refreshToken,
-      );
+      final result = await refreshToken(ref.read);
 
-      final response = await authService.refresh(model);
-
-      await storageService.setString(refreshTokenKey, response.refreshToken);
-
-      authModel.updateToken(response.token);
-      authModel.updateRefreshToken(response.refreshToken);
-
-      router.state = const Authorised();
+      if (result == RefreshTokenStatus.success) {
+        router.state = const Authorised();
+      }
     } catch (e) {
-      router.state = const Unauthorised();
+      // TODO handle this flow (waiting for product owners)
+      throw """
+      You saw this error at the LAUNCH of the app because:
+      1) You don't have an Interent Connection and we couldn't refresh your token hence we couldn't verify it's you.
+      2) Or something really bad happend.
 
-      // remove refreshToken from storage
-      await storageService.clearStorage();
+      Steps to solve this problem:
+      1) Enable internet connection
+      2) Restart your app.
+
+      And in case you are really curios what the problem is: 
+      $e
+          """;
     }
   }
 });

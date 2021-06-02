@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:signalr_core/signalr_core.dart';
 
+import '../../../../auth/providers/auth_model_notipod.dart';
+import '../../../../shared/helpers/refresh_token.dart';
 import '../../../shared/constants.dart';
 import 'dto/wallet/assets_response_dto.dart';
 import 'dto/wallet/balances_response_dto.dart';
@@ -14,9 +17,9 @@ import 'model/wallet/prices_model.dart';
 import 'model/wallet/server_time_model.dart';
 
 class SignalRService {
-  SignalRService(this.token);
+  SignalRService(this.read);
 
-  final String token;
+  final Reader read;
 
   static const _pingTime = 3;
   static const _reconnectTime = 5;
@@ -76,6 +79,8 @@ class SignalRService {
 
       _startPong();
     });
+
+    final token = read(authModelNotipod).token;
 
     await _connection.start();
     await _connection.invoke(initMessage, args: [token]);
@@ -137,6 +142,8 @@ class SignalRService {
 
       _pingTimer?.cancel();
       _pongTimer?.cancel();
+
+      await refreshToken(read);
 
       await init();
 
