@@ -8,7 +8,10 @@ import 'shared/theme/theme_data.dart';
 
 // Just type providers here to exclude from logger
 // Remember to unstage the changes from your commit
-final providers = <String>[];
+final providers = <String>[
+  'Provider<List<CurrencyModel>>',
+  'StreamProvider<PricesModel>',
+];
 
 void main() {
   runApp(

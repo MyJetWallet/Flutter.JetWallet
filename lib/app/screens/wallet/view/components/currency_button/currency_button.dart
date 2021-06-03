@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/plugins/currency_details/currency_details.dart';
-import '../../../models/asset_with_balance_model.dart';
+import '../../../models/currency_model.dart';
 import 'components/currency_card.dart';
 
 class CurrencyButton extends StatelessWidget {
@@ -11,7 +11,7 @@ class CurrencyButton extends StatelessWidget {
     required this.currency,
   }) : super(key: key);
 
-  final AssetWithBalanceModel currency;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {

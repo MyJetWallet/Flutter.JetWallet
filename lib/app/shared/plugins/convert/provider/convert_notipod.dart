@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service_providers.dart';
-import '../../../../screens/wallet/models/asset_with_balance_model.dart';
-import '../../../../screens/wallet/providers/assets_with_balances_pod.dart';
+import '../../../../screens/wallet/models/currency_model.dart';
+import '../../../../screens/wallet/providers/currencies_pod.dart';
 import '../helpers/remove_element.dart';
 import '../notifier/convert_notifier.dart';
 import '../notifier/convert_state.dart';
 
 final convertNotipod = StateNotifierProvider.autoDispose
-    .family<ConvertNotifier, ConvertState, AssetWithBalanceModel>(
+    .family<ConvertNotifier, ConvertState, CurrencyModel>(
   (ref, from) {
     // currencies are updating very frequently which
     // results in reseting notifier, to solve this problem
     // we just need to replace ref.watch() to ref.read()
-    final currencies = ref.read(assetsWithBalancesPod);
+    final currencies = ref.read(currenciesPod);
     final swapService = ref.watch(swapServicePod);
 
     final defaultState = _defaultConvertState(currencies, from);
@@ -28,8 +28,8 @@ final convertNotipod = StateNotifierProvider.autoDispose
 );
 
 ConvertState _defaultConvertState(
-  List<AssetWithBalanceModel> currencies,
-  AssetWithBalanceModel from,
+  List<CurrencyModel> currencies,
+  CurrencyModel from,
 ) {
   final toList = removeElement(from, currencies);
   final to = toList.first;

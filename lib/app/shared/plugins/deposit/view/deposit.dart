@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../../screens/wallet/models/currency_model.dart';
 import '../providers/deposit_address_fpod.dart';
 import 'components/deposit_field.dart';
 
@@ -13,7 +13,7 @@ class Deposit extends HookWidget {
     required this.currency,
   });
 
-  final AssetWithBalanceModel currency;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
