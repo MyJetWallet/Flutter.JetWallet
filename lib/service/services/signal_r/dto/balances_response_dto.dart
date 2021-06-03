@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../model/wallet/balance_model.dart';
+import '../model/balance_model.dart';
 
 part 'balances_response_dto.g.dart';
 

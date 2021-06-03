@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../../../screens/wallet/models/currency_model.dart';
 
 class ConvertDropdown extends StatelessWidget {
   const ConvertDropdown({
@@ -10,13 +10,13 @@ class ConvertDropdown extends StatelessWidget {
     required this.onChanged,
   }) : super(key: key);
 
-  final AssetWithBalanceModel value;
-  final List<AssetWithBalanceModel> currencies;
-  final Function(AssetWithBalanceModel?) onChanged;
+  final CurrencyModel value;
+  final List<CurrencyModel> currencies;
+  final Function(CurrencyModel?) onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<AssetWithBalanceModel>(
+    return DropdownButton<CurrencyModel>(
       value: value,
       icon: const Icon(
         Icons.arrow_drop_down,

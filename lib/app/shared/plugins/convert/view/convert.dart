@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../../screens/wallet/models/currency_model.dart';
 import '../../../helpers/show_plain_snackbar.dart';
 import '../notifier/convert_state.dart';
 import '../notifier/convert_union.dart';
@@ -22,7 +22,7 @@ class Convert extends HookWidget {
     required this.currency,
   }) : super(key: key);
 
-  final AssetWithBalanceModel currency;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {

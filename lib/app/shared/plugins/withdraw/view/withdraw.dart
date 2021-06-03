@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/spacers.dart';
-import '../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../../screens/wallet/models/currency_model.dart';
 import '../../../styles/amount_field_decoration.dart';
 import '../notifiers/state/withdraw_state.dart';
 import '../providers/withdraw_notipod.dart';
@@ -17,7 +17,7 @@ class Withdraw extends HookWidget {
     required this.currency,
   });
 
-  final AssetWithBalanceModel currency;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {

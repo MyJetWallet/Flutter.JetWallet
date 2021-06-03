@@ -1,10 +1,10 @@
-import '../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../../screens/wallet/models/currency_model.dart';
 
-List<AssetWithBalanceModel> removeElement(
-  AssetWithBalanceModel element,
-  List<AssetWithBalanceModel> list,
+List<CurrencyModel> removeElement(
+  CurrencyModel element,
+  List<CurrencyModel> list,
 ) {
-  final newList = List<AssetWithBalanceModel>.from(list);
+  final newList = List<CurrencyModel>.from(list);
 
   newList.removeWhere((item) => item == element);
 

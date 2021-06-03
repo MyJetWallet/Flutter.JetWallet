@@ -7,7 +7,8 @@ part 'instruments_model.g.dart';
 class InstrumentsModel with _$InstrumentsModel {
   const factory InstrumentsModel({
     required double now,
-    required List<InstrumentModel> spotInstruments,
+    @JsonKey(name: 'spotInstruments')
+        required List<InstrumentModel> instruments,
   }) = _InstrumentsModel;
 
   factory InstrumentsModel.fromJson(Map<String, dynamic> json) =>

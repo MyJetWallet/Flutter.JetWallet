@@ -4,7 +4,7 @@ import '../../../../../service/services/swap/model/execute_quote/execute_quote_r
 import '../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
 import '../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
 import '../../../../../service/services/swap/service/swap_service.dart';
-import '../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../../screens/wallet/models/currency_model.dart';
 import '../helpers/remove_element.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
@@ -17,15 +17,15 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   }) : super(defaultState);
 
   final ConvertState defaultState;
-  final List<AssetWithBalanceModel> currencies;
+  final List<CurrencyModel> currencies;
   final SwapService swapService;
 
-  void updateFrom(AssetWithBalanceModel from) {
+  void updateFrom(CurrencyModel from) {
     state = state.copyWith(from: from);
     _updateToList();
   }
 
-  void updateTo(AssetWithBalanceModel to) {
+  void updateTo(CurrencyModel to) {
     state = state.copyWith(to: to);
     _updateFromList();
   }
@@ -33,8 +33,8 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   void switchFromTo() {
     final newFrom = state.to;
     final newTo = state.from;
-    final newFromList = List<AssetWithBalanceModel>.from(state.toList);
-    final newToList = List<AssetWithBalanceModel>.from(state.fromList);
+    final newFromList = List<CurrencyModel>.from(state.toList);
+    final newToList = List<CurrencyModel>.from(state.fromList);
 
     state = state.copyWith(
       from: newFrom,
