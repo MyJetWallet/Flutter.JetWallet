@@ -20,6 +20,7 @@ jobs:
           channel: 'stable' #'beta' 'dev', 'alpha', default to: 'stable'
           # flutter-version: '1.12.x' # you can also specify exact version of flutter
 
+      - run: echo ${{ secrets.FIREBASE_TEST }} | base64 --decode > ./android/app/google-services.json
       - run: dart --version
       - run: flutter --version
       - run: flutter pub get
