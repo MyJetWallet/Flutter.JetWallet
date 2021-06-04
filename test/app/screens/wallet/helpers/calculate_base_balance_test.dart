@@ -8,6 +8,7 @@ void main() {
     test('EUR -> USD', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
+        baseSymbol: 'USD',
         assetSymbol: 'EUR',
         assetBalance: 20000.0,
         prices: prices,
@@ -19,6 +20,7 @@ void main() {
     test('BTC -> USD', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
+        baseSymbol: 'USD',
         assetSymbol: 'BTC',
         assetBalance: 25.0,
         prices: prices,
@@ -27,9 +29,10 @@ void main() {
 
       expect(result, 987421.0);
     });
-    test('XLM -> EUR', () async {
+    test('XLM -> EUR (Wrong order must be sorted)', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
+        baseSymbol: 'USD',
         assetSymbol: 'XLM',
         assetBalance: 200.0,
         prices: prices,
@@ -41,6 +44,7 @@ void main() {
     test('XRP -> DOGE (High percision)', () async {
       final result = calculateBaseBalance(
         accuracy: 8,
+        baseSymbol: 'USD',
         assetSymbol: 'XRP',
         assetBalance: 7583.92832261,
         prices: prices,
@@ -52,9 +56,10 @@ void main() {
   });
 
   group('Special cases', () {
-    test('USD -> USD', () async {
+    test('IF X -> X return assetBalance', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
+        baseSymbol: 'USD',
         assetSymbol: 'USD',
         assetBalance: 53564.31,
         prices: prices,
@@ -66,6 +71,7 @@ void main() {
     test('Zero balance must be zero', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
+        baseSymbol: 'USD',
         assetSymbol: 'BTC',
         assetBalance: 0.0,
         prices: prices,
@@ -73,6 +79,30 @@ void main() {
       );
 
       expect(result, 0.0);
+    });
+    test('No maps available should return -1', () async {
+      final result = calculateBaseBalance(
+        accuracy: 2,
+        baseSymbol: 'USD',
+        assetSymbol: 'LTC',
+        assetBalance: 300.0,
+        prices: prices,
+        converter: converter,
+      );
+
+      expect(result, -1);
+    });
+    test('No prices available should return -1', () async {
+      final result = calculateBaseBalance(
+        accuracy: 2,
+        baseSymbol: 'HBAR',
+        assetSymbol: 'EOS',
+        assetBalance: 300.0,
+        prices: prices,
+        converter: converter,
+      );
+
+      expect(result, -1);
     });
   });
 }
@@ -137,16 +167,16 @@ AssetConverterMapModel converter = AssetConverterMapModel(
       operations: [
         // ignore: prefer_const_constructors
         AssetConverterMapOperationModel(
-          order: 2,
-          isMultiply: true,
-          instrumentPair: 'BTCUSD',
+          order: 1,
+          isMultiply: false,
+          instrumentPair: 'BTCEUR',
           useBid: false,
         ),
         // ignore: prefer_const_constructors
         AssetConverterMapOperationModel(
-          order: 1,
-          isMultiply: false,
-          instrumentPair: 'BTCEUR',
+          order: 2,
+          isMultiply: true,
+          instrumentPair: 'BTCUSD',
           useBid: false,
         ),
       ],
@@ -175,6 +205,31 @@ AssetConverterMapModel converter = AssetConverterMapModel(
     AssetConverterMapItemModel(
       assetSymbol: 'USD',
       operations: [],
+    ),
+    // ignore: prefer_const_constructors
+    AssetConverterMapItemModel(
+      assetSymbol: 'LTC',
+      operations: [],
+    ),
+    // ignore: prefer_const_constructors
+    AssetConverterMapItemModel(
+      assetSymbol: 'EOS',
+      operations: [
+        // ignore: prefer_const_constructors
+        AssetConverterMapOperationModel(
+          order: 1,
+          isMultiply: false,
+          instrumentPair: 'EOSCAP',
+          useBid: false,
+        ),
+        // ignore: prefer_const_constructors
+        AssetConverterMapOperationModel(
+          order: 2,
+          isMultiply: true,
+          instrumentPair: 'CAPHBAR',
+          useBid: false,
+        ),
+      ],
     ),
   ],
 );

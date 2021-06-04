@@ -70,6 +70,7 @@ final currenciesPod = Provider<List<CurrencyModel>>((ref) {
 
             final baseBalance = calculateBaseBalance(
               accuracy: accuracyFrom('USD', instruments),
+              baseSymbol: 'USD',
               assetSymbol: currency.symbol,
               assetBalance: currency.assetBalance,
               prices: pricesData.prices,

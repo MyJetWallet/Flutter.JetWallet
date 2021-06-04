@@ -6,7 +6,7 @@ void main() {
   test('Calculate total balance', () async {
     final result = calculateTotalBalance(2, currencies);
 
-    expect(result, 431446.31);
+    expect(result, 7.0);
   });
 }
 
@@ -22,8 +22,8 @@ const currencies = <CurrencyModel>[
     reserve: 0.0,
     lastUpdate: '',
     sequenceId: 0.0,
-    assetBalance: 20000.0,
-    baseBalance: 7500.0,
+    assetBalance: 2.0,
+    baseBalance: 1.0,
   ),
   CurrencyModel(
     symbol: 'BTC',
@@ -37,7 +37,7 @@ const currencies = <CurrencyModel>[
     lastUpdate: '',
     sequenceId: 0.0,
     assetBalance: 25.0,
-    baseBalance: 370382.0,
+    baseBalance: 2.0,
   ),
   CurrencyModel(
     symbol: 'USD',
@@ -50,7 +50,21 @@ const currencies = <CurrencyModel>[
     reserve: 0.0,
     lastUpdate: '',
     sequenceId: 0.0,
-    assetBalance: 53564.31,
-    baseBalance: 53564.31,
+    assetBalance: 4.0,
+    baseBalance: 4.0,
+  ),
+  CurrencyModel(
+    symbol: 'DASH',
+    description: 'US Dollar',
+    accuracy: 2.0,
+    depositMode: 1,
+    withdrawalMode: 1,
+    tagType: 0,
+    assetId: 'USD',
+    reserve: 0.0,
+    lastUpdate: '',
+    sequenceId: 0.0,
+    assetBalance: 4.0,
+    baseBalance: -1.0,
   ),
 ];
