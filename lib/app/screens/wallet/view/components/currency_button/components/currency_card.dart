@@ -40,7 +40,9 @@ class CurrencyCard extends StatelessWidget {
             children: [
               Text('${currency.assetBalance} ${currency.symbol}'),
               Text(
-                'USD ${currency.baseBalance}',
+                currency.baseBalance == -1
+                    ? 'unknown'
+                    : 'USD ${currency.baseBalance}',
                 style: const TextStyle(
                   color: Colors.grey,
                 ),

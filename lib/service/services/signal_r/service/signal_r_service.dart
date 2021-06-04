@@ -28,6 +28,8 @@ class SignalRService {
   Timer? _pingTimer;
   Timer? _reconnectTimer;
 
+  bool isDisconnecting = false;
+
   /// connection is not restartable if it is stopped you cannot
   /// restart it - you need to create a new connection.
   late HubConnection _connection;
@@ -39,11 +41,15 @@ class SignalRService {
   final _serverTimeController = StreamController<ServerTimeModel>();
 
   Future<void> init() async {
+    isDisconnecting = false;
+
     _connection = HubConnectionBuilder().withUrl(urlSignalR).build();
 
     _connection.onclose((error) {
-      signalRLog('Connection closed with $error');
-      _startReconnect();
+      if (!isDisconnecting) {
+        signalRLog('Connection closed with $error');
+        _startReconnect();
+      }
     });
 
     _connection.on(assetsMessage, (data) {
@@ -151,15 +157,17 @@ class SignalRService {
   }
 
   Future<void> disconnect() async {
+    signalRLog('Disconnecting');
+    isDisconnecting = true;
     _pingTimer?.cancel();
     _pongTimer?.cancel();
     _reconnectTimer?.cancel();
-    await _assetsController.close();
-    await _balancesController.close();
-    await _serverTimeController.close();
-    await _instrumentsController.close();
-    await _pricesController.close();
     await _connection.stop();
+    // * Caution
+    // Streams are not closed for a specific reason:
+    // Since they are created inside a single instance we can't close them
+    // because our StreamProviders will throw an error:
+    // Bad state: Stream has already been listened to
   }
 
   /// Type cast response data from the SignalR
