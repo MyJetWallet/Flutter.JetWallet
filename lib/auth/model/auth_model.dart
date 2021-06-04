@@ -6,6 +6,7 @@ part 'auth_model.freezed.dart';
 class AuthModel with _$AuthModel {
   const factory AuthModel({
     required String token,
+    required String refreshToken,
     required String publicKeyPem,
   }) = _AuthModel;
 }

@@ -8,22 +8,22 @@ import 'auth_model_notipod.dart';
 import 'credentials_notipod.dart';
 
 final authenticationNotipod =
-    StateNotifierProvider<AuthenticationNotifier, AuthenticationUnion>((ref) {
-  final router = ref.watch(routerStpod.notifier);
-  final credentialsState = ref.watch(credentialsNotipod);
-  final credentialsNotifier = ref.watch(credentialsNotipod.notifier);
-  final authModelNotifier = ref.watch(authModelNotipod.notifier);
-  final authenticationService = ref.watch(authenticationServicePod);
-  final authorizationService = ref.watch(authorizationServicePod);
-  final storageService = ref.watch(localStorageServicePod);
+    StateNotifierProvider<AuthenticationNotifier, AuthenticationUnion>(
+  (ref) {
+    final router = ref.watch(routerStpod.notifier);
+    final credentialsState = ref.watch(credentialsNotipod);
+    final credentialsNotifier = ref.watch(credentialsNotipod.notifier);
+    final authModelNotifier = ref.watch(authModelNotipod.notifier);
+    final authService = ref.watch(authServicePod);
+    final storageService = ref.watch(localStorageServicePod);
 
-  return AuthenticationNotifier(
-    router: router,
-    credentialsState: credentialsState,
-    credentialsNotifier: credentialsNotifier,
-    authModelNotifier: authModelNotifier,
-    authenticationService: authenticationService,
-    authorizationService: authorizationService,
-    storageService: storageService,
-  );
-});
+    return AuthenticationNotifier(
+      router: router,
+      credentialsState: credentialsState,
+      credentialsNotifier: credentialsNotifier,
+      authModelNotifier: authModelNotifier,
+      authService: authService,
+      storageService: storageService,
+    );
+  },
+);

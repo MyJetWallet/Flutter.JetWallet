@@ -1,8 +1,6 @@
 name: Flutter pull request
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
     branches: [ master, develop ]
 
@@ -26,5 +24,5 @@ jobs:
       - run: flutter pub run build_runner build --delete-conflicting-outputs
       - run: flutter analyze
       - run: flutter test
-      - run: flutter build web --release --no-sound-null-safety
-      - run: flutter build apk --build-number=${{ github.run_number }} --no-sound-null-safety
+      - run: flutter build web --release
+      - run: flutter build apk --build-number=${{ github.run_number }}

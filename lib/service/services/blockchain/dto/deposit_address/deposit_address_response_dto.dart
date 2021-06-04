@@ -29,19 +29,3 @@ class DepositAddressResponseDto {
   final String? memo;
   final String? memoType;
 }
-
-@JsonSerializable()
-class DepositAddressFullResponseDto {
-  DepositAddressFullResponseDto({
-    required this.result,
-    this.data,
-  });
-
-  factory DepositAddressFullResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$DepositAddressFullResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DepositAddressFullResponseDtoToJson(this);
-
-  final String result;
-  final DepositAddressResponseDto? data;
-}

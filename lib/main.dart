@@ -1,16 +1,31 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'router/ui/router.dart';
+import 'router/view/router.dart';
 import 'shared/provider_logger.dart';
+import 'shared/services/firebase_messaging_service.dart';
 import 'shared/theme/theme_data.dart';
 
-void main() {
+// Just type providers here to exclude from logger
+// Remember to unstage the changes from your commit
+final providers = <String>[
+  'AutoDisposeProvider<List<CurrencyModel>>',
+  'AutoDisposeStreamProvider<PricesModel>',
+];
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await registerFirebaseMessaging();
+
   runApp(
     ProviderScope(
       observers: [
-        ProviderLogger(),
+        ProviderLogger(
+          exludedProviders: providers,
+        ),
       ],
       child: MyApp(),
     ),

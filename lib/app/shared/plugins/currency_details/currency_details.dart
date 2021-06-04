@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../shared/components/spacers.dart';
-import '../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../screens/wallet/models/currency_model.dart';
 import '../../helpers/navigator_push.dart';
-import '../deposit/ui/deposit.dart';
-import '../withdraw/ui/withdraw.dart';
+import '../convert/view/convert.dart';
+import '../deposit/view/deposit.dart';
+import '../withdraw/view/withdraw.dart';
 import 'components/currency_details_balance.dart';
 import 'components/currency_details_button.dart';
 import 'components/currency_details_header.dart';
@@ -16,7 +17,7 @@ class CurrencyDetails extends HookWidget {
     required this.currency,
   });
 
-  final AssetWithBalanceModel currency;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
@@ -35,29 +36,36 @@ class CurrencyDetails extends HookWidget {
                 currency: currency,
               ),
               const SpaceH20(),
-              CurrencyDetailsButton(
-                name: 'Deposit',
-                onTap: () {
-                  navigatorPush(
-                    context,
-                    Deposit(currency: currency),
-                  );
-                },
-              ),
+              if (currency.isDepositMode)
+                CurrencyDetailsButton(
+                  name: 'Deposit',
+                  onTap: () {
+                    navigatorPush(
+                      context,
+                      Deposit(currency: currency),
+                    );
+                  },
+                ),
               const SpaceH20(),
-              CurrencyDetailsButton(
-                name: 'Withdraw',
-                onTap: () {
-                  navigatorPush(
-                    context,
-                    Withdraw(currency: currency),
-                  );
-                },
-              ),
+              if (currency.isWithdrawalMode)
+                CurrencyDetailsButton(
+                  name: 'Withdraw',
+                  onTap: () {
+                    navigatorPush(
+                      context,
+                      Withdraw(currency: currency),
+                    );
+                  },
+                ),
               const SpaceH20(),
               CurrencyDetailsButton(
                 name: 'Convert',
-                onTap: () {},
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    Convert(currency: currency),
+                  );
+                },
               ),
               const SpaceH20(),
               CurrencyDetailsHistory(),

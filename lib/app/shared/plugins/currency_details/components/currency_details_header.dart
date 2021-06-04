@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../screens/wallet/models/asset_with_balance_model.dart';
+import '../../../../screens/wallet/models/currency_model.dart';
 
 class CurrencyDetailsHeader extends StatelessWidget {
   const CurrencyDetailsHeader({
@@ -8,7 +8,7 @@ class CurrencyDetailsHeader extends StatelessWidget {
     required this.currency,
   }) : super(key: key);
 
-  final AssetWithBalanceModel currency;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
