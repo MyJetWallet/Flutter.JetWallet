@@ -17,7 +17,9 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  log('A bg message just showed up :  ${message.messageId}');
+  log(
+    'A bg message just showed up :  ${message.messageId}',
+  );
 }
 
 Future<void> registerFirebaseMessaging() async {
@@ -32,7 +34,9 @@ Future<void> registerFirebaseMessaging() async {
     final notification = message.notification;
     final android = message.notification?.android;
     if (notification != null && android != null) {
-      log('onMessageOpenedApp: notification title: ${notification.title}');
+      log(
+        'onMessageOpenedApp: notification title: ${notification.title}',
+      );
     }
   });
 
@@ -44,18 +48,19 @@ Future<void> registerFirebaseMessaging() async {
       final android = message.notification?.android;
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channel.description,
-                color: Colors.blue,
-                icon: '@mipmap/ic_launcher',
-              ),
-            ));
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channel.description,
+              color: Colors.blue,
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+        );
       }
     });
   } else {

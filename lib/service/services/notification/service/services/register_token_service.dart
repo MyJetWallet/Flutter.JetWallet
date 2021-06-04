@@ -5,9 +5,9 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/register_token_request_model.dart';
 
 Future<Map<String, dynamic>> registerTokenService(
-    Dio dio,
-    RegisterTokenRequestModel model,
-    ) async {
+  Dio dio,
+  RegisterTokenRequestModel model,
+) async {
   final response = await dio.post(
     '$walletApiBaseUrl/push/token',
     data: model.toJson(),
