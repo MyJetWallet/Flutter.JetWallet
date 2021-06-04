@@ -18,7 +18,9 @@ jobs:
           channel: "stable"
 
       - run: echo ${{ secrets.FIREBASE_TEST }} | base64 --decode > google-services.json
-
+      - run: |
+          echo ${{ secrets.TEST_CONFIG }} | base64 --decode > google-services.json
+          cat ./google-services.json
       - run: dart --version
       - run: flutter --version
       - run: flutter pub get
