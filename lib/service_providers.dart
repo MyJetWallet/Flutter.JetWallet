@@ -6,6 +6,7 @@ import 'auth/providers/auth_model_notipod.dart';
 import 'service/services/authentication/service/authentication_service.dart';
 import 'service/services/blockchain/service/blockchain_service.dart';
 import 'service/services/chart/service/chart_service.dart';
+import 'service/services/notification/service/notification_service.dart';
 import 'service/services/signal_r/service/signal_r_service.dart';
 import 'service/services/swap/service/swap_service.dart';
 import 'service/services/wallet/service/wallet_service.dart';
@@ -61,4 +62,10 @@ final walletServicePod = Provider<WalletService>((ref) {
   final dio = ref.watch(dioPod);
 
   return WalletService(dio);
+});
+
+final notificationServicePod = Provider<NotificationService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return NotificationService(dio);
 });

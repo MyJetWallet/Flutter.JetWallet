@@ -37,10 +37,17 @@ dependencies:
   hooks_riverpod: ^0.14.0+2 # riverpod with hooks from Remi Rousselet
   flutter_hooks: ^0.16.0  # additional hooks' functionality
 
+  # FIREBASE
+  firebase_core: ^1.2.0
+  firebase_messaging: ^10.0.0
+
+  # NOTIFICATIONS
+  flutter_local_notifications: ^6.0.0
+
   # OTHER:
   freezed_annotation: ^0.14.1 # Annotations for the freezed
   mocktail: ^0.1.2 # mocking library with null-safety support
-  
+
   # OWN LIBS:
   charts:
     git:
@@ -77,7 +84,7 @@ flutter:
   #         style: italic # You can specify style of the font
   #       - asset: assets/fonts/MyFamily.ttf # You can add as many assets as you want per family
   #         weight: 400
-  
+
   # ADD ASSET EXAMPLE:
   # assets:
   #   # make accessible the whole folder (assets) - without inner folders
