@@ -9,9 +9,7 @@ final routerInitFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod);
   final signalRService = ref.watch(signalRServicePod);
 
-  if (router.state == const Unauthorised()) {
-    // todo dispose signalR
-  } else {
+  if (router.state == const Authorised()) {
     try {
       await signalRService.init();
     } catch (e) {
