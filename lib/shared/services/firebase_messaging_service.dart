@@ -26,8 +26,6 @@ Future<void> registerFirebaseMessaging() async {
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  // token = await FirebaseMessaging.instance.getToken();
-
   final settings = await FirebaseMessaging.instance.requestPermission();
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {

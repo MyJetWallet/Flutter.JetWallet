@@ -1,9 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'router/view/router.dart';
 import 'shared/provider_logger.dart';
+import 'shared/services/firebase_messaging_service.dart';
 import 'shared/theme/theme_data.dart';
 
 // Just type providers here to exclude from logger
@@ -13,7 +15,11 @@ final providers = <String>[
   'StreamProvider<PricesModel>',
 ];
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await registerFirebaseMessaging();
+
   runApp(
     ProviderScope(
       observers: [
