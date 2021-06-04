@@ -9,7 +9,7 @@ import 'converter_map_fpod.dart';
 import 'instruments_spod.dart';
 import 'prices_spod.dart';
 
-final currenciesPod = Provider<List<CurrencyModel>>((ref) {
+final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
   final prices = ref.watch(pricesSpod);
