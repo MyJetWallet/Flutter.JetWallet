@@ -6,6 +6,17 @@ SPOT Front-End Application
 
 <https://myjetwallet.github.io/Flutter.JetWallet/>
 
+## Git flow
+1. We have 2 branches `master` and `develop`
+2. `master` is considered as stable branch
+3. We are merging `develop` into `master` at the end of each sprint (usually every 2 weeks)
+4. While merging `develop` don't use squash because it will affect the history of development
+5. When you want to work on a new feature follow this rules:
+   * Make checkout to the `feature/my-feature` branch or `bug/my-bug` if you are working on a bug
+   * After finishing your development make pull request on the one of your teammates. 
+   * Name your pull requests like this (e.g. "SPUI-97 - description of the feature" where SPUI-97 is a Jira id)
+   * After reviewing pull-request and aproving it, reviewer need to squash it to the `develop` branch
+
 ## Rules
 
 1. Always use `final` in class' parameters to make them immutable
