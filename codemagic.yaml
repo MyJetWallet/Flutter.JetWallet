@@ -5,6 +5,8 @@ workflows:
     max_build_duration: 60
 
     environment:
+      vars:
+          GOOGLE_SERVICE_ANDROID: Encrypted(Z0FBQUFBQmd2MTJWMk55WGxGTVJfMzJpUzdiMmwzM0VLTzdqZklTd3lDTzdjWlJ6SFNYc3B0VWEtcEVqa0NZWFdUODUtRERhUEstb0E3ZnBYZzF0LU1sYWpEQW81bUwwZnU4bnB6RVptcFdnbGJkLTYzTTBXTk09)
       flutter: stable
       xcode: latest
       cocoapods: default
@@ -26,7 +28,7 @@ workflows:
           include: true
           source: true
       cancel_previous_builds: false
-      
+
     scripts:
       - name: Add google-services.json
         script: echo $GOOGLE_SERVICE_ANDROID | base64 --decode > ./android/app/google-services.json
