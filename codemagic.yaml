@@ -26,8 +26,11 @@ workflows:
           include: true
           source: true
       cancel_previous_builds: false
-
+      
     scripts:
+      - name: Add google-services.json
+        script: echo $GOOGLE_SERVICE_ANDROID | base64 --decode > ./android/app/google-services.json
+
       - name: Get packages
         script: flutter pub get
 
