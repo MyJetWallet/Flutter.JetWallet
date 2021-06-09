@@ -78,11 +78,12 @@ workflows:
       #     find . -name "Podfile" -execdir pod install \;
 
       - name: Flutter build ipa and automatic versioning
+        # --build-name=1.0.0 \
+        # --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1)) \
+        # --export-options-plist=/Users/builder/export_options.plist
         script: |
           xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner \
-          --build-name=1.0.0 \
-          --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1)) \
-          --export-options-plist=/Users/builder/export_options.plist
+          --version=1.0.1
 
       # - name: Build Android (APK)
       #   script: flutter build apk
