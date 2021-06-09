@@ -3,7 +3,7 @@ import 'package:charts/entity/candle_type_enum.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../service/services/chart/model/get_candles/candles_request_model.dart';
+import '../../../../service/services/chart/model/candles_request_model.dart';
 import '../../../../service/services/chart/service/chart_service.dart';
 import '../helpers/round_down_date.dart';
 import 'state/chart_state.dart';
