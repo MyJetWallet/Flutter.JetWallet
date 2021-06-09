@@ -10,7 +10,7 @@ workflows:
           BUNDLE_ID: "com.jetwallet.Jetwallet"
           APP_STORE_ID: 1571266508
           APPLE_ID: Encrypted(Z0FBQUFBQmd3TGZUSDVTOFR5LWRITjJBTm9TbDUwbGdJdGpyN09jdWNFZjVPUGp0SVU2NUJIQTN0LUhNYndGVnhHdk41TTl1aXljT3dOc1ZSTlVobnVFeG9ZN3dIMEEyR2d6Y1VwZnBvWFdGS3hQY0xNWXFDMGs9)
-          APPLE_APP_SPECIFIC_PASSWORD: Encrypted(Z0FBQUFBQmd3TGdQMHlXWm5DUVdqXy1IZ0ljckQ0eVcyeGhUeG1aZG1FcGh3NUp4ZG1fMDBscy1vdHFYTXRSZ0xMQUV6NkdyWXM3dGRjZ2p5UVA1WTVpdHU1Tl92QlY3MlE9PQ==)
+          APPLE_APP_SPECIFIC_PASSWORD: Encrypted(Z0FBQUFBQmd3TG13dm9vWURQcXNMRjgtVGs4UTNSU1h4dXN1cmRTSy1wX3lCRV9aay1sRkthNHZHV1kxZU1iYzRNT1lpS05DWFZMeC1XemxrVzZrZU1IdHdHVGhxSE1Gc3lLY2M0cy1BYVREVG5fZDh1TkdrXzA9)
       
       flutter: stable
       xcode: latest
@@ -90,7 +90,7 @@ workflows:
 
       email:
         recipients:
-          - elistark.tech@gmail.com
+          - illia.s@smplt.net
         notify:
           success: true
           failure: false
