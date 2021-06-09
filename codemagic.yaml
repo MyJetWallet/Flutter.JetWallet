@@ -82,8 +82,7 @@ workflows:
         # --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1)) \
         # --export-options-plist=/Users/builder/export_options.plist
         script: |
-          xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner \
-          --version=1.0.1
+          xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner
 
       # - name: Build Android (APK)
       #   script: flutter build apk
