@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,8 +18,10 @@ final providers = <String>[
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await registerFirebaseMessaging();
+  if (!kIsWeb) {
+    await Firebase.initializeApp();
+    await registerFirebaseMessaging();
+  }
 
   runApp(
     ProviderScope(
