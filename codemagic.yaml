@@ -73,7 +73,9 @@ workflows:
       #   script: flutter test --update-goldens
 
       - name: Increment build number
-        script: agvtool new-version -all $(($BUILD_NUMBER +1))
+        script: |
+          cd $FCI_BUILD_DIR
+          agvtool new-version -all $(($BUILD_NUMBER +1))
       
       # errors with deployment_target and 'Flutter/Flutter.h' file not found
       # - name: Flutter build ipa and automatic versioning
@@ -87,7 +89,7 @@ workflows:
           flutter clean \
           && rm -f ios/Podfile.lock pubspec.lock \
           && rm -rf ios/Pods ios/Runner.xcworkspace \
-          && xcode-project build-ipa
+          && xcode-project build-ipa --workspace "$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
 
       # - name: Build Android (APK)
       #   script: flutter build apk
