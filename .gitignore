@@ -47,9 +47,6 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Firebase related
-**/android/**/google-services.json
-**/ios/**/GoogleService-Info.plist
 # Firebase Hosting
 .firebase/
 
