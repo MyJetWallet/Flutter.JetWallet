@@ -16,7 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.2 # IOS icons
   auto_size_text: ^3.0.0-nullsafety.0 # automatically resizes text to fit perfectly within its bounds
   universal_io: ^2.0.4 # Cross-platform 'dart:io' that works in all platforms
-  package_info_plus: ^1.0.0 # querying information about the application package
+  # package_info_plus: ^1.0.0 # querying information about the application package
 
   # NETWORKING:
   dio: ^4.0.0 # http client
