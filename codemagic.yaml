@@ -66,12 +66,14 @@ workflows:
       # - name: Run tests
       #   script: flutter test --update-goldens
       
-      - name: Flutter build ipa and automatic versioning
+      - name: Build IOS with automatic versioning
         script: |
-          flutter clean \
-          && rm -f ios/Podfile.lock pubspec.lock \
-          && rm -rf ios/Pods ios/Runner.xcworkspace \
-          && flutter build ipa --release --build-name=1.0.0 --build-number=2 --dart-define=MY_APP_ENV=prod \
+          flutter clean
+          rm -f ios/Podfile.lock pubspec.lock
+          rm -rf ios/Pods ios/Runner.xcworkspace
+          flutter build ipa --release --build-name=1.0.1 \
+          --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))  \
+          --dart-define=MY_APP_ENV=prod \
           --export-options-plist=/Users/builder/export_options.plist
 
       # - name: Build Android (APK)
@@ -81,7 +83,6 @@ workflows:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/*.apk
       - build/ios/ipa/*.ipa
-      - build/ios/archive/Runner.xcarchive
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
       - flutter_drive.log
@@ -94,6 +95,7 @@ workflows:
       email:
         recipients:
           - illia.s@smplt.net
+          - elistark.tech@gmail.com
         notify:
           success: true
           failure: false
