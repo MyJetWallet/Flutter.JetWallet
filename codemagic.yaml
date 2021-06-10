@@ -75,7 +75,8 @@ workflows:
       - name: Install pods
         script:  |
           find . -name "Podfile" -execdir pod install \;
-
+      
+      # errors with deployment_target and 'Flutter/Flutter.h' file not found
       - name: Flutter build ipa and automatic versioning
         script: |
           flutter build ipa --release \
