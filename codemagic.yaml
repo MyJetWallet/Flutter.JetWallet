@@ -21,7 +21,7 @@ workflows:
 
       flutter: stable
       xcode: latest
-      cocoapods: latest
+      cocoapods: 1.9.1
 
     cache:
       cache_paths:
