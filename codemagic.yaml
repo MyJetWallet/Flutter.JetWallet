@@ -89,7 +89,7 @@ workflows:
           flutter clean \
           && rm -f ios/Podfile.lock pubspec.lock \
           && rm -rf ios/Pods ios/Runner.xcworkspace \
-          && xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner
+          && xcode-project build-ipa
 
       # - name: Build Android (APK)
       #   script: flutter build apk
