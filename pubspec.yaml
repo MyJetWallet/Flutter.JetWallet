@@ -31,7 +31,7 @@ dependencies:
   intl: ^0.17.0
 
   # LOCAL STORAGE:
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.6
 
   # STATE MANAGEMENT
   hooks_riverpod: ^0.14.0+2 # riverpod with hooks from Remi Rousselet
