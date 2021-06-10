@@ -71,7 +71,8 @@ workflows:
           flutter clean \
           && rm -f ios/Podfile.lock pubspec.lock \
           && rm -rf ios/Pods ios/Runner.xcworkspace \
-          && flutter build ipa --release --build-name=1.0.0 --build-number=2 --dart-define=MY_APP_ENV=prod
+          && flutter build ipa --release --build-name=1.0.0 --build-number=2 --dart-define=MY_APP_ENV=prod \
+          --export-options-plist=/Users/builder/export_options.plist
 
       # - name: Build Android (APK)
       #   script: flutter build apk
@@ -80,7 +81,7 @@ workflows:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/*.apk
       - build/ios/ipa/*.ipa
-      - build/ios/archive/*.xcarchive
+      - build/ios/archive/Runner.xcarchive
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
       - flutter_drive.log
