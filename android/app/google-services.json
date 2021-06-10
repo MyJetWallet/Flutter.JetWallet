@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "440447150598",
+    "project_id": "jetwallet-48ec7",
+    "storage_bucket": "jetwallet-48ec7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440447150598:android:ff3c4e38854413de7fb187",
+        "android_client_info": {
+          "package_name": "com.example.flutter_jetwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440447150598-pt9ko695n9rgqn2jv468f1lc7b6ho49v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhl9pYTUy7M9W70mrLZoQFyj7eEmNoNWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440447150598-pt9ko695n9rgqn2jv468f1lc7b6ho49v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
