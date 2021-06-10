@@ -21,7 +21,7 @@ workflows:
 
       flutter: stable
       xcode: latest
-      cocoapods: 1.10.1
+      cocoapods: default
 
     cache:
       cache_paths:
@@ -80,8 +80,8 @@ workflows:
         script: |
           flutter build ipa --release \
           --build-name=1.0.0 \
-          --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1)) \
-          --export-options-plist=/Users/builder/export_options.plist
+          --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))
+          
 
       # - name: Build Android (APK)
       #   script: flutter build apk
