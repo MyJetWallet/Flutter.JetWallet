@@ -6,9 +6,6 @@ import 'package:signalr_core/signalr_core.dart';
 import '../../../../auth/providers/auth_model_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../shared/constants.dart';
-import '../dto/assets_response_dto.dart';
-import '../dto/balances_response_dto.dart';
-import '../dto/server_time_response_dto.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/instruments_model.dart';
@@ -53,13 +50,13 @@ class SignalRService {
     });
 
     _connection.on(assetsMessage, (data) {
-      final assets = AssetsDto.fromJson(_json(data)).toModel();
+      final assets = AssetsModel.fromJson(_json(data));
 
       _assetsController.add(assets);
     });
 
     _connection.on(balancesMessage, (data) {
-      final balances = BalancesDto.fromJson(_json(data)).toModel();
+      final balances = BalancesModel.fromJson(_json(data));
 
       _balancesController.add(balances);
     });
@@ -77,7 +74,7 @@ class SignalRService {
     });
 
     _connection.on(pongMessage, (data) {
-      final serverTime = ServerTimeDto.fromJson(_json(data)).toModel();
+      final serverTime = ServerTimeModel.fromJson(_json(data));
 
       _serverTimeController.add(serverTime);
 
