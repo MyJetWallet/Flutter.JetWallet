@@ -76,6 +76,10 @@ workflows:
       #   script: |
       #     cd $FCI_BUILD_DIR
       #     agvtool new-version -all $(($BUILD_NUMBER +1))
+
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
       
       # errors with deployment_target and 'Flutter/Flutter.h' file not found
       # - name: Flutter build ipa and automatic versioning
@@ -84,7 +88,7 @@ workflows:
       #     && rm -f ios/Podfile.lock pubspec.lock \
       #     && rm -rf ios/Pods ios/Runner.xcworkspace \
       #     && flutter build ipa --release --build-name=1.0.0 --build-number=2 --dart-define=MY_APP_ENV=prod
-      - name: Flutter build ipa and automatic versioning
+      - name: Flutter build ipa
         script: |
           flutter clean \
           && rm -f ios/Podfile.lock pubspec.lock \
