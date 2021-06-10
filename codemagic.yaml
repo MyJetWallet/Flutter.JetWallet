@@ -96,6 +96,7 @@ workflows:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/*.apk
       - build/ios/ipa/*.ipa
+      - build/ios/archive/*.xcarchive
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
       - flutter_drive.log
