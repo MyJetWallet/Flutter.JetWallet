@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../service_providers.dart';
-import '../../providers/package_info_fpod.dart';
+import '../../provider/package_info_fpod.dart';
 
 class AppVersionText extends HookWidget {
   const AppVersionText({

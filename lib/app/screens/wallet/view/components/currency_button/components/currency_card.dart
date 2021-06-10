@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/currency_model.dart';
+import '../../../../model/currency_model.dart';
 
 const _temp = 'https://i.imgur.com/cvNa7tH.png';
 

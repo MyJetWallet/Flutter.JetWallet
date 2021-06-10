@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../auth/providers/auth_model_notipod.dart';
-import '../../router/providers/router_key_pod.dart';
-import '../../router/providers/router_stpod.dart';
-import '../../router/providers/union/router_union.dart';
+import '../../auth/provider/auth_model_notipod.dart';
+import '../../router/provider/router_key_pod.dart';
+import '../../router/provider/router_stpod.dart';
+import '../../router/provider/union/router_union.dart';
 import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
 import '../../service_providers.dart';
 import '../services/local_storage_service.dart';

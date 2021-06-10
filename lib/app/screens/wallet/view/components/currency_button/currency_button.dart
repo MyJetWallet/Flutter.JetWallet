@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../shared/features/currency_details/currency_details.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/plugins/currency_details/currency_details.dart';
-import '../../../models/currency_model.dart';
+import '../../../model/currency_model.dart';
 import 'components/currency_card.dart';
 
 class CurrencyButton extends StatelessWidget {

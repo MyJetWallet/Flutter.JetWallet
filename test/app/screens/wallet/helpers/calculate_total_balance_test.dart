@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jetwallet/app/screens/wallet/helpers/calculate_total_balance.dart';
-import 'package:jetwallet/app/screens/wallet/models/currency_model.dart';
+import 'package:jetwallet/app/screens/wallet/model/currency_model.dart';
 
 void main() {
   test('Calculate total balance', () async {

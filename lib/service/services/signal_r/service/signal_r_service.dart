@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:signalr_core/signalr_core.dart';
 
-import '../../../../auth/providers/auth_model_notipod.dart';
+import '../../../../auth/provider/auth_model_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
