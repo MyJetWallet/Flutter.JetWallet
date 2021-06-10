@@ -1,4 +1,4 @@
-import '../models/currency_model.dart';
+import '../model/currency_model.dart';
 
 double calculateTotalBalance(int accuracy, List<CurrencyModel> currencies) {
   var value = 0.0;

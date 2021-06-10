@@ -8,9 +8,7 @@ class NotificationService {
 
   final Dio dio;
 
-  Future<Map<String, dynamic>> registerToken(
-    RegisterTokenRequestModel model,
-  ) {
+  Future<void> registerToken(RegisterTokenRequestModel model) {
     return registerTokenService(dio, model);
   }
 }

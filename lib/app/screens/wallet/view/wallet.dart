@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
-import '../providers/converter_map_fpod.dart';
-import '../providers/currencies_pod.dart';
+import '../provider/converter_map_fpod.dart';
+import '../provider/currencies_pod.dart';
 import 'components/currencies_header.dart';
 import 'components/currency_button/currency_button.dart';
 import 'components/wallet_balance.dart';
