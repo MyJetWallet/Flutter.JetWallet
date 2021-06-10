@@ -27,9 +27,7 @@ class BlockchainService {
     return validateAddressService(dio, model);
   }
 
-  Future<WithdrawalResponseModel> withdrawal(
-    WithdrawalRequestModel model,
-  ) {
+  Future<WithdrawalResponseModel> withdrawal(WithdrawalRequestModel model) {
     return withdrawalService(dio, model);
   }
 }

@@ -18,9 +18,7 @@ class SwapService {
     return executeQuoteService(dio, model);
   }
 
-  Future<GetQuoteResponseModel> getQuote(
-    GetQuoteRequestModel model,
-  ) {
+  Future<GetQuoteResponseModel> getQuote(GetQuoteRequestModel model) {
     return getQuoteService(dio, model);
   }
 }

@@ -4,7 +4,7 @@ import '../../../../shared/constants.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/register_token_request_model.dart';
 
-Future<Map<String, dynamic>> registerTokenService(
+Future<void> registerTokenService(
   Dio dio,
   RegisterTokenRequestModel model,
 ) async {
@@ -16,6 +16,4 @@ Future<Map<String, dynamic>> registerTokenService(
   final responseData = response.data as Map<String, dynamic>;
 
   handleResultResponse(responseData);
-
-  return responseData;
 }
