@@ -72,9 +72,9 @@ workflows:
       # - name: Run tests
       #   script: flutter test --update-goldens
 
-      - name: Install pods
-        script:  |
-          find . -name "Podfile" -execdir pod install \;
+      # - name: Install pods
+      #   script:  |
+      #     find . -name "Podfile" -execdir pod install \;
       
       # errors with deployment_target and 'Flutter/Flutter.h' file not found
       - name: Flutter build ipa and automatic versioning
