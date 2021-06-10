@@ -97,6 +97,7 @@ workflows:
       - build/**/outputs/**/*.apk
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
       - flutter_drive.log
     
     publishing:
