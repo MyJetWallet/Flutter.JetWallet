@@ -81,7 +81,6 @@ workflows:
         script: |
           find . -name "Podfile" -execdir pod install \;
       
-      # errors with deployment_target and 'Flutter/Flutter.h' file not found
       # - name: Flutter build ipa and automatic versioning
       #   script: |
       #     flutter clean \
@@ -92,7 +91,7 @@ workflows:
         script: |
           flutter clean \
           && rm -f ios/Podfile.lock pubspec.lock \
-          && xcode-project build-ipa --workspace ios/Runner.xcworkspace
+          && xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner 
 
       # - name: Build Android (APK)
       #   script: flutter build apk
