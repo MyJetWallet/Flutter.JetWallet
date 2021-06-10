@@ -79,9 +79,10 @@ workflows:
       # errors with deployment_target and 'Flutter/Flutter.h' file not found
       - name: Flutter build ipa and automatic versioning
         script: |
-          flutter build ipa --release \
-          --build-name=1.0.0 \
-          --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))
+          flutter clean \
+          && rm ios/Podfile.lock pubspec.lock \
+          && rm -rf ios/Pods ios/Runner.xcworkspace \
+          && flutter build ios --build-name=1.0.0 --build-number=2 --release --dart-define=MY_APP_ENV=prod
           
 
       # - name: Build Android (APK)
