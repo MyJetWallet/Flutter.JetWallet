@@ -72,10 +72,10 @@ workflows:
       # - name: Run tests
       #   script: flutter test --update-goldens
 
-      - name: Increment build number
-        script: |
-          cd $FCI_BUILD_DIR
-          agvtool new-version -all $(($BUILD_NUMBER +1))
+      # - name: Increment build number
+      #   script: |
+      #     cd $FCI_BUILD_DIR
+      #     agvtool new-version -all $(($BUILD_NUMBER +1))
       
       # errors with deployment_target and 'Flutter/Flutter.h' file not found
       # - name: Flutter build ipa and automatic versioning
