@@ -54,11 +54,11 @@ workflows:
       - name: Set up code signing settings on Xcode project
         script: xcode-project use-profiles    
 
-      - name: Add google-services.json
-        script: echo $GOOGLE_SERVICE_ANDROID | base64 --decode > ./android/app/google-services.json
+      # - name: Add google-services.json
+      #   script: echo $GOOGLE_SERVICE_ANDROID | base64 --decode > ./android/app/google-services.json
       
-      - name: Add GoogleService-Info.plist
-        script: echo $GOOGLE_SERVICE_IOS | base64 --decode > ./ios/Runner/GoogleService-Info.plist
+      # - name: Add GoogleService-Info.plist
+      #   script: echo $GOOGLE_SERVICE_IOS | base64 --decode > ./ios/Runner/GoogleService-Info.plist
 
       - name: Get packages
         script: flutter pub get
