@@ -54,12 +54,6 @@ workflows:
       - name: Set up code signing settings on Xcode project
         script: xcode-project use-profiles    
 
-      # - name: Add google-services.json
-      #   script: echo $GOOGLE_SERVICE_ANDROID | base64 --decode > ./android/app/google-services.json
-      
-      # - name: Add GoogleService-Info.plist
-      #   script: echo $GOOGLE_SERVICE_IOS | base64 --decode > ./ios/Runner/GoogleService-Info.plist
-
       - name: Get packages
         script: flutter pub get
 
@@ -71,27 +65,13 @@ workflows:
 
       # - name: Run tests
       #   script: flutter test --update-goldens
-
-      # - name: Increment build number
-      #   script: |
-      #     cd $FCI_BUILD_DIR
-      #     agvtool new-version -all $(($BUILD_NUMBER +1))
-
-      - name: Install pods
-        script: |
-          find . -name "Podfile" -execdir pod install \;
       
-      # - name: Flutter build ipa and automatic versioning
-      #   script: |
-      #     flutter clean \
-      #     && rm -f ios/Podfile.lock pubspec.lock \
-      #     && rm -rf ios/Pods ios/Runner.xcworkspace \
-      #     && flutter build ipa --release --build-name=1.0.0 --build-number=2 --dart-define=MY_APP_ENV=prod
-      - name: Flutter build ipa
+      - name: Flutter build ipa and automatic versioning
         script: |
           flutter clean \
           && rm -f ios/Podfile.lock pubspec.lock \
-          && xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner 
+          && rm -rf ios/Pods ios/Runner.xcworkspace \
+          && flutter build ipa --release --build-name=1.0.0 --build-number=2 --dart-define=MY_APP_ENV=prod
 
       # - name: Build Android (APK)
       #   script: flutter build apk
@@ -120,4 +100,3 @@ workflows:
       scripts:
         - name: Post-publish script
           script: echo 'Published Succesfully!'
-    
