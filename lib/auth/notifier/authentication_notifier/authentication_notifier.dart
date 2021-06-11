@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../router/provider/union/router_union.dart';
+import '../../../router/provider/router_stpod/router_union.dart';
 import '../../../service/services/authentication/model/authenticate/authentication_model.dart';
 import '../../../service/services/authentication/model/authenticate/login_request_model.dart';
 import '../../../service/services/authentication/model/authenticate/register_request_model.dart';
@@ -8,10 +8,10 @@ import '../../../service/services/authentication/service/authentication_service.
 import '../../../shared/helpers/current_platform.dart';
 import '../../../shared/services/local_storage_service.dart';
 import '../../provider/auth_screen_stpod.dart';
-import '../auth_model_notifier.dart';
+import '../auth_model_notifier/auth_model_notifier.dart';
 import '../credentials_notifier/credentials_notifier.dart';
-import '../credentials_notifier/state/credentials_state.dart';
-import 'union/authentication_union.dart';
+import '../credentials_notifier/credentials_state.dart';
+import 'authentication_union.dart';
 
 class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   AuthenticationNotifier({

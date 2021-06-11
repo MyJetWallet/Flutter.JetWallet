@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../shared/components/loader.dart';
 import '../../shared/components/spacers.dart';
-import '../notifier/authentication_notifier/union/authentication_union.dart';
+import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';
 import '../provider/credentials_notipod.dart';

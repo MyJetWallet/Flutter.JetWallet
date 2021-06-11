@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../union/withdraw_union.dart';
+import 'withdraw_union.dart';
 
 part 'withdraw_state.freezed.dart';
 

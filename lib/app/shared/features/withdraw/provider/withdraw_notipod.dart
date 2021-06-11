@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service_providers.dart';
-import '../notifier/state/withdraw_state.dart';
 import '../notifier/withdraw_notifier.dart';
+import '../notifier/withdraw_state.dart';
 
 final withdrawNotipod =
     StateNotifierProvider.family<WithdrawNotifier, WithdrawState, String>(

@@ -1,12 +1,12 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../auth/model/auth_model.dart';
-import '../../../../../router/provider/union/router_union.dart';
-import '../../../../../service/services/authentication/model/logout/logout_request_model.dart';
-import '../../../../../service/services/authentication/service/authentication_service.dart';
-import '../../../../../service/services/signal_r/service/signal_r_service.dart';
-import '../../../../../shared/services/local_storage_service.dart';
-import 'union/logout_union.dart';
+import '../../../../auth/model/auth_model.dart';
+import '../../../../router/provider/router_stpod/router_union.dart';
+import '../../../../service/services/authentication/model/logout/logout_request_model.dart';
+import '../../../../service/services/authentication/service/authentication_service.dart';
+import '../../../../service/services/signal_r/service/signal_r_service.dart';
+import '../../../../shared/services/local_storage_service.dart';
+import 'logout_union.dart';
 
 class LogoutNotifier extends StateNotifier<LogoutUnion> {
   LogoutNotifier({

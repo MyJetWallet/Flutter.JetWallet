@@ -3,8 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../service/services/blockchain/model/validate_address/validate_address_request_model.dart';
 import '../../../../../service/services/blockchain/model/withdrawal/withdrawal_request_model.dart';
 import '../../../../../service/services/blockchain/service/blockchain_service.dart';
-import 'state/withdraw_state.dart';
-import 'union/withdraw_union.dart';
+import 'withdraw_state.dart';
+import 'withdraw_union.dart';
 
 class WithdrawNotifier extends StateNotifier<WithdrawState> {
   WithdrawNotifier({

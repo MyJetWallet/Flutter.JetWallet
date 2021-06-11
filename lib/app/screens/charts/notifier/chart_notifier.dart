@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../service/services/chart/model/candles_request_model.dart';
 import '../../../../service/services/chart/service/chart_service.dart';
 import '../helpers/round_down_date.dart';
-import 'state/chart_state.dart';
-import 'state/chart_union.dart';
+import 'chart_state.dart';
+import 'chart_union.dart';
 
 class ChartNotifier extends StateNotifier<ChartState> {
   ChartNotifier({

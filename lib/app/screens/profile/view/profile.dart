@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../service_providers.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
-import '../notifier/logout_notifier/union/logout_union.dart';
+import '../notifier/logout_union.dart';
 import '../provider/logout_notipod.dart';
 
 class Profile extends HookWidget {

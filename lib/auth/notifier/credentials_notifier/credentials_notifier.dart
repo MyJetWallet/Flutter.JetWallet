@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'state/credentials_state.dart';
+import 'credentials_state.dart';
 
 class CredentialsNotifier extends StateNotifier<CredentialsState> {
   CredentialsNotifier()
