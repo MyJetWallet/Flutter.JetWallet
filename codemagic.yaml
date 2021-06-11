@@ -90,4 +90,4 @@ workflows:
       
       scripts:
         - name: Post-publish script
-          script: echo 'Published Succesfully!'
+          script: echo 'Published Successfully!'
