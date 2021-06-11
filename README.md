@@ -4,15 +4,13 @@ SPOT Front-End Application
 
 <https://jetwallet-spot.mnftx.biz/#/>
 
-<https://myjetwallet.github.io/Flutter.JetWallet/>
-
 ## Git flow
 1. We have 2 branches `master` and `develop`
 2. `master` is considered as stable branch
 3. We are merging `develop` into `master` at the end of each sprint (usually every 2 weeks)
 4. While merging `develop` don't use squash because it will affect the history of development
 5. When you want to work on a new feature follow this rules:
-   * Make checkout to the `feature/my-feature` branch or `bug/my-bug` if you are working on a bug
+   * Make checkout to the `feature/my-feature`, `bug/my-bug` or techdebt/my-techdebt
    * After finishing your development make pull request on the one of your teammates. 
    * Name your pull requests like this (e.g. "SPUI-97 - description of the feature" where SPUI-97 is a Jira id)
    * After reviewing pull-request and aproving it, reviewer need to squash it to the `develop` branch
@@ -160,3 +158,40 @@ helpers: name.dart
         └── ...
 
 ```
+
+### Notes on structuring provider, model and notifier layer
+Consider the following example:
+
+```text
+notifier
+    └── some_notifier
+        ├── some_notifier.dart
+        ├── some_state.dart (optional)
+        ├── some_state.freezed.dart (gen)
+        ├── some_union.dart (optional)
+        └── some_union.freezed.dart (gen)
+```
+
+It's better to simplify it since there is only one notifier and there is no need to make additional folders:
+```text
+notifier
+    ├── some_notifier.dart
+    ├── some_state.dart (optional)
+    ├── some_state.freezed.dart (gen)
+    ├── some_union.dart (optional)
+    └── some_union.freezed.dart (gen)
+```
+But if you will have one more notifier, now it's better to structure them by folders like that:
+```text
+notifier
+    ├── some_notifier
+    |   ├── some_notifier.dart
+    |   ├── some_state.dart (optional)
+    |   ├── some_state.freezed.dart (gen)
+    |   ├── some_union.dart (optional)
+    |   └── some_union.freezed.dart (gen)
+    └── some_other_notifier
+            └── some_other_notifier.dart 
+```
+This idea applies to model and provider layer as well.
+
