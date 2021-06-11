@@ -2,8 +2,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../service/services/signal_r/service/helpers/signal_r_log.dart';
 import '../../service_providers.dart';
-import 'router_stpod.dart';
-import 'union/router_union.dart';
+import 'router_stpod/router_stpod.dart';
+import 'router_stpod/router_union.dart';
 
 final routerInitFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod);

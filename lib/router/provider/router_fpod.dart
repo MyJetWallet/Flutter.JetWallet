@@ -4,8 +4,8 @@ import '../../auth/provider/auth_model_notipod.dart';
 import '../../service_providers.dart';
 import '../../shared/helpers/refresh_token.dart';
 import '../../shared/services/local_storage_service.dart';
-import 'router_stpod.dart';
-import 'union/router_union.dart';
+import 'router_stpod/router_stpod.dart';
+import 'router_stpod/router_union.dart';
 
 final routerFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod.notifier);

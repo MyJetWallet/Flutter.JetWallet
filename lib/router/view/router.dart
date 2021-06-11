@@ -10,7 +10,7 @@ import '../../shared/components/loader.dart';
 import '../provider/router_fpod.dart';
 import '../provider/router_init_fpod.dart';
 import '../provider/router_key_pod.dart';
-import '../provider/router_stpod.dart';
+import '../provider/router_stpod/router_stpod.dart';
 import 'components/splash_screen.dart';
 
 class AppRouter extends HookWidget {

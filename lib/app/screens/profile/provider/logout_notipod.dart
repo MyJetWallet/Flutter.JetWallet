@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../auth/provider/auth_model_notipod.dart';
-import '../../../../router/provider/router_stpod.dart';
+import '../../../../router/provider/router_stpod/router_stpod.dart';
 import '../../../../service_providers.dart';
-import '../notifier/logout_notifier/logout_notifier.dart';
-import '../notifier/logout_notifier/union/logout_union.dart';
+import '../notifier/logout_notifier.dart';
+import '../notifier/logout_union.dart';
 
 final logoutNotipod = StateNotifierProvider<LogoutNotifier, LogoutUnion>(
   (ref) {

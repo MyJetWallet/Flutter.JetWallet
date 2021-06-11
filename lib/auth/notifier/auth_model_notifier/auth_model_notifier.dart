@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../model/auth_model.dart';
+import '../../model/auth_model.dart';
 
 class AuthModelNotifier extends StateNotifier<AuthModel> {
   AuthModelNotifier()
