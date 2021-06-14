@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 
 import '../model/authenticate/authentication_model.dart';
 import '../model/authenticate/login_request_model.dart';
@@ -15,6 +16,8 @@ class AuthenticationService {
   AuthenticationService(this.dio);
 
   final Dio dio;
+
+  static final logger = Logger('AuthenticationService');
 
   Future<AuthenticationModel> register(RegisterRequestModel model) {
     return registerService(dio, model);
