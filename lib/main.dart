@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
 
 import 'router/view/router.dart';
+import 'shared/logging/debug_logging.dart';
 import 'shared/provider_logger.dart';
 import 'shared/services/firebase_messaging_service.dart';
 import 'shared/theme/theme_data.dart';
@@ -17,8 +19,12 @@ final providers = <String>[
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   await registerFirebaseMessaging();
+
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) => debugLogging(record));
 
   runApp(
     ProviderScope(
