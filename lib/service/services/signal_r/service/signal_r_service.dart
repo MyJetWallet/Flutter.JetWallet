@@ -1,22 +1,25 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
 import '../../../../auth/provider/auth_model_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
+import '../../../../shared/logging/levels.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/instruments_model.dart';
 import '../model/prices_model.dart';
 import '../model/server_time_model.dart';
-import 'helpers/signal_r_log.dart';
 
 class SignalRService {
   SignalRService(this.read);
 
   final Reader read;
+
+  static final _logger = Logger('SignalRService');
 
   static const _pingTime = 3;
   static const _reconnectTime = 5;
@@ -44,39 +47,55 @@ class SignalRService {
 
     _connection.onclose((error) {
       if (!isDisconnecting) {
-        signalRLog('Connection closed with $error');
+        _logger.log(signalR, 'Connection closed', error);
         _startReconnect();
       }
     });
 
     _connection.on(assetsMessage, (data) {
-      final assets = AssetsModel.fromJson(_json(data));
-
-      _assetsController.add(assets);
+      try {
+        final assets = AssetsModel.fromJson(_json(data));
+        _assetsController.add(assets);
+      } catch (e) {
+        _logger.log(contract, 'assetsMessage', e);
+      }
     });
 
     _connection.on(balancesMessage, (data) {
-      final balances = BalancesModel.fromJson(_json(data));
-
-      _balancesController.add(balances);
+      try {
+        final balances = BalancesModel.fromJson(_json(data));
+        _balancesController.add(balances);
+      } catch (e) {
+        _logger.log(contract, 'balancesMessage', e);
+      }
     });
 
     _connection.on(instrumentsMessage, (data) {
-      final instruments = InstrumentsModel.fromJson(_json(data));
-
-      _instrumentsController.add(instruments);
+      try {
+        final instruments = InstrumentsModel.fromJson(_json(data));
+        _instrumentsController.add(instruments);
+      } catch (e) {
+        _logger.log(contract, 'instrumentsMessage', e);
+      }
     });
 
     _connection.on(bidAskMessage, (data) {
-      final prices = PricesModel.fromJson(_json(data));
-
-      _pricesController.add(prices);
+      try {
+        final prices = PricesModel.fromJson(_json(data));
+        _pricesController.add(prices);
+      } catch (e) {
+        _logger.log(contract, 'bidAskMessage', e);
+      }
     });
 
     _connection.on(pongMessage, (data) {
-      final serverTime = ServerTimeModel.fromJson(_json(data));
-
-      _serverTimeController.add(serverTime);
+      try {
+        final serverTime = ServerTimeModel.fromJson(_json(data));
+        _serverTimeController.add(serverTime);
+      } catch (e) {
+        _logger.log(contract, 'pongMessage', e);
+        rethrow;
+      }
 
       _pongTimer?.cancel();
 
@@ -85,8 +104,19 @@ class SignalRService {
 
     final token = read(authModelNotipod).token;
 
-    await _connection.start();
-    await _connection.invoke(initMessage, args: [token]);
+    try {
+      await _connection.start();
+    } catch (e) {
+      _logger.log(signalR, 'Failed to start connection', e);
+      rethrow;
+    }
+
+    try {
+      await _connection.invoke(initMessage, args: [token]);
+    } catch (e) {
+      _logger.log(signalR, 'Failed to invoke connection', e);
+      rethrow;
+    }
 
     _startPing();
   }
@@ -106,7 +136,12 @@ class SignalRService {
       const Duration(seconds: _pingTime),
       (_) {
         if (_connection.state == HubConnectionState.connected) {
-          _connection.invoke(pingMessage);
+          try {
+            _connection.invoke(pingMessage);
+          } catch (e) {
+            _logger.log(signalR, 'Failed to start ping', e);
+            rethrow;
+          }
         }
       },
     );
@@ -116,7 +151,7 @@ class SignalRService {
     _pongTimer = Timer(
       const Duration(seconds: _pingTime * 3),
       () {
-        signalRLog('Pong Timeout');
+        _logger.log(signalR, 'Pong Timeout');
         _startReconnect();
       },
     );
@@ -135,7 +170,7 @@ class SignalRService {
   /// Unhandled Exception: SocketException: Reading from a closed socket \
   /// There are probably some problems with the library
   Future<void> _reconnect() async {
-    signalRLog('Reconnecting Hub');
+    _logger.log(signalR, 'Reconnecting...');
 
     try {
       await _connection.stop();
@@ -149,22 +184,23 @@ class SignalRService {
 
       _reconnectTimer?.cancel();
     } catch (e) {
-      signalRLog(e.toString());
+      _logger.log(signalR, 'Failed to reconnect. Trying again...', e);
     }
   }
 
+  /// * CAUTION \
+  /// Streams are not closed for a specific reason: \
+  /// Since they are created inside a single instance we can't close them
+  /// because our StreamProviders will throw an error:
+  /// Bad state: Stream has already been listened to
   Future<void> disconnect() async {
-    signalRLog('Disconnecting');
+    _logger.log(signalR, 'Disconnecting...');
     isDisconnecting = true;
     _pingTimer?.cancel();
     _pongTimer?.cancel();
     _reconnectTimer?.cancel();
     await _connection.stop();
-    // * Caution
-    // Streams are not closed for a specific reason:
-    // Since they are created inside a single instance we can't close them
-    // because our StreamProviders will throw an error:
-    // Bad state: Stream has already been listened to
+    _logger.log(signalR, 'Disconnected');
   }
 
   /// Type cast response data from the SignalR

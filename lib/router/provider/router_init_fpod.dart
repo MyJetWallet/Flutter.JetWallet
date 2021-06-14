@@ -1,11 +1,13 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 
-import '../../service/services/signal_r/service/helpers/signal_r_log.dart';
 import '../../service_providers.dart';
 import 'router_stpod/router_stpod.dart';
 import 'router_stpod/router_union.dart';
 
 final routerInitFpod = FutureProvider<void>((ref) async {
+  final _logger = Logger('routerInitFpod');
+
   final router = ref.watch(routerStpod);
   final signalRService = ref.watch(signalRServicePod);
 
@@ -13,7 +15,7 @@ final routerInitFpod = FutureProvider<void>((ref) async {
     try {
       await signalRService.init();
     } catch (e) {
-      signalRLog('Failed to make init on first launch. $e');
+      _logger.warning('Failed to make SignalR init on the first launch', e);
     }
   }
 });
