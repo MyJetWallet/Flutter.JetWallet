@@ -16,5 +16,6 @@ Future<void> logoutService(
     );
   } catch (e) {
     AuthenticationService.logger.log(transport, 'logoutService', e);
+    rethrow;
   }
 }
