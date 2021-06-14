@@ -1,15 +1,18 @@
 import 'package:logging/logging.dart';
 
 // [CONVENTION LEVELS] - considered as Exceptions
-// 1. The Message arg must take the name of the method inside which log triggers
-// 2. An Error must be provided through log's error argument and not the message
+// 1. [message] must take the name of the method inside which log triggers
+// 2. [error] must be provided through log's error argument and not the message
 const transport = Level('🚚Transport', 1);
 const contract = Level('📜Contract', 2);
 const state = Level('🎲State', 3);
 
-// [NOTIFIER LEVEL]
-// The Message arg must take the name of the method inside which log triggers
+// [NOTIFIER LEVEL] - considered as Info
+/// [message]  must take the name of the method inside which log triggers
 const notifier = Level('🔊Notifier', 4);
+
+// [PROVIDER LEVEL] - considered as Info
+const provider = Level('Provider', 5);
 
 // [OTHER LEVELS] - considered as Infos or Exceptions
 // If you are not interested in the loggerName just pass empty string like that
@@ -19,5 +22,9 @@ const notifier = Level('🔊Notifier', 4);
 // * [🔔SignalR][12:37:19][SignlaR] -> [signalR log]
 // with empty loggerName you will have:
 // * [🔔SignalR][12:37:19] -> [signalR log]
-const signalR = Level('🔔SignalR', 5);
-const notification = Level('💬Firebase Notifications', 6);
+//
+// It's also possible to provide only error without message like:
+// * _logger.log(signalR, '', e);
+// The custom parser will omit message line and will show only error in the log
+const signalR = Level('🔔SignalR', 6);
+const notification = Level('💬Firebase Notifications', 7);

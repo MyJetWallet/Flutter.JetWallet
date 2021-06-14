@@ -31,8 +31,7 @@ ${r.level.name} [${r.loggerName}] method [${r.message}] called at [$_timeNow]
       '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 [${r.level.name}]${_loggerName(r)}[$_timeNow]
-Message: ${r.message}
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
+${_mainLog(r)}              
 ''',
     );
   }
@@ -51,5 +50,21 @@ String _loggerName(LogRecord record) {
     return '';
   } else {
     return '[${record.loggerName}]';
+  }
+}
+
+String _mainLog(LogRecord record) {
+  if (record.message.isEmpty) {
+    if (record.error == null) {
+      return '▬' * 80;
+    } else {
+      return '${record.error}\n${'▬' * 80}';
+    }
+  } else {
+    if (record.error == null) {
+      return 'Message: ${record.message}\n${'▬' * 80}';
+    } else {
+      return 'Message: ${record.message}\n${record.error}\n${'▬' * 80}';
+    }
   }
 }
