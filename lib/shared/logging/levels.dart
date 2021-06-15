@@ -27,4 +27,4 @@ const provider = Level('Provider', 5);
 // * _logger.log(signalR, '', e);
 // The custom parser will omit message line and will show only error in the log
 const signalR = Level('🔔SignalR', 6);
-const notification = Level('💬Firebase Notifications', 7);
+const firebaseNotifications = Level('💬Firebase Notifications', 7);
