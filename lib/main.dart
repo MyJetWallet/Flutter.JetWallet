@@ -6,7 +6,7 @@ import 'package:logging/logging.dart';
 
 import 'router/view/router.dart';
 import 'shared/logging/debug_logging.dart';
-import 'shared/provider_logger.dart';
+import 'shared/logging/provider_logger.dart';
 import 'shared/services/firebase_messaging_service.dart';
 import 'shared/theme/theme_data.dart';
 

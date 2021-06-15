@@ -1,5 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
+
+import 'levels.dart';
 
 class ProviderLogger extends ProviderObserver {
   ProviderLogger({
@@ -26,11 +28,14 @@ class ProviderLogger extends ProviderObserver {
   /// Turns [Change log] ON and OFF
   final bool change;
 
+  static final _logger = Logger('');
+
   @override
   void didUpdateProvider(ProviderBase provider, Object? newValue) {
     if (update) {
       if (!_excludeProvider(provider)) {
-        debugPrint(
+        _logger.log(
+          providerLevel,
           '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ✅ UPDATED PROVIDER ✅
@@ -38,7 +43,6 @@ class ProviderLogger extends ProviderObserver {
 [Value]: "$newValue"
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
 ''',
-          wrapWidth: 1024,
         );
       }
     }
@@ -48,7 +52,8 @@ class ProviderLogger extends ProviderObserver {
   void didAddProvider(ProviderBase provider, Object? value) {
     if (add) {
       if (!_excludeProvider(provider)) {
-        debugPrint(
+        _logger.log(
+          providerLevel,
           '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ⚡ ADDED PROVIDER ⚡
@@ -56,7 +61,6 @@ class ProviderLogger extends ProviderObserver {
 [Value]: "$value"     
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                          
 ''',
-          wrapWidth: 1024,
         );
       }
     }
@@ -66,7 +70,8 @@ class ProviderLogger extends ProviderObserver {
   void didDisposeProvider(ProviderBase provider) {
     if (dispose) {
       if (!_excludeProvider(provider)) {
-        debugPrint(
+        _logger.log(
+          providerLevel,
           '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 🗑️ DISPOSED PROVIDER 🗑️
@@ -82,7 +87,8 @@ class ProviderLogger extends ProviderObserver {
   void mayHaveChanged(ProviderBase provider) {
     if (change) {
       if (!_excludeProvider(provider)) {
-        debugPrint(
+        _logger.log(
+          providerLevel,
           '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 💡 PROVIDER CHANGED 💡

@@ -12,7 +12,7 @@ const stateFlow = Level('🎲State', 3);
 const notifier = Level('🔊Notifier', 4);
 
 // [PROVIDER LEVEL] - considered as Info
-const provider = Level('Provider', 5);
+const providerLevel = Level('Provider', 5);
 
 // [OTHER LEVELS] - considered as Infos or Exceptions
 // If you are not interested in the loggerName just pass empty string like that

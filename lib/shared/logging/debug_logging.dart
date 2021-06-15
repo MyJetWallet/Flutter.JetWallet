@@ -10,30 +10,26 @@ import 'levels.dart';
 /// 3. General Log Message - includes [Other] levels
 void debugLogging(LogRecord r) {
   if (_isConventionLevel(r)) {
-    debugPrint(
-      '''
+    debugPrint('''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 [${r.level.name}][${r.loggerName}][${r.message}][$_timeNow]
 ${r.error}
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
-''',
-    );
+''', wrapWidth: 1024);
   } else if (r.level.value == notifier.value) {
-    debugPrint(
-      '''
+    debugPrint('''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ${r.level.name} [${r.loggerName}] method [${r.message}] called at [$_timeNow]
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
-''',
-    );
+''', wrapWidth: 1024);
+  } else if (r.level.value == providerLevel.value) {
+    debugPrint(r.message, wrapWidth: 1024);
   } else {
-    debugPrint(
-      '''
+    debugPrint('''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 [${r.level.name}]${_loggerName(r)}[$_timeNow]
 ${_mainLog(r)}              
-''',
-    );
+''', wrapWidth: 1024);
   }
 }
 
