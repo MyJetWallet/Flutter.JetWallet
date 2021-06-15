@@ -4,14 +4,30 @@ SPOT Front-End Application
 
 <https://jetwallet-spot.mnftx.biz/#/>
 
+## Logging
+
+All logging in the app is handled by [logging](https://pub.dev/packages/logging) package from the Dart team.
+
+### Levels
+
+1. **transport** (used in the service method) - Exception
+2. **contract** (used in the service method) - Exception
+3. **stateFlow** (used in the StateNotifier) - Exception
+4. **notifier** (used to indicate that StateNotifier method triggered) - Info
+5. **signalR** (used to log signalR events) - Exception or Info
+6. **firebaseNotifications** (used to log Cloud Messaging functionality) - Exception or Info
+
+For more info check package's documentation or source code of the app (lib/shared/logging)
+
 ## Git flow
+
 1. We have 2 branches `master` and `develop`
 2. `master` is considered as stable branch
 3. We are merging `develop` into `master` at the end of each sprint (usually every 2 weeks)
 4. While merging `develop` don't use squash because it will affect the history of development
 5. When you want to work on a new feature follow this rules:
    * Make checkout to the `feature/my-feature`, `bug/my-bug` or techdebt/my-techdebt
-   * After finishing your development make pull request on the one of your teammates. 
+   * After finishing your development make pull request on the one of your teammates.
    * Name your pull requests like this (e.g. "SPUI-97 - description of the feature" where SPUI-97 is a Jira id)
    * After reviewing pull-request and aproving it, reviewer need to squash it to the `develop` branch
 
@@ -160,6 +176,7 @@ helpers: name.dart
 ```
 
 ### Notes on structuring provider, model and notifier layer
+
 Consider the following example:
 
 ```text
@@ -173,6 +190,7 @@ notifier
 ```
 
 It's better to simplify it since there is only one notifier and there is no need to make additional folders:
+
 ```text
 notifier
     ├── some_notifier.dart
@@ -181,7 +199,9 @@ notifier
     ├── some_union.dart (optional)
     └── some_union.freezed.dart (gen)
 ```
+
 But if you will have one more notifier, now it's better to structure them by folders like that:
+
 ```text
 notifier
     ├── some_notifier
@@ -191,7 +211,7 @@ notifier
     |   ├── some_union.dart (optional)
     |   └── some_union.freezed.dart (gen)
     └── some_other_notifier
-            └── some_other_notifier.dart 
+        └── some_other_notifier.dart 
 ```
-This idea applies to model and provider layer as well.
 
+This idea applies to model and provider layer as well.
