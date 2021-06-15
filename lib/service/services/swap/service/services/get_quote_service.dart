@@ -1,22 +1,37 @@
 import 'package:dio/dio.dart';
 
+import '../../../../../shared/logging/levels.dart';
 import '../../../../shared/constants.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/get_quote/get_quote_request_model.dart';
 import '../../model/get_quote/get_quote_response_model.dart';
+import '../swap_service.dart';
 
 Future<GetQuoteResponseModel> getQuoteService(
   Dio dio,
   GetQuoteRequestModel model,
 ) async {
-  final response = await dio.post(
-    '$walletApiBaseUrl/swap/get-quote',
-    data: model.toJson(),
-  );
+  final logger = SwapService.logger;
+  const message = 'getQuoteService';
 
-  final responseData = response.data as Map<String, dynamic>;
+  try {
+    final response = await dio.post(
+      '$walletApiBaseUrl/swap/get-quote',
+      data: model.toJson(),
+    );
 
-  final data = handleFullResponse<Map>(responseData);
+    try {
+      final responseData = response.data as Map<String, dynamic>;
 
-  return GetQuoteResponseModel.fromJson(data);
+      final data = handleFullResponse<Map>(responseData);
+
+      return GetQuoteResponseModel.fromJson(data);
+    } catch (e) {
+      logger.log(contract, message);
+      rethrow;
+    }
+  } catch (e) {
+    logger.log(transport, message);
+    rethrow;
+  }
 }

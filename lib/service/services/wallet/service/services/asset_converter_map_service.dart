@@ -1,20 +1,35 @@
 import 'package:dio/dio.dart';
 
+import '../../../../../shared/logging/levels.dart';
 import '../../../../shared/constants.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/asset_converter_map_model.dart';
+import '../wallet_service.dart';
 
 Future<AssetConverterMapModel> assetConverterMapService(
   Dio dio,
   String symbol,
 ) async {
-  final response = await dio.get(
-    '$walletApiBaseUrl/wallet/base-currency-converter-map/$symbol',
-  );
+  final logger = WalletService.logger;
+  const message = 'assetConverterMapService';
 
-  final responseData = response.data as Map<String, dynamic>;
+  try {
+    final response = await dio.get(
+      '$walletApiBaseUrl/wallet/base-currency-converter-map/$symbol',
+    );
 
-  final data = handleFullResponse<Map>(responseData);
+    try {
+      final responseData = response.data as Map<String, dynamic>;
 
-  return AssetConverterMapModel.fromJson(data);
+      final data = handleFullResponse<Map>(responseData);
+
+      return AssetConverterMapModel.fromJson(data);
+    } catch (e) {
+      logger.log(contract, message);
+      rethrow;
+    }
+  } catch (e) {
+    logger.log(transport, message);
+    rethrow;
+  }
 }

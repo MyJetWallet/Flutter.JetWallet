@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 
 import '../model/deposit_address/deposit_address_request_model.dart';
 import '../model/deposit_address/deposit_address_response_model.dart';
@@ -14,6 +15,8 @@ class BlockchainService {
   BlockchainService(this.dio);
 
   final Dio dio;
+
+  static final logger = Logger('BlockchainService');
 
   Future<DepositAddressResponseModel> depositAddress(
     DepositAddressRequestModel model,

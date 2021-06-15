@@ -47,6 +47,7 @@ dependencies:
   # OTHER:
   freezed_annotation: ^0.14.2 # Annotations for the freezed
   mocktail: ^0.1.4 # mocking library with null-safety support
+  logging: ^1.0.1 # APIs for debugging and error logging
 
   # OWN LIBS:
   charts:

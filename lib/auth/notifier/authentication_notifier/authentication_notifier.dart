@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 
 import '../../../router/provider/router_stpod/router_union.dart';
 import '../../../service/services/authentication/model/authenticate/authentication_model.dart';
@@ -6,6 +7,7 @@ import '../../../service/services/authentication/model/authenticate/login_reques
 import '../../../service/services/authentication/model/authenticate/register_request_model.dart';
 import '../../../service/services/authentication/service/authentication_service.dart';
 import '../../../shared/helpers/current_platform.dart';
+import '../../../shared/logging/levels.dart';
 import '../../../shared/services/local_storage_service.dart';
 import '../../provider/auth_screen_stpod.dart';
 import '../auth_model_notifier/auth_model_notifier.dart';
@@ -30,20 +32,24 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final AuthenticationService authService;
   final LocalStorageService storageService;
 
-  Future<void> authenticate(AuthScreen authScreen) async {
-    final loginRequest = LoginRequestModel(
-      email: credentialsState.emailController.text,
-      password: credentialsState.passwordController.text,
-      platform: currentPlatform,
-    );
+  static final _logger = Logger('AuthenticationNotifier');
 
-    final registerRequest = RegisterRequestModel(
-      email: credentialsState.emailController.text,
-      password: credentialsState.passwordController.text,
-      platform: currentPlatform,
-    );
+  Future<void> authenticate(AuthScreen authScreen) async {
+    _logger.log(notifier, 'authenticate');
 
     try {
+      final loginRequest = LoginRequestModel(
+        email: credentialsState.emailController.text,
+        password: credentialsState.passwordController.text,
+        platform: currentPlatform,
+      );
+
+      final registerRequest = RegisterRequestModel(
+        email: credentialsState.emailController.text,
+        password: credentialsState.passwordController.text,
+        platform: currentPlatform,
+      );
+
       state = const Loading();
 
       AuthenticationModel authModel;
@@ -65,6 +71,8 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       credentialsNotifier.clear();
     } catch (e, st) {
+      _logger.log(stateFlow, 'authenticate', e);
+
       state = Input(e, st);
     }
   }
