@@ -42,7 +42,7 @@ String get _timeNow => DateFormat('hh:mm:ss').format(DateTime.now()).toString();
 bool _isConventionLevel(LogRecord record) {
   return record.level.value == transport.value ||
       record.level.value == contract.value ||
-      record.level.value == state.value;
+      record.level.value == stateFlow.value;
 }
 
 String _loggerName(LogRecord record) {

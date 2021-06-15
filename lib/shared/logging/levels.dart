@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 // 2. [error] must be provided through log's error argument and not the message
 const transport = Level('🚚Transport', 1);
 const contract = Level('📜Contract', 2);
-const state = Level('🎲State', 3);
+const stateFlow = Level('🎲State', 3);
 
 // [NOTIFIER LEVEL] - considered as Info
 /// [message]  must take the name of the method inside which log triggers
