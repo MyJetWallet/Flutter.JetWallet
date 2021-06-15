@@ -1,19 +1,34 @@
 import 'package:dio/dio.dart';
 
+import '../../../../../shared/logging/levels.dart';
 import '../../../../shared/constants.dart';
 import '../../model/candles_request_model.dart';
 import '../../model/candles_response_model.dart';
+import '../chart_service.dart';
 
 Future<CandlesResponseModel> candlesService(
   Dio dio,
   CandlesRequestModel model,
 ) async {
-  final response = await dio.get(
-    '$tradingBaseUrl/PriceHistory/Candles',
-    queryParameters: model.toJson(),
-  );
+  final logger = ChartService.logger;
+  const message = 'candlesService';
 
-  final responseData = response.data as List<dynamic>;
+  try {
+    final response = await dio.get(
+      '$tradingBaseUrl/PriceHistory/Candles',
+      queryParameters: model.toJson(),
+    );
 
-  return CandlesResponseModel.fromList(responseData);
+    try {
+      final responseData = response.data as List<dynamic>;
+
+      return CandlesResponseModel.fromList(responseData);
+    } catch (e) {
+      logger.log(contract, message);
+      rethrow;
+    }
+  } catch (e) {
+    logger.log(transport, message);
+    rethrow;
+  }
 }
