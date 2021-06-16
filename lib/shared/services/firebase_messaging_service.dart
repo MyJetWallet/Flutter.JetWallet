@@ -49,6 +49,12 @@ Future<void> registerFirebaseMessaging() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
