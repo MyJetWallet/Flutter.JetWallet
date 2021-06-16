@@ -6,7 +6,7 @@ AuthenticationModel handleAuthResponse(Map<String, dynamic> json) {
   final result = response.result;
 
   if (result == 0) {
-    return response.authModel;
+    return response.authModel!;
   } else if (result == -9) {
     throw 'Expired';
   } else if (result == -8) {
