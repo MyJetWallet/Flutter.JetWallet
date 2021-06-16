@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,7 +22,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  await registerFirebaseMessaging();
+  if (!kIsWeb) {
+    await registerFirebaseMessaging();
+  }
 
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) => debugLogging(record));
