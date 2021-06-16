@@ -12,10 +12,12 @@ import 'shared/theme/theme_data.dart';
 
 // Just type providers here to exclude from logger
 // Remember to unstage the changes from your commit
-final providers = <String>[
+final providerTypes = <String>[
   'AutoDisposeProvider<List<CurrencyModel>>',
   'AutoDisposeStreamProvider<PricesModel>',
 ];
+
+final providerNames = <String>[];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +32,8 @@ Future<void> main() async {
     ProviderScope(
       observers: [
         ProviderLogger(
-          exludedProviders: providers,
+          ignoreByType: providerTypes,
+          ignoreByName: providerNames,
         ),
       ],
       child: MyApp(),
