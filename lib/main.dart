@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import 'router/view/router.dart';
+import 'shared/background_jobs/initialize_background_jobs.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/services/firebase_messaging_service.dart';
@@ -17,7 +19,10 @@ final providerTypes = <String>[
   'AutoDisposeStreamProvider<PricesModel>',
 ];
 
-final providerNames = <String>[];
+final providerNames = <String>[
+  'logRecordsPod',
+  'logRecordsJob',
+];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,9 +46,11 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    useProvider(initializeBackgroundJobs.select((_) {}));
+
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
