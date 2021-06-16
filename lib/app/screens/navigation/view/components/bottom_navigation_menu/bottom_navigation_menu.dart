@@ -36,6 +36,11 @@ class BottomNavigationMenu extends HookWidget {
               icon: Icons.bar_chart,
               name: intl.chart,
             ),
+            const BottomNavigationItem(
+              index: 3,
+              icon: Icons.bug_report,
+              name: 'Logs',
+            ),
           ],
         ),
       ),
