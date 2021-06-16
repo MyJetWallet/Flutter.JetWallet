@@ -1,20 +1,35 @@
 import 'package:dio/dio.dart';
 
+import '../../../../../shared/logging/levels.dart';
 import '../../../../shared/constants.dart';
 import '../../model/authenticate/authentication_model.dart';
 import '../../model/authenticate/register_request_model.dart';
+import '../authentication_service.dart';
 import '../helpers/handle_auth_response.dart';
 
 Future<AuthenticationModel> registerService(
   Dio dio,
   RegisterRequestModel model,
 ) async {
-  final response = await dio.post(
-    '$tradingAuthBaseUrl/Trader/Register',
-    data: model.toJson(),
-  );
+  final logger = AuthenticationService.logger;
+  const message = 'registerService';
 
-  final responseData = response.data as Map<String, dynamic>;
+  try {
+    final response = await dio.post(
+      '$tradingAuthBaseUrl/Trader/Register',
+      data: model.toJson(),
+    );
 
-  return handleAuthResponse(responseData);
+    try {
+      final responseData = response.data as Map<String, dynamic>;
+
+      return handleAuthResponse(responseData);
+    } catch (e) {
+      logger.log(contract, message, e);
+      rethrow;
+    }
+  } catch (e) {
+    logger.log(transport, message, e);
+    rethrow;
+  }
 }

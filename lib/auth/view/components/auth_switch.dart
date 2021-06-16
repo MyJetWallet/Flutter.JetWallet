@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../service_providers.dart';
-import '../../providers/auth_screen_stpod.dart';
-import '../../providers/credentials_notipod.dart';
+import '../../provider/auth_screen_stpod.dart';
+import '../../provider/credentials_notipod.dart';
 
 class AuthSwitch extends HookWidget {
   const AuthSwitch({

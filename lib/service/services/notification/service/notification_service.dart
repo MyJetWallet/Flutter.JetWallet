@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import '../model/register_token_request_model.dart';
+import 'package:logging/logging.dart';
 
+import '../model/register_token_request_model.dart';
 import 'services/register_token_service.dart';
 
 class NotificationService {
@@ -8,9 +9,9 @@ class NotificationService {
 
   final Dio dio;
 
-  Future<Map<String, dynamic>> registerToken(
-    RegisterTokenRequestModel model,
-  ) {
+  static final logger = Logger('NotificationService');
+
+  Future<void> registerToken(RegisterTokenRequestModel model) {
     return registerTokenService(dio, model);
   }
 }

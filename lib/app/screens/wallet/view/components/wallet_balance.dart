@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service_providers.dart';
 import '../../helpers/calculate_total_balance.dart';
-import '../../models/currency_model.dart';
+import '../../model/currency_model.dart';
 
 class WalletBalance extends HookWidget {
   const WalletBalance(this.currencies);

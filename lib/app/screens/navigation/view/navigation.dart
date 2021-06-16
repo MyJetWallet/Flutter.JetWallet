@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../shared/components/loader.dart';
 
-import '../providers/navigation_stpod.dart';
-import '../providers/notification_fpod.dart';
+import '../provider/navigation_stpod.dart';
+import '../provider/notification_fpod.dart';
 import 'components/bottom_navigation_menu/bottom_navigation_menu.dart';
 import 'components/screens.dart';
 

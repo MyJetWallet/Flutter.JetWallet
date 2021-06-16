@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 
-import '../model/get_candles/candles_request_model.dart';
-import '../model/get_candles/candles_response_model.dart';
+import '../model/candles_request_model.dart';
+import '../model/candles_response_model.dart';
 import 'services/candles_service.dart';
 
 class ChartService {
@@ -9,9 +10,9 @@ class ChartService {
 
   final Dio dio;
 
-  Future<CandlesResponseModel> candles(
-    CandlesRequestModel model,
-  ) {
+  static final logger = Logger('ChartService');
+
+  Future<CandlesResponseModel> candles(CandlesRequestModel model) {
     return candlesService(dio, model);
   }
 }

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'auth/providers/auth_model_notipod.dart';
+import 'auth/provider/auth_model_notipod.dart';
 import 'service/services/authentication/service/authentication_service.dart';
 import 'service/services/blockchain/service/blockchain_service.dart';
 import 'service/services/chart/service/chart_service.dart';

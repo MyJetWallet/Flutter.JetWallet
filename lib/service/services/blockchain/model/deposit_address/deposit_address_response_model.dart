@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'deposit_address_response_model.freezed.dart';
+part 'deposit_address_response_model.g.dart';
 
 @freezed
 class DepositAddressResponseModel with _$DepositAddressResponseModel {
@@ -9,4 +10,7 @@ class DepositAddressResponseModel with _$DepositAddressResponseModel {
     String? memo,
     String? memoType,
   }) = _DepositAddressResponseModel;
+
+  factory DepositAddressResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$DepositAddressResponseModelFromJson(json);
 }
