@@ -1,20 +1,33 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-final logRecordsPod = Provider<Queue<LogRecord>>((ref) {
-  return Queue<LogRecord>();
-}, name: 'logRecordsPod');
+/// Needs to be ignored in the ProviderLogger to avoid an infinite loop
+final logRecordsNotipod =
+    StateNotifierProvider<LogRecordsNotifier, Queue<LogRecord>>((ref) {
+  return LogRecordsNotifier();
+}, name: 'logRecordsNotipod');
 
-final logRecordsJob = Provider<void>((ref) {
-  final logs = ref.watch(logRecordsPod);
+class LogRecordsNotifier extends StateNotifier<Queue<LogRecord>> {
+  LogRecordsNotifier() : super(Queue<LogRecord>()) {
+    _logger = Logger.root.onRecord.listen((record) {
+      state.addLast(record);
+      state = Queue.from(state);
 
-  Logger.root.onRecord.listen((record) {
-    logs.addLast(record);
+      if (state.length > 100) {
+        state.removeFirst();
+        state = Queue.from(state);
+      }
+    });
+  }
 
-    if (logs.length > 100) {
-      logs.removeFirst();
-    }
-  });
-}, name: 'logRecordsJob');
+  late final StreamSubscription<LogRecord> _logger;
+
+  @override
+  void dispose() {
+    _logger.cancel();
+    super.dispose();
+  }
+}

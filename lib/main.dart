@@ -20,8 +20,7 @@ final providerTypes = <String>[
 ];
 
 final providerNames = <String>[
-  'logRecordsPod',
-  'logRecordsJob',
+  'logRecordsNotipod',
 ];
 
 Future<void> main() async {

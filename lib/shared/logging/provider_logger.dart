@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -33,7 +34,7 @@ class ProviderLogger extends ProviderObserver {
   /// You need to add full [Type] of the Provider
   final List<String> ignoreByType;
 
-  /// Providers you want Logger to ignore
+  /// Providers you want Logger to ignore \
   /// You need to add the name of provider
   final List<String> ignoreByName;
 
@@ -45,16 +46,27 @@ class ProviderLogger extends ProviderObserver {
       if (update) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
-            _logger.log(
-              providerLevel,
-              '''
+            // In order to avoid the following error:
+            // 
+            // "This UncontrolledProviderScope widget cannot be marked as 
+            // needing to build because the framework is already in the process 
+            // of building widgets..."
+            // 
+            // We need to wrap the observer lifecycles in a addPostFrameCallback
+            // because we're modifying the state on any log but logs
+            // can happen during "build"
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              _logger.log(
+                providerLevel,
+                '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ✅ UPDATED PROVIDER ✅
 [Provider]: "${provider.name ?? provider.runtimeType}",
 [Value]: "$newValue"
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
 ''',
-            );
+              );
+            });
           }
         }
       }
@@ -67,16 +79,18 @@ class ProviderLogger extends ProviderObserver {
       if (add) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
-            _logger.log(
-              providerLevel,
-              '''
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              _logger.log(
+                providerLevel,
+                '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ⚡ ADDED PROVIDER ⚡
 [Provider]: "${provider.name ?? provider.runtimeType}",
 [Value]: "$value"     
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                          
 ''',
-            );
+              );
+            });
           }
         }
       }
@@ -89,15 +103,17 @@ class ProviderLogger extends ProviderObserver {
       if (dispose) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
-            _logger.log(
-              providerLevel,
-              '''
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              _logger.log(
+                providerLevel,
+                '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 🗑️ DISPOSED PROVIDER 🗑️
 [Provider]: "${provider.name ?? provider.runtimeType}", 
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                          
 ''',
-            );
+              );
+            });
           }
         }
       }
@@ -110,15 +126,17 @@ class ProviderLogger extends ProviderObserver {
       if (change) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
-            _logger.log(
-              providerLevel,
-              '''
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              _logger.log(
+                providerLevel,
+                '''
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 💡 PROVIDER CHANGED 💡
 [Provider]: "${provider.name ?? provider.runtimeType}",   
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                        
 ''',
-            );
+              );
+            });
           }
         }
       }
