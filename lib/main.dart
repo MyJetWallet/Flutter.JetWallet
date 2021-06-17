@@ -57,7 +57,7 @@ class MyApp extends HookWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      theme: appTheme,
+      // theme: appTheme,
       initialRoute: AppRouter.routeName,
       routes: {
         AppRouter.routeName: (context) => AppRouter(),

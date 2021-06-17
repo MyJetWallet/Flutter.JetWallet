@@ -10,3 +10,14 @@ void navigatorPush(BuildContext context, Widget page) {
     ),
   );
 }
+
+void navigatorPushReplacement(BuildContext context, Widget page) {
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) {
+        return page;
+      },
+    ),
+  );
+}
