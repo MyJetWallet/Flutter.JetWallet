@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'text_field_styles.dart';
-
 class EmailTextField extends StatelessWidget {
   const EmailTextField({
     Key? key,
@@ -17,7 +15,6 @@ class EmailTextField extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: _validate,
       keyboardType: TextInputType.emailAddress,
-      style: baseFieldStyle,
       decoration: const InputDecoration(
         border: UnderlineInputBorder(),
         hintText: 'Email address',

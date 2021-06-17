@@ -11,7 +11,6 @@ import 'shared/background_jobs/initialize_background_jobs.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/services/firebase_messaging_service.dart';
-import 'shared/theme/theme_data.dart';
 
 // Just type providers here to exclude from logger
 // Remember to unstage the changes from your commit

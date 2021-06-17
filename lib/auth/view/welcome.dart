@@ -5,7 +5,7 @@ import '../../shared/components/spacers.dart';
 import 'components/app_version_text.dart';
 import 'components/filled_button.dart';
 import 'components/spot_outlined_button.dart';
-import 'sign_up.dart';
+import 'sign_in_sign_up.dart';
 
 class Welcome extends StatelessWidget {
   @override
@@ -37,7 +37,7 @@ class Welcome extends StatelessWidget {
             text: 'Create account',
             onTap: () => navigatorPush(
                 context,
-                const SignUp(
+                const SignInSignUp(
                   isSignIn: false,
                 )),
           ),
@@ -46,7 +46,7 @@ class Welcome extends StatelessWidget {
             text: 'I have an account',
             onTap: () => navigatorPush(
                 context,
-                const SignUp(
+                const SignInSignUp(
                   isSignIn: true,
                 )),
           ),
