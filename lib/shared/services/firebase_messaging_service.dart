@@ -6,7 +6,7 @@ import 'package:logging/logging.dart';
 
 import '../logging/levels.dart';
 
-final logger = Logger('');
+final _logger = Logger('');
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel',
@@ -20,8 +20,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  logger.log(
-    firebaseNotifications,
+  _logger.log(
+    pushNotifications,
     'A bg message just showed up :  ${message.messageId}',
   );
 }
@@ -39,8 +39,8 @@ Future<void> registerFirebaseMessaging() async {
       final notification = message.notification;
       final android = message.notification?.android;
       if (notification != null && android != null) {
-        logger.log(
-          firebaseNotifications,
+        _logger.log(
+          pushNotifications,
           'onMessageOpenedApp: notification title: ${notification.title}',
         );
       }
@@ -79,8 +79,8 @@ Future<void> registerFirebaseMessaging() async {
       },
     );
   } else {
-    logger.log(
-      firebaseNotifications,
+    _logger.log(
+      pushNotifications,
       'User declined or has not accepted permission',
     );
   }
