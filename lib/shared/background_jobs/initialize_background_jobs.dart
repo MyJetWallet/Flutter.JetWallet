@@ -7,5 +7,6 @@ import 'jobs/push_notifications_job.dart';
 /// We are not interested in [ref.watch()] since we will have an infinte loop
 final initializeBackgroundJobs = Provider<void>((ref) {
   ref.read(logRecordsNotipod);
-  ref.read(pushNotificationPod);
+  ref.read(pushNotificationGetTokenFpod);
+  ref.read(pushNotificationOnTokenRefreshSpod);
 }, name: 'initializeBackgroundJobs');
