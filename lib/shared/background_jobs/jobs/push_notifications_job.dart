@@ -10,38 +10,47 @@ import '../../logging/levels.dart';
 
 final _logger = Logger('');
 
-final pushNotificationGetTokenFpod = FutureProvider<String?>((ref) {
-  if (!kIsWeb) {
-    try {
-      return FirebaseMessaging.instance.getToken();
-    } catch (e) {
-      _logger.log(pushNotifications, 'getToken Failed', e);
+final pushNotificationGetTokenFpod = FutureProvider<String?>(
+  (ref) {
+    if (!kIsWeb) {
+      try {
+        return FirebaseMessaging.instance.getToken();
+      } catch (e) {
+        _logger.log(pushNotifications, 'getToken Failed', e);
+        return Future.value(null);
+      }
+    } else {
       return Future.value(null);
     }
-  } else {
-    return Future.value(null);
-  }
-}, name: 'pushNotificationGetTokenFpod');
+  },
+  name: 'pushNotificationGetTokenFpod',
+);
 
 final pushNotificationOnTokenRefreshSpod = StreamProvider<String>((ref) {
   return FirebaseMessaging.instance.onTokenRefresh;
 }, name: 'pushNotificationOnTokenRefreshSpod');
 
 /// Must be initialized after [successfull authentication]
-final pushNotificationRegisterTokenPod = Provider<void>((ref) {
-  final service = ref.watch(notificationServicePod);
-  final getToken = ref.watch(pushNotificationGetTokenFpod);
+final pushNotificationRegisterTokenPod = Provider.autoDispose<void>(
+  (ref) {
+    final service = ref.watch(notificationServicePod);
+    final getToken = ref.watch(pushNotificationGetTokenFpod);
 
-  getToken.whenData((token) => _registerToken(service, token));
-}, name: 'pushNotificationRegisterTokenPod');
+    getToken.whenData((token) => _registerToken(service, token));
+  },
+  name: 'pushNotificationRegisterTokenPod',
+);
 
 /// Must be initialized after [successfull authentication]
-final pushNotificationOnTokenRefreshPod = Provider<void>((ref) async {
-  final service = ref.watch(notificationServicePod);
-  final onTokenRefresh = ref.watch(pushNotificationOnTokenRefreshSpod);
+final pushNotificationOnTokenRefreshPod = Provider.autoDispose<void>(
+  (ref) {
+    final service = ref.watch(notificationServicePod);
+    final onTokenRefresh = ref.watch(pushNotificationOnTokenRefreshSpod);
 
-  onTokenRefresh.whenData((token) => _registerToken(service, token));
-}, name: 'pushNotificationOnTokenRefreshPod');
+    onTokenRefresh.whenData((token) => _registerToken(service, token));
+  },
+  name: 'pushNotificationOnTokenRefreshPod',
+);
 
 Future<void> _registerToken(NotificationService service, String? token) async {
   if (token != null) {
