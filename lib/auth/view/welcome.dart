@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/auth/view/components/welcome_screen_text.dart';
 
 import '../../app/shared/helpers/navigator_push.dart';
 import '../../shared/components/spacers.dart';
 import 'components/app_version_text.dart';
-import 'components/filled_button.dart';
-import 'components/spot_outlined_button.dart';
+import 'components/spot_button.dart';
 import 'sign_in_sign_up.dart';
 
 class Welcome extends StatelessWidget {
@@ -15,40 +15,46 @@ class Welcome extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(child: Container()),
-          const Text(
-            'Welcome',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 46,
-            ),
+          const Spacer(),
+          const WelcomeScreenText(
+            text: 'Welcome',
           ),
-          const Text(
-            'to the app',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 46,
-            ),
+          const WelcomeScreenText(
+            text: 'to the app',
           ),
-          Expanded(child: Container()),
-          SpotFilledButton(
+          const Spacer(),
+          SpotButton(
             text: 'Create account',
-            onTap: () => navigatorPush(
+            onTap: () {
+              navigatorPush(
                 context,
                 const SignInSignUp(
                   isSignIn: false,
-                )),
+                ),
+              );
+            },
+            decoration: BoxDecoration(
+              color: Colors.pink[400],
+              borderRadius: BorderRadius.circular(8),
+            ),
+            textColor: Colors.white,
           ),
           const SpaceH15(),
-          SpotOutlinedButton(
+          SpotButton(
             text: 'I have an account',
-            onTap: () => navigatorPush(
+            onTap: () {
+              navigatorPush(
                 context,
                 const SignInSignUp(
                   isSignIn: true,
-                )),
+                ),
+              );
+            },
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            textColor: Colors.black,
           ),
           const SpaceH15(),
           const Center(

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -23,6 +24,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     required this.authModelNotifier,
     required this.authService,
     required this.storageService,
+    required this.routerKey,
   }) : super(const Input());
 
   final StateController<RouterUnion> router;
@@ -31,6 +33,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final AuthModelNotifier authModelNotifier;
   final AuthenticationService authService;
   final LocalStorageService storageService;
+  final GlobalKey<ScaffoldState> routerKey;
 
   static final _logger = Logger('AuthenticationNotifier');
 
@@ -68,6 +71,8 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       router.state = const Authorised();
 
       state = const Input();
+
+      Navigator.pop(routerKey.currentContext!);
 
       credentialsNotifier.clear();
     } catch (e, st) {

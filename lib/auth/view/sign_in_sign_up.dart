@@ -8,7 +8,7 @@ import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';
 import '../provider/credentials_notipod.dart';
-import 'components/filled_button.dart';
+import 'components/spot_button.dart';
 import 'components/text_fields/email_text_field.dart';
 import 'components/text_fields/password_text_field.dart';
 
@@ -62,7 +62,6 @@ class SignInSignUp extends HookWidget {
                       const Text(
                         'Enter your email',
                         textAlign: TextAlign.start,
-                        style: TextStyle(),
                       ),
                       EmailTextField(
                         controller: credentials.emailController,
@@ -71,18 +70,23 @@ class SignInSignUp extends HookWidget {
                       const Text(
                         'Enter password',
                         textAlign: TextAlign.start,
-                        style: TextStyle(),
                       ),
                       PasswordTextField(
                         controller: credentials.passwordController,
                       ),
-                      Expanded(child: Container()),
-                      SpotFilledButton(
+                      const Spacer(),
+                      SpotButton(
                         text: 'Continue',
                         onTap: () {
                           notifier.authenticate(
-                              isSignIn ? AuthScreen.signIn : AuthScreen.signUp);
+                            isSignIn ? AuthScreen.signIn : AuthScreen.signUp,
+                          );
                         },
+                        decoration: BoxDecoration(
+                          color: Colors.pink[400],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        textColor: Colors.white,
                       ),
                     ],
                   ),

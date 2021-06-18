@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-class SpotFilledButton extends StatelessWidget {
-  const SpotFilledButton({
+class SpotButton extends StatelessWidget {
+  const SpotButton({
     Key? key,
     required this.text,
     required this.onTap,
+    required this.textColor,
+    required this.decoration,
   }) : super(key: key);
 
   final String text;
   final void Function() onTap;
+  final Color textColor;
+  final BoxDecoration decoration;
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +23,13 @@ class SpotFilledButton extends StatelessWidget {
           vertical: 15.0,
         ),
         width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.pink[400],
-          borderRadius: BorderRadius.circular(8),
-        ),
+        decoration: decoration,
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20.0,
-            color: Colors.white,
+            color: textColor,
           ),
         ),
       ),
