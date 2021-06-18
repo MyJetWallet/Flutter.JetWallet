@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../../../service_providers.dart';
-import 'text_field_styles.dart';
+import '../../../helpers/validators.dart';
 
 class PasswordTextField extends HookWidget {
   const PasswordTextField({
@@ -17,19 +14,25 @@ class PasswordTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final intl = useProvider(intlPod);
     final isObscure = useState(true);
 
     return TextFormField(
       controller: controller,
       obscureText: isObscure.value,
-      style: baseFieldStyle,
-      decoration: passwordFieldDecoration(
-        onSuffixTap: () {
-          isObscure.value = !isObscure.value;
-        },
-        isRepeat: isRepeat,
-        intl: intl,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validatePassword,
+      decoration: InputDecoration(
+        border: const UnderlineInputBorder(),
+        hintText: 'Create a Password',
+        suffix: IconButton(
+          icon: const Icon(
+            Icons.visibility,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            isObscure.value = !isObscure.value;
+          },
+        ),
       ),
     );
   }
