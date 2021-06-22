@@ -40,6 +40,7 @@ dependencies:
   # FIREBASE
   firebase_core: ^1.3.0
   firebase_messaging: ^10.0.2
+  firebase_dynamic_links: ^2.0.6
 
   # NOTIFICATIONS
   flutter_local_notifications: ^6.0.0

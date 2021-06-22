@@ -52,6 +52,7 @@ class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundJobs.select((_) {}));
+    final navigatorKey = useProvider(navigatorKeyPod);
 
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -59,9 +60,14 @@ class MyApp extends HookWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       initialRoute: AppRouter.routeName,
+      navigatorKey: navigatorKey,
       routes: {
         AppRouter.routeName: (context) => AppRouter(),
       },
     );
   }
 }
+
+final navigatorKeyPod = Provider<GlobalKey<NavigatorState>>((ref) {
+  return GlobalKey<NavigatorState>();
+});

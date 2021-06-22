@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'jobs/dynamic_link_job.dart';
 import 'jobs/log_records_job.dart';
 import 'jobs/push_notifications_job.dart';
 
@@ -9,4 +10,5 @@ final initializeBackgroundJobs = Provider<void>((ref) {
   ref.read(logRecordsNotipod);
   ref.read(pushNotificationGetTokenFpod);
   ref.read(pushNotificationOnTokenRefreshSpod);
+  ref.read(dynamicLinkPod);
 }, name: 'initializeBackgroundJobs');
