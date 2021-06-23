@@ -12,6 +12,7 @@ import 'service/services/swap/service/swap_service.dart';
 import 'service/services/wallet/service/wallet_service.dart';
 import 'shared/dio/basic_dio.dart';
 import 'shared/dio/dio_without_interceptors.dart';
+import 'shared/services/dynamic_link_service.dart';
 import 'shared/services/local_storage_service.dart';
 
 final intlPod = ScopedProvider<AppLocalizations>(null);
@@ -68,4 +69,8 @@ final notificationServicePod = Provider<NotificationService>((ref) {
   final dio = ref.watch(dioPod);
 
   return NotificationService(dio);
+});
+
+final dynamicLinkServicePod = Provider<DynamicLinkService>((ref) {
+  return DynamicLinkService();
 });

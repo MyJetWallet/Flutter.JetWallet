@@ -7,9 +7,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import 'router/view/router.dart';
-import 'shared/background_jobs/initialize_background_jobs.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
+import 'shared/providers/background/initialize_background_providers.dart';
+import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/firebase_messaging_service.dart';
 import 'shared/theme/theme_data.dart';
 
@@ -51,7 +52,8 @@ Future<void> main() async {
 class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    useProvider(initializeBackgroundJobs.select((_) {}));
+    useProvider(initializeBackgroundProviders.select((_) {}));
+    final navigatorKey = useProvider(navigatorKeyPod);
 
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -59,6 +61,7 @@ class MyApp extends HookWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       initialRoute: AppRouter.routeName,
+      navigatorKey: navigatorKey,
       routes: {
         AppRouter.routeName: (context) => AppRouter(),
       },
