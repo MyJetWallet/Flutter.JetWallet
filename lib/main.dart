@@ -12,6 +12,7 @@ import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/firebase_messaging_service.dart';
+import 'shared/services/firebase_remote_config_service.dart';
 import 'shared/theme/theme_data.dart';
 
 // Just type providers here to exclude from logger
@@ -31,6 +32,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   if (!kIsWeb) {
     await registerFirebaseMessaging();
+    await overrideBaseUrls();
   }
 
   Logger.root.level = Level.ALL;
