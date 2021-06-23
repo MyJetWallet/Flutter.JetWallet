@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../shared/background_jobs/jobs/log_records_job.dart';
 import '../../../shared/logging/debug_logging.dart';
 import '../../../shared/logging/levels.dart';
+import '../../../shared/providers/background/log_records_notipod.dart';
 
 /// Temporary screen
 class Logs extends HookWidget {
