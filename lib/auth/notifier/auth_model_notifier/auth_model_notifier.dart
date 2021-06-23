@@ -11,6 +11,7 @@ class AuthModelNotifier extends StateNotifier<AuthModel> {
             token: '',
             refreshToken: '',
             publicKeyPem: '',
+            email: '',
           ),
         );
 
@@ -26,5 +27,11 @@ class AuthModelNotifier extends StateNotifier<AuthModel> {
     _logger.log(notifier, 'updateRefreshToken');
 
     state = state.copyWith(refreshToken: refreshToken);
+  }
+
+  void updateEmail(String email) {
+    _logger.log(notifier, 'updateEmail');
+
+    state = state.copyWith(email: email);
   }
 }
