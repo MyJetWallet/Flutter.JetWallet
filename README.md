@@ -4,6 +4,8 @@ SPOT Front-End Application
 
 <https://jetwallet-spot.mnftx.biz/#/>
 
+<https://jetwallet.page.link/app/>
+
 ## Logging
 
 All logging in the app is handled by [logging](https://pub.dev/packages/logging) package from the Dart team.

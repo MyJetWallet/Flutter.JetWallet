@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../shared/constants.dart';
+import '../../../../shared/api_urls.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/asset_converter_map_model.dart';
 import '../wallet_service.dart';
