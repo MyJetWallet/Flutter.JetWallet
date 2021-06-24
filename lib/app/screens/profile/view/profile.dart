@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../auth/provider/auth_model_notipod.dart';
 
 import '../../../../service_providers.dart';
 import '../../../../shared/components/loader.dart';
@@ -16,6 +17,7 @@ class Profile extends HookWidget {
     final state = useProvider(logoutNotipod);
     final notifier = useProvider(logoutNotipod.notifier);
     final intl = useProvider(intlPod);
+    final authModel = useProvider(authModelNotipod);
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
@@ -39,6 +41,10 @@ class Profile extends HookWidget {
               children: [
                 Text(
                   intl.profile,
+                ),
+                const SpaceH15(),
+                Text(
+                  authModel.email,
                 ),
                 const SpaceH15(),
                 TextButton(

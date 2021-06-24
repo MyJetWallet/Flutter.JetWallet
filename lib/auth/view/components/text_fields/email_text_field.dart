@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../helpers/validators.dart';
 
-import '../../../../service_providers.dart';
-import 'text_field_styles.dart';
-
-class EmailTextField extends HookWidget {
+class EmailTextField extends StatelessWidget {
   const EmailTextField({
     Key? key,
     required this.controller,
@@ -15,13 +11,15 @@ class EmailTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final intl = useProvider(intlPod);
-
     return TextFormField(
       controller: controller,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validateEmail,
       keyboardType: TextInputType.emailAddress,
-      style: baseFieldStyle,
-      decoration: emailFieldDecoration(intl),
+      decoration: const InputDecoration(
+        border: UnderlineInputBorder(),
+        hintText: 'Email address',
+      ),
     );
   }
 }

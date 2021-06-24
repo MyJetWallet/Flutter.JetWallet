@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../router/provider/router_key_pod.dart';
 
 import '../../router/provider/router_stpod/router_stpod.dart';
 import '../../service_providers.dart';
@@ -16,6 +17,7 @@ final authenticationNotipod =
     final authModelNotifier = ref.watch(authModelNotipod.notifier);
     final authService = ref.watch(authServicePod);
     final storageService = ref.watch(localStorageServicePod);
+    final routerKey = ref.read(routerKeyPod);
 
     return AuthenticationNotifier(
       router: router,
@@ -24,6 +26,7 @@ final authenticationNotipod =
       authModelNotifier: authModelNotifier,
       authService: authService,
       storageService: storageService,
+        routerKey: routerKey,
     );
   },
 );

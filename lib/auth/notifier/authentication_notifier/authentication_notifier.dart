@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -23,6 +24,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     required this.authModelNotifier,
     required this.authService,
     required this.storageService,
+    required this.routerKey,
   }) : super(const Input());
 
   final StateController<RouterUnion> router;
@@ -31,22 +33,26 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final AuthModelNotifier authModelNotifier;
   final AuthenticationService authService;
   final LocalStorageService storageService;
+  final GlobalKey<ScaffoldState> routerKey;
 
   static final _logger = Logger('AuthenticationNotifier');
 
   Future<void> authenticate(AuthScreen authScreen) async {
     _logger.log(notifier, 'authenticate');
 
+    final email = credentialsState.emailController.text;
+    final password = credentialsState.passwordController.text;
+
     try {
       final loginRequest = LoginRequestModel(
-        email: credentialsState.emailController.text,
-        password: credentialsState.passwordController.text,
+        email: email,
+        password: password,
         platform: currentPlatform,
       );
 
       final registerRequest = RegisterRequestModel(
-        email: credentialsState.emailController.text,
-        password: credentialsState.passwordController.text,
+        email: email,
+        password: password,
         platform: currentPlatform,
       );
 
@@ -64,10 +70,13 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       authModelNotifier.updateToken(authModel.token);
       authModelNotifier.updateRefreshToken(authModel.refreshToken);
+      authModelNotifier.updateEmail(email);
 
       router.state = const Authorised();
 
       state = const Input();
+
+      Navigator.pop(routerKey.currentContext!);
 
       credentialsNotifier.clear();
     } catch (e, st) {
