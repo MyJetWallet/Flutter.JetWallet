@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/auth/view/components/welcome_screen_text.dart';
 
 import '../../app/shared/helpers/navigator_push.dart';
 import '../../shared/components/spacers.dart';
 import 'components/app_version_text.dart';
 import 'components/spot_button.dart';
+import 'components/welcome_screen_text.dart';
 import 'sign_in_sign_up.dart';
 
 class Welcome extends StatelessWidget {

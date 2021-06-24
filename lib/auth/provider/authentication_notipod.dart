@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/router/provider/router_key_pod.dart';
+import '../../router/provider/router_key_pod.dart';
 
 import '../../router/provider/router_stpod/router_stpod.dart';
 import '../../service_providers.dart';
