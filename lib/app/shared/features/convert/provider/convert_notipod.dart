@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../service_providers.dart';
 import '../../../../screens/wallet/model/currency_model.dart';
 import '../../../../screens/wallet/provider/currencies_pod.dart';
-import '../helpers/remove_element.dart';
+import '../helper/remove_element.dart';
 import '../notifier/convert_notifier.dart';
 import '../notifier/convert_state.dart';
 

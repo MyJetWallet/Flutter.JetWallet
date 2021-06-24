@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../auth/provider/auth_model_notipod.dart';
+import '../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
 import '../../router/provider/router_key_pod.dart';
 import '../../router/provider/router_stpod/router_stpod.dart';
 import '../../router/provider/router_stpod/router_union.dart';

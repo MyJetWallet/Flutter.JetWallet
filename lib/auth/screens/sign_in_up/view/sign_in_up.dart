@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../shared/components/spacers.dart';
-import '../../shared/components/loader.dart';
+import '../../../../shared/components/loader.dart';
+import '../../../../shared/components/spacers.dart';
+import '../../../shared/spot_button.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';
 import '../provider/credentials_notipod.dart';
-import 'components/spot_button.dart';
-import 'components/text_fields/email_text_field.dart';
-import 'components/text_fields/password_text_field.dart';
+import 'components/email_text_field.dart';
+import 'components/password_text_field.dart';
 
-class SignInSignUp extends HookWidget {
-  const SignInSignUp({
+class SignInUp extends HookWidget {
+  const SignInUp({
     Key? key,
     required this.isSignIn,
   }) : super(key: key);

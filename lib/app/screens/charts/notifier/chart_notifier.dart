@@ -7,7 +7,7 @@ import 'package:logging/logging.dart';
 import '../../../../service/services/chart/model/candles_request_model.dart';
 import '../../../../service/services/chart/service/chart_service.dart';
 import '../../../../shared/logging/levels.dart';
-import '../helpers/round_down_date.dart';
+import '../helper/round_down_date.dart';
 import 'chart_state.dart';
 import 'chart_union.dart';
 

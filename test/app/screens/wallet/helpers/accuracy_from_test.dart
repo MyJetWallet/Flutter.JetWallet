@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jetwallet/app/screens/wallet/helpers/accuracy_from.dart';
+import 'package:jetwallet/app/screens/wallet/helper/accuracy_from.dart';
 import 'package:jetwallet/service/services/signal_r/model/instruments_model.dart';
 
 void main() {

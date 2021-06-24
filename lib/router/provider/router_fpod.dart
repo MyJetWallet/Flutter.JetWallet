@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../auth/provider/auth_model_notipod.dart';
+import '../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
 import '../../service_providers.dart';
 import '../../shared/helpers/refresh_token.dart';
 import '../../shared/services/local_storage_service.dart';

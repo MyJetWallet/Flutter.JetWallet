@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../app/shared/helpers/navigator_push.dart';
-import '../../shared/components/spacers.dart';
+import '../../../../app/shared/helpers/navigator_push.dart';
+import '../../../../shared/components/spacers.dart';
+import '../../../shared/spot_button.dart';
+import '../../sign_in_up/view/sign_in_up.dart';
 import 'components/app_version_text.dart';
-import 'components/spot_button.dart';
 import 'components/welcome_screen_text.dart';
-import 'sign_in_sign_up.dart';
 
 class Welcome extends StatelessWidget {
   @override
@@ -28,7 +28,7 @@ class Welcome extends StatelessWidget {
             onTap: () {
               navigatorPush(
                 context,
-                const SignInSignUp(
+                const SignInUp(
                   isSignIn: false,
                 ),
               );
@@ -45,7 +45,7 @@ class Welcome extends StatelessWidget {
             onTap: () {
               navigatorPush(
                 context,
-                const SignInSignUp(
+                const SignInUp(
                   isSignIn: true,
                 ),
               );
