@@ -40,16 +40,19 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   Future<void> authenticate(AuthScreen authScreen) async {
     _logger.log(notifier, 'authenticate');
 
+    final email = credentialsState.emailController.text;
+    final password = credentialsState.passwordController.text;
+
     try {
       final loginRequest = LoginRequestModel(
-        email: credentialsState.emailController.text,
-        password: credentialsState.passwordController.text,
+        email: email,
+        password: password,
         platform: currentPlatform,
       );
 
       final registerRequest = RegisterRequestModel(
-        email: credentialsState.emailController.text,
-        password: credentialsState.passwordController.text,
+        email: email,
+        password: password,
         platform: currentPlatform,
       );
 
@@ -67,7 +70,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       authModelNotifier.updateToken(authModel.token);
       authModelNotifier.updateRefreshToken(authModel.refreshToken);
-      authModelNotifier.updateEmail(credentialsState.emailController.text);
+      authModelNotifier.updateEmail(email);
 
       router.state = const Authorised();
 
