@@ -5,7 +5,7 @@ class RemoteConfigService {
   final _config = RemoteConfig.instance;
 
   Future<void> overrideBaseUrls() async {
-    await _config.fetch();
+    await _config.fetchAndActivate();
 
     tradingAuthBaseUrl = _config.getString('tradingAuthBaseUrl');
     walletApiBaseUrl = _config.getString('walletApiBaseUrl');
