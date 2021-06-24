@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
-import '../../../shared/spot_button.dart';
+import '../../../shared/auth_button_pink.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';
@@ -26,25 +26,25 @@ class SignInUp extends HookWidget {
     final auth = useProvider(authenticationNotipod);
     final notifier = useProvider(authenticationNotipod.notifier);
 
-    return ProviderListener<AuthenticationUnion>(
-      provider: authenticationNotipod,
-      onChange: (context, union) {
-        union.when(
-          input: (e, st) {
-            if (e != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(e.toString())),
-              );
-            }
-          },
-          loading: () {},
-        );
-      },
-      child: auth.when(
-        input: (_, __) {
-          return SafeArea(
-            child: Scaffold(
-              body: Form(
+    return Scaffold(
+      body: ProviderListener<AuthenticationUnion>(
+        provider: authenticationNotipod,
+        onChange: (context, union) {
+          union.when(
+            input: (e, st) {
+              if (e != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(e.toString())),
+                );
+              }
+            },
+            loading: () {},
+          );
+        },
+        child: auth.when(
+          input: (_, __) {
+            return SafeArea(
+              child: Form(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -75,27 +75,22 @@ class SignInUp extends HookWidget {
                         controller: credentials.passwordController,
                       ),
                       const Spacer(),
-                      SpotButton(
+                      AuthButtonPink(
                         text: 'Continue',
                         onTap: () {
                           notifier.authenticate(
                             isSignIn ? AuthScreen.signIn : AuthScreen.signUp,
                           );
                         },
-                        decoration: BoxDecoration(
-                          color: Colors.pink[400],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        textColor: Colors.white,
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-          );
-        },
-        loading: () => Loader(),
+            );
+          },
+          loading: () => Loader(),
+        ),
       ),
     );
   }
