@@ -2,13 +2,13 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import '../../service/shared/api_urls.dart';
 
 class RemoteConfigService {
-  final config = RemoteConfig.instance;
+  final _config = RemoteConfig.instance;
 
   Future<void> overrideBaseUrls() async {
-    await config.fetch();
+    await _config.fetch();
 
-    tradingAuthBaseUrl = config.getString('tradingAuthBaseUrl');
-    walletApiBaseUrl = config.getString('walletApiBaseUrl');
-    tradingBaseUrl = config.getString('tradingBaseUrl');
+    tradingAuthBaseUrl = _config.getString('tradingAuthBaseUrl');
+    walletApiBaseUrl = _config.getString('walletApiBaseUrl');
+    tradingBaseUrl = _config.getString('tradingBaseUrl');
   }
 }
