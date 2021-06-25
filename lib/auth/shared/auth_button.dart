@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SpotButton extends StatelessWidget {
-  const SpotButton({
+class AuthButton extends StatelessWidget {
+  const AuthButton({
     Key? key,
     required this.text,
     required this.onTap,

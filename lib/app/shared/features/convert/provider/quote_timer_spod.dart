@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../helpers/quote_timer.dart';
+import '../helper/quote_timer.dart';
 
 final quoteTimerSpod = StreamProvider.autoDispose.family<int, int>(
   (ref, expirationTime) {

@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../router/provider/router_key_pod.dart';
 
-import '../../router/provider/router_stpod/router_stpod.dart';
-import '../../service_providers.dart';
+import '../../../../router/provider/router_key_pod.dart';
+import '../../../../router/provider/router_stpod/router_stpod.dart';
+import '../../../../service_providers.dart';
 import '../notifier/authentication_notifier/authentication_notifier.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import 'auth_model_notipod.dart';
@@ -26,7 +26,7 @@ final authenticationNotipod =
       authModelNotifier: authModelNotifier,
       authService: authService,
       storageService: storageService,
-        routerKey: routerKey,
+      routerKey: routerKey,
     );
   },
 );

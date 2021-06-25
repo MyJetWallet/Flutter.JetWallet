@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../app/shared/helpers/navigator_push.dart';
-import '../../shared/components/spacers.dart';
+import '../../../../app/shared/helpers/navigator_push.dart';
+import '../../../../shared/components/spacers.dart';
+import '../../../shared/auth_button.dart';
+import '../../../shared/auth_button_pink.dart';
+import '../../sign_in_up/view/sign_in_up.dart';
 import 'components/app_version_text.dart';
-import 'components/spot_button.dart';
 import 'components/welcome_screen_text.dart';
-import 'sign_in_sign_up.dart';
 
 class Welcome extends StatelessWidget {
   @override
@@ -23,29 +24,24 @@ class Welcome extends StatelessWidget {
             text: 'to the app',
           ),
           const Spacer(),
-          SpotButton(
+          AuthButtonPink(
             text: 'Create account',
             onTap: () {
               navigatorPush(
                 context,
-                const SignInSignUp(
+                const SignInUp(
                   isSignIn: false,
                 ),
               );
             },
-            decoration: BoxDecoration(
-              color: Colors.pink[400],
-              borderRadius: BorderRadius.circular(8),
-            ),
-            textColor: Colors.white,
           ),
           const SpaceH15(),
-          SpotButton(
+          AuthButton(
             text: 'I have an account',
             onTap: () {
               navigatorPush(
                 context,
-                const SignInSignUp(
+                const SignInUp(
                   isSignIn: true,
                 ),
               );

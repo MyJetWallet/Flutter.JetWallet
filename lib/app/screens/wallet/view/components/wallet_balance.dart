@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service_providers.dart';
-import '../../helpers/calculate_total_balance.dart';
+import '../../helper/calculate_total_balance.dart';
 import '../../model/currency_model.dart';
 
 class WalletBalance extends HookWidget {

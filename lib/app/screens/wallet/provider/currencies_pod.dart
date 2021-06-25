@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../helpers/accuracy_from.dart';
-import '../helpers/calculate_base_balance.dart';
+import '../helper/accuracy_from.dart';
+import '../helper/calculate_base_balance.dart';
 import '../model/currency_model.dart';
 import 'assets_spod.dart';
 import 'balances_spod.dart';

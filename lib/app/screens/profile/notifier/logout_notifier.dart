@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../auth/model/auth_model.dart';
+import '../../../../auth/screens/sign_in_up/model/auth_model.dart';
 import '../../../../router/provider/router_stpod/router_union.dart';
 import '../../../../service/services/authentication/model/logout/logout_request_model.dart';
 import '../../../../service/services/authentication/service/authentication_service.dart';

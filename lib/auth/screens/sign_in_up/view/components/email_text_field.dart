@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../helpers/validators.dart';
+
+import '../../helper/validate_email.dart';
 
 class EmailTextField extends StatelessWidget {
   const EmailTextField({

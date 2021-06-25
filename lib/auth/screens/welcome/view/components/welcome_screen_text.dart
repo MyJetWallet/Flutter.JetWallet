@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class WelcomeScreenText extends StatelessWidget {
-  const WelcomeScreenText({Key? key, required this.text}) : super(key: key);
+  const WelcomeScreenText({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
 
   final String text;
 

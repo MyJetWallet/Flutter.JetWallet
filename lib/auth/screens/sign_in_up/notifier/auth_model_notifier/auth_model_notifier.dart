@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../shared/logging/levels.dart';
+import '../../../../../shared/logging/levels.dart';
 import '../../model/auth_model.dart';
 
 class AuthModelNotifier extends StateNotifier<AuthModel> {

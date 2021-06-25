@@ -7,7 +7,7 @@ import '../../../../../service/services/swap/model/get_quote/get_quote_response_
 import '../../../../../service/services/swap/service/swap_service.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../screens/wallet/model/currency_model.dart';
-import '../helpers/remove_element.dart';
+import '../helper/remove_element.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
 
