@@ -77,8 +77,8 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
-  assets:
-    - assets/
+  # assets:
+  #   - assets/
 
   # ADD FONT EXAMPLE:
   # 1. Not all fonts are working in all languages, some of them not work with Cyrillic languages suppose

@@ -17,6 +17,7 @@ class Navigation extends HookWidget {
     useProvider(pushNotificationOnTokenRefreshPod.select((_) {}));
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: screens[navigation.state],
       ),
