@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/shared/helpers/navigator_push.dart';
 import '../../../../shared/components/spacers.dart';
+import '../../../../shared/helpers/navigator_push.dart';
 import '../../../shared/auth_button.dart';
-import '../../../shared/auth_button_pink.dart';
+import '../../../shared/auth_button_grey.dart';
+import '../../../shared/auth_frame.dart';
 import '../../sign_in_up/view/sign_in_up.dart';
 import 'components/app_version_text.dart';
 import 'components/welcome_screen_text.dart';
@@ -11,8 +12,7 @@ import 'components/welcome_screen_text.dart';
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
+    return AuthScreenFrame(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -24,7 +24,7 @@ class Welcome extends StatelessWidget {
             text: 'to the app',
           ),
           const Spacer(),
-          AuthButtonPink(
+          AuthButtonGrey(
             text: 'Create account',
             onTap: () {
               navigatorPush(

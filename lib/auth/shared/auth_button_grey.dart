@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'auth_button.dart';
 
-class AuthButtonPink extends StatelessWidget {
-  const AuthButtonPink({
+class AuthButtonGrey extends StatelessWidget {
+  const AuthButtonGrey({
     Key? key,
     required this.text,
     required this.onTap,
@@ -18,7 +18,7 @@ class AuthButtonPink extends StatelessWidget {
       text: text,
       onTap: onTap,
       decoration: BoxDecoration(
-        color: Colors.pink[400],
+        color: Colors.grey[800],
         borderRadius: BorderRadius.circular(8),
       ),
       textColor: Colors.white,
