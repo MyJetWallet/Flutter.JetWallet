@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 
+class SpaceH50 extends StatelessWidget {
+  const SpaceH50();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 50,
+    );
+  }
+}
+
+class SpaceH40 extends StatelessWidget {
+  const SpaceH40();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 40,
+    );
+  }
+}
+
 class SpaceH30 extends StatelessWidget {
   const SpaceH30();
 
@@ -55,17 +77,6 @@ class SpaceH5 extends StatelessWidget {
   }
 }
 
-class SpaceW5 extends StatelessWidget {
-  const SpaceW5();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 5,
-    );
-  }
-}
-
 class SpaceW10 extends StatelessWidget {
   const SpaceW10();
 
@@ -73,6 +84,17 @@ class SpaceW10 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SizedBox(
       width: 10,
+    );
+  }
+}
+
+class SpaceW5 extends StatelessWidget {
+  const SpaceW5();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 5,
     );
   }
 }

@@ -16,14 +16,19 @@ dependencies:
   cupertino_icons: ^1.0.3 # IOS icons
   auto_size_text: ^3.0.0-nullsafety.0 # automatically resizes text to fit perfectly within its bounds
   universal_io: ^2.0.4 # Cross-platform 'dart:io' that works in all platforms
+  url_launcher: ^6.0.7 # plugin for launching a URL
+  font_awesome_flutter: ^9.1.0 # The Font Awesome Icon pack (1500+ icons)
+
+  # PLUS PLUGINS
+  # Docs: https://plus.fluttercommunity.dev/docs/overview
   package_info_plus: ^1.0.2 # querying information about the application package
+  android_intent_plus: ^1.0.2 # plugin for launching Android Intents
 
   # NETWORKING:
   dio: ^4.0.0 # http client
   pretty_dio_logger: ^1.1.1 # logger for dio
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
   json_annotation: ^4.0.1 # annotations used by json_serializable
-  # connectivity: ^3.0.4 # internet connection checker
 
   # INTERNATIONALIZATION:
   flutter_localizations:

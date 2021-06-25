@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../../shared/components/loader.dart';
 import '../../../../../../../shared/components/spacers.dart';
-import '../../../../../helpers/show_plain_snackbar.dart';
+import '../../../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../notifier/convert_notifier.dart';
 import '../../../notifier/convert_state.dart';
 import '../convert_button.dart';
