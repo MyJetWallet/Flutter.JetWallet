@@ -4,9 +4,11 @@ import 'package:logging/logging.dart';
 import '../model/authenticate/authentication_model.dart';
 import '../model/authenticate/login_request_model.dart';
 import '../model/authenticate/register_request_model.dart';
+import '../model/forgot_password/forgot_password_request_model.dart';
 import '../model/logout/logout_request_model.dart';
 import '../model/refresh/auth_refresh_request_model.dart';
 import '../model/refresh/auth_refresh_response_model.dart';
+import 'services/forgot_password_service.dart';
 import 'services/login_service.dart';
 import 'services/logout_service.dart';
 import 'services/refresh_service.dart';
@@ -33,5 +35,9 @@ class AuthenticationService {
 
   Future<void> logout(LogoutRequestModel model) {
     return logoutService(dio, model);
+  }
+
+  Future<void> forgotPassword(ForgotPasswordRequestModel model) {
+    return forgotPasswordService(dio, model);
   }
 }
