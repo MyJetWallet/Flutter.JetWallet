@@ -4,11 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
-import '../../../../shared/helpers/navigator_push.dart';
-import '../../../shared/auth_button_grey.dart';
-import '../../../shared/auth_frame.dart';
-import '../../../shared/auth_header_text.dart';
-import '../../email_verification/email_verification.dart';
+import '../../../shared/auth_button_pink.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';
@@ -28,7 +24,7 @@ class SignInUp extends HookWidget {
   Widget build(BuildContext context) {
     final credentials = useProvider(credentialsNotipod);
     final auth = useProvider(authenticationNotipod);
-    final authN = useProvider(authenticationNotipod.notifier);
+    final notifier = useProvider(authenticationNotipod.notifier);
 
     return Scaffold(
       body: ProviderListener<AuthenticationUnion>(
@@ -47,50 +43,48 @@ class SignInUp extends HookWidget {
         },
         child: auth.when(
           input: (_, __) {
-            return AuthScreenFrame(
+            return SafeArea(
               child: Form(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    AuthHeaderText(
-                      text: isSignIn ? 'Log In' : 'Create an account',
-                    ),
-                    const SpaceH20(),
-                    const Text(
-                      'Enter your email',
-                      textAlign: TextAlign.start,
-                    ),
-                    EmailTextField(
-                      controller: credentials.emailController,
-                    ),
-                    const SpaceH30(),
-                    const Text(
-                      'Enter password',
-                      textAlign: TextAlign.start,
-                    ),
-                    PasswordTextField(
-                      controller: credentials.passwordController,
-                    ),
-                    const Spacer(),
-                    AuthButtonGrey(
-                      text: 'Continue',
-                      onTap: () {
-                        authN.authenticate(
-                          isSignIn ? AuthScreen.signIn : AuthScreen.signUp,
-                        );
-                      },
-                    ),
-                    const SpaceH20(),
-                    AuthButtonGrey(
-                      text: 'Temp (Confirm)',
-                      onTap: () {
-                        navigatorPush(
-                          context,
-                          const EmailVerification(),
-                        );
-                      },
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        isSignIn ? 'Log In' : 'Create an account',
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 32,
+                        ),
+                      ),
+                      const SpaceH20(),
+                      const Text(
+                        'Enter your email',
+                        textAlign: TextAlign.start,
+                      ),
+                      EmailTextField(
+                        controller: credentials.emailController,
+                      ),
+                      const SpaceH30(),
+                      const Text(
+                        'Enter password',
+                        textAlign: TextAlign.start,
+                      ),
+                      PasswordTextField(
+                        controller: credentials.passwordController,
+                      ),
+                      const Spacer(),
+                      AuthButtonPink(
+                        text: 'Continue',
+                        onTap: () {
+                          notifier.authenticate(
+                            isSignIn ? AuthScreen.signIn : AuthScreen.signUp,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
