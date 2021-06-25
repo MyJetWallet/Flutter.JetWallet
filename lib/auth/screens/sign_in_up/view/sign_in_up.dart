@@ -7,6 +7,7 @@ import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../shared/auth_button_grey.dart';
 import '../../email_verification/email_verification.dart';
+import '../../forgot_password/view/forgot_password.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';
@@ -76,6 +77,13 @@ class SignInUp extends HookWidget {
                       PasswordTextField(
                         controller: credentials.passwordController,
                       ),
+                      const SpaceH20(),
+                      if (isSignIn) AuthButtonGrey(
+                        text: 'Forgot Password',
+                        onTap: () {
+                          navigatorPush(context, const ForgotPassword());
+                        },
+                      ) else Container(),
                       const Spacer(),
                       AuthButtonGrey(
                         text: 'Continue',
