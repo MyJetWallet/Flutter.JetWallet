@@ -9,10 +9,12 @@ final forgotPasswordNotipod =
     StateNotifierProvider<ForgotPasswordNotifier, ForgotPasswordUnion>(
   (ref) {
     final credentialsState = ref.watch(credentialsNotipod);
+    final credentialsNotifier = ref.watch(credentialsNotipod.notifier);
     final authService = ref.watch(authServicePod);
 
     return ForgotPasswordNotifier(
       credentialsState: credentialsState,
+      credentialsNotifier: credentialsNotifier,
       authService: authService,
     );
   },
