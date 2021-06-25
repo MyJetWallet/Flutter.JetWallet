@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -7,6 +8,7 @@ import '../../../service/services/notification/model/register_token_request_mode
 import '../../../service/services/notification/service/notification_service.dart';
 import '../../../service_providers.dart';
 import '../../logging/levels.dart';
+import '../other/navigator_key_pod.dart';
 
 final _logger = Logger('');
 
@@ -36,7 +38,9 @@ final pushNotificationRegisterTokenPod = Provider.autoDispose<void>(
     final service = ref.watch(notificationServicePod);
     final getToken = ref.watch(pushNotificationGetTokenFpod);
 
-    getToken.whenData((token) => _registerToken(service, token));
+    getToken.whenData((token) {
+      _registerToken(service, token, ref.read);
+    });
   },
   name: 'pushNotificationRegisterTokenPod',
 );
@@ -47,16 +51,25 @@ final pushNotificationOnTokenRefreshPod = Provider.autoDispose<void>(
     final service = ref.watch(notificationServicePod);
     final onTokenRefresh = ref.watch(pushNotificationOnTokenRefreshSpod);
 
-    onTokenRefresh.whenData((token) => _registerToken(service, token));
+    onTokenRefresh.whenData((token) {
+      _registerToken(service, token, ref.read);
+    });
   },
   name: 'pushNotificationOnTokenRefreshPod',
 );
 
-Future<void> _registerToken(NotificationService service, String? token) async {
+Future<void> _registerToken(
+  NotificationService service,
+  String? token,
+  Reader read,
+) async {
   if (token != null) {
+    final context = read(navigatorKeyPod).currentContext!;
+    final localizations = AppLocalizations.of(context)!;
+
     final model = RegisterTokenRequestModel(
       token: token,
-      locale: 'en',
+      locale: localizations.localeName,
     );
 
     try {
