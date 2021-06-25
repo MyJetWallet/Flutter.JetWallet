@@ -4,7 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
-import '../../../shared/auth_button_pink.dart';
+import '../../../../shared/helpers/navigator_push.dart';
+import '../../../shared/auth_button_grey.dart';
+import '../../email_verification/email_verification.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';
@@ -75,12 +77,19 @@ class SignInUp extends HookWidget {
                         controller: credentials.passwordController,
                       ),
                       const Spacer(),
-                      AuthButtonPink(
+                      AuthButtonGrey(
                         text: 'Continue',
                         onTap: () {
                           notifier.authenticate(
                             isSignIn ? AuthScreen.signIn : AuthScreen.signUp,
                           );
+                        },
+                      ),
+                      const SpaceH20(),
+                      AuthButtonGrey(
+                        text: 'Temp (Confirm)',
+                        onTap: () {
+                          navigatorPush(context, const EmailVerification());
                         },
                       ),
                     ],
