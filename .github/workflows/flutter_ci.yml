@@ -58,7 +58,7 @@ jobs:
 
   restart:
     runs-on: ubuntu-latest    
-    needs: build
+    needs: flutter_test
     steps:
     - name: Restart service
       uses: Myjetwallet/kube-restart-pods@master
