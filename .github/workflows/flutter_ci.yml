@@ -43,6 +43,15 @@ jobs:
           registry: docker.pkg.github.com
           repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
           tags: latest
+          
+      - name: Publish image ST
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.ST_DOCKER_USER }}
+          password: ${{ secrets.ST_DOCKER_PASSWORD }}
+          registry: simpletrading.azurecr.io
+          repository: spot/myjetwallet.flutter.jetwallet-test
+          tags: latest          
 
       - name: Publish image ST
         uses: docker/build-push-action@v1
