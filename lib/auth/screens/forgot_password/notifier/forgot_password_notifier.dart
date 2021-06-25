@@ -1,11 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/auth/screens/sign_in_up/notifier/credentials_notifier/credentials_notifier.dart';
 import 'package:logging/logging.dart';
 import 'package:universal_io/io.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../service/services/authentication/model/forgot_password/forgot_password_request_model.dart';
 import '../../../../service/services/authentication/service/authentication_service.dart';
+import '../../sign_in_up/notifier/credentials_notifier/credentials_notifier.dart';
 import '../../sign_in_up/notifier/credentials_notifier/credentials_state.dart';
 import 'forgot_password_union.dart';
 
@@ -29,7 +29,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordUnion> {
     final deviceType = _deviceType();
 
     try {
-      final forgotPasswordModel = ForgotPasswordRequestModel(
+      final model = ForgotPasswordRequestModel(
         email: email,
         platformType: 2,
         deviceType: deviceType,
@@ -37,7 +37,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordUnion> {
 
       state = const Loading();
 
-      await authService.forgotPassword(forgotPasswordModel);
+      await authService.forgotPassword(model);
 
       state = const Input();
       credentialsNotifier.clear();

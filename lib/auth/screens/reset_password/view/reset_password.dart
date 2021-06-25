@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/auth/screens/sign_in_up/view/components/password_text_field.dart';
 
 import '../../../../../shared/components/spacers.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../shared/auth_button_grey.dart';
-import '../../../shared/open_my_email_button.dart';
 import '../../sign_in_up/provider/credentials_notipod.dart';
-import '../../sign_in_up/view/components/email_text_field.dart';
+import '../../sign_in_up/view/components/password_text_field.dart';
 import '../notifier/reset_password_union.dart';
 import '../provider/reset_password_notipod.dart';
 
@@ -69,7 +67,7 @@ class ResetPassword extends HookWidget {
                       const Spacer(),
                       AuthButtonGrey(
                         text: 'Confirm',
-                        onTap: () => notifier.resetPassword(),
+                        onTap: () => notifier.resetPassword(token ?? ''),
                       ),
                     ],
                   ),
