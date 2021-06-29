@@ -15,7 +15,7 @@ Future<AssetConverterMapModel> assetConverterMapService(
 
   try {
     final response = await dio.get(
-      '$walletApiBaseUrl/wallet/base-currency-converter-map/$symbol',
+      '$walletApi/wallet/base-currency-converter-map/$symbol',
     );
 
     try {

@@ -15,7 +15,7 @@ Future<AuthRefreshResponseModel> refreshService(
 
   try {
     final response = await dio.post(
-      '$tradingAuthBaseUrl/Trader/RefreshToken',
+      '$tradingAuthApi/Trader/RefreshToken',
       data: model.toJson(),
     );
 

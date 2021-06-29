@@ -16,7 +16,7 @@ Future<ExecuteQuoteResponseModel> executeQuoteService(
 
   try {
     final response = await dio.post(
-      '$walletApiBaseUrl/swap/execute-quote',
+      '$walletApi/swap/execute-quote',
       data: model.toJson(),
     );
 

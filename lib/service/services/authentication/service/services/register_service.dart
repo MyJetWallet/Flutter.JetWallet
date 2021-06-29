@@ -16,7 +16,7 @@ Future<AuthenticationModel> registerService(
 
   try {
     final response = await dio.post(
-      '$tradingAuthBaseUrl/Trader/Register',
+      '$tradingAuthApi/Trader/Register',
       data: model.toJson(),
     );
 

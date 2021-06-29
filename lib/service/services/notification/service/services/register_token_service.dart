@@ -15,7 +15,7 @@ Future<void> registerTokenService(
 
   try {
     final response = await dio.post(
-      '$walletApiBaseUrl/push/token',
+      '$walletApi/push/token',
       data: model.toJson(),
     );
 
