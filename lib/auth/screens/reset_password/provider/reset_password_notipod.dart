@@ -18,7 +18,7 @@ final resetPasswordNotipod =
       credentialsState: credentialsState,
       credentialsNotifier: credentialsNotifier,
       authService: authService,
-        routerKey: routerKey,
+      routerKey: routerKey,
     );
   },
 );

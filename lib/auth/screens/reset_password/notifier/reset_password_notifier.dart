@@ -43,9 +43,8 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordUnion> {
 
       Navigator.popUntil(
         routerKey.currentContext!,
-            (route) => route.isFirst == true,
+        (route) => route.isFirst == true,
       );
-
     } catch (e, st) {
       _logger.log(stateFlow, 'resetPassword', e);
 

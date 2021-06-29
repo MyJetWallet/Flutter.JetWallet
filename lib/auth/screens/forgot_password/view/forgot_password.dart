@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/auth/shared/auth_header_text.dart';
 
 import '../../../../../shared/components/spacers.dart';
 import '../../../../shared/components/loader.dart';
@@ -46,18 +47,13 @@ class ForgotPassword extends HookWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text(
-                        'Forgot Password',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 32,
-                        ),
+                      const AuthHeaderText(
+                        text: 'Forgot Password',
                       ),
                       const SpaceH20(),
                       const Text(
                         'Enter your email. '
-                            'We will send recovery link to your email.',
+                        'We will send recovery link to your email.',
                         textAlign: TextAlign.start,
                       ),
                       EmailTextField(

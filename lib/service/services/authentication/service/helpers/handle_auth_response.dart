@@ -8,13 +8,14 @@ AuthenticationModel handleAuthResponse(Map<String, dynamic> json) {
   if (result == 0) {
     return response.authModel!;
   } else {
-   _validateResultResponse(result);
-   throw '';
+    _validateResultResponse(result);
+    throw 'Something went wrong';
   }
 }
 
-void handleAuthResultResponse(Map<String, dynamic> json) {
+void handleAuthResult(Map<String, dynamic> json) {
   final result = json['result'] as int;
+
   if (result != 0) {
     _validateResultResponse(result);
   }
