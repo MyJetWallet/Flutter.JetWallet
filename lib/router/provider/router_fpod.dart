@@ -13,11 +13,13 @@ final routerFpod = FutureProvider<void>((ref) async {
   final storageService = ref.watch(localStorageServicePod);
 
   final token = await storageService.getString(refreshTokenKey);
+  final email = await storageService.getString(userEmailKey);
 
   if (token == null) {
     router.state = const Unauthorized();
   } else {
     authModel.updateRefreshToken(token);
+    authModel.updateEmail(email ?? '<Email not found>');
 
     try {
       final result = await refreshToken(ref.read);
