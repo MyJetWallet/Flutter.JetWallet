@@ -11,7 +11,6 @@ import '../provider/router_fpod.dart';
 import '../provider/router_init_fpod.dart';
 import '../provider/router_key_pod.dart';
 import '../provider/router_stpod/router_stpod.dart';
-import 'components/splash_screen.dart';
 
 class AppRouter extends HookWidget {
   static const routeName = '/';
@@ -28,6 +27,7 @@ class AppRouter extends HookWidget {
         intlPod.overrideWithValue(AppLocalizations.of(context)!),
       ],
       child: Scaffold(
+        backgroundColor: Colors.white,
         key: key,
         body: SafeArea(
           child: future.when(
@@ -43,7 +43,7 @@ class AppRouter extends HookWidget {
                 error: (e, st) => Text('$e'),
               );
             },
-            loading: () => SplashScreen(),
+            loading: () => Loader(),
             error: (e, st) => Text('$e'),
           ),
         ),

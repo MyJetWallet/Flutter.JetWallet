@@ -17,7 +17,6 @@ class BottomNavigationMenu extends HookWidget {
     return SizedBox(
       height: 56.0,
       child: Material(
-        elevation: 5.0,
         color: Colors.white,
         child: Row(
           children: [
