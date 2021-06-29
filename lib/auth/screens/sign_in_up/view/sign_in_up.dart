@@ -6,7 +6,7 @@ import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../shared/auth_button_grey.dart';
-import '../../email_verification/email_verification.dart';
+import '../../email_verification/view/email_verification.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
 import '../provider/authentication_notipod.dart';

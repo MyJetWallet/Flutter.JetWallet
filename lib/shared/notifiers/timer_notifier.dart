@@ -9,6 +9,7 @@ class TimerNotifier extends StateNotifier<int> {
 
   void refreshTimer() {
     state = initial;
+    
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
