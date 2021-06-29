@@ -12,6 +12,7 @@ import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/push_notification_service.dart';
+import 'shared/services/remote_config_service.dart';
 
 // Just type providers here to exclude from logger
 // Remember to unstage the changes from your commit
@@ -30,7 +31,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   if (!kIsWeb) {
     await PushNotificationService().initialize();
-    // await RemoteConfigService().overrideBaseUrls();
+    await RemoteConfigService().overrideBaseUrls();
   }
 
   Logger.root.level = Level.ALL;
