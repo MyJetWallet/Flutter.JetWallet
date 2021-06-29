@@ -6,9 +6,10 @@ import '../../../auth/screens/reset_password/view/reset_password.dart';
 import '../../../service_providers.dart';
 import '../other/navigator_key_pod.dart';
 
+const _code = 'jw_code';
 const _token = 'jw_token';
 const _command = 'jw_command';
-const _emailVerification = 'emailverification';
+const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
 
 final dynamicLinkPod = Provider<void>(
@@ -23,8 +24,10 @@ final dynamicLinkPod = Provider<void>(
         navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) {
-              if (parameters[_command] == _emailVerification) {
-                return const EmailVerification();
+              if (parameters[_command] == _confirmEmail) {
+                return EmailVerification(
+                  code: parameters[_code],
+                );
               } else if (parameters[_command] == _forgotPassword) {
                 return ResetPassword(
                   token: parameters[_token],

@@ -7,7 +7,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
   final EmailVerificationState initial;
 
-  void updateCode(String code) {
+  void updateCode(String? code) {
     state = state.copyWith(code: code);
   }
 

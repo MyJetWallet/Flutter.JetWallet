@@ -10,22 +10,40 @@ import '../../../shared/auth_frame.dart';
 import '../../../shared/auth_header_text.dart';
 import '../../../shared/open_my_email_button.dart';
 import '../../email_verification_success/email_verification_success.dart';
+import '../provider/email_verification_notipod.dart';
 import 'components/email_verification_text.dart';
 import 'components/email_verification_text_field.dart';
 import 'components/resend_button.dart';
 import 'components/resend_in_text.dart';
 
-class EmailVerification extends HookWidget {
+class EmailVerification extends StatefulHookWidget {
   const EmailVerification({
     Key? key,
+    this.code,
   }) : super(key: key);
+
+  final String? code;
+
+  @override
+  _EmailVerificationState createState() => _EmailVerificationState();
+}
+
+class _EmailVerificationState extends State<EmailVerification> {
+  @override
+  void initState() {
+    context.read(emailVerificationNotipod.notifier).updateCode(widget.code);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final state = useProvider(emailVerificationNotipod);
+    final notifier = useProvider(emailVerificationNotipod.notifier);
     final timer = useProvider(timerNotipod(5));
     final timerN = useProvider(timerNotipod(5).notifier);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: AuthScreenFrame(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +69,10 @@ class EmailVerification extends HookWidget {
               ),
             ],
             const SpaceH50(),
-            const EmailVerificationTextField(),
+            EmailVerificationTextField(
+              initialValue: state.code,
+              onChanged: (value) => notifier.updateCode(value),
+            ),
             const Spacer(),
             const OpenMyEmailButton(),
             const SpaceH15(),

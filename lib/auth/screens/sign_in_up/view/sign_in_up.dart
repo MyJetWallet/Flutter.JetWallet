@@ -78,12 +78,15 @@ class SignInUp extends HookWidget {
                         controller: credentials.passwordController,
                       ),
                       const SpaceH20(),
-                      if (isSignIn) AuthButtonGrey(
-                        text: 'Forgot Password',
-                        onTap: () {
-                          navigatorPush(context, const ForgotPassword());
-                        },
-                      ) else Container(),
+                      if (isSignIn)
+                        AuthButtonGrey(
+                          text: 'Forgot Password',
+                          onTap: () {
+                            navigatorPush(context, const ForgotPassword());
+                          },
+                        )
+                      else
+                        Container(),
                       const Spacer(),
                       AuthButtonGrey(
                         text: 'Continue',
@@ -97,7 +100,10 @@ class SignInUp extends HookWidget {
                       AuthButtonGrey(
                         text: 'Temp (Confirm)',
                         onTap: () {
-                          navigatorPush(context, const EmailVerification());
+                          navigatorPush(
+                            context,
+                            const EmailVerification(code: '3333'),
+                          );
                         },
                       ),
                     ],

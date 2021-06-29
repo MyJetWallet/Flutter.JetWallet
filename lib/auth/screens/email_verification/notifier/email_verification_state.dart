@@ -6,6 +6,6 @@ part 'email_verification_state.freezed.dart';
 class EmailVerificationState with _$EmailVerificationState {
   const factory EmailVerificationState({
     required String email,
-    required String code,
+    String? code,
   }) = _EmailVerificationState;
 }
