@@ -1,38 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../auth/screens/reset_password/view/reset_password.dart';
 
 import '../../../service_providers.dart';
 import '../other/navigator_key_pod.dart';
 
 const command = 'jw_command';
 const emailVerification = 'emailverification';
+const forgotPassword = 'ForgotPassword';
+const token = 'jw_token';
 
-final dynamicLinkPod = Provider<void>((ref) {
-  final service = ref.watch(dynamicLinkServicePod);
-  final navigatorKey = ref.watch(navigatorKeyPod);
+final dynamicLinkPod = Provider<void>(
+  (ref) {
+    final service = ref.watch(dynamicLinkServicePod);
+    final navigatorKey = ref.watch(navigatorKeyPod);
 
-  service.initDynamicLinks(
-    handler: (link) {
-      final parameters = link.queryParameters;
+    service.initDynamicLinks(
+      handler: (link) {
+        final parameters = link.queryParameters;
 
-      navigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (context) {
-            if (parameters[command] == emailVerification) {
-              return EmailVerification(
-                deepLinkParameters: parameters,
-              );
-            } else {
-              return UndefinedDeepLink(
-                deepLinkParameters: parameters,
-              );
-            }
-          },
-        ),
-      );
-    },
-  );
-}, name: 'dynamicLinkPod');
+        navigatorKey.currentState!.push(
+          MaterialPageRoute(
+            builder: (context) {
+              if (parameters[command] == emailVerification) {
+                return EmailVerification(
+                  deepLinkParameters: parameters,
+                );
+              } else if (parameters[command] == forgotPassword) {
+                return ResetPassword(
+                  token: parameters[token],
+                );
+              } else {
+                return UndefinedDeepLink(
+                  deepLinkParameters: parameters,
+                );
+              }
+            },
+          ),
+        );
+      },
+    );
+  },
+  name: 'dynamicLinkPod',
+);
 
 // TODO: Refactor, we need to review our current arch of the app
 class EmailVerification extends StatelessWidget {

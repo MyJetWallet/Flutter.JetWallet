@@ -22,7 +22,7 @@ Future<void> forgotPasswordService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleAuthResponse(responseData);
+      handleAuthResult(responseData);
     } catch (e) {
       logger.log(contract, message);
       rethrow;
