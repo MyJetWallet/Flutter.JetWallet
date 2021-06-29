@@ -37,6 +37,7 @@ class AppRouter extends HookWidget {
                   return router.state.when(
                     authorized: () => Navigation(),
                     unauthorized: () => Welcome(),
+                    emailVerification: () => Container(),
                   );
                 },
                 loading: () => Loader(),
