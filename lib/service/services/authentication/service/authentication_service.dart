@@ -4,11 +4,14 @@ import 'package:logging/logging.dart';
 import '../model/authenticate/authentication_model.dart';
 import '../model/authenticate/login_request_model.dart';
 import '../model/authenticate/register_request_model.dart';
+import '../model/email_verification/email_verification_request_model.dart';
+import '../model/email_verification/email_verification_response_model.dart';
 import '../model/forgot_password/forgot_password_request_model.dart';
 import '../model/logout/logout_request_model.dart';
 import '../model/password_recovery/password_recovery_request_model.dart';
 import '../model/refresh/auth_refresh_request_model.dart';
 import '../model/refresh/auth_refresh_response_model.dart';
+import 'services/email_verification_service.dart';
 import 'services/forgot_password_service.dart';
 import 'services/login_service.dart';
 import 'services/logout_service.dart';
@@ -45,5 +48,11 @@ class AuthenticationService {
 
   Future<void> recoverPassword(PasswordRecoveryRequestModel model) {
     return recoverPasswordService(dio, model);
+  }
+
+  Future<EmailVerificationResponseModel> emailVerification(
+    EmailVerificationRequestModel model,
+  ) {
+    return emailVerificationService(dio, model);
   }
 }
