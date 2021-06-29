@@ -1,22 +1,34 @@
 import 'package:dio/dio.dart';
 
+import '../../../../../shared/logging/levels.dart';
 import '../../../../shared/api_urls.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/email_verification/email_verification_request_model.dart';
-import '../../model/email_verification/email_verification_response_model.dart';
+import '../authentication_service.dart';
 
-Future<EmailVerificationResponseModel> emailVerificationService(
+Future<void> emailVerificationService(
   Dio dio,
   EmailVerificationRequestModel model,
 ) async {
-  final response = await dio.post(
-    '$validationApi/email-verification/request',
-    data: model.toJson(),
-  );
+  final logger = AuthenticationService.logger;
+  const message = 'emailVerificationService';
 
-  final responseData = response.data as Map<String, dynamic>;
+  try {
+    final response = await dio.post(
+      '$validationApi/email-verification/request',
+      data: model.toJson(),
+    );
 
-  final data = handleFullResponse<String>(responseData);
+    try {
+      final responseData = response.data as Map<String, dynamic>;
 
-  return EmailVerificationResponseModel.fromJson(data);
+      handleFullResponse<String>(responseData);
+    } catch (e) {
+      logger.log(contract, message);
+      rethrow;
+    }
+  } catch (e) {
+    logger.log(transport, message);
+    rethrow;
+  }
 }

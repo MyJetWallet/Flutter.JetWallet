@@ -5,7 +5,6 @@ import '../model/authenticate/authentication_model.dart';
 import '../model/authenticate/login_request_model.dart';
 import '../model/authenticate/register_request_model.dart';
 import '../model/email_verification/email_verification_request_model.dart';
-import '../model/email_verification/email_verification_response_model.dart';
 import '../model/forgot_password/forgot_password_request_model.dart';
 import '../model/logout/logout_request_model.dart';
 import '../model/password_recovery/password_recovery_request_model.dart';
@@ -50,9 +49,7 @@ class AuthenticationService {
     return recoverPasswordService(dio, model);
   }
 
-  Future<EmailVerificationResponseModel> emailVerification(
-    EmailVerificationRequestModel model,
-  ) {
+  Future<void> emailVerification(EmailVerificationRequestModel model) {
     return emailVerificationService(dio, model);
   }
 }
