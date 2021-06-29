@@ -47,62 +47,83 @@ class SignInUp extends HookWidget {
         child: auth.when(
           input: (_, __) {
             return SafeArea(
-              child: Form(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        isSignIn ? 'Log In' : 'Create an account',
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 32,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: constraints.maxWidth,
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: IntrinsicHeight(
+                        child: Form(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  isSignIn ? 'Log In' : 'Create an account',
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 32,
+                                  ),
+                                ),
+                                const SpaceH20(),
+                                const Text(
+                                  'Enter your email',
+                                  textAlign: TextAlign.start,
+                                ),
+                                EmailTextField(
+                                  controller: credentials.emailController,
+                                ),
+                                const SpaceH30(),
+                                const Text(
+                                  'Enter password',
+                                  textAlign: TextAlign.start,
+                                ),
+                                PasswordTextField(
+                                  controller: credentials.passwordController,
+                                ),
+                                const SpaceH20(),
+                                if (isSignIn)
+                                  AuthButtonGrey(
+                                    text: 'Forgot Password',
+                                    onTap: () {
+                                      navigatorPush(
+                                          context, const ForgotPassword());
+                                    },
+                                  )
+                                else
+                                  Container(),
+                                const Spacer(),
+                                AuthButtonGrey(
+                                  text: 'Continue',
+                                  onTap: () {
+                                    notifier.authenticate(
+                                      isSignIn
+                                          ? AuthScreen.signIn
+                                          : AuthScreen.signUp,
+                                    );
+                                  },
+                                ),
+                                const SpaceH20(),
+                                AuthButtonGrey(
+                                  text: 'Temp (Confirm)',
+                                  onTap: () {
+                                    navigatorPush(
+                                        context, const EmailVerification());
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      const SpaceH20(),
-                      const Text(
-                        'Enter your email',
-                        textAlign: TextAlign.start,
-                      ),
-                      EmailTextField(
-                        controller: credentials.emailController,
-                      ),
-                      const SpaceH30(),
-                      const Text(
-                        'Enter password',
-                        textAlign: TextAlign.start,
-                      ),
-                      PasswordTextField(
-                        controller: credentials.passwordController,
-                      ),
-                      const SpaceH20(),
-                      if (isSignIn) AuthButtonGrey(
-                        text: 'Forgot Password',
-                        onTap: () {
-                          navigatorPush(context, const ForgotPassword());
-                        },
-                      ) else Container(),
-                      const Spacer(),
-                      AuthButtonGrey(
-                        text: 'Continue',
-                        onTap: () {
-                          notifier.authenticate(
-                            isSignIn ? AuthScreen.signIn : AuthScreen.signUp,
-                          );
-                        },
-                      ),
-                      const SpaceH20(),
-                      AuthButtonGrey(
-                        text: 'Temp (Confirm)',
-                        onTap: () {
-                          navigatorPush(context, const EmailVerification());
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
             );
           },
