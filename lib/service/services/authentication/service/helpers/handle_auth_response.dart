@@ -7,7 +7,21 @@ AuthenticationModel handleAuthResponse(Map<String, dynamic> json) {
 
   if (result == 0) {
     return response.authModel!;
-  } else if (result == -9) {
+  } else {
+   _validateResultResponse(result);
+   throw '';
+  }
+}
+
+void handleAuthResultResponse(Map<String, dynamic> json) {
+  final result = json['result'] as int;
+  if (result != 0) {
+    _validateResultResponse(result);
+  }
+}
+
+void _validateResultResponse(int result) {
+  if (result == -9) {
     throw 'Expired';
   } else if (result == -8) {
     throw 'SystemError';
