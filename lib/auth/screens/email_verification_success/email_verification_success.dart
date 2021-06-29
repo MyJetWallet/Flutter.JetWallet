@@ -3,8 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../router/provider/router_key_pod.dart';
 import '../../../shared/components/spacers.dart';
+import '../../../shared/helpers/navigate_to_router.dart';
+import '../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../shared/providers/other/timer_notipod.dart';
 import '../../shared/auth_frame.dart';
 import '../../shared/auth_header_text.dart';
@@ -16,17 +17,12 @@ class EmailVerificationSuccess extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routerKey = useProvider(routerKeyPod);
+    final navigatorKey = useProvider(navigatorKeyPod);
 
     return ProviderListener<int>(
       provider: timerNotipod(3),
       onChange: (context, value) {
-        if (value == 0) {
-          Navigator.popUntil(
-            routerKey.currentContext!,
-            (route) => route.isFirst == true,
-          );
-        }
+        if (value == 0) navigateToRouter(navigatorKey);
       },
       child: Scaffold(
         body: AuthScreenFrame(

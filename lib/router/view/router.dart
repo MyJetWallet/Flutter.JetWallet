@@ -9,7 +9,6 @@ import '../../service_providers.dart';
 import '../../shared/components/loader.dart';
 import '../provider/router_fpod.dart';
 import '../provider/router_init_fpod.dart';
-import '../provider/router_key_pod.dart';
 import '../provider/router_stpod/router_stpod.dart';
 
 class AppRouter extends HookWidget {
@@ -20,7 +19,6 @@ class AppRouter extends HookWidget {
     final router = useProvider(routerStpod);
     final future = useProvider(routerFpod);
     final init = useProvider(routerInitFpod);
-    final key = useProvider(routerKeyPod);
 
     return ProviderScope(
       overrides: [
@@ -28,7 +26,6 @@ class AppRouter extends HookWidget {
       ],
       child: Scaffold(
         backgroundColor: Colors.white,
-        key: key,
         body: SafeArea(
           child: future.when(
             data: (_) {

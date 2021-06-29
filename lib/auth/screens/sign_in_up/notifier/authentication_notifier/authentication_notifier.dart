@@ -8,6 +8,7 @@ import '../../../../../service/services/authentication/model/authenticate/login_
 import '../../../../../service/services/authentication/model/authenticate/register_request_model.dart';
 import '../../../../../service/services/authentication/service/authentication_service.dart';
 import '../../../../../shared/helpers/current_platform.dart';
+import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/local_storage_service.dart';
 import '../../provider/auth_screen_stpod.dart';
@@ -24,7 +25,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     required this.authModelNotifier,
     required this.authService,
     required this.storageService,
-    required this.routerKey,
+    required this.navigatorKey,
   }) : super(const Input());
 
   final StateController<RouterUnion> router;
@@ -33,7 +34,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final AuthModelNotifier authModelNotifier;
   final AuthenticationService authService;
   final LocalStorageService storageService;
-  final GlobalKey<ScaffoldState> routerKey;
+  final GlobalKey<NavigatorState> navigatorKey;
 
   static final _logger = Logger('AuthenticationNotifier');
 
@@ -76,7 +77,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       state = const Input();
 
-      Navigator.pop(routerKey.currentContext!);
+      navigateToRouter(navigatorKey);
 
       credentialsNotifier.clear();
     } catch (e, st) {
