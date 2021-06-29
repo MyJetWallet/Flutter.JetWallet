@@ -72,7 +72,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       authModelNotifier.updateRefreshToken(authModel.refreshToken);
       authModelNotifier.updateEmail(email);
 
-      router.state = const Authorised();
+      router.state = const Authorized();
 
       state = const Input();
 

@@ -15,7 +15,7 @@ final routerFpod = FutureProvider<void>((ref) async {
   final token = await storageService.getString(refreshTokenKey);
 
   if (token == null) {
-    router.state = const Unauthorised();
+    router.state = const Unauthorized();
   } else {
     authModel.updateRefreshToken(token);
 
@@ -23,7 +23,7 @@ final routerFpod = FutureProvider<void>((ref) async {
       final result = await refreshToken(ref.read);
 
       if (result == RefreshTokenStatus.success) {
-        router.state = const Authorised();
+        router.state = const Authorized();
       }
     } catch (e) {
       // TODO handle this flow (waiting for product owners)

@@ -46,7 +46,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
     final code = error.response?.statusCode;
 
     if (code == 401 || code == 403) {
-      router.state = const Unauthorised();
+      router.state = const Unauthorized();
 
       Navigator.popUntil(
         routerKey.currentContext!,
