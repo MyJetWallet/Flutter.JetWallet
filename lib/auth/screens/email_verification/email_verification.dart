@@ -23,6 +23,7 @@ class EmailVerification extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final timer = useProvider(timerNotipod(5));
+    final timerN = useProvider(timerNotipod(5).notifier);
 
     return Scaffold(
       body: AuthScreenFrame(
@@ -46,9 +47,7 @@ class EmailVerification extends HookWidget {
             else ...[
               const SpaceH5(),
               ResendButton(
-                // TODO Refresh for StateNotifierProvider is currently broken
-                // Find workaround (will be fixed in 1.0.0 - stable)
-                onTap: () => context.refresh(timerNotipod(5)),
+                onTap: () => timerN.refreshTimer(),
               ),
             ],
             const SpaceH50(),
