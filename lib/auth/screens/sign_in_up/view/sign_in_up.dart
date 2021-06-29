@@ -30,6 +30,7 @@ class SignInUp extends HookWidget {
     final notifier = useProvider(authenticationNotipod.notifier);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: ProviderListener<AuthenticationUnion>(
         provider: authenticationNotipod,
         onChange: (context, union) {
