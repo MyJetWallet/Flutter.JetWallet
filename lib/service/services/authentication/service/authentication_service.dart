@@ -4,19 +4,21 @@ import 'package:logging/logging.dart';
 import '../model/authenticate/authentication_model.dart';
 import '../model/authenticate/login_request_model.dart';
 import '../model/authenticate/register_request_model.dart';
-import '../model/email_verification/email_verification_request_model.dart';
+import '../model/email_verification/send_email_verification_code_request_model.dart';
+import '../model/email_verification/verify_email_verification_code_request_model.dart';
 import '../model/forgot_password/forgot_password_request_model.dart';
 import '../model/logout/logout_request_model.dart';
 import '../model/password_recovery/password_recovery_request_model.dart';
 import '../model/refresh/auth_refresh_request_model.dart';
 import '../model/refresh/auth_refresh_response_model.dart';
-import 'services/email_verification_service.dart';
 import 'services/forgot_password_service.dart';
 import 'services/login_service.dart';
 import 'services/logout_service.dart';
 import 'services/password_recovery_service.dart';
 import 'services/refresh_service.dart';
 import 'services/register_service.dart';
+import 'services/send_email_verification_code_service.dart';
+import 'services/verify_email_verification_code_service.dart';
 
 class AuthenticationService {
   AuthenticationService(this.dio);
@@ -49,7 +51,15 @@ class AuthenticationService {
     return recoverPasswordService(dio, model);
   }
 
-  Future<void> emailVerification(EmailVerificationRequestModel model) {
-    return emailVerificationService(dio, model);
+  Future<void> sendEmailVerificationCode(
+    SendEmailVerificationCodeRequestModel model,
+  ) {
+    return sendEmailVerificationCodeService(dio, model);
+  }
+
+  Future<void> verifyEmailVerificationCode(
+    VerifyEmailVerificationCodeRequestModel model,
+  ) {
+    return verifyEmailVerificationCodeService(dio, model);
   }
 }
