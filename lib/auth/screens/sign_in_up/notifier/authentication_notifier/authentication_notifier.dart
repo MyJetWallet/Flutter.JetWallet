@@ -7,6 +7,7 @@ import '../../../../../service/services/authentication/model/authenticate/authen
 import '../../../../../service/services/authentication/model/authenticate/login_request_model.dart';
 import '../../../../../service/services/authentication/model/authenticate/register_request_model.dart';
 import '../../../../../service/services/authentication/service/authentication_service.dart';
+import '../../../../../service/shared/constants.dart';
 import '../../../../../shared/helpers/current_platform.dart';
 import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/logging/levels.dart';
@@ -54,6 +55,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       final registerRequest = RegisterRequestModel(
         email: email,
         password: password,
+        platformType: platformType,
         platform: currentPlatform,
       );
 
