@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../shared/constants.dart';
+import '../../../../shared/api_urls.dart';
 import '../../model/refresh/auth_refresh_request_model.dart';
 import '../../model/refresh/auth_refresh_response_model.dart';
 import '../authentication_service.dart';
@@ -15,7 +15,7 @@ Future<AuthRefreshResponseModel> refreshService(
 
   try {
     final response = await dio.post(
-      '$tradingAuthBaseUrl/Trader/RefreshToken',
+      '$tradingAuthApi/Trader/RefreshToken',
       data: model.toJson(),
     );
 

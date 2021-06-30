@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../shared/constants.dart';
+import '../../../../shared/api_urls.dart';
 import '../../model/authenticate/authentication_model.dart';
 import '../../model/authenticate/login_request_model.dart';
 import '../authentication_service.dart';
@@ -16,7 +16,7 @@ Future<AuthenticationModel> loginService(
 
   try {
     final response = await dio.post(
-      '$tradingAuthBaseUrl/Trader/Authenticate',
+      '$tradingAuthApi/Trader/Authenticate',
       data: model.toJson(),
     );
 

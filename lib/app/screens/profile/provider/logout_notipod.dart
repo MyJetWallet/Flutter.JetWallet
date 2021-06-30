@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../auth/provider/auth_model_notipod.dart';
+import '../../../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
 import '../../../../router/provider/router_stpod/router_stpod.dart';
 import '../../../../service_providers.dart';
 import '../notifier/logout_notifier.dart';

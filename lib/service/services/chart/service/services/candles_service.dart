@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../shared/constants.dart';
+import '../../../../shared/api_urls.dart';
 import '../../model/candles_request_model.dart';
 import '../../model/candles_response_model.dart';
 import '../chart_service.dart';
@@ -15,7 +15,7 @@ Future<CandlesResponseModel> candlesService(
 
   try {
     final response = await dio.get(
-      '$tradingBaseUrl/PriceHistory/Candles',
+      '$tradingApi/PriceHistory/Candles',
       queryParameters: model.toJson(),
     );
 

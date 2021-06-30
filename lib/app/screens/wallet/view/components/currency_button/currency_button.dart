@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/currency_details/currency_details.dart';
-import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../model/currency_model.dart';
 import 'components/currency_card.dart';
 

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../shared/constants.dart';
+import '../../../../shared/api_urls.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/execute_quote/execute_quote_request_model.dart';
 import '../../model/execute_quote/execute_quote_response_model.dart';
@@ -16,10 +16,10 @@ Future<ExecuteQuoteResponseModel> executeQuoteService(
 
   try {
     final response = await dio.post(
-      '$walletApiBaseUrl/swap/execute-quote',
+      '$walletApi/swap/execute-quote',
       data: model.toJson(),
     );
-    
+
     try {
       final responseData = response.data as Map<String, dynamic>;
 

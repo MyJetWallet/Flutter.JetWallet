@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../shared/constants.dart';
+import '../../../../shared/api_urls.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/register_token_request_model.dart';
 import '../notification_service.dart';
@@ -15,7 +15,7 @@ Future<void> registerTokenService(
 
   try {
     final response = await dio.post(
-      '$walletApiBaseUrl/push/token',
+      '$walletApi/push/token',
       data: model.toJson(),
     );
 

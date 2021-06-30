@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
+import '../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../screens/wallet/model/currency_model.dart';
-import '../../../helpers/show_plain_snackbar.dart';
 import '../notifier/convert_state.dart';
 import '../notifier/convert_union.dart';
 import '../provider/convert_notipod.dart';

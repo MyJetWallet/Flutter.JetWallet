@@ -4,6 +4,8 @@ SPOT Front-End Application
 
 <https://jetwallet-spot.mnftx.biz/#/>
 
+<https://jetwallet.page.link/app/>
+
 ## Logging
 
 All logging in the app is handled by [logging](https://pub.dev/packages/logging) package from the Dart team.
@@ -87,7 +89,7 @@ service: name_service.dart
 notifier: name_notifier.dart, name_state.dart, name_union.dart
 provider: name_pod.dart, name_fpod.dart, name_spod.dart, name_stpod.dart, name_notipod.dart
 widget: name.dart
-helpers: name.dart
+helper: name.dart
 ```
 
 ## Structure

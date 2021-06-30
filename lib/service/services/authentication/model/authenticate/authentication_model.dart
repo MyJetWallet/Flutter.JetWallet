@@ -7,7 +7,7 @@ part 'authentication_model.g.dart';
 class AuthResponseModel with _$AuthResponseModel {
   const factory AuthResponseModel({
     required int result,
-    @JsonKey(name: 'data') required AuthenticationModel authModel,
+    @JsonKey(name: 'data') AuthenticationModel? authModel,
   }) = _AuthResponseModel;
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) =>

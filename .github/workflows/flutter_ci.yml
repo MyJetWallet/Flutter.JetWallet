@@ -51,7 +51,8 @@ jobs:
           password: ${{ secrets.ST_DOCKER_PASSWORD }}
           registry: simpletrading.azurecr.io
           repository: spot/myjetwallet.flutter.jetwallet-test
-          tags: latest          
+          tags: latest             
+
 
   restart:
     runs-on: ubuntu-latest    

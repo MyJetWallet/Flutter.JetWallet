@@ -17,7 +17,6 @@ class BottomNavigationMenu extends HookWidget {
     return SizedBox(
       height: 56.0,
       child: Material(
-        elevation: 5.0,
         color: Colors.white,
         child: Row(
           children: [
@@ -35,6 +34,11 @@ class BottomNavigationMenu extends HookWidget {
               index: 2,
               icon: Icons.bar_chart,
               name: intl.chart,
+            ),
+            const BottomNavigationItem(
+              index: 3,
+              icon: Icons.bug_report,
+              name: 'Logs',
             ),
           ],
         ),
