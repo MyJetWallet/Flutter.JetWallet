@@ -6,8 +6,8 @@ import '../../sign_in_up/provider/auth_model_notipod.dart';
 import '../notifier/email_verification_notifier.dart';
 import '../notifier/email_verification_state.dart';
 
-final emailVerificationNotipod =
-    StateNotifierProvider<EmailVerificationNotifier, EmailVerificationState>(
+final emailVerificationNotipod = StateNotifierProvider.autoDispose<
+    EmailVerificationNotifier, EmailVerificationState>(
   (ref) {
     final authModel = ref.watch(authModelNotipod);
     final validationService = ref.watch(validationServicePod);

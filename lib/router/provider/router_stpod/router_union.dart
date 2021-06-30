@@ -6,5 +6,4 @@ part 'router_union.freezed.dart';
 class RouterUnion with _$RouterUnion {
   const factory RouterUnion.authorized() = Authorized;
   const factory RouterUnion.unauthorized() = Unauthorized;
-  const factory RouterUnion.emailVerification() = EmailVerification;
 }

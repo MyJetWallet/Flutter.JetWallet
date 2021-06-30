@@ -19,24 +19,13 @@ import 'components/email_verification_text_field.dart';
 import 'components/resend_button.dart';
 import 'components/resend_in_text.dart';
 
-class EmailVerification extends StatefulHookWidget {
+class EmailVerification extends HookWidget {
   const EmailVerification({
     Key? key,
     this.code,
   }) : super(key: key);
 
   final String? code;
-
-  @override
-  _EmailVerificationState createState() => _EmailVerificationState();
-}
-
-class _EmailVerificationState extends State<EmailVerification> {
-  @override
-  void initState() {
-    context.read(emailVerificationNotipod.notifier).updateCode(widget.code);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +82,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                 ],
                 const SpaceH50(),
                 EmailVerificationTextField(
-                  initialValue: state.code,
-                  onChanged: (value) => notifier.updateCode(value),
+                  controller: state.controller,
                 ),
                 const Spacer(),
                 const OpenMyEmailButton(),

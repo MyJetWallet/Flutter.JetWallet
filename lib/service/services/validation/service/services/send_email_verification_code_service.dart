@@ -24,11 +24,11 @@ Future<void> sendEmailVerificationCodeService(
 
       handleFullResponse<String>(responseData);
     } catch (e) {
-      logger.log(contract, message);
+      logger.log(contract, message, e);
       rethrow;
     }
   } catch (e) {
-    logger.log(transport, message);
+    logger.log(transport, message, e);
     rethrow;
   }
 }

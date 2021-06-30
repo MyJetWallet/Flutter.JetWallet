@@ -22,6 +22,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
           EmailVerificationState(
             email: email,
             union: const Input(),
+            controller: TextEditingController(),
           ),
         );
 
@@ -31,14 +32,22 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
   static final _logger = Logger('EmailVerificationNotifier');
 
-  void updateCode(String? code) {
-    // we need to addPostFrameCallback because updateCode
-    // is triggered inside initState which results in UncontrolledProviderScope
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _logger.log(notifier, 'updateCode');
-    });
+  // void updateCode(String? code) {
+  //   // we need to addPostFrameCallback because updateCode
+  //   // is triggered inside initState which results in UncontrolledProviderScope
+  //   WidgetsBinding.instance?.addPostFrameCallback((_) {
+  //     _logger.log(notifier, 'updateCode');
+  //   });
 
-    state = state.copyWith(code: code);
+  //   state = state.copyWith(code: code);
+  // }
+
+  void updateController(String? code) {
+    _logger.log(notifier, 'updateController');
+
+    state = state.copyWith(
+      controller: TextEditingController(text: code),
+    );
   }
 
   Future<void> sendCode() async {
@@ -68,7 +77,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
     state = state.copyWith(union: const Loading());
 
     final model = VerifyEmailVerificationCodeRequestModel(
-      code: state.code ?? '',
+      code: state.controller.text,
     );
 
     try {

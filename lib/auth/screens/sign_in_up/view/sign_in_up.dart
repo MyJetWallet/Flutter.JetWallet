@@ -6,7 +6,6 @@ import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../shared/auth_button_grey.dart';
-import '../../email_verification/view/email_verification.dart';
 import '../../forgot_password/view/forgot_password.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
 import '../provider/auth_screen_stpod.dart';
@@ -94,16 +93,6 @@ class SignInUp extends HookWidget {
                         onTap: () {
                           notifier.authenticate(
                             isSignIn ? AuthScreen.signIn : AuthScreen.signUp,
-                          );
-                        },
-                      ),
-                      const SpaceH20(),
-                      AuthButtonGrey(
-                        text: 'Temp (Confirm)',
-                        onTap: () {
-                          navigatorPush(
-                            context,
-                            const EmailVerification(code: '3333'),
                           );
                         },
                       ),

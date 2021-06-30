@@ -2,16 +2,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../service_providers.dart';
-import 'router_stpod/router_stpod.dart';
-import 'router_stpod/router_union.dart';
+import 'authorized_stpod/authorized_stpod.dart';
+import 'authorized_stpod/authorized_union.dart';
 
-final routerInitFpod = FutureProvider<void>((ref) async {
-  final _logger = Logger('routerInitFpod');
+final signalRInitFpod = FutureProvider<void>((ref) async {
+  final _logger = Logger('signalRInitFpod');
 
-  final router = ref.watch(routerStpod);
+  final authorized = ref.watch(authorizedStpod);
   final signalRService = ref.watch(signalRServicePod);
 
-  if (router.state == const Authorized()) {
+  if (authorized.state == const Home()) {
     try {
       await signalRService.init();
     } catch (e) {
