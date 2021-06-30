@@ -3,9 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../service/services/authentication/model/email_verification/send_email_verification_code_request_model.dart';
-import '../../../../service/services/authentication/model/email_verification/verify_email_verification_code_request_model.dart';
-import '../../../../service/services/authentication/service/authentication_service.dart';
+import '../../../../service/services/validation/model/send_email_verification_code_request_model.dart';
+import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
+import '../../../../service/services/validation/service/validation_service.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/logging/levels.dart';
@@ -16,7 +16,7 @@ import 'email_verification_union.dart';
 class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
   EmailVerificationNotifier({
     required this.email,
-    required this.authService,
+    required this.service,
     required this.context,
   }) : super(
           EmailVerificationState(
@@ -26,13 +26,17 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         );
 
   final String email;
-  final AuthenticationService authService;
+  final ValidationService service;
   final BuildContext context;
 
   static final _logger = Logger('EmailVerificationNotifier');
 
   void updateCode(String? code) {
-    _logger.log(notifier, 'updateCode');
+    // we need to addPostFrameCallback because updateCode
+    // is triggered inside initState which results in UncontrolledProviderScope
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _logger.log(notifier, 'updateCode');
+    });
 
     state = state.copyWith(code: code);
   }
@@ -48,7 +52,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
     );
 
     try {
-      await authService.sendEmailVerificationCode(model);
+      await service.sendEmailVerificationCode(model);
 
       state = state.copyWith(union: const Input());
     } catch (e) {
@@ -68,7 +72,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
     );
 
     try {
-      await authService.verifyEmailVerificationCode(model);
+      await service.verifyEmailVerificationCode(model);
 
       state = state.copyWith(union: const Input());
 

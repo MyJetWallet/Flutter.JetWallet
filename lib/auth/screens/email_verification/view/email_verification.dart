@@ -84,7 +84,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                   ResendButton(
                     onTap: () async {
                       await notifier.sendCode();
-                      
+
                       if (state.union is Input) {
                         timerN.refreshTimer();
                       }

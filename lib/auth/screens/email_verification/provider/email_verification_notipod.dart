@@ -10,12 +10,12 @@ final emailVerificationNotipod =
     StateNotifierProvider<EmailVerificationNotifier, EmailVerificationState>(
   (ref) {
     final authModel = ref.watch(authModelNotipod);
-    final authService = ref.watch(authServicePod);
+    final validationService = ref.watch(validationServicePod);
     final navigatorKey = ref.watch(navigatorKeyPod);
 
     return EmailVerificationNotifier(
       email: authModel.email,
-      authService: authService,
+      service: validationService,
       context: navigatorKey.currentContext!,
     );
   },
