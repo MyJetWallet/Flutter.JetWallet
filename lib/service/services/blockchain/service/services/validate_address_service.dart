@@ -16,7 +16,7 @@ Future<ValidateAddressResponseModel> validateAddressService(
 
   try {
     final response = await dio.post(
-      '$walletApiBaseUrl/blockchain/validate-address',
+      '$walletApi/blockchain/validate-address',
       data: model.toJson(),
     );
 

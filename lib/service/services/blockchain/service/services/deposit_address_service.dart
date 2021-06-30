@@ -16,7 +16,7 @@ Future<DepositAddressResponseModel> depositAddressService(
 
   try {
     final response = await dio.post(
-      '$walletApiBaseUrl/blockchain/generate-deposit-address',
+      '$walletApi/blockchain/generate-deposit-address',
       data: model.toJson(),
     );
 

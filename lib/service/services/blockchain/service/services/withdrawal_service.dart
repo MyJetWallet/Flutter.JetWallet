@@ -16,7 +16,7 @@ Future<WithdrawalResponseModel> withdrawalService(
 
   try {
     final response = await dio.post(
-      '$walletApiBaseUrl/blockchain/withdrawal',
+      '$walletApi/blockchain/withdrawal',
       data: model.toJson(),
     );
 

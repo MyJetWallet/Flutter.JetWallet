@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 class EmailVerificationTextField extends StatelessWidget {
   const EmailVerificationTextField({
     Key? key,
+    required this.controller,
   }) : super(key: key);
+
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: (value) {
-        // TODO add onChanged functionality
-        // ignore: avoid_print
-        print(value);
-      },
+    return TextFormField(
+      controller: controller,
       cursorColor: Colors.grey,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.emailAddress,
