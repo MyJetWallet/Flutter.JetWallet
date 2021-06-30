@@ -45,9 +45,6 @@ class EmailVerificationSuccess extends HookWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(),
-                    const SizedBox(
-                      width: double.infinity,
-                    ),
                     const Icon(
                       FontAwesomeIcons.checkCircle,
                       size: 150.0,

@@ -11,7 +11,7 @@ class ValidationService {
 
   final Dio dio;
 
-  static final logger = Logger('AuthenticationService');
+  static final logger = Logger('ValidationService');
 
   Future<void> sendEmailVerificationCode(
     SendEmailVerificationCodeRequestModel model,
