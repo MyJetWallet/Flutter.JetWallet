@@ -32,16 +32,6 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
   static final _logger = Logger('EmailVerificationNotifier');
 
-  // void updateCode(String? code) {
-  //   // we need to addPostFrameCallback because updateCode
-  //   // is triggered inside initState which results in UncontrolledProviderScope
-  //   WidgetsBinding.instance?.addPostFrameCallback((_) {
-  //     _logger.log(notifier, 'updateCode');
-  //   });
-
-  //   state = state.copyWith(code: code);
-  // }
-
   void updateController(String? code) {
     _logger.log(notifier, 'updateController');
 
