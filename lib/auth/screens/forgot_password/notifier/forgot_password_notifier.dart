@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../service/services/authentication/model/forgot_password/forgot_password_request_model.dart';
 import '../../../../service/services/authentication/service/authentication_service.dart';
+import '../../../../service/shared/constants.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../sign_in_up/notifier/credentials_notifier/credentials_notifier.dart';
 import '../../sign_in_up/notifier/credentials_notifier/credentials_state.dart';
@@ -30,7 +31,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordUnion> {
     try {
       final model = ForgotPasswordRequestModel(
         email: email,
-        platformType: 2,
+        platformType: platformType,
         deviceType: deviceType,
       );
 

@@ -11,6 +11,7 @@ class RegisterRequestModel with _$RegisterRequestModel {
     String? publicKeyPem,
     required String email,
     required String password,
+    required int platformType,
     @JsonKey(name: 'application') required int platform,
   }) = _RegisterRequestModel;
 
