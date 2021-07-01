@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../service_providers.dart';
 import '../../../../shared/providers/other/navigator_key_pod.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../sign_in_up/provider/credentials_notipod.dart';
 import '../notifier/reset_password_notifier.dart';
 import '../notifier/reset_password_union.dart';

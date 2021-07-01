@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SuccessText extends StatelessWidget {
   const SuccessText({
@@ -7,10 +8,10 @@ class SuccessText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
+    return Text(
       'Success',
       style: TextStyle(
-        fontSize: 45.0,
+        fontSize: 39.sp,
         fontWeight: FontWeight.bold,
       ),
     );

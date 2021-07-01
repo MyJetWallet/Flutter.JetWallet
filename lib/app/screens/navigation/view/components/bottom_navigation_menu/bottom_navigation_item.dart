@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../provider/navigation_stpod.dart';
 
 class BottomNavigationItem extends HookWidget {
@@ -22,17 +24,17 @@ class BottomNavigationItem extends HookWidget {
 
     return Expanded(
       child: InkResponse(
-        radius: 50.0,
+        radius: 50.r,
         onTap: () => navigation.state = index,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
+          padding: EdgeInsets.symmetric(
+            vertical: 6.h,
           ),
           child: Column(
             children: [
               Icon(
                 icon,
-                size: 24.0,
+                size: 20.w,
                 color: color,
               ),
               Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../screens/wallet/model/currency_model.dart';
 
@@ -29,8 +30,8 @@ class ConvertDropdown extends StatelessWidget {
             value: i,
             child: Text(
               '${i.description} (${i.symbol})',
-              style: const TextStyle(
-                fontSize: 20.0,
+              style: TextStyle(
+                fontSize: 17.sp,
                 color: Colors.black,
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CurrencyDetailsHistory extends StatelessWidget {
   @override
@@ -6,18 +7,18 @@ class CurrencyDetailsHistory extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'History',
           style: TextStyle(
-            fontSize: 25.0,
+            fontSize: 22.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         for (var i = 0; i < 20; i++)
-          const Text(
+          Text(
             '...',
             style: TextStyle(
-              fontSize: 25.0,
+              fontSize: 22.sp,
               fontWeight: FontWeight.bold,
             ),
           )

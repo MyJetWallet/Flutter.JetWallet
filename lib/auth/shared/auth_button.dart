@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthButton extends StatelessWidget {
   const AuthButton({
@@ -19,8 +20,8 @@ class AuthButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 15.0,
+        padding: EdgeInsets.symmetric(
+          vertical: 12.h,
         ),
         width: double.infinity,
         decoration: decoration,
@@ -28,7 +29,7 @@ class AuthButton extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 20.0,
+            fontSize: 18.sp,
             color: textColor,
           ),
         ),

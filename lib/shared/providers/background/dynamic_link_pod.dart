@@ -5,9 +5,9 @@ import '../../../auth/screens/email_verification/provider/email_verification_not
 import '../../../auth/screens/reset_password/view/reset_password.dart';
 import '../../../router/provider/authorized_stpod/authorized_stpod.dart';
 import '../../../router/provider/authorized_stpod/authorized_union.dart';
-import '../../../service_providers.dart';
 import '../../helpers/push_and_remove_until.dart';
 import '../other/navigator_key_pod.dart';
+import '../service_providers.dart';
 
 const _code = 'jw_code';
 const _token = 'jw_token';

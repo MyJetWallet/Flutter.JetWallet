@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../screens/wallet/model/currency_model.dart';
 
@@ -14,8 +15,8 @@ class CurrencyDetailsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       currency.description,
-      style: const TextStyle(
-        fontSize: 35.0,
+      style: TextStyle(
+        fontSize: 30.sp,
         fontWeight: FontWeight.bold,
       ),
     );

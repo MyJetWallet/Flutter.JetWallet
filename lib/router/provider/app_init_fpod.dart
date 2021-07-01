@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
-import '../../service_providers.dart';
 import '../../shared/helpers/refresh_token.dart';
+import '../../shared/providers/service_providers.dart';
 import '../../shared/services/local_storage_service.dart';
 import 'router_stpod/router_stpod.dart';
 import 'router_stpod/router_union.dart';

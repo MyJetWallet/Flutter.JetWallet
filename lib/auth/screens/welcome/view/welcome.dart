@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
@@ -35,7 +36,7 @@ class Welcome extends StatelessWidget {
               );
             },
           ),
-          const SpaceH15(),
+          const SpaceH10(),
           AuthButton(
             text: 'I have an account',
             onTap: () {
@@ -48,11 +49,11 @@ class Welcome extends StatelessWidget {
             },
             decoration: BoxDecoration(
               border: Border.all(),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8.w),
             ),
             textColor: Colors.black,
           ),
-          const SpaceH15(),
+          const SpaceH10(),
           const Center(
             child: AppVersionText(),
           ),
