@@ -24,5 +24,5 @@ jobs:
       - run: flutter pub run build_runner build --delete-conflicting-outputs
       - run: flutter analyze
       - run: flutter test
-      - run: flutter build web --release
-      - run: flutter build apk --build-number=${{ github.run_number }}
+      - run: flutter build web -t lib/main_production.dart
+      - run: flutter build apk -t lib/main_production.dart --build-number=${{ github.run_number }}
