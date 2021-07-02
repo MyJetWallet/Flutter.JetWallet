@@ -18,7 +18,9 @@ definitions:
 
   cache: &cache
     cache_paths:
-      - ~/.pub-cache
+      - $FLUTTER_ROOT/.pub-cache
+      - $HOME/.gradle/caches
+      - $HOME/Library/Caches/CocoaPods
 
   triggering: &triggering
     branch_patterns:
@@ -134,7 +136,7 @@ workflows:
           <<: *developer_credentials
           <<: *apple_signing
           <<: *new_app_trading_config
-          
+
       flutter: stable
       xcode: latest
       cocoapods: default
