@@ -1,37 +1,65 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
 import 'levels.dart';
 
-/// There are 3 types of log messages:
+/// There are 4 types of log messages:
 /// 1. Convention Log Message - includes [Transport] [Contract] [State] levels
 /// 2. Notifier Log Message - includes [Notifier] level
-/// 3. General Log Message - includes [Other] levels
+/// 3. Provider Log Message - includes [Provider] level
+/// 4. General Log Message - includes [Other] levels
 void debugLogging(LogRecord r) {
   if (isConventionLevel(r)) {
-    debugPrint('''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+    debugPrint(
+      '''
+$_underline
 [${r.level.name}][${r.loggerName}][${r.message}][${logTime(r)}]
 ${r.error}
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
-''', wrapWidth: 1024);
+$_underline                    
+''',
+      wrapWidth: 1024,
+    );
   } else if (r.level.value == notifier.value) {
-    debugPrint('''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+    debugPrint(
+      '''
+$_underline
 ${r.level.name} [${r.loggerName}] method [${r.message}] called at [${logTime(r)}]
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
-''', wrapWidth: 1024);
+$_underline                    
+''',
+      wrapWidth: 1024,
+    );
   } else if (r.level.value == providerLevel.value) {
-    debugPrint(r.message, wrapWidth: 1024);
+    final json = jsonDecode(r.message) as Map<String, dynamic>;
+
+    final action = json['action'].toString();
+    final provider = json['provider'].toString();
+    final value = json['value'];
+
+    debugPrint(
+      '''
+$_underline
+$action
+[Provider]: $provider
+${value != null ? '[Value]: $value \n$_underline' : _underline}
+''',
+      wrapWidth: 1024,
+    );
   } else {
-    debugPrint('''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+    debugPrint(
+      '''
+$_underline
 [${r.level.name}]${loggerName(r)}[${logTime(r)}]
 ${mainLog(r, '▬')}              
-''', wrapWidth: 1024);
+''',
+      wrapWidth: 1024,
+    );
   }
 }
+
+String _underline = '▬' * 80;
 
 String logTime(LogRecord record) {
   return DateFormat('hh:mm:ss').format(record.time).toString();
