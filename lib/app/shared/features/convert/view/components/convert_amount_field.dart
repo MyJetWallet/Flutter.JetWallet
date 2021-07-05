@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../styles/amount_field_decoration.dart';
@@ -20,8 +21,8 @@ class ConvertAmountField extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-          height: 40.0,
-          width: 150.0,
+          width: 125.w,
+          height: 32.h,
           child: TextField(
             controller: controller,
             textAlign: TextAlign.center,
@@ -30,18 +31,18 @@ class ConvertAmountField extends StatelessWidget {
             ),
             decoration: amountFieldDecoration.copyWith(
               isDense: true,
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 10.0,
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 8.h,
               ),
             ),
             onChanged: onChanged,
           ),
         ),
-        const SpaceW5(),
+        const SpaceW4(),
         Text(
           symbol,
-          style: const TextStyle(
-            fontSize: 25.0,
+          style: TextStyle(
+            fontSize: 22.sp,
           ),
         )
       ],

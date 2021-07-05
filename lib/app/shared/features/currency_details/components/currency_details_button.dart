@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CurrencyDetailsButton extends StatelessWidget {
   const CurrencyDetailsButton({
@@ -14,22 +15,22 @@ class CurrencyDetailsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(10.r),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 15.0,
-            horizontal: 25.0,
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 12.h,
           ),
           child: Center(
             child: Text(
               name,
-              style: const TextStyle(
-                fontSize: 20.0,
+              style: TextStyle(
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),

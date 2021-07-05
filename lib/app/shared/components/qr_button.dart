@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QrButton extends StatelessWidget {
   const QrButton({
@@ -11,7 +12,7 @@ class QrButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      iconSize: 40.0,
+      iconSize: 32.w,
       icon: const Icon(
         Icons.developer_board,
         color: Colors.black,

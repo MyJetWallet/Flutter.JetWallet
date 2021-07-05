@@ -5,8 +5,8 @@ import '../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
 import '../../router/provider/router_stpod/router_stpod.dart';
 import '../../router/provider/router_stpod/router_union.dart';
 import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
-import '../../service_providers.dart';
 import '../providers/other/navigator_key_pod.dart';
+import '../providers/service_providers.dart';
 import '../services/local_storage_service.dart';
 import 'navigate_to_router.dart';
 

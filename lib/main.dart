@@ -1,8 +1,10 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -38,32 +40,42 @@ Future<void> main() async {
   Logger.root.onRecord.listen((record) => debugLogging(record));
 
   runApp(
-    ProviderScope(
-      observers: [
-        ProviderLogger(
-          ignoreByType: providerTypes,
-          ignoreByName: providerNames,
-        ),
-      ],
-      child: MyApp(),
+    DevicePreview(
+      enabled: false,
+      builder: (context) => ProviderScope(
+        observers: [
+          ProviderLogger(
+            ignoreByType: providerTypes,
+            ignoreByName: providerNames,
+          ),
+        ],
+        child: App(),
+      ),
     ),
   );
 }
 
-class MyApp extends HookWidget {
+class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
     final navigatorKey = useProvider(navigatorKeyPod);
 
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      debugShowCheckedModeBanner: false,
-      initialRoute: AppRouter.routeName,
-      navigatorKey: navigatorKey,
-      routes: {
-        AppRouter.routeName: (context) => AppRouter(),
+    return ScreenUtilInit(
+      designSize: const Size(360, 640), // 9/16 ratio
+      builder: () {
+        return MaterialApp(
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppRouter.routeName,
+          navigatorKey: navigatorKey,
+          routes: {
+            AppRouter.routeName: (context) => AppRouter(),
+          },
+        );
       },
     );
   }

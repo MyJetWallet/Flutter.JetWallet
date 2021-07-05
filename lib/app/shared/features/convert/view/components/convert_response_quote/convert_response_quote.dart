@@ -29,14 +29,14 @@ class ConvertResposneQuote extends StatelessWidget {
             quote: state.quoteResponse!,
             notifier: notifier,
           ),
-          const SpaceH10(),
+          const SpaceH8(),
           Row(
             children: [
               ConvertButton(
                 name: 'Cancel',
                 onPressed: () => notifier.toRequestQuote(),
               ),
-              const SpaceW10(),
+              const SpaceW8(),
               ConvertButton(
                 name: 'Confirm',
                 onPressed: () async {

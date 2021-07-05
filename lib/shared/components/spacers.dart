@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
-
-class SpaceH50 extends StatelessWidget {
-  const SpaceH50();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 50,
-    );
-  }
-}
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SpaceH40 extends StatelessWidget {
   const SpaceH40();
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 40,
+    return SizedBox(
+      height: 40.h,
     );
   }
 }
@@ -27,19 +17,19 @@ class SpaceH30 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 30,
+    return SizedBox(
+      height: 30.h,
     );
   }
 }
 
-class SpaceH20 extends StatelessWidget {
-  const SpaceH20();
+class SpaceH25 extends StatelessWidget {
+  const SpaceH25();
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 20,
+    return SizedBox(
+      height: 25.h,
     );
   }
 }
@@ -49,8 +39,8 @@ class SpaceH15 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 15,
+    return SizedBox(
+      height: 15.h,
     );
   }
 }
@@ -60,8 +50,19 @@ class SpaceH10 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 10,
+    return SizedBox(
+      height: 10.h,
+    );
+  }
+}
+
+class SpaceH8 extends StatelessWidget {
+  const SpaceH8();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 8.h,
     );
   }
 }
@@ -71,8 +72,85 @@ class SpaceH5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 5,
+    return SizedBox(
+      height: 5.h,
+    );
+  }
+}
+
+class SpaceH4 extends StatelessWidget {
+  const SpaceH4();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 4.h,
+    );
+  }
+}
+
+class SpaceH2 extends StatelessWidget {
+  const SpaceH2();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 2.h,
+    );
+  }
+}
+
+class SpaceH1 extends StatelessWidget {
+  const SpaceH1();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 1.h,
+    );
+  }
+}
+
+class SpaceW40 extends StatelessWidget {
+  const SpaceW40();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 40.w,
+    );
+  }
+}
+
+class SpaceW30 extends StatelessWidget {
+  const SpaceW30();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 30.w,
+    );
+  }
+}
+
+class SpaceW25 extends StatelessWidget {
+  const SpaceW25();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 25.w,
+    );
+  }
+}
+
+class SpaceW15 extends StatelessWidget {
+  const SpaceW15();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 15.w,
     );
   }
 }
@@ -82,8 +160,19 @@ class SpaceW10 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 10,
+    return SizedBox(
+      width: 10.w,
+    );
+  }
+}
+
+class SpaceW8 extends StatelessWidget {
+  const SpaceW8();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 8.w,
     );
   }
 }
@@ -93,8 +182,41 @@ class SpaceW5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 5,
+    return SizedBox(
+      width: 5.w,
+    );
+  }
+}
+
+class SpaceW4 extends StatelessWidget {
+  const SpaceW4();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 4.w,
+    );
+  }
+}
+
+class SpaceW2 extends StatelessWidget {
+  const SpaceW2();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 2.w,
+    );
+  }
+}
+
+class SpaceW1 extends StatelessWidget {
+  const SpaceW1();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 1.w,
     );
   }
 }

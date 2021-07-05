@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConvertSwitchButton extends StatelessWidget {
   const ConvertSwitchButton({
@@ -13,10 +14,10 @@ class ConvertSwitchButton extends StatelessWidget {
     return IconButton(
       padding: EdgeInsets.zero,
       onPressed: onChanged,
-      icon: const Icon(
+      icon: Icon(
         Icons.swap_vert,
         color: Colors.black,
-        size: 40.0,
+        size: 32.w,
       ),
     );
   }

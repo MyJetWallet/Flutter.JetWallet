@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmailVerificationText extends StatelessWidget {
   const EmailVerificationText({
@@ -12,8 +13,8 @@ class EmailVerificationText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        fontSize: 18.0,
+      style: TextStyle(
+        fontSize: 16.sp,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WithdrawSendButton extends StatelessWidget {
   const WithdrawSendButton({
@@ -17,10 +18,10 @@ class WithdrawSendButton extends StatelessWidget {
           const Color(0xFFEEEEEE),
         ),
       ),
-      child: const Text(
+      child: Text(
         'Send',
         style: TextStyle(
-          fontSize: 18.0,
+          fontSize: 16.sp,
           color: Colors.black,
         ),
       ),
