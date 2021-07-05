@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuoteRichText extends StatelessWidget {
   const QuoteRichText({
@@ -15,10 +16,10 @@ class QuoteRichText extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: boldText,
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,
-          fontSize: 18.0,
+          fontSize: 16.sp,
         ),
         children: <TextSpan>[
           TextSpan(

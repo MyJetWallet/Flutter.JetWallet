@@ -6,9 +6,9 @@ import 'package:logging/logging.dart';
 
 import '../../../service/services/notification/model/register_token_request_model.dart';
 import '../../../service/services/notification/service/notification_service.dart';
-import '../../../service_providers.dart';
 import '../../logging/levels.dart';
 import '../other/navigator_key_pod.dart';
+import '../service_providers.dart';
 
 final _logger = Logger('');
 

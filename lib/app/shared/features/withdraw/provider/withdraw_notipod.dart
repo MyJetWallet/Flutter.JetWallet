@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../service_providers.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../notifier/withdraw_notifier.dart';
 import '../notifier/withdraw_state.dart';
 

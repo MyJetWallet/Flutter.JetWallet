@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../service_providers.dart';
+import '../../shared/providers/service_providers.dart';
 import 'authorized_stpod/authorized_stpod.dart';
 import 'authorized_stpod/authorized_union.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../service_providers.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../screens/wallet/model/currency_model.dart';
 import '../../../../screens/wallet/provider/currencies_pod.dart';
 import '../helper/remove_element.dart';

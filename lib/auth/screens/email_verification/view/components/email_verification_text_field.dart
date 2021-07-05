@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmailVerificationTextField extends StatelessWidget {
   const EmailVerificationTextField({
@@ -15,8 +16,8 @@ class EmailVerificationTextField extends StatelessWidget {
       cursorColor: Colors.grey,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.emailAddress,
-      style: const TextStyle(
-        fontSize: 45.0,
+      style: TextStyle(
+        fontSize: 39.sp,
         color: Colors.black87,
         fontWeight: FontWeight.bold,
       ),
@@ -26,10 +27,10 @@ class EmailVerificationTextField extends StatelessWidget {
             color: Colors.grey,
           ),
         ),
-        focusedBorder: const UnderlineInputBorder(
+        focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.black87,
-            width: 2.0,
+            width: 1.7.w,
           ),
         ),
         hintText: 'XXXX',

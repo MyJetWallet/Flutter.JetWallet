@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../components/qr_button.dart';
@@ -24,11 +25,11 @@ class WithdrawTextField extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 20.0,
+          style: TextStyle(
+            fontSize: 18.sp,
           ),
         ),
-        const SpaceH5(),
+        const SpaceH4(),
         Row(
           children: [
             Expanded(
@@ -40,7 +41,7 @@ class WithdrawTextField extends StatelessWidget {
                 decoration: decoration,
               ),
             ),
-            const SpaceW5(),
+            const SpaceW4(),
             QrButton(
               onPressed: onQrPressed,
             ),

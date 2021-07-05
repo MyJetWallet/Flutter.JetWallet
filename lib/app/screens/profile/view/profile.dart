@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
-import '../../../../service_providers.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../notifier/logout_union.dart';
 import '../provider/logout_notipod.dart';
 
@@ -42,11 +42,11 @@ class Profile extends HookWidget {
                 Text(
                   intl.profile,
                 ),
-                const SpaceH15(),
+                const SpaceH10(),
                 Text(
                   authModel.email,
                 ),
-                const SpaceH15(),
+                const SpaceH10(),
                 TextButton(
                   onPressed: () {
                     notifier.logout();

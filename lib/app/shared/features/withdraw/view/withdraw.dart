@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../shared/components/spacers.dart';
 import '../../../../screens/wallet/model/currency_model.dart';
@@ -47,7 +48,10 @@ class Withdraw extends HookWidget {
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: 10.w,
+              vertical: 10.h,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,7 +61,7 @@ class Withdraw extends HookWidget {
                   onChanged: (value) => withdrawNotifier.updateAddress(value),
                   onQrPressed: () {},
                 ),
-                const SpaceH20(),
+                const SpaceH15(),
                 if (currency.tagType == 1)
                   WithdrawTextField(
                     title: 'Tag (memo)',
@@ -65,13 +69,13 @@ class Withdraw extends HookWidget {
                     onChanged: (value) => withdrawNotifier.updateMemo(value),
                     onQrPressed: () {},
                   ),
-                const SpaceH20(),
+                const SpaceH15(),
                 AmountTextField(
                   title: 'Amount',
                   onChanged: (value) => withdrawNotifier.updateAmount(value),
                   decoration: amountFieldDecoration,
                 ),
-                const SpaceH10(),
+                const SpaceH8(),
                 WithdrawSendButton(
                   onPressed: () async {
                     final success = await withdrawNotifier.withdraw();

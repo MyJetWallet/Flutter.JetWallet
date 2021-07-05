@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
@@ -25,17 +26,20 @@ class CurrencyDetails extends HookWidget {
       appBar: AppBar(),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: 15.w,
+            vertical: 15.h,
+          ),
           child: ListView(
             children: [
               CurrencyDetailsHeader(
                 currency: currency,
               ),
-              const SpaceH10(),
+              const SpaceH8(),
               CurrencyDetailsBalance(
                 currency: currency,
               ),
-              const SpaceH20(),
+              const SpaceH15(),
               if (currency.isDepositMode)
                 CurrencyDetailsButton(
                   name: 'Deposit',
@@ -46,7 +50,7 @@ class CurrencyDetails extends HookWidget {
                     );
                   },
                 ),
-              const SpaceH20(),
+              const SpaceH15(),
               if (currency.isWithdrawalMode)
                 CurrencyDetailsButton(
                   name: 'Withdraw',
@@ -57,7 +61,7 @@ class CurrencyDetails extends HookWidget {
                     );
                   },
                 ),
-              const SpaceH20(),
+              const SpaceH15(),
               CurrencyDetailsButton(
                 name: 'Convert',
                 onTap: () {
@@ -67,7 +71,7 @@ class CurrencyDetails extends HookWidget {
                   );
                 },
               ),
-              const SpaceH20(),
+              const SpaceH15(),
               CurrencyDetailsHistory(),
             ],
           ),

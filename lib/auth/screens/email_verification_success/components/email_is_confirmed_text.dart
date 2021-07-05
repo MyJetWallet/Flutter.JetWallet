@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmailIsConfirmedText extends StatelessWidget {
   const EmailIsConfirmedText({
@@ -13,8 +14,8 @@ class EmailIsConfirmedText extends StatelessWidget {
     return Text(
       'Your email address $email is confirmed',
       textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 25.0,
+      style: TextStyle(
+        fontSize: 22.sp,
         fontWeight: FontWeight.bold,
       ),
     );

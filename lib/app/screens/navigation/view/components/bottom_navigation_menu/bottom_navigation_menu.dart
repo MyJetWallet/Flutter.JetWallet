@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../service_providers.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import 'bottom_navigation_item.dart';
 
 class BottomNavigationMenu extends HookWidget {
@@ -15,7 +16,7 @@ class BottomNavigationMenu extends HookWidget {
     final intl = useProvider(intlPod);
 
     return SizedBox(
-      height: 56.0,
+      height: 45.h,
       child: Material(
         color: Colors.white,
         child: Row(

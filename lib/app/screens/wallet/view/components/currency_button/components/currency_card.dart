@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../shared/components/spacers.dart';
 import '../../../../model/currency_model.dart';
 
 const _temp = 'https://i.imgur.com/cvNa7tH.png';
@@ -15,23 +17,21 @@ class CurrencyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 15.0,
+      padding: EdgeInsets.symmetric(
+        vertical: 12.h,
       ),
       child: Row(
         children: [
           SizedBox(
-            height: 35.0,
-            width: 35.0,
+            width: 30.w,
+            height: 30.w,
             child: Image.network(_temp),
           ),
-          const SizedBox(
-            width: 10.0,
-          ),
+          const SpaceW8(),
           Text(
             currency.description,
-            style: const TextStyle(
-              fontSize: 16.0,
+            style: TextStyle(
+              fontSize: 14.sp,
             ),
           ),
           const Spacer(),
