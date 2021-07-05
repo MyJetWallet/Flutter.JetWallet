@@ -43,8 +43,7 @@ class ApiSelectorScreen extends HookWidget {
             TextButton(
               onPressed: () {
                 _config.overrideApisFrom(index.value);
-                Navigator.pushReplacementNamed(
-                    context, AppRouter.routeName);
+                Navigator.pushReplacementNamed(context, AppRouter.routeName);
               },
               child: const Text(
                 'OK',
