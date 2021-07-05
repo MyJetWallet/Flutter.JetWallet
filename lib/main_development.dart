@@ -8,13 +8,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import 'development/api_selector_screen.dart';
 import 'router/view/router.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/push_notification_service.dart';
-import 'shared/services/remote_config_service.dart';
+import 'shared/services/remote_config_service/service/remote_config_service.dart';
 
 // Just type providers here to exclude from logger
 // Remember to unstage the changes from your commit
@@ -29,11 +30,11 @@ final providerNames = <String>[
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
+
   if (!kIsWeb) {
     await PushNotificationService().initialize();
-    await RemoteConfigService().overrideBaseUrls();
+    await RemoteConfigService().fetchAndActivate();
   }
 
   Logger.root.level = Level.ALL;
@@ -70,10 +71,11 @@ class App extends HookWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRouter.routeName,
+          initialRoute: ApiSelectorScreen.routeName,
           navigatorKey: navigatorKey,
           routes: {
             AppRouter.routeName: (context) => AppRouter(),
+            ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
           },
         );
       },
