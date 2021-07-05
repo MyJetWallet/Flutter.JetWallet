@@ -11,7 +11,7 @@ class ApiSelectorScreen extends HookWidget {
 
   static const routeName = '/api_selector_screen';
 
-  final config = RemoteConfigService();
+  final _config = RemoteConfigService();
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +30,19 @@ class ApiSelectorScreen extends HookWidget {
                 diameterRatio: 1,
                 onSelectedItemChanged: (value) => index.value = value,
                 children: [
-                  for (final flavor in config.connectionFlavors.flavors)
-                    Center(child: Text(Uri.parse(flavor.tradingApi).host))
+                  for (final flavor in _config.connectionFlavors.flavors)
+                    Center(
+                      child: Text(
+                        Uri.parse(flavor.tradingApi).host,
+                      ),
+                    )
                 ],
               ),
             ),
             const SpaceH40(),
             TextButton(
               onPressed: () {
-                config.overrideApisFrom(index.value);
+                _config.overrideApisFrom(index.value);
                 Navigator.pushReplacementNamed(context, AppRouter.routeName);
               },
               child: const Text(

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'connection_config_model.freezed.dart';
-part 'connection_config_model.g.dart';
+part 'connection_flavor_model.freezed.dart';
+part 'connection_flavor_model.g.dart';
 
 @freezed
 class ConnectionFlavorsModel with _$ConnectionFlavorsModel {

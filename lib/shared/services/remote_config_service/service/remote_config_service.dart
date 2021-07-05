@@ -2,9 +2,16 @@ import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import '../../../../service/shared/api_urls.dart';
-import '../model/connection_config_model.dart';
+import '../model/connection_flavor_model.dart';
 
+/// [RemoteConfigService] is a Signleton
 class RemoteConfigService {
+  factory RemoteConfigService() => _service;
+
+  RemoteConfigService._internal();
+
+  static final _service = RemoteConfigService._internal();
+
   final _config = RemoteConfig.instance;
 
   Future<void> fetchAndActivate() async {

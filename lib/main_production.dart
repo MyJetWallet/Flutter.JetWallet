@@ -32,7 +32,7 @@ Future<void> main() async {
   if (!kIsWeb) {
     await PushNotificationService().initialize();
     await RemoteConfigService().fetchAndActivate();
-    RemoteConfigService().overrideApisFrom(0);
+    RemoteConfigService().overrideApisFrom(0); // default API environment
   }
 
   Logger.root.level = Level.ALL;
