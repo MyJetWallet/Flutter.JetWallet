@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../service/shared/constants.dart';
-import '../../../service_providers.dart';
+import '../../providers/service_providers.dart';
 import '../../services/local_storage_service.dart';
 
 void addSigning(Dio dio, Reader read) {
