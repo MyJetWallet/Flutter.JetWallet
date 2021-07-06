@@ -11,9 +11,13 @@ final appInitFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod.notifier);
   final authModel = ref.watch(authModelNotipod.notifier);
   final storageService = ref.watch(localStorageServicePod);
+  final rsaService = ref.watch(rsaServicePod);
 
   final token = await storageService.getString(refreshTokenKey);
   final email = await storageService.getString(userEmailKey);
+
+  await rsaService.init();
+  await rsaService.savePrivateKey(storageService);
 
   if (token == null) {
     router.state = const Unauthorized();

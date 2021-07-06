@@ -16,6 +16,7 @@ import 'shared/dio/basic_dio.dart';
 import 'shared/dio/dio_without_interceptors.dart';
 import 'shared/services/dynamic_link_service.dart';
 import 'shared/services/local_storage_service.dart';
+import 'shared/services/rsa_service.dart';
 
 final intlPod = ScopedProvider<AppLocalizations>(null);
 
@@ -87,4 +88,8 @@ final infoServicePod = Provider<InfoService>((ref) {
   final dio = ref.watch(dioPod);
 
   return InfoService(dio);
+});
+
+final rsaServicePod = Provider<RsaService>((ref) {
+  return RsaService();
 });

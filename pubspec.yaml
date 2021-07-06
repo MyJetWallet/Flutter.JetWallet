@@ -51,6 +51,9 @@ dependencies:
   # NOTIFICATIONS
   flutter_local_notifications: ^6.0.0
 
+  # RSA signing
+  fast_rsa: ^1.3.6
+
   # OTHER:
   freezed_annotation: ^0.14.2 # Annotations for the freezed
   mocktail: ^0.1.4 # mocking library with null-safety support
@@ -77,6 +80,10 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+  - packages/fast_rsa/web/assets/worker.js
+  - packages/fast_rsa/web/assets/wasm_exec.js
+  - packages/fast_rsa/web/assets/rsa.wasm
   # assets:
   #   - assets/
 

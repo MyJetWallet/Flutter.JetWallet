@@ -8,7 +8,7 @@ class RegisterRequestModel with _$RegisterRequestModel {
   const factory RegisterRequestModel({
     String? captcha,
     String? phone,
-    String? publicKeyPem,
+    required String publicKeyPem,
     required String email,
     required String password,
     required int platformType,

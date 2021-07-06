@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // KEYS
 const refreshTokenKey = 'refreshTokenKey';
 const userEmailKey = 'userEmail';
+const privateKeyKey = 'privateKey';
 
 class LocalStorageService {
   Future<String?> getString(String key) async {
