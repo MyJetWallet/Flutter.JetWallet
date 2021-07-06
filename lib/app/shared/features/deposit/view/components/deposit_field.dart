@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../components/qr_button.dart';
 
@@ -21,15 +22,15 @@ class DepositField extends StatelessWidget {
       children: [
         Text(
           name,
-          style: const TextStyle(
-            fontSize: 20.0,
+          style: TextStyle(
+            fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         SelectableText(
           value,
-          style: const TextStyle(
-            fontSize: 18.0,
+          style: TextStyle(
+            fontSize: 16.sp,
           ),
         ),
         QrButton(

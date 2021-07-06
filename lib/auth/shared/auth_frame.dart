@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthScreenFrame extends StatelessWidget {
   const AuthScreenFrame({
@@ -12,7 +13,10 @@ class AuthScreenFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: 20.w,
+          vertical: 15.h,
+        ),
         child: child,
       ),
     );

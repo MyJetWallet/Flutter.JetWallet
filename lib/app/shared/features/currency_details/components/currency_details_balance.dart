@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../screens/wallet/model/currency_model.dart';
 
@@ -15,17 +16,17 @@ class CurrencyDetailsBalance extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const Text(
+        Text(
           'Balance',
           style: TextStyle(
-            fontSize: 25.0,
+            fontSize: 22.sp,
           ),
         ),
         const Spacer(),
         Text(
           '${currency.assetBalance} ${currency.symbol}',
-          style: const TextStyle(
-            fontSize: 20.0,
+          style: TextStyle(
+            fontSize: 18.sp,
           ),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../shared/components/spacers.dart';
 import '../../../../shared/components/loader.dart';
@@ -45,14 +46,17 @@ class ResetPassword extends HookWidget {
             return SafeArea(
               child: Form(
                 child: Padding(
-                  padding: const EdgeInsets.all(24),
+                  padding:  EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 20.h,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const AuthHeaderText(
                         text: 'Reset Password',
                       ),
-                      const SpaceH20(),
+                      const SpaceH15(),
                       const Text(
                         'Enter new password',
                         textAlign: TextAlign.start,

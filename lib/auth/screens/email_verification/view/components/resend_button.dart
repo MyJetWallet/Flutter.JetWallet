@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResendButton extends StatelessWidget {
   const ResendButton({
@@ -12,10 +13,10 @@ class ResendButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: const Text(
+      child: Text(
         'Resend',
         style: TextStyle(
-          fontSize: 18.0,
+          fontSize: 16.sp,
           color: Colors.grey,
           decoration: TextDecoration.underline,
         ),

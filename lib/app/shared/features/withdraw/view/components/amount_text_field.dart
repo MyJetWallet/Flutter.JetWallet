@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../shared/components/spacers.dart';
 
@@ -23,11 +24,11 @@ class AmountTextField extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 20.0,
+          style: TextStyle(
+            fontSize: 18.sp,
           ),
         ),
-        const SpaceH5(),
+        const SpaceH4(),
         SizedBox(
           width: size.width * 0.4,
           child: TextField(

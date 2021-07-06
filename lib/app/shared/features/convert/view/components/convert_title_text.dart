@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConvertTitleText extends StatelessWidget {
   const ConvertTitleText({
@@ -12,8 +13,8 @@ class ConvertTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        fontSize: 30.0,
+      style: TextStyle(
+        fontSize: 25.sp,
         fontWeight: FontWeight.bold,
       ),
     );

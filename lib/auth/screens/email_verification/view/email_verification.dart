@@ -54,22 +54,22 @@ class EmailVerification extends HookWidget {
               const AuthHeaderText(
                 text: 'Email Verification',
               ),
-              const SpaceH20(),
+              const SpaceH15(),
               const EmailVerificationText(
                 text: 'Check your email on this device to verify your account',
               ),
-              const SpaceH50(),
+              const SpaceH40(),
               if (state.union is Loading)
                 Loader()
               else ...[
                 EmailVerificationText(
                   text: 'Sent to ${authModel.email}',
                 ),
-                const SpaceH5(),
+                const SpaceH4(),
                 if (timer != 0)
                   ResendInText(seconds: timer)
                 else ...[
-                  const SpaceH5(),
+                  const SpaceH4(),
                   ResendButton(
                     onTap: () async {
                       await notifier.sendCode();
@@ -80,13 +80,13 @@ class EmailVerification extends HookWidget {
                     },
                   ),
                 ],
-                const SpaceH50(),
+                const SpaceH40(),
                 EmailVerificationTextField(
                   controller: state.controller,
                 ),
                 const Spacer(),
                 const OpenMyEmailButton(),
-                const SpaceH15(),
+                const SpaceH10(),
                 AuthButtonGrey(
                   text: 'Continue',
                   onTap: () => notifier.verifyCode(),
