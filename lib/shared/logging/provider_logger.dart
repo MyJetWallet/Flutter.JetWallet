@@ -47,11 +47,11 @@ class ProviderLogger extends ProviderObserver {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
             // In order to avoid the following error:
-            // 
-            // "This UncontrolledProviderScope widget cannot be marked as 
-            // needing to build because the framework is already in the process 
+            //
+            // "This UncontrolledProviderScope widget cannot be marked as
+            // needing to build because the framework is already in the process
             // of building widgets..."
-            // 
+            //
             // We need to wrap the observer lifecycles in a addPostFrameCallback
             // because we're modifying the state on any log but logs
             // can happen during "build"
@@ -59,12 +59,12 @@ class ProviderLogger extends ProviderObserver {
               _logger.log(
                 providerLevel,
                 '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-✅ UPDATED PROVIDER ✅
-[Provider]: "${provider.name ?? provider.runtimeType}",
-[Value]: "$newValue"
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
-''',
+                  {
+                    "action": "✅ UPDATED PROVIDER ✅",
+                    "provider": "${provider.name ?? provider.runtimeType}",
+                    "value": "$newValue"
+                  }
+                ''',
               );
             });
           }
@@ -83,12 +83,12 @@ class ProviderLogger extends ProviderObserver {
               _logger.log(
                 providerLevel,
                 '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-⚡ ADDED PROVIDER ⚡
-[Provider]: "${provider.name ?? provider.runtimeType}",
-[Value]: "$value"     
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                          
-''',
+                {
+                  "action": "⚡ ADDED PROVIDER ⚡",
+                  "provider": "${provider.name ?? provider.runtimeType}",
+                  "value": "$value"
+                }
+                ''',
               );
             });
           }
@@ -107,11 +107,11 @@ class ProviderLogger extends ProviderObserver {
               _logger.log(
                 providerLevel,
                 '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-🗑️ DISPOSED PROVIDER 🗑️
-[Provider]: "${provider.name ?? provider.runtimeType}", 
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                          
-''',
+                {
+                  "action": "🗑️ DISPOSED PROVIDER 🗑️",
+                  "provider": "${provider.name ?? provider.runtimeType}"
+                }
+                ''',
               );
             });
           }
@@ -130,11 +130,11 @@ class ProviderLogger extends ProviderObserver {
               _logger.log(
                 providerLevel,
                 '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-💡 PROVIDER CHANGED 💡
-[Provider]: "${provider.name ?? provider.runtimeType}",   
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                        
-''',
+                {
+                  "action": "💡 PROVIDER CHANGED 💡",
+                  "provider": "${provider.name ?? provider.runtimeType}"
+                }
+                ''',
               );
             });
           }
