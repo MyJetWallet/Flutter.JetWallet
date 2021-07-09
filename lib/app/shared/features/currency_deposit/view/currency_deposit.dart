@@ -9,8 +9,8 @@ import '../../../../screens/wallet/model/currency_model.dart';
 import '../provider/deposit_address_fpod.dart';
 import 'components/deposit_field.dart';
 
-class Deposit extends HookWidget {
-  const Deposit({
+class CurrencyDeposit extends HookWidget {
+  const CurrencyDeposit({
     required this.currency,
   });
 

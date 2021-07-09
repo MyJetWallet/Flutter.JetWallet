@@ -20,10 +20,12 @@ import 'components/convert_title_text.dart';
 class Convert extends HookWidget {
   const Convert({
     Key? key,
-    required this.currency,
+    this.currency,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  /// Currency must be provided if [Convert] was opened from specific asset. \
+  /// If [Convert] was opened from somewhere else then currency must be null
+  final CurrencyModel? currency;
 
   @override
   Widget build(BuildContext context) {

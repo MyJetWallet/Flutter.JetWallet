@@ -13,8 +13,8 @@ import 'components/withdraw_send_button.dart';
 import 'components/withdraw_text_field.dart';
 import 'styles/styles.dart';
 
-class Withdraw extends HookWidget {
-  const Withdraw({
+class CurrencyWithdraw extends HookWidget {
+  const CurrencyWithdraw({
     required this.currency,
   });
 

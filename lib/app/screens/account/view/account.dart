@@ -9,13 +9,13 @@ import '../../../../shared/providers/service_providers.dart';
 import '../notifier/logout_union.dart';
 import '../provider/logout_notipod.dart';
 
-class Profile extends HookWidget {
-  const Profile();
+class Account extends HookWidget {
+  const Account();
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(logoutNotipod);
-    final notifier = useProvider(logoutNotipod.notifier);
+    final logout = useProvider(logoutNotipod);
+    final logoutN = useProvider(logoutNotipod.notifier);
     final intl = useProvider(intlPod);
     final authModel = useProvider(authModelNotipod);
 
@@ -33,14 +33,14 @@ class Profile extends HookWidget {
           loading: () {},
         );
       },
-      child: state.when(
+      child: logout.when(
         result: (_, __) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  intl.profile,
+                  intl.account,
                 ),
                 const SpaceH10(),
                 Text(
@@ -49,7 +49,7 @@ class Profile extends HookWidget {
                 const SpaceH10(),
                 TextButton(
                   onPressed: () {
-                    notifier.logout();
+                    logoutN.logout();
                   },
                   child: Text(intl.logout),
                 ),
