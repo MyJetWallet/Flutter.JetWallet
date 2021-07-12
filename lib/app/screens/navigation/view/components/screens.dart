@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../account/view/account.dart';
+import '../../../account/account.dart';
 import '../../../education/education.dart';
 import '../../../portfolio/portfolio.dart';
 import '../../../wallet/view/wallet.dart';

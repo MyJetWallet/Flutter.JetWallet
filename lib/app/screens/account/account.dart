@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
-import '../../../../shared/components/loader.dart';
-import '../../../../shared/components/spacers.dart';
-import '../../../../shared/providers/service_providers.dart';
-import '../notifier/logout_union.dart';
-import '../provider/logout_notipod.dart';
+import '../../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../../shared/components/loader.dart';
+import '../../../shared/components/spacers.dart';
+import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
+import '../../../shared/notifiers/logout_notifier/logout_union.dart';
+import '../../../shared/providers/service_providers.dart';
 
 class Account extends HookWidget {
   const Account();

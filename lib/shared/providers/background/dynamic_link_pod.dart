@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../auth/screens/email_verification/provider/email_verification_notipod.dart';
+import '../../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
 import '../../../auth/screens/reset_password/view/reset_password.dart';
 import '../../../router/provider/authorized_stpod/authorized_stpod.dart';
 import '../../../router/provider/authorized_stpod/authorized_union.dart';

@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
-import '../notifier/chart_notifier.dart';
-import '../notifier/chart_state.dart';
+import 'chart_notifier.dart';
+import 'chart_state.dart';
 
 final chartNotipod =
     StateNotifierProvider.autoDispose<ChartNotifier, ChartState>(

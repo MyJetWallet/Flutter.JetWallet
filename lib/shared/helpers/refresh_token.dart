@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
+import '../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
 import '../../router/provider/router_stpod/router_stpod.dart';
 import '../../router/provider/router_stpod/router_union.dart';
 import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';

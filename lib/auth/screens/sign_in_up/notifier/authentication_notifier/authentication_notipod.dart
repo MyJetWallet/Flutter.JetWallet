@@ -1,12 +1,12 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../router/provider/router_stpod/router_stpod.dart';
-import '../../../../shared/providers/other/navigator_key_pod.dart';
-import '../../../../shared/providers/service_providers.dart';
-import '../notifier/authentication_notifier/authentication_notifier.dart';
-import '../notifier/authentication_notifier/authentication_union.dart';
-import 'auth_model_notipod.dart';
-import 'credentials_notipod.dart';
+import '../../../../../router/provider/router_stpod/router_stpod.dart';
+import '../../../../../shared/providers/other/navigator_key_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
+import '../auth_model_notifier/auth_model_notipod.dart';
+import '../credentials_notifier/credentials_notipod.dart';
+import 'authentication_notifier.dart';
+import 'authentication_union.dart';
 
 final authenticationNotipod =
     StateNotifierProvider<AuthenticationNotifier, AuthenticationUnion>(
