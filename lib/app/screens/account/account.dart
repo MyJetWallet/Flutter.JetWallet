@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
 import '../../../shared/components/loader.dart';
 import '../../../shared/components/spacers.dart';
+import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/providers/service_providers.dart';
@@ -23,11 +24,9 @@ class Account extends HookWidget {
       provider: logoutNotipod,
       onChange: (context, union) {
         union.when(
-          result: (e, st) {
-            if (e != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(e.toString())),
-              );
+          result: (error, st) {
+            if (error != null) {
+              showPlainSnackbar(context, '$error');
             }
           },
           loading: () {},

@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../../router/provider/authorized_stpod/authorized_stpod.dart';
 import '../../../router/provider/router_stpod/router_stpod.dart';
 import '../../providers/service_providers.dart';
 import 'logout_notifier.dart';
@@ -13,6 +14,7 @@ final logoutNotipod = StateNotifierProvider<LogoutNotifier, LogoutUnion>(
     final storageService = ref.watch(localStorageServicePod);
     final authModel = ref.watch(authModelNotipod);
     final signalRService = ref.watch(signalRServicePod);
+    final authorized = ref.watch(authorizedStpod);
 
     return LogoutNotifier(
       router: router,
@@ -20,6 +22,7 @@ final logoutNotipod = StateNotifierProvider<LogoutNotifier, LogoutUnion>(
       authService: authService,
       storageService: storageService,
       signalRService: signalRService,
+      authorized: authorized,
     );
   },
 );
