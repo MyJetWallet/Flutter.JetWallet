@@ -65,6 +65,7 @@ class App extends HookWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 640), // 9/16 ratio
       builder: () {
+        // TODO(any): Add global theme and refactor
         return MaterialApp(
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
