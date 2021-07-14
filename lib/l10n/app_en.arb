@@ -31,5 +31,14 @@
     "depositWithFiat": "Deposit with fiat",
     "withdrawCryptoToYourCreditCard": "Withdraw crypto to your credit card",
     "sendCryptoToAnotherWallet": "Send crypto to another wallet",
-    "receiveCryptoFromAnotherWallet": "Receive crypto from another wallet"
+    "receiveCryptoFromAnotherWallet": "Receive crypto from another wallet",
+    "enterTheCodeWeHaveSentYouToYourEmail": "Enter the code we have sent you to your email",
+    "openEmailApp": "Open Email App",
+    "emailVerification": "Email Verification",
+    "confirm": "Confirm",
+    "youCanResendIn": "You can resend in",
+    "seconds": "Seconds",
+    "second": "Second",
+    "didntReceiveTheCode": "Didn't receive the code?",
+    "resend": "Resend"
 }

@@ -32,12 +32,10 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
   static final _logger = Logger('EmailVerificationNotifier');
 
-  void updateController(String? code) {
-    _logger.log(notifier, 'updateController');
+  void updateCode(String? code) {
+    _logger.log(notifier, 'updateCode');
 
-    state = state.copyWith(
-      controller: TextEditingController(text: code),
-    );
+    state.controller.text = code ?? '';
   }
 
   Future<void> sendCode() async {

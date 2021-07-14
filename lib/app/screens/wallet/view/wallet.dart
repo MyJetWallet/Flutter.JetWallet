@@ -35,7 +35,7 @@ class Wallet extends HookWidget {
             ],
           );
         },
-        loading: () => Loader(),
+        loading: () => const Loader(),
         error: (e, _) => Text('$e'),
       ),
     );

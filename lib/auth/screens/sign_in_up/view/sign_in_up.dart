@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
-import '../../../shared/auth_button_grey.dart';
+import '../../../shared/components/auth_button_grey.dart';
 import '../../forgot_password/view/forgot_password.dart';
 import '../notifier/authentication_notifier/authentication_notipod.dart';
 import '../notifier/authentication_notifier/authentication_union.dart';
@@ -106,7 +106,7 @@ class SignInUp extends HookWidget {
               ),
             );
           },
-          loading: () => Loader(),
+          loading: () => const Loader(),
         ),
       ),
     );

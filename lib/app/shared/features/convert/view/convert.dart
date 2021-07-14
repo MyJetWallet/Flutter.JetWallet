@@ -86,7 +86,7 @@ class Convert extends HookWidget {
                   onChanged: (value) => notifier.updateAmount(value),
                 ),
                 const SpaceH8(),
-                if (state.union is Loading) Loader(),
+                if (state.union is Loading) const Loader(),
                 if (state.union is RequestQuote)
                   ConvertButton(
                     name: 'Request Quote',

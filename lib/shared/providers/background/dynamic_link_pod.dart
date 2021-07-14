@@ -29,7 +29,7 @@ final dynamicLinkPod = Provider<void>(
           if (authorized.state is EmailVerification) {
             final notifier = ref.read(emailVerificationNotipod.notifier);
 
-            notifier.updateController(parameters[_code]);
+            notifier.updateCode(parameters[_code]);
           }
         } else if (parameters[_command] == _forgotPassword) {
           pushAndRemoveUntil(
