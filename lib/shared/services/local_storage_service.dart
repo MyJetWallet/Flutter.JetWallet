@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // KEYS
 const refreshTokenKey = 'refreshToken';
@@ -6,18 +6,17 @@ const userEmailKey = 'userEmail';
 const privateKeyKey = 'privateKey';
 
 class LocalStorageService {
+  final _storage = const FlutterSecureStorage();
+
   Future<String?> getString(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key);
+    return _storage.read(key: key);
   }
 
   Future<void> setString(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
+    await _storage.write(key: key, value: value);
   }
 
   Future<void> clearStorage() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await _storage.deleteAll();
   }
 }
