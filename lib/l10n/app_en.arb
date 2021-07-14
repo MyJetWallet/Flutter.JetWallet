@@ -40,6 +40,5 @@
     "seconds": "Seconds",
     "second": "Second",
     "didntReceiveTheCode": "Didn't receive the code?",
-    "resend": "Resend",
-    "validationQuoteError": "Quote should be positive number"
+    "resend": "Resend"
 }
