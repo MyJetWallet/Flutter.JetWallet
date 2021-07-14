@@ -12,6 +12,7 @@ import '../../../../../shared/helpers/current_platform.dart';
 import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/local_storage_service.dart';
+import '../../../../../shared/services/rsa_service.dart';
 import '../../provider/auth_screen_stpod.dart';
 import '../auth_model_notifier/auth_model_notifier.dart';
 import '../credentials_notifier/credentials_notifier.dart';
@@ -27,6 +28,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     required this.authService,
     required this.storageService,
     required this.navigatorKey,
+    required this.rsaService,
   }) : super(const Input());
 
   final StateController<RouterUnion> router;
@@ -36,23 +38,30 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   final AuthenticationService authService;
   final LocalStorageService storageService;
   final GlobalKey<NavigatorState> navigatorKey;
+  final RsaService rsaService;
 
   static final _logger = Logger('AuthenticationNotifier');
 
   Future<void> authenticate(AuthScreen authScreen) async {
     _logger.log(notifier, 'authenticate');
 
-    final email = credentialsState.emailController.text;
-    final password = credentialsState.passwordController.text;
-
     try {
+      await rsaService.init();
+      await rsaService.savePrivateKey(storageService);
+
+      final publicKey = rsaService.publicKey;
+      final email = credentialsState.emailController.text;
+      final password = credentialsState.passwordController.text;
+      
       final loginRequest = LoginRequestModel(
+        publicKey: publicKey,
         email: email,
         password: password,
         platform: currentPlatform,
       );
 
       final registerRequest = RegisterRequestModel(
+        publicKey: publicKey,
         email: email,
         password: password,
         platformType: platformType,
