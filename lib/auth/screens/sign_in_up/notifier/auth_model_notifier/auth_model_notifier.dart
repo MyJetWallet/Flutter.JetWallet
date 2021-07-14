@@ -10,7 +10,6 @@ class AuthModelNotifier extends StateNotifier<AuthModel> {
           const AuthModel(
             token: '',
             refreshToken: '',
-            publicKeyPem: '',
             email: '',
           ),
         );

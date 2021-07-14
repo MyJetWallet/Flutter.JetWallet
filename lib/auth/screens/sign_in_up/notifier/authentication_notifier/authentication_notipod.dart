@@ -18,6 +18,7 @@ final authenticationNotipod =
     final authService = ref.watch(authServicePod);
     final storageService = ref.watch(localStorageServicePod);
     final navigatorKey = ref.watch(navigatorKeyPod);
+    final rsaService = ref.watch(rsaServicePod);
 
     return AuthenticationNotifier(
       router: router,
@@ -27,6 +28,7 @@ final authenticationNotipod =
       authService: authService,
       storageService: storageService,
       navigatorKey: navigatorKey,
+      rsaService: rsaService,
     );
   },
 );

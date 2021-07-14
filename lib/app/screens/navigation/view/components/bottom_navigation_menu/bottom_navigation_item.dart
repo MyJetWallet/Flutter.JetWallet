@@ -7,6 +7,8 @@ import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/navigation_action/navigation_action.dart';
 import '../../../provider/navigation_stpod.dart';
 
+const _navigationAction = 2;
+
 class BottomNavigationItem extends HookWidget {
   const BottomNavigationItem({
     Key? key,
@@ -29,7 +31,7 @@ class BottomNavigationItem extends HookWidget {
       child: InkResponse(
         radius: 50.r,
         onTap: () {
-          if (index == 2) {
+          if (index == _navigationAction) {
             showNavigationAction(context, intl);
           } else {
             navigation.state = index;

@@ -43,6 +43,8 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordUnion> {
       state = const Input();
 
       navigateToRouter(navigatorKey);
+
+      credentialsNotifier.clear();
     } catch (e, st) {
       _logger.log(stateFlow, 'resetPassword', e);
 

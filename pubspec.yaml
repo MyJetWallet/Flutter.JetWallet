@@ -60,6 +60,7 @@ dependencies:
   freezed_annotation: ^0.14.2 # Annotations for the freezed
   mocktail: ^0.1.4 # mocking library with null-safety support
   logging: ^1.0.1 # APIs for debugging and error logging
+  fast_rsa: ^3.0.0 # RSA signing
 
   # OWN LIBS:
   charts:
@@ -82,8 +83,12 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
-  # assets:
-  #   - assets/
+  assets:
+  # [Start] fast_rsa ->
+  - packages/fast_rsa/web/assets/worker.js
+  - packages/fast_rsa/web/assets/wasm_exec.js
+  - packages/fast_rsa/web/assets/rsa.wasm
+  # <- fast_rsa [End]
 
   # ADD FONT EXAMPLE:
   # 1. Not all fonts are working in all languages, some of them not work with Cyrillic languages suppose
