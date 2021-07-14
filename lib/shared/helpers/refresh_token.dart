@@ -27,11 +27,22 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final authModelNotifier = read(authModelNotipod.notifier);
   final authService = read(authServicePod);
   final storageService = read(localStorageServicePod);
+  final rsaService = read(rsaServicePod);
 
   try {
+    final serverInfo = await authService.serverInfo();
+    final serverTime = serverInfo.serverTime;
+    final privateKey = await storageService.getString(privateKeyKey);
+    final refreshToken = authModel.refreshToken;
+    final tokenDateTimeSignatureBase64 = await rsaService.sign(
+      refreshToken + serverTime,
+      privateKey!,
+    );
+
     final model = AuthRefreshRequestModel(
-      refreshToken: authModel.refreshToken,
-      requestTime: DateTime.now().toUtc().toString(),
+      refreshToken: refreshToken,
+      requestTime: serverTime,
+      tokenDateTimeSignatureBase64: tokenDateTimeSignatureBase64,
     );
 
     final response = await authService.refresh(model);
@@ -47,7 +58,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
 
     if (code == 401 || code == 403) {
       router.state = const Unauthorized();
-      
+
       navigateToRouter(navigatorKey);
 
       // remove refreshToken from storage
