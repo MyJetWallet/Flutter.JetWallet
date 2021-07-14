@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../notifier/chart_notipod.dart';
 import '../../provider/chart_init_fpod.dart';
-import '../../provider/chart_notipod.dart';
 import 'loading_chart_view.dart';
 
 class ChartView extends HookWidget {

@@ -2,9 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
-import '../../sign_in_up/provider/auth_model_notipod.dart';
-import '../notifier/email_verification_notifier.dart';
-import '../notifier/email_verification_state.dart';
+import '../../sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import 'email_verification_notifier.dart';
+import 'email_verification_state.dart';
 
 final emailVerificationNotipod = StateNotifierProvider.autoDispose<
     EmailVerificationNotifier, EmailVerificationState>(

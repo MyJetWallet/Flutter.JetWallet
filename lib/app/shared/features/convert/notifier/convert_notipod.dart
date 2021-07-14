@@ -5,8 +5,8 @@ import '../../../../../shared/providers/service_providers.dart';
 import '../../../../screens/wallet/model/currency_model.dart';
 import '../../../../screens/wallet/provider/currencies_pod.dart';
 import '../helper/remove_element.dart';
-import '../notifier/convert_notifier.dart';
-import '../notifier/convert_state.dart';
+import 'convert_notifier.dart';
+import 'convert_state.dart';
 
 final convertNotipod = StateNotifierProvider.autoDispose
     .family<ConvertNotifier, ConvertState, CurrencyModel?>(

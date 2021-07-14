@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../service/services/chart/model/candles_request_model.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../helper/round_down_date.dart';
-import 'chart_notipod.dart';
+import '../notifier/chart_notipod.dart';
 
 final chartInitFpod = FutureProvider.family.autoDispose<void, String>(
   (ref, instrumentId) async {

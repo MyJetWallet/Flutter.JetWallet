@@ -1,18 +1,20 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../auth/screens/sign_in_up/model/auth_model.dart';
-import '../../../../router/provider/router_stpod/router_union.dart';
-import '../../../../service/services/authentication/model/logout/logout_request_model.dart';
-import '../../../../service/services/authentication/service/authentication_service.dart';
-import '../../../../service/services/signal_r/service/signal_r_service.dart';
-import '../../../../shared/logging/levels.dart';
-import '../../../../shared/services/local_storage_service.dart';
+import '../../../auth/screens/sign_in_up/model/auth_model.dart';
+import '../../../router/provider/authorized_stpod/authorized_union.dart';
+import '../../../router/provider/router_stpod/router_union.dart';
+import '../../../service/services/authentication/model/logout/logout_request_model.dart';
+import '../../../service/services/authentication/service/authentication_service.dart';
+import '../../../service/services/signal_r/service/signal_r_service.dart';
+import '../../logging/levels.dart';
+import '../../services/local_storage_service.dart';
 import 'logout_union.dart';
 
 class LogoutNotifier extends StateNotifier<LogoutUnion> {
   LogoutNotifier({
     required this.router,
+    required this.authorized,
     required this.authModel,
     required this.authService,
     required this.storageService,
@@ -20,6 +22,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
   }) : super(const Result());
 
   final StateController<RouterUnion> router;
+  final StateController<AuthorizedUnion> authorized;
   final AuthModel authModel;
   final AuthenticationService authService;
   final LocalStorageService storageService;
@@ -41,7 +44,10 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
 
       router.state = const Unauthorized();
 
-      await signalRService.disconnect();
+      // signalRService is initialized after EmailVerification
+      if (authorized.state != const EmailVerification()) {
+        await signalRService.disconnect();
+      }
       state = const Result();
     } catch (e, st) {
       _logger.log(stateFlow, 'logout', e);

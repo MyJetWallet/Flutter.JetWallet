@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
+import '../../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
 import '../../helpers/refresh_token.dart';
 import '../helpers/retry_request.dart';
 

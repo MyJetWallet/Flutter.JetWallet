@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
 import 'levels.dart';
+import 'provider_logger.dart';
 
 /// There are 4 types of log messages:
 /// 1. Convention Log Message - includes [Transport] [Contract] [State] levels
@@ -32,11 +31,12 @@ $_underline
       wrapWidth: 1024,
     );
   } else if (r.level.value == providerLevel.value) {
-    final json = jsonDecode(r.message) as Map<String, dynamic>;
+    // Error will always be of the type of ProviderLog
+    final log = r.error! as ProviderLog;
 
-    final action = json['action'].toString();
-    final provider = json['provider'].toString();
-    final value = json['value'];
+    final action = log.action;
+    final provider = log.provider;
+    final value = log.value;
 
     debugPrint(
       '''
