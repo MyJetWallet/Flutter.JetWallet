@@ -8,36 +8,32 @@ import '../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_union.dart' as lu;
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
-import '../../../shared/auth_button_grey.dart';
-import '../../../shared/auth_frame.dart';
-import '../../../shared/auth_header_text.dart';
-import '../../../shared/open_my_email_button.dart';
-import '../../sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../../../shared/providers/service_providers.dart';
+import '../../../shared/components/arrow_back_button.dart';
+import '../../../shared/components/auth_button_grey.dart';
+import '../../../shared/components/auth_frame.dart';
+import '../../../shared/components/auth_header_text.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
 import '../notifier/email_verification_union.dart';
-import 'components/email_verification_text.dart';
-import 'components/email_verification_text_field.dart';
-import 'components/logout_button.dart';
-import 'components/resend_button.dart';
-import 'components/resend_in_text.dart';
+import 'components/email_resend_in_text.dart';
+import 'components/email_resend_rich_text.dart';
+import 'components/email_verification_description.dart';
+import 'components/email_verification_pin_code.dart';
+import 'components/open_email_app_button.dart';
 
 class EmailVerification extends HookWidget {
-  const EmailVerification({
-    Key? key,
-    this.code,
-  }) : super(key: key);
-
-  final String? code;
+  const EmailVerification({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final timer = useProvider(timerNotipod(5));
     final timerN = useProvider(timerNotipod(5).notifier);
     final logout = useProvider(logoutNotipod);
+    final logoutN = useProvider(logoutNotipod.notifier);
     final verification = useProvider(emailVerificationNotipod);
     final verificationN = useProvider(emailVerificationNotipod.notifier);
-    final authModel = useProvider(authModelNotipod);
 
     return ProviderListener<EmailVerificationState>(
       provider: emailVerificationNotipod,
@@ -70,54 +66,51 @@ class EmailVerification extends HookWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const LogoutButton(),
-                    const AuthHeaderText(
-                      text: 'Email Verification',
+                    ArrowBackButton(
+                      onTap: () => logoutN.logout(),
+                    ),
+                    AuthHeaderText(
+                      text: intl.emailVerification,
                     ),
                     const SpaceH15(),
-                    const EmailVerificationText(
-                      text: 'Enter the code we have sent you to your email',
+                    const EmailVerificationDescription(),
+                    const SpaceH10(),
+                    const OpenEmailAppButton(),
+                    const SpaceH120(),
+                    EmailVerificationPinCode(
+                      length: 6,
+                      controller: verification.controller,
+                      onCompleted: (_) => verificationN.verifyCode(),
                     ),
-                    const SpaceH40(),
-                    if (verification.union is Loading)
-                      Loader()
+                    const SpaceH10(),
+                    if (timer != 0)
+                      EmailResendInText(seconds: timer)
                     else ...[
-                      EmailVerificationText(
-                        text: 'Sent to ${authModel.email}',
-                      ),
-                      const SpaceH4(),
-                      if (timer != 0)
-                        ResendInText(seconds: timer)
-                      else ...[
-                        const SpaceH4(),
-                        ResendButton(
-                          onTap: () async {
-                            await verificationN.sendCode();
+                      EmailResendRichText(
+                        onTap: () async {
+                          await verificationN.sendCode();
 
-                            if (verification.union is Input) {
-                              timerN.refreshTimer();
-                            }
-                          },
-                        ),
-                      ],
-                      const SpaceH40(),
-                      EmailVerificationTextField(
-                        controller: verification.controller,
+                          if (verification.union is Input) {
+                            timerN.refreshTimer();
+                          }
+                        },
                       ),
-                      const Spacer(),
-                      const OpenMyEmailButton(),
-                      const SpaceH10(),
+                    ],
+                    const SpaceH40(),
+                    const Spacer(),
+                    if (verification.union is Loading)
+                      const Loader()
+                    else
                       AuthButtonGrey(
-                        text: 'Continue',
+                        text: intl.confirm,
                         onTap: () => verificationN.verifyCode(),
                       ),
-                    ]
                   ],
                 ),
               ),
             );
           },
-          loading: () => Loader(),
+          loading: () => const Loader(),
         ),
       ),
     );

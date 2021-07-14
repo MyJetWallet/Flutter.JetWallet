@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
-import '../../../shared/auth_button.dart';
-import '../../../shared/auth_button_grey.dart';
-import '../../../shared/auth_frame.dart';
+import '../../../shared/components/auth_button.dart';
+import '../../../shared/components/auth_button_grey.dart';
+import '../../../shared/components/auth_frame.dart';
 import '../../sign_in_up/view/sign_in_up.dart';
 import 'components/app_version_text.dart';
 import 'components/welcome_screen_text.dart';

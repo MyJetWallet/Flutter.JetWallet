@@ -56,7 +56,7 @@ class Account extends HookWidget {
             ),
           );
         },
-        loading: () => Loader(),
+        loading: () => const Loader(),
       ),
     );
   }

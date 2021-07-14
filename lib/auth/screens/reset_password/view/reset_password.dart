@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/spacers.dart';
 import '../../../../shared/components/loader.dart';
-import '../../../shared/auth_button_grey.dart';
-import '../../../shared/auth_header_text.dart';
+import '../../../shared/components/auth_button_grey.dart';
+import '../../../shared/components/auth_header_text.dart';
 import '../../sign_in_up/notifier/credentials_notifier/credentials_notipod.dart';
 import '../../sign_in_up/view/components/password_text_field.dart';
 import '../notifier/reset_password_notipod.dart';
@@ -46,7 +46,7 @@ class ResetPassword extends HookWidget {
             return SafeArea(
               child: Form(
                 child: Padding(
-                  padding:  EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
                     vertical: 20.h,
                   ),
@@ -75,7 +75,7 @@ class ResetPassword extends HookWidget {
               ),
             );
           },
-          loading: () => Loader(),
+          loading: () => const Loader(),
         ),
       ),
     );

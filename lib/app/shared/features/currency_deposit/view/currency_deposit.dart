@@ -55,7 +55,7 @@ class CurrencyDeposit extends HookWidget {
                   ],
                 );
               },
-              loading: () => Loader(),
+              loading: () => const Loader(),
               error: (e, st) => Text('$e'),
             ),
           ],

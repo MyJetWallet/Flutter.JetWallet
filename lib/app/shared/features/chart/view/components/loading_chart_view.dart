@@ -13,7 +13,7 @@ class LoadingChartView extends StatelessWidget {
           onChartTypeChanged: (chartType) {},
           candles: const [],
         ),
-        Loader(),
+        const Loader(),
       ],
     );
   }

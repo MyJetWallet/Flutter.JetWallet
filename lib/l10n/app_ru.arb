@@ -28,5 +28,14 @@
     "depositWithFiat": "Депозит фиатом",
     "withdrawCryptoToYourCreditCard": "Вывод крипты на твою карту",
     "sendCryptoToAnotherWallet": "Отправить крипту на другой кошелек",
-    "receiveCryptoFromAnotherWallet": "Получить крипту с другого кошелька"
+    "receiveCryptoFromAnotherWallet": "Получить крипту с другого кошелька",
+    "enterTheCodeWeHaveSentYouToYourEmail": "Введи код который мы тебе отправили на почту",
+    "openEmailApp": "Открыть почту",
+    "emailVerification": "Емейл верификация",
+    "confirm": "Подтвердить",
+    "youCanResendIn": "Вы можете отправить повторно через",
+    "second": "Секунду",
+    "seconds": "Секунд",
+    "didntReceiveTheCode": "Не получили код?",
+    "resend": "Отправить еще"
 }

@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
-
-class LogoutButton extends HookWidget {
-  const LogoutButton({
+class ArrowBackButton extends StatelessWidget {
+  const ArrowBackButton({
     Key? key,
+    required this.onTap,
   }) : super(key: key);
+
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    final logoutN = useProvider(logoutNotipod.notifier);
 
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      onTap: () => logoutN.logout(),
+      onTap: onTap,
       child: Padding(
         padding: EdgeInsets.only(
           top: 6.h,
