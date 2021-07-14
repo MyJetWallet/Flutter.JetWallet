@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../service/services/swap/model/execute_quote/execute_quote_request_model.dart';
 import '../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
@@ -60,29 +61,37 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     state = state.copyWith(amount: double.parse(amount));
   }
 
-  Future<void> requestQuote() async {
+  Future<void> requestQuote(AppLocalizations intl) async {
     _logger.log(notifier, 'requestQuote');
 
-    try {
-      state = state.copyWith(union: const Loading());
+    final amount = state.amount;
 
-      final model = GetQuoteRequestModel(
-        fromAsset: state.from.symbol,
-        toAsset: state.to.symbol,
-        fromAssetAmount: state.amount ?? 0,
-        isFromFixed: true,
-      );
+    if (_isValid(amount)) {
+      try {
+        state = state.copyWith(union: const Loading());
 
-      final response = await swapService.getQuote(model);
+        final model = GetQuoteRequestModel(
+          fromAsset: state.from.symbol,
+          toAsset: state.to.symbol,
+          fromAssetAmount: amount,
+          isFromFixed: true,
+        );
 
+        final response = await swapService.getQuote(model);
+
+        state = state.copyWith(
+          quoteResponse: response,
+          union: const ResponseQuote(),
+        );
+      } catch (e) {
+        _logger.log(stateFlow, 'requestQuote', e);
+
+        state = state.copyWith(union: RequestQuote('$e'));
+      }
+    } else {
       state = state.copyWith(
-        quoteResponse: response,
-        union: const ResponseQuote(),
+        union: RequestQuote(intl.validationQuoteError),
       );
-    } catch (e) {
-      _logger.log(stateFlow, 'requestQuote', e);
-
-      state = state.copyWith(union: RequestQuote('$e'));
     }
   }
 
@@ -153,6 +162,8 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       isConfirmLoading: false,
     );
   }
+
+  bool _isValid(double? amount) => amount != null && amount > 0;
 
   void _updateFromList() {
     final newFromList = removeElement(state.to, currencies);
