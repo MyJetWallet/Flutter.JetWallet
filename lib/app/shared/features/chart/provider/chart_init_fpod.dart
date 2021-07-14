@@ -1,8 +1,8 @@
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../service/services/chart/model/candles_request_model.dart';
-import '../../../../shared/providers/service_providers.dart';
+import '../../../../../service/services/chart/model/candles_request_model.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../helper/round_down_date.dart';
 import 'chart_notipod.dart';
 

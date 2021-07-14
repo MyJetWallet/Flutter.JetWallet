@@ -1,6 +1,7 @@
 import 'package:charts/main.dart';
 import 'package:flutter/material.dart';
-import '../../../../../shared/components/loader.dart';
+
+import '../../../../../../shared/components/loader.dart';
 
 class LoadingChartView extends StatelessWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'components/chart_view.dart';
 
-class Charts extends StatelessWidget {
-  const Charts();
+class Chart extends StatelessWidget {
+  const Chart();
 
   @override
   Widget build(BuildContext context) {

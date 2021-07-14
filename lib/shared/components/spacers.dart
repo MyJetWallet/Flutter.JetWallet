@@ -144,13 +144,13 @@ class SpaceW25 extends StatelessWidget {
   }
 }
 
-class SpaceW15 extends StatelessWidget {
-  const SpaceW15();
+class SpaceW16 extends StatelessWidget {
+  const SpaceW16();
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 15.w,
+      width: 16.w,
     );
   }
 }

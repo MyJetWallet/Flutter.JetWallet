@@ -9,7 +9,7 @@ import '../notifier/convert_notifier.dart';
 import '../notifier/convert_state.dart';
 
 final convertNotipod = StateNotifierProvider.autoDispose
-    .family<ConvertNotifier, ConvertState, CurrencyModel>(
+    .family<ConvertNotifier, ConvertState, CurrencyModel?>(
   (ref, from) {
     // currencies are updating very frequently which
     // results in reseting notifier, to solve this problem
@@ -17,7 +17,10 @@ final convertNotipod = StateNotifierProvider.autoDispose
     final currencies = ref.read(currenciesPod);
     final swapService = ref.watch(swapServicePod);
 
-    final defaultState = _defaultConvertState(currencies, from);
+    final defaultState = _defaultConvertState(
+      currencies,
+      from ?? currencies.first,
+    );
 
     return ConvertNotifier(
       defaultState: defaultState,

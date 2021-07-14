@@ -4,9 +4,9 @@ import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../service/services/chart/model/candles_request_model.dart';
-import '../../../../service/services/chart/service/chart_service.dart';
-import '../../../../shared/logging/levels.dart';
+import '../../../../../service/services/chart/model/candles_request_model.dart';
+import '../../../../../service/services/chart/service/chart_service.dart';
+import '../../../../../shared/logging/levels.dart';
 import '../helper/round_down_date.dart';
 import 'chart_state.dart';
 import 'chart_union.dart';
