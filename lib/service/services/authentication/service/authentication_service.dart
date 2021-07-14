@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:jetwallet/service/services/authentication/model/server_info/server_info_response_model.dart';
+import 'package:jetwallet/service/services/authentication/service/services/server_info_service.dart';
 import 'package:logging/logging.dart';
 
 import '../model/authenticate/authentication_model.dart';
@@ -45,5 +47,9 @@ class AuthenticationService {
 
   Future<void> recoverPassword(PasswordRecoveryRequestModel model) {
     return recoverPasswordService(dio, model);
+  }
+
+  Future<ServerInfoResponseModel> serverInfo() {
+    return serverInfoService(dio);
   }
 }

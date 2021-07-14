@@ -8,7 +8,7 @@ class RegisterRequestModel with _$RegisterRequestModel {
   const factory RegisterRequestModel({
     String? captcha,
     String? phone,
-    required String publicKeyPem,
+    @JsonKey(name: 'publicKeyPem') required String publicKey,
     required String email,
     required String password,
     required int platformType,

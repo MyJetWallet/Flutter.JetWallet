@@ -1,9 +1,9 @@
-import 'package:fast_rsa/model/bridge.pbenum.dart';
 import 'package:fast_rsa/rsa.dart';
 import 'local_storage_service.dart';
 
 class RsaService {
   static const int _bits = 2048;
+
   late String publicKey;
   late String privateKey;
 
@@ -21,6 +21,6 @@ class RsaService {
   }
 
   Future<String> sign(String text, String privateKey) async {
-    return RSA.signPKCS1v15(text, Hash.HASH_SHA256, privateKey);
+    return RSA.signPKCS1v15(text, Hash.SHA256, privateKey);
   }
 }

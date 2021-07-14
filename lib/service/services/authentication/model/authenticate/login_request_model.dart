@@ -8,7 +8,7 @@ part 'login_request_model.g.dart';
 class LoginRequestModel with _$LoginRequestModel {
   const factory LoginRequestModel({
     String? captcha,
-    required String publicKeyPem,
+    @JsonKey(name: 'publicKeyPem') required String publicKey,
     required String email,
     required String password,
     @JsonKey(name: 'application') required int platform,

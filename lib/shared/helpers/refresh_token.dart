@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../app/screens/wallet/provider/server_time_spod.dart';
 
 import '../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
 import '../../router/provider/router_stpod/router_stpod.dart';
@@ -29,20 +28,19 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final authService = read(authServicePod);
   final storageService = read(localStorageServicePod);
   final rsaService = read(rsaServicePod);
-  final serverTime = read(serverTimeSpod);
 
   try {
+    final timeNow = (await authService.serverInfo()).serverTime;
     final privateKey = await storageService.getString(privateKeyKey);
     final refreshToken = authModel.refreshToken;
-    final serverTimeString = serverTime.data?.value.now.toString();
     final tokenDateTimeSignatureBase64 = await rsaService.sign(
-      refreshToken + (serverTimeString ?? ''),
-      privateKey ?? '',
+      refreshToken + timeNow,
+      privateKey!,
     );
 
     final model = AuthRefreshRequestModel(
       refreshToken: refreshToken,
-      requestTime: serverTimeString,
+      requestTime: timeNow,
       tokenDateTimeSignatureBase64: tokenDateTimeSignatureBase64,
     );
 

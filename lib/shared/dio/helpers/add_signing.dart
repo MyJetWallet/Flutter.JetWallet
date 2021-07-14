@@ -22,7 +22,7 @@ void addSigning(Dio dio, Reader read) {
           final privateKey = await storageService.getString(privateKeyKey);
           final signature = await rsaService.sign(
             jsonEncode(requestBody),
-            privateKey ?? '',
+            privateKey!,
           );
           options.headers[signatureHeader] = signature;
         }

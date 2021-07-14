@@ -45,20 +45,23 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   Future<void> authenticate(AuthScreen authScreen) async {
     _logger.log(notifier, 'authenticate');
 
+    await rsaService.init();
+    await rsaService.savePrivateKey(storageService);
+
     final publicKey = rsaService.publicKey;
     final email = credentialsState.emailController.text;
     final password = credentialsState.passwordController.text;
 
     try {
       final loginRequest = LoginRequestModel(
-        publicKeyPem: publicKey,
+        publicKey: publicKey,
         email: email,
         password: password,
         platform: currentPlatform,
       );
 
       final registerRequest = RegisterRequestModel(
-        publicKeyPem: publicKey,
+        publicKey: publicKey,
         email: email,
         password: password,
         platformType: platformType,
