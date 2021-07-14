@@ -7,7 +7,6 @@ class AuthModel with _$AuthModel {
   const factory AuthModel({
     required String token,
     required String refreshToken,
-    required String publicKeyPem,
     required String email,
   }) = _AuthModel;
 }

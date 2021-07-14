@@ -12,7 +12,6 @@ import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/instruments_model.dart';
 import '../model/prices_model.dart';
-import '../model/server_time_model.dart';
 
 class SignalRService {
   SignalRService(this.read);
@@ -38,7 +37,6 @@ class SignalRService {
   final _balancesController = StreamController<BalancesModel>();
   final _instrumentsController = StreamController<InstrumentsModel>();
   final _pricesController = StreamController<PricesModel>();
-  final _serverTimeController = StreamController<ServerTimeModel>();
 
   Future<void> init() async {
     isDisconnecting = false;
@@ -89,14 +87,6 @@ class SignalRService {
     });
 
     _connection.on(pongMessage, (data) {
-      try {
-        final serverTime = ServerTimeModel.fromJson(_json(data));
-        _serverTimeController.add(serverTime);
-      } catch (e) {
-        _logger.log(contract, 'pongMessage', e);
-        rethrow;
-      }
-
       _pongTimer?.cancel();
 
       _startPong();
@@ -129,7 +119,6 @@ class SignalRService {
 
   Stream<PricesModel> prices() => _pricesController.stream;
 
-  Stream<ServerTimeModel> serverTime() => _serverTimeController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

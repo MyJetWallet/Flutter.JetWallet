@@ -11,5 +11,9 @@ const balancesMessage = 'spot-wallet-balances';
 const instrumentsMessage = 'spot-insrument-list';
 const bidAskMessage = 'spot-bidask';
 
+// HTTP
+const postRequest = 'POST';
+const signatureHeader = 'signature';
+
 // Other
 const platformType = 2;
