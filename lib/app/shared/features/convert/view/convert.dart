@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../../../shared/providers/service_providers.dart';
 import '../../../../screens/wallet/model/currency_model.dart';
 import '../notifier/convert_notipod.dart';
 import '../notifier/convert_state.dart';
@@ -32,7 +32,11 @@ class Convert extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(convertNotipod(currency));
     final notifier = useProvider(convertNotipod(currency).notifier);
-    final intl = useProvider(intlPod);
+    //TODO(any): Fix
+    // Unsupported operation: No default behavior specified for
+    // ScopedProvider<AppLocalizations>
+    // Caused due to Navigator.push()
+    final intl = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
