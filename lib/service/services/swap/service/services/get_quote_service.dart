@@ -16,7 +16,7 @@ Future<GetQuoteResponseModel> getQuoteService(
 
   try {
     final response = await dio.post(
-      '$walletApi/swap/get-quote',
+      '$walletApi/trading/swap/get-quote',
       data: model.toJson(),
     );
 
