@@ -37,5 +37,6 @@
     "second": "Секунду",
     "seconds": "Секунд",
     "didntReceiveTheCode": "Не получили код?",
-    "resend": "Отправить еще"
+    "resend": "Отправить еще",
+    "validationQuoteError": "Цена должна быть положительным числом"
 }
