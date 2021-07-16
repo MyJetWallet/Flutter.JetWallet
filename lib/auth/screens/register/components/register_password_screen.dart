@@ -5,9 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_button_solid.dart';
 import '../../../shared/components/auth_frame/auth_frame.dart';
 import '../../../shared/components/auth_text_field.dart';
+import '../../../shared/components/buttons/auth_button_solid.dart';
+import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_union.dart';
@@ -59,13 +60,16 @@ class RegisterPasswordScreen extends HookWidget {
                   credentialsN.updateAndValidatePassword(value);
                 },
               ),
+              PasswordValidation(
+                password: credentials.password,
+              ),
               const Spacer(),
               if (authenitcation is Input) ...[
                 AuthButtonSolid(
-                  active: credentialsN.readyToAuthenticate,
+                  active: credentialsN.readyToRegister,
                   name: 'Continue',
                   onTap: () {
-                    if (credentialsN.readyToAuthenticate) {
+                    if (credentialsN.readyToRegister) {
                       authenitcationN.authenticate(
                         email: credentials.email,
                         password: credentials.password,

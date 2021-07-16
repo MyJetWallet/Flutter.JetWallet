@@ -6,10 +6,12 @@ part 'app_config_model.g.dart';
 @freezed
 class AppConfigModel with _$AppConfigModel {
   const factory AppConfigModel({
-    required int amountOfSymbolsInEmailVerificationCode,
-    required int amountOfSymbolsInPhoneVerificationCode,
+    required int emailVerificationCodeLength,
+    required int phoneVerificationCodeLength,
     required String userAgreementLink,
     required String privacyPolicyLink,
+    required int minAmountOfCharsInPassword,
+    required int maxAmountOfCharsInPassword,
   }) = _AppConfigModel;
 
   factory AppConfigModel.fromJson(Map<String, dynamic> json) =>

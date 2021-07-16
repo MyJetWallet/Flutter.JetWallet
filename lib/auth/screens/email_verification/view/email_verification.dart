@@ -9,8 +9,8 @@ import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_union.dart' as lu;
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
-import '../../../shared/components/auth_button_solid.dart';
 import '../../../shared/components/auth_frame/auth_frame.dart';
+import '../../../shared/components/buttons/auth_button_solid.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
 import '../notifier/email_verification_union.dart';
@@ -69,7 +69,6 @@ class EmailVerification extends HookWidget {
                   const OpenEmailAppButton(),
                   const SpaceH120(),
                   EmailVerificationPinCode(
-                    length: 6,
                     controller: verification.controller,
                     onCompleted: (_) => verificationN.verifyCode(),
                   ),
