@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
-import '../../../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../shared/constants.dart';
@@ -92,7 +92,7 @@ class SignalRService {
       _startPong();
     });
 
-    final token = read(authModelNotipod).token;
+    final token = read(authInfoNotipod).token;
 
     try {
       await _connection.start();
