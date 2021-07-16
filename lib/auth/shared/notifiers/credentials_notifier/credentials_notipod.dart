@@ -4,7 +4,7 @@ import 'credentials_notifier.dart';
 import 'credentials_state.dart';
 
 final credentialsNotipod =
-    StateNotifierProvider<CredentialsNotifier, CredentialsState>(
+    StateNotifierProvider.autoDispose<CredentialsNotifier, CredentialsState>(
   (ref) {
     return CredentialsNotifier();
   },

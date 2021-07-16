@@ -16,7 +16,7 @@ class AuthHeaderText extends StatelessWidget {
       textAlign: TextAlign.start,
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 30.5.sp,
+        fontSize: 24.sp,
       ),
     );
   }

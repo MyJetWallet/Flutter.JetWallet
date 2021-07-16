@@ -3,23 +3,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'auth_button.dart';
 
-class AuthButtonGrey extends StatelessWidget {
-  const AuthButtonGrey({
+class AuthButtonSolid extends StatelessWidget {
+  const AuthButtonSolid({
     Key? key,
-    required this.text,
+    this.active = true,
+    required this.name,
     required this.onTap,
   }) : super(key: key);
 
-  final String text;
+  final bool active;
+  final String name;
   final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return AuthButton(
-      text: text,
+      text: name,
       onTap: onTap,
       decoration: BoxDecoration(
-        color: Colors.grey[800],
+        color: active ? Colors.grey[800] : Colors.grey[400],
         borderRadius: BorderRadius.circular(8.r),
       ),
       textColor: Colors.white,

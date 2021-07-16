@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
-import '../../../auth/screens/reset_password/view/reset_password.dart';
+// import '../../../auth/screens/reset_password/view/reset_password.dart';
 import '../../../router/provider/authorized_stpod/authorized_stpod.dart';
 import '../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../helpers/push_and_remove_until.dart';
@@ -10,7 +10,7 @@ import '../other/navigator_key_pod.dart';
 import '../service_providers.dart';
 
 const _code = 'jw_code';
-const _token = 'jw_token';
+// const _token = 'jw_token';
 const _command = 'jw_command';
 const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
@@ -32,12 +32,13 @@ final dynamicLinkPod = Provider<void>(
             notifier.updateCode(parameters[_code]);
           }
         } else if (parameters[_command] == _forgotPassword) {
-          pushAndRemoveUntil(
-            navigatorKey: navigatorKey,
-            page: ResetPassword(
-              token: parameters[_token],
-            ),
-          );
+          // TODO(ELI) Revisit this
+          // pushAndRemoveUntil(
+          //   navigatorKey: navigatorKey,
+          //   page: ResetPassword(
+          //     token: parameters[_token],
+          //   ),
+          // );
         } else {
           pushAndRemoveUntil(
             navigatorKey: navigatorKey,

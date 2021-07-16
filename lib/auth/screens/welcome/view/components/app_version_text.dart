@@ -16,19 +16,21 @@ class AppVersionText extends HookWidget {
     final intl = useProvider(intlPod);
     final package = useProvider(packageInfoFpod);
 
-    return Text(
-      '${intl.jetWalletAppVersion} ${package.maybeWhen(
-        data: (data) => "${data.version}:${data.buildNumber}",
-        orElse: () => "1.0.0",
-      )}',
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      softWrap: true,
-      style: TextStyle(
-        fontWeight: FontWeight.w300,
-        letterSpacing: 0.42.w,
-        color: Colors.grey,
-        fontSize: 11.sp,
+    return Center(
+      child: Text(
+        '${intl.jetWalletAppVersion} ${package.maybeWhen(
+          data: (data) => "${data.version}:${data.buildNumber}",
+          orElse: () => "1.0.0",
+        )}',
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        softWrap: true,
+        style: TextStyle(
+          fontWeight: FontWeight.w300,
+          letterSpacing: 0.42.w,
+          color: Colors.grey,
+          fontSize: 11.sp,
+        ),
       ),
     );
   }

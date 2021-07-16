@@ -6,19 +6,19 @@ import '../../../../service/services/authentication/model/forgot_password/forgot
 import '../../../../service/services/authentication/service/authentication_service.dart';
 import '../../../../service/shared/constants.dart';
 import '../../../../shared/helpers/device_type.dart';
-import '../../sign_in_up/notifier/credentials_notifier/credentials_notifier.dart';
-import '../../sign_in_up/notifier/credentials_notifier/credentials_state.dart';
+import '../../../shared/notifiers/credentials_notifier/credentials_notifier.dart';
+import '../../../shared/notifiers/credentials_notifier/credentials_state.dart';
 import 'forgot_password_union.dart';
 
 class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordUnion> {
   ForgotPasswordNotifier({
-    required this.credentialsState,
-    required this.credentialsNotifier,
+    required this.credentials,
+    required this.credentialsN,
     required this.authService,
   }) : super(const Input());
 
-  final CredentialsState credentialsState;
-  final CredentialsNotifier credentialsNotifier;
+  final CredentialsState credentials;
+  final CredentialsNotifier credentialsN;
   final AuthenticationService authService;
 
   static final _logger = Logger('ForgotPasswordNotifier');
@@ -26,11 +26,9 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordUnion> {
   Future<void> sendRecoveryLink() async {
     _logger.log(notifier, 'sendRecoveryLink');
 
-    final email = credentialsState.emailController.text;
-
     try {
       final model = ForgotPasswordRequestModel(
-        email: email,
+        email: credentials.email,
         platformType: platformType,
         deviceType: deviceType,
       );
@@ -40,7 +38,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordUnion> {
       await authService.forgotPassword(model);
 
       state = const Input();
-      credentialsNotifier.clear();
+      // credentialsNotifier.clear();
     } catch (e, st) {
       _logger.log(stateFlow, 'sendRecoveryLink', e);
 

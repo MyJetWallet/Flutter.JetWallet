@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../auth/screens/sign_in_up/model/auth_model.dart';
+import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_state.dart';
 import '../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../../router/provider/router_stpod/router_union.dart';
 import '../../../service/services/authentication/model/logout/logout_request_model.dart';
@@ -15,7 +15,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
   LogoutNotifier({
     required this.router,
     required this.authorized,
-    required this.authModel,
+    required this.authInfo,
     required this.authService,
     required this.storageService,
     required this.signalRService,
@@ -23,7 +23,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
 
   final StateController<RouterUnion> router;
   final StateController<AuthorizedUnion> authorized;
-  final AuthModel authModel;
+  final AuthInfoState authInfo;
   final AuthenticationService authService;
   final LocalStorageService storageService;
   final SignalRService signalRService;
@@ -36,7 +36,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
     try {
       state = const Loading();
 
-      final model = LogoutRequestModel(token: authModel.token);
+      final model = LogoutRequestModel(token: authInfo.token);
 
       await authService.logout(model);
 

@@ -2,17 +2,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../model/auth_model.dart';
+import 'auth_info_state.dart';
 
-class AuthModelNotifier extends StateNotifier<AuthModel> {
-  AuthModelNotifier()
-      : super(
-          const AuthModel(
-            token: '',
-            refreshToken: '',
-            email: '',
-          ),
-        );
+class AuthInfoNotifier extends StateNotifier<AuthInfoState> {
+  AuthInfoNotifier() : super(const AuthInfoState());
 
   static final _logger = Logger('AuthModelNotifier');
 
