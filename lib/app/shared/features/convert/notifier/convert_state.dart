@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
-import '../../../../screens/wallet/model/currency_model.dart';
+import '../../../../screens/market/model/currency_model.dart';
 import 'convert_union.dart';
 
 part 'convert_state.freezed.dart';

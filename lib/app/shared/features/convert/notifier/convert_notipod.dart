@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
-import '../../../../screens/wallet/model/currency_model.dart';
-import '../../../../screens/wallet/provider/currencies_pod.dart';
+import '../../../../screens/market/model/currency_model.dart';
+import '../../../../screens/market/provider/currencies_pod.dart';
 import '../helper/remove_element.dart';
 import 'convert_notifier.dart';
 import 'convert_state.dart';

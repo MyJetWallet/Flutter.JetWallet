@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/currency_details/currency_details.dart';
 import '../../../model/currency_model.dart';
 import 'components/currency_card.dart';
 
-class CurrencyButton extends StatelessWidget {
-  const CurrencyButton({
+class MarketItem extends StatelessWidget {
+  const MarketItem({
     Key? key,
-    required this.currency,
+    required this.marketItem,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  final MarketItemModel marketItem;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      customBorder: Border.all(),
       borderRadius: BorderRadius.circular(20.r),
-      onTap: () => navigatorPush(
-        context,
-        CurrencyDetails(currency: currency),
-      ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: 8.w,
+          horizontal: 16.w,
         ),
-        child: CurrencyCard(
-          currency: currency,
+        child: MarketItemCard(
+          marketItem: marketItem,
         ),
       ),
     );

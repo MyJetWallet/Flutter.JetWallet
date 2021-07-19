@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jetwallet/app/screens/wallet/helper/calculate_base_balance.dart';
+import 'package:jetwallet/app/screens/market/helper/calculate_base_balance.dart';
 import 'package:jetwallet/service/services/signal_r/model/prices_model.dart';
 import 'package:jetwallet/service/services/wallet/model/asset_converter_map_model.dart';
 
@@ -108,13 +108,69 @@ void main() {
 }
 
 const prices = <PriceModel>[
-  PriceModel(id: 'BTCEUR', date: 0.0, bid: 32243.38, ask: 32476.83),
-  PriceModel(id: 'BTCUSD', date: 0.0, bid: 39338.16, ask: 39496.84),
-  PriceModel(id: 'XRPTRX', date: 0.0, bid: 18.92329312, ask: 19.173),
-  PriceModel(id: 'TRXXLM', date: 0.0, bid: 2.971, ask: 3.28238),
-  PriceModel(id: 'XLMDOGE', date: 0.0, bid: 0.16173211, ask: 0.17328238),
-  PriceModel(id: 'XLMETH', date: 0.0, bid: 0.005, ask: 0.006),
-  PriceModel(id: 'ETHEUR', date: 0.0, bid: 4100.0, ask: 4115.0),
+  PriceModel(
+    id: 'BTCEUR',
+    date: 0.0,
+    bid: 32243.38,
+    ask: 32476.83,
+    dayPercentageChange: 0,
+    dayPriceChange: 0,
+    lastPrice: 0,
+  ),
+  PriceModel(
+    id: 'BTCUSD',
+    date: 0.0,
+    bid: 39338.16,
+    ask: 39496.84,
+    dayPercentageChange: 0,
+    dayPriceChange: 0,
+    lastPrice: 0,
+  ),
+  PriceModel(
+    id: 'XRPTRX',
+    date: 0.0,
+    bid: 18.92329312,
+    ask: 19.173,
+    dayPercentageChange: 0,
+    dayPriceChange: 0,
+    lastPrice: 0,
+  ),
+  PriceModel(
+    id: 'TRXXLM',
+    date: 0.0,
+    bid: 2.971,
+    ask: 3.28238,
+    dayPercentageChange: 0,
+    dayPriceChange: 0,
+    lastPrice: 0,
+  ),
+  PriceModel(
+    id: 'XLMDOGE',
+    date: 0.0,
+    bid: 0.16173211,
+    ask: 0.17328238,
+    dayPercentageChange: 0,
+    dayPriceChange: 0,
+    lastPrice: 0,
+  ),
+  PriceModel(
+    id: 'XLMETH',
+    date: 0.0,
+    bid: 0.005,
+    ask: 0.006,
+    dayPercentageChange: 0,
+    dayPriceChange: 0,
+    lastPrice: 0,
+  ),
+  PriceModel(
+    id: 'ETHEUR',
+    date: 0.0,
+    bid: 4100.0,
+    ask: 4115.0,
+    dayPercentageChange: 0,
+    dayPriceChange: 0,
+    lastPrice: 0,
+  ),
 ];
 
 // ignore: prefer_const_constructors
