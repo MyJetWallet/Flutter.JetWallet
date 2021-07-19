@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../shared/api_urls.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../model/refresh/auth_refresh_request_model.dart';
 import '../../model/refresh/auth_refresh_response_model.dart';
 import '../authentication_service.dart';

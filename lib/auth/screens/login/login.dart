@@ -4,12 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../shared/components/loader.dart';
 import '../../../shared/components/spacers.dart';
-import '../../../shared/helpers/navigator_push.dart';
+import '../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
-import '../../shared/components/auth_button_outlined.dart';
-import '../../shared/components/auth_button_solid.dart';
 import '../../shared/components/auth_frame/auth_frame.dart';
 import '../../shared/components/auth_text_field.dart';
+import '../../shared/components/buttons/auth_button_outlined.dart';
+import '../../shared/components/buttons/auth_button_solid.dart';
 import '../../shared/components/policy_check/policy_check_box.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
@@ -75,7 +75,7 @@ class Login extends HookWidget {
               AuthButtonSolid(
                 name: 'Sign in',
                 onTap: () {
-                  if (credentialsN.readyToAuthenticate) {
+                  if (credentialsN.readyToLogin) {
                     authenitcationN.authenticate(
                       email: credentials.email,
                       password: credentials.password,
@@ -83,14 +83,14 @@ class Login extends HookWidget {
                     );
                   }
                 },
-                active: credentialsN.readyToAuthenticate,
+                active: credentialsN.readyToLogin,
               ),
               const SpaceH10(),
               AuthButtonOutlined(
                 name: 'Create account',
                 onTap: () {
-                  Navigator.pop(context);
-                  navigatorPush(context, const Register());
+                  navigatorPushReplacement(context, const Register());
+                  credentialsN.clear();
                 },
               ),
             ] else ...[

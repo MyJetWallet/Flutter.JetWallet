@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/launch_url.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import 'policy_text_span.dart';
 
 class PolicyCheckBox extends StatelessWidget {
@@ -45,14 +46,14 @@ class PolicyCheckBox extends StatelessWidget {
                 ),
                 policyTextSpan(
                   text: 'User Agreement ',
-                  onTap: () => launchURL(context, 'https://pub.dev'),
+                  onTap: () => launchURL(context, userAgreementLink),
                 ),
                 const TextSpan(
                   text: 'and ',
                 ),
                 policyTextSpan(
                   text: 'Privacy Policy',
-                  onTap: () => launchURL(context, 'https://pub.dev'),
+                  onTap: () => launchURL(context, privacyPolicyLink),
                 ),
               ],
             ),

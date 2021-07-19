@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
-import '../../../shared/components/auth_button_outlined.dart';
-import '../../../shared/components/auth_button_solid.dart';
 import '../../../shared/components/auth_frame/auth_frame.dart';
+import '../../../shared/components/buttons/auth_button_outlined.dart';
+import '../../../shared/components/buttons/auth_button_solid.dart';
 import '../../login/login.dart';
 import '../../register/register.dart';
 import 'components/app_version_text.dart';

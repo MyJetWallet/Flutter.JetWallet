@@ -3,7 +3,7 @@ import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../helpers/is_email_valid.dart';
-import '../../helpers/is_password_valid.dart';
+import '../../helpers/password_validators.dart';
 import 'credentials_state.dart';
 
 /// Used only for [Register] and [Login] flow
@@ -60,8 +60,12 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     state = state.copyWith(policyChecked: !state.policyChecked);
   }
 
-  bool get readyToAuthenticate {
+  bool get readyToRegister {
     return state.emailValid && state.passwordValid;
+  }
+
+  bool get readyToLogin {
+    return state.emailValid && state.password.isNotEmpty;
   }
 
   bool get emailValidAndPolicyChecked {

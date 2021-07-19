@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
-import '../../../../service/shared/api_urls.dart';
 import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
+import '../remote_config_values.dart';
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfigService {
@@ -44,5 +44,14 @@ class RemoteConfigService {
     walletApi = flavor.walletApi;
     tradingApi = flavor.tradingApi;
     validationApi = flavor.validationApi;
+  }
+
+  void overrideAppConfigValues() {
+    emailVerificationCodeLength = appConfig.emailVerificationCodeLength;
+    phoneVerificationCodeLength = appConfig.phoneVerificationCodeLength;
+    userAgreementLink = appConfig.userAgreementLink;
+    privacyPolicyLink = appConfig.privacyPolicyLink;
+    minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
+    maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
   }
 }
