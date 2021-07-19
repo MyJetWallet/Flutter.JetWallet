@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
+import '../../../auth/screens/login/login.dart';
 // import '../../../auth/screens/reset_password/view/reset_password.dart';
 import '../../../router/provider/authorized_stpod/authorized_stpod.dart';
 import '../../../router/provider/authorized_stpod/authorized_union.dart';
-import '../../helpers/push_and_remove_until.dart';
+import '../../helpers/navigator_push.dart';
+import '../../notifiers/logout_notifier/logout_notipod.dart';
 import '../other/navigator_key_pod.dart';
 import '../service_providers.dart';
 
@@ -14,6 +16,7 @@ const _code = 'jw_code';
 const _command = 'jw_command';
 const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
+const _login = 'Login';
 
 final dynamicLinkPod = Provider<void>(
   (ref) {
@@ -24,14 +27,19 @@ final dynamicLinkPod = Provider<void>(
     service.initDynamicLinks(
       handler: (link) {
         final parameters = link.queryParameters;
+        final command = parameters[_command];
 
-        if (parameters[_command] == _confirmEmail) {
+        if (command == _confirmEmail) {
           if (authorized.state is EmailVerification) {
             final notifier = ref.read(emailVerificationNotipod.notifier);
 
             notifier.updateCode(parameters[_code]);
           }
-        } else if (parameters[_command] == _forgotPassword) {
+        } else if (command == _login) {
+          ref.read(logoutNotipod.notifier).logout();
+
+          navigatorPush(navigatorKey.currentContext!, const Login());
+        } else if (command == _forgotPassword) {
           // TODO(ELI) Revisit this
           // pushAndRemoveUntil(
           //   navigatorKey: navigatorKey,
@@ -40,9 +48,9 @@ final dynamicLinkPod = Provider<void>(
           //   ),
           // );
         } else {
-          pushAndRemoveUntil(
-            navigatorKey: navigatorKey,
-            page: _UndefinedDeepLink(
+          navigatorPush(
+            navigatorKey.currentContext!,
+            _UndefinedDeepLink(
               deepLinkParameters: parameters,
             ),
           );
