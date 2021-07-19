@@ -13,18 +13,15 @@ import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/local_storage_service.dart';
 import '../../../../../shared/services/rsa_service.dart';
-import '../../provider/auth_screen_stpod.dart';
-import '../auth_model_notifier/auth_model_notifier.dart';
-import '../credentials_notifier/credentials_notifier.dart';
-import '../credentials_notifier/credentials_state.dart';
+import '../auth_info_notifier/auth_info_notifier.dart';
 import 'authentication_union.dart';
+
+enum AuthOperation { login, register }
 
 class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   AuthenticationNotifier({
     required this.router,
-    required this.credentialsState,
-    required this.credentialsNotifier,
-    required this.authModelNotifier,
+    required this.authInfoN,
     required this.authService,
     required this.storageService,
     required this.navigatorKey,
@@ -32,9 +29,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   }) : super(const Input());
 
   final StateController<RouterUnion> router;
-  final CredentialsState credentialsState;
-  final CredentialsNotifier credentialsNotifier;
-  final AuthModelNotifier authModelNotifier;
+  final AuthInfoNotifier authInfoN;
   final AuthenticationService authService;
   final LocalStorageService storageService;
   final GlobalKey<NavigatorState> navigatorKey;
@@ -42,17 +37,21 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
   static final _logger = Logger('AuthenticationNotifier');
 
-  Future<void> authenticate(AuthScreen authScreen) async {
+  Future<void> authenticate({
+    required String email,
+    required String password,
+    required AuthOperation operation,
+  }) async {
     _logger.log(notifier, 'authenticate');
 
     try {
+      state = const Loading();
+
       await rsaService.init();
       await rsaService.savePrivateKey(storageService);
 
       final publicKey = rsaService.publicKey;
-      final email = credentialsState.emailController.text;
-      final password = credentialsState.passwordController.text;
-      
+
       final loginRequest = LoginRequestModel(
         publicKey: publicKey,
         email: email,
@@ -68,11 +67,9 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         platform: currentPlatform,
       );
 
-      state = const Loading();
-
       AuthenticationModel authModel;
 
-      if (authScreen == AuthScreen.signIn) {
+      if (operation == AuthOperation.login) {
         authModel = await authService.login(loginRequest);
       } else {
         authModel = await authService.register(registerRequest);
@@ -81,17 +78,15 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       await storageService.setString(refreshTokenKey, authModel.refreshToken);
       await storageService.setString(userEmailKey, email);
 
-      authModelNotifier.updateToken(authModel.token);
-      authModelNotifier.updateRefreshToken(authModel.refreshToken);
-      authModelNotifier.updateEmail(email);
+      authInfoN.updateToken(authModel.token);
+      authInfoN.updateRefreshToken(authModel.refreshToken);
+      authInfoN.updateEmail(email);
 
       router.state = const Authorized();
 
       state = const Input();
 
       navigateToRouter(navigatorKey);
-
-      credentialsNotifier.clear();
     } catch (e, st) {
       _logger.log(stateFlow, 'authenticate', e);
 

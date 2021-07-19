@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loader.dart';
 import '../../../shared/components/spacers.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
@@ -18,7 +18,7 @@ class Account extends HookWidget {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final intl = useProvider(intlPod);
-    final authModel = useProvider(authModelNotipod);
+    final authInfo = useProvider(authInfoNotipod);
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
@@ -43,7 +43,7 @@ class Account extends HookWidget {
                 ),
                 const SpaceH10(),
                 Text(
-                  authModel.email,
+                  authInfo.email,
                 ),
                 const SpaceH10(),
                 TextButton(

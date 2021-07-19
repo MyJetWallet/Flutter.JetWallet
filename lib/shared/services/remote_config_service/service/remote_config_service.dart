@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+
 import '../../../../service/shared/api_urls.dart';
+import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
 
 /// [RemoteConfigService] is a Signleton
@@ -24,6 +26,14 @@ class RemoteConfigService {
     final list = jsonDecode(flavors) as List;
 
     return ConnectionFlavorsModel.fromList(list);
+  }
+
+  AppConfigModel get appConfig {
+    final config = _config.getString('AppConfig');
+
+    final json = jsonDecode(config) as Map<String, dynamic>;
+
+    return AppConfigModel.fromJson(json);
   }
 
   /// Each index respresents different flavor (backend environment)

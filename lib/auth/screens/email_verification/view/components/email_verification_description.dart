@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
-import '../../../sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 
 class EmailVerificationDescription extends HookWidget {
   const EmailVerificationDescription({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class EmailVerificationDescription extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
-    final authModel = useProvider(authModelNotipod);
+    final authInfo = useProvider(authInfoNotipod);
 
     return RichText(
       text: TextSpan(
@@ -25,7 +25,7 @@ class EmailVerificationDescription extends HookWidget {
             text: '${intl.enterTheCodeWeHaveSentYouToYourEmail} ',
           ),
           TextSpan(
-            text: authModel.email,
+            text: authInfo.email,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../helpers/refresh_token.dart';
 import '../helpers/retry_request.dart';
 
@@ -13,7 +13,7 @@ Future<void> interceptor401({
   try {
     final result = await refreshToken(read);
 
-    final authModel = read(authModelNotipod);
+    final authModel = read(authInfoNotipod);
 
     if (result == RefreshTokenStatus.success) {
       final response = await retryRequest(

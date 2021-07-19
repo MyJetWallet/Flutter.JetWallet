@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../auth/screens/sign_in_up/notifier/auth_model_notifier/auth_model_notipod.dart';
+import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../router/provider/router_stpod/router_stpod.dart';
 import '../../router/provider/router_stpod/router_union.dart';
 import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
@@ -23,17 +23,18 @@ enum RefreshTokenStatus { success, caught }
 Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final router = read(routerStpod.notifier);
   final navigatorKey = read(navigatorKeyPod);
-  final authModel = read(authModelNotipod);
-  final authModelNotifier = read(authModelNotipod.notifier);
+  final authInfo = read(authInfoNotipod);
+  final authInfoN = read(authInfoNotipod.notifier);
   final authService = read(authServicePod);
   final storageService = read(localStorageServicePod);
   final rsaService = read(rsaServicePod);
 
   try {
     final serverInfo = await authService.serverInfo();
-    final serverTime = serverInfo.serverTime;
     final privateKey = await storageService.getString(privateKeyKey);
-    final refreshToken = authModel.refreshToken;
+    final serverTime = serverInfo.serverTime;
+    final refreshToken = authInfo.refreshToken;
+    
     final tokenDateTimeSignatureBase64 = await rsaService.sign(
       refreshToken + serverTime,
       privateKey!,
@@ -49,8 +50,8 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
 
     await storageService.setString(refreshTokenKey, response.refreshToken);
 
-    authModelNotifier.updateToken(response.token);
-    authModelNotifier.updateRefreshToken(response.refreshToken);
+    authInfoN.updateToken(response.token);
+    authInfoN.updateRefreshToken(response.refreshToken);
 
     return RefreshTokenStatus.success;
   } on DioError catch (error) {
