@@ -1,6 +1,6 @@
 # Flutter.JetWallet
 
-SPOT Front-End Application 
+SPOT Front-End Application
 
 <https://jetwallet-spot.mnftx.biz/#/>
 
@@ -86,8 +86,8 @@ final nameNotipod = StateNotifierProvider()
 ```text
 model: name_model.dart
 service: name_service.dart
-notifier: name_notifier.dart, name_state.dart, name_union.dart
-provider: name_pod.dart, name_fpod.dart, name_spod.dart, name_stpod.dart, name_notipod.dart
+notifier: name_notifier.dart, name_notipod.dart, name_state.dart, name_union.dart
+provider: name_pod.dart, name_fpod.dart, name_spod.dart, name_stpod.dart
 widget: name.dart
 helper: name.dart
 ```
@@ -130,6 +130,7 @@ helper: name.dart
 |   ├── notifier
 |   |   ├── some_notifier
 |   |   |   ├── some_notifier.dart
+|   |   |   ├── some_notipod.dart 
 |   |   |   ├── some_state.dart (optional)
 |   |   |   ├── some_state.freezed.dart (gen)
 |   |   |   ├── some_union.dart (optional)
@@ -137,7 +138,6 @@ helper: name.dart
 |   |   └── some_other_notifier.dart  
 |   ├── provider
 |   |   ├── some_fpod.dart 
-|   |   ├── some_notipod.dart 
 |   |   ├── some_pod.dart 
 |   |   ├── some_spod.dart 
 |   |   └── some_stpod.dart  
@@ -185,6 +185,7 @@ Consider the following example:
 notifier
     └── some_notifier
         ├── some_notifier.dart
+        ├── some_notipod.dart 
         ├── some_state.dart (optional)
         ├── some_state.freezed.dart (gen)
         ├── some_union.dart (optional)
@@ -196,6 +197,7 @@ It's better to simplify it since there is only one notifier and there is no need
 ```text
 notifier
     ├── some_notifier.dart
+    ├── some_notipod.dart 
     ├── some_state.dart (optional)
     ├── some_state.freezed.dart (gen)
     ├── some_union.dart (optional)
@@ -208,12 +210,15 @@ But if you will have one more notifier, now it's better to structure them by fol
 notifier
     ├── some_notifier
     |   ├── some_notifier.dart
+    |   ├── some_notipod.dart 
     |   ├── some_state.dart (optional)
     |   ├── some_state.freezed.dart (gen)
     |   ├── some_union.dart (optional)
     |   └── some_union.freezed.dart (gen)
     └── some_other_notifier
-        └── some_other_notifier.dart 
+        ├── some_other_notifier.dart
+        └── some_notipod.dart
+
 ```
 
 This idea applies to model and provider layer as well.

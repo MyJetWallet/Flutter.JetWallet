@@ -9,10 +9,8 @@ import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_union.dart' as lu;
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
-import '../../../shared/components/arrow_back_button.dart';
-import '../../../shared/components/auth_button_grey.dart';
-import '../../../shared/components/auth_frame.dart';
-import '../../../shared/components/auth_header_text.dart';
+import '../../../shared/components/auth_frame/auth_frame.dart';
+import '../../../shared/components/buttons/auth_button_solid.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
 import '../notifier/email_verification_union.dart';
@@ -59,54 +57,45 @@ class EmailVerification extends HookWidget {
         },
         child: logout.when(
           result: (_, __) {
-            return Scaffold(
-              resizeToAvoidBottomInset: false,
-              backgroundColor: Colors.white,
-              body: AuthScreenFrame(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ArrowBackButton(
-                      onTap: () => logoutN.logout(),
-                    ),
-                    AuthHeaderText(
-                      text: intl.emailVerification,
-                    ),
-                    const SpaceH15(),
-                    const EmailVerificationDescription(),
-                    const SpaceH10(),
-                    const OpenEmailAppButton(),
-                    const SpaceH120(),
-                    EmailVerificationPinCode(
-                      length: 6,
-                      controller: verification.controller,
-                      onCompleted: (_) => verificationN.verifyCode(),
-                    ),
-                    const SpaceH10(),
-                    if (timer != 0)
-                      EmailResendInText(seconds: timer)
-                    else ...[
-                      EmailResendRichText(
-                        onTap: () async {
-                          await verificationN.sendCode();
+            return AuthFrame(
+              header: intl.emailVerification,
+              onBackButton: () => logoutN.logout(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpaceH15(),
+                  const EmailVerificationDescription(),
+                  const SpaceH10(),
+                  const OpenEmailAppButton(),
+                  const SpaceH120(),
+                  EmailVerificationPinCode(
+                    controller: verification.controller,
+                    onCompleted: (_) => verificationN.verifyCode(),
+                  ),
+                  const SpaceH10(),
+                  if (timer != 0)
+                    EmailResendInText(seconds: timer)
+                  else ...[
+                    EmailResendRichText(
+                      onTap: () async {
+                        await verificationN.sendCode();
 
-                          if (verification.union is Input) {
-                            timerN.refreshTimer();
-                          }
-                        },
-                      ),
-                    ],
-                    const SpaceH40(),
-                    const Spacer(),
-                    if (verification.union is Loading)
-                      const Loader()
-                    else
-                      AuthButtonGrey(
-                        text: intl.confirm,
-                        onTap: () => verificationN.verifyCode(),
-                      ),
+                        if (verification.union is Input) {
+                          timerN.refreshTimer();
+                        }
+                      },
+                    ),
                   ],
-                ),
+                  const SpaceH40(),
+                  const Spacer(),
+                  if (verification.union is Loading)
+                    const Loader()
+                  else
+                    AuthButtonSolid(
+                      name: intl.confirm,
+                      onTap: () => verificationN.verifyCode(),
+                    ),
+                ],
               ),
             );
           },
