@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
+import '../../../model/market_item_model.dart';
 
-import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/features/currency_details/currency_details.dart';
-import '../../../model/currency_model.dart';
 import 'components/currency_card.dart';
 
 class MarketItem extends StatelessWidget {

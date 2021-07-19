@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market/provider/market_items_pod.dart';
 
 import '../model/market_item_model.dart';
+import 'market_items_pod.dart';
 
 final gainersMarketItemsPod =
     Provider.autoDispose<List<MarketItemModel>>((ref) {
