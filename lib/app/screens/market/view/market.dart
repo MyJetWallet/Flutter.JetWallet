@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../provider/market_gainers_items_pod.dart';
+import '../provider/market_gainers_pod.dart';
 import '../provider/market_items_pod.dart';
-import '../provider/market_loosers_items_pod.dart';
+import '../provider/market_loosers_pod.dart';
 import 'components/currency_button/currency_button.dart';
 import 'components/market_app_bar.dart';
 
@@ -16,8 +16,8 @@ class Market extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final items = useProvider(marketItemsPod);
-    final gainers = useProvider(marketGainersItemsPod);
-    final loosers = useProvider(marketLoosersItemsPod);
+    final gainers = useProvider(marketGainersPod);
+    final loosers = useProvider(marketLoosersPod);
 
     return DefaultTabController(
       length: marketTabsLength,
