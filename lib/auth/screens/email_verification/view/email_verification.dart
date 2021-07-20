@@ -11,6 +11,7 @@ import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/components/auth_frame/auth_frame.dart';
 import '../../../shared/components/buttons/auth_button_solid.dart';
+import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
 import '../notifier/email_verification_union.dart';
@@ -32,6 +33,8 @@ class EmailVerification extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final verification = useProvider(emailVerificationNotipod);
     final verificationN = useProvider(emailVerificationNotipod.notifier);
+    final authInfo = useProvider(authInfoNotipod);
+    final showResend = useState(authInfo.showResendButton);
 
     return ProviderListener<EmailVerificationState>(
       provider: emailVerificationNotipod,
@@ -74,7 +77,7 @@ class EmailVerification extends HookWidget {
                     onCompleted: (_) => verificationN.verifyCode(),
                   ),
                   const SpaceH10(),
-                  if (timer != 0)
+                  if (timer != 0 && !showResend.value)
                     EmailResendInText(seconds: timer)
                   else ...[
                     EmailResendRichText(
@@ -83,6 +86,7 @@ class EmailVerification extends HookWidget {
 
                         if (verification.union is Input) {
                           timerN.refreshTimer();
+                          showResend.value = false;
                         }
                       },
                     ),
