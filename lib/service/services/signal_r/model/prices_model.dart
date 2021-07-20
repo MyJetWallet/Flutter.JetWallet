@@ -21,6 +21,9 @@ class PriceModel with _$PriceModel {
     @JsonKey(name: 'dateTime') required double date,
     required double bid,
     required double ask,
+    @JsonKey(name: 'last') required double lastPrice,
+    @JsonKey(name: 'h24Perc') required double dayPercentageChange,
+    @JsonKey(name: 'h24Abs') required double dayPriceChange,
   }) = _PriceModel;
 
   factory PriceModel.fromJson(Map<String, dynamic> json) =>

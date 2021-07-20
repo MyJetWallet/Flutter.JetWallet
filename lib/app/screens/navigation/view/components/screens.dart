@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../account/account.dart';
 import '../../../education/education.dart';
+import '../../../market/view/market.dart';
 import '../../../portfolio/portfolio.dart';
-import '../../../wallet/view/wallet.dart';
 
 const screens = [
-  Wallet(),
+  Market(),
   Portfolio(),
   SizedBox(), // Placeholder to solve RangeError 
   Education(),

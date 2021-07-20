@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../screens/market/model/currency_model.dart';
 
-class CurrencyDetailsHeader extends StatelessWidget {
-  const CurrencyDetailsHeader({
+class HeaderText extends StatelessWidget {
+  const HeaderText({
     Key? key,
-    required this.currency,
+    required this.text,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      currency.description,
+      text,
+      textAlign: TextAlign.start,
       style: TextStyle(
-        fontSize: 30.sp,
         fontWeight: FontWeight.bold,
+        fontSize: 24.sp,
+        color: Colors.grey[800],
       ),
     );
   }
