@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notifier.dart';
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_state.dart';
 import '../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../../router/provider/router_stpod/router_union.dart';
@@ -16,6 +17,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
     required this.router,
     required this.authorized,
     required this.authInfo,
+    required this.authInfoN,
     required this.authService,
     required this.storageService,
     required this.signalRService,
@@ -24,6 +26,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
   final StateController<RouterUnion> router;
   final StateController<AuthorizedUnion> authorized;
   final AuthInfoState authInfo;
+  final AuthInfoNotifier authInfoN;
   final AuthenticationService authService;
   final LocalStorageService storageService;
   final SignalRService signalRService;
@@ -43,6 +46,8 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
       await storageService.clearStorage();
 
       router.state = const Unauthorized();
+
+      authInfoN.resetResendButton();
 
       // signalRService is initialized after EmailVerification
       if (authorized.state != const EmailVerification()) {

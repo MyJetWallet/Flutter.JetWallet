@@ -73,6 +73,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         authModel = await authService.login(loginRequest);
       } else {
         authModel = await authService.register(registerRequest);
+        authInfoN.updateResendButton();
       }
 
       await storageService.setString(refreshTokenKey, authModel.refreshToken);
