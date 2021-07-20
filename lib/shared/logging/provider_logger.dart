@@ -4,6 +4,22 @@ import 'package:logging/logging.dart';
 
 import 'levels.dart';
 
+/// [ProviderLog] was made to avoid exception during parsing
+/// of the value of the Provider \
+/// [ProviderLog] is passed through [error] instead of [message]
+/// parameter of the log in order to avoid toString() formatting
+class ProviderLog {
+  ProviderLog({
+    required this.action,
+    required this.provider,
+    this.value,
+  });
+
+  final String action;
+  final String provider;
+  final Object? value;
+}
+
 class ProviderLogger extends ProviderObserver {
   ProviderLogger({
     this.update = true,
@@ -41,30 +57,29 @@ class ProviderLogger extends ProviderObserver {
   static final _logger = Logger('');
 
   @override
-  void didUpdateProvider(ProviderBase provider, Object? newValue) {
+  void didUpdateProvider(ProviderBase provider, Object? value) {
     if (!disableAll) {
       if (update) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
             // In order to avoid the following error:
-            // 
-            // "This UncontrolledProviderScope widget cannot be marked as 
-            // needing to build because the framework is already in the process 
+            //
+            // "This UncontrolledProviderScope widget cannot be marked as
+            // needing to build because the framework is already in the process
             // of building widgets..."
-            // 
+            //
             // We need to wrap the observer lifecycles in a addPostFrameCallback
             // because we're modifying the state on any log but logs
             // can happen during "build"
             WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
-                '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-✅ UPDATED PROVIDER ✅
-[Provider]: "${provider.name ?? provider.runtimeType}",
-[Value]: "$newValue"
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                    
-''',
+                null,
+                ProviderLog(
+                  action: '✅ UPDATED PROVIDER ✅',
+                  provider: '${provider.name ?? provider.runtimeType}',
+                  value: value,
+                ),
               );
             });
           }
@@ -82,13 +97,12 @@ class ProviderLogger extends ProviderObserver {
             WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
-                '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-⚡ ADDED PROVIDER ⚡
-[Provider]: "${provider.name ?? provider.runtimeType}",
-[Value]: "$value"     
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                          
-''',
+                null,
+                ProviderLog(
+                  action: '⚡ ADDED PROVIDER ⚡',
+                  provider: '${provider.name ?? provider.runtimeType}',
+                  value: value,
+                ),
               );
             });
           }
@@ -106,12 +120,11 @@ class ProviderLogger extends ProviderObserver {
             WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
-                '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-🗑️ DISPOSED PROVIDER 🗑️
-[Provider]: "${provider.name ?? provider.runtimeType}", 
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                          
-''',
+                null,
+                ProviderLog(
+                  action: '🗑️ DISPOSED PROVIDER 🗑️',
+                  provider: '${provider.name ?? provider.runtimeType}',
+                ),
               );
             });
           }
@@ -129,12 +142,11 @@ class ProviderLogger extends ProviderObserver {
             WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
-                '''
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-💡 PROVIDER CHANGED 💡
-[Provider]: "${provider.name ?? provider.runtimeType}",   
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                        
-''',
+                null,
+                ProviderLog(
+                  action: '💡 PROVIDER CHANGED 💡',
+                  provider: '${provider.name ?? provider.runtimeType}',
+                ),
               );
             });
           }

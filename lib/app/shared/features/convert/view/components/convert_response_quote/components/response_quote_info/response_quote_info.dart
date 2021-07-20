@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
 import '../../../../../../../../../shared/components/spacers.dart';
-import '../../../../../../../../../shared/providers/other/timer_notipod.dart';
+import '../../../../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../notifier/convert_notifier.dart';
 import 'components/quote_rich_text.dart';
 

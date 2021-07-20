@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../../screens/wallet/model/currency_model.dart';
+import '../../../../screens/market/model/currency_model.dart';
+import '../notifier/convert_notipod.dart';
 import '../notifier/convert_state.dart';
 import '../notifier/convert_union.dart';
-import '../provider/convert_notipod.dart';
 import 'components/convert_amount_field.dart';
 import 'components/convert_button.dart';
 import 'components/convert_dropdown.dart';
@@ -20,15 +21,22 @@ import 'components/convert_title_text.dart';
 class Convert extends HookWidget {
   const Convert({
     Key? key,
-    required this.currency,
+    this.currency,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  /// Currency must be provided if [Convert] was opened from specific asset. \
+  /// If [Convert] was opened from somewhere else then currency must be null
+  final CurrencyModel? currency;
 
   @override
   Widget build(BuildContext context) {
     final state = useProvider(convertNotipod(currency));
     final notifier = useProvider(convertNotipod(currency).notifier);
+    //TODO(any): Fix
+    // Unsupported operation: No default behavior specified for
+    // ScopedProvider<AppLocalizations>
+    // Caused due to Navigator.push()
+    final intl = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -84,11 +92,11 @@ class Convert extends HookWidget {
                   onChanged: (value) => notifier.updateAmount(value),
                 ),
                 const SpaceH8(),
-                if (state.union is Loading) Loader(),
+                if (state.union is Loading) const Loader(),
                 if (state.union is RequestQuote)
                   ConvertButton(
                     name: 'Request Quote',
-                    onPressed: () async => notifier.requestQuote(),
+                    onPressed: () async => notifier.requestQuote(intl),
                   ),
                 if (state.union is ResponseQuote)
                   ConvertResposneQuote(

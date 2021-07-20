@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
-import '../../../screens/wallet/model/currency_model.dart';
+import '../../../screens/market/model/currency_model.dart';
 import '../convert/view/convert.dart';
-import '../deposit/view/deposit.dart';
-import '../withdraw/view/withdraw.dart';
+import '../currency_deposit/view/currency_deposit.dart';
+import '../currency_withdraw/view/currency_withdraw.dart';
 import 'components/currency_details_balance.dart';
 import 'components/currency_details_button.dart';
 import 'components/currency_details_header.dart';
@@ -46,7 +46,7 @@ class CurrencyDetails extends HookWidget {
                   onTap: () {
                     navigatorPush(
                       context,
-                      Deposit(currency: currency),
+                      CurrencyDeposit(currency: currency),
                     );
                   },
                 ),
@@ -57,7 +57,7 @@ class CurrencyDetails extends HookWidget {
                   onTap: () {
                     navigatorPush(
                       context,
-                      Withdraw(currency: currency),
+                      CurrencyWithdraw(currency: currency),
                     );
                   },
                 ),

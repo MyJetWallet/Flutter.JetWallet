@@ -4,15 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
-import '../../../../auth/screens/sign_in_up/provider/auth_model_notipod.dart';
+import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/instruments_model.dart';
+import '../model/market_references_model.dart';
 import '../model/prices_model.dart';
-import '../model/server_time_model.dart';
 
 class SignalRService {
   SignalRService(this.read);
@@ -38,7 +38,7 @@ class SignalRService {
   final _balancesController = StreamController<BalancesModel>();
   final _instrumentsController = StreamController<InstrumentsModel>();
   final _pricesController = StreamController<PricesModel>();
-  final _serverTimeController = StreamController<ServerTimeModel>();
+  final _marketReferencesController = StreamController<MarketReferencesModel>();
 
   Future<void> init() async {
     isDisconnecting = false;
@@ -57,7 +57,7 @@ class SignalRService {
         final assets = AssetsModel.fromJson(_json(data));
         _assetsController.add(assets);
       } catch (e) {
-        _logger.log(contract, 'assetsMessage', e);
+        _logger.log(contract, assetsMessage, e);
       }
     });
 
@@ -66,7 +66,7 @@ class SignalRService {
         final balances = BalancesModel.fromJson(_json(data));
         _balancesController.add(balances);
       } catch (e) {
-        _logger.log(contract, 'balancesMessage', e);
+        _logger.log(contract, balancesMessage, e);
       }
     });
 
@@ -75,7 +75,7 @@ class SignalRService {
         final instruments = InstrumentsModel.fromJson(_json(data));
         _instrumentsController.add(instruments);
       } catch (e) {
-        _logger.log(contract, 'instrumentsMessage', e);
+        _logger.log(contract, instrumentsMessage, e);
       }
     });
 
@@ -84,25 +84,26 @@ class SignalRService {
         final prices = PricesModel.fromJson(_json(data));
         _pricesController.add(prices);
       } catch (e) {
-        _logger.log(contract, 'bidAskMessage', e);
+        _logger.log(contract, bidAskMessage, e);
       }
     });
 
     _connection.on(pongMessage, (data) {
-      try {
-        final serverTime = ServerTimeModel.fromJson(_json(data));
-        _serverTimeController.add(serverTime);
-      } catch (e) {
-        _logger.log(contract, 'pongMessage', e);
-        rethrow;
-      }
-
       _pongTimer?.cancel();
 
       _startPong();
     });
 
-    final token = read(authModelNotipod).token;
+    _connection.on(marketReferenceMessage, (data) {
+      try {
+        final marketReferences = MarketReferencesModel.fromJson(_json(data));
+        _marketReferencesController.add(marketReferences);
+      } catch (e) {
+        _logger.log(contract, marketReferenceMessage, e);
+      }
+    });
+
+    final token = read(authInfoNotipod).token;
 
     try {
       await _connection.start();
@@ -129,7 +130,8 @@ class SignalRService {
 
   Stream<PricesModel> prices() => _pricesController.stream;
 
-  Stream<ServerTimeModel> serverTime() => _serverTimeController.stream;
+  Stream<MarketReferencesModel> marketReferences() =>
+      _marketReferencesController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

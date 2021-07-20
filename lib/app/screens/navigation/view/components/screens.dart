@@ -1,11 +1,14 @@
-import '../../../charts/view/charts.dart';
-import '../../../logs/logs.dart';
-import '../../../profile/view/profile.dart';
-import '../../../wallet/view/wallet.dart';
+import 'package:flutter/material.dart';
+
+import '../../../account/account.dart';
+import '../../../education/education.dart';
+import '../../../market/view/market.dart';
+import '../../../portfolio/portfolio.dart';
 
 const screens = [
-  Wallet(),
-  Profile(),
-  Charts(),
-  Logs(),
+  Market(),
+  Portfolio(),
+  SizedBox(), // Placeholder to solve RangeError 
+  Education(),
+  Account(),
 ];

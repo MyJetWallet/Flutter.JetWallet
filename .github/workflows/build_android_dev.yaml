@@ -1,4 +1,4 @@
-name: build android
+name: build android dev
 
 on:
   workflow_dispatch:

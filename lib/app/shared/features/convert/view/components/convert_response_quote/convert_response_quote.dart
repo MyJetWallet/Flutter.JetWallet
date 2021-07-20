@@ -20,7 +20,7 @@ class ConvertResposneQuote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.isConfirmLoading) {
-      return Loader();
+      return const Loader();
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

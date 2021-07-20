@@ -1,4 +1,4 @@
-import '../../../../screens/wallet/model/currency_model.dart';
+import '../../../../screens/market/model/currency_model.dart';
 
 List<CurrencyModel> removeElement(
   CurrencyModel element,

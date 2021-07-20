@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../screens/wallet/model/currency_model.dart';
+import '../../../../screens/market/model/currency_model.dart';
 
 class CurrencyDetailsHeader extends StatelessWidget {
   const CurrencyDetailsHeader({

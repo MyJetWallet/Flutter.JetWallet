@@ -8,7 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import 'development/api_selector_screen.dart';
+import 'development/api_selector_screen/api_selector_screen.dart';
+import 'development/logs_screen/view/components/logs_persistant_button.dart';
 import 'router/view/router.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
@@ -65,18 +66,27 @@ class App extends HookWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 640), // 9/16 ratio
       builder: () {
+        // TODO(any): Add global theme and refactor
         return MaterialApp(
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
-          initialRoute: ApiSelectorScreen.routeName,
-          navigatorKey: navigatorKey,
-          routes: {
-            AppRouter.routeName: (context) => AppRouter(),
-            ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
-          },
+          home: Stack(
+            children: [
+              MaterialApp(
+                locale: DevicePreview.locale(context),
+                builder: DevicePreview.appBuilder,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                initialRoute: ApiSelectorScreen.routeName,
+                navigatorKey: navigatorKey,
+                routes: {
+                  AppRouter.routeName: (context) => AppRouter(),
+                  ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
+                },
+              ),
+              const LogsPersistantButton(),
+            ],
+          ),
         );
       },
     );

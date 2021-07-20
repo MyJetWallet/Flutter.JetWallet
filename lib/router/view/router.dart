@@ -43,7 +43,9 @@ class AppRouter extends HookWidget {
                         home: () {
                           return signalRInit.when(
                             data: (_) => Navigation(),
-                            loading: () => Loader(),
+                            loading: () => const Loader(
+                              color: Colors.green,
+                            ),
                             error: (e, st) => Text('$e'),
                           );
                         },
@@ -51,14 +53,14 @@ class AppRouter extends HookWidget {
                         initial: () => const Text('Initial'),
                       );
                     },
-                    loading: () => Loader(),
+                    loading: () => const Loader(),
                     error: (e, st) => Text('$e'),
                   );
                 },
                 unauthorized: () => Welcome(),
               );
             },
-            loading: () => Loader(),
+            loading: () => const Loader(),
             error: (e, st) => Text('$e'),
           ),
         ),
