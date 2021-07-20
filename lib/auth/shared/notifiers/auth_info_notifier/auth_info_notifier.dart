@@ -26,4 +26,18 @@ class AuthInfoNotifier extends StateNotifier<AuthInfoState> {
 
     state = state.copyWith(email: email);
   }
+
+  /// Whether to show ResendButton in EmailVerification Screen at first open
+  void updateResendButton() {
+    _logger.log(notifier, 'updateResendButton');
+
+    state = state.copyWith(showResendButton: !state.showResendButton);
+  }
+
+  /// Resets ResendButton state to the default one
+  void resetResendButton() {
+    _logger.log(notifier, 'resetResendButton');
+
+    state = state.copyWith(showResendButton: true);
+  }
 }

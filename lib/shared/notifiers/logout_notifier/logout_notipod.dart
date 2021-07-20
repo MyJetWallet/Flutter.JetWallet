@@ -13,12 +13,14 @@ final logoutNotipod = StateNotifierProvider<LogoutNotifier, LogoutUnion>(
     final authService = ref.watch(authServicePod);
     final storageService = ref.watch(localStorageServicePod);
     final authInfo = ref.watch(authInfoNotipod);
+    final authInfoN = ref.watch(authInfoNotipod.notifier);
     final signalRService = ref.watch(signalRServicePod);
     final authorized = ref.watch(authorizedStpod);
 
     return LogoutNotifier(
       router: router,
       authInfo: authInfo,
+      authInfoN: authInfoN,
       authService: authService,
       storageService: storageService,
       signalRService: signalRService,
