@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
+import '../../../../helper/format_day_percentage_change.dart';
 import '../../../../model/market_item_model.dart';
 
 class MarketItemCard extends StatelessWidget {
@@ -14,9 +15,9 @@ class MarketItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dayPercentageChange = marketItem.dayPercentChange > 0
-        ? '+${marketItem.dayPercentChange}%'
-        : '${marketItem.dayPercentChange}%';
+    final dayPercentageChange = formatDayPercentageChange(
+      marketItem.dayPercentChange,
+    );
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -25,12 +26,13 @@ class MarketItemCard extends StatelessWidget {
       ),
       margin: EdgeInsets.symmetric(vertical: 4.h),
       decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-          ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(20),
-          )),
+        border: Border.all(
+          color: Colors.grey,
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
       child: Row(
         children: [
           SizedBox(

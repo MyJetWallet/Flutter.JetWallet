@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MarketTab extends StatelessWidget {
-  const MarketTab({Key? key, required this.text}) : super(key: key);
+  const MarketTab({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
 
   final String text;
 

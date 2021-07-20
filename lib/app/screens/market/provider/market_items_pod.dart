@@ -6,15 +6,15 @@ import 'market_references_spod.dart';
 import 'prices_spod.dart';
 
 final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
-  final marketReferences = ref.watch(marketReferencesSpod);
+  final references = ref.watch(marketReferencesSpod);
   final assets = ref.watch(assetsSpod);
   final prices = ref.watch(pricesSpod);
 
-  final marketItems = <MarketItemModel>[];
+  final items = <MarketItemModel>[];
 
-  marketReferences.whenData((value) {
+  references.whenData((value) {
     for (final marketReference in value.references) {
-      marketItems.add(
+      items.add(
         MarketItemModel(
           iconUrl: marketReference.iconUrl ?? 'https://i.imgur.com/cvNa7tH.png',
           weight: marketReference.weight,
@@ -30,13 +30,13 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
   });
 
   assets.whenData((value) {
-    if (marketItems.isNotEmpty) {
+    if (items.isNotEmpty) {
       for (final asset in value.assets) {
-        for (final marketItem in marketItems) {
+        for (final marketItem in items) {
           if (marketItem.associateAsset == asset.symbol) {
-            final index = marketItems.indexOf(marketItem);
+            final index = items.indexOf(marketItem);
 
-            marketItems[index] = marketItem.copyWith(
+            items[index] = marketItem.copyWith(
               id: asset.symbol,
               name: asset.description,
             );
@@ -47,13 +47,13 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
   });
 
   prices.whenData((value) {
-    if (marketItems.isNotEmpty) {
+    if (items.isNotEmpty) {
       for (final price in value.prices) {
-        for (final marketItem in marketItems) {
+        for (final marketItem in items) {
           if (marketItem.associateAssetPair == price.id) {
-            final index = marketItems.indexOf(marketItem);
+            final index = items.indexOf(marketItem);
 
-            marketItems[index] = marketItem.copyWith(
+            items[index] = marketItem.copyWith(
               dayPercentChange: price.dayPercentageChange,
               lastPrice: price.lastPrice
             );
@@ -63,7 +63,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
     }
   });
 
-  marketItems.sort((a, b) => b.weight.compareTo(a.weight));
+  items.sort((a, b) => b.weight.compareTo(a.weight));
 
-  return marketItems;
+  return items;
 });
