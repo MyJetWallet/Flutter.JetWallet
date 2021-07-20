@@ -60,6 +60,7 @@ class EmailVerification extends HookWidget {
             return AuthFrame(
               header: intl.emailVerification,
               onBackButton: () => logoutN.logout(),
+              resizeToAvoidBottomInset: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -79,7 +79,7 @@ class Login extends HookWidget {
                     authenitcationN.authenticate(
                       email: credentials.email,
                       password: credentials.password,
-                      operation: AuthOperation.register,
+                      operation: AuthOperation.login,
                     );
                   }
                 },

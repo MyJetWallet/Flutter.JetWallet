@@ -34,29 +34,27 @@ class EmailVerificationSuccess extends HookWidget {
       },
       child: AuthFrame(
         header: 'Email Verification',
-        child: Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              Icon(
-                FontAwesomeIcons.checkCircle,
-                size: 125.w,
-              ),
-              const SpaceH30(),
-              const SuccessText(),
-              const SpaceH15(),
-              EmailIsConfirmedText(
-                email: authInfo.email,
-              ),
-              const Spacer(),
-              LinearProgressIndicator(
-                minHeight: 8.h,
-                color: Colors.grey,
-                backgroundColor: const Color(0xffeeeeee),
-              )
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            Icon(
+              FontAwesomeIcons.checkCircle,
+              size: 125.w,
+            ),
+            const SpaceH30(),
+            const SuccessText(),
+            const SpaceH15(),
+            EmailIsConfirmedText(
+              email: authInfo.email,
+            ),
+            const Spacer(),
+            LinearProgressIndicator(
+              minHeight: 8.h,
+              color: Colors.grey,
+              backgroundColor: const Color(0xffeeeeee),
+            )
+          ],
         ),
       ),
     );
