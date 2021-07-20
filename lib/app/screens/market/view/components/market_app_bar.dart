@@ -18,6 +18,7 @@ class MarketAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: const [
           HeaderText(
             text: 'Market',
+            textAlign: TextAlign.start,
           ),
           SearchButton(),
         ],

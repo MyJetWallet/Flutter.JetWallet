@@ -29,8 +29,8 @@ class MarketItemCard extends StatelessWidget {
         border: Border.all(
           color: Colors.grey,
         ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20),
+        borderRadius: BorderRadius.all(
+          Radius.circular(5.r),
         ),
       ),
       child: Row(

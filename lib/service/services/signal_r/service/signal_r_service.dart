@@ -5,7 +5,6 @@ import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
@@ -180,7 +179,7 @@ class SignalRService {
       _pingTimer?.cancel();
       _pongTimer?.cancel();
 
-      await refreshToken(read);
+      // await refreshToken(read);
 
       await init();
 
