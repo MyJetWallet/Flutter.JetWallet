@@ -64,7 +64,7 @@ class RegisterPasswordScreen extends HookWidget {
                 password: credentials.password,
               ),
               const Spacer(),
-              if (authenitcation is Input) ...[
+              if (authenitcation is Input)
                 AuthButtonSolid(
                   active: credentialsN.readyToRegister,
                   name: 'Continue',
@@ -78,7 +78,7 @@ class RegisterPasswordScreen extends HookWidget {
                     }
                   },
                 )
-              ] else ...[
+              else ...[
                 const Loader(),
                 const Spacer(),
               ]

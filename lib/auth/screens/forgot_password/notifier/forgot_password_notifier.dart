@@ -6,43 +6,61 @@ import '../../../../service/services/authentication/model/forgot_password/forgot
 import '../../../../service/services/authentication/service/authentication_service.dart';
 import '../../../../service/shared/constants.dart';
 import '../../../../shared/helpers/device_type.dart';
-import '../../../shared/notifiers/credentials_notifier/credentials_notifier.dart';
-import '../../../shared/notifiers/credentials_notifier/credentials_state.dart';
+import '../../../shared/helpers/is_email_valid.dart';
+import 'forgot_password_state.dart';
 import 'forgot_password_union.dart';
 
-class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordUnion> {
+class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
   ForgotPasswordNotifier({
-    required this.credentials,
-    required this.credentialsN,
     required this.authService,
-  }) : super(const Input());
+  }) : super(const ForgotPasswordState());
 
-  final CredentialsState credentials;
-  final CredentialsNotifier credentialsN;
   final AuthenticationService authService;
 
   static final _logger = Logger('ForgotPasswordNotifier');
+
+  void updateEmail(String email) {
+    _logger.log(notifier, 'updateEmail');
+
+    state = state.copyWith(email: email);
+  }
+
+  void validateEmail() {
+    _logger.log(notifier, 'validateEmail');
+
+    if (isEmailValid(state.email)) {
+      state = state.copyWith(emailValid: true);
+    } else {
+      state = state.copyWith(emailValid: false);
+    }
+  }
+
+  void updateAndValidateEmail(String email) {
+    state = state.copyWith(union: const Input());
+
+    updateEmail(email);
+    validateEmail();
+  }
 
   Future<void> sendRecoveryLink() async {
     _logger.log(notifier, 'sendRecoveryLink');
 
     try {
+      state = state.copyWith(union: const Loading());
+
       final model = ForgotPasswordRequestModel(
-        email: credentials.email,
+        email: state.email,
         platformType: platformType,
         deviceType: deviceType,
       );
 
-      state = const Loading();
-
       await authService.forgotPassword(model);
 
-      state = const Input();
-      // credentialsNotifier.clear();
-    } catch (e, st) {
+      state = state.copyWith(union: const Input());
+    } catch (e) {
       _logger.log(stateFlow, 'sendRecoveryLink', e);
 
-      state = Input(e, st);
+      state = state.copyWith(union: Error(e));
     }
   }
 }

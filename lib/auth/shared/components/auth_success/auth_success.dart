@@ -4,36 +4,35 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../router/provider/authorized_stpod/authorized_stpod.dart';
-import '../../../router/provider/authorized_stpod/authorized_union.dart';
-import '../../../shared/components/spacers.dart';
-import '../../../shared/helpers/navigate_to_router.dart';
-import '../../../shared/notifiers/timer_notifier/timer_notipod.dart';
-import '../../../shared/providers/other/navigator_key_pod.dart';
-import '../../shared/components/auth_frame/auth_frame.dart';
-import '../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import 'components/email_is_confirmed_text.dart';
+import '../../../../shared/components/spacers.dart';
+import '../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../shared/providers/other/navigator_key_pod.dart';
+import '../../../shared/components/auth_frame/auth_frame.dart';
+import 'components/success_description_text.dart';
 import 'components/success_text.dart';
 
-class EmailVerificationSuccess extends HookWidget {
-  const EmailVerificationSuccess({Key? key}) : super(key: key);
+class AuthSuccess extends HookWidget {
+  const AuthSuccess({
+    Key? key,
+    required this.header,
+    required this.description,
+  }) : super(key: key);
+
+  final String header;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
     final navigatorKey = useProvider(navigatorKeyPod);
-    final authorized = useProvider(authorizedStpod);
-    final authInfo = useProvider(authInfoNotipod);
 
     return ProviderListener<int>(
       provider: timerNotipod(3),
       onChange: (context, value) {
-        if (value == 0) {
-          authorized.state = const Home();
-          navigateToRouter(navigatorKey);
-        }
+        if (value == 0) navigateToRouter(navigatorKey);
       },
       child: AuthFrame(
-        header: 'Email Verification',
+        header: header,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -45,8 +44,8 @@ class EmailVerificationSuccess extends HookWidget {
             const SpaceH30(),
             const SuccessText(),
             const SpaceH15(),
-            EmailIsConfirmedText(
-              email: authInfo.email,
+            SuccessDescriptionText(
+              text: description,
             ),
             const Spacer(),
             LinearProgressIndicator(
