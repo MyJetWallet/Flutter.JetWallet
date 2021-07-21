@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'header_text.dart';
-import 'market_tabs.dart';
-import 'search_button.dart';
+import '../header_text.dart';
+import '../market_tabs/market_tabs.dart';
+import 'components/search_button.dart';
 
 class MarketAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MarketAppBar({Key? key}) : super(key: key);
@@ -18,6 +18,7 @@ class MarketAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: const [
           HeaderText(
             text: 'Market',
+            textAlign: TextAlign.start,
           ),
           SearchButton(),
         ],
@@ -27,6 +28,9 @@ class MarketAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight + const MarketTabs().preferredSize.height);
+  Size get preferredSize {
+    return Size.fromHeight(
+      kToolbarHeight + const MarketTabs().preferredSize.height,
+    );
+  }
 }
