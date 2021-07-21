@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../model/market_item_model.dart';
 
-import 'components/currency_card.dart';
+import 'components/market_item_card.dart';
 
 class MarketItem extends StatelessWidget {
   const MarketItem({

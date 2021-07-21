@@ -24,13 +24,15 @@ class MarketItemCard extends StatelessWidget {
         vertical: 14.h,
         horizontal: 14.w,
       ),
-      margin: EdgeInsets.symmetric(vertical: 4.h),
+      margin: EdgeInsets.symmetric(
+        vertical: 4.h,
+      ),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
         ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20),
+        borderRadius: BorderRadius.all(
+          Radius.circular(5.r),
         ),
       ),
       child: Row(
@@ -38,7 +40,9 @@ class MarketItemCard extends StatelessWidget {
           SizedBox(
             width: 30.w,
             height: 30.w,
-            child: Image.network(marketItem.iconUrl),
+            child: Image.network(
+              marketItem.iconUrl,
+            ),
           ),
           const SpaceW8(),
           Column(
@@ -57,7 +61,9 @@ class MarketItemCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('\$${marketItem.lastPrice}'),
+              Text(
+                '\$${marketItem.lastPrice}',
+              ),
               Text(
                 dayPercentageChange,
                 style: const TextStyle(

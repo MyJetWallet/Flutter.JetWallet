@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../shared/components/loader.dart';
 import '../../../shared/components/spacers.dart';
+import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../shared/components/auth_frame/auth_frame.dart';
@@ -15,6 +16,7 @@ import '../../shared/notifiers/authentication_notifier/authentication_notifier.d
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
+import '../forgot_password/view/forgot_password.dart';
 import '../register/register.dart';
 import 'components/forgot_password_button.dart';
 
@@ -64,9 +66,7 @@ class Login extends HookWidget {
             ),
             const SpaceH40(),
             ForgotPasswordButton(
-              onTap: () {
-                // TODO(ELI) Add ForgotPassword flow
-              },
+              onTap: () => navigatorPush(context, const ForgotPassword()),
             ),
             const Spacer(),
             const PolicyCheckBox(),
