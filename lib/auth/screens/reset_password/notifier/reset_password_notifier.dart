@@ -1,54 +1,63 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../service/services/authentication/model/password_recovery/password_recovery_request_model.dart';
 import '../../../../service/services/authentication/service/authentication_service.dart';
-import '../../../../shared/helpers/navigate_to_router.dart';
-import '../../../shared/notifiers/credentials_notifier/credentials_notifier.dart';
-import '../../../shared/notifiers/credentials_notifier/credentials_state.dart';
+import '../../../shared/helpers/password_validators.dart';
+import 'reset_password_state.dart';
 import 'reset_password_union.dart';
 
-class ResetPasswordNotifier extends StateNotifier<ResetPasswordUnion> {
+class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
   ResetPasswordNotifier({
-    required this.credentials,
-    required this.credentialsN,
     required this.authService,
-    required this.navigatorKey,
-  }) : super(const Input());
+  }) : super(const ResetPasswordState());
 
-  final CredentialsState credentials;
-  final CredentialsNotifier credentialsN;
   final AuthenticationService authService;
-  final GlobalKey<NavigatorState> navigatorKey;
 
   static final _logger = Logger('ResetPasswordNotifier');
+
+  void updatePassword(String password) {
+    _logger.log(notifier, 'updatePassword');
+
+    state = state.copyWith(password: password);
+  }
+
+  void validatePassword() {
+    _logger.log(notifier, 'validatePassword');
+
+    if (isPasswordValid(state.password)) {
+      state = state.copyWith(passwordValid: true);
+    } else {
+      state = state.copyWith(passwordValid: false);
+    }
+  }
+
+  void updateAndValidatePassword(String password) {
+    state = state.copyWith(union: const Input());
+
+    updatePassword(password);
+    validatePassword();
+  }
 
   Future<void> resetPassword(String token) async {
     _logger.log(notifier, 'resetPassword');
 
-    final password = credentials.password;
-
     try {
+      state = state.copyWith(union: const Loading());
+
       final model = PasswordRecoveryRequestModel(
-        password: password,
+        password: state.password,
         token: token,
       );
 
-      state = const Loading();
-
       await authService.recoverPassword(model);
 
-      state = const Input();
-
-      navigateToRouter(navigatorKey);
-
-      // credentialsNotifier.clear();
-    } catch (e, st) {
+      state = state.copyWith(union: const Input());
+    } catch (e) {
       _logger.log(stateFlow, 'resetPassword', e);
 
-      state = Input(e, st);
+      state = state.copyWith(union: Error(e));
     }
   }
 }

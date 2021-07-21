@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
 import '../../../auth/screens/login/login.dart';
-// import '../../../auth/screens/reset_password/view/reset_password.dart';
+import '../../../auth/screens/reset_password/view/reset_password.dart';
 import '../../../router/provider/authorized_stpod/authorized_stpod.dart';
 import '../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../helpers/navigator_push.dart';
@@ -12,7 +12,7 @@ import '../other/navigator_key_pod.dart';
 import '../service_providers.dart';
 
 const _code = 'jw_code';
-// const _token = 'jw_token';
+const _token = 'jw_token';
 const _command = 'jw_command';
 const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
@@ -40,13 +40,12 @@ final dynamicLinkPod = Provider<void>(
 
           navigatorPush(navigatorKey.currentContext!, const Login());
         } else if (command == _forgotPassword) {
-          // TODO(ELI) Revisit this
-          // pushAndRemoveUntil(
-          //   navigatorKey: navigatorKey,
-          //   page: ResetPassword(
-          //     token: parameters[_token],
-          //   ),
-          // );
+          navigatorPush(
+            navigatorKey.currentContext!,
+            ResetPassword(
+              token: parameters[_token]!,
+            ),
+          );
         } else {
           navigatorPush(
             navigatorKey.currentContext!,
