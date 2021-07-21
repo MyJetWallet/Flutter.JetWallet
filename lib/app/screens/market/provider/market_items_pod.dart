@@ -4,11 +4,13 @@ import '../model/market_item_model.dart';
 import 'assets_spod.dart';
 import 'market_references_spod.dart';
 import 'prices_spod.dart';
+import 'search_stpod.dart';
 
 final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
   final references = ref.watch(marketReferencesSpod);
   final assets = ref.watch(assetsSpod);
   final prices = ref.watch(pricesSpod);
+  final search = ref.watch(searchStpod);
 
   final items = <MarketItemModel>[];
 
@@ -54,9 +56,8 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
             final index = items.indexOf(marketItem);
 
             items[index] = marketItem.copyWith(
-              dayPercentChange: price.dayPercentageChange,
-              lastPrice: price.lastPrice
-            );
+                dayPercentChange: price.dayPercentageChange,
+                lastPrice: price.lastPrice);
           }
         }
       }
@@ -65,5 +66,10 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
 
   items.sort((a, b) => b.weight.compareTo(a.weight));
 
-  return items;
+  // TODO(VOVA) Refactor to the function (can be private)
+  return items
+      .where((item) =>
+          item.id.toLowerCase().contains(search.state.text.toLowerCase()) ||
+          item.name.toLowerCase().contains(search.state.text.toLowerCase()))
+      .toList();
 });
