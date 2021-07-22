@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'components/arrow_back_button.dart';
-import 'components/auth_header_text.dart';
+import 'components/page_frame_header.dart';
 
-class AuthFrame extends StatelessWidget {
-  const AuthFrame({
+class PageFrame extends StatelessWidget {
+  const PageFrame({
     Key? key,
     this.header,
     this.onBackButton,
@@ -37,7 +37,7 @@ class AuthFrame extends StatelessWidget {
                   onTap: onBackButton!,
                 ),
               if (header != null)
-                AuthHeaderText(
+                PageFrameHeader(
                   text: header!,
                 ),
               Expanded(

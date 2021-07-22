@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AuthHeaderText extends StatelessWidget {
-  const AuthHeaderText({
+class PageFrameHeader extends StatelessWidget {
+  const PageFrameHeader({
     Key? key,
     required this.text,
   }) : super(key: key);
