@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'auth_button.dart';
+import 'app_button.dart';
 
-class AuthButtonOutlined extends StatelessWidget {
-  const AuthButtonOutlined({
+class AppButtonOutlined extends StatelessWidget {
+  const AppButtonOutlined({
     Key? key,
     required this.name,
     required this.onTap,
@@ -15,7 +15,7 @@ class AuthButtonOutlined extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthButton(
+    return AppButton(
       text: name,
       onTap: onTap,
       decoration: BoxDecoration(

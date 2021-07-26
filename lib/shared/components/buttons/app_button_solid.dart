@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'auth_button.dart';
+import 'app_button.dart';
 
-class AuthButtonSolid extends StatelessWidget {
-  const AuthButtonSolid({
+class AppButtonSolid extends StatelessWidget {
+  const AppButtonSolid({
     Key? key,
     this.active = true,
     required this.name,
@@ -17,7 +17,7 @@ class AuthButtonSolid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthButton(
+    return AppButton(
       text: name,
       onTap: onTap,
       decoration: BoxDecoration(

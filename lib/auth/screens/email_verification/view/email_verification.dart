@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
+import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_union.dart' as lu;
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
-import '../../../shared/components/auth_frame/auth_frame.dart';
-import '../../../shared/components/buttons/auth_button_solid.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
@@ -60,7 +60,7 @@ class EmailVerification extends HookWidget {
         },
         child: logout.when(
           result: (_, __) {
-            return AuthFrame(
+            return PageFrame(
               header: intl.emailVerification,
               onBackButton: () => logoutN.logout(),
               resizeToAvoidBottomInset: false,
@@ -96,7 +96,7 @@ class EmailVerification extends HookWidget {
                   if (verification.union is Loading)
                     const Loader()
                   else
-                    AuthButtonSolid(
+                    AppButtonSolid(
                       name: intl.confirm,
                       onTap: () => verificationN.verifyCode(),
                     ),
