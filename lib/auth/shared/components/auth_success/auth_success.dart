@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/other/navigator_key_pod.dart';
-import '../../../shared/components/auth_frame/auth_frame.dart';
 import 'components/success_description_text.dart';
 import 'components/success_text.dart';
 
@@ -31,7 +31,7 @@ class AuthSuccess extends HookWidget {
       onChange: (context, value) {
         if (value == 0) navigateToRouter(navigatorKey);
       },
-      child: AuthFrame(
+      child: PageFrame(
         header: header,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

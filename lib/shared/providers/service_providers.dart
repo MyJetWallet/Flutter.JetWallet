@@ -17,8 +17,13 @@ import '../dio/dio_without_interceptors.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
+import 'other/navigator_key_pod.dart';
 
-final intlPod = ScopedProvider<AppLocalizations>(null);
+final intlPod = Provider<AppLocalizations>((ref) {
+  final key = ref.watch(navigatorKeyPod);
+
+  return AppLocalizations.of(key.currentContext!)!;
+});
 
 final signalRServicePod = Provider<SignalRService>((ref) {
   return SignalRService(ref.read);

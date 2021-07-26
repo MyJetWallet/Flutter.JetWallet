@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AuthButton extends StatelessWidget {
-  const AuthButton({
+class AppButton extends StatelessWidget {
+  const AppButton({
     Key? key,
     required this.text,
     required this.onTap,
@@ -31,6 +31,7 @@ class AuthButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 18.sp,
             color: textColor,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

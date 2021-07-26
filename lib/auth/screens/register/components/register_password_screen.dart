@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
+import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_frame/auth_frame.dart';
 import '../../../shared/components/auth_text_field.dart';
-import '../../../shared/components/buttons/auth_button_solid.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
@@ -42,7 +42,7 @@ class RegisterPasswordScreen extends HookWidget {
           credentialsN.updateAndValidatePassword('');
           return Future.value(true);
         },
-        child: AuthFrame(
+        child: PageFrame(
           header: 'Create a password',
           onBackButton: () {
             Navigator.pop(context);
@@ -65,7 +65,7 @@ class RegisterPasswordScreen extends HookWidget {
               ),
               const Spacer(),
               if (authenitcation is Input)
-                AuthButtonSolid(
+                AppButtonSolid(
                   active: credentialsN.readyToRegister,
                   name: 'Continue',
                   onTap: () {

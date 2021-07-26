@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import '../../../../../shared/components/buttons/app_button_solid.dart';
+import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../../shared/components/auth_frame/auth_frame.dart';
-import '../../../../shared/components/buttons/auth_button_solid.dart';
 import '../../../../shared/helpers/open_email_app.dart';
 import 'forgot_description_text.dart';
 
@@ -14,7 +14,7 @@ class CheckYourEmail extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthFrame(
+    return PageFrame(
       header: 'Check Your Email',
       onBackButton: () => Navigator.pop(context),
       child: Column(
@@ -29,7 +29,7 @@ class CheckYourEmail extends HookWidget {
                 'check your spam folder',
           ),
           const Spacer(),
-          AuthButtonSolid(
+          AppButtonSolid(
             name: 'Open Email App',
             onTap: () => openEmailApp(context),
           ),
