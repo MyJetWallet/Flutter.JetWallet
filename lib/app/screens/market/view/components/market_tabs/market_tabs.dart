@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/market_tab.dart';
 
-// TODO(Vova) Why PreferredSizeWidget everywhere?
 class MarketTabs extends StatelessWidget implements PreferredSizeWidget {
   const MarketTabs({Key? key}) : super(key: key);
 

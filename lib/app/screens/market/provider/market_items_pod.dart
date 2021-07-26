@@ -56,20 +56,27 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
             final index = items.indexOf(marketItem);
 
             items[index] = marketItem.copyWith(
-                dayPercentChange: price.dayPercentageChange,
-                lastPrice: price.lastPrice);
+              dayPercentChange: price.dayPercentageChange,
+              lastPrice: price.lastPrice,
+            );
           }
         }
       }
     }
   });
 
+  return _formattedItems(items, search.state.text.toLowerCase());
+});
+
+List<MarketItemModel> _formattedItems(
+  List<MarketItemModel> items,
+  String searchInput,
+) {
   items.sort((a, b) => b.weight.compareTo(a.weight));
 
-  // TODO(VOVA) Refactor to the function (can be private)
   return items
       .where((item) =>
-          item.id.toLowerCase().contains(search.state.text.toLowerCase()) ||
-          item.name.toLowerCase().contains(search.state.text.toLowerCase()))
+          item.id.toLowerCase().contains(searchInput) ||
+          item.name.toLowerCase().contains(searchInput))
       .toList();
-});
+}
