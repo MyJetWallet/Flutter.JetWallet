@@ -6,24 +6,28 @@ class PercentBox extends StatelessWidget {
     Key? key,
     required this.name,
     required this.onTap,
-    required this.enabled,
+    required this.disabled,
   }) : super(key: key);
 
   final String name;
   final Function() onTap;
-  final bool enabled;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
         onTap: onTap,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         borderRadius: BorderRadius.circular(10.r),
         child: Container(
           height: 40.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
-            color: enabled ? Colors.grey[400] : Colors.grey[200],
+            color: disabled
+                ? Colors.grey[200]?.withOpacity(0.5)
+                : Colors.grey[200],
           ),
           child: Center(
             child: Text(

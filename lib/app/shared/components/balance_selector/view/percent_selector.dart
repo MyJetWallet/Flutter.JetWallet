@@ -10,14 +10,15 @@ import 'components/percent_box.dart';
 class PercentSelector extends HookWidget {
   const PercentSelector({
     Key? key,
+    required this.disabled,
     required this.onSelection,
   }) : super(key: key);
 
+  final bool disabled;
   final Function(SelectedPercent) onSelection;
 
   @override
   Widget build(BuildContext context) {
-    final selector = useProvider(percentSelectorNotipod);
     final selectorN = useProvider(percentSelectorNotipod.notifier);
 
     return Row(
@@ -28,7 +29,7 @@ class PercentSelector extends HookWidget {
             final result = selectorN.update(SelectedPercent.pct25);
             onSelection(result);
           },
-          enabled: selector == SelectedPercent.pct25,
+          disabled: disabled,
         ),
         const SpaceW10(),
         PercentBox(
@@ -37,7 +38,7 @@ class PercentSelector extends HookWidget {
             final result = selectorN.update(SelectedPercent.pct50);
             onSelection(result);
           },
-          enabled: selector == SelectedPercent.pct50,
+          disabled: disabled,
         ),
         const SpaceW10(),
         PercentBox(
@@ -46,7 +47,7 @@ class PercentSelector extends HookWidget {
             final result = selectorN.update(SelectedPercent.pct100);
             onSelection(result);
           },
-          enabled: selector == SelectedPercent.pct100,
+          disabled: disabled,
         ),
       ],
     );

@@ -65,10 +65,7 @@ class CurrencyDetails extends HookWidget {
               CurrencyDetailsButton(
                 name: 'Convert',
                 onTap: () {
-                  navigatorPush(
-                    context,
-                    Convert(currency: currency),
-                  );
+                  navigatorPush(context, const Convert());
                 },
               ),
               const SpaceH15(),

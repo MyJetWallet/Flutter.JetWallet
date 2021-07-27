@@ -1,108 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../shared/components/loader.dart';
+import '../../../../../shared/components/buttons/app_button_solid.dart';
+import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../../../shared/providers/service_providers.dart';
-import '../../../../screens/market/model/currency_model.dart';
-import '../notifier/convert_notipod.dart';
-import '../notifier/convert_state.dart';
-import '../notifier/convert_union.dart';
-import 'components/convert_amount_field.dart';
-import 'components/convert_button.dart';
-import 'components/convert_dropdown.dart';
-import 'components/convert_response_quote/convert_response_quote.dart';
-import 'components/convert_switch_button.dart';
-import 'components/convert_title_text.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../components/balance_selector/view/percent_selector.dart';
+import '../../../components/number_keyboard/number_keyboard.dart';
+import '../notifier/convert_input_notifier/convert_input_notipod.dart';
+import '../notifier/convert_notifier/convert_notipod.dart';
+import 'components/convert_preview/convert_preview.dart';
+import 'components/convert_row/convert_row.dart';
+import 'components/swap_button.dart';
 
 class Convert extends HookWidget {
-  const Convert({
-    Key? key,
-    this.currency,
-  }) : super(key: key);
-
-  /// Currency must be provided if [Convert] was opened from specific asset. \
-  /// If [Convert] was opened from somewhere else then currency must be null
-  final CurrencyModel? currency;
+  const Convert({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(convertNotipod(currency));
-    final notifier = useProvider(convertNotipod(currency).notifier);
-    final intl = useProvider(intlPod);
+    final input = useProvider(convertInputNotipod(null));
+    final inputN = useProvider(convertInputNotipod(null).notifier);
+    final convertN = useProvider(convertNotipod.notifier);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Convert'),
-      ),
-      body: ProviderListener<ConvertState>(
-        provider: convertNotipod(currency),
-        onChange: (context, state) {
-          state.union.maybeWhen(
-            requestQuote: (error) {
-              if (error != null) {
-                showPlainSnackbar(context, error);
-                notifier.cleanError();
+    return PageFrame(
+      header: 'Convert',
+      onBackButton: () => Navigator.pop(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ConvertRow(
+            value: input.fromAssetAmount,
+            enabled: input.fromAssetEnabled,
+            currency: input.fromAsset,
+            currencies: input.fromAssetList,
+            onTap: () => inputN.enableFromAsset(),
+            onDropdown: (value) => inputN.updateFromAsset(value!),
+            fromAsset: true,
+          ),
+          const SpaceH10(),
+          SwapButton(
+            onPressed: () => inputN.switchFromAndTo(),
+          ),
+          const SpaceH10(),
+          ConvertRow(
+            value: input.toAssetAmount,
+            enabled: input.toAssetEnabled,
+            currency: input.toAsset,
+            currencies: input.toAssetList,
+            onTap: () => inputN.enableToAsset(),
+            onDropdown: (value) => inputN.updateToAsset(value!),
+          ),
+          const Spacer(),
+          PercentSelector(
+            disabled: input.toAssetEnabled,
+            onSelection: (value) {
+              inputN.selectPercentFromBalance(value);
+            },
+          ),
+          const SpaceH10(),
+          NumberKeyboard(
+            onKeyPressed: (value) {
+              if (input.fromAssetEnabled) {
+                inputN.updateFromAssetAmount(value);
+              } else {
+                inputN.updateToAssetAmount(value);
               }
             },
-            orElse: () {},
-          );
-        },
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8.w,
-              vertical: 8.h,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const ConvertTitleText(
-                  text: 'From',
-                ),
-                ConvertDropdown(
-                  value: state.from,
-                  currencies: state.fromList,
-                  onChanged: (value) => notifier.updateFrom(value!),
-                ),
-                const SpaceH8(),
-                ConvertSwitchButton(
-                  onChanged: () => notifier.switchFromTo(),
-                ),
-                const SpaceH15(),
-                const ConvertTitleText(
-                  text: 'To',
-                ),
-                ConvertDropdown(
-                  value: state.to,
-                  currencies: state.toList,
-                  onChanged: (value) => notifier.updateTo(value!),
-                ),
-                const SpaceH15(),
-                ConvertAmountField(
-                  controller: state.amountTextController,
-                  symbol: state.from.symbol,
-                  onChanged: (value) => notifier.updateAmount(value),
-                ),
-                const SpaceH8(),
-                if (state.union is Loading) const Loader(),
-                if (state.union is RequestQuote)
-                  ConvertButton(
-                    name: 'Request Quote',
-                    onPressed: () async => notifier.requestQuote(intl),
-                  ),
-                if (state.union is ResponseQuote)
-                  ConvertResposneQuote(
-                    state: state,
-                    notifier: notifier,
-                  ),
-              ],
-            ),
           ),
-        ),
+          const SpaceH20(),
+          AppButtonSolid(
+            active: input.convertValid,
+            name: 'Preview Convert',
+            onTap: () {
+              if (input.convertValid) {
+                navigatorPush(context, const ConvertPreview());
+                convertN.requestQuote(input, init: true);
+              }
+            },
+          ),
+        ],
       ),
     );
   }

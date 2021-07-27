@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ConvertTitleText extends StatelessWidget {
-  const ConvertTitleText({
+class ConvertPreviewRowText extends StatelessWidget {
+  const ConvertPreviewRowText({
     Key? key,
     required this.text,
   }) : super(key: key);
@@ -14,8 +14,9 @@ class ConvertTitleText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 25.sp,
-        fontWeight: FontWeight.bold,
+        fontSize: 16.sp,
+        color: Colors.grey,
+        fontWeight: FontWeight.normal,
       ),
     );
   }

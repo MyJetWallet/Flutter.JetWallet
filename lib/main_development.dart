@@ -21,8 +21,10 @@ import 'shared/services/remote_config_service/service/remote_config_service.dart
 // Just type providers here to exclude from logger
 // Remember to unstage the changes from your commit
 final providerTypes = <String>[
-  'AutoDisposeProvider<List<MarketItemModel>>',
   'AutoDisposeStreamProvider<PricesModel>',
+  'AutoDisposeProvider<List<CurrencyModel>>',
+  'AutoDisposeProvider<List<MarketItemModel>>',
+  'AutoDisposeStateNotifierProvider<ConvertInputNotifier, ConvertInputState>',
 ];
 
 final providerNames = <String>[
