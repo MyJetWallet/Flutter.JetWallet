@@ -67,9 +67,6 @@ class SearchField extends HookWidget {
             ),
           ),
         ),
-        onChanged: (value) {
-          // TODO(Vova) search.state = value;
-        },
       ),
     );
   }
