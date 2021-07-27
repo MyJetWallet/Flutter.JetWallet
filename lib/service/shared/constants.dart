@@ -17,3 +17,4 @@ const signatureHeader = 'signature';
 
 // Other
 const platformType = 2;
+const signsAfterComma = 2;
