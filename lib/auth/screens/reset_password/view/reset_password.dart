@@ -6,9 +6,9 @@ import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
+import '../../../../shared/components/success_screen/success_screen.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_success/auth_success.dart';
 import '../../../shared/components/auth_text_field.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../notifier/reset_password_notipod.dart';
@@ -84,7 +84,7 @@ class ResetPassword extends HookWidget {
 void _pushToAuthSuccess(BuildContext context) {
   navigatorPush(
     context,
-    const AuthSuccess(
+    const SuccessScreen(
       header: 'Password reset',
       description: 'Your password has been reset',
     ),

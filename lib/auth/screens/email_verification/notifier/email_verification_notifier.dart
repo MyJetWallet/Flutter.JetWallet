@@ -7,10 +7,10 @@ import '../../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../../../service/services/validation/model/send_email_verification_code_request_model.dart';
 import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
 import '../../../../service/services/validation/service/validation_service.dart';
+import '../../../../shared/components/success_screen/success_screen.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/logging/levels.dart';
-import '../../../shared/components/auth_success/auth_success.dart';
 import 'email_verification_state.dart';
 import 'email_verification_union.dart';
 
@@ -90,7 +90,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 void _pushToAuthSuccess(BuildContext context, String email) {
   navigatorPush(
     context,
-    AuthSuccess(
+    SuccessScreen(
       header: 'Email Verification',
       description: 'Your email address $email is confirmed',
     ),

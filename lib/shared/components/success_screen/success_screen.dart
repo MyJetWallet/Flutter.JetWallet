@@ -12,8 +12,8 @@ import '../../../../shared/providers/other/navigator_key_pod.dart';
 import 'components/success_description_text.dart';
 import 'components/success_text.dart';
 
-class AuthSuccess extends HookWidget {
-  const AuthSuccess({
+class SuccessScreen extends HookWidget {
+  const SuccessScreen({
     Key? key,
     required this.header,
     required this.description,
@@ -27,7 +27,7 @@ class AuthSuccess extends HookWidget {
     final navigatorKey = useProvider(navigatorKeyPod);
 
     return ProviderListener<int>(
-      provider: timerNotipod(3),
+      provider: timerNotipod(2),
       onChange: (context, value) {
         if (value == 0) navigateToRouter(navigatorKey);
       },
