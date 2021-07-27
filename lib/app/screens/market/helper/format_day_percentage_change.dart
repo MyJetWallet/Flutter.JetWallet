@@ -1,2 +1,7 @@
-String formatDayPercentageChange(double change) =>
-    change > 0 ? '+$change%' : '$change%';
+import '../../../../service/shared/constants.dart';
+
+String formatDayPercentageChange(double change) {
+  final formattedChange = change.toStringAsFixed(signsAfterComma);
+
+  return change > 0 ? '+$formattedChange%' : '$formattedChange%';
+}
