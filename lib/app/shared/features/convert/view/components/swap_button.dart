@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ConvertSwitchButton extends StatelessWidget {
-  const ConvertSwitchButton({
+class SwapButton extends StatelessWidget {
+  const SwapButton({
     Key? key,
-    required this.onChanged,
+    required this.onPressed,
   }) : super(key: key);
 
-  final Function() onChanged;
+  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      padding: EdgeInsets.zero,
-      onPressed: onChanged,
+      onPressed: onPressed,
       icon: Icon(
         Icons.swap_vert,
-        color: Colors.black,
-        size: 32.w,
+        size: 35.r,
+        color: Colors.grey,
       ),
+      padding: EdgeInsets.zero,
     );
   }
 }

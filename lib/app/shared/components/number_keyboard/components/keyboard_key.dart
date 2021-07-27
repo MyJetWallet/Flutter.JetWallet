@@ -3,11 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class KeyboardKey extends StatelessWidget {
   const KeyboardKey({
-    required this.keyName,
+    this.realKey,
+    required this.frontKey,
     required this.onKeyPressed,
   });
 
-  final String keyName;
+  /// The key that will be returned as the value
+  final String? realKey;
+
+  /// The key that will be showed to the user
+  /// if realKey isn't provided will be used also as an realKey
+  final String frontKey;
   final void Function(String) onKeyPressed;
 
   @override
@@ -15,7 +21,7 @@ class KeyboardKey extends StatelessWidget {
     return SizedBox(
       width: 0.2.sw,
       child: InkWell(
-        onTap: () => onKeyPressed(keyName),
+        onTap: () => onKeyPressed(realKey ?? frontKey),
         borderRadius: BorderRadius.circular(10.r),
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -23,7 +29,7 @@ class KeyboardKey extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              keyName,
+              frontKey,
               style: TextStyle(
                 fontSize: 36.sp,
                 color: Colors.black54,
