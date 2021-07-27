@@ -5,15 +5,21 @@ import 'keyboard_key.dart';
 class KeyboardRow extends StatelessWidget {
   const KeyboardRow({
     Key? key,
-    required this.key1,
-    required this.key2,
-    required this.key3,
+    this.realKey1,
+    this.realKey2,
+    this.realKey3,
+    required this.frontKey1,
+    required this.frontKey2,
+    required this.frontKey3,
     required this.onKeyPressed,
   }) : super(key: key);
 
-  final String key1;
-  final String key2;
-  final String key3;
+  final String? realKey1;
+  final String? realKey2;
+  final String? realKey3;
+  final String frontKey1;
+  final String frontKey2;
+  final String frontKey3;
 
   final void Function(String) onKeyPressed;
 
@@ -23,15 +29,18 @@ class KeyboardRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         KeyboardKey(
-          keyName: key1,
+          realKey: realKey1,
+          frontKey: frontKey1,
           onKeyPressed: onKeyPressed,
         ),
         KeyboardKey(
-          keyName: key2,
+          realKey: realKey2,
+          frontKey: frontKey2,
           onKeyPressed: onKeyPressed,
         ),
         KeyboardKey(
-          keyName: key3,
+          realKey: realKey3,
+          frontKey: frontKey3,
           onKeyPressed: onKeyPressed,
         ),
       ],

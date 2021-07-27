@@ -24,6 +24,7 @@ const currencies = <CurrencyModel>[
     sequenceId: 0.0,
     assetBalance: 2.0,
     baseBalance: 1.0,
+    iconUrl: 'test',
   ),
   CurrencyModel(
     symbol: 'BTC',
@@ -38,6 +39,7 @@ const currencies = <CurrencyModel>[
     sequenceId: 0.0,
     assetBalance: 25.0,
     baseBalance: 2.0,
+    iconUrl: 'test',
   ),
   CurrencyModel(
     symbol: 'USD',
@@ -52,6 +54,7 @@ const currencies = <CurrencyModel>[
     sequenceId: 0.0,
     assetBalance: 4.0,
     baseBalance: 4.0,
+    iconUrl: 'test',
   ),
   CurrencyModel(
     symbol: 'DASH',
@@ -66,5 +69,6 @@ const currencies = <CurrencyModel>[
     sequenceId: 0.0,
     assetBalance: 4.0,
     baseBalance: -1.0,
+    iconUrl: 'test',
   ),
 ];

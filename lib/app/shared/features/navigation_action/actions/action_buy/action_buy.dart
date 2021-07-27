@@ -9,7 +9,7 @@ class ActionBuy extends StatelessWidget {
       appBar: AppBar(),
       body: const Center(
         child: Text(
-          'Action Buy flow',
+          'Action Buy Flow',
         ),
       ),
     );

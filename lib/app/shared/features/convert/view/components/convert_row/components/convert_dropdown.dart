@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../screens/market/model/currency_model.dart';
+
+import '../../../../../../../screens/market/model/currency_model.dart';
 
 class ConvertDropdown extends StatelessWidget {
   const ConvertDropdown({
@@ -23,15 +24,16 @@ class ConvertDropdown extends StatelessWidget {
       ),
       iconEnabledColor: Colors.black,
       dropdownColor: Colors.white,
+      underline: const SizedBox(),
       items: [
         for (final i in currencies)
           DropdownMenuItem(
             value: i,
             child: Text(
-              '${i.description} (${i.symbol})',
+              i.symbol,
               style: TextStyle(
-                fontSize: 17.sp,
-                color: Colors.black,
+                fontSize: 28.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),

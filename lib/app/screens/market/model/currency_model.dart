@@ -17,6 +17,7 @@ class CurrencyModel with _$CurrencyModel {
     required double sequenceId,
     required double assetBalance,
     required double baseBalance,
+    required String iconUrl,
   }) = _CurrencyModel;
 
   const CurrencyModel._();
@@ -24,4 +25,8 @@ class CurrencyModel with _$CurrencyModel {
   bool get isDepositMode => depositMode == 0;
 
   bool get isWithdrawalMode => withdrawalMode == 0;
+
+  bool get isAssetBalanceEmpty => assetBalance == 0;
+
+  bool get isAssetBalanceNotEmpty => assetBalance != 0;
 }
