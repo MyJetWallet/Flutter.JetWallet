@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market/helper/validated_icon_url.dart';
+import '../helper/validated_icon_url.dart';
 
 import '../model/market_item_model.dart';
 import 'assets_spod.dart';
