@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../helper/validated_icon_url.dart';
+import '../../../shared/helpers/valid_icon_url.dart';
 
 import '../model/market_item_model.dart';
 import 'assets_spod.dart';
@@ -19,7 +19,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
     for (final marketReference in value.references) {
       items.add(
         MarketItemModel(
-          iconUrl: validatedIconUrl(marketReference.iconUrl),
+          iconUrl: validIconUrl(marketReference.iconUrl),
           weight: marketReference.weight,
           associateAsset: marketReference.associateAsset,
           associateAssetPair: marketReference.associateAssetPair,

@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../shared/helpers/valid_icon_url.dart';
 import '../helper/accuracy_from.dart';
 import '../helper/calculate_base_balance.dart';
 import '../model/currency_model.dart';
@@ -9,9 +10,6 @@ import 'converter_map_fpod.dart';
 import 'instruments_spod.dart';
 import 'market_references_spod.dart';
 import 'prices_spod.dart';
-
-const _temp =
-    'https://icon-library.com/images/bitcoin-icon/bitcoin-icon-17.jpg';
 
 final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);
@@ -39,7 +37,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
           sequenceId: 0.0,
           assetBalance: 0.0,
           baseBalance: 0.0,
-          iconUrl: _temp,
+          iconUrl: validIconUrl(),
         ),
       );
     }
@@ -71,11 +69,9 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
         for (final currency in currencies) {
           final index = currencies.indexOf(currency);
 
-          if (reference.iconUrl != null) {
-            currencies[index] = currency.copyWith(
-              iconUrl: reference.iconUrl!,
-            );
-          }
+          currencies[index] = currency.copyWith(
+            iconUrl: validIconUrl(reference.iconUrl),
+          );
         }
       }
     }

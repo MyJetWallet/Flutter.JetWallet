@@ -1,6 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../screens/market/model/currency_model.dart';
 import '../../../../../screens/market/provider/currencies_pod.dart';
 import '../../helper/remove_element.dart';
@@ -11,7 +10,6 @@ final convertInputNotipod = StateNotifierProvider.autoDispose
     .family<ConvertInputNotifier, ConvertInputState, CurrencyModel?>(
   (ref, from) {
     final currencies = ref.read(currenciesPod);
-    final swapService = ref.read(swapServicePod);
 
     currencies.sort((a, b) => b.assetBalance.compareTo(a.assetBalance));
 
@@ -23,7 +21,6 @@ final convertInputNotipod = StateNotifierProvider.autoDispose
     return ConvertInputNotifier(
       defaultState: defaultState,
       currencies: currencies,
-      swapService: swapService,
     );
   },
 );

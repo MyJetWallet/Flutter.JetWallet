@@ -1,6 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../../../service/services/swap/service/swap_service.dart';
 import '../../../../../screens/market/model/currency_model.dart';
 import '../../../../components/balance_selector/model/selected_percent.dart';
 import '../../../../components/number_keyboard/number_keyboard.dart';
@@ -11,12 +10,10 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   ConvertInputNotifier({
     required this.defaultState,
     required this.currencies,
-    required this.swapService,
   }) : super(defaultState);
 
   final ConvertInputState defaultState;
   final List<CurrencyModel> currencies;
-  final SwapService swapService;
 
   void updateFromAsset(CurrencyModel currency) {
     state = state.copyWith(fromAsset: currency);

@@ -40,7 +40,7 @@ class ConvertPreview extends HookWidget {
           return Future.value(true);
         },
         child: PageFrame(
-          header: 'Convert BTC to ETH',
+          header: 'Convert ${quote?.fromAsset} to ${quote?.toAsset}',
           onBackButton: () {
             convertN.cancelTimer();
             Navigator.pop(context);
