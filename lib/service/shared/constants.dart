@@ -10,6 +10,7 @@ const balancesMessage = 'spot-wallet-balances';
 const instrumentsMessage = 'spot-insrument-list';
 const bidAskMessage = 'spot-bidask';
 const marketReferenceMessage = 'market-reference';
+const basePricesMessage = 'base-prices';
 
 // HTTP
 const postRequest = 'POST';

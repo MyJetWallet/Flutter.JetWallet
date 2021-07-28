@@ -17,10 +17,11 @@ final chartInitFpod = FutureProvider.family.autoDispose<void, String>(
 
     final model = CandlesRequestModel(
       instrumentId: instrumentId,
+      type: 0,
       bidOrAsk: 0,
       fromDate: roundDown(fromDate).millisecondsSinceEpoch,
       toDate: roundDown(toDate).millisecondsSinceEpoch,
-      candleType: 0,
+      mergeCandlesCount: 0,
     );
 
     final candles = await chartService.candles(model);
