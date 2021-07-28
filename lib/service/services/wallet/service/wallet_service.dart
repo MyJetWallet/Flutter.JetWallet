@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
 import '../model/asset_converter_map/asset_converter_map_model.dart';
-import '../model/conversion_price_model.dart';
+import '../model/conversion_price_model/conversion_price_model.dart';
 import '../model/market_info/market_info_request_model.dart';
 import '../model/market_info/market_info_response_model.dart';
 import 'services/asset_converter_map_service.dart';
