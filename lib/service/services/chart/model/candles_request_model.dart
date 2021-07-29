@@ -6,11 +6,12 @@ part 'candles_request_model.g.dart';
 @freezed
 class CandlesRequestModel with _$CandlesRequestModel {
   const factory CandlesRequestModel({
-    required String instrumentId,
+    @JsonKey(ignore: true) String? instrumentId,
+    @JsonKey(ignore: true) int? type,
     required int bidOrAsk,
     required int fromDate,
     required int toDate,
-    required int candleType,
+    required int mergeCandlesCount,
   }) = _CandlesRequestModel;
 
   factory CandlesRequestModel.fromJson(Map<String, dynamic> json) =>

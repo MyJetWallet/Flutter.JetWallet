@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jetwallet/app/screens/market/helper/calculate_base_balance.dart';
 import 'package:jetwallet/service/services/signal_r/model/prices_model.dart';
-import 'package:jetwallet/service/services/wallet/model/asset_converter_map_model.dart';
+import 'package:jetwallet/service/services/wallet/model/asset_converter_map/asset_converter_map_model.dart';
 
 void main() {
   group('Calculate base balance X -> X', () {

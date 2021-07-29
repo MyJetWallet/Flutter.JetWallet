@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/keyboard_row.dart';
 
 const backspace = '«';
+const period = '.';
 
 class NumberKeyboard extends StatelessWidget {
   const NumberKeyboard({
@@ -38,7 +39,7 @@ class NumberKeyboard extends StatelessWidget {
             onKeyPressed: onKeyPressed,
           ),
           KeyboardRow(
-            realKey1: '.',
+            realKey1: period,
             frontKey1: ',',
             frontKey2: '0',
             frontKey3: backspace,

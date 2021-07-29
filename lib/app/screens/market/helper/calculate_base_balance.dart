@@ -1,5 +1,5 @@
 import '../../../../service/services/signal_r/model/prices_model.dart';
-import '../../../../service/services/wallet/model/asset_converter_map_model.dart';
+import '../../../../service/services/wallet/model/asset_converter_map/asset_converter_map_model.dart';
 
 /// returns [-1] if there is no prices available for specific asset
 double calculateBaseBalance({

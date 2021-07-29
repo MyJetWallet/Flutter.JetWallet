@@ -2,20 +2,20 @@ import 'package:dio/dio.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../model/candles_request_model.dart';
 import '../../model/candles_response_model.dart';
+import '../../model/last_candles_request_model.dart';
 import '../chart_service.dart';
 
-Future<CandlesResponseModel> candlesService(
+Future<CandlesResponseModel> lastCandlesService(
   Dio dio,
-  CandlesRequestModel model,
+  LastCandlesRequestModel model,
 ) async {
   final logger = ChartService.logger;
-  const message = 'candlesService';
+  const message = 'lastCandlesService';
 
   try {
     final response = await dio.get(
-      '$tradingApi/Candles/Candles/${model.instrumentId}/${model.type}',
+      '$tradingApi/Candles/LastCandles/${model.instrumentId}/${model.type}',
       queryParameters: model.toJson(),
     );
 

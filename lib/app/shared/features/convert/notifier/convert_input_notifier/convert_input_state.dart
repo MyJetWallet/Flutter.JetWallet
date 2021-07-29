@@ -7,6 +7,8 @@ part 'convert_input_state.freezed.dart';
 @freezed
 class ConvertInputState with _$ConvertInputState {
   const factory ConvertInputState({
+    /// Converstion Price of "FromAsset" to "ToAsset"
+    double? converstionPrice,
     @Default('') String fromAssetAmount,
     @Default('') String toAssetAmount,
     @Default(true) bool fromAssetEnabled,

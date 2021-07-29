@@ -39,10 +39,11 @@ class ChartNotifier extends StateNotifier<ChartState> {
 
       final model = CandlesRequestModel(
         instrumentId: instrumentId,
+        type: 0,
         bidOrAsk: 0,
         fromDate: roundDown(fromDate).millisecondsSinceEpoch,
         toDate: roundDown(toDate).millisecondsSinceEpoch,
-        candleType: DataFeedUtil.parseCandleType(resolution).index,
+        mergeCandlesCount: 0,
       );
 
       final candles = await chartService.candles(model);

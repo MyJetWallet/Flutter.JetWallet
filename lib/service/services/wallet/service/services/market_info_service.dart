@@ -3,19 +3,21 @@ import 'package:dio/dio.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
-import '../../model/asset_converter_map/asset_converter_map_model.dart';
+import '../../model/market_info/market_info_request_model.dart';
+import '../../model/market_info/market_info_response_model.dart';
 import '../wallet_service.dart';
 
-Future<AssetConverterMapModel> assetConverterMapService(
+Future<MarketInfoResponseModel> marketInfoService(
   Dio dio,
-  String symbol,
+  MarketInfoRequestModel model,
 ) async {
   final logger = WalletService.logger;
-  const message = 'assetConverterMapService';
+  const message = 'marketInfoService';
 
   try {
-    final response = await dio.get(
-      '$walletApi/wallet/base-currency-converter-map/$symbol',
+    final response = await dio.post(
+      '$walletApi/market/info',
+      data: model.toJson(),
     );
 
     try {
@@ -23,7 +25,7 @@ Future<AssetConverterMapModel> assetConverterMapService(
 
       final data = handleFullResponse<Map>(responseData);
 
-      return AssetConverterMapModel.fromJson(data);
+      return MarketInfoResponseModel.fromJson(data);
     } catch (e) {
       logger.log(contract, message);
       rethrow;
