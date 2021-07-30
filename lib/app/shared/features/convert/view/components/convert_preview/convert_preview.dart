@@ -7,7 +7,7 @@ import '../../../../../../../../shared/components/loader.dart';
 import '../../../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../../../../../shared/components/success_screen/success_screen.dart';
+import '../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../notifier/convert_notifier/convert_notipod.dart';
 import '../../../notifier/convert_notifier/convert_state.dart';
