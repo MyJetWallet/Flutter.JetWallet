@@ -1,5 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 
+import '../../../../../../shared/logging/levels.dart';
 import '../../../../../screens/market/model/currency_model.dart';
 import '../../../../components/balance_selector/model/selected_percent.dart';
 import '../../../../components/number_keyboard/number_keyboard.dart';
@@ -15,27 +17,37 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   final ConvertInputState defaultState;
   final List<CurrencyModel> currencies;
 
+  static final _logger = Logger('ConvertInputNotifier');
+
   /// ConversionPrice can be null if request to API failed
   void updateConversionPrice(double? price) {
+    _logger.log(notifier, 'updateConversionPrice');
+
     state = state.copyWith(converstionPrice: price);
     _calculateConversion();
   }
 
   void updateFromAsset(CurrencyModel currency) {
+    _logger.log(notifier, 'updateFromAsset');
+
     updateConversionPrice(null);
     state = state.copyWith(fromAsset: currency);
     _updateToList();
-    _trimAmountAccordingToAccuracy();
+    _updateAmountAccordingToAccuracy();
   }
 
   void updateToAsset(CurrencyModel currency) {
+    _logger.log(notifier, 'updateToAsset');
+
     updateConversionPrice(null);
     state = state.copyWith(toAsset: currency);
     _updateFromList();
-    _trimAmountAccordingToAccuracy();
+    _updateAmountAccordingToAccuracy();
   }
 
   void switchFromAndTo() {
+    _logger.log(notifier, 'switchFromAndTo');
+
     updateConversionPrice(null);
 
     final fromAsset = state.toAsset;
@@ -57,6 +69,8 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void updateFromAssetAmount(String amount) {
+    _logger.log(notifier, 'updateFromAssetAmount');
+
     if (_validInput(amount)) {
       if (amount == backspace) {
         final string = state.fromAssetAmount;
@@ -67,9 +81,17 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
           );
         }
       } else {
-        state = state.copyWith(
-          fromAssetAmount: state.fromAssetAmount + amount,
-        );
+        final string = state.fromAssetAmount;
+
+        if (amount != period && _firstZeroCase(string)) {
+          state = state.copyWith(
+            fromAssetAmount: amount,
+          );
+        } else {
+          state = state.copyWith(
+            fromAssetAmount: string + amount,
+          );
+        }
       }
       _calculateConversion();
       _validateInput();
@@ -77,6 +99,8 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void updateToAssetAmount(String amount) {
+    _logger.log(notifier, 'updateToAssetAmount');
+
     if (_validInput(amount)) {
       if (amount == backspace) {
         final string = state.toAssetAmount;
@@ -87,16 +111,30 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
           );
         }
       } else {
-        state = state.copyWith(
-          toAssetAmount: state.toAssetAmount + amount,
-        );
+        final string = state.toAssetAmount;
+
+        if (amount != period && _firstZeroCase(string)) {
+          state = state.copyWith(
+            toAssetAmount: amount,
+          );
+        } else {
+          state = state.copyWith(
+            toAssetAmount: string + amount,
+          );
+        }
       }
       _calculateConversion();
       _validateInput();
     }
   }
 
+  bool _firstZeroCase(String string) {
+    return string.length == 1 && string == zero;
+  }
+
   void enableToAsset() {
+    _logger.log(notifier, 'enableToAsset');
+
     state = state.copyWith(
       toAssetEnabled: true,
       fromAssetEnabled: false,
@@ -104,6 +142,8 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void enableFromAsset() {
+    _logger.log(notifier, 'enableFromAsset');
+
     state = state.copyWith(
       toAssetEnabled: false,
       fromAssetEnabled: true,
@@ -111,6 +151,8 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void selectPercentFromBalance(SelectedPercent selected) {
+    _logger.log(notifier, 'selectPercentFromBalance');
+
     final fromAsset = state.fromAsset;
 
     if (state.fromAssetEnabled) {
@@ -169,10 +211,10 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     );
   }
 
-  void _trimAmountAccordingToAccuracy() {
+  void _updateAmountAccordingToAccuracy() {
     if (!_fromAssetCharsAfterDecimalValid) {
       final accuracy = state.fromAsset.accuracy;
-      final chars = numberOfCharsAfterDecimal(state.fromAssetAmount);
+      final chars = _numberOfCharsAfterDecimal(state.fromAssetAmount);
       final difference = (chars - accuracy).toInt();
 
       state = state.copyWith(
@@ -182,7 +224,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
 
     if (!_toAssetCharsAfterDecimalValid) {
       final accuracy = state.toAsset.accuracy;
-      final chars = numberOfCharsAfterDecimal(state.toAssetAmount);
+      final chars = _numberOfCharsAfterDecimal(state.toAssetAmount);
       final difference = (chars - accuracy).toInt();
 
       state = state.copyWith(
@@ -192,14 +234,14 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   bool _areCharsAfterDecimalValid(String string, double accuracy) {
-    if (numberOfCharsAfterDecimal(string) >= accuracy) {
+    if (_numberOfCharsAfterDecimal(string) >= accuracy) {
       return false;
     } else {
       return true;
     }
   }
 
-  int numberOfCharsAfterDecimal(String string) {
+  int _numberOfCharsAfterDecimal(String string) {
     var numbersAfterDecimal = 0;
     var startCount = false;
 

@@ -6,14 +6,14 @@ part 'execute_quote_response_model.g.dart';
 @freezed
 class ExecuteQuoteResponseModel with _$ExecuteQuoteResponseModel {
   const factory ExecuteQuoteResponseModel({
+    required bool isFromFixed,
     required bool isExecuted,
     required String operationId,
     required double price,
-    required String fromAsset,
-    required String toAsset,
+    @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
+    @JsonKey(name: 'toAsset') required String toAssetSymbol,
     @JsonKey(name: 'fromAssetVolume') required double fromAssetAmount,
     @JsonKey(name: 'toAssetVolume') required double toAssetAmount,
-    required bool isFromFixed,
     @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
   }) = _ExecuteQuoteResponseModel;
 
