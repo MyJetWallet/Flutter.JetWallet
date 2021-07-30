@@ -5,7 +5,6 @@ import 'package:logging/logging.dart';
 
 import '../../../../../../../../service/services/swap/model/execute_quote/execute_quote_request_model.dart';
 import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
-import '../../../../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../convert_input_notifier/convert_input_state.dart';
@@ -17,30 +16,39 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
 
   final Reader read;
 
-  late Timer _timer;
+  Timer _timer = Timer(Duration.zero, () {});
 
   static final _logger = Logger('ConvertNotifier');
 
-  Future<void> requestQuote(
-    ConvertInputState input, {
-    bool init = false,
-  }) async {
+  void updateFrom(ConvertInputState input) {
+    state = state.copyWith(
+      fromAssetAmount: double.parse(input.fromAssetAmount),
+      fromAssetSymbol: input.fromAsset.symbol,
+      toAssetSymbol: input.toAsset.symbol,
+    );
+  }
+
+  Future<void> requestQuote() async {
     _logger.log(notifier, 'requestQuote');
 
     state = state.copyWith(union: const QuoteLoading());
 
     final model = GetQuoteRequestModel(
-      fromAssetAmount: double.parse(input.fromAssetAmount),
-      fromAsset: input.fromAsset.symbol,
-      toAsset: input.toAsset.symbol,
-      isFromFixed: true,
+      fromAssetAmount: state.fromAssetAmount,
+      fromAssetSymbol: state.fromAssetSymbol!,
+      toAssetSymbol: state.toAssetSymbol!,
     );
 
     try {
       final response = await read(swapServicePod).getQuote(model);
 
       state = state.copyWith(
-        responseQuote: response,
+        operationId: response.operationId,
+        price: response.price,
+        fromAssetSymbol: response.fromAssetSymbol,
+        toAssetSymbol: response.toAssetSymbol,
+        fromAssetAmount: response.fromAssetAmount,
+        toAssetAmount: response.toAssetAmount,
         union: const QuoteSuccess(),
       );
 
@@ -52,6 +60,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         union: const QuoteError(),
         error: error.toString(),
       );
+      _refreshTimer(10);
     }
   }
 
@@ -62,13 +71,12 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
 
     try {
       final model = ExecuteQuoteRequestModel(
-        operationId: state.responseQuote!.operationId,
-        price: state.responseQuote!.price,
-        fromAsset: state.responseQuote!.fromAsset,
-        toAsset: state.responseQuote!.toAsset,
-        fromAssetAmount: state.responseQuote!.fromAssetAmount,
-        toAssetAmount: state.responseQuote!.toAssetAmount,
-        isFromFixed: true,
+        operationId: state.operationId!,
+        price: state.price!,
+        fromAssetSymbol: state.fromAssetSymbol!,
+        toAssetSymbol: state.toAssetSymbol!,
+        fromAssetAmount: state.fromAssetAmount!,
+        toAssetAmount: state.toAssetAmount!,
       );
 
       final response = await read(swapServicePod).executeQuote(model);
@@ -77,19 +85,12 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         state = state.copyWith(union: const ExecuteSuccess());
       } else {
         state = state.copyWith(
-          responseQuote: GetQuoteResponseModel(
-            operationId: response.operationId,
-            price: response.price,
-            fromAsset: response.fromAsset,
-            toAsset: response.toAsset,
-            fromAssetAmount: response.fromAssetAmount,
-            toAssetAmount: response.toAssetAmount,
-            isFromFixed: response.isFromFixed,
-            expirationTime: response.expirationTime,
-          ),
-        );
-
-        state = state.copyWith(
+          operationId: response.operationId,
+          price: response.price,
+          fromAssetSymbol: response.fromAssetSymbol,
+          toAssetSymbol: response.toAssetSymbol,
+          fromAssetAmount: response.fromAssetAmount,
+          toAssetAmount: response.toAssetAmount,
           error: "Something wrong happend, but don't worry, "
               'we updated the price',
           union: const ExecuteError(),
@@ -123,12 +124,10 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   Future<void> _refreshQuote() async {
     state = state.copyWith(union: const QuoteRefresh());
 
-    final quote = state.responseQuote!;
-
     final model = GetQuoteRequestModel(
-      fromAssetAmount: quote.fromAssetAmount,
-      fromAsset: quote.fromAsset,
-      toAsset: quote.toAsset,
+      fromAssetAmount: state.fromAssetAmount,
+      fromAssetSymbol: state.fromAssetSymbol!,
+      toAssetSymbol: state.toAssetSymbol!,
       isFromFixed: true,
     );
 
@@ -136,7 +135,12 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       final response = await read(swapServicePod).getQuote(model);
 
       state = state.copyWith(
-        responseQuote: response,
+        operationId: response.operationId,
+        price: response.price,
+        fromAssetSymbol: response.fromAssetSymbol,
+        toAssetSymbol: response.toAssetSymbol,
+        fromAssetAmount: response.fromAssetAmount,
+        toAssetAmount: response.toAssetAmount,
         union: const QuoteSuccess(),
       );
 
@@ -151,6 +155,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   }
 
   void _refreshTimer(int initial) {
+    _timer.cancel();
     state = state.copyWith(timer: initial);
 
     _timer = Timer.periodic(

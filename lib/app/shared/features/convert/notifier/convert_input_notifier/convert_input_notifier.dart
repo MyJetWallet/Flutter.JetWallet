@@ -188,37 +188,9 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       return true;
     } else {
       if (state.fromAssetEnabled) {
-        if (_fromAssetCharsAfterDecimalValid) {
-          if (amount == zero) {
-            return _isOnlyOneZeroBeforeDecimal(state.fromAssetAmount);
-          }
-        } else {
-          return false;
-        }
-
         return _fromAssetCharsAfterDecimalValid;
       } else {
-        if (_toAssetCharsAfterDecimalValid) {
-          if (amount == zero) {
-            return _isOnlyOneZeroBeforeDecimal(state.toAssetAmount);
-          }
-        } else {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  bool _isOnlyOneZeroBeforeDecimal(String string) {
-    if (string.isNotEmpty) {
-      for (final char in string.split('')) {
-        if (char == period) return true;
-      }
-
-      for (final char in string.split('')) {
-        if (char == zero) return false;
+        return _toAssetCharsAfterDecimalValid;
       }
     }
 
