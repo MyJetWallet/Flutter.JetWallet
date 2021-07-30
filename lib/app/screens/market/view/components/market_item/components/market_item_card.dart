@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
+import '../../../../../../shared/components/asset_icon.dart';
 import '../../../../helper/format_day_percentage_change.dart';
 import '../../../../model/market_item_model.dart';
 
@@ -37,13 +38,7 @@ class MarketItemCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(
-            width: 30.w,
-            height: 30.w,
-            child: Image.network(
-              marketItem.iconUrl,
-            ),
-          ),
+          AssetIcon(imageUrl: marketItem.iconUrl),
           const SpaceW8(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

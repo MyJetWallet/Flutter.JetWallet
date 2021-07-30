@@ -25,6 +25,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
           associateAssetPair: marketReference.associateAssetPair,
           id: '',
           name: '',
+          dayPriceChange: 0,
           dayPercentChange: 0,
           lastPrice: 0,
         ),
@@ -57,6 +58,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
             final index = items.indexOf(marketItem);
 
             items[index] = marketItem.copyWith(
+              dayPriceChange: price.dayPriceChange,
               dayPercentChange: price.dayPercentageChange,
               lastPrice: price.lastPrice,
             );
