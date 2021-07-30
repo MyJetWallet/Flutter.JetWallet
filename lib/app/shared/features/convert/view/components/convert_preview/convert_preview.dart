@@ -24,8 +24,6 @@ class ConvertPreview extends HookWidget {
     final convert = useProvider(convertNotipod);
     final convertN = useProvider(convertNotipod.notifier);
 
-    final quote = convert.responseQuote;
-
     return ProviderListener<ConvertState>(
       provider: convertNotipod,
       onChange: (context, state) {
@@ -34,7 +32,8 @@ class ConvertPreview extends HookWidget {
           navigatorPush(
             context,
             SuccessScreen(
-              header: 'Convert ${quote?.fromAsset} to ${quote?.toAsset}',
+              header: 'Convert ${state.fromAssetSymbol} '
+                  'to ${state.toAssetSymbol}',
               description: 'Order filled',
             ),
           );
@@ -49,7 +48,8 @@ class ConvertPreview extends HookWidget {
           return Future.value(true);
         },
         child: PageFrame(
-          header: 'Convert ${quote?.fromAsset} to ${quote?.toAsset}',
+          header: 'Convert ${convert.fromAssetSymbol} '
+              'to ${convert.toAssetSymbol}',
           onBackButton: () {
             convertN.cancelTimer();
             Navigator.pop(context);
@@ -57,13 +57,13 @@ class ConvertPreview extends HookWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              if (convert.union is QuoteLoading ||
-                  convert.union is ExecuteLoading)
+              if (convert.union is ExecuteLoading)
                 const Loader()
               else if (convert.union is QuoteError)
                 ConvertPreviewError(text: convert.error!)
               else ...[
-                if (convert.union is QuoteRefresh)
+                if (convert.union is QuoteRefresh ||
+                    convert.union is QuoteLoading)
                   const Loader()
                 else
                   Text(
@@ -77,18 +77,21 @@ class ConvertPreview extends HookWidget {
                 const ConvertPreviewDivider(),
                 ConvertPreviewRow(
                   description: 'From',
-                  value: '${quote?.fromAssetAmount} ${quote?.fromAsset}',
+                  value: '${convert.fromAssetAmount} '
+                      '${convert.fromAssetSymbol}',
                 ),
                 const ConvertPreviewDivider(),
                 ConvertPreviewRow(
                   description: 'To',
-                  value: '${quote?.toAssetAmount} ${quote?.toAsset}',
+                  value: '${convert.toAssetAmount} ${convert.toAssetSymbol}',
+                  loading: convert.union is QuoteLoading,
                 ),
                 const ConvertPreviewDivider(),
                 ConvertPreviewRow(
                   description: 'Exchange Rate',
-                  value: '1 ${quote?.fromAsset} = '
-                      '${quote?.price} ${quote?.toAsset}',
+                  value: '1 ${convert.fromAssetSymbol} = '
+                      '${convert.price} ${convert.toAssetSymbol}',
+                  loading: convert.union is QuoteLoading,
                 ),
                 const SpaceH20(),
                 AppButtonSolid(

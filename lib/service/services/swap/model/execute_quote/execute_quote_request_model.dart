@@ -6,13 +6,13 @@ part 'execute_quote_request_model.g.dart';
 @freezed
 class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
   const factory ExecuteQuoteRequestModel({
+    @Default(true) bool isFromFixed,
     required String operationId,
     required double price,
-    required String fromAsset,
-    required String toAsset,
+    @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
+    @JsonKey(name: 'toAsset') required String toAssetSymbol,
     @JsonKey(name: 'fromAssetVolume') required double fromAssetAmount,
     @JsonKey(name: 'toAssetVolume') required double toAssetAmount,
-    required bool isFromFixed,
   }) = _ExecuteQuoteRequestModel;
 
   factory ExecuteQuoteRequestModel.fromJson(Map<String, dynamic> json) =>

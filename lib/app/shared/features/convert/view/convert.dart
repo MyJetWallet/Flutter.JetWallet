@@ -40,6 +40,7 @@ class Convert extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Spacer(),
           ConvertRow(
             value: input.fromAssetAmount,
             enabled: input.fromAssetEnabled,
@@ -63,6 +64,7 @@ class Convert extends HookWidget {
             onDropdown: (value) => inputN.updateToAsset(value!),
           ),
           const Spacer(),
+          const SpaceH10(),
           PercentSelector(
             disabled: input.toAssetEnabled,
             onSelection: (value) {
@@ -86,7 +88,8 @@ class Convert extends HookWidget {
             onTap: () {
               if (input.convertValid) {
                 navigatorPush(context, const ConvertPreview());
-                convertN.requestQuote(input, init: true);
+                convertN.updateFrom(input);
+                convertN.requestQuote();
               }
             },
           ),
