@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 
 import '../../../../../../../../service/services/swap/model/execute_quote/execute_quote_request_model.dart';
 import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
 import '../../../../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../shared/logging/levels.dart';
 import '../convert_input_notifier/convert_input_state.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
@@ -17,10 +19,14 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
 
   late Timer _timer;
 
+  static final _logger = Logger('ConvertNotifier');
+
   Future<void> requestQuote(
     ConvertInputState input, {
     bool init = false,
   }) async {
+    _logger.log(notifier, 'requestQuote');
+
     state = state.copyWith(union: const QuoteLoading());
 
     final model = GetQuoteRequestModel(
@@ -40,6 +46,8 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
 
       _refreshTimer(response.expirationTime);
     } catch (error) {
+      _logger.log(stateFlow, 'requestQuote', error);
+
       state = state.copyWith(
         union: const QuoteError(),
         error: error.toString(),
@@ -48,6 +56,8 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   }
 
   Future<void> executeQuote() async {
+    _logger.log(notifier, 'executeQuote');
+
     state = state.copyWith(union: const ExecuteLoading());
 
     try {
@@ -86,6 +96,8 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         );
       }
     } catch (error) {
+      _logger.log(stateFlow, 'executeQuote', error);
+
       state = state.copyWith(
         error: error.toString(),
         union: const ExecuteError(),
@@ -95,9 +107,17 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
 
   /// Called after [ExecuteError()]
   void emitQuoteUnion() {
+    _logger.log(notifier, 'emitQuoteUnion');
+
     state = state.copyWith(
       union: state.timer > 1 ? const QuoteSuccess() : const QuoteError(),
     );
+  }
+
+  void cancelTimer() {
+    _logger.log(notifier, 'cancelTimer');
+
+    _timer.cancel();
   }
 
   Future<void> _refreshQuote() async {
@@ -146,10 +166,6 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         }
       },
     );
-  }
-
-  void cancelTimer() {
-    _timer.cancel();
   }
 
   @override
