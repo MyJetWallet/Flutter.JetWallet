@@ -11,6 +11,8 @@ import '../convert_input_notifier/convert_input_state.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
 
+const _quoteErrorRetryInterval = 10;
+
 class ConvertNotifier extends StateNotifier<ConvertState> {
   ConvertNotifier(this.read) : super(const ConvertState());
 
@@ -60,7 +62,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         union: const QuoteError(),
         error: error.toString(),
       );
-      _refreshTimer(10);
+      _refreshTimer(_quoteErrorRetryInterval);
     }
   }
 
@@ -150,7 +152,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         union: const QuoteRefresh(),
         error: error.toString(),
       );
-      _refreshTimer(10);
+      _refreshTimer(_quoteErrorRetryInterval);
     }
   }
 
