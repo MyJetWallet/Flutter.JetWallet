@@ -9,9 +9,14 @@ class MarketItemModel with _$MarketItemModel {
     required String name,
     required String iconUrl,
     required String associateAsset,
-    required String? associateAssetPair,
+    required String associateAssetPair,
     required int weight,
     required double lastPrice,
+    required double dayPriceChange,
     required double dayPercentChange,
   }) = _MarketItemModel;
+
+  const MarketItemModel._();
+
+  bool get isGrowing => dayPercentChange > 0;
 }
