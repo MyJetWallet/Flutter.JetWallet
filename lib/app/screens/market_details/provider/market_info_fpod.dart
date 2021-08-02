@@ -4,9 +4,14 @@ import '../../../../service/services/wallet/model/market_info/market_info_respon
 import '../../../../shared/providers/service_providers.dart';
 
 final marketInfoFpod =
-    FutureProvider.family<MarketInfoResponseModel, MarketInfoRequestModel>(
-        (ref, model) {
+    FutureProvider.family<MarketInfoResponseModel, String>((ref, id) {
   final walletService = ref.watch(walletServicePod);
+  final intl = ref.read(intlPod);
 
-  return walletService.marketInfo(model);
+  return walletService.marketInfo(
+    MarketInfoRequestModel(
+      assetId: id,
+      language: intl.localeName,
+    ),
+  );
 });

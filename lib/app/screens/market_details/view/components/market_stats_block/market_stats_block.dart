@@ -7,6 +7,7 @@ import '../../../../../../shared/components/spacers.dart';
 import '../../../../market/view/components/header_text.dart';
 import '../../../helper/format_number.dart';
 import 'components/market_stats_item.dart';
+import 'components/market_stats_table_cell.dart';
 
 class MarketStatsBlock extends HookWidget {
   const MarketStatsBlock({
@@ -30,44 +31,36 @@ class MarketStatsBlock extends HookWidget {
           children: [
             TableRow(
               children: [
-                TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 8.w),
-                    child: MarketStatsItem(
-                      name: 'Mark cap',
-                      value: '\$${formatNumber(marketInfo.marketCap)}',
-                    ),
+                MarketStatsTableCell(
+                  padding: EdgeInsets.only(right: 8.w),
+                  child: MarketStatsItem(
+                    name: 'Mark cap',
+                    value: '\$${formatNumber(marketInfo.marketCap)}',
                   ),
                 ),
-                TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.w),
-                    child: MarketStatsItem(
-                      name: 'Circ supply',
-                      value: formatNumber(marketInfo.supply),
-                    ),
+                MarketStatsTableCell(
+                  padding: EdgeInsets.only(left: 8.w),
+                  child: MarketStatsItem(
+                    name: 'Circ supply',
+                    value: formatNumber(marketInfo.supply),
                   ),
                 ),
               ],
             ),
             TableRow(
               children: [
-                TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 8.w),
-                    child: MarketStatsItem(
-                      name: 'Vol (24h)',
-                      value: '\$${formatNumber(marketInfo.dayVolume)}',
-                    ),
+                MarketStatsTableCell(
+                  padding: EdgeInsets.only(right: 8.w),
+                  child: MarketStatsItem(
+                    name: 'Vol (24h)',
+                    value: '\$${formatNumber(marketInfo.dayVolume)}',
                   ),
                 ),
-                TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.w),
-                    child: const MarketStatsItem(
-                      name: 'Santimentos',
-                      value: '50%/50%',
-                    ),
+                MarketStatsTableCell(
+                  padding: EdgeInsets.only(left: 8.w),
+                  child: const MarketStatsItem(
+                    name: 'Santimentos',
+                    value: '50%/50%',
                   ),
                 ),
               ],

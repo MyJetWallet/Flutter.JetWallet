@@ -6,8 +6,8 @@ import '../../../../../../../shared/helpers/launch_url.dart';
 
 import 'clickable_underlined_text.dart';
 
-class AboutTextBlock extends HookWidget {
-  const AboutTextBlock({
+class AboutBlockText extends HookWidget {
+  const AboutBlockText({
     Key? key,
     required this.marketInfo,
   }) : super(key: key);

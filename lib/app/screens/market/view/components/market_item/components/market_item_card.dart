@@ -38,7 +38,9 @@ class MarketItemCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          AssetIcon(imageUrl: marketItem.iconUrl),
+          AssetIcon(
+            imageUrl: marketItem.iconUrl,
+          ),
           const SpaceW8(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

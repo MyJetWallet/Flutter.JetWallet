@@ -5,6 +5,7 @@ import 'base_prices_spod.dart';
 final returnRatesPod =
     Provider.autoDispose.family<ReturnRatesModel, String>((ref, instrument) {
   final basePrices = ref.watch(basePricesSpod);
+
   const model = ReturnRatesModel(
     dayPrice: 0,
     weekPrice: 0,
@@ -15,6 +16,7 @@ final returnRatesPod =
   basePrices.whenData((value) {
     final assetBasePrice = value.basePrices
         .firstWhere((element) => element.instrumentSymbol == instrument);
+
     model.copyWith(
       dayPrice: assetBasePrice.dayPrice.price,
       weekPrice: assetBasePrice.weekPrice.price,
