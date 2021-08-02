@@ -11,7 +11,12 @@ final convertInputNotipod = StateNotifierProvider.autoDispose
   (ref, from) {
     final currencies = ref.read(currenciesPod);
 
-    currencies.sort((a, b) => b.assetBalance.compareTo(a.assetBalance));
+    // If baseBalances of 2 assets are equal, compare by assetBalance
+    currencies.sort((a, b) {
+      final compare = b.baseBalance.compareTo(a.baseBalance);
+      if (compare != 0) return compare;
+      return b.assetBalance.compareTo(a.assetBalance);
+    });
 
     final defaultState = _defaultConvertState(
       currencies,

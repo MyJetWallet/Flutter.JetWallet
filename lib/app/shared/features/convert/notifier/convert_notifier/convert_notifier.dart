@@ -15,14 +15,13 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
+import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../view/components/convert_preview/components/quote_updated_dialog.dart';
 import '../../view/convert.dart';
 import '../convert_input_notifier/convert_input_state.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
-
-const _quoteErrorRetryInterval = 10;
 
 class ConvertNotifier extends StateNotifier<ConvertState> {
   ConvertNotifier(
@@ -94,7 +93,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         connectingToServer: true,
       );
 
-      _refreshTimer(_quoteErrorRetryInterval);
+      _refreshTimer(quoteRetryInterval);
     }
   }
 
@@ -119,7 +118,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         _timer.cancel();
         _showSuccessScreen();
       } else {
-        state = state.copyWith(union: const ExecuteReturnedQuote());
+        state = state.copyWith(union: const QuoteSuccess());
         _timer.cancel();
         showQuoteUpdatedDialog(
           context: _context,

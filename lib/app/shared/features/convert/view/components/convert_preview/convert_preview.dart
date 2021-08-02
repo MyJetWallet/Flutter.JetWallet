@@ -39,8 +39,6 @@ class ConvertPreview extends HookWidget {
           children: [
             if (convert.union is ExecuteLoading)
               const Loader()
-            else if (convert.union is ExecuteReturnedQuote)
-              const SizedBox()
             else ...[
               if (convert.union is QuoteLoading)
                 const Loader()

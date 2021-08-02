@@ -35,6 +35,7 @@ class PercentBox extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
+                color: disabled ? Colors.black.withOpacity(0.5) : Colors.black,
               ),
             ),
           ),

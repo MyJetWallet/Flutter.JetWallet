@@ -8,5 +8,4 @@ class ConvertUnion with _$ConvertUnion {
   const factory ConvertUnion.quoteSuccess() = QuoteSuccess;
   const factory ConvertUnion.executeLoading() = ExecuteLoading;
   const factory ConvertUnion.executeSuccess() = ExecuteSuccess;
-  const factory ConvertUnion.executeReturnedQuote() = ExecuteReturnedQuote;
 }
