@@ -14,7 +14,6 @@ final logRecordsNotipod =
 class LogRecordsNotifier extends StateNotifier<Queue<LogRecord>> {
   LogRecordsNotifier() : super(Queue<LogRecord>()) {
     _logger = Logger.root.onRecord.listen((record) {
-      // PostFrameCallback added to avoid UncontrolledProviderScope issue
       WidgetsBinding.instance?.addPostFrameCallback((_) {
         state.addLast(record);
         state = Queue.from(state);

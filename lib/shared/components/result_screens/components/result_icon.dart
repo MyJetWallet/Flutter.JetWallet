@@ -15,7 +15,7 @@ class ResultIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Icon(
       icon,
-      size: 125.w,
+      size: 125.r,
       color: color,
     );
   }

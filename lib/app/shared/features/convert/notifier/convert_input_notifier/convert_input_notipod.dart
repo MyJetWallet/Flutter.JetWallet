@@ -11,7 +11,7 @@ final convertInputNotipod = StateNotifierProvider.autoDispose
   (ref, from) {
     final currencies = ref.read(currenciesPod);
 
-    // If baseBalances of 2 assets are equal, compare by assetBalance
+    // If baseBalance of 2 assets are equal, compare by assetBalance
     currencies.sort((a, b) {
       final compare = b.baseBalance.compareTo(a.baseBalance);
       if (compare != 0) return compare;
