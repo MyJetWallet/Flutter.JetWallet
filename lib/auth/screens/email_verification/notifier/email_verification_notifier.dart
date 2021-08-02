@@ -7,7 +7,7 @@ import '../../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../../../service/services/validation/model/send_email_verification_code_request_model.dart';
 import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
 import '../../../../service/services/validation/service/validation_service.dart';
-import '../../../../shared/components/success_screen/success_screen.dart';
+import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/logging/levels.dart';

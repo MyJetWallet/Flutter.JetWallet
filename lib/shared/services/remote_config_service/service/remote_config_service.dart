@@ -53,5 +53,6 @@ class RemoteConfigService {
     privacyPolicyLink = appConfig.privacyPolicyLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
+    quoteRetryInterval = appConfig.quoteRetryInterval;
   }
 }

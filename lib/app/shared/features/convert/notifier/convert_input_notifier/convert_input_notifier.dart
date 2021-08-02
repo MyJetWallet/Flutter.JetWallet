@@ -8,6 +8,8 @@ import '../../../../components/number_keyboard/number_keyboard.dart';
 import '../../helper/remove_element.dart';
 import 'convert_input_state.dart';
 
+const specialPointCase = '0.';
+
 class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   ConvertInputNotifier({
     required this.defaultState,
@@ -33,7 +35,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     updateConversionPrice(null);
     state = state.copyWith(fromAsset: currency);
     _updateToList();
-    _updateAmountAccordingToAccuracy();
+    _resetAssetsAmount();
   }
 
   void updateToAsset(CurrencyModel currency) {
@@ -42,7 +44,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     updateConversionPrice(null);
     state = state.copyWith(toAsset: currency);
     _updateFromList();
-    _updateAmountAccordingToAccuracy();
+    _resetAssetsAmount();
   }
 
   void switchFromAndTo() {
@@ -87,6 +89,10 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
           state = state.copyWith(
             fromAssetAmount: amount,
           );
+        } else if (string.isEmpty && amount == period) {
+          state = state.copyWith(
+            fromAssetAmount: specialPointCase,
+          );
         } else {
           state = state.copyWith(
             fromAssetAmount: string + amount,
@@ -117,6 +123,10 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
           state = state.copyWith(
             toAssetAmount: amount,
           );
+        } else if (string.isEmpty && amount == period) {
+          state = state.copyWith(
+            toAssetAmount: specialPointCase,
+          );
         } else {
           state = state.copyWith(
             toAssetAmount: string + amount,
@@ -139,6 +149,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       toAssetEnabled: true,
       fromAssetEnabled: false,
     );
+    _trucateZerosOfAssetAmount();
   }
 
   void enableFromAsset() {
@@ -148,6 +159,49 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       toAssetEnabled: false,
       fromAssetEnabled: true,
     );
+    _trucateZerosOfAssetAmount();
+  }
+
+  void _trucateZerosOfAssetAmount() {
+    if (state.fromAssetEnabled) {
+      if (state.toAssetAmount.isNotEmpty) {
+        final number = double.parse(state.toAssetAmount);
+
+        if (number == 0) {
+          state = state.copyWith(
+            toAssetAmount: '0',
+          );
+        }
+        if (number % 1 == 0) {
+          state = state.copyWith(
+            toAssetAmount: number.toInt().toString(),
+          );
+        } else {
+          state = state.copyWith(
+            toAssetAmount: number.toString(),
+          );
+        }
+      }
+    } else {
+      if (state.fromAssetAmount.isNotEmpty) {
+        final number = double.parse(state.fromAssetAmount);
+
+        if (number == 0) {
+          state = state.copyWith(
+            fromAssetAmount: '0',
+          );
+        }
+        if (number % 1 == 0) {
+          state = state.copyWith(
+            fromAssetAmount: number.toInt().toString(),
+          );
+        } else {
+          state = state.copyWith(
+            fromAssetAmount: number.toString(),
+          );
+        }
+      }
+    }
   }
 
   void selectPercentFromBalance(SelectedPercent selected) {
@@ -168,9 +222,10 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
         final value = fromAsset.assetBalance;
         state = state.copyWith(fromAssetAmount: '$value');
       }
+      _calculateConversion();
+      _updateAmountAccordingToAccuracy();
+      _validateInput();
     }
-    _calculateConversion();
-    _validateInput();
   }
 
   bool _validInput(String amount) {
@@ -258,12 +313,14 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       if (state.fromAssetEnabled) {
         if (state.fromAssetAmount.isNotEmpty) {
           _calculateConversionOfToAsset();
+          _trucateZerosOfAssetAmount();
         } else {
           _resetAssetsAmount();
         }
       } else {
         if (state.toAssetAmount.isNotEmpty) {
           _calculateConversionOfFromAsset();
+          _trucateZerosOfAssetAmount();
         } else {
           _resetAssetsAmount();
         }
@@ -291,6 +348,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     );
   }
 
+  /// Called when backspace erases everything
   void _resetAssetsAmount() {
     state = state.copyWith(
       fromAssetAmount: '',

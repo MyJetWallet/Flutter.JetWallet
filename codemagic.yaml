@@ -85,6 +85,7 @@ definitions:
         - vovkamedvedev5@gmail.com
         - novichikhin.au@gmail.com
         - andrey.p@smplt.net
+        - andrey.v@smplt.net
       
       notify:
         success: true

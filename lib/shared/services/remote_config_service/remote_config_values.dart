@@ -11,3 +11,4 @@ String userAgreementLink = 'https://pub.dev';
 String privacyPolicyLink = 'https://flutter.dev/';
 int minAmountOfCharsInPassword = 8;
 int maxAmountOfCharsInPassword = 32;
+int quoteRetryInterval = 10;
