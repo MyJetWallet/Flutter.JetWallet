@@ -6,7 +6,7 @@ import '../../../../shared/providers/service_providers.dart';
 final marketInfoFpod =
     FutureProvider.family<MarketInfoResponseModel, String>((ref, id) {
   final walletService = ref.watch(walletServicePod);
-  final intl = ref.read(intlPod);
+  final intl = ref.watch(intlPod);
 
   return walletService.marketInfo(
     MarketInfoRequestModel(
