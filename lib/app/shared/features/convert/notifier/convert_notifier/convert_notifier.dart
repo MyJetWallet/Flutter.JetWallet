@@ -1,12 +1,23 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../../../../service/services/swap/model/execute_quote/execute_quote_request_model.dart';
 import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../../../shared/components/result_screens/failure_screens/failure_screen.dart';
+import '../../../../../../shared/components/result_screens/failure_screens/no_response_from_server.dart';
+import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
+import '../../../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
+import '../../../../../../shared/providers/other/navigator_key_pod.dart';
+import '../../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../view/components/convert_preview/components/quote_updated_dialog.dart';
+import '../../view/convert.dart';
 import '../convert_input_notifier/convert_input_state.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
@@ -14,15 +25,30 @@ import 'convert_union.dart';
 const _quoteErrorRetryInterval = 10;
 
 class ConvertNotifier extends StateNotifier<ConvertState> {
-  ConvertNotifier(this.read) : super(const ConvertState());
+  ConvertNotifier(
+    this.input,
+    this.read,
+  ) : super(const ConvertState()) {
+    _context = read(navigatorKeyPod).currentContext!;
+    updateFrom(input);
+    requestQuote();
+  }
 
   final Reader read;
+  final ConvertInputState input;
 
   Timer _timer = Timer(Duration.zero, () {});
+  late BuildContext _context;
 
   static final _logger = Logger('ConvertNotifier');
 
+  String get header {
+    return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
+  }
+
   void updateFrom(ConvertInputState input) {
+    _logger.log(notifier, 'updateFrom');
+
     state = state.copyWith(
       fromAssetAmount: double.parse(input.fromAssetAmount),
       fromAssetSymbol: input.fromAsset.symbol,
@@ -52,16 +78,22 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         fromAssetAmount: response.fromAssetAmount,
         toAssetAmount: response.toAssetAmount,
         union: const QuoteSuccess(),
+        connectingToServer: false,
       );
 
       _refreshTimer(response.expirationTime);
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'requestQuote', error.cause);
+
+      _showFailureScreen(error);
     } catch (error) {
       _logger.log(stateFlow, 'requestQuote', error);
 
       state = state.copyWith(
-        union: const QuoteError(),
-        error: error.toString(),
+        union: const QuoteLoading(),
+        connectingToServer: true,
       );
+
       _refreshTimer(_quoteErrorRetryInterval);
     }
   }
@@ -84,76 +116,31 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       final response = await read(swapServicePod).executeQuote(model);
 
       if (response.isExecuted) {
-        state = state.copyWith(union: const ExecuteSuccess());
+        _timer.cancel();
+        _showSuccessScreen();
       } else {
-        state = state.copyWith(
-          operationId: response.operationId,
-          price: response.price,
-          fromAssetSymbol: response.fromAssetSymbol,
-          toAssetSymbol: response.toAssetSymbol,
-          fromAssetAmount: response.fromAssetAmount,
-          toAssetAmount: response.toAssetAmount,
-          error: "Something wrong happend, but don't worry, "
-              'we updated the price',
-          union: const ExecuteError(),
+        state = state.copyWith(union: const ExecuteReturnedQuote());
+        _timer.cancel();
+        showQuoteUpdatedDialog(
+          context: _context,
+          onPressed: () => requestQuote(),
         );
       }
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'executeQuote', error.cause);
+
+      _showFailureScreen(error);
     } catch (error) {
       _logger.log(stateFlow, 'executeQuote', error);
 
-      state = state.copyWith(
-        error: error.toString(),
-        union: const ExecuteError(),
-      );
+      _showNoResponseScreen();
     }
-  }
-
-  /// Called after [ExecuteError()]
-  void emitQuoteUnion() {
-    _logger.log(notifier, 'emitQuoteUnion');
-
-    state = state.copyWith(
-      union: state.timer > 1 ? const QuoteSuccess() : const QuoteError(),
-    );
   }
 
   void cancelTimer() {
     _logger.log(notifier, 'cancelTimer');
 
     _timer.cancel();
-  }
-
-  Future<void> _refreshQuote() async {
-    state = state.copyWith(union: const QuoteRefresh());
-
-    final model = GetQuoteRequestModel(
-      fromAssetAmount: state.fromAssetAmount,
-      fromAssetSymbol: state.fromAssetSymbol!,
-      toAssetSymbol: state.toAssetSymbol!,
-      isFromFixed: true,
-    );
-
-    try {
-      final response = await read(swapServicePod).getQuote(model);
-
-      state = state.copyWith(
-        operationId: response.operationId,
-        price: response.price,
-        fromAssetSymbol: response.fromAssetSymbol,
-        toAssetSymbol: response.toAssetSymbol,
-        fromAssetAmount: response.fromAssetAmount,
-        toAssetAmount: response.toAssetAmount,
-        union: const QuoteSuccess(),
-      );
-
-      _refreshTimer(response.expirationTime);
-    } catch (error) {
-      state = state.copyWith(
-        union: const QuoteRefresh(),
-        error: error.toString(),
-      );
-      _refreshTimer(_quoteErrorRetryInterval);
-    }
   }
 
   void _refreshTimer(int initial) {
@@ -165,13 +152,59 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       (timer) {
         if (state.timer == 0) {
           timer.cancel();
-          _refreshQuote();
+          requestQuote();
         } else {
           state = state.copyWith(
             timer: state.timer - 1,
           );
         }
       },
+    );
+  }
+
+  void _showSuccessScreen() {
+    return navigatorPush(
+      _context,
+      SuccessScreen(
+        header: header,
+        description: 'Order filled',
+      ),
+    );
+  }
+
+  void _showNoResponseScreen() {
+    return navigatorPush(
+      _context,
+      NoResponseFromServer(
+        header: header,
+        description: 'Failed to place Order',
+        onOk: () {
+          read(navigationStpod).state = 1; // Portfolio
+          navigateToRouter(read(navigatorKeyPod));
+        },
+      ),
+    );
+  }
+
+  void _showFailureScreen(ServerRejectException error) {
+    return navigatorPush(
+      _context,
+      FailureScreen(
+        header: header,
+        description: error.cause,
+        firstButtonName: 'Edit Order',
+        onFirstButton: () {
+          Navigator.pushAndRemoveUntil(
+            _context,
+            MaterialPageRoute(
+              builder: (_) => const Convert(),
+            ),
+            (route) => route.isFirst,
+          );
+        },
+        secondButtonName: 'Close',
+        onSecondButton: () => navigateToRouter(read(navigatorKeyPod)),
+      ),
     );
   }
 

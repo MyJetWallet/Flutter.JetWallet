@@ -9,7 +9,6 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/number_keyboard/number_keyboard.dart';
 import '../notifier/convert_input_notifier/convert_input_notipod.dart';
-import '../notifier/convert_notifier/convert_notipod.dart';
 import '../provider/conversion_price_input.dart';
 import '../provider/conversion_price_pod.dart';
 import 'components/convert_preview/convert_preview.dart';
@@ -23,7 +22,6 @@ class Convert extends HookWidget {
   Widget build(BuildContext context) {
     final input = useProvider(convertInputNotipod(null));
     final inputN = useProvider(convertInputNotipod(null).notifier);
-    final convertN = useProvider(convertNotipod.notifier);
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
@@ -87,9 +85,7 @@ class Convert extends HookWidget {
             name: 'Preview Convert',
             onTap: () {
               if (input.convertValid) {
-                navigatorPush(context, const ConvertPreview());
-                convertN.updateFrom(input);
-                convertN.requestQuote();
+                navigatorPush(context, ConvertPreview(input));
               }
             },
           ),

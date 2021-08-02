@@ -12,14 +12,18 @@ class FailureScreen extends StatelessWidget {
     Key? key,
     required this.header,
     required this.description,
-    required this.onTryAgain,
-    required this.onClose,
+    required this.firstButtonName,
+    required this.secondButtonName,
+    required this.onFirstButton,
+    required this.onSecondButton,
   }) : super(key: key);
 
   final String header;
   final String description;
-  final Function() onTryAgain;
-  final Function() onClose;
+  final String firstButtonName;
+  final String secondButtonName;
+  final Function() onFirstButton;
+  final Function() onSecondButton;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +37,13 @@ class FailureScreen extends StatelessWidget {
       description: description,
       children: [
         AppButtonSolid(
-          name: 'Try again',
-          onTap: onTryAgain,
+          name: firstButtonName,
+          onTap: onFirstButton,
         ),
         const SpaceH10(),
         AppButtonOutlined(
-          name: 'Close',
-          onTap: onClose,
+          name: secondButtonName,
+          onTap: onSecondButton,
         ),
       ],
     );

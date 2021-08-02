@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../page_frame/page_frame.dart';
 import '../../spacers.dart';
@@ -25,26 +24,29 @@ class ResultFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageFrame(
-      header: header,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Spacer(),
-          resultIcon,
-          const SpaceH30(),
-          ResultText(
-            text: title,
-          ),
-          const SpaceH15(),
-          ResultDescriptionText(
-            text: description,
-          ),
-          const Spacer(),
-          Column(
-            children: children,
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () => Future.value(),
+      child: PageFrame(
+        header: header,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            resultIcon,
+            const SpaceH30(),
+            ResultText(
+              text: title,
+            ),
+            const SpaceH15(),
+            ResultDescriptionText(
+              text: description,
+            ),
+            const Spacer(),
+            Column(
+              children: children,
+            ),
+          ],
+        ),
       ),
     );
   }

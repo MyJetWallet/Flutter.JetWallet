@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+
 import 'convert_union.dart';
 
 part 'convert_state.freezed.dart';
@@ -13,7 +14,8 @@ class ConvertState with _$ConvertState {
     String? toAssetSymbol,
     double? fromAssetAmount,
     double? toAssetAmount,
-    String? error,
+    // [true] when requestQuote() takes too long
+    @Default(false) bool connectingToServer,
     @Default(QuoteLoading()) ConvertUnion union,
     @Default(0) int timer,
   }) = _ConvertState;
