@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SuccessDescriptionText extends StatelessWidget {
-  const SuccessDescriptionText({
+class ResultDescriptionText extends StatelessWidget {
+  const ResultDescriptionText({
     Key? key,
     required this.text,
   }) : super(key: key);

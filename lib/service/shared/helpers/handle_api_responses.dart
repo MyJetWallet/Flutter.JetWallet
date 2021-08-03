@@ -1,3 +1,5 @@
+import '../models/server_reject_exception.dart';
+
 /// Handles common response with [result] and [data] from the API
 /// If data is a primitive type then pass [T] as primitive type
 /// else pass just [Map] in the generic field
@@ -24,6 +26,6 @@ void handleResultResponse(Map<String, dynamic> json) {
 
 void _validateResultResponse(String result) {
   if (result != 'OK') {
-    throw result.toString();
+    throw ServerRejectException(result.toString());
   }
 }
