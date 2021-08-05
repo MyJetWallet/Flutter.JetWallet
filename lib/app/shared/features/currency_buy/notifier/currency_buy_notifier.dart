@@ -14,6 +14,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   void _updateCurrencies(List<CurrencyModel> currencies) {
     sortCurrencies(currencies);
+    currencies.removeWhere((element) => element.assetBalance == 0);
     state = state.copyWith(currencies: currencies);
   }
 
