@@ -79,12 +79,14 @@ class CurrencyBuy extends HookWidget {
           PercentSelector(
             disabled: false,
             onSelection: (value) {
+              // ignore: avoid_print
               print(value);
             },
           ),
           const SpaceH10(),
           NumberKeyboard(
             onKeyPressed: (value) {
+              // ignore: avoid_print
               print(value);
             },
           ),
