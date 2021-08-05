@@ -5,6 +5,8 @@ import 'components/bottom_sheet_bar.dart';
 
 void showBasicBottomSheet({
   Widget? pinned,
+  Function(dynamic)? then,
+  Function()? onDissmis,
   bool scrollable = false,
   Color color = Colors.white,
   required List<Widget> children,
@@ -15,67 +17,91 @@ void showBasicBottomSheet({
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (context) {
-      return _BasicBottomSheet(
+      return BasicBottomSheet(
         color: color,
         pinned: pinned,
+        onDissmis: onDissmis,
         scrollable: scrollable,
         children: children,
       );
     },
-  );
+  ).then((value) => then != null ? then(value) : {});
 }
 
-class _BasicBottomSheet extends StatelessWidget {
-  const _BasicBottomSheet({
+class BasicBottomSheet extends StatelessWidget {
+  const BasicBottomSheet({
     Key? key,
     this.pinned,
+    this.onDissmis,
     required this.color,
     required this.scrollable,
     required this.children,
   }) : super(key: key);
 
   final Widget? pinned;
+  final Function()? onDissmis;
   final Color color;
   final List<Widget> children;
   final bool scrollable;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Spacer(),
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24.r),
-              topRight: Radius.circular(24.r),
+    return WillPopScope(
+      onWillPop: () {
+        _onDissmisAction(context);
+        return Future.value();
+      },
+      child: Column(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () => _onDissmisAction(context),
             ),
           ),
-          child: Column(
-            children: [
-              const BottomSheetBar(),
-              pinned ?? const SizedBox(),
-            ],
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+            ),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24.r),
+                topRight: Radius.circular(24.r),
+              ),
+            ),
+            child: Column(
+              children: [
+                const BottomSheetBar(),
+                pinned ?? const SizedBox(),
+              ],
+            ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.w,
-            vertical: 10.h,
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+              vertical: 10.h,
+            ),
+            constraints: BoxConstraints(
+              maxHeight: 0.7.sh,
+            ),
+            color: color,
+            child: ListView(
+              physics: scrollable ? null : const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              children: children,
+            ),
           ),
-          constraints: BoxConstraints(
-            maxHeight: 0.7.sh,
-          ),
-          color: color,
-          child: ListView(
-            physics: scrollable ? null : const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: children,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
+  }
+
+  void _onDissmisAction(BuildContext context) {
+    if (onDissmis != null) {
+      onDissmis!();
+    } else {
+      Navigator.pop(context);
+    }
   }
 }
