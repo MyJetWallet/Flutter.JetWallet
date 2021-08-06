@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ActionSheetBar extends StatelessWidget {
-  const ActionSheetBar({
+class BottomSheetBar extends StatelessWidget {
+  const BottomSheetBar({
     Key? key,
   }) : super(key: key);
 
@@ -10,13 +10,14 @@ class ActionSheetBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: 5.h,
+        top: 10.h,
+        bottom: 15.h,
       ),
       child: Container(
         width: 130.w,
         height: 4.h,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey[300],
           borderRadius: BorderRadius.all(
             Radius.circular(20.r),
           ),
