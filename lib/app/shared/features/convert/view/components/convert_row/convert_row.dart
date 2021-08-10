@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../screens/market/model/currency_model.dart';
-import 'components/asset_field.dart';
+import 'components/convert_asset_input.dart';
 import 'components/convert_dropdown.dart';
 
 class ConvertRow extends StatelessWidget {
@@ -61,7 +61,7 @@ class ConvertRow extends StatelessWidget {
               const SizedBox(),
           ],
         ),
-        AssetField(
+        ConvertAssetInput(
           onTap: onTap,
           value: value,
           enabled: enabled,

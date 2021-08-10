@@ -4,11 +4,9 @@ import 'package:logging/logging.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../screens/market/model/currency_model.dart';
 import '../../../../components/balance_selector/model/selected_percent.dart';
-import '../../../../components/number_keyboard/number_keyboard.dart';
+import '../../../../helpers/input_helpers.dart';
 import '../../helper/remove_element.dart';
 import 'convert_input_state.dart';
-
-const specialPointCase = '0.';
 
 class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   ConvertInputNotifier({
@@ -21,30 +19,32 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
 
   static final _logger = Logger('ConvertInputNotifier');
 
+  void _updateFromAssetAmount(String value) {
+    state = state.copyWith(fromAssetAmount: value);
+  }
+
+  void _updateToAssetAmount(String value) {
+    state = state.copyWith(toAssetAmount: value);
+  }
+
+  void _updateFromAsset(CurrencyModel value) {
+    state = state.copyWith(fromAsset: value);
+  }
+
+  void _updateToAsset(CurrencyModel value) {
+    state = state.copyWith(toAsset: value);
+  }
+
+  void _updateConverstionPrice(double? value) {
+    state = state.copyWith(converstionPrice: value);
+  }
+
   /// ConversionPrice can be null if request to API failed
   void updateConversionPrice(double? price) {
     _logger.log(notifier, 'updateConversionPrice');
 
-    state = state.copyWith(converstionPrice: price);
+    _updateConverstionPrice(price);
     _calculateConversion();
-  }
-
-  void updateFromAsset(CurrencyModel currency) {
-    _logger.log(notifier, 'updateFromAsset');
-
-    updateConversionPrice(null);
-    state = state.copyWith(fromAsset: currency);
-    _updateToList();
-    _resetAssetsAmount();
-  }
-
-  void updateToAsset(CurrencyModel currency) {
-    _logger.log(notifier, 'updateToAsset');
-
-    updateConversionPrice(null);
-    state = state.copyWith(toAsset: currency);
-    _updateFromList();
-    _resetAssetsAmount();
   }
 
   void switchFromAndTo() {
@@ -70,76 +70,50 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     _validateInput();
   }
 
+  void updateFromAsset(CurrencyModel value) {
+    _logger.log(notifier, 'updateFromAsset');
+
+    updateConversionPrice(null);
+    _updateFromAsset(value);
+    _updateToList();
+    _resetAssetsAmount();
+  }
+
+  void updateToAsset(CurrencyModel value) {
+    _logger.log(notifier, 'updateToAsset');
+
+    updateConversionPrice(null);
+    _updateToAsset(value);
+    _updateFromList();
+    _resetAssetsAmount();
+  }
+
   void updateFromAssetAmount(String amount) {
     _logger.log(notifier, 'updateFromAssetAmount');
 
-    if (_validInput(amount)) {
-      if (amount == backspace) {
-        final string = state.fromAssetAmount;
-
-        if (string.isNotEmpty) {
-          state = state.copyWith(
-            fromAssetAmount: _removeLastCharFrom(string),
-          );
-        }
-      } else {
-        final string = state.fromAssetAmount;
-
-        if (amount != period && _firstZeroCase(string)) {
-          state = state.copyWith(
-            fromAssetAmount: amount,
-          );
-        } else if (string.isEmpty && amount == period) {
-          state = state.copyWith(
-            fromAssetAmount: specialPointCase,
-          );
-        } else {
-          state = state.copyWith(
-            fromAssetAmount: string + amount,
-          );
-        }
-      }
-      _calculateConversion();
-      _validateInput();
-    }
+    _updateFromAssetAmount(
+      responseOnInputAction(
+        oldInput: state.fromAssetAmount,
+        newInput: amount,
+        accuracy: state.fromAsset.accuracy,
+      ),
+    );
+    _calculateConversion();
+    _validateInput();
   }
 
   void updateToAssetAmount(String amount) {
     _logger.log(notifier, 'updateToAssetAmount');
 
-    if (_validInput(amount)) {
-      if (amount == backspace) {
-        final string = state.toAssetAmount;
-
-        if (string.isNotEmpty) {
-          state = state.copyWith(
-            toAssetAmount: _removeLastCharFrom(string),
-          );
-        }
-      } else {
-        final string = state.toAssetAmount;
-
-        if (amount != period && _firstZeroCase(string)) {
-          state = state.copyWith(
-            toAssetAmount: amount,
-          );
-        } else if (string.isEmpty && amount == period) {
-          state = state.copyWith(
-            toAssetAmount: specialPointCase,
-          );
-        } else {
-          state = state.copyWith(
-            toAssetAmount: string + amount,
-          );
-        }
-      }
-      _calculateConversion();
-      _validateInput();
-    }
-  }
-
-  bool _firstZeroCase(String string) {
-    return string.length == 1 && string == zero;
+    _updateToAssetAmount(
+      responseOnInputAction(
+        oldInput: state.toAssetAmount,
+        newInput: amount,
+        accuracy: state.toAsset.accuracy,
+      ),
+    );
+    _calculateConversion();
+    _validateInput();
   }
 
   void enableToAsset() {
@@ -149,7 +123,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       toAssetEnabled: true,
       fromAssetEnabled: false,
     );
-    _trucateZerosOfAssetAmount();
+    _truncateZerosOfAssetAmount();
   }
 
   void enableFromAsset() {
@@ -159,153 +133,51 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       toAssetEnabled: false,
       fromAssetEnabled: true,
     );
-    _trucateZerosOfAssetAmount();
+    _truncateZerosOfAssetAmount();
   }
 
-  void _trucateZerosOfAssetAmount() {
-    if (state.fromAssetEnabled) {
-      if (state.toAssetAmount.isNotEmpty) {
-        final number = double.parse(state.toAssetAmount);
-
-        if (number == 0) {
-          state = state.copyWith(
-            toAssetAmount: '0',
-          );
-        }
-        if (number % 1 == 0) {
-          state = state.copyWith(
-            toAssetAmount: number.toInt().toString(),
-          );
-        } else {
-          state = state.copyWith(
-            toAssetAmount: number.toString(),
-          );
-        }
-      }
-    } else {
-      if (state.fromAssetAmount.isNotEmpty) {
-        final number = double.parse(state.fromAssetAmount);
-
-        if (number == 0) {
-          state = state.copyWith(
-            fromAssetAmount: '0',
-          );
-        }
-        if (number % 1 == 0) {
-          state = state.copyWith(
-            fromAssetAmount: number.toInt().toString(),
-          );
-        } else {
-          state = state.copyWith(
-            fromAssetAmount: number.toString(),
-          );
-        }
-      }
-    }
-  }
-
+  /// We can select percent only from FromAssetAmount
   void selectPercentFromBalance(SelectedPercent selected) {
-    _logger.log(notifier, 'selectPercentFromBalance');
-
-    final fromAsset = state.fromAsset;
+    _logger.log(notifier, 'selectPercentFromAvailableBalance');
 
     if (state.fromAssetEnabled) {
-      if (fromAsset.isAssetBalanceEmpty) {
-        state = state.copyWith(fromAssetAmount: '0');
-      } else if (selected == SelectedPercent.pct25) {
-        final value = fromAsset.assetBalance * 0.25;
-        state = state.copyWith(fromAssetAmount: '$value');
-      } else if (selected == SelectedPercent.pct50) {
-        final value = fromAsset.assetBalance * 0.50;
-        state = state.copyWith(fromAssetAmount: '$value');
-      } else if (selected == SelectedPercent.pct100) {
-        final value = fromAsset.assetBalance;
-        state = state.copyWith(fromAssetAmount: '$value');
-      }
+      final value = valueBasedOnSelectedPercent(
+        selected: selected,
+        currency: state.fromAsset,
+      );
+
+      _updateFromAssetAmount(value);
       _calculateConversion();
-      _updateAmountAccordingToAccuracy();
+      _updateAmountsAccordingToAccuracy();
       _validateInput();
     }
   }
 
-  bool _validInput(String amount) {
-    if (amount == period) {
-      if (state.fromAssetEnabled) {
-        if (state.fromAssetAmount.contains(period)) {
-          return false;
-        }
-      } else {
-        if (state.toAssetAmount.contains(period)) {
-          return false;
-        }
-      }
-    } else if (amount == backspace) {
-      return true;
-    } else {
-      if (state.fromAssetEnabled) {
-        return _fromAssetCharsAfterDecimalValid;
-      } else {
-        return _toAssetCharsAfterDecimalValid;
-      }
-    }
-
-    return true;
-  }
-
-  bool get _fromAssetCharsAfterDecimalValid {
-    return _areCharsAfterDecimalValid(
-      state.fromAssetAmount,
-      state.fromAsset.accuracy,
-    );
-  }
-
-  bool get _toAssetCharsAfterDecimalValid {
-    return _areCharsAfterDecimalValid(
-      state.toAssetAmount,
-      state.toAsset.accuracy,
-    );
-  }
-
-  void _updateAmountAccordingToAccuracy() {
-    if (!_fromAssetCharsAfterDecimalValid) {
-      final accuracy = state.fromAsset.accuracy;
-      final chars = _numberOfCharsAfterDecimal(state.fromAssetAmount);
-      final difference = (chars - accuracy).toInt();
-
-      state = state.copyWith(
-        fromAssetAmount: _removeCharsFrom(state.fromAssetAmount, difference),
+  void _truncateZerosOfAssetAmount() {
+    if (state.fromAssetEnabled) {
+      _updateToAssetAmount(
+        truncateZerosFromInput(state.toAssetAmount),
       );
-    }
-
-    if (!_toAssetCharsAfterDecimalValid) {
-      final accuracy = state.toAsset.accuracy;
-      final chars = _numberOfCharsAfterDecimal(state.toAssetAmount);
-      final difference = (chars - accuracy).toInt();
-
-      state = state.copyWith(
-        toAssetAmount: _removeCharsFrom(state.toAssetAmount, difference),
+    } else {
+      _updateFromAssetAmount(
+        truncateZerosFromInput(state.fromAssetAmount),
       );
     }
   }
 
-  bool _areCharsAfterDecimalValid(String string, double accuracy) {
-    if (_numberOfCharsAfterDecimal(string) >= accuracy) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  int _numberOfCharsAfterDecimal(String string) {
-    var numbersAfterDecimal = 0;
-    var startCount = false;
-
-    for (final char in string.split('')) {
-      if (startCount) numbersAfterDecimal++;
-      if (char == period) startCount = true;
-    }
-
-    return numbersAfterDecimal;
+  void _updateAmountsAccordingToAccuracy() {
+    _updateFromAssetAmount(
+      valueAccordingToAccuracy(
+        state.fromAssetAmount,
+        state.fromAsset.accuracy,
+      ),
+    );
+    _updateToAssetAmount(
+      valueAccordingToAccuracy(
+        state.toAssetAmount,
+        state.toAsset.accuracy,
+      ),
+    );
   }
 
   void _calculateConversion() {
@@ -313,14 +185,14 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       if (state.fromAssetEnabled) {
         if (state.fromAssetAmount.isNotEmpty) {
           _calculateConversionOfToAsset();
-          _trucateZerosOfAssetAmount();
+          _truncateZerosOfAssetAmount();
         } else {
           _resetAssetsAmount();
         }
       } else {
         if (state.toAssetAmount.isNotEmpty) {
           _calculateConversionOfFromAsset();
-          _trucateZerosOfAssetAmount();
+          _truncateZerosOfAssetAmount();
         } else {
           _resetAssetsAmount();
         }
@@ -357,17 +229,9 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void _validateInput() {
-    if (state.fromAssetAmount.isEmpty) {
-      state = state.copyWith(convertValid: false);
-    } else {
-      final value = double.parse(state.fromAssetAmount);
-
-      if (value == 0) {
-        state = state.copyWith(convertValid: false);
-      } else {
-        state = state.copyWith(convertValid: true);
-      }
-    }
+    state = state.copyWith(
+      convertValid: isInputValid(state.fromAssetAmount),
+    );
   }
 
   void _updateFromList() {
@@ -381,12 +245,4 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
 
     state = state.copyWith(toAssetList: newList);
   }
-}
-
-String _removeLastCharFrom(String string) {
-  return string.substring(0, string.length - 1);
-}
-
-String _removeCharsFrom(String string, int amount) {
-  return string.substring(0, string.length - amount);
 }

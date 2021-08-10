@@ -6,22 +6,40 @@ import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../screens/market/model/currency_model.dart';
+import '../../../components/asset_tile/asset_tile.dart';
 import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../components/number_keyboard/number_keyboard.dart';
+import '../../../helpers/input_helpers.dart';
+import '../../../providers/converstion_price_pod/conversion_price_input.dart';
+import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../notifier/currency_buy_notipod.dart';
-import 'components/asset_selector_button.dart';
+import 'components/asset_conversion_text.dart';
+import 'components/asset_input.dart';
 import 'components/asset_selector_header.dart';
 import 'components/asset_sheet_header.dart';
-import 'components/asset_tile/asset_tile.dart';
 
 class CurrencyBuy extends HookWidget {
-  const CurrencyBuy({Key? key}) : super(key: key);
+  const CurrencyBuy({
+    Key? key,
+    required this.currency,
+  }) : super(key: key);
+
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(currencyBuyNotipod);
-    final notifier = useProvider(currencyBuyNotipod.notifier);
+    final state = useProvider(currencyBuyNotipod(currency));
+    final notifier = useProvider(currencyBuyNotipod(currency).notifier);
+    useProvider(
+      conversionPriceFpod(
+        ConversionPriceInput(
+          baseAssetSymbol: currency.symbol,
+          quotedAssetSymbol: state.selectedCurrency!.symbol,
+          then: notifier.updateConversionPrice,
+        ),
+      ),
+    );
 
     void _showAssetSheet() {
       showBasicBottomSheet(
@@ -40,11 +58,13 @@ class CurrencyBuy extends HookWidget {
             ),
         ],
         then: (value) {
+          notifier.updateConversionPrice(null);
           if (value is CurrencyModel) {
             notifier.updateSelectedCurrency(value);
           } else {
-            notifier.updateSelectedCurrency(null);
+            notifier.updateSelectedCurrency(state.currencies.first);
           }
+          notifier.resetValuesToZero();
         },
         onDissmis: () {
           Navigator.pop(context, state.selectedCurrency);
@@ -53,48 +73,53 @@ class CurrencyBuy extends HookWidget {
     }
 
     return PageFrame(
-      header: 'Buy Bitcoin',
+      header: 'Buy ${currency.description}',
       onBackButton: () => Navigator.pop(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Spacer(),
+          AssetInput(
+            value: fieldValue(
+              state.inputValue,
+              state.selectedCurrency!,
+            ),
+          ),
+          const SpaceH8(),
+          AssetConversionText(
+            text: '≈ ${state.convertedValue} ${currency.symbol}',
+          ),
+          const Spacer(),
           const AssetSelectorHeader(
             text: 'Pay from',
           ),
           const SpaceH4(),
-          if (state.selectedCurrency == null)
-            AssetSelectorButton(
-              name: 'Choose payment method',
-              onTap: () => _showAssetSheet(),
-            )
-          else
-            AssetTile(
-              headerColor: Colors.black,
-              leadingAssetBalance: true,
-              currency: state.selectedCurrency!,
-              onTap: () => _showAssetSheet(),
-            ),
+          AssetTile(
+            headerColor: Colors.black,
+            leadingAssetBalance: true,
+            currency: state.selectedCurrency!,
+            onTap: () => _showAssetSheet(),
+          ),
           const SpaceH20(),
           PercentSelector(
             disabled: false,
             onSelection: (value) {
-              // ignore: avoid_print
-              print(value);
+              notifier.selectPercentFromBalance(value);
             },
           ),
           const SpaceH10(),
           NumberKeyboard(
-            onKeyPressed: (value) {
-              // ignore: avoid_print
-              print(value);
-            },
+            onKeyPressed: (value) => notifier.updateInputValue(value),
           ),
           const SpaceH20(),
           AppButtonSolid(
-            active: false,
+            active: state.inputValid,
             name: 'Preview Buy',
-            onTap: () {},
+            onTap: () {
+              if (state.inputValid) {
+                // TODO to preview
+              }
+            },
           ),
         ],
       ),

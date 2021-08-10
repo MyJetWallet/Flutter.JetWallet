@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../shared/providers/service_providers.dart';
+import '../../../../shared/providers/service_providers.dart';
 import 'conversion_price_input.dart';
 
 final conversionPriceFpod = FutureProvider.autoDispose
@@ -12,5 +12,5 @@ final conversionPriceFpod = FutureProvider.autoDispose
     input.quotedAssetSymbol,
   );
 
-  input.convertInputN.updateConversionPrice(response.price);
+  input.then(response.price);
 });
