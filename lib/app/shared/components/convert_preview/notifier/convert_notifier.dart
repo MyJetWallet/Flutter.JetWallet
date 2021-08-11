@@ -16,10 +16,11 @@ import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../../../../screens/navigation/provider/navigation_stpod.dart';
-import '../../view/components/convert_preview/components/quote_updated_dialog.dart';
-import '../../view/convert.dart';
-import '../convert_input_notifier/convert_input_state.dart';
+import '../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../../features/convert/view/convert.dart';
+import '../../../features/currency_buy/view/curency_buy.dart';
+import '../model/convert_preview_input.dart';
+import '../view/components/quote_updated_dialog.dart';
 import 'convert_state.dart';
 import 'convert_union.dart';
 
@@ -29,29 +30,23 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     this.read,
   ) : super(const ConvertState()) {
     _context = read(navigatorKeyPod).currentContext!;
-    updateFrom(input);
+    _updateFrom(input);
     requestQuote();
   }
 
   final Reader read;
-  final ConvertInputState input;
+  final ConvertPreviewInput input;
 
   Timer _timer = Timer(Duration.zero, () {});
   late BuildContext _context;
 
   static final _logger = Logger('ConvertNotifier');
 
-  String get header {
-    return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
-  }
-
-  void updateFrom(ConvertInputState input) {
-    _logger.log(notifier, 'updateFrom');
-
+  void _updateFrom(ConvertPreviewInput input) {
     state = state.copyWith(
       fromAssetAmount: double.parse(input.fromAssetAmount),
-      fromAssetSymbol: input.fromAsset.symbol,
-      toAssetSymbol: input.toAsset.symbol,
+      fromAssetSymbol: input.fromAssetSymbol,
+      toAssetSymbol: input.toAssetSymbol,
     );
   }
 
@@ -165,7 +160,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       SuccessScreen(
-        header: header,
+        header: resultHeader,
         description: 'Order filled',
       ),
     );
@@ -175,7 +170,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       NoResponseFromServer(
-        header: header,
+        header: resultHeader,
         description: 'Failed to place Order',
         onOk: () {
           read(navigationStpod).state = 1; // Portfolio
@@ -189,14 +184,14 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       FailureScreen(
-        header: header,
+        header: resultHeader,
         description: error.cause,
         firstButtonName: 'Edit Order',
         onFirstButton: () {
           Navigator.pushAndRemoveUntil(
             _context,
             MaterialPageRoute(
-              builder: (_) => const Convert(),
+              builder: (_) => pageToPushOnEdit,
             ),
             (route) => route.isFirst,
           );
@@ -205,6 +200,36 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         onSecondButton: () => navigateToRouter(read(navigatorKeyPod)),
       ),
     );
+  }
+
+  Widget get pageToPushOnEdit {
+    if (input.action == TriggerAction.convert) {
+      return const Convert();
+    } else if (input.action == TriggerAction.buy) {
+      return CurrencyBuy(currency: input.currency!);
+    } else {
+      return const SizedBox(); // TODO add CurrencySell feature
+    }
+  }
+
+  String get previewHeader {
+    if (input.action == TriggerAction.convert) {
+      return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
+    } else if (input.action == TriggerAction.buy) {
+      return 'Confirm Buy ${input.toAssetDescription}';
+    } else {
+      return 'Confirm Sell ${input.toAssetDescription}';
+    }
+  }
+
+  String get resultHeader {
+    if (input.action == TriggerAction.convert) {
+      return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
+    } else if (input.action == TriggerAction.buy) {
+      return 'Buy ${input.toAssetDescription}';
+    } else {
+      return 'Sell ${input.toAssetDescription}';
+    }
   }
 
   @override

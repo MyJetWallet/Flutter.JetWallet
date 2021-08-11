@@ -5,10 +5,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../screens/market/model/currency_model.dart';
 import '../../../components/asset_tile/asset_tile.dart';
 import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
+import '../../../components/convert_preview/model/convert_preview_input.dart';
+import '../../../components/convert_preview/view/convert_preview.dart';
 import '../../../components/number_keyboard/number_keyboard.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
@@ -117,7 +120,19 @@ class CurrencyBuy extends HookWidget {
             name: 'Preview Buy',
             onTap: () {
               if (state.inputValid) {
-                // TODO to preview
+                navigatorPush(
+                  context,
+                  ConvertPreview(
+                    ConvertPreviewInput(
+                      currency: currency,
+                      fromAssetAmount: state.inputValue,
+                      fromAssetSymbol: state.selectedCurrency!.symbol,
+                      toAssetSymbol: currency.symbol,
+                      toAssetDescription: currency.description,
+                      action: TriggerAction.buy,
+                    ),
+                  ),
+                );
               }
             },
           ),

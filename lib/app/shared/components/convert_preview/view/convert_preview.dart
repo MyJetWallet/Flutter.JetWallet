@@ -6,9 +6,9 @@ import '../../../../../../../../shared/components/buttons/app_button_solid.dart'
 import '../../../../../../../../shared/components/loader.dart';
 import '../../../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../../../shared/components/spacers.dart';
-import '../../../notifier/convert_input_notifier/convert_input_state.dart';
-import '../../../notifier/convert_notifier/convert_notipod.dart';
-import '../../../notifier/convert_notifier/convert_union.dart';
+import '../model/convert_preview_input.dart';
+import '../notifier/convert_notipod.dart';
+import '../notifier/convert_union.dart';
 import 'components/convert_preview_divider.dart';
 import 'components/convert_preview_row/convert_preview_row.dart';
 import 'components/quote_error_text.dart';
@@ -16,7 +16,7 @@ import 'components/quote_error_text.dart';
 class ConvertPreview extends HookWidget {
   const ConvertPreview(this.input);
 
-  final ConvertInputState input;
+  final ConvertPreviewInput input;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ConvertPreview extends HookWidget {
         return Future.value(true);
       },
       child: PageFrame(
-        header: convertN.header,
+        header: convertN.previewHeader,
         onBackButton: () {
           convertN.cancelTimer();
           Navigator.pop(context);

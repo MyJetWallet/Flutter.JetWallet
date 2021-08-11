@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-
 import 'convert_union.dart';
 
 part 'convert_state.freezed.dart';

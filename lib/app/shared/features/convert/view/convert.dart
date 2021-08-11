@@ -7,11 +7,12 @@ import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../components/balance_selector/view/percent_selector.dart';
+import '../../../components/convert_preview/model/convert_preview_input.dart';
+import '../../../components/convert_preview/view/convert_preview.dart';
 import '../../../components/number_keyboard/number_keyboard.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../notifier/convert_input_notifier/convert_input_notipod.dart';
-import 'components/convert_preview/convert_preview.dart';
+import '../notifier/convert_input_notipod.dart';
 import 'components/convert_row/convert_row.dart';
 import 'components/swap_button.dart';
 
@@ -85,7 +86,17 @@ class Convert extends HookWidget {
             name: 'Preview Convert',
             onTap: () {
               if (input.convertValid) {
-                navigatorPush(context, ConvertPreview(input));
+                navigatorPush(
+                  context,
+                  ConvertPreview(
+                    ConvertPreviewInput(
+                      fromAssetAmount: input.fromAssetAmount,
+                      fromAssetSymbol: input.fromAsset.symbol,
+                      toAssetSymbol: input.toAsset.symbol,
+                      action: TriggerAction.convert,
+                    ),
+                  ),
+                );
               }
             },
           ),
