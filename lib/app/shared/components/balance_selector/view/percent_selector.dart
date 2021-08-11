@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../../../shared/components/spacers.dart';
 import '../model/selected_percent.dart';
-import '../notifier/percent_selector_notipod.dart';
 import 'components/percent_box.dart';
 
 class PercentSelector extends HookWidget {
@@ -19,34 +17,23 @@ class PercentSelector extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectorN = useProvider(percentSelectorNotipod.notifier);
-
     return Row(
       children: [
         PercentBox(
           name: '25%',
-          onTap: () {
-            final result = selectorN.update(SelectedPercent.pct25);
-            onSelection(result);
-          },
+          onTap: () => onSelection(SelectedPercent.pct25),
           disabled: disabled,
         ),
         const SpaceW10(),
         PercentBox(
           name: '50%',
-          onTap: () {
-            final result = selectorN.update(SelectedPercent.pct50);
-            onSelection(result);
-          },
+          onTap: () => onSelection(SelectedPercent.pct50),
           disabled: disabled,
         ),
         const SpaceW10(),
         PercentBox(
           name: '100%',
-          onTap: () {
-            final result = selectorN.update(SelectedPercent.pct100);
-            onSelection(result);
-          },
+          onTap: () => onSelection(SelectedPercent.pct100),
           disabled: disabled,
         ),
       ],

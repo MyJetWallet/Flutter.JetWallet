@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../../../shared/components/spacers.dart';
 
-class AssetField extends StatelessWidget {
-  const AssetField({
+class ConvertAssetInput extends StatelessWidget {
+  const ConvertAssetInput({
     Key? key,
     required this.onTap,
     required this.value,

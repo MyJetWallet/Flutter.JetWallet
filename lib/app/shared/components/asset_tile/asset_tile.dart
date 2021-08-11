@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
-import '../../../../../../screens/market/model/currency_model.dart';
+import '../../../screens/market/model/currency_model.dart';
 import 'components/asset_tile_column.dart';
 
 class AssetTile extends StatelessWidget {
   const AssetTile({
     Key? key,
+    this.priceColumn = true,
     this.leadingAssetBalance = false,
     this.selectedBorder = false,
     this.headerColor = Colors.white,
@@ -16,6 +17,7 @@ class AssetTile extends StatelessWidget {
     required this.currency,
   }) : super(key: key);
 
+  final bool priceColumn;
   final bool leadingAssetBalance;
   final bool selectedBorder;
   final Color headerColor;
@@ -58,13 +60,14 @@ class AssetTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
               ),
               const Spacer(),
-              AssetTileColumn(
-                header: leadingAssetBalance ? _assetBalance : _baseBalance,
-                subheader: leadingAssetBalance ? _baseBalance : _assetBalance,
-                headerColor: headerColor,
-                subheaderColor: subheaderColor,
-                crossAxisAlignment: CrossAxisAlignment.end,
-              ),
+              if (priceColumn)
+                AssetTileColumn(
+                  header: leadingAssetBalance ? _assetBalance : _baseBalance,
+                  subheader: leadingAssetBalance ? _baseBalance : _assetBalance,
+                  headerColor: headerColor,
+                  subheaderColor: subheaderColor,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                ),
             ],
           ),
         ),
