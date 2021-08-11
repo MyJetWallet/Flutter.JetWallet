@@ -19,6 +19,7 @@ import '../../../../../../shared/services/remote_config_service/remote_config_va
 import '../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../features/convert/view/convert.dart';
 import '../../../features/currency_buy/view/curency_buy.dart';
+import '../../../features/currency_sell/view/currency_sell.dart';
 import '../model/convert_preview_input.dart';
 import '../view/components/quote_updated_dialog.dart';
 import 'convert_state.dart';
@@ -208,7 +209,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     } else if (input.action == TriggerAction.buy) {
       return CurrencyBuy(currency: input.currency!);
     } else {
-      return const SizedBox(); // TODO add CurrencySell feature
+      return CurrencySell(currency: input.currency!);
     }
   }
 
