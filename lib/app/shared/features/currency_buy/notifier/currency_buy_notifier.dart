@@ -9,6 +9,8 @@ import '../../../helpers/input_helpers.dart';
 import '../../../helpers/sort_currencies.dart';
 import 'currency_buy_state.dart';
 
+const _zero = '0';
+
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   CurrencyBuyNotifier(this.read, this.currencyModel)
       : super(const CurrencyBuyState()) {
@@ -54,8 +56,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void resetValuesToZero() {
     _logger.log(notifier, 'resetValuesToZero');
 
-    _updateInputValue('0');
-    _updateConvertedValue('0');
+    _updateInputValue(_zero);
+    _updateConvertedValue(_zero);
   }
 
   void _updateInputValue(String value) {
@@ -99,7 +101,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
           ),
         );
       } else {
-        _updateConvertedValue('0');
+        _updateConvertedValue(_zero);
       }
     }
   }

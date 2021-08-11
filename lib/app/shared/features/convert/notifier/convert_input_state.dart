@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../screens/market/model/currency_model.dart';
+import '../../../../screens/market/model/currency_model.dart';
 
 part 'convert_input_state.freezed.dart';
 

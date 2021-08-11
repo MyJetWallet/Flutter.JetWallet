@@ -1,9 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../screens/market/model/currency_model.dart';
-import '../../../../../screens/market/provider/currencies_pod.dart';
-import '../../../../helpers/sort_currencies.dart';
-import '../../helper/remove_element.dart';
+import '../../../../screens/market/model/currency_model.dart';
+import '../../../../screens/market/provider/currencies_pod.dart';
+import '../../../helpers/sort_currencies.dart';
+import '../helper/remove_element.dart';
 import 'convert_input_notifier.dart';
 import 'convert_input_state.dart';
 
