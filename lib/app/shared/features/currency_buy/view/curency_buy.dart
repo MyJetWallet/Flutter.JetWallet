@@ -74,10 +74,7 @@ class CurrencyBuy extends HookWidget {
           const SpaceH20(),
           // TODO refactor
           AppButtonOutlined(
-            onTap: () {
-              Navigator.pop(context, state.selectedCurrency);
-              _showAssetSheet();
-            },
+            onTap: () {},
             textColor: Colors.white,
             borderColor: Colors.grey,
             name: 'Deposit account',
