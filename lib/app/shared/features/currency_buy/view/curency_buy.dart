@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/components/buttons/app_button_outlined.dart';
 
+import '../../../../../shared/components/buttons/app_button_outlined.dart';
 import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
