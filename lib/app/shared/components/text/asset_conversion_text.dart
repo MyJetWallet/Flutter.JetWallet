@@ -15,8 +15,8 @@ class AssetConversionText extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.grey,
           fontSize: 14.sp,
+          color: Colors.grey,
         ),
       ),
     );

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../shared/components/spacers.dart';
+import '../../../shared/components/spacers.dart';
 
-class AssetInput extends StatelessWidget {
-  const AssetInput({
+class AssetInputField extends StatelessWidget {
+  const AssetInputField({
     Key? key,
     required this.value,
   }) : super(key: key);

@@ -121,6 +121,11 @@ bool isInputValid(String input) {
 
 /// Shows value of the TextField based on the input and selectedCurrency \
 /// Used on [Deposit], [Sell] and [Buy] screens
-String fieldValue(String input, CurrencyModel currency) {
-  return '${input.isEmpty ? '0' : input} ${currency.symbol}';
+String fieldValue(String input, String symbol) {
+  return '${input.isEmpty ? '0' : input} $symbol';
+}
+
+// TODO Temporar function until baseCurrency will be created on backend
+String assetSymbolFrom(CurrencyModel? selectedCurrency) {
+  return selectedCurrency == null ? 'USD' : selectedCurrency.symbol;
 }

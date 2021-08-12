@@ -19,12 +19,10 @@ import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/input_helpers.dart';
-import '../../../providers/converstion_price_pod/conversion_price_input.dart';
-import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../notifier/currency_buy_notipod.dart';
+import '../notifier/currency_sell_notipod.dart';
 
-class CurrencyBuy extends HookWidget {
-  const CurrencyBuy({
+class CurrencySell extends HookWidget {
+  const CurrencySell({
     Key? key,
     required this.currency,
   }) : super(key: key);
@@ -33,27 +31,8 @@ class CurrencyBuy extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(currencyBuyNotipod(currency));
-    final notifier = useProvider(currencyBuyNotipod(currency).notifier);
-    useProvider(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          // TODO rename to targetAssetSymbol
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: assetSymbolFrom(state.selectedCurrency),
-          then: notifier.updateTargetConversionPrice,
-        ),
-      ),
-    );
-    useProvider(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: 'USD',
-          then: notifier.updateBaseConversionPrice,
-        ),
-      ),
-    );
+    final state = useProvider(currencySellNotipod(currency));
+    final notifier = useProvider(currencySellNotipod(currency).notifier);
 
     void _showAssetSheet() {
       showBasicBottomSheet(
@@ -61,7 +40,7 @@ class CurrencyBuy extends HookWidget {
         scrollable: true,
         color: const Color(0xFF4F4F4F),
         pinned: const AssetSheetHeader(
-          text: 'Pay from',
+          text: 'For',
         ),
         children: [
           for (final currency in state.currencies)
@@ -73,17 +52,9 @@ class CurrencyBuy extends HookWidget {
         ],
         then: (value) {
           if (value is CurrencyModel) {
-            // TODO Temporar (waiting for backend)
-            if (value.symbol != 'USD') {
-              notifier.updateTargetConversionPrice(null);
-            }
             notifier.updateSelectedCurrency(value);
-            if (value != state.selectedCurrency) {
-              notifier.resetValuesToZero();
-            }
           } else {
             notifier.updateSelectedCurrency(null);
-            notifier.resetValuesToZero();
           }
         },
         onDissmis: () {
@@ -93,36 +64,32 @@ class CurrencyBuy extends HookWidget {
     }
 
     return PageFrame(
-      header: 'Buy ${currency.description}',
+      header: 'Sell ${currency.description}',
       onBackButton: () => Navigator.pop(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Spacer(),
           AssetInputField(
-            value: fieldValue(
-              state.inputValue,
-              assetSymbolFrom(state.selectedCurrency),
-            ),
+            value: fieldValue(state.inputValue, currency.symbol),
           ),
           const SpaceH8(),
           AssetConversionText(
-            text: '≈ ${state.targetConversionValue} ${currency.symbol} '
-                // TODO add dynamic base currency
-                '≈ ${state.baseConversionValue} USD',
+            text: 'Available: ${currency.assetBalance} ${currency.symbol}',
           ),
           const Spacer(),
           const AssetSelectorHeader(
-            text: 'Pay from',
+            text: 'For',
           ),
           const SpaceH4(),
           if (state.selectedCurrency == null)
             AssetSelectorButton(
-              name: 'Choose payment method',
+              name: 'Choose destination',
               onTap: () => _showAssetSheet(),
             )
           else
             AssetTile(
+              priceColumn: false,
               headerColor: Colors.black,
               leadingAssetBalance: true,
               currency: state.selectedCurrency!,
@@ -142,7 +109,7 @@ class CurrencyBuy extends HookWidget {
           const SpaceH20(),
           AppButtonSolid(
             active: state.inputValid,
-            name: 'Preview Buy',
+            name: 'Preview Sell',
             onTap: () {
               if (state.inputValid) {
                 navigatorPush(
@@ -151,10 +118,10 @@ class CurrencyBuy extends HookWidget {
                     ConvertPreviewInput(
                       currency: currency,
                       fromAssetAmount: state.inputValue,
-                      fromAssetSymbol: state.selectedCurrency!.symbol,
-                      toAssetSymbol: currency.symbol,
-                      toAssetDescription: currency.description,
-                      action: TriggerAction.buy,
+                      fromAssetSymbol: currency.symbol,
+                      toAssetSymbol: state.selectedCurrency!.symbol,
+                      toAssetDescription: state.selectedCurrency!.description,
+                      action: TriggerAction.sell,
                     ),
                   ),
                 );
