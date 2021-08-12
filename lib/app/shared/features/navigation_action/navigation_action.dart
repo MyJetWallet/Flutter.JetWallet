@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../shared/helpers/navigator_push.dart';
-import '../../components/action_sheet/action_sheet.dart';
-import '../../components/action_sheet/components/action_sheet_button.dart';
+import '../../components/action_sheet_button.dart';
+import '../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../convert/view/convert.dart';
 import 'actions/action_buy/action_buy.dart';
 import 'actions/action_deposit/action_deposit.dart';
@@ -15,8 +14,7 @@ import 'actions/action_send/action_send.dart';
 import 'actions/action_withdraw/action_withdraw.dart';
 
 void showNavigationAction(BuildContext context, AppLocalizations intl) {
-  showActionBottomSheet(
-    sheetheight: 0.6.sh,
+  showBasicBottomSheet(
     context: context,
     children: [
       ActionSheetButton(

@@ -27,32 +27,30 @@ jobs:
       - run: |
           sed -i 's/version: 1.0.0+1/version: 1.0.0+${{ github.run_number }}/' ./pubspec.yaml
           cat ./pubspec.yaml
-      - run: flutter build web -t lib/main_production.dart
 
-      - name: Check Service dir
-        run: |
-          pwd
-          ls
-          echo "hello"
+      # - name: Check Service dir
+      #   run: |
+      #     pwd
+      #     ls
+      #     echo "hello"
 
-      - name: Publish image
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
-          tags: latest
+      # - name: Publish image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      #     registry: docker.pkg.github.com
+      #     repository: ${{ secrets.ORG_NAME }}/flutter.jetwallet/myjetwallet.flutter.jetwallet-test
+      #     tags: latest
           
-      - name: Publish image ST
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.ST_DOCKER_USER }}
-          password: ${{ secrets.ST_DOCKER_PASSWORD }}
-          registry: simpletrading.azurecr.io
-          repository: spot/myjetwallet.flutter.jetwallet-test
-          tags: latest             
-
+      # - name: Publish image ST
+      #   uses: docker/build-push-action@v1
+      #   with:
+      #     username: ${{ secrets.ST_DOCKER_USER }}
+      #     password: ${{ secrets.ST_DOCKER_PASSWORD }}
+      #     registry: simpletrading.azurecr.io
+      #     repository: spot/myjetwallet.flutter.jetwallet-test
+      #     tags: latest             
 
   restart:
     runs-on: ubuntu-latest    

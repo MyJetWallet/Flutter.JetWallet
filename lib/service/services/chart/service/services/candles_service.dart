@@ -15,7 +15,7 @@ Future<CandlesResponseModel> candlesService(
 
   try {
     final response = await dio.get(
-      '$tradingApi/PriceHistory/Candles',
+      '$tradingApi/Candles/Candles/${model.instrumentId}/${model.type}',
       queryParameters: model.toJson(),
     );
 

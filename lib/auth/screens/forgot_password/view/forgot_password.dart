@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
+import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_frame/auth_frame.dart';
 import '../../../shared/components/auth_text_field.dart';
-import '../../../shared/components/buttons/auth_button_solid.dart';
 import '../notifier/forgot_password_notipod.dart';
 import '../notifier/forgot_password_state.dart';
 import '../notifier/forgot_password_union.dart';
@@ -33,7 +33,7 @@ class ForgotPassword extends HookWidget {
           orElse: () {},
         );
       },
-      child: AuthFrame(
+      child: PageFrame(
         header: 'Forgot Password',
         onBackButton: () => Navigator.pop(context),
         child: Column(
@@ -54,7 +54,7 @@ class ForgotPassword extends HookWidget {
             if (forgot.union is Loading)
               const Loader()
             else
-              AuthButtonSolid(
+              AppButtonSolid(
                 name: 'Send reset email',
                 onTap: () async {
                   if (forgot.emailValid) {

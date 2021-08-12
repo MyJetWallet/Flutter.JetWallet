@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
+import '../../../../shared/components/page_frame/page_frame.dart';
+import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_frame/auth_frame.dart';
-import '../../../shared/components/auth_success/auth_success.dart';
 import '../../../shared/components/auth_text_field.dart';
-import '../../../shared/components/buttons/auth_button_solid.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../notifier/reset_password_notipod.dart';
 import '../notifier/reset_password_state.dart';
@@ -38,7 +38,7 @@ class ResetPassword extends HookWidget {
           orElse: () {},
         );
       },
-      child: AuthFrame(
+      child: PageFrame(
         header: 'Password reset',
         onBackButton: () => Navigator.pop(context),
         child: Column(
@@ -61,7 +61,7 @@ class ResetPassword extends HookWidget {
               const Loader(),
               const Spacer(),
             ] else
-              AuthButtonSolid(
+              AppButtonSolid(
                 name: 'Set new password',
                 onTap: () {
                   if (reset.passwordValid) {
@@ -84,7 +84,7 @@ class ResetPassword extends HookWidget {
 void _pushToAuthSuccess(BuildContext context) {
   navigatorPush(
     context,
-    const AuthSuccess(
+    const SuccessScreen(
       header: 'Password reset',
       description: 'Your password has been reset',
     ),
