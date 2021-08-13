@@ -35,4 +35,17 @@ class CurrencyBuyState with _$CurrencyBuyState {
       return selectedCurrency!.accuracy;
     }
   }
+
+  String conversionText(CurrencyModel currency) {
+    final target = '≈ $targetConversionValue ${currency.symbol} ';
+    final base = '$baseConversionValue ${baseCurrency!.symbol}';
+
+    if (selectedCurrency == null) {
+      return target;
+    } else if (selectedCurrency == baseCurrency) {
+      return target;
+    } else {
+      return '$target ($base)';
+    }
+  }
 }

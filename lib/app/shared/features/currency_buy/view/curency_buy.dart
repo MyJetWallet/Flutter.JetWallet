@@ -90,19 +90,6 @@ class CurrencyBuy extends HookWidget {
       );
     }
 
-    String conversionText() {
-      final target = '≈ ${state.targetConversionValue} ${currency.symbol} ';
-      final base = '${state.baseConversionValue} ${state.baseCurrency!.symbol}';
-
-      if (state.selectedCurrency == null) {
-        return target;
-      } else if (state.selectedCurrency == state.baseCurrency) {
-        return target;
-      } else {
-        return '$target ($base)';
-      }
-    }
-
     return PageFrame(
       header: 'Buy ${currency.description}',
       onBackButton: () => Navigator.pop(context),
@@ -119,7 +106,7 @@ class CurrencyBuy extends HookWidget {
           const SpaceH8(),
           Center(
             child: AssetConversionText(
-              text: conversionText(),
+              text: state.conversionText(currency),
             ),
           ),
           const Spacer(),
