@@ -6,10 +6,14 @@ import 'app_button.dart';
 class AppButtonOutlined extends StatelessWidget {
   const AppButtonOutlined({
     Key? key,
+    this.textColor = Colors.black,
+    this.borderColor = Colors.black,
     required this.name,
     required this.onTap,
   }) : super(key: key);
 
+  final Color textColor;
+  final Color borderColor;
   final String name;
   final Function() onTap;
 
@@ -19,10 +23,12 @@ class AppButtonOutlined extends StatelessWidget {
       text: name,
       onTap: onTap,
       decoration: BoxDecoration(
-        border: Border.all(),
+        border: Border.all(
+          color: borderColor,
+        ),
         borderRadius: BorderRadius.circular(8.r),
       ),
-      textColor: Colors.black,
+      textColor: textColor,
     );
   }
 }
