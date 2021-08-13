@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'components/convert_preview_row_text.dart';
+import '../../../text/asset_conversion_text.dart';
 
 class ConvertPreviewRow extends StatelessWidget {
   const ConvertPreviewRow({
@@ -22,10 +22,12 @@ class ConvertPreviewRow extends StatelessWidget {
         vertical: 12.h,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ConvertPreviewRowText(
-            text: description,
+          Expanded(
+            child: AssetConversionText(
+              text: description,
+              fontSize: 16.sp,
+            ),
           ),
           if (loading)
             Container(
@@ -34,8 +36,13 @@ class ConvertPreviewRow extends StatelessWidget {
               color: Colors.grey[300],
             )
           else
-            ConvertPreviewRowText(
-              text: value,
+            Expanded(
+              flex: 4,
+              child: AssetConversionText(
+                text: value,
+                fontSize: 16.sp,
+                textAlign: TextAlign.end,
+              ),
             ),
         ],
       ),

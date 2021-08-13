@@ -10,11 +10,15 @@ void sortCurrencies(List<CurrencyModel> currencies) {
   });
 }
 
+/// Used for [BUY] feature
+void removeEmptyCurrenciesFrom(List<CurrencyModel> currencies) {
+  currencies.removeWhere((element) => element.assetBalance == 0);
+}
+
 /// Used for [BUY] and [SELL] features
-void filterCurrencies(List<CurrencyModel> currencies, CurrencyModel currency) {
-  currencies.removeWhere((element) {
-    /// The base currency will be always persistent (USD)
-    return element.assetBalance == 0 && element.symbol != 'USD';
-  });
-  currencies.removeWhere((element) => element == currency);
+void removeCurrencyFrom(
+  List<CurrencyModel> currencies,
+  CurrencyModel currency,
+) {
+  currencies.removeWhere((element) => element.symbol == currency.symbol);
 }

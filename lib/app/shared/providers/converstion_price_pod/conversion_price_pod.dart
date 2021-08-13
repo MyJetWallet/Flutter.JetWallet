@@ -8,7 +8,7 @@ final conversionPriceFpod = FutureProvider.autoDispose
   final walletService = ref.read(walletServicePod);
 
   final response = await walletService.conversionPrice(
-    input.baseAssetSymbol,
+    input.targetAssetSymbol,
     input.quotedAssetSymbol,
   );
 

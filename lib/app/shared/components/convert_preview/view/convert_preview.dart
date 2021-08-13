@@ -10,7 +10,7 @@ import '../model/convert_preview_input.dart';
 import '../notifier/convert_notipod.dart';
 import '../notifier/convert_union.dart';
 import 'components/convert_preview_divider.dart';
-import 'components/convert_preview_row/convert_preview_row.dart';
+import 'components/convert_preview_row.dart';
 import 'components/quote_error_text.dart';
 
 class ConvertPreview extends HookWidget {
@@ -64,7 +64,7 @@ class ConvertPreview extends HookWidget {
               ),
               const ConvertPreviewDivider(),
               ConvertPreviewRow(
-                description: 'Exchange Rate',
+                description: 'Rate',
                 value: '1 ${convert.fromAssetSymbol} = '
                     '${convert.price} ${convert.toAssetSymbol}',
                 loading: convert.union is QuoteLoading,

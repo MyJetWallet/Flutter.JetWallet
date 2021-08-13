@@ -39,19 +39,9 @@ class CurrencyBuy extends HookWidget {
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
-          // TODO rename to targetAssetSymbol
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: assetSymbolFrom(state.selectedCurrency),
+          targetAssetSymbol: currency.symbol,
+          quotedAssetSymbol: state.selectedCurrencySymbol,
           then: notifier.updateTargetConversionPrice,
-        ),
-      ),
-    );
-    useProvider(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: 'USD',
-          then: notifier.updateBaseConversionPrice,
         ),
       ),
     );
@@ -72,7 +62,6 @@ class CurrencyBuy extends HookWidget {
               selectedBorder: state.selectedCurrency == currency,
             ),
           const SpaceH20(),
-          // TODO refactor
           AppButtonOutlined(
             onTap: () {},
             textColor: Colors.white,
@@ -82,12 +71,12 @@ class CurrencyBuy extends HookWidget {
         ],
         then: (value) {
           if (value is CurrencyModel) {
-            // TODO Temporar (waiting for backend)
-            if (value.symbol != 'USD') {
-              notifier.updateTargetConversionPrice(null);
-            }
-            notifier.updateSelectedCurrency(value);
             if (value != state.selectedCurrency) {
+              if (value.symbol != state.baseCurrency!.symbol) {
+                // reset to null to avoid old data
+                notifier.updateTargetConversionPrice(null);
+              }
+              notifier.updateSelectedCurrency(value);
               notifier.resetValuesToZero();
             }
           } else {
@@ -101,6 +90,19 @@ class CurrencyBuy extends HookWidget {
       );
     }
 
+    String conversionText() {
+      final target = '≈ ${state.targetConversionValue} ${currency.symbol} ';
+      final base = '${state.baseConversionValue} ${state.baseCurrency!.symbol}';
+
+      if (state.selectedCurrency == null) {
+        return target;
+      } else if (state.selectedCurrency == state.baseCurrency) {
+        return target;
+      } else {
+        return '$target ($base)';
+      }
+    }
+
     return PageFrame(
       header: 'Buy ${currency.description}',
       onBackButton: () => Navigator.pop(context),
@@ -111,14 +113,14 @@ class CurrencyBuy extends HookWidget {
           AssetInputField(
             value: fieldValue(
               state.inputValue,
-              assetSymbolFrom(state.selectedCurrency),
+              state.selectedCurrencySymbol,
             ),
           ),
           const SpaceH8(),
-          AssetConversionText(
-            text: '≈ ${state.targetConversionValue} ${currency.symbol} '
-                // TODO add dynamic base currency
-                '≈ ${state.baseConversionValue} USD',
+          Center(
+            child: AssetConversionText(
+              text: conversionText(),
+            ),
           ),
           const Spacer(),
           const AssetSelectorHeader(

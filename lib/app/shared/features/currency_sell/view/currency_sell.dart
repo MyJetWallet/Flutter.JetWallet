@@ -15,11 +15,11 @@ import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../components/convert_preview/model/convert_preview_input.dart';
 import '../../../components/convert_preview/view/convert_preview.dart';
 import '../../../components/number_keyboard/number_keyboard.dart';
-import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/input_helpers.dart';
 import '../notifier/currency_sell_notipod.dart';
+import 'components/currency_sell_conversion_hint.dart';
 
 class CurrencySell extends HookWidget {
   const CurrencySell({
@@ -74,8 +74,10 @@ class CurrencySell extends HookWidget {
             value: fieldValue(state.inputValue, currency.symbol),
           ),
           const SpaceH8(),
-          AssetConversionText(
-            text: 'Available: ${currency.assetBalance} ${currency.symbol}',
+          CurrencySellConversionHint(
+            available: '${currency.assetBalance} ${currency.symbol}',
+            targetConversion: 'XXX EUR',
+            baseConversion: 'XXX USD',
           ),
           const Spacer(),
           const AssetSelectorHeader(

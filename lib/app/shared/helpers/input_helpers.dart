@@ -124,8 +124,3 @@ bool isInputValid(String input) {
 String fieldValue(String input, String symbol) {
   return '${input.isEmpty ? '0' : input} $symbol';
 }
-
-// TODO Temporar function until baseCurrency will be created on backend
-String assetSymbolFrom(CurrencyModel? selectedCurrency) {
-  return selectedCurrency == null ? 'USD' : selectedCurrency.symbol;
-}

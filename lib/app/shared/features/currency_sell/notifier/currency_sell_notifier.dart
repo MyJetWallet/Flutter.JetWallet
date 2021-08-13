@@ -22,7 +22,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
 
   void _updateCurrencies(List<CurrencyModel> currencies) {
     sortCurrencies(currencies);
-    filterCurrencies(currencies, currencyModel);
+    removeCurrencyFrom(currencies, currencyModel);
     state = state.copyWith(currencies: currencies);
   }
 
@@ -50,7 +50,6 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
   }
 
   void selectPercentFromBalance(SelectedPercent selected) {
-    // TODO temporar (waiting for backend)
     if (state.selectedCurrency != null) {
       _logger.log(notifier, 'selectPercentFromBalance');
 

@@ -7,6 +7,9 @@ import '../../../../screens/market/provider/currencies_pod.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../providers/base_asset_pod/base_asset_pod.dart';
+import '../../../providers/converstion_price_pod/conversion_price_input.dart';
+import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import 'currency_buy_state.dart';
 
 const _zero = '0';
@@ -14,7 +17,9 @@ const _zero = '0';
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   CurrencyBuyNotifier(this.read, this.currencyModel)
       : super(const CurrencyBuyState()) {
-    _updateCurrencies(read(currenciesPod));
+    _initCurrencies();
+    _initBaseCurrency();
+    _fetchBaseConversionPrice();
   }
 
   final Reader read;
@@ -22,10 +27,18 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   static final _logger = Logger('CurrencyBuyNotifier');
 
-  void _updateCurrencies(List<CurrencyModel> currencies) {
+  void _initCurrencies() {
+    final currencies = read(currenciesPod);
     sortCurrencies(currencies);
-    filterCurrencies(currencies, currencyModel);
+    removeEmptyCurrenciesFrom(currencies);
+    removeCurrencyFrom(currencies, currencyModel);
     state = state.copyWith(currencies: currencies);
+  }
+
+  void _initBaseCurrency() {
+    state = state.copyWith(
+      baseCurrency: read(baseAssetPod),
+    );
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
@@ -35,7 +48,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void selectPercentFromBalance(SelectedPercent selected) {
-    // TODO temporar (waiting for backend)
     if (state.selectedCurrency != null) {
       _logger.log(notifier, 'selectPercentFromBalance');
 
@@ -72,10 +84,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       responseOnInputAction(
         oldInput: state.inputValue,
         newInput: value,
-        // TODO temporar (waiting for baseCurrency)
-        accuracy: state.selectedCurrency == null
-            ? 2
-            : state.selectedCurrency!.accuracy,
+        accuracy: state.selectedCurrencyAccuracy,
       ),
     );
     _validateInput();
@@ -98,10 +107,15 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       final amount = double.parse(state.inputValue);
       final price = state.targetConversionPrice!;
       final accuracy = currencyModel.accuracy.toInt();
+      var conversion = 0.0;
+
+      if (price != 0) {
+        conversion = amount / price;
+      }
 
       _updateTargetConversionValue(
         truncateZerosFromInput(
-          (amount / price).toStringAsFixed(accuracy),
+          conversion.toStringAsFixed(accuracy),
         ),
       );
     } else {
@@ -109,9 +123,19 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     }
   }
 
-  void updateBaseConversionPrice(double? price) {
-    _logger.log(notifier, 'updateBaseConversionPrice');
+  void _fetchBaseConversionPrice() {
+    read(
+      conversionPriceFpod(
+        ConversionPriceInput(
+          targetAssetSymbol: currencyModel.symbol,
+          quotedAssetSymbol: state.baseCurrency!.symbol,
+          then: _updateBaseConversionPrice,
+        ),
+      ),
+    );
+  }
 
+  void _updateBaseConversionPrice(double? price) {
     state = state.copyWith(baseConversionPrice: price);
   }
 
@@ -123,7 +147,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     if (state.baseConversionPrice != null && state.inputValue.isNotEmpty) {
       final amount = double.parse(state.targetConversionValue);
       final price = state.baseConversionPrice!;
-      const accuracy = 2; // TODO add dynamic accuracy
+      final accuracy = state.baseCurrency!.accuracy.toInt();
 
       _updateBaseConversionValue(
         truncateZerosFromInput(
