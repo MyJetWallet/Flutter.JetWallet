@@ -7,7 +7,7 @@ import 'components/asset_day_change.dart';
 import 'components/asset_info.dart';
 import 'components/asset_price.dart';
 
-class MarketDetailsAppBar extends StatelessWidget
+class MarketDetailsAppBar extends StatefulWidget
     implements PreferredSizeWidget {
   const MarketDetailsAppBar({
     Key? key,
@@ -17,31 +17,39 @@ class MarketDetailsAppBar extends StatelessWidget
   final MarketItemModel marketItem;
 
   @override
+  _MarketDetailsAppBarState createState() => _MarketDetailsAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(0.2.sh);
+}
+
+class _MarketDetailsAppBarState extends State<MarketDetailsAppBar> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 16.w,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-          ArrowBackButton(
-            onTap: () => Navigator.of(context).pop(),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: ArrowBackButton(
+              onTap: () => Navigator.of(context).pop(),
+            ),
           ),
           AssetInfo(
-            asset: marketItem,
+            asset: widget.marketItem,
           ),
           AssetPrice(
-            price: marketItem.lastPrice,
+            price: widget.marketItem.lastPrice,
           ),
           AssetDayChange(
-            asset: marketItem,
+            asset: widget.marketItem,
           ),
         ],
       ),
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(150.h);
 }

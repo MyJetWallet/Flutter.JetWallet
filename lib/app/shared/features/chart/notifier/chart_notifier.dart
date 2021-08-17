@@ -7,7 +7,8 @@ import 'package:logging/logging.dart';
 import '../../../../../service/services/chart/model/candles_request_model.dart';
 import '../../../../../service/services/chart/service/chart_service.dart';
 import '../../../../../shared/logging/levels.dart';
-import '../helper/round_down_date.dart';
+import '../helper/format_merge_candles_count.dart';
+import '../helper/format_resolution.dart';
 import 'chart_state.dart';
 import 'chart_union.dart';
 
@@ -17,8 +18,8 @@ class ChartNotifier extends StateNotifier<ChartState> {
   }) : super(
           const ChartState(
             candles: [],
-            type: ChartType.candle,
-            resolution: 'm',
+            type: ChartType.area,
+            resolution: 'd',
           ),
         );
 
@@ -39,11 +40,11 @@ class ChartNotifier extends StateNotifier<ChartState> {
 
       final model = CandlesRequestModel(
         instrumentId: instrumentId,
-        type: 0,
+        type: formatResolution(resolution),
         bidOrAsk: 0,
-        fromDate: roundDown(fromDate).millisecondsSinceEpoch,
-        toDate: roundDown(toDate).millisecondsSinceEpoch,
-        mergeCandlesCount: 0,
+        fromDate: fromDate.millisecondsSinceEpoch,
+        toDate: toDate.millisecondsSinceEpoch,
+        mergeCandlesCount: formatMergeCandlesCount(resolution),
       );
 
       final candles = await chartService.candles(model);

@@ -1,8 +1,6 @@
 name: jetwallet
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
 version: 1.0.0+1
 
 environment:
@@ -26,6 +24,7 @@ dependencies:
 
   # PLUS PLUGINS
   # Docs: https://plus.fluttercommunity.dev/docs/overview
+  # Can be changed to package_info
   package_info_plus: ^1.0.2 # querying information about the application package
   android_intent_plus: ^1.0.2 # plugin for launching Android Intents
 
@@ -48,6 +47,7 @@ dependencies:
   flutter_hooks: ^0.17.0  # additional hooks' functionality
 
   # FIREBASE
+  # Do we really need core?
   firebase_core: ^1.3.0
   firebase_messaging: ^10.0.2
   firebase_dynamic_links: ^2.0.6
@@ -61,12 +61,13 @@ dependencies:
   mocktail: ^0.1.4 # mocking library with null-safety support
   logging: ^1.0.1 # APIs for debugging and error logging
   fast_rsa: ^3.0.0 # RSA signing
+  timeago: ^3.1.0 # Date converter
 
   # OWN LIBS:
   charts:
     git:
       url: https://github.com/MyJetWallet/Flutter.Charts
-      ref: develop
+      ref: master
 
 dev_dependencies:
   flutter_test:

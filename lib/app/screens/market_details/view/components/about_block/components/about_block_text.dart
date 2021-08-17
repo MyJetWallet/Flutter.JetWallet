@@ -36,7 +36,7 @@ class AboutBlockText extends HookWidget {
         const Divider(),
         ClickableUnderlinedText(
           text: 'Whitepaper',
-          onTap: () => launchURL(context, marketInfo.whitepaperUrl)
+          onTap: () => launchURL(context, marketInfo.whitepaperUrl ?? '')
         ),
         const SpaceH4(),
         const Divider(),
