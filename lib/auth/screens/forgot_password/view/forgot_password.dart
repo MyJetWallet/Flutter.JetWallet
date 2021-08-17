@@ -63,6 +63,7 @@ class ForgotPassword extends HookWidget {
                     await forgotN.sendRecoveryLink();
 
                     if (forgot.union is Input) {
+                      // ignore: use_build_context_synchronously
                       navigatorPush(context, CheckYourEmail(email));
                     }
                   }

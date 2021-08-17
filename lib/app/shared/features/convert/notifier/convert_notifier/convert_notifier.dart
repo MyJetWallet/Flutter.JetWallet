@@ -120,6 +120,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       } else {
         state = state.copyWith(union: const QuoteSuccess());
         _timer.cancel();
+        // ignore: use_build_context_synchronously
         showQuoteUpdatedDialog(
           context: _context,
           onPressed: () => requestQuote(),
