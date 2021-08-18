@@ -1,6 +1,6 @@
-import '../../screens/market/model/currency_model.dart';
 import '../components/balance_selector/model/selected_percent.dart';
 import '../components/number_keyboard/number_keyboard.dart';
+import '../models/currency_model.dart';
 
 const specialPointCase = '0.';
 const zeroCase = '0';

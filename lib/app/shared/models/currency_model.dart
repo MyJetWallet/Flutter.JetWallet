@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../service/services/signal_r/model/asset_model.dart';
 
 part 'currency_model.freezed.dart';
 

@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../../screens/market/model/currency_model.dart';
+import '../../../models/currency_model.dart';
 import '../provider/deposit_address_fpod.dart';
 import 'components/deposit_field.dart';
 

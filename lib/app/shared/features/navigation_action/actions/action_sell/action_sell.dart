@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../screens/market/provider/currencies_pod.dart';
 import '../../../../components/asset_tile/asset_tile.dart';
+import '../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../currency_sell/view/currency_sell.dart';
 
 class ActionSell extends HookWidget {
