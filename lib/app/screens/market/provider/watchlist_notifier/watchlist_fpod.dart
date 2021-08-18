@@ -4,6 +4,7 @@ import '../../../../../shared/providers/service_providers.dart';
 import 'watchlist_notipod.dart';
 import 'watchlist_state.dart';
 
+// TODO(Vova): move somewhere
 const watchlistKey = 'watchlist';
 
 final watchlistInitFpod = FutureProvider.autoDispose<void>((ref) async {

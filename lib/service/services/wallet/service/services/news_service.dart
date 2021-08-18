@@ -7,6 +7,7 @@ import '../../model/news/news_request_model.dart';
 import '../../model/news/news_response_model.dart';
 import '../wallet_service.dart';
 
+// TODO(Vova): extrace to separate service
 Future<NewsResponseModel> newsService(
   Dio dio,
   NewsRequestModel model,

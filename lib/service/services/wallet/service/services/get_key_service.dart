@@ -4,6 +4,7 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../wallet_service.dart';
 
+// TODO(Vova): extrace to separate service, add serialization, rename file
 Future<List<dynamic>> keyValueService(
   Dio dio,
 ) async {

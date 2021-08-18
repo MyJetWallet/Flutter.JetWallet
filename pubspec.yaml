@@ -1,6 +1,8 @@
 name: jetwallet
 description: A new Flutter project.
 
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
 version: 1.0.0+1
 
 environment:
@@ -17,6 +19,7 @@ dependencies:
   url_launcher: ^6.0.7 # plugin for launching a URL
   font_awesome_flutter: ^9.1.0 # The Font Awesome Icon pack (1500+ icons)
   pin_code_fields: ^7.2.0 # Generate pin code fields
+  package_info: ^2.0.2 # querying information about the application package
 
   # RESPONSIVE UI
   device_preview: ^0.7.3
@@ -24,7 +27,6 @@ dependencies:
 
   # PLUS PLUGINS
   # Docs: https://plus.fluttercommunity.dev/docs/overview
-  package_info: ^2.0.2 # querying information about the application package
   android_intent_plus: ^1.0.2 # plugin for launching Android Intents
 
   # NETWORKING:

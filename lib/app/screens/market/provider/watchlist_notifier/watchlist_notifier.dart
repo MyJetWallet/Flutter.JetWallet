@@ -9,6 +9,7 @@ import '../../model/market_item_model.dart';
 import 'watchlist_fpod.dart';
 import 'watchlist_state.dart';
 
+// TODO(Vova): move to notifier folder
 class WatchlistNotifier extends StateNotifier<WatchlistState> {
   WatchlistNotifier({
     required this.read,
@@ -52,5 +53,6 @@ class WatchlistNotifier extends StateNotifier<WatchlistState> {
     );
   }
 
+  // TODO(Vova): move to top
   static final _logger = Logger('WatchlistNotifier');
 }

@@ -8,6 +8,7 @@ final watchlistNotipod =
   (ref) {
     return WatchlistNotifier(
       read: ref.read,
+      // TODO(Vova): delete
       initialState: [],
     );
   },
