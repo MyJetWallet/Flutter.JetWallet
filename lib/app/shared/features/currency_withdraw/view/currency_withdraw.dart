@@ -14,7 +14,7 @@ import 'components/withdraw_send_button.dart';
 import 'components/withdraw_text_field.dart';
 import 'styles/styles.dart';
 
-class CurrencyWithdraw extends HookWidget {
+class CurrencyWithdraw extends StatefulHookWidget {
   const CurrencyWithdraw({
     required this.currency,
   });
@@ -22,13 +22,18 @@ class CurrencyWithdraw extends HookWidget {
   final CurrencyModel currency;
 
   @override
+  _CurrencyWithdrawState createState() => _CurrencyWithdrawState();
+}
+
+class _CurrencyWithdrawState extends State<CurrencyWithdraw> {
+  @override
   Widget build(BuildContext context) {
     final withdrawNotifier = useProvider(
-      withdrawNotipod(currency.symbol).notifier,
+      withdrawNotipod(widget.currency.symbol).notifier,
     );
 
     return ProviderListener<WithdrawState>(
-      provider: withdrawNotipod(currency.symbol),
+      provider: withdrawNotipod(widget.currency.symbol),
       onChange: (context, state) {
         state.union.when(
           input: (e, st) {
@@ -44,7 +49,7 @@ class CurrencyWithdraw extends HookWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Withdraw ${currency.description}',
+            'Withdraw ${widget.currency.description}',
           ),
         ),
         body: SafeArea(
@@ -63,7 +68,7 @@ class CurrencyWithdraw extends HookWidget {
                   onQrPressed: () {},
                 ),
                 const SpaceH15(),
-                if (currency.tagType == TagType.memo)
+                if (widget.currency.tagType == TagType.memo)
                   WithdrawTextField(
                     title: 'Tag (memo)',
                     decoration: widthdrawTagDecoration,
@@ -82,6 +87,7 @@ class CurrencyWithdraw extends HookWidget {
                     final success = await withdrawNotifier.withdraw();
 
                     if (success) {
+                      if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Withdrawn Success')),
                       );

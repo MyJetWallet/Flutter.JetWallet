@@ -8,6 +8,7 @@ import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../screens/market/model/currency_model.dart';
+import '../../../components/asset_input_error.dart';
 import '../../../components/asset_input_field.dart';
 import '../../../components/asset_selector_button.dart';
 import '../../../components/asset_tile/asset_tile.dart';
@@ -39,19 +40,9 @@ class CurrencyBuy extends HookWidget {
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
-          // TODO rename to targetAssetSymbol
           baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: assetSymbolFrom(state.selectedCurrency),
+          quotedAssetSymbol: state.selectedCurrencySymbol,
           then: notifier.updateTargetConversionPrice,
-        ),
-      ),
-    );
-    useProvider(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: 'USD',
-          then: notifier.updateBaseConversionPrice,
         ),
       ),
     );
@@ -72,7 +63,6 @@ class CurrencyBuy extends HookWidget {
               selectedBorder: state.selectedCurrency == currency,
             ),
           const SpaceH20(),
-          // TODO refactor
           AppButtonOutlined(
             onTap: () {},
             textColor: Colors.white,
@@ -82,17 +72,13 @@ class CurrencyBuy extends HookWidget {
         ],
         then: (value) {
           if (value is CurrencyModel) {
-            // TODO Temporar (waiting for backend)
-            if (value.symbol != 'USD') {
-              notifier.updateTargetConversionPrice(null);
-            }
-            notifier.updateSelectedCurrency(value);
             if (value != state.selectedCurrency) {
+              if (value.symbol != state.baseCurrency!.symbol) {
+                notifier.updateTargetConversionPrice(null);
+              }
+              notifier.updateSelectedCurrency(value);
               notifier.resetValuesToZero();
             }
-          } else {
-            notifier.updateSelectedCurrency(null);
-            notifier.resetValuesToZero();
           }
         },
         onDissmis: () {
@@ -111,15 +97,18 @@ class CurrencyBuy extends HookWidget {
           AssetInputField(
             value: fieldValue(
               state.inputValue,
-              assetSymbolFrom(state.selectedCurrency),
+              state.selectedCurrencySymbol,
             ),
           ),
           const SpaceH8(),
-          AssetConversionText(
-            text: '≈ ${state.targetConversionValue} ${currency.symbol} '
-                // TODO add dynamic base currency
-                '≈ ${state.baseConversionValue} USD',
-          ),
+          if (state.inputError == InputError.none)
+            CenterAssetConversionText(
+              text: state.conversionText(currency),
+            )
+          else
+            AssetInputError(
+              text: state.inputError.value(),
+            ),
           const Spacer(),
           const AssetSelectorHeader(
             text: 'Pay from',

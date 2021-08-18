@@ -1,15 +1,52 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../screens/market/model/currency_model.dart';
+import '../../../helpers/input_helpers.dart';
+import '../../../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_sell_state.freezed.dart';
 
 @freezed
 class CurrencySellState with _$CurrencySellState {
   const factory CurrencySellState({
+    BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
+    double? targetConversionPrice,
+    @Default('0') String targetConversionValue,
+    @Default('0') String baseConversionValue,
     @Default('') String inputValue,
     @Default(false) bool inputValid,
     @Default([]) List<CurrencyModel> currencies,
+    @Default(InputError.none) InputError inputError,
   }) = _CurrencySellState;
+
+  const CurrencySellState._();
+
+  String get selectedCurrencySymbol {
+    if (selectedCurrency == null) {
+      return baseCurrency!.symbol;
+    } else {
+      return selectedCurrency!.symbol;
+    }
+  }
+
+  double get selectedCurrencyAccuracy {
+    if (selectedCurrency == null) {
+      return baseCurrency!.accuracy;
+    } else {
+      return selectedCurrency!.accuracy;
+    }
+  }
+
+  String conversionText() {
+    final base = '$baseConversionValue ${baseCurrency!.symbol}';
+
+    if (selectedCurrency == null) {
+      return base;
+    } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
+      return base;
+    } else {
+      return '≈ $targetConversionValue ${selectedCurrency!.symbol} ($base)';
+    }
+  }
 }

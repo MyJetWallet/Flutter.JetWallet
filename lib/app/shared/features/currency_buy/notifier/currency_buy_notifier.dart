@@ -1,20 +1,23 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../screens/market/model/currency_model.dart';
 import '../../../../screens/market/provider/currencies_pod.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
+import '../../../helpers/calculate_base_balance_with_pods.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import 'currency_buy_state.dart';
-
-const _zero = '0';
 
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   CurrencyBuyNotifier(this.read, this.currencyModel)
       : super(const CurrencyBuyState()) {
-    _updateCurrencies(read(currenciesPod));
+    _initCurrencies();
+    _initBaseCurrency();
+    _initDefaultPaymentMethod();
   }
 
   final Reader read;
@@ -22,10 +25,43 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   static final _logger = Logger('CurrencyBuyNotifier');
 
-  void _updateCurrencies(List<CurrencyModel> currencies) {
+  void _initCurrencies() {
+    final currencies = read(currenciesPod);
     sortCurrencies(currencies);
-    filterCurrencies(currencies, currencyModel);
+    removeEmptyCurrenciesFrom(currencies);
+    removeCurrencyFrom(currencies, currencyModel);
     state = state.copyWith(currencies: currencies);
+  }
+
+  void _initBaseCurrency() {
+    state = state.copyWith(
+      baseCurrency: read(baseCurrencyPod),
+    );
+  }
+
+  void _initDefaultPaymentMethod() {
+    if (state.currencies.isNotEmpty) {
+      // Case 1: If use has baseCurrency wallet with balance more than zero
+      for (final currency in state.currencies) {
+        if (currency.symbol == state.baseCurrency!.symbol) {
+          updateSelectedCurrency(currency);
+          return;
+        }
+      }
+
+      // Case 2: If user has at least one fiat wallet
+      for (final currency in state.currencies) {
+        if (currency.type == AssetType.fiat) {
+          updateSelectedCurrency(currency);
+          return;
+        }
+      }
+
+      // TODO Case 3: If user has at least one saved card 
+
+      // Case 4: If user has at least one crypto wallet
+      updateSelectedCurrency(state.currencies.first);
+    }
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
@@ -35,7 +71,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void selectPercentFromBalance(SelectedPercent selected) {
-    // TODO temporar (waiting for backend)
     if (state.selectedCurrency != null) {
       _logger.log(notifier, 'selectPercentFromBalance');
 
@@ -53,14 +88,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     }
   }
 
-  void resetValuesToZero() {
-    _logger.log(notifier, 'resetValuesToZero');
-
-    _updateInputValue(_zero);
-    _updateTargetConversionValue(_zero);
-    _updateBaseConversionValue(_zero);
-  }
-
   void _updateInputValue(String value) {
     state = state.copyWith(inputValue: value);
   }
@@ -72,10 +99,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       responseOnInputAction(
         oldInput: state.inputValue,
         newInput: value,
-        // TODO temporar (waiting for baseCurrency)
-        accuracy: state.selectedCurrency == null
-            ? 2
-            : state.selectedCurrency!.accuracy,
+        accuracy: state.selectedCurrencyAccuracy,
       ),
     );
     _validateInput();
@@ -98,21 +122,20 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       final amount = double.parse(state.inputValue);
       final price = state.targetConversionPrice!;
       final accuracy = currencyModel.accuracy.toInt();
+      var conversion = 0.0;
+
+      if (price != 0) {
+        conversion = amount / price;
+      }
 
       _updateTargetConversionValue(
         truncateZerosFromInput(
-          (amount / price).toStringAsFixed(accuracy),
+          conversion.toStringAsFixed(accuracy),
         ),
       );
     } else {
-      _updateTargetConversionValue(_zero);
+      _updateTargetConversionValue(zeroCase);
     }
-  }
-
-  void updateBaseConversionPrice(double? price) {
-    _logger.log(notifier, 'updateBaseConversionPrice');
-
-    state = state.copyWith(baseConversionPrice: price);
   }
 
   void _updateBaseConversionValue(String value) {
@@ -120,25 +143,55 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _calculateBaseConversion() {
-    if (state.baseConversionPrice != null && state.inputValue.isNotEmpty) {
-      final amount = double.parse(state.targetConversionValue);
-      final price = state.baseConversionPrice!;
-      const accuracy = 2; // TODO add dynamic accuracy
+    if (state.inputValue.isNotEmpty) {
+      final baseValue = calculateBaseBalanceWithPods(
+        read: read,
+        assetSymbol: currencyModel.symbol,
+        assetBalance: double.parse(state.inputValue),
+      );
 
       _updateBaseConversionValue(
-        truncateZerosFromInput(
-          (amount * price).toStringAsFixed(accuracy),
-        ),
+        truncateZerosFromInput(baseValue.toString()),
       );
     } else {
-      _updateBaseConversionValue(_zero);
+      _updateBaseConversionValue(zeroCase);
     }
   }
 
+  void _updateInputValid(bool value) {
+    state = state.copyWith(inputValid: value);
+  }
+
+  void _updateInputError(InputError error) {
+    state = state.copyWith(inputError: error);
+  }
+
   void _validateInput() {
-    state = state.copyWith(
-      inputValid:
-          state.selectedCurrency != null && isInputValid(state.inputValue),
-    );
+    if (state.selectedCurrency == null) {
+      _updateInputValid(false);
+    } else {
+      final error = inputError(
+        state.inputValue,
+        state.selectedCurrency!,
+      );
+
+      if (error == InputError.none) {
+        _updateInputValid(
+          isInputValid(state.inputValue),
+        );
+      } else {
+        _updateInputValid(false);
+      }
+
+      _updateInputError(error);
+    }
+  }
+
+  void resetValuesToZero() {
+    _logger.log(notifier, 'resetValuesToZero');
+
+    _updateInputValue(zeroCase);
+    _updateTargetConversionValue(zeroCase);
+    _updateBaseConversionValue(zeroCase);
   }
 }

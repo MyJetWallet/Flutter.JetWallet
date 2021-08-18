@@ -116,6 +116,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       } else {
         state = state.copyWith(union: const QuoteSuccess());
         _timer.cancel();
+        if (!mounted) return;
         showQuoteUpdatedDialog(
           context: _context,
           onPressed: () => requestQuote(),
@@ -124,10 +125,12 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'executeQuote', error.cause);
 
+      _timer.cancel();
       _showFailureScreen(error);
     } catch (error) {
       _logger.log(stateFlow, 'executeQuote', error);
 
+      _timer.cancel();
       _showNoResponseScreen();
     }
   }

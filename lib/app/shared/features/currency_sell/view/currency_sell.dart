@@ -7,6 +7,7 @@ import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../screens/market/model/currency_model.dart';
+import '../../../components/asset_input_error.dart';
 import '../../../components/asset_input_field.dart';
 import '../../../components/asset_selector_button.dart';
 import '../../../components/asset_tile/asset_tile.dart';
@@ -19,6 +20,8 @@ import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../providers/converstion_price_pod/conversion_price_input.dart';
+import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../notifier/currency_sell_notipod.dart';
 
 class CurrencySell extends HookWidget {
@@ -33,6 +36,15 @@ class CurrencySell extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(currencySellNotipod(currency));
     final notifier = useProvider(currencySellNotipod(currency).notifier);
+    useProvider(
+      conversionPriceFpod(
+        ConversionPriceInput(
+          baseAssetSymbol: currency.symbol,
+          quotedAssetSymbol: state.selectedCurrencySymbol,
+          then: notifier.updateTargetConversionPrice,
+        ),
+      ),
+    );
 
     void _showAssetSheet() {
       showBasicBottomSheet(
@@ -52,6 +64,9 @@ class CurrencySell extends HookWidget {
         ],
         then: (value) {
           if (value is CurrencyModel) {
+            if (value != state.selectedCurrency) {
+              notifier.updateTargetConversionPrice(null);
+            }
             notifier.updateSelectedCurrency(value);
           } else {
             notifier.updateSelectedCurrency(null);
@@ -74,9 +89,18 @@ class CurrencySell extends HookWidget {
             value: fieldValue(state.inputValue, currency.symbol),
           ),
           const SpaceH8(),
-          AssetConversionText(
-            text: 'Available: ${currency.assetBalance} ${currency.symbol}',
-          ),
+          if (state.inputError == InputError.none) ...[
+            CenterAssetConversionText(
+              text: '${currency.assetBalance} ${currency.symbol}',
+            ),
+            const SpaceH4(),
+            CenterAssetConversionText(
+              text: state.conversionText(),
+            )
+          ] else
+            AssetInputError(
+              text: state.inputError.value(),
+            ),
           const Spacer(),
           const AssetSelectorHeader(
             text: 'For',

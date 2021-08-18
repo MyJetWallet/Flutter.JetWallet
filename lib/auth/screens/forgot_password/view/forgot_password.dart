@@ -15,9 +15,14 @@ import '../notifier/forgot_password_union.dart';
 import 'components/check_your_email.dart';
 import 'components/forgot_description_text.dart';
 
-class ForgotPassword extends HookWidget {
+class ForgotPassword extends StatefulHookWidget {
   const ForgotPassword({Key? key}) : super(key: key);
 
+  @override
+  _ForgotPasswordState createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     final forgot = useProvider(forgotPasswordNotipod);
@@ -63,6 +68,7 @@ class ForgotPassword extends HookWidget {
                     await forgotN.sendRecoveryLink();
 
                     if (forgot.union is Input) {
+                      if (!mounted) return;
                       navigatorPush(context, CheckYourEmail(email));
                     }
                   }

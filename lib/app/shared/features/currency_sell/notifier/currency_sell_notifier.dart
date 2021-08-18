@@ -5,31 +5,57 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../../screens/market/model/currency_model.dart';
 import '../../../../screens/market/provider/currencies_pod.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
+import '../../../helpers/calculate_base_balance_with_pods.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import 'currency_sell_state.dart';
 
 class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
   CurrencySellNotifier(this.read, this.currencyModel)
       : super(const CurrencySellState()) {
-    _updateCurrencies(read(currenciesPod));
+    _initCurrencies();
+    _initBaseCurrency();
   }
 
   final Reader read;
   final CurrencyModel currencyModel;
 
-  static final _logger = Logger('CurrencyBuyNotifier');
+  static final _logger = Logger('CurrencySellNotifier');
 
-  void _updateCurrencies(List<CurrencyModel> currencies) {
+  void _initCurrencies() {
+    final currencies = read(currenciesPod);
     sortCurrencies(currencies);
-    filterCurrencies(currencies, currencyModel);
+    removeCurrencyFrom(currencies, currencyModel);
     state = state.copyWith(currencies: currencies);
+  }
+
+  void _initBaseCurrency() {
+    state = state.copyWith(
+      baseCurrency: read(baseCurrencyPod),
+    );
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
     state = state.copyWith(selectedCurrency: currency);
+  }
+
+  void selectPercentFromBalance(SelectedPercent selected) {
+    _logger.log(notifier, 'selectPercentFromBalance');
+
+    final value = valueBasedOnSelectedPercent(
+      selected: selected,
+      currency: currencyModel,
+    );
+
+    _updateInputValue(
+      valueAccordingToAccuracy(value, currencyModel.accuracy),
+    );
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
   }
 
   void _updateInputValue(String value) {
@@ -47,28 +73,86 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
       ),
     );
     _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
   }
 
-  void selectPercentFromBalance(SelectedPercent selected) {
-    // TODO temporar (waiting for backend)
-    if (state.selectedCurrency != null) {
-      _logger.log(notifier, 'selectPercentFromBalance');
+  void updateTargetConversionPrice(double? price) {
+    _logger.log(notifier, 'updateTargetConversionPrice');
 
-      final value = valueBasedOnSelectedPercent(
-        selected: selected,
-        currency: currencyModel,
-      );
+    // needed to calculate conversion while switching between assets
+    _calculateTargetConversion(price);
+    state = state.copyWith(targetConversionPrice: price);
+  }
 
-      _updateInputValue(
-        valueAccordingToAccuracy(value, currencyModel.accuracy),
+  void _updateTargetConversionValue(String value) {
+    state = state.copyWith(targetConversionValue: value);
+  }
+
+  void _calculateTargetConversion([double? newPrice]) {
+    if ((state.targetConversionPrice != null || newPrice != null) &&
+        state.inputValue.isNotEmpty) {
+      final amount = double.parse(state.inputValue);
+      final price = newPrice ?? state.targetConversionPrice!;
+      final accuracy = state.selectedCurrencyAccuracy.toInt();
+      final conversion = amount * price;
+
+      _updateTargetConversionValue(
+        truncateZerosFromInput(
+          conversion.toStringAsFixed(accuracy),
+        ),
       );
-      _validateInput();
+    } else {
+      _updateTargetConversionValue(zeroCase);
     }
   }
 
+  void _updateBaseConversionValue(String value) {
+    state = state.copyWith(baseConversionValue: value);
+  }
+
+  void _calculateBaseConversion() {
+    if (state.inputValue.isNotEmpty) {
+      final baseValue = calculateBaseBalanceWithPods(
+        read: read,
+        assetSymbol: currencyModel.symbol,
+        assetBalance: double.parse(state.inputValue),
+      );
+
+      _updateBaseConversionValue(
+        truncateZerosFromInput(baseValue.toString()),
+      );
+    } else {
+      _updateBaseConversionValue(zeroCase);
+    }
+  }
+
+  void _updateInputValid(bool value) {
+    state = state.copyWith(inputValid: value);
+  }
+
+  void _updateInputError(InputError error) {
+    state = state.copyWith(inputError: error);
+  }
+
   void _validateInput() {
-    state = state.copyWith(
-      inputValid: isInputValid(state.inputValue),
+    final error = inputError(
+      state.inputValue,
+      currencyModel,
     );
+
+    if (state.selectedCurrency == null) {
+      _updateInputValid(false);
+    } else {
+      if (error == InputError.none) {
+        _updateInputValid(
+          isInputValid(state.inputValue),
+        );
+      } else {
+        _updateInputValid(false);
+      }
+    }
+
+    _updateInputError(error);
   }
 }
