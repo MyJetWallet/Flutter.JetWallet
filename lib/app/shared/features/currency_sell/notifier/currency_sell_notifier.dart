@@ -5,31 +5,59 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../../screens/market/model/currency_model.dart';
 import '../../../../screens/market/provider/currencies_pod.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
+import '../../../helpers/calculate_base_balance_with_pods.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import 'currency_sell_state.dart';
+
+const _zero = '0';
 
 class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
   CurrencySellNotifier(this.read, this.currencyModel)
       : super(const CurrencySellState()) {
-    _updateCurrencies(read(currenciesPod));
+    _initCurrencies();
+    _initBaseCurrency();
   }
 
   final Reader read;
   final CurrencyModel currencyModel;
 
-  static final _logger = Logger('CurrencyBuyNotifier');
+  static final _logger = Logger('CurrencySellNotifier');
 
-  void _updateCurrencies(List<CurrencyModel> currencies) {
+  void _initCurrencies() {
+    final currencies = read(currenciesPod);
     sortCurrencies(currencies);
     removeCurrencyFrom(currencies, currencyModel);
     state = state.copyWith(currencies: currencies);
+  }
+
+  void _initBaseCurrency() {
+    state = state.copyWith(
+      baseCurrency: read(baseCurrencyPod),
+    );
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
     state = state.copyWith(selectedCurrency: currency);
+  }
+
+  void selectPercentFromBalance(SelectedPercent selected) {
+    _logger.log(notifier, 'selectPercentFromBalance');
+
+    final value = valueBasedOnSelectedPercent(
+      selected: selected,
+      currency: currencyModel,
+    );
+
+    _updateInputValue(
+      valueAccordingToAccuracy(value, currencyModel.accuracy),
+    );
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
   }
 
   void _updateInputValue(String value) {
@@ -47,27 +75,64 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
       ),
     );
     _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
   }
 
-  void selectPercentFromBalance(SelectedPercent selected) {
-    if (state.selectedCurrency != null) {
-      _logger.log(notifier, 'selectPercentFromBalance');
+  void updateTargetConversionPrice(double? price) {
+    _logger.log(notifier, 'updateTargetConversionPrice');
+    
+    // needed to calculate conversion while switching between assets
+    _calculateTargetConversion(price);
+    state = state.copyWith(targetConversionPrice: price);
+  }
 
-      final value = valueBasedOnSelectedPercent(
-        selected: selected,
-        currency: currencyModel,
+  void _updateTargetConversionValue(String value) {
+    state = state.copyWith(targetConversionValue: value);
+  }
+
+  void _calculateTargetConversion([double? newPrice]) {
+    if ((state.targetConversionPrice != null || newPrice != null) &&
+        state.inputValue.isNotEmpty) {
+      final amount = double.parse(state.inputValue);
+      final price = newPrice ?? state.targetConversionPrice!;
+      final accuracy = state.selectedCurrencyAccuracy.toInt();
+      final conversion = amount * price;
+
+      _updateTargetConversionValue(
+        truncateZerosFromInput(
+          conversion.toStringAsFixed(accuracy),
+        ),
+      );
+    } else {
+      _updateTargetConversionValue(_zero);
+    }
+  }
+
+  void _updateBaseConversionValue(String value) {
+    state = state.copyWith(baseConversionValue: value);
+  }
+
+  void _calculateBaseConversion() {
+    if (state.inputValue.isNotEmpty) {
+      final baseValue = calculateBaseBalanceWithPods(
+        read: read,
+        assetSymbol: currencyModel.symbol,
+        assetBalance: double.parse(state.inputValue),
       );
 
-      _updateInputValue(
-        valueAccordingToAccuracy(value, currencyModel.accuracy),
+      _updateBaseConversionValue(
+        truncateZerosFromInput(baseValue.toString()),
       );
-      _validateInput();
+    } else {
+      _updateBaseConversionValue(_zero);
     }
   }
 
   void _validateInput() {
     state = state.copyWith(
-      inputValid: isInputValid(state.inputValue),
+      inputValid:
+          state.selectedCurrency != null && isInputValid(state.inputValue),
     );
   }
 }

@@ -26,7 +26,7 @@ class Convert extends HookWidget {
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
-          targetAssetSymbol: input.fromAsset.symbol,
+          baseAssetSymbol: input.fromAsset.symbol,
           quotedAssetSymbol: input.toAsset.symbol,
           then: inputN.updateConversionPrice,
         ),

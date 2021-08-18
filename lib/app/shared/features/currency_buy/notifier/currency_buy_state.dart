@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../screens/market/model/currency_model.dart';
+import '../../../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_buy_state.freezed.dart';
 
@@ -8,8 +9,7 @@ part 'currency_buy_state.freezed.dart';
 class CurrencyBuyState with _$CurrencyBuyState {
   const factory CurrencyBuyState({
     double? targetConversionPrice,
-    double? baseConversionPrice,
-    CurrencyModel? baseCurrency,
+    BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
     @Default('') String inputValue,
     @Default('0') String targetConversionValue,
@@ -42,7 +42,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
 
     if (selectedCurrency == null) {
       return target;
-    } else if (selectedCurrency == baseCurrency) {
+    } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
       return target;
     } else {
       return '$target ($base)';

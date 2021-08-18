@@ -39,7 +39,7 @@ class CurrencyBuy extends HookWidget {
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
-          targetAssetSymbol: currency.symbol,
+          baseAssetSymbol: currency.symbol,
           quotedAssetSymbol: state.selectedCurrencySymbol,
           then: notifier.updateTargetConversionPrice,
         ),
@@ -73,15 +73,11 @@ class CurrencyBuy extends HookWidget {
           if (value is CurrencyModel) {
             if (value != state.selectedCurrency) {
               if (value.symbol != state.baseCurrency!.symbol) {
-                // reset to null to avoid old data
                 notifier.updateTargetConversionPrice(null);
               }
               notifier.updateSelectedCurrency(value);
               notifier.resetValuesToZero();
             }
-          } else {
-            notifier.updateSelectedCurrency(null);
-            notifier.resetValuesToZero();
           }
         },
         onDissmis: () {
@@ -104,10 +100,8 @@ class CurrencyBuy extends HookWidget {
             ),
           ),
           const SpaceH8(),
-          Center(
-            child: AssetConversionText(
-              text: state.conversionText(currency),
-            ),
+          CenterAssetConversionText(
+            text: state.conversionText(currency),
           ),
           const Spacer(),
           const AssetSelectorHeader(

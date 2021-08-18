@@ -5,11 +5,10 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../../screens/market/model/currency_model.dart';
 import '../../../../screens/market/provider/currencies_pod.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
+import '../../../helpers/calculate_base_balance_with_pods.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
-import '../../../providers/base_asset_pod/base_asset_pod.dart';
-import '../../../providers/converstion_price_pod/conversion_price_input.dart';
-import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import 'currency_buy_state.dart';
 
 const _zero = '0';
@@ -19,7 +18,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       : super(const CurrencyBuyState()) {
     _initCurrencies();
     _initBaseCurrency();
-    _fetchBaseConversionPrice();
   }
 
   final Reader read;
@@ -37,7 +35,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   void _initBaseCurrency() {
     state = state.copyWith(
-      baseCurrency: read(baseAssetPod),
+      baseCurrency: read(baseCurrencyPod),
     );
   }
 
@@ -63,14 +61,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       _calculateTargetConversion();
       _calculateBaseConversion();
     }
-  }
-
-  void resetValuesToZero() {
-    _logger.log(notifier, 'resetValuesToZero');
-
-    _updateInputValue(_zero);
-    _updateTargetConversionValue(_zero);
-    _updateBaseConversionValue(_zero);
   }
 
   void _updateInputValue(String value) {
@@ -123,36 +113,20 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     }
   }
 
-  void _fetchBaseConversionPrice() {
-    read(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          targetAssetSymbol: currencyModel.symbol,
-          quotedAssetSymbol: state.baseCurrency!.symbol,
-          then: _updateBaseConversionPrice,
-        ),
-      ),
-    );
-  }
-
-  void _updateBaseConversionPrice(double? price) {
-    state = state.copyWith(baseConversionPrice: price);
-  }
-
   void _updateBaseConversionValue(String value) {
     state = state.copyWith(baseConversionValue: value);
   }
 
   void _calculateBaseConversion() {
-    if (state.baseConversionPrice != null && state.inputValue.isNotEmpty) {
-      final amount = double.parse(state.targetConversionValue);
-      final price = state.baseConversionPrice!;
-      final accuracy = state.baseCurrency!.accuracy.toInt();
+    if (state.inputValue.isNotEmpty) {
+      final baseValue = calculateBaseBalanceWithPods(
+        read: read,
+        assetSymbol: currencyModel.symbol,
+        assetBalance: double.parse(state.inputValue),
+      );
 
       _updateBaseConversionValue(
-        truncateZerosFromInput(
-          (amount * price).toStringAsFixed(accuracy),
-        ),
+        truncateZerosFromInput(baseValue.toString()),
       );
     } else {
       _updateBaseConversionValue(_zero);
@@ -164,5 +138,13 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       inputValid:
           state.selectedCurrency != null && isInputValid(state.inputValue),
     );
+  }
+
+  void resetValuesToZero() {
+    _logger.log(notifier, 'resetValuesToZero');
+
+    _updateInputValue(_zero);
+    _updateTargetConversionValue(_zero);
+    _updateBaseConversionValue(_zero);
   }
 }

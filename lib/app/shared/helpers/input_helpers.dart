@@ -119,7 +119,7 @@ bool isInputValid(String input) {
   return false;
 }
 
-/// Shows value of the TextField based on the input and selectedCurrency \
+/// Shows value of the InputField based on the input and selectedCurrency \
 /// Used on [Deposit], [Sell] and [Buy] screens
 String fieldValue(String input, String symbol) {
   return '${input.isEmpty ? '0' : input} $symbol';

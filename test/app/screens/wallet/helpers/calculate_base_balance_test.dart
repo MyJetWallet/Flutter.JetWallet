@@ -8,7 +8,6 @@ void main() {
     test('EUR -> USD', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
-        baseSymbol: 'USD',
         assetSymbol: 'EUR',
         assetBalance: 20000.0,
         prices: prices,
@@ -20,7 +19,6 @@ void main() {
     test('BTC -> USD', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
-        baseSymbol: 'USD',
         assetSymbol: 'BTC',
         assetBalance: 25.0,
         prices: prices,
@@ -32,7 +30,6 @@ void main() {
     test('XLM -> EUR (Wrong order must be sorted)', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
-        baseSymbol: 'USD',
         assetSymbol: 'XLM',
         assetBalance: 200.0,
         prices: prices,
@@ -44,7 +41,6 @@ void main() {
     test('XRP -> DOGE (High percision)', () async {
       final result = calculateBaseBalance(
         accuracy: 8,
-        baseSymbol: 'USD',
         assetSymbol: 'XRP',
         assetBalance: 7583.92832261,
         prices: prices,
@@ -59,7 +55,6 @@ void main() {
     test('IF X -> X return assetBalance', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
-        baseSymbol: 'USD',
         assetSymbol: 'USD',
         assetBalance: 53564.31,
         prices: prices,
@@ -71,7 +66,6 @@ void main() {
     test('Zero balance must be zero', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
-        baseSymbol: 'USD',
         assetSymbol: 'BTC',
         assetBalance: 0.0,
         prices: prices,
@@ -83,7 +77,6 @@ void main() {
     test('No maps available should return -1', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
-        baseSymbol: 'USD',
         assetSymbol: 'LTC',
         assetBalance: 300.0,
         prices: prices,
@@ -95,7 +88,6 @@ void main() {
     test('No prices available should return -1', () async {
       final result = calculateBaseBalance(
         accuracy: 2,
-        baseSymbol: 'HBAR',
         assetSymbol: 'EOS',
         assetBalance: 300.0,
         prices: prices,
