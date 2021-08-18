@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../market/view/components/header_text.dart';
-import '../../../provider/news_notifier/news_fpod.dart';
-import '../../../provider/news_notifier/news_notipod.dart';
+import '../../../provider/news_fpod.dart';
+import '../../../provider/news_notipod.dart';
 import '../about_block/components/clickable_underlined_text.dart';
 import 'components/news_item.dart';
 
@@ -32,25 +32,27 @@ class NewsBlock extends HookWidget {
         const SpaceH8(),
         newsInit.when(
           data: (news) => ListView.builder(
-            itemCount: state.news.length,
+            itemCount: state.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return NewsItem(item: state.news[index],);
+              return NewsItem(
+                item: state[index],
+              );
             },
           ),
           loading: () => Container(),
           error: (_, __) => Container(),
         ),
         ClickableUnderlinedText(
-          text: state.isReadMore ? 'Read more' : 'Read Less',
-          onTap: state.isReadMore
-              ? () {
-                  notifier.loadMoreNews(assetId);
-                }
-              : () {
-                  notifier.cutNewToDefaultSize();
-                },
+          text: notifier.isReadMore ? 'Read more' : 'Read Less',
+          onTap: () {
+            if (notifier.isReadMore) {
+              notifier.loadMoreNews(assetId);
+            } else {
+              notifier.cutNewToDefaultSize();
+            }
+          },
         ),
       ],
     );

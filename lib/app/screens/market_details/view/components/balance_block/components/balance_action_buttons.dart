@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../../shared/components/buttons/app_buton_white_solid.dart';
+import '../../../../../../../shared/components/buttons/app_buton_white.dart';
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../market/model/market_item_model.dart';
 
@@ -17,7 +17,7 @@ class BalanceActionButtons extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: AppButtonWhiteSolid(
+          child: AppButtonWhite(
             name: 'Buy',
             onTap: () {},
           ),
@@ -25,7 +25,7 @@ class BalanceActionButtons extends StatelessWidget {
         if (!marketItem.isBalanceEmpty) ...[
           const SpaceW16(),
           Expanded(
-            child: AppButtonWhiteSolid(
+            child: AppButtonWhite(
               name: 'Sell',
               onTap: () {},
             ),

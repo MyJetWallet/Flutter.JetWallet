@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../service/services/wallet/model/news/news_request_model.dart';
-import '../../../../../shared/providers/service_providers.dart';
+import '../../../../service/services/wallet/model/news/news_request_model.dart';
+import '../../../../shared/providers/service_providers.dart';
 import 'news_notipod.dart';
 
 const newsPortionAmount = 3;

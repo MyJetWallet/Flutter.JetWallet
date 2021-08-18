@@ -1,25 +1,23 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../service/services/wallet/model/news/news_request_model.dart';
-import '../../../../../service/services/wallet/model/news/news_response_model.dart';
-import '../../../../../shared/logging/levels.dart';
-import '../../../../../shared/providers/service_providers.dart';
-import 'news_fpod.dart';
-import 'news_state.dart';
+import '../../../../service/services/wallet/model/news/news_request_model.dart';
+import '../../../../service/services/wallet/model/news/news_response_model.dart';
+import '../../../../shared/logging/levels.dart';
+import '../../../../shared/providers/service_providers.dart';
+import '../provider/news_fpod.dart';
 
-class NewsNotifier extends StateNotifier<NewsState> {
+class NewsNotifier extends StateNotifier<List<NewsModel>> {
   NewsNotifier({
     required this.read,
-    required this.initialState,
   }) : super(
-          NewsState(
-            news: initialState,
-          ),
+          [],
         );
 
   final Reader read;
-  final List<NewsModel> initialState;
+
+  static final _logger = Logger('NewsNotifier');
+  bool get isReadMore => state.length == 3;
 
   Future<void> loadMoreNews(String assetId) async {
     _logger.log(notifier, 'loadMoreNews');
@@ -30,7 +28,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
           assetId: assetId,
           language: read(intlPod).localeName,
           lastSeen: DateTime.now().toIso8601String(),
-          amount: state.news.length + newsPortionAmount,
+          amount: state.length + newsPortionAmount,
         ),
       );
 
@@ -43,18 +41,12 @@ class NewsNotifier extends StateNotifier<NewsState> {
   void cutNewToDefaultSize() {
     _logger.log(notifier, 'cutNewToDefaultSize');
 
-    state = state.copyWith(
-      news: state.news.sublist(0, newsPortionAmount)
-    );
+    state = state.sublist(0, newsPortionAmount);
   }
 
   void updateNews(List<NewsModel> news) {
     _logger.log(notifier, 'updateNews');
 
-    state = state.copyWith(
-      news: news,
-    );
+    state = news;
   }
-
-  static final _logger = Logger('NewsNotifier');
 }

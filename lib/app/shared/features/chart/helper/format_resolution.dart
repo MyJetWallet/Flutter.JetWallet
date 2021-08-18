@@ -1,6 +1,6 @@
 import 'package:charts/entity/resolution_string_enum.dart';
 
-int formatResolution(String resolution) {
+int timeFrameFrom(String resolution) {
   if (resolution == Period.hour) {
     return Timeframe.hour;
   } else if (resolution == Period.day) {

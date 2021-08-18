@@ -78,7 +78,6 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
       authorized.state = const Home();
 
-      // ignore: use_build_context_synchronously
       _pushToAuthSuccess(context, email);
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);

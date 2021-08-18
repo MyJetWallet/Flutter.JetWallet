@@ -1,6 +1,6 @@
 import 'package:charts/entity/resolution_string_enum.dart';
 
-int formatMergeCandlesCount(String resolution) {
+int mergeCandlesCountFrom(String resolution) {
   if (resolution == Period.hour) {
     return MergeCandlesCount.hour;
   } else if (resolution == Period.day) {

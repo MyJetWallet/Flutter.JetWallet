@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_button.dart';
 
-class AppButtonWhiteSolid extends StatelessWidget {
-  const AppButtonWhiteSolid({
+class AppButtonWhite extends StatelessWidget {
+  const AppButtonWhite({
     Key? key,
     this.active = true,
     required this.name,

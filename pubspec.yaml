@@ -24,8 +24,7 @@ dependencies:
 
   # PLUS PLUGINS
   # Docs: https://plus.fluttercommunity.dev/docs/overview
-  # Can be changed to package_info
-  package_info_plus: ^1.0.2 # querying information about the application package
+  package_info: ^2.0.2 # querying information about the application package
   android_intent_plus: ^1.0.2 # plugin for launching Android Intents
 
   # NETWORKING:
@@ -47,7 +46,6 @@ dependencies:
   flutter_hooks: ^0.17.0  # additional hooks' functionality
 
   # FIREBASE
-  # Do we really need core?
   firebase_core: ^1.3.0
   firebase_messaging: ^10.0.2
   firebase_dynamic_links: ^2.0.6

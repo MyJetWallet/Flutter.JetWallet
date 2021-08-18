@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jetwallet/app/screens/market_details/view/components/news_block/components/news_item_text.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
 
 import '../../../../../../../service/services/wallet/model/news/news_response_model.dart';
 import '../../../../../../../shared/components/spacers.dart';
@@ -21,23 +21,14 @@ class NewsItem extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              '${item.source} ',
-              style: const TextStyle(
-                color: Colors.grey,
-              ),
+            NewsItemText(
+              text: '${item.source} ',
             ),
-            const Text(
-              '•',
-              style: TextStyle(
-                color: Colors.grey,
-              ),
+            const NewsItemText(
+              text: '•',
             ),
-            Text(
-              ' ${timeago.format(DateTime.parse(item.timestamp))}',
-              style: const TextStyle(
-                color: Colors.grey,
-              ),
+            NewsItemText(
+              text: ' ${timeago.format(DateTime.parse(item.timestamp))}',
             ),
           ],
         ),

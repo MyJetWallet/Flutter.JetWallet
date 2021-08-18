@@ -49,6 +49,7 @@ class MarketDetails extends HookWidget {
                   height: 0.35.sh,
                   child: ChartView(
                     marketItem.associateAssetPair,
+                    // TODO(Vova): finish candle selection
                     (CandleEntity? candle) {},
                   ),
                 ),

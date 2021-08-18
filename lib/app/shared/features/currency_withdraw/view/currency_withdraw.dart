@@ -81,7 +81,6 @@ class CurrencyWithdraw extends HookWidget {
                     final success = await withdrawNotifier.withdraw();
 
                     if (success) {
-                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Withdrawn Success')),
                       );
