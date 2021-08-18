@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../screens/market/model/currency_model.dart';
 import '../../../../screens/market/provider/currencies_pod.dart';
@@ -16,6 +17,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       : super(const CurrencyBuyState()) {
     _initCurrencies();
     _initBaseCurrency();
+    _initDefaultPaymentMethod();
   }
 
   final Reader read;
@@ -35,6 +37,31 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     state = state.copyWith(
       baseCurrency: read(baseCurrencyPod),
     );
+  }
+
+  void _initDefaultPaymentMethod() {
+    if (state.currencies.isNotEmpty) {
+      // Case 1: If use has baseCurrency wallet with balance more than zero
+      for (final currency in state.currencies) {
+        if (currency.symbol == state.baseCurrency!.symbol) {
+          updateSelectedCurrency(currency);
+          return;
+        }
+      }
+
+      // Case 2: If user has at least one fiat wallet
+      for (final currency in state.currencies) {
+        if (currency.type == AssetType.fiat) {
+          updateSelectedCurrency(currency);
+          return;
+        }
+      }
+
+      // TODO Case 3: If user has at least one saved card 
+
+      // Case 4: If user has at least one crypto wallet
+      updateSelectedCurrency(state.currencies.first);
+    }
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
@@ -155,7 +182,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       } else {
         _updateInputValid(false);
       }
-    
+
       _updateInputError(error);
     }
   }
