@@ -11,8 +11,6 @@ import '../../../helpers/input_helpers.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import 'currency_buy_state.dart';
 
-const _zero = '0';
-
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   CurrencyBuyNotifier(this.read, this.currencyModel)
       : super(const CurrencyBuyState()) {
@@ -109,7 +107,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         ),
       );
     } else {
-      _updateTargetConversionValue(_zero);
+      _updateTargetConversionValue(zeroCase);
     }
   }
 
@@ -129,22 +127,44 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         truncateZerosFromInput(baseValue.toString()),
       );
     } else {
-      _updateBaseConversionValue(_zero);
+      _updateBaseConversionValue(zeroCase);
     }
   }
 
+  void _updateInputValid(bool value) {
+    state = state.copyWith(inputValid: value);
+  }
+
+  void _updateInputError(InputError error) {
+    state = state.copyWith(inputError: error);
+  }
+
   void _validateInput() {
-    state = state.copyWith(
-      inputValid:
-          state.selectedCurrency != null && isInputValid(state.inputValue),
-    );
+    if (state.selectedCurrency == null) {
+      _updateInputValid(false);
+    } else {
+      final error = inputError(
+        state.inputValue,
+        state.selectedCurrency!,
+      );
+
+      if (error == InputError.none) {
+        _updateInputValid(
+          isInputValid(state.inputValue),
+        );
+      } else {
+        _updateInputValid(false);
+      }
+    
+      _updateInputError(error);
+    }
   }
 
   void resetValuesToZero() {
     _logger.log(notifier, 'resetValuesToZero');
 
-    _updateInputValue(_zero);
-    _updateTargetConversionValue(_zero);
-    _updateBaseConversionValue(_zero);
+    _updateInputValue(zeroCase);
+    _updateTargetConversionValue(zeroCase);
+    _updateBaseConversionValue(zeroCase);
   }
 }

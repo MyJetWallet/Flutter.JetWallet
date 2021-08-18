@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../screens/market/model/currency_model.dart';
+import '../../../helpers/input_helpers.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_sell_state.freezed.dart';
@@ -16,6 +17,7 @@ class CurrencySellState with _$CurrencySellState {
     @Default('') String inputValue,
     @Default(false) bool inputValid,
     @Default([]) List<CurrencyModel> currencies,
+    @Default(InputError.none) InputError inputError,
   }) = _CurrencySellState;
 
   const CurrencySellState._();

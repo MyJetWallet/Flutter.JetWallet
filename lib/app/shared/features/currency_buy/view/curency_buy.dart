@@ -8,6 +8,7 @@ import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../screens/market/model/currency_model.dart';
+import '../../../components/asset_input_error.dart';
 import '../../../components/asset_input_field.dart';
 import '../../../components/asset_selector_button.dart';
 import '../../../components/asset_tile/asset_tile.dart';
@@ -100,9 +101,14 @@ class CurrencyBuy extends HookWidget {
             ),
           ),
           const SpaceH8(),
-          CenterAssetConversionText(
-            text: state.conversionText(currency),
-          ),
+          if (state.inputError == InputError.none)
+            CenterAssetConversionText(
+              text: state.conversionText(currency),
+            )
+          else
+            AssetInputError(
+              text: state.inputError.value(),
+            ),
           const Spacer(),
           const AssetSelectorHeader(
             text: 'Pay from',

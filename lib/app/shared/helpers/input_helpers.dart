@@ -3,6 +3,7 @@ import '../components/balance_selector/model/selected_percent.dart';
 import '../components/number_keyboard/number_keyboard.dart';
 
 const specialPointCase = '0.';
+const zeroCase = '0';
 
 bool firstZeroInputCase(String string) {
   return string.length == 1 && string == zero;
@@ -123,4 +124,33 @@ bool isInputValid(String input) {
 /// Used on [Deposit], [Sell] and [Buy] screens
 String fieldValue(String input, String symbol) {
   return '${input.isEmpty ? '0' : input} $symbol';
+}
+
+enum InputError {
+  none,
+  notEnoughFunds,
+}
+
+extension InputErrorValue on InputError {
+  String value() {
+    if (this == InputError.notEnoughFunds) {
+      return 'Not enough funds';
+    } else {
+      return 'None';
+    }
+  }
+}
+
+InputError inputError(String input, CurrencyModel currency) {
+  if (input.isNotEmpty) {
+    final value = double.parse(input);
+
+    if (currency.assetBalance >= value) {
+      return InputError.none;
+    } else {
+      return InputError.notEnoughFunds;
+    }
+  } else {
+    return InputError.none;
+  }
 }
