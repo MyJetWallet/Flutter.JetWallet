@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
@@ -11,6 +12,7 @@ import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
+import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
 import '../model/market_references_model.dart';
 import '../model/prices_model.dart';
@@ -41,6 +43,7 @@ class SignalRService {
   final _pricesController = StreamController<PricesModel>();
   final _marketReferencesController = StreamController<MarketReferencesModel>();
   final _basePricesController = StreamController<BasePricesModel>();
+  final _clientDetailController = StreamController<ClientDetailModel>();
 
   var _prices = const PricesModel(
     now: 0,
@@ -60,6 +63,7 @@ class SignalRService {
     });
 
     _connection.on(assetsMessage, (data) {
+      debugPrint(data.toString(), wrapWidth: 1024);
       try {
         final assets = AssetsModel.fromJson(_json(data));
         _assetsController.add(assets);
@@ -120,6 +124,15 @@ class SignalRService {
       }
     });
 
+    _connection.on(clientDetailMessage, (data) {
+      try {
+        final clientDetail = ClientDetailModel.fromJson(_json(data));
+        _clientDetailController.add(clientDetail);
+      } catch (e) {
+        _logger.log(contract, clientDetailMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
 
     try {
@@ -151,6 +164,8 @@ class SignalRService {
       _marketReferencesController.stream;
 
   Stream<BasePricesModel> basePrices() => _basePricesController.stream;
+
+  Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
 
   void _updatePrices(List<dynamic>? data) {
     final newPrices = PricesModel.fromJson(_json(data));

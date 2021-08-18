@@ -4,7 +4,6 @@ import '../../../../service/services/wallet/model/asset_converter_map/asset_conv
 /// returns [-1] if there is no prices available for specific asset
 double calculateBaseBalance({
   required int accuracy,
-  required String baseSymbol,
   required String assetSymbol,
   required double assetBalance,
   required List<PriceModel> prices,
@@ -17,7 +16,7 @@ double calculateBaseBalance({
     return 0;
   }
 
-  if (baseSymbol == assetSymbol) {
+  if (converter.baseAssetSymbol == assetSymbol) {
     return assetBalance;
   }
 

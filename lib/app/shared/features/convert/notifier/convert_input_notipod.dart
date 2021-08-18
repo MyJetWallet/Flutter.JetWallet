@@ -1,0 +1,43 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../../screens/market/model/currency_model.dart';
+import '../../../../screens/market/provider/currencies_pod.dart';
+import '../../../helpers/currencies_helpers.dart';
+import '../helper/remove_element.dart';
+import 'convert_input_notifier.dart';
+import 'convert_input_state.dart';
+
+final convertInputNotipod = StateNotifierProvider.autoDispose
+    .family<ConvertInputNotifier, ConvertInputState, CurrencyModel?>(
+  (ref, from) {
+    final currencies = ref.read(currenciesPod);
+
+    sortCurrencies(currencies);
+
+    final defaultState = _defaultConvertState(
+      currencies,
+      currencies.first,
+    );
+
+    return ConvertInputNotifier(
+      defaultState: defaultState,
+      currencies: currencies,
+    );
+  },
+);
+
+ConvertInputState _defaultConvertState(
+  List<CurrencyModel> currencies,
+  CurrencyModel from,
+) {
+  final toList = removeElement(from, currencies);
+  final to = toList.first;
+  final fromList = removeElement(to, currencies);
+
+  return ConvertInputState(
+    fromAsset: from,
+    fromAssetList: fromList,
+    toAsset: to,
+    toAssetList: toList,
+  );
+}

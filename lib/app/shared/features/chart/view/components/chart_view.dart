@@ -1,3 +1,4 @@
+import 'package:charts/entity/candle_entity.dart';
 import 'package:charts/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -8,9 +9,13 @@ import '../../provider/chart_init_fpod.dart';
 import 'loading_chart_view.dart';
 
 class ChartView extends HookWidget {
-  const ChartView(this.instrumentId);
+  const ChartView(
+    this.instrumentId,
+    this.onCandleSelected,
+  );
 
   final String instrumentId;
+  final void Function(CandleEntity?) onCandleSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +36,7 @@ class ChartView extends HookWidget {
             chartType: chartState.type,
             candleResolution: chartState.resolution,
             candles: chartState.candles,
+            onCandleSelected: onCandleSelected,
           ),
           loading: () => LoadingChartView(),
           error: (String error) {
