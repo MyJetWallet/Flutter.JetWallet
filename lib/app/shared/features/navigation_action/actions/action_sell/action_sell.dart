@@ -19,19 +19,20 @@ class ActionSell extends HookWidget {
       child: ListView(
         children: [
           for (final currency in context.read(currenciesPod))
-            AssetTile(
-              priceColumn: false,
-              headerColor: Colors.black,
-              currency: currency,
-              onTap: () {
-                navigatorPush(
-                  context,
-                  CurrencySell(
-                    currency: currency,
-                  ),
-                );
-              },
-            ),
+            if (currency.isAssetBalanceNotEmpty)
+              AssetTile(
+                priceColumn: false,
+                headerColor: Colors.black,
+                currency: currency,
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    CurrencySell(
+                      currency: currency,
+                    ),
+                  );
+                },
+              ),
         ],
       ),
     );

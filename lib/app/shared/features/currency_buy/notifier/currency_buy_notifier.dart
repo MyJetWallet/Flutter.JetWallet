@@ -146,7 +146,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     if (state.inputValue.isNotEmpty) {
       final baseValue = calculateBaseBalanceWithReader(
         read: read,
-        assetSymbol: currencyModel.symbol,
+        assetSymbol: state.selectedCurrencySymbol,
         assetBalance: double.parse(state.inputValue),
       );
 
