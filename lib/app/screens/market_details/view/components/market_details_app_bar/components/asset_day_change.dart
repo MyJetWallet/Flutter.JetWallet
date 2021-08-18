@@ -14,14 +14,12 @@ class AssetDayChange extends StatelessWidget {
     return Row(
       children: [
         Icon(
-          asset.isGrowing
-              ? Icons.arrow_drop_up
-              : Icons.arrow_drop_down,
+          asset.isGrowing ? Icons.arrow_drop_up : Icons.arrow_drop_down,
           color: Colors.grey,
         ),
         Text(
           '\$${asset.dayPriceChange} '
-              '(${asset.dayPercentChange}%)',
+          '(${asset.dayPercentChange}%)',
           style: const TextStyle(
             color: Colors.grey,
           ),

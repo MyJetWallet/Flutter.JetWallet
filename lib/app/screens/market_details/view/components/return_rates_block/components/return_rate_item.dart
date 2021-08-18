@@ -10,7 +10,7 @@ class ReturnRateItem extends StatelessWidget {
   }) : super(key: key);
 
   final String header;
-  final double value;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ReturnRateItem extends StatelessWidget {
         ),
         const SpaceH8(),
         Text(
-          '$value%',
+          value,
           style: TextStyle(
             fontSize: 16.sp,
           ),

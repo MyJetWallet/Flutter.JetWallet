@@ -22,11 +22,14 @@ class MarketDetailsAppBar extends StatelessWidget
       padding: EdgeInsets.symmetric(
         horizontal: 16.w,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-          ArrowBackButton(
-            onTap: () => Navigator.of(context).pop(),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: ArrowBackButton(
+              onTap: () => Navigator.of(context).pop(),
+            ),
           ),
           AssetInfo(
             asset: marketItem,
@@ -43,5 +46,5 @@ class MarketDetailsAppBar extends StatelessWidget
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(150.h);
+  Size get preferredSize => Size.fromHeight(0.2.sh);
 }
