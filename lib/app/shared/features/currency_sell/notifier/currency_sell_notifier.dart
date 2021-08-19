@@ -2,13 +2,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../screens/market/model/currency_model.dart';
-import '../../../../screens/market/provider/currencies_pod.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
-import '../../../helpers/calculate_base_balance_with_pods.dart';
+import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import 'currency_sell_state.dart';
 
 class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
@@ -113,7 +113,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
 
   void _calculateBaseConversion() {
     if (state.inputValue.isNotEmpty) {
-      final baseValue = calculateBaseBalanceWithPods(
+      final baseValue = calculateBaseBalanceWithReader(
         read: read,
         assetSymbol: currencyModel.symbol,
         assetBalance: double.parse(state.inputValue),

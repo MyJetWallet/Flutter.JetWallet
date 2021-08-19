@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../../shared/components/spacers.dart';
-import '../../../../../../screens/market/model/currency_model.dart';
+import '../../../../../models/currency_model.dart';
 import 'components/convert_asset_input.dart';
 import 'components/convert_dropdown.dart';
 

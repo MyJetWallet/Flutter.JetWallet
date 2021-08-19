@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../screens/market/provider/assets_spod.dart';
 import '../client_detail_pod/client_detail_spod.dart';
+import '../signal_r/assets_spod.dart';
 import 'base_currency_model.dart';
 
 final baseCurrencyPod = Provider.autoDispose<BaseCurrencyModel>((ref) {

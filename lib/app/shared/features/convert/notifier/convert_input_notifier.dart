@@ -2,9 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../screens/market/model/currency_model.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
 import '../helper/remove_element.dart';
 import 'convert_input_state.dart';
 

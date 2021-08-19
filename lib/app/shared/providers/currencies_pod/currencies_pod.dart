@@ -1,20 +1,20 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../shared/helpers/valid_icon_url.dart';
-import '../../../shared/providers/base_currency_pod/base_currency_pod.dart';
-import '../helper/calculate_base_balance.dart';
-import '../model/currency_model.dart';
-import 'assets_spod.dart';
-import 'balances_spod.dart';
-import 'converter_map_fpod.dart';
-import 'prices_spod.dart';
+import '../../helpers/calculate_base_balance.dart';
+import '../../helpers/valid_icon_url.dart';
+import '../../models/currency_model.dart';
+import '../base_currency_pod/base_currency_pod.dart';
+import '../converter_map_fpod/converter_map_fpod.dart';
+import '../signal_r/assets_spod.dart';
+import '../signal_r/balances_spod.dart';
+import '../signal_r/prices_spod.dart';
 
 final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
   final prices = ref.watch(pricesSpod);
   final converter = ref.watch(converterMapFpod);
-  final baseCurrency = ref.read(baseCurrencyPod);
+  final baseCurrency = ref.watch(baseCurrencyPod);
 
   final currencies = <CurrencyModel>[];
 

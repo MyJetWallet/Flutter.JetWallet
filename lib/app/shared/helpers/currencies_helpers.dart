@@ -1,4 +1,4 @@
-import '../../screens/market/model/currency_model.dart';
+import '../models/currency_model.dart';
 
 /// Used for [BUY] and [SELL] features
 void sortCurrencies(List<CurrencyModel> currencies) {
