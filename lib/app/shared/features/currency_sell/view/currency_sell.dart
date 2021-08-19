@@ -89,7 +89,11 @@ class CurrencySell extends HookWidget {
             value: fieldValue(state.inputValue, currency.symbol),
           ),
           const SpaceH8(),
-          if (state.inputError == InputError.none) ...[
+          if (state.inputError.isActive)
+            AssetInputError(
+              text: state.inputError.value,
+            )
+          else ...[
             CenterAssetConversionText(
               text: '${currency.assetBalance} ${currency.symbol}',
             ),
@@ -97,10 +101,7 @@ class CurrencySell extends HookWidget {
             CenterAssetConversionText(
               text: state.conversionText(),
             )
-          ] else
-            AssetInputError(
-              text: state.inputError.value(),
-            ),
+          ],
           const Spacer(),
           const AssetSelectorHeader(
             text: 'For',

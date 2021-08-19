@@ -32,40 +32,47 @@ class ConvertRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Image.network(
-                  currency.iconUrl,
-                  width: 35.w,
-                  height: 35.w,
-                ),
-                const SpaceW10(),
-                ConvertDropdown(
-                  value: currency,
-                  currencies: currencies,
-                  onChanged: onDropdown,
-                ),
-              ],
-            ),
-            if (fromAsset)
-              Text(
-                'Available: ${currency.assetBalance} ${currency.symbol}',
-                style: const TextStyle(
-                  color: Colors.grey,
-                ),
-              )
-            else
-              const SizedBox(),
-          ],
+        SizedBox(
+          width: 0.45.sw,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Image.network(
+                    currency.iconUrl,
+                    width: 35.w,
+                    height: 35.w,
+                  ),
+                  const SpaceW10(),
+                  ConvertDropdown(
+                    value: currency,
+                    currencies: currencies,
+                    onChanged: onDropdown,
+                  ),
+                ],
+              ),
+              if (fromAsset)
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    'Available: ${currency.assetBalance} ${currency.symbol}',
+                    maxLines: 1,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                )
+              else
+                const SizedBox(),
+            ],
+          ),
         ),
         ConvertAssetInput(
           onTap: onTap,
           value: value,
           enabled: enabled,
-        )
+        ),
       ],
     );
   }

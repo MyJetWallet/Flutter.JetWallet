@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 
 part 'convert_input_state.freezed.dart';
@@ -13,6 +14,7 @@ class ConvertInputState with _$ConvertInputState {
     @Default(true) bool fromAssetEnabled,
     @Default(false) bool toAssetEnabled,
     @Default(false) bool convertValid,
+    @Default(InputError.none) InputError inputError,
     required CurrencyModel fromAsset,
     required CurrencyModel toAsset,
     required List<CurrencyModel> fromAssetList,
