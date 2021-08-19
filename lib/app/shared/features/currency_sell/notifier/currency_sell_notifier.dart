@@ -40,6 +40,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     _logger.log(notifier, 'updateSelectedCurrency');
 
     state = state.copyWith(selectedCurrency: currency);
+    _validateInput();
   }
 
   void selectPercentFromBalance(SelectedPercent selected) {

@@ -145,7 +145,7 @@ class CurrencySell extends HookWidget {
                       fromAssetAmount: state.inputValue,
                       fromAssetSymbol: currency.symbol,
                       toAssetSymbol: state.selectedCurrency!.symbol,
-                      toAssetDescription: state.selectedCurrency!.description,
+                      assetDescription: currency.description,
                       action: TriggerAction.sell,
                     ),
                   ),
