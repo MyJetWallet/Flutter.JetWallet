@@ -10,7 +10,7 @@ import '../components/result_icon.dart';
 class FailureScreen extends StatelessWidget {
   const FailureScreen({
     Key? key,
-    required this.header,
+    this.header,
     required this.description,
     required this.firstButtonName,
     required this.secondButtonName,
@@ -18,7 +18,7 @@ class FailureScreen extends StatelessWidget {
     required this.onSecondButton,
   }) : super(key: key);
 
-  final String header;
+  final String? header;
   final String description;
   final String firstButtonName;
   final String secondButtonName;

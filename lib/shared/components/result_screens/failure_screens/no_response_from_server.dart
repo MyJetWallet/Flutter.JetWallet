@@ -8,12 +8,12 @@ import '../components/result_icon.dart';
 class NoResponseFromServer extends StatelessWidget {
   const NoResponseFromServer({
     Key? key,
-    required this.header,
+    this.header,
     required this.description,
     required this.onOk,
   }) : super(key: key);
 
-  final String header;
+  final String? header;
   final String description;
   final Function() onOk;
 

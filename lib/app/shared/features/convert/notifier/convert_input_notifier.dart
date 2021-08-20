@@ -39,6 +39,14 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     state = state.copyWith(converstionPrice: value);
   }
 
+  void _convertValid(bool value) {
+    state = state.copyWith(convertValid: value);
+  }
+
+  void _updateInputError(InputError error) {
+    state = state.copyWith(inputError: error);
+  }
+
   /// ConversionPrice can be null if request to API failed
   void updateConversionPrice(double? price) {
     _logger.log(notifier, 'updateConversionPrice');
@@ -76,7 +84,9 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     updateConversionPrice(null);
     _updateFromAsset(value);
     _updateToList();
-    _resetAssetsAmount();
+    if (state.fromAssetEnabled) {
+      _resetAssetsAmount();
+    }
   }
 
   void updateToAsset(CurrencyModel value) {
@@ -85,7 +95,9 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     updateConversionPrice(null);
     _updateToAsset(value);
     _updateFromList();
-    _resetAssetsAmount();
+    if (state.toAssetEnabled) {
+      _resetAssetsAmount();
+    }
   }
 
   void updateFromAssetAmount(String amount) {
@@ -229,9 +241,20 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void _validateInput() {
-    state = state.copyWith(
-      convertValid: isInputValid(state.fromAssetAmount),
+    final error = inputError(
+      state.fromAssetAmount,
+      state.fromAsset,
     );
+
+    if (error == InputError.none) {
+      _convertValid(
+        isInputValid(state.fromAssetAmount),
+      );
+    } else {
+      _convertValid(false);
+    }
+
+    _updateInputError(error);
   }
 
   void _updateFromList() {

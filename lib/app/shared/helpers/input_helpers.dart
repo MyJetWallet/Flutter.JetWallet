@@ -132,13 +132,15 @@ enum InputError {
 }
 
 extension InputErrorValue on InputError {
-  String value() {
+  String get value {
     if (this == InputError.notEnoughFunds) {
       return 'Not enough funds';
     } else {
       return 'None';
     }
   }
+
+  bool get isActive => this != InputError.none;
 }
 
 InputError inputError(String input, CurrencyModel currency) {

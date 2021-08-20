@@ -101,13 +101,13 @@ class CurrencyBuy extends HookWidget {
             ),
           ),
           const SpaceH8(),
-          if (state.inputError == InputError.none)
-            CenterAssetConversionText(
-              text: state.conversionText(currency),
+          if (state.inputError.isActive)
+            AssetInputError(
+              text: state.inputError.value,
             )
           else
-            AssetInputError(
-              text: state.inputError.value(),
+            CenterAssetConversionText(
+              text: state.conversionText(currency),
             ),
           const Spacer(),
           const AssetSelectorHeader(
@@ -151,7 +151,7 @@ class CurrencyBuy extends HookWidget {
                       fromAssetAmount: state.inputValue,
                       fromAssetSymbol: state.selectedCurrency!.symbol,
                       toAssetSymbol: currency.symbol,
-                      toAssetDescription: currency.description,
+                      assetDescription: currency.description,
                       action: TriggerAction.buy,
                     ),
                   ),
