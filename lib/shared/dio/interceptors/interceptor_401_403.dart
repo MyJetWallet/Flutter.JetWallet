@@ -5,7 +5,7 @@ import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart
 import '../../helpers/refresh_token.dart';
 import '../helpers/retry_request.dart';
 
-Future<void> interceptor401({
+Future<void> interceptor401_403({
   required DioError dioError,
   required ErrorInterceptorHandler handler,
   required Reader read,
