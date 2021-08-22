@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/components/asset_icon.dart';
 import '../../../../../market/model/market_item_model.dart';
-import '../../../../../market/provider/watchlist_notifier/watchlist_notipod.dart';
+import '../../../../../market/notifier/watchlist_notipod.dart';
 import '../../../../../market/view/components/header_text.dart';
 
 class AssetInfo extends HookWidget {
@@ -19,6 +19,7 @@ class AssetInfo extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final notifier = useProvider(watchlistNotipod.notifier);
+    useProvider(watchlistNotipod);
 
     return Row(
       children: [
@@ -33,10 +34,16 @@ class AssetInfo extends HookWidget {
         const Spacer(),
         InkWell(
           onTap: () {
-            notifier.addToWatchlist(asset);
+            if (notifier.isInWatchlist(asset.associateAsset)) {
+              notifier.removeFromWatchlist(asset.associateAsset);
+            } else {
+              notifier.addToWatchlist(asset.associateAsset);
+            }
           },
-          child: const Icon(
-            Icons.star,
+          child: Icon(
+            notifier.isInWatchlist(asset.associateAsset)
+                ? Icons.star
+                : Icons.star_border,
           ),
         ),
       ],

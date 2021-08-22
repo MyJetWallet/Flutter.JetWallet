@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../../service/services/wallet/model/news/news_response_model.dart';
+import '../../../../service/services/news/model/news_response_model.dart';
 
 import '../notifier/news_notifier.dart';
 

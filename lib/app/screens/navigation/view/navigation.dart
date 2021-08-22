@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/providers/background/push_notification_pods.dart';
+import '../../../shared/features/key_value/provider/key_value_spod.dart';
 import '../../../shared/providers/client_detail_pod/client_detail_pod.dart';
 import '../../market/provider/currencies_pod.dart';
 import '../provider/navigation_stpod.dart';
@@ -19,6 +20,7 @@ class Navigation extends HookWidget {
     useProvider(pushNotificationOnTokenRefreshPod.select((_) {}));
     useProvider(currenciesPod.select((_) {}));
     useProvider(clientDetailPod.select((_) {}));
+    useProvider(keyValueSpod.select((_) {}));
 
     return Scaffold(
       backgroundColor: Colors.white,

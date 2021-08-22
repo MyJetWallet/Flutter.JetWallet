@@ -87,7 +87,6 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
 
             final baseBalance = calculateBaseBalance(
               accuracy: accuracyFrom('USD', instruments),
-              baseSymbol: 'USD',
               assetSymbol: item.associateAsset,
               assetBalance: item.assetBalance,
               prices: pricesData.prices,

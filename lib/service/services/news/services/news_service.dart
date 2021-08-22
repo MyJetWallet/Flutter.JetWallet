@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 
-import '../../../../../shared/logging/levels.dart';
-import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../../../shared/helpers/handle_api_responses.dart';
-import '../../model/news/news_request_model.dart';
-import '../../model/news/news_response_model.dart';
-import '../wallet_service.dart';
+import '../../../../shared/logging/levels.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../../shared/helpers/handle_api_responses.dart';
+import '../../wallet/service/wallet_service.dart';
+import '../model/news_request_model.dart';
+import '../model/news_response_model.dart';
 
-// TODO(Vova): extrace to separate service
 Future<NewsResponseModel> newsService(
   Dio dio,
   NewsRequestModel model,

@@ -12,6 +12,7 @@ const bidAskMessage = 'spot-bidask';
 const marketReferenceMessage = 'market-reference';
 const basePricesMessage = 'base-prices';
 const clientDetailMessage = 'client-detail';
+const keyValueMessage = 'key-values';
 
 // HTTP
 const postRequest = 'POST';

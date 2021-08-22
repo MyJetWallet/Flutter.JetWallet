@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/market/notifier/watchlist_notifier.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
@@ -14,6 +15,7 @@ import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
+import '../model/key_value_model.dart';
 import '../model/market_references_model.dart';
 import '../model/prices_model.dart';
 
@@ -44,6 +46,7 @@ class SignalRService {
   final _marketReferencesController = StreamController<MarketReferencesModel>();
   final _basePricesController = StreamController<BasePricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
+  final _keyValueController = StreamController<KeyValueModel>();
 
   var _prices = const PricesModel(
     now: 0,
@@ -133,6 +136,17 @@ class SignalRService {
       }
     });
 
+    _connection.on(keyValueMessage, (data) {
+      try {
+        final keyValue = KeyValueModel.fromJson(_json(data));
+        final serializedKeyValue = _serializeKeys(keyValue);
+
+        _keyValueController.add(serializedKeyValue);
+      } catch (e) {
+        _logger.log(contract, keyValueMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
 
     try {
@@ -166,6 +180,22 @@ class SignalRService {
   Stream<BasePricesModel> basePrices() => _basePricesController.stream;
 
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
+
+  Stream<KeyValueModel> keyValue() => _keyValueController.stream;
+
+  KeyValueModel _serializeKeys(KeyValueModel keyValue) {
+    var serializedKeyValue = keyValue;
+
+    for (final keyValuePair in keyValue.keys) {
+      if (keyValuePair.key == watchlistKey) {
+        serializedKeyValue = keyValue.copyWith(
+          watchlist: WatchlistModel.fromJson(keyValuePair.toJson()),
+        );
+      }
+    }
+
+    return serializedKeyValue;
+  }
 
   void _updatePrices(List<dynamic>? data) {
     final newPrices = PricesModel.fromJson(_json(data));
