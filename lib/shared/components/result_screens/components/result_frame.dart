@@ -9,14 +9,14 @@ import 'result_text.dart';
 class ResultFrame extends StatelessWidget {
   const ResultFrame({
     Key? key,
-    required this.header,
+    this.header,
+    this.children = const [],
     required this.resultIcon,
     required this.title,
     required this.description,
-    this.children = const [],
   }) : super(key: key);
 
-  final String header;
+  final String? header;
   final ResultIcon resultIcon;
   final String title;
   final String description;

@@ -1,25 +1,24 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../shared/helpers/calculate_base_balance.dart';
 import '../../../shared/helpers/valid_icon_url.dart';
-import '../helper/accuracy_from.dart';
-import '../helper/calculate_base_balance.dart';
+import '../../../shared/providers/base_currency_pod/base_currency_pod.dart';
+import '../../../shared/providers/converter_map_fpod/converter_map_fpod.dart';
+import '../../../shared/providers/signal_r/assets_spod.dart';
+import '../../../shared/providers/signal_r/balances_spod.dart';
+import '../../../shared/providers/signal_r/prices_spod.dart';
 import '../model/market_item_model.dart';
-import 'assets_spod.dart';
-import 'balances_spod.dart';
-import 'converter_map_fpod.dart';
-import 'instruments_spod.dart';
 import 'market_references_spod.dart';
-import 'prices_spod.dart';
 import 'search_stpod.dart';
 
 final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
   final references = ref.watch(marketReferencesSpod);
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
-  final instruments = ref.watch(instrumentsSpod);
   final prices = ref.watch(pricesSpod);
   final search = ref.watch(searchStpod);
   final converter = ref.watch(converterMapFpod);
+  final baseCurrency = ref.watch(baseCurrencyPod);
 
   final items = <MarketItemModel>[];
 
@@ -76,30 +75,25 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
     }
   });
 
-  instruments.whenData((instrumentsData) {
-    final instruments = instrumentsData.instruments;
+  prices.whenData((pricesData) {
+    converter.whenData((converterData) {
+      if (items.isNotEmpty) {
+        for (final item in items) {
+          final index = items.indexOf(item);
 
-    prices.whenData((pricesData) {
-      converter.whenData((converterData) {
-        if (items.isNotEmpty) {
-          for (final item in items) {
-            final index = items.indexOf(item);
+          final baseBalance = calculateBaseBalance(
+            accuracy: baseCurrency.accuracy.toInt(),
+            assetSymbol: item.associateAsset,
+            assetBalance: item.assetBalance,
+            prices: pricesData.prices,
+            converter: converterData,
+          );
 
-            final baseBalance = calculateBaseBalance(
-              accuracy: accuracyFrom('USD', instruments),
-              baseSymbol: 'USD',
-              assetSymbol: item.associateAsset,
-              assetBalance: item.assetBalance,
-              prices: pricesData.prices,
-              converter: converterData,
-            );
-
-            items[index] = item.copyWith(
-              baseBalance: baseBalance,
-            );
-          }
+          items[index] = item.copyWith(
+            baseBalance: baseBalance,
+          );
         }
-      });
+      }
     });
   });
 

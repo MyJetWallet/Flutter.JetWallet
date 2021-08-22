@@ -53,7 +53,6 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
       if (authorized.state != const EmailVerification()) {
         await signalRService.disconnect();
       }
-      state = const Result();
     } catch (e, st) {
       _logger.log(stateFlow, 'logout', e);
       state = Result(e, st);

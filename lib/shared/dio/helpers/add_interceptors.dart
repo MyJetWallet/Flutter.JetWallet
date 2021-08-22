@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../interceptors/interceptor_401.dart';
+import '../interceptors/interceptor_401_403.dart';
 
 void addInterceptors(Dio dio, Reader read) {
   dio.interceptors.add(
@@ -9,14 +9,14 @@ void addInterceptors(Dio dio, Reader read) {
       onError: (dioError, handler) async {
         dio.lock();
 
-        if (dioError.response?.statusCode == 401) {
-          await interceptor401(
+        final code = dioError.response?.statusCode;
+
+        if (code == 401 || code == 403) {
+          await interceptor401_403(
             dioError: dioError,
             handler: handler,
             read: read,
           );
-        } else if (dioError.response?.statusCode == 403) {
-          // todo add interceptor403()
         } else {
           handler.reject(dioError);
         }

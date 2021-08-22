@@ -51,14 +51,18 @@ class AppRouter extends HookWidget {
                       initial: () => const Text('Initial'),
                     );
                   },
-                  loading: () => const Loader(),
+                  loading: () => const Loader(
+                    color: Colors.purple,
+                  ),
                   error: (e, st) => Text('$e'),
                 );
               },
               unauthorized: () => Welcome(),
             );
           },
-          loading: () => const Loader(),
+          loading: () => const Loader(
+            color: Colors.red,
+          ),
           error: (e, st) => Text('$e'),
         ),
       ),

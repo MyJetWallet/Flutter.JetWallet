@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/providers/background/push_notification_pods.dart';
 import '../../../shared/providers/client_detail_pod/client_detail_pod.dart';
-import '../../market/provider/currencies_pod.dart';
+import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../provider/navigation_stpod.dart';
 import 'components/bottom_navigation_menu/bottom_navigation_menu.dart';
 import 'components/screens.dart';

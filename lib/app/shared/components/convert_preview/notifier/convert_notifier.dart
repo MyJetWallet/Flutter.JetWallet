@@ -163,8 +163,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   void _showSuccessScreen() {
     return navigatorPush(
       _context,
-      SuccessScreen(
-        header: resultHeader,
+      const SuccessScreen(
         description: 'Order filled',
       ),
     );
@@ -174,7 +173,6 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       NoResponseFromServer(
-        header: resultHeader,
         description: 'Failed to place Order',
         onOk: () {
           read(navigationStpod).state = 1; // Portfolio
@@ -188,7 +186,6 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       FailureScreen(
-        header: resultHeader,
         description: error.cause,
         firstButtonName: 'Edit Order',
         onFirstButton: () {
@@ -220,19 +217,9 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     if (input.action == TriggerAction.convert) {
       return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
     } else if (input.action == TriggerAction.buy) {
-      return 'Confirm Buy ${input.toAssetDescription}';
+      return 'Confirm Buy ${input.assetDescription}';
     } else {
-      return 'Confirm Sell ${input.toAssetDescription}';
-    }
-  }
-
-  String get resultHeader {
-    if (input.action == TriggerAction.convert) {
-      return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
-    } else if (input.action == TriggerAction.buy) {
-      return 'Buy ${input.toAssetDescription}';
-    } else {
-      return 'Sell ${input.toAssetDescription}';
+      return 'Confirm Sell ${input.assetDescription}';
     }
   }
 
