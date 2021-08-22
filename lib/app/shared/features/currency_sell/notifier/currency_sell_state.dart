@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../screens/market/model/currency_model.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_sell_state.freezed.dart';

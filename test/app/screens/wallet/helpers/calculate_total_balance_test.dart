@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jetwallet/app/screens/market/helper/calculate_total_balance.dart';
-import 'package:jetwallet/app/screens/market/model/currency_model.dart';
+import 'package:jetwallet/app/shared/models/currency_model.dart';
 import 'package:jetwallet/service/services/signal_r/model/asset_model.dart';
 
 void main() {

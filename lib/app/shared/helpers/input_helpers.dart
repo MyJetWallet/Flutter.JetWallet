@@ -1,6 +1,6 @@
-import '../../screens/market/model/currency_model.dart';
 import '../components/balance_selector/model/selected_percent.dart';
 import '../components/number_keyboard/number_keyboard.dart';
+import '../models/currency_model.dart';
 
 const specialPointCase = '0.';
 const zeroCase = '0';
@@ -132,13 +132,15 @@ enum InputError {
 }
 
 extension InputErrorValue on InputError {
-  String value() {
+  String get value {
     if (this == InputError.notEnoughFunds) {
       return 'Not enough funds';
     } else {
       return 'None';
     }
   }
+
+  bool get isActive => this != InputError.none;
 }
 
 InputError inputError(String input, CurrencyModel currency) {

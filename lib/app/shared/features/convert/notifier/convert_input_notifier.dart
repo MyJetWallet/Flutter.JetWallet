@@ -2,9 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../screens/market/model/currency_model.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
 import '../helper/remove_element.dart';
 import 'convert_input_state.dart';
 
@@ -37,6 +37,14 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
 
   void _updateConverstionPrice(double? value) {
     state = state.copyWith(converstionPrice: value);
+  }
+
+  void _convertValid(bool value) {
+    state = state.copyWith(convertValid: value);
+  }
+
+  void _updateInputError(InputError error) {
+    state = state.copyWith(inputError: error);
   }
 
   /// ConversionPrice can be null if request to API failed
@@ -76,7 +84,9 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     updateConversionPrice(null);
     _updateFromAsset(value);
     _updateToList();
-    _resetAssetsAmount();
+    if (state.fromAssetEnabled) {
+      _resetAssetsAmount();
+    }
   }
 
   void updateToAsset(CurrencyModel value) {
@@ -85,7 +95,9 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     updateConversionPrice(null);
     _updateToAsset(value);
     _updateFromList();
-    _resetAssetsAmount();
+    if (state.toAssetEnabled) {
+      _resetAssetsAmount();
+    }
   }
 
   void updateFromAssetAmount(String amount) {
@@ -229,9 +241,20 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void _validateInput() {
-    state = state.copyWith(
-      convertValid: isInputValid(state.fromAssetAmount),
+    final error = inputError(
+      state.fromAssetAmount,
+      state.fromAsset,
     );
+
+    if (error == InputError.none) {
+      _convertValid(
+        isInputValid(state.fromAssetAmount),
+      );
+    } else {
+      _convertValid(false);
+    }
+
+    _updateInputError(error);
   }
 
   void _updateFromList() {

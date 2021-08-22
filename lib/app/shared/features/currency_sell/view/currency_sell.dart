@@ -6,7 +6,6 @@ import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../screens/market/model/currency_model.dart';
 import '../../../components/asset_input_error.dart';
 import '../../../components/asset_input_field.dart';
 import '../../../components/asset_selector_button.dart';
@@ -20,6 +19,7 @@ import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../notifier/currency_sell_notipod.dart';
@@ -89,7 +89,11 @@ class CurrencySell extends HookWidget {
             value: fieldValue(state.inputValue, currency.symbol),
           ),
           const SpaceH8(),
-          if (state.inputError == InputError.none) ...[
+          if (state.inputError.isActive)
+            AssetInputError(
+              text: state.inputError.value,
+            )
+          else ...[
             CenterAssetConversionText(
               text: '${currency.assetBalance} ${currency.symbol}',
             ),
@@ -97,10 +101,7 @@ class CurrencySell extends HookWidget {
             CenterAssetConversionText(
               text: state.conversionText(),
             )
-          ] else
-            AssetInputError(
-              text: state.inputError.value(),
-            ),
+          ],
           const Spacer(),
           const AssetSelectorHeader(
             text: 'For',
@@ -144,7 +145,7 @@ class CurrencySell extends HookWidget {
                       fromAssetAmount: state.inputValue,
                       fromAssetSymbol: currency.symbol,
                       toAssetSymbol: state.selectedCurrency!.symbol,
-                      toAssetDescription: state.selectedCurrency!.description,
+                      assetDescription: currency.description,
                       action: TriggerAction.sell,
                     ),
                   ),

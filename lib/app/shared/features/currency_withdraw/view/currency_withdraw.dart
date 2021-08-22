@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../../screens/market/model/currency_model.dart';
+import '../../../models/currency_model.dart';
 import '../../../styles/amount_field_decoration.dart';
 import '../notifier/withdraw_notipod.dart';
 import '../notifier/withdraw_state.dart';

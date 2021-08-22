@@ -10,7 +10,7 @@ import 'router_stpod/router_union.dart';
 final sessionInfoFpod = FutureProvider<void>((ref) async {
   final _logger = Logger('sessionInfoFpod');
 
-  final service = ref.watch(infoServicePod);
+  final service = ref.read(infoServicePod);
   final router = ref.watch(routerStpod);
   final authorized = ref.watch(authorizedStpod.notifier);
 

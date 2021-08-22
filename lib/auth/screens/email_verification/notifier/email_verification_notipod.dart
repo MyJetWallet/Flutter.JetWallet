@@ -16,6 +16,7 @@ final emailVerificationNotipod = StateNotifierProvider.autoDispose<
     final navigatorKey = ref.watch(navigatorKeyPod);
 
     return EmailVerificationNotifier(
+      read: ref.read,
       email: authInfo.email,
       service: validationService,
       authorized: authorized,

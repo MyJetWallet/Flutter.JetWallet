@@ -18,7 +18,7 @@ class ConvertAssetInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 0.40.sw,
+      width: 0.42.sw,
       child: InkWell(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,

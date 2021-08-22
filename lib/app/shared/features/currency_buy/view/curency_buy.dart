@@ -7,7 +7,6 @@ import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../screens/market/model/currency_model.dart';
 import '../../../components/asset_input_error.dart';
 import '../../../components/asset_input_field.dart';
 import '../../../components/asset_selector_button.dart';
@@ -21,6 +20,7 @@ import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../notifier/currency_buy_notipod.dart';
@@ -101,13 +101,13 @@ class CurrencyBuy extends HookWidget {
             ),
           ),
           const SpaceH8(),
-          if (state.inputError == InputError.none)
-            CenterAssetConversionText(
-              text: state.conversionText(currency),
+          if (state.inputError.isActive)
+            AssetInputError(
+              text: state.inputError.value,
             )
           else
-            AssetInputError(
-              text: state.inputError.value(),
+            CenterAssetConversionText(
+              text: state.conversionText(currency),
             ),
           const Spacer(),
           const AssetSelectorHeader(
@@ -151,7 +151,7 @@ class CurrencyBuy extends HookWidget {
                       fromAssetAmount: state.inputValue,
                       fromAssetSymbol: state.selectedCurrency!.symbol,
                       toAssetSymbol: currency.symbol,
-                      toAssetDescription: currency.description,
+                      assetDescription: currency.description,
                       action: TriggerAction.buy,
                     ),
                   ),
