@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market/notifier/watchlist_notifier.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
+import '../../../../app/screens/market/notifier/watchlist_notifier.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';

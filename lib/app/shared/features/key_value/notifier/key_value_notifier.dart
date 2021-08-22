@@ -16,7 +16,6 @@ class KeyValueNotifier extends StateNotifier<KeyValueModel> {
         )) {
     keyValue.whenData(
       (data) {
-        print('serialized=======$data');
         state = data;
       },
     );
