@@ -24,7 +24,9 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
   static final _logger = Logger('CurrencySellNotifier');
 
   void _initCurrencies() {
-    final currencies = read(currenciesPod);
+    final currencies = List<CurrencyModel>.from(
+      read(currenciesPod),
+    );
     sortCurrencies(currencies);
     removeCurrencyFrom(currencies, currencyModel);
     state = state.copyWith(currencies: currencies);

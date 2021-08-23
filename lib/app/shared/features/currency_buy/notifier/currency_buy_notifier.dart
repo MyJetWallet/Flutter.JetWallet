@@ -26,7 +26,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   static final _logger = Logger('CurrencyBuyNotifier');
 
   void _initCurrencies() {
-    final currencies = read(currenciesPod);
+    final currencies = List<CurrencyModel>.from(
+      read(currenciesPod),
+    );
     sortCurrencies(currencies);
     removeEmptyCurrenciesFrom(currencies);
     removeCurrencyFrom(currencies, currencyModel);
@@ -57,7 +59,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         }
       }
 
-      // TODO Case 3: If user has at least one saved card 
+      // TODO Case 3: If user has at least one saved card
 
       // Case 4: If user has at least one crypto wallet
       updateSelectedCurrency(state.currencies.first);
