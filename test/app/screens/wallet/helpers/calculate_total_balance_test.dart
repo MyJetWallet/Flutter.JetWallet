@@ -15,7 +15,7 @@ const currencies = <CurrencyModel>[
   CurrencyModel(
     symbol: 'EUR',
     description: 'Euro',
-    accuracy: 2.0,
+    accuracy: 2,
     depositMode: 1,
     withdrawalMode: 1,
     tagType: TagType.none,
@@ -34,7 +34,7 @@ const currencies = <CurrencyModel>[
   CurrencyModel(
     symbol: 'BTC',
     description: 'Bitcoin',
-    accuracy: 8.0,
+    accuracy: 8,
     depositMode: 1,
     withdrawalMode: 1,
     tagType: TagType.none,
@@ -53,7 +53,7 @@ const currencies = <CurrencyModel>[
   CurrencyModel(
     symbol: 'USD',
     description: 'US Dollar',
-    accuracy: 2.0,
+    accuracy: 2,
     depositMode: 1,
     withdrawalMode: 1,
     tagType: TagType.tag,
@@ -72,7 +72,7 @@ const currencies = <CurrencyModel>[
   CurrencyModel(
     symbol: 'DASH',
     description: 'US Dollar',
-    accuracy: 2.0,
+    accuracy: 2,
     depositMode: 1,
     withdrawalMode: 1,
     tagType: TagType.memo,

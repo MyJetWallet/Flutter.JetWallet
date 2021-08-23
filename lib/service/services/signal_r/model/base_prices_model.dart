@@ -6,8 +6,7 @@ part 'base_prices_model.g.dart';
 @freezed
 class BasePricesModel with _$BasePricesModel {
   const factory BasePricesModel({
-    @JsonKey(name: 'priceRecords')
-        required List<InstrumentPriceModel> basePrices,
+    @JsonKey(name: 'priceRecords') required List<AssetPriceModel> basePrices,
   }) = _BasePricesModel;
 
   factory BasePricesModel.fromJson(Map<String, dynamic> json) =>
@@ -15,20 +14,20 @@ class BasePricesModel with _$BasePricesModel {
 }
 
 @freezed
-class InstrumentPriceModel with _$InstrumentPriceModel {
-  const factory InstrumentPriceModel({
+class AssetPriceModel with _$AssetPriceModel {
+  const factory AssetPriceModel({
     required String brokerId,
-    required String instrumentSymbol,
+    required String assetSymbol,
     required double currentPrice,
     @JsonKey(name: 'h24P') required double dayPercentChange,
     @JsonKey(name: 'h24') required BasePriceModel dayPrice,
     @JsonKey(name: 'd7') required BasePriceModel weekPrice,
     @JsonKey(name: 'm1') required BasePriceModel monthPrice,
     @JsonKey(name: 'm3') required BasePriceModel threeMonthPrice,
-  }) = _InstrumentPriceModel;
+  }) = _AssetPriceModel;
 
-  factory InstrumentPriceModel.fromJson(Map<String, dynamic> json) =>
-      _$InstrumentPriceModelFromJson(json);
+  factory AssetPriceModel.fromJson(Map<String, dynamic> json) =>
+      _$AssetPriceModelFromJson(json);
 }
 
 @freezed

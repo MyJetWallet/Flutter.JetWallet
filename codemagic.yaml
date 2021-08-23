@@ -125,6 +125,28 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
+  
+  stage-workflow:
+    name: Stage Workflow
+    instance_type: mac_mini
+    max_build_duration: 60
+
+    environment:
+      vars:
+          MAIN_TARGET: "lib/main_stage.dart"
+          <<: *developer_credentials
+          <<: *apple_signing
+          <<: *new_app_trading_config
+      
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    
+    cache: *cache
+    triggering: *triggering
+    scripts: *scripts
+    publishing: *publishing
+    artifacts: *artifacts
 
   production-workflow:
     name: Production Workflow

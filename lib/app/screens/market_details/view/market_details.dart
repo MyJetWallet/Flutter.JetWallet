@@ -55,7 +55,7 @@ class MarketDetails extends HookWidget {
                 ),
                 const SpaceH15(),
                 ReturnRatesBlock(
-                  instrument: marketItem.associateAssetPair,
+                  assetSymbol: marketItem.associateAsset,
                 ),
                 const SpaceH15(),
                 marketInfo.when(
