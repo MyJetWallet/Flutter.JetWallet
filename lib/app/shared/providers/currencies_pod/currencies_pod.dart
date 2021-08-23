@@ -1,20 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../screens/market_details/provider/base_prices_spod.dart';
 
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/valid_icon_url.dart';
 import '../../models/currency_model.dart';
 import '../base_currency_pod/base_currency_pod.dart';
-import '../converter_map_fpod/converter_map_fpod.dart';
 import '../signal_r/assets_spod.dart';
 import '../signal_r/balances_spod.dart';
-import '../signal_r/prices_spod.dart';
 
 final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
-  final prices = ref.watch(pricesSpod);
-  final converter = ref.watch(converterMapFpod);
   final baseCurrency = ref.watch(baseCurrencyPod);
+  final basePrices = ref.watch(basePricesSpod);
 
   final currencies = <CurrencyModel>[];
 
@@ -64,26 +62,23 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
     }
   });
 
-  prices.whenData((pricesData) {
-    converter.whenData((converterData) {
-      if (currencies.isNotEmpty) {
-        for (final currency in currencies) {
-          final index = currencies.indexOf(currency);
+  basePrices.whenData((data) {
+    if (currencies.isNotEmpty) {
+      for (final currency in currencies) {
+        final index = currencies.indexOf(currency);
 
-          final baseBalance = calculateBaseBalance(
-            accuracy: baseCurrency.accuracy.toInt(),
-            assetSymbol: currency.symbol,
-            assetBalance: currency.assetBalance,
-            prices: pricesData.prices,
-            converter: converterData,
-          );
+        final baseBalance = calculateBaseBalance(
+          accuracy: baseCurrency.accuracy.toInt(),
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetBalance,
+          prices: data.basePrices,
+        );
 
-          currencies[index] = currency.copyWith(
-            baseBalance: baseBalance,
-          );
-        }
+        currencies[index] = currency.copyWith(
+          baseBalance: baseBalance,
+        );
       }
-    });
+    }
   });
 
   return currencies;
