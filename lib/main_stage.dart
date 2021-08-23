@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import 'development/api_selector_screen/api_selector_screen.dart';
+import 'development/logs_screen/view/components/logs_persistant_button.dart';
 import 'router/view/router.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
@@ -25,25 +28,27 @@ final providerNames = <String>[
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
+
   if (!kIsWeb) {
     await PushNotificationService().initialize();
     await RemoteConfigService().fetchAndActivate();
-    RemoteConfigService().overrideApisFrom(0); // default API environment
   }
 
   Logger.root.level = Level.ALL;
 
   runApp(
-    ProviderScope(
-      observers: [
-        ProviderLogger(
-          ignoreByType: providerTypes,
-          ignoreByName: providerNames,
-        ),
-      ],
-      child: App(),
+    DevicePreview(
+      enabled: false,
+      builder: (context) => ProviderScope(
+        observers: [
+          ProviderLogger(
+            ignoreByType: providerTypes,
+            ignoreByName: providerNames,
+          ),
+        ],
+        child: App(),
+      ),
     ),
   );
 }
@@ -58,13 +63,24 @@ class App extends HookWidget {
       designSize: const Size(360, 640), // 9/16 ratio
       builder: () {
         return MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          initialRoute: AppRouter.routeName,
-          navigatorKey: navigatorKey,
-          routes: {
-            AppRouter.routeName: (context) => AppRouter(),
-          },
+          home: Stack(
+            children: [
+              MaterialApp(
+                locale: DevicePreview.locale(context),
+                builder: DevicePreview.appBuilder,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                initialRoute: ApiSelectorScreen.routeName,
+                navigatorKey: navigatorKey,
+                routes: {
+                  AppRouter.routeName: (context) => AppRouter(),
+                  ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
+                },
+              ),
+              const LogsPersistantButton(),
+            ],
+          ),
         );
       },
     );
