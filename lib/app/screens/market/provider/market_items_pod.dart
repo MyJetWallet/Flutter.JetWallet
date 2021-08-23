@@ -5,7 +5,7 @@ import '../../../shared/helpers/valid_icon_url.dart';
 import '../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../shared/providers/signal_r/assets_spod.dart';
 import '../../../shared/providers/signal_r/balances_spod.dart';
-import '../../market_details/provider/base_prices_spod.dart';
+import '../../../shared/providers/signal_r/base_prices_spod.dart';
 import '../model/market_item_model.dart';
 import 'market_references_spod.dart';
 import 'search_stpod.dart';

@@ -1,5 +1,4 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../screens/market_details/provider/base_prices_spod.dart';
 
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/valid_icon_url.dart';
@@ -7,6 +6,7 @@ import '../../models/currency_model.dart';
 import '../base_currency_pod/base_currency_pod.dart';
 import '../signal_r/assets_spod.dart';
 import '../signal_r/balances_spod.dart';
+import '../signal_r/base_prices_spod.dart';
 
 final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);

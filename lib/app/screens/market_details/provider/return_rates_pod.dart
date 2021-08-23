@@ -1,7 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../shared/providers/signal_r/base_prices_spod.dart';
 import '../helper/calculate_percent_change.dart';
 import '../model/return_rates_model.dart';
-import 'base_prices_spod.dart';
 
 final returnRatesPod = Provider.autoDispose.family<ReturnRatesModel, String>(
   (ref, assetSymbol) {

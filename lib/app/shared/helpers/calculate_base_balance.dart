@@ -3,8 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../service/services/signal_r/model/base_prices_model.dart';
 import '../../../service/services/signal_r/model/prices_model.dart';
 import '../../../service/services/wallet/model/asset_converter_map/asset_converter_map_model.dart';
-import '../../screens/market_details/provider/base_prices_spod.dart';
 import '../providers/base_currency_pod/base_currency_pod.dart';
+import '../providers/signal_r/base_prices_spod.dart';
 
 /// Responsible for converting asset balance to the base balance.
 /// Doesn't work properly inside currenciesPod and marketItemsPod.
