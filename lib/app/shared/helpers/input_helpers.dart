@@ -59,7 +59,7 @@ String valueBasedOnSelectedPercent({
 String responseOnInputAction({
   required String oldInput,
   required String newInput,
-  required double accuracy,
+  required int accuracy,
 }) {
   if (newInput == backspace) {
     if (oldInput.isNotEmpty) {
@@ -94,11 +94,11 @@ int numberOfCharsAfterDecimal(String string) {
   return numbersAfterDecimal;
 }
 
-String valueAccordingToAccuracy(String value, double accuracy) {
+String valueAccordingToAccuracy(String value, int accuracy) {
   final chars = numberOfCharsAfterDecimal(value);
 
   if (chars > accuracy) {
-    final difference = (chars - accuracy).toInt();
+    final difference = chars - accuracy;
 
     return removeCharsFrom(value, difference);
   }

@@ -23,7 +23,7 @@ double calculateBaseBalanceWithReader({
     final baseCurrency = read(baseCurrencyPod);
 
     baseValue = calculateBaseBalance(
-      accuracy: baseCurrency.accuracy.toInt(),
+      accuracy: baseCurrency.accuracy,
       assetSymbol: assetSymbol,
       assetBalance: assetBalance,
       prices: data.basePrices,

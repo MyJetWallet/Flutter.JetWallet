@@ -215,7 +215,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   void _calculateConversionOfToAsset() {
     final amount = double.parse(state.fromAssetAmount);
     final price = state.converstionPrice!;
-    final accuracy = state.toAsset.accuracy.toInt();
+    final accuracy = state.toAsset.accuracy;
 
     state = state.copyWith(
       toAssetAmount: (amount * price).toStringAsFixed(accuracy),
@@ -225,7 +225,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   void _calculateConversionOfFromAsset() {
     final amount = double.parse(state.toAssetAmount);
     final price = state.converstionPrice!;
-    final accuracy = state.fromAsset.accuracy.toInt();
+    final accuracy = state.fromAsset.accuracy;
 
     state = state.copyWith(
       fromAssetAmount: (amount / price).toStringAsFixed(accuracy),

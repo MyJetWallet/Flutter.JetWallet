@@ -81,7 +81,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
         final index = items.indexOf(item);
 
         final baseBalance = calculateBaseBalance(
-          accuracy: baseCurrency.accuracy.toInt(),
+          accuracy: baseCurrency.accuracy,
           assetSymbol: item.associateAsset,
           assetBalance: item.assetBalance,
           prices: _basePrices,
@@ -100,7 +100,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
           baseBalance: baseBalance,
           dayPriceChange: double.parse(
             dayPriceChange.toStringAsFixed(
-              baseCurrency.accuracy.toInt(),
+              baseCurrency.accuracy,
             ),
           ),
           dayPercentChange: assetPrice.dayPercentChange,

@@ -22,7 +22,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
         CurrencyModel(
           symbol: asset.symbol,
           description: asset.description,
-          accuracy: asset.accuracy,
+          accuracy: asset.accuracy.toInt(),
           depositMode: asset.depositMode,
           withdrawalMode: asset.withdrawalMode,
           tagType: asset.tagType,
@@ -68,7 +68,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
         final index = currencies.indexOf(currency);
 
         final baseBalance = calculateBaseBalance(
-          accuracy: baseCurrency.accuracy.toInt(),
+          accuracy: baseCurrency.accuracy,
           assetSymbol: currency.symbol,
           assetBalance: currency.assetBalance,
           prices: data.basePrices,
