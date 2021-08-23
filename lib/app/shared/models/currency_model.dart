@@ -9,7 +9,7 @@ class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
     required String symbol,
     required String description,
-    required double accuracy,
+    required int accuracy,
     required int depositMode,
     required int withdrawalMode,
     required TagType tagType,

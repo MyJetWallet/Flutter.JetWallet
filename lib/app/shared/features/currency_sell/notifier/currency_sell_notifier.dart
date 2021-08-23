@@ -95,7 +95,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
         state.inputValue.isNotEmpty) {
       final amount = double.parse(state.inputValue);
       final price = newPrice ?? state.targetConversionPrice!;
-      final accuracy = state.selectedCurrencyAccuracy.toInt();
+      final accuracy = state.selectedCurrencyAccuracy;
       final conversion = amount * price;
 
       _updateTargetConversionValue(

@@ -10,10 +10,7 @@ final baseCurrencyPod = Provider.autoDispose<BaseCurrencyModel>((ref) {
   final clientDetail = ref.watch(clientDetailSpod);
   final assets = ref.watch(assetsSpod);
 
-  var value = const BaseCurrencyModel(
-    symbol: 'USD',
-    accuracy: 2,
-  );
+  var value = const BaseCurrencyModel();
 
   clientDetail.whenData((clientDetailData) {
     assets.whenData((assetsData) {
@@ -23,7 +20,7 @@ final baseCurrencyPod = Provider.autoDispose<BaseCurrencyModel>((ref) {
 
       value = BaseCurrencyModel(
         symbol: clientDetailData.baseAssetSymbol,
-        accuracy: asset.accuracy,
+        accuracy: asset.accuracy.toInt(),
       );
     });
   });

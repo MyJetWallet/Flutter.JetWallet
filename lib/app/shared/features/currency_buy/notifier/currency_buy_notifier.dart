@@ -121,7 +121,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     if (state.targetConversionPrice != null && state.inputValue.isNotEmpty) {
       final amount = double.parse(state.inputValue);
       final price = state.targetConversionPrice!;
-      final accuracy = currencyModel.accuracy.toInt();
+      final accuracy = currencyModel.accuracy;
       var conversion = 0.0;
 
       if (price != 0) {

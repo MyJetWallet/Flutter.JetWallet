@@ -30,7 +30,7 @@ class CurrencySellState with _$CurrencySellState {
     }
   }
 
-  double get selectedCurrencyAccuracy {
+  int get selectedCurrencyAccuracy {
     if (selectedCurrency == null) {
       return baseCurrency!.accuracy;
     } else {

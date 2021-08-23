@@ -8,10 +8,10 @@ import 'components/return_rates.dart';
 class ReturnRatesBlock extends HookWidget {
   const ReturnRatesBlock({
     Key? key,
-    required this.instrument,
+    required this.assetSymbol,
   }) : super(key: key);
 
-  final String instrument;
+  final String assetSymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ReturnRatesBlock extends HookWidget {
         ),
         const SpaceH8(),
         ReturnRates(
-          instrument: instrument,
+          assetSymbol: assetSymbol,
         ),
         const Divider(),
       ],
