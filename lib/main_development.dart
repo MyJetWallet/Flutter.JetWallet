@@ -9,7 +9,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import 'development/api_selector_screen/api_selector_screen.dart';
-import 'development/logs_screen/view/components/logs_persistant_button.dart';
 import 'router/view/router.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
@@ -18,13 +17,9 @@ import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/push_notification_service.dart';
 import 'shared/services/remote_config_service/service/remote_config_service.dart';
 
-// Just type providers here to exclude from logger
-// Remember to unstage the changes from your commit
 final providerTypes = <String>[
-  'AutoDisposeStreamProvider<PricesModel>',
   'AutoDisposeProvider<List<CurrencyModel>>',
   'AutoDisposeProvider<List<MarketItemModel>>',
-  'AutoDisposeStateNotifierProvider<ConvertInputNotifier, ConvertInputState>',
 ];
 
 final providerNames = <String>[
@@ -70,25 +65,17 @@ class App extends HookWidget {
       builder: () {
         // TODO(any): Add global theme and refactor
         return MaterialApp(
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
-          home: Stack(
-            children: [
-              MaterialApp(
-                locale: DevicePreview.locale(context),
-                builder: DevicePreview.appBuilder,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                debugShowCheckedModeBanner: false,
-                initialRoute: ApiSelectorScreen.routeName,
-                navigatorKey: navigatorKey,
-                routes: {
-                  AppRouter.routeName: (context) => AppRouter(),
-                  ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
-                },
-              ),
-              const LogsPersistantButton(),
-            ],
-          ),
+          initialRoute: AppRouter.routeName,
+          navigatorKey: navigatorKey,
+          routes: {
+            AppRouter.routeName: (context) => AppRouter(),
+            ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
+          },
         );
       },
     );
