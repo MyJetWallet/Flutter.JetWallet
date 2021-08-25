@@ -24,6 +24,9 @@ class CurrencyModel with _$CurrencyModel {
     required double assetBalance,
     required double baseBalance,
     required String iconUrl,
+    required double currentPrice,
+    required double dayPriceChange,
+    required double dayPercentChange,
   }) = _CurrencyModel;
 
   const CurrencyModel._();

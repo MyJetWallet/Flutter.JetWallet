@@ -20,11 +20,17 @@ double calculateBaseBalanceWithReader({
   read(basePricesSpod).whenData((data) {
     final baseCurrency = read(baseCurrencyPod);
 
+    final assetPrice = basePriceFrom(
+      prices: data.prices,
+      assetSymbol: assetSymbol,
+    );
+
     baseValue = calculateBaseBalance(
       accuracy: baseCurrency.accuracy,
       assetSymbol: assetSymbol,
       assetBalance: assetBalance,
-      prices: data.basePrices,
+      assetPrice: assetPrice,
+      baseCurrencySymbol: baseCurrency.symbol,
     );
   });
 
@@ -35,13 +41,30 @@ double calculateBaseBalance({
   required int accuracy,
   required String assetSymbol,
   required double assetBalance,
-  required List<AssetPriceModel> prices,
+  required BasePriceModel assetPrice,
+  required String baseCurrencySymbol,
 }) {
-  final assetPrice = prices.firstWhere((element) {
-    return element.assetSymbol == assetSymbol;
-  });
+  if (assetSymbol == baseCurrencySymbol) {
+    return assetBalance;
+  }
 
   final result = assetBalance * assetPrice.currentPrice;
 
   return double.parse(result.toStringAsFixed(accuracy));
+}
+
+BasePriceModel basePriceFrom({
+  required List<BasePriceModel> prices,
+  required String assetSymbol,
+}) {
+  return prices.firstWhere(
+    (element) {
+      return element.assetSymbol == assetSymbol;
+    },
+    orElse: () {
+      return BasePriceModel(
+        assetSymbol: assetSymbol,
+      );
+    },
+  );
 }

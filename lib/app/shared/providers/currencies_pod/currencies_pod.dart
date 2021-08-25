@@ -37,6 +37,9 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
           sequenceId: 0.0,
           assetBalance: 0.0,
           baseBalance: 0.0,
+          currentPrice: 0.0,
+          dayPriceChange: 0.0,
+          dayPercentChange: 0.0,
         ),
       );
     }
@@ -67,15 +70,28 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
       for (final currency in currencies) {
         final index = currencies.indexOf(currency);
 
+        final assetPrice = basePriceFrom(
+          prices: data.prices,
+          assetSymbol: currency.symbol,
+        );
+
         final baseBalance = calculateBaseBalance(
           accuracy: baseCurrency.accuracy,
           assetSymbol: currency.symbol,
           assetBalance: currency.assetBalance,
-          prices: data.basePrices,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: baseCurrency.symbol,
         );
 
         currencies[index] = currency.copyWith(
           baseBalance: baseBalance,
+          currentPrice: double.parse(
+            assetPrice.currentPrice.toStringAsFixed(
+              baseCurrency.accuracy,
+            ),
+          ),
+          dayPriceChange: assetPrice.dayPriceChange,
+          dayPercentChange: assetPrice.dayPercentChange,
         );
       }
     }

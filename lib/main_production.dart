@@ -17,6 +17,7 @@ import 'shared/services/remote_config_service/service/remote_config_service.dart
 final providerTypes = <String>[
   'AutoDisposeProvider<List<CurrencyModel>>',
   'AutoDisposeProvider<List<MarketItemModel>>',
+  'AutoDisposeStreamProvider<BasePricesModel>',
 ];
 
 final providerNames = <String>[

@@ -1,38 +1,38 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../shared/providers/signal_r/base_prices_spod.dart';
+import '../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../../shared/providers/signal_r/period_prices_spod.dart';
 import '../helper/calculate_percent_change.dart';
 import '../model/return_rates_model.dart';
 
 final returnRatesPod = Provider.autoDispose.family<ReturnRatesModel, String>(
   (ref, assetSymbol) {
-    final basePrices = ref.watch(basePricesSpod);
+    final periodPrices = ref.watch(periodPricesSpod);
+    final currencies = ref.read(currenciesPod);
 
-    var model = const ReturnRatesModel(
-      dayPrice: 0,
-      weekPrice: 0,
-      monthPrice: 0,
-      threeMonthPrice: 0,
-    );
+    var model = const ReturnRatesModel();
 
-    basePrices.whenData((value) {
-      final basePrice = value.basePrices.firstWhere(
+    periodPrices.whenData((value) {
+      final periodPrice = value.prices.firstWhere(
         (element) => element.assetSymbol == assetSymbol,
+      );
+      final currency = currencies.firstWhere(
+        (element) => element.symbol == assetSymbol,
       );
 
       model = model.copyWith(
-        dayPrice: basePrice.dayPercentChange,
+        dayPrice: periodPrice.dayPrice.price,
         weekPrice: calculatePercentOfChange(
-          basePrice.weekPrice.price,
-          basePrice.currentPrice,
+          periodPrice.weekPrice.price,
+          currency.currentPrice,
         ),
         monthPrice: calculatePercentOfChange(
-          basePrice.monthPrice.price,
-          basePrice.currentPrice,
+          periodPrice.monthPrice.price,
+          currency.currentPrice,
         ),
         threeMonthPrice: calculatePercentOfChange(
-          basePrice.threeMonthPrice.price,
-          basePrice.currentPrice,
+          periodPrice.threeMonthPrice.price,
+          currency.currentPrice,
         ),
       );
     });
