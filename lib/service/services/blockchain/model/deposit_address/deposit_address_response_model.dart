@@ -8,7 +8,6 @@ class DepositAddressResponseModel with _$DepositAddressResponseModel {
   const factory DepositAddressResponseModel({
     String? address,
     String? memo,
-    String? memoType,
   }) = _DepositAddressResponseModel;
 
   factory DepositAddressResponseModel.fromJson(Map<String, dynamic> json) =>
