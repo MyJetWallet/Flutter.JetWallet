@@ -32,12 +32,9 @@ class ActionDeposit extends HookWidget {
                 headerColor: Colors.black,
                 currency: currency,
                 onTap: () {
-                  navigatorPush(
-                    context,
-                    CurrencyDeposit(
-                      currency: currency,
-                    ),
-                  );
+                  // TODO add Deposit for fiat
+                  // can be FIAT from creditCard or CRYPTO
+                  // check this
                 },
               ),
           const SpaceH10(),
