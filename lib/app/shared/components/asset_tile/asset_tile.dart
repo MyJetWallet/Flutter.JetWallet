@@ -8,21 +8,40 @@ import 'components/asset_tile_column.dart';
 class AssetTile extends StatelessWidget {
   const AssetTile({
     Key? key,
-    this.priceColumn = true,
+    this.onTap,
+    this.firstColumnSubheader,
+    this.enableBorder = true,
+    this.enableBalanceColumn = true,
     this.leadingAssetBalance = false,
     this.selectedBorder = false,
     this.headerColor = Colors.white,
     this.subheaderColor = Colors.grey,
-    required this.onTap,
     required this.currency,
   }) : super(key: key);
 
-  final bool priceColumn;
+  final Function()? onTap;
+
+  /// Second text displayed in the first column
+  final String? firstColumnSubheader;
+
+  /// Enables border of the Tile
+  final bool enableBorder;
+
+  /// Enables the column at the end of the tile with asset and base balance
+  final bool enableBalanceColumn;
+
+  /// Wether to show assetBlance first or second in the priceColumn
   final bool leadingAssetBalance;
+
+  /// There are 2 themes of the border: selected(1) and not(2). \
+  /// Selected theme is needed inside assetSheet
   final bool selectedBorder;
+
+  /// Color of the first item in the AssetTileColumn
   final Color headerColor;
+
+  /// Color of the second item in the AssetTileColumn
   final Color subheaderColor;
-  final Function() onTap;
   final CurrencyModel currency;
 
   @override
@@ -39,28 +58,31 @@ class AssetTile extends StatelessWidget {
             vertical: 8.h,
           ),
           decoration: BoxDecoration(
-            border: Border.all(
-              color: selectedBorder ? Colors.white : Colors.grey[600]!,
-            ),
+            border: enableBorder
+                ? Border.all(
+                    color: selectedBorder ? Colors.white : Colors.grey[600]!,
+                  )
+                : null,
             borderRadius: BorderRadius.circular(6.r),
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.network(
                 currency.iconUrl,
-                width: 30.w,
-                height: 30.w,
+                width: 24.w,
+                height: 24.w,
               ),
               const SpaceW10(),
               AssetTileColumn(
                 header: currency.description,
-                subheader: currency.symbol,
+                subheader: firstColumnSubheader ?? currency.symbol,
                 headerColor: headerColor,
                 subheaderColor: subheaderColor,
                 crossAxisAlignment: CrossAxisAlignment.start,
               ),
               const Spacer(),
-              if (priceColumn)
+              if (enableBalanceColumn)
                 AssetTileColumn(
                   header: leadingAssetBalance ? _assetBalance : _baseBalance,
                   subheader: leadingAssetBalance ? _baseBalance : _assetBalance,

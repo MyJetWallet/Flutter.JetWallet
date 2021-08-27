@@ -21,7 +21,7 @@ class ActionSell extends HookWidget {
           for (final currency in context.read(currenciesPod))
             if (currency.isAssetBalanceNotEmpty)
               AssetTile(
-                priceColumn: false,
+                enableBalanceColumn: false,
                 headerColor: Colors.black,
                 currency: currency,
                 onTap: () {

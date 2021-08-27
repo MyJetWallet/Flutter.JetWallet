@@ -5,9 +5,9 @@ import '../../../../../service/services/blockchain/model/deposit_address/deposit
 import '../../../../../shared/providers/service_providers.dart';
 
 final depositAddressFpod =
-    FutureProvider.family<DepositAddressResponseModel, String>(
+    FutureProvider.autoDispose.family<DepositAddressResponseModel, String>(
   (ref, assetSymbol) {
-    final blockchainService = ref.watch(blockchainServicePod);
+    final blockchainService = ref.read(blockchainServicePod);
 
     final model = DepositAddressRequestModel(
       assetSymbol: assetSymbol,
