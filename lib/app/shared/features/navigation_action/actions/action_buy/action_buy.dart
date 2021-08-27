@@ -20,7 +20,7 @@ class ActionBuy extends HookWidget {
         children: [
           for (final currency in context.read(currenciesPod))
             AssetTile(
-              priceColumn: false,
+              enableBalanceColumn: false,
               headerColor: Colors.black,
               currency: currency,
               onTap: () {

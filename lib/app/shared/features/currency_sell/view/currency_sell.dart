@@ -114,7 +114,7 @@ class CurrencySell extends HookWidget {
             )
           else
             AssetTile(
-              priceColumn: false,
+              enableBalanceColumn: false,
               headerColor: Colors.black,
               leadingAssetBalance: true,
               currency: state.selectedCurrency!,
