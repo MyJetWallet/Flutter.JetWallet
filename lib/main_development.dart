@@ -68,6 +68,7 @@ class App extends HookWidget {
         /// Because there are some issues with nested MaterialApps
         /// So, stage_env can be broken while dev_env is working fine
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           // TODO(any): Add global theme and refactor
           home: MaterialApp(
             locale: DevicePreview.locale(context),

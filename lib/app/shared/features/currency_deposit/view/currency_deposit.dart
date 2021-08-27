@@ -29,17 +29,17 @@ class CurrencyDeposit extends HookWidget {
   Widget build(BuildContext context) {
     final openAddress = useState(true);
     final openTag = useState(false);
-    useProvider(depositDisclaimerFpod.select((_) {}));
+    useProvider(depositDisclaimerFpod(currency.symbol).select((_) {}));
     final depositAddress = useProvider(
       depositAddressFpod(currency.symbol),
     );
 
     return ProviderListener<AsyncValue<DepositDisclaimer>>(
-      provider: depositDisclaimerFpod,
+      provider: depositDisclaimerFpod(currency.symbol),
       onChange: (context, asyncValue) {
         asyncValue.whenData((value) {
           if (value == DepositDisclaimer.notAccepted) {
-            showDepositDisclaimer(context);
+            showDepositDisclaimer(context, currency.symbol);
           }
         });
       },
@@ -101,7 +101,8 @@ class CurrencyDeposit extends HookWidget {
                   AppButtonOutlined(
                     name: 'Share my address',
                     onTap: () => Share.share(
-                      'My ${currency.symbol} Address: ${data.address}',
+                      'My ${currency.symbol} Address: ${data.address}, '
+                      '${data.memo != null ? 'Tag: ${data.memo}' : ''}',
                     ),
                   )
                 ],
