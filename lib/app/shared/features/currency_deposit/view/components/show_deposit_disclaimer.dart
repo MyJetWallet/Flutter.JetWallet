@@ -8,7 +8,7 @@ void showDepositDisclaimer(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (_) {
+    builder: (builderContext) {
       return WillPopScope(
         onWillPop: () {
           return Future.value(false);
@@ -25,7 +25,7 @@ void showDepositDisclaimer(BuildContext context) {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(builderContext);
                 final storage = context.read(localStorageServicePod);
                 storage.setString(depositDisclaimer, 'accepted');
               },

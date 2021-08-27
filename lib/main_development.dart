@@ -64,19 +64,24 @@ class App extends HookWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 640), // 9/16 ratio
       builder: () {
-        // TODO(any): Add global theme and refactor
+        /// Second material is placed to mimic structure of stage_env
+        /// Because there are some issues with nested MaterialApps
+        /// So, stage_env can be broken while dev_env is working fine
         return MaterialApp(
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          debugShowCheckedModeBanner: false,
-          initialRoute: AppRouter.routeName,
-          navigatorKey: navigatorKey,
-          routes: {
-            AppRouter.routeName: (context) => AppRouter(),
-            ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
-          },
+          // TODO(any): Add global theme and refactor
+          home: MaterialApp(
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            debugShowCheckedModeBanner: false,
+            initialRoute: AppRouter.routeName,
+            navigatorKey: navigatorKey,
+            routes: {
+              AppRouter.routeName: (context) => AppRouter(),
+              ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
+            },
+          ),
         );
       },
     );
