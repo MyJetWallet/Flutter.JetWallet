@@ -5,9 +5,9 @@ part 'return_rates_model.freezed.dart';
 @freezed
 class ReturnRatesModel with _$ReturnRatesModel {
   const factory ReturnRatesModel({
-    required double dayPrice,
-    required double weekPrice,
-    required double monthPrice,
-    required double threeMonthPrice,
+    @Default(0.0) double dayPrice,
+    @Default(0.0) double weekPrice,
+    @Default(0.0) double monthPrice,
+    @Default(0.0) double threeMonthPrice,
   }) = _ReturnRatesModel;
 }

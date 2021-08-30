@@ -29,6 +29,7 @@ class AssetTileColumn extends StatelessWidget {
           style: TextStyle(
             fontSize: 16.sp,
             color: headerColor,
+            fontWeight: FontWeight.bold,
           ),
         ),
         const SpaceH2(),

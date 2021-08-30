@@ -24,7 +24,9 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
   static final _logger = Logger('CurrencySellNotifier');
 
   void _initCurrencies() {
-    final currencies = read(currenciesPod);
+    final currencies = List<CurrencyModel>.from(
+      read(currenciesPod),
+    );
     sortCurrencies(currencies);
     removeCurrencyFrom(currencies, currencyModel);
     state = state.copyWith(currencies: currencies);
@@ -95,7 +97,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
         state.inputValue.isNotEmpty) {
       final amount = double.parse(state.inputValue);
       final price = newPrice ?? state.targetConversionPrice!;
-      final accuracy = state.selectedCurrencyAccuracy.toInt();
+      final accuracy = state.selectedCurrencyAccuracy;
       final conversion = amount * price;
 
       _updateTargetConversionValue(

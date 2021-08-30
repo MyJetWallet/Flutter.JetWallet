@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
@@ -15,7 +14,7 @@ import '../model/base_prices_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
 import '../model/market_references_model.dart';
-import '../model/prices_model.dart';
+import '../model/period_prices_model.dart';
 
 class SignalRService {
   SignalRService(this.read);
@@ -40,15 +39,10 @@ class SignalRService {
   final _assetsController = StreamController<AssetsModel>();
   final _balancesController = StreamController<BalancesModel>();
   final _instrumentsController = StreamController<InstrumentsModel>();
-  final _pricesController = StreamController<PricesModel>();
   final _marketReferencesController = StreamController<MarketReferencesModel>();
   final _basePricesController = StreamController<BasePricesModel>();
+  final _periodPricesController = StreamController<PeriodPricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
-
-  var _prices = const PricesModel(
-    now: 0,
-    prices: [],
-  );
 
   Future<void> init() async {
     isDisconnecting = false;
@@ -63,7 +57,6 @@ class SignalRService {
     });
 
     _connection.on(assetsMessage, (data) {
-      debugPrint(data.toString(), wrapWidth: 1024);
       try {
         final assets = AssetsModel.fromJson(_json(data));
         _assetsController.add(assets);
@@ -90,16 +83,6 @@ class SignalRService {
       }
     });
 
-    _connection.on(bidAskMessage, (data) {
-      try {
-        _updatePrices(data);
-
-        _pricesController.add(_prices);
-      } catch (e) {
-        _logger.log(contract, bidAskMessage, e);
-      }
-    });
-
     _connection.on(pongMessage, (data) {
       _pongTimer?.cancel();
 
@@ -121,6 +104,15 @@ class SignalRService {
         _basePricesController.add(basePrices);
       } catch (e) {
         _logger.log(contract, basePricesMessage, e);
+      }
+    });
+
+    _connection.on(periodPricesMessage, (data) {
+      try {
+        final basePrices = PeriodPricesModel.fromJson(_json(data));
+        _periodPricesController.add(basePrices);
+      } catch (e) {
+        _logger.log(contract, periodPricesMessage, e);
       }
     });
 
@@ -158,40 +150,14 @@ class SignalRService {
 
   Stream<InstrumentsModel> instruments() => _instrumentsController.stream;
 
-  Stream<PricesModel> prices() => _pricesController.stream;
-
   Stream<MarketReferencesModel> marketReferences() =>
       _marketReferencesController.stream;
 
   Stream<BasePricesModel> basePrices() => _basePricesController.stream;
 
+  Stream<PeriodPricesModel> periodPrices() => _periodPricesController.stream;
+
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
-
-  void _updatePrices(List<dynamic>? data) {
-    final newPrices = PricesModel.fromJson(_json(data));
-
-    if (_prices.prices.isNotEmpty) {
-      for (final newPrice in newPrices.prices) {
-        for (final oldPrice in _prices.prices) {
-          if (oldPrice.id == newPrice.id) {
-            final index = _prices.prices.indexOf(oldPrice);
-
-            _prices.prices[index] = oldPrice.copyWith(
-              date: newPrice.date,
-              bid: newPrice.bid,
-              ask: newPrice.ask,
-              lastPrice: newPrice.lastPrice,
-              dayPercentageChange: newPrice.dayPercentageChange,
-              dayPriceChange: newPrice.dayPriceChange,
-            );
-          }
-        }
-      }
-      _prices.copyWith(now: newPrices.now);
-    } else {
-      _prices = newPrices;
-    }
-  }
 
   void _startPing() {
     _pingTimer = Timer.periodic(

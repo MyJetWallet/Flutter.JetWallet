@@ -1,6 +1,7 @@
 import '../models/currency_model.dart';
 
-/// Used for [BUY] and [SELL] features
+/// Used for [BUY] and [SELL] features \
+/// Always provide newList to avoid unexpected behaviour
 void sortCurrencies(List<CurrencyModel> currencies) {
   // If baseBalance of 2 assets are equal, compare by assetBalance
   currencies.sort((a, b) {
@@ -10,12 +11,14 @@ void sortCurrencies(List<CurrencyModel> currencies) {
   });
 }
 
-/// Used for [BUY] feature
+/// Used for [BUY] feature \
+/// Always provide newList to avoid unexpected behaviour
 void removeEmptyCurrenciesFrom(List<CurrencyModel> currencies) {
   currencies.removeWhere((element) => element.assetBalance == 0);
 }
 
-/// Used for [BUY] and [SELL] features
+/// Used for [BUY] and [SELL] features \
+/// Always provide newList to avoid unexpected behaviour
 void removeCurrencyFrom(
   List<CurrencyModel> currencies,
   CurrencyModel currency,

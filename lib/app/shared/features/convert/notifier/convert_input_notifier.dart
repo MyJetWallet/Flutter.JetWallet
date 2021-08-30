@@ -5,7 +5,7 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
-import '../helper/remove_element.dart';
+import '../helper/remove_currency_from_list.dart';
 import 'convert_input_state.dart';
 
 class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
@@ -215,7 +215,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   void _calculateConversionOfToAsset() {
     final amount = double.parse(state.fromAssetAmount);
     final price = state.converstionPrice!;
-    final accuracy = state.toAsset.accuracy.toInt();
+    final accuracy = state.toAsset.accuracy;
 
     state = state.copyWith(
       toAssetAmount: (amount * price).toStringAsFixed(accuracy),
@@ -225,7 +225,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   void _calculateConversionOfFromAsset() {
     final amount = double.parse(state.toAssetAmount);
     final price = state.converstionPrice!;
-    final accuracy = state.fromAsset.accuracy.toInt();
+    final accuracy = state.fromAsset.accuracy;
 
     state = state.copyWith(
       fromAssetAmount: (amount / price).toStringAsFixed(accuracy),
@@ -258,13 +258,13 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void _updateFromList() {
-    final newList = removeElement(state.toAsset, currencies);
+    final newList = removeCurrencyFromList(state.toAsset, currencies);
 
     state = state.copyWith(fromAssetList: newList);
   }
 
   void _updateToList() {
-    final newList = removeElement(state.fromAsset, currencies);
+    final newList = removeCurrencyFromList(state.fromAsset, currencies);
 
     state = state.copyWith(toAssetList: newList);
   }

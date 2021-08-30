@@ -9,8 +9,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import 'development/api_selector_screen/api_selector_screen.dart';
+import 'development/logs_screen/view/components/logs_persistant_button.dart';
 import 'router/view/router.dart';
-import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
@@ -37,7 +37,6 @@ Future<void> main() async {
   }
 
   Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) => debugLogging(record));
 
   runApp(
     DevicePreview(
@@ -64,24 +63,24 @@ class App extends HookWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 640), // 9/16 ratio
       builder: () {
-        /// Second material is placed to mimic structure of stage_env
-        /// Because there are some issues with nested MaterialApps
-        /// So, stage_env can be broken while dev_env is working fine
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          // TODO(any): Add global theme and refactor
-          home: MaterialApp(
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            initialRoute: AppRouter.routeName,
-            navigatorKey: navigatorKey,
-            routes: {
-              AppRouter.routeName: (context) => AppRouter(),
-              ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
-            },
+          home: Stack(
+            children: [
+              MaterialApp(
+                locale: DevicePreview.locale(context),
+                builder: DevicePreview.appBuilder,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                initialRoute: ApiSelectorScreen.routeName,
+                navigatorKey: navigatorKey,
+                routes: {
+                  AppRouter.routeName: (context) => AppRouter(),
+                  ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
+                },
+              ),
+              const LogsPersistantButton(),
+            ],
           ),
         );
       },

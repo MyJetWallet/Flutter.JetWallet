@@ -1,39 +1,42 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../../shared/providers/signal_r/period_prices_spod.dart';
 import '../helper/calculate_percent_change.dart';
 import '../model/return_rates_model.dart';
-import 'base_prices_spod.dart';
 
-final returnRatesPod =
-    Provider.autoDispose.family<ReturnRatesModel, String>((ref, instrument) {
-  final basePrices = ref.watch(basePricesSpod);
+final returnRatesPod = Provider.autoDispose.family<ReturnRatesModel, String>(
+  (ref, assetSymbol) {
+    final periodPrices = ref.watch(periodPricesSpod);
+    final currencies = ref.read(currenciesPod);
 
-  var model = const ReturnRatesModel(
-    dayPrice: 0,
-    weekPrice: 0,
-    monthPrice: 0,
-    threeMonthPrice: 0,
-  );
+    var model = const ReturnRatesModel();
 
-  basePrices.whenData((value) {
-    final assetBasePrice = value.basePrices
-        .firstWhere((element) => element.instrumentSymbol == instrument);
+    periodPrices.whenData((value) {
+      final periodPrice = value.prices.firstWhere(
+        (element) => element.assetSymbol == assetSymbol,
+      );
+      final currency = currencies.firstWhere(
+        (element) => element.symbol == assetSymbol,
+      );
 
-    model = model.copyWith(
-      dayPrice: assetBasePrice.dayPercentChange,
-      weekPrice: calculatePercentOfChange(
-        assetBasePrice.weekPrice.price,
-        assetBasePrice.currentPrice,
-      ),
-      monthPrice: calculatePercentOfChange(
-        assetBasePrice.monthPrice.price,
-        assetBasePrice.currentPrice,
-      ),
-      threeMonthPrice: calculatePercentOfChange(
-        assetBasePrice.threeMonthPrice.price,
-        assetBasePrice.currentPrice,
-      ),
-    );
-  });
+      model = model.copyWith(
+        dayPrice: periodPrice.dayPrice.price,
+        weekPrice: calculatePercentOfChange(
+          periodPrice.weekPrice.price,
+          currency.currentPrice,
+        ),
+        monthPrice: calculatePercentOfChange(
+          periodPrice.monthPrice.price,
+          currency.currentPrice,
+        ),
+        threeMonthPrice: calculatePercentOfChange(
+          periodPrice.threeMonthPrice.price,
+          currency.currentPrice,
+        ),
+      );
+    });
 
-  return model;
-});
+    return model;
+  },
+);
