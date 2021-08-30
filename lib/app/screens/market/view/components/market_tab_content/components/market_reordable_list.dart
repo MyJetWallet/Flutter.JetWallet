@@ -13,14 +13,16 @@ class MarketReorderableList extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final items = useProvider(marketWatchlistItemsPod);
-    final notifier = useProvider(watchlistNotipod.notifier);
+    final notifier = useProvider(watchlistIdsNotipod.notifier);
 
     if (items.isNotEmpty) {
       return ReorderableListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
           return MarketItem(
-            key: Key('${items[index].weight}'),
+            key: Key(
+              '${items[index].weight}',
+            ),
             marketItem: items[index],
           );
         },

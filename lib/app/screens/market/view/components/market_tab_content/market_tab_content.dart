@@ -12,12 +12,12 @@ import 'components/market_reordable_list.dart';
 class MarketTabContent extends HookWidget {
   const MarketTabContent({
     Key? key,
+    this.watchlist = false,
     required this.items,
-    this.isWatchlist = false,
   }) : super(key: key);
 
   final List<MarketItemModel> items;
-  final bool isWatchlist;
+  final bool watchlist;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MarketTabContent extends HookWidget {
     final search = useProvider(searchStpod);
 
     if (market.state == MarketState.watch) {
-      if (isWatchlist) {
+      if (watchlist) {
         return const MarketReorderableList();
       } else {
         return MarketList(items: items);
@@ -39,7 +39,7 @@ class MarketTabContent extends HookWidget {
           ),
         );
       } else {
-        if (isWatchlist) {
+        if (watchlist) {
           return const MarketReorderableList();
         } else {
           return MarketList(items: items);

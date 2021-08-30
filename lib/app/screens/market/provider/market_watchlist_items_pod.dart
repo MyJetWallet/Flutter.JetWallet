@@ -6,21 +6,21 @@ import 'market_items_pod.dart';
 
 final marketWatchlistItemsPod =
     Provider.autoDispose<List<MarketItemModel>>((ref) {
-  final watchlistIds = ref.watch(watchlistNotipod);
+  final watchlistIds = ref.watch(watchlistIdsNotipod);
   final items = ref.watch(marketItemsPod);
-  final notifier = ref.watch(watchlistNotipod.notifier);
+  final watchlistIdsN = ref.watch(watchlistIdsNotipod.notifier);
   final watchlistItems = items
       .where(
-        (item) => notifier.isInWatchlist(item.associateAsset),
+        (item) => watchlistIdsN.isInWatchlist(item.associateAsset),
       )
       .toList();
 
-  for (final watchlistId in watchlistIds) {
-    for (final watchlistItem in watchlistItems) {
-      final itemIndex = watchlistItems.indexOf(watchlistItem);
-      final watchlistItemIndex = watchlistIds.indexOf(watchlistId);
+  for (final id in watchlistIds) {
+    for (final item in watchlistItems) {
+      final itemIndex = watchlistItems.indexOf(item);
+      final watchlistItemIndex = watchlistIds.indexOf(id);
 
-      if (watchlistId == watchlistItem.associateAsset) {
+      if (id == item.associateAsset) {
         watchlistItems[itemIndex] =
             watchlistItems[itemIndex].copyWith(weight: watchlistItemIndex);
       }

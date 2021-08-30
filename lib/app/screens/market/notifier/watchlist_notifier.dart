@@ -6,20 +6,19 @@ import 'package:logging/logging.dart';
 import '../../../../service/services/key_value/model/key_value_request_model.dart';
 import '../../../../service/services/key_value/model/key_value_response_model.dart';
 import '../../../../shared/logging/levels.dart';
+import '../../../shared/features/key_value/model/key_value_key.dart';
 import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
-
-const watchlistKey = 'watchlist';
 
 class WatchlistNotifier extends StateNotifier<List<String>> {
   WatchlistNotifier({
     required this.read,
-    required this.watchlist,
+    required this.watchlistIds,
   }) : super([]) {
-    state = watchlist;
+    state = watchlistIds;
   }
 
   final Reader read;
-  final List<String> watchlist;
+  final List<String> watchlistIds;
 
   static final _logger = Logger('WatchlistNotifier');
 
@@ -35,14 +34,14 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
         KeyValueRequestModel(
           keys: [
             KeyValueResponseModel(
-              key: watchlistKey,
+              key: KeyValueKey.watchlist,
               value: jsonEncode(state),
             )
           ],
         ),
       );
     } catch (e) {
-      _logger.log(notifier, 'addToWatchlist', e);
+      _logger.log(stateFlow, 'addToWatchlist', e);
     }
   }
 
@@ -58,14 +57,14 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
         KeyValueRequestModel(
           keys: [
             KeyValueResponseModel(
-              key: watchlistKey,
+              key: KeyValueKey.watchlist,
               value: jsonEncode(state),
             )
           ],
         ),
       );
     } catch (e) {
-      _logger.log(notifier, 'removeFromWatchlist', e);
+      _logger.log(stateFlow, 'removeFromWatchlist', e);
     }
   }
 
@@ -88,14 +87,14 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
         KeyValueRequestModel(
           keys: [
             KeyValueResponseModel(
-              key: watchlistKey,
+              key: KeyValueKey.watchlist,
               value: jsonEncode(state),
             )
           ],
         ),
       );
     } catch (e) {
-      _logger.log(notifier, 'changePosition', e);
+      _logger.log(stateFlow, 'changePosition', e);
     }
   }
 

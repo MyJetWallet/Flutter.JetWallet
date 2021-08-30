@@ -12,11 +12,11 @@ class KeyValueService {
 
   static final logger = Logger('KeyValueService');
 
-  Future<void> keyValueRemove(List<String> keys) {
+  Future<void> remove(List<String> keys) {
     return removeKeyValueService(dio, keys);
   }
 
-  Future<void> keyValueSet(KeyValueRequestModel model) {
+  Future<void> set(KeyValueRequestModel model) {
     return setKeyValueService(dio, model);
   }
 }

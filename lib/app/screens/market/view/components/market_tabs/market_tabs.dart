@@ -21,12 +21,14 @@ class MarketTabs extends HookWidget implements PreferredSizeWidget {
           left: 16.w,
           right: 16.w,
         ),
-        margin: EdgeInsets.only(bottom: 16.h),
+        margin: EdgeInsets.only(
+          bottom: 16.h,
+        ),
         child: TabBar(
-          indicator: const BoxDecoration(
+          indicator: BoxDecoration(
             color: Colors.grey,
             borderRadius: BorderRadius.all(
-              Radius.circular(30),
+              Radius.circular(30.r),
             ),
           ),
           unselectedLabelColor: Colors.grey,

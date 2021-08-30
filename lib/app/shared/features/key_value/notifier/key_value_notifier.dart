@@ -10,10 +10,12 @@ class KeyValueNotifier extends StateNotifier<KeyValueModel> {
   KeyValueNotifier({
     required this.read,
     required this.keyValue,
-  }) : super(const KeyValueModel(
-          now: 0,
-          keys: [],
-        )) {
+  }) : super(
+          const KeyValueModel(
+            now: 0,
+            keys: [],
+          ),
+        ) {
     keyValue.whenData(
       (data) {
         state = data;
@@ -30,9 +32,9 @@ class KeyValueNotifier extends StateNotifier<KeyValueModel> {
     _logger.log(notifier, 'addToKeyValue');
 
     try {
-      await read(keyValueServicePod).keyValueSet(model);
+      await read(keyValueServicePod).set(model);
     } catch (e) {
-      _logger.log(notifier, 'addToKeyValue', e);
+      _logger.log(stateFlow, 'addToKeyValue', e);
     }
   }
 
@@ -40,9 +42,9 @@ class KeyValueNotifier extends StateNotifier<KeyValueModel> {
     _logger.log(notifier, 'removeFromKeyValue');
 
     try {
-      await read(keyValueServicePod).keyValueRemove(keys);
+      await read(keyValueServicePod).remove(keys);
     } catch (e) {
-      _logger.log(notifier, 'removeFromKeyValue', e);
+      _logger.log(stateFlow, 'removeFromKeyValue', e);
     }
   }
 }

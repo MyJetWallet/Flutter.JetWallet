@@ -18,8 +18,8 @@ class AssetInfo extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = useProvider(watchlistNotipod.notifier);
-    useProvider(watchlistNotipod);
+    final notifier = useProvider(watchlistIdsNotipod.notifier);
+    useProvider(watchlistIdsNotipod);
 
     return Row(
       children: [

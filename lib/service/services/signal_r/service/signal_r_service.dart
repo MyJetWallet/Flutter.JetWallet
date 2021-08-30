@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
-import '../../../../app/screens/market/notifier/watchlist_notifier.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
@@ -121,10 +120,13 @@ class SignalRService {
 
     _connection.on(keyValueMessage, (data) {
       try {
-        final keyValue = KeyValueModel.fromJson(_json(data));
-        final serializedKeyValue = _serializeKeys(keyValue);
+        final keyValue = KeyValueModel.fromModel(
+          KeyValueModel.fromJson(
+            _json(data),
+          ),
+        );
 
-        _keyValueController.add(serializedKeyValue);
+        _keyValueController.add(keyValue);
       } catch (e) {
         _logger.log(contract, keyValueMessage, e);
       }
@@ -163,20 +165,6 @@ class SignalRService {
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
 
   Stream<KeyValueModel> keyValue() => _keyValueController.stream;
-
-  KeyValueModel _serializeKeys(KeyValueModel keyValue) {
-    var serializedKeyValue = keyValue;
-
-    for (final keyValuePair in keyValue.keys) {
-      if (keyValuePair.key == watchlistKey) {
-        serializedKeyValue = keyValue.copyWith(
-          watchlist: WatchlistModel.fromJson(keyValuePair.toJson()),
-        );
-      }
-    }
-
-    return serializedKeyValue;
-  }
 
   void _startPing() {
     _pingTimer = Timer.periodic(

@@ -22,7 +22,9 @@ class EmptyWatchlist extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SpaceH8(),
-        const Text('Star an asset to add it to your Watchlist'),
+        const Text(
+          'Star an asset to add it to your Watchlist',
+        ),
       ],
     );
   }

@@ -6,7 +6,7 @@ part 'market_info_response_model.g.dart';
 @freezed
 class MarketInfoResponseModel with _$MarketInfoResponseModel {
   const factory MarketInfoResponseModel({
-    required String? whitepaperUrl,
+    String? whitepaperUrl,
     required String officialWebsiteUrl,
     required double marketCap,
     required double supply,

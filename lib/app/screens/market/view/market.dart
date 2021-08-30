@@ -19,7 +19,7 @@ class Market extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(keyValueNotipod);
-    useProvider(watchlistNotipod);
+    useProvider(watchlistIdsNotipod);
     final items = useProvider(marketItemsPod);
     final gainers = useProvider(marketGainersPod);
     final loosers = useProvider(marketLoosersPod);
@@ -45,7 +45,7 @@ class Market extends HookWidget {
               ),
               const MarketTabContent(
                 items: [],
-                isWatchlist: true,
+                watchlist: true,
               ),
               if (gainers.isNotEmpty) ...[
                 MarketTabContent(
@@ -64,13 +64,13 @@ class Market extends HookWidget {
     );
   }
 
-  int _marketTabsLength(bool isGainersEmpty, bool isLoosersEmpty) {
+  int _marketTabsLength(bool gainersEmpty, bool loosersEmpty) {
     var marketTabsLength = 4;
 
-    if (isGainersEmpty) {
+    if (gainersEmpty) {
       marketTabsLength--;
     }
-    if (isLoosersEmpty) {
+    if (loosersEmpty) {
       marketTabsLength--;
     }
 
