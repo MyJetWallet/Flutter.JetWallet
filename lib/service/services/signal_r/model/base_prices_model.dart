@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:jetwallet/service/services/signal_r/helper/base_prices_from.dart';
 
 part 'base_prices_model.freezed.dart';
+
 part 'base_prices_model.g.dart';
 
 @freezed
@@ -11,6 +13,34 @@ class BasePricesModel with _$BasePricesModel {
 
   factory BasePricesModel.fromJson(Map<String, dynamic> json) =>
       _$BasePricesModelFromJson(json);
+
+  factory BasePricesModel.fromModel(
+    Map<String, dynamic> json,
+    BasePricesModel oldPrices,
+  ) {
+    final newPrices = BasePricesModel.fromJson(json);
+
+    if (oldPrices.prices.isNotEmpty) {
+      for (final newPrice in newPrices.prices) {
+        for (final oldPrice in oldPrices.prices) {
+          if (oldPrice.assetSymbol == newPrice.assetSymbol) {
+            final index = oldPrices.prices.indexOf(oldPrice);
+
+            oldPrices.prices[index] = oldPrice.copyWith(
+              time: newPrice.time,
+              currentPrice: newPrice.currentPrice,
+              dayPriceChange: newPrice.dayPriceChange,
+              dayPercentChange: newPrice.dayPercentChange,
+            );
+          }
+        }
+      }
+    } else {
+      return newPrices;
+    }
+
+    return oldPrices;
+  }
 }
 
 @freezed

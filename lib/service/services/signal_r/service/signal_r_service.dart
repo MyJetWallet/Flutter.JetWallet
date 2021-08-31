@@ -106,7 +106,10 @@ class SignalRService {
 
     _connection.on(basePricesMessage, (data) {
       try {
-        _updateBasePrices(data);
+        _basePrices = BasePricesModel.fromModel(
+          _json(data),
+          _basePrices,
+        );
 
         _basePricesController.add(_basePrices);
       } catch (e) {
@@ -177,29 +180,6 @@ class SignalRService {
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
 
   Stream<KeyValueModel> keyValue() => _keyValueController.stream;
-
-  void _updateBasePrices(List<dynamic>? data) {
-    final newPrices = BasePricesModel.fromJson(_json(data));
-
-    if (_basePrices.prices.isNotEmpty) {
-      for (final newPrice in newPrices.prices) {
-        for (final oldPrice in _basePrices.prices) {
-          if (oldPrice.assetSymbol == newPrice.assetSymbol) {
-            final index = _basePrices.prices.indexOf(oldPrice);
-
-            _basePrices.prices[index] = oldPrice.copyWith(
-              time: newPrice.time,
-              currentPrice: newPrice.currentPrice,
-              dayPriceChange: newPrice.dayPriceChange,
-              dayPercentChange: newPrice.dayPercentChange,
-            );
-          }
-        }
-      }
-    } else {
-      _basePrices = newPrices;
-    }
-  }
 
   void _startPing() {
     _pingTimer = Timer.periodic(
