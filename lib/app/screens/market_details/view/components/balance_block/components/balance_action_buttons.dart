@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/market_details/provider/currency_pod.dart';
+import 'package:jetwallet/app/shared/features/currency_buy/view/curency_buy.dart';
+import 'package:jetwallet/app/shared/features/currency_sell/view/currency_sell.dart';
+import 'package:jetwallet/shared/helpers/navigator_push.dart';
 
 import '../../../../../../../shared/components/buttons/app_buton_white.dart';
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../market/model/market_item_model.dart';
 
-class BalanceActionButtons extends StatelessWidget {
+class BalanceActionButtons extends HookWidget {
   const BalanceActionButtons({
     Key? key,
     required this.marketItem,
@@ -14,12 +20,21 @@ class BalanceActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currency = useProvider(currencyPod(marketItem.associateAsset));
+
     return Row(
       children: [
         Expanded(
           child: AppButtonWhite(
             name: 'Buy',
-            onTap: () {},
+            onTap: () {
+              navigatorPush(
+                context,
+                CurrencyBuy(
+                  currency: currency,
+                ),
+              );
+            },
           ),
         ),
         if (!marketItem.isBalanceEmpty) ...[
@@ -27,7 +42,14 @@ class BalanceActionButtons extends StatelessWidget {
           Expanded(
             child: AppButtonWhite(
               name: 'Sell',
-              onTap: () {},
+              onTap: () {
+                navigatorPush(
+                  context,
+                  CurrencySell(
+                    currency: currency,
+                  ),
+                );
+              },
             ),
           ),
         ]
