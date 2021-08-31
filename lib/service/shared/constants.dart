@@ -13,10 +13,14 @@ const marketReferenceMessage = 'market-reference';
 const periodPricesMessage = 'base-prices';
 const basePricesMessage = 'prices-base-currency';
 const clientDetailMessage = 'client-detail';
+const keyValueMessage = 'key-values';
 
 // HTTP
 const postRequest = 'POST';
 const signatureHeader = 'signature';
+
+// KeyValue
+const String watchlistKey = 'watchlist';
 
 // Other
 const platformType = 2;

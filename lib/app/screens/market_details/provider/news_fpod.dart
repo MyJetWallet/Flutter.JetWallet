@@ -1,18 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../service/services/wallet/model/news/news_request_model.dart';
+import '../../../../service/services/news/model/news_request_model.dart';
 import '../../../../shared/providers/service_providers.dart';
-import 'news_notipod.dart';
+import '../notifier/news_notipod.dart';
 
 const newsPortionAmount = 3;
 
 final newsInitFpod =
     FutureProvider.family.autoDispose<void, String>((ref, id) async {
-  final walletService = ref.watch(walletServicePod);
+  final newsService = ref.watch(newsServicePod);
   final intl = ref.watch(intlPod);
   final notifier = ref.watch(newsNotipod.notifier);
 
-  final news = await walletService.news(
+  final news = await newsService.news(
     NewsRequestModel(
       assetId: id,
       language: intl.localeName,
