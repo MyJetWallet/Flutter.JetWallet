@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jetwallet/service/services/signal_r/helper/base_prices_from.dart';
 
 part 'base_prices_model.freezed.dart';
-
 part 'base_prices_model.g.dart';
 
 @freezed
