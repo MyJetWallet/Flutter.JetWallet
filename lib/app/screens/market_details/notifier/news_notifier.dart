@@ -5,6 +5,7 @@ import '../../../../service/services/news/model/news_request_model.dart';
 import '../../../../service/services/news/model/news_response_model.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/service_providers.dart';
+import '../helper/convert_news_date.dart';
 import '../provider/news_fpod.dart';
 
 class NewsNotifier extends StateNotifier<List<NewsModel>> {
@@ -17,6 +18,7 @@ class NewsNotifier extends StateNotifier<List<NewsModel>> {
   final Reader read;
 
   static final _logger = Logger('NewsNotifier');
+
   bool get isReadMore => state.length == 3;
 
   Future<void> loadMoreNews(String assetId) async {
@@ -47,6 +49,6 @@ class NewsNotifier extends StateNotifier<List<NewsModel>> {
   void updateNews(List<NewsModel> news) {
     _logger.log(notifier, 'updateNews');
 
-    state = news;
+    state = convertNewsDate(news);
   }
 }
