@@ -18,6 +18,9 @@ const keyValueMessage = 'key-values';
 const postRequest = 'POST';
 const signatureHeader = 'signature';
 
+// KeyValue
+const String watchlistKey = 'watchlist';
+
 // Other
 const platformType = 2;
 const signsAfterComma = 2;

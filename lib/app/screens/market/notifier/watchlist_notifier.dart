@@ -5,8 +5,8 @@ import 'package:logging/logging.dart';
 
 import '../../../../service/services/key_value/model/key_value_request_model.dart';
 import '../../../../service/services/key_value/model/key_value_response_model.dart';
+import '../../../../service/shared/constants.dart';
 import '../../../../shared/logging/levels.dart';
-import '../../../shared/features/key_value/model/key_value_key.dart';
 import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
 
 class WatchlistNotifier extends StateNotifier<List<String>> {
@@ -34,7 +34,7 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
         KeyValueRequestModel(
           keys: [
             KeyValueResponseModel(
-              key: KeyValueKey.watchlist,
+              key: watchlistKey,
               value: jsonEncode(state),
             )
           ],
@@ -57,7 +57,7 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
         KeyValueRequestModel(
           keys: [
             KeyValueResponseModel(
-              key: KeyValueKey.watchlist,
+              key: watchlistKey,
               value: jsonEncode(state),
             )
           ],
@@ -87,7 +87,7 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
         KeyValueRequestModel(
           keys: [
             KeyValueResponseModel(
-              key: KeyValueKey.watchlist,
+              key: watchlistKey,
               value: jsonEncode(state),
             )
           ],

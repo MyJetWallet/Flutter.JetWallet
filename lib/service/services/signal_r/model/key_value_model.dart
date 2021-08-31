@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../../app/shared/features/key_value/model/key_value_key.dart';
+import '../../../shared/constants.dart';
 import '../../key_value/model/key_value_response_model.dart';
 
 part 'key_value_model.freezed.dart';
@@ -16,13 +16,13 @@ class KeyValueModel with _$KeyValueModel {
   }) = _KeyValueModel;
 
   factory KeyValueModel.fromJson(Map<String, dynamic> json) =>
-      _$KeyValueModelFromJson(json);
+      KeyValueModel.fromModel(_$KeyValueModelFromJson(json));
 
   factory KeyValueModel.fromModel(KeyValueModel keyValue) {
     var serializedKeyValue = keyValue;
 
     for (final keyValuePair in keyValue.keys) {
-      if (keyValuePair.key == KeyValueKey.watchlist) {
+      if (keyValuePair.key == watchlistKey) {
         serializedKeyValue = keyValue.copyWith(
           watchlist: WatchlistModel.fromJson(keyValuePair.toJson()),
         );
@@ -48,4 +48,3 @@ class WatchlistModel with _$WatchlistModel {
         ) as List<dynamic>).cast<String>(),
       );
 }
-

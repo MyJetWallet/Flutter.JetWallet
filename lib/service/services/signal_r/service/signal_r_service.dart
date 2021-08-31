@@ -120,11 +120,7 @@ class SignalRService {
 
     _connection.on(keyValueMessage, (data) {
       try {
-        final keyValue = KeyValueModel.fromModel(
-          KeyValueModel.fromJson(
-            _json(data),
-          ),
-        );
+        final keyValue = KeyValueModel.fromJson(_json(data));
 
         _keyValueController.add(keyValue);
       } catch (e) {
