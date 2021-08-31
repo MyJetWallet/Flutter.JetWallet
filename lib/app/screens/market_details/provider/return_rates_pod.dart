@@ -21,7 +21,10 @@ final returnRatesPod = Provider.autoDispose.family<ReturnRatesModel, String>(
       );
 
       model = model.copyWith(
-        dayPrice: periodPrice.dayPrice.price,
+        dayPrice: calculatePercentOfChange(
+          periodPrice.dayPrice.price,
+          currency.currentPrice,
+        ),
         weekPrice: calculatePercentOfChange(
           periodPrice.weekPrice.price,
           currency.currentPrice,
