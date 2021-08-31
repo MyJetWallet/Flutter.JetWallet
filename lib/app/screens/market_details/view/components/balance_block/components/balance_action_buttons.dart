@@ -7,8 +7,9 @@ import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/features/currency_buy/view/curency_buy.dart';
 import '../../../../../../shared/features/currency_sell/view/currency_sell.dart';
+import '../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../../../market/model/market_item_model.dart';
-import '../../../../provider/currency_pod.dart';
+import '../../../../helper/currency_from.dart';
 
 class BalanceActionButtons extends HookWidget {
   const BalanceActionButtons({
@@ -20,7 +21,10 @@ class BalanceActionButtons extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currency = useProvider(currencyPod(marketItem.associateAsset));
+    final currency = currencyFrom(
+      useProvider(currenciesPod),
+      marketItem.associateAsset,
+    );
 
     return Row(
       children: [
