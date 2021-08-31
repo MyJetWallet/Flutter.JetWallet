@@ -21,8 +21,9 @@ class BalanceActionButtons extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencies = useProvider(currenciesPod);
     final currency = currencyFrom(
-      useProvider(currenciesPod),
+      currencies,
       marketItem.associateAsset,
     );
 
