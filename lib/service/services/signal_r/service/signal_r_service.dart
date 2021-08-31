@@ -44,6 +44,10 @@ class SignalRService {
   final _periodPricesController = StreamController<PeriodPricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
 
+  var _basePrices = const BasePricesModel(
+    prices: [],
+  );
+
   Future<void> init() async {
     isDisconnecting = false;
 
@@ -100,8 +104,9 @@ class SignalRService {
 
     _connection.on(basePricesMessage, (data) {
       try {
-        final basePrices = BasePricesModel.fromJson(_json(data));
-        _basePricesController.add(basePrices);
+        _updateBasePrices(data);
+
+        _basePricesController.add(_basePrices);
       } catch (e) {
         _logger.log(contract, basePricesMessage, e);
       }
@@ -158,6 +163,29 @@ class SignalRService {
   Stream<PeriodPricesModel> periodPrices() => _periodPricesController.stream;
 
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
+
+  void _updateBasePrices(List<dynamic>? data) {
+    final newPrices = BasePricesModel.fromJson(_json(data));
+
+    if (_basePrices.prices.isNotEmpty) {
+      for (final newPrice in newPrices.prices) {
+        for (final oldPrice in _basePrices.prices) {
+          if (oldPrice.assetSymbol == newPrice.assetSymbol) {
+            final index = _basePrices.prices.indexOf(oldPrice);
+
+            _basePrices.prices[index] = oldPrice.copyWith(
+              time: newPrice.time,
+              currentPrice: newPrice.currentPrice,
+              dayPriceChange: newPrice.dayPriceChange,
+              dayPercentChange: newPrice.dayPercentChange,
+            );
+          }
+        }
+      }
+    } else {
+      _basePrices = newPrices;
+    }
+  }
 
   void _startPing() {
     _pingTimer = Timer.periodic(
