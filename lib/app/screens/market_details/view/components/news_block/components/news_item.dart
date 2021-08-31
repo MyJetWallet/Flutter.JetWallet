@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jetwallet/shared/helpers/launch_url.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../../service/services/wallet/model/news/news_response_model.dart';
 import '../../../../../../../shared/components/spacers.dart';
+import '../../../../../../../shared/helpers/launch_url.dart';
 import 'news_item_text.dart';
 
 class NewsItem extends StatelessWidget {
