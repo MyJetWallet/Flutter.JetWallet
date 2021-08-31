@@ -7,14 +7,17 @@ import '../../../provider/market_stpod.dart';
 import '../../../provider/search_stpod.dart';
 import '../header_text.dart';
 import 'components/market_list.dart';
+import 'components/market_reordable_list.dart';
 
 class MarketTabContent extends HookWidget {
   const MarketTabContent({
     Key? key,
+    this.watchlist = false,
     required this.items,
   }) : super(key: key);
 
   final List<MarketItemModel> items;
+  final bool watchlist;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,11 @@ class MarketTabContent extends HookWidget {
     final search = useProvider(searchStpod);
 
     if (market.state == MarketState.watch) {
-      return MarketList(items: items);
+      if (watchlist) {
+        return const MarketReorderableList();
+      } else {
+        return MarketList(items: items);
+      }
     } else {
       if (items.isEmpty) {
         return Center(
@@ -32,7 +39,11 @@ class MarketTabContent extends HookWidget {
           ),
         );
       } else {
-        return MarketList(items: items);
+        if (watchlist) {
+          return const MarketReorderableList();
+        } else {
+          return MarketList(items: items);
+        }
       }
     }
   }
