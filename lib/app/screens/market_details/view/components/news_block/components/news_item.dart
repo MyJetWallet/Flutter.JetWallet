@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../../../../../service/services/wallet/model/news/news_response_model.dart';
+import '../../../../../../../service/services/news/model/news_response_model.dart';
 import '../../../../../../../shared/components/spacers.dart';
 import 'news_item_text.dart';
 
