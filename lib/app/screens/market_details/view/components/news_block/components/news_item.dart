@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jetwallet/shared/helpers/launch_url.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../../service/services/wallet/model/news/news_response_model.dart';
@@ -16,31 +17,38 @@ class NewsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            NewsItemText(
-              text: '${item.source} ',
-            ),
-            const NewsItemText(
-              text: '•',
-            ),
-            NewsItemText(
-              text: ' ${timeago.format(DateTime.parse(item.timestamp))}',
-            ),
-          ],
-        ),
-        const SpaceH4(),
-        Text(
-          item.topic,
-          style: TextStyle(
-            fontSize: 16.sp,
+    return InkWell(
+      onTap: () => launchURL(context, item.urlAddress),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: NewsItemText(
+                  text: '${item.source} ',
+                ),
+              ),
+              const NewsItemText(
+                text: '•',
+              ),
+              NewsItemText(
+                text: ' ${timeago.format(
+                  DateTime.parse(item.timestamp),
+                )}',
+              ),
+            ],
           ),
-        ),
-        const SpaceH8(),
-      ],
+          const SpaceH4(),
+          Text(
+            item.topic,
+            style: TextStyle(
+              fontSize: 16.sp,
+            ),
+          ),
+          const SpaceH8(),
+        ],
+      ),
     );
   }
 }
