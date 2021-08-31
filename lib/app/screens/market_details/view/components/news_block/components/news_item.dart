@@ -20,9 +20,12 @@ class NewsItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            NewsItemText(
-              text: '${item.source} ',
+            Expanded(
+              child: NewsItemText(
+                text: '${item.source} ',
+              ),
             ),
             const NewsItemText(
               text: '•',
