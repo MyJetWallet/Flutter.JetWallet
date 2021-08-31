@@ -7,7 +7,7 @@ part 'market_info_response_model.g.dart';
 class MarketInfoResponseModel with _$MarketInfoResponseModel {
   const factory MarketInfoResponseModel({
     String? whitepaperUrl,
-    required String officialWebsiteUrl,
+    String? officialWebsiteUrl,
     required double marketCap,
     required double supply,
     @JsonKey(name: 'volume24') required double dayVolume,

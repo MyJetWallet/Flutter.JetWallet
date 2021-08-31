@@ -1,4 +1,4 @@
-import '../../../../service/services/wallet/model/news/news_response_model.dart';
+import '../../../../service/services/news/model/news_response_model.dart';
 
 List<NewsModel> convertNewsDate(List<NewsModel> news) {
   for (final item in news) {

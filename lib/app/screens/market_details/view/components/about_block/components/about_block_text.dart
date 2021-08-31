@@ -32,18 +32,22 @@ class AboutBlockText extends HookWidget {
           text: expandText.value ? 'Read less' : 'Read more',
           onTap: () => expandText.value = !expandText.value,
         ),
-        const SpaceH4(),
-        const Divider(),
-        ClickableUnderlinedText(
-          text: 'Whitepaper',
-          onTap: () => launchURL(context, marketInfo.whitepaperUrl ?? '')
-        ),
-        const SpaceH4(),
-        const Divider(),
-        ClickableUnderlinedText(
+        if (marketInfo.whitepaperUrl != null) ...[
+          const SpaceH4(),
+          const Divider(),
+          ClickableUnderlinedText(
+            text: 'Whitepaper',
+            onTap: () => launchURL(context, marketInfo.whitepaperUrl!),
+          ),
+        ],
+        if (marketInfo.officialWebsiteUrl != null) ...[
+          const SpaceH4(),
+          const Divider(),
+          ClickableUnderlinedText(
             text: 'Official website',
-            onTap: () => launchURL(context, marketInfo.officialWebsiteUrl)
-        ),
+            onTap: () => launchURL(context, marketInfo.officialWebsiteUrl!),
+          ),
+        ],
       ],
     );
   }
