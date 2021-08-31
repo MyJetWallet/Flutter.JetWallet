@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market_details/provider/currency_pod.dart';
-import 'package:jetwallet/app/shared/features/currency_buy/view/curency_buy.dart';
-import 'package:jetwallet/app/shared/features/currency_sell/view/currency_sell.dart';
-import 'package:jetwallet/shared/helpers/navigator_push.dart';
 
 import '../../../../../../../shared/components/buttons/app_buton_white.dart';
 import '../../../../../../../shared/components/spacers.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/features/currency_buy/view/curency_buy.dart';
+import '../../../../../../shared/features/currency_sell/view/currency_sell.dart';
 import '../../../../../market/model/market_item_model.dart';
+import '../../../../provider/currency_pod.dart';
 
 class BalanceActionButtons extends HookWidget {
   const BalanceActionButtons({
