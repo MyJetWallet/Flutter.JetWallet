@@ -20,10 +20,12 @@ void addSigning(Dio dio, Reader read) {
           final storageService = read(localStorageServicePod);
 
           final privateKey = await storageService.getString(privateKeyKey);
-          final signature = await rsaService.sign(
-            jsonEncode(requestBody),
-            privateKey!,
-          );
+          final signature = privateKey != null
+              ? await rsaService.sign(
+                  jsonEncode(requestBody),
+                  privateKey,
+                )
+              : '';
           options.headers[signatureHeader] = signature;
         }
 
