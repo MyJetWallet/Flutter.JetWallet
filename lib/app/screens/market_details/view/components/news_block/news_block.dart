@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../market/view/components/header_text.dart';
+import '../../../notifier/news_notipod.dart';
 import '../../../provider/news_fpod.dart';
-import '../../../provider/news_notipod.dart';
 import '../about_block/components/clickable_underlined_text.dart';
 import 'components/news_item.dart';
 

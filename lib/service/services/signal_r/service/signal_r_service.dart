@@ -13,6 +13,7 @@ import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
+import '../model/key_value_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 
@@ -43,6 +44,7 @@ class SignalRService {
   final _basePricesController = StreamController<BasePricesModel>();
   final _periodPricesController = StreamController<PeriodPricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
+  final _keyValueController = StreamController<KeyValueModel>();
 
   var _basePrices = const BasePricesModel(
     prices: [],
@@ -130,6 +132,16 @@ class SignalRService {
       }
     });
 
+    _connection.on(keyValueMessage, (data) {
+      try {
+        final keyValue = KeyValueModel.fromJson(_json(data));
+
+        _keyValueController.add(keyValue);
+      } catch (e) {
+        _logger.log(contract, keyValueMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
 
     try {
@@ -163,6 +175,8 @@ class SignalRService {
   Stream<PeriodPricesModel> periodPrices() => _periodPricesController.stream;
 
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
+
+  Stream<KeyValueModel> keyValue() => _keyValueController.stream;
 
   void _updateBasePrices(List<dynamic>? data) {
     final newPrices = BasePricesModel.fromJson(_json(data));
