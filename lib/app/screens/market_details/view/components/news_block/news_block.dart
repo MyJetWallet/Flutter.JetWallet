@@ -19,7 +19,7 @@ class NewsBlock extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final newsInit = useProvider(newsInitFpod(assetId));
-    final notifier = useProvider(newsNotipod.notifier);
+    final newsN = useProvider(newsNotipod.notifier);
     final news = useProvider(newsNotipod);
 
     return newsInit.when(
@@ -45,12 +45,12 @@ class NewsBlock extends HookWidget {
               ),
               if (news.length >= newsPortionAmount) ...[
                 ClickableUnderlinedText(
-                  text: notifier.isReadMore ? 'Read more' : 'Read Less',
+                  text: newsN.isReadMore ? 'Read more' : 'Read Less',
                   onTap: () {
-                    if (notifier.isReadMore) {
-                      notifier.loadMoreNews(assetId);
+                    if (newsN.isReadMore) {
+                      newsN.loadMoreNews(assetId);
                     } else {
-                      notifier.cutNewToDefaultSize();
+                      newsN.cutNewToDefaultSize();
                     }
                   },
                 ),
