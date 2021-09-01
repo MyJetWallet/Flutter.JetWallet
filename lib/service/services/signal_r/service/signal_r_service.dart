@@ -140,8 +140,9 @@ class SignalRService {
 
     _connection.on(keyValueMessage, (data) {
       try {
-        final keyValue = KeyValueModel.fromJson(_json(data));
-
+        final keyValue = KeyValueModel.parsed(
+          KeyValueModel.fromJson(_json(data)),
+        );
         _keyValueController.add(keyValue);
       } catch (e) {
         _logger.log(contract, keyValueMessage, e);
