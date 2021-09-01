@@ -16,20 +16,21 @@ class KeyValueModel with _$KeyValueModel {
   }) = _KeyValueModel;
 
   factory KeyValueModel.fromJson(Map<String, dynamic> json) =>
-      KeyValueModel.fromModel(_$KeyValueModelFromJson(json));
+      _$KeyValueModelFromJson(json);
 
-  factory KeyValueModel.fromModel(KeyValueModel keyValue) {
-    var serializedKeyValue = keyValue;
+  /// Takes [KeyValueModel] and parses it according to [KeyValueKeys]
+  factory KeyValueModel.parsed(KeyValueModel keyValue) {
+    var parsedKeyValue = keyValue;
 
-    for (final keyValuePair in keyValue.keys) {
-      if (keyValuePair.key == watchlistKey) {
-        serializedKeyValue = keyValue.copyWith(
-          watchlist: WatchlistModel.fromJson(keyValuePair.toJson()),
+    for (final pair in keyValue.keys) {
+      if (pair.key == watchlistKey) {
+        parsedKeyValue = keyValue.copyWith(
+          watchlist: WatchlistModel.fromJson(pair.toJson()),
         );
       }
     }
 
-    return serializedKeyValue;
+    return parsedKeyValue;
   }
 }
 
@@ -40,11 +41,9 @@ class WatchlistModel with _$WatchlistModel {
     required List<String> value,
   }) = _WatchlistModel;
 
-  factory WatchlistModel.fromJson(Map<String, dynamic> json) =>
-      WatchlistModel(
+  factory WatchlistModel.fromJson(Map<String, dynamic> json) => WatchlistModel(
         key: json['key'].toString(),
-        value: (jsonDecode(
-          json['value'].toString(),
-        ) as List<dynamic>).cast<String>(),
+        value: (jsonDecode(json['value'].toString()) as List<dynamic>)
+            .cast<String>(),
       );
 }
