@@ -14,7 +14,7 @@ import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../notifier/convert_input_notipod.dart';
 import 'components/convert_row/convert_row.dart';
-import 'components/swap_button.dart';
+import 'components/stack_between_rows/stack_between_rows.dart';
 
 class Convert extends HookWidget {
   const Convert({Key? key}) : super(key: key);
@@ -49,11 +49,10 @@ class Convert extends HookWidget {
             onDropdown: (value) => inputN.updateFromAsset(value!),
             fromAsset: true,
           ),
-          const SpaceH10(),
-          SwapButton(
-            onPressed: () => inputN.switchFromAndTo(),
+          StackBetweenRows(
+            inputError: input.inputError,
+            onSwapButton: () => inputN.switchFromAndTo(),
           ),
-          const SpaceH10(),
           ConvertRow(
             value: input.toAssetAmount,
             enabled: input.toAssetEnabled,

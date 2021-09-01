@@ -1,70 +1,39 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../shared/helpers/valid_icon_url.dart';
 
+import '../../../shared/helpers/valid_icon_url.dart';
+import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../model/market_item_model.dart';
-import 'assets_spod.dart';
 import 'market_references_spod.dart';
-import 'prices_spod.dart';
 import 'search_stpod.dart';
 
 final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
   final references = ref.watch(marketReferencesSpod);
-  final assets = ref.watch(assetsSpod);
-  final prices = ref.watch(pricesSpod);
   final search = ref.watch(searchStpod);
+  final currencies = ref.watch(currenciesPod);
 
   final items = <MarketItemModel>[];
 
   references.whenData((value) {
     for (final marketReference in value.references) {
+      final currency = currencies.firstWhere((element) {
+        return element.symbol == marketReference.associateAsset;
+      });
+
       items.add(
         MarketItemModel(
           iconUrl: validIconUrl(marketReference.iconUrl),
           weight: marketReference.weight,
           associateAsset: marketReference.associateAsset,
           associateAssetPair: marketReference.associateAssetPair,
-          id: '',
-          name: '',
-          dayPriceChange: 0,
-          dayPercentChange: 0,
-          lastPrice: 0,
+          id: currency.symbol,
+          name: currency.description,
+          dayPriceChange: currency.dayPriceChange,
+          dayPercentChange: currency.dayPercentChange,
+          lastPrice: currency.currentPrice,
+          assetBalance: currency.assetBalance,
+          baseBalance: currency.baseBalance,
         ),
       );
-    }
-  });
-
-  assets.whenData((value) {
-    if (items.isNotEmpty) {
-      for (final asset in value.assets) {
-        for (final marketItem in items) {
-          if (marketItem.associateAsset == asset.symbol) {
-            final index = items.indexOf(marketItem);
-
-            items[index] = marketItem.copyWith(
-              id: asset.symbol,
-              name: asset.description,
-            );
-          }
-        }
-      }
-    }
-  });
-
-  prices.whenData((value) {
-    if (items.isNotEmpty) {
-      for (final price in value.prices) {
-        for (final marketItem in items) {
-          if (marketItem.associateAssetPair == price.id) {
-            final index = items.indexOf(marketItem);
-
-            items[index] = marketItem.copyWith(
-              dayPriceChange: price.dayPriceChange,
-              dayPercentChange: price.dayPercentageChange,
-              lastPrice: price.lastPrice,
-            );
-          }
-        }
-      }
     }
   });
 

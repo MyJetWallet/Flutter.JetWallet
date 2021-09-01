@@ -41,7 +41,7 @@ class EmailVerification extends HookWidget {
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (Object? error) {
-            showPlainSnackbar(context, '$error');
+            showPlainSnackbar(context, 'Error occurred');
           },
           orElse: () {},
         );

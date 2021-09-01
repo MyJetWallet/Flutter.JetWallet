@@ -1,8 +1,9 @@
-import '../../screens/market/model/currency_model.dart';
 import '../components/balance_selector/model/selected_percent.dart';
 import '../components/number_keyboard/number_keyboard.dart';
+import '../models/currency_model.dart';
 
 const specialPointCase = '0.';
+const zeroCase = '0';
 
 bool firstZeroInputCase(String string) {
   return string.length == 1 && string == zero;
@@ -58,7 +59,7 @@ String valueBasedOnSelectedPercent({
 String responseOnInputAction({
   required String oldInput,
   required String newInput,
-  required double accuracy,
+  required int accuracy,
 }) {
   if (newInput == backspace) {
     if (oldInput.isNotEmpty) {
@@ -93,11 +94,11 @@ int numberOfCharsAfterDecimal(String string) {
   return numbersAfterDecimal;
 }
 
-String valueAccordingToAccuracy(String value, double accuracy) {
+String valueAccordingToAccuracy(String value, int accuracy) {
   final chars = numberOfCharsAfterDecimal(value);
 
   if (chars > accuracy) {
-    final difference = (chars - accuracy).toInt();
+    final difference = chars - accuracy;
 
     return removeCharsFrom(value, difference);
   }
@@ -119,8 +120,39 @@ bool isInputValid(String input) {
   return false;
 }
 
-/// Shows value of the TextField based on the input and selectedCurrency \
+/// Shows value of the InputField based on the input and selectedCurrency \
 /// Used on [Deposit], [Sell] and [Buy] screens
-String fieldValue(String input, CurrencyModel currency) {
-  return '${input.isEmpty ? '0' : input} ${currency.symbol}';
+String fieldValue(String input, String symbol) {
+  return '${input.isEmpty ? '0' : input} $symbol';
+}
+
+enum InputError {
+  none,
+  notEnoughFunds,
+}
+
+extension InputErrorValue on InputError {
+  String get value {
+    if (this == InputError.notEnoughFunds) {
+      return 'Not enough funds';
+    } else {
+      return 'None';
+    }
+  }
+
+  bool get isActive => this != InputError.none;
+}
+
+InputError inputError(String input, CurrencyModel currency) {
+  if (input.isNotEmpty) {
+    final value = double.parse(input);
+
+    if (currency.assetBalance >= value) {
+      return InputError.none;
+    } else {
+      return InputError.notEnoughFunds;
+    }
+  } else {
+    return InputError.none;
+  }
 }

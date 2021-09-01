@@ -10,12 +10,14 @@ import '../../../../service/services/validation/service/validation_service.dart'
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/navigator_push.dart';
+import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import 'email_verification_state.dart';
 import 'email_verification_union.dart';
 
 class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
   EmailVerificationNotifier({
+    required this.read,
     required this.email,
     required this.service,
     required this.authorized,
@@ -28,6 +30,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
           ),
         );
 
+  final Reader read;
   final String email;
   final ValidationService service;
   final StateController<AuthorizedUnion> authorized;
@@ -74,10 +77,14 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
       await service.verifyEmailVerificationCode(model);
 
+      // Needed force refresh after successful emailVerification
+      await refreshToken(read);
+
       state = state.copyWith(union: const Input());
 
       authorized.state = const Home();
 
+      if (!mounted) return;
       _pushToAuthSuccess(context, email);
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);

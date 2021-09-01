@@ -17,11 +17,17 @@ class Chart extends StatelessWidget {
             ],
           ),
         ),
-        body: const TabBarView(
-          physics: NeverScrollableScrollPhysics(),
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
-            ChartView('BTCUSD'),
-            ChartView('ETHUSD'),
+            ChartView(
+              'BTCUSD',
+              (_) {},
+            ),
+            ChartView(
+              'ETHUSD',
+              (_) {},
+            ),
           ],
         ),
       ),

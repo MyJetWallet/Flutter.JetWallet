@@ -7,6 +7,9 @@ import '../../service/services/authentication/service/authentication_service.dar
 import '../../service/services/blockchain/service/blockchain_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
+import '../../service/services/key_value/key_value_service.dart';
+import '../../service/services/market_info/market_info_service.dart';
+import '../../service/services/news/news_service.dart';
 import '../../service/services/notification/service/notification_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
 import '../../service/services/swap/service/swap_service.dart';
@@ -97,4 +100,22 @@ final infoServicePod = Provider<InfoService>((ref) {
 
 final rsaServicePod = Provider<RsaService>((ref) {
   return RsaService();
+});
+
+final marketInfoServicePod = Provider<MarketInfoService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return MarketInfoService(dio);
+});
+
+final keyValueServicePod = Provider<KeyValueService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return KeyValueService(dio);
+});
+
+final newsServicePod = Provider<NewsService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return NewsService(dio);
 });

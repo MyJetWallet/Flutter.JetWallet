@@ -19,6 +19,7 @@ import '../../../../../../shared/services/remote_config_service/remote_config_va
 import '../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../features/convert/view/convert.dart';
 import '../../../features/currency_buy/view/curency_buy.dart';
+import '../../../features/currency_sell/view/currency_sell.dart';
 import '../model/convert_preview_input.dart';
 import '../view/components/quote_updated_dialog.dart';
 import 'convert_state.dart';
@@ -115,6 +116,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
       } else {
         state = state.copyWith(union: const QuoteSuccess());
         _timer.cancel();
+        if (!mounted) return;
         showQuoteUpdatedDialog(
           context: _context,
           onPressed: () => requestQuote(),
@@ -123,10 +125,12 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'executeQuote', error.cause);
 
+      _timer.cancel();
       _showFailureScreen(error);
     } catch (error) {
       _logger.log(stateFlow, 'executeQuote', error);
 
+      _timer.cancel();
       _showNoResponseScreen();
     }
   }
@@ -159,8 +163,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
   void _showSuccessScreen() {
     return navigatorPush(
       _context,
-      SuccessScreen(
-        header: resultHeader,
+      const SuccessScreen(
         description: 'Order filled',
       ),
     );
@@ -170,7 +173,6 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       NoResponseFromServer(
-        header: resultHeader,
         description: 'Failed to place Order',
         onOk: () {
           read(navigationStpod).state = 1; // Portfolio
@@ -184,7 +186,6 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       FailureScreen(
-        header: resultHeader,
         description: error.cause,
         firstButtonName: 'Edit Order',
         onFirstButton: () {
@@ -208,7 +209,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     } else if (input.action == TriggerAction.buy) {
       return CurrencyBuy(currency: input.currency!);
     } else {
-      return const SizedBox(); // TODO add CurrencySell feature
+      return CurrencySell(currency: input.currency!);
     }
   }
 
@@ -216,19 +217,9 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     if (input.action == TriggerAction.convert) {
       return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
     } else if (input.action == TriggerAction.buy) {
-      return 'Confirm Buy ${input.toAssetDescription}';
+      return 'Confirm Buy ${input.assetDescription}';
     } else {
-      return 'Confirm Sell ${input.toAssetDescription}';
-    }
-  }
-
-  String get resultHeader {
-    if (input.action == TriggerAction.convert) {
-      return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
-    } else if (input.action == TriggerAction.buy) {
-      return 'Buy ${input.toAssetDescription}';
-    } else {
-      return 'Sell ${input.toAssetDescription}';
+      return 'Confirm Sell ${input.assetDescription}';
     }
   }
 

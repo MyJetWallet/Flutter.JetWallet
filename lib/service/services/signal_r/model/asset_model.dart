@@ -17,14 +17,84 @@ class AssetsModel with _$AssetsModel {
 @freezed
 class AssetModel with _$AssetModel {
   const factory AssetModel({
+    String? iconUrl,
     required String symbol,
     required String description,
     required double accuracy,
     required int depositMode,
     required int withdrawalMode,
-    required int tagType,
+    required TagType tagType,
+    @JsonKey(name: 'assetType') required AssetType type,
+    required AssetFeesModel fees,
+    required List<DepositMethods> depositMethods,
+    required List<WithdrawalMethods> withdrawalMethods,
   }) = _AssetModel;
 
   factory AssetModel.fromJson(Map<String, dynamic> json) =>
       _$AssetModelFromJson(json);
+}
+
+@freezed
+class AssetFeesModel with _$AssetFeesModel {
+  const factory AssetFeesModel({
+    WithdrawalFeeModel? withdrawalFee,
+  }) = _AssetFees;
+
+  factory AssetFeesModel.fromJson(Map<String, dynamic> json) =>
+      _$AssetFeesModelFromJson(json);
+}
+
+@freezed
+class WithdrawalFeeModel with _$WithdrawalFeeModel {
+  const factory WithdrawalFeeModel({
+    required String asset,
+    required double size,
+    required FeeType feeType,
+  }) = _WithdrawalFeeModel;
+
+  factory WithdrawalFeeModel.fromJson(Map<String, dynamic> json) =>
+      _$WithdrawalFeeModelFromJson(json);
+}
+
+enum TagType {
+  @JsonValue(0)
+  none,
+  @JsonValue(1)
+  tag,
+  @JsonValue(2)
+  memo,
+}
+
+enum AssetType {
+  @JsonValue('Fiat')
+  fiat,
+  @JsonValue('Crypto')
+  crypto,
+}
+
+enum FeeType {
+  @JsonValue(0)
+  percentage,
+  @JsonValue(1)
+  fix,
+}
+
+enum DepositMethods {
+  @JsonValue('CryptoDeposit')
+  cryptoDeposit,
+  @JsonValue('SepaDeposit')
+  sepaDeposit,
+  @JsonValue('SwiftDeposit')
+  swiftDeposit,
+  @JsonValue('CardDeposit')
+  cardDeposit,
+}
+
+enum WithdrawalMethods {
+  @JsonValue('CryptoWithdrawal')
+  cryptoWithdrawal,
+  @JsonValue('SepaWithdrawal')
+  sepaWithdrawal,
+  @JsonValue('SwiftWithdrawal')
+  swiftWithdrawal,
 }

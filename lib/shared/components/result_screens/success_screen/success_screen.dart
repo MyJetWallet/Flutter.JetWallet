@@ -13,11 +13,11 @@ import '../components/result_icon.dart';
 class SuccessScreen extends HookWidget {
   const SuccessScreen({
     Key? key,
-    required this.header,
+    this.header,
     required this.description,
   }) : super(key: key);
 
-  final String header;
+  final String? header;
   final String description;
 
   @override

@@ -2,25 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../../shared/components/buttons/app_button_outlined.dart';
 import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../screens/market/model/currency_model.dart';
+import '../../../components/asset_input_error.dart';
+import '../../../components/asset_input_field.dart';
+import '../../../components/asset_selector_button.dart';
 import '../../../components/asset_tile/asset_tile.dart';
 import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../components/convert_preview/model/convert_preview_input.dart';
 import '../../../components/convert_preview/view/convert_preview.dart';
 import '../../../components/number_keyboard/number_keyboard.dart';
+import '../../../components/text/asset_conversion_text.dart';
+import '../../../components/text/asset_selector_header.dart';
+import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../notifier/currency_buy_notipod.dart';
-import 'components/asset_conversion_text.dart';
-import 'components/asset_input.dart';
-import 'components/asset_selector_header.dart';
-import 'components/asset_sheet_header.dart';
 
 class CurrencyBuy extends HookWidget {
   const CurrencyBuy({
@@ -38,8 +41,8 @@ class CurrencyBuy extends HookWidget {
       conversionPriceFpod(
         ConversionPriceInput(
           baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: state.selectedCurrency!.symbol,
-          then: notifier.updateConversionPrice,
+          quotedAssetSymbol: state.selectedCurrencySymbol,
+          then: notifier.updateTargetConversionPrice,
         ),
       ),
     );
@@ -59,15 +62,24 @@ class CurrencyBuy extends HookWidget {
               onTap: () => Navigator.pop(context, currency),
               selectedBorder: state.selectedCurrency == currency,
             ),
+          const SpaceH20(),
+          AppButtonOutlined(
+            onTap: () {},
+            textColor: Colors.white,
+            borderColor: Colors.grey,
+            name: 'Deposit account',
+          )
         ],
         then: (value) {
-          notifier.updateConversionPrice(null);
           if (value is CurrencyModel) {
-            notifier.updateSelectedCurrency(value);
-          } else {
-            notifier.updateSelectedCurrency(state.currencies.first);
+            if (value != state.selectedCurrency) {
+              if (value.symbol != state.baseCurrency!.symbol) {
+                notifier.updateTargetConversionPrice(null);
+              }
+              notifier.updateSelectedCurrency(value);
+              notifier.resetValuesToZero();
+            }
           }
-          notifier.resetValuesToZero();
         },
         onDissmis: () {
           Navigator.pop(context, state.selectedCurrency);
@@ -82,27 +94,38 @@ class CurrencyBuy extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Spacer(),
-          AssetInput(
+          AssetInputField(
             value: fieldValue(
               state.inputValue,
-              state.selectedCurrency!,
+              state.selectedCurrencySymbol,
             ),
           ),
           const SpaceH8(),
-          AssetConversionText(
-            text: '≈ ${state.convertedValue} ${currency.symbol}',
-          ),
+          if (state.inputError.isActive)
+            AssetInputError(
+              text: state.inputError.value,
+            )
+          else
+            CenterAssetConversionText(
+              text: state.conversionText(currency),
+            ),
           const Spacer(),
           const AssetSelectorHeader(
             text: 'Pay from',
           ),
           const SpaceH4(),
-          AssetTile(
-            headerColor: Colors.black,
-            leadingAssetBalance: true,
-            currency: state.selectedCurrency!,
-            onTap: () => _showAssetSheet(),
-          ),
+          if (state.selectedCurrency == null)
+            AssetSelectorButton(
+              name: 'Choose payment method',
+              onTap: () => _showAssetSheet(),
+            )
+          else
+            AssetTile(
+              headerColor: Colors.black,
+              leadingAssetBalance: true,
+              currency: state.selectedCurrency!,
+              onTap: () => _showAssetSheet(),
+            ),
           const SpaceH20(),
           PercentSelector(
             disabled: false,
@@ -128,7 +151,7 @@ class CurrencyBuy extends HookWidget {
                       fromAssetAmount: state.inputValue,
                       fromAssetSymbol: state.selectedCurrency!.symbol,
                       toAssetSymbol: currency.symbol,
-                      toAssetDescription: currency.description,
+                      assetDescription: currency.description,
                       action: TriggerAction.buy,
                     ),
                   ),

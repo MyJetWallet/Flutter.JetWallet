@@ -11,9 +11,11 @@ import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
+import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
+import '../model/key_value_model.dart';
 import '../model/market_references_model.dart';
-import '../model/prices_model.dart';
+import '../model/period_prices_model.dart';
 
 class SignalRService {
   SignalRService(this.read);
@@ -38,12 +40,17 @@ class SignalRService {
   final _assetsController = StreamController<AssetsModel>();
   final _balancesController = StreamController<BalancesModel>();
   final _instrumentsController = StreamController<InstrumentsModel>();
-  final _pricesController = StreamController<PricesModel>();
   final _marketReferencesController = StreamController<MarketReferencesModel>();
   final _basePricesController = StreamController<BasePricesModel>();
+  final _periodPricesController = StreamController<PeriodPricesModel>();
+  final _clientDetailController = StreamController<ClientDetailModel>();
+  final _keyValueController = StreamController<KeyValueModel>();
 
-  var _prices = const PricesModel(
-    now: 0,
+  /// This variable is created to track previous snapshot of base prices.
+  /// This needed because when signlaR gets update from basePrices it
+  /// recevies only prices that changed, this results in overriding prices
+  /// that didn't changed with zeros.
+  var _oldBasePrices = const BasePricesModel(
     prices: [],
   );
 
@@ -86,16 +93,6 @@ class SignalRService {
       }
     });
 
-    _connection.on(bidAskMessage, (data) {
-      try {
-        _updatePrices(data);
-
-        _pricesController.add(_prices);
-      } catch (e) {
-        _logger.log(contract, bidAskMessage, e);
-      }
-    });
-
     _connection.on(pongMessage, (data) {
       _pongTimer?.cancel();
 
@@ -113,10 +110,42 @@ class SignalRService {
 
     _connection.on(basePricesMessage, (data) {
       try {
-        final basePrices = BasePricesModel.fromJson(_json(data));
-        _basePricesController.add(basePrices);
+        _oldBasePrices = BasePricesModel.fromNewPrices(
+          json: _json(data),
+          oldPrices: _oldBasePrices,
+        );
+        _basePricesController.add(_oldBasePrices);
       } catch (e) {
         _logger.log(contract, basePricesMessage, e);
+      }
+    });
+
+    _connection.on(periodPricesMessage, (data) {
+      try {
+        final basePrices = PeriodPricesModel.fromJson(_json(data));
+        _periodPricesController.add(basePrices);
+      } catch (e) {
+        _logger.log(contract, periodPricesMessage, e);
+      }
+    });
+
+    _connection.on(clientDetailMessage, (data) {
+      try {
+        final clientDetail = ClientDetailModel.fromJson(_json(data));
+        _clientDetailController.add(clientDetail);
+      } catch (e) {
+        _logger.log(contract, clientDetailMessage, e);
+      }
+    });
+
+    _connection.on(keyValueMessage, (data) {
+      try {
+        final keyValue = KeyValueModel.parsed(
+          KeyValueModel.fromJson(_json(data)),
+        );
+        _keyValueController.add(keyValue);
+      } catch (e) {
+        _logger.log(contract, keyValueMessage, e);
       }
     });
 
@@ -145,38 +174,16 @@ class SignalRService {
 
   Stream<InstrumentsModel> instruments() => _instrumentsController.stream;
 
-  Stream<PricesModel> prices() => _pricesController.stream;
-
   Stream<MarketReferencesModel> marketReferences() =>
       _marketReferencesController.stream;
 
   Stream<BasePricesModel> basePrices() => _basePricesController.stream;
 
-  void _updatePrices(List<dynamic>? data) {
-    final newPrices = PricesModel.fromJson(_json(data));
+  Stream<PeriodPricesModel> periodPrices() => _periodPricesController.stream;
 
-    if (_prices.prices.isNotEmpty) {
-      for (final newPrice in newPrices.prices) {
-        for (final oldPrice in _prices.prices) {
-          if (oldPrice.id == newPrice.id) {
-            final index = _prices.prices.indexOf(oldPrice);
+  Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
 
-            _prices.prices[index] = oldPrice.copyWith(
-              date: newPrice.date,
-              bid: newPrice.bid,
-              ask: newPrice.ask,
-              lastPrice: newPrice.lastPrice,
-              dayPercentageChange: newPrice.dayPercentageChange,
-              dayPriceChange: newPrice.dayPriceChange,
-            );
-          }
-        }
-      }
-      _prices.copyWith(now: newPrices.now);
-    } else {
-      _prices = newPrices;
-    }
-  }
+  Stream<KeyValueModel> keyValue() => _keyValueController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
