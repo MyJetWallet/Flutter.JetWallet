@@ -12,10 +12,12 @@ class BasePricesModel with _$BasePricesModel {
   factory BasePricesModel.fromJson(Map<String, dynamic> json) =>
       _$BasePricesModelFromJson(json);
 
-  factory BasePricesModel.fromModel(
-    Map<String, dynamic> json,
-    BasePricesModel oldPrices,
-  ) {
+  /// Takes previous snapshot of basePrices and 
+  /// applies the new update to them
+  factory BasePricesModel.fromNewPrices({
+    required Map<String, dynamic> json,
+    required BasePricesModel oldPrices,
+  }) {
     final newPrices = BasePricesModel.fromJson(json);
 
     if (oldPrices.prices.isNotEmpty) {

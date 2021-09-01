@@ -46,7 +46,11 @@ class SignalRService {
   final _clientDetailController = StreamController<ClientDetailModel>();
   final _keyValueController = StreamController<KeyValueModel>();
 
-  var _basePrices = const BasePricesModel(
+  /// This variable is created to track previous snapshot of base prices.
+  /// This needed because when signlaR gets update from basePrices it
+  /// recevies only prices that changed, this results in overriding prices
+  /// that didn't changed with zeros.
+  var _oldBasePrices = const BasePricesModel(
     prices: [],
   );
 
@@ -106,12 +110,11 @@ class SignalRService {
 
     _connection.on(basePricesMessage, (data) {
       try {
-        _basePrices = BasePricesModel.fromModel(
-          _json(data),
-          _basePrices,
+        _oldBasePrices = BasePricesModel.fromNewPrices(
+          json: _json(data),
+          oldPrices: _oldBasePrices,
         );
-
-        _basePricesController.add(_basePrices);
+        _basePricesController.add(_oldBasePrices);
       } catch (e) {
         _logger.log(contract, basePricesMessage, e);
       }
