@@ -7,6 +7,7 @@ import 'package:signalr_core/signalr_core.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
@@ -57,7 +58,7 @@ class SignalRService {
   Future<void> init() async {
     isDisconnecting = false;
 
-    _connection = HubConnectionBuilder().withUrl(urlSignalR).build();
+    _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
 
     _connection.onclose((error) {
       if (!isDisconnecting) {
