@@ -17,6 +17,7 @@ const _command = 'jw_command';
 const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
 const _login = 'Login';
+const _confirmWithdraw = 'jw_withdrawal_email_confirm';
 
 final dynamicLinkPod = Provider<void>(
   (ref) {
@@ -46,6 +47,8 @@ final dynamicLinkPod = Provider<void>(
               token: parameters[_token]!,
             ),
           );
+        } else if (command == _confirmWithdraw) {
+          return;
         } else {
           navigatorPush(
             navigatorKey.currentContext!,

@@ -9,6 +9,7 @@ class AssetTile extends StatelessWidget {
   const AssetTile({
     Key? key,
     this.onTap,
+    this.firstColumnHeader,
     this.firstColumnSubheader,
     this.enableBorder = true,
     this.enableBalanceColumn = true,
@@ -20,6 +21,9 @@ class AssetTile extends StatelessWidget {
   }) : super(key: key);
 
   final Function()? onTap;
+
+  /// First text displayed in the first column
+  final String? firstColumnHeader;
 
   /// Second text displayed in the first column
   final String? firstColumnSubheader;
@@ -75,7 +79,7 @@ class AssetTile extends StatelessWidget {
               ),
               const SpaceW10(),
               AssetTileColumn(
-                header: currency.description,
+                header: firstColumnHeader ?? currency.description,
                 subheader: firstColumnSubheader ?? currency.symbol,
                 headerColor: headerColor,
                 subheaderColor: subheaderColor,

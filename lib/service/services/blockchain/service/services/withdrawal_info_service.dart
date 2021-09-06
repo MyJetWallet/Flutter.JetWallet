@@ -3,20 +3,20 @@ import 'package:dio/dio.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
-import '../../model/withdrawal/withdrawal_request_model.dart';
-import '../../model/withdrawal/withdrawal_response_model.dart';
+import '../../model/withdrawal_info/withdrawal_info_request_model.dart.dart';
+import '../../model/withdrawal_info/withdrawal_info_response_model.dart';
 import '../blockchain_service.dart';
 
-Future<WithdrawalResponseModel> withdrawalService(
+Future<WithdrawalInfoResponseModel> withdrawalInfoService(
   Dio dio,
-  WithdrawalRequestModel model,
+  WithdrawalInfoRequestModel model,
 ) async {
   final logger = BlockchainService.logger;
-  const message = 'withdrawalService';
+  const message = 'withdrawInfoService';
 
   try {
     final response = await dio.post(
-      '$walletApi/blockchain/withdrawal',
+      '$walletApi/blockchain/withdrawal-info',
       data: model.toJson(),
     );
 
@@ -25,7 +25,7 @@ Future<WithdrawalResponseModel> withdrawalService(
 
       final data = handleFullResponse<Map>(responseData);
 
-      return WithdrawalResponseModel.fromJson(data);
+      return WithdrawalInfoResponseModel.fromJson(data);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

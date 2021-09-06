@@ -5,11 +5,15 @@ class AssetConversionText extends StatelessWidget {
   const AssetConversionText({
     Key? key,
     this.fontSize,
+    this.color = Colors.grey,
+    this.fontWeight = FontWeight.normal,
     this.textAlign = TextAlign.start,
     required this.text,
   }) : super(key: key);
 
   final double? fontSize;
+  final Color color;
+  final FontWeight fontWeight;
   final TextAlign textAlign;
   final String text;
 
@@ -22,7 +26,8 @@ class AssetConversionText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontSize: fontSize ?? 12.sp,
-        color: Colors.grey,
+        color: color,
+        fontWeight: fontWeight,
       ),
     );
   }
@@ -31,9 +36,15 @@ class AssetConversionText extends StatelessWidget {
 class CenterAssetConversionText extends StatelessWidget {
   const CenterAssetConversionText({
     Key? key,
+    this.fontSize,
+    this.color = Colors.grey,
+    this.fontWeight = FontWeight.normal,
     required this.text,
   }) : super(key: key);
 
+  final double? fontSize;
+  final Color color;
+  final FontWeight fontWeight;
   final String text;
 
   @override
@@ -41,6 +52,9 @@ class CenterAssetConversionText extends StatelessWidget {
     return Center(
       child: AssetConversionText(
         text: text,
+        fontSize: fontSize,
+        color: color,
+        fontWeight: fontWeight,
       ),
     );
   }

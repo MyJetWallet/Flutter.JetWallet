@@ -7,8 +7,8 @@ import '../../../../../shared/components/buttons/app_button_outlined.dart';
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
+import '../../../helpers/short_address_form.dart';
 import '../../../models/currency_model.dart';
-import '../helper/short_form_from.dart';
 import '../notifier/currency_deposit_notipod.dart';
 import '../provider/deposit_disclaimer_fpod.dart';
 import 'components/deposit_currency.dart';
@@ -57,8 +57,8 @@ class CurrencyDeposit extends HookWidget {
                       DepositField(
                         header: 'Wallet Address',
                         open: deposit.openAddress,
-                        onTap: () => depositN.switchQr(),
-                        text: shortFormFrom(deposit.address),
+                        onTap: () => depositN.switchAddressQr(),
+                        text: shortAddressForm(deposit.address),
                         actualValue: deposit.address,
                       ),
                       if (deposit.tag != null) ...[
@@ -66,7 +66,7 @@ class CurrencyDeposit extends HookWidget {
                         DepositField(
                           header: 'Tag',
                           open: deposit.openTag,
-                          onTap: () => depositN.switchQr(),
+                          onTap: () => depositN.switchTagQr(),
                           text: deposit.tag!,
                         )
                       ],
@@ -87,8 +87,9 @@ class CurrencyDeposit extends HookWidget {
                 AppButtonOutlined(
                   name: 'Share my address',
                   onTap: () => Share.share(
-                    'My ${currency.symbol} Address: ${deposit.address}, '
-                    '${deposit.tag != null ? 'Tag: ${deposit.tag}' : ''}',
+                    // ignore: missing_whitespace_between_adjacent_strings
+                    'My ${currency.symbol} Address: ${deposit.address}'
+                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
                   ),
                 )
               ],
