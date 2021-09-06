@@ -7,12 +7,14 @@ import 'package:signalr_core/signalr_core.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
+import '../model/key_value_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 
@@ -43,11 +45,20 @@ class SignalRService {
   final _basePricesController = StreamController<BasePricesModel>();
   final _periodPricesController = StreamController<PeriodPricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
+  final _keyValueController = StreamController<KeyValueModel>();
+
+  /// This variable is created to track previous snapshot of base prices.
+  /// This needed because when signlaR gets update from basePrices it
+  /// recevies only prices that changed, this results in overriding prices
+  /// that didn't changed with zeros.
+  var _oldBasePrices = const BasePricesModel(
+    prices: [],
+  );
 
   Future<void> init() async {
     isDisconnecting = false;
 
-    _connection = HubConnectionBuilder().withUrl(urlSignalR).build();
+    _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
 
     _connection.onclose((error) {
       if (!isDisconnecting) {
@@ -100,8 +111,11 @@ class SignalRService {
 
     _connection.on(basePricesMessage, (data) {
       try {
-        final basePrices = BasePricesModel.fromJson(_json(data));
-        _basePricesController.add(basePrices);
+        _oldBasePrices = BasePricesModel.fromNewPrices(
+          json: _json(data),
+          oldPrices: _oldBasePrices,
+        );
+        _basePricesController.add(_oldBasePrices);
       } catch (e) {
         _logger.log(contract, basePricesMessage, e);
       }
@@ -122,6 +136,17 @@ class SignalRService {
         _clientDetailController.add(clientDetail);
       } catch (e) {
         _logger.log(contract, clientDetailMessage, e);
+      }
+    });
+
+    _connection.on(keyValueMessage, (data) {
+      try {
+        final keyValue = KeyValueModel.parsed(
+          KeyValueModel.fromJson(_json(data)),
+        );
+        _keyValueController.add(keyValue);
+      } catch (e) {
+        _logger.log(contract, keyValueMessage, e);
       }
     });
 
@@ -158,6 +183,8 @@ class SignalRService {
   Stream<PeriodPricesModel> periodPrices() => _periodPricesController.stream;
 
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
+
+  Stream<KeyValueModel> keyValue() => _keyValueController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

@@ -24,6 +24,7 @@ class ConnectionFlavorModel with _$ConnectionFlavorModel {
     required String tradingApi,
     required String tradingAuthApi,
     required String walletApi,
+    required String walletApiSignalR,
     required String validationApi,
   }) = _ConnectionFlavorModel;
 

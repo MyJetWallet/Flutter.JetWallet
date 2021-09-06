@@ -35,11 +35,10 @@ final pushNotificationOnTokenRefreshSpod = StreamProvider<String>((ref) {
 /// Must be initialized after [successfull authentication]
 final pushNotificationRegisterTokenPod = Provider.autoDispose<void>(
   (ref) {
-    final service = ref.watch(notificationServicePod);
     final getToken = ref.watch(pushNotificationGetTokenFpod);
 
     getToken.whenData((token) {
-      _registerToken(service, token, ref.read);
+      _registerToken(ref.read(notificationServicePod), token, ref.read);
     });
   },
   name: 'pushNotificationRegisterTokenPod',
@@ -48,11 +47,10 @@ final pushNotificationRegisterTokenPod = Provider.autoDispose<void>(
 /// Must be initialized after [successfull authentication]
 final pushNotificationOnTokenRefreshPod = Provider.autoDispose<void>(
   (ref) {
-    final service = ref.watch(notificationServicePod);
     final onTokenRefresh = ref.watch(pushNotificationOnTokenRefreshSpod);
 
     onTokenRefresh.whenData((token) {
-      _registerToken(service, token, ref.read);
+      _registerToken(ref.read(notificationServicePod), token, ref.read);
     });
   },
   name: 'pushNotificationOnTokenRefreshPod',
