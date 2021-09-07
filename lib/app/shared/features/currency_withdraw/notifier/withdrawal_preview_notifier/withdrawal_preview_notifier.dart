@@ -42,10 +42,6 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
 
   static final _logger = Logger('WithdrawalPreviewNotifier');
 
-  void _updateOperationId(String value) {
-    state = state.copyWith(operationId: value);
-  }
-
   Future<void> withdraw() async {
     _logger.log(notifier, 'withdraw');
 
@@ -75,6 +71,10 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
     }
 
     state = state.copyWith(loading: false);
+  }
+
+  void _updateOperationId(String value) {
+    state = state.copyWith(operationId: value);
   }
 
   void _showWithdrawConfirm() {

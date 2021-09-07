@@ -27,10 +27,6 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
 
   static final _logger = Logger('WithdrawalAmountNotifier');
 
-  void _updateAmount(String value) {
-    state = state.copyWith(amount: value);
-  }
-
   void updateAmount(String value) {
     _logger.log(notifier, 'updateAmount');
 
@@ -64,14 +60,6 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
     // _calculateBaseConversion();
   }
 
-  void _updateInputError(InputError error) {
-    state = state.copyWith(inputError: error);
-  }
-
-  void _updateValid(bool value) {
-    state = state.copyWith(valid: value);
-  }
-
   void _validateAmount() {
     final error = inputError(state.amount, currency);
 
@@ -84,5 +72,17 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
     }
 
     _updateInputError(error);
+  }
+
+  void _updateAmount(String value) {
+    state = state.copyWith(amount: value);
+  }
+
+  void _updateInputError(InputError error) {
+    state = state.copyWith(inputError: error);
+  }
+
+  void _updateValid(bool value) {
+    state = state.copyWith(valid: value);
   }
 }

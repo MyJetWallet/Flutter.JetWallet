@@ -17,7 +17,7 @@ import '../../../../models/currency_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import '../withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
 
-const _retryTime = 1; // in seconds
+const _retryTime = 5; // in seconds
 
 /// Queries withdrawalInfo every [n] seconds and acts acording to response
 /// 1. If withdrawal is pending continue querying
@@ -30,7 +30,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
   ) : super(null) {
     _operationId = read(withdrawalPreviewNotipod(currency)).operationId;
     _context = read(navigatorKeyPod).currentContext!;
-    _withdrawalInfo();
+    _requestWithdrawalInfo();
   }
 
   final Reader read;
@@ -43,7 +43,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
 
   static final _logger = Logger('WithdrawalConfirmNotifier');
 
-  Future<void> _withdrawalInfo() async {
+  Future<void> _requestWithdrawalInfo() async {
     try {
       final service = read(blockchainServicePod);
 
@@ -76,7 +76,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
       (timer) {
         if (retryTime == 0) {
           timer.cancel();
-          _withdrawalInfo();
+          _requestWithdrawalInfo();
         } else {
           retryTime -= 1;
         }
