@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppTextField extends HookWidget {
   const AppTextField({
     Key? key,
+    this.controller,
+    this.focusNode,
     this.fontSize,
     this.suffixIcon,
     this.keyboardType,
@@ -14,6 +16,8 @@ class AppTextField extends HookWidget {
     required this.onChanged,
   }) : super(key: key);
 
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
   final double? fontSize;
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
@@ -34,6 +38,8 @@ class AppTextField extends HookWidget {
           ),
         ),
         TextFormField(
+          controller: controller,
+          focusNode: focusNode,
           obscureText: obscureText,
           cursorColor: Colors.grey,
           keyboardType: keyboardType,

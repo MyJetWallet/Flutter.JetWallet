@@ -13,9 +13,9 @@ import '../../../models/currency_model.dart';
 import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
 import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
 import 'components/withdrawal_address_validator.dart';
+import 'components/withdrawal_field_suffix/withdrawal_field_suffix.dart';
 import 'screens/withdrawal_amount.dart';
 
-/// TODO add qr and copy to the input field
 /// FLOW: WithdrawalAmount -> WithdrawalPreview -> WithdrawalConfirm
 class CurrencyWithdraw extends HookWidget {
   const CurrencyWithdraw({
@@ -33,6 +33,7 @@ class CurrencyWithdraw extends HookWidget {
     return PageFrame(
       header: 'Withdraw ${currency.description} (${currency.symbol})',
       onBackButton: () => Navigator.pop(context),
+      resizeToAvoidBottomInset: false,
       child: Column(
         children: [
           const SpaceH40(),
@@ -40,7 +41,21 @@ class CurrencyWithdraw extends HookWidget {
             header: 'Enter ${currency.symbol} address',
             hintText: 'Paste or scan',
             fontSize: 25.sp,
+            focusNode: state.addressFocus,
+            controller: state.addressController,
             onChanged: (value) => notifier.updateAddress(value),
+            suffixIcon: WithdrawalFieldSuffix(
+              showErase: state.showAddressErase,
+              showEmptyField: state.showAddressEmptyField,
+              onErase: () => notifier.eraseAddress(),
+              onPaste: () => notifier.pasteAddress(),
+              onScanQr: () => notifier.scanAddressQr(context),
+            ),
+          ),
+          const SpaceH10(),
+          WithdrawalAddressValidator(
+            symbol: currency.symbol,
+            validation: state.validation,
           ),
           if (currency.tagType != TagType.none) ...[
             const SpaceH40(),
@@ -48,14 +63,24 @@ class CurrencyWithdraw extends HookWidget {
               header: 'Enter Tag',
               hintText: 'Paste or scan',
               fontSize: 25.sp,
+              focusNode: state.tagFocus,
+              controller: state.tagController,
               onChanged: (value) => notifier.updateTag(value),
+              suffixIcon: WithdrawalFieldSuffix(
+                showErase: state.showTagErase,
+                showEmptyField: state.showTagEmptyField,
+                onErase: () => notifier.eraseTag(),
+                onPaste: () => notifier.pasteTag(),
+                onScanQr: () => notifier.scanTagQr(context),
+              ),
+            ),
+            const SpaceH10(),
+            WithdrawalAddressValidator(
+              withTag: true,
+              symbol: currency.symbol,
+              validation: state.validation,
             ),
           ],
-          const SpaceH10(),
-          WithdrawalAddressValidator(
-            symbol: currency.symbol,
-            validation: state.validation,
-          ),
           const SpaceH20(),
           Text(
             'Instead of typing in an address, we recommend '
