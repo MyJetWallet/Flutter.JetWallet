@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'withdrawal_info_request_model.dart.freezed.dart';
-part 'withdrawal_info_request_model.dart.g.dart';
+part 'withdrawal_info_request_model.freezed.dart';
+part 'withdrawal_info_request_model.g.dart';
 
 @freezed
 class WithdrawalInfoRequestModel with _$WithdrawalInfoRequestModel {

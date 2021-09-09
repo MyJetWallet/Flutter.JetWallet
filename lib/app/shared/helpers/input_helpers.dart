@@ -120,8 +120,7 @@ bool isInputValid(String input) {
   return false;
 }
 
-/// Shows value of the InputField based on the input and selectedCurrency \
-/// Used on [Deposit], [Sell] and [Buy] screens
+/// Shows the value of the InputField based on the input
 String fieldValue(String input, String symbol) {
   return '${input.isEmpty ? '0' : input} $symbol';
 }
@@ -129,12 +128,15 @@ String fieldValue(String input, String symbol) {
 enum InputError {
   none,
   notEnoughFunds,
+  enterHigherAmount,
 }
 
 extension InputErrorValue on InputError {
   String get value {
     if (this == InputError.notEnoughFunds) {
       return 'Not enough funds';
+    } else if (this == InputError.enterHigherAmount) {
+      return 'Enter a higher amount';
     } else {
       return 'None';
     }
@@ -143,16 +145,19 @@ extension InputErrorValue on InputError {
   bool get isActive => this != InputError.none;
 }
 
-InputError inputError(String input, CurrencyModel currency) {
+InputError inputError(
+  String input,
+  CurrencyModel currency,
+) {
   if (input.isNotEmpty) {
     final value = double.parse(input);
 
-    if (currency.assetBalance >= value) {
-      return InputError.none;
-    } else {
+    if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
+    } else if (currency.withdrawalFeeSize >= value) {
+      return InputError.enterHigherAmount;
     }
-  } else {
-    return InputError.none;
   }
+
+  return InputError.none;
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_request_model.dart.dart';
+import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_request_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_response_model.dart';
 import '../../../../../../shared/components/result_screens/failure_screens/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';

@@ -38,4 +38,8 @@ class CurrencyModel with _$CurrencyModel {
   bool get isAssetBalanceEmpty => assetBalance == 0;
 
   bool get isAssetBalanceNotEmpty => assetBalance != 0;
+
+  double get withdrawalFeeSize => fees.withdrawalFee?.size ?? 0;
+
+  bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
 }

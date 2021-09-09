@@ -1,14 +1,26 @@
-import '../../../models/currency_model.dart';
+import '../../../helpers/input_helpers.dart';
 
-// TODO what to do with the fee from different currency?
-// In order to do this we need to have conversion from asset to asset
-// that we don't have right now. Discuss this matter with Alexey.
+import '../../../models/currency_model.dart';
 
 /// Calculates amount that user will receive after
 /// subtraction of the currency fee
 String userWillreceive(String amount, CurrencyModel currency) {
-  final value = double.parse(amount);
-  final fee = currency.fees.withdrawalFee?.size ?? 0;
+  if (amount.isNotEmpty) {
+    final value = double.parse(amount);
 
-  return '${value - fee} ${currency.symbol}';
+    var fee = currency.withdrawalFeeSize;
+
+    if (value <= fee) {
+      return '0 ${currency.symbol}';
+    } else {
+      if (currency.isFeeInOtherCurrency) fee = 0;
+
+      final result = (value - fee).toStringAsFixed(currency.accuracy);
+      final truncated = truncateZerosFromInput(result);
+
+      return '$truncated ${currency.symbol}';
+    }
+  } else {
+    return '0 ${currency.symbol}';
+  }
 }

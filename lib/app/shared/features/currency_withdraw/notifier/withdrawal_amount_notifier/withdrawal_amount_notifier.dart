@@ -3,8 +3,10 @@ import 'package:logging/logging.dart';
 
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../components/balance_selector/model/selected_percent.dart';
+import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
+import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../withdrawal_address_notifier/withdrawal_address_notipod.dart';
 import 'withdrawal_amount_state.dart';
 
@@ -19,6 +21,7 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
     state = state.copyWith(
       tag: address.tag,
       address: address.address,
+      baseCurrency: read(baseCurrencyPod),
     );
   }
 
@@ -38,9 +41,7 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
       ),
     );
     _validateAmount();
-    // TODO
-    // _calculateTargetConversion();
-    // _calculateBaseConversion();
+    _calculateBaseConversion();
   }
 
   void selectPercentFromBalance(SelectedPercent selected) {
@@ -55,14 +56,32 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
       valueAccordingToAccuracy(value, currency.accuracy),
     );
     _validateAmount();
-    // TODO
-    // _calculateTargetConversion();
-    // _calculateBaseConversion();
+    _calculateBaseConversion();
+  }
+
+  void _calculateBaseConversion() {
+    if (state.amount.isNotEmpty) {
+      final baseValue = calculateBaseBalanceWithReader(
+        read: read,
+        assetSymbol: currency.symbol,
+        assetBalance: double.parse(state.amount),
+      );
+
+      _updateBaseConversionValue(
+        truncateZerosFromInput(baseValue.toString()),
+      );
+    } else {
+      _updateBaseConversionValue(zeroCase);
+    }
+  }
+
+  void _updateBaseConversionValue(String value) {
+    state = state.copyWith(baseConversionValue: value);
   }
 
   void _validateAmount() {
     final error = inputError(state.amount, currency);
-
+    
     if (error == InputError.none) {
       _updateValid(
         isInputValid(state.amount),

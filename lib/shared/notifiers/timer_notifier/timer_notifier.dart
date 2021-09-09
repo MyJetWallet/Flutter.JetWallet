@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:state_notifier/state_notifier.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TimerNotifier extends StateNotifier<int> {
   TimerNotifier(this.initial) : super(initial) {

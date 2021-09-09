@@ -46,7 +46,7 @@ class WithdrawalPreview extends HookWidget {
           ActionPreviewRow(
             description: 'Fee',
             value: '${currency.fees.withdrawalFee?.size ?? 0} '
-                '${currency.fees.withdrawalFee?.asset}',
+                '${currency.fees.withdrawalFee?.assetSymbol}',
           ),
           const ActionPreviewDivider(),
           ActionPreviewRow(

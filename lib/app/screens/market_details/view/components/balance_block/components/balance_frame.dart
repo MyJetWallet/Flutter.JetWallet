@@ -15,11 +15,12 @@ class BalanceFrame extends StatelessWidget {
       height: 0.25.sh,
       width: double.infinity,
       decoration: BoxDecoration(
-          color: Colors.grey[850],
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16.r),
-            topRight: Radius.circular(16.r),
-          )),
+        color: Colors.grey[850],
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.r),
+          topRight: Radius.circular(16.r),
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,

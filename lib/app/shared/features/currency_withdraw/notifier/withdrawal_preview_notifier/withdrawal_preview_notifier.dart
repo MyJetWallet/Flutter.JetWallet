@@ -51,7 +51,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: currency.symbol,
-        amount: double.parse(state.amount),
+        amount: double.parse(state.amount), // TODO - fee
         toAddress: state.address,
       );
 
