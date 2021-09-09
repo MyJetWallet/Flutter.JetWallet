@@ -15,6 +15,8 @@ import '../../../../components/text/asset_conversion_text.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/short_address_form.dart';
 import '../../../../models/currency_model.dart';
+import '../../helper/minimum_amount.dart';
+import '../../helper/user_will_receive.dart';
 import '../../notifier/withdrawal_amount_notifier/withdrawal_amount_notipod.dart';
 import 'withdrawal_preview.dart';
 
@@ -44,13 +46,18 @@ class WithdrawalAmount extends HookWidget {
           ),
           const SpaceH10(),
           if (state.inputError.isActive)
-            AssetInputError(
-              text: state.inputError.value,
-            )
+            if (state.inputError == InputError.enterHigherAmount)
+              AssetInputError(
+                text: '${state.inputError.value}. ${minAmount(currency)}',
+              )
+            else
+              AssetInputError(
+                text: state.inputError.value,
+              )
           else ...[
-            // TODO remove hardcode
-            const CenterAssetConversionText(
-              text: '≈ \$305848432.54',
+            CenterAssetConversionText(
+              text: '≈ ${state.baseConversionValue} '
+                  '${state.baseCurrency!.symbol}',
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
@@ -59,11 +66,10 @@ class WithdrawalAmount extends HookWidget {
                   '${currency.symbol}',
             ),
             const SpaceH20(),
-            // TODO remove hardcode
             AssetConversionText(
-              text: 'Your fee is: ${currency.fees.withdrawalFee?.size ?? 0} '
-                  '${currency.fees.withdrawalFee?.asset} '
-                  '/ You will recive: 0.0051 ALGO',
+              text: 'Your fee is: ${currency.withdrawalFeeSize} '
+                  '${currency.fees.withdrawalFee?.assetSymbol} / '
+                  'You will recive: ${userWillreceive(state.amount, currency)}',
             ),
           ],
           const Spacer(),

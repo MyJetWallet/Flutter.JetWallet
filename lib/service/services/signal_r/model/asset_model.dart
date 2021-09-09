@@ -47,9 +47,9 @@ class AssetFeesModel with _$AssetFeesModel {
 @freezed
 class WithdrawalFeeModel with _$WithdrawalFeeModel {
   const factory WithdrawalFeeModel({
-    required String asset,
     required double size,
-    required FeeType feeType,
+    @JsonKey(name: 'feeType') required FeeType type,
+    @JsonKey(name: 'asset') required String assetSymbol,
   }) = _WithdrawalFeeModel;
 
   factory WithdrawalFeeModel.fromJson(Map<String, dynamic> json) =>
