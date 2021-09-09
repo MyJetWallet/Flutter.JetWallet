@@ -28,9 +28,12 @@ final pushNotificationGetTokenFpod = FutureProvider<String?>(
   name: 'pushNotificationGetTokenFpod',
 );
 
-final pushNotificationOnTokenRefreshSpod = StreamProvider<String>((ref) {
-  return FirebaseMessaging.instance.onTokenRefresh;
-}, name: 'pushNotificationOnTokenRefreshSpod');
+final pushNotificationOnTokenRefreshSpod = StreamProvider<String>(
+  (ref) {
+    return FirebaseMessaging.instance.onTokenRefresh;
+  },
+  name: 'pushNotificationOnTokenRefreshSpod',
+);
 
 /// Must be initialized after [successfull authentication]
 final pushNotificationRegisterTokenPod = Provider.autoDispose<void>(

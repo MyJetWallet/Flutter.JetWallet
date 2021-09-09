@@ -25,7 +25,7 @@ class ResultFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => Future.value(),
+      onWillPop: () => Future.value(true),
       child: PageFrame(
         header: header,
         child: Column(

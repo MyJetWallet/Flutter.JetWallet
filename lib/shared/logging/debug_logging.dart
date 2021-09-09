@@ -62,7 +62,7 @@ ${mainLog(r, '▬')}
 String _underline = '▬' * 80;
 
 String logTime(LogRecord record) {
-  return DateFormat('hh:mm:ss').format(record.time).toString();
+  return DateFormat('hh:mm:ss').format(record.time);
 }
 
 bool isConventionLevel(LogRecord record) {
