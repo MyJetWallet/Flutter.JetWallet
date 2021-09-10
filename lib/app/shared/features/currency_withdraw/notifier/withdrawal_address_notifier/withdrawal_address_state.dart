@@ -14,8 +14,8 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
     @Default(false) bool addressIsInternal,
     @Default('') String tag,
     @Default('') String address,
-    @Default(Invalid()) AddressValidationUnion addressValidation,
-    @Default(Invalid()) AddressValidationUnion tagValidation,
+    @Default(Hide()) AddressValidationUnion addressValidation,
+    @Default(Hide()) AddressValidationUnion tagValidation,
     required TextEditingController addressController,
     required TextEditingController tagController,
     required FocusNode addressFocus,
@@ -33,6 +33,14 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
       return addressValidation is Valid && tagValidation is Valid;
     } else {
       return addressValidation is Valid;
+    }
+  }
+
+  bool inputIsNotEmpty(CurrencyModel currency) {
+    if (currency.hasTag) {
+      return address.isNotEmpty && tag.isNotEmpty;
+    } else {
+      return address.isNotEmpty;
     }
   }
 }
