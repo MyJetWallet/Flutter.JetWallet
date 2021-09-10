@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../shared/components/page_frame/components/arrow_back_button.dart';
+import '../../../../../../shared/components/page_frame/components/frame_action_button.dart';
 import '../../../../market/model/market_item_model.dart';
 import 'components/asset_day_change.dart';
 import 'components/asset_info.dart';
@@ -27,7 +27,8 @@ class MarketDetailsAppBar extends StatelessWidget
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: ArrowBackButton(
+            child: FrameActionButton(
+              icon: Icons.arrow_back,
               onTap: () => Navigator.of(context).pop(),
             ),
           ),

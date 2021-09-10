@@ -116,7 +116,7 @@ workflows:
           <<: *apple_signing
           <<: *new_app_trading_config
       
-      flutter: stable
+      flutter: 2.5.0
       xcode: latest
       cocoapods: default
     
@@ -138,7 +138,7 @@ workflows:
           <<: *apple_signing
           <<: *new_app_trading_config
       
-      flutter: stable
+      flutter: 2.5.0
       xcode: latest
       cocoapods: default
     
