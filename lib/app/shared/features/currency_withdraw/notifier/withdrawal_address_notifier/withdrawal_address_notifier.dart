@@ -177,6 +177,9 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       updateValidation(
         response.isValid ? const Valid() : const Invalid(),
       );
+      state = state.copyWith(
+        addressIsInternal: response.isInternal,
+      );
     } catch (error) {
       if (!mounted) return;
       _logger.log(stateFlow, '_validateAddress', error);

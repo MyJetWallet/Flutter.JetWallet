@@ -42,13 +42,13 @@ class WithdrawalAmount extends HookWidget {
         children: [
           const Spacer(),
           AssetInputField(
-            value: fieldValue(state.amount, currency.symbol),
+            value: '${state.amount} ${currency.symbol}',
           ),
           const SpaceH10(),
           if (state.inputError.isActive)
             if (state.inputError == InputError.enterHigherAmount)
               AssetInputError(
-                text: '${state.inputError.value}. ${minAmount(currency)}',
+                text: '${state.inputError.value}. ${minimumAmount(currency)}',
               )
             else
               AssetInputError(
@@ -62,14 +62,11 @@ class WithdrawalAmount extends HookWidget {
               fontWeight: FontWeight.bold,
             ),
             CenterAssetConversionText(
-              text: 'Available: ${currency.assetBalance} '
-                  '${currency.symbol}',
+              text: 'Available: ${currency.assetBalance} ${currency.symbol}',
             ),
             const SpaceH20(),
             AssetConversionText(
-              text: 'Your fee is: ${currency.withdrawalFeeSize} '
-                  '${currency.fees.withdrawalFee?.assetSymbol} / '
-                  'You will recive: ${userWillreceive(state.amount, currency)}',
+              text: _feeDescription(state.addressIsInternal, state.amount),
             ),
           ],
           const Spacer(),
@@ -109,5 +106,21 @@ class WithdrawalAmount extends HookWidget {
         ],
       ),
     );
+  }
+
+  String _feeDescription(bool isInternal, String amount) {
+    final result = userWillreceive(
+      amount: amount,
+      currency: currency,
+      addressIsInternal: isInternal,
+    );
+
+    final youWillReceive = 'You will receive: $result';
+
+    if (isInternal) {
+      return 'No withdrawal fee! / $youWillReceive';
+    } else {
+      return 'Your fee is: ${currency.withdrawaFeeWithSymbol} / $youWillReceive';
+    }
   }
 }

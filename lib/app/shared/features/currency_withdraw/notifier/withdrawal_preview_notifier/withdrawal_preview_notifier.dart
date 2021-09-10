@@ -30,6 +30,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
       tag: amount.tag,
       address: amount.address,
       amount: amount.amount,
+      addressIsInternal: amount.addressIsInternal,
     );
 
     _context = read(navigatorKeyPod).currentContext!;

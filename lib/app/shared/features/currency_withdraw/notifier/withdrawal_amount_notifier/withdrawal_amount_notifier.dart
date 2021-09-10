@@ -21,6 +21,7 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
     state = state.copyWith(
       tag: address.tag,
       address: address.address,
+      addressIsInternal: address.addressIsInternal,
       baseCurrency: read(baseCurrencyPod),
     );
   }
@@ -80,8 +81,12 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
   }
 
   void _validateAmount() {
-    final error = inputError(state.amount, currency);
-    
+    final error = inputError(
+      state.amount,
+      currency,
+      addressIsInternal: state.addressIsInternal,
+    );
+
     if (error == InputError.none) {
       _updateValid(
         isInputValid(state.amount),

@@ -95,10 +95,7 @@ class CurrencyBuy extends HookWidget {
         children: [
           const Spacer(),
           AssetInputField(
-            value: fieldValue(
-              state.inputValue,
-              state.selectedCurrencySymbol,
-            ),
+            value: '${state.inputValue} ${state.selectedCurrencySymbol}',
           ),
           const SpaceH8(),
           if (state.inputError.isActive)

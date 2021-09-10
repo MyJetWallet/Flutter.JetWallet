@@ -11,6 +11,7 @@ part 'withdrawal_address_state.freezed.dart';
 class WithdrawalAddressState with _$WithdrawalAddressState {
   const factory WithdrawalAddressState({
     QRViewController? qrController,
+    @Default(false) bool addressIsInternal,
     @Default('') String tag,
     @Default('') String address,
     @Default(Invalid()) AddressValidationUnion addressValidation,
