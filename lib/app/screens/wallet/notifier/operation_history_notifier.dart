@@ -49,7 +49,8 @@ class OperationHistoryNotifier
   }
 
   Future<OperationHistoryResponseModel> _requestOperationHistory(
-          String assetId) =>
+    String assetId,
+  ) =>
       read(operationHistoryServicePod).operationHistory(
         OperationHistoryRequestModel(
           assetId: assetId,

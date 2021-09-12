@@ -13,7 +13,8 @@ class OperationHistoryService {
   static final logger = Logger('OperationHistoryService');
 
   Future<OperationHistoryResponseModel> operationHistory(
-      OperationHistoryRequestModel model) {
+    OperationHistoryRequestModel model,
+  ) {
     return operationHistoryService(dio, model);
   }
 }
