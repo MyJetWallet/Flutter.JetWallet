@@ -20,6 +20,7 @@ dependencies:
   font_awesome_flutter: ^9.1.0 # The Font Awesome Icon pack (1500+ icons)
   pin_code_fields: ^7.2.0 # Generate pin code fields
   qr_flutter: ^4.0.0 # QR code rendering
+  grouped_list: ^4.1.0 # List with grouped items
 
   # RESPONSIVE UI
   device_preview: ^0.7.3

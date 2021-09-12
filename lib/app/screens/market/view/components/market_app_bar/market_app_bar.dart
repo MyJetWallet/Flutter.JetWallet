@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../header_text.dart';
+import '../../../../../../shared/components/header_text.dart';
 import '../market_tabs/market_tabs.dart';
 import 'components/search_button.dart';
 
