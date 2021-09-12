@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,7 +11,6 @@ import 'actions/action_buy/action_buy.dart';
 import 'actions/action_deposit/action_deposit.dart';
 import 'actions/action_receive/action_receive.dart';
 import 'actions/action_sell/action_sell.dart';
-import 'actions/action_send/action_send.dart';
 import 'actions/action_withdraw/action_withdraw.dart';
 
 void showNavigationAction(BuildContext context, AppLocalizations intl) {
@@ -51,7 +51,7 @@ void showNavigationAction(BuildContext context, AppLocalizations intl) {
         title: intl.send,
         description: intl.sendCryptoToAnotherWallet,
         icon: FontAwesomeIcons.arrowUp,
-        onTap: () => navigatorPush(context, const ActionSend()),
+        onTap: () => navigatorPush(context, const ActionWithdraw()),
       ),
       ActionSheetButton(
         title: intl.receive,

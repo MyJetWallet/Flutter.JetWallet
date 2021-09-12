@@ -8,4 +8,3 @@ final timerNotipod =
     return TimerNotifier(initial);
   },
 );
-

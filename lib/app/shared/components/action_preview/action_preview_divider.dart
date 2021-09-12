@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ConvertPreviewDivider extends StatelessWidget {
-  const ConvertPreviewDivider({
+class ActionPreviewDivider extends StatelessWidget {
+  const ActionPreviewDivider({
     Key? key,
   }) : super(key: key);
 

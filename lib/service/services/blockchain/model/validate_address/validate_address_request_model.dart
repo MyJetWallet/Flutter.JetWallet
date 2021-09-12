@@ -6,6 +6,7 @@ part 'validate_address_request_model.g.dart';
 @freezed
 class ValidateAddressRequestModel with _$ValidateAddressRequestModel {
   const factory ValidateAddressRequestModel({
+    String? toTag,
     required String assetSymbol,
     required String toAddress,
   }) = _ValidateAddressRequestModel;

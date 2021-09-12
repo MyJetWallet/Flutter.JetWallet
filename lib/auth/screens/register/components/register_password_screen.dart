@@ -6,8 +6,8 @@ import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
+import '../../../../shared/components/text_fields/app_text_field_obscure.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_text_field.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
@@ -52,10 +52,9 @@ class RegisterPasswordScreen extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SpaceH40(),
-              AuthTextField(
+              AppTextFieldObscure(
                 header: 'Enter password',
                 hintText: 'Enter password',
-                obscureText: true,
                 onChanged: (value) {
                   credentialsN.updateAndValidatePassword(value);
                 },

@@ -150,7 +150,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
 
   /// We can select percent only from FromAssetAmount
   void selectPercentFromBalance(SelectedPercent selected) {
-    _logger.log(notifier, 'selectPercentFromAvailableBalance');
+    _logger.log(notifier, 'selectPercentFromBalance');
 
     if (state.fromAssetEnabled) {
       final value = valueBasedOnSelectedPercent(

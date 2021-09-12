@@ -2,15 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AuthTextField extends HookWidget {
-  const AuthTextField({
+class AppTextField extends HookWidget {
+  const AppTextField({
     Key? key,
+    this.controller,
+    this.focusNode,
+    this.fontSize,
+    this.suffixIcon,
+    this.keyboardType,
     this.obscureText = false,
     required this.header,
     required this.hintText,
     required this.onChanged,
   }) : super(key: key);
 
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final double? fontSize;
+  final Widget? suffixIcon;
+  final TextInputType? keyboardType;
   final bool obscureText;
   final String header;
   final String hintText;
@@ -18,8 +28,6 @@ class AuthTextField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final obscure = useState(true);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,17 +38,19 @@ class AuthTextField extends HookWidget {
           ),
         ),
         TextFormField(
-          obscureText: obscureText && obscure.value,
+          controller: controller,
+          focusNode: focusNode,
+          obscureText: obscureText,
           cursorColor: Colors.grey,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: keyboardType,
           style: TextStyle(
-            fontSize: 18.sp,
+            fontSize: fontSize ?? 18.sp,
             fontWeight: FontWeight.bold,
           ),
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyle(
-              fontSize: 18.sp,
+              fontSize: fontSize ?? 18.sp,
               fontWeight: FontWeight.bold,
               color: Colors.grey[400],
             ),
@@ -60,23 +70,7 @@ class AuthTextField extends HookWidget {
                 width: 2.w,
               ),
             ),
-            suffixIcon: obscureText
-                ? InkWell(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () => obscure.value = !obscure.value,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 4.5.w,
-                      ),
-                      child: Icon(
-                        Icons.visibility,
-                        color: Colors.grey,
-                        size: 20.r,
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+            suffixIcon: suffixIcon,
             suffixIconConstraints: const BoxConstraints(),
           ),
           onChanged: onChanged,

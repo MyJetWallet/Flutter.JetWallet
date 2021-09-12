@@ -4,100 +4,107 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../shared/components/buttons/app_button_solid.dart';
+import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
+import '../../../../../shared/components/text_fields/app_text_field.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
-import '../../../styles/amount_field_decoration.dart';
-import '../notifier/withdraw_notipod.dart';
-import '../notifier/withdraw_state.dart';
-import 'components/amount_text_field.dart';
-import 'components/withdraw_send_button.dart';
-import 'components/withdraw_text_field.dart';
-import 'styles/styles.dart';
+import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
+import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
+import 'components/withdrawal_address_validator.dart';
+import 'components/withdrawal_field_suffix/withdrawal_field_suffix.dart';
+import 'screens/withdrawal_amount.dart';
 
-class CurrencyWithdraw extends StatefulHookWidget {
+/// FLOW: WithdrawalAmount -> WithdrawalPreview -> WithdrawalConfirm
+class CurrencyWithdraw extends HookWidget {
   const CurrencyWithdraw({
+    Key? key,
     required this.currency,
-  });
+  }) : super(key: key);
 
   final CurrencyModel currency;
 
   @override
-  _CurrencyWithdrawState createState() => _CurrencyWithdrawState();
-}
-
-class _CurrencyWithdrawState extends State<CurrencyWithdraw> {
-  @override
   Widget build(BuildContext context) {
-    final withdrawNotifier = useProvider(
-      withdrawNotipod(widget.currency.symbol).notifier,
-    );
+    final state = useProvider(withdrawalAddressNotipod(currency));
+    final notifier = useProvider(withdrawalAddressNotipod(currency).notifier);
 
-    return ProviderListener<WithdrawState>(
-      provider: withdrawNotipod(widget.currency.symbol),
-      onChange: (context, state) {
-        state.union.when(
-          input: (e, st) {
-            if (e != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(e.toString())),
-              );
-            }
-          },
-          loading: () {},
-        );
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Withdraw ${widget.currency.description}',
-          ),
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 10.w,
-              vertical: 10.h,
+    return PageFrame(
+      header: 'Withdraw ${currency.description} (${currency.symbol})',
+      onBackButton: () => Navigator.pop(context),
+      resizeToAvoidBottomInset: false,
+      child: Column(
+        children: [
+          const SpaceH40(),
+          AppTextField(
+            header: 'Enter ${currency.symbol} address',
+            hintText: 'Paste or scan',
+            fontSize: 25.sp,
+            focusNode: state.addressFocus,
+            controller: state.addressController,
+            onChanged: (value) => notifier.updateAddress(value),
+            suffixIcon: WithdrawalFieldSuffix(
+              showErase: state.showAddressErase,
+              showEmptyField: state.showAddressEmptyField,
+              onErase: () => notifier.eraseAddress(),
+              onPaste: () => notifier.pasteAddress(),
+              onScanQr: () => notifier.scanAddressQr(context),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                WithdrawTextField(
-                  title: 'Addres',
-                  decoration: widthdrawAddressDecoration,
-                  onChanged: (value) => withdrawNotifier.updateAddress(value),
-                  onQrPressed: () {},
-                ),
-                const SpaceH15(),
-                if (widget.currency.tagType == TagType.memo)
-                  WithdrawTextField(
-                    title: 'Tag (memo)',
-                    decoration: widthdrawTagDecoration,
-                    onChanged: (value) => withdrawNotifier.updateMemo(value),
-                    onQrPressed: () {},
+          ),
+          const SpaceH10(),
+          WithdrawalAddressValidator(
+            symbol: currency.symbol,
+            validation: state.validation,
+          ),
+          if (currency.tagType != TagType.none) ...[
+            const SpaceH40(),
+            AppTextField(
+              header: 'Enter Tag',
+              hintText: 'Paste or scan',
+              fontSize: 25.sp,
+              focusNode: state.tagFocus,
+              controller: state.tagController,
+              onChanged: (value) => notifier.updateTag(value),
+              suffixIcon: WithdrawalFieldSuffix(
+                showErase: state.showTagErase,
+                showEmptyField: state.showTagEmptyField,
+                onErase: () => notifier.eraseTag(),
+                onPaste: () => notifier.pasteTag(),
+                onScanQr: () => notifier.scanTagQr(context),
+              ),
+            ),
+            const SpaceH10(),
+            WithdrawalAddressValidator(
+              withTag: true,
+              symbol: currency.symbol,
+              validation: state.validation,
+            ),
+          ],
+          const SpaceH20(),
+          Text(
+            'Instead of typing in an address, we recommend '
+            'pasting an address or scanning a QR code.',
+            style: TextStyle(
+              fontSize: 12.sp,
+            ),
+          ),
+          const Spacer(),
+          AppButtonSolid(
+            name: 'Next',
+            active: state.validation is Valid,
+            onTap: () {
+              if (state.validation is Valid) {
+                navigatorPush(
+                  context,
+                  WithdrawalAmount(
+                    currency: currency,
                   ),
-                const SpaceH15(),
-                AmountTextField(
-                  title: 'Amount',
-                  onChanged: (value) => withdrawNotifier.updateAmount(value),
-                  decoration: amountFieldDecoration,
-                ),
-                const SpaceH8(),
-                WithdrawSendButton(
-                  onPressed: () async {
-                    final success = await withdrawNotifier.withdraw();
-
-                    if (success) {
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Withdrawn Success')),
-                      );
-                    }
-                  },
-                )
-              ],
-            ),
+                );
+              }
+            },
           ),
-        ),
+        ],
       ),
     );
   }

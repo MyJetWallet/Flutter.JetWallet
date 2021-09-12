@@ -47,8 +47,10 @@ List<MarketItemModel> _formattedItems(
   items.sort((a, b) => b.weight.compareTo(a.weight));
 
   return items
-      .where((item) =>
-          item.id.toLowerCase().contains(searchInput) ||
-          item.name.toLowerCase().contains(searchInput))
+      .where(
+        (item) =>
+            item.id.toLowerCase().contains(searchInput) ||
+            item.name.toLowerCase().contains(searchInput),
+      )
       .toList();
 }
