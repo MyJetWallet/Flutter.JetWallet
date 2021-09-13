@@ -32,15 +32,18 @@ class CardBlock extends HookWidget {
           ),
           child: Row(
             children: [
-              if (!containsSingleElement(itemsWithBalance) &&
-                  currentPage > 0)
-                const CardPart(),
+              if (!containsSingleElement(itemsWithBalance) && currentPage > 0)
+                const CardPart(
+                  left: true,
+                ),
               WalletCard(
                 assetId: assetId,
               ),
               if (!containsSingleElement(itemsWithBalance) &&
-                  currentPage == itemsWithBalance.length)
-                const CardPart(),
+                  currentPage != itemsWithBalance.length - 1)
+                const CardPart(
+                  left: false,
+                ),
             ],
           ),
         ),
