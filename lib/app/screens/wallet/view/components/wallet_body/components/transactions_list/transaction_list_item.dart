@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../provider/wallet_hidden_stpod.dart';
+import 'components/transaction_list_item_body_text.dart';
 import 'components/transaction_list_item_header_text.dart';
 
 class TransactionListItem extends HookWidget {
@@ -39,9 +40,9 @@ class TransactionListItem extends HookWidget {
               const Spacer(),
               TransactionListItemHeaderText(
                 text:
-                    '\$${hidden.state
+                    '${hidden.state
                         ? '???'
-                        : transactionListItem.balanceChange}',
+                        : transactionListItem.balanceChange} ${transactionListItem.assetId}',
               ),
             ],
           ),
@@ -53,11 +54,7 @@ class TransactionListItem extends HookWidget {
               const SpaceW10(),
               Text(
                 DateFormat('Hm').format(
-                  // Temporary. Will be fixed in next PR
-                  // TODO(Vova):
-                  // DateTime.parse('${transactionListItem.timeStamp}Z')
-                  // .toLocal(),
-                  DateTime.parse(transactionListItem.timeStamp).toLocal(),
+                  DateTime.parse('${transactionListItem.timeStamp}Z').toLocal(),
                 ),
                 style: TextStyle(
                   color: Colors.grey,
@@ -65,18 +62,24 @@ class TransactionListItem extends HookWidget {
                 ),
               ),
               const Spacer(),
-              // Temporary. Wil lbe fxined in next PR
-              // TODO(Vova): Add asset balance change for buy+sell
-              // Text(
-              //   'With ${'${hidden.state
-              //       ? '???'
-              //       : transactionListItem.balanceChange}'} '
-              //   '${transactionListItem.assetId}',
-              //   style: TextStyle(
-              //     color: Colors.grey,
-              //     fontSize: 16.sp,
-              //   ),
-              // )
+              if (transactionListItem.operationType == OperationType.sell) ...[
+                TransactionListItemBodyText(
+                  text:
+                      'For ${'${hidden.state
+                          ? '???'
+                          : transactionListItem.swapInfo!.sellAmount}'} '
+                      '${transactionListItem.swapInfo!.sellAssetId}',
+                ),
+              ],
+              if (transactionListItem.operationType == OperationType.buy) ...[
+                TransactionListItemBodyText(
+                  text:
+                      'With ${'${hidden.state
+                          ? '???'
+                          : transactionListItem.swapInfo!.buyAmount}'} '
+                      '${transactionListItem.swapInfo!.buyAssetId}',
+                ),
+              ]
             ],
           ),
           const SpaceH10(),
@@ -92,14 +95,16 @@ class TransactionListItem extends HookWidget {
         return FontAwesomeIcons.creditCard;
       case OperationType.withdraw:
         return Icons.arrow_forward;
-      case OperationType.swap:
-      // TODO(Vova): Handle this case.
-      case OperationType.withdrawalFee:
-        return FontAwesomeIcons.question;
       case OperationType.transferByPhone:
         return Icons.arrow_upward;
       case OperationType.receiveByPhone:
         return Icons.arrow_downward;
+      case OperationType.buy:
+        return FontAwesomeIcons.plus;
+      case OperationType.sell:
+        return FontAwesomeIcons.minus;
+      case OperationType.withdrawalFee:
+      case OperationType.swap:
       case OperationType.unknown:
         return FontAwesomeIcons.question;
     }
@@ -111,14 +116,16 @@ class TransactionListItem extends HookWidget {
         return 'Deposit';
       case OperationType.withdraw:
         return 'Withdraw';
-      case OperationType.swap:
-      // TODO(Vova): Handle this case.
-      case OperationType.withdrawalFee:
-        return 'WithdrawalFee';
       case OperationType.transferByPhone:
         return 'Transfer by Phone';
       case OperationType.receiveByPhone:
         return 'Receive by Phone';
+      case OperationType.buy:
+        return 'Buy';
+      case OperationType.sell:
+        return 'Sell';
+      case OperationType.swap:
+      case OperationType.withdrawalFee:
       case OperationType.unknown:
         return 'Unknown';
     }

@@ -22,9 +22,16 @@ class OperationHistoryNotifier
     _logger.log(notifier, 'initOperationHistory');
 
     try {
-      final operationHistory = await _requestOperationHistory(assetId);
+      final operationHistory = await _requestOperationHistory(
+        OperationHistoryRequestModel(
+          assetId: assetId,
+          batchSize: 5,
+        ),
+      );
 
-      state = operationHistory.operationHistory;
+      state = _filterUnusedOperationTypeItemsFrom(
+        operationHistory.operationHistory,
+      );
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
     }
@@ -34,7 +41,13 @@ class OperationHistoryNotifier
     _logger.log(notifier, 'operationHistory');
 
     try {
-      final operationHistory = await _requestOperationHistory(assetId);
+      final operationHistory = await _requestOperationHistory(
+        OperationHistoryRequestModel(
+          assetId: assetId,
+          batchSize: 5,
+          lastDate: state.last.timeStamp,
+        ),
+      );
 
       updateOperationHistory(operationHistory.operationHistory);
     } catch (e) {
@@ -45,17 +58,47 @@ class OperationHistoryNotifier
   void updateOperationHistory(List<OperationHistoryItem> items) {
     _logger.log(notifier, 'updateOperationHistory');
 
-    state = state + items;
+    state = state + _filterUnusedOperationTypeItemsFrom(items);
   }
 
   Future<OperationHistoryResponseModel> _requestOperationHistory(
-    String assetId,
+    OperationHistoryRequestModel model,
   ) =>
       read(operationHistoryServicePod).operationHistory(
-        OperationHistoryRequestModel(
-          assetId: assetId,
-          batchSize: 5,
-          lastDate: state.first.timeStamp,
-        ),
+        model,
       );
+}
+
+// TODO(Vova): remove when all types will be properly sorted on the backend.
+List<OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
+  List<OperationHistoryItem> items,
+) {
+  final filteredItems = items
+      .where(
+    (item) =>
+        item.operationType == OperationType.deposit ||
+        item.operationType == OperationType.unknown ||
+        item.operationType == OperationType.withdraw ||
+        item.operationType == OperationType.swap ||
+        item.operationType == OperationType.transferByPhone ||
+        item.operationType == OperationType.receiveByPhone,
+  )
+      .map((item) {
+    if (item.operationType == OperationType.swap) {
+      return item.copyWith(
+        operationType:
+            item.swapInfo!.isSell ? OperationType.sell : OperationType.buy,
+      );
+    } else {
+      return item;
+    }
+  }).toList();
+
+  filteredItems.sort(
+    (a, b) => DateTime.parse('${b.timeStamp}Z')
+        .toLocal()
+        .compareTo(DateTime.parse('${a.timeStamp}Z').toLocal()),
+  );
+
+  return filteredItems;
 }

@@ -76,15 +76,11 @@ class _WalletBodyState extends State<WalletBody>
                   child: GroupedListView<OperationHistoryItem, String>(
                     elements: transactionHistory,
                     controller: _scrollController,
-                    order: GroupedListOrder.DESC,
                     useStickyGroupSeparators: true,
                     stickyHeaderBackgroundColor: Colors.white,
                     groupBy: (transaction) {
                       return DateFormat('EEEE, MMMM d, y').format(
-                        // Temporary. Will be fixed in next PR
-                        // TODO(Vova): DateTime
-                        //  .parse('${transaction.timeStamp}Z').toLocal(),
-                        DateTime.parse(transaction.timeStamp).toLocal(),
+                        DateTime.parse('${transaction.timeStamp}Z').toLocal(),
                       );
                     },
                     groupSeparatorBuilder: (String date) {

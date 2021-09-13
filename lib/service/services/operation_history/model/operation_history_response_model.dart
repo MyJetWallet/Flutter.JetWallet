@@ -49,6 +49,8 @@ enum OperationType {
   receiveByPhone,
   @JsonValue(3)
   unknown,
+  buy,
+  sell,
 }
 
 @freezed
@@ -80,6 +82,7 @@ class WithdrawalInfo with _$WithdrawalInfo {
 @freezed
 class SwapInfo with _$SwapInfo {
   const factory SwapInfo({
+    required bool isSell,
     required String sellAssetId,
     required double sellAmount,
     required String buyAssetId,
