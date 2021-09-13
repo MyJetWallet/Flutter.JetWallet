@@ -7,12 +7,11 @@ import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/components/text_fields/app_text_field.dart';
-import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
+import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
 import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
 import 'components/withdrawal_address_validator.dart';
 import 'components/withdrawal_field_suffix/withdrawal_field_suffix.dart';
-import 'screens/withdrawal_amount.dart';
 
 /// FLOW: WithdrawalAmount -> WithdrawalPreview -> WithdrawalConfirm
 class CurrencyWithdraw extends HookWidget {
@@ -49,7 +48,7 @@ class CurrencyWithdraw extends HookWidget {
               onScanQr: () => notifier.scanAddressQr(context),
             ),
           ),
-          if (state.address.isNotEmpty) ...[
+          if (state.addressValidation is! Hide) ...[
             const SpaceH10(),
             WithdrawalAddressValidator(
               symbol: currency.symbol,
@@ -72,7 +71,7 @@ class CurrencyWithdraw extends HookWidget {
                 onScanQr: () => notifier.scanTagQr(context),
               ),
             ),
-            if (state.tag.isNotEmpty) ...[
+            if (state.tagValidation is! Hide) ...[
               const SpaceH10(),
               WithdrawalAddressValidator(
                 withTag: true,
@@ -92,15 +91,10 @@ class CurrencyWithdraw extends HookWidget {
           const Spacer(),
           AppButtonSolid(
             name: 'Next',
-            active: state.credentialsValid(currency),
-            onTap: () {
-              if (state.credentialsValid(currency)) {
-                navigatorPush(
-                  context,
-                  WithdrawalAmount(
-                    currency: currency,
-                  ),
-                );
+            active: state.inputIsNotEmpty(currency),
+            onTap: () async {
+              if (state.inputIsNotEmpty(currency)) {
+                await notifier.validateAddressAndTag(context);
               }
             },
           ),

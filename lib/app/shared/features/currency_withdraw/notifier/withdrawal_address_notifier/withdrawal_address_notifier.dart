@@ -5,9 +5,11 @@ import 'package:logging/logging.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../../../../service/services/blockchain/model/validate_address/validate_address_request_model.dart';
+import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../models/currency_model.dart';
+import '../../view/screens/withdrawal_amount.dart';
 import 'address_validation_union.dart';
 import 'withdrawal_address_state.dart';
 
@@ -41,8 +43,8 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     if (address != state.address) {
       _logger.log(notifier, 'updateAddress');
 
+      _updateAddressValidation(const Hide());
       state = state.copyWith(address: address);
-      _validateAddress(_updateAddressValidation);
     }
   }
 
@@ -50,8 +52,8 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     if (tag != state.tag) {
       _logger.log(notifier, 'updateTag');
 
+      _updateTagValidation(const Hide());
       state = state.copyWith(tag: tag);
-      _validateAddress(_updateTagValidation, withTag: true);
     }
   }
 
@@ -61,6 +63,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     state.addressController.text = '';
     updateAddress('');
     state.addressFocus.unfocus();
+    _updateAddressValidation(const Hide());
   }
 
   void eraseTag() {
@@ -69,6 +72,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     state.tagController.text = '';
     updateTag('');
     state.tagFocus.unfocus();
+    _updateTagValidation(const Hide());
   }
 
   Future<void> pasteAddress() async {
@@ -79,6 +83,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _moveCursorAtTheEnd(state.addressController);
     state.addressFocus.requestFocus();
     updateAddress(copiedText);
+    await _validateAddressOrTag(_updateAddressValidation);
   }
 
   Future<void> pasteTag() async {
@@ -89,6 +94,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _moveCursorAtTheEnd(state.tagController);
     state.tagFocus.requestFocus();
     updateTag(copiedText);
+    await _validateAddressOrTag(_updateTagValidation, withTag: true);
   }
 
   Future<void> scanAddressQr(BuildContext context) async {
@@ -101,6 +107,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       _moveCursorAtTheEnd(state.addressController);
       state.addressFocus.requestFocus();
       updateAddress(result.code);
+      await _validateAddressOrTag(_updateAddressValidation);
     }
   }
 
@@ -114,6 +121,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       _moveCursorAtTheEnd(state.tagController);
       state.tagFocus.requestFocus();
       updateTag(result.code);
+      await _validateAddressOrTag(_updateTagValidation, withTag: true);
     }
   }
 
@@ -154,12 +162,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     );
   }
 
-  Future<void> _validateAddress(
+  Future<void> _validateAddressOrTag(
     void Function(AddressValidationUnion) updateValidation, {
     bool withTag = false,
   }) async {
-    if (withTag) if (state.addressValidation is Invalid) return;
-
     updateValidation(const Loading());
 
     try {
@@ -174,16 +180,58 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       final response = await service.validateAddress(model);
 
       if (!mounted) return;
+
+      _updateAddressIsInternal(response.isInternal);
+
       updateValidation(
         response.isValid ? const Valid() : const Invalid(),
-      );
-      state = state.copyWith(
-        addressIsInternal: response.isInternal,
       );
     } catch (error) {
       if (!mounted) return;
       _logger.log(stateFlow, '_validateAddress', error);
       updateValidation(const Invalid());
+    }
+  }
+
+  Future<void> validateAddressAndTag(BuildContext context) async {
+    _logger.log(notifier, 'validateAddressAndTag');
+
+    if (state.credentialsValid(currency)) {
+      _pushWithdrawalAmount(context);
+      return;
+    }
+
+    _updateAddressValidation(const Loading());
+    _updateTagValidation(const Loading());
+
+    try {
+      final model = ValidateAddressRequestModel(
+        assetSymbol: currency.symbol,
+        toAddress: state.address,
+        toTag: state.tag,
+      );
+
+      final service = read(blockchainServicePod);
+
+      final response = await service.validateAddress(model);
+
+      if (!mounted) return;
+
+      _updateAddressIsInternal(response.isInternal);
+
+      final validation = response.isValid ? const Valid() : const Invalid();
+
+      _updateAddressValidation(validation);
+      _updateTagValidation(validation);
+
+      if (state.credentialsValid(currency)) {
+        _pushWithdrawalAmount(context);
+      }
+    } catch (error) {
+      if (!mounted) return;
+      _logger.log(stateFlow, 'validateAddressAndTag', error);
+      _updateAddressValidation(const Invalid());
+      _updateTagValidation(const Invalid());
     }
   }
 
@@ -193,6 +241,14 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   void _updateTagValidation(AddressValidationUnion value) {
     state = state.copyWith(tagValidation: value);
+  }
+
+  void _updateAddressIsInternal(bool value) {
+    state = state.copyWith(addressIsInternal: value);
+  }
+
+  void _pushWithdrawalAmount(BuildContext context) {
+    navigatorPush(context, WithdrawalAmount(currency: currency));
   }
 
   @override
