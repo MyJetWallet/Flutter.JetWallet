@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
 import '../../../auth/screens/login/login.dart';
 import '../../../auth/screens/reset_password/view/reset_password.dart';
@@ -18,6 +19,7 @@ const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
 const _login = 'Login';
 const _confirmWithdraw = 'jw_withdrawal_email_confirm';
+const _operationId = 'jw_operation_id';
 
 final dynamicLinkPod = Provider<void>(
   (ref) {
@@ -48,7 +50,8 @@ final dynamicLinkPod = Provider<void>(
             ),
           );
         } else if (command == _confirmWithdraw) {
-          return;
+          final id = parameters[_operationId]!;
+          ref.read(withdrawDynamicLinkStpod(id)).state = true;
         } else {
           navigatorPush(
             navigatorKey.currentContext!,
