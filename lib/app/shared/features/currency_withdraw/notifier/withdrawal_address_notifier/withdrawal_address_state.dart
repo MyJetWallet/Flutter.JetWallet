@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../../../../models/currency_model.dart';
 import 'address_validation_union.dart';
 
 part 'withdrawal_address_state.freezed.dart';
@@ -12,7 +13,8 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
     QRViewController? qrController,
     @Default('') String tag,
     @Default('') String address,
-    @Default(Invalid()) AddressValidationUnion validation,
+    @Default(Invalid()) AddressValidationUnion addressValidation,
+    @Default(Invalid()) AddressValidationUnion tagValidation,
     required TextEditingController addressController,
     required TextEditingController tagController,
     required FocusNode addressFocus,
@@ -22,8 +24,14 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
 
   const WithdrawalAddressState._();
 
-  bool get showAddressErase => addressFocus.hasFocus && address.isNotEmpty;
-  bool get showAddressEmptyField => addressFocus.hasFocus && address.isEmpty;
-  bool get showTagErase => tagFocus.hasFocus && tag.isNotEmpty;
-  bool get showTagEmptyField => tagFocus.hasFocus && tag.isEmpty;
+  bool get showAddressErase => address.isNotEmpty;
+  bool get showTagErase => tag.isNotEmpty;
+
+  bool credentialsValid(CurrencyModel currency) {
+    if (currency.hasTag) {
+      return addressValidation is Valid && tagValidation is Valid;
+    } else {
+      return addressValidation is Valid;
+    }
+  }
 }

@@ -9,10 +9,12 @@ import '../model/withdraw/withdraw_request_model.dart';
 import '../model/withdraw/withdraw_response_model.dart';
 import '../model/withdrawal_info/withdrawal_info_request_model.dart';
 import '../model/withdrawal_info/withdrawal_info_response_model.dart';
+import '../model/withdrawal_resend/withdrawal_resend_request.dart';
 import 'services/deposit_address_service.dart';
 import 'services/validate_address_service.dart';
 import 'services/withdraw_service.dart';
 import 'services/withdrawal_info_service.dart';
+import 'services/withdrawal_resend_service.dart';
 
 class BlockchainService {
   BlockchainService(this.dio);
@@ -41,5 +43,9 @@ class BlockchainService {
     WithdrawalInfoRequestModel model,
   ) {
     return withdrawalInfoService(dio, model);
+  }
+
+  Future<void> withdrawalResend(WithdrawalResendRequestModel model) {
+    return withdrawalResendService(dio, model);
   }
 }
