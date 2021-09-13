@@ -14,13 +14,16 @@ class AppFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        appBar: appBar,
-        bottomNavigationBar: bottomNavigationBar,
-        body: child,
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.white,
+          appBar: appBar,
+          bottomNavigationBar: bottomNavigationBar,
+          body: child,
+        ),
       ),
     );
   }
