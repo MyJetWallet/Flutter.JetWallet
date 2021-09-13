@@ -7,7 +7,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../shared/components/spacers.dart';
-import '../../../../../provider/hidden_state_provider.dart';
+import '../../../../../provider/wallet_hidden_stpod.dart';
+import 'components/transaction_list_item_header_text.dart';
 
 class TransactionListItem extends HookWidget {
   const TransactionListItem({
@@ -19,7 +20,7 @@ class TransactionListItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hidden = useProvider(hiddenStatePod);
+    final hidden = useProvider(walletHiddenStPod);
 
     return SizedBox(
       height: 80.h,
@@ -32,21 +33,16 @@ class TransactionListItem extends HookWidget {
                 size: 20.r,
               ),
               const SpaceW10(),
-              Text(
-                _operationName(transactionListItem.operationType),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
-                ),
+              TransactionListItemHeaderText(
+                text: _operationName(transactionListItem.operationType),
               ),
               const Spacer(),
-              Text(
-                '\$${hidden.state ? '???' : transactionListItem.balanceChange}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
-                ),
-              )
+              TransactionListItemHeaderText(
+                text:
+                    '\$${hidden.state
+                        ? '???'
+                        : transactionListItem.balanceChange}',
+              ),
             ],
           ),
           Row(
@@ -97,9 +93,9 @@ class TransactionListItem extends HookWidget {
       case OperationType.withdraw:
         return Icons.arrow_forward;
       case OperationType.swap:
-        // TODO(Vova): Handle this case.
+      // TODO(Vova): Handle this case.
       case OperationType.withdrawalFee:
-      return FontAwesomeIcons.question;
+        return FontAwesomeIcons.question;
       case OperationType.transferByPhone:
         return Icons.arrow_upward;
       case OperationType.receiveByPhone:

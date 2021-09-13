@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/page_frame/components/frame_action_button.dart';
+import '../../../../../../shared/components/spacers.dart';
 
 class EmptyWalletAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -33,9 +34,7 @@ class EmptyWalletAppBar extends StatelessWidget
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
-                width: 32.w,
-              ),
+              const SpaceW32(),
             ],
           ),
           Padding(

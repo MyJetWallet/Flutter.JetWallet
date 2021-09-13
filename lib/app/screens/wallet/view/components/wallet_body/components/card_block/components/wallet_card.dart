@@ -7,7 +7,7 @@ import '../../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../shared/components/asset_icon.dart';
 import '../../../../../../../market/provider/market_items_pod.dart';
 import '../../../../../../helper/market_item_from.dart';
-import '../../../../../../provider/hidden_state_provider.dart';
+import '../../../../../../provider/wallet_hidden_stpod.dart';
 
 class WalletCard extends HookWidget {
   const WalletCard({
@@ -23,7 +23,7 @@ class WalletCard extends HookWidget {
       useProvider(marketItemsPod),
       assetId,
     );
-    final hidden = useProvider(hiddenStatePod);
+    final hidden = useProvider(walletHiddenStPod);
 
     return Expanded(
       child: Container(
@@ -31,9 +31,7 @@ class WalletCard extends HookWidget {
         margin: EdgeInsets.symmetric(
           horizontal: 24.w,
         ),
-        padding: EdgeInsets.all(
-          20.r,
-        ),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           color: Colors.grey,
           borderRadius: BorderRadius.all(

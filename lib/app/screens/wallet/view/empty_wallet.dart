@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../../router/view/components/app_frame.dart';
+import '../../../../shared/components/app_frame.dart';
 import 'components/action_block.dart';
 import 'components/wallet_app_bar/empty_wallet_app_bar.dart';
 import 'components/wallet_body/empty_wallet_body.dart';
@@ -20,7 +20,7 @@ class EmptyWallet extends HookWidget {
       appBar: EmptyWalletAppBar(
         assetName: assetName,
       ),
-      bottomNavigationBar: const ActionBlock(),
+      bottomNavigationBar: const ActionButton(),
       child: EmptyWalletBody(
         assetName: assetName,
       ),

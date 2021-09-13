@@ -10,9 +10,7 @@ class OperationHistoryNotifier
     extends StateNotifier<List<OperationHistoryItem>> {
   OperationHistoryNotifier({
     required this.read,
-  }) : super(
-          [],
-        );
+  }) : super([]);
 
   final Reader read;
 
@@ -45,6 +43,8 @@ class OperationHistoryNotifier
   }
 
   void updateOperationHistory(List<OperationHistoryItem> items) {
+    _logger.log(notifier, 'updateOperationHistory');
+
     state = state + items;
   }
 

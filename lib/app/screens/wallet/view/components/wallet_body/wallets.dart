@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
 
 import '../../../../../../shared/components/loader.dart';
 import '../../../../market/provider/market_items_pod.dart';
@@ -34,8 +35,7 @@ class Wallets extends HookWidget {
         return RefreshIndicator(
           onRefresh: () => _refresh(
             context,
-            itemsWithBalance[(_pageController.page ?? 0).toInt()]
-                .associateAsset,
+            _currentAssetFrom(itemsWithBalance),
           ),
           child: SingleChildScrollView(
             child: SizedBox(
@@ -52,10 +52,7 @@ class Wallets extends HookWidget {
                   for (final item in itemsWithBalance)
                     WalletBody(
                       assetId: item.associateAsset,
-                      currentPage: (_pageController.hasClients
-                              ? (_pageController.page ?? 0)
-                              : 0)
-                          .toInt(),
+                      currentPage: _currentPage(),
                     ),
                 ],
               ),
@@ -74,4 +71,10 @@ class Wallets extends HookWidget {
     );
     return transactionHistoryN.initOperationHistory(assetId);
   }
+
+  String _currentAssetFrom(List<MarketItemModel> itemsWithBalance) =>
+      itemsWithBalance[(_pageController.page ?? 0).toInt()].associateAsset;
+
+  int _currentPage() =>
+      (_pageController.hasClients ? (_pageController.page ?? 0) : 0).toInt();
 }

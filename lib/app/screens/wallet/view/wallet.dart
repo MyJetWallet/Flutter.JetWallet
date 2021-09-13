@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../../router/view/components/app_frame.dart';
+import '../../../../shared/components/app_frame.dart';
 import '../../market/model/market_item_model.dart';
 import 'components/action_block.dart';
 import 'components/wallet_app_bar/wallet_app_bar.dart';
@@ -19,7 +19,7 @@ class Wallet extends HookWidget {
   Widget build(BuildContext context) {
     return AppFrame(
       appBar: const WalletAppBar(),
-      bottomNavigationBar: const ActionBlock(),
+      bottomNavigationBar: const ActionButton(),
       child: Wallets(
         assetId: marketItem.associateAsset,
       ),
