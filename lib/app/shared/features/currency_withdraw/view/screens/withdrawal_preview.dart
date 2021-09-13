@@ -40,13 +40,18 @@ class WithdrawalPreview extends HookWidget {
           const ActionPreviewDivider(),
           ActionPreviewRow(
             description: 'You will receive',
-            value: userWillreceive(state.amount, currency),
+            value: userWillreceive(
+              currency: currency,
+              amount: state.amount,
+              addressIsInternal: state.addressIsInternal,
+            ),
           ),
           const ActionPreviewDivider(),
           ActionPreviewRow(
             description: 'Fee',
-            value: '${currency.fees.withdrawalFee?.size ?? 0} '
-                '${currency.fees.withdrawalFee?.assetSymbol}',
+            value: state.addressIsInternal
+                ? 'No fee'
+                : currency.withdrawaFeeWithSymbol,
           ),
           const ActionPreviewDivider(),
           ActionPreviewRow(

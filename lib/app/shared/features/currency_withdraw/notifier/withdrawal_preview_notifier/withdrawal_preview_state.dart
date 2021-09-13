@@ -10,5 +10,6 @@ class WithdrawalPreviewState with _$WithdrawalPreviewState {
     @Default('0') String amount,
     @Default('') String operationId,
     @Default(false) bool loading,
+    @Default(false) bool addressIsInternal,
   }) = _WithdrawalPreviewState;
 }

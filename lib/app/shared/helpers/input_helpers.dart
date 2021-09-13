@@ -62,10 +62,10 @@ String responseOnInputAction({
   required int accuracy,
 }) {
   if (newInput == backspace) {
-    if (oldInput.isNotEmpty) {
+    if (oldInput.length > 1) {
       return removeCharsFrom(oldInput, 1);
     } else {
-      return oldInput;
+      return zeroCase;
     }
   } else if (firstZeroInputCase(oldInput) && newInput != period) {
     return newInput;
@@ -120,11 +120,6 @@ bool isInputValid(String input) {
   return false;
 }
 
-/// Shows the value of the InputField based on the input
-String fieldValue(String input, String symbol) {
-  return '${input.isEmpty ? '0' : input} $symbol';
-}
-
 enum InputError {
   none,
   notEnoughFunds,
@@ -147,15 +142,20 @@ extension InputErrorValue on InputError {
 
 InputError inputError(
   String input,
-  CurrencyModel currency,
-) {
+  CurrencyModel currency, {
+  bool addressIsInternal = false,
+}) {
   if (input.isNotEmpty) {
     final value = double.parse(input);
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
     } else if (currency.withdrawalFeeSize >= value) {
-      return InputError.enterHigherAmount;
+      if (addressIsInternal) {
+        return InputError.none;
+      } else {
+        return InputError.enterHigherAmount;
+      }
     }
   }
 
