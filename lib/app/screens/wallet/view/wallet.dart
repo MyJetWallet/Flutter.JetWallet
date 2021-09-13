@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../shared/components/app_frame.dart';
 import '../../market/model/market_item_model.dart';
-import 'components/action_block.dart';
+import 'components/action_button.dart';
 import 'components/wallet_app_bar/wallet_app_bar.dart';
 import 'components/wallet_body/wallets.dart';
 
