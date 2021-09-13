@@ -94,6 +94,7 @@ app.*.map.json
 **/ios/Flutter/.last_build_id
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/build/Pods.build/Release-iphonesimulator
 
 # macOS
 **/macos/Flutter/GeneratedPluginRegistrant.swift

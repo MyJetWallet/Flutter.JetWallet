@@ -5,13 +5,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../app/screens/navigation/view/navigation.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/welcome/view/welcome.dart';
+import '../../../shared/components/app_frame.dart';
 import '../../../shared/components/loader.dart';
 import '../../provider/app_init_fpod.dart';
 import '../../provider/authorized_stpod/authorized_stpod.dart';
 import '../../provider/router_stpod/router_stpod.dart';
 import '../../provider/session_info_fpod.dart';
 import '../../provider/signalr_init_fpod.dart';
-import 'app_frame.dart';
 
 /// Launches application goes after [RemoteConfigInit]
 class AppInit extends HookWidget {

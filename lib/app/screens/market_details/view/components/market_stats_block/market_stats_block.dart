@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../service/services/market_info/model/market_info_response_model.dart';
+import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/spacers.dart';
-import '../../../../market/view/components/header_text.dart';
 import '../../../helper/format_number.dart';
 import 'components/market_stats_item.dart';
 import 'components/market_stats_table_cell.dart';

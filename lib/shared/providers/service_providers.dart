@@ -12,6 +12,7 @@ import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/market_info/market_info_service.dart';
 import '../../service/services/news/news_service.dart';
 import '../../service/services/notification/service/notification_service.dart';
+import '../../service/services/operation_history/operation_history_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
 import '../../service/services/swap/service/swap_service.dart';
 import '../../service/services/validation/service/validation_service.dart';
@@ -119,4 +120,10 @@ final newsServicePod = Provider<NewsService>((ref) {
   final dio = ref.watch(dioPod);
 
   return NewsService(dio);
+});
+
+final operationHistoryServicePod = Provider<OperationHistoryService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return OperationHistoryService(dio);
 });

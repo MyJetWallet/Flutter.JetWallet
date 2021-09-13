@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../../../shared/components/header_text.dart';
 import '../../../model/market_item_model.dart';
 import '../../../provider/market_stpod.dart';
 import '../../../provider/search_stpod.dart';
-import '../header_text.dart';
 import 'components/market_list.dart';
 import 'components/market_reordable_list.dart';
 

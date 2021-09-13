@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/spacers.dart';
-import '../../../../market/view/components/header_text.dart';
 import 'components/return_rates.dart';
 
 class ReturnRatesBlock extends HookWidget {
