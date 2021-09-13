@@ -14,27 +14,30 @@ import '../../../../components/number_keyboard/number_keyboard.dart';
 import '../../../../components/text/asset_conversion_text.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/short_address_form.dart';
-import '../../../../models/currency_model.dart';
 import '../../helper/minimum_amount.dart';
 import '../../helper/user_will_receive.dart';
+import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_amount_notifier/withdrawal_amount_notipod.dart';
 import 'withdrawal_preview.dart';
 
 class WithdrawalAmount extends HookWidget {
   const WithdrawalAmount({
     Key? key,
-    required this.currency,
+    required this.withdrawal,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(withdrawalAmountNotipod(currency));
-    final notifier = useProvider(withdrawalAmountNotipod(currency).notifier);
+    final state = useProvider(withdrawalAmountNotipod(withdrawal));
+    final notifier = useProvider(withdrawalAmountNotipod(withdrawal).notifier);
+
+    final currency = withdrawal.currency;
 
     return PageFrame(
-      header: 'Withdraw ${currency.description} (${currency.symbol})',
+      header: '${withdrawal.dictionary.verb} '
+          '${currency.description} (${currency.symbol})',
       onBackButton: () => Navigator.pop(context),
       resizeToAvoidBottomInset: false,
       child: Column(
@@ -90,14 +93,14 @@ class WithdrawalAmount extends HookWidget {
           ),
           const SpaceH20(),
           AppButtonSolid(
-            name: 'Preview Withdrawal',
+            name: 'Preview ${withdrawal.dictionary.noun}',
             active: state.valid,
             onTap: () {
               if (state.valid) {
                 navigatorPush(
                   context,
                   WithdrawalPreview(
-                    currency: currency,
+                    withdrawal: withdrawal,
                   ),
                 );
               }
@@ -109,6 +112,8 @@ class WithdrawalAmount extends HookWidget {
   }
 
   String _feeDescription(bool isInternal, String amount) {
+    final currency = withdrawal.currency;
+
     final result = userWillreceive(
       amount: amount,
       currency: currency,
@@ -118,7 +123,7 @@ class WithdrawalAmount extends HookWidget {
     final youWillReceive = 'You will receive: $result';
 
     if (isInternal) {
-      return 'No withdrawal fee! / $youWillReceive';
+      return 'No ${withdrawal.dictionary.noun} fee! / $youWillReceive';
     } else {
       return 'Your fee is: ${currency.withdrawaFeeWithSymbol} / $youWillReceive';
     }

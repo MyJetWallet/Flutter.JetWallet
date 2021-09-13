@@ -15,7 +15,7 @@ import '../../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
-import '../../../../models/currency_model.dart';
+import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import '../withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
 
@@ -28,20 +28,22 @@ const _retryTime = 5; // in seconds
 class WithdrawalConfirmNotifier extends StateNotifier<void> {
   WithdrawalConfirmNotifier(
     this.read,
-    this.currency,
+    this.withdrawal,
   ) : super(null) {
-    _operationId = read(withdrawalPreviewNotipod(currency)).operationId;
+    _operationId = read(withdrawalPreviewNotipod(withdrawal)).operationId;
     _context = read(navigatorKeyPod).currentContext!;
+    _verb = withdrawal.dictionary.verb.toLowerCase();
     _requestWithdrawalInfo();
   }
 
   final Reader read;
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
 
   Timer? _timer;
   late int retryTime;
   late BuildContext _context;
   late String _operationId;
+  late String _verb;
 
   static final _logger = Logger('WithdrawalConfirmNotifier');
 
@@ -116,7 +118,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
     navigatorPush(
       _context,
       SuccessScreen(
-        description: 'Your ${currency.symbol} withdraw '
+        description: 'Your ${withdrawal.currency.symbol} $_verb '
             'request has been submitted',
       ),
     );
@@ -126,14 +128,14 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
     navigatorPush(
       _context,
       FailureScreen(
-        description: 'Failed to withdraw',
+        description: 'Failed to $_verb',
         firstButtonName: 'Edit Order',
         onFirstButton: () {
           Navigator.pushAndRemoveUntil(
             _context,
             MaterialPageRoute(
               builder: (_) => WithdrawalAmount(
-                currency: currency,
+                withdrawal: withdrawal,
               ),
             ),
             (route) => route.isFirst,

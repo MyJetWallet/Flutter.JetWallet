@@ -12,7 +12,7 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
-import '../../../../models/currency_model.dart';
+import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import '../../view/screens/withdrawal_confirm.dart';
 import '../withdrawal_amount_notifier/withdrawal_amount_notipod.dart';
@@ -22,9 +22,9 @@ import 'withdrawal_preview_state.dart';
 class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   WithdrawalPreviewNotifier(
     this.read,
-    this.currency,
+    this.withdrawal,
   ) : super(const WithdrawalPreviewState()) {
-    final amount = read(withdrawalAmountNotipod(currency));
+    final amount = read(withdrawalAmountNotipod(withdrawal));
 
     state = state.copyWith(
       tag: amount.tag,
@@ -37,7 +37,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   }
 
   final Reader read;
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
 
   late BuildContext _context;
 
@@ -51,7 +51,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-        assetSymbol: currency.symbol,
+        assetSymbol: withdrawal.currency.symbol,
         amount: double.parse(state.amount),
         toAddress: state.address,
       );
@@ -82,7 +82,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
     navigatorPush(
       _context,
       WithdrawalConfirm(
-        currency: currency,
+        withdrawal: withdrawal,
       ),
     );
   }
@@ -110,7 +110,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
           Navigator.pushAndRemoveUntil(
             _context,
             MaterialPageRoute(
-              builder: (_) => WithdrawalAmount(currency: currency),
+              builder: (_) => WithdrawalAmount(withdrawal: withdrawal),
             ),
             (route) => route.isFirst,
           );

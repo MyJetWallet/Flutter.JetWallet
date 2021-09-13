@@ -7,6 +7,7 @@ import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../model/withdrawal_model.dart';
 import '../withdrawal_address_notifier/withdrawal_address_notipod.dart';
 import 'withdrawal_amount_state.dart';
 
@@ -14,9 +15,9 @@ import 'withdrawal_amount_state.dart';
 class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
   WithdrawalAmountNotifier(
     this.read,
-    this.currency,
+    this.withdrawal,
   ) : super(const WithdrawalAmountState()) {
-    final address = read(withdrawalAddressNotipod(currency));
+    final address = read(withdrawalAddressNotipod(withdrawal));
 
     state = state.copyWith(
       tag: address.tag,
@@ -24,10 +25,14 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
       addressIsInternal: address.addressIsInternal,
       baseCurrency: read(baseCurrencyPod),
     );
+
+    currency = withdrawal.currency;
   }
 
   final Reader read;
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
+
+  late CurrencyModel currency;
 
   static final _logger = Logger('WithdrawalAmountNotifier');
 
