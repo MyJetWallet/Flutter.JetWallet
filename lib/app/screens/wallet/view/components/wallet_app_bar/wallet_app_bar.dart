@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../shared/components/header_text.dart';
-import '../../../../../../shared/components/page_frame/components/arrow_back_button.dart';
+import '../../../../../../shared/components/page_frame/components/frame_action_button.dart';
 import '../../../../../../shared/helpers/contains_single_element.dart';
 import '../../../../market/provider/market_items_pod.dart';
 import '../../../helper/assets_with_balance_from.dart';
@@ -22,7 +22,8 @@ class WalletAppBar extends HookWidget implements PreferredSizeWidget {
       ),
       child: Row(
         children: [
-          ArrowBackButton(
+          FrameActionButton(
+            icon: Icons.arrow_back,
             onTap: () => Navigator.of(context).pop(),
           ),
           Expanded(

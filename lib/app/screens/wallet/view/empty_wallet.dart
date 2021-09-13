@@ -17,7 +17,7 @@ class EmptyWallet extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return AppFrame(
-      appBar: ZeroBalanceWalletAppBar(
+      appBar: EmptyWalletAppBar(
         assetName: assetName,
       ),
       bottomNavigationBar: const ActionBlock(),

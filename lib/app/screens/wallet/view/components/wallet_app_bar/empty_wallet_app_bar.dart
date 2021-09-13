@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../shared/components/header_text.dart';
-import '../../../../../../shared/components/page_frame/components/arrow_back_button.dart';
 
-class ZeroBalanceWalletAppBar extends StatelessWidget
+import '../../../../../../shared/components/header_text.dart';
+import '../../../../../../shared/components/page_frame/components/frame_action_button.dart';
+
+class EmptyWalletAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  const ZeroBalanceWalletAppBar({
+  const EmptyWalletAppBar({
     Key? key,
     required this.assetName,
   }) : super(key: key);
@@ -22,7 +23,8 @@ class ZeroBalanceWalletAppBar extends StatelessWidget
         children: [
           Row(
             children: [
-              ArrowBackButton(
+              FrameActionButton(
+                icon: Icons.arrow_back,
                 onTap: () => Navigator.of(context).pop(),
               ),
               Expanded(
