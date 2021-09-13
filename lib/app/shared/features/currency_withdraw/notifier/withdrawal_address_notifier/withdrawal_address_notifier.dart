@@ -24,10 +24,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
             tagFocus: FocusNode(),
             qrKey: GlobalKey(),
           ),
-        ) {
-    state.addressFocus.addListener(_rebuild);
-    state.tagFocus.addListener(_rebuild);
-  }
+        );
 
   final Reader read;
   final CurrencyModel currency;
@@ -41,17 +38,21 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   void updateAddress(String address) {
-    _logger.log(notifier, 'updateAddress');
+    if (address != state.address) {
+      _logger.log(notifier, 'updateAddress');
 
-    state = state.copyWith(address: address);
-    _validateAddress();
+      state = state.copyWith(address: address);
+      _validateAddress(_updateAddressValidation);
+    }
   }
 
   void updateTag(String tag) {
-    _logger.log(notifier, 'updateTag');
+    if (tag != state.tag) {
+      _logger.log(notifier, 'updateTag');
 
-    state = state.copyWith(tag: tag);
-    _validateAddress();
+      state = state.copyWith(tag: tag);
+      _validateAddress(_updateTagValidation, withTag: true);
+    }
   }
 
   void eraseAddress() {
@@ -76,6 +77,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     final copiedText = await _copiedText();
     state.addressController.text = copiedText;
     _moveCursorAtTheEnd(state.addressController);
+    state.addressFocus.requestFocus();
     updateAddress(copiedText);
   }
 
@@ -85,6 +87,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     final copiedText = await _copiedText();
     state.tagController.text = copiedText;
     _moveCursorAtTheEnd(state.tagController);
+    state.tagFocus.requestFocus();
     updateTag(copiedText);
   }
 
@@ -96,6 +99,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     if (result is Barcode) {
       state.addressController.text = result.code;
       _moveCursorAtTheEnd(state.addressController);
+      state.addressFocus.requestFocus();
       updateAddress(result.code);
     }
   }
@@ -108,6 +112,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     if (result is Barcode) {
       state.tagController.text = result.code;
       _moveCursorAtTheEnd(state.tagController);
+      state.tagFocus.requestFocus();
       updateTag(result.code);
     }
   }
@@ -149,14 +154,19 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     );
   }
 
-  Future<void> _validateAddress() async {
-    state = state.copyWith(validation: const Loading());
+  Future<void> _validateAddress(
+    void Function(AddressValidationUnion) updateValidation, {
+    bool withTag = false,
+  }) async {
+    if (withTag) if (state.addressValidation is Invalid) return;
+
+    updateValidation(const Loading());
 
     try {
       final model = ValidateAddressRequestModel(
         assetSymbol: currency.symbol,
         toAddress: state.address,
-        toTag: state.tag,
+        toTag: withTag ? state.tag : null,
       );
 
       final service = read(blockchainServicePod);
@@ -164,22 +174,26 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       final response = await service.validateAddress(model);
 
       if (!mounted) return;
-      state = state.copyWith(
-        validation: response.isValid ? const Valid() : const Invalid(),
+      updateValidation(
+        response.isValid ? const Valid() : const Invalid(),
       );
     } catch (error) {
       if (!mounted) return;
       _logger.log(stateFlow, '_validateAddress', error);
-      state = state.copyWith(validation: const Invalid());
+      updateValidation(const Invalid());
     }
   }
 
-  void _rebuild() => state = state;
+  void _updateAddressValidation(AddressValidationUnion value) {
+    state = state.copyWith(addressValidation: value);
+  }
+
+  void _updateTagValidation(AddressValidationUnion value) {
+    state = state.copyWith(tagValidation: value);
+  }
 
   @override
   void dispose() {
-    state.addressFocus.removeListener(_rebuild);
-    state.tagFocus.removeListener(_rebuild);
     state.addressFocus.dispose();
     state.tagFocus.dispose();
     state.addressController.dispose();

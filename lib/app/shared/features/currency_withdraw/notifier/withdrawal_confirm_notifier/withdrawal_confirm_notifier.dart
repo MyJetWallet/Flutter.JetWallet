@@ -6,10 +6,12 @@ import 'package:logging/logging.dart';
 
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_request_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_response_model.dart';
+import '../../../../../../service/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
 import '../../../../../../shared/components/result_screens/failure_screens/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -42,6 +44,26 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
   late String _operationId;
 
   static final _logger = Logger('WithdrawalConfirmNotifier');
+
+  Future<void> withdrawalResend({required Function() then}) async {
+    _logger.log(notifier, 'withdrawalResend');
+
+    try {
+      final service = read(blockchainServicePod);
+
+      final model = WithdrawalResendRequestModel(
+        operationId: _operationId,
+      );
+
+      await service.withdrawalResend(model);
+
+      if (!mounted) return;
+      then();
+    } catch (error) {
+      _logger.log(stateFlow, 'withdrawalResend', error);
+      showPlainSnackbar(_context, 'Failed to resend. Try again!');
+    }
+  }
 
   Future<void> _requestWithdrawalInfo() async {
     try {

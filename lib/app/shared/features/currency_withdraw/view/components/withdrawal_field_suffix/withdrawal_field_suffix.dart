@@ -10,14 +10,12 @@ class WithdrawalFieldSuffix extends StatelessWidget {
     required this.onPaste,
     required this.onScanQr,
     required this.showErase,
-    required this.showEmptyField,
   }) : super(key: key);
 
   final Function() onErase;
   final Function() onPaste;
   final Function() onScanQr;
   final bool showErase;
-  final bool showEmptyField;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +29,6 @@ class WithdrawalFieldSuffix extends StatelessWidget {
               icon: Icons.highlight_off,
               onTap: onErase,
             )
-          else if (showEmptyField)
-            const SizedBox()
           else ...[
             WithdrawalSuffixIcon(
               icon: Icons.content_paste,

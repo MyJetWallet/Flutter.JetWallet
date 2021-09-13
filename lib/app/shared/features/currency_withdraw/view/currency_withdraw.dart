@@ -3,14 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/components/text_fields/app_text_field.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
-import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
 import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
 import 'components/withdrawal_address_validator.dart';
 import 'components/withdrawal_field_suffix/withdrawal_field_suffix.dart';
@@ -46,18 +44,19 @@ class CurrencyWithdraw extends HookWidget {
             onChanged: (value) => notifier.updateAddress(value),
             suffixIcon: WithdrawalFieldSuffix(
               showErase: state.showAddressErase,
-              showEmptyField: state.showAddressEmptyField,
               onErase: () => notifier.eraseAddress(),
               onPaste: () => notifier.pasteAddress(),
               onScanQr: () => notifier.scanAddressQr(context),
             ),
           ),
-          const SpaceH10(),
-          WithdrawalAddressValidator(
-            symbol: currency.symbol,
-            validation: state.validation,
-          ),
-          if (currency.tagType != TagType.none) ...[
+          if (state.address.isNotEmpty) ...[
+            const SpaceH10(),
+            WithdrawalAddressValidator(
+              symbol: currency.symbol,
+              validation: state.addressValidation,
+            )
+          ],
+          if (currency.hasTag) ...[
             const SpaceH40(),
             AppTextField(
               header: 'Enter Tag',
@@ -68,18 +67,19 @@ class CurrencyWithdraw extends HookWidget {
               onChanged: (value) => notifier.updateTag(value),
               suffixIcon: WithdrawalFieldSuffix(
                 showErase: state.showTagErase,
-                showEmptyField: state.showTagEmptyField,
                 onErase: () => notifier.eraseTag(),
                 onPaste: () => notifier.pasteTag(),
                 onScanQr: () => notifier.scanTagQr(context),
               ),
             ),
-            const SpaceH10(),
-            WithdrawalAddressValidator(
-              withTag: true,
-              symbol: currency.symbol,
-              validation: state.validation,
-            ),
+            if (state.tag.isNotEmpty) ...[
+              const SpaceH10(),
+              WithdrawalAddressValidator(
+                withTag: true,
+                symbol: currency.symbol,
+                validation: state.tagValidation,
+              ),
+            ],
           ],
           const SpaceH20(),
           Text(
@@ -92,9 +92,9 @@ class CurrencyWithdraw extends HookWidget {
           const Spacer(),
           AppButtonSolid(
             name: 'Next',
-            active: state.validation is Valid,
+            active: state.credentialsValid(currency),
             onTap: () {
-              if (state.validation is Valid) {
+              if (state.credentialsValid(currency)) {
                 navigatorPush(
                   context,
                   WithdrawalAmount(

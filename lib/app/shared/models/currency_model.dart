@@ -42,4 +42,6 @@ class CurrencyModel with _$CurrencyModel {
   double get withdrawalFeeSize => fees.withdrawalFee?.size ?? 0;
 
   bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
+
+  bool get hasTag => tagType != TagType.none;
 }

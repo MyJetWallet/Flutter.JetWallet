@@ -5,7 +5,7 @@ import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../shared/helpers/show_plain_snackbar.dart';
+import 'show_plain_snackbar.dart';
 
 void openEmailApp(BuildContext context) {
   if (Platform.isAndroid) {
