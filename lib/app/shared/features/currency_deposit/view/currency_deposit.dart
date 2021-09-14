@@ -19,9 +19,11 @@ import 'components/show_deposit_disclaimer.dart';
 class CurrencyDeposit extends HookWidget {
   const CurrencyDeposit({
     Key? key,
+    required this.header,
     required this.currency,
   }) : super(key: key);
 
+  final String header;
   final CurrencyModel currency;
 
   @override
@@ -44,7 +46,7 @@ class CurrencyDeposit extends HookWidget {
         });
       },
       child: PageFrame(
-        header: 'Deposit ${currency.description} (${currency.symbol})',
+        header: '$header ${currency.description} (${currency.symbol})',
         onBackButton: () => Navigator.pop(context),
         child: deposit.union.when(
           success: () {
