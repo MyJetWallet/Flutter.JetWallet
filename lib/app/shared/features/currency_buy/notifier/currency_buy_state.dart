@@ -12,7 +12,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     double? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
-    @Default('') String inputValue,
+    @Default('0') String inputValue,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,
     @Default(false) bool inputValid,
