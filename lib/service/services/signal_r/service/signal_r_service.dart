@@ -248,6 +248,12 @@ class SignalRService {
   /// Since they are created inside a single instance we can't close them
   /// because our StreamProviders will throw an error:
   /// Bad state: Stream has already been listened to
+  /// 
+  /// The problem above can be solved by injecting HubConnection
+  /// through signalRServicePod. + signalRServicePod must listen 
+  /// for auth changes in order to create a new connection after them.
+  /// The solution must be properly tested.
+  /// TODO(Eli) revisit this problem (added to backlog[SPUI-389])
   Future<void> disconnect() async {
     _logger.log(signalR, 'Disconnecting...');
     isDisconnecting = true;

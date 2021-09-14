@@ -54,6 +54,7 @@ class ActionDeposit extends HookWidget {
                     navigatorPush(
                       context,
                       CurrencyDeposit(
+                        header: 'Deposit',
                         currency: currency,
                       ),
                     );
