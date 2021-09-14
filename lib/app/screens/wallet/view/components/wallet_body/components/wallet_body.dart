@@ -95,6 +95,7 @@ class _WalletBodyState extends State<WalletBody>
                         ),
                       );
                     },
+                    groupComparator: (date1, date2) => 0,
                     itemBuilder: (context, transaction) => TransactionListItem(
                       transactionListItem: transaction,
                     ),

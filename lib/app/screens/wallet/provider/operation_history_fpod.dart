@@ -12,7 +12,7 @@ final operationHistoryInitFpod =
   final operationHistory = await operationHistoryService.operationHistory(
     OperationHistoryRequestModel(
       assetId: assetId,
-      batchSize: 5,
+      batchSize: 20,
     ),
   );
 

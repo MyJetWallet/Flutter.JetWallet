@@ -25,7 +25,7 @@ class OperationHistoryNotifier
       final operationHistory = await _requestOperationHistory(
         OperationHistoryRequestModel(
           assetId: assetId,
-          batchSize: 5,
+          batchSize: 20,
         ),
       );
 
@@ -44,7 +44,7 @@ class OperationHistoryNotifier
       final operationHistory = await _requestOperationHistory(
         OperationHistoryRequestModel(
           assetId: assetId,
-          batchSize: 5,
+          batchSize: 20,
           lastDate: state.last.timeStamp,
         ),
       );
@@ -77,7 +77,6 @@ List<OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
       .where(
     (item) =>
         item.operationType == OperationType.deposit ||
-        item.operationType == OperationType.unknown ||
         item.operationType == OperationType.withdraw ||
         item.operationType == OperationType.swap ||
         item.operationType == OperationType.transferByPhone ||
@@ -93,12 +92,6 @@ List<OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
       return item;
     }
   }).toList();
-
-  filteredItems.sort(
-    (a, b) => DateTime.parse('${b.timeStamp}Z')
-        .toLocal()
-        .compareTo(DateTime.parse('${a.timeStamp}Z').toLocal()),
-  );
 
   return filteredItems;
 }
