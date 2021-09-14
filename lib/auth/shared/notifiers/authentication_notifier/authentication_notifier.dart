@@ -13,6 +13,7 @@ import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/local_storage_service.dart';
 import '../../../../../shared/services/rsa_service.dart';
+import '../../../../shared/helpers/device_uid.dart';
 import '../auth_info_notifier/auth_info_notifier.dart';
 import 'authentication_union.dart';
 
@@ -52,11 +53,14 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       final publicKey = rsaService.publicKey;
 
+      final id = await deviceUid();
+
       final loginRequest = LoginRequestModel(
         publicKey: publicKey,
         email: email,
         password: password,
         platform: currentPlatform,
+        deviceUid: id,
       );
 
       final registerRequest = RegisterRequestModel(
@@ -65,6 +69,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         password: password,
         platformType: platformType,
         platform: currentPlatform,
+        deviceUid: id,
       );
 
       AuthenticationModel authModel;

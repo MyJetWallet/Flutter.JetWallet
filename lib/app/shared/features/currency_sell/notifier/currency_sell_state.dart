@@ -14,7 +14,7 @@ class CurrencySellState with _$CurrencySellState {
     double? targetConversionPrice,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,
-    @Default('') String inputValue,
+    @Default('0') String inputValue,
     @Default(false) bool inputValid,
     @Default([]) List<CurrencyModel> currencies,
     @Default(InputError.none) InputError inputError,
