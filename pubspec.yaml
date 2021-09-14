@@ -33,6 +33,7 @@ dependencies:
   android_intent_plus: ^1.0.2 # plugin for launching Android Intents
   package_info_plus: ^1.0.6 # querying information about the application package
   share_plus: ^2.1.4 # sharing content via the platform share UI
+  device_info_plus: ^2.1.0 # providing detailed information about the device
 
   # NETWORKING:
   dio: ^4.0.0 # http client

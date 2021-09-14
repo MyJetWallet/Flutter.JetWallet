@@ -7,6 +7,7 @@ part 'login_request_model.g.dart';
 @freezed
 class LoginRequestModel with _$LoginRequestModel {
   const factory LoginRequestModel({
+    String? deviceUid,
     String? captcha,
     @JsonKey(name: 'publicKeyPem') required String publicKey,
     required String email,

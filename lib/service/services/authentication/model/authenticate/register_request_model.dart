@@ -6,6 +6,7 @@ part 'register_request_model.g.dart';
 @freezed
 class RegisterRequestModel with _$RegisterRequestModel {
   const factory RegisterRequestModel({
+    String? deviceUid,
     String? captcha,
     String? phone,
     @JsonKey(name: 'publicKeyPem') required String publicKey,
