@@ -12,7 +12,7 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
-import '../../../../models/currency_model.dart';
+import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
 import '../../notifier/withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
 import '../../provider/withdraw_dynamic_link_stpod.dart';
@@ -20,25 +20,28 @@ import '../../provider/withdraw_dynamic_link_stpod.dart';
 class WithdrawalConfirm extends HookWidget {
   const WithdrawalConfirm({
     Key? key,
-    required this.currency,
+    required this.withdrawal,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
 
   @override
   Widget build(BuildContext context) {
     final timer = useProvider(timerNotipod(5));
     final timerN = useProvider(timerNotipod(5).notifier);
     final authInfo = useProvider(authInfoNotipod);
-    final confirmN = useProvider(withdrawalConfirmNotipod(currency).notifier);
+    final confirmN = useProvider(withdrawalConfirmNotipod(withdrawal).notifier);
     final navigatorKey = useProvider(navigatorKeyPod);
-    final id = useProvider(withdrawalPreviewNotipod(currency)).operationId;
+    final id = useProvider(withdrawalPreviewNotipod(withdrawal)).operationId;
     final dynamicLink = useProvider(withdrawDynamicLinkStpod(id));
+
+    final verb = withdrawal.dictionary.verb.toLowerCase();
+    final noun = withdrawal.dictionary.noun.toLowerCase();
 
     return PageFrame(
       leftIcon: Icons.clear,
       onBackButton: () => navigateToRouter(navigatorKey),
-      header: 'Confirm withdraw request',
+      header: 'Confirm $verb request',
       child: Column(
         mainAxisAlignment: dynamicLink.state
             ? MainAxisAlignment.center
@@ -50,7 +53,7 @@ class WithdrawalConfirm extends HookWidget {
           else ...[
             const SpaceH20(),
             Text(
-              'Confirm your withdrawal request by opening the link in '
+              'Confirm your $noun request by opening the link in '
               'the email we sent to: ${authInfo.email}',
               style: TextStyle(
                 fontSize: 16.sp,

@@ -9,6 +9,7 @@ import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../models/currency_model.dart';
+import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import 'address_validation_union.dart';
 import 'withdrawal_address_state.dart';
@@ -17,7 +18,7 @@ import 'withdrawal_address_state.dart';
 class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   WithdrawalAddressNotifier(
     this.read,
-    this.currency,
+    this.withdrawal,
   ) : super(
           WithdrawalAddressState(
             addressController: TextEditingController(),
@@ -26,10 +27,14 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
             tagFocus: FocusNode(),
             qrKey: GlobalKey(),
           ),
-        );
+        ) {
+    currency = withdrawal.currency;
+  }
 
   final Reader read;
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
+
+  late CurrencyModel currency;
 
   static final _logger = Logger('WithdrawalAddressNotifier');
 
@@ -248,7 +253,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   void _pushWithdrawalAmount(BuildContext context) {
-    navigatorPush(context, WithdrawalAmount(currency: currency));
+    navigatorPush(context, WithdrawalAmount(withdrawal: withdrawal));
   }
 
   @override
