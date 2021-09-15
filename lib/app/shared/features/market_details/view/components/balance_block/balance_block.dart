@@ -23,7 +23,7 @@ class BalanceBlock extends StatelessWidget {
       child: Column(
         children: [
           BalanceAssetItem(
-            marketItem: marketItem,
+            assetId: marketItem.associateAsset,
           ),
           const SpaceH10(),
           BalanceActionButtons(

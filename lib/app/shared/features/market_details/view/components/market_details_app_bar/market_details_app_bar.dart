@@ -36,10 +36,10 @@ class MarketDetailsAppBar extends StatelessWidget
             asset: marketItem,
           ),
           AssetPrice(
-            price: marketItem.lastPrice,
+            assetId: marketItem.associateAsset,
           ),
           AssetDayChange(
-            asset: marketItem,
+            assetId: marketItem.associateAsset,
           ),
         ],
       ),
