@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TransactionListItemBodyText extends StatelessWidget {
-  const TransactionListItemBodyText({
+class TransactionListItemText extends StatelessWidget {
+  const TransactionListItemText({
     Key? key,
     required this.text,
   }) : super(key: key);

@@ -3,11 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../shared/components/spacers.dart';
+import '../../../../helper/format_date.dart';
 import '../../../../notifier/operation_history_notipod.dart';
 import 'card_block/cards_block.dart';
 import 'transactions_list_item/transaction_list_item.dart';
@@ -79,9 +79,7 @@ class _WalletBodyState extends State<WalletBody>
                     useStickyGroupSeparators: true,
                     stickyHeaderBackgroundColor: Colors.white,
                     groupBy: (transaction) {
-                      return DateFormat('EEEE, MMMM d, y').format(
-                        DateTime.parse('${transaction.timeStamp}Z').toLocal(),
-                      );
+                      return formatDate(transaction.timeStamp);
                     },
                     groupSeparatorBuilder: (String date) {
                       return Padding(

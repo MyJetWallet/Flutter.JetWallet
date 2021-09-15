@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'transaction_details_name_text.dart';
 
 class TransactionDetailsItem extends StatelessWidget {
   const TransactionDetailsItem({
@@ -15,12 +15,8 @@ class TransactionDetailsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: Colors.grey,
-          ),
+        TransactionDetailsNameText(
+          text: text,
         ),
         const Spacer(),
         value,

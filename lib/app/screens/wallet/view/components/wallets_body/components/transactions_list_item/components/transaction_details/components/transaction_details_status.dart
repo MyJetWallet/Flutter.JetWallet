@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../../shared/components/spacers.dart';
+import 'transaction_details_name_text.dart';
+import 'transaction_details_value_text.dart';
 
 class TransactionDetailsStatus extends StatelessWidget {
   const TransactionDetailsStatus({
@@ -17,23 +19,17 @@ class TransactionDetailsStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'Status',
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: Colors.grey,
-          ),
+        const TransactionDetailsNameText(
+          text: 'Status',
         ),
         const Spacer(),
-        Icon(_icon()),
+        Icon(
+          _icon(),
+          size: 16.r,
+        ),
         const SpaceW8(),
-        Text(
-          _text(),
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w600,
-          ),
+        TransactionDetailsValueText(
+          text: _text(),
         ),
       ],
     );

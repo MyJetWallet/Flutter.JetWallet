@@ -20,9 +20,8 @@ class AppButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 56.h,
         padding: EdgeInsets.symmetric(
-          vertical: 16.h,
+          vertical: 12.h,
         ),
         width: double.infinity,
         decoration: decoration,

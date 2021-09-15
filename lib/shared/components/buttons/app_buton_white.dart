@@ -22,7 +22,7 @@ class AppButtonWhite extends StatelessWidget {
       onTap: onTap,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       textColor: Colors.black,
     );
