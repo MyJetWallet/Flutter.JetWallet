@@ -21,13 +21,15 @@ class OperationHistoryItem with _$OperationHistoryItem {
     WithdrawalInfo? withdrawalInfo,
     SwapInfo? swapInfo,
     WithdrawalFeeInfo? withdrawalFeeInfo,
+    TransferByPhoneInfo? transferByPhoneInfo,
+    ReceiveByPhoneInfo? receiveByPhoneInfo,
     required String operationId,
     required OperationType operationType,
     required String assetId,
     required String timeStamp,
     required double balanceChange,
     required double newBalance,
-    required int status,
+    required Status status,
   }) = _OperationHistoryItem;
 
   factory OperationHistoryItem.fromJson(Map<String, dynamic> json) =>
@@ -53,6 +55,15 @@ enum OperationType {
   sell,
 }
 
+enum Status {
+  @JsonValue(0)
+  completed,
+  @JsonValue(1)
+  inProgress,
+  @JsonValue(2)
+  declined,
+}
+
 @freezed
 class DepositInfo with _$DepositInfo {
   const factory DepositInfo({
@@ -73,6 +84,7 @@ class WithdrawalInfo with _$WithdrawalInfo {
     required String withdrawalAssetId,
     required double withdrawalAmount,
     required double feeAmount,
+    required bool isInternal,
   }) = _WithdrawalInfo;
 
   factory WithdrawalInfo.fromJson(Map<String, dynamic> json) =>
@@ -102,4 +114,27 @@ class WithdrawalFeeInfo with _$WithdrawalFeeInfo {
 
   factory WithdrawalFeeInfo.fromJson(Map<String, dynamic> json) =>
       _$WithdrawalFeeInfoFromJson(json);
+}
+
+@freezed
+class TransferByPhoneInfo with _$TransferByPhoneInfo {
+  const factory TransferByPhoneInfo({
+    required String toPhoneNumber,
+    required String withdrawalAssetId,
+    required double withdrawalAmount,
+  }) = _TransferByPhoneInfo;
+
+  factory TransferByPhoneInfo.fromJson(Map<String, dynamic> json) =>
+      _$TransferByPhoneInfoFromJson(json);
+}
+
+@freezed
+class ReceiveByPhoneInfo with _$ReceiveByPhoneInfo {
+  const factory ReceiveByPhoneInfo({
+    required String fromPhoneNumber,
+    required double depositAmount,
+  }) = _ReceiveByPhoneInfo;
+
+  factory ReceiveByPhoneInfo.fromJson(Map<String, dynamic> json) =>
+      _$ReceiveByPhoneInfoFromJson(json);
 }

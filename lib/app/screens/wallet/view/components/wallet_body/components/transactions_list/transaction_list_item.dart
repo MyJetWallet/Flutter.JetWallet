@@ -7,7 +7,15 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../shared/components/spacers.dart';
+import '../../../../../../../shared/components/basic_bottom_sheet/basic_bottom_sheet.dart';
+import '../../../../../helper/operation_name.dart';
 import '../../../../../provider/wallet_hidden_stpod.dart';
+import 'components/transaction_details/buy_sell_details.dart';
+import 'components/transaction_details/components/common_transaction_details_block.dart';
+import 'components/transaction_details/deposit_details.dart';
+import 'components/transaction_details/receive_details.dart';
+import 'components/transaction_details/transfer_details.dart';
+import 'components/transaction_details/withdraw_details.dart';
 import 'components/transaction_list_item_body_text.dart';
 import 'components/transaction_list_item_header_text.dart';
 
@@ -23,68 +31,113 @@ class TransactionListItem extends HookWidget {
   Widget build(BuildContext context) {
     final hidden = useProvider(walletHiddenStPod);
 
-    return SizedBox(
-      height: 80.h,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Icon(
-                _icon(transactionListItem.operationType),
-                size: 20.r,
-              ),
-              const SpaceW10(),
-              TransactionListItemHeaderText(
-                text: _operationName(transactionListItem.operationType),
-              ),
-              const Spacer(),
-              TransactionListItemHeaderText(
-                text:
-                    '${hidden.state
-                        ? '???'
-                        : transactionListItem.balanceChange} ${transactionListItem.assetId}',
+    return InkWell(
+      onTap: () {
+        showBasicBottomSheet(
+          scrollable: true,
+          children: [
+            CommonTransactionDetailsBlock(
+              transactionListItem: transactionListItem,
+            ),
+            if (transactionListItem.operationType == OperationType.deposit) ...[
+              DepositDetails(
+                transactionListItem: transactionListItem,
               ),
             ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 20.r,
+            if (transactionListItem.operationType ==
+                OperationType.withdraw) ...[
+              WithdrawDetails(
+                transactionListItem: transactionListItem,
               ),
-              const SpaceW10(),
-              Text(
-                DateFormat('Hm').format(
-                  DateTime.parse('${transactionListItem.timeStamp}Z').toLocal(),
-                ),
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16.sp,
-                ),
+            ],
+            if (transactionListItem.operationType == OperationType.buy ||
+                transactionListItem.operationType == OperationType.sell) ...[
+              BuySellDetails(
+                transactionListItem: transactionListItem,
               ),
-              const Spacer(),
-              if (transactionListItem.operationType == OperationType.sell) ...[
-                TransactionListItemBodyText(
+            ],
+            if (transactionListItem.operationType ==
+                OperationType.transferByPhone) ...[
+              TransferDetails(
+                transactionListItem: transactionListItem,
+              ),
+            ],
+            if (transactionListItem.operationType ==
+                OperationType.receiveByPhone) ...[
+              ReceiveDetails(
+                transactionListItem: transactionListItem,
+              ),
+            ],
+          ],
+          context: context,
+        );
+      },
+      child: SizedBox(
+        height: 80.h,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(
+                  _icon(transactionListItem.operationType),
+                  size: 20.r,
+                ),
+                const SpaceW10(),
+                TransactionListItemHeaderText(
+                  text: operationName(transactionListItem.operationType),
+                ),
+                const Spacer(),
+                TransactionListItemHeaderText(
                   text:
-                      'For ${'${hidden.state
+                      '${hidden.state
                           ? '???'
-                          : transactionListItem.swapInfo!.sellAmount}'} '
-                      '${transactionListItem.swapInfo!.sellAssetId}',
+                          : transactionListItem.balanceChange} '
+                          '${transactionListItem.assetId}',
                 ),
               ],
-              if (transactionListItem.operationType == OperationType.buy) ...[
-                TransactionListItemBodyText(
-                  text:
-                      'With ${'${hidden.state
-                          ? '???'
-                          : transactionListItem.swapInfo!.buyAmount}'} '
-                      '${transactionListItem.swapInfo!.buyAssetId}',
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20.r,
                 ),
-              ]
-            ],
-          ),
-          const SpaceH10(),
-          const Divider(),
-        ],
+                const SpaceW10(),
+                Text(
+                  DateFormat('Hm').format(
+                    DateTime.parse('${transactionListItem.timeStamp}Z')
+                        .toLocal(),
+                  ),
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                const Spacer(),
+                if (transactionListItem.operationType ==
+                    OperationType.sell) ...[
+                  TransactionListItemBodyText(
+                    text:
+                        'For ${'${hidden.state
+                            ? '???'
+                            : transactionListItem.swapInfo!.buyAmount}'} '
+                        '${transactionListItem.swapInfo!.buyAssetId}',
+                  ),
+                ],
+                if (transactionListItem.operationType == OperationType.buy) ...[
+                  TransactionListItemBodyText(
+                    text:
+                        'With ${'${hidden.state
+                            ? '???'
+                            : transactionListItem.swapInfo!.sellAmount}'} '
+                        '${transactionListItem.swapInfo!.sellAssetId}',
+                  ),
+                ]
+              ],
+            ),
+            const SpaceH10(),
+            const Divider(),
+          ],
+        ),
       ),
     );
   }
@@ -107,27 +160,6 @@ class TransactionListItem extends HookWidget {
       case OperationType.swap:
       case OperationType.unknown:
         return FontAwesomeIcons.question;
-    }
-  }
-
-  String _operationName(OperationType type) {
-    switch (type) {
-      case OperationType.deposit:
-        return 'Deposit';
-      case OperationType.withdraw:
-        return 'Withdraw';
-      case OperationType.transferByPhone:
-        return 'Transfer by Phone';
-      case OperationType.receiveByPhone:
-        return 'Receive by Phone';
-      case OperationType.buy:
-        return 'Buy';
-      case OperationType.sell:
-        return 'Sell';
-      case OperationType.swap:
-      case OperationType.withdrawalFee:
-      case OperationType.unknown:
-        return 'Unknown';
     }
   }
 }
