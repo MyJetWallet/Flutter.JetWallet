@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../market_details/view/market_details.dart';
+import '../../../../../shared/features/market_details/view/market_details.dart';
 import '../../../model/market_item_model.dart';
 import 'components/market_item_card.dart';
 

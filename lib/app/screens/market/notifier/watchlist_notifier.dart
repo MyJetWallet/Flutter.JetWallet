@@ -98,9 +98,5 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
     }
   }
 
-  bool isInWatchlist(String assetId) {
-    _logger.log(notifier, 'isInWatchlist');
-
-    return state.contains(assetId);
-  }
+  bool isInWatchlist(String assetId) => state.contains(assetId);
 }
