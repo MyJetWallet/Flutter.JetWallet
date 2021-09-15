@@ -10,7 +10,7 @@ import '../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../notifier/operation_history_notipod.dart';
 import 'card_block/cards_block.dart';
-import 'transactions_list/transaction_list_item.dart';
+import 'transactions_list_item/transaction_list_item.dart';
 
 class WalletBody extends StatefulHookWidget {
   const WalletBody({

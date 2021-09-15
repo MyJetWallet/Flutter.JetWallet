@@ -5,7 +5,7 @@ import '../../../../shared/components/app_frame.dart';
 import '../../market/model/market_item_model.dart';
 import 'components/action_button.dart';
 import 'components/wallet_app_bar/wallet_app_bar.dart';
-import 'components/wallet_body/wallets.dart';
+import 'components/wallets_body/wallets_body.dart';
 
 class Wallet extends HookWidget {
   const Wallet({
