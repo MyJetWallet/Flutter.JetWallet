@@ -1,26 +1,27 @@
 import '../../../helpers/input_helpers.dart';
-
 import '../../../models/currency_model.dart';
 
 /// Calculates amount that user will receive after
 /// subtraction of the currency fee
-String userWillreceive(String amount, CurrencyModel currency) {
-  if (amount.isNotEmpty) {
-    final value = double.parse(amount);
+String userWillreceive({
+  required String amount,
+  required CurrencyModel currency,
+  required bool addressIsInternal,
+}) {
+  final value = double.parse(amount);
 
-    var fee = currency.withdrawalFeeSize;
+  if (addressIsInternal || currency.isFeeInOtherCurrency) {
+    return '$amount ${currency.symbol}';
+  }
 
-    if (value <= fee) {
-      return '0 ${currency.symbol}';
-    } else {
-      if (currency.isFeeInOtherCurrency) fee = 0;
+  final fee = currency.withdrawalFeeSize;
 
-      final result = (value - fee).toStringAsFixed(currency.accuracy);
-      final truncated = truncateZerosFromInput(result);
-
-      return '$truncated ${currency.symbol}';
-    }
-  } else {
+  if (value <= fee) {
     return '0 ${currency.symbol}';
+  } else {
+    final result = (value - fee).toStringAsFixed(currency.accuracy);
+    final truncated = truncateZerosFromInput(result);
+
+    return '$truncated ${currency.symbol}';
   }
 }

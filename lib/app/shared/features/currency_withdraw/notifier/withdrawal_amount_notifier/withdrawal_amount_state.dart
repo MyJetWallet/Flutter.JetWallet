@@ -14,6 +14,7 @@ class WithdrawalAmountState with _$WithdrawalAmountState {
     @Default('0') String amount,
     @Default('0') String baseConversionValue,
     @Default(false) bool valid,
+    @Default(false) bool addressIsInternal,
     @Default(InputError.none) InputError inputError,
   }) = _WithdrawalAmountState;
 }

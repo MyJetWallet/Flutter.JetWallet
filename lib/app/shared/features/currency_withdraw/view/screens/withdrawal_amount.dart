@@ -14,27 +14,30 @@ import '../../../../components/number_keyboard/number_keyboard.dart';
 import '../../../../components/text/asset_conversion_text.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/short_address_form.dart';
-import '../../../../models/currency_model.dart';
 import '../../helper/minimum_amount.dart';
 import '../../helper/user_will_receive.dart';
+import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_amount_notifier/withdrawal_amount_notipod.dart';
 import 'withdrawal_preview.dart';
 
 class WithdrawalAmount extends HookWidget {
   const WithdrawalAmount({
     Key? key,
-    required this.currency,
+    required this.withdrawal,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(withdrawalAmountNotipod(currency));
-    final notifier = useProvider(withdrawalAmountNotipod(currency).notifier);
+    final state = useProvider(withdrawalAmountNotipod(withdrawal));
+    final notifier = useProvider(withdrawalAmountNotipod(withdrawal).notifier);
+
+    final currency = withdrawal.currency;
 
     return PageFrame(
-      header: 'Withdraw ${currency.description} (${currency.symbol})',
+      header: '${withdrawal.dictionary.verb} '
+          '${currency.description} (${currency.symbol})',
       onBackButton: () => Navigator.pop(context),
       resizeToAvoidBottomInset: false,
       child: Column(
@@ -42,13 +45,13 @@ class WithdrawalAmount extends HookWidget {
         children: [
           const Spacer(),
           AssetInputField(
-            value: fieldValue(state.amount, currency.symbol),
+            value: '${state.amount} ${currency.symbol}',
           ),
           const SpaceH10(),
           if (state.inputError.isActive)
             if (state.inputError == InputError.enterHigherAmount)
               AssetInputError(
-                text: '${state.inputError.value}. ${minAmount(currency)}',
+                text: '${state.inputError.value}. ${minimumAmount(currency)}',
               )
             else
               AssetInputError(
@@ -62,14 +65,11 @@ class WithdrawalAmount extends HookWidget {
               fontWeight: FontWeight.bold,
             ),
             CenterAssetConversionText(
-              text: 'Available: ${currency.assetBalance} '
-                  '${currency.symbol}',
+              text: 'Available: ${currency.assetBalance} ${currency.symbol}',
             ),
             const SpaceH20(),
             AssetConversionText(
-              text: 'Your fee is: ${currency.withdrawalFeeSize} '
-                  '${currency.fees.withdrawalFee?.assetSymbol} / '
-                  'You will recive: ${userWillreceive(state.amount, currency)}',
+              text: _feeDescription(state.addressIsInternal, state.amount),
             ),
           ],
           const Spacer(),
@@ -93,14 +93,14 @@ class WithdrawalAmount extends HookWidget {
           ),
           const SpaceH20(),
           AppButtonSolid(
-            name: 'Preview Withdrawal',
+            name: 'Preview ${withdrawal.dictionary.noun}',
             active: state.valid,
             onTap: () {
               if (state.valid) {
                 navigatorPush(
                   context,
                   WithdrawalPreview(
-                    currency: currency,
+                    withdrawal: withdrawal,
                   ),
                 );
               }
@@ -109,5 +109,23 @@ class WithdrawalAmount extends HookWidget {
         ],
       ),
     );
+  }
+
+  String _feeDescription(bool isInternal, String amount) {
+    final currency = withdrawal.currency;
+
+    final result = userWillreceive(
+      amount: amount,
+      currency: currency,
+      addressIsInternal: isInternal,
+    );
+
+    final youWillReceive = 'You will receive: $result';
+
+    if (isInternal) {
+      return 'No ${withdrawal.dictionary.noun} fee! / $youWillReceive';
+    } else {
+      return 'Your fee is: ${currency.withdrawaFeeWithSymbol} / $youWillReceive';
+    }
   }
 }
