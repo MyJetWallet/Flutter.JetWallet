@@ -16,7 +16,7 @@ class PageFrameHeader extends StatelessWidget {
       textAlign: TextAlign.start,
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 24.sp,
+        fontSize: 22.sp,
       ),
     );
   }
