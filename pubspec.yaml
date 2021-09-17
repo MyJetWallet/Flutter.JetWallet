@@ -73,7 +73,7 @@ dependencies:
   charts:
     git:
       url: https://github.com/MyJetWallet/Flutter.Charts
-      ref: master
+      ref: develop
 
 dev_dependencies:
   flutter_test:
