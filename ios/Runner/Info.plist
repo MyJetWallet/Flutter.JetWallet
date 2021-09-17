@@ -69,5 +69,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to scan QR codes</string>
 	<!-- qr_code_scanner [End] -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>We need your face ID</string>
 </dict>
 </plist>

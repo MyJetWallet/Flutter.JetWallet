@@ -22,6 +22,7 @@ dependencies:
   qr_flutter: ^4.0.0 # QR code rendering
   grouped_list: ^4.1.0 # List with grouped items
   qr_code_scanner: ^0.5.2 # Scans QR code with camera
+  local_auth: ^1.1.7 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
 
   # RESPONSIVE UI
   device_preview: ^0.7.3
