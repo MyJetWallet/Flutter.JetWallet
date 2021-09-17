@@ -1,4 +1,4 @@
-import 'package:charts/entity/candle_entity.dart';
+import 'package:charts/entity/chart_info.dart';
 import 'package:charts/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -15,7 +15,7 @@ class ChartView extends HookWidget {
   );
 
   final String instrumentId;
-  final void Function(CandleEntity?) onCandleSelected;
+  final void Function(ChartInfo?) onCandleSelected;
 
   @override
   Widget build(BuildContext context) {
