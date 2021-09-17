@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
+import '../../../components/number_keyboard/number_keyboard.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
@@ -136,7 +137,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         ),
       );
     } else {
-      _updateTargetConversionValue(zeroCase);
+      _updateTargetConversionValue(zero);
     }
   }
 
@@ -156,7 +157,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         truncateZerosFromInput(baseValue.toString()),
       );
     } else {
-      _updateBaseConversionValue(zeroCase);
+      _updateBaseConversionValue(zero);
     }
   }
 
@@ -192,8 +193,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void resetValuesToZero() {
     _logger.log(notifier, 'resetValuesToZero');
 
-    _updateInputValue(zeroCase);
-    _updateTargetConversionValue(zeroCase);
-    _updateBaseConversionValue(zeroCase);
+    _updateInputValue(zero);
+    _updateTargetConversionValue(zero);
+    _updateBaseConversionValue(zero);
+    _updateInputValid(false);
   }
 }

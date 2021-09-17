@@ -4,7 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
-import '../../../../shared/helpers/navigator_push.dart';
+import '../../../../shared/features/pin_screen/model/pin_flow_union.dart';
+import '../../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import 'components/security_divider.dart';
 import 'components/security_option.dart';
@@ -16,7 +17,6 @@ class AccountSecurity extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
-    final userInfoN = useProvider(userInfoNotipod.notifier);
 
     return PageFrame(
       header: 'Security',
@@ -31,19 +31,20 @@ class AccountSecurity extends HookWidget {
             icon: Icons.person,
             onSwitchChanged: (value) {
               if (userInfo.pinEnabled) {
-                userInfoN.switchPin();
+                PinScreen.push(context, const Disable());
               } else {
-                navigatorPush(context, const AccountSecurity());
+                PinScreen.push(context, const Enable());
               }
             },
             switchValue: userInfo.pinEnabled,
           ),
           const SecurityDivider(),
-          SecurityOption(
-            name: 'Change PIN',
-            icon: Icons.password,
-            onTap: () {},
-          ),
+          if (userInfo.pinEnabled)
+            SecurityOption(
+              name: 'Change PIN',
+              icon: Icons.password,
+              onTap: () => PinScreen.push(context, const Change()),
+            ),
           const SecurityDivider(),
           SecurityOption(
             name: '2-Factor authentication',

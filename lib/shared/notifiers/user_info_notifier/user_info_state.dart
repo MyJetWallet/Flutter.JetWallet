@@ -5,6 +5,10 @@ part 'user_info_state.freezed.dart';
 @freezed
 class UserInfoState with _$UserInfoState {
   const factory UserInfoState({
-    @Default(false) bool pinEnabled,
+    String? pin,
   }) = _UserInfoState;
+
+  const UserInfoState._();
+
+  bool get pinEnabled => pin != null;
 }
