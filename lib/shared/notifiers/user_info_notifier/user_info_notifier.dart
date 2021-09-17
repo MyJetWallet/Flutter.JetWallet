@@ -7,40 +7,47 @@ import '../../services/local_storage_service.dart';
 import 'user_info_state.dart';
 
 class UserInfoNotifier extends StateNotifier<UserInfoState> {
-  UserInfoNotifier(this.read) : super(const UserInfoState());
+  UserInfoNotifier(this.read) : super(const UserInfoState()) {
+    storage = read(localStorageServicePod);
+  }
 
   final Reader read;
 
   static final _logger = Logger('UserInfoNotifier');
 
+  late LocalStorageService storage;
+
   /// Inits PIN/Biometrics information
   Future<void> initPinStatus() async {
-    final storage = read(localStorageServicePod);
-    final status = await storage.getString(pinStatusKey);
+    _logger.log(notifier, 'initPinStatus');
 
-    if (status == null || status == pinDisabled) {
-      _updatePinEnabled(false);
+    final storage = read(localStorageServicePod);
+    final pin = await storage.getString(pinStatusKey);
+
+    if (pin == null || pin.isEmpty) {
+      _updatePin(null);
     } else {
-      _updatePinEnabled(true);
+      _updatePin(pin);
     }
   }
 
-  /// Updates PIN/Biometrics information
-  Future<void> switchPin() async {
-    final storage = read(localStorageServicePod);
+  /// Set PIN/Biometrics information
+  Future<void> setPin(String value) async {
+    _logger.log(notifier, 'setPin');
 
-    if (state.pinEnabled) {
-      await storage.setString(pinStatusKey, pinDisabled);
-      _updatePinEnabled(false);
-    } else {
-      await storage.setString(pinStatusKey, pinEnabled);
-      _updatePinEnabled(true);
-    }
+    await storage.setString(pinStatusKey, value);
+    _updatePin(value);
   }
 
-  void _updatePinEnabled(bool value) {
-    _logger.log(notifier, 'updatePinEnabled');
+  /// Reset PIN/Biometrics information
+  Future<void> resetPin() async {
+    _logger.log(notifier, 'resetPin');
 
-    state = state.copyWith(pinEnabled: value);
+    await storage.setString(pinStatusKey, '');
+    _updatePin(null);
+  }
+
+  void _updatePin(String? value) {
+    state = state.copyWith(pin: value);
   }
 }

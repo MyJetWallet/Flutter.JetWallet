@@ -5,8 +5,6 @@ const refreshTokenKey = 'refreshToken';
 const userEmailKey = 'userEmail';
 const privateKeyKey = 'privateKey';
 const pinStatusKey = 'pinStatusKey';
-const pinEnabled = 'enabled';
-const pinDisabled = 'disabled';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();

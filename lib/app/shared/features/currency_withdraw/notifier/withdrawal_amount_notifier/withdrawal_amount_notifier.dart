@@ -3,6 +3,7 @@ import 'package:logging/logging.dart';
 
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../components/balance_selector/model/selected_percent.dart';
+import '../../../../components/number_keyboard/number_keyboard.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
@@ -77,7 +78,7 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
         truncateZerosFromInput(baseValue.toString()),
       );
     } else {
-      _updateBaseConversionValue(zeroCase);
+      _updateBaseConversionValue(zero);
     }
   }
 

@@ -1,16 +1,15 @@
+import '../../../shared/helpers/remove_chars_from.dart';
 import '../components/balance_selector/model/selected_percent.dart';
 import '../components/number_keyboard/number_keyboard.dart';
 import '../models/currency_model.dart';
 
+// This helpers are used in [BUY], [SELL], [CONVERT], [WITHDRAW] flows
+// Working with NumberKeyboard in [amount] mode
+
 const specialPointCase = '0.';
-const zeroCase = '0';
 
 bool firstZeroInputCase(String string) {
   return string.length == 1 && string == zero;
-}
-
-String removeCharsFrom(String string, int amount) {
-  return string.substring(0, string.length - amount);
 }
 
 /// Removes cases like:
@@ -21,7 +20,7 @@ String truncateZerosFromInput(String input) {
     final number = double.parse(input);
 
     if (number == 0) {
-      return '0';
+      return zero;
     }
     // if number is the whole
     else if (number % 1 == 0) {
@@ -39,7 +38,7 @@ String valueBasedOnSelectedPercent({
   required CurrencyModel currency,
 }) {
   if (currency.isAssetBalanceEmpty) {
-    return '0';
+    return zero;
   } else if (selected == SelectedPercent.pct25) {
     final value = currency.assetBalance * 0.25;
     return '$value';
@@ -50,7 +49,7 @@ String valueBasedOnSelectedPercent({
     final value = currency.assetBalance;
     return '$value';
   } else {
-    return '0';
+    return zero;
   }
 }
 
@@ -65,7 +64,7 @@ String responseOnInputAction({
     if (oldInput.length > 1) {
       return removeCharsFrom(oldInput, 1);
     } else {
-      return zeroCase;
+      return zero;
     }
   } else if (firstZeroInputCase(oldInput) && newInput != period) {
     return newInput;
