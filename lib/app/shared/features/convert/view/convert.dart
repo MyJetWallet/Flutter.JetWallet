@@ -9,7 +9,7 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/convert_preview/model/convert_preview_input.dart';
 import '../../../components/convert_preview/view/convert_preview.dart';
-import '../../../components/number_keyboard/number_keyboard.dart';
+import '../../../components/number_keyboard/number_keyboard_amount.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../notifier/convert_input_notipod.dart';
@@ -70,7 +70,7 @@ class Convert extends HookWidget {
             },
           ),
           const SpaceH10(),
-          NumberKeyboard(
+          NumberKeyboardAmount(
             onKeyPressed: (value) {
               if (input.fromAssetEnabled) {
                 inputN.updateFromAssetAmount(value);

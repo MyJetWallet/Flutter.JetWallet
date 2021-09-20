@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../app/shared/components/number_keyboard/number_keyboard.dart';
+import '../../../../app/shared/components/number_keyboard/key_constants.dart';
+import '../../../helpers/biometrics_auth_helpers.dart';
 import '../../../helpers/remove_chars_from.dart';
 import '../../../logging/levels.dart';
 import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
@@ -15,6 +16,7 @@ import '../view/components/shake_widget/shake_widget.dart';
 import 'pin_screen_state.dart';
 import 'pin_screen_union.dart';
 
+// TODO move to remoteConfig?
 const pinLength = 4;
 const pinBoxAnimationDuration = Duration(milliseconds: 800);
 const pinBoxErrorDuration = Duration(milliseconds: 400);
@@ -44,15 +46,19 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   late UserInfoNotifier _userInfoN;
   late BuildContext _context;
 
-  void _initDefaultScreen() {
-    flowUnion.when(
-      change: () {
+  Future<void> _initDefaultScreen() async {
+    await flowUnion.when(
+      change: () async {
         _updateScreenUnion(const EnterPin());
         _updateScreenHeader('Change PIN');
+        _updateHideBiometricButton(false);
+        await updatePin(await _authenticateWithBio());
       },
-      disable: () {
+      disable: () async {
         _updateScreenUnion(const EnterPin());
         _updateScreenHeader('Enter PIN');
+        _updateHideBiometricButton(false);
+        await updatePin(await _authenticateWithBio());
       },
       enable: () {
         _updateScreenUnion(const NewPin());
@@ -61,24 +67,24 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     );
   }
 
-  void updatePin(String value) {
+  Future<void> updatePin(String value) async {
     if (!_isLengthExceeded(value)) {
       _logger.log(notifier, 'updatePin');
 
-      state.screenUnion.when(
-        enterPin: () {
+      await state.screenUnion.when(
+        enterPin: () async {
           _updateEnterPin(
-            _processInput(state.enterPin, value),
+            await _processInput(state.enterPin, value),
           );
         },
-        newPin: () {
+        newPin: () async {
           _updateNewPin(
-            _processInput(state.newPin, value),
+            await _processInput(state.newPin, value),
           );
         },
-        confirmPin: () {
+        confirmPin: () async {
           _updateConfirmPin(
-            _processInput(state.confrimPin, value),
+            await _processInput(state.confrimPin, value),
           );
         },
       );
@@ -123,6 +129,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         );
       } else {
         await _animateCorrect();
+        _updateHideBiometricButton(true);
         _updateScreenUnion(const NewPin());
       }
     }
@@ -198,6 +205,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     state = state.copyWith(confrimPin: value);
   }
 
+  void _updateHideBiometricButton(bool value) {
+    state = state.copyWith(hideBiometricButton: value);
+  }
+
   void _resetPin() {
     state.screenUnion.when(
       enterPin: () => _updateEnterPin(''),
@@ -214,8 +225,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     );
   }
 
-  String _processInput(String pin, String value) {
-    if (value == backspace) {
+  Future<String> _processInput(String pin, String value) async {
+    if (value == face || value == fingerprint) {
+      return _authenticateWithBio();
+    } else if (value == backspace) {
       return removeCharsFrom(pin, 1);
     } else {
       if (pin.length > pinLength - 1) return pin;
@@ -235,5 +248,15 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
 
   Future<void> _waitToShowAnimation([Duration? duration]) async {
     await Future.delayed(duration ?? pinBoxAnimationDuration);
+  }
+
+  Future<String> _authenticateWithBio() async {
+    final success = await makeAuthWithBiometrics();
+
+    if (success) {
+      return _userInfo.pin ?? '';
+    } else {
+      return '';
+    }
   }
 }

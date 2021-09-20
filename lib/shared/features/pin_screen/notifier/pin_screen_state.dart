@@ -10,6 +10,7 @@ part 'pin_screen_state.freezed.dart';
 @freezed
 class PinScreenState with _$PinScreenState {
   const factory PinScreenState({
+    @Default(true) bool hideBiometricButton,
     @Default('') String screenHeader,
 
     /// Pin that needs to match current userPin

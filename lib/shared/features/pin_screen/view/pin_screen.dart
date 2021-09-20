@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../app/shared/components/number_keyboard/number_keyboard.dart';
+import '../../../../app/shared/components/number_keyboard/number_keyboard_pin.dart';
 import '../../../components/page_frame/page_frame.dart';
 import '../../../components/spacers.dart';
 import '../../../helpers/navigator_push.dart';
@@ -71,7 +71,8 @@ class PinScreen extends HookWidget {
                 : const SizedBox(),
           ),
           const Spacer(),
-          NumberKeyboard(
+          NumberKeyboardPin(
+            hideBiometricButton: state.hideBiometricButton,
             onKeyPressed: (value) => notifier.updatePin(value),
           ),
         ],

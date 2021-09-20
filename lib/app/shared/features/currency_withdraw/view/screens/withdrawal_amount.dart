@@ -10,7 +10,7 @@ import '../../../../components/asset_input_error.dart';
 import '../../../../components/asset_input_field.dart';
 import '../../../../components/asset_tile/asset_tile.dart';
 import '../../../../components/balance_selector/view/percent_selector.dart';
-import '../../../../components/number_keyboard/number_keyboard.dart';
+import '../../../../components/number_keyboard/number_keyboard_amount.dart';
 import '../../../../components/text/asset_conversion_text.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/short_address_form.dart';
@@ -88,7 +88,7 @@ class WithdrawalAmount extends HookWidget {
             },
           ),
           const SpaceH10(),
-          NumberKeyboard(
+          NumberKeyboardAmount(
             onKeyPressed: (value) => notifier.updateAmount(value),
           ),
           const SpaceH20(),
