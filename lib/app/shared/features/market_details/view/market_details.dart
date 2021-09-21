@@ -1,4 +1,4 @@
-import 'package:charts/entity/candle_entity.dart';
+import 'package:charts/entity/chart_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../screens/market/model/market_item_model.dart';
+import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/view/components/chart_view.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
@@ -31,6 +32,7 @@ class MarketDetails extends HookWidget {
         marketItem.associateAsset,
       ),
     );
+    final chartN = useProvider(chartNotipod.notifier);
 
     return SafeArea(
       child: Scaffold(
@@ -49,8 +51,9 @@ class MarketDetails extends HookWidget {
                   height: 0.35.sh,
                   child: ChartView(
                     marketItem.associateAssetPair,
-                    // TODO(Vova): finish candle selection
-                    (CandleEntity? candle) {},
+                    (ChartInfo? chartInfo) {
+                      chartN.updateSelectedCandle(chartInfo?.right);
+                    },
                   ),
                 ),
                 const SpaceH15(),

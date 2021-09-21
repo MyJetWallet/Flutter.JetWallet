@@ -1,5 +1,6 @@
 import 'package:charts/entity/candle_model.dart';
 import 'package:charts/entity/candle_type_enum.dart';
+import 'package:charts/entity/resolution_string_enum.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -18,8 +19,8 @@ class ChartNotifier extends StateNotifier<ChartState> {
   }) : super(
           const ChartState(
             candles: [],
-            type: ChartType.area,
-            resolution: 'd',
+            type: ChartType.line,
+            resolution: Period.day,
           ),
         );
 
@@ -77,5 +78,11 @@ class ChartNotifier extends StateNotifier<ChartState> {
     _logger.log(notifier, 'updateResolution');
 
     state = state.copyWith(resolution: resolution);
+  }
+
+  void updateSelectedCandle(CandleModel? selectedCandle) {
+    _logger.log(notifier, 'updateSelectedCandle');
+
+    state = state.copyWith(selectedCandle: selectedCandle);
   }
 }

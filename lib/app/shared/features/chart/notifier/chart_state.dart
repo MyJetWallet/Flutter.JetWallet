@@ -9,6 +9,7 @@ part 'chart_state.freezed.dart';
 @freezed
 class ChartState with _$ChartState {
   const factory ChartState({
+    CandleModel? selectedCandle,
     required List<CandleModel> candles,
     required ChartType type,
     required String resolution,
