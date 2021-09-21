@@ -35,7 +35,7 @@ class NewsItem extends StatelessWidget {
               ),
               NewsItemText(
                 text: ' ${timeago.format(
-                  DateTime.parse(item.timestamp),
+                  DateTime.parse('${item.timestamp}Z').toLocal(),
                 )}',
               ),
             ],
@@ -46,7 +46,9 @@ class NewsItem extends StatelessWidget {
             style: TextStyle(
               fontSize: 16.sp,
             ),
-          )
+          ),
+          const SpaceH4(),
+          const Divider(),
         ],
       ),
     );
