@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
-import '../../../components/number_keyboard/number_keyboard.dart';
+import '../../../components/number_keyboard/key_constants.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';

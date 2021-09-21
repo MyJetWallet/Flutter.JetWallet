@@ -14,7 +14,7 @@ import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../components/convert_preview/model/convert_preview_input.dart';
 import '../../../components/convert_preview/view/convert_preview.dart';
-import '../../../components/number_keyboard/number_keyboard.dart';
+import '../../../components/number_keyboard/number_keyboard_amount.dart';
 import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
@@ -128,7 +128,7 @@ class CurrencySell extends HookWidget {
             },
           ),
           const SpaceH10(),
-          NumberKeyboard(
+          NumberKeyboardAmount(
             onKeyPressed: (value) => notifier.updateInputValue(value),
           ),
           const SpaceH20(),
