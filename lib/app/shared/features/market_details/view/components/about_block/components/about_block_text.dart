@@ -32,7 +32,8 @@ class AboutBlockText extends HookWidget {
           text: expandText.value ? 'Read less' : 'Read more',
           onTap: () => expandText.value = !expandText.value,
         ),
-        if (marketInfo.whitepaperUrl != null) ...[
+        if (marketInfo.whitepaperUrl != null &&
+            marketInfo.whitepaperUrl!.isNotEmpty) ...[
           const SpaceH4(),
           const Divider(),
           ClickableUnderlinedText(
@@ -40,7 +41,8 @@ class AboutBlockText extends HookWidget {
             onTap: () => launchURL(context, marketInfo.whitepaperUrl!),
           ),
         ],
-        if (marketInfo.officialWebsiteUrl != null) ...[
+        if (marketInfo.officialWebsiteUrl != null &&
+            marketInfo.officialWebsiteUrl!.isNotEmpty) ...[
           const SpaceH4(),
           const Divider(),
           ClickableUnderlinedText(
