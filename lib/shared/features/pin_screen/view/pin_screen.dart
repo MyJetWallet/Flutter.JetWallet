@@ -18,13 +18,25 @@ import 'components/shake_widget/shake_widget.dart';
 class PinScreen extends HookWidget {
   const PinScreen({
     Key? key,
+    this.cannotLeave = false,
     required this.union,
   }) : super(key: key);
 
+  final bool cannotLeave;
   final PinFlowUnion union;
 
-  static void push(BuildContext context, PinFlowUnion union) {
-    navigatorPush(context, PinScreen(union: union));
+  static void push(
+    BuildContext context,
+    PinFlowUnion union, {
+    bool cannotLeave = false,
+  }) {
+    navigatorPush(
+      context,
+      PinScreen(
+        union: union,
+        cannotLeave: cannotLeave,
+      ),
+    );
   }
 
   @override
@@ -32,50 +44,53 @@ class PinScreen extends HookWidget {
     final state = useProvider(pinScreenNotipod(union));
     final notifier = useProvider(pinScreenNotipod(union).notifier);
 
-    return PageFrame(
-      header: state.screenHeader,
-      onBackButton: () => Navigator.pop(context),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Spacer(),
-          Center(
-            child: PinText(
-              text: state.screenDescription,
-              fontSize: 16.sp,
+    return WillPopScope(
+      onWillPop: () => Future.value(!cannotLeave),
+      child: PageFrame(
+        header: state.screenHeader,
+        onBackButton: cannotLeave ? null : () => Navigator.pop(context),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            Center(
+              child: PinText(
+                text: state.screenDescription,
+                fontSize: 16.sp,
+              ),
             ),
-          ),
-          const SpaceH40(),
-          ShakeWidget(
-            key: state.shakePinKey,
-            shakeDuration: pinBoxErrorDuration,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                for (int id = 1; id <= pinLength; id++)
-                  PinBox(
-                    state: state.boxState(id),
-                  ),
-              ],
+            const SpaceH40(),
+            ShakeWidget(
+              key: state.shakePinKey,
+              shakeDuration: pinBoxErrorDuration,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  for (int id = 1; id <= pinLength; id++)
+                    PinBox(
+                      state: state.boxState(id),
+                    ),
+                ],
+              ),
             ),
-          ),
-          const SpaceH20(),
-          ShakeWidget(
-            key: state.shakeTextKey,
-            shakeDuration: pinBoxErrorDuration,
-            child: state.pinState == PinBoxEnum.error
-                ? PinText(
-                    text: 'Wrong PIN',
-                    color: state.pinState.color,
-                  )
-                : const SizedBox(),
-          ),
-          const Spacer(),
-          NumberKeyboardPin(
-            hideBiometricButton: state.hideBiometricButton,
-            onKeyPressed: (value) => notifier.updatePin(value),
-          ),
-        ],
+            const SpaceH20(),
+            ShakeWidget(
+              key: state.shakeTextKey,
+              shakeDuration: pinBoxErrorDuration,
+              child: state.pinState == PinBoxEnum.error
+                  ? PinText(
+                      text: 'Wrong PIN',
+                      color: state.pinState.color,
+                    )
+                  : const SizedBox(),
+            ),
+            const Spacer(),
+            NumberKeyboardPin(
+              hideBiometricButton: state.hideBiometricButton,
+              onKeyPressed: (value) => notifier.updatePin(value),
+            ),
+          ],
+        ),
       ),
     );
   }

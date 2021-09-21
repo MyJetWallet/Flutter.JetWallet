@@ -13,6 +13,8 @@ import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/local_storage_service.dart';
 import '../../../../../shared/services/rsa_service.dart';
+import '../../../../shared/features/pin_screen/model/pin_flow_union.dart';
+import '../../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../../shared/helpers/device_uid.dart';
 import '../auth_info_notifier/auth_info_notifier.dart';
 import 'authentication_union.dart';
@@ -93,6 +95,11 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       state = const Input();
 
       navigateToRouter(navigatorKey);
+      PinScreen.push(
+        navigatorKey.currentContext!,
+        const Enable(),
+        cannotLeave: true,
+      );
     } catch (e, st) {
       _logger.log(stateFlow, 'authenticate', e);
 

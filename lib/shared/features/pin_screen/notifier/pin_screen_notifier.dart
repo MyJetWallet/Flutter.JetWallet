@@ -47,17 +47,20 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   late BuildContext _context;
 
   Future<void> _initDefaultScreen() async {
+    final bioStatus = await biometricStatus();
+    final hideBioButton = bioStatus == BiometricStatus.none;
+
     await flowUnion.when(
       change: () async {
         _updateScreenUnion(const EnterPin());
         _updateScreenHeader('Change PIN');
-        _updateHideBiometricButton(false);
+        _updateHideBiometricButton(hideBioButton);
         await updatePin(await _authenticateWithBio());
       },
       disable: () async {
         _updateScreenUnion(const EnterPin());
         _updateScreenHeader('Enter PIN');
-        _updateHideBiometricButton(false);
+        _updateHideBiometricButton(hideBioButton);
         await updatePin(await _authenticateWithBio());
       },
       enable: () {
