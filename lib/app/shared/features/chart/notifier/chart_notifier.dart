@@ -40,7 +40,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
       final fromDate = toDate.subtract(depth.intervalBackDuration);
 
       final model = CandlesRequestModel(
-        instrumentId: instrumentId,
+        candleId: instrumentId,
         type: timeFrameFrom(resolution),
         bidOrAsk: 0,
         fromDate: fromDate.millisecondsSinceEpoch,

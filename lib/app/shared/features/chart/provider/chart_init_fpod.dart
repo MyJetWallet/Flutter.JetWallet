@@ -18,7 +18,7 @@ final chartInitFpod = FutureProvider.family.autoDispose<void, String>(
     final fromDate = toDate.subtract(depth.intervalBackDuration);
 
     final model = CandlesRequestModel(
-      instrumentId: instrumentId,
+      candleId: instrumentId,
       type: timeFrameFrom(Period.day),
       bidOrAsk: 0,
       fromDate: fromDate.millisecondsSinceEpoch,
