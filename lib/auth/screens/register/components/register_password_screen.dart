@@ -55,6 +55,7 @@ class RegisterPasswordScreen extends HookWidget {
               AppTextFieldObscure(
                 header: 'Enter password',
                 hintText: 'Enter password',
+                autofocus: true,
                 onChanged: (value) {
                   credentialsN.updateAndValidatePassword(value);
                 },

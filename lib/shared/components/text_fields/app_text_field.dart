@@ -10,12 +10,14 @@ class AppTextField extends HookWidget {
     this.fontSize,
     this.suffixIcon,
     this.keyboardType,
+    this.autofocus = false,
     this.obscureText = false,
     required this.header,
     required this.hintText,
     required this.onChanged,
   }) : super(key: key);
 
+  final bool autofocus;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final double? fontSize;
@@ -43,6 +45,7 @@ class AppTextField extends HookWidget {
           obscureText: obscureText,
           cursorColor: Colors.grey,
           keyboardType: keyboardType,
+          autofocus: autofocus,
           style: TextStyle(
             fontSize: fontSize ?? 18.sp,
             fontWeight: FontWeight.bold,
