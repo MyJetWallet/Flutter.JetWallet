@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../helpers/format_asset_price_value.dart';
 
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
@@ -39,8 +40,16 @@ class CurrencyBuyState with _$CurrencyBuyState {
   }
 
   String conversionText(CurrencyModel currency) {
-    final target = '≈ $targetConversionValue ${currency.symbol} ';
-    final base = '$baseConversionValue ${baseCurrency!.symbol}';
+    final target = '≈ ${formatPriceValue(
+      prefix: currency.symbol,
+      value: num.parse(targetConversionValue),
+      accuracy: currency.accuracy,
+    )} ';
+    final base = formatPriceValue(
+      prefix: baseCurrency!.symbol,
+      value: num.parse(baseConversionValue),
+      accuracy: baseCurrency!.accuracy,
+    );
 
     if (selectedCurrency == null) {
       return target;

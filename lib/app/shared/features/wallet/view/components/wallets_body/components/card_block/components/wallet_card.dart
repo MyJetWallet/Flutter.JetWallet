@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../../../components/asset_icon.dart';
+import '../../../../../../../../helpers/format_asset_price_value.dart';
 import '../../../../../../helper/market_item_from.dart';
 import '../../../../../../provider/wallet_hidden_stpod.dart';
 
@@ -65,19 +66,27 @@ class WalletCard extends HookWidget {
               ],
             ),
             const Spacer(),
-            Expanded(
-              child: Text(
-                hidden.state ? 'Hidden' : '\$${marketItem.baseBalance}',
-                style: TextStyle(
-                  fontSize: 32.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+            Text(
+              hidden.state
+                  ? 'Hidden'
+                  : formatPriceValue(
+                      prefix: marketItem.baseCurrencySymbol,
+                      value: marketItem.baseBalance,
+                      accuracy: marketItem.baseCurrencyAccuracy,
+                    ),
+              style: TextStyle(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               hidden.state
                   ? ' '
-                  : '${marketItem.assetBalance} ${marketItem.associateAsset}',
+                  : formatPriceValue(
+                prefix: marketItem.id,
+                value: marketItem.assetBalance,
+                accuracy: marketItem.accuracy,
+              ),
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,

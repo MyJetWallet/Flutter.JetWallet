@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/components/asset_icon.dart';
+import '../../../../../../shared/helpers/format_asset_price_value.dart';
 import '../../../../helper/format_day_percentage_change.dart';
 import '../../../../model/market_item_model.dart';
 
@@ -59,7 +60,11 @@ class MarketItemCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '\$${marketItem.lastPrice}',
+                formatPriceValue(
+                  prefix: marketItem.baseCurrencySymbol,
+                  value: marketItem.lastPrice,
+                  accuracy: marketItem.baseCurrencyAccuracy,
+                ),
               ),
               Text(
                 dayPercentageChange,

@@ -19,6 +19,7 @@ import '../../../components/number_keyboard/number_keyboard_amount.dart';
 import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
+import '../../../helpers/format_asset_price_value.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
@@ -95,7 +96,11 @@ class CurrencyBuy extends HookWidget {
         children: [
           const Spacer(),
           AssetInputField(
-            value: '${state.inputValue} ${state.selectedCurrencySymbol}',
+            value: formatPriceValue(
+              prefix: state.selectedCurrencySymbol,
+              value: num.parse(state.inputValue),
+              accuracy: state.selectedCurrencyAccuracy,
+            ),
           ),
           const SpaceH8(),
           if (state.inputError.isActive)

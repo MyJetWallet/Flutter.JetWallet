@@ -1,4 +1,3 @@
-import 'package:charts/entity/resolution_string_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,10 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
+import '../../../../../../helpers/format_asset_price_value.dart';
 import '../../../../../chart/notifier/chart_notipod.dart';
 import '../../../../../chart/notifier/chart_state.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
-import '../../../../helper/average_period_price.dart';
 
 class AssetPrice extends HookWidget {
   const AssetPrice({
@@ -45,16 +44,17 @@ class AssetPrice extends HookWidget {
     ChartState chart,
   ) {
     if (chart.selectedCandle != null) {
-      return averagePeriodPrice(
-        chart: chart,
-        selectedCandle: chart.selectedCandle,
+      return formatPriceValue(
+        prefix: marketItem.baseCurrencySymbol,
+        value: chart.selectedCandle!.close,
+        accuracy: marketItem.baseCurrencyAccuracy,
       );
     } else {
-      if (chart.resolution != Period.day) {
-        return averagePeriodPrice(chart: chart);
-      } else {
-        return '\$${marketItem.lastPrice}';
-      }
+      return formatPriceValue(
+        prefix: marketItem.baseCurrencySymbol,
+        value: marketItem.lastPrice,
+        accuracy: marketItem.baseCurrencyAccuracy,
+      );
     }
   }
 }

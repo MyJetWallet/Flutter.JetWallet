@@ -6,6 +6,7 @@ import '../../../../../../../../shared/components/buttons/app_button_solid.dart'
 import '../../../../../../../../shared/components/loader.dart';
 import '../../../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../../../shared/components/spacers.dart';
+import '../../../helpers/format_asset_price_value.dart';
 import '../../action_preview/action_preview_divider.dart';
 import '../../action_preview/action_preview_row.dart';
 import '../model/convert_preview_input.dart';
@@ -54,19 +55,27 @@ class ConvertPreview extends HookWidget {
               const ActionPreviewDivider(),
               ActionPreviewRow(
                 description: 'From',
-                value: '${convert.fromAssetAmount} ${convert.fromAssetSymbol}',
+                value: formatPriceValue(
+                  prefix: convert.fromAssetSymbol,
+                  value: convert.fromAssetAmount,
+                ),
               ),
               const ActionPreviewDivider(),
               ActionPreviewRow(
                 description: 'To',
-                value: '${convert.toAssetAmount} ${convert.toAssetSymbol}',
+                value: formatPriceValue(
+                  prefix: convert.toAssetSymbol,
+                  value: convert.toAssetAmount,
+                ),
                 loading: convert.union is QuoteLoading,
               ),
               const ActionPreviewDivider(),
               ActionPreviewRow(
                 description: 'Rate',
-                value: '1 ${convert.fromAssetSymbol} = '
-                    '${convert.price} ${convert.toAssetSymbol}',
+                value: '1 ${convert.fromAssetSymbol} = ${formatPriceValue(
+                      prefix: convert.toAssetSymbol,
+                      value: convert.price,
+                    )}',
                 loading: convert.union is QuoteLoading,
               ),
               if (convert.connectingToServer) QuoteErrorText(),

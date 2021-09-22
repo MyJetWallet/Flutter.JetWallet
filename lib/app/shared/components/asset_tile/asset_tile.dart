@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
+import '../../helpers/format_asset_price_value.dart';
 import '../../models/currency_model.dart';
 import 'components/asset_tile_column.dart';
 
@@ -101,6 +102,15 @@ class AssetTile extends StatelessWidget {
     );
   }
 
-  String get _baseBalance => '\$${currency.baseBalance}';
-  String get _assetBalance => '${currency.assetBalance} ${currency.symbol}';
+  String get _baseBalance => formatPriceValue(
+        prefix: currency.baseCurrencySymbol,
+        value: currency.baseBalance,
+        accuracy: currency.baseCurrencyAccuracy,
+      );
+
+  String get _assetBalance => formatPriceValue(
+        prefix: currency.symbol,
+        value: currency.assetBalance,
+        accuracy: currency.accuracy,
+      );
 }
