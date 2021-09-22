@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -14,6 +16,7 @@ import '../../../notifiers/user_info_notifier/user_info_state.dart';
 import '../../../providers/other/navigator_key_pod.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
+import '../model/pin_lock_enum.dart';
 import '../view/components/shake_widget/shake_widget.dart';
 import 'pin_screen_state.dart';
 import 'pin_screen_union.dart';
@@ -22,6 +25,7 @@ import 'pin_screen_union.dart';
 const pinLength = 4;
 const pinBoxAnimationDuration = Duration(milliseconds: 800);
 const pinBoxErrorDuration = Duration(milliseconds: 400);
+const defaultEnterPinAttempts = 5;
 
 class PinScreenNotifier extends StateNotifier<PinScreenState> {
   PinScreenNotifier(
@@ -47,6 +51,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   late UserInfoState _userInfo;
   late UserInfoNotifier _userInfoN;
   late BuildContext _context;
+
+  /// Attempts on every stage of the PinLock
+  int _enterPinAttempts = defaultEnterPinAttempts;
+  Timer _timer = Timer(Duration.zero, () {});
 
   Future<void> _initDefaultScreen() async {
     final bioStatus = await biometricStatus();
@@ -141,6 +149,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   Future<void> _enterPinFlow() async {
     if (state.enterPin != _userInfo.pin) {
       await _errorFlow();
+      _enterPinAttempts--;
+      if (_enterPinAttempts <= 0) {
+        _nextPinLock();
+      }
     } else {
       await flowUnion.maybeWhen(
         disable: () async {
@@ -235,6 +247,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     state = state.copyWith(hideBiometricButton: value);
   }
 
+  void _updatePinLock(PinLockEnum value) {
+    state = state.copyWith(pinLock: value);
+  }
+
   void _resetPin() {
     state.screenUnion.when(
       enterPin: () => _updateEnterPin(''),
@@ -284,5 +300,43 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     } else {
       return '';
     }
+  }
+
+  /// Increases lock time
+  void _nextPinLock() {
+    final length = PinLockEnum.values.length;
+    final index = state.pinLock.index;
+
+    if (index < length - 1) {
+      _updatePinLock(PinLockEnum.values[index + 1]);
+      _startLockTimer(state.pinLock.seconds);
+    } else {
+      _startLockTimer(state.pinLock.seconds);
+    }
+  }
+
+  void _startLockTimer(int initial) {
+    _timer.cancel();
+    state = state.copyWith(lockTime: initial);
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (state.lockTime == 0) {
+          _enterPinAttempts = defaultEnterPinAttempts;
+          timer.cancel();
+        } else {
+          state = state.copyWith(
+            lockTime: state.lockTime - 1,
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }

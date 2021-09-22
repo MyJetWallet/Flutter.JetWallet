@@ -85,10 +85,17 @@ class PinScreen extends HookWidget {
                   : const SizedBox(),
             ),
             const Spacer(),
-            NumberKeyboardPin(
-              hideBiometricButton: state.hideBiometricButton,
-              onKeyPressed: (value) => notifier.updatePin(value),
-            ),
+            if (state.lockTime != 0)
+              PinText(
+                text: 'Input is disabled. '
+                    'Try again in ${state.lockTime} seconds',
+              )
+            else ...[
+              NumberKeyboardPin(
+                hideBiometricButton: state.hideBiometricButton,
+                onKeyPressed: (value) => notifier.updatePin(value),
+              ),
+            ]
           ],
         ),
       ),
