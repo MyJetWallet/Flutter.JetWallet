@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../../../service/shared/constants.dart';
 import '../../../../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
 import 'components/transaction_details_item.dart';
@@ -33,6 +34,17 @@ class BuySellDetails extends StatelessWidget {
                   '${transactionListItem.swapInfo!.sellAssetId}',
             ),
           ),
+          const SpaceH10(),
+          TransactionDetailsItem(
+            text: 'Rate',
+            value: TransactionDetailsValueText(
+              text: '${transactionListItem.swapInfo!.baseRate} '
+                  '${transactionListItem.swapInfo!.buyAssetId} = '
+                  '${transactionListItem.swapInfo!.quoteRate
+                  .toStringAsFixed(signsAfterComma)} '
+                  '${transactionListItem.swapInfo!.sellAssetId}',
+            ),
+          ),
         ],
         if (transactionListItem.operationType == OperationType.sell) ...[
           TransactionDetailsItem(
@@ -40,6 +52,17 @@ class BuySellDetails extends StatelessWidget {
             value: TransactionDetailsValueText(
               text: '${'${transactionListItem.swapInfo!.buyAmount}'} '
                   '${transactionListItem.swapInfo!.buyAssetId}',
+            ),
+          ),
+          const SpaceH10(),
+          TransactionDetailsItem(
+            text: 'Rate',
+            value: TransactionDetailsValueText(
+                text:
+                    '${transactionListItem.swapInfo!.baseRate}'
+                        ' ${transactionListItem.swapInfo!.sellAssetId} = '
+                        '${transactionListItem.swapInfo!.quoteRate} '
+                        '${transactionListItem.swapInfo!.buyAssetId}',
             ),
           ),
         ],
