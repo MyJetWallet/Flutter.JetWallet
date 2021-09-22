@@ -19,6 +19,7 @@ import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import '../withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
 
+/// How often we check withdraw request status
 const _retryTime = 5; // in seconds
 
 /// Queries withdrawalInfo every [n] seconds and acts acording to response

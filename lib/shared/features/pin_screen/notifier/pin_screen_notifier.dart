@@ -10,14 +10,13 @@ import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_state.dart';
 import '../../../providers/other/navigator_key_pod.dart';
+import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
 import '../view/components/shake_widget/shake_widget.dart';
 import 'pin_screen_state.dart';
 import 'pin_screen_union.dart';
 
-// TODO move to remoteConfig?
-const pinLength = 4;
 const pinBoxAnimationDuration = Duration(milliseconds: 800);
 const pinBoxErrorDuration = Duration(milliseconds: 400);
 
@@ -222,9 +221,9 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
 
   bool _isPinFilled() {
     return state.screenUnion.when(
-      enterPin: () => state.enterPin.length == pinLength,
-      newPin: () => state.newPin.length == pinLength,
-      confirmPin: () => state.confrimPin.length == pinLength,
+      enterPin: () => state.enterPin.length == localPinLength,
+      newPin: () => state.newPin.length == localPinLength,
+      confirmPin: () => state.confrimPin.length == localPinLength,
     );
   }
 
@@ -234,7 +233,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     } else if (value == backspace) {
       return removeCharsFrom(pin, 1);
     } else {
-      if (pin.length > pinLength - 1) return pin;
+      if (pin.length > localPinLength - 1) return pin;
 
       return pin + value;
     }

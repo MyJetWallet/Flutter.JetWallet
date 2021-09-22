@@ -7,6 +7,7 @@ import '../../../../app/shared/components/number_keyboard/number_keyboard_pin.da
 import '../../../components/page_frame/page_frame.dart';
 import '../../../components/spacers.dart';
 import '../../../helpers/navigator_push.dart';
+import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
 import '../notifier/pin_screen_notifier.dart';
@@ -66,7 +67,7 @@ class PinScreen extends HookWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  for (int id = 1; id <= pinLength; id++)
+                  for (int id = 1; id <= localPinLength; id++)
                     PinBox(
                       state: state.boxState(id),
                     ),
