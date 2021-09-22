@@ -6,5 +6,6 @@ part 'authorized_union.freezed.dart';
 class AuthorizedUnion with _$AuthorizedUnion{
   const factory AuthorizedUnion.initial() = Initial;
   const factory AuthorizedUnion.home() = Home;
+  const factory AuthorizedUnion.pinVerification() = PinVerification;
   const factory AuthorizedUnion.emailVerification() = EmailVerification;
 }

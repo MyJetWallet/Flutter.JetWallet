@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/providers/service_providers.dart';
 import 'authorized_stpod/authorized_stpod.dart';
 import 'authorized_stpod/authorized_union.dart';
@@ -13,13 +14,18 @@ final sessionInfoFpod = FutureProvider<void>((ref) async {
   final service = ref.read(infoServicePod);
   final router = ref.watch(routerStpod);
   final authorized = ref.watch(authorizedStpod.notifier);
+  final userInfo = ref.read(userInfoNotipod);
 
   if (router.state == const Authorized()) {
     try {
       final info = await service.sessionInfo();
 
       if (info.emailVerified) {
-        authorized.state = const Home();
+        if (userInfo.pinEnabled) {
+          authorized.state = const PinVerification();
+        } else {
+          authorized.state = const Home();
+        }
       } else {
         authorized.state = const EmailVerification();
       }

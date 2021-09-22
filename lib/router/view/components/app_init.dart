@@ -7,6 +7,8 @@ import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/welcome/view/welcome.dart';
 import '../../../shared/components/app_frame.dart';
 import '../../../shared/components/loader.dart';
+import '../../../shared/features/pin_screen/model/pin_flow_union.dart';
+import '../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../provider/app_init_fpod.dart';
 import '../../provider/authorized_stpod/authorized_stpod.dart';
 import '../../provider/router_stpod/router_stpod.dart';
@@ -23,9 +25,9 @@ class AppInit extends HookWidget {
   Widget build(BuildContext context) {
     final router = useProvider(routerStpod);
     final appInit = useProvider(appInitFpod);
-    final signalRInit = useProvider(signalRInitFpod);
-    final authorized = useProvider(authorizedStpod);
     final sessionInfo = useProvider(sessionInfoFpod);
+    final authorized = useProvider(authorizedStpod);
+    final signalRInit = useProvider(signalRInitFpod);
 
     return AppFrame(
       child: appInit.when(
@@ -44,6 +46,10 @@ class AppInit extends HookWidget {
                         error: (e, st) => Text('$e'),
                       );
                     },
+                    pinVerification: () => const PinScreen(
+                      union: Verification(),
+                      cannotLeave: true,
+                    ),
                     emailVerification: () => const EmailVerification(),
                     initial: () => const Text('Initial'),
                   );

@@ -3,6 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../app/shared/components/number_keyboard/key_constants.dart';
+import '../../../../router/provider/authorized_stpod/authorized_stpod.dart';
+import '../../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../../helpers/biometrics_auth_helpers.dart';
 import '../../../helpers/remove_chars_from.dart';
 import '../../../logging/levels.dart';
@@ -48,26 +50,33 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
 
   Future<void> _initDefaultScreen() async {
     final bioStatus = await biometricStatus();
-    final hideBioButton = bioStatus == BiometricStatus.none;
+    final hideBio = bioStatus == BiometricStatus.none;
 
     await flowUnion.when(
       change: () async {
-        _updateScreenUnion(const EnterPin());
-        _updateScreenHeader('Change PIN');
-        _updateHideBiometricButton(hideBioButton);
-        await updatePin(await _authenticateWithBio());
+        await _initFlowThatStartsFromEnterPin('Change PIN', hideBio);
       },
       disable: () async {
-        _updateScreenUnion(const EnterPin());
-        _updateScreenHeader('Enter PIN');
-        _updateHideBiometricButton(hideBioButton);
-        await updatePin(await _authenticateWithBio());
+        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
       },
       enable: () {
         _updateScreenUnion(const NewPin());
         _updateScreenHeader('Set PIN');
       },
+      verification: () async {
+        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+      },
     );
+  }
+
+  Future<void> _initFlowThatStartsFromEnterPin(
+    String title,
+    bool hideBio,
+  ) async {
+    _updateScreenUnion(const EnterPin());
+    _updateScreenHeader(title);
+    _updateHideBiometricButton(hideBio);
+    await updatePin(await _authenticateWithBio());
   }
 
   Future<void> updatePin(String value) async {
@@ -100,14 +109,14 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     flowUnion.when(
       change: () {
         state.screenUnion.when(
-          enterPin: () => _enterPinFlow(disableFlow: false),
+          enterPin: () => _enterPinFlow(),
           newPin: () => _newPinFlow(),
           confirmPin: () => _confirmPinFlow(),
         );
       },
       disable: () {
         state.screenUnion.when(
-          enterPin: () => _enterPinFlow(disableFlow: true),
+          enterPin: () => _enterPinFlow(),
           newPin: () {}, // not needed
           confirmPin: () {}, // not needed
         );
@@ -119,22 +128,36 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
           confirmPin: () => _confirmPinFlow(),
         );
       },
+      verification: () {
+        state.screenUnion.when(
+          enterPin: () => _enterPinFlow(),
+          newPin: () {}, // not needed
+          confirmPin: () {}, // not needed
+        );
+      },
     );
   }
 
-  Future<void> _enterPinFlow({required bool disableFlow}) async {
+  Future<void> _enterPinFlow() async {
     if (state.enterPin != _userInfo.pin) {
       await _errorFlow();
     } else {
-      if (disableFlow) {
-        await _successFlow(
-          _userInfoN.resetPin(),
-        );
-      } else {
-        await _animateCorrect();
-        _updateHideBiometricButton(true);
-        _updateScreenUnion(const NewPin());
-      }
+      await flowUnion.maybeWhen(
+        disable: () async {
+          await _successFlow(
+            _userInfoN.resetPin(),
+          );
+        },
+        verification: () async {
+          // We need to update authorizedStpod, so router can redirect to home
+          read(authorizedStpod).state = const Home();
+        },
+        orElse: () async {
+          await _animateCorrect();
+          _updateHideBiometricButton(true);
+          _updateScreenUnion(const NewPin());
+        },
+      );
     }
   }
 
