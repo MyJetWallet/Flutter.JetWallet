@@ -47,60 +47,65 @@ class Login extends HookWidget {
         header: 'Sign in to simple',
         onBackButton: () => Navigator.pop(context),
         resizeToAvoidBottomInset: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceH40(),
-            AppTextField(
-              header: 'Enter your email',
-              hintText: 'Email address',
-              autofocus: true,
-              onChanged: (value) {
-                credentialsN.updateAndValidateEmail(value);
-              },
-            ),
-            const SpaceH40(),
-            AppTextFieldObscure(
-              header: 'Enter password',
-              hintText: 'Enter password',
-              onChanged: (value) {
-                credentialsN.updateAndValidatePassword(value);
-              },
-            ),
-            const SpaceH40(),
-            ForgotPasswordButton(
-              onTap: () => navigatorPush(context, const ForgotPassword()),
-            ),
-            const Spacer(),
-            const PolicyCheckBox(),
-            const SpaceH10(),
-            if (authenitcation is Input) ...[
-              AppButtonSolid(
-                name: 'Sign in',
-                onTap: () {
-                  if (credentialsN.readyToLogin) {
-                    authenitcationN.authenticate(
-                      email: credentials.email,
-                      password: credentials.password,
-                      operation: AuthOperation.login,
-                    );
-                  }
-                },
-                active: credentialsN.readyToLogin,
-              ),
-              const SpaceH10(),
-              AppButtonOutlined(
-                name: 'Create account',
-                onTap: () {
-                  navigatorPushReplacement(context, const Register());
-                  credentialsN.clear();
+        child: AutofillGroup(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SpaceH40(),
+              AppTextField(
+                header: 'Enter your email',
+                hintText: 'Email address',
+                autofocus: true,
+                autofillHints: const [AutofillHints.email],
+                onChanged: (value) {
+                  credentialsN.updateAndValidateEmail(value);
                 },
               ),
-            ] else ...[
-              const Loader(),
+              const SpaceH40(),
+              AppTextFieldObscure(
+                header: 'Enter password',
+                hintText: 'Enter password',
+                autofocus: true,
+                autofillHints: const [AutofillHints.password],
+                onChanged: (value) {
+                  credentialsN.updateAndValidatePassword(value);
+                },
+              ),
+              const SpaceH40(),
+              ForgotPasswordButton(
+                onTap: () => navigatorPush(context, const ForgotPassword()),
+              ),
               const Spacer(),
+              const PolicyCheckBox(),
+              const SpaceH10(),
+              if (authenitcation is Input) ...[
+                AppButtonSolid(
+                  name: 'Sign in',
+                  onTap: () {
+                    if (credentialsN.readyToLogin) {
+                      authenitcationN.authenticate(
+                        email: credentials.email,
+                        password: credentials.password,
+                        operation: AuthOperation.login,
+                      );
+                    }
+                  },
+                  active: credentialsN.readyToLogin,
+                ),
+                const SpaceH10(),
+                AppButtonOutlined(
+                  name: 'Create account',
+                  onTap: () {
+                    navigatorPushReplacement(context, const Register());
+                    credentialsN.clear();
+                  },
+                ),
+              ] else ...[
+                const Loader(),
+                const Spacer(),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
