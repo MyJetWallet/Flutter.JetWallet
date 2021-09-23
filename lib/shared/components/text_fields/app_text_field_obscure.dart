@@ -8,12 +8,14 @@ class AppTextFieldObscure extends HookWidget {
   const AppTextFieldObscure({
     Key? key,
     this.autofillHints,
+    this.autofocus = false,
     required this.header,
     required this.hintText,
     required this.onChanged,
   }) : super(key: key);
 
   final Iterable<String>? autofillHints;
+  final bool autofocus;
   final String header;
   final String hintText;
   final void Function(String) onChanged;
@@ -27,6 +29,7 @@ class AppTextFieldObscure extends HookWidget {
       hintText: hintText,
       obscureText: obscure.value,
       autofillHints: autofillHints,
+      autofocus: autofocus,
       onChanged: onChanged,
       suffixIcon: InkWell(
         splashColor: Colors.transparent,

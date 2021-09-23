@@ -55,6 +55,7 @@ class Login extends HookWidget {
               AppTextField(
                 header: 'Enter your email',
                 hintText: 'Email address',
+                autofocus: true,
                 autofillHints: const [AutofillHints.email],
                 onChanged: (value) {
                   credentialsN.updateAndValidateEmail(value);
@@ -64,6 +65,7 @@ class Login extends HookWidget {
               AppTextFieldObscure(
                 header: 'Enter password',
                 hintText: 'Enter password',
+                autofocus: true,
                 autofillHints: const [AutofillHints.password],
                 onChanged: (value) {
                   credentialsN.updateAndValidatePassword(value);

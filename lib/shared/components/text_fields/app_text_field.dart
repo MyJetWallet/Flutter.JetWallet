@@ -11,6 +11,7 @@ class AppTextField extends HookWidget {
     this.fontSize,
     this.suffixIcon,
     this.keyboardType,
+    this.autofocus = false,
     this.obscureText = false,
     required this.header,
     required this.hintText,
@@ -18,6 +19,7 @@ class AppTextField extends HookWidget {
   }) : super(key: key);
 
   final Iterable<String>? autofillHints;
+  final bool autofocus;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final double? fontSize;
@@ -46,6 +48,7 @@ class AppTextField extends HookWidget {
           cursorColor: Colors.grey,
           keyboardType: keyboardType,
           autofillHints: autofillHints,
+          autofocus: autofocus,
           style: TextStyle(
             fontSize: fontSize ?? 18.sp,
             fontWeight: FontWeight.bold,

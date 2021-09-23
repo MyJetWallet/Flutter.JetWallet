@@ -67,21 +67,25 @@ class WithdrawDetails extends StatelessWidget {
           ),
         ),
         const SpaceH10(),
-        TransactionDetailsItem(
-          text: 'Withdrawal to',
-          value: Row(
-            children: [
-              TransactionDetailsValueText(
-                text: '${transactionListItem.withdrawalInfo!.toAddress}',
-              ),
-              const SpaceW4(),
-              CopyButton(
-                text: transactionListItem.withdrawalInfo!.toAddress ?? '',
-              ),
-            ],
+        if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
+          TransactionDetailsItem(
+            text: 'Withdrawal to',
+            value: Row(
+              children: [
+                TransactionDetailsValueText(
+                  text: shortAddressForm(
+                    transactionListItem.withdrawalInfo!.toAddress ?? '',
+                  ),
+                ),
+                const SpaceW4(),
+                CopyButton(
+                  text: transactionListItem.withdrawalInfo!.toAddress ?? '',
+                ),
+              ],
+            ),
           ),
-        ),
-        const SpaceH10(),
+          const SpaceH10(),
+        ],
         TransactionDetailsStatus(
           status: transactionListItem.status,
         ),
