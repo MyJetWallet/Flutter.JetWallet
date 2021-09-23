@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jetwallet/app/shared/features/market_details/helper/format_news_date.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../../../service/services/news/model/news_response_model.dart';
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../shared/helpers/launch_url.dart';
+import '../../../../helper/format_news_date.dart';
 import 'news_item_text.dart';
 
 class NewsItem extends StatelessWidget {
