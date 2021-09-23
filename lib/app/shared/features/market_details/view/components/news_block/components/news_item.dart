@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jetwallet/app/shared/features/market_details/helper/format_news_date.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../../../service/services/news/model/news_response_model.dart';
@@ -34,9 +35,7 @@ class NewsItem extends StatelessWidget {
                 text: '•',
               ),
               NewsItemText(
-                text: ' ${timeago.format(
-                  DateTime.parse('${item.timestamp}Z').toLocal(),
-                )}',
+                text: formatNewsDate(item.timestamp),
               ),
             ],
           ),
