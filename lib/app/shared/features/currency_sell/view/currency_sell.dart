@@ -88,8 +88,8 @@ class CurrencySell extends HookWidget {
           const Spacer(),
           AssetInputField(
             value: formatPriceValue(
-              prefix: currency.symbol,
               value: num.parse(state.inputValue),
+              symbol: currency.symbol,
               accuracy: currency.accuracy,
             ),
           ),
@@ -101,7 +101,7 @@ class CurrencySell extends HookWidget {
           else ...[
             CenterAssetConversionText(
               text: formatPriceValue(
-                prefix: currency.symbol,
+                symbol: currency.symbol,
                 value: currency.assetBalance,
                 accuracy: currency.accuracy,
               ),

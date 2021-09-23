@@ -18,9 +18,7 @@ class MarketItemModel with _$MarketItemModel {
     required double assetBalance,
     required double baseBalance,
     required String prefixSymbol,
-    required String baseCurrencySymbol,
     required int accuracy,
-    required int baseCurrencyAccuracy,
   }) = _MarketItemModel;
 
   factory MarketItemModel.fromJson(Map<String, dynamic> json) =>

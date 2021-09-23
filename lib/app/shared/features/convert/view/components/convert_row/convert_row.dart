@@ -80,7 +80,7 @@ class ConvertRow extends StatelessWidget {
                   fit: BoxFit.fitWidth,
                   child: Text(
                     'Available: ${formatPriceValue(
-                      prefix: currency.symbol,
+                      symbol: currency.symbol,
                       value: currency.assetBalance,
                       accuracy: currency.accuracy,
                     )}',

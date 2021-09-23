@@ -97,8 +97,8 @@ class CurrencyBuy extends HookWidget {
           const Spacer(),
           AssetInputField(
             value: formatPriceValue(
-              prefix: state.selectedCurrencySymbol,
               value: num.parse(state.inputValue),
+              symbol: state.selectedCurrencySymbol,
               accuracy: state.selectedCurrencyAccuracy,
             ),
           ),

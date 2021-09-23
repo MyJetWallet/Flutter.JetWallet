@@ -41,12 +41,12 @@ class CurrencyBuyState with _$CurrencyBuyState {
 
   String conversionText(CurrencyModel currency) {
     final target = '≈ ${formatPriceValue(
-      prefix: currency.symbol,
       value: num.parse(targetConversionValue),
+      symbol: currency.symbol,
       accuracy: currency.accuracy,
     )} ';
     final base = formatPriceValue(
-      prefix: baseCurrency!.symbol,
+      prefix: baseCurrency!.prefix,
       value: num.parse(baseConversionValue),
       accuracy: baseCurrency!.accuracy,
     );

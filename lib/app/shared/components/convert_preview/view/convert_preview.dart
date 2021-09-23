@@ -56,16 +56,16 @@ class ConvertPreview extends HookWidget {
               ActionPreviewRow(
                 description: 'From',
                 value: formatPriceValue(
-                  prefix: convert.fromAssetSymbol,
                   value: convert.fromAssetAmount,
+                  symbol: convert.fromAssetSymbol,
                 ),
               ),
               const ActionPreviewDivider(),
               ActionPreviewRow(
                 description: 'To',
                 value: formatPriceValue(
-                  prefix: convert.toAssetSymbol,
                   value: convert.toAssetAmount,
+                  symbol: convert.toAssetSymbol,
                 ),
                 loading: convert.union is QuoteLoading,
               ),
@@ -73,9 +73,9 @@ class ConvertPreview extends HookWidget {
               ActionPreviewRow(
                 description: 'Rate',
                 value: '1 ${convert.fromAssetSymbol} = ${formatPriceValue(
-                      prefix: convert.toAssetSymbol,
-                      value: convert.price,
-                    )}',
+                  value: convert.price,
+                  symbol: convert.toAssetSymbol,
+                )}',
                 loading: convert.union is QuoteLoading,
               ),
               if (convert.connectingToServer) QuoteErrorText(),

@@ -41,7 +41,7 @@ class CurrencySellState with _$CurrencySellState {
 
   String conversionText() {
     final base = formatPriceValue(
-      prefix: baseCurrency!.symbol,
+      prefix: baseCurrency!.prefix,
       value: num.parse(baseConversionValue),
       accuracy: baseCurrency!.accuracy,
     );

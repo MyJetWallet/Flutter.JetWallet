@@ -7,6 +7,7 @@ import '../../../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../../../components/asset_icon.dart';
 import '../../../../../../../../helpers/format_asset_price_value.dart';
+import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../helper/market_item_from.dart';
 import '../../../../../../provider/wallet_hidden_stpod.dart';
 
@@ -25,6 +26,7 @@ class WalletCard extends HookWidget {
       assetId,
     );
     final hidden = useProvider(walletHiddenStPod);
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return Expanded(
       child: Container(
@@ -70,9 +72,9 @@ class WalletCard extends HookWidget {
               hidden.state
                   ? 'Hidden'
                   : formatPriceValue(
-                      prefix: marketItem.baseCurrencySymbol,
+                      prefix: baseCurrency.prefix,
                       value: marketItem.baseBalance,
-                      accuracy: marketItem.baseCurrencyAccuracy,
+                      accuracy: baseCurrency.accuracy,
                     ),
               style: TextStyle(
                 fontSize: 30.sp,
@@ -83,7 +85,7 @@ class WalletCard extends HookWidget {
               hidden.state
                   ? ' '
                   : formatPriceValue(
-                prefix: marketItem.id,
+                symbol: marketItem.id,
                 value: marketItem.assetBalance,
                 accuracy: marketItem.accuracy,
               ),

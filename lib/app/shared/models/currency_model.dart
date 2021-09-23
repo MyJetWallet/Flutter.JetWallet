@@ -9,7 +9,6 @@ class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
     required String symbol,
     required String prefixSymbol,
-    required String baseCurrencySymbol,
     required String description,
     required int accuracy,
     required int depositMode,
@@ -29,7 +28,6 @@ class CurrencyModel with _$CurrencyModel {
     required double currentPrice,
     required double dayPriceChange,
     required double dayPercentChange,
-    required int baseCurrencyAccuracy,
   }) = _CurrencyModel;
 
   const CurrencyModel._();

@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../chart/notifier/chart_notipod.dart';
 import '../../../../../chart/notifier/chart_state.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
@@ -24,6 +26,7 @@ class AssetDayChange extends HookWidget {
       assetId,
     );
     final chart = useProvider(chartNotipod);
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return Row(
       children: [
@@ -32,7 +35,11 @@ class AssetDayChange extends HookWidget {
           color: Colors.grey,
         ),
         Text(
-          _dayChange(marketItem, chart),
+          _dayChange(
+            marketItem,
+            chart,
+            baseCurrency,
+          ),
           style: const TextStyle(
             color: Colors.grey,
           ),
@@ -44,17 +51,20 @@ class AssetDayChange extends HookWidget {
   String _dayChange(
     MarketItemModel marketItem,
     ChartState chart,
+    BaseCurrencyModel baseCurrency,
   ) {
     if (chart.selectedCandle != null) {
       return periodChange(
         chart: chart,
         selectedCandle: chart.selectedCandle,
         item: marketItem,
+        baseCurrency: baseCurrency,
       );
     } else {
       return periodChange(
         chart: chart,
         item: marketItem,
+        baseCurrency: baseCurrency,
       );
     }
   }

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
 import '../../helpers/format_asset_price_value.dart';
 import '../../models/currency_model.dart';
+import '../../providers/base_currency_pod/base_currency_model.dart';
+import '../../providers/base_currency_pod/base_currency_pod.dart';
 import 'components/asset_tile_column.dart';
 
-class AssetTile extends StatelessWidget {
+class AssetTile extends HookWidget {
   const AssetTile({
     Key? key,
     this.onTap,
@@ -51,6 +55,8 @@ class AssetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final baseCurrency = useProvider(baseCurrencyPod);
+
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 4.h,
@@ -89,8 +95,12 @@ class AssetTile extends StatelessWidget {
               const Spacer(),
               if (enableBalanceColumn)
                 AssetTileColumn(
-                  header: leadingAssetBalance ? _assetBalance : _baseBalance,
-                  subheader: leadingAssetBalance ? _baseBalance : _assetBalance,
+                  header: leadingAssetBalance
+                      ? _assetBalance(baseCurrency)
+                      : _baseBalance(baseCurrency),
+                  subheader: leadingAssetBalance
+                      ? _baseBalance(baseCurrency)
+                      : _assetBalance(baseCurrency),
                   headerColor: headerColor,
                   subheaderColor: subheaderColor,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -102,15 +112,15 @@ class AssetTile extends StatelessWidget {
     );
   }
 
-  String get _baseBalance => formatPriceValue(
-        prefix: currency.baseCurrencySymbol,
+  String _baseBalance(BaseCurrencyModel baseCurrency) => formatPriceValue(
+        prefix: baseCurrency.prefix,
         value: currency.baseBalance,
-        accuracy: currency.baseCurrencyAccuracy,
+        accuracy: baseCurrency.accuracy,
       );
 
-  String get _assetBalance => formatPriceValue(
-        prefix: currency.symbol,
+  String _assetBalance(BaseCurrencyModel baseCurrency) => formatPriceValue(
         value: currency.assetBalance,
-        accuracy: currency.accuracy,
+        symbol: currency.symbol,
+        accuracy: baseCurrency.accuracy,
       );
 }

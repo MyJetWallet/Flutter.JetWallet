@@ -9,6 +9,7 @@ import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../components/asset_icon.dart';
 import '../../../../../../helpers/format_asset_price_value.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
 import '../../../../../wallet/view/empty_wallet.dart';
 import '../../../../../wallet/view/wallet.dart';
@@ -27,6 +28,7 @@ class BalanceAssetItem extends HookWidget {
       useProvider(marketItemsPod),
       assetId,
     );
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return InkWell(
       onTap: () => _navigateToWallet(context, marketItem),
@@ -64,9 +66,9 @@ class BalanceAssetItem extends HookWidget {
               children: [
                 Text(
                   formatPriceValue(
-                    prefix: marketItem.baseCurrencySymbol,
+                    prefix: baseCurrency.prefix,
                     value: marketItem.baseBalance,
-                    accuracy: marketItem.baseCurrencyAccuracy,
+                    accuracy: baseCurrency.accuracy,
                   ),
                   style: TextStyle(
                     fontSize: 16.sp,
@@ -75,7 +77,7 @@ class BalanceAssetItem extends HookWidget {
                 ),
                 Text(
                   formatPriceValue(
-                    prefix: marketItem.id,
+                    symbol: marketItem.id,
                     value: marketItem.assetBalance,
                     accuracy: marketItem.accuracy,
                   ),

@@ -3,12 +3,14 @@ import 'package:charts/entity/candle_model.dart';
 import '../../../../../service/shared/constants.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../helpers/format_asset_price_value.dart';
+import '../../../providers/base_currency_pod/base_currency_model.dart';
 import '../../chart/notifier/chart_state.dart';
 import 'percent_change.dart';
 
 String periodChange({
   required ChartState chart,
   required MarketItemModel item,
+  required BaseCurrencyModel baseCurrency,
   CandleModel? selectedCandle,
 }) {
   if (chart.candles.isNotEmpty) {
@@ -18,13 +20,13 @@ String periodChange({
     final periodPercentChange = percentChangeBetween(firstPrice, lastPrice);
 
     return '${formatPriceValue(
-      prefix: item.baseCurrencySymbol,
+      prefix: baseCurrency.prefix,
       value: num.parse(
         periodPriceChange.toStringAsFixed(
-          item.baseCurrencyAccuracy,
+          baseCurrency.accuracy,
         ),
       ),
-      accuracy: item.baseCurrencyAccuracy,
+      accuracy: baseCurrency.accuracy,
     )} '
         '(${periodPercentChange.toStringAsFixed(signsAfterComma)}%)';
   } else {
