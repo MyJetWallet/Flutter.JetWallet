@@ -122,10 +122,9 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         );
       },
       disable: () {
-        state.screenUnion.when(
+        state.screenUnion.maybeWhen(
           enterPin: () => _enterPinFlow(),
-          newPin: () {}, // not needed
-          confirmPin: () {}, // not needed
+          orElse: () {},
         );
       },
       enable: () {
@@ -136,10 +135,9 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         );
       },
       verification: () {
-        state.screenUnion.when(
+        state.screenUnion.maybeWhen(
           enterPin: () => _enterPinFlow(),
-          newPin: () {}, // not needed
-          confirmPin: () {}, // not needed
+          orElse: () {},
         );
       },
     );
