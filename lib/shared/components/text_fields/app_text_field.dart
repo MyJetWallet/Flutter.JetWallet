@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppTextField extends HookWidget {
   const AppTextField({
     Key? key,
+    this.autofillHints,
     this.controller,
     this.focusNode,
     this.fontSize,
@@ -16,6 +17,7 @@ class AppTextField extends HookWidget {
     required this.onChanged,
   }) : super(key: key);
 
+  final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final double? fontSize;
@@ -43,6 +45,7 @@ class AppTextField extends HookWidget {
           obscureText: obscureText,
           cursorColor: Colors.grey,
           keyboardType: keyboardType,
+          autofillHints: autofillHints,
           style: TextStyle(
             fontSize: fontSize ?? 18.sp,
             fontWeight: FontWeight.bold,
