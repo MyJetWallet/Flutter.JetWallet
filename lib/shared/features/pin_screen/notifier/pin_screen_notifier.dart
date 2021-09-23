@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../app/shared/components/number_keyboard/key_constants.dart';
+import '../../../../router/provider/authorized_stpod/authorized_stpod.dart';
+import '../../../../router/provider/authorized_stpod/authorized_union.dart';
 import '../../../helpers/biometrics_auth_helpers.dart';
 import '../../../helpers/remove_chars_from.dart';
 import '../../../logging/levels.dart';
@@ -13,12 +17,14 @@ import '../../../providers/other/navigator_key_pod.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
+import '../model/pin_lock_enum.dart';
 import '../view/components/shake_widget/shake_widget.dart';
 import 'pin_screen_state.dart';
 import 'pin_screen_union.dart';
 
 const pinBoxAnimationDuration = Duration(milliseconds: 800);
 const pinBoxErrorDuration = Duration(milliseconds: 400);
+const defaultEnterPinAttempts = 5;
 
 class PinScreenNotifier extends StateNotifier<PinScreenState> {
   PinScreenNotifier(
@@ -45,28 +51,39 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   late UserInfoNotifier _userInfoN;
   late BuildContext _context;
 
+  /// Attempts on every stage of the PinLock
+  int _enterPinAttempts = defaultEnterPinAttempts;
+  Timer _timer = Timer(Duration.zero, () {});
+
   Future<void> _initDefaultScreen() async {
     final bioStatus = await biometricStatus();
-    final hideBioButton = bioStatus == BiometricStatus.none;
+    final hideBio = bioStatus == BiometricStatus.none;
 
     await flowUnion.when(
       change: () async {
-        _updateScreenUnion(const EnterPin());
-        _updateScreenHeader('Change PIN');
-        _updateHideBiometricButton(hideBioButton);
-        await updatePin(await _authenticateWithBio());
+        await _initFlowThatStartsFromEnterPin('Change PIN', hideBio);
       },
       disable: () async {
-        _updateScreenUnion(const EnterPin());
-        _updateScreenHeader('Enter PIN');
-        _updateHideBiometricButton(hideBioButton);
-        await updatePin(await _authenticateWithBio());
+        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
       },
       enable: () {
         _updateScreenUnion(const NewPin());
         _updateScreenHeader('Set PIN');
       },
+      verification: () async {
+        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+      },
     );
+  }
+
+  Future<void> _initFlowThatStartsFromEnterPin(
+    String title,
+    bool hideBio,
+  ) async {
+    _updateScreenUnion(const EnterPin());
+    _updateScreenHeader(title);
+    _updateHideBiometricButton(hideBio);
+    await updatePin(await _authenticateWithBio());
   }
 
   Future<void> updatePin(String value) async {
@@ -99,16 +116,15 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     flowUnion.when(
       change: () {
         state.screenUnion.when(
-          enterPin: () => _enterPinFlow(disableFlow: false),
+          enterPin: () => _enterPinFlow(),
           newPin: () => _newPinFlow(),
           confirmPin: () => _confirmPinFlow(),
         );
       },
       disable: () {
-        state.screenUnion.when(
-          enterPin: () => _enterPinFlow(disableFlow: true),
-          newPin: () {}, // not needed
-          confirmPin: () {}, // not needed
+        state.screenUnion.maybeWhen(
+          enterPin: () => _enterPinFlow(),
+          orElse: () {},
         );
       },
       enable: () {
@@ -118,22 +134,39 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
           confirmPin: () => _confirmPinFlow(),
         );
       },
+      verification: () {
+        state.screenUnion.maybeWhen(
+          enterPin: () => _enterPinFlow(),
+          orElse: () {},
+        );
+      },
     );
   }
 
-  Future<void> _enterPinFlow({required bool disableFlow}) async {
+  Future<void> _enterPinFlow() async {
     if (state.enterPin != _userInfo.pin) {
       await _errorFlow();
-    } else {
-      if (disableFlow) {
-        await _successFlow(
-          _userInfoN.resetPin(),
-        );
-      } else {
-        await _animateCorrect();
-        _updateHideBiometricButton(true);
-        _updateScreenUnion(const NewPin());
+      _enterPinAttempts--;
+      if (_enterPinAttempts <= 0) {
+        _nextPinLock();
       }
+    } else {
+      await flowUnion.maybeWhen(
+        disable: () async {
+          await _successFlow(
+            _userInfoN.resetPin(),
+          );
+        },
+        verification: () async {
+          // We need to update authorizedStpod, so router can redirect to home
+          read(authorizedStpod).state = const Home();
+        },
+        orElse: () async {
+          await _animateCorrect();
+          _updateHideBiometricButton(true);
+          _updateScreenUnion(const NewPin());
+        },
+      );
     }
   }
 
@@ -211,6 +244,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     state = state.copyWith(hideBiometricButton: value);
   }
 
+  void _updatePinLock(PinLockEnum value) {
+    state = state.copyWith(pinLock: value);
+  }
+
   void _resetPin() {
     state.screenUnion.when(
       enterPin: () => _updateEnterPin(''),
@@ -260,5 +297,43 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     } else {
       return '';
     }
+  }
+
+  /// Increases lock time
+  void _nextPinLock() {
+    final length = PinLockEnum.values.length;
+    final index = state.pinLock.index;
+
+    if (index < length - 1) {
+      _updatePinLock(PinLockEnum.values[index + 1]);
+      _startLockTimer(state.pinLock.seconds);
+    } else {
+      _startLockTimer(state.pinLock.seconds);
+    }
+  }
+
+  void _startLockTimer(int initial) {
+    _timer.cancel();
+    state = state.copyWith(lockTime: initial);
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (state.lockTime == 0) {
+          _enterPinAttempts = defaultEnterPinAttempts;
+          timer.cancel();
+        } else {
+          state = state.copyWith(
+            lockTime: state.lockTime - 1,
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }
