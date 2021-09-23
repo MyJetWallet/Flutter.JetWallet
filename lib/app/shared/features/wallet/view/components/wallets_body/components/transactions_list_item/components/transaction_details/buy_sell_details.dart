@@ -38,11 +38,10 @@ class BuySellDetails extends StatelessWidget {
           TransactionDetailsItem(
             text: 'Rate',
             value: TransactionDetailsValueText(
-              text: '${transactionListItem.swapInfo!.baseRate} '
-                  '${transactionListItem.swapInfo!.buyAssetId} = '
-                  '${transactionListItem.swapInfo!.quoteRate
-                  .toStringAsFixed(signsAfterComma)} '
-                  '${transactionListItem.swapInfo!.sellAssetId}',
+              text: _rateFor(
+                transactionListItem.swapInfo!.buyAssetId,
+                transactionListItem.swapInfo!.sellAssetId,
+              ),
             ),
           ),
         ],
@@ -58,15 +57,24 @@ class BuySellDetails extends StatelessWidget {
           TransactionDetailsItem(
             text: 'Rate',
             value: TransactionDetailsValueText(
-                text:
-                    '${transactionListItem.swapInfo!.baseRate}'
-                        ' ${transactionListItem.swapInfo!.sellAssetId} = '
-                        '${transactionListItem.swapInfo!.quoteRate} '
-                        '${transactionListItem.swapInfo!.buyAssetId}',
+              text: _rateFor(
+                transactionListItem.swapInfo!.sellAssetId,
+                transactionListItem.swapInfo!.buyAssetId,
+              ),
             ),
           ),
         ],
       ],
     );
   }
+
+  String _rateFor(
+    String firstAssetId,
+    String secondAssetId,
+  ) =>
+      '${transactionListItem.swapInfo!.baseRate} '
+      '$firstAssetId = '
+      '${transactionListItem.swapInfo!.quoteRate
+          .toStringAsFixed(signsAfterComma)} '
+      '$secondAssetId';
 }
