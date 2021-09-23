@@ -29,6 +29,7 @@ class Register extends HookWidget {
           AppTextField(
             header: 'Enter your email',
             hintText: 'Email address',
+            autofocus: true,
             onChanged: (value) => credentialsN.updateAndValidateEmail(value),
           ),
           const Spacer(),

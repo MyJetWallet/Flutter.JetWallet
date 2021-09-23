@@ -7,11 +7,13 @@ import 'app_text_field.dart';
 class AppTextFieldObscure extends HookWidget {
   const AppTextFieldObscure({
     Key? key,
+    this.autofocus = false,
     required this.header,
     required this.hintText,
     required this.onChanged,
   }) : super(key: key);
 
+  final bool autofocus;
   final String header;
   final String hintText;
   final void Function(String) onChanged;
@@ -24,6 +26,7 @@ class AppTextFieldObscure extends HookWidget {
       header: header,
       hintText: hintText,
       obscureText: obscure.value,
+      autofocus: autofocus,
       onChanged: onChanged,
       suffixIcon: InkWell(
         splashColor: Colors.transparent,
