@@ -71,10 +71,11 @@ class BuySellDetails extends StatelessWidget {
   String _rateFor(
     String firstAssetId,
     String secondAssetId,
-  ) =>
-      '${transactionListItem.swapInfo!.baseRate} '
-      '$firstAssetId = '
-      '${transactionListItem.swapInfo!.quoteRate
-          .toStringAsFixed(signsAfterComma)} '
-      '$secondAssetId';
+  ) {
+    return '${transactionListItem.swapInfo!.baseRate} '
+        '$firstAssetId = '
+        '${transactionListItem.swapInfo!.quoteRate
+        .toStringAsFixed(signsAfterComma)} '
+        '$secondAssetId';
+  }
 }
