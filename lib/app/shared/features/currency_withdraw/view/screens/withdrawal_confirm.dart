@@ -12,6 +12,7 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
+import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
 import '../../notifier/withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
@@ -27,8 +28,10 @@ class WithdrawalConfirm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final timer = useProvider(timerNotipod(5));
-    final timerN = useProvider(timerNotipod(5).notifier);
+    final timer = useProvider(timerNotipod(withdrawalConfirmResendCountdown));
+    final timerN = useProvider(
+      timerNotipod(withdrawalConfirmResendCountdown).notifier,
+    );
     final authInfo = useProvider(authInfoNotipod);
     final confirmN = useProvider(withdrawalConfirmNotipod(withdrawal).notifier);
     final navigatorKey = useProvider(navigatorKeyPod);

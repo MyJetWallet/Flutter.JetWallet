@@ -11,6 +11,7 @@ import '../../../helpers/navigator_push.dart';
 import '../../../helpers/show_plain_snackbar.dart';
 import '../../../notifiers/logout_notifier/logout_notipod.dart';
 import '../../../notifiers/logout_notifier/logout_union.dart';
+import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
 import '../notifier/pin_screen_notifier.dart';
@@ -99,7 +100,7 @@ class PinScreen extends HookWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        for (int id = 1; id <= pinLength; id++)
+                        for (int id = 1; id <= localPinLength; id++)
                           PinBox(
                             state: pin.boxState(id),
                           ),

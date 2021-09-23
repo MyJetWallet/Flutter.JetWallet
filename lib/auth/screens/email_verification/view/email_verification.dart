@@ -11,6 +11,7 @@ import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_union.dart' as lu;
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
@@ -27,8 +28,8 @@ class EmailVerification extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
-    final timer = useProvider(timerNotipod(5));
-    final timerN = useProvider(timerNotipod(5).notifier);
+    final timer = useProvider(timerNotipod(emailResendCountdown));
+    final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final verification = useProvider(emailVerificationNotipod);
