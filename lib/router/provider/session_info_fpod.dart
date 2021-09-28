@@ -15,10 +15,15 @@ final sessionInfoFpod = FutureProvider<void>((ref) async {
   final router = ref.watch(routerStpod);
   final authorized = ref.watch(authorizedStpod.notifier);
   final userInfo = ref.read(userInfoNotipod);
+  final userInfoN = ref.watch(userInfoNotipod.notifier);
 
   if (router.state == const Authorized()) {
     try {
       final info = await service.sessionInfo();
+
+      userInfoN.updateTwoFaStatus(
+        enabled: info.twoFaEnabled,
+      );
 
       if (info.emailVerified) {
         if (userInfo.pinEnabled) {

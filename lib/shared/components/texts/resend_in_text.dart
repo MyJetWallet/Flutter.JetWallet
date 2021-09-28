@@ -3,10 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../shared/providers/service_providers.dart';
+import '../../providers/service_providers.dart';
 
-class EmailResendInText extends HookWidget {
-  const EmailResendInText({
+class ResendInText extends HookWidget {
+  const ResendInText({
     Key? key,
     required this.seconds,
   }) : super(key: key);

@@ -6,14 +6,13 @@ part 'session_info_response_model.g.dart';
 @freezed
 class SessionInfoResponseModel with _$SessionInfoResponseModel {
   const factory SessionInfoResponseModel({
-    required bool emailVerified,
-
-    /// If phone is not verified 2FA requests will fail
-    required bool phoneVerified,
-
-    /// Shows wether user required to complete 2FA or not
-    required bool twoFactorAuthentication,
     String? tokenLifetimeRemaining,
+    required bool emailVerified,
+    // If phone is not verified 2FA requests will fail
+    required bool phoneVerified,
+    // Shows wether user required to complete 2FA or not
+    @JsonKey(name: 'twoFactorAuthentication') required bool twoFaRequired,
+    @JsonKey(name: 'twoFactorAuthenticationEnabled') required bool twoFaEnabled,
   }) = _SessionInfoResponseModel;
 
   factory SessionInfoResponseModel.fromJson(Map<String, dynamic> json) =>

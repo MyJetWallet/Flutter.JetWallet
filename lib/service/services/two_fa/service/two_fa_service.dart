@@ -9,7 +9,7 @@ import '../model/two_fa_verify/two_fa_verify_request.dart';
 import 'services/two_fa_change_service.dart';
 import 'services/two_fa_disable_service.dart';
 import 'services/two_fa_enable_service.dart';
-import 'services/two_fa_verfication_service.dart';
+import 'services/two_fa_request_service.dart';
 import 'services/two_fa_verify_service.dart';
 
 class TwoFaService {
@@ -31,8 +31,8 @@ class TwoFaService {
     return twoFaEnableService(dio, model);
   }
 
-  Future<void> verification(TwoFaVerificationRequest model) {
-    return twoFaVerificationService(dio, model);
+  Future<void> request(TwoFaVerificationRequest model) {
+    return twoFaRequestService(dio, model);
   }
 
   Future<void> verify(TwoFaVerifyRequest model) {

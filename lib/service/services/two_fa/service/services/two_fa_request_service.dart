@@ -6,12 +6,12 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/two_fa_verification/two_fa_verification_request.dart';
 import '../two_fa_service.dart';
 
-Future<void> twoFaVerificationService(
+Future<void> twoFaRequestService(
   Dio dio,
   TwoFaVerificationRequest model,
 ) async {
   final logger = TwoFaService.logger;
-  const message = 'twoFaVerificationService';
+  const message = 'twoFaRequestService';
 
   try {
     final response = await dio.post(

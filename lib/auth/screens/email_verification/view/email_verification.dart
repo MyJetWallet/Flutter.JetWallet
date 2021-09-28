@@ -5,7 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/page_frame/page_frame.dart';
+import '../../../../shared/components/pin_code_field.dart';
 import '../../../../shared/components/spacers.dart';
+import '../../../../shared/components/texts/resend_in_text.dart';
+import '../../../../shared/components/texts/resend_rich_text.dart';
+import '../../../../shared/components/texts/verification_description_text.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_union.dart' as lu;
@@ -16,10 +20,6 @@ import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
 import '../notifier/email_verification_union.dart';
-import 'components/email_resend_in_text.dart';
-import 'components/email_resend_rich_text.dart';
-import 'components/email_verification_description.dart';
-import 'components/email_verification_pin_code.dart';
 import 'components/open_email_app_button.dart';
 
 class EmailVerification extends HookWidget {
@@ -69,19 +69,23 @@ class EmailVerification extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SpaceH15(),
-                  const EmailVerificationDescription(),
+                  VerificationDescriptionText(
+                    text: '${intl.enterTheCodeWeHaveSentYouToYourEmail} ',
+                    boldText: authInfo.email,
+                  ),
                   const SpaceH10(),
                   const OpenEmailAppButton(),
                   const SpaceH120(),
-                  EmailVerificationPinCode(
+                  PinCodeField(
                     controller: verification.controller,
+                    length: emailVerificationCodeLength,
                     onCompleted: (_) => verificationN.verifyCode(),
                   ),
                   const SpaceH10(),
                   if (timer != 0 && !showResend.value)
-                    EmailResendInText(seconds: timer)
+                    ResendInText(seconds: timer)
                   else ...[
-                    EmailResendRichText(
+                    ResendRichText(
                       onTap: () async {
                         await verificationN.sendCode();
 
