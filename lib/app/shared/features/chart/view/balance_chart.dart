@@ -3,32 +3,31 @@ import 'package:charts/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/chart/provider/balance_chart_init_fpod.dart';
 
-import '../../notifier/chart_notipod.dart';
-import '../../provider/chart_init_fpod.dart';
-import 'loading_chart_view.dart';
+import '../notifier/chart_notipod.dart';
+import 'components/loading_chart_view.dart';
 
-class ChartView extends HookWidget {
-  const ChartView(
-    this.instrumentId,
-    this.onCandleSelected,
-  );
+class BalanceChart extends HookWidget {
+  const BalanceChart({
+    Key? key,
+    required this.onCandleSelected,
+  }) : super(key: key);
 
-  final String instrumentId;
   final void Function(ChartInfo?) onCandleSelected;
 
   @override
   Widget build(BuildContext context) {
-    final initCharts = useProvider(chartInitFpod(instrumentId));
+    final initChart = useProvider(balanceChartInitFpod);
     final chartNotifier = useProvider(chartNotipod.notifier);
     final chartState = useProvider(chartNotipod);
 
-    return initCharts.when(
-      data: (data) {
+    return initChart.when(
+      data: (_) {
         return chartState.union.when(
           candles: () => Chart(
             onResolutionChanged: (resolution) {
-              chartNotifier.fetchCandles(resolution, instrumentId);
+              chartNotifier.fetchBalanceCandles(resolution);
             },
             onChartTypeChanged: (type) {
               chartNotifier.updateChartType(type);

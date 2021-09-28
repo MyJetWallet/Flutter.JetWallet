@@ -9,6 +9,7 @@ class SessionInfoResponseModel with _$SessionInfoResponseModel {
     required bool emailVerified,
     required bool phoneVerified,
     required bool twoFactorAuthentication,
+    required bool twoFactorAuthenticationEnabled,
     String? tokenLifetimeRemaining,
   }) = _SessionInfoResponseModel;
 

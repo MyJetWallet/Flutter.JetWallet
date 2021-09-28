@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:jetwallet/service/services/chart/model/wallet_history_request_model.dart';
+import 'package:jetwallet/service/services/chart/model/wallet_history_response_model.dart';
+import 'package:jetwallet/service/services/chart/service/services/wallet_history_service.dart';
 import 'package:logging/logging.dart';
 
 import '../model/candles_request_model.dart';
 import '../model/candles_response_model.dart';
-import '../model/last_candles_request_model.dart';
 import 'services/candles_service.dart';
-import 'services/last_candles_service.dart';
 
 class ChartService {
   ChartService(this.dio);
@@ -18,7 +19,9 @@ class ChartService {
     return candlesService(dio, model);
   }
 
-  Future<CandlesResponseModel> lastCandles(LastCandlesRequestModel model) {
-    return lastCandlesService(dio, model);
+  Future<WalletHistoryResponseModel> walletHistory(
+    WalletHistoryRequestModel model,
+  ) {
+    return walletHistoryService(dio, model);
   }
 }

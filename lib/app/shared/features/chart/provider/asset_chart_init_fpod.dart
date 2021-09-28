@@ -8,7 +8,7 @@ import '../helper/format_merge_candles_count.dart';
 import '../helper/format_resolution.dart';
 import '../notifier/chart_notipod.dart';
 
-final chartInitFpod = FutureProvider.family.autoDispose<void, String>(
+final assetChartInitFpod = FutureProvider.family.autoDispose<void, String>(
   (ref, instrumentId) async {
     final notifier = ref.watch(chartNotipod.notifier);
     final chartService = ref.watch(chartServicePod);

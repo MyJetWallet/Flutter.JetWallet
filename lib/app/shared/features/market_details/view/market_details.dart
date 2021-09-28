@@ -8,7 +8,7 @@ import '../../../../../shared/components/loader.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../chart/notifier/chart_notipod.dart';
-import '../../chart/view/components/chart_view.dart';
+import '../../chart/view/asset_chart.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
 import 'components/balance_block/balance_block.dart';
@@ -49,7 +49,7 @@ class MarketDetails extends HookWidget {
               children: [
                 SizedBox(
                   height: 0.35.sh,
-                  child: ChartView(
+                  child: AssetChart(
                     marketItem.associateAssetPair,
                     (ChartInfo? chartInfo) {
                       chartN.updateSelectedCandle(chartInfo?.right);
