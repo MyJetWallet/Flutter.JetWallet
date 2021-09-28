@@ -50,17 +50,6 @@ class TwoFaPhone extends HookWidget {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
 
-    Function()? onBackButton;
-
-    trigger.when(
-      login: () {
-        onBackButton = () => logoutN.logout();
-      },
-      security: () {
-        onBackButton = () => Navigator.pop(context);
-      },
-    );
-
     return ProviderListener<lu.LogoutUnion>(
       provider: logoutNotipod,
       onChange: (context, union) {
@@ -87,10 +76,14 @@ class TwoFaPhone extends HookWidget {
           result: (_, __) {
             return PageFrame(
               header: 'Phone Confirmation',
-              onBackButton: onBackButton,
+              onBackButton: () => trigger.when(
+                login: () => logoutN.logout(),
+                security: () => Navigator.pop(context),
+              ),
               child: Column(
                 children: [
                   const SpaceH10(),
+                  // TODO add reactivness
                   const VerificationDescriptionText(
                     text: 'Enter the SMS code we have sent to your phone ',
                     boldText: '+380503858085',
