@@ -1,5 +1,5 @@
 import 'package:charts/entity/resolution_string_enum.dart';
-import 'package:jetwallet/service/services/chart/model/wallet_history_request_model.dart';
+import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
 
 TimeLength timeLengthFrom(String resolution) {
   if (resolution == Period.hour) {

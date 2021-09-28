@@ -3,16 +3,16 @@ import 'package:charts/entity/candle_type_enum.dart';
 import 'package:charts/entity/resolution_string_enum.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/chart/helper/prepare_candles_from.dart';
-import 'package:jetwallet/app/shared/features/chart/helper/time_length_from.dart';
-import 'package:jetwallet/service/services/chart/model/wallet_history_request_model.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../service/services/chart/model/candles_request_model.dart';
+import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
 import '../../../../../service/services/chart/service/chart_service.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../helper/format_merge_candles_count.dart';
 import '../helper/format_resolution.dart';
+import '../helper/prepare_candles_from.dart';
+import '../helper/time_length_from.dart';
 import 'chart_state.dart';
 import 'chart_union.dart';
 

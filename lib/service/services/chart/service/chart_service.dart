@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:jetwallet/service/services/chart/model/wallet_history_request_model.dart';
-import 'package:jetwallet/service/services/chart/model/wallet_history_response_model.dart';
-import 'package:jetwallet/service/services/chart/service/services/wallet_history_service.dart';
 import 'package:logging/logging.dart';
 
 import '../model/candles_request_model.dart';
 import '../model/candles_response_model.dart';
+import '../model/wallet_history_request_model.dart';
+import '../model/wallet_history_response_model.dart';
 import 'services/candles_service.dart';
+import 'services/wallet_history_service.dart';
 
 class ChartService {
   ChartService(this.dio);
