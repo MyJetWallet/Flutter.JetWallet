@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../service/services/sms_verification/model/sms_verification/sms_verification_request.dart';
-import '../../../../../service/services/sms_verification/model/sms_verification_verify/sms_verification_verify_request.dart';
-import '../../../../../service/services/two_fa/model/two_fa_disable/two_fa_disable_request.dart';
-import '../../../../../service/services/two_fa/model/two_fa_enable/two_fa_enable_request.dart';
-import '../../../../../service/services/two_fa/model/two_fa_verification/two_fa_verification_request.dart';
-import '../../../../../service/services/two_fa/model/two_fa_verify/two_fa_verify_request.dart';
+import '../../../../../service/services/sms_verification/model/sms_verification/sms_verification_request_model.dart';
+import '../../../../../service/services/sms_verification/model/sms_verification_verify/sms_verification_verify_request_model.dart';
+import '../../../../../service/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';
+import '../../../../../service/services/two_fa/model/two_fa_enable/two_fa_enable_request_model.dart';
+import '../../../../../service/services/two_fa/model/two_fa_verification/two_fa_verification_request_model.dart';
+import '../../../../../service/services/two_fa/model/two_fa_verify/two_fa_verify_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../helpers/device_type.dart';
 import '../../../../logging/levels.dart';
@@ -101,7 +101,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: 'sendTwoFaVerificationCode',
       body: () async {
-        final model = TwoFaVerificationRequest(
+        final model = TwoFaVerificationRequestModel(
           language: read(intlPod).localeName,
           deviceType: deviceType,
         );
@@ -120,7 +120,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: 'verifyTwoFa',
       body: () async {
-        final model = TwoFaVerifyRequest(
+        final model = TwoFaVerifyRequestModel(
           code: state.controller.text,
         );
 
@@ -140,7 +140,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: '_verifyAndEnableTwoFa',
       body: () async {
-        final model = TwoFaEnableRequest(
+        final model = TwoFaEnableRequestModel(
           code: state.controller.text,
         );
 
@@ -160,7 +160,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: 'verifyAndDisableTwoFa',
       body: () async {
-        final model = TwoFaDisableRequest(
+        final model = TwoFaDisableRequestModel(
           code: state.controller.text,
         );
 
@@ -181,7 +181,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: 'sendSmsAuthVerificationCode',
       body: () async {
-        final model = SmsVerificationRequest(
+        final model = SmsVerificationRequestModel(
           language: read(intlPod).localeName,
           deviceType: deviceType,
         );
@@ -203,7 +203,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: 'verifyAndEnableSmsAuth',
       body: () async {
-        final model = SmsVerificationVerifyRequest(
+        final model = SmsVerificationVerifyRequestModel(
           code: state.controller.text,
         );
 

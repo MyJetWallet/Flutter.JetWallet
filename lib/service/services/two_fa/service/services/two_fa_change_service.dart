@@ -3,12 +3,12 @@ import 'package:dio/dio.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
-import '../../model/two_fa_change/two_fa_change_request.dart';
+import '../../model/two_fa_change/two_fa_change_request_model.dart';
 import '../two_fa_service.dart';
 
 Future<void> twoFaChangeService(
   Dio dio,
-  TwoFaChangeRequest model,
+  TwoFaChangeRequestModel model,
 ) async {
   final logger = TwoFaService.logger;
   const message = 'twoFaChangeService';
