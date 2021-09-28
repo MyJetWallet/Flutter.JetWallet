@@ -10,10 +10,10 @@ import 'components/wallets_body/wallets_body.dart';
 class Wallet extends HookWidget {
   const Wallet({
     Key? key,
-    required this.marketItem,
+    required this.assetId,
   }) : super(key: key);
 
-  final MarketItemModel marketItem;
+  final String assetId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Wallet extends HookWidget {
       appBar: const WalletAppBar(),
       bottomNavigationBar: const ActionButton(),
       child: Wallets(
-        assetId: marketItem.associateAsset,
+        assetId: assetId,
       ),
     );
   }

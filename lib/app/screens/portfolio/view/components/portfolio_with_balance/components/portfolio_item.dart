@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/market_details/helper/currency_from.dart';
+import 'package:jetwallet/app/shared/models/currency_model.dart';
+import 'package:jetwallet/app/shared/providers/currencies_pod/currencies_pod.dart';
 
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../shared/helpers/navigator_push.dart';
@@ -24,14 +27,14 @@ class PortfolioItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final marketItem = marketItemFrom(
-      useProvider(marketItemsPod),
+    final currency = currencyFrom(
+      useProvider(currenciesPod),
       assetId,
     );
     final hidden = useProvider(walletHiddenStPod);
 
     return InkWell(
-      onTap: () => _navigateToWallet(context, marketItem),
+      onTap: () => _navigateToWallet(context, currency),
       child: Container(
         height: 64.h,
         padding: EdgeInsets.symmetric(
@@ -49,7 +52,7 @@ class PortfolioItem extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AssetIcon(
-              imageUrl: marketItem.iconUrl,
+              imageUrl: currency.iconUrl,
               width: 20.r,
               height: 20.r,
             ),
@@ -58,7 +61,7 @@ class PortfolioItem extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  marketItem.name,
+                  currency.description,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
@@ -66,7 +69,7 @@ class PortfolioItem extends HookWidget {
                   ),
                 ),
                 Text(
-                  '\$${marketItem.lastPrice} / ${marketItem.dayPercentChange}%',
+                  '\$${currency.currentPrice} / ${currency.dayPercentChange}%',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.grey.shade500,
@@ -79,15 +82,13 @@ class PortfolioItem extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  hidden.state ? '???' : '\$${marketItem.baseBalance}',
+                  hidden.state ? '???' : '\$${currency.baseBalance}',
                   style: TextStyle(
                     fontSize: 16.sp,
                   ),
                 ),
                 Text(
-                  hidden.state
-                      ? '???'
-                      : '${marketItem.assetBalance} ${marketItem.id}',
+                  _assetBalance(currency, hidden.state),
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.grey.shade500,
@@ -101,19 +102,27 @@ class PortfolioItem extends HookWidget {
     );
   }
 
-  void _navigateToWallet(BuildContext context, MarketItemModel item) {
-    if (item.isBalanceEmpty) {
+  String _assetBalance(CurrencyModel currency, bool hidden) {
+    return currency.assetBalance == 0.0
+        ? ''
+        : hidden
+            ? '???'
+            : '${currency.assetBalance} ${currency.symbol}';
+  }
+
+  void _navigateToWallet(BuildContext context, CurrencyModel currency) {
+    if (currency.isAssetBalanceEmpty) {
       navigatorPush(
         context,
         EmptyWallet(
-          assetName: item.name,
+          assetName: currency.description,
         ),
       );
     } else {
       navigatorPush(
         context,
         Wallet(
-          marketItem: item,
+          assetId: currency.assetId,
         ),
       );
     }

@@ -2,7 +2,13 @@ import 'package:charts/entity/chart_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/portfolio/helpers/currencies_with_balance_from.dart';
+import 'package:jetwallet/app/screens/portfolio/helpers/currencies_without_balance_from.dart';
+import 'package:jetwallet/app/screens/portfolio/provider/show_zero_balance_wallets_stpod.dart';
+import 'package:jetwallet/app/shared/models/currency_model.dart';
+import 'package:jetwallet/app/shared/providers/currencies_pod/currencies_pod.dart';
 
 import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/spacers.dart';
@@ -22,12 +28,13 @@ class PortfolioWithBalanceBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = assetsWithBalanceFrom(useProvider(marketItemsPod));
+    final currencies = useProvider(currenciesPod);
+    final itemsWithBalance = currenciesWithBalanceFrom(currencies);
+    final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);
     final chartN = useProvider(chartNotipod.notifier);
     final chart = useProvider(chartNotipod);
     final hidden = useProvider(walletHiddenStPod);
-
-    items.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
+    final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStPod);
 
     return SingleChildScrollView(
       child: Padding(
@@ -35,7 +42,7 @@ class PortfolioWithBalanceBody extends HookWidget {
         child: Column(
           children: [
             Text(
-              hidden.state ? 'HIDDEN' : _price(chart, items),
+              hidden.state ? 'HIDDEN' : _price(chart, itemsWithBalance),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 48.sp,
@@ -66,8 +73,37 @@ class PortfolioWithBalanceBody extends HookWidget {
               ),
             ),
             const SpaceH15(),
-            for (final item in items)
-              PortfolioItem(assetId: item.associateAsset)
+            for (final item in itemsWithBalance)
+              PortfolioItem(assetId: item.symbol),
+            if (showZeroBalanceWallets.state)
+              for (final item in itemsWithoutBalance)
+                PortfolioItem(assetId: item.symbol),
+            InkWell(
+              onTap: () =>
+                  showZeroBalanceWallets.state = !showZeroBalanceWallets.state,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    showZeroBalanceWallets.state
+                        ? 'Hide zero wallets'
+                        : 'Show all wallets',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.grey.shade500,
+                    ),
+                  ),
+                  const SpaceW4(),
+                  Icon(
+                    showZeroBalanceWallets.state
+                        ? FontAwesomeIcons.chevronUp
+                        : FontAwesomeIcons.chevronDown,
+                    size: 12.r,
+                    color: Colors.grey.shade500,
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -76,7 +112,7 @@ class PortfolioWithBalanceBody extends HookWidget {
 
   String _price(
     ChartState chart,
-    List<MarketItemModel> items,
+    List<CurrencyModel> items,
   ) {
     var totalBalance = 0.0;
     for (final item in items) {

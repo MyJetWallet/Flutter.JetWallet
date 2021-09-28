@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/portfolio/helpers/currencies_with_balance_from.dart';
+import 'package:jetwallet/app/shared/providers/currencies_pod/currencies_pod.dart';
 
 import '../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../shared/components/page_frame/components/frame_action_button.dart';
@@ -15,7 +17,8 @@ class WalletAppBar extends HookWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemsWithBalance = assetsWithBalanceFrom(useProvider(marketItemsPod));
+    final itemsWithBalance =
+        currenciesWithBalanceFrom(useProvider(currenciesPod));
 
     return Padding(
       padding: EdgeInsets.symmetric(
