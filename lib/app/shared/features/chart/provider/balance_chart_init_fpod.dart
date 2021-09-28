@@ -1,13 +1,8 @@
-import 'package:charts/entity/resolution_string_enum.dart';
-import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/chart/helper/prepare_candles_from.dart';
-import 'package:jetwallet/service/services/chart/model/wallet_history_request_model.dart';
 
-import '../../../../../service/services/chart/model/candles_request_model.dart';
+import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../helper/format_merge_candles_count.dart';
-import '../helper/format_resolution.dart';
+import '../helper/prepare_candles_from.dart';
 import '../notifier/chart_notipod.dart';
 
 final balanceChartInitFpod = FutureProvider.autoDispose<void>(

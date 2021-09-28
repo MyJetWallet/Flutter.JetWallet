@@ -3,9 +3,9 @@ import 'package:charts/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/chart/provider/balance_chart_init_fpod.dart';
 
 import '../notifier/chart_notipod.dart';
+import '../provider/balance_chart_init_fpod.dart';
 import 'components/loading_chart_view.dart';
 
 class BalanceChart extends HookWidget {

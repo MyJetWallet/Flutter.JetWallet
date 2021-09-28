@@ -1,23 +1,21 @@
 import 'package:charts/entity/chart_info.dart';
-import 'package:charts/entity/resolution_string_enum.dart';
-import 'package:charts/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
-import 'package:jetwallet/app/screens/market/provider/market_items_pod.dart';
-import 'package:jetwallet/app/screens/portfolio/view/components/portfolio_with_balance/components/portfolio_item.dart';
-import 'package:jetwallet/app/shared/features/chart/notifier/chart_notipod.dart';
-import 'package:jetwallet/app/shared/features/chart/notifier/chart_state.dart';
-import 'package:jetwallet/app/shared/features/chart/view/asset_chart.dart';
-import 'package:jetwallet/app/shared/features/chart/view/balance_chart.dart';
-import 'package:jetwallet/app/shared/features/market_details/helper/average_period_change.dart';
-import 'package:jetwallet/app/shared/features/market_details/helper/average_period_price.dart';
-import 'package:jetwallet/app/shared/features/wallet/helper/assets_with_balance_from.dart';
-import 'package:jetwallet/app/shared/features/wallet/provider/wallet_hidden_stpod.dart';
-import 'package:jetwallet/shared/components/header_text.dart';
-import 'package:jetwallet/shared/components/spacers.dart';
+
+import '../../../../../../shared/components/header_text.dart';
+import '../../../../../../shared/components/spacers.dart';
+import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
+import '../../../../../shared/features/chart/notifier/chart_state.dart';
+import '../../../../../shared/features/chart/view/balance_chart.dart';
+import '../../../../../shared/features/market_details/helper/average_period_change.dart';
+import '../../../../../shared/features/market_details/helper/average_period_price.dart';
+import '../../../../../shared/features/wallet/helper/assets_with_balance_from.dart';
+import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
+import '../../../../market/model/market_item_model.dart';
+import '../../../../market/provider/market_items_pod.dart';
+import 'components/portfolio_item.dart';
 
 class PortfolioWithBalanceBody extends HookWidget {
   const PortfolioWithBalanceBody({Key? key}) : super(key: key);

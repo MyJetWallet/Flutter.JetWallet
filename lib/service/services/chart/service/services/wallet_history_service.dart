@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:jetwallet/service/services/chart/model/wallet_history_request_model.dart';
-import 'package:jetwallet/service/services/chart/model/wallet_history_response_model.dart';
-import 'package:jetwallet/service/shared/helpers/handle_api_responses.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../../../shared/helpers/handle_api_responses.dart';
+import '../../model/wallet_history_request_model.dart';
+import '../../model/wallet_history_response_model.dart';
 import '../chart_service.dart';
 
 Future<WalletHistoryResponseModel> walletHistoryService(
