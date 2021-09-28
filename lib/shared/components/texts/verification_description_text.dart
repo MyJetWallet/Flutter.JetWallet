@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../shared/providers/service_providers.dart';
-import '../../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+class VerificationDescriptionText extends HookWidget {
+  const VerificationDescriptionText({
+    Key? key,
+    required this.text,
+    required this.boldText,
+  }) : super(key: key);
 
-class EmailVerificationDescription extends HookWidget {
-  const EmailVerificationDescription({Key? key}) : super(key: key);
+  final String text;
+  final String boldText;
 
   @override
   Widget build(BuildContext context) {
-    final intl = useProvider(intlPod);
-    final authInfo = useProvider(authInfoNotipod);
-
     return RichText(
       text: TextSpan(
         style: TextStyle(
@@ -22,10 +22,10 @@ class EmailVerificationDescription extends HookWidget {
         ),
         children: [
           TextSpan(
-            text: '${intl.enterTheCodeWeHaveSentYouToYourEmail} ',
+            text: text,
           ),
           TextSpan(
-            text: authInfo.email,
+            text: boldText,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),

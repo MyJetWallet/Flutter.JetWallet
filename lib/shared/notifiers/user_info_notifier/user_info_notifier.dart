@@ -50,4 +50,10 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
   void _updatePin(String? value) {
     state = state.copyWith(pin: value);
   }
+
+  void updateTwoFaStatus({required bool enabled}) {
+    _logger.log(notifier, 'updateTwoFaStatus');
+
+    state = state.copyWith(twoFaEnabled: enabled);
+  }
 }
