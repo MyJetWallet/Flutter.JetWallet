@@ -2,24 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
-
-class EmailVerificationPinCode extends StatelessWidget {
-  const EmailVerificationPinCode({
+class PinCodeField extends StatelessWidget {
+  const PinCodeField({
     Key? key,
+    this.autoFocus = false,
+    this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
+    required this.length,
     required this.controller,
     required this.onCompleted,
   }) : super(key: key);
 
+  final bool autoFocus;
+  final MainAxisAlignment mainAxisAlignment;
+  final int length;
   final TextEditingController controller;
   final Function(String) onCompleted;
 
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
-      length: emailVerificationCodeLength,
+      length: length,
       appContext: context,
       controller: controller,
+      autoFocus: autoFocus,
       autoDisposeControllers: false,
       animationType: AnimationType.fade,
       useExternalAutoFillGroup: true,
@@ -27,6 +32,7 @@ class EmailVerificationPinCode extends StatelessWidget {
       backgroundColor: Colors.white,
       cursorColor: Colors.black,
       hintCharacter: 'X',
+      mainAxisAlignment: mainAxisAlignment,
       keyboardType: TextInputType.number,
       pinTheme: PinTheme(
         fieldWidth: 46.w,
