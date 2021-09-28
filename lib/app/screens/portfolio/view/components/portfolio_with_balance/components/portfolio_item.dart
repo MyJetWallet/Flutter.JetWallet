@@ -3,19 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/market_details/helper/currency_from.dart';
-import 'package:jetwallet/app/shared/models/currency_model.dart';
-import 'package:jetwallet/app/shared/providers/currencies_pod/currencies_pod.dart';
 
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/components/asset_icon.dart';
-import '../../../../../../shared/features/wallet/helper/market_item_from.dart';
+import '../../../../../../shared/features/market_details/helper/currency_from.dart';
 import '../../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
 import '../../../../../../shared/features/wallet/view/empty_wallet.dart';
 import '../../../../../../shared/features/wallet/view/wallet.dart';
-import '../../../../../market/model/market_item_model.dart';
-import '../../../../../market/provider/market_items_pod.dart';
+import '../../../../../../shared/models/currency_model.dart';
+import '../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
+import 'portfolio_small_text.dart';
 
 class PortfolioItem extends HookWidget {
   const PortfolioItem({
@@ -68,12 +66,9 @@ class PortfolioItem extends HookWidget {
                     color: Colors.grey.shade500,
                   ),
                 ),
-                Text(
-                  '\$${currency.currentPrice} / ${currency.dayPercentChange}%',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey.shade500,
-                  ),
+                PortfolioSmallText(
+                  text: '\$${currency.currentPrice} '
+                      '/ ${currency.dayPercentChange}%',
                 ),
               ],
             ),
@@ -87,12 +82,8 @@ class PortfolioItem extends HookWidget {
                     fontSize: 16.sp,
                   ),
                 ),
-                Text(
-                  _assetBalance(currency, hidden.state),
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey.shade500,
-                  ),
+                PortfolioSmallText(
+                  text: _assetBalance(currency, hidden.state),
                 ),
               ],
             ),

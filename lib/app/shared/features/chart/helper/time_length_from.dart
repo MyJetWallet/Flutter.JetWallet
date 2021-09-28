@@ -12,7 +12,9 @@ TimeLength timeLengthFrom(String resolution) {
     return TimeLength.month;
   } else if (resolution == Period.year) {
     return TimeLength.year;
+  } else if (resolution == Period.all) {
+    return TimeLength.all;
   }
 
-  return TimeLength.all;
+  return TimeLength.day;
 }

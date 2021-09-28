@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/providers/base_currency_pod/base_currency_pod.dart';
 
 import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../helper/prepare_candles_from.dart';
 import '../notifier/chart_notipod.dart';
 

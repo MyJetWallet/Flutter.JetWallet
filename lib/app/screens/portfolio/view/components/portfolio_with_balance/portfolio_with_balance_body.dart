@@ -4,11 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/portfolio/helpers/currencies_with_balance_from.dart';
-import 'package:jetwallet/app/screens/portfolio/helpers/currencies_without_balance_from.dart';
-import 'package:jetwallet/app/screens/portfolio/provider/show_zero_balance_wallets_stpod.dart';
-import 'package:jetwallet/app/shared/models/currency_model.dart';
-import 'package:jetwallet/app/shared/providers/currencies_pod/currencies_pod.dart';
 
 import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/spacers.dart';
@@ -17,11 +12,14 @@ import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/average_period_change.dart';
 import '../../../../../shared/features/market_details/helper/average_period_price.dart';
-import '../../../../../shared/features/wallet/helper/assets_with_balance_from.dart';
 import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
-import '../../../../market/model/market_item_model.dart';
-import '../../../../market/provider/market_items_pod.dart';
+import '../../../../../shared/models/currency_model.dart';
+import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../../helpers/currencies_with_balance_from.dart';
+import '../../../helpers/currencies_without_balance_from.dart';
+import '../../../provider/show_zero_balance_wallets_stpod.dart';
 import 'components/portfolio_item.dart';
+import 'components/portfolio_small_text.dart';
 
 class PortfolioWithBalanceBody extends HookWidget {
   const PortfolioWithBalanceBody({Key? key}) : super(key: key);
@@ -84,14 +82,10 @@ class PortfolioWithBalanceBody extends HookWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    showZeroBalanceWallets.state
+                  PortfolioSmallText(
+                    text: showZeroBalanceWallets.state
                         ? 'Hide zero wallets'
                         : 'Show all wallets',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Colors.grey.shade500,
-                    ),
                   ),
                   const SpaceW4(),
                   Icon(
