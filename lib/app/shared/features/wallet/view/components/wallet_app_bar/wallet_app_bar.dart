@@ -7,15 +7,16 @@ import '../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../shared/components/page_frame/components/frame_action_button.dart';
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../shared/helpers/contains_single_element.dart';
-import '../../../../../../screens/market/provider/market_items_pod.dart';
-import '../../../helper/assets_with_balance_from.dart';
+import '../../../../../../../shared/helpers/currencies_with_balance_from.dart';
+import '../../../../../providers/currencies_pod/currencies_pod.dart';
 
 class WalletAppBar extends HookWidget implements PreferredSizeWidget {
   const WalletAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final itemsWithBalance = assetsWithBalanceFrom(useProvider(marketItemsPod));
+    final itemsWithBalance =
+        currenciesWithBalanceFrom(useProvider(currenciesPod));
 
     return Padding(
       padding: EdgeInsets.symmetric(

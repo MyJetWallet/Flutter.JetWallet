@@ -95,7 +95,7 @@ class BalanceAssetItem extends HookWidget {
       navigatorPush(
         context,
         Wallet(
-          marketItem: item,
+          assetId: item.associateAsset,
         ),
       );
     }

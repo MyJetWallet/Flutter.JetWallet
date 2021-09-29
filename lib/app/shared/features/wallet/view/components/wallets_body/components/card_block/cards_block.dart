@@ -22,7 +22,10 @@ class CardBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemsWithBalance = assetsWithBalanceFrom(useProvider(marketItemsPod));
+    final itemsWithBalance = marketItemsWithBalanceFrom(
+      useProvider(marketItemsPod),
+      assetId,
+    );
 
     return Column(
       children: [
