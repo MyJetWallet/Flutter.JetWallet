@@ -94,11 +94,13 @@ class PortfolioItem extends HookWidget {
   }
 
   String _assetBalance(CurrencyModel currency, bool hidden) {
-    return currency.assetBalance == 0.0
-        ? ''
-        : hidden
-            ? '???'
-            : '${currency.assetBalance} ${currency.symbol}';
+    if (currency.assetBalance == 0.0) {
+      return '';
+    } else if (hidden) {
+      return '???';
+    } else {
+      return '${currency.assetBalance} ${currency.symbol}';
+    }
   }
 
   void _navigateToWallet(BuildContext context, CurrencyModel currency) {

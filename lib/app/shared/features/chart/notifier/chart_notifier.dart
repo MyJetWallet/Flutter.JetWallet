@@ -7,8 +7,9 @@ import 'package:logging/logging.dart';
 
 import '../../../../../service/services/chart/model/candles_request_model.dart';
 import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
-import '../../../../../service/services/chart/service/chart_service.dart';
 import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/providers/service_providers.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../helper/format_merge_candles_count.dart';
 import '../helper/format_resolution.dart';
 import '../helper/prepare_candles_from.dart';
@@ -18,8 +19,7 @@ import 'chart_union.dart';
 
 class ChartNotifier extends StateNotifier<ChartState> {
   ChartNotifier({
-    required this.chartService,
-    required this.baseCurrencySymbol,
+    required this.read,
   }) : super(
           const ChartState(
             candles: [],
@@ -28,8 +28,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
           ),
         );
 
-  final ChartService chartService;
-  final String baseCurrencySymbol;
+  final Reader read;
 
   static final _logger = Logger('ChartNotifier');
 
@@ -41,11 +40,11 @@ class ChartNotifier extends StateNotifier<ChartState> {
       state = state.copyWith(union: const Loading());
 
       final model = WalletHistoryRequestModel(
-        targetAsset: baseCurrencySymbol,
+        targetAsset: read(baseCurrencyPod).symbol,
         period: timeLengthFrom(resolution),
       );
 
-      final walletHistory = await chartService.walletHistory(model);
+      final walletHistory = await read(chartServicePod).walletHistory(model);
       updateCandles(candlesFrom(walletHistory.graph));
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
@@ -76,7 +75,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
         mergeCandlesCount: mergeCandlesCountFrom(resolution),
       );
 
-      final candles = await chartService.candles(model);
+      final candles = await read(chartServicePod).candles(model);
       updateCandles(candles.candles);
     } catch (e) {
       _logger.log(stateFlow, 'fetchAssetCandles', e);
@@ -109,8 +108,6 @@ class ChartNotifier extends StateNotifier<ChartState> {
   }
 
   void _updateResolution(String resolution) {
-    _logger.log(notifier, 'updateResolution');
-
     state = state.copyWith(resolution: resolution);
   }
 }

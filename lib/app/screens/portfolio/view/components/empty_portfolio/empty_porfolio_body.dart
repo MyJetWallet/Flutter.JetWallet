@@ -21,7 +21,7 @@ class EmptyPortfolioBody extends HookWidget {
     );
 
     return Container(
-      padding: EdgeInsets.all(24.0.r),
+      padding: EdgeInsets.all(24.r),
       color: Colors.grey.shade200,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

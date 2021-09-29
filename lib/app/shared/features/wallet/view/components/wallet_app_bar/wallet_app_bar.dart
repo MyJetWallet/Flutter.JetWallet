@@ -7,7 +7,7 @@ import '../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../shared/components/page_frame/components/frame_action_button.dart';
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../shared/helpers/contains_single_element.dart';
-import '../../../../../../screens/portfolio/helpers/currencies_with_balance_from.dart';
+import '../../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../providers/currencies_pod/currencies_pod.dart';
 
 class WalletAppBar extends HookWidget implements PreferredSizeWidget {

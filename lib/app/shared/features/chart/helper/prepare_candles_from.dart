@@ -2,6 +2,7 @@ import 'package:charts/entity/candle_model.dart';
 
 List<CandleModel> candlesFrom(Map<String, double> walletHistory) {
   final candles = <CandleModel>[];
+
   walletHistory.forEach((date, price) {
     candles.add(
       CandleModel(

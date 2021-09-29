@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/spacers.dart';
+import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
@@ -15,8 +16,7 @@ import '../../../../../shared/features/market_details/helper/average_period_pric
 import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
-import '../../../helpers/currencies_with_balance_from.dart';
-import '../../../helpers/currencies_without_balance_from.dart';
+import '../../../helper/currencies_without_balance_from.dart';
 import '../../../provider/show_zero_balance_wallets_stpod.dart';
 import 'components/portfolio_item.dart';
 import 'components/portfolio_small_text.dart';
@@ -32,7 +32,7 @@ class PortfolioWithBalanceBody extends HookWidget {
     final chartN = useProvider(chartNotipod.notifier);
     final chart = useProvider(chartNotipod);
     final hidden = useProvider(walletHiddenStPod);
-    final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStPod);
+    final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
 
     return SingleChildScrollView(
       child: Padding(
