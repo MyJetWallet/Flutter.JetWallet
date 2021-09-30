@@ -73,7 +73,9 @@ class PhoneVerificationConfirmNotifier
         _userInfoN.updatePhoneVerified(phoneVerified: true);
         _userInfoN.updateTwoFaStatus(enabled: true);
 
+        
         if (!mounted) return;
+        // TODO reconsider navigation practices
         Navigator.pop(_context);
         Navigator.pop(_context);
       },
