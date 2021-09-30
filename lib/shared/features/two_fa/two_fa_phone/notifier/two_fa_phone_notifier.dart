@@ -48,13 +48,13 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: 'sessionInfoRequest',
       body: () async {
-        if (!mounted) return;
         final info = await read(infoServicePod).sessionInfo();
+        final phone = await read(phoneVerificationServicePod).phoneNumber();
 
         if (!mounted) return;
         _updatePhoneVerified(info.phoneVerified);
+        _updatePhoneNumber(phone.number);
 
-        if (!mounted) return;
         await sendCode();
       },
     );
@@ -62,6 +62,10 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
 
   void _updatePhoneVerified(bool value) {
     state = state.copyWith(phoneVerified: value);
+  }
+
+  void _updatePhoneNumber(String number) {
+    state = state.copyWith(phoneNumber: number);
   }
 
   void updateShowResend({required bool value}) {
@@ -82,7 +86,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
   Future<void> verifyCode() async {
     await trigger.when(
       login: () => _verifyTwoFa(),
-      security: () {
+      security: (_) {
         if (state.phoneVerified) {
           if (_userInfo.twoFaEnabled) {
             _verifyAndDisableTwoFa();
@@ -106,7 +110,6 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           deviceType: deviceType,
         );
 
-        if (!mounted) return;
         await read(twoFaServicePod).request(model);
 
         if (!mounted) return;
@@ -124,7 +127,6 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           code: state.controller.text,
         );
 
-        if (!mounted) return;
         await read(twoFaServicePod).verify(model);
 
         // TODO generalize issue with redirects to the root
@@ -144,7 +146,6 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           code: state.controller.text,
         );
 
-        if (!mounted) return;
         await read(twoFaServicePod).enable(model);
 
         if (!mounted) return;
@@ -164,7 +165,6 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           code: state.controller.text,
         );
 
-        if (!mounted) return;
         await read(twoFaServicePod).disable(model);
 
         if (!mounted) return;
@@ -186,7 +186,6 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           deviceType: deviceType,
         );
 
-        if (!mounted) return;
         await read(smsVerificationServicePod).request(model);
 
         if (!mounted) return;
@@ -207,7 +206,6 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           code: state.controller.text,
         );
 
-        if (!mounted) return;
         await read(smsVerificationServicePod).verify(model);
 
         if (!mounted) return;
@@ -242,6 +240,15 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
   }
 
   void _returnToPreviousScreen() {
-    Navigator.of(_context, rootNavigator: true).pop(_context);
+    trigger.when(
+      login: () {},
+      security: (fromDialog) {
+        if (fromDialog) {
+          Navigator.of(_context, rootNavigator: true).pop(_context);
+        } else {
+          Navigator.pop(_context);
+        }
+      },
+    );
   }
 }

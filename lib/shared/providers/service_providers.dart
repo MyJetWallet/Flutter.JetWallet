@@ -13,6 +13,7 @@ import '../../service/services/market_info/market_info_service.dart';
 import '../../service/services/news/news_service.dart';
 import '../../service/services/notification/service/notification_service.dart';
 import '../../service/services/operation_history/operation_history_service.dart';
+import '../../service/services/phone_verification/service/phone_verification_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
 import '../../service/services/sms_verification/service/sms_verification.dart';
 import '../../service/services/swap/service/swap_service.dart';
@@ -140,4 +141,10 @@ final smsVerificationServicePod = Provider<SmsVerificationService>((ref) {
   final dio = ref.watch(dioPod);
 
   return SmsVerificationService(dio);
+});
+
+final phoneVerificationServicePod = Provider<PhoneVerificationService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return PhoneVerificationService(dio);
 });

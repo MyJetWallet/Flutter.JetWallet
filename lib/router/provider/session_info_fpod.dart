@@ -21,8 +21,9 @@ final sessionInfoFpod = FutureProvider<void>((ref) async {
     try {
       final info = await service.sessionInfo();
 
-      userInfoN.updateTwoFaStatus(
-        enabled: info.twoFaEnabled,
+      userInfoN.updateWithValuesFromSessionInfo(
+        twoFaEnabled: info.twoFaEnabled,
+        phoneVerified: info.phoneVerified,
       );
 
       if (info.emailVerified) {

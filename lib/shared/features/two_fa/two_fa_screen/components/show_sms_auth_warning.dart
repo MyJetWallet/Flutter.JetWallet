@@ -28,7 +28,12 @@ void showSmsAuthWarning(BuildContext context) {
           ),
           TextButton(
             onPressed: () {
-              TwoFaPhone.pushReplacement(builderContext, const Security());
+              TwoFaPhone.pushReplacement(
+                builderContext,
+                const Security(
+                  fromDialog: true,
+                ),
+              );
             },
             child: const Text(
               'Continue',
