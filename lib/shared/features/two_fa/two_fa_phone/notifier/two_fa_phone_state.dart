@@ -8,6 +8,7 @@ part 'two_fa_phone_state.freezed.dart';
 @freezed
 class TwoFaPhoneState with _$TwoFaPhoneState {
   const factory TwoFaPhoneState({
+    @Default('') String phoneNumber,
     @Default(false) bool showResend,
     // If phoneVerified this means that smsVerificationService won't work
     // twoFaService has to be used instead

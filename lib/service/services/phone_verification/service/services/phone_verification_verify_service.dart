@@ -3,19 +3,19 @@ import 'package:dio/dio.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
-import '../../model/two_fa_change/two_fa_change_request_model.dart';
-import '../two_fa_service.dart';
+import '../../model/phone_verification_verify/phone_verification_verify_request_model.dart';
+import '../phone_verification_service.dart';
 
-Future<void> twoFaChangeService(
+Future<void> phoneVerificationVerifyService(
   Dio dio,
-  TwoFaChangeRequestModel model,
+  PhoneVerificationVerifyRequestModel model,
 ) async {
-  final logger = TwoFaService.logger;
-  const message = 'twoFaChangeService';
+  final logger = PhoneVerificationService.logger;
+  const message = 'phoneVerificationVerifyService';
 
   try {
     final response = await dio.post(
-      '$validationApi/2fa/request-change',
+      '$validationApi/phone-setup/verify',
       data: model.toJson(),
     );
 

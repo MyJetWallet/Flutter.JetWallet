@@ -78,15 +78,14 @@ class TwoFaPhone extends HookWidget {
               header: 'Phone Confirmation',
               onBackButton: () => trigger.when(
                 login: () => logoutN.logout(),
-                security: () => Navigator.pop(context),
+                security: (_) => Navigator.pop(context),
               ),
               child: Column(
                 children: [
                   const SpaceH10(),
-                  // TODO add reactivness
-                  const VerificationDescriptionText(
+                  VerificationDescriptionText(
                     text: 'Enter the SMS code we have sent to your phone ',
-                    boldText: '+380503858085',
+                    boldText: twoFa.phoneNumber,
                   ),
                   const SpaceH120(),
                   if (twoFa.union is Loading)
