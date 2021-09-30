@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/components/asset_icon.dart';
-import '../../../../../../shared/helpers/format_asset_price_value.dart';
+import '../../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../helper/format_day_percentage_change.dart';
 import '../../../../model/market_item_model.dart';
@@ -64,10 +64,11 @@ class MarketItemCard extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                formatPriceValue(
+                formatCurrencyAmount(
                   prefix: baseCurrency.prefix,
                   value: marketItem.lastPrice,
                   accuracy: baseCurrency.accuracy,
+                  symbol: baseCurrency.symbol,
                 ),
               ),
               Text(

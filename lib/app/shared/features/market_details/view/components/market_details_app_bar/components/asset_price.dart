@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
-import '../../../../../../helpers/format_asset_price_value.dart';
+import '../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_model.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../chart/notifier/chart_notipod.dart';
@@ -46,19 +46,21 @@ class AssetPrice extends HookWidget {
   String _price(
     MarketItemModel marketItem,
     ChartState chart,
-      BaseCurrencyModel baseCurrency,
+    BaseCurrencyModel baseCurrency,
   ) {
     if (chart.selectedCandle != null) {
-      return formatPriceValue(
+      return formatCurrencyAmount(
         prefix: baseCurrency.prefix,
         value: chart.selectedCandle!.close,
         accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
       );
     } else {
-      return formatPriceValue(
+      return formatCurrencyAmount(
         prefix: baseCurrency.prefix,
         value: marketItem.lastPrice,
         accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
       );
     }
   }

@@ -7,8 +7,8 @@ part 'currency_model.freezed.dart';
 @freezed
 class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
+    String? prefixSymbol,
     required String symbol,
-    required String prefixSymbol,
     required String description,
     required int accuracy,
     required int depositMode,

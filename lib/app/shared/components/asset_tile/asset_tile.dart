@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
-import '../../helpers/format_asset_price_value.dart';
+import '../../helpers/format_currency_amount.dart';
 import '../../models/currency_model.dart';
 import '../../providers/base_currency_pod/base_currency_model.dart';
 import '../../providers/base_currency_pod/base_currency_pod.dart';
@@ -112,15 +112,17 @@ class AssetTile extends HookWidget {
     );
   }
 
-  String _baseBalance(BaseCurrencyModel baseCurrency) => formatPriceValue(
+  String _baseBalance(BaseCurrencyModel baseCurrency) => formatCurrencyAmount(
         prefix: baseCurrency.prefix,
         value: currency.baseBalance,
         accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
       );
 
-  String _assetBalance(BaseCurrencyModel baseCurrency) => formatPriceValue(
+  String _assetBalance(BaseCurrencyModel baseCurrency) => formatCurrencyAmount(
         value: currency.assetBalance,
         symbol: currency.symbol,
         accuracy: baseCurrency.accuracy,
+        prefix: currency.prefixSymbol,
       );
 }

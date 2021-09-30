@@ -8,7 +8,7 @@ import '../../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../components/asset_icon.dart';
-import '../../../../../../helpers/format_asset_price_value.dart';
+import '../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
 import '../../../../../wallet/view/empty_wallet.dart';
@@ -65,10 +65,11 @@ class BalanceAssetItem extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  formatPriceValue(
+                  formatCurrencyAmount(
                     prefix: baseCurrency.prefix,
                     value: marketItem.baseBalance,
                     accuracy: baseCurrency.accuracy,
+                    symbol: baseCurrency.symbol,
                   ),
                   style: TextStyle(
                     fontSize: 16.sp,
@@ -76,10 +77,11 @@ class BalanceAssetItem extends HookWidget {
                   ),
                 ),
                 Text(
-                  formatPriceValue(
+                  formatCurrencyAmount(
                     symbol: marketItem.id,
                     value: marketItem.assetBalance,
                     accuracy: marketItem.accuracy,
+                    prefix: marketItem.prefixSymbol,
                   ),
                   style: TextStyle(
                     fontSize: 12.sp,
