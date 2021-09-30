@@ -3,12 +3,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/components/page_frame/page_frame.dart';
+import '../../../../shared/components/security_divider.dart';
+import '../../../../shared/components/security_option.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../../shared/features/pin_screen/view/pin_screen.dart';
+import '../../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
 import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import 'components/security_divider.dart';
-import 'components/security_option.dart';
 import 'components/security_protection.dart';
 
 class AccountSecurity extends HookWidget {
@@ -49,7 +50,7 @@ class AccountSecurity extends HookWidget {
           SecurityOption(
             name: '2-Factor authentication',
             icon: Icons.lock,
-            onTap: () {},
+            onTap: () => TwoFaScreen.push(context),
           ),
         ],
       ),

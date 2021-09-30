@@ -25,7 +25,7 @@ class NewsBlock extends HookWidget {
 
     return newsInit.when(
       data: (_) {
-        if (news.isNotEmpty) {
+        if (news.news.isNotEmpty) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -35,20 +35,20 @@ class NewsBlock extends HookWidget {
               ),
               const SpaceH8(),
               ListView.builder(
-                itemCount: news.length,
+                itemCount: news.news.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return NewsItem(
-                    item: news[index],
+                    item: news.news[index],
                   );
                 },
               ),
-              if (news.length >= newsPortionAmount) ...[
+              if (news.news.length >= newsPortionAmount) ...[
                 ClickableUnderlinedText(
-                  text: newsN.isReadMore ? 'Read more' : 'Read Less',
+                  text: newsN.canLoadMore ? 'Read more' : 'Read Less',
                   onTap: () {
-                    if (newsN.isReadMore) {
+                    if (newsN.canLoadMore) {
                       newsN.loadMoreNews(assetId);
                     } else {
                       newsN.cutNewToDefaultSize();

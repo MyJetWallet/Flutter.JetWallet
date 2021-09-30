@@ -60,5 +60,8 @@ class RemoteConfigService {
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;
     defaultAssetIcon = appConfig.defaultAssetIcon;
+    emailResendCountdown = appConfig.emailResendCountdown;
+    withdrawalConfirmResendCountdown = appConfig.withdrawConfirmResendCountdown;
+    localPinLength = appConfig.localPinLength;
   }
 }

@@ -99,6 +99,8 @@ class SwapInfo with _$SwapInfo {
     required double sellAmount,
     required String buyAssetId,
     required double buyAmount,
+    required double baseRate,
+    required double quoteRate,
   }) = _SwapInfo;
 
   factory SwapInfo.fromJson(Map<String, dynamic> json) =>

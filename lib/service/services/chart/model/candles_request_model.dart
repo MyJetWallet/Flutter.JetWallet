@@ -6,7 +6,7 @@ part 'candles_request_model.g.dart';
 @freezed
 class CandlesRequestModel with _$CandlesRequestModel {
   const factory CandlesRequestModel({
-    @JsonKey(ignore: true) String? instrumentId,
+    @JsonKey(name: 'instruction') String? candleId,
     @JsonKey(ignore: true) int? type,
     required int bidOrAsk,
     required int fromDate,

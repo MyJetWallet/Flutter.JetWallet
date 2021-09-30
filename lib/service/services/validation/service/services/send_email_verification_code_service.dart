@@ -22,7 +22,7 @@ Future<void> sendEmailVerificationCodeService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleFullResponse<String>(responseData);
+      handleResultResponse(responseData);
     } catch (e) {
       logger.log(contract, message, e);
       rethrow;

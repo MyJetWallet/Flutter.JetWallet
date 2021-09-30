@@ -5,21 +5,24 @@ import '../../../../../service/services/news/model/news_request_model.dart';
 import '../../../../../service/services/news/model/news_response_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../helper/convert_news_date.dart';
 import '../provider/news_fpod.dart';
+import 'news_state.dart';
 
-class NewsNotifier extends StateNotifier<List<NewsModel>> {
+class NewsNotifier extends StateNotifier<NewsState> {
   NewsNotifier({
     required this.read,
   }) : super(
-          [],
+          const NewsState(
+            news: [],
+            canLoadMore: true,
+          ),
         );
 
   final Reader read;
 
   static final _logger = Logger('NewsNotifier');
 
-  bool get isReadMore => state.length == 3;
+  bool get canLoadMore => state.news.length >= 3 && state.canLoadMore;
 
   Future<void> loadMoreNews(String assetId) async {
     _logger.log(notifier, 'loadMoreNews');
@@ -29,8 +32,8 @@ class NewsNotifier extends StateNotifier<List<NewsModel>> {
         NewsRequestModel(
           assetId: assetId,
           language: read(intlPod).localeName,
-          lastSeen: DateTime.now().toIso8601String(),
-          amount: state.length + newsPortionAmount,
+          lastSeen: state.news.last.timestamp,
+          amount: newsPortionAmount,
         ),
       );
 
@@ -43,12 +46,18 @@ class NewsNotifier extends StateNotifier<List<NewsModel>> {
   void cutNewToDefaultSize() {
     _logger.log(notifier, 'cutNewToDefaultSize');
 
-    state = state.sublist(0, newsPortionAmount);
+    state = state.copyWith(
+      news: state.news.sublist(0, newsPortionAmount),
+    );
   }
 
   void updateNews(List<NewsModel> news) {
     _logger.log(notifier, 'updateNews');
 
-    state = convertNewsDate(news);
+    if (news.isEmpty) {
+      state = state.copyWith(canLoadMore: false);
+    } else {
+      state = state.copyWith(news: state.news + news);
+    }
   }
 }

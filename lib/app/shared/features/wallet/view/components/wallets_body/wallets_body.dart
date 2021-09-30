@@ -28,7 +28,10 @@ class Wallets extends HookWidget {
     final transactionHistoryN = useProvider(
       operationHistoryNotipod.notifier,
     );
-    final itemsWithBalance = assetsWithBalanceFrom(useProvider(marketItemsPod));
+    final itemsWithBalance = marketItemsWithBalanceFrom(
+      useProvider(marketItemsPod),
+      assetId,
+    );
 
     return transactionsHistoryInit.when(
       data: (_) {

@@ -17,10 +17,12 @@ final providerTypes = <String>[
   'AutoDisposeProvider<List<CurrencyModel>>',
   'AutoDisposeProvider<List<MarketItemModel>>',
   'AutoDisposeStreamProvider<BasePricesModel>',
+  'AutoDisposeStateNotifierProvider<TimerNotifier, int>',
 ];
 
 final providerNames = <String>[
   'logRecordsNotipod',
+  'timerNotipod',
 ];
 
 Future<void> main() async {

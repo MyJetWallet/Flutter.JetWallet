@@ -7,13 +7,18 @@ class TimerNotifier extends StateNotifier<int> {
     refreshTimer();
   }
 
+  Timer? _timer;
+  final int initial;
+
   void refreshTimer() {
+    _timer?.cancel();
     state = initial;
-    
+
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
         if (state == 0) {
+          if (!mounted) return;
           timer.cancel();
         } else {
           state--;
@@ -22,13 +27,9 @@ class TimerNotifier extends StateNotifier<int> {
     );
   }
 
-  final int initial;
-
-  late Timer _timer;
-
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 }

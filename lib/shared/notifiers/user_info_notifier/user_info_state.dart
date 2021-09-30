@@ -6,6 +6,8 @@ part 'user_info_state.freezed.dart';
 class UserInfoState with _$UserInfoState {
   const factory UserInfoState({
     String? pin,
+    @Default(false) bool twoFaEnabled,
+    @Default(false) bool phoneVerified,
   }) = _UserInfoState;
 
   const UserInfoState._();

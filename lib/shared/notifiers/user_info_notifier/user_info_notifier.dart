@@ -17,6 +17,18 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
 
   late LocalStorageService storage;
 
+  void updateWithValuesFromSessionInfo({
+    required bool twoFaEnabled,
+    required bool phoneVerified,
+  }) {
+    _logger.log(notifier, 'updateWithValuesFromSessionInfo');
+
+    state = state.copyWith(
+      twoFaEnabled: twoFaEnabled,
+      phoneVerified: phoneVerified,
+    );
+  }
+
   /// Inits PIN/Biometrics information
   Future<void> initPinStatus() async {
     _logger.log(notifier, 'initPinStatus');
@@ -49,5 +61,17 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
 
   void _updatePin(String? value) {
     state = state.copyWith(pin: value);
+  }
+
+  void updateTwoFaStatus({required bool enabled}) {
+    _logger.log(notifier, 'updateTwoFaStatus');
+
+    state = state.copyWith(twoFaEnabled: enabled);
+  }
+
+  void updatePhoneVerified({required bool phoneVerified}) {
+    _logger.log(notifier, 'updatePhoneVerified');
+
+    state = state.copyWith(phoneVerified: phoneVerified);
   }
 }
