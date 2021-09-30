@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../../../components/asset_icon.dart';
+import '../../../../../../../../helpers/format_currency_amount.dart';
+import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../helper/market_item_from.dart';
 import '../../../../../../provider/wallet_hidden_stpod.dart';
 
@@ -24,6 +26,7 @@ class WalletCard extends HookWidget {
       assetId,
     );
     final hidden = useProvider(walletHiddenStPod);
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return Expanded(
       child: Container(
@@ -65,19 +68,29 @@ class WalletCard extends HookWidget {
               ],
             ),
             const Spacer(),
-            Expanded(
-              child: Text(
-                hidden.state ? 'Hidden' : '\$${marketItem.baseBalance}',
-                style: TextStyle(
-                  fontSize: 32.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+            Text(
+              hidden.state
+                  ? 'Hidden'
+                  : formatCurrencyAmount(
+                      prefix: baseCurrency.prefix,
+                      value: marketItem.baseBalance,
+                      accuracy: baseCurrency.accuracy,
+                      symbol: baseCurrency.symbol,
+                    ),
+              style: TextStyle(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               hidden.state
                   ? ' '
-                  : '${marketItem.assetBalance} ${marketItem.associateAsset}',
+                  : formatCurrencyAmount(
+                      symbol: marketItem.id,
+                      value: marketItem.assetBalance,
+                      accuracy: marketItem.accuracy,
+                      prefix: marketItem.prefixSymbol,
+                    ),
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,

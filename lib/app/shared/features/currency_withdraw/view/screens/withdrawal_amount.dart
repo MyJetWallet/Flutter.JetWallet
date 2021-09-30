@@ -125,7 +125,7 @@ class WithdrawalAmount extends HookWidget {
     if (isInternal) {
       return 'No ${withdrawal.dictionary.noun} fee! / $youWillReceive';
     } else {
-      return 'Your fee is: ${currency.withdrawaFeeWithSymbol} / $youWillReceive';
+      return 'Your fee is: ${currency.withdrawalFeeWithSymbol} / $youWillReceive';
     }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:charts/entity/resolution_string_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,10 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
+import '../../../../../../helpers/format_currency_amount.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../chart/notifier/chart_notipod.dart';
 import '../../../../../chart/notifier/chart_state.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
-import '../../../../helper/average_period_price.dart';
 
 class AssetPrice extends HookWidget {
   const AssetPrice({
@@ -26,11 +27,13 @@ class AssetPrice extends HookWidget {
       assetId,
     );
     final chart = useProvider(chartNotipod);
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return Text(
       _price(
         marketItem,
         chart,
+        baseCurrency,
       ),
       style: TextStyle(
         fontWeight: FontWeight.bold,
@@ -43,18 +46,22 @@ class AssetPrice extends HookWidget {
   String _price(
     MarketItemModel marketItem,
     ChartState chart,
+    BaseCurrencyModel baseCurrency,
   ) {
     if (chart.selectedCandle != null) {
-      return averagePeriodPrice(
-        chart: chart,
-        selectedCandle: chart.selectedCandle,
+      return formatCurrencyAmount(
+        prefix: baseCurrency.prefix,
+        value: chart.selectedCandle!.close,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
       );
     } else {
-      if (chart.resolution != Period.day) {
-        return averagePeriodPrice(chart: chart);
-      } else {
-        return '\$${marketItem.lastPrice}';
-      }
+      return formatCurrencyAmount(
+        prefix: baseCurrency.prefix,
+        value: marketItem.lastPrice,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
+      );
     }
   }
 }

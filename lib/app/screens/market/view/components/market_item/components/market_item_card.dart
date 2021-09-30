@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/components/asset_icon.dart';
+import '../../../../../../shared/helpers/format_currency_amount.dart';
+import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../helper/format_day_percentage_change.dart';
 import '../../../../model/market_item_model.dart';
 
-class MarketItemCard extends StatelessWidget {
+class MarketItemCard extends HookWidget {
   const MarketItemCard({
     Key? key,
     required this.marketItem,
@@ -16,6 +20,7 @@ class MarketItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final baseCurrency = useProvider(baseCurrencyPod);
     final dayPercentageChange = formatDayPercentageChange(
       marketItem.dayPercentChange,
     );
@@ -59,7 +64,12 @@ class MarketItemCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '\$${marketItem.lastPrice}',
+                formatCurrencyAmount(
+                  prefix: baseCurrency.prefix,
+                  value: marketItem.lastPrice,
+                  accuracy: baseCurrency.accuracy,
+                  symbol: baseCurrency.symbol,
+                ),
               ),
               Text(
                 dayPercentageChange,
