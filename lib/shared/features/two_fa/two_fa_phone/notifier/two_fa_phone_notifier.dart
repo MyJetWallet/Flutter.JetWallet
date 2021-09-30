@@ -100,7 +100,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     );
   }
 
-  /// Will be send at Login page and when we disable 2fa at Security page
+  /// Will be send at Login page and when we enable/disable 2fa at Security page
   Future<void> _sendTwoFaVerificationCode() async {
     await _requestTemplate(
       requestName: 'sendTwoFaVerificationCode',
@@ -110,7 +110,18 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           deviceType: deviceType,
         );
 
-        await read(twoFaServicePod).request(model);
+        await trigger.when(
+          login: () async {
+            await read(twoFaServicePod).requestVerification(model);
+          },
+          security: (_) async {
+            if (_userInfo.twoFaEnabled) {
+              await read(twoFaServicePod).requestDisable(model);
+            } else {
+              await read(twoFaServicePod).requestEnable(model);
+            }
+          },
+        );
 
         if (!mounted) return;
         state = state.copyWith(union: const Input());
