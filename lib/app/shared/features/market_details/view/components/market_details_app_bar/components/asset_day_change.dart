@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_model.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -36,7 +35,6 @@ class AssetDayChange extends HookWidget {
         ),
         Text(
           _dayChange(
-            marketItem,
             chart,
             baseCurrency,
           ),
@@ -49,7 +47,6 @@ class AssetDayChange extends HookWidget {
   }
 
   String _dayChange(
-    MarketItemModel marketItem,
     ChartState chart,
     BaseCurrencyModel baseCurrency,
   ) {
@@ -57,13 +54,11 @@ class AssetDayChange extends HookWidget {
       return periodChange(
         chart: chart,
         selectedCandle: chart.selectedCandle,
-        item: marketItem,
         baseCurrency: baseCurrency,
       );
     } else {
       return periodChange(
         chart: chart,
-        item: marketItem,
         baseCurrency: baseCurrency,
       );
     }

@@ -1,7 +1,6 @@
 import 'package:charts/entity/candle_model.dart';
 
 import '../../../../../service/shared/constants.dart';
-import '../../../../screens/market/model/market_item_model.dart';
 import '../../../helpers/format_currency_amount.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
 import '../../chart/notifier/chart_state.dart';
@@ -9,7 +8,6 @@ import 'percent_change.dart';
 
 String periodChange({
   required ChartState chart,
-  required MarketItemModel item,
   required BaseCurrencyModel baseCurrency,
   CandleModel? selectedCandle,
 }) {
@@ -21,11 +19,7 @@ String periodChange({
 
     return '${formatCurrencyAmount(
       prefix: baseCurrency.prefix,
-      value: num.parse(
-        periodPriceChange.toStringAsFixed(
-          baseCurrency.accuracy,
-        ),
-      ),
+      value: periodPriceChange,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     )} '

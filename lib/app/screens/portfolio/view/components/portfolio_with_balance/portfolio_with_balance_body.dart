@@ -11,10 +11,12 @@ import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
-import '../../../../../shared/features/market_details/helper/average_period_change.dart';
-import '../../../../../shared/features/market_details/helper/average_period_price.dart';
+import '../../../../../shared/features/market_details/helper/period_change.dart';
 import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
+import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
+import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
+import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
 import '../../../provider/show_zero_balance_wallets_stpod.dart';
@@ -33,6 +35,7 @@ class PortfolioWithBalanceBody extends HookWidget {
     final chart = useProvider(chartNotipod);
     final hidden = useProvider(walletHiddenStPod);
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return SingleChildScrollView(
       child: Padding(
@@ -40,7 +43,13 @@ class PortfolioWithBalanceBody extends HookWidget {
         child: Column(
           children: [
             Text(
-              hidden.state ? 'HIDDEN' : _price(chart, itemsWithBalance),
+              hidden.state
+                  ? 'HIDDEN'
+                  : _price(
+                      chart,
+                      itemsWithBalance,
+                      baseCurrency,
+                    ),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 48.sp,
@@ -48,7 +57,12 @@ class PortfolioWithBalanceBody extends HookWidget {
               ),
             ),
             Text(
-              hidden.state ? '' : _dayChange(chart),
+              hidden.state
+                  ? ''
+                  : _periodChange(
+                      chart,
+                      baseCurrency,
+                    ),
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
@@ -107,6 +121,7 @@ class PortfolioWithBalanceBody extends HookWidget {
   String _price(
     ChartState chart,
     List<CurrencyModel> items,
+    BaseCurrencyModel baseCurrency,
   ) {
     var totalBalance = 0.0;
     for (final item in items) {
@@ -114,25 +129,37 @@ class PortfolioWithBalanceBody extends HookWidget {
     }
 
     if (chart.selectedCandle != null) {
-      return averagePeriodPrice(
-        chart: chart,
-        selectedCandle: chart.selectedCandle,
+      return formatCurrencyAmount(
+        prefix: baseCurrency.prefix,
+        value: chart.selectedCandle!.close,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
       );
     } else {
-      return '\$${totalBalance.toStringAsFixed(2)}';
+      return formatCurrencyAmount(
+        prefix: baseCurrency.prefix,
+        value: totalBalance,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
+      );
     }
   }
 
-  String _dayChange(
+  String _periodChange(
     ChartState chart,
+    BaseCurrencyModel baseCurrency,
   ) {
     if (chart.selectedCandle != null) {
-      return averagePeriodChange(
+      return periodChange(
         chart: chart,
         selectedCandle: chart.selectedCandle,
+        baseCurrency: baseCurrency,
       );
     } else {
-      return averagePeriodChange(chart: chart);
+      return periodChange(
+        chart: chart,
+        baseCurrency: baseCurrency,
+      );
     }
   }
 }

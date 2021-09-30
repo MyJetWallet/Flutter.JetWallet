@@ -11,7 +11,9 @@ import '../../../../../../shared/features/market_details/helper/currency_from.da
 import '../../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
 import '../../../../../../shared/features/wallet/view/empty_wallet.dart';
 import '../../../../../../shared/features/wallet/view/wallet.dart';
+import '../../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../../shared/models/currency_model.dart';
+import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'portfolio_small_text.dart';
 
@@ -29,6 +31,7 @@ class PortfolioItem extends HookWidget {
       useProvider(currenciesPod),
       assetId,
     );
+    final baseCurrency = useProvider(baseCurrencyPod);
     final hidden = useProvider(walletHiddenStPod);
 
     return InkWell(
@@ -67,7 +70,12 @@ class PortfolioItem extends HookWidget {
                   ),
                 ),
                 PortfolioSmallText(
-                  text: '\$${currency.currentPrice} '
+                  text: '${formatCurrencyAmount(
+                    value: currency.currentPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                    prefix: baseCurrency.prefix,
+                  )} '
                       '/ ${currency.dayPercentChange}%',
                 ),
               ],
@@ -77,7 +85,14 @@ class PortfolioItem extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  hidden.state ? '???' : '\$${currency.baseBalance}',
+                  hidden.state
+                      ? '???'
+                      : formatCurrencyAmount(
+                          value: currency.baseBalance,
+                          symbol: baseCurrency.symbol,
+                          accuracy: baseCurrency.accuracy,
+                          prefix: baseCurrency.prefix,
+                        ),
                   style: TextStyle(
                     fontSize: 16.sp,
                   ),
