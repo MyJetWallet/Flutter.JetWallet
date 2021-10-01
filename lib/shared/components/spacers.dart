@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+class SpaceR20 extends StatelessWidget {
+  const SpaceR20();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 20.r,
+      height: 20.r,
+    );
+  }
+}
+
 class SpaceH120 extends StatelessWidget {
   const SpaceH120();
 

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../components/asset_tile/asset_tile.dart';
 import '../../../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../../../components/text/asset_sheet_header.dart';
+import '../../../../../helpers/format_currency_amount.dart';
 import '../../../../../models/currency_model.dart';
 import 'components/convert_asset_input.dart';
 import 'components/convert_dropdown_button.dart';
@@ -78,7 +79,12 @@ class ConvertRow extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'Available: ${currency.assetBalance} ${currency.symbol}',
+                    'Available: ${formatCurrencyAmount(
+                      symbol: currency.symbol,
+                      value: currency.assetBalance,
+                      accuracy: currency.accuracy,
+                      prefix: currency.prefixSymbol,
+                    )}',
                     maxLines: 1,
                     style: const TextStyle(
                       color: Colors.grey,

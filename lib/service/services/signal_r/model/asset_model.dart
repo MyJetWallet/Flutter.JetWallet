@@ -18,6 +18,7 @@ class AssetsModel with _$AssetsModel {
 class AssetModel with _$AssetModel {
   const factory AssetModel({
     String? iconUrl,
+    String? prefixSymbol,
     required String symbol,
     required String description,
     required double accuracy,

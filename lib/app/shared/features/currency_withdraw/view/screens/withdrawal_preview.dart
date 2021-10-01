@@ -54,7 +54,7 @@ class WithdrawalPreview extends HookWidget {
             description: 'Fee',
             value: state.addressIsInternal
                 ? 'No fee'
-                : currency.withdrawaFeeWithSymbol,
+                : currency.withdrawalFeeWithSymbol,
           ),
           const ActionPreviewDivider(),
           ActionPreviewRow(

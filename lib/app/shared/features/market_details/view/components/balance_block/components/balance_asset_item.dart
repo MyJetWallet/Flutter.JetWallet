@@ -8,6 +8,8 @@ import '../../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../components/asset_icon.dart';
+import '../../../../../../helpers/format_currency_amount.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
 import '../../../../../wallet/view/empty_wallet.dart';
 import '../../../../../wallet/view/wallet.dart';
@@ -26,6 +28,7 @@ class BalanceAssetItem extends HookWidget {
       useProvider(marketItemsPod),
       assetId,
     );
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return InkWell(
       onTap: () => _navigateToWallet(context, marketItem),
@@ -62,14 +65,24 @@ class BalanceAssetItem extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '\$${marketItem.baseBalance}',
+                  formatCurrencyAmount(
+                    prefix: baseCurrency.prefix,
+                    value: marketItem.baseBalance,
+                    accuracy: baseCurrency.accuracy,
+                    symbol: baseCurrency.symbol,
+                  ),
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  '${marketItem.assetBalance} ${marketItem.id}',
+                  formatCurrencyAmount(
+                    symbol: marketItem.id,
+                    value: marketItem.assetBalance,
+                    accuracy: marketItem.accuracy,
+                    prefix: marketItem.prefixSymbol,
+                  ),
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.grey.shade500,
@@ -95,7 +108,7 @@ class BalanceAssetItem extends HookWidget {
       navigatorPush(
         context,
         Wallet(
-          marketItem: item,
+          assetId: item.associateAsset,
         ),
       );
     }

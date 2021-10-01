@@ -4,17 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AssetIcon extends StatelessWidget {
   const AssetIcon({
     Key? key,
+    this.width,
+    this.height,
     required this.imageUrl,
   }) : super(key: key);
 
   final String imageUrl;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
       imageUrl,
-      width: 30.w,
-      height: 30.h,
+      width: width ?? 30.r,
+      height: height ?? 30.r,
     );
   }
 }

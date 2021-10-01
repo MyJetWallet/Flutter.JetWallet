@@ -35,6 +35,8 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
             lastPrice: currency.currentPrice,
             assetBalance: currency.assetBalance,
             baseBalance: currency.baseBalance,
+            prefixSymbol: currency.prefixSymbol,
+            accuracy: currency.accuracy,
           ),
         );
       }

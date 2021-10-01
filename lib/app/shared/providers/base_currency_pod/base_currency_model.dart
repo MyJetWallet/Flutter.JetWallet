@@ -7,5 +7,6 @@ class BaseCurrencyModel with _$BaseCurrencyModel {
   const factory BaseCurrencyModel({
     @Default('USD') String symbol,
     @Default(2) int accuracy,
+    String? prefix,
   }) = _BaseCurrencyModel;
 }

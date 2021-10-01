@@ -1,14 +1,14 @@
-import 'package:charts/entity/resolution_string_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../chart/notifier/chart_notipod.dart';
 import '../../../../../chart/notifier/chart_state.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
-import '../../../../helper/average_period_change.dart';
+import '../../../../helper/period_change.dart';
 
 class AssetDayChange extends HookWidget {
   const AssetDayChange({
@@ -25,6 +25,7 @@ class AssetDayChange extends HookWidget {
       assetId,
     );
     final chart = useProvider(chartNotipod);
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return Row(
       children: [
@@ -33,7 +34,10 @@ class AssetDayChange extends HookWidget {
           color: Colors.grey,
         ),
         Text(
-          _dayChange(marketItem, chart),
+          _dayChange(
+            chart,
+            baseCurrency,
+          ),
           style: const TextStyle(
             color: Colors.grey,
           ),
@@ -43,21 +47,20 @@ class AssetDayChange extends HookWidget {
   }
 
   String _dayChange(
-    MarketItemModel marketItem,
     ChartState chart,
+    BaseCurrencyModel baseCurrency,
   ) {
     if (chart.selectedCandle != null) {
-      return averagePeriodChange(
+      return periodChange(
         chart: chart,
         selectedCandle: chart.selectedCandle,
+        baseCurrency: baseCurrency,
       );
     } else {
-      if (chart.resolution != Period.day) {
-        return averagePeriodChange(chart: chart);
-      } else {
-        return '\$${marketItem.dayPriceChange} '
-            '(${marketItem.dayPercentChange}%)';
-      }
+      return periodChange(
+        chart: chart,
+        baseCurrency: baseCurrency,
+      );
     }
   }
 }

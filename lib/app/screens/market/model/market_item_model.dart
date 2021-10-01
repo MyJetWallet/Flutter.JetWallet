@@ -6,6 +6,7 @@ part 'market_item_model.g.dart';
 @freezed
 class MarketItemModel with _$MarketItemModel {
   const factory MarketItemModel({
+    String? prefixSymbol,
     required String id,
     required String name,
     required String iconUrl,
@@ -17,6 +18,7 @@ class MarketItemModel with _$MarketItemModel {
     required double dayPercentChange,
     required double assetBalance,
     required double baseBalance,
+    required int accuracy,
   }) = _MarketItemModel;
 
   factory MarketItemModel.fromJson(Map<String, dynamic> json) =>

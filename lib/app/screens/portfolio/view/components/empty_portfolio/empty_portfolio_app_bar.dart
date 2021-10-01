@@ -3,21 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../../shared/components/header_text.dart';
-import '../../../../../../../shared/components/page_frame/components/frame_action_button.dart';
-import '../../../../../../../shared/components/spacers.dart';
-import '../../../../../helpers/format_currency_string_amount.dart';
-import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../../../../shared/components/header_text.dart';
+import '../../../../../shared/helpers/format_currency_string_amount.dart';
+import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 
-
-class EmptyWalletAppBar extends HookWidget
-    implements PreferredSizeWidget {
-  const EmptyWalletAppBar({
-    Key? key,
-    required this.assetName,
-  }) : super(key: key);
-
-  final String assetName;
+class EmptyPortfolioAppBar extends HookWidget implements PreferredSizeWidget {
+  const EmptyPortfolioAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +20,11 @@ class EmptyWalletAppBar extends HookWidget
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              FrameActionButton(
-                icon: Icons.arrow_back,
-                onTap: () => Navigator.of(context).pop(),
-              ),
-              Expanded(
-                child: HeaderText(
-                  text: '$assetName wallet',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SpaceW32(),
-            ],
+          const Expanded(
+            child: HeaderText(
+              text: 'Balance',
+              textAlign: TextAlign.center,
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(top: 20.h, bottom: 52.h),

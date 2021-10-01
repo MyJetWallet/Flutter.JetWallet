@@ -65,8 +65,8 @@ class ConvertPreview extends HookWidget {
               const ActionPreviewDivider(),
               ActionPreviewRow(
                 description: 'Rate',
-                value: '1 ${convert.fromAssetSymbol} = '
-                    '${convert.price} ${convert.toAssetSymbol}',
+                value: '1 ${convert.fromAssetSymbol} '
+                    '= ${convert.price} ${convert.toAssetSymbol}',
                 loading: convert.union is QuoteLoading,
               ),
               if (convert.connectingToServer) QuoteErrorText(),
