@@ -9,6 +9,7 @@ import '../../../../components/spacers.dart';
 import '../../../../components/texts/resend_in_text.dart';
 import '../../../../components/texts/resend_rich_text.dart';
 import '../../../../components/texts/verification_description_text.dart';
+import '../../../../helpers/navigator_push.dart';
 import '../../../../helpers/navigator_push_replacement.dart';
 import '../../../../helpers/show_plain_snackbar.dart';
 import '../../../../notifiers/logout_notifier/logout_notipod.dart';
@@ -27,6 +28,10 @@ class TwoFaPhone extends HookWidget {
   }) : super(key: key);
 
   final TwoFaPhoneTriggerUnion trigger;
+
+  static void push(BuildContext context, TwoFaPhoneTriggerUnion trigger) {
+    navigatorPush(context, TwoFaPhone(trigger: trigger));
+  }
 
   static void pushReplacement(
     BuildContext context,
@@ -77,7 +82,7 @@ class TwoFaPhone extends HookWidget {
             return PageFrame(
               header: 'Phone Confirmation',
               onBackButton: () => trigger.when(
-                login: () => logoutN.logout(),
+                startup: () => logoutN.logout(),
                 security: (_) => Navigator.pop(context),
               ),
               child: Column(

@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../shared/components/app_frame.dart';
 import '../../../shared/components/loader.dart';
-import '../../notifier/remote_config_notipod.dart';
+import '../../notifier/remote_config_notifier/remote_config_notipod.dart';
 
 /// Fetches and activates remote config, needed to go first after [AppRouter]
 class RemoteConfigInit extends HookWidget {

@@ -8,8 +8,8 @@ part 'email_verification_state.freezed.dart';
 @freezed
 class EmailVerificationState with _$EmailVerificationState {
   const factory EmailVerificationState({
-    required String email,
-    required EmailVerificationUnion union,
+    @Default('') String email,
+    @Default(Input()) EmailVerificationUnion union,
     required TextEditingController controller,
   }) = _EmailVerificationState;
 }

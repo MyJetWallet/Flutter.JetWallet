@@ -5,7 +5,6 @@ import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../router/provider/router_stpod/router_stpod.dart';
 import '../../router/provider/router_stpod/router_union.dart';
 import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
-import '../providers/other/navigator_key_pod.dart';
 import '../providers/service_providers.dart';
 import '../services/local_storage_service.dart';
 import 'navigate_to_router.dart';
@@ -22,7 +21,6 @@ enum RefreshTokenStatus { success, caught }
 /// Else [throws] an error
 Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final router = read(routerStpod.notifier);
-  final navigatorKey = read(navigatorKeyPod);
   final authInfo = read(authInfoNotipod);
   final authInfoN = read(authInfoNotipod.notifier);
   final authService = read(authServicePod);
@@ -34,7 +32,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
     final privateKey = await storageService.getString(privateKeyKey);
     final serverTime = serverInfo.serverTime;
     final refreshToken = authInfo.refreshToken;
-    
+
     final tokenDateTimeSignatureBase64 = await rsaService.sign(
       refreshToken + serverTime,
       privateKey!,
@@ -60,7 +58,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
     if (code == 401 || code == 403) {
       router.state = const Unauthorized();
 
-      navigateToRouter(navigatorKey);
+      navigateToRouter(read);
 
       // remove refreshToken from storage
       await storageService.clearStorage();

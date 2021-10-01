@@ -5,8 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../app/shared/components/number_keyboard/key_constants.dart';
-import '../../../../router/provider/authorized_stpod/authorized_stpod.dart';
-import '../../../../router/provider/authorized_stpod/authorized_union.dart';
+import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../helpers/biometrics_auth_helpers.dart';
 import '../../../helpers/remove_chars_from.dart';
 import '../../../logging/levels.dart';
@@ -72,6 +71,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
       },
       verification: () async {
         await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+      },
+      setup: () {
+        _updateScreenUnion(const NewPin());
+        _updateScreenHeader('Set PIN');
       },
     );
   }
@@ -140,6 +143,13 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
           orElse: () {},
         );
       },
+      setup: () {
+        state.screenUnion.when(
+          enterPin: () {}, // not needed
+          newPin: () => _newPinFlow(),
+          confirmPin: () => _confirmPinFlow(),
+        );
+      },
     );
   }
 
@@ -158,8 +168,8 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
           );
         },
         verification: () async {
-          // We need to update authorizedStpod, so router can redirect to home
-          read(authorizedStpod).state = const Home();
+          await _animateSuccess();
+          read(startupNotipod.notifier).pinVerified();
         },
         orElse: () async {
           await _animateCorrect();
@@ -179,8 +189,17 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     if (state.confrimPin != state.newPin) {
       await _errorFlow();
     } else {
-      await _successFlow(
-        _userInfoN.setPin(state.confrimPin),
+      await flowUnion.maybeWhen(
+        setup: () async {
+          await _animateSuccess();
+          await _userInfoN.setPin(state.confrimPin);
+          read(startupNotipod.notifier).pinSet();
+        },
+        orElse: () async {
+          await _successFlow(
+            _userInfoN.setPin(state.confrimPin),
+          );
+        },
       );
     }
   }

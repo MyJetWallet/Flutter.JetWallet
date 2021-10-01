@@ -94,7 +94,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
         description: 'Failed to place Order',
         onOk: () {
           read(navigationStpod).state = 1; // Portfolio
-          navigateToRouter(read(navigatorKeyPod));
+          navigateToRouter(read);
         },
       ),
     );
@@ -116,7 +116,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
           );
         },
         secondButtonName: 'Close',
-        onSecondButton: () => navigateToRouter(read(navigatorKeyPod)),
+        onSecondButton: () => navigateToRouter(read),
       ),
     );
   }

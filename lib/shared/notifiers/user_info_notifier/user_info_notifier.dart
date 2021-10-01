@@ -74,4 +74,12 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
 
     state = state.copyWith(phoneVerified: phoneVerified);
   }
+
+  void clear() {
+    state = state.copyWith(
+      pin: null,
+      phoneVerified: false,
+      twoFaEnabled: false,
+    );
+  }
 }

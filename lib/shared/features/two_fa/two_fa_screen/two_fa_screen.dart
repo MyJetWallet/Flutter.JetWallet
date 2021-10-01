@@ -7,6 +7,7 @@ import '../../../components/security_divider.dart';
 import '../../../components/security_option.dart';
 import '../../../helpers/navigator_push.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../phone_verification/model/phone_verification_trigger_union.dart';
 import '../../phone_verification/phone_verification_enter/view/phone_verification_enter.dart';
 import '../two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import '../two_fa_phone/view/two_fa_phone.dart';
@@ -37,16 +38,17 @@ class TwoFaScreen extends HookWidget {
                 showSmsAuthWarning(context);
               } else {
                 if (userInfo.phoneVerified) {
-                  navigatorPush(
+                  TwoFaPhone.push(
                     context,
-                    const TwoFaPhone(
-                      trigger: Security(
-                        fromDialog: false,
-                      ),
+                    const TwoFaPhoneTriggerUnion.security(
+                      fromDialog: false,
                     ),
                   );
                 } else {
-                  PhoneVerificationEnter.push(context);
+                  PhoneVerificationEnter.push(
+                    context,
+                    const PhoneVerificationTriggerUnion.security(),
+                  );
                 }
               }
             },
