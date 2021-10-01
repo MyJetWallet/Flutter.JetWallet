@@ -10,8 +10,8 @@ class SessionInfoResponseModel with _$SessionInfoResponseModel {
     required bool emailVerified,
     // If phone is not verified 2FA requests will fail
     required bool phoneVerified,
-    // Shows wether user required to complete 2FA or not
-    @JsonKey(name: 'twoFactorAuthentication') required bool twoFaRequired,
+    // Shows whether user passed 2FA at the current session or not
+    @JsonKey(name: 'twoFactorAuthentication') required bool twoFaPassed,
     @JsonKey(name: 'twoFactorAuthenticationEnabled') required bool twoFaEnabled,
   }) = _SessionInfoResponseModel;
 

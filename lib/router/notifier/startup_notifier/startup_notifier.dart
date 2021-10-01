@@ -31,7 +31,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
 
         if (info.emailVerified) {
           if (info.phoneVerified) {
-            if (info.twoFaRequired) {
+            if (!info.twoFaPassed) {
               _updateAuthorizedUnion(const TwoFaVerification());
             } else {
               _processPinState();
