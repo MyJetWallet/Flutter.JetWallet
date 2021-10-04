@@ -41,7 +41,7 @@ class CurrencySellState with _$CurrencySellState {
 
   String conversionText() {
     final base = formatCurrencyStringAmount(
-      prefix: baseCurrency!.prefix,
+      prefix: baseCurrency?.prefix,
       value: baseConversionValue,
       symbol: baseCurrency!.symbol,
     );
