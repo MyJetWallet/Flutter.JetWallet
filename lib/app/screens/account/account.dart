@@ -10,7 +10,7 @@ import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/providers/service_providers.dart';
-import 'account_security/account_security.dart';
+import 'account_security/view/account_security.dart';
 
 class Account extends HookWidget {
   const Account();
