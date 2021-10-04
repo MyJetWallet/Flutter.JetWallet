@@ -43,6 +43,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
           _updateAuthorizedUnion(const EmailVerification());
         }
       } catch (e) {
+        // TODO (discuss this flow)
         // In this case app will keep loading and nothing will happen
         // In order to retry user will need to reboot application
         _logger.log(stateFlow, 'Failed to fetch session info', e);
