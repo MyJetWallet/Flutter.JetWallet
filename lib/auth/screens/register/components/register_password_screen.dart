@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -48,41 +49,44 @@ class RegisterPasswordScreen extends HookWidget {
             Navigator.pop(context);
             credentialsN.updateAndValidatePassword('');
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SpaceH40(),
-              AppTextFieldObscure(
-                header: 'Enter password',
-                hintText: 'Enter password',
-                autofocus: true,
-                onChanged: (value) {
-                  credentialsN.updateAndValidatePassword(value);
-                },
-              ),
-              PasswordValidation(
-                password: credentials.password,
-              ),
-              const Spacer(),
-              if (authenitcation is Input)
-                AppButtonSolid(
-                  active: credentialsN.readyToRegister,
-                  name: 'Continue',
-                  onTap: () {
-                    if (credentialsN.readyToRegister) {
-                      authenitcationN.authenticate(
-                        email: credentials.email,
-                        password: credentials.password,
-                        operation: AuthOperation.register,
-                      );
-                    }
+          child: AutofillGroup(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SpaceH40(),
+                AppTextFieldObscure(
+                  header: 'Enter password',
+                  hintText: 'Enter password',
+                  autofocus: true,
+                  autofillHints: const [AutofillHints.password],
+                  onChanged: (value) {
+                    credentialsN.updateAndValidatePassword(value);
                   },
-                )
-              else ...[
-                const Loader(),
+                ),
+                PasswordValidation(
+                  password: credentials.password,
+                ),
                 const Spacer(),
-              ]
-            ],
+                if (authenitcation is Input)
+                  AppButtonSolid(
+                    active: credentialsN.readyToRegister,
+                    name: 'Continue',
+                    onTap: () {
+                      if (credentialsN.readyToRegister) {
+                        authenitcationN.authenticate(
+                          email: credentials.email,
+                          password: credentials.password,
+                          operation: AuthOperation.register,
+                        );
+                      }
+                    },
+                  )
+                else ...[
+                  const Loader(),
+                  const Spacer(),
+                ]
+              ],
+            ),
           ),
         ),
       ),
