@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../shared/components/spacers.dart';
-import '../../header_text.dart';
 
 class EmptyWatchlist extends StatelessWidget {
   const EmptyWatchlist({Key? key}) : super(key: key);

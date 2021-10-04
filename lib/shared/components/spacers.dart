@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+class SpaceR20 extends StatelessWidget {
+  const SpaceR20();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 20.r,
+      height: 20.r,
+    );
+  }
+}
+
 class SpaceH120 extends StatelessWidget {
   const SpaceH120();
 
@@ -12,6 +24,17 @@ class SpaceH120 extends StatelessWidget {
   }
 }
 
+class SpaceH96 extends StatelessWidget {
+  const SpaceH96();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 96.h,
+    );
+  }
+}
+
 class SpaceH80 extends StatelessWidget {
   const SpaceH80();
 
@@ -19,6 +42,17 @@ class SpaceH80 extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 80.h,
+    );
+  }
+}
+
+class SpaceH75 extends StatelessWidget {
+  const SpaceH75();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 75.h,
     );
   }
 }
@@ -155,6 +189,17 @@ class SpaceW40 extends StatelessWidget {
   }
 }
 
+class SpaceW32 extends StatelessWidget {
+  const SpaceW32();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 32.w,
+    );
+  }
+}
+
 class SpaceW30 extends StatelessWidget {
   const SpaceW30();
 
@@ -173,6 +218,17 @@ class SpaceW25 extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 25.w,
+    );
+  }
+}
+
+class SpaceW20 extends StatelessWidget {
+  const SpaceW20();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 20.w,
     );
   }
 }

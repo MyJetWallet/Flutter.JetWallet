@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../providers/other/navigator_key_pod.dart';
 
 /// Navigates to the first route aka [initialRoute] aka [Router()]
-void navigateToRouter(GlobalKey<NavigatorState> navigatorKey) {
-  navigatorKey.currentState!.popUntil(
-    (route) => route.isFirst == true,
+void navigateToRouter(Reader read) {
+  read(navigatorKeyPod).currentState!.popUntil(
+    (route) {
+      return route.isFirst == true;
+    },
   );
 }

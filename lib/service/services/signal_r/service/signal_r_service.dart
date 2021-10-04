@@ -7,6 +7,7 @@ import 'package:signalr_core/signalr_core.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
@@ -57,7 +58,7 @@ class SignalRService {
   Future<void> init() async {
     isDisconnecting = false;
 
-    _connection = HubConnectionBuilder().withUrl(urlSignalR).build();
+    _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
 
     _connection.onclose((error) {
       if (!isDisconnecting) {
@@ -247,6 +248,12 @@ class SignalRService {
   /// Since they are created inside a single instance we can't close them
   /// because our StreamProviders will throw an error:
   /// Bad state: Stream has already been listened to
+  /// 
+  /// The problem above can be solved by injecting HubConnection
+  /// through signalRServicePod. + signalRServicePod must listen 
+  /// for auth changes in order to create a new connection after them.
+  /// The solution must be properly tested.
+  /// TODO(Eli) revisit this problem (added to backlog[SPUI-389])
   Future<void> disconnect() async {
     _logger.log(signalR, 'Disconnecting...');
     isDisconnecting = true;

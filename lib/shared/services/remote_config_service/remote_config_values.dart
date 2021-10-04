@@ -1,14 +1,19 @@
 // ConectionFlavors
-String tradingApi = 'https://trading-spot-candles-test.mnftx.biz/api/v2';
-String tradingAuthApi = 'https://trading-auth-test.mnftx.biz/auth/v1';
-String walletApi = 'https://wallet-api-spot.mnftx.biz/api/v1';
-String validationApi = 'https://validation-api-spot.mnftx.biz/api/v1';
+late String tradingApi;
+late String tradingAuthApi;
+late String walletApi;
+late String walletApiSignalR;
+late String validationApi;
 
 // AppConfig
-int emailVerificationCodeLength = 6;
-int phoneVerificationCodeLength = 4;
-String userAgreementLink = 'https://pub.dev';
-String privacyPolicyLink = 'https://flutter.dev/';
-int minAmountOfCharsInPassword = 8;
-int maxAmountOfCharsInPassword = 32;
-int quoteRetryInterval = 10;
+late int emailVerificationCodeLength;
+late int phoneVerificationCodeLength;
+late String userAgreementLink;
+late String privacyPolicyLink;
+late int minAmountOfCharsInPassword;
+late int maxAmountOfCharsInPassword;
+late int quoteRetryInterval;
+late String defaultAssetIcon;
+late int emailResendCountdown;
+late int withdrawalConfirmResendCountdown;
+late int localPinLength;

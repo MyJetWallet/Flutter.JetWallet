@@ -1,26 +1,26 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import 'development/api_selector_screen/view/api_selector_screen.dart';
 import 'router/view/router.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/push_notification_service.dart';
-import 'shared/services/remote_config_service/service/remote_config_service.dart';
 
 final providerTypes = <String>[
   'AutoDisposeProvider<List<CurrencyModel>>',
   'AutoDisposeProvider<List<MarketItemModel>>',
   'AutoDisposeStreamProvider<BasePricesModel>',
+  'AutoDisposeStateNotifierProvider<ChartNotifier, ChartState>',
+  'AutoDisposeStateNotifierProvider<TimerNotifier, int>',
 ];
 
 final providerNames = <String>[
@@ -30,11 +30,7 @@ final providerNames = <String>[
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  if (!kIsWeb) {
-    await PushNotificationService().initialize();
-    await RemoteConfigService().fetchAndActivate();
-  }
+  await PushNotificationService().initialize();
 
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) => debugLogging(record));
@@ -79,8 +75,7 @@ class App extends HookWidget {
             initialRoute: AppRouter.routeName,
             navigatorKey: navigatorKey,
             routes: {
-              AppRouter.routeName: (context) => AppRouter(),
-              ApiSelectorScreen.routeName: (context) => ApiSelectorScreen(),
+              AppRouter.routeName: (context) => const AppRouter(),
             },
           ),
         );

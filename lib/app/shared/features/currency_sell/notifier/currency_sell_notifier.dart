@@ -3,6 +3,7 @@ import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
+import '../../../components/number_keyboard/key_constants.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
@@ -106,7 +107,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
         ),
       );
     } else {
-      _updateTargetConversionValue(zeroCase);
+      _updateTargetConversionValue(zero);
     }
   }
 
@@ -126,7 +127,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
         truncateZerosFromInput(baseValue.toString()),
       );
     } else {
-      _updateBaseConversionValue(zeroCase);
+      _updateBaseConversionValue(zero);
     }
   }
 

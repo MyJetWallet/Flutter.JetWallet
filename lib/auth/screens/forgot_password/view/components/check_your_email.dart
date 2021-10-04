@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../../shared/helpers/open_email_app.dart';
+import '../../../../../shared/helpers/open_email_app.dart';
 import 'forgot_description_text.dart';
 
 class CheckYourEmail extends HookWidget {

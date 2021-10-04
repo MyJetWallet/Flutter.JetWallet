@@ -18,6 +18,7 @@ class AssetsModel with _$AssetsModel {
 class AssetModel with _$AssetModel {
   const factory AssetModel({
     String? iconUrl,
+    String? prefixSymbol,
     required String symbol,
     required String description,
     required double accuracy,
@@ -47,9 +48,9 @@ class AssetFeesModel with _$AssetFeesModel {
 @freezed
 class WithdrawalFeeModel with _$WithdrawalFeeModel {
   const factory WithdrawalFeeModel({
-    required String asset,
     required double size,
-    required FeeType feeType,
+    @JsonKey(name: 'feeType') required FeeType type,
+    @JsonKey(name: 'asset') required String assetSymbol,
   }) = _WithdrawalFeeModel;
 
   factory WithdrawalFeeModel.fromJson(Map<String, dynamic> json) =>

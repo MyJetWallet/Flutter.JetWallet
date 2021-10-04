@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../shared/components/buttons/app_button_solid.dart';
 import '../../../shared/components/page_frame/page_frame.dart';
 import '../../../shared/components/spacers.dart';
+import '../../../shared/components/text_fields/app_text_field.dart';
 import '../../../shared/helpers/navigator_push.dart';
-import '../../shared/components/auth_text_field.dart';
 import '../../shared/components/policy_check/policy_check_box.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import 'components/register_password_screen.dart';
@@ -26,9 +26,10 @@ class Register extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SpaceH40(),
-          AuthTextField(
+          AppTextField(
             header: 'Enter your email',
             hintText: 'Email address',
+            autofocus: true,
             onChanged: (value) => credentialsN.updateAndValidateEmail(value),
           ),
           const Spacer(),

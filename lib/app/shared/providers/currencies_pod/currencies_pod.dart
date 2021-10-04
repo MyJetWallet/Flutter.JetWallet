@@ -31,6 +31,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
           fees: asset.fees,
           withdrawalMethods: asset.withdrawalMethods,
           iconUrl: validIconUrl(asset.iconUrl),
+          prefixSymbol: asset.prefixSymbol,
           assetId: 'unknown',
           reserve: 0.0,
           lastUpdate: 'unknown',

@@ -15,10 +15,11 @@ import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../components/convert_preview/model/convert_preview_input.dart';
 import '../../../components/convert_preview/view/convert_preview.dart';
-import '../../../components/number_keyboard/number_keyboard.dart';
+import '../../../components/number_keyboard/number_keyboard_amount.dart';
 import '../../../components/text/asset_conversion_text.dart';
 import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
+import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
@@ -95,9 +96,10 @@ class CurrencyBuy extends HookWidget {
         children: [
           const Spacer(),
           AssetInputField(
-            value: fieldValue(
-              state.inputValue,
-              state.selectedCurrencySymbol,
+            value: formatCurrencyStringAmount(
+              prefix: state.selectedCurrency!.prefixSymbol,
+              value: state.inputValue,
+              symbol: state.selectedCurrencySymbol,
             ),
           ),
           const SpaceH8(),
@@ -134,7 +136,7 @@ class CurrencyBuy extends HookWidget {
             },
           ),
           const SpaceH10(),
-          NumberKeyboard(
+          NumberKeyboardAmount(
             onKeyPressed: (value) => notifier.updateInputValue(value),
           ),
           const SpaceH20(),

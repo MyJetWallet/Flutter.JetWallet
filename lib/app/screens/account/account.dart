@@ -5,10 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loader.dart';
 import '../../../shared/components/spacers.dart';
+import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/providers/service_providers.dart';
+import 'account_security/account_security.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -46,6 +48,14 @@ class Account extends HookWidget {
                   authInfo.email,
                 ),
                 const SpaceH10(),
+                TextButton(
+                  onPressed: () {
+                    navigatorPush(context, const AccountSecurity());
+                  },
+                  child: const Text(
+                    'Security',
+                  ),
+                ),
                 TextButton(
                   onPressed: () {
                     logoutN.logout();

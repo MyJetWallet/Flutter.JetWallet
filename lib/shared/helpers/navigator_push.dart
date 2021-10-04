@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void navigatorPush(BuildContext context, Widget page) {
+void navigatorPush(BuildContext context, Widget page, [void Function()? then]) {
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -8,5 +8,9 @@ void navigatorPush(BuildContext context, Widget page) {
         return page;
       },
     ),
-  );
+  ).then((value) {
+    if (then != null) {
+      then();
+    }
+  });
 }

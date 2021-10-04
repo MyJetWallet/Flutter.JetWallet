@@ -1,16 +1,15 @@
+import '../../../shared/helpers/remove_chars_from.dart';
 import '../components/balance_selector/model/selected_percent.dart';
-import '../components/number_keyboard/number_keyboard.dart';
+import '../components/number_keyboard/key_constants.dart';
 import '../models/currency_model.dart';
 
+// This helpers are used in [BUY], [SELL], [CONVERT], [WITHDRAW] flows
+// Working with NumberKeyboard in [amount] mode
+
 const specialPointCase = '0.';
-const zeroCase = '0';
 
 bool firstZeroInputCase(String string) {
   return string.length == 1 && string == zero;
-}
-
-String removeCharsFrom(String string, int amount) {
-  return string.substring(0, string.length - amount);
 }
 
 /// Removes cases like:
@@ -21,7 +20,7 @@ String truncateZerosFromInput(String input) {
     final number = double.parse(input);
 
     if (number == 0) {
-      return '0';
+      return zero;
     }
     // if number is the whole
     else if (number % 1 == 0) {
@@ -39,7 +38,7 @@ String valueBasedOnSelectedPercent({
   required CurrencyModel currency,
 }) {
   if (currency.isAssetBalanceEmpty) {
-    return '0';
+    return zero;
   } else if (selected == SelectedPercent.pct25) {
     final value = currency.assetBalance * 0.25;
     return '$value';
@@ -50,7 +49,7 @@ String valueBasedOnSelectedPercent({
     final value = currency.assetBalance;
     return '$value';
   } else {
-    return '0';
+    return zero;
   }
 }
 
@@ -62,10 +61,10 @@ String responseOnInputAction({
   required int accuracy,
 }) {
   if (newInput == backspace) {
-    if (oldInput.isNotEmpty) {
+    if (oldInput.length > 1) {
       return removeCharsFrom(oldInput, 1);
     } else {
-      return oldInput;
+      return zero;
     }
   } else if (firstZeroInputCase(oldInput) && newInput != period) {
     return newInput;
@@ -120,21 +119,18 @@ bool isInputValid(String input) {
   return false;
 }
 
-/// Shows value of the InputField based on the input and selectedCurrency \
-/// Used on [Deposit], [Sell] and [Buy] screens
-String fieldValue(String input, String symbol) {
-  return '${input.isEmpty ? '0' : input} $symbol';
-}
-
 enum InputError {
   none,
   notEnoughFunds,
+  enterHigherAmount,
 }
 
 extension InputErrorValue on InputError {
   String get value {
     if (this == InputError.notEnoughFunds) {
       return 'Not enough funds';
+    } else if (this == InputError.enterHigherAmount) {
+      return 'Enter a higher amount';
     } else {
       return 'None';
     }
@@ -143,16 +139,24 @@ extension InputErrorValue on InputError {
   bool get isActive => this != InputError.none;
 }
 
-InputError inputError(String input, CurrencyModel currency) {
+InputError inputError(
+  String input,
+  CurrencyModel currency, {
+  bool addressIsInternal = false,
+}) {
   if (input.isNotEmpty) {
     final value = double.parse(input);
 
-    if (currency.assetBalance >= value) {
-      return InputError.none;
-    } else {
+    if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
+    } else if (currency.withdrawalFeeSize >= value) {
+      if (addressIsInternal) {
+        return InputError.none;
+      } else {
+        return InputError.enterHigherAmount;
+      }
     }
-  } else {
-    return InputError.none;
   }
+
+  return InputError.none;
 }

@@ -63,5 +63,13 @@
 		<string>https</string>
 		<string>http</string>
 	</array>
+	<!-- [Start] qr_code_scanner -->
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs camera access to scan QR codes</string>
+	<!-- qr_code_scanner [End] -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>We need your face ID</string>
 </dict>
 </plist>

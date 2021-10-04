@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../helpers/format_currency_string_amount.dart';
 
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
@@ -14,7 +15,7 @@ class CurrencySellState with _$CurrencySellState {
     double? targetConversionPrice,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,
-    @Default('') String inputValue,
+    @Default('0') String inputValue,
     @Default(false) bool inputValid,
     @Default([]) List<CurrencyModel> currencies,
     @Default(InputError.none) InputError inputError,
@@ -39,7 +40,11 @@ class CurrencySellState with _$CurrencySellState {
   }
 
   String conversionText() {
-    final base = '$baseConversionValue ${baseCurrency!.symbol}';
+    final base = formatCurrencyStringAmount(
+      prefix: baseCurrency!.prefix,
+      value: baseConversionValue,
+      symbol: baseCurrency!.symbol,
+    );
 
     if (selectedCurrency == null) {
       return base;

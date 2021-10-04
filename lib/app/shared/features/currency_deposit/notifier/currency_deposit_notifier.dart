@@ -27,12 +27,21 @@ class CurrencyDepositNotifier extends StateNotifier<CurrencyDepositState> {
   Timer? _timer;
   late int retryTime;
 
-  void switchQr() {
-    _logger.log(notifier, 'switchQr');
+  void switchAddressQr() {
+    _logger.log(notifier, 'switchAddressQr');
 
     state = state.copyWith(
-      openAddress: state.openTag,
-      openTag: state.openAddress,
+      openAddress: true,
+      openTag: false,
+    );
+  }
+
+  void switchTagQr() {
+    _logger.log(notifier, 'switchTagQr');
+
+    state = state.copyWith(
+      openAddress: false,
+      openTag: true,
     );
   }
 

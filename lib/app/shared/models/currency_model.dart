@@ -7,6 +7,7 @@ part 'currency_model.freezed.dart';
 @freezed
 class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
+    String? prefixSymbol,
     required String symbol,
     required String description,
     required int accuracy,
@@ -38,4 +39,18 @@ class CurrencyModel with _$CurrencyModel {
   bool get isAssetBalanceEmpty => assetBalance == 0;
 
   bool get isAssetBalanceNotEmpty => assetBalance != 0;
+
+  double get withdrawalFeeSize => fees.withdrawalFee?.size ?? 0;
+
+  String get withdrawalFeeWithSymbol {
+    if (withdrawalFeeSize == 0) {
+      return '0 $symbol';
+    } else {
+      return '$withdrawalFeeSize ${fees.withdrawalFee?.assetSymbol}';
+    }
+  }
+
+  bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
+
+  bool get hasTag => tagType != TagType.none;
 }

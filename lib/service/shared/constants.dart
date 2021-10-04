@@ -1,6 +1,3 @@
-// SignalR URLs
-const urlSignalR = 'https://wallet-api-spot.mnftx.biz/signalr';
-
 // SignalR messages
 const initMessage = 'Init';
 const pingMessage = 'ping';
@@ -20,7 +17,7 @@ const postRequest = 'POST';
 const signatureHeader = 'signature';
 
 // KeyValue
-const String watchlistKey = 'watchlist';
+const watchlistKey = 'watchlist';
 
 // Other
 const platformType = 2;

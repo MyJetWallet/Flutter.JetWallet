@@ -26,6 +26,6 @@ void handleResultResponse(Map<String, dynamic> json) {
 
 void _validateResultResponse(String result) {
   if (result != 'OK') {
-    throw ServerRejectException(result.toString());
+    throw ServerRejectException(result);
   }
 }

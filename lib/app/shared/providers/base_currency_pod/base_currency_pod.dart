@@ -19,6 +19,7 @@ final baseCurrencyPod = Provider.autoDispose<BaseCurrencyModel>((ref) {
       }).first;
 
       value = BaseCurrencyModel(
+        prefix: asset.prefixSymbol,
         symbol: clientDetailData.baseAssetSymbol,
         accuracy: asset.accuracy.toInt(),
       );

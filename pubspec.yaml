@@ -6,7 +6,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -20,6 +20,10 @@ dependencies:
   font_awesome_flutter: ^9.1.0 # The Font Awesome Icon pack (1500+ icons)
   pin_code_fields: ^7.2.0 # Generate pin code fields
   qr_flutter: ^4.0.0 # QR code rendering
+  grouped_list: ^4.1.0 # List with grouped items
+  qr_code_scanner: ^0.5.2 # Scans QR code with camera
+  local_auth: ^1.1.7 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
+  intl_phone_number_input: ^0.7.0+2 # phone number in international format that uses Google's libphonenumber
 
   # RESPONSIVE UI
   device_preview: ^0.7.3
@@ -31,6 +35,7 @@ dependencies:
   android_intent_plus: ^1.0.2 # plugin for launching Android Intents
   package_info_plus: ^1.0.6 # querying information about the application package
   share_plus: ^2.1.4 # sharing content via the platform share UI
+  device_info_plus: ^2.1.0 # providing detailed information about the device
 
   # NETWORKING:
   dio: ^4.0.0 # http client
@@ -70,14 +75,14 @@ dependencies:
   charts:
     git:
       url: https://github.com/MyJetWallet/Flutter.Charts
-      ref: master
+      ref: develop
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   # RULES:
-  lint: ^1.6.0
+  lint: ^1.7.2
 
   # AUTOGEN:
   freezed: ^0.14.2 # generation for immutable classes that has a simple syntax/API

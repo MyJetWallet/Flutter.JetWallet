@@ -3,11 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../shared/components/page_frame/components/arrow_back_button.dart';
+import '../../../../../../shared/components/header_text.dart';
+import '../../../../../../shared/components/page_frame/components/frame_action_button.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../provider/market_stpod.dart';
 import '../../../provider/search_stpod.dart';
-import '../header_text.dart';
 import '../market_tabs/market_tabs.dart';
 import 'components/search_field.dart';
 
@@ -26,7 +26,8 @@ class SearchAppBar extends HookWidget implements PreferredSizeWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ArrowBackButton(
+          FrameActionButton(
+            icon: Icons.arrow_back,
             onTap: () {
               state.state = MarketState.watch;
               search.state.clear();

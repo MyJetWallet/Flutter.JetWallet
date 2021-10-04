@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 const refreshTokenKey = 'refreshToken';
 const userEmailKey = 'userEmail';
 const privateKeyKey = 'privateKey';
+const pinStatusKey = 'pinStatusKey';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();

@@ -1,35 +1,21 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notifier.dart';
-import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_state.dart';
-import '../../../router/provider/authorized_stpod/authorized_union.dart';
+import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../../router/notifier/startup_notifier/authorized_union.dart' as authorized_union;
+import '../../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../../../router/provider/router_stpod/router_stpod.dart';
 import '../../../router/provider/router_stpod/router_union.dart';
 import '../../../service/services/authentication/model/logout/logout_request_model.dart';
-import '../../../service/services/authentication/service/authentication_service.dart';
-import '../../../service/services/signal_r/service/signal_r_service.dart';
 import '../../logging/levels.dart';
-import '../../services/local_storage_service.dart';
+import '../../providers/service_providers.dart';
+import '../user_info_notifier/user_info_notipod.dart';
 import 'logout_union.dart';
 
 class LogoutNotifier extends StateNotifier<LogoutUnion> {
-  LogoutNotifier({
-    required this.router,
-    required this.authorized,
-    required this.authInfo,
-    required this.authInfoN,
-    required this.authService,
-    required this.storageService,
-    required this.signalRService,
-  }) : super(const Result());
+  LogoutNotifier(this.read) : super(const Result());
 
-  final StateController<RouterUnion> router;
-  final StateController<AuthorizedUnion> authorized;
-  final AuthInfoState authInfo;
-  final AuthInfoNotifier authInfoN;
-  final AuthenticationService authService;
-  final LocalStorageService storageService;
-  final SignalRService signalRService;
+  final Reader read;
 
   static final _logger = Logger('LogoutNotifier');
 
@@ -39,20 +25,23 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
     try {
       state = const Loading();
 
-      final model = LogoutRequestModel(token: authInfo.token);
+      final model = LogoutRequestModel(
+        token: read(authInfoNotipod).token,
+      );
 
-      await authService.logout(model);
+      await read(authServicePod).logout(model);
 
-      await storageService.clearStorage();
+      await read(localStorageServicePod).clearStorage();
 
-      router.state = const Unauthorized();
-
-      authInfoN.resetResendButton();
-
-      // signalRService is initialized after EmailVerification
-      if (authorized.state != const EmailVerification()) {
-        await signalRService.disconnect();
+      if (read(startupNotipod).authorized is authorized_union.Home) {
+        await read(signalRServicePod).disconnect();
       }
+
+      read(routerStpod).state = const Unauthorized();
+      read(userInfoNotipod.notifier).clear();
+      read(authInfoNotipod.notifier).resetResendButton();
+
+      state = const Result();
     } catch (e, st) {
       _logger.log(stateFlow, 'logout', e);
       state = Result(e, st);

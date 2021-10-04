@@ -3,101 +3,105 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../shared/components/buttons/app_button_solid.dart';
+import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
-import '../../../models/currency_model.dart';
-import '../../../styles/amount_field_decoration.dart';
-import '../notifier/withdraw_notipod.dart';
-import '../notifier/withdraw_state.dart';
-import 'components/amount_text_field.dart';
-import 'components/withdraw_send_button.dart';
-import 'components/withdraw_text_field.dart';
-import 'styles/styles.dart';
+import '../../../../../shared/components/text_fields/app_text_field.dart';
+import '../model/withdrawal_model.dart';
+import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
+import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
+import 'components/withdrawal_address_validator.dart';
+import 'components/withdrawal_field_suffix/withdrawal_field_suffix.dart';
 
-class CurrencyWithdraw extends StatefulHookWidget {
+/// FLOW: WithdrawalAmount -> WithdrawalPreview -> WithdrawalConfirm
+class CurrencyWithdraw extends HookWidget {
   const CurrencyWithdraw({
-    required this.currency,
-  });
+    Key? key,
+    required this.withdrawal,
+  }) : super(key: key);
 
-  final CurrencyModel currency;
+  final WithdrawalModel withdrawal;
 
-  @override
-  _CurrencyWithdrawState createState() => _CurrencyWithdrawState();
-}
-
-class _CurrencyWithdrawState extends State<CurrencyWithdraw> {
   @override
   Widget build(BuildContext context) {
-    final withdrawNotifier = useProvider(
-      withdrawNotipod(widget.currency.symbol).notifier,
-    );
+    final state = useProvider(withdrawalAddressNotipod(withdrawal));
+    final notifier = useProvider(withdrawalAddressNotipod(withdrawal).notifier);
 
-    return ProviderListener<WithdrawState>(
-      provider: withdrawNotipod(widget.currency.symbol),
-      onChange: (context, state) {
-        state.union.when(
-          input: (e, st) {
-            if (e != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(e.toString())),
-              );
-            }
-          },
-          loading: () {},
-        );
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Withdraw ${widget.currency.description}',
-          ),
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 10.w,
-              vertical: 10.h,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                WithdrawTextField(
-                  title: 'Addres',
-                  decoration: widthdrawAddressDecoration,
-                  onChanged: (value) => withdrawNotifier.updateAddress(value),
-                  onQrPressed: () {},
-                ),
-                const SpaceH15(),
-                if (widget.currency.tagType == TagType.memo)
-                  WithdrawTextField(
-                    title: 'Tag (memo)',
-                    decoration: widthdrawTagDecoration,
-                    onChanged: (value) => withdrawNotifier.updateMemo(value),
-                    onQrPressed: () {},
-                  ),
-                const SpaceH15(),
-                AmountTextField(
-                  title: 'Amount',
-                  onChanged: (value) => withdrawNotifier.updateAmount(value),
-                  decoration: amountFieldDecoration,
-                ),
-                const SpaceH8(),
-                WithdrawSendButton(
-                  onPressed: () async {
-                    final success = await withdrawNotifier.withdraw();
+    final currency = withdrawal.currency;
 
-                    if (success) {
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Withdrawn Success')),
-                      );
-                    }
-                  },
-                )
-              ],
+    return PageFrame(
+      header: '${withdrawal.dictionary.verb} '
+          '${currency.description} (${currency.symbol})',
+      onBackButton: () => Navigator.pop(context),
+      resizeToAvoidBottomInset: false,
+      child: Column(
+        children: [
+          const SpaceH40(),
+          AppTextField(
+            header: 'Enter ${currency.symbol} address',
+            hintText: 'Paste or scan',
+            fontSize: 25.sp,
+            focusNode: state.addressFocus,
+            controller: state.addressController,
+            onChanged: (value) => notifier.updateAddress(value),
+            suffixIcon: WithdrawalFieldSuffix(
+              showErase: state.showAddressErase,
+              onErase: () => notifier.eraseAddress(),
+              onPaste: () => notifier.pasteAddress(),
+              onScanQr: () => notifier.scanAddressQr(context),
             ),
           ),
-        ),
+          if (state.addressValidation is! Hide) ...[
+            const SpaceH10(),
+            WithdrawalAddressValidator(
+              symbol: currency.symbol,
+              validation: state.addressValidation,
+            )
+          ],
+          if (currency.hasTag) ...[
+            const SpaceH40(),
+            AppTextField(
+              header: 'Enter Tag',
+              hintText: 'Paste or scan',
+              fontSize: 25.sp,
+              focusNode: state.tagFocus,
+              controller: state.tagController,
+              onChanged: (value) => notifier.updateTag(value),
+              suffixIcon: WithdrawalFieldSuffix(
+                showErase: state.showTagErase,
+                onErase: () => notifier.eraseTag(),
+                onPaste: () => notifier.pasteTag(),
+                onScanQr: () => notifier.scanTagQr(context),
+              ),
+            ),
+            if (state.tagValidation is! Hide) ...[
+              const SpaceH10(),
+              WithdrawalAddressValidator(
+                withTag: true,
+                symbol: currency.symbol,
+                validation: state.tagValidation,
+              ),
+            ],
+          ],
+          const SpaceH20(),
+          Text(
+            'Instead of typing in an address, we recommend '
+            'pasting an address or scanning a QR code.',
+            style: TextStyle(
+              fontSize: 12.sp,
+            ),
+          ),
+          const Spacer(),
+          AppButtonSolid(
+            name: 'Next',
+            active: state.inputIsNotEmpty(currency),
+            onTap: () async {
+              if (state.inputIsNotEmpty(currency)) {
+                await notifier.validateAddressAndTag(context);
+              }
+            },
+          ),
+        ],
       ),
     );
   }

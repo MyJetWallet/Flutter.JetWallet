@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,27 +12,23 @@ import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/push_notification_service.dart';
-import 'shared/services/remote_config_service/service/remote_config_service.dart';
 
 final providerTypes = <String>[
   'AutoDisposeProvider<List<CurrencyModel>>',
   'AutoDisposeProvider<List<MarketItemModel>>',
   'AutoDisposeStreamProvider<BasePricesModel>',
+  'AutoDisposeStateNotifierProvider<TimerNotifier, int>',
 ];
 
 final providerNames = <String>[
   'logRecordsNotipod',
+  'timerNotipod',
 ];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
-  if (!kIsWeb) {
-    await PushNotificationService().initialize();
-    await RemoteConfigService().fetchAndActivate();
-    RemoteConfigService().overrideApisFrom(0); // default API environment
-  }
+  await PushNotificationService().initialize(); // doesn't work on web
 
   Logger.root.level = Level.ALL;
 
@@ -64,7 +60,7 @@ class App extends HookWidget {
           initialRoute: AppRouter.routeName,
           navigatorKey: navigatorKey,
           routes: {
-            AppRouter.routeName: (context) => AppRouter(),
+            AppRouter.routeName: (context) => const AppRouter(),
           },
         );
       },

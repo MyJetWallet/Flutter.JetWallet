@@ -49,7 +49,7 @@ class BasicBottomSheet extends StatelessWidget {
     return WillPopScope(
       onWillPop: () {
         _onDissmisAction(context);
-        return Future.value();
+        return Future.value(true);
       },
       child: Column(
         children: [

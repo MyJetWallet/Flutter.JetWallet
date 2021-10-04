@@ -7,9 +7,9 @@ import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/components/spacers.dart';
+import '../../../../shared/components/text_fields/app_text_field_obscure.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_text_field.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../notifier/reset_password_notipod.dart';
 import '../notifier/reset_password_state.dart';
@@ -45,10 +45,9 @@ class ResetPassword extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SpaceH40(),
-            AuthTextField(
+            AppTextFieldObscure(
               header: 'Enter new password',
               hintText: 'Create a password',
-              obscureText: true,
               onChanged: (value) {
                 resetN.updateAndValidatePassword(value);
               },

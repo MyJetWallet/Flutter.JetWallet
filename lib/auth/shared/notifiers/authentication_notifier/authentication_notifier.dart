@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -6,34 +5,23 @@ import '../../../../../router/provider/router_stpod/router_union.dart';
 import '../../../../../service/services/authentication/model/authenticate/authentication_model.dart';
 import '../../../../../service/services/authentication/model/authenticate/login_request_model.dart';
 import '../../../../../service/services/authentication/model/authenticate/register_request_model.dart';
-import '../../../../../service/services/authentication/service/authentication_service.dart';
 import '../../../../../service/shared/constants.dart';
 import '../../../../../shared/helpers/current_platform.dart';
-import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/local_storage_service.dart';
-import '../../../../../shared/services/rsa_service.dart';
-import '../auth_info_notifier/auth_info_notifier.dart';
+import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../../../../router/provider/router_stpod/router_stpod.dart';
+import '../../../../shared/helpers/device_uid.dart';
+import '../../../../shared/providers/service_providers.dart';
+import '../auth_info_notifier/auth_info_notipod.dart';
 import 'authentication_union.dart';
 
 enum AuthOperation { login, register }
 
 class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
-  AuthenticationNotifier({
-    required this.router,
-    required this.authInfoN,
-    required this.authService,
-    required this.storageService,
-    required this.navigatorKey,
-    required this.rsaService,
-  }) : super(const Input());
+  AuthenticationNotifier(this.read) : super(const Input());
 
-  final StateController<RouterUnion> router;
-  final AuthInfoNotifier authInfoN;
-  final AuthenticationService authService;
-  final LocalStorageService storageService;
-  final GlobalKey<NavigatorState> navigatorKey;
-  final RsaService rsaService;
+  final Reader read;
 
   static final _logger = Logger('AuthenticationNotifier');
 
@@ -44,6 +32,12 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   }) async {
     _logger.log(notifier, 'authenticate');
 
+    final router = read(routerStpod.notifier);
+    final authInfoN = read(authInfoNotipod.notifier);
+    final authService = read(authServicePod);
+    final storageService = read(localStorageServicePod);
+    final rsaService = read(rsaServicePod);
+
     try {
       state = const Loading();
 
@@ -52,11 +46,14 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       final publicKey = rsaService.publicKey;
 
+      final id = await deviceUid();
+
       final loginRequest = LoginRequestModel(
         publicKey: publicKey,
         email: email,
         password: password,
         platform: currentPlatform,
+        deviceUid: id,
       );
 
       final registerRequest = RegisterRequestModel(
@@ -65,6 +62,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         password: password,
         platformType: platformType,
         platform: currentPlatform,
+        deviceUid: id,
       );
 
       AuthenticationModel authModel;
@@ -87,7 +85,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       state = const Input();
 
-      navigateToRouter(navigatorKey);
+      read(startupNotipod.notifier).successfulAuthentication();
     } catch (e, st) {
       _logger.log(stateFlow, 'authenticate', e);
 

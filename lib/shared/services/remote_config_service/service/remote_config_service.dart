@@ -6,6 +6,8 @@ import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
 import '../remote_config_values.dart';
 
+const _defaultFlavorIndex = 0;
+
 /// [RemoteConfigService] is a Signleton
 class RemoteConfigService {
   factory RemoteConfigService() => _service;
@@ -18,6 +20,8 @@ class RemoteConfigService {
 
   Future<void> fetchAndActivate() async {
     await _config.fetchAndActivate();
+    overrideAppConfigValues();
+    overrideApisFrom(_defaultFlavorIndex);
   }
 
   ConnectionFlavorsModel get connectionFlavors {
@@ -40,9 +44,10 @@ class RemoteConfigService {
   void overrideApisFrom(int index) {
     final flavor = connectionFlavors.flavors[index];
 
+    tradingApi = flavor.tradingApi;
     tradingAuthApi = flavor.tradingAuthApi;
     walletApi = flavor.walletApi;
-    tradingApi = flavor.tradingApi;
+    walletApiSignalR = flavor.walletApiSignalR;
     validationApi = flavor.validationApi;
   }
 
@@ -54,5 +59,9 @@ class RemoteConfigService {
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;
+    defaultAssetIcon = appConfig.defaultAssetIcon;
+    emailResendCountdown = appConfig.emailResendCountdown;
+    withdrawalConfirmResendCountdown = appConfig.withdrawConfirmResendCountdown;
+    localPinLength = appConfig.localPinLength;
   }
 }

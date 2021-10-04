@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -28,9 +29,12 @@ final pushNotificationGetTokenFpod = FutureProvider<String?>(
   name: 'pushNotificationGetTokenFpod',
 );
 
-final pushNotificationOnTokenRefreshSpod = StreamProvider<String>((ref) {
-  return FirebaseMessaging.instance.onTokenRefresh;
-}, name: 'pushNotificationOnTokenRefreshSpod');
+final pushNotificationOnTokenRefreshSpod = StreamProvider<String>(
+  (ref) {
+    return FirebaseMessaging.instance.onTokenRefresh;
+  },
+  name: 'pushNotificationOnTokenRefreshSpod',
+);
 
 /// Must be initialized after [successfull authentication]
 final pushNotificationRegisterTokenPod = Provider.autoDispose<void>(

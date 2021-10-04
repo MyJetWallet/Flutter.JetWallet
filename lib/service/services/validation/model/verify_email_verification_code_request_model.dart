@@ -11,6 +11,7 @@ class VerifyEmailVerificationCodeRequestModel
   }) = _VerifyEmailVerificationCodeRequestModel;
 
   factory VerifyEmailVerificationCodeRequestModel.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$VerifyEmailVerificationCodeRequestModelFromJson(json);
 }

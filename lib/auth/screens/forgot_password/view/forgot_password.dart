@@ -6,9 +6,9 @@ import '../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../shared/components/loader.dart';
 import '../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../shared/components/spacers.dart';
+import '../../../../shared/components/text_fields/app_text_field_obscure.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/auth_text_field.dart';
 import '../notifier/forgot_password_notipod.dart';
 import '../notifier/forgot_password_state.dart';
 import '../notifier/forgot_password_union.dart';
@@ -50,7 +50,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   'withdrawals.',
             ),
             const SpaceH80(),
-            AuthTextField(
+            AppTextFieldObscure(
               header: 'Enter your email',
               hintText: 'Email address',
               onChanged: (value) => forgotN.updateAndValidateEmail(value),
