@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
@@ -10,6 +11,7 @@ import '../../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../providers/other/navigator_key_pod.dart';
 import '../../../../providers/service_providers.dart';
+import '../../model/phone_verification_trigger_union.dart';
 import '../../phone_verification_enter/notifier/phone_verification_enter_notipod.dart';
 import 'phone_verification_confirm_state.dart';
 import 'phone_verification_confirm_union.dart';
@@ -18,19 +20,21 @@ class PhoneVerificationConfirmNotifier
     extends StateNotifier<PhoneVerificationConfirmState> {
   PhoneVerificationConfirmNotifier(
     this.read,
+    this.trigger,
   ) : super(
           PhoneVerificationConfirmState(
             controller: TextEditingController(),
           ),
         ) {
-    final phoneVerification = read(phoneVerificationEnterNotipod);
-    _updatePhoneNumber(phoneVerification.phoneNumber);
-    sendCode();
     _userInfoN = read(userInfoNotipod.notifier);
     _context = read(navigatorKeyPod).currentContext!;
+    final phoneVerification = read(phoneVerificationEnterNotipod(trigger));
+    _updatePhoneNumber(phoneVerification.phoneNumber);
+    sendCode();
   }
 
   final Reader read;
+  final PhoneVerificationTriggerUnion trigger;
 
   late UserInfoNotifier _userInfoN;
   late BuildContext _context;
@@ -73,11 +77,17 @@ class PhoneVerificationConfirmNotifier
         _userInfoN.updatePhoneVerified(phoneVerified: true);
         _userInfoN.updateTwoFaStatus(enabled: true);
 
-        
         if (!mounted) return;
-        // TODO reconsider navigation practices
-        Navigator.pop(_context);
-        Navigator.pop(_context);
+        trigger.when(
+          startup: () {
+            read(startupNotipod.notifier).phoneVerified();
+          },
+          security: () {
+            // TODO reconsider navigation practices
+            Navigator.pop(_context);
+            Navigator.pop(_context);
+          },
+        );
       },
     );
   }

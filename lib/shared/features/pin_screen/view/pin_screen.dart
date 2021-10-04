@@ -54,7 +54,7 @@ class PinScreen extends HookWidget {
     Function()? onbackButton;
     String? header;
 
-    if (union == const Verification()) {
+    if (union is Verification || union is Setup) {
       onbackButton = () => logoutN.logout();
       header = 'Simple';
     } else if (cannotLeave) {

@@ -176,7 +176,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         description: 'Failed to place Order',
         onOk: () {
           read(navigationStpod).state = 1; // Portfolio
-          navigateToRouter(read(navigatorKeyPod));
+          navigateToRouter(read);
         },
       ),
     );
@@ -198,7 +198,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
           );
         },
         secondButtonName: 'Close',
-        onSecondButton: () => navigateToRouter(read(navigatorKeyPod)),
+        onSecondButton: () => navigateToRouter(read),
       ),
     );
   }

@@ -5,6 +5,7 @@ import '../../shared/helpers/refresh_token.dart';
 import '../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/providers/service_providers.dart';
 import '../../shared/services/local_storage_service.dart';
+import '../notifier/startup_notifier/startup_notipod.dart';
 import 'router_stpod/router_stpod.dart';
 import 'router_stpod/router_union.dart';
 
@@ -30,6 +31,8 @@ final appInitFpod = FutureProvider<void>((ref) async {
         await userInfoN.initPinStatus();
 
         router.state = const Authorized();
+
+        ref.read(startupNotipod.notifier).authenticatedBoot();
       } else {
         router.state = const Unauthorized();
       }

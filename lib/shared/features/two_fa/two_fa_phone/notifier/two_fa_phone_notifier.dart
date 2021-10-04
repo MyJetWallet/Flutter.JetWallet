@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../../service/services/sms_verification/model/sms_verification/sms_verification_request_model.dart';
 import '../../../../../service/services/sms_verification/model/sms_verification_verify/sms_verification_verify_request_model.dart';
 import '../../../../../service/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';
@@ -85,7 +86,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
 
   Future<void> verifyCode() async {
     await trigger.when(
-      login: () => _verifyTwoFa(),
+      startup: () => _verifyTwoFa(),
       security: (_) {
         if (state.phoneVerified) {
           if (_userInfo.twoFaEnabled) {
@@ -100,7 +101,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     );
   }
 
-  /// Will be send at Login page and when we enable/disable 2fa at Security page
+  /// Will be send at Startup of the app,
+  /// and when we enable/disable 2fa at Security page
   Future<void> _sendTwoFaVerificationCode() async {
     await _requestTemplate(
       requestName: 'sendTwoFaVerificationCode',
@@ -111,7 +113,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
         );
 
         await trigger.when(
-          login: () async {
+          startup: () async {
             await read(twoFaServicePod).requestVerification(model);
           },
           security: (_) async {
@@ -129,7 +131,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     );
   }
 
-  /// Called at Login page, when we need to verify user
+  /// Called at Startup of the app, when we need to verify user
   Future<void> _verifyTwoFa() async {
     await _requestTemplate(
       requestName: 'verifyTwoFa',
@@ -140,15 +142,12 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
 
         await read(twoFaServicePod).verify(model);
 
-        // TODO generalize issue with redirects to the root
-
-        if (!mounted) return;
-        state = state.copyWith(union: const Input());
+        read(startupNotipod.notifier).twoFaVerified();
       },
     );
   }
 
-  /// Caleed at Security page, when we need to enable 2fa
+  /// Called at Security page, when we need to enable 2fa
   Future<void> _verifyAndEnableTwoFa() async {
     await _requestTemplate(
       requestName: '_verifyAndEnableTwoFa',
@@ -252,7 +251,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
 
   void _returnToPreviousScreen() {
     trigger.when(
-      login: () {},
+      startup: () {},
       security: (fromDialog) {
         if (fromDialog) {
           Navigator.of(_context, rootNavigator: true).pop(_context);
