@@ -7,18 +7,18 @@ import '../../../shared/components/spacers.dart';
 class SecurityOption extends HookWidget {
   const SecurityOption({
     Key? key,
+    this.icon,
     this.onTap,
     this.onSwitchChanged,
     this.switchValue = false,
     required this.name,
-    required this.icon,
   }) : super(key: key);
 
+  final IconData? icon;
   final bool switchValue;
   final Function()? onTap;
   final Function(bool)? onSwitchChanged;
   final String name;
-  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +31,13 @@ class SecurityOption extends HookWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              icon,
-              size: 30.r,
-            ),
-            const SpaceW10(),
+            if (icon != null) ...[
+              Icon(
+                icon,
+                size: 30.r,
+              ),
+              const SpaceW10(),
+            ],
             Text(
               name,
               style: TextStyle(
