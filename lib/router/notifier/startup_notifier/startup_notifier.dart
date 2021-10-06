@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -64,6 +65,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
     _logger.log(notifier, 'successfulAuthentication');
 
     navigateToRouter(read);
+    TextInput.finishAutofillContext(); // prompt to save credentials
     _updatefromLoginRegister(fromLoginRegister: true);
     _processStartupState();
   }
@@ -92,7 +94,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
     _processPinState();
   }
 
-  /// Called when user makes cold boot and has enabled 2FA 
+  /// Called when user makes cold boot and has enabled 2FA
   /// and it was verified successfully
   void twoFaVerified() {
     _logger.log(notifier, 'twoFaVerified');
