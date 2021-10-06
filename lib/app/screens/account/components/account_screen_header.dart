@@ -9,11 +9,9 @@ import '../../../../shared/providers/service_providers.dart';
 class AccountScreenHeader extends HookWidget {
   const AccountScreenHeader({
     Key? key,
-    required this.userName,
     required this.userEmail,
   }) : super(key: key);
 
-  final String userName;
   final String userEmail;
 
   @override
@@ -27,15 +25,6 @@ class AccountScreenHeader extends HookWidget {
           intl.account,
           style: TextStyle(
             fontSize: 24.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          userName,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 34.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
