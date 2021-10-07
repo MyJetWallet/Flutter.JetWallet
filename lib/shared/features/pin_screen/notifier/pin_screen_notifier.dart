@@ -188,6 +188,8 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   Future<void> _confirmPinFlow() async {
     if (state.confrimPin != state.newPin) {
       await _errorFlow();
+      _updateNewPin('');
+      _updateScreenUnion(const NewPin());
     } else {
       await flowUnion.maybeWhen(
         setup: () async {

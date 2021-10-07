@@ -12,6 +12,6 @@ class PinFlowUnion with _$PinFlowUnion {
   /// Called when user is authorized and opens app on the cold boot
   const factory PinFlowUnion.verification() = Verification;
 
-  /// Called when user is authorized and opens app on the cold boot
+  /// Called when user is signing in/up at the end of the startup flow
   const factory PinFlowUnion.setup() = Setup;
 }
