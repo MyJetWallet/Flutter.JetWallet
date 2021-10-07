@@ -1,0 +1,126 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
+
+import '../../../../../../service/services/transfer/model/transfer_info/transfer_info_request_model.dart';
+import '../../../../../../service/services/transfer/model/transfer_info/transfer_info_response_model.dart';
+import '../../../../../../shared/components/result_screens/failure_screens/failure_screen.dart';
+import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
+import '../../../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/logging/levels.dart';
+import '../../../../../../shared/providers/other/navigator_key_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
+import '../../../currency_withdraw/model/withdrawal_model.dart';
+import '../../view/screens/send_input_amount.dart';
+import '../send_preview_notifier/send_preview_notipod.dart';
+
+/// How often we check withdraw request status
+const _retryTime = 5; // in seconds
+
+/// Queries withdrawalInfo every [n] seconds and acts acording to response
+/// 1. If withdrawal is pending continue querying
+/// 2. If withdrawal is successful redirects to SuccessScreen
+/// 3. If withdrawal is failed redirects to FailureScreen
+class SendConfirmNotifier extends StateNotifier<void> {
+  SendConfirmNotifier(
+    this.read,
+    this.withdrawal,
+  ) : super(null) {
+    _operationId = read(sendPreviewNotipod(withdrawal)).operationId;
+    _context = read(navigatorKeyPod).currentContext!;
+    _verb = withdrawal.dictionary.verb.toLowerCase();
+    _requestSendInfo();
+  }
+
+  final Reader read;
+  final WithdrawalModel withdrawal;
+
+  Timer? _timer;
+  late int retryTime;
+  late BuildContext _context;
+  late String _operationId;
+  late String _verb;
+
+  static final _logger = Logger('SendConfirmNotifier');
+
+  Future<void> _requestSendInfo() async {
+    try {
+      final model = TransferInfoRequestModel(
+        transferId: _operationId,
+      );
+
+      final response = await read(transferServicePod).transferInfo(model);
+
+      if (response.status == TransferInfoStatus.pendingApproval) {
+        _refreshTimer();
+      } else if (response.status == TransferInfoStatus.success) {
+        _showSuccessScreen();
+      } else {
+        _showFailureScreen();
+      }
+    } catch (error) {
+      _logger.log(stateFlow, '_sendInfo', error);
+
+      _refreshTimer();
+    }
+  }
+
+  void _refreshTimer() {
+    _timer?.cancel();
+    retryTime = _retryTime;
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (retryTime == 0) {
+          timer.cancel();
+          _requestSendInfo();
+        } else {
+          retryTime -= 1;
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _showSuccessScreen() {
+    navigatorPush(
+      _context,
+      SuccessScreen(
+        description: 'Your ${withdrawal.currency.symbol} $_verb '
+            'request has been submitted',
+      ),
+    );
+  }
+
+  void _showFailureScreen() {
+    navigatorPush(
+      _context,
+      FailureScreen(
+        description: 'Failed to $_verb',
+        firstButtonName: 'Edit Order',
+        onFirstButton: () {
+          Navigator.pushAndRemoveUntil(
+            _context,
+            MaterialPageRoute(
+              builder: (_) => SendInputAmount(
+                withdrawal: withdrawal,
+              ),
+            ),
+            (route) => route.isFirst,
+          );
+        },
+        secondButtonName: 'Close',
+        onSecondButton: () => navigateToRouter(read(navigatorKeyPod)),
+      ),
+    );
+  }
+}

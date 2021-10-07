@@ -19,6 +19,7 @@ const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
 const _login = 'Login';
 const _confirmWithdraw = 'jw_withdrawal_email_confirm';
+const _confirmSend = 'jw_transfer_email_confirm';
 const _operationId = 'jw_operation_id';
 
 final dynamicLinkPod = Provider<void>(
@@ -49,7 +50,7 @@ final dynamicLinkPod = Provider<void>(
               token: parameters[_token]!,
             ),
           );
-        } else if (command == _confirmWithdraw) {
+        } else if (command == _confirmWithdraw || command == _confirmSend) {
           final id = parameters[_operationId]!;
           ref.read(withdrawDynamicLinkStpod(id)).state = true;
         } else {
