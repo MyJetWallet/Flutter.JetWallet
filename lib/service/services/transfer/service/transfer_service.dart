@@ -5,8 +5,10 @@ import '../model/tranfer_by_phone/transfer_by_phone_request_model.dart';
 import '../model/tranfer_by_phone/transfer_by_phone_response_model.dart';
 import '../model/transfer_info/transfer_info_request_model.dart';
 import '../model/transfer_info/transfer_info_response_model.dart';
+import '../model/transfer_resend_request_model/transfer_resend_request_model.dart';
 import 'services/transfer_by_phone_service.dart';
 import 'services/transfer_info_service.dart';
+import 'services/transfer_resend_service.dart';
 
 class TransferService {
   TransferService(this.dio);
@@ -25,5 +27,11 @@ class TransferService {
     TransferInfoRequestModel model,
   ) {
     return transferInfoService(dio, model);
+  }
+
+  Future<void> resendTransfer(
+      TransferResendRequestModel model,
+      ) {
+    return transferResendService(dio, model);
   }
 }

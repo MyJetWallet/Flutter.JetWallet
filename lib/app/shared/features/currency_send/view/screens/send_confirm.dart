@@ -10,6 +10,8 @@ import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
+import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../../currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../notifier/send_confirm_notifier/send_confirm_notipod.dart';
@@ -25,10 +27,14 @@ class SendConfirm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useProvider(sendConfirmNotipod(withdrawal).notifier);
+    final timer = useProvider(timerNotipod(withdrawalConfirmResendCountdown));
+    final timerN = useProvider(
+      timerNotipod(withdrawalConfirmResendCountdown).notifier,
+    );
     final authInfo = useProvider(authInfoNotipod);
     final id = useProvider(sendPreviewNotipod(withdrawal)).operationId;
     final dynamicLink = useProvider(withdrawDynamicLinkStpod(id));
+    final confirmN = useProvider(sendConfirmNotipod(withdrawal).notifier);
 
     final verb = withdrawal.dictionary.verb.toLowerCase();
     final noun = withdrawal.dictionary.noun.toLowerCase();
@@ -64,6 +70,30 @@ class SendConfirm extends HookWidget {
               ),
             ),
             const SpaceH2(),
+            if (timer != 0)
+              Text(
+                'You can resend in $timer',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.grey,
+                ),
+              )
+            else
+              InkWell(
+                onTap: () {
+                  confirmN.resendTransfer(
+                    then: () => timerN.refreshTimer(),
+                  );
+                },
+                child: Text(
+                  'Resend',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Colors.black54,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
             const Spacer(),
             AppButtonSolid(
               name: 'Open Email App',
