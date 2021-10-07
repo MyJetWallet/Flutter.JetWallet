@@ -9,10 +9,11 @@ import '../../../shared/components/app_frame.dart';
 import '../../../shared/components/loader.dart';
 import '../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../shared/features/pin_screen/view/pin_screen.dart';
+import '../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import '../../../shared/features/two_fa/two_fa_phone/view/two_fa_phone.dart';
+import '../../notifier/startup_notifier/startup_notipod.dart';
 import '../../provider/app_init_fpod.dart';
-import '../../provider/authorized_stpod/authorized_stpod.dart';
 import '../../provider/router_stpod/router_stpod.dart';
-import '../../provider/session_info_fpod.dart';
 import '../../provider/signalr_init_fpod.dart';
 
 /// Launches application goes after [RemoteConfigInit]
@@ -25,8 +26,7 @@ class AppInit extends HookWidget {
   Widget build(BuildContext context) {
     final router = useProvider(routerStpod);
     final appInit = useProvider(appInitFpod);
-    final sessionInfo = useProvider(sessionInfoFpod);
-    final authorized = useProvider(authorizedStpod);
+    final startup = useProvider(startupNotipod);
     final signalRInit = useProvider(signalRInitFpod);
 
     return AppFrame(
@@ -34,30 +34,37 @@ class AppInit extends HookWidget {
         data: (_) {
           return router.state.when(
             authorized: () {
-              return sessionInfo.when(
-                data: (_) {
-                  return authorized.state.when(
-                    home: () {
-                      return signalRInit.when(
-                        data: (_) => Navigation(),
-                        loading: () => const Loader(
-                          color: Colors.green,
-                        ),
-                        error: (e, st) => Text('$e'),
-                      );
-                    },
-                    pinVerification: () => const PinScreen(
-                      union: Verification(),
-                      cannotLeave: true,
-                    ),
-                    emailVerification: () => const EmailVerification(),
-                    initial: () => const Text('Initial'),
+              return startup.authorized.when(
+                loading: () => const Loader(
+                  color: Colors.lime,
+                ),
+                emailVerification: () => const EmailVerification(),
+                twoFaVerification: () {
+                  return const TwoFaPhone(
+                    trigger: TwoFaPhoneTriggerUnion.startup(),
                   );
                 },
-                loading: () => const Loader(
-                  color: Colors.purple,
-                ),
-                error: (e, st) => Text('$e'),
+                pinSetup: () {
+                  return const PinScreen(
+                    union: Setup(),
+                    cannotLeave: true,
+                  );
+                },
+                pinVerification: () {
+                  return const PinScreen(
+                    union: Verification(),
+                    cannotLeave: true,
+                  );
+                },
+                home: () {
+                  return signalRInit.when(
+                    data: (_) => Navigation(),
+                    loading: () => const Loader(
+                      color: Colors.green,
+                    ),
+                    error: (e, st) => Text('$e'),
+                  );
+                },
               );
             },
             unauthorized: () => Welcome(),

@@ -6,7 +6,11 @@ import 'phone_verification_enter_state.dart';
 
 class PhoneVerificationEnterNotifier
     extends StateNotifier<PhoneVerificationEnterState> {
-  PhoneVerificationEnterNotifier() : super(const PhoneVerificationEnterState());
+  PhoneVerificationEnterNotifier(
+    this.onVerified,
+  ) : super(const PhoneVerificationEnterState());
+
+  final Function() onVerified;
 
   static final _logger = Logger('PhoneVerificationEnterNotifier');
 

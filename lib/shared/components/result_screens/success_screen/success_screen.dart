@@ -9,7 +9,6 @@ import '../../../../app/shared/features/currency_send/view/screens/send_notify_f
 import '../../../../app/shared/features/currency_withdraw/model/withdrawal_model.dart';
 import '../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
-import '../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../helpers/navigator_push.dart';
 import '../components/result_frame.dart';
 import '../components/result_icon.dart';
@@ -26,16 +25,16 @@ class SuccessScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navigatorKey = useProvider(navigatorKeyPod);
     final sendConfirmN = useProvider(
-      sendPreviewNotipod(const WithdrawalModel()),);
+      sendPreviewNotipod(const WithdrawalModel()),
+    );
 
     return ProviderListener<int>(
       provider: timerNotipod(2),
       onChange: (context, value) {
         if (value == 0) {
           if (sendConfirmN.receiverIsRegistered) {
-            navigateToRouter(navigatorKey);
+            navigateToRouter(context.read);
           } else {
             navigatorPush(context, const SendNotifyFriend());
           }

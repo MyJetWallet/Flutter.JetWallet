@@ -37,16 +37,21 @@ class TwoFaScreen extends HookWidget {
                 showSmsAuthWarning(context);
               } else {
                 if (userInfo.phoneVerified) {
-                  navigatorPush(
+                  TwoFaPhone.push(
                     context,
-                    const TwoFaPhone(
-                      trigger: Security(
-                        fromDialog: false,
-                      ),
+                    const TwoFaPhoneTriggerUnion.security(
+                      fromDialog: false,
                     ),
                   );
                 } else {
-                  PhoneVerificationEnter.push(context);
+                  PhoneVerificationEnter.push(
+                    context: context,
+                    onVerified: () {
+                      // TODO reconsider navigation practices
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  );
                 }
               }
             },

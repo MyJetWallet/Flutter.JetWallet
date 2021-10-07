@@ -10,7 +10,6 @@ import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
-import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../../currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../notifier/send_confirm_notifier/send_confirm_notipod.dart';
@@ -28,7 +27,6 @@ class SendConfirm extends HookWidget {
   Widget build(BuildContext context) {
     useProvider(sendConfirmNotipod(withdrawal).notifier);
     final authInfo = useProvider(authInfoNotipod);
-    final navigatorKey = useProvider(navigatorKeyPod);
     final id = useProvider(sendPreviewNotipod(withdrawal)).operationId;
     final dynamicLink = useProvider(withdrawDynamicLinkStpod(id));
 
@@ -37,7 +35,7 @@ class SendConfirm extends HookWidget {
 
     return PageFrame(
       leftIcon: Icons.clear,
-      onBackButton: () => navigateToRouter(navigatorKey),
+      onBackButton: () => navigateToRouter(context.read),
       header: 'Confirm $verb request',
       child: Column(
         mainAxisAlignment: dynamicLink.state

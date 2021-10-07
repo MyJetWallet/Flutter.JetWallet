@@ -100,7 +100,7 @@ class SendPreviewNotifier extends StateNotifier<SendPreviewState> {
         description: 'Failed to place Order',
         onOk: () {
           read(navigationStpod).state = 1; // Portfolio
-          navigateToRouter(read(navigatorKeyPod));
+          navigateToRouter(read);
         },
       ),
     );
@@ -122,7 +122,7 @@ class SendPreviewNotifier extends StateNotifier<SendPreviewState> {
           );
         },
         secondButtonName: 'Close',
-        onSecondButton: () => navigateToRouter(read(navigatorKeyPod)),
+        onSecondButton: () => navigateToRouter(read),
       ),
     );
   }

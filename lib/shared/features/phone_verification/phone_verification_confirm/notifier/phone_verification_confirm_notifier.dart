@@ -8,7 +8,6 @@ import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../logging/levels.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../../../providers/other/navigator_key_pod.dart';
 import '../../../../providers/service_providers.dart';
 import '../../phone_verification_enter/notifier/phone_verification_enter_notipod.dart';
 import 'phone_verification_confirm_state.dart';
@@ -18,22 +17,22 @@ class PhoneVerificationConfirmNotifier
     extends StateNotifier<PhoneVerificationConfirmState> {
   PhoneVerificationConfirmNotifier(
     this.read,
+    this.onVerified,
   ) : super(
           PhoneVerificationConfirmState(
             controller: TextEditingController(),
           ),
         ) {
-    final phoneVerification = read(phoneVerificationEnterNotipod);
+    _userInfoN = read(userInfoNotipod.notifier);
+    final phoneVerification = read(phoneVerificationEnterNotipod(onVerified));
     _updatePhoneNumber(phoneVerification.phoneNumber);
     sendCode();
-    _userInfoN = read(userInfoNotipod.notifier);
-    _context = read(navigatorKeyPod).currentContext!;
   }
 
   final Reader read;
+  final Function() onVerified;
 
   late UserInfoNotifier _userInfoN;
-  late BuildContext _context;
 
   static final _logger = Logger('PhoneVerificationConfirmNotifier');
 
@@ -73,11 +72,8 @@ class PhoneVerificationConfirmNotifier
         _userInfoN.updatePhoneVerified(phoneVerified: true);
         _userInfoN.updateTwoFaStatus(enabled: true);
 
-        
         if (!mounted) return;
-        // TODO reconsider navigation practices
-        Navigator.pop(_context);
-        Navigator.pop(_context);
+        onVerified();
       },
     );
   }

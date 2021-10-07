@@ -9,7 +9,6 @@ import '../../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
-import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../notifier/send_input_phone_number/send_input_phone_number_notipod.dart';
 
 class SendNotifyFriend extends HookWidget {
@@ -17,12 +16,11 @@ class SendNotifyFriend extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navigatorKey = useProvider(navigatorKeyPod);
     final phoneNumber = useProvider(sendInputPhoneNumberNotipod);
 
     return PageFrame(
       leftIcon: Icons.clear,
-      onBackButton: () => navigateToRouter(navigatorKey),
+      onBackButton: () => navigateToRouter(context.read),
       header: 'Notify your friend that you send him money.',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +46,7 @@ class SendNotifyFriend extends HookWidget {
           const SpaceH8(),
           AppButtonOutlined(
             name: 'Later',
-            onTap: () => navigateToRouter(navigatorKey),
+            onTap: () => navigateToRouter(context.read),
           ),
         ],
       ),

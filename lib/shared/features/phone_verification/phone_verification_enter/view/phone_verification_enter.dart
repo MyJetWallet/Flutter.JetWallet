@@ -12,16 +12,31 @@ import '../../phone_verification_confirm/view/phone_verification_confirm.dart';
 import '../notifier/phone_verification_enter_notipod.dart';
 
 class PhoneVerificationEnter extends HookWidget {
-  const PhoneVerificationEnter({Key? key}) : super(key: key);
+  const PhoneVerificationEnter({
+    Key? key,
+    required this.onVerified,
+  }) : super(key: key);
 
-  static void push(BuildContext context) {
-    navigatorPush(context, const PhoneVerificationEnter());
+  final Function() onVerified;
+
+  static void push({
+    required BuildContext context,
+    required Function() onVerified,
+  }) {
+    navigatorPush(
+      context,
+      PhoneVerificationEnter(
+        onVerified: onVerified,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(phoneVerificationEnterNotipod);
-    final notifier = useProvider(phoneVerificationEnterNotipod.notifier);
+    final state = useProvider(phoneVerificationEnterNotipod(onVerified));
+    final notifier = useProvider(
+      phoneVerificationEnterNotipod(onVerified).notifier,
+    );
 
     return PageFrame(
       header: 'Enter phone number',
@@ -62,7 +77,7 @@ class PhoneVerificationEnter extends HookWidget {
             name: 'Continue',
             onTap: () {
               if (state.valid) {
-                PhoneVerificationConfirm.push(context);
+                PhoneVerificationConfirm.push(context, onVerified);
               }
             },
           )

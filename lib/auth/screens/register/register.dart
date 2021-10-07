@@ -22,32 +22,35 @@ class Register extends HookWidget {
     return PageFrame(
       header: 'Create an account',
       onBackButton: () => Navigator.pop(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SpaceH40(),
-          AppTextField(
-            header: 'Enter your email',
-            hintText: 'Email address',
-            autofocus: true,
-            onChanged: (value) => credentialsN.updateAndValidateEmail(value),
-          ),
-          const Spacer(),
-          PolicyCheckBox(
-            onTap: () => credentialsN.checkPolicy(),
-            isChecked: credentials.policyChecked,
-          ),
-          const SpaceH15(),
-          AppButtonSolid(
-            name: 'Continue',
-            onTap: () {
-              if (credentialsN.emailValidAndPolicyChecked) {
-                navigatorPush(context, const RegisterPasswordScreen());
-              }
-            },
-            active: credentialsN.emailValidAndPolicyChecked,
-          )
-        ],
+      child: AutofillGroup(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SpaceH40(),
+            AppTextField(
+              header: 'Enter your email',
+              hintText: 'Email address',
+              autofocus: true,
+              autofillHints: const [AutofillHints.email],
+              onChanged: (value) => credentialsN.updateAndValidateEmail(value),
+            ),
+            const Spacer(),
+            PolicyCheckBox(
+              onTap: () => credentialsN.checkPolicy(),
+              isChecked: credentials.policyChecked,
+            ),
+            const SpaceH15(),
+            AppButtonSolid(
+              name: 'Continue',
+              onTap: () {
+                if (credentialsN.emailValidAndPolicyChecked) {
+                  navigatorPush(context, const RegisterPasswordScreen());
+                }
+              },
+              active: credentialsN.emailValidAndPolicyChecked,
+            )
+          ],
+        ),
       ),
     );
   }

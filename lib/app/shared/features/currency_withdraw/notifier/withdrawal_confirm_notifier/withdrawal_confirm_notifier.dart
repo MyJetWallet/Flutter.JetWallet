@@ -143,7 +143,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
           );
         },
         secondButtonName: 'Close',
-        onSecondButton: () => navigateToRouter(read(navigatorKeyPod)),
+        onSecondButton: () => navigateToRouter(read),
       ),
     );
   }

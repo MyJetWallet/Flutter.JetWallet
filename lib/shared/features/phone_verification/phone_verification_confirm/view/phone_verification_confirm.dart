@@ -19,22 +19,34 @@ import '../notifier/phone_verification_confirm_union.dart';
 import 'components/change_number_button.dart';
 
 class PhoneVerificationConfirm extends HookWidget {
-  const PhoneVerificationConfirm({Key? key}) : super(key: key);
+  const PhoneVerificationConfirm({
+    Key? key,
+    required this.onVerified,
+  }) : super(key: key);
 
-  static void push(BuildContext context) {
-    navigatorPush(context, const PhoneVerificationConfirm());
+  final Function() onVerified;
+
+  static void push(BuildContext context, Function() onVerified) {
+    navigatorPush(
+      context,
+      PhoneVerificationConfirm(
+        onVerified: onVerified,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final phone = useProvider(phoneVerificationConfirmNotipod);
-    final phoneN = useProvider(phoneVerificationConfirmNotipod.notifier);
+    final phone = useProvider(phoneVerificationConfirmNotipod(onVerified));
+    final phoneN = useProvider(
+      phoneVerificationConfirmNotipod(onVerified).notifier,
+    );
     // TODO add phoneVerificationCountdown
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
 
     return ProviderListener<PhoneVerificationConfirmState>(
-      provider: phoneVerificationConfirmNotipod,
+      provider: phoneVerificationConfirmNotipod(onVerified),
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (Object? error) {
