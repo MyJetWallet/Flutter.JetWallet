@@ -2,16 +2,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../logging/levels.dart';
-import '../../model/phone_verification_trigger_union.dart';
 import 'phone_verification_enter_state.dart';
 
 class PhoneVerificationEnterNotifier
     extends StateNotifier<PhoneVerificationEnterState> {
   PhoneVerificationEnterNotifier(
-    this.trigger,
+    this.onVerified,
   ) : super(const PhoneVerificationEnterState());
 
-  final PhoneVerificationTriggerUnion trigger;
+  final Function() onVerified;
 
   static final _logger = Logger('PhoneVerificationEnterNotifier');
 

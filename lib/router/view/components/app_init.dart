@@ -7,8 +7,6 @@ import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/welcome/view/welcome.dart';
 import '../../../shared/components/app_frame.dart';
 import '../../../shared/components/loader.dart';
-import '../../../shared/features/phone_verification/model/phone_verification_trigger_union.dart';
-import '../../../shared/features/phone_verification/phone_verification_enter/view/phone_verification_enter.dart';
 import '../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -41,11 +39,6 @@ class AppInit extends HookWidget {
                   color: Colors.lime,
                 ),
                 emailVerification: () => const EmailVerification(),
-                phoneVerification: () {
-                  return const PhoneVerificationEnter(
-                    trigger: PhoneVerificationTriggerUnion.startup(),
-                  );
-                },
                 twoFaVerification: () {
                   return const TwoFaPhone(
                     trigger: TwoFaPhoneTriggerUnion.startup(),

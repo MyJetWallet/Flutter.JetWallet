@@ -13,7 +13,6 @@ import '../../../../helpers/navigator_push.dart';
 import '../../../../helpers/show_plain_snackbar.dart';
 import '../../../../notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../services/remote_config_service/remote_config_values.dart';
-import '../../model/phone_verification_trigger_union.dart';
 import '../notifier/phone_verification_confirm_notipod.dart';
 import '../notifier/phone_verification_confirm_state.dart';
 import '../notifier/phone_verification_confirm_union.dart';
@@ -22,35 +21,32 @@ import 'components/change_number_button.dart';
 class PhoneVerificationConfirm extends HookWidget {
   const PhoneVerificationConfirm({
     Key? key,
-    required this.trigger,
+    required this.onVerified,
   }) : super(key: key);
 
-  final PhoneVerificationTriggerUnion trigger;
+  final Function() onVerified;
 
-  static void push(
-    BuildContext context,
-    PhoneVerificationTriggerUnion trigger,
-  ) {
+  static void push(BuildContext context, Function() onVerified) {
     navigatorPush(
       context,
       PhoneVerificationConfirm(
-        trigger: trigger,
+        onVerified: onVerified,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final phone = useProvider(phoneVerificationConfirmNotipod(trigger));
+    final phone = useProvider(phoneVerificationConfirmNotipod(onVerified));
     final phoneN = useProvider(
-      phoneVerificationConfirmNotipod(trigger).notifier,
+      phoneVerificationConfirmNotipod(onVerified).notifier,
     );
     // TODO add phoneVerificationCountdown
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
 
     return ProviderListener<PhoneVerificationConfirmState>(
-      provider: phoneVerificationConfirmNotipod(trigger),
+      provider: phoneVerificationConfirmNotipod(onVerified),
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (Object? error) {

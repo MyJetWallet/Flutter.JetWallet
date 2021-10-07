@@ -4,50 +4,43 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-import '../../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../components/buttons/app_button_solid.dart';
 import '../../../../components/page_frame/page_frame.dart';
 import '../../../../components/spacers.dart';
 import '../../../../helpers/navigator_push.dart';
-import '../../model/phone_verification_trigger_union.dart';
 import '../../phone_verification_confirm/view/phone_verification_confirm.dart';
 import '../notifier/phone_verification_enter_notipod.dart';
 
 class PhoneVerificationEnter extends HookWidget {
   const PhoneVerificationEnter({
     Key? key,
-    required this.trigger,
+    required this.onVerified,
   }) : super(key: key);
 
-  final PhoneVerificationTriggerUnion trigger;
+  final Function() onVerified;
 
-  static void push(
-    BuildContext context,
-    PhoneVerificationTriggerUnion trigger,
-  ) {
+  static void push({
+    required BuildContext context,
+    required Function() onVerified,
+  }) {
     navigatorPush(
       context,
       PhoneVerificationEnter(
-        trigger: trigger,
+        onVerified: onVerified,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(phoneVerificationEnterNotipod(trigger));
+    final state = useProvider(phoneVerificationEnterNotipod(onVerified));
     final notifier = useProvider(
-      phoneVerificationEnterNotipod(trigger).notifier,
+      phoneVerificationEnterNotipod(onVerified).notifier,
     );
 
     return PageFrame(
       header: 'Enter phone number',
-      onBackButton: () => trigger.when(
-        startup: () {
-          context.read(startupNotipod.notifier).quitPhoneVerification();
-        },
-        security: () => Navigator.pop(context),
-      ),
+      onBackButton: () => Navigator.pop(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -84,7 +77,7 @@ class PhoneVerificationEnter extends HookWidget {
             name: 'Continue',
             onTap: () {
               if (state.valid) {
-                PhoneVerificationConfirm.push(context, trigger);
+                PhoneVerificationConfirm.push(context, onVerified);
               }
             },
           )
