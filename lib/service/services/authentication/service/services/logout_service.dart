@@ -11,7 +11,7 @@ Future<void> logoutService(
 ) async {
   try {
     await dio.post(
-      '$tradingAuthApi/Trader/Logout',
+      '$authApi/trader/Logout',
       data: model.toJson(),
     );
   } catch (e) {

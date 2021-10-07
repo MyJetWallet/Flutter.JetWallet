@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
-import '../model/authenticate/authentication_model.dart';
+import '../model/authenticate/authentication_response_model.dart';
 import '../model/authenticate/login_request_model.dart';
 import '../model/authenticate/register_request_model.dart';
 import '../model/forgot_password/forgot_password_request_model.dart';
@@ -9,14 +9,14 @@ import '../model/logout/logout_request_model.dart';
 import '../model/password_recovery/password_recovery_request_model.dart';
 import '../model/refresh/auth_refresh_request_model.dart';
 import '../model/refresh/auth_refresh_response_model.dart';
-import '../model/server_info/server_info_response_model.dart';
+import '../model/server_time/server_time_response_model.dart';
 import 'services/forgot_password_service.dart';
 import 'services/login_service.dart';
 import 'services/logout_service.dart';
 import 'services/password_recovery_service.dart';
 import 'services/refresh_service.dart';
 import 'services/register_service.dart';
-import 'services/server_info_service.dart';
+import 'services/server_time_service.dart';
 
 class AuthenticationService {
   AuthenticationService(this.dio);
@@ -25,11 +25,11 @@ class AuthenticationService {
 
   static final logger = Logger('AuthenticationService');
 
-  Future<AuthenticationModel> register(RegisterRequestModel model) {
+  Future<AuthenticationResponseModel> register(RegisterRequestModel model) {
     return registerService(dio, model);
   }
 
-  Future<AuthenticationModel> login(LoginRequestModel model) {
+  Future<AuthenticationResponseModel> login(LoginRequestModel model) {
     return loginService(dio, model);
   }
 
@@ -49,7 +49,7 @@ class AuthenticationService {
     return recoverPasswordService(dio, model);
   }
 
-  Future<ServerInfoResponseModel> serverInfo() {
-    return serverInfoService(dio);
+  Future<ServerTimeResponseModel> serverTime() {
+    return serverTimeService(dio);
   }
 }

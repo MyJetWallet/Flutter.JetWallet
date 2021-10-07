@@ -21,8 +21,8 @@ class ConnectionFlavorsModel with _$ConnectionFlavorsModel {
 @freezed
 class ConnectionFlavorModel with _$ConnectionFlavorModel {
   const factory ConnectionFlavorModel({
-    required String tradingApi,
-    required String tradingAuthApi,
+    required String candlesApi,
+    required String authApi,
     required String walletApi,
     required String walletApiSignalR,
     required String validationApi,
