@@ -31,14 +31,10 @@ class StartupNotifier extends StateNotifier<StartupState> {
         );
 
         if (info.emailVerified) {
-          if (info.phoneVerified) {
-            if (!info.twoFaPassed) {
-              _updateAuthorizedUnion(const TwoFaVerification());
-            } else {
-              _processPinState();
-            }
+          if (!info.twoFaPassed) {
+            _updateAuthorizedUnion(const TwoFaVerification());
           } else {
-            _updateAuthorizedUnion(const PhoneVerification());
+            _processPinState();
           }
         } else {
           _updateAuthorizedUnion(const EmailVerification());
@@ -76,22 +72,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
 
     navigateToRouter(read);
     _processStartupState();
-  }
-
-  /// Called after successfull phone verification
-  void phoneVerified() {
-    _logger.log(notifier, 'phoneVerified');
-
-    navigateToRouter(read);
-    _processPinState();
-  }
-
-  /// Called when user decided to quite phone verification screen
-  void quitPhoneVerification() {
-    _logger.log(notifier, 'quitPhoneVerification');
-
-    navigateToRouter(read);
-    _processPinState();
   }
 
   /// Called when user makes cold boot and has enabled 2FA
