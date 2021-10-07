@@ -47,7 +47,6 @@ class Account extends HookWidget {
             child: ListView(
               children: [
                 AccountScreenHeader(
-                  userName: 'Danylo Shcherbak',
                   userEmail: authInfo.email,
                 ),
                 const SpaceH20(),
