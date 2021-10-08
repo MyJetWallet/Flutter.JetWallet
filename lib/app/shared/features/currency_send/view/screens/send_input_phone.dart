@@ -8,8 +8,8 @@ import '../../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/notifiers/enter_phone_notifier/enter_phone_notipod.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
-import '../../notifier/send_input_phone_number/send_input_phone_number_notipod.dart';
 import 'send_input_amount.dart';
 
 class SendInputPhone extends HookWidget {
@@ -22,9 +22,9 @@ class SendInputPhone extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final enterPhone = useProvider(enterPhoneNotipod);
+    final enterPhoneN = useProvider(enterPhoneNotipod.notifier);
     final currency = withdrawal.currency;
-    final inputPhoneNumberN = useProvider(sendInputPhoneNumberNotipod.notifier);
-    final state = useProvider(sendInputPhoneNumberNotipod);
 
     return PageFrame(
       header: '${withdrawal.dictionary.verb} '
@@ -47,10 +47,10 @@ class SendInputPhone extends HookWidget {
             ignoreBlank: true,
             autoValidateMode: AutovalidateMode.always,
             onInputChanged: (number) {
-              inputPhoneNumberN.updatePhoneNumber(number.phoneNumber);
+              enterPhoneN.updatePhoneNumber(number.phoneNumber);
             },
             onInputValidated: (valid) {
-              inputPhoneNumberN.updateValid(valid: valid);
+              enterPhoneN.updateValid(valid: valid);
             },
           ),
           const SpaceH10(),
@@ -63,9 +63,14 @@ class SendInputPhone extends HookWidget {
           const Spacer(),
           AppButtonSolid(
             name: 'Continue',
-            active: state.valid,
+            active: enterPhone.valid,
             onTap: () async {
-              navigatorPush(context, SendInputAmount(withdrawal: withdrawal));
+              navigatorPush(
+                context,
+                SendInputAmount(
+                  withdrawal: withdrawal,
+                ),
+              );
             },
           ),
         ],

@@ -9,6 +9,7 @@ import '../../../../../../shared/components/result_screens/failure_screens/no_re
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
+import '../../../../../../shared/notifiers/enter_phone_notifier/enter_phone_notipod.dart';
 import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
@@ -16,7 +17,6 @@ import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../view/screens/send_confirm.dart';
 import '../../view/screens/send_input_amount.dart';
 import '../send_amount_notifier/send_amount_notipod.dart';
-import '../send_input_phone_number/send_input_phone_number_notipod.dart';
 import 'send_preview_state.dart';
 
 class SendPreviewNotifier extends StateNotifier<SendPreviewState> {
@@ -25,11 +25,11 @@ class SendPreviewNotifier extends StateNotifier<SendPreviewState> {
     this.withdrawal,
   ) : super(const SendPreviewState()) {
     final amount = read(sendAmountNotipod(withdrawal));
-    final phoneNumber = read(sendInputPhoneNumberNotipod);
+    final enterPhone = read(enterPhoneNotipod);
 
     state = state.copyWith(
       amount: amount.amount,
-      phoneNumber: phoneNumber.phoneNumber,
+      phoneNumber: enterPhone.phoneNumber!,
     );
 
     _context = read(navigatorKeyPod).currentContext!;
@@ -53,7 +53,6 @@ class SendPreviewNotifier extends StateNotifier<SendPreviewState> {
         assetSymbol: withdrawal.currency.symbol,
         amount: double.parse(state.amount),
         lang: read(intlPod).localeName,
-        //TODO(Vova): add comment
         toPhoneNumber: state.phoneNumber.substring(1),
       );
 

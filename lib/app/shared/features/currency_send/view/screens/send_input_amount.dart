@@ -6,6 +6,7 @@ import '../../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/notifiers/enter_phone_notifier/enter_phone_notipod.dart';
 import '../../../../components/asset_input_error.dart';
 import '../../../../components/asset_input_field.dart';
 import '../../../../components/balance_selector/view/percent_selector.dart';
@@ -15,7 +16,6 @@ import '../../../../helpers/input_helpers.dart';
 import '../../../currency_withdraw/helper/minimum_amount.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../notifier/send_amount_notifier/send_amount_notipod.dart';
-import '../../notifier/send_input_phone_number/send_input_phone_number_notipod.dart';
 import '../components/phone_card.dart';
 import 'send_preview.dart';
 
@@ -31,7 +31,7 @@ class SendInputAmount extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(sendAmountNotipod(withdrawal));
     final notifier = useProvider(sendAmountNotipod(withdrawal).notifier);
-    final inputPhoneNumberState = useProvider(sendInputPhoneNumberNotipod);
+    final enterPhone = useProvider(enterPhoneNotipod);
     final currency = withdrawal.currency;
 
     return PageFrame(
@@ -69,7 +69,9 @@ class SendInputAmount extends HookWidget {
             const SpaceH20(),
           ],
           const Spacer(),
-          PhoneCard(phoneNumber: inputPhoneNumberState.phoneNumber,),
+          PhoneCard(
+            phoneNumber: enterPhone.phoneNumber!,
+          ),
           const SpaceH10(),
           PercentSelector(
             disabled: false,

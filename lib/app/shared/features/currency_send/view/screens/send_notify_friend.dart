@@ -9,14 +9,14 @@ import '../../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
-import '../../notifier/send_input_phone_number/send_input_phone_number_notipod.dart';
+import '../../../../../../shared/notifiers/enter_phone_notifier/enter_phone_notipod.dart';
 
 class SendNotifyFriend extends HookWidget {
   const SendNotifyFriend({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final phoneNumber = useProvider(sendInputPhoneNumberNotipod);
+    final enterPhone = useProvider(enterPhoneNotipod);
 
     return PageFrame(
       leftIcon: Icons.clear,
@@ -27,7 +27,7 @@ class SendNotifyFriend extends HookWidget {
         children: [
           const SpaceH20(),
           Text(
-            "Person with number ${phoneNumber.phoneNumber} doesn't have "
+            "Person with number ${enterPhone.phoneNumber} doesn't have "
             'Simple app yet.',
             style: TextStyle(
               fontSize: 16.sp,
