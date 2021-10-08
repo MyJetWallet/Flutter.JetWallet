@@ -3,9 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
+import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/login/login.dart';
 import '../../../auth/screens/reset_password/view/reset_password.dart';
-import '../../../router/notifier/startup_notifier/authorized_union.dart';
 import '../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../helpers/navigator_push.dart';
 import '../../notifiers/logout_notifier/logout_notipod.dart';
@@ -19,6 +19,7 @@ const _confirmEmail = 'ConfirmEmail';
 const _forgotPassword = 'ForgotPassword';
 const _login = 'Login';
 const _confirmWithdraw = 'jw_withdrawal_email_confirm';
+const _confirmSend = 'jw_transfer_email_confirm';
 const _operationId = 'jw_operation_id';
 
 final dynamicLinkPod = Provider<void>(
@@ -49,7 +50,7 @@ final dynamicLinkPod = Provider<void>(
               token: parameters[_token]!,
             ),
           );
-        } else if (command == _confirmWithdraw) {
+        } else if (command == _confirmWithdraw || command == _confirmSend) {
           final id = parameters[_operationId]!;
           ref.read(withdrawDynamicLinkStpod(id)).state = true;
         } else {

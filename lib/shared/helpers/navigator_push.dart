@@ -9,8 +9,6 @@ void navigatorPush(BuildContext context, Widget page, [void Function()? then]) {
       },
     ),
   ).then((value) {
-    if (then != null) {
-      then();
-    }
+    then?.call();
   });
 }

@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-import '../../../../components/buttons/app_button_solid.dart';
-import '../../../../components/page_frame/page_frame.dart';
-import '../../../../components/spacers.dart';
-import '../../../../helpers/navigator_push.dart';
-import '../../phone_verification_confirm/view/phone_verification_confirm.dart';
-import '../notifier/phone_verification_enter_notipod.dart';
+import '../../../components/buttons/app_button_solid.dart';
+import '../../../components/page_frame/page_frame.dart';
+import '../../../components/spacers.dart';
+import '../../../helpers/navigator_push.dart';
+import '../../../notifiers/enter_phone_notifier/enter_phone_notipod.dart';
+import '../phone_verification_confirm/view/phone_verification_confirm.dart';
 
 class PhoneVerificationEnter extends HookWidget {
   const PhoneVerificationEnter({
@@ -33,10 +33,8 @@ class PhoneVerificationEnter extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(phoneVerificationEnterNotipod(onVerified));
-    final notifier = useProvider(
-      phoneVerificationEnterNotipod(onVerified).notifier,
-    );
+    final state = useProvider(enterPhoneNotipod);
+    final notifier = useProvider(enterPhoneNotipod.notifier);
 
     return PageFrame(
       header: 'Enter phone number',

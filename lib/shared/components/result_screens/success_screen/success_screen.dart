@@ -12,10 +12,13 @@ import '../components/result_icon.dart';
 class SuccessScreen extends HookWidget {
   const SuccessScreen({
     Key? key,
+    this.then,
     this.header,
     required this.description,
   }) : super(key: key);
 
+  // Triggered when SuccessScreen is done
+  final Function()? then;
   final String? header;
   final String description;
 
@@ -24,7 +27,10 @@ class SuccessScreen extends HookWidget {
     return ProviderListener<int>(
       provider: timerNotipod(2),
       onChange: (context, value) {
-        if (value == 0) navigateToRouter(context.read);
+        if (value == 0) {
+          navigateToRouter(context.read);
+          then?.call();
+        }
       },
       child: ResultFrame(
         header: header,
