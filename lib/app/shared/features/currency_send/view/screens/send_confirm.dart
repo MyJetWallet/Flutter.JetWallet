@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../../shared/components/loader.dart';
+import '../../../../../../shared/components/loaders/loader.dart';
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
