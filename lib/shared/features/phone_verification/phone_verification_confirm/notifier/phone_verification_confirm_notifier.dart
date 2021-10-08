@@ -65,6 +65,7 @@ class PhoneVerificationConfirmNotifier
       body: () async {
         final model = PhoneVerificationVerifyRequestModel(
           code: state.controller.text,
+          phoneNumber: state.phoneNumber,
         );
 
         await read(phoneVerificationServicePod).verify(model);
