@@ -17,6 +17,7 @@ import '../../service/services/phone_verification/service/phone_verification_ser
 import '../../service/services/signal_r/service/signal_r_service.dart';
 import '../../service/services/sms_verification/service/sms_verification.dart';
 import '../../service/services/swap/service/swap_service.dart';
+import '../../service/services/transfer/service/transfer_service.dart';
 import '../../service/services/two_fa/service/two_fa_service.dart';
 import '../../service/services/validation/service/validation_service.dart';
 import '../../service/services/wallet/service/wallet_service.dart';
@@ -147,4 +148,10 @@ final phoneVerificationServicePod = Provider<PhoneVerificationService>((ref) {
   final dio = ref.watch(dioPod);
 
   return PhoneVerificationService(dio);
+});
+
+final transferServicePod = Provider<TransferService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return TransferService(dio);
 });

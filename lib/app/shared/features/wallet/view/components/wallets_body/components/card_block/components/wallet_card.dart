@@ -81,6 +81,8 @@ class WalletCard extends HookWidget {
                 fontSize: 30.sp,
                 fontWeight: FontWeight.w600,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             Text(
               hidden.state
@@ -95,6 +97,8 @@ class WalletCard extends HookWidget {
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
