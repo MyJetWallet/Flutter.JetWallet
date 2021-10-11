@@ -101,10 +101,12 @@ class StartupNotifier extends StateNotifier<StartupState> {
   // <- Trigger AuthorizedUnion change [End]
 
   void _processPinState() {
-    if (read(userInfoNotipod).pinEnabled) {
+    final userInfo = read(userInfoNotipod);
+
+    if (userInfo.pinEnabled) {
       _updateAuthorizedUnion(const PinVerification());
     } else {
-      if (state.fromLoginRegister) {
+      if (state.fromLoginRegister || !userInfo.pinDisabled) {
         _updateAuthorizedUnion(const PinSetup());
       } else {
         _updateAuthorizedUnion(const Home());
