@@ -65,6 +65,7 @@ class PhoneVerificationConfirmNotifier
       body: () async {
         final model = PhoneVerificationVerifyRequestModel(
           code: state.controller.text,
+          phoneNumber: state.phoneNumber,
         );
 
         await read(phoneVerificationServicePod).verify(model);
@@ -91,14 +92,25 @@ class PhoneVerificationConfirmNotifier
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      state = state.copyWith(union: Error(e.cause));
+      _updateError(Error(e.cause));
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      state = state.copyWith(
-        union: const Error('Error occured'),
-      );
+      _updateError(const Error('Error occured'));
     }
+  }
+
+  /// To avoid snackbar showing for several times instead of one
+  /// This happens because of the ProviderListener and because
+  /// Error state perssists for several rebuilds
+  void resetError() {
+    _logger.log(notifier, 'resetError');
+
+    state = state.copyWith(union: const Input());
+  }
+
+  void _updateError(Error error) {
+    state = state.copyWith(union: error);
   }
 
   void _updatePhoneNumber(String? number) {
