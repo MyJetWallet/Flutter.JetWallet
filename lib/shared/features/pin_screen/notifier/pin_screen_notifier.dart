@@ -163,6 +163,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     } else {
       await flowUnion.maybeWhen(
         disable: () async {
+          await _userInfoN.disablePin();
           await _successFlow(
             _userInfoN.resetPin(),
           );
