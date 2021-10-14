@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../notifier/watchlist_notipod.dart';
+import '../../../../notifier/watchlist/watchlist_notipod.dart';
 import '../../../../provider/market_watchlist_items_pod.dart';
 import '../../market_item/market_item.dart';
 import 'empty_watchlist.dart';
