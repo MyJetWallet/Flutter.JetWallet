@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/shared/services/contacts_service.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
@@ -154,4 +155,8 @@ final transferServicePod = Provider<TransferService>((ref) {
   final dio = ref.watch(dioPod);
 
   return TransferService(dio);
+});
+
+final contactsServicePod = Provider<ContactsService>((ref) {
+  return ContactsService();
 });
