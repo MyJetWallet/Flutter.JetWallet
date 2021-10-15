@@ -30,7 +30,6 @@ class SimpleBaseButton extends StatelessWidget {
       splashColor: Colors.transparent,
       borderRadius: sBaseButtonRadius,
       child: Ink(
-        width: 327.w,
         height: 56.h,
         decoration: decoration.copyWith(
           borderRadius: sBaseButtonRadius,
