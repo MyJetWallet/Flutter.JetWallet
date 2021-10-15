@@ -51,7 +51,7 @@ class SendPreview extends HookWidget {
           const ActionPreviewDivider(),
           ActionPreviewRow(
             description: 'Fee',
-            value: currency.withdrawalFeeWithSymbol,
+            value: currency.emptyWithdrawalFee,
           ),
           const ActionPreviewDivider(),
           ActionPreviewRow(

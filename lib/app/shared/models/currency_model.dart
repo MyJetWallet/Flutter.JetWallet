@@ -50,6 +50,8 @@ class CurrencyModel with _$CurrencyModel {
     }
   }
 
+  String get emptyWithdrawalFee => '0 $symbol';
+
   bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
 
   bool get hasTag => tagType != TagType.none;
