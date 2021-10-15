@@ -10,6 +10,8 @@ import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/security_divider.dart';
 import '../../../../../shared/components/security_option.dart';
 import '../../../../../shared/components/spacers.dart';
+import '../../../../../shared/helpers/launch_url.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../provider/package_info_fpod.dart';
 
 class AboutUs extends HookWidget {
@@ -85,14 +87,12 @@ class AboutUs extends HookWidget {
           const Spacer(),
           SecurityOption(
             name: 'Terms of Use',
-            // TODO(Vova): add link openning
-            onTap: () {},
+            onTap: () => launchURL(context, termsOfUseUrl),
           ),
           const SecurityDivider(),
           SecurityOption(
             name: 'Privacy Policy',
-            // TODO(Vova): add link openning
-            onTap: () {},
+            onTap: () => launchURL(context, privacyPolicyUrl),
           ),
           const SecurityDivider(),
           const SpaceH30(),
