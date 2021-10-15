@@ -1,10 +1,24 @@
 library simple_kit;
 
+/// Buttons
+export 'src/buttons/link_button/public/simple_link_button_1.dart';
+export 'src/buttons/link_button/public/simple_link_button_2.dart';
+export 'src/buttons/primary_button/public/simple_primary_button_1.dart';
+export 'src/buttons/primary_button/public/simple_primary_button_2.dart';
+export 'src/buttons/secondary_button/public/simple_secondary_button_1.dart';
+export 'src/buttons/secondary_button/public/simple_secondary_button_2.dart';
+export 'src/buttons/text_button/public/simple_text_button_1.dart';
+export 'src/buttons/text_button/public/simple_text_button_2.dart';
+
 /// Colors
 export 'src/colors/provider/simple_color_pod.dart';
 export 'src/colors/view/simple_colors.dart';
 export 'src/colors/view/simple_colors_dark.dart';
 export 'src/colors/view/simple_colors_light.dart';
+
+/// Icons
+export 'src/icons/light/mail/simple_light_mail_icon.dart';
+export 'src/icons/light/mail/simple_light_mail_pressed_icon.dart';
 
 /// Texts
 export 'src/texts/simple_body_text_1.dart';
@@ -24,5 +38,3 @@ export 'src/texts/simple_text_h5.dart';
 
 /// Theme
 export 'src/theme/provider/simple_theme_pod.dart';
-export 'src/theme/view/simple_dark_theme.dart';
-export 'src/theme/view/simple_light_theme.dart';
