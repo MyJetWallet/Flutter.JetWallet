@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
 
+import '../../../../shared/features/key_value/notifier/key_value_notipod.dart';
 import 'watchlist_notifier.dart';
 
 final watchlistIdsNotipod =

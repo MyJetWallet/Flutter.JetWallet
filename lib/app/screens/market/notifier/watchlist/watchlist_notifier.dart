@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../service/services/key_value/model/key_value_request_model.dart';
-import '../../../../service/services/key_value/model/key_value_response_model.dart';
-import '../../../../service/shared/constants.dart';
-import '../../../../shared/logging/levels.dart';
-import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
+import '../../../../../service/services/key_value/model/key_value_request_model.dart';
+import '../../../../../service/services/key_value/model/key_value_response_model.dart';
+import '../../../../../service/shared/constants.dart';
+import '../../../../../shared/logging/levels.dart';
+import '../../../../shared/features/key_value/notifier/key_value_notipod.dart';
 
 class WatchlistNotifier extends StateNotifier<List<String>> {
   WatchlistNotifier({
@@ -82,7 +82,6 @@ class WatchlistNotifier extends StateNotifier<List<String>> {
     state = list;
 
     try {
-
       await read(keyValueNotipod.notifier).addToKeyValue(
         KeyValueRequestModel(
           keys: [
