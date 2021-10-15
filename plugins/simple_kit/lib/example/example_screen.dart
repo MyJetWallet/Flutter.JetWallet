@@ -56,7 +56,7 @@ class ExampleScreen extends ConsumerWidget {
   }
 }
 
-class Home extends ConsumerWidget {
+class Home extends StatelessWidget {
   const Home({
     Key? key,
   }) : super(key: key);
@@ -64,7 +64,7 @@ class Home extends ConsumerWidget {
   static const routeName = '/';
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
