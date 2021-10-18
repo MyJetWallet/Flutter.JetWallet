@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/services/contacts_service.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
@@ -24,6 +23,7 @@ import '../../service/services/validation/service/validation_service.dart';
 import '../../service/services/wallet/service/wallet_service.dart';
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
+import '../services/contact_service.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
@@ -157,6 +157,6 @@ final transferServicePod = Provider<TransferService>((ref) {
   return TransferService(dio);
 });
 
-final contactsServicePod = Provider<ContactsService>((ref) {
-  return ContactsService();
+final contactsServicePod = Provider<ContactService>((ref) {
+  return ContactService();
 });

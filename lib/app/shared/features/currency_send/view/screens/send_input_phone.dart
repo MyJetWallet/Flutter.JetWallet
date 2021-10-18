@@ -3,16 +3,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:jetwallet/app/shared/components/basic_bottom_sheet/basic_bottom_sheet.dart';
-import 'package:jetwallet/shared/providers/service_providers.dart';
-import 'package:jetwallet/shared/services/local_storage_service.dart';
 
 import '../../../../../../shared/components/buttons/app_button_solid.dart';
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../notifier/send_input_phone_number/send_input_phone_number_notipod.dart';
+import '../components/contacts_list.dart';
 import 'send_input_amount.dart';
 
 class SendInputPhone extends StatefulHookWidget {
@@ -30,16 +29,17 @@ class SendInputPhone extends StatefulHookWidget {
 class _SendInputPhoneState extends State<SendInputPhone> {
   @override
   void initState() {
-    final storage = context.read(localStorageServicePod);
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      final inputPhoneNumberN = context.read(
+        sendInputPhoneNumberNotipod.notifier,
+      );
+      final permissionAsked = await inputPhoneNumberN.checkPermissionAsked();
 
-    _checkPermissionAsked(storage).then((permissionAsked) {
-      print('permission asked = $permissionAsked');
-      if (permissionAsked) {
-        storage.setString(contactsPermissionKey, 'true');
+      if (!permissionAsked) {
+        await inputPhoneNumberN.setPermissionAsked();
         _showContactsDescriptionDialog();
       }
     });
-    _askContactsPermission();
     super.initState();
   }
 
@@ -87,7 +87,9 @@ class _SendInputPhoneState extends State<SendInputPhone> {
           Row(
             children: [
               InkWell(
-                onTap: _askContactsPermission,
+                onTap: () => inputPhoneNumberN.askContactsPermission(
+                  _showContactsSearchBottomSheet,
+                ),
                 child: Text(
                   'I want to use my phonebook',
                   style: TextStyle(
@@ -123,6 +125,8 @@ class _SendInputPhoneState extends State<SendInputPhone> {
   }
 
   void _showContactsDescriptionDialog() {
+    final notifier = context.read(sendInputPhoneNumberNotipod.notifier);
+
     showDialog(
       context: context,
       builder: (builderContext) {
@@ -139,7 +143,7 @@ class _SendInputPhoneState extends State<SendInputPhone> {
             TextButton(
               onPressed: () {
                 Navigator.of(builderContext).pop();
-                _askContactsPermission();
+                notifier.askContactsPermission(_showContactsSearchBottomSheet);
               },
               child: const Text(
                 'Use Address Book',
@@ -159,28 +163,31 @@ class _SendInputPhoneState extends State<SendInputPhone> {
     );
   }
 
-  Future<bool> _checkPermissionAsked(LocalStorageService storage) async {
-    final contactsPermissionAsked =
-        await storage.getString(contactsPermissionKey);
-
-    return contactsPermissionAsked != null && contactsPermissionAsked == 'true';
-  }
-
-  void _askContactsPermission() {
-    final contactsService = context.read(contactsServicePod);
-    contactsService.askPermission();
-    _showContactsSearchBottomSheet();
-  }
-
   void _showContactsSearchBottomSheet() {
+    final notifier = context.read(sendInputPhoneNumberNotipod.notifier);
+
     showBasicBottomSheet(
       scrollable: true,
-      children: [
-        TextFormField(
-          decoration: const InputDecoration(
-            border: UnderlineInputBorder(),
-            labelText: 'Type or search',
+      minHeight: 0.7.sh,
+      pinned: TextFormField(
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 28.sp,
+        ),
+        decoration: InputDecoration(
+          border: const UnderlineInputBorder(),
+          labelText: 'Type or search',
+          floatingLabelStyle: TextStyle(
+            fontSize: 12.sp,
           ),
+        ),
+        onChanged: (value) {
+          notifier.updateSearch(value);
+        },
+      ),
+      children: [
+        ContactsList(
+          withdrawal: widget.withdrawal,
         ),
       ],
       context: context,

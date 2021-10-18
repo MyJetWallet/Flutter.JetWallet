@@ -69,7 +69,10 @@ class SendInputAmount extends HookWidget {
             const SpaceH20(),
           ],
           const Spacer(),
-          PhoneCard(phoneNumber: inputPhoneNumberState.phoneNumber,),
+          PhoneCard(
+            phoneNumber: inputPhoneNumberState.phoneNumber,
+            name: inputPhoneNumberState.name,
+          ),
           const SpaceH10(),
           PercentSelector(
             disabled: false,
