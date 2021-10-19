@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'operation_history_response_model.freezed.dart';
-
 part 'operation_history_response_model.g.dart';
 
 @freezed
@@ -49,7 +48,7 @@ enum OperationType {
   transferByPhone,
   @JsonValue(7)
   receiveByPhone,
-  @JsonValue(3)
+  @JsonValue(8)
   unknown,
   buy,
   sell,
