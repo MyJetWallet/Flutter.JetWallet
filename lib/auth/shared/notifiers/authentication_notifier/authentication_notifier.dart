@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -89,7 +90,11 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     } catch (e, st) {
       _logger.log(stateFlow, 'authenticate', e);
 
-      state = Input(e, st);
+      if (e is DioError && e.error == 'Http status error [401]') {
+        state = Input('Invalid login or password', st);
+      } else {
+        state = Input(e, st);
+      }
     }
   }
 }
