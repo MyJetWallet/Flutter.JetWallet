@@ -24,92 +24,100 @@ class AboutUs extends HookWidget {
     return PageFrame(
       header: 'About us',
       onBackButton: () => Navigator.pop(context),
-      child: ListView(
-        children: [
-          const SpaceH20(),
-          Text(
-            'Simple - ',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 40.sp,
-            ),
-          ),
-          Text(
-            'The easiest place to buy, sell and manage cryptocurrency '
-            'portfolio.',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24.sp,
-            ),
-          ),
-          const SpaceH30(),
-          Text(
-            'Why invest with Simple: \n',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 16.sp,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.w),
+      child: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SpaceH20(),
                 Text(
-                  '• Simple investing for everyone\n(Superb app experience)\n',
+                  'Simple - ',
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40.sp,
                   ),
                 ),
                 Text(
-                  '• Regulated crypto exchange\n(Licensed and '
-                  'regulated digital assets '
-                  'institution)\n',
+                  'The easiest place to buy, sell and manage cryptocurrency '
+                  'portfolio.',
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+                const SpaceH30(),
+                Text(
+                  'Why invest with Simple: \n',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
                     fontSize: 16.sp,
                   ),
                 ),
-                Text(
-                  '• Best prices\n(Transperent fees and charges)\n',
-                  style: TextStyle(
-                    fontSize: 16.sp,
+                Padding(
+                  padding: EdgeInsets.only(left: 12.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '• Simple investing for everyone\n(Superb app experience)\n',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      Text(
+                        '• Regulated crypto exchange\n(Licensed and '
+                        'regulated digital assets '
+                        'institution)\n',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      Text(
+                        '• Best prices\n(Transperent fees and charges)\n',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      Text(
+                        '• 24\\7 support\n(Superior from human to human)\n',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  '• 24\\7 support\n(Superior from human to human)\n',
-                  style: TextStyle(
-                    fontSize: 16.sp,
+                const Spacer(),
+                SecurityOption(
+                  name: 'Terms of Use',
+                  onTap: () => launchURL(context, termsOfUseUrl),
+                ),
+                const SecurityDivider(),
+                SecurityOption(
+                  name: 'Privacy Policy',
+                  onTap: () => launchURL(context, privacyPolicyUrl),
+                ),
+                const SecurityDivider(),
+                const SpaceH30(),
+                packageInfo.when(
+                  data: (PackageInfo info) => SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      'App version: '
+                      '${info.version} (${info.buildNumber})',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      ),
+                    ),
                   ),
+                  loading: () => const SizedBox(),
+                  error: (_, __) => const SizedBox(),
                 ),
               ],
             ),
-          ),
-          const Spacer(),
-          SecurityOption(
-            name: 'Terms of Use',
-            onTap: () => launchURL(context, termsOfUseUrl),
-          ),
-          const SecurityDivider(),
-          SecurityOption(
-            name: 'Privacy Policy',
-            onTap: () => launchURL(context, privacyPolicyUrl),
-          ),
-          const SecurityDivider(),
-          const SpaceH30(),
-          packageInfo.when(
-            data: (PackageInfo info) => SizedBox(
-              width: double.infinity,
-              child: Text(
-                'App version: '
-                '${info.version} (${info.buildNumber})',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                ),
-              ),
-            ),
-            loading: () => const SizedBox(),
-            error: (_, __) => const SizedBox(),
           ),
         ],
       ),
