@@ -7,6 +7,7 @@ part 'client_detail_model.g.dart';
 class ClientDetailModel with _$ClientDetailModel {
   const factory ClientDetailModel({
     @JsonKey(name: 'baseAsset') required String baseAssetSymbol,
+    required String walletCreationDate,
   }) = _ClientDetailModel;
 
   factory ClientDetailModel.fromJson(Map<String, dynamic> json) =>

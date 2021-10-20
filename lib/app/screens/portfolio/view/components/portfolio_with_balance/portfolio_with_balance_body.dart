@@ -17,6 +17,7 @@ import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../shared/providers/client_detail_pod/client_detail_pod.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
 import '../../../helper/zero_balance_wallets_empty.dart';
@@ -37,6 +38,7 @@ class PortfolioWithBalanceBody extends HookWidget {
     final hidden = useProvider(walletHiddenStPod);
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final clientDetail = useProvider(clientDetailPod);
 
     return SingleChildScrollView(
       child: Padding(
@@ -75,6 +77,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                 onCandleSelected: (ChartInfo? chartInfo) {
                   chartN.updateSelectedCandle(chartInfo?.right);
                 },
+                walletCreationDate: clientDetail.walletCreationDate,
               ),
             ),
             const SpaceH15(),
