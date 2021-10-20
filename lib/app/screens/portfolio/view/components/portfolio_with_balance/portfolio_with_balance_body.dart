@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/providers/client_detail_pod/client_detail_pod.dart';
 
 import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/spacers.dart';
@@ -18,6 +17,7 @@ import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../shared/providers/client_detail_pod/client_detail_pod.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
 import '../../../helper/zero_balance_wallets_empty.dart';
