@@ -8,6 +8,7 @@ final clientDetailPod = Provider.autoDispose<ClientDetailModel>((ref) {
 
   var value = const ClientDetailModel(
     baseAssetSymbol: 'USD',
+    walletCreationDate: '',
   );
 
   clientDetail.whenData((data) => value = data);

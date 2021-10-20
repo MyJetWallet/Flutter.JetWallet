@@ -12,9 +12,11 @@ class BalanceChart extends HookWidget {
   const BalanceChart({
     Key? key,
     required this.onCandleSelected,
+    required this.walletCreationDate,
   }) : super(key: key);
 
   final void Function(ChartInfo?) onCandleSelected;
+  final String walletCreationDate;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class BalanceChart extends HookWidget {
             },
             chartType: chartState.type,
             candleResolution: chartState.resolution,
+            walletCreationDate: walletCreationDate,
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
           ),
