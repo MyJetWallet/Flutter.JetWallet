@@ -22,6 +22,7 @@ import '../../service/services/validation/service/validation_service.dart';
 import '../../service/services/wallet/service/wallet_service.dart';
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
+import '../services/contact_service.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
@@ -147,4 +148,8 @@ final transferServicePod = Provider<TransferService>((ref) {
   final dio = ref.watch(dioPod);
 
   return TransferService(dio);
+});
+
+final contactsServicePod = Provider<ContactService>((ref) {
+  return ContactService();
 });

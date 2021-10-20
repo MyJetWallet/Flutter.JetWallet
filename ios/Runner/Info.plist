@@ -71,5 +71,7 @@
 	<!-- qr_code_scanner [End] -->
 	<key>NSFaceIDUsageDescription</key>
 	<string>We need your face ID</string>
+	<key>NSContactsUsageDescription</key>
+    <string>This app requires contacts access to function properly.</string>
 </dict>
 </plist>

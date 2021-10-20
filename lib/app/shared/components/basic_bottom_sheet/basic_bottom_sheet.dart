@@ -7,6 +7,7 @@ void showBasicBottomSheet({
   Widget? pinned,
   Function(dynamic)? then,
   Function()? onDissmis,
+  double? minHeight,
   bool scrollable = false,
   Color color = Colors.white,
   required List<Widget> children,
@@ -20,6 +21,7 @@ void showBasicBottomSheet({
       return BasicBottomSheet(
         color: color,
         pinned: pinned,
+        minHeight: minHeight,
         onDissmis: onDissmis,
         scrollable: scrollable,
         children: children,
@@ -33,6 +35,7 @@ class BasicBottomSheet extends StatelessWidget {
     Key? key,
     this.pinned,
     this.onDissmis,
+    this.minHeight,
     required this.color,
     required this.scrollable,
     required this.children,
@@ -40,6 +43,7 @@ class BasicBottomSheet extends StatelessWidget {
 
   final Widget? pinned;
   final Function()? onDissmis;
+  final double? minHeight;
   final Color color;
   final List<Widget> children;
   final bool scrollable;
@@ -84,6 +88,7 @@ class BasicBottomSheet extends StatelessWidget {
             ),
             constraints: BoxConstraints(
               maxHeight: 0.7.sh,
+              minHeight: minHeight ?? 0,
             ),
             color: color,
             child: ListView(
