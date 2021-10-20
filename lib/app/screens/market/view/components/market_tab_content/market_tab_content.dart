@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../shared/components/header_text.dart';
 import '../../../model/market_item_model.dart';
+import '../../../notifier/search/search_notipod.dart';
 import '../../../provider/market_stpod.dart';
-import '../../../provider/search_stpod.dart';
 import 'components/market_list.dart';
 import 'components/market_reordable_list.dart';
 
@@ -22,7 +22,7 @@ class MarketTabContent extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final market = useProvider(marketStpod);
-    final search = useProvider(searchStpod);
+    final search = useProvider(searchNotipod);
 
     if (market.state == MarketState.watch) {
       if (watchlist) {
@@ -34,7 +34,7 @@ class MarketTabContent extends HookWidget {
       if (items.isEmpty) {
         return Center(
           child: HeaderText(
-            text: 'No results for \n"${search.state.text}"',
+            text: 'No results for \n"${search.search}"',
             textAlign: TextAlign.center,
           ),
         );

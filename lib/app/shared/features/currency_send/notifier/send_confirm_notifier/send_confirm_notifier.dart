@@ -17,6 +17,7 @@ import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../view/screens/send_input_amount.dart';
+import '../../view/screens/send_notify_friend.dart';
 import '../send_preview_notifier/send_preview_notipod.dart';
 
 /// How often we check withdraw request status
@@ -31,7 +32,9 @@ class SendConfirmNotifier extends StateNotifier<void> {
     this.read,
     this.withdrawal,
   ) : super(null) {
-    _operationId = read(sendPreviewNotipod(withdrawal)).operationId;
+    final sendPreview = read(sendPreviewNotipod(withdrawal));
+    _operationId = sendPreview.operationId;
+    _receiverIsRegistered = sendPreview.receiverIsRegistered;
     _context = read(navigatorKeyPod).currentContext!;
     _verb = withdrawal.dictionary.verb.toLowerCase();
     _requestSendInfo();
@@ -44,6 +47,7 @@ class SendConfirmNotifier extends StateNotifier<void> {
   late int retryTime;
   late BuildContext _context;
   late String _operationId;
+  late bool _receiverIsRegistered;
   late String _verb;
 
   static final _logger = Logger('SendConfirmNotifier');
@@ -63,7 +67,7 @@ class SendConfirmNotifier extends StateNotifier<void> {
       if (!mounted) return;
       then();
     } catch (error) {
-      _logger.log(stateFlow, 'withdrawalResend', error);
+      _logger.log(stateFlow, 'resendTransfer', error);
       showPlainSnackbar(_context, 'Failed to resend. Try again!');
     }
   }
@@ -84,7 +88,7 @@ class SendConfirmNotifier extends StateNotifier<void> {
         _showFailureScreen();
       }
     } catch (error) {
-      _logger.log(stateFlow, '_sendInfo', error);
+      _logger.log(stateFlow, '_requestSendInfo', error);
 
       _refreshTimer();
     }
@@ -120,6 +124,11 @@ class SendConfirmNotifier extends StateNotifier<void> {
         description: 'Your ${withdrawal.currency.symbol} $_verb '
             'request has been submitted',
       ),
+      () {
+        if (!_receiverIsRegistered) {
+          navigatorPush(_context, const SendNotifyFriend());
+        }
+      },
     );
   }
 

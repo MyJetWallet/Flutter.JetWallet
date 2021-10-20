@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
-import '../notifier/watchlist_notipod.dart';
+import '../notifier/watchlist/watchlist_notipod.dart';
 import '../provider/market_gainers_pod.dart';
 import '../provider/market_items_pod.dart';
 import '../provider/market_loosers_pod.dart';

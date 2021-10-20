@@ -6,6 +6,11 @@ part 'user_info_state.freezed.dart';
 class UserInfoState with _$UserInfoState {
   const factory UserInfoState({
     String? pin,
+    /// If after reister/login user disabled a pin.
+    /// If pin is disabled manually we don't ask 
+    /// to set pin again (in authorized state)
+    /// After logout this will be reseted
+    @Default(false) bool pinDisabled,
     @Default(false) bool twoFaEnabled,
     @Default(false) bool phoneVerified,
   }) = _UserInfoState;

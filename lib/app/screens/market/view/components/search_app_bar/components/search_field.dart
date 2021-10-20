@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../../provider/search_stpod.dart';
+
+import '../../../../notifier/search/search_notipod.dart';
+import 'search_field_suffix.dart';
 
 class SearchField extends HookWidget {
   const SearchField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final search = useProvider(searchStpod);
+    final state = useProvider(searchNotipod);
+    final notifier = useProvider(searchNotipod.notifier);
 
     return Expanded(
       child: TextFormField(
-        controller: search.state,
+        controller: state.searchController,
+        onChanged: (String text) => notifier.updateSearch(text),
         cursorColor: Colors.grey,
         keyboardType: TextInputType.text,
         style: TextStyle(
@@ -49,22 +53,12 @@ class SearchField extends HookWidget {
               ),
             ),
           ),
-          suffixIcon: InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              search.state.clear();
+          suffixIcon: SearchFieldSuffix(
+            showErase: state.search.isNotEmpty,
+            onErase: () {
+              notifier.updateSearch('');
+              state.searchController.clear();
             },
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 4.5.w,
-              ),
-              child: Icon(
-                Icons.cancel,
-                color: Colors.grey,
-                size: 20.r,
-              ),
-            ),
           ),
         ),
       ),
