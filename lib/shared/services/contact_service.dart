@@ -25,6 +25,11 @@ class ContactService {
         .toList();
   }
 
+  Future<Contact> contactForPhone(String phone) async {
+    final contact = (await ContactsService.getContactsForPhone(phone)).first;
+    return contact;
+  }
+
   Future<PermissionStatus> _getContactPermission() async {
     final permissionStatus = await Permission.contacts.request();
 
