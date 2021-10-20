@@ -23,6 +23,7 @@ dependencies:
   qr_code_scanner: ^0.5.2 # Scans QR code with camera
   local_auth: ^1.1.8 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   intl_phone_number_input: ^0.7.0+2 # phone number in international format that uses Google's libphonenumber
+  flutter_svg: ^0.22.0 # SVG rendering and widget library
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
