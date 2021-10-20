@@ -61,7 +61,8 @@ class AboutUs extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '• Simple investing for everyone\n(Superb app experience)\n',
+                        '• Simple investing for everyone'
+                        '\n(Superb app experience)\n',
                         style: TextStyle(
                           fontSize: 16.sp,
                         ),
