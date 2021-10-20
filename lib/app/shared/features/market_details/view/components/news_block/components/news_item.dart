@@ -23,8 +23,16 @@ class NewsItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              Container(
+                width: 10.r,
+                height: 10.r,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _newsColor(item.sentiment),
+                ),
+              ),
+              const SpaceW4(),
               Expanded(
                 child: NewsItemText(
                   text: '${item.source} ',
@@ -50,5 +58,16 @@ class NewsItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color _newsColor(Sentiment sentiment) {
+    switch (sentiment) {
+      case Sentiment.neutral:
+        return Colors.yellow;
+      case Sentiment.positive:
+        return Colors.green;
+      case Sentiment.negative:
+        return Colors.red;
+    }
   }
 }
