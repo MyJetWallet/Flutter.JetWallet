@@ -22,7 +22,7 @@ class STextH3 extends StatelessWidget {
       color: color,
       fontSize: 28.sp,
       maxLines: maxLines,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
     );
   }
 }
