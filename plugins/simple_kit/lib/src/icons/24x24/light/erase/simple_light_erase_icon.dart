@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../simple_kit.dart';
 import '../../base/simple_base_svg_24x24.dart';
 
 class SimpleLightEraseIcon extends StatelessWidget {
@@ -15,7 +14,7 @@ class SimpleLightEraseIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleBaseSvg24X24(
       assetName: 'assets/icons/light/24x24/erase/erase.svg',
-      color: color ?? SColorsLight().grey3,
+      color: color,
     );
   }
 }

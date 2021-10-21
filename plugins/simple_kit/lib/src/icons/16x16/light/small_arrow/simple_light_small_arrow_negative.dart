@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../simple_kit.dart';
 import '../../base/simple_base_svg_16x16.dart';
 
 class SimpleLightSmallArrowNegativeIcon extends StatelessWidget {
@@ -16,7 +15,7 @@ class SimpleLightSmallArrowNegativeIcon extends StatelessWidget {
     return SimpleBaseSvg16X16(
       assetName:
           'assets/icons/light/16x16/small_arrow/small_arrow_negative.svg',
-      color: color ?? SColorsLight().red,
+      color: color,
     );
   }
 }

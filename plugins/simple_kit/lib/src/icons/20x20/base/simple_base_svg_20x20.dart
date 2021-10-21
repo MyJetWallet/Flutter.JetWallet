@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SimpleBaseSvg20X20 extends StatelessWidget {
   const SimpleBaseSvg20X20({
     Key? key,
+    this.color,
     required this.assetName,
-    required this.color,
   }) : super(key: key);
 
+  final Color? color;
   final String assetName;
-  final Color color;
 
   @override
   Widget build(BuildContext context) {

@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../simple_kit.dart';
+
+class SimpleIcons24X24Example extends StatelessWidget {
+  const SimpleIcons24X24Example({Key? key}) : super(key: key);
+
+  static const routeName = '/simple_icons_24x24_example';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.all(30.w),
+          child: GridView.count(
+            crossAxisCount: 2,
+            children: const [
+              SBackIcon(),
+              SBackPressedIcon(),
+              SBigArrowPositiveIcon(),
+              SBigArrowNegativeIcon(),
+              SCloseIcon(),
+              SClosePressedIcon(),
+              SEraseIcon(),
+              SErasePressedIcon(),
+              SErrorIcon(),
+              SErrorPressedIcon(),
+              SEyeCloseIcon(),
+              SEyeClosePressedIcon(),
+              SEyeOpenIcon(),
+              SEyeOpenPressedIcon(),
+              SGiftIcon(),
+              SGiftPressedIcon(),
+              SMailIcon(),
+              SMailPressedIcon(),
+              SSearchIcon(),
+              SSearchPressedIcon(),
+              SStarIcon(),
+              SStarPressedIcon(),
+              SStarSelectedIcon(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

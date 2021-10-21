@@ -13,6 +13,11 @@ import 'fields/examples/simple_confirmation_code_field_example.dart';
 import 'fields/examples/simple_pin_code_field_example.dart';
 import 'fields/examples/simple_standard_field_example.dart';
 import 'fields/simple_fields_example.dart';
+import 'icons/examples/simple_icons_16x16_example.dart';
+import 'icons/examples/simple_icons_20x20_example.dart';
+import 'icons/examples/simple_icons_24x24_example.dart';
+import 'icons/examples/simple_icons_36x36_example.dart';
+import 'icons/simple_icons_example.dart';
 import 'shared.dart';
 import 'texts/simple_texts_example.dart';
 
@@ -65,6 +70,21 @@ class ExampleScreen extends ConsumerWidget {
             SimpleStandardFieldExample.routeName: (context) {
               return const SimpleStandardFieldExample();
             },
+            SimpleIconsExample.routeName: (context) {
+              return const SimpleIconsExample();
+            },
+            SimpleIcons16X16Example.routeName: (context) {
+              return const SimpleIcons16X16Example();
+            },
+            SimpleIcons20X20Example.routeName: (context) {
+              return const SimpleIcons20X20Example();
+            },
+            SimpleIcons24X24Example.routeName: (context) {
+              return const SimpleIcons24X24Example();
+            },
+            SimpleIcons36X36Example.routeName: (context) {
+              return const SimpleIcons36X36Example();
+            },
           },
         );
       },
@@ -103,6 +123,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Fields',
               routeName: SimpleFieldsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Icons',
+              routeName: SimpleIconsExample.routeName,
             ),
           ],
         ),
