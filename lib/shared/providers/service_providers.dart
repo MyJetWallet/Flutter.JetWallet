@@ -153,13 +153,3 @@ final transferServicePod = Provider<TransferService>((ref) {
 final contactsServicePod = Provider<ContactService>((ref) {
   return ContactService();
 });
-
-final transferServicePod = Provider<TransferService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return TransferService(dio);
-});
-
-final contactsServicePod = Provider<ContactService>((ref) {
-  return ContactService();
-});
