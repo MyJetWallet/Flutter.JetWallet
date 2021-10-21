@@ -15,7 +15,6 @@ import '../../service/services/notification/service/notification_service.dart';
 import '../../service/services/operation_history/operation_history_service.dart';
 import '../../service/services/phone_verification/service/phone_verification_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
-import '../../service/services/sms_verification/service/sms_verification.dart';
 import '../../service/services/swap/service/swap_service.dart';
 import '../../service/services/transfer/service/transfer_service.dart';
 import '../../service/services/two_fa/service/two_fa_service.dart';
@@ -139,16 +138,20 @@ final twoFaServicePod = Provider<TwoFaService>((ref) {
   return TwoFaService(dio);
 });
 
-final smsVerificationServicePod = Provider<SmsVerificationService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return SmsVerificationService(dio);
-});
-
 final phoneVerificationServicePod = Provider<PhoneVerificationService>((ref) {
   final dio = ref.watch(dioPod);
 
   return PhoneVerificationService(dio);
+});
+
+final transferServicePod = Provider<TransferService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return TransferService(dio);
+});
+
+final contactsServicePod = Provider<ContactService>((ref) {
+  return ContactService();
 });
 
 final transferServicePod = Provider<TransferService>((ref) {

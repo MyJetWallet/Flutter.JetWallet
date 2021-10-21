@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../shared/components/buttons/app_button_outlined.dart';
 import '../../../shared/components/buttons/app_button_solid.dart';
-import '../../../shared/components/loader.dart';
+import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/page_frame/page_frame.dart';
 import '../../../shared/components/spacers.dart';
 import '../../../shared/components/text_fields/app_text_field.dart';

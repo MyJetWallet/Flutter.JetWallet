@@ -41,6 +41,21 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     } else {
       _updatePin(pin);
     }
+
+    final pinDisabled = await storage.getString(pinDisabledKey);
+
+    if (pinDisabled == null) {
+      _updatePinDisabled(false);
+    } else {
+      _updatePinDisabled(true);
+    }
+  }
+
+  Future<void> disablePin() async {
+    _logger.log(notifier, 'disablePin');
+
+    await storage.setString(pinDisabledKey, 'disabled');
+    _updatePinDisabled(true);
   }
 
   /// Set PIN/Biometrics information
@@ -61,6 +76,10 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
 
   void _updatePin(String? value) {
     state = state.copyWith(pin: value);
+  }
+
+  void _updatePinDisabled(bool value) {
+    state = state.copyWith(pinDisabled: value);
   }
 
   void updateTwoFaStatus({required bool enabled}) {

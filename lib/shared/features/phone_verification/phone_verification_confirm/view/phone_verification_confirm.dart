@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../components/loader.dart';
+import '../../../../components/loaders/scaffold_loader.dart';
 import '../../../../components/page_frame/page_frame.dart';
 import '../../../../components/pin_code_field.dart';
 import '../../../../components/spacers.dart';
@@ -49,57 +49,56 @@ class PhoneVerificationConfirm extends HookWidget {
       provider: phoneVerificationConfirmNotipod(onVerified),
       onChange: (context, state) {
         state.union.maybeWhen(
-          error: (Object? error) {
-            showPlainSnackbar(context, error.toString());
+          error: (error) {
+            showPlainSnackbar(context, error);
+            phoneN.resetError();
           },
           orElse: () {},
         );
       },
-      child: PageFrame(
-        header: 'Phone Confirmation',
-        onBackButton: () => Navigator.pop(context),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceH10(),
-            VerificationDescriptionText(
-              text: 'Enter the SMS code we have sent to your phone ',
-              boldText: phone.phoneNumber,
-            ),
-            const SpaceH10(),
-            const ChangeNumberButton(),
-            const SpaceH120(),
-            if (phone.union is Loading)
-              const Loader()
-            else ...[
-              PinCodeField(
-                length: 4,
-                autoFocus: true,
-                controller: phone.controller,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                onCompleted: (_) async {
-                  await phoneN.verifyCode();
-                },
-              ),
-              if (timer != 0 && !phone.showResend)
-                ResendInText(seconds: timer)
-              else ...[
-                ResendRichText(
-                  onTap: () async {
-                    await phoneN.sendCode();
+      child: Stack(
+        children: [
+          PageFrame(
+            header: 'Phone Confirmation',
+            onBackButton: () => Navigator.pop(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SpaceH10(),
+                VerificationDescriptionText(
+                  text: 'Enter the SMS code we have sent to your phone ',
+                  boldText: phone.phoneNumber,
+                ),
+                const SpaceH10(),
+                const ChangeNumberButton(),
+                const SpaceH120(),
+                PinCodeField(
+                  length: 4,
+                  controller: phone.controller,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  onCompleted: (_) async {
+                    await phoneN.verifyCode();
+                  },
+                ),
+                if (timer != 0 && !phone.showResend)
+                  ResendInText(seconds: timer)
+                else ...[
+                  ResendRichText(
+                    onTap: () async {
+                      await phoneN.sendCode();
 
-                    if (phone.union is Input) {
                       timerN.refreshTimer();
                       phoneN.updateShowResend(
                         showResend: false,
                       );
-                    }
-                  },
-                ),
+                    },
+                  ),
+                ],
               ],
-            ]
-          ],
-        ),
+            ),
+          ),
+          if (phone.union is Loading) const ScaffoldLoader(),
+        ],
       ),
     );
   }

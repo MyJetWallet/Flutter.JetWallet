@@ -58,7 +58,7 @@ class App extends HookWidget {
     final navigatorKey = useProvider(navigatorKeyPod);
 
     return ScreenUtilInit(
-      designSize: const Size(360, 640), // 9/16 ratio
+      designSize: const Size(375, 812),
       builder: () {
         return MaterialApp(
           home: Stack(

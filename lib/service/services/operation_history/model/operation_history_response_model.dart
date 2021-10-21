@@ -48,7 +48,7 @@ enum OperationType {
   transferByPhone,
   @JsonValue(7)
   receiveByPhone,
-  @JsonValue(3)
+  @JsonValue(8)
   unknown,
   buy,
   sell,

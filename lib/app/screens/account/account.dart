@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/buttons/app_button_outlined.dart';
-import '../../../shared/components/loader.dart';
+import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/security_divider.dart';
 import '../../../shared/components/security_option.dart';
 import '../../../shared/components/spacers.dart';
@@ -14,6 +14,7 @@ import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/providers/service_providers.dart';
+import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import 'components/account_banner_list/account_banner_list.dart';
 import 'components/account_screen_header.dart';
@@ -80,7 +81,9 @@ class Account extends HookWidget {
                 const SecurityDivider(),
                 SecurityOption(
                   name: 'About Us',
-                  onTap: () {},
+                  onTap: () {
+                    navigatorPush(context, const AboutUs());
+                  },
                 ),
                 const SecurityDivider(),
                 const SpaceH20(),

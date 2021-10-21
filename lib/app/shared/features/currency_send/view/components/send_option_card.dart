@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../../shared/components/header_text.dart';
 import '../../../../../../shared/components/spacers.dart';
 
@@ -30,11 +31,9 @@ class SendOptionCard extends StatelessWidget {
             Radius.circular(8.r),
           ),
         ),
-        padding: EdgeInsets.only(
-          top: 20.h,
-          bottom: 24.h,
-          left: 16.w,
-          right: 16.w,
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 20.h,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

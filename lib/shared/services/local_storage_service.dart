@@ -6,6 +6,7 @@ const userEmailKey = 'userEmail';
 const privateKeyKey = 'privateKey';
 const pinStatusKey = 'pinStatusKey';
 const contactsPermissionKey = 'contactsPermissionKey';
+const pinDisabledKey = 'pinDisabledKey';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();

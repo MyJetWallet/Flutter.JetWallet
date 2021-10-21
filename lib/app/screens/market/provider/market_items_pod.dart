@@ -4,12 +4,12 @@ import '../../../shared/helpers/valid_icon_url.dart';
 import '../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../model/market_item_model.dart';
+import '../notifier/search/search_notipod.dart';
 import 'market_references_spod.dart';
-import 'search_stpod.dart';
 
 final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
   final references = ref.watch(marketReferencesSpod);
-  final search = ref.watch(searchStpod);
+  final search = ref.watch(searchNotipod);
   final currencies = ref.watch(currenciesPod);
   final baseCurrency = ref.watch(baseCurrencyPod);
 
@@ -43,7 +43,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
     }
   });
 
-  return _formattedItems(items, search.state.text.toLowerCase());
+  return _formattedItems(items, search.search);
 });
 
 List<MarketItemModel> _formattedItems(

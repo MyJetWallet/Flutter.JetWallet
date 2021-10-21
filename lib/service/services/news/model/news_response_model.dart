@@ -21,9 +21,19 @@ class NewsModel with _$NewsModel {
     required String lang,
     required String timestamp,
     required String urlAddress,
+    required Sentiment sentiment,
     required List<String> associatedAssets,
   }) = _NewsModel;
 
   factory NewsModel.fromJson(Map<String, dynamic> json) =>
       _$NewsModelFromJson(json);
+}
+
+enum Sentiment {
+  @JsonValue('Neutral')
+  neutral,
+  @JsonValue('Positive')
+  positive,
+  @JsonValue('Negative')
+  negative,
 }

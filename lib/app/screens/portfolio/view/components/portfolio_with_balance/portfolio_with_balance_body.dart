@@ -17,8 +17,10 @@ import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../shared/providers/client_detail_pod/client_detail_pod.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
+import '../../../helper/zero_balance_wallets_empty.dart';
 import '../../../provider/show_zero_balance_wallets_stpod.dart';
 import 'components/portfolio_item.dart';
 import 'components/portfolio_small_text.dart';
@@ -36,6 +38,7 @@ class PortfolioWithBalanceBody extends HookWidget {
     final hidden = useProvider(walletHiddenStPod);
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final clientDetail = useProvider(clientDetailPod);
 
     return SingleChildScrollView(
       child: Padding(
@@ -74,6 +77,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                 onCandleSelected: (ChartInfo? chartInfo) {
                   chartN.updateSelectedCandle(chartInfo?.right);
                 },
+                walletCreationDate: clientDetail.walletCreationDate,
               ),
             ),
             const SpaceH15(),
@@ -90,28 +94,29 @@ class PortfolioWithBalanceBody extends HookWidget {
             if (showZeroBalanceWallets.state)
               for (final item in itemsWithoutBalance)
                 PortfolioItem(assetId: item.symbol),
-            InkWell(
-              onTap: () =>
-                  showZeroBalanceWallets.state = !showZeroBalanceWallets.state,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PortfolioSmallText(
-                    text: showZeroBalanceWallets.state
-                        ? 'Hide zero wallets'
-                        : 'Show all wallets',
-                  ),
-                  const SpaceW4(),
-                  Icon(
-                    showZeroBalanceWallets.state
-                        ? FontAwesomeIcons.chevronUp
-                        : FontAwesomeIcons.chevronDown,
-                    size: 12.r,
-                    color: Colors.grey.shade500,
-                  )
-                ],
+            if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
+              InkWell(
+                onTap: () => showZeroBalanceWallets.state =
+                    !showZeroBalanceWallets.state,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PortfolioSmallText(
+                      text: showZeroBalanceWallets.state
+                          ? 'Hide zero wallets'
+                          : 'Show all wallets',
+                    ),
+                    const SpaceW4(),
+                    Icon(
+                      showZeroBalanceWallets.state
+                          ? FontAwesomeIcons.chevronUp
+                          : FontAwesomeIcons.chevronDown,
+                      size: 12.r,
+                      color: Colors.grey.shade500,
+                    )
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

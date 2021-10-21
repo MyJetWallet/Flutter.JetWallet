@@ -8,8 +8,8 @@ part 'currency_model.freezed.dart';
 class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
     String? prefixSymbol,
-    @Default('') String symbol,
-    @Default('') String description,
+    @Default('unknown') String symbol,
+    @Default('unknown') String description,
     @Default(0) int accuracy,
     @Default(0) int depositMode,
     @Default(0) int withdrawalMode,
@@ -18,9 +18,9 @@ class CurrencyModel with _$CurrencyModel {
     @Default(AssetFeesModel()) AssetFeesModel fees,
     @Default([]) List<DepositMethods> depositMethods,
     @Default([]) List<WithdrawalMethods> withdrawalMethods,
-    @Default('') String assetId,
+    @Default('unknown') String assetId,
     @Default(0.0) double reserve,
-    @Default('') String lastUpdate,
+    @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
     @Default(0.0) double assetBalance,
     @Default(0.0) double baseBalance,
@@ -49,6 +49,8 @@ class CurrencyModel with _$CurrencyModel {
       return '$withdrawalFeeSize ${fees.withdrawalFee?.assetSymbol}';
     }
   }
+
+  String get emptyWithdrawalFee => '0 $symbol';
 
   bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
 

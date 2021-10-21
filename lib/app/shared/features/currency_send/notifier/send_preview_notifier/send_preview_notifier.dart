@@ -53,7 +53,6 @@ class SendPreviewNotifier extends StateNotifier<SendPreviewState> {
         assetSymbol: withdrawal.currency.symbol,
         amount: double.parse(state.amount),
         lang: read(intlPod).localeName,
-        //TODO(Vova): add comment
         toPhoneNumber: state.phoneNumber.substring(1),
       );
 

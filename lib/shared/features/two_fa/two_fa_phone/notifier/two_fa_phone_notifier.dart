@@ -3,8 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../../../service/services/sms_verification/model/sms_verification/sms_verification_request_model.dart';
-import '../../../../../service/services/sms_verification/model/sms_verification_verify/sms_verification_verify_request_model.dart';
+import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
+import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
 import '../../../../../service/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';
 import '../../../../../service/services/two_fa/model/two_fa_enable/two_fa_enable_request_model.dart';
 import '../../../../../service/services/two_fa/model/two_fa_verification/two_fa_verification_request_model.dart';
@@ -69,10 +69,10 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     state = state.copyWith(phoneNumber: number);
   }
 
-  void updateShowResend({required bool value}) {
+  void updateShowResend({required bool showResend}) {
     _logger.log(notifier, 'updateShowResend');
 
-    state = state.copyWith(showResend: value);
+    state = state.copyWith(showResend: showResend);
   }
 
   Future<void> sendCode() async {
@@ -80,7 +80,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     if (state.phoneVerified) {
       await _sendTwoFaVerificationCode();
     } else {
-      await _sendSmsAuthVerificationCode();
+      await _sendPhoneVerificationCode();
     }
   }
 
@@ -95,7 +95,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
             _verifyAndEnableTwoFa();
           }
         } else {
-          _verifyAndEnableSmsAuth();
+          _verifyPhoneVerificationCode();
         }
       },
     );
@@ -187,16 +187,16 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
 
   /// Will be send at Security page when we are enabling sms auth
   /// if we enabled 2fa from Web
-  Future<void> _sendSmsAuthVerificationCode() async {
+  Future<void> _sendPhoneVerificationCode() async {
     await _requestTemplate(
-      requestName: 'sendSmsAuthVerificationCode',
+      requestName: 'sendCode',
       body: () async {
-        final model = SmsVerificationRequestModel(
+        final model = PhoneVerificationRequestModel(
           language: read(intlPod).localeName,
-          deviceType: deviceType,
+          phoneNumber: state.phoneNumber,
         );
 
-        await read(smsVerificationServicePod).request(model);
+        await read(phoneVerificationServicePod).request(model);
 
         if (!mounted) return;
         state = state.copyWith(union: const Input());
@@ -208,17 +208,20 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
   /// 2fa was enabled successfully. Right now we are considering
   /// SMS Authenticator enabled if 2fa is enabled and vice versa.
   /// When we will have more Authenticators this logic will change.
-  Future<void> _verifyAndEnableSmsAuth() async {
+  Future<void> _verifyPhoneVerificationCode() async {
     await _requestTemplate(
-      requestName: 'verifyAndEnableSmsAuth',
+      requestName: 'verifyCode',
       body: () async {
-        final model = SmsVerificationVerifyRequestModel(
+        final model = PhoneVerificationVerifyRequestModel(
           code: state.controller.text,
+          phoneNumber: state.phoneNumber,
         );
 
-        await read(smsVerificationServicePod).verify(model);
+        await read(phoneVerificationServicePod).verify(model);
 
         if (!mounted) return;
+
+        _userInfoN.updatePhoneVerified(phoneVerified: true);
         _userInfoN.updateTwoFaStatus(enabled: true);
 
         _returnToPreviousScreen();
@@ -239,14 +242,25 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      state = state.copyWith(union: Error(e.cause));
+      _updateError(Error(e.cause));
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      state = state.copyWith(
-        union: const Error('Error occured'),
-      );
+      _updateError(const Error('Error occured'));
     }
+  }
+
+  /// To avoid snackbar showing for several times instead of one
+  /// This happens because of the ProviderListener and because
+  /// Error state perssists for several rebuilds
+  void resetError() {
+    _logger.log(notifier, 'resetError');
+
+    state = state.copyWith(union: const Input());
+  }
+
+  void _updateError(Error error) {
+    state = state.copyWith(union: error);
   }
 
   void _returnToPreviousScreen() {
