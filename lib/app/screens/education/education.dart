@@ -6,6 +6,29 @@ class Education extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ExampleScreen();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const ExampleScreen();
+                    },
+                  ),
+                );
+              },
+              child: const Text(
+                'Example Screen',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
