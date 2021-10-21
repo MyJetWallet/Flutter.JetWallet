@@ -121,6 +121,7 @@ class WithdrawalFeeInfo with _$WithdrawalFeeInfo {
 class TransferByPhoneInfo with _$TransferByPhoneInfo {
   const factory TransferByPhoneInfo({
     required String toPhoneNumber,
+    required String receiverName,
     required String withdrawalAssetId,
     required double withdrawalAmount,
   }) = _TransferByPhoneInfo;
@@ -133,6 +134,7 @@ class TransferByPhoneInfo with _$TransferByPhoneInfo {
 class ReceiveByPhoneInfo with _$ReceiveByPhoneInfo {
   const factory ReceiveByPhoneInfo({
     required String fromPhoneNumber,
+    required String senderName,
     required double depositAmount,
   }) = _ReceiveByPhoneInfo;
 
