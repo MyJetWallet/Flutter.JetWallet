@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
+import '../../../src/icons/24x24/light/mail/simple_light_mail_icon.dart';
 
 class SimpleStandardFieldExample extends StatelessWidget {
   const SimpleStandardFieldExample({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class SimpleStandardFieldExample extends StatelessWidget {
                     minWidth: 24.w,
                     minHeight: 24.w,
                   ),
-                  suffixIcon: SLightMailIcon(
+                  suffixIcon: SimpleLightMailIcon(
                     color: Colors.red,
                   ),
                 ),
