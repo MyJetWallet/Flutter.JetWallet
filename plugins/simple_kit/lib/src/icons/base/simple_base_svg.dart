@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SimpleBaseSvg extends StatelessWidget {
@@ -13,10 +14,18 @@ class SimpleBaseSvg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      assetName,
-      color: color,
-      package: 'simple_kit',
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: 24.w,
+        maxHeight: 24.w,
+        minWidth: 24.w,
+        minHeight: 24.w,
+      ),
+      child: SvgPicture.asset(
+        assetName,
+        color: color,
+        package: 'simple_kit',
+      ),
     );
   }
 }
