@@ -11,8 +11,8 @@ class PhoneCard extends StatelessWidget {
     required this.name,
   }) : super(key: key);
 
-  final String? name;
   final String phoneNumber;
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class PhoneCard extends StatelessWidget {
                     )
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
