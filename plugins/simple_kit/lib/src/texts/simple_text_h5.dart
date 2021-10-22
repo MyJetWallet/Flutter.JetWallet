@@ -22,7 +22,7 @@ class STextH5 extends StatelessWidget {
       color: color,
       fontSize: 20.sp,
       maxLines: maxLines,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
     );
   }
 }
