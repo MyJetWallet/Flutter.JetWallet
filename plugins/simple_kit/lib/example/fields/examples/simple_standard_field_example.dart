@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
+import '../../shared.dart';
 
 class SimpleStandardFieldExample extends HookWidget {
   const SimpleStandardFieldExample({Key? key}) : super(key: key);
@@ -42,13 +43,13 @@ class SimpleStandardFieldExample extends HookWidget {
               SStandardField(
                 labelText: 'Email Address',
                 onChanged: (value) {},
-                onErrorIconTap: () => _showSnackBar(context),
+                onErrorIconTap: () => showSnackBar(context),
                 errorNotifier: emailError.value,
               ),
               SStandardFieldObscure(
                 labelText: 'Password',
                 onChanged: (value) {},
-                onErrorIconTap: () => _showSnackBar(context),
+                onErrorIconTap: () => showSnackBar(context),
                 errorNotifier: passwordError.value,
               ),
             ],
@@ -57,12 +58,4 @@ class SimpleStandardFieldExample extends HookWidget {
       ),
     );
   }
-}
-
-void _showSnackBar(BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text('Tapped'),
-    ),
-  );
 }

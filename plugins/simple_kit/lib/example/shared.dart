@@ -4,6 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../src/current_theme_stpod.dart';
 
+void showSnackBar(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('Tapped'),
+    ),
+  );
+}
+
 class SpaceH20 extends StatelessWidget {
   const SpaceH20({Key? key}) : super(key: key);
 
