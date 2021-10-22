@@ -16,7 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.3 # IOS icons
   universal_io: ^2.0.4 # Cross-platform 'dart:io' that works in all platforms
   url_launcher: ^6.0.12 # plugin for launching a URL
-  font_awesome_flutter: ^9.1.0 # The Font Awesome Icon pack (1500+ icons)
+  font_awesome_flutter: ^9.2.0 # The Font Awesome Icon pack (1500+ icons)
   pin_code_fields: ^7.3.0 # Generate pin code fields
   qr_flutter: ^4.0.0 # QR code rendering
   grouped_list: ^4.1.0 # List with grouped items
@@ -34,16 +34,16 @@ dependencies:
   # Docs: https://plus.fluttercommunity.dev/docs/overview
   android_intent_plus: ^3.0.1 # plugin for launching Android Intents
   package_info_plus: ^1.3.0 # querying information about the application package
-  share_plus: ^3.0.2 # sharing content via the platform share UI
-  device_info_plus: ^3.0.1 # providing detailed information about the device
+  share_plus: ^3.0.4 # sharing content via the platform share UI
+  device_info_plus: ^3.1.0 # providing detailed information about the device
   contacts_service: ^0.6.3 # contacts fetching
-  permission_handler: ^8.2.2 # permissions handling
+  permission_handler: ^8.2.5 # permissions handling
 
   # NETWORKING:
   dio: ^4.0.0 # http client
   pretty_dio_logger: ^1.1.1 # logger for dio
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
-  json_annotation: ^4.1.0 # annotations used by json_serializable
+  json_annotation: ^4.3.0 # annotations used by json_serializable
 
   # INTERNATIONALIZATION:
   flutter_localizations:
@@ -51,24 +51,24 @@ dependencies:
   intl: ^0.17.0
 
   # LOCAL SECURE STORAGE:
-  flutter_secure_storage: ^4.2.0
+  flutter_secure_storage: ^4.2.1
 
   # STATE MANAGEMENT
   hooks_riverpod: ^0.14.0+5 # riverpod with hooks from Remi Rousselet
   flutter_hooks: ^0.18.0  # additional hooks' functionality
 
   # FIREBASE
-  firebase_core: ^1.7.0
-  firebase_messaging: ^10.0.8
-  firebase_dynamic_links: ^2.0.10
-  firebase_remote_config: ^0.11.0+1
+  firebase_core: ^1.8.0
+  firebase_messaging: ^10.0.9
+  firebase_dynamic_links: ^2.0.11
+  firebase_remote_config: ^0.11.0+2
 
   # NOTIFICATIONS
   flutter_local_notifications: ^9.0.0
 
   # OTHER:
   freezed_annotation: ^0.14.3 # Annotations for the freezed
-  mocktail: ^0.1.4 # mocking library with null-safety support
+  mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
   fast_rsa: ^3.0.3 # RSA signing
   timeago: ^3.1.0 # Date converter
@@ -91,7 +91,7 @@ dev_dependencies:
   # AUTOGEN:
   freezed: ^0.14.5 # generation for immutable classes that has a simple syntax/API
   build_runner: ^2.1.4 # generating files using Dart code
-  json_serializable: ^5.0.2 # dart build system builders for handling JSON
+  json_serializable: ^6.0.0 # dart build system builders for handling JSON
 
 flutter:
   generate: true
