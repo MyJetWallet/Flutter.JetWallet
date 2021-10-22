@@ -1,3 +1,5 @@
+// ignore_for_file: directives_ordering
+
 library simple_kit;
 
 /// Buttons
@@ -15,6 +17,11 @@ export 'src/colors/provider/simple_color_pod.dart';
 export 'src/colors/view/simple_colors.dart';
 export 'src/colors/view/simple_colors_dark.dart';
 export 'src/colors/view/simple_colors_light.dart';
+
+/// Fields
+export 'src/fields/standard_field/public/simple_standard_field.dart';
+export 'src/fields/standard_field/public/simple_standard_field_obscure.dart';
+export 'src/fields/standard_field/base/standard_field_error_notifier.dart';
 
 /// Icons
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
