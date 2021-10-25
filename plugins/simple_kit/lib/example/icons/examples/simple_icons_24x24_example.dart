@@ -21,6 +21,8 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SBackPressedIcon(),
               SBigArrowPositiveIcon(),
               SBigArrowNegativeIcon(),
+              SCheckboxIcon(),
+              SCheckboxSelectedIcon(),
               SCloseIcon(),
               SClosePressedIcon(),
               SEraseIcon(),

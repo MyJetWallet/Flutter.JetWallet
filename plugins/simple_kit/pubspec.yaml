@@ -35,6 +35,7 @@ flutter:
     - assets/icons/light/20x20/action_withdraw/
     - assets/icons/light/24x24/back/
     - assets/icons/light/24x24/big_arrow/
+    - assets/icons/light/24x24/checkbox/
     - assets/icons/light/24x24/close/
     - assets/icons/light/24x24/erase/
     - assets/icons/light/24x24/error/
