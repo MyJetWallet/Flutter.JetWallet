@@ -2,6 +2,11 @@
 
 library simple_kit;
 
+/// Agreements
+export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
+export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
+export 'src/agreements/simple_privacy_policy/simple_policy_text.dart';
+
 /// Buttons
 export 'src/buttons/link_button/public/simple_link_button_1.dart';
 export 'src/buttons/link_button/public/simple_link_button_2.dart';
@@ -23,6 +28,7 @@ export 'src/components/simple_divider.dart';
 export 'src/components/simple_icon_button.dart';
 export 'src/components/simple_paddings.dart';
 export 'src/components/simple_page_frame.dart';
+export 'src/components/simple_spacers.dart';
 export 'src/fields/standard_field/base/standard_field_error_notifier.dart';
 
 /// Fields
@@ -51,6 +57,8 @@ export 'src/icons/24x24/public/back/simple_back_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_pressed_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_negative_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_positive_icon.dart';
+export 'src/icons/24x24/public/checkbox/simple_checkbox_icon.dart';
+export 'src/icons/24x24/public/checkbox/simple_checkbox_selected_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_pressed_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_icon.dart';

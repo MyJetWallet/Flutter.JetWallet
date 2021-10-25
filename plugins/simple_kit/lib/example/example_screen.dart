@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../src/theme/provider/simple_theme_pod.dart';
+import 'agreements/examples/simple_password_requirement_example.dart';
+import 'agreements/examples/simple_privacy_policy_example.dart';
+import 'agreements/simple_agreements_example.dart';
 import 'buttons/examples/simple_link_button_example.dart';
 import 'buttons/examples/simple_primary_button_example.dart';
 import 'buttons/examples/simple_secondary_button_example.dart';
@@ -101,6 +104,15 @@ class ExampleScreen extends ConsumerWidget {
             SimpleMarketHeadersExample.routeName: (context) {
               return const SimpleMarketHeadersExample();
             },
+            SimpleAgreementsExample.routeName: (context) {
+              return const SimpleAgreementsExample();
+            },
+            SimplePasswordRequirementExample.routeName: (context) {
+              return const SimplePasswordRequirementExample();
+            },
+            SimplePrivacyPolicyExample.routeName: (context) {
+              return const SimplePrivacyPolicyExample();
+            },
           },
         );
       },
@@ -147,6 +159,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Headers',
               routeName: SimpleHeadersExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Agreements',
+              routeName: SimpleAgreementsExample.routeName,
             ),
           ],
         ),

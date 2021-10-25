@@ -22,7 +22,7 @@ class SCaptionText extends StatelessWidget {
       color: color,
       fontSize: 12.sp,
       maxLines: maxLines,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
     );
   }
 }

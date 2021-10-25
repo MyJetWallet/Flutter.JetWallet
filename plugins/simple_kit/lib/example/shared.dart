@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../src/current_theme_stpod.dart';
 
@@ -8,19 +7,9 @@ void showSnackBar(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
     const SnackBar(
       content: Text('Tapped'),
+      duration: Duration(microseconds: 1),
     ),
   );
-}
-
-class SpaceH20 extends StatelessWidget {
-  const SpaceH20({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 20.h,
-    );
-  }
 }
 
 class ThemeSwitch extends ConsumerWidget {
@@ -57,8 +46,10 @@ class NavigationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => Navigator.pushNamed(context, routeName),
-      child: Text(
-        buttonName,
+      child: Center(
+        child: Text(
+          buttonName,
+        ),
       ),
     );
   }
