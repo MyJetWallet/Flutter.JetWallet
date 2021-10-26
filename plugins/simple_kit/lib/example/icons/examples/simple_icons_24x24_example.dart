@@ -35,6 +35,8 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SEyeOpenPressedIcon(),
               SGiftIcon(),
               SGiftPressedIcon(),
+              SInfoIcon(),
+              SInfoPressedIcon(),
               SMailIcon(),
               SMailPressedIcon(),
               SSearchIcon(),

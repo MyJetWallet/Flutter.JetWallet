@@ -44,6 +44,9 @@ export 'src/headers/simple_small_header.dart';
 /// Icons
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_positive_icon.dart';
+export 'src/icons/16x16/public/smiles/simple_smile_bad_icon.dart';
+export 'src/icons/16x16/public/smiles/simple_smile_good_icon.dart';
+export 'src/icons/16x16/public/smiles/simple_smile_neutral_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_selected_icon.dart';
 export 'src/icons/20x20/public/action_buy/simple_action_buy_icon.dart';
@@ -71,6 +74,8 @@ export 'src/icons/24x24/public/eye_open/simple_eye_open_icon.dart';
 export 'src/icons/24x24/public/eye_open/simple_eye_open_pressed_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_pressed_icon.dart';
+export 'src/icons/24x24/public/info/simple_info_icon.dart';
+export 'src/icons/24x24/public/info/simple_info_pressed_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_pressed_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_icon.dart';

@@ -25,6 +25,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icons/light/16x16/small_arrow/
+    - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
     - assets/icons/light/20x20/action_buy/
     - assets/icons/light/20x20/action_convert/
@@ -42,6 +43,7 @@ flutter:
     - assets/icons/light/24x24/eye_close/
     - assets/icons/light/24x24/eye_open/
     - assets/icons/light/24x24/gift/
+    - assets/icons/light/24x24/info/
     - assets/icons/light/24x24/mail/
     - assets/icons/light/24x24/search/
     - assets/icons/light/24x24/star/

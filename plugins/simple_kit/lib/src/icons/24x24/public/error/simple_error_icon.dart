@@ -5,16 +5,25 @@ import '../../../../current_theme_stpod.dart';
 import '../../light/error/simple_light_error_icon.dart';
 
 class SErrorIcon extends ConsumerWidget {
-  const SErrorIcon({Key? key}) : super(key: key);
+  const SErrorIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = watch(currentThemeStpod);
 
     if (theme.state == STheme.dark) {
-      return const SimpleLightErrorIcon();
+      return SimpleLightErrorIcon(
+        color: color,
+      );
     } else {
-      return const SimpleLightErrorIcon();
+      return SimpleLightErrorIcon(
+        color: color,
+      );
     }
   }
 }
