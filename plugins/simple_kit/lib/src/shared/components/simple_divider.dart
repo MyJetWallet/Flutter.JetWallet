@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../simple_kit.dart';
+import '../../../simple_kit.dart';
 
 class SDivider extends StatelessWidget {
   const SDivider({

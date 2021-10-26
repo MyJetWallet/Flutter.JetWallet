@@ -16,6 +16,7 @@ dependencies:
   flutter_riverpod: ^0.14.0+3 # state management
   flutter_hooks: ^0.18.0 # manages a Widget life-cycles
   flutter_svg: ^0.22.0 # SVG rendering and widget library
+  flash: ^2.0.3 # alerting library
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +26,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icons/light/16x16/small_arrow/
+    - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
     - assets/icons/light/20x20/action_buy/
     - assets/icons/light/20x20/action_convert/
@@ -42,6 +44,7 @@ flutter:
     - assets/icons/light/24x24/eye_close/
     - assets/icons/light/24x24/eye_open/
     - assets/icons/light/24x24/gift/
+    - assets/icons/light/24x24/info/
     - assets/icons/light/24x24/mail/
     - assets/icons/light/24x24/search/
     - assets/icons/light/24x24/star/

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
-import '../../components/simple_divider.dart';
 import 'components/simple_market_header_title.dart';
 
 class SMarketHeaderClosed extends StatelessWidget {
