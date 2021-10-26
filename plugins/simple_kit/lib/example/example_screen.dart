@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
@@ -25,6 +26,7 @@ import 'icons/examples/simple_icons_20x20_example.dart';
 import 'icons/examples/simple_icons_24x24_example.dart';
 import 'icons/examples/simple_icons_36x36_example.dart';
 import 'icons/simple_icons_example.dart';
+import 'notifications/simple_notifications_example.dart';
 import 'shared.dart';
 import 'texts/simple_texts_example.dart';
 
@@ -34,6 +36,7 @@ class ExampleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = watch(sThemePod);
+    final navigatorKey = watch(navigatorKeyPod);
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
@@ -41,6 +44,7 @@ class ExampleScreen extends ConsumerWidget {
         return MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
+          navigatorKey: navigatorKey,
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
@@ -113,6 +117,9 @@ class ExampleScreen extends ConsumerWidget {
             SimplePrivacyPolicyExample.routeName: (context) {
               return const SimplePrivacyPolicyExample();
             },
+            SimpleNotificationsExample.routeName: (context) {
+              return const SimpleNotificationsExample();
+            },
           },
         );
       },
@@ -163,6 +170,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Agreements',
               routeName: SimpleAgreementsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Notifications',
+              routeName: SimpleNotificationsExample.routeName,
             ),
           ],
         ),

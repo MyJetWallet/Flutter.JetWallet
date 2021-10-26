@@ -16,6 +16,7 @@ dependencies:
   flutter_riverpod: ^0.14.0+3 # state management
   flutter_hooks: ^0.18.0 # manages a Widget life-cycles
   flutter_svg: ^0.22.0 # SVG rendering and widget library
+  flash: ^2.0.3 # alerting library
 
 dev_dependencies:
   flutter_test:
