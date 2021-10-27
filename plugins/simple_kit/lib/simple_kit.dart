@@ -94,7 +94,7 @@ export 'src/shared/components/simple_page_frame.dart';
 export 'src/shared/components/simple_spacers.dart';
 
 /// Providers
-export 'src/shared/providers/navigator_key_pod.dart';
+export 'src/shared/providers/simple_navigator_key_pod.dart';
 
 /// Texts
 export 'src/texts/simple_body_text_1.dart';

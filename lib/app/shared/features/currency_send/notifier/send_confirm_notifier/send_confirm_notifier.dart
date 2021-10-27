@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/transfer/model/transfer_info/transfer_info_request_model.dart';
 import '../../../../../../service/services/transfer/model/transfer_info/transfer_info_response_model.dart';
@@ -13,7 +14,6 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../../../shared/logging/levels.dart';
-import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../view/screens/send_input_amount.dart';
@@ -35,7 +35,7 @@ class SendConfirmNotifier extends StateNotifier<void> {
     final sendPreview = read(sendPreviewNotipod(withdrawal));
     _operationId = sendPreview.operationId;
     _receiverIsRegistered = sendPreview.receiverIsRegistered;
-    _context = read(navigatorKeyPod).currentContext!;
+    _context = read(sNavigatorKeyPod).currentContext!;
     _verb = withdrawal.dictionary.verb.toLowerCase();
     _requestSendInfo();
   }

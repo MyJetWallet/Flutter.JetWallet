@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../app/shared/components/number_keyboard/key_constants.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
@@ -12,7 +13,6 @@ import '../../../logging/levels.dart';
 import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_state.dart';
-import '../../../providers/other/navigator_key_pod.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
@@ -38,7 +38,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     _initDefaultScreen();
     _userInfo = read(userInfoNotipod);
     _userInfoN = read(userInfoNotipod.notifier);
-    _context = read(navigatorKeyPod).currentContext!;
+    _context = read(sNavigatorKeyPod).currentContext!;
   }
 
   final Reader read;

@@ -8,7 +8,7 @@ import '../../../simple_kit.dart';
 
 class SNotificationQueueNotifier extends StateNotifier<Queue<SNotification>> {
   SNotificationQueueNotifier(this.read) : super(Queue()) {
-    navigatorKey = read(navigatorKeyPod);
+    navigatorKey = read(sNavigatorKeyPod);
   }
 
   final Reader read;
