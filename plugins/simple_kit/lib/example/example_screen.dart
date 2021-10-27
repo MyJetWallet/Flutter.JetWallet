@@ -36,7 +36,6 @@ class ExampleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = watch(sThemePod);
-    final navigatorKey = watch(navigatorKeyPod);
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
@@ -44,7 +43,6 @@ class ExampleScreen extends ConsumerWidget {
         return MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          navigatorKey: navigatorKey,
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),

@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../service/services/notification/model/register_token_request_model.dart';
 import '../../../service/services/notification/service/notification_service.dart';
 import '../../logging/levels.dart';
-import '../other/navigator_key_pod.dart';
 import '../service_providers.dart';
 
 final _logger = Logger('');
@@ -66,7 +66,7 @@ Future<void> _registerToken(
   Reader read,
 ) async {
   if (token != null) {
-    final context = read(navigatorKeyPod).currentContext!;
+    final context = read(sNavigatorKeyPod).currentContext!;
     final localizations = AppLocalizations.of(context)!;
 
     final model = RegisterTokenRequestModel(
