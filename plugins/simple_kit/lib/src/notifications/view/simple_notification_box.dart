@@ -35,7 +35,7 @@ class SNotificationBox extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SpaceH4(),
+                    const SpaceH2(),
                     SBodyText1(
                       text: text,
                       color: SColorsLight().white,
