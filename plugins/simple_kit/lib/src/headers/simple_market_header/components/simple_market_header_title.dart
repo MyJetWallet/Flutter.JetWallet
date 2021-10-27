@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -15,15 +16,25 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      textBaseline: TextBaseline.alphabetic,
+      crossAxisAlignment: CrossAxisAlignment.baseline,
       children: [
-        STextH2(
-          text: title,
+        Baseline(
+          baseline: 24.h,
+          baselineType: TextBaseline.alphabetic,
+          child: STextH2(
+            text: title,
+          ),
         ),
         const Spacer(),
-        SIconButton(
-          onTap: onSearchButtonTap,
-          defaultIcon: const SSearchIcon(),
-          pressedIcon: const SSearchPressedIcon(),
+        Baseline(
+          baseline: 24.h,
+          baselineType: TextBaseline.alphabetic,
+          child: SIconButton(
+            onTap: onSearchButtonTap,
+            defaultIcon: const SSearchIcon(),
+            pressedIcon: const SSearchPressedIcon(),
+          ),
         ),
       ],
     );
