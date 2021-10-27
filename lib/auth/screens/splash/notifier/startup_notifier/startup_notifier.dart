@@ -2,10 +2,10 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../shared/helpers/navigate_to_router.dart';
-import '../../../shared/logging/levels.dart';
-import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../../shared/providers/service_providers.dart';
+import '../../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../provider/router_stpod/router_stpod.dart';
 import '../../provider/router_stpod/router_union.dart';
 import 'authorized_union.dart';

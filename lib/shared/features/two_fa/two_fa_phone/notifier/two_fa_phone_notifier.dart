@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../../../../../auth/screens/splash/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
 import '../../../../../service/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';

@@ -129,6 +129,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/images/
     # [Start] fast_rsa ->
     - packages/fast_rsa/web/assets/worker.js
     - packages/fast_rsa/web/assets/wasm_exec.js

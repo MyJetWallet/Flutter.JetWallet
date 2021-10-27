@@ -7,10 +7,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
+import 'auth/screens/splash/view/splash_screen.dart';
 import 'development/app_router_stage/app_router_stage.dart';
 import 'development/logs_screen/view/components/logs_persistant_button.dart';
-import 'router/view/components/app_init.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
@@ -56,6 +57,7 @@ class App extends HookWidget {
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
     final navigatorKey = useProvider(navigatorKeyPod);
+    final theme = useProvider(sThemePod);
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
@@ -64,6 +66,7 @@ class App extends HookWidget {
           home: Stack(
             children: [
               MaterialApp(
+                theme: theme,
                 locale: DevicePreview.locale(context),
                 builder: DevicePreview.appBuilder,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -73,7 +76,7 @@ class App extends HookWidget {
                 navigatorKey: navigatorKey,
                 routes: {
                   AppRouterStage.routeName: (context) => const AppRouterStage(),
-                  AppInit.routeName: (context) => const AppInit(),
+                  SplashScreen.routeName: (context) => const SplashScreen(),
                 },
               ),
               const LogsPersistantButton(),

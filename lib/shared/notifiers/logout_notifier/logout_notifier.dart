@@ -1,11 +1,12 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../../auth/screens/splash/notifier/startup_notifier/authorized_union.dart'
+    as authorized_union;
+import '../../../auth/screens/splash/notifier/startup_notifier/startup_notipod.dart';
+import '../../../auth/screens/splash/provider/router_stpod/router_stpod.dart';
+import '../../../auth/screens/splash/provider/router_stpod/router_union.dart';
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../router/notifier/startup_notifier/authorized_union.dart' as authorized_union;
-import '../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../router/provider/router_stpod/router_stpod.dart';
-import '../../../router/provider/router_stpod/router_union.dart';
 import '../../../service/services/authentication/model/logout/logout_request_model.dart';
 import '../../logging/levels.dart';
 import '../../providers/service_providers.dart';

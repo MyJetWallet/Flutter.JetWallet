@@ -6,7 +6,7 @@ import '../../../auth/screens/email_verification/notifier/email_verification_not
 import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/login/login.dart';
 import '../../../auth/screens/reset_password/view/reset_password.dart';
-import '../../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../../../auth/screens/splash/notifier/startup_notifier/startup_notipod.dart';
 import '../../helpers/navigator_push.dart';
 import '../../notifiers/logout_notifier/logout_notipod.dart';
 import '../other/navigator_key_pod.dart';

@@ -7,11 +7,13 @@ class STextH1 extends StatelessWidget {
   const STextH1({
     Key? key,
     this.color,
+    this.textAlign,
     this.maxLines,
     required this.text,
   }) : super(key: key);
 
   final Color? color;
+  final TextAlign? textAlign;
   final int? maxLines;
   final String text;
 
@@ -23,6 +25,7 @@ class STextH1 extends StatelessWidget {
       fontSize: 40.sp,
       maxLines: maxLines,
       fontWeight: FontWeight.w600,
+      textAlign: textAlign,
     );
   }
 }

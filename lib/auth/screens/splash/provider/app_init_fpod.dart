@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../shared/helpers/refresh_token.dart';
-import '../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../shared/providers/service_providers.dart';
-import '../../shared/services/local_storage_service.dart';
+import '../../../../shared/helpers/refresh_token.dart';
+import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../shared/providers/service_providers.dart';
+import '../../../../shared/services/local_storage_service.dart';
+import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/startup_notifier/startup_notipod.dart';
 import 'router_stpod/router_stpod.dart';
 import 'router_stpod/router_union.dart';

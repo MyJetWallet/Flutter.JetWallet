@@ -6,8 +6,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import 'router/view/router.dart';
+import 'auth/screens/splash/view/splash_screen.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/other/navigator_key_pod.dart';
@@ -50,17 +51,19 @@ class App extends HookWidget {
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
     final navigatorKey = useProvider(navigatorKeyPod);
+    final theme = useProvider(sThemePod);
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
         return MaterialApp(
+          theme: theme,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          initialRoute: AppRouter.routeName,
+          initialRoute: SplashScreen.routeName,
           navigatorKey: navigatorKey,
           routes: {
-            AppRouter.routeName: (context) => const AppRouter(),
+            SplashScreen.routeName: (context) => const SplashScreen(),
           },
         );
       },

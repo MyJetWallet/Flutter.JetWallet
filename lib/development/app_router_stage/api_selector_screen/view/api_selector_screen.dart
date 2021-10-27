@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../../router/view/components/app_init.dart';
+import '../../../../auth/screens/splash/view/splash_screen.dart';
 import '../../../../shared/components/spacers.dart';
 import '../../../../shared/services/remote_config_service/service/remote_config_service.dart';
 import '../helper/api_title_from.dart';
@@ -42,7 +42,7 @@ class ApiSelectorScreen extends HookWidget {
             TextButton(
               onPressed: () {
                 _config.overrideApisFrom(index.value);
-                Navigator.pushReplacementNamed(context, AppInit.routeName);
+                Navigator.pushReplacementNamed(context, SplashScreen.routeName);
               },
               child: const Text(
                 'OK',

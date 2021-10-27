@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../service/services/validation/model/send_email_verification_code_request_model.dart';
 import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
@@ -13,6 +12,7 @@ import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../splash/notifier/startup_notifier/startup_notipod.dart';
 import 'email_verification_state.dart';
 import 'email_verification_union.dart';
 

@@ -5,12 +5,14 @@ class SimpleBaseText extends StatelessWidget {
     Key? key,
     this.color,
     this.maxLines,
+    this.textAlign,
     required this.text,
     required this.fontSize,
     required this.fontWeight,
   }) : super(key: key);
 
   final Color? color;
+  final TextAlign? textAlign;
   final int? maxLines;
   final String text;
   final double fontSize;
@@ -21,6 +23,7 @@ class SimpleBaseText extends StatelessWidget {
     return Text(
       text,
       maxLines: maxLines,
+      textAlign: textAlign,
       style: TextStyle(
         color: color,
         fontSize: fontSize,
