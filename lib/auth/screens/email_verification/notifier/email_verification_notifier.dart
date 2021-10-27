@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../service/services/validation/model/send_email_verification_code_request_model.dart';
 import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
@@ -9,7 +10,6 @@ import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
-import '../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../splash/notifier/startup_notifier/startup_notipod.dart';
@@ -24,7 +24,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
             controller: TextEditingController(),
           ),
         ) {
-    _context = read(navigatorKeyPod).currentContext!;
+    _context = read(sNavigatorKeyPod).currentContext!;
     _updateEmail(read(authInfoNotipod).email);
   }
 

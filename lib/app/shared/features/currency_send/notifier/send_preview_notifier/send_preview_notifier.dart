@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/transfer/model/tranfer_by_phone/transfer_by_phone_request_model.dart';
 import '../../../../../../service/shared/models/server_reject_exception.dart';
@@ -9,7 +10,6 @@ import '../../../../../../shared/components/result_screens/failure_screens/no_re
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
-import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
@@ -32,7 +32,7 @@ class SendPreviewNotifier extends StateNotifier<SendPreviewState> {
       phoneNumber: phoneNumber.phoneNumber,
     );
 
-    _context = read(navigatorKeyPod).currentContext!;
+    _context = read(sNavigatorKeyPod).currentContext!;
   }
 
   final Reader read;

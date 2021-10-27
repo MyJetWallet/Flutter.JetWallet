@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
@@ -9,7 +10,6 @@ import '../../../auth/screens/reset_password/view/reset_password.dart';
 import '../../../auth/screens/splash/notifier/startup_notifier/startup_notipod.dart';
 import '../../helpers/navigator_push.dart';
 import '../../notifiers/logout_notifier/logout_notipod.dart';
-import '../other/navigator_key_pod.dart';
 import '../service_providers.dart';
 
 const _code = 'jw_code';
@@ -25,7 +25,7 @@ const _operationId = 'jw_operation_id';
 final dynamicLinkPod = Provider<void>(
   (ref) {
     final service = ref.watch(dynamicLinkServicePod);
-    final navigatorKey = ref.watch(navigatorKeyPod);
+    final navigatorKey = ref.watch(sNavigatorKeyPod);
     final startup = ref.watch(startupNotipod);
 
     service.initDynamicLinks(

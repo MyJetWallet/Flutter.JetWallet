@@ -20,9 +20,9 @@ class SOverlineText extends StatelessWidget {
     return SimpleBaseText(
       text: text,
       color: color,
-      fontSize: 12.sp,
+      fontSize: 13.sp,
       maxLines: maxLines,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     );
   }
 }

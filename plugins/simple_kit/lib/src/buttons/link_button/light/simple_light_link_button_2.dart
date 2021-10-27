@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../simple_kit.dart';
-import '../../../icons/light/mail/simple_light_mail_icon.dart';
-import '../../../icons/light/mail/simple_light_mail_pressed_icon.dart';
+import '../../../icons/24x24/light/mail/simple_light_mail_icon.dart';
+import '../../../icons/24x24/light/mail/simple_light_mail_pressed_icon.dart';
 import '../base/simple_base_link_button.dart';
 
 class SimpleLightLinkButton2 extends StatelessWidget {
@@ -25,13 +25,13 @@ class SimpleLightLinkButton2 extends StatelessWidget {
       active: active,
       activeColor: SColorsLight().blue,
       inactiveColor: SColorsLight().grey4,
-      defaultIcon: SLightMailIcon(
+      defaultIcon: SimpleLightMailIcon(
         color: SColorsLight().blue,
       ),
-      pressedIcon: SLightMailPressedIcon(
+      pressedIcon: SimpleLightMailPressedIcon(
         color: SColorsLight().blue,
       ),
-      inactiveIcon: SLightMailIcon(
+      inactiveIcon: SimpleLightMailIcon(
         color: SColorsLight().grey4,
       ),
     );

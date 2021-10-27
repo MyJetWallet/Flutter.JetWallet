@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../auth/screens/splash/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
@@ -15,7 +16,6 @@ import '../../../../logging/levels.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../notifiers/user_info_notifier/user_info_state.dart';
-import '../../../../providers/other/navigator_key_pod.dart';
 import '../../../../providers/service_providers.dart';
 import '../model/two_fa_phone_trigger_union.dart';
 import 'two_fa_phone_state.dart';
@@ -33,7 +33,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     _initDefaultState();
     _userInfo = read(userInfoNotipod);
     _userInfoN = read(userInfoNotipod.notifier);
-    _context = read(navigatorKeyPod).currentContext!;
+    _context = read(sNavigatorKeyPod).currentContext!;
   }
 
   final Reader read;

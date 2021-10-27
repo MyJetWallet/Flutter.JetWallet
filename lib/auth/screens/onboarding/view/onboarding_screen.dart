@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/components/gradients/on_boarding_full_screen_gradient.dart';
-import '../../../../shared/components/spacers.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../login/login.dart';
 import '../../register/register.dart';

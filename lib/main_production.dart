@@ -11,7 +11,6 @@ import 'package:simple_kit/simple_kit.dart';
 import 'auth/screens/splash/view/splash_screen.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
-import 'shared/providers/other/navigator_key_pod.dart';
 import 'shared/services/push_notification_service.dart';
 
 final providerTypes = <String>[
@@ -50,7 +49,7 @@ class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
-    final navigatorKey = useProvider(navigatorKeyPod);
+    final navigatorKey = useProvider(sNavigatorKeyPod);
     final theme = useProvider(sThemePod);
 
     return ScreenUtilInit(

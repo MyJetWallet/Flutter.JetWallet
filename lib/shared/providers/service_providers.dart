@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
@@ -26,10 +27,9 @@ import '../services/contact_service.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
-import 'other/navigator_key_pod.dart';
 
 final intlPod = Provider<AppLocalizations>((ref) {
-  final key = ref.watch(navigatorKeyPod);
+  final key = ref.watch(sNavigatorKeyPod);
 
   return AppLocalizations.of(key.currentContext!)!;
 });
