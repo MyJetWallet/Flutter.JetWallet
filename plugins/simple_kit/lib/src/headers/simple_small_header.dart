@@ -42,8 +42,9 @@ class SSmallHeader extends StatelessWidget {
                 )
               else
                 const _IconPlaceholder(),
-              STextH5(
-                text: title,
+              Text(
+                title,
+                style: sTextH5Style,
               ),
               if (showStarButton)
                 SIconButton(

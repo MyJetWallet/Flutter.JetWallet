@@ -56,8 +56,9 @@ class SBigHeader extends StatelessWidget {
               Baseline(
                 baseline: 56.h,
                 baselineType: TextBaseline.alphabetic,
-                child: STextH2(
-                  text: title,
+                child: Text(
+                  title,
+                  style: sTextH2Style,
                 ),
               ),
               const Spacer(),
@@ -67,9 +68,11 @@ class SBigHeader extends StatelessWidget {
                   baselineType: TextBaseline.alphabetic,
                   child: GestureDetector(
                     onTap: onLinkTap,
-                    child: SBodyText2(
-                      text: linkText,
-                      color: SColorsLight().blue,
+                    child: Text(
+                      linkText,
+                      style: sBodyText2Style.copyWith(
+                        color: SColorsLight().blue,
+                      ),
                     ),
                   ),
                 ),

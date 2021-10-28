@@ -40,17 +40,22 @@ class SMarketHeader extends StatelessWidget {
               Baseline(
                 baseline: 31.4.h,
                 baselineType: TextBaseline.alphabetic,
-                child: SSubtitleText2(
-                  text: subtitle,
-                  color: SColorsLight().grey1,
+                child: Text(
+                  subtitle,
+                  style: sSubtitle2Style.copyWith(
+                    color: SColorsLight().grey1,
+                  ),
                 ),
               ),
               Baseline(
                 baseline: 31.4.h,
                 baselineType: TextBaseline.alphabetic,
-                child: SSubtitleText2(
-                  text: ' ${isPositive ? '+' : '-'} $percent%',
-                  color: isPositive ? SColorsLight().green : SColorsLight().red,
+                child: Text(
+                  ' ${isPositive ? '+' : '-'} $percent%',
+                  style: sSubtitle2Style.copyWith(
+                    color:
+                        isPositive ? SColorsLight().green : SColorsLight().red,
+                  ),
                 ),
               ),
               Baseline(

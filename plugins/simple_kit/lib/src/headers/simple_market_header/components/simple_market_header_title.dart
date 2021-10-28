@@ -22,8 +22,9 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
         Baseline(
           baseline: 24.h,
           baselineType: TextBaseline.alphabetic,
-          child: STextH2(
-            text: title,
+          child: Text(
+            title,
+            style: sTextH2Style,
           ),
         ),
         const Spacer(),

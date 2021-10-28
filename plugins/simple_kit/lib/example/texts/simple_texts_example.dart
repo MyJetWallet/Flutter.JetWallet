@@ -15,54 +15,68 @@ class SimpleTextsExample extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            ThemeSwitch(),
-            SpaceH20(),
-            STextH0(
-              text: 'H0 - Simple',
+          children: [
+            const ThemeSwitch(),
+            const SpaceH20(),
+            Text(
+              'H0 - Simple',
+              style: sTextH0Style,
             ),
-            STextH1(
-              text: 'H1 - Simple',
+            Text(
+              'H1 - Simple',
+              style: sTextH1Style,
             ),
-            STextH2(
-              text: 'H2 - Simple',
+            Text(
+              'H2 - Simple',
+              style: sTextH2Style,
             ),
-            STextH3(
-              text: 'H3 - Simple',
+            Text(
+              'H3 - Simple',
+              style: sTextH3Style,
             ),
-            STextH4(
-              text: 'H4 - Simple',
+            Text(
+              'H4 - Simple',
+              style: sTextH4Style,
             ),
-            STextH5(
-              text: 'H5 - Simple',
+            Text(
+              'H5 - Simple',
+              style: sTextH5Style,
             ),
-            SpaceH20(),
-            SSubtitleText1(
-              text: 'Subtitle 1 - Simple',
+            const SpaceH20(),
+            Text(
+              'Subtitle 1 - Simple',
+              style: sSubtitle1Style,
             ),
-            SSubtitleText2(
-              text: 'Subtitle 2 - Simple',
+            Text(
+              'Subtitle 2 - Simple',
+              style: sSubtitle2Style,
             ),
-            SSubtitleText3(
-              text: 'Subtitle 3 - Simple',
+            Text(
+              'Subtitle 3 - Simple',
+              style: sSubtitle3Style,
             ),
-            SpaceH20(),
-            SBodyText1(
-              text: 'Body 1 - Simple',
+            const SpaceH20(),
+            Text(
+              'Body 1 - Simple',
+              style: sBodyText1Style,
             ),
-            SBodyText2(
-              text: 'Body 2 - Simple',
+            Text(
+              'Body 2 - Simple',
+              style: sBodyText2Style,
             ),
-            SpaceH20(),
-            SButtonText(
-              text: 'Button - Simple',
+            const SpaceH20(),
+            Text(
+              'Button - Simple',
+              style: sButtonTextStyle,
             ),
-            SpaceH20(),
-            SCaptionText(
-              text: 'Caption - Simple',
+            const SpaceH20(),
+            Text(
+              'Caption - Simple',
+              style: sCaptionTextStyle,
             ),
-            SOverlineText(
-              text: 'OVERLINE - SIMPLE',
+            Text(
+              'OVERLINE - SIMPLE',
+              style: sOverlineTextStyle,
             )
           ],
         ),

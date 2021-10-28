@@ -45,24 +45,24 @@ class SimpleBaseStandardField extends HookWidget {
           },
           cursorWidth: 3.w,
           cursorColor: SColorsLight().blue,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w600,
+          style: sSubtitle2Style.copyWith(
             color: errorValue ? SColorsLight().red : SColorsLight().black,
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
             labelText: labelText,
-            labelStyle: TextStyle(
+            labelStyle: sSubtitle2Style.copyWith(
+              color: SColorsLight().grey2,
+            ),
+            floatingLabelStyle: sCaptionTextStyle.copyWith(
               fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
               color: SColorsLight().grey2,
             ),
             suffixIconConstraints: BoxConstraints(
-              maxWidth: 24.w,
-              maxHeight: 24.w,
-              minWidth: 24.w,
-              minHeight: 24.w,
+              maxWidth: 24.r,
+              maxHeight: 24.r,
+              minWidth: 24.r,
+              minHeight: 24.r,
             ),
             suffixIcon: errorValue
                 ? GestureDetector(

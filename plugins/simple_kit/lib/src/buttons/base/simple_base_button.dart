@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../texts/simple_button_text.dart';
+import '../../../simple_kit.dart';
 
-final sBaseButtonRadius = BorderRadius.circular(16.r);
+final _baseButtonRadius = BorderRadius.circular(16.r);
 
 class SimpleBaseButton extends StatelessWidget {
   const SimpleBaseButton({
@@ -28,16 +28,18 @@ class SimpleBaseButton extends StatelessWidget {
       onHighlightChanged: onHighlightChanged,
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      borderRadius: sBaseButtonRadius,
+      borderRadius: _baseButtonRadius,
       child: Ink(
         height: 56.h,
         decoration: decoration.copyWith(
-          borderRadius: sBaseButtonRadius,
+          borderRadius: _baseButtonRadius,
         ),
         child: Center(
-          child: SButtonText(
-            text: name,
-            color: nameColor,
+          child: Text(
+            name,
+            style: sButtonTextStyle.copyWith(
+              color: nameColor,
+            ),
           ),
         ),
       ),
