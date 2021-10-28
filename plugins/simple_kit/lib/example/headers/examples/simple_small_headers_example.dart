@@ -12,7 +12,7 @@ class SimpleSmallHeadersExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SPageFrame(
+    return SPageFrameWithPadding(
       child: Column(
         children: [
           const SSmallHeader(

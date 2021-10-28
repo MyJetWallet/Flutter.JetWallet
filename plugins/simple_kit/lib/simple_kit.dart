@@ -87,10 +87,11 @@ export 'src/notifications/view/show_simple_notification.dart';
 export 'src/notifications/view/simple_notification_box.dart';
 
 /// Components
+export 'src/shared/components/page_frames/simple_page_frame.dart';
+export 'src/shared/components/page_frames/simple_page_frame_with_padding.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_paddings.dart';
-export 'src/shared/components/simple_page_frame.dart';
 export 'src/shared/components/simple_spacers.dart';
 
 /// Providers

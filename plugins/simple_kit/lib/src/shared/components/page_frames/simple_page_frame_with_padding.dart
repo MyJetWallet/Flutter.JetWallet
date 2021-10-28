@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'simple_paddings.dart';
+import '../simple_paddings.dart';
 
-class SPageFrame extends StatelessWidget {
-  const SPageFrame({
+class SPageFrameWithPadding extends StatelessWidget {
+  const SPageFrameWithPadding({
     Key? key,
     this.header,
     required this.child,
