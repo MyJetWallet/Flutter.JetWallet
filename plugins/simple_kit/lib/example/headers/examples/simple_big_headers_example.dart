@@ -12,7 +12,7 @@ class SimpleBigHeadersExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SPageFrame(
+    return SPageFrameWithPadding(
       child: Column(
         children: [
           SBigHeader(

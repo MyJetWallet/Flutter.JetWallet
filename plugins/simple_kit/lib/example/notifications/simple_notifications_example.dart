@@ -13,7 +13,7 @@ class SimpleNotificationsExample extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final notificationQueueN = watch(sNotificationQueueNotipod.notifier);
 
-    return SPageFrame(
+    return SPageFrameWithPadding(
       child: Expanded(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

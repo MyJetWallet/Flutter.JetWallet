@@ -21,10 +21,12 @@ class SPasswordRequirement extends StatelessWidget {
         children: [
           if (passed) const STickSelectedIcon() else const STickIcon(),
           const SpaceW10(),
-          SCaptionText(
-            text: description,
-            color: passed ? SColorsLight().black : SColorsLight().grey2,
-          ),
+          Text(
+            description,
+            style: sCaptionTextStyle.copyWith(
+              color: passed ? SColorsLight().black : SColorsLight().grey2,
+            ),
+          )
         ],
       ),
     );

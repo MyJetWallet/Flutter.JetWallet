@@ -87,30 +87,18 @@ export 'src/notifications/view/show_simple_notification.dart';
 export 'src/notifications/view/simple_notification_box.dart';
 
 /// Components
+export 'src/shared/components/page_frames/simple_page_frame.dart';
+export 'src/shared/components/page_frames/simple_page_frame_with_padding.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_paddings.dart';
-export 'src/shared/components/simple_page_frame.dart';
 export 'src/shared/components/simple_spacers.dart';
 
 /// Providers
 export 'src/shared/providers/simple_navigator_key_pod.dart';
 
 /// Texts
-export 'src/texts/simple_body_text_1.dart';
-export 'src/texts/simple_body_text_2.dart';
-export 'src/texts/simple_button_text.dart';
-export 'src/texts/simple_caption_text.dart';
-export 'src/texts/simple_overline_text.dart';
-export 'src/texts/simple_subtitle_text_1.dart';
-export 'src/texts/simple_subtitle_text_2.dart';
-export 'src/texts/simple_subtitle_text_3.dart';
-export 'src/texts/simple_text_h0.dart';
-export 'src/texts/simple_text_h1.dart';
-export 'src/texts/simple_text_h2.dart';
-export 'src/texts/simple_text_h3.dart';
-export 'src/texts/simple_text_h4.dart';
-export 'src/texts/simple_text_h5.dart';
+export 'src/texts/simple_text_styles.dart';
 
 /// Theme
 export 'src/theme/provider/simple_theme_pod.dart';

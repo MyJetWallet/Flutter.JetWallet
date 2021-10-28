@@ -59,9 +59,11 @@ class SimpleBaseLinkButton extends HookWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SButtonText(
-                text: name,
-                color: currentColor,
+              Text(
+                name,
+                style: sButtonTextStyle.copyWith(
+                  color: currentColor,
+                ),
               ),
               SizedBox(
                 width: 10.w,
