@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../shared/components/buttons/app_button_outlined.dart';
-import '../../../shared/components/buttons/app_button_solid.dart';
-import '../../../shared/components/loaders/loader.dart';
-import '../../../shared/components/page_frame/page_frame.dart';
-import '../../../shared/components/spacers.dart';
-import '../../../shared/components/text_fields/app_text_field.dart';
-import '../../../shared/components/text_fields/app_text_field_obscure.dart';
 import '../../../shared/helpers/navigator_push.dart';
-import '../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../shared/helpers/show_plain_snackbar.dart';
-import '../../shared/components/policy_check/policy_check_box.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../forgot_password/view/forgot_password.dart';
-import '../register/register.dart';
-import 'components/forgot_password_button.dart';
 
 class Login extends HookWidget {
   const Login({Key? key}) : super(key: key);
@@ -28,8 +18,10 @@ class Login extends HookWidget {
   Widget build(BuildContext context) {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
-    final authenitcation = useProvider(authenticationNotipod);
     final authenitcationN = useProvider(authenticationNotipod.notifier);
+    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final emailError = useValueNotifier(StandardFieldErrorNotifier());
+    final passwordError = useValueNotifier(StandardFieldErrorNotifier());
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -37,50 +29,64 @@ class Login extends HookWidget {
         union.when(
           input: (error, st) {
             if (error != null) {
-              showPlainSnackbar(context, '$error');
+              emailError.value.enableError();
+              passwordError.value.enableError();
+              _showErrorNotification(notificationQueueN);
             }
           },
           loading: () {},
         );
       },
-      child: PageFrame(
-        header: 'Sign in to simple',
-        onBackButton: () => Navigator.pop(context),
-        resizeToAvoidBottomInset: false,
+      child: SPageFrame(
+        header: SBigHeader(
+          title: 'Sign in',
+          onBackButtonTap: () => Navigator.of(context).pop(),
+          showLink: true,
+          linkText: 'Forgot password?',
+          onLinkTap: () => navigatorPush(context, const ForgotPassword()),
+        ),
         child: AutofillGroup(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SpaceH40(),
-              AppTextField(
-                header: 'Enter your email',
-                hintText: 'Email address',
-                autofocus: true,
-                autofillHints: const [AutofillHints.email],
-                onChanged: (value) {
-                  credentialsN.updateAndValidateEmail(value);
-                },
-              ),
-              const SpaceH40(),
-              AppTextFieldObscure(
-                header: 'Enter password',
-                hintText: 'Enter password',
-                autofocus: true,
-                autofillHints: const [AutofillHints.password],
-                onChanged: (value) {
-                  credentialsN.updateAndValidatePassword(value);
-                },
-              ),
-              const SpaceH40(),
-              ForgotPasswordButton(
-                onTap: () => navigatorPush(context, const ForgotPassword()),
-              ),
-              const Spacer(),
-              const PolicyCheckBox(),
-              const SpaceH10(),
-              if (authenitcation is Input) ...[
-                AppButtonSolid(
-                  name: 'Sign in',
+          child: SizedBox(
+            width: double.infinity,
+            height: 632.h,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SStandardField(
+                  labelText: 'Email Address',
+                  onChanged: (value) {
+                    credentialsN.updateAndValidateEmail(value);
+                  },
+                  onErrorIconTap: () =>
+                      _showErrorNotification(notificationQueueN),
+                  errorNotifier: emailError.value,
+                ),
+                const Divider(),
+                SStandardFieldObscure(
+                  onChanged: (value) {
+                    credentialsN.updateAndValidatePassword(value);
+                  },
+                  labelText: 'Enter password',
+                  onErrorIconTap: () =>
+                      _showErrorNotification(notificationQueueN),
+                  errorNotifier: passwordError.value,
+                ),
+                const Spacer(),
+                Container(
+                  color: Colors.grey[200],
+                  child: SPolicyText(
+                    firstText: 'By logging in and Continue, '
+                        'I hereby agree and consent to the ',
+                    userAgreementText: 'User Agreement',
+                    betweenText: ' and the ',
+                    privacyPolicyText: 'Privacy Policy',
+                    onUserAgreementTap: () {},
+                    onPrivacyPolicyTap: () {},
+                  ),
+                ),
+                SPrimaryButton2(
+                  active: credentialsN.readyToLogin,
+                  name: 'Continue',
                   onTap: () {
                     if (credentialsN.readyToLogin) {
                       authenitcationN.authenticate(
@@ -90,23 +96,28 @@ class Login extends HookWidget {
                       );
                     }
                   },
-                  active: credentialsN.readyToLogin,
                 ),
-                const SpaceH10(),
-                AppButtonOutlined(
-                  name: 'Create account',
-                  onTap: () {
-                    navigatorPushReplacement(context, const Register());
-                    credentialsN.clear();
-                  },
-                ),
-              ] else ...[
-                const Loader(),
-                const Spacer(),
+                const SpaceH24(),
               ],
-            ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showErrorNotification(SNotificationQueueNotifier notifier) {
+    notifier.addToQueue(
+      SNotification(
+        duration: 3,
+        function: (context) {
+          showSNotification(
+            context: context,
+            duration: 3,
+            text: 'The email and password you entered did not match '
+                'our records. Please double-check and try again.',
+          );
+        },
       ),
     );
   }
