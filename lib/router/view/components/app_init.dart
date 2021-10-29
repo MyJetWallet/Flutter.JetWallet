@@ -4,9 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
-import '../../../auth/screens/welcome/view/welcome.dart';
-import '../../../shared/components/app_frame.dart';
-import '../../../shared/components/loaders/loader.dart';
+import '../../../auth/screens/onboarding/view/onboarding_screen.dart';
+import '../../../auth/screens/splash/view/splash_screen.dart';
 import '../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -29,52 +28,44 @@ class AppInit extends HookWidget {
     final startup = useProvider(startupNotipod);
     final signalRInit = useProvider(signalRInitFpod);
 
-    return AppFrame(
-      child: appInit.when(
-        data: (_) {
-          return router.state.when(
-            authorized: () {
-              return startup.authorized.when(
-                loading: () => const Loader(
-                  color: Colors.lime,
-                ),
-                emailVerification: () => const EmailVerification(),
-                twoFaVerification: () {
-                  return const TwoFaPhone(
-                    trigger: TwoFaPhoneTriggerUnion.startup(),
-                  );
-                },
-                pinSetup: () {
-                  return const PinScreen(
-                    union: Setup(),
-                    cannotLeave: true,
-                  );
-                },
-                pinVerification: () {
-                  return const PinScreen(
-                    union: Verification(),
-                    cannotLeave: true,
-                  );
-                },
-                home: () {
-                  return signalRInit.when(
-                    data: (_) => Navigation(),
-                    loading: () => const Loader(
-                      color: Colors.green,
-                    ),
-                    error: (e, st) => Text('$e'),
-                  );
-                },
-              );
-            },
-            unauthorized: () => Welcome(),
-          );
-        },
-        loading: () => const Loader(
-          color: Colors.red,
-        ),
-        error: (e, st) => Text('$e'),
-      ),
+    return appInit.when(
+      data: (_) {
+        return router.state.when(
+          authorized: () {
+            return startup.authorized.when(
+              loading: () => const SplashScreen(),
+              emailVerification: () => const EmailVerification(),
+              twoFaVerification: () {
+                return const TwoFaPhone(
+                  trigger: TwoFaPhoneTriggerUnion.startup(),
+                );
+              },
+              pinSetup: () {
+                return const PinScreen(
+                  union: Setup(),
+                  cannotLeave: true,
+                );
+              },
+              pinVerification: () {
+                return const PinScreen(
+                  union: Verification(),
+                  cannotLeave: true,
+                );
+              },
+              home: () {
+                return signalRInit.when(
+                  data: (_) => Navigation(),
+                  loading: () => const SplashScreen(),
+                  error: (e, st) => Text('$e'),
+                );
+              },
+            );
+          },
+          unauthorized: () => const OnboardingScreen(),
+        );
+      },
+      loading: () => const SplashScreen(),
+      error: (e, st) => Text('$e'),
     );
   }
 }
