@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import 'components/simple_policy_rich_text.dart';
@@ -24,21 +23,19 @@ class SPolicyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 62.h,
-      child: Column(
-        children: [
-          const SpaceH12(),
-          SimplePolicyRichText(
-            firstText: firstText,
-            userAgreementText: userAgreementText,
-            onUserAgreementTap: onUserAgreementTap,
-            betweenText: betweenText,
-            privacyPolicyText: privacyPolicyText,
-            onPrivacyPolicyTap: onPrivacyPolicyTap,
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        const SpaceH34(),
+        SimplePolicyRichText(
+          firstText: firstText,
+          userAgreementText: userAgreementText,
+          onUserAgreementTap: onUserAgreementTap,
+          betweenText: betweenText,
+          privacyPolicyText: privacyPolicyText,
+          onPrivacyPolicyTap: onPrivacyPolicyTap,
+        ),
+        const SpaceH17(),
+      ],
     );
   }
 }

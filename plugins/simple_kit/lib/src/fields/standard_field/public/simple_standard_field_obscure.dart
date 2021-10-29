@@ -10,6 +10,7 @@ class SStandardFieldObscure extends ConsumerWidget {
     Key? key,
     this.controller,
     this.focusNode,
+    this.autofillHints,
     this.errorNotifier,
     this.onErrorIconTap,
     required this.onChanged,
@@ -18,6 +19,7 @@ class SStandardFieldObscure extends ConsumerWidget {
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Function(String) onChanged;
@@ -35,6 +37,7 @@ class SStandardFieldObscure extends ConsumerWidget {
         onErrorIconTap: onErrorIconTap,
         onChanged: onChanged,
         labelText: labelText,
+        autofillHints: autofillHints,
       );
     } else {
       return SimpleLightStandardFieldObscure(
@@ -44,6 +47,7 @@ class SStandardFieldObscure extends ConsumerWidget {
         onErrorIconTap: onErrorIconTap,
         onChanged: onChanged,
         labelText: labelText,
+        autofillHints: autofillHints,
       );
     }
   }

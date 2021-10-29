@@ -8,7 +8,11 @@ import 'standard_field_error_notifier.dart';
 class SimpleBaseStandardField extends HookWidget {
   const SimpleBaseStandardField({
     Key? key,
+    this.autofocus = false,
     this.obscureText = false,
+    this.keyboardType,
+    this.textInputAction,
+    this.autofillHints,
     this.controller,
     this.focusNode,
     this.errorNotifier,
@@ -19,10 +23,14 @@ class SimpleBaseStandardField extends HookWidget {
   }) : super(key: key);
 
   final bool obscureText;
+  final bool autofocus;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
+  final Iterable<String>? autofillHints;
   final Widget suffixIcon;
   final Function(String) onChanged;
   final String labelText;
@@ -39,6 +47,10 @@ class SimpleBaseStandardField extends HookWidget {
           focusNode: focusNode,
           controller: controller,
           obscureText: obscureText,
+          keyboardType: keyboardType,
+          autofocus: autofocus,
+          textInputAction: textInputAction,
+          autofillHints: autofillHints,
           onChanged: (value) {
             onChanged(value);
             errorNotifier?.disableError();

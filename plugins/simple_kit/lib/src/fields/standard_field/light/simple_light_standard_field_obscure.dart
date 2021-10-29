@@ -9,6 +9,7 @@ class SimpleLightStandardFieldObscure extends HookWidget {
   const SimpleLightStandardFieldObscure({
     Key? key,
     this.controller,
+    this.autofillHints,
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
@@ -20,6 +21,7 @@ class SimpleLightStandardFieldObscure extends HookWidget {
   final FocusNode? focusNode;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
+  final Iterable<String>? autofillHints;
   final Function(String) onChanged;
   final String labelText;
 
@@ -38,6 +40,7 @@ class SimpleLightStandardFieldObscure extends HookWidget {
       controller: controller2,
       focusNode: focusNode2,
       obscureText: obscure.value,
+      autofillHints: autofillHints,
       errorNotifier: errorNotifier,
       onErrorIconTap: onErrorIconTap,
       suffixIcon: focusNode2.hasFocus || controller2.text.isNotEmpty
