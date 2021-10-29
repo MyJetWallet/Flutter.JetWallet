@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../shared/components/app_frame.dart';
 import '../../../../shared/providers/background/push_notification_pods.dart';
 import '../../../shared/features/key_value/provider/key_value_spod.dart';
 import '../../../shared/providers/client_detail_pod/client_detail_pod.dart';
@@ -22,12 +23,14 @@ class Navigation extends HookWidget {
     useProvider(clientDetailPod.select((_) {}));
     useProvider(keyValueSpod.select((_) {}));
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: screens[navigation.state],
+    return AppFrame(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: screens[navigation.state],
+        ),
+        bottomNavigationBar: const BottomNavigationMenu(),
       ),
-      bottomNavigationBar: const BottomNavigationMenu(),
     );
   }
 }
