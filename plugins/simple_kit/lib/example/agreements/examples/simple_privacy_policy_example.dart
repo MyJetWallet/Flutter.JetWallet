@@ -14,7 +14,7 @@ class SimplePrivacyPolicyExample extends HookWidget {
   Widget build(BuildContext context) {
     final isChecked = useState(false);
 
-    return SPageFrame(
+    return SPageFrameWithPadding(
       child: Expanded(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

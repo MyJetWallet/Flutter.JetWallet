@@ -25,7 +25,6 @@ class SMarketHeader extends StatelessWidget {
     return SizedBox(
       height: 160.h,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: 64.h,
@@ -34,25 +33,39 @@ class SMarketHeader extends StatelessWidget {
             title: title,
             onSearchButtonTap: onSearchButtonTap,
           ),
-          SizedBox(
-            height: 40.h,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SSubtitleText2(
-                  text: subtitle,
-                  color: SColorsLight().grey1,
+          Row(
+            textBaseline: TextBaseline.alphabetic,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            children: [
+              Baseline(
+                baseline: 31.4.h,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  subtitle,
+                  style: sSubtitle2Style.copyWith(
+                    color: SColorsLight().grey1,
+                  ),
                 ),
-                SSubtitleText2(
-                  text: ' ${isPositive ? '+' : '-'} $percent%',
-                  color: isPositive ? SColorsLight().green : SColorsLight().red,
+              ),
+              Baseline(
+                baseline: 31.4.h,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  ' ${isPositive ? '+' : '-'} $percent%',
+                  style: sSubtitle2Style.copyWith(
+                    color:
+                        isPositive ? SColorsLight().green : SColorsLight().red,
+                  ),
                 ),
-                if (isPositive)
-                  const SBigArrowPositiveIcon()
-                else
-                  const SBigArrowNegativeIcon(),
-              ],
-            ),
+              ),
+              Baseline(
+                baseline: 37.4.h,
+                baselineType: TextBaseline.alphabetic,
+                child: isPositive
+                    ? const SBigArrowPositiveIcon()
+                    : const SBigArrowNegativeIcon(),
+              ),
+            ],
           ),
         ],
       ),

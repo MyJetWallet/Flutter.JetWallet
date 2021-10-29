@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -27,11 +26,9 @@ class SimplePolicyRichText extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: firstText,
-        style: TextStyle(
-          fontSize: 12.sp,
+        style: sCaptionTextStyle.copyWith(
           fontFamily: 'Gilroy',
           color: SColorsLight().black,
-          fontWeight: FontWeight.w500,
         ),
         children: [
           _textSpanWithRecognizer(

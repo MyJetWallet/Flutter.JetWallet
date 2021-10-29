@@ -10,7 +10,7 @@ class SimplePasswordRequirementExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SPageFrame(
+    return SPageFrameWithPadding(
       child: Expanded(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

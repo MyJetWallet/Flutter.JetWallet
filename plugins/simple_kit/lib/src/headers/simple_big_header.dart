@@ -49,26 +49,35 @@ class SBigHeader extends StatelessWidget {
                 ),
             ],
           ),
-          SizedBox(
-            height: 56.h,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                STextH2(
-                  text: title,
+          Row(
+            textBaseline: TextBaseline.alphabetic,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            children: [
+              Baseline(
+                baseline: 56.h,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  title,
+                  style: sTextH2Style,
                 ),
-                const Spacer(),
-                if (showLink)
-                  GestureDetector(
+              ),
+              const Spacer(),
+              if (showLink)
+                Baseline(
+                  baseline: 56.h,
+                  baselineType: TextBaseline.alphabetic,
+                  child: GestureDetector(
                     onTap: onLinkTap,
-                    child: SBodyText2(
-                      text: linkText,
-                      color: SColorsLight().blue,
+                    child: Text(
+                      linkText,
+                      style: sBodyText2Style.copyWith(
+                        color: SColorsLight().blue,
+                      ),
                     ),
                   ),
-              ],
-            ),
-          )
+                ),
+            ],
+          ),
         ],
       ),
     );
