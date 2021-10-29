@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../shared/components/gradients/onboarding_full_screen_gradient.dart';
+import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
 
 class SplashScreen extends HookWidget {
   const SplashScreen({Key? key}) : super(key: key);

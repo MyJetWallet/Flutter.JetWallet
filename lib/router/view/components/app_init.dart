@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
-import '../../../auth/screens/onboarding/view/onboarding_screen.dart';
-import '../../../auth/screens/splash/view/splash_screen.dart';
+import '../../../auth/screens/onboarding/onboarding_screen.dart';
+import '../../../auth/screens/splash/splash_screen.dart';
 import '../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';

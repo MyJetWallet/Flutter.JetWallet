@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../shared/helpers/navigator_push.dart';
-import '../../../shared/components/gradients/onboarding_full_screen_gradient.dart';
-import '../../login/login.dart';
-import '../../register/register.dart';
+import '../../../shared/helpers/navigator_push.dart';
+import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
+import '../login/login.dart';
+import '../register/register.dart';
 import 'components/animated_slide.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -82,7 +82,7 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                   .map((i, e) {
                     return MapEntry(
                       i,
-                      AnimatedOnBoardingSlide(
+                      AnimatedOnboardingSlide(
                         position: i,
                         currentIndex: _currentIndex,
                         animationController: _slidesAnimationController,

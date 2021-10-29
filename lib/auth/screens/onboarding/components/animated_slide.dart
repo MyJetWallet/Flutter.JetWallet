@@ -6,8 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import 'slide_container.dart';
 
-class AnimatedOnBoardingSlide extends HookWidget {
-  const AnimatedOnBoardingSlide({
+class AnimatedOnboardingSlide extends HookWidget {
+  const AnimatedOnboardingSlide({
     Key? key,
     required this.animationController,
     required this.position,
