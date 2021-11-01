@@ -16,10 +16,10 @@ class SimpleBaseSvg102X56 extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: 102.r,
-        maxHeight: 56.r,
-        minWidth: 102.r,
-        minHeight: 56.r,
+        maxWidth: 102.w,
+        maxHeight: 56.h,
+        minWidth: 102.w,
+        minHeight: 56.h,
       ),
       child: SvgPicture.asset(
         assetName,

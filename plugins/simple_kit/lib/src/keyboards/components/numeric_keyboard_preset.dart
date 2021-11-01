@@ -27,7 +27,7 @@ class NumericKeyboardPreset extends StatelessWidget {
           borderRadius: BorderRadius.circular(24.r),
           border: selected
               ? Border.all(
-                  width: 2.w,
+                  width: 2.r,
                 )
               : null,
         ),
