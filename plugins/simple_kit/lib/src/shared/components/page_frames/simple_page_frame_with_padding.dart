@@ -19,7 +19,9 @@ class SPageFrameWithPadding extends StatelessWidget {
         child: Column(
           children: [
             if (header != null) header!,
-            child,
+            Expanded(
+              child: child,
+            ),
           ],
         ),
       ),

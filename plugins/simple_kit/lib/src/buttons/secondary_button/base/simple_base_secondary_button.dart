@@ -46,7 +46,7 @@ class SimpleBaseSecondaryButton extends HookWidget {
 
     return SimpleBaseButton(
       name: name,
-      onTap: onTap,
+      onTap: active ? onTap : null,
       onHighlightChanged: (value) {
         highlighted.value = value;
       },

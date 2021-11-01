@@ -22,7 +22,7 @@ class SColorsLight implements SimpleColors {
   Color grey2 = const Color(0xFFA8B0BA);
 
   @override
-  Color grey3 = const Color(0xFFA8B0BA);
+  Color grey3 = const Color(0xFFC0C4C9);
 
   @override
   Color grey4 = const Color(0xFFE0E5EB);

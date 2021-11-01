@@ -8,14 +8,14 @@ final _baseButtonRadius = BorderRadius.circular(16.r);
 class SimpleBaseButton extends StatelessWidget {
   const SimpleBaseButton({
     Key? key,
-    required this.onTap,
+    this.onTap,
     required this.onHighlightChanged,
     required this.decoration,
     required this.name,
     required this.nameColor,
   }) : super(key: key);
 
-  final Function() onTap;
+  final Function()? onTap;
   final Function(bool) onHighlightChanged;
   final BoxDecoration decoration;
   final String name;
