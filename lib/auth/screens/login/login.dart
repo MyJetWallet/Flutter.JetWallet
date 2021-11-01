@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/shared/helpers/launch_url.dart';
+import 'package:jetwallet/shared/services/remote_config_service/remote_config_values.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/navigator_push.dart';
@@ -38,11 +40,10 @@ class Login extends HookWidget {
         );
       },
       child: SPageFrame(
-        header: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
+        header: SPaddingH24(
           child: SBigHeader(
             title: 'Sign in',
-            onBackButtonTap: () => Navigator.of(context).pop(),
+            onBackButtonTap: () => Navigator.pop(context),
             showLink: true,
             linkText: 'Forgot password?',
             onLinkTap: () => navigatorPush(context, const ForgotPassword()),
@@ -50,65 +51,72 @@ class Login extends HookWidget {
         ),
         child: AutofillGroup(
           child: Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: SStandardField(
-                          labelText: 'Email Address',
-                          autofocus: true,
-                          autofillHints: const [AutofillHints.email],
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          onChanged: (value) {
-                            credentialsN.updateAndValidateEmail(value);
-                          },
-                          onErrorIconTap: () {
-                            _showErrorNotification(notificationQueueN);
-                          },
-                          errorNotifier: emailError.value,
-                        ),
-                      ),
-                      const SDivider(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: SStandardFieldObscure(
-                          autofillHints: const [AutofillHints.password],
-                          onChanged: (value) {
-                            credentialsN.updateAndValidatePassword(value);
-                          },
-                          labelText: 'Password',
-                          onErrorIconTap: () {
-                            _showErrorNotification(notificationQueueN);
-                          },
-                          errorNotifier: passwordError.value,
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        color: Colors.grey[200],
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.w),
-                          child: SPolicyText(
-                            firstText: 'By logging in and Continue, '
-                                'I hereby agree and consent to the ',
-                            userAgreementText: 'User Agreement',
-                            betweenText: ' and the ',
-                            privacyPolicyText: 'Privacy Policy',
-                            onUserAgreementTap: () {},
-                            onPrivacyPolicyTap: () {},
+            child: Material(
+              color: SColorsLight().grey5,
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Material(
+                          color: SColorsLight().white,
+                          child: SPaddingH24(
+                            child: SStandardField(
+                              labelText: 'Email Address',
+                              autofocus: true,
+                              autofillHints: const [AutofillHints.email],
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (value) {
+                                credentialsN.updateAndValidateEmail(value);
+                              },
+                              onErrorIconTap: () {
+                                _showErrorNotification(notificationQueueN);
+                              },
+                              errorNotifier: emailError.value,
+                            ),
                           ),
                         ),
-                      ),
-                      Material(
-                        color: Colors.grey[200],
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        const SDivider(),
+                        Material(
+                          color: SColorsLight().white,
+                          child: SPaddingH24(
+                            child: SStandardFieldObscure(
+                              autofillHints: const [AutofillHints.password],
+                              onChanged: (value) {
+                                credentialsN.updateAndValidatePassword(value);
+                              },
+                              labelText: 'Password',
+                              onErrorIconTap: () {
+                                _showErrorNotification(notificationQueueN);
+                              },
+                              errorNotifier: passwordError.value,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        SPaddingH24(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              top: 34.h,
+                              bottom: 17.h,
+                            ),
+                            child: SPolicyText(
+                              firstText: 'By logging in and Continue, '
+                                  'I hereby agree and consent to the ',
+                              userAgreementText: 'User Agreement',
+                              betweenText: ' and the ',
+                              privacyPolicyText: 'Privacy Policy',
+                              onUserAgreementTap: () =>
+                                  launchURL(context, userAgreementLink),
+                              onPrivacyPolicyTap: () =>
+                                  launchURL(context, privacyPolicyLink),
+                            ),
+                          ),
+                        ),
+                        SPaddingH24(
                           child: SPrimaryButton2(
                             active: credentialsN.readyToLogin,
                             name: 'Continue',
@@ -123,16 +131,12 @@ class Login extends HookWidget {
                             },
                           ),
                         ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 24.h,
-                        color: Colors.grey[200],
-                      ),
-                    ],
+                        const SpaceH24(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
