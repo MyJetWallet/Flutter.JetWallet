@@ -47,7 +47,7 @@ class SimpleBaseLinkButton extends HookWidget {
     }
 
     return InkWell(
-      onTap: onTap,
+      onTap: active ? onTap : null,
       onHighlightChanged: (value) {
         highlighted.value = value;
       },

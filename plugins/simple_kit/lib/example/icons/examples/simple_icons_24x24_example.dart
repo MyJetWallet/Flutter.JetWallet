@@ -39,6 +39,8 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SInfoPressedIcon(),
               SMailIcon(),
               SMailPressedIcon(),
+              SPhotoIcon(),
+              SPhotoPressedIcon(),
               SSearchIcon(),
               SSearchPressedIcon(),
               SStarIcon(),
