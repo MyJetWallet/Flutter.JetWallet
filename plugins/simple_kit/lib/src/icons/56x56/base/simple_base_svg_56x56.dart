@@ -15,11 +15,15 @@ class SimpleBaseSvg56X56 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
+      /// Here we need explicitly to specify width and height
+      /// because these icons are used in the NavigationBar and if we 
+      /// use only .r, which is perfect square, then we can't fill the
+      /// whole NavigationBar in width
       constraints: BoxConstraints(
-        maxWidth: 56.r,
-        maxHeight: 56.r,
-        minWidth: 56.r,
-        minHeight: 56.r,
+        maxWidth: 56.w,
+        maxHeight: 56.h,
+        minWidth: 56.w,
+        minHeight: 56.h,
       ),
       child: SvgPicture.asset(
         assetName,

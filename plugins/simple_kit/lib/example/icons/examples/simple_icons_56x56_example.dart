@@ -26,7 +26,7 @@ class SimpleIcons56X56Example extends StatelessWidget {
               SPortfolioActiveIcon(),
               SPortfolioDefaultIcon(),
               SProfileActiveIcon(),
-              SProfileDefailtIcon(),
+              SProfileDefaultIcon(),
             ],
           ),
         ),

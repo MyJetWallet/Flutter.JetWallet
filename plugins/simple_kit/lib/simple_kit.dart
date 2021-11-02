@@ -7,6 +7,9 @@ export 'src/agreements/simple_password_requirement/simple_password_requirement.d
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_text.dart';
 
+/// Bottom Navigation Bar
+export 'src/bottom_navigation_bar/simple_bottom_navigation_bar.dart';
+
 /// Buttons
 export 'src/buttons/link_button/public/simple_link_button_1.dart';
 export 'src/buttons/link_button/public/simple_link_button_2.dart';
@@ -120,6 +123,7 @@ export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_spacers.dart';
+export 'src/shared/components/simple_transparent_ink_well.dart';
 
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';

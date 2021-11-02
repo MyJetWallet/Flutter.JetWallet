@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../current_theme_stpod.dart';
 import '../../light/profile/simple_light_profile_default_icon.dart';
 
-class SProfileDefailtIcon extends ConsumerWidget {
-  const SProfileDefailtIcon({Key? key}) : super(key: key);
+class SProfileDefaultIcon extends ConsumerWidget {
+  const SProfileDefaultIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
