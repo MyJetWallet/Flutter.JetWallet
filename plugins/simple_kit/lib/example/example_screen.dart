@@ -7,6 +7,7 @@ import '../src/theme/provider/simple_theme_pod.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
 import 'agreements/simple_agreements_example.dart';
+import 'bottom_navigation_bar/simple_bottom_navigation_bar_example.dart';
 import 'buttons/examples/simple_link_button_example.dart';
 import 'buttons/examples/simple_primary_button_example.dart';
 import 'buttons/examples/simple_secondary_button_example.dart';
@@ -26,6 +27,7 @@ import 'icons/examples/simple_icons_16x16_example.dart';
 import 'icons/examples/simple_icons_20x20_example.dart';
 import 'icons/examples/simple_icons_24x24_example.dart';
 import 'icons/examples/simple_icons_36x36_example.dart';
+import 'icons/examples/simple_icons_56x56_example.dart';
 import 'icons/simple_icons_example.dart';
 import 'keyboards/examples/simple_numeric_keyboard_amount/simple_numeric_keyboard_amount_example.dart';
 import 'keyboards/examples/simple_numeric_keyboard_amount/simple_numeric_keyboard_amount_guides.dart';
@@ -103,6 +105,9 @@ class ExampleScreen extends ConsumerWidget {
             SimpleIcons102X56Example.routeName: (context) {
               return const SimpleIcons102X56Example();
             },
+            SimpleIcons56X56Example.routeName: (context) {
+              return const SimpleIcons56X56Example();
+            },
             SimpleHeadersExample.routeName: (context) {
               return const SimpleHeadersExample();
             },
@@ -141,6 +146,9 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleNumericKeyboardPinGuides.routeName: (context) {
               return const SimpleNumericKeyboardPinGuides();
+            },
+            SimpleBottomNavigationBarExample.routeName: (context) {
+              return const SimpleBottomNavigationBarExample();
             },
           },
         );
@@ -200,6 +208,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Keyboards',
               routeName: SimpleKeyboardsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Bottom Navigation Bar',
+              routeName: SimpleBottomNavigationBarExample.routeName,
             ),
           ],
         ),

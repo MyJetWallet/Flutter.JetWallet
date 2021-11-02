@@ -90,6 +90,16 @@ export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_pressed_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_pressed_icon.dart';
+export 'src/icons/56x56/public/action/simple_action_active_icon.dart';
+export 'src/icons/56x56/public/action/simple_action_default_icon.dart';
+export 'src/icons/56x56/public/market/simple_market_active_icon.dart';
+export 'src/icons/56x56/public/market/simple_market_default_icon.dart';
+export 'src/icons/56x56/public/news/simple_news_active_icon.dart';
+export 'src/icons/56x56/public/news/simple_news_default_icon.dart';
+export 'src/icons/56x56/public/portfolio/simple_portfolio_active_icon.dart';
+export 'src/icons/56x56/public/portfolio/simple_portfolio_default_icon.dart';
+export 'src/icons/56x56/public/profile/simple_profile_active_icon.dart';
+export 'src/icons/56x56/public/profile/simple_profile_default_icon.dart';
 
 /// Keyboards
 export 'src/keyboards/constants.dart';
