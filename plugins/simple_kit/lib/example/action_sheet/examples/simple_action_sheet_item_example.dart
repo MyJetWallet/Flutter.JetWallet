@@ -21,31 +21,88 @@ class SimpleActionSheetItemExample extends StatelessWidget {
                 children: [
                   Container(
                     color: Colors.grey[200],
-                    child: const SActionSheetItem(),
+                    child: const SActionSheetItem(
+                      icon: SActionBuyIcon(),
+                      name: 'Operation Name',
+                      helperText: 'Fee 3.5%',
+                      description: 'Description',
+                    ),
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SActionBuyIcon(),
+                      Column(
+                        children: [
+                          const SpaceH10(),
+                          Container(
+                            height: 24.h,
+                            color: Colors.red[100]!.withOpacity(0.6),
+                            child: const SpaceW24(),
+                          ),
+                        ],
+                      ),
                       Container(
                         color: Colors.blue.withOpacity(0.3),
                         width: 10.w,
                         height: 64.h,
+                        child: Center(
+                          child: Text(
+                            '10px',
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         color: Colors.blue.withOpacity(0.3),
                         width: double.infinity,
                         height: 10.h,
+                        child: Center(
+                          child: Text(
+                            '10px',
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.green.withOpacity(0.3),
+                        width: 293.w,
+                        height: 18.h,
+                        child: const Center(
+                          child: Text(
+                            '18px',
+                          ),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.purple.withOpacity(0.3),
+                        width: 293.w,
+                        height: 20.h,
+                        child: const Center(
+                          child: Text(
+                            '20px',
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
               const SpaceH20(),
-              const SActionSheetItem()
+              const SActionSheetItem(
+                icon: SActionBuyIcon(),
+                name: 'Operation Name',
+                helperText: 'Fee 3.5%',
+                description: 'Description',
+              )
             ],
           ),
         ),

@@ -6,7 +6,16 @@ import '../../../simple_kit.dart';
 class SActionSheetItem extends StatelessWidget {
   const SActionSheetItem({
     Key? key,
+    required this.icon,
+    required this.name,
+    required this.helperText,
+    required this.description,
   }) : super(key: key);
+
+  final Widget icon;
+  final String name;
+  final String helperText;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +27,7 @@ class SActionSheetItem extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SActionBuyIcon(),
+              icon,
               const SpaceW10(),
               Expanded(
                 child: Column(
@@ -34,7 +43,7 @@ class SActionSheetItem extends StatelessWidget {
                             baseline: 17.8.h,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
-                              'Operation name',
+                              name,
                               style: sSubtitle2Style,
                             ),
                           ),
@@ -43,7 +52,7 @@ class SActionSheetItem extends StatelessWidget {
                         SizedBox(
                           width: 90.w,
                           child: Text(
-                            'Fee 3.5%',
+                            helperText,
                             textAlign: TextAlign.end,
                             style: sCaptionTextStyle.copyWith(
                               color: SColorsLight().grey3,
@@ -58,7 +67,7 @@ class SActionSheetItem extends StatelessWidget {
                         baseline: 15.5.h,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
-                          'Description',
+                          description,
                           style: sCaptionTextStyle.copyWith(
                             color: SColorsLight().grey3,
                           ),
