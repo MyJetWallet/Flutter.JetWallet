@@ -2,6 +2,10 @@
 
 library simple_kit;
 
+/// Action sheet
+export 'src/action_sheet/components/simple_action_sheet_item.dart';
+export 'src/action_sheet/sheets/menu_action_sheet/simple_show_menu_action_sheet.dart';
+
 /// Agreements
 export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';

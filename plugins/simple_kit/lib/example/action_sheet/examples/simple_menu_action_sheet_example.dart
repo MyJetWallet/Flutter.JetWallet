@@ -11,10 +11,27 @@ class SimpleMenuActionSheetExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SPaddingH24(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () {
+                sShowMenuActionSheet(
+                  context: context,
+                  onBuy: () {},
+                  onSell: () {},
+                  onConvert: () {},
+                  onDeposit: () {},
+                  onWithdraw: () {},
+                  onSend: () {},
+                  onReceive: () {},
+                );
+              },
+              child: const Text(
+                'Show Action Sheet',
+              ),
+            )
+          ],
         ),
       ),
     );
