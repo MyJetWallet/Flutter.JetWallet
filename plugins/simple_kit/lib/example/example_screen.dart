@@ -4,6 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
+import 'action_sheet/examples/simple_action_sheet_item_example.dart';
+import 'action_sheet/examples/simple_asset_item_example.dart';
+import 'action_sheet/examples/simple_common_action_sheet_example.dart';
+import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
+import 'action_sheet/simple_action_sheet_example.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
 import 'agreements/simple_agreements_example.dart';
@@ -24,7 +29,6 @@ import 'headers/examples/simple_small_headers_example.dart';
 import 'headers/simple_headers_example.dart';
 import 'icons/examples/simple_icons_102x56_example.dart';
 import 'icons/examples/simple_icons_16x16_example.dart';
-import 'icons/examples/simple_icons_20x20_example.dart';
 import 'icons/examples/simple_icons_24x24_example.dart';
 import 'icons/examples/simple_icons_36x36_example.dart';
 import 'icons/examples/simple_icons_56x56_example.dart';
@@ -93,9 +97,6 @@ class ExampleScreen extends ConsumerWidget {
             SimpleIcons16X16Example.routeName: (context) {
               return const SimpleIcons16X16Example();
             },
-            SimpleIcons20X20Example.routeName: (context) {
-              return const SimpleIcons20X20Example();
-            },
             SimpleIcons24X24Example.routeName: (context) {
               return const SimpleIcons24X24Example();
             },
@@ -149,6 +150,21 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleBottomNavigationBarExample.routeName: (context) {
               return const SimpleBottomNavigationBarExample();
+            },
+            SimpleActionSheetExample.routeName: (context) {
+              return const SimpleActionSheetExample();
+            },
+            SimpleCommonActionSheetExample.routeName: (context) {
+              return const SimpleCommonActionSheetExample();
+            },
+            SimpleMenuActionSheetExample.routeName: (context) {
+              return const SimpleMenuActionSheetExample();
+            },
+            SimpleAssetItemExample.routeName: (context) {
+              return const SimpleAssetItemExample();
+            },
+            SimpleActionSheetItemExample.routeName: (context) {
+              return const SimpleActionSheetItemExample();
             },
           },
         );
@@ -212,6 +228,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Bottom Navigation Bar',
               routeName: SimpleBottomNavigationBarExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Action SHeet',
+              routeName: SimpleActionSheetExample.routeName,
             ),
           ],
         ),

@@ -2,6 +2,10 @@
 
 library simple_kit;
 
+/// Action sheet
+export 'src/action_sheet/components/simple_action_sheet_item.dart';
+export 'src/action_sheet/sheets/menu_action_sheet/simple_show_menu_action_sheet.dart';
+
 /// Agreements
 export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
@@ -51,13 +55,13 @@ export 'src/icons/16x16/public/smiles/simple_smile_good_icon.dart';
 export 'src/icons/16x16/public/smiles/simple_smile_neutral_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_selected_icon.dart';
-export 'src/icons/20x20/public/action_buy/simple_action_buy_icon.dart';
-export 'src/icons/20x20/public/action_convert/simple_action_convert_icon.dart';
-export 'src/icons/20x20/public/action_deposit/simple_action_deposit_icon.dart';
-export 'src/icons/20x20/public/action_receive/simple_action_receive_icon.dart';
-export 'src/icons/20x20/public/action_sell/simple_action_sell_icon.dart';
-export 'src/icons/20x20/public/action_send/simple_action_send_icon.dart';
-export 'src/icons/20x20/public/action_withdraw/simple_action_withdraw_icon.dart';
+export 'src/icons/24x24/public/action_buy/simple_action_buy_icon.dart';
+export 'src/icons/24x24/public/action_convert/simple_action_convert_icon.dart';
+export 'src/icons/24x24/public/action_deposit/simple_action_deposit_icon.dart';
+export 'src/icons/24x24/public/action_receive/simple_action_receive_icon.dart';
+export 'src/icons/24x24/public/action_sell/simple_action_sell_icon.dart';
+export 'src/icons/24x24/public/action_send/simple_action_send_icon.dart';
+export 'src/icons/24x24/public/action_withdraw/simple_action_withdraw_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_pressed_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_negative_icon.dart';
