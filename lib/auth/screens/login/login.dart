@@ -70,6 +70,8 @@ class Login extends HookWidget {
                               keyboardType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.next,
                               onChanged: (value) {
+                                emailError.value.disableError();
+                                passwordError.value.disableError();
                                 credentialsN.updateAndValidateEmail(value);
                               },
                               onErrorIconTap: () {
@@ -86,6 +88,8 @@ class Login extends HookWidget {
                             child: SStandardFieldObscure(
                               autofillHints: const [AutofillHints.password],
                               onChanged: (value) {
+                                emailError.value.disableError();
+                                passwordError.value.disableError();
                                 credentialsN.updateAndValidatePassword(value);
                               },
                               labelText: 'Password',
@@ -127,6 +131,8 @@ class Login extends HookWidget {
                                   password: credentials.password,
                                   operation: AuthOperation.login,
                                 );
+
+                                credentialsN.unreadyToLogin();
                               }
                             },
                           ),
