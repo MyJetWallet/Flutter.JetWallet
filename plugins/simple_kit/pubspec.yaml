@@ -29,13 +29,13 @@ flutter:
     - assets/icons/light/16x16/small_arrow/
     - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
-    - assets/icons/light/20x20/action_buy/
-    - assets/icons/light/20x20/action_convert/
-    - assets/icons/light/20x20/action_deposit/
-    - assets/icons/light/20x20/action_receive/
-    - assets/icons/light/20x20/action_sell/
-    - assets/icons/light/20x20/action_send/
-    - assets/icons/light/20x20/action_withdraw/
+    - assets/icons/light/24x24/action_buy/
+    - assets/icons/light/24x24/action_convert/
+    - assets/icons/light/24x24/action_deposit/
+    - assets/icons/light/24x24/action_receive/
+    - assets/icons/light/24x24/action_sell/
+    - assets/icons/light/24x24/action_send/
+    - assets/icons/light/24x24/action_withdraw/
     - assets/icons/light/24x24/back/
     - assets/icons/light/24x24/big_arrow/
     - assets/icons/light/24x24/checkbox/
