@@ -8,7 +8,11 @@ import '../light/simple_light_standard_field.dart';
 class SStandardField extends ConsumerWidget {
   const SStandardField({
     Key? key,
+    this.autofocus = false,
+    this.keyboardType,
+    this.textInputAction,
     this.controller,
+    this.autofillHints,
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
@@ -17,11 +21,15 @@ class SStandardField extends ConsumerWidget {
   }) : super(key: key);
 
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
   final FocusNode? focusNode;
+  final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Function(String) onChanged;
   final String labelText;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -30,20 +38,28 @@ class SStandardField extends ConsumerWidget {
     if (theme.state == STheme.dark) {
       return SimpleLightStandardField(
         controller: controller,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
         focusNode: focusNode,
         errorNotifier: errorNotifier,
         onErrorIconTap: onErrorIconTap,
         onChanged: onChanged,
         labelText: labelText,
+        autofocus: autofocus,
+        autofillHints: autofillHints,
       );
     } else {
       return SimpleLightStandardField(
         controller: controller,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
         focusNode: focusNode,
         errorNotifier: errorNotifier,
         onErrorIconTap: onErrorIconTap,
         onChanged: onChanged,
         labelText: labelText,
+        autofocus: autofocus,
+        autofillHints: autofillHints,
       );
     }
   }

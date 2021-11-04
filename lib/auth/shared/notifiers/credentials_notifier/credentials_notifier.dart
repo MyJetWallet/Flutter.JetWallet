@@ -28,7 +28,10 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     _logger.log(notifier, 'validateEmail');
 
     if (isEmailValid(state.email)) {
-      state = state.copyWith(emailValid: true);
+      state = state.copyWith(
+        emailValid: true,
+        readyToLogin: true,
+      );
     } else {
       state = state.copyWith(emailValid: false);
     }
@@ -38,7 +41,10 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     _logger.log(notifier, 'validatePassword');
 
     if (isPasswordValid(state.password)) {
-      state = state.copyWith(passwordValid: true);
+      state = state.copyWith(
+        passwordValid: true,
+        readyToLogin: true,
+      );
     } else {
       state = state.copyWith(passwordValid: false);
     }
@@ -60,12 +66,20 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     state = state.copyWith(policyChecked: !state.policyChecked);
   }
 
+  void unreadyToLogin() {
+    _logger.log(notifier, 'unreadyToLogin');
+
+    state = state.copyWith(readyToLogin: false);
+  }
+
   bool get readyToRegister {
     return state.emailValid && state.passwordValid;
   }
 
   bool get readyToLogin {
-    return state.emailValid && state.password.isNotEmpty;
+    return state.emailValid &&
+        isPasswordLengthValid(state.password) &&
+        state.readyToLogin;
   }
 
   bool get emailValidAndPolicyChecked {
