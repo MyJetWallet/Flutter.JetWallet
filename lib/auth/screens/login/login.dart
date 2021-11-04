@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/helpers/launch_url.dart';
-import 'package:jetwallet/shared/services/remote_config_service/remote_config_values.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
+import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
