@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../shared.dart';
 import 'examples/simple_action_sheet_item_example.dart';
-import 'examples/simple_asset_item_example.dart';
 import 'examples/simple_common_action_sheet_example.dart';
+import 'examples/simple_fiat_sheet_item_example.dart';
 import 'examples/simple_menu_action_sheet_example.dart';
 
 class SimpleActionSheetExample extends StatelessWidget {
@@ -31,8 +31,8 @@ class SimpleActionSheetExample extends StatelessWidget {
               routeName: SimpleActionSheetItemExample.routeName,
             ),
             NavigationButton(
-              buttonName: 'Asset Item',
-              routeName: SimpleAssetItemExample.routeName,
+              buttonName: 'Fiat Sheet Item',
+              routeName: SimpleFiatSheetItemExample.routeName,
             ),
           ],
         ),
