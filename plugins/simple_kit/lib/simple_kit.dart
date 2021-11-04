@@ -4,6 +4,8 @@ library simple_kit;
 
 /// Action sheet
 export 'src/action_sheet/components/simple_action_sheet_item.dart';
+export 'src/action_sheet/components/simple_asset_sheet_item.dart';
+export 'src/action_sheet/components/simple_fiat_sheet_item.dart';
 export 'src/action_sheet/sheets/menu_action_sheet/simple_show_menu_action_sheet.dart';
 
 /// Agreements

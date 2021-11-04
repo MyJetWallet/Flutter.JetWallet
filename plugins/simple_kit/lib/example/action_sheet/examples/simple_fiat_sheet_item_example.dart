@@ -23,9 +23,8 @@ class SimpleFiatSheetItemExample extends StatelessWidget {
                   child: SFiatSheetItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
-                    name: 'Operation Name',
-                    secondText: '\$1000000.00',
-                    description: 'Description',
+                    name: 'Fiat Currency',
+                    amount: '\$1000000.00',
                   ),
                 ),
                 Column(
@@ -123,9 +122,8 @@ class SimpleFiatSheetItemExample extends StatelessWidget {
             SFiatSheetItem(
               onTap: () {},
               icon: const SActionBuyIcon(),
-              name: 'Operation Name',
-              secondText: '\$1000000.00',
-              description: 'Description',
+              name: 'Fiat Currency',
+              amount: '\$1000000.00',
             ),
           ],
         ),

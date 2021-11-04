@@ -3,21 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
-/// Requires Icons with width target
+/// Requires Icon with width target
 class SFiatSheetItem extends StatelessWidget {
   const SFiatSheetItem({
     Key? key,
-    this.description,
     required this.icon,
     required this.name,
-    required this.secondText,
+    required this.amount,
     required this.onTap,
   }) : super(key: key);
 
-  final String? description;
   final Widget icon;
   final String name;
-  final String secondText;
+  final String amount;
   final Function() onTap;
 
   @override
@@ -57,7 +55,7 @@ class SFiatSheetItem extends StatelessWidget {
                         SizedBox(
                           width: 120.w,
                           child: Text(
-                            secondText,
+                            amount,
                             textAlign: TextAlign.end,
                             style: sSubtitle2Style,
                           ),
