@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../simple_kit.dart';
 import 'components/bottom_sheet_bar.dart';
 
 void showBasicBottomSheet({
@@ -11,8 +12,8 @@ void showBasicBottomSheet({
   double? maxHeight,
   double? minHeight,
   double? horizontalPadding,
+  Color? color,
   bool scrollable = false,
-  Color color = Colors.white,
   required List<Widget> children,
   required BuildContext context,
 }) {
@@ -22,7 +23,7 @@ void showBasicBottomSheet({
     backgroundColor: Colors.transparent,
     builder: (context) {
       return BasicBottomSheet(
-        color: color,
+        color: color ?? SColorsLight().white,
         pinned: pinned,
         onDissmis: onDissmis,
         header: header,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../simple_kit.dart';
+
 class BottomSheetBar extends StatelessWidget {
   const BottomSheetBar({
     Key? key,
@@ -17,7 +19,7 @@ class BottomSheetBar extends StatelessWidget {
         width: 130.w,
         height: 4.h,
         decoration: BoxDecoration(
-          color: Colors.grey[300],
+          color: SColorsLight().grey2,
           borderRadius: BorderRadius.all(
             Radius.circular(20.r),
           ),
