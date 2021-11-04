@@ -7,6 +7,9 @@ export 'src/agreements/simple_password_requirement/simple_password_requirement.d
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_text.dart';
 
+/// Bottom Navigation Bar
+export 'src/bottom_navigation_bar/simple_bottom_navigation_bar.dart';
+
 /// Buttons
 export 'src/buttons/link_button/public/simple_link_button_1.dart';
 export 'src/buttons/link_button/public/simple_link_button_2.dart';
@@ -35,6 +38,12 @@ export 'src/headers/simple_market_header/simple_market_header_closed.dart';
 export 'src/headers/simple_small_header.dart';
 
 /// Icons
+export 'src/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_icon.dart';
+export 'src/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_pressed_icon.dart';
+export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard_face_id_icon.dart';
+export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard_face_id_pressed_icon.dart';
+export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_icon.dart';
+export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_pressed_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_positive_icon.dart';
 export 'src/icons/16x16/public/smiles/simple_smile_bad_icon.dart';
@@ -71,13 +80,34 @@ export 'src/icons/24x24/public/info/simple_info_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_pressed_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_pressed_icon.dart';
+export 'src/icons/24x24/public/photo/simple_photo_icon.dart';
+export 'src/icons/24x24/public/photo/simple_photo_pressed_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
+export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
+export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
+export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
+export 'src/icons/36x36/public/fingerprint/simple_fingerprint_pressed_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_pressed_icon.dart';
+export 'src/icons/56x56/public/action/simple_action_active_icon.dart';
+export 'src/icons/56x56/public/action/simple_action_default_icon.dart';
+export 'src/icons/56x56/public/market/simple_market_active_icon.dart';
+export 'src/icons/56x56/public/market/simple_market_default_icon.dart';
+export 'src/icons/56x56/public/news/simple_news_active_icon.dart';
+export 'src/icons/56x56/public/news/simple_news_default_icon.dart';
+export 'src/icons/56x56/public/portfolio/simple_portfolio_active_icon.dart';
+export 'src/icons/56x56/public/portfolio/simple_portfolio_default_icon.dart';
+export 'src/icons/56x56/public/profile/simple_profile_active_icon.dart';
+export 'src/icons/56x56/public/profile/simple_profile_default_icon.dart';
+
+/// Keyboards
+export 'src/keyboards/constants.dart';
+export 'src/keyboards/simple_numeric_keyboard_amount.dart';
+export 'src/keyboards/simple_numeric_keyboard_pin.dart';
 
 /// Notifications
 export 'src/notifications/model/simple_notification.dart';
@@ -93,6 +123,10 @@ export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_spacers.dart';
+export 'src/shared/components/simple_transparent_ink_well.dart';
+
+/// Helpers
+export 'src/shared/helpers/biometrics_auth_helpers.dart';
 
 /// Providers
 export 'src/shared/providers/simple_navigator_key_pod.dart';

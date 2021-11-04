@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../src/current_theme_stpod.dart';
 
-void showSnackBar(BuildContext context) {
+void showSnackBar(BuildContext context, [String? text]) {
   ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text('Tapped'),
-      duration: Duration(microseconds: 1),
+    SnackBar(
+      content: Text(text ?? 'Tapped'),
+      duration: const Duration(microseconds: 1),
     ),
   );
 }

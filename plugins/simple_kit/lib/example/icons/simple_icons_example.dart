@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../shared.dart';
+import 'examples/simple_icons_102x56_example.dart';
 import 'examples/simple_icons_16x16_example.dart';
 import 'examples/simple_icons_20x20_example.dart';
 import 'examples/simple_icons_24x24_example.dart';
 import 'examples/simple_icons_36x36_example.dart';
+import 'examples/simple_icons_56x56_example.dart';
 
 class SimpleIconsExample extends StatelessWidget {
   const SimpleIconsExample({Key? key}) : super(key: key);
@@ -33,6 +35,14 @@ class SimpleIconsExample extends StatelessWidget {
             NavigationButton(
               buttonName: '36x36',
               routeName: SimpleIcons36X36Example.routeName,
+            ),
+            NavigationButton(
+              buttonName: '56x56',
+              routeName: SimpleIcons56X56Example.routeName,
+            ),
+            NavigationButton(
+              buttonName: '102x56',
+              routeName: SimpleIcons102X56Example.routeName,
             ),
           ],
         ),

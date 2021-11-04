@@ -17,6 +17,10 @@ class SimpleIcons36X36Example extends StatelessWidget {
           child: GridView.count(
             crossAxisCount: 2,
             children: const [
+              SFaceIdIcon(),
+              SFaceIdPressedIcon(),
+              SFingerprintIcon(),
+              SFingerprintPressedIcon(),
               SKeyboardEraseIcon(),
               SKeyboardErasePressedIcon(),
             ],

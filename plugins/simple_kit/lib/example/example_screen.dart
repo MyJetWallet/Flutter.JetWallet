@@ -7,6 +7,7 @@ import '../src/theme/provider/simple_theme_pod.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
 import 'agreements/simple_agreements_example.dart';
+import 'bottom_navigation_bar/simple_bottom_navigation_bar_example.dart';
 import 'buttons/examples/simple_link_button_example.dart';
 import 'buttons/examples/simple_primary_button_example.dart';
 import 'buttons/examples/simple_secondary_button_example.dart';
@@ -21,11 +22,18 @@ import 'headers/examples/simple_big_headers_example.dart';
 import 'headers/examples/simple_market_headers_example.dart';
 import 'headers/examples/simple_small_headers_example.dart';
 import 'headers/simple_headers_example.dart';
+import 'icons/examples/simple_icons_102x56_example.dart';
 import 'icons/examples/simple_icons_16x16_example.dart';
 import 'icons/examples/simple_icons_20x20_example.dart';
 import 'icons/examples/simple_icons_24x24_example.dart';
 import 'icons/examples/simple_icons_36x36_example.dart';
+import 'icons/examples/simple_icons_56x56_example.dart';
 import 'icons/simple_icons_example.dart';
+import 'keyboards/examples/simple_numeric_keyboard_amount/simple_numeric_keyboard_amount_example.dart';
+import 'keyboards/examples/simple_numeric_keyboard_amount/simple_numeric_keyboard_amount_guides.dart';
+import 'keyboards/examples/simple_numeric_keyboard_pin/simple_numeric_keyboard_pin_example.dart';
+import 'keyboards/examples/simple_numeric_keyboard_pin/simple_numeric_keyboard_pin_guides.dart';
+import 'keyboards/simple_keyboards_example.dart';
 import 'notifications/simple_notifications_example.dart';
 import 'shared.dart';
 import 'texts/simple_texts_example.dart';
@@ -94,6 +102,12 @@ class ExampleScreen extends ConsumerWidget {
             SimpleIcons36X36Example.routeName: (context) {
               return const SimpleIcons36X36Example();
             },
+            SimpleIcons102X56Example.routeName: (context) {
+              return const SimpleIcons102X56Example();
+            },
+            SimpleIcons56X56Example.routeName: (context) {
+              return const SimpleIcons56X56Example();
+            },
             SimpleHeadersExample.routeName: (context) {
               return const SimpleHeadersExample();
             },
@@ -117,6 +131,24 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleNotificationsExample.routeName: (context) {
               return const SimpleNotificationsExample();
+            },
+            SimpleKeyboardsExample.routeName: (context) {
+              return const SimpleKeyboardsExample();
+            },
+            SimpleNumericKeyboardAmountExample.routeName: (context) {
+              return const SimpleNumericKeyboardAmountExample();
+            },
+            SimpleNumericKeyboardPinExample.routeName: (context) {
+              return const SimpleNumericKeyboardPinExample();
+            },
+            SimpleNumericKeyboardAmountGuides.routeName: (context) {
+              return const SimpleNumericKeyboardAmountGuides();
+            },
+            SimpleNumericKeyboardPinGuides.routeName: (context) {
+              return const SimpleNumericKeyboardPinGuides();
+            },
+            SimpleBottomNavigationBarExample.routeName: (context) {
+              return const SimpleBottomNavigationBarExample();
             },
           },
         );
@@ -172,6 +204,14 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Notifications',
               routeName: SimpleNotificationsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Keyboards',
+              routeName: SimpleKeyboardsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Bottom Navigation Bar',
+              routeName: SimpleBottomNavigationBarExample.routeName,
             ),
           ],
         ),
