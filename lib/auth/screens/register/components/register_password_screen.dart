@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../shared/components/loaders/loader.dart';
-import '../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../shared/components/spacers.dart';
-import '../../../../shared/components/text_fields/app_text_field_obscure.dart';
 import '../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
@@ -22,8 +19,9 @@ class RegisterPasswordScreen extends HookWidget {
   Widget build(BuildContext context) {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
-    final authenitcation = useProvider(authenticationNotipod);
-    final authenitcationN = useProvider(authenticationNotipod.notifier);
+    final authenticationN = useProvider(authenticationNotipod.notifier);
+    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final passwordError = useValueNotifier(StandardFieldErrorNotifier());
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -43,52 +41,86 @@ class RegisterPasswordScreen extends HookWidget {
           credentialsN.updateAndValidatePassword('');
           return Future.value(true);
         },
-        child: PageFrame(
-          header: 'Create a password',
-          onBackButton: () {
-            Navigator.pop(context);
-            credentialsN.updateAndValidatePassword('');
-          },
+        child: SPageFrame(
+          header: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: SBigHeader(
+              title: 'Create a password',
+              onBackButtonTap: () => Navigator.of(context).pop(),
+            ),
+          ),
           child: AutofillGroup(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SpaceH40(),
-                AppTextFieldObscure(
-                  header: 'Enter password',
-                  hintText: 'Enter password',
-                  autofocus: true,
-                  autofillHints: const [AutofillHints.password],
-                  onChanged: (value) {
-                    credentialsN.updateAndValidatePassword(value);
-                  },
+            child: Expanded(
+              child: Material(
+                color: Colors.grey[200],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: SStandardFieldObscure(
+                        autofillHints: const [AutofillHints.password],
+                        onChanged: (value) {
+                          credentialsN.updateAndValidatePassword(value);
+                        },
+                        labelText: 'Password',
+                        onErrorIconTap: () {
+                          _showErrorNotification(notificationQueueN);
+                        },
+                        errorNotifier: passwordError.value,
+                        autofocus: true,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: PasswordValidation(
+                        password: credentials.password,
+                      ),
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: SPrimaryButton2(
+                        active: credentialsN.readyToRegister,
+                        name: 'Continue',
+                        onTap: () {
+                          if (credentialsN.readyToRegister) {
+                            authenticationN.authenticate(
+                              email: credentials.email,
+                              password: credentials.password,
+                              operation: AuthOperation.register,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 24.h,
+                      color: Colors.grey[200],
+                    ),
+                  ],
                 ),
-                PasswordValidation(
-                  password: credentials.password,
-                ),
-                const Spacer(),
-                if (authenitcation is Input)
-                  AppButtonSolid(
-                    active: credentialsN.readyToRegister,
-                    name: 'Continue',
-                    onTap: () {
-                      if (credentialsN.readyToRegister) {
-                        authenitcationN.authenticate(
-                          email: credentials.email,
-                          password: credentials.password,
-                          operation: AuthOperation.register,
-                        );
-                      }
-                    },
-                  )
-                else ...[
-                  const Loader(),
-                  const Spacer(),
-                ]
-              ],
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showErrorNotification(SNotificationQueueNotifier notifier) {
+    notifier.addToQueue(
+      SNotification(
+        duration: 3,
+        function: (context) {
+          showSNotification(
+            context: context,
+            duration: 3,
+            text: 'Error',
+          );
+        },
       ),
     );
   }
