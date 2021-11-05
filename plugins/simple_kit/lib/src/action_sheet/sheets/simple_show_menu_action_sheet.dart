@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../simple_kit.dart';
-import '../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
-import '../../components/simple_action_sheet_item.dart';
+import '../../../simple_kit.dart';
+import '../components/basic_bottom_sheet/basic_bottom_sheet.dart';
+import '../components/simple_action_sheet_item.dart';
 
 void sShowMenuActionSheet({
   required BuildContext context,
@@ -16,9 +16,8 @@ void sShowMenuActionSheet({
 }) {
   return showBasicBottomSheet(
     context: context,
-    horizontalPadding: 0,
+    removeBottomHeaderPadding: true,
     children: [
-      const SpaceH24(),
       SActionSheetItem(
         onTap: onBuy,
         icon: const SActionBuyIcon(),

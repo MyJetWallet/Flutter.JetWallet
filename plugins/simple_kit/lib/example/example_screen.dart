@@ -5,8 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
 import 'action_sheet/examples/simple_action_sheet_item_example.dart';
-import 'action_sheet/examples/simple_asset_item_example.dart';
+import 'action_sheet/examples/simple_asset_sheet_item_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
+import 'action_sheet/examples/simple_fiat_sheet_item_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
@@ -160,11 +161,14 @@ class ExampleScreen extends ConsumerWidget {
             SimpleMenuActionSheetExample.routeName: (context) {
               return const SimpleMenuActionSheetExample();
             },
-            SimpleAssetItemExample.routeName: (context) {
-              return const SimpleAssetItemExample();
+            SimpleFiatSheetItemExample.routeName: (context) {
+              return const SimpleFiatSheetItemExample();
             },
             SimpleActionSheetItemExample.routeName: (context) {
               return const SimpleActionSheetItemExample();
+            },
+            SimpleAssetSheetItemExample.routeName: (context) {
+              return const SimpleAssetSheetItemExample();
             },
           },
         );
@@ -230,7 +234,7 @@ class Home extends StatelessWidget {
               routeName: SimpleBottomNavigationBarExample.routeName,
             ),
             NavigationButton(
-              buttonName: 'Action SHeet',
+              buttonName: 'Action Sheet',
               routeName: SimpleActionSheetExample.routeName,
             ),
           ],
