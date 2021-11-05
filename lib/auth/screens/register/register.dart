@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../shared/components/grey_24h_padding.dart';
+import '../../shared/components/notifications/show_errror_notification.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import 'components/register_password_screen.dart';
 
@@ -15,14 +16,14 @@ class Register extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
 
     return SPageFrame(
-      header: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
+      header: SPaddingH24(
         child: SBigHeader(
           title: 'Enter your Email',
           onBackButtonTap: () => Navigator.of(context).pop(),
@@ -31,32 +32,35 @@ class Register extends HookWidget {
       child: AutofillGroup(
         child: Expanded(
           child: Material(
-            color: Colors.grey[200],
+            color: colors.grey5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: SStandardField(
-                    labelText: 'Email Address',
-                    autofocus: true,
-                    autofillHints: const [AutofillHints.email],
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      credentialsN.updateAndValidateEmail(value);
-                    },
-                    onErrorIconTap: () {
-                      _showErrorNotification(notificationQueueN);
-                    },
-                    errorNotifier: emailError.value,
+                  color: colors.white,
+                  child: SPaddingH24(
+                    child: SStandardField(
+                      labelText: 'Email Address',
+                      autofocus: true,
+                      autofillHints: const [AutofillHints.email],
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) {
+                        credentialsN.updateAndValidateEmail(value);
+                      },
+                      onErrorIconTap: () {
+                        showErrorNotification(
+                          notificationQueueN,
+                          'Perhaps you missed "." or "@" somewhere?',
+                        );
+                      },
+                      errorNotifier: emailError.value,
+                    ),
                   ),
                 ),
                 const Spacer(),
                 Container(
-                  color: Colors.grey[200],
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  color: colors.grey5,
+                  child: SPaddingH24(
                     child: SPolicyCheckbox(
                       firstText: 'By clicking Agree and Continue, '
                           'I hereby agree and consent to the ',
@@ -72,8 +76,7 @@ class Register extends HookWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                SPaddingH24(
                   child: SPrimaryButton2(
                     active: credentialsN.emailIsNotEmptyAndPolicyChecked,
                     name: 'Continue',
@@ -86,36 +89,20 @@ class Register extends HookWidget {
                           );
                         } else {
                           emailError.value.enableError();
-                          _showErrorNotification(notificationQueueN);
+                          showErrorNotification(
+                            notificationQueueN,
+                            'Perhaps you missed "." or "@" somewhere?',
+                          );
                         }
                       }
                     },
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 24.h,
-                  color: Colors.grey[200],
-                ),
+                const Grey24HPadding(),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showErrorNotification(SNotificationQueueNotifier notifier) {
-    notifier.addToQueue(
-      SNotification(
-        duration: 3,
-        function: (context) {
-          showSNotification(
-            context: context,
-            duration: 3,
-            text: 'Perhaps you missed "." or "@" somewhere?',
-          );
-        },
       ),
     );
   }

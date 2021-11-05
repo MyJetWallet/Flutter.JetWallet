@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/show_plain_snackbar.dart';
+import '../../../shared/components/grey_24h_padding.dart';
+import '../../../shared/components/notifications/show_errror_notification.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
@@ -17,6 +18,7 @@ class RegisterPasswordScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final authenticationN = useProvider(authenticationNotipod.notifier);
@@ -42,8 +44,7 @@ class RegisterPasswordScreen extends HookWidget {
           return Future.value(true);
         },
         child: SPageFrame(
-          header: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
+          header: SPaddingH24(
             child: SBigHeader(
               title: 'Create a password',
               onBackButtonTap: () => Navigator.of(context).pop(),
@@ -52,35 +53,34 @@ class RegisterPasswordScreen extends HookWidget {
           child: AutofillGroup(
             child: Expanded(
               child: Material(
-                color: Colors.grey[200],
+                color: colors.grey5,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: SStandardFieldObscure(
-                        autofillHints: const [AutofillHints.password],
-                        onChanged: (value) {
-                          credentialsN.updateAndValidatePassword(value);
-                        },
-                        labelText: 'Password',
-                        onErrorIconTap: () {
-                          _showErrorNotification(notificationQueueN);
-                        },
-                        errorNotifier: passwordError.value,
-                        autofocus: true,
+                      color: colors.white,
+                      child: SPaddingH24(
+                        child: SStandardFieldObscure(
+                          autofillHints: const [AutofillHints.password],
+                          onChanged: (value) {
+                            credentialsN.updateAndValidatePassword(value);
+                          },
+                          labelText: 'Password',
+                          onErrorIconTap: () {
+                            showErrorNotification(notificationQueueN, 'Error');
+                          },
+                          errorNotifier: passwordError.value,
+                          autofocus: true,
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    SPaddingH24(
                       child: PasswordValidation(
                         password: credentials.password,
                       ),
                     ),
                     const Spacer(),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    SPaddingH24(
                       child: SPrimaryButton2(
                         active: credentialsN.readyToRegister,
                         name: 'Continue',
@@ -95,32 +95,13 @@ class RegisterPasswordScreen extends HookWidget {
                         },
                       ),
                     ),
-                    Container(
-                      width: double.infinity,
-                      height: 24.h,
-                      color: Colors.grey[200],
-                    ),
+                    const Grey24HPadding(),
                   ],
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showErrorNotification(SNotificationQueueNotifier notifier) {
-    notifier.addToQueue(
-      SNotification(
-        duration: 3,
-        function: (context) {
-          showSNotification(
-            context: context,
-            duration: 3,
-            text: 'Error',
-          );
-        },
       ),
     );
   }
