@@ -16,9 +16,7 @@ class SPageFrame extends StatelessWidget {
       body: Column(
         children: [
           if (header != null) header!,
-          Expanded(
-            child: child,
-          ),
+          child,
         ],
       ),
     );

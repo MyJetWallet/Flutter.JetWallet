@@ -82,8 +82,8 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
         state.readyToLogin;
   }
 
-  bool get emailValidAndPolicyChecked {
-    return state.emailValid && state.policyChecked;
+  bool get emailIsNotEmptyAndPolicyChecked {
+    return state.email.isNotEmpty && state.policyChecked;
   }
 
   void clear() {

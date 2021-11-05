@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../shared/components/notifications/show_errror_notification.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
@@ -18,6 +19,7 @@ class Login extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final authenticationN = useProvider(authenticationNotipod.notifier);
@@ -33,7 +35,12 @@ class Login extends HookWidget {
             if (error != null) {
               emailError.value.enableError();
               passwordError.value.enableError();
-              _showErrorNotification(notificationQueueN);
+              showErrorNotification(
+                notificationQueueN,
+                'The email and password you entered did not '
+                'match our records. Please double-check '
+                'and try again.',
+              );
             }
           },
           loading: () {},
@@ -52,7 +59,7 @@ class Login extends HookWidget {
         child: AutofillGroup(
           child: Expanded(
             child: Material(
-              color: SColorsLight().grey5,
+              color: colors.grey5,
               child: CustomScrollView(
                 slivers: [
                   SliverFillRemaining(
@@ -75,7 +82,12 @@ class Login extends HookWidget {
                                 credentialsN.updateAndValidateEmail(value);
                               },
                               onErrorIconTap: () {
-                                _showErrorNotification(notificationQueueN);
+                                showErrorNotification(
+                                  notificationQueueN,
+                                  'The email and password you entered did not '
+                                  'match our records. Please double-check '
+                                  'and try again.',
+                                );
                               },
                               errorNotifier: emailError.value,
                             ),
@@ -83,7 +95,7 @@ class Login extends HookWidget {
                         ),
                         const SDivider(),
                         Material(
-                          color: SColorsLight().white,
+                          color: colors.white,
                           child: SPaddingH24(
                             child: SStandardFieldObscure(
                               autofillHints: const [AutofillHints.password],
@@ -94,7 +106,12 @@ class Login extends HookWidget {
                               },
                               labelText: 'Password',
                               onErrorIconTap: () {
-                                _showErrorNotification(notificationQueueN);
+                                showErrorNotification(
+                                  notificationQueueN,
+                                  'The email and password you entered did not '
+                                  'match our records. Please double-check '
+                                  'and try again.',
+                                );
                               },
                               errorNotifier: passwordError.value,
                             ),
@@ -146,22 +163,6 @@ class Login extends HookWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showErrorNotification(SNotificationQueueNotifier notifier) {
-    notifier.addToQueue(
-      SNotification(
-        duration: 3,
-        function: (context) {
-          showSNotification(
-            context: context,
-            duration: 3,
-            text: 'The email and password you entered did not match '
-                'our records. Please double-check and try again.',
-          );
-        },
       ),
     );
   }
