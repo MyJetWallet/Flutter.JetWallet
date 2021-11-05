@@ -68,7 +68,7 @@ class Login extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Material(
-                          color: SColorsLight().white,
+                          color: colors.white,
                           child: SPaddingH24(
                             child: SStandardField(
                               labelText: 'Email Address',

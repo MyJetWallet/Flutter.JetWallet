@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/show_plain_snackbar.dart';
-import '../../../shared/components/grey_24h_padding.dart';
 import '../../../shared/components/notifications/show_errror_notification.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
@@ -95,7 +94,7 @@ class RegisterPasswordScreen extends HookWidget {
                         },
                       ),
                     ),
-                    const Grey24HPadding(),
+                    const SpaceH24(),
                   ],
                 ),
               ),

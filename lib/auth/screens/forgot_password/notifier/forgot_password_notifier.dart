@@ -63,4 +63,8 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
       state = state.copyWith(union: Error(e));
     }
   }
+
+  bool get emailIsNotEmpty {
+    return state.email.isNotEmpty;
+  }
 }
