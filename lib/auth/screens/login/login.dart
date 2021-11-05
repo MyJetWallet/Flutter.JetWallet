@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../shared/components/buttons/app_button_outlined.dart';
-import '../../../shared/components/buttons/app_button_solid.dart';
-import '../../../shared/components/loaders/loader.dart';
-import '../../../shared/components/page_frame/page_frame.dart';
-import '../../../shared/components/spacers.dart';
-import '../../../shared/components/text_fields/app_text_field.dart';
-import '../../../shared/components/text_fields/app_text_field_obscure.dart';
+import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
-import '../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../shared/helpers/show_plain_snackbar.dart';
-import '../../shared/components/policy_check/policy_check_box.dart';
+import '../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../shared/components/notifications/show_errror_notification.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../forgot_password/view/forgot_password.dart';
-import '../register/register.dart';
-import 'components/forgot_password_button.dart';
 
 class Login extends HookWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
-    final authenitcation = useProvider(authenticationNotipod);
-    final authenitcationN = useProvider(authenticationNotipod.notifier);
+    final authenticationN = useProvider(authenticationNotipod.notifier);
+    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final emailError = useValueNotifier(StandardFieldErrorNotifier());
+    final passwordError = useValueNotifier(StandardFieldErrorNotifier());
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -37,74 +33,134 @@ class Login extends HookWidget {
         union.when(
           input: (error, st) {
             if (error != null) {
-              showPlainSnackbar(context, '$error');
+              emailError.value.enableError();
+              passwordError.value.enableError();
+              showErrorNotification(
+                notificationQueueN,
+                'The email and password you entered did not '
+                'match our records. Please double-check '
+                'and try again.',
+              );
             }
           },
           loading: () {},
         );
       },
-      child: PageFrame(
-        header: 'Sign in to simple',
-        onBackButton: () => Navigator.pop(context),
-        resizeToAvoidBottomInset: false,
+      child: SPageFrame(
+        header: SPaddingH24(
+          child: SBigHeader(
+            title: 'Sign in',
+            onBackButtonTap: () => Navigator.pop(context),
+            showLink: true,
+            linkText: 'Forgot password?',
+            onLinkTap: () => navigatorPush(context, const ForgotPassword()),
+          ),
+        ),
         child: AutofillGroup(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SpaceH40(),
-              AppTextField(
-                header: 'Enter your email',
-                hintText: 'Email address',
-                autofocus: true,
-                autofillHints: const [AutofillHints.email],
-                onChanged: (value) {
-                  credentialsN.updateAndValidateEmail(value);
-                },
+          child: Expanded(
+            child: Material(
+              color: colors.grey5,
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Material(
+                          color: SColorsLight().white,
+                          child: SPaddingH24(
+                            child: SStandardField(
+                              labelText: 'Email Address',
+                              autofocus: true,
+                              autofillHints: const [AutofillHints.email],
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (value) {
+                                emailError.value.disableError();
+                                passwordError.value.disableError();
+                                credentialsN.updateAndValidateEmail(value);
+                              },
+                              onErrorIconTap: () {
+                                showErrorNotification(
+                                  notificationQueueN,
+                                  'The email and password you entered did not '
+                                  'match our records. Please double-check '
+                                  'and try again.',
+                                );
+                              },
+                              errorNotifier: emailError.value,
+                            ),
+                          ),
+                        ),
+                        const SDivider(),
+                        Material(
+                          color: colors.white,
+                          child: SPaddingH24(
+                            child: SStandardFieldObscure(
+                              autofillHints: const [AutofillHints.password],
+                              onChanged: (value) {
+                                emailError.value.disableError();
+                                passwordError.value.disableError();
+                                credentialsN.updateAndValidatePassword(value);
+                              },
+                              labelText: 'Password',
+                              onErrorIconTap: () {
+                                showErrorNotification(
+                                  notificationQueueN,
+                                  'The email and password you entered did not '
+                                  'match our records. Please double-check '
+                                  'and try again.',
+                                );
+                              },
+                              errorNotifier: passwordError.value,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        SPaddingH24(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              top: 34.h,
+                              bottom: 17.h,
+                            ),
+                            child: SPolicyText(
+                              firstText: 'By logging in and Continue, '
+                                  'I hereby agree and consent to the ',
+                              userAgreementText: 'User Agreement',
+                              betweenText: ' and the ',
+                              privacyPolicyText: 'Privacy Policy',
+                              onUserAgreementTap: () =>
+                                  launchURL(context, userAgreementLink),
+                              onPrivacyPolicyTap: () =>
+                                  launchURL(context, privacyPolicyLink),
+                            ),
+                          ),
+                        ),
+                        SPaddingH24(
+                          child: SPrimaryButton2(
+                            active: credentialsN.readyToLogin,
+                            name: 'Continue',
+                            onTap: () {
+                              if (credentialsN.readyToLogin) {
+                                authenticationN.authenticate(
+                                  email: credentials.email,
+                                  password: credentials.password,
+                                  operation: AuthOperation.login,
+                                );
+
+                                credentialsN.unreadyToLogin();
+                              }
+                            },
+                          ),
+                        ),
+                        const SpaceH24(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const SpaceH40(),
-              AppTextFieldObscure(
-                header: 'Enter password',
-                hintText: 'Enter password',
-                autofocus: true,
-                autofillHints: const [AutofillHints.password],
-                onChanged: (value) {
-                  credentialsN.updateAndValidatePassword(value);
-                },
-              ),
-              const SpaceH40(),
-              ForgotPasswordButton(
-                onTap: () => navigatorPush(context, const ForgotPassword()),
-              ),
-              const Spacer(),
-              const PolicyCheckBox(),
-              const SpaceH10(),
-              if (authenitcation is Input) ...[
-                AppButtonSolid(
-                  name: 'Sign in',
-                  onTap: () {
-                    if (credentialsN.readyToLogin) {
-                      authenitcationN.authenticate(
-                        email: credentials.email,
-                        password: credentials.password,
-                        operation: AuthOperation.login,
-                      );
-                    }
-                  },
-                  active: credentialsN.readyToLogin,
-                ),
-                const SpaceH10(),
-                AppButtonOutlined(
-                  name: 'Create account',
-                  onTap: () {
-                    navigatorPushReplacement(context, const Register());
-                    credentialsN.clear();
-                  },
-                ),
-              ] else ...[
-                const Loader(),
-                const Spacer(),
-              ],
-            ],
+            ),
           ),
         ),
       ),

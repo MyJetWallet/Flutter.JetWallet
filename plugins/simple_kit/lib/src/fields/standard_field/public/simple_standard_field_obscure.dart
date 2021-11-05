@@ -8,8 +8,10 @@ import '../light/simple_light_standard_field_obscure.dart';
 class SStandardFieldObscure extends ConsumerWidget {
   const SStandardFieldObscure({
     Key? key,
+    this.autofocus = false,
     this.controller,
     this.focusNode,
+    this.autofillHints,
     this.errorNotifier,
     this.onErrorIconTap,
     required this.onChanged,
@@ -18,10 +20,12 @@ class SStandardFieldObscure extends ConsumerWidget {
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Function(String) onChanged;
   final String labelText;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -35,6 +39,8 @@ class SStandardFieldObscure extends ConsumerWidget {
         onErrorIconTap: onErrorIconTap,
         onChanged: onChanged,
         labelText: labelText,
+        autofillHints: autofillHints,
+        autofocus: autofocus,
       );
     } else {
       return SimpleLightStandardFieldObscure(
@@ -44,6 +50,8 @@ class SStandardFieldObscure extends ConsumerWidget {
         onErrorIconTap: onErrorIconTap,
         onChanged: onChanged,
         labelText: labelText,
+        autofillHints: autofillHints,
+        autofocus: autofocus,
       );
     }
   }

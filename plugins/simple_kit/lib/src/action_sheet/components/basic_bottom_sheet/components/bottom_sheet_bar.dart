@@ -10,19 +10,13 @@ class BottomSheetBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        top: 10.h,
-        bottom: 15.h,
-      ),
-      child: Container(
-        width: 130.w,
-        height: 4.h,
-        decoration: BoxDecoration(
-          color: SColorsLight().grey2,
-          borderRadius: BorderRadius.all(
-            Radius.circular(20.r),
-          ),
+    return Container(
+      width: 35.w,
+      height: 4.h,
+      decoration: BoxDecoration(
+        color: SColorsLight().grey4,
+        borderRadius: BorderRadius.all(
+          Radius.circular(4.r),
         ),
       ),
     );

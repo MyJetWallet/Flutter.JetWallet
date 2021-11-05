@@ -8,7 +8,11 @@ import '../base/standard_field_error_notifier.dart';
 class SimpleLightStandardField extends HookWidget {
   const SimpleLightStandardField({
     Key? key,
+    this.autofocus = false,
+    this.keyboardType,
+    this.textInputAction,
     this.controller,
+    this.autofillHints,
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
@@ -17,11 +21,15 @@ class SimpleLightStandardField extends HookWidget {
   }) : super(key: key);
 
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
   final FocusNode? focusNode;
+  final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Function(String) onChanged;
   final String labelText;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +43,10 @@ class SimpleLightStandardField extends HookWidget {
       focusNode: focusNode,
       errorNotifier: errorNotifier,
       onErrorIconTap: onErrorIconTap,
+      keyboardType: keyboardType,
+      autofocus: autofocus,
+      autofillHints: autofillHints,
+      textInputAction: textInputAction,
       suffixIcon: controller2.text.isNotEmpty
           ? GestureDetector(
               onTap: () => controller2.clear(),

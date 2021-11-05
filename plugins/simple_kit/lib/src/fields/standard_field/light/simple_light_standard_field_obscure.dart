@@ -8,7 +8,9 @@ import '../base/standard_field_error_notifier.dart';
 class SimpleLightStandardFieldObscure extends HookWidget {
   const SimpleLightStandardFieldObscure({
     Key? key,
+    this.autofocus = false,
     this.controller,
+    this.autofillHints,
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
@@ -20,8 +22,10 @@ class SimpleLightStandardFieldObscure extends HookWidget {
   final FocusNode? focusNode;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
+  final Iterable<String>? autofillHints;
   final Function(String) onChanged;
   final String labelText;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +42,10 @@ class SimpleLightStandardFieldObscure extends HookWidget {
       controller: controller2,
       focusNode: focusNode2,
       obscureText: obscure.value,
+      autofillHints: autofillHints,
       errorNotifier: errorNotifier,
       onErrorIconTap: onErrorIconTap,
+      autofocus: autofocus,
       suffixIcon: focusNode2.hasFocus || controller2.text.isNotEmpty
           ? GestureDetector(
               onTap: () => obscure.value = !obscure.value,
