@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/show_plain_snackbar.dart';
+import '../../../shared/components/grey_24h_padding.dart';
 import '../../../shared/components/notifications/show_errror_notification.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
@@ -50,53 +51,51 @@ class RegisterPasswordScreen extends HookWidget {
             ),
           ),
           child: AutofillGroup(
-            child: Expanded(
-              child: Material(
-                color: colors.grey5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      color: colors.white,
-                      child: SPaddingH24(
-                        child: SStandardFieldObscure(
-                          autofillHints: const [AutofillHints.password],
-                          onChanged: (value) {
-                            credentialsN.updateAndValidatePassword(value);
-                          },
-                          labelText: 'Password',
-                          onErrorIconTap: () {
-                            showErrorNotification(notificationQueueN, 'Error');
-                          },
-                          errorNotifier: passwordError.value,
-                          autofocus: true,
-                        ),
-                      ),
-                    ),
-                    SPaddingH24(
-                      child: PasswordValidation(
-                        password: credentials.password,
-                      ),
-                    ),
-                    const Spacer(),
-                    SPaddingH24(
-                      child: SPrimaryButton2(
-                        active: credentialsN.readyToRegister,
-                        name: 'Continue',
-                        onTap: () {
-                          if (credentialsN.readyToRegister) {
-                            authenticationN.authenticate(
-                              email: credentials.email,
-                              password: credentials.password,
-                              operation: AuthOperation.register,
-                            );
-                          }
+            child: Material(
+              color: colors.grey5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    color: colors.white,
+                    child: SPaddingH24(
+                      child: SStandardFieldObscure(
+                        autofillHints: const [AutofillHints.password],
+                        onChanged: (value) {
+                          credentialsN.updateAndValidatePassword(value);
                         },
+                        labelText: 'Password',
+                        onErrorIconTap: () {
+                          showErrorNotification(notificationQueueN, 'Error');
+                        },
+                        errorNotifier: passwordError.value,
+                        autofocus: true,
                       ),
                     ),
-                    const SpaceH24(),
-                  ],
-                ),
+                  ),
+                  SPaddingH24(
+                    child: PasswordValidation(
+                      password: credentials.password,
+                    ),
+                  ),
+                  const Spacer(),
+                  SPaddingH24(
+                    child: SPrimaryButton2(
+                      active: credentialsN.readyToRegister,
+                      name: 'Continue',
+                      onTap: () {
+                        if (credentialsN.readyToRegister) {
+                          authenticationN.authenticate(
+                            email: credentials.email,
+                            password: credentials.password,
+                            operation: AuthOperation.register,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  const Grey24HPadding(),
+                ],
               ),
             ),
           ),

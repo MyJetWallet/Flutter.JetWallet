@@ -8,11 +8,11 @@ void showBasicBottomSheet({
   Widget? pinned,
   Function(dynamic)? then,
   Function()? onDissmis,
-  String? header,
   double? maxHeight,
   double? minHeight,
-  double? horizontalPadding,
   Color? color,
+  double? horizontalPadding,
+  bool removeBottomHeaderPadding = false,
   bool scrollable = false,
   required List<Widget> children,
   required BuildContext context,
@@ -26,10 +26,10 @@ void showBasicBottomSheet({
         color: color ?? SColorsLight().white,
         pinned: pinned,
         onDissmis: onDissmis,
-        header: header,
         maxHeight: maxHeight,
         minHeight: minHeight,
         horizontalPadding: horizontalPadding,
+        removeBottomHeaderPadding: removeBottomHeaderPadding,
         scrollable: scrollable,
         children: children,
       );
@@ -42,10 +42,10 @@ class BasicBottomSheet extends StatelessWidget {
     Key? key,
     this.pinned,
     this.onDissmis,
-    this.header,
     this.maxHeight,
     this.minHeight,
     this.horizontalPadding,
+    required this.removeBottomHeaderPadding,
     required this.color,
     required this.scrollable,
     required this.children,
@@ -53,10 +53,10 @@ class BasicBottomSheet extends StatelessWidget {
 
   final Widget? pinned;
   final Function()? onDissmis;
-  final String? header;
   final double? maxHeight;
   final double? minHeight;
   final double? horizontalPadding;
+  final bool removeBottomHeaderPadding;
   final Color color;
   final List<Widget> children;
   final bool scrollable;
@@ -83,22 +83,24 @@ class BasicBottomSheet extends StatelessWidget {
             ),
             child: Column(
               children: [
-                if (header != null)
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.w,
-                    ),
-                    child: Column(
-                      children: [
-                        const BottomSheetBar(),
-                        pinned ?? const SizedBox(),
-                      ],
-                    ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
                   ),
+                  child: Column(
+                    children: [
+                      const SpaceH8(),
+                      const BottomSheetBar(),
+                      const SpaceH24(),
+                      pinned ?? const SizedBox(),
+                      if (!removeBottomHeaderPadding) const SpaceH24()
+                    ],
+                  ),
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: horizontalPadding ?? 24.w,
+                    horizontal: horizontalPadding ?? 0,
                   ),
                   constraints: BoxConstraints(
                     maxHeight: maxHeight ?? 0.7.sh,
