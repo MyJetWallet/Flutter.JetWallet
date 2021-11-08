@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
+/// Requires Icon with width target
 class SActionItem extends StatelessWidget {
   const SActionItem({
     Key? key,

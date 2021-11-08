@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SimpleBaseSvg16X16 extends StatelessWidget {
-  const SimpleBaseSvg16X16({
+// Sometimes we need an icon to target height and sometimes width in order
+// to satisfy design guides. This is why there exists BaseSvgR16 and BaseSvgW16
+class SimpleBaseSvgW16X16 extends StatelessWidget {
+  const SimpleBaseSvgW16X16({
     Key? key,
     this.color,
     required this.assetName,
@@ -16,10 +18,10 @@ class SimpleBaseSvg16X16 extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: 16.r,
-        maxHeight: 16.r,
-        minWidth: 16.r,
-        minHeight: 16.r,
+        maxWidth: 16.w,
+        maxHeight: 16.w,
+        minWidth: 16.w,
+        minHeight: 16.w,
       ),
       child: SvgPicture.asset(
         assetName,

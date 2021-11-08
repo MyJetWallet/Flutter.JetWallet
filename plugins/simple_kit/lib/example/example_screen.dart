@@ -59,7 +59,7 @@ class ExampleScreen extends ConsumerWidget {
         return MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          initialRoute: Home.routeName,
+          initialRoute: SimpleMarketItemExample.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
             SimpleButtonsExample.routeName: (context) {
