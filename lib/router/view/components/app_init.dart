@@ -13,7 +13,6 @@ import '../../../shared/features/two_fa/two_fa_phone/view/two_fa_phone.dart';
 import '../../notifier/startup_notifier/startup_notipod.dart';
 import '../../provider/app_init_fpod.dart';
 import '../../provider/router_stpod/router_stpod.dart';
-import '../../provider/signalr_init_fpod.dart';
 
 /// Launches application goes after [RemoteConfigInit]
 class AppInit extends HookWidget {
@@ -26,7 +25,6 @@ class AppInit extends HookWidget {
     final router = useProvider(routerStpod);
     final appInit = useProvider(appInitFpod);
     final startup = useProvider(startupNotipod);
-    final signalRInit = useProvider(signalRInitFpod);
 
     return appInit.when(
       data: (_) {
@@ -52,13 +50,7 @@ class AppInit extends HookWidget {
                   cannotLeave: true,
                 );
               },
-              home: () {
-                return signalRInit.when(
-                  data: (_) => Navigation(),
-                  loading: () => const SplashScreen(),
-                  error: (e, st) => Text('$e'),
-                );
-              },
+              home: () => Navigation(),
             );
           },
           unauthorized: () => const OnboardingScreen(),
