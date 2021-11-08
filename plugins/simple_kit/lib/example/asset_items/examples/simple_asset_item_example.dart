@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
-class SimpleAssetSheetItemExample extends StatelessWidget {
-  const SimpleAssetSheetItemExample({Key? key}) : super(key: key);
+class SimpleAssetItemExample extends StatelessWidget {
+  const SimpleAssetItemExample({Key? key}) : super(key: key);
 
-  static const routeName = '/simple_asset_sheet_item_example';
+  static const routeName = '/simple_asset_item_example';
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SimpleAssetSheetItemExample extends StatelessWidget {
               children: [
                 Container(
                   color: Colors.grey[200],
-                  child: SAssetSheetItem(
+                  child: SAssetItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
                     name: 'Asset Name',
@@ -141,7 +141,7 @@ class SimpleAssetSheetItemExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            SAssetSheetItem(
+            SAssetItem(
               onTap: () {},
               icon: const SActionBuyIcon(),
               name: 'Asset Name',
@@ -154,7 +154,7 @@ class SimpleAssetSheetItemExample extends StatelessWidget {
               children: [
                 Container(
                   color: Colors.grey[200],
-                  child: SAssetSheetItem(
+                  child: SAssetItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
                     isCreditCard: true,
@@ -277,7 +277,7 @@ class SimpleAssetSheetItemExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            SAssetSheetItem(
+            SAssetItem(
               onTap: () {},
               icon: const SActionBuyIcon(),
               isCreditCard: true,

@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../simple_kit.dart';
+import '../../simple_kit.dart';
 
-class SActionSheetItem extends StatelessWidget {
-  const SActionSheetItem({
+/// Requires Icon with width target
+class SAssetItem extends StatelessWidget {
+  const SAssetItem({
     Key? key,
     this.helperText = '',
+    this.isCreditCard = false,
     required this.icon,
     required this.name,
-    required this.onTap,
+    required this.amount,
     required this.description,
+    required this.onTap,
   }) : super(key: key);
 
   final String helperText;
+  final bool isCreditCard;
   final Widget icon;
   final String name;
-  final Function() onTap;
+  final String amount;
   final String description;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +32,15 @@ class SActionSheetItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 64.h,
+          height: 88.h,
           child: Column(
             children: [
-              const SpaceH10(),
+              const SpaceH22(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   icon,
-                  const SpaceW10(),
+                  const SpaceW20(),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +50,7 @@ class SActionSheetItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
                             SizedBox(
-                              width: 190.w,
+                              width: isCreditCard ? 180.w : 150.w,
                               child: Baseline(
                                 baseline: 17.8.h,
                                 baselineType: TextBaseline.alphabetic,
@@ -57,35 +62,55 @@ class SActionSheetItem extends StatelessWidget {
                             ),
                             const Spacer(),
                             SizedBox(
-                              width: 90.w,
+                              width: isCreditCard ? 90.w : 120.w,
                               child: Text(
-                                helperText,
+                                amount,
                                 textAlign: TextAlign.end,
-                                style: sCaptionTextStyle.copyWith(
-                                  color: SColorsLight().grey3,
-                                ),
+                                style: sSubtitle2Style,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
-                          width: 190.w,
-                          child: Baseline(
-                            baseline: 15.5.h,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              description,
-                              style: sCaptionTextStyle.copyWith(
-                                color: SColorsLight().grey3,
+                        Row(
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            SizedBox(
+                              width: isCreditCard ? 180.w : 150.w,
+                              child: Baseline(
+                                baseline: 15.4.h,
+                                baselineType: TextBaseline.alphabetic,
+                                child: Text(
+                                  description,
+                                  style: sCaptionTextStyle.copyWith(
+                                    color: SColorsLight().grey3,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            const Spacer(),
+                            if (isCreditCard)
+                              SizedBox(
+                                width: 90.w,
+                                child: Text(
+                                  helperText,
+                                  textAlign: TextAlign.end,
+                                  style: sCaptionTextStyle.copyWith(
+                                    color: SColorsLight().grey3,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
+              const Spacer(),
+              SDivider(
+                width: 327.w,
+              )
             ],
           ),
         ),

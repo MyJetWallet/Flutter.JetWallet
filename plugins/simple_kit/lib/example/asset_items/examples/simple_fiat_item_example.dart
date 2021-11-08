@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
-import '../../../src/action_sheet/components/simple_fiat_sheet_item.dart';
+import '../../../src/asset_items/simple_fiat_item.dart';
 
-class SimpleFiatSheetItemExample extends StatelessWidget {
-  const SimpleFiatSheetItemExample({Key? key}) : super(key: key);
+class SimpleFiatItemExample extends StatelessWidget {
+  const SimpleFiatItemExample({Key? key}) : super(key: key);
 
-  static const routeName = '/simple_fiat_sheet_item_example';
+  static const routeName = '/simple_fiat_item_example';
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class SimpleFiatSheetItemExample extends StatelessWidget {
               children: [
                 Container(
                   color: Colors.grey[200],
-                  child: SFiatSheetItem(
+                  child: SFiatItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
                     name: 'Fiat Currency',
@@ -119,7 +119,7 @@ class SimpleFiatSheetItemExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            SFiatSheetItem(
+            SFiatItem(
               onTap: () {},
               icon: const SActionBuyIcon(),
               name: 'Fiat Currency',
