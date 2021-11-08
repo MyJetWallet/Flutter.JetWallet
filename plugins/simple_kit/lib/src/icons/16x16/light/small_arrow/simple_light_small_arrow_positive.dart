@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../base/simple_base_svg_16x16.dart';
+import '../../base/simple_base_svg_w16x16.dart';
 
 class SimpleLightSmallArrowPositiveIcon extends StatelessWidget {
   const SimpleLightSmallArrowPositiveIcon({
@@ -12,7 +12,7 @@ class SimpleLightSmallArrowPositiveIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleBaseSvg16X16(
+    return SimpleBaseSvgW16X16(
       assetName:
           'assets/icons/light/16x16/small_arrow/small_arrow_positive.svg',
       color: color,

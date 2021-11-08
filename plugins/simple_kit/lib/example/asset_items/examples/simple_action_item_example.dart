@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
-class SimpleActionSheetItemExample extends StatelessWidget {
-  const SimpleActionSheetItemExample({Key? key}) : super(key: key);
+class SimpleActionItemExample extends StatelessWidget {
+  const SimpleActionItemExample({Key? key}) : super(key: key);
 
-  static const routeName = '/simple_action_sheet_item_example';
+  static const routeName = '/simple_action_item_example';
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SimpleActionSheetItemExample extends StatelessWidget {
               children: [
                 Container(
                   color: Colors.grey[200],
-                  child: SActionSheetItem(
+                  child: SActionItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
                     name: 'Operation Name',
@@ -104,7 +104,7 @@ class SimpleActionSheetItemExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            SActionSheetItem(
+            SActionItem(
               onTap: () {},
               icon: const SActionBuyIcon(),
               name: 'Operation Name',

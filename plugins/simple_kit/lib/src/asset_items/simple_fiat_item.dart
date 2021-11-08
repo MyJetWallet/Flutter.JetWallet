@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../simple_kit.dart';
+import '../../simple_kit.dart';
 
 /// Requires Icon with width target
-class SFiatSheetItem extends StatelessWidget {
-  const SFiatSheetItem({
+class SFiatItem extends StatelessWidget {
+  const SFiatItem({
     Key? key,
     required this.icon,
     required this.name,

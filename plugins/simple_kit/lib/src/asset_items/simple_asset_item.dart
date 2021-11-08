@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../simple_kit.dart';
+import '../../simple_kit.dart';
 
 /// Requires Icon with width target
-class SAssetSheetItem extends StatelessWidget {
-  const SAssetSheetItem({
+class SAssetItem extends StatelessWidget {
+  const SAssetItem({
     Key? key,
     this.helperText = '',
     this.isCreditCard = false,

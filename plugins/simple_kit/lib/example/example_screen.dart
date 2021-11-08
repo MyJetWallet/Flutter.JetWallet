@@ -4,15 +4,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
-import 'action_sheet/examples/simple_action_sheet_item_example.dart';
-import 'action_sheet/examples/simple_asset_sheet_item_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
-import 'action_sheet/examples/simple_fiat_sheet_item_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
 import 'agreements/simple_agreements_example.dart';
+import 'asset_items/examples/simple_action_item_example.dart';
+import 'asset_items/examples/simple_asset_item_example.dart';
+import 'asset_items/examples/simple_fiat_item_example.dart';
+import 'asset_items/examples/simple_market_item_example.dart';
+import 'asset_items/examples/simple_wallet_item_example.dart';
+import 'asset_items/simple_asset_items_example.dart';
 import 'bottom_navigation_bar/simple_bottom_navigation_bar_example.dart';
 import 'buttons/examples/simple_link_button_example.dart';
 import 'buttons/examples/simple_primary_button_example.dart';
@@ -56,7 +59,7 @@ class ExampleScreen extends ConsumerWidget {
         return MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          initialRoute: Home.routeName,
+          initialRoute: SimpleMarketItemExample.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
             SimpleButtonsExample.routeName: (context) {
@@ -161,14 +164,23 @@ class ExampleScreen extends ConsumerWidget {
             SimpleMenuActionSheetExample.routeName: (context) {
               return const SimpleMenuActionSheetExample();
             },
-            SimpleFiatSheetItemExample.routeName: (context) {
-              return const SimpleFiatSheetItemExample();
+            SimpleAssetItemExample.routeName: (context) {
+              return const SimpleAssetItemExample();
             },
-            SimpleActionSheetItemExample.routeName: (context) {
-              return const SimpleActionSheetItemExample();
+            SimpleFiatItemExample.routeName: (context) {
+              return const SimpleFiatItemExample();
             },
-            SimpleAssetSheetItemExample.routeName: (context) {
-              return const SimpleAssetSheetItemExample();
+            SimpleActionItemExample.routeName: (context) {
+              return const SimpleActionItemExample();
+            },
+            SimpleMarketItemExample.routeName: (context) {
+              return const SimpleMarketItemExample();
+            },
+            SimpleWalletItemExample.routeName: (context) {
+              return const SimpleWalletItemExample();
+            },
+            SimpleAssetItemsExample.routeName: (context) {
+              return const SimpleAssetItemsExample();
             },
           },
         );
@@ -188,9 +200,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: const [
             ThemeSwitch(),
             NavigationButton(
@@ -236,6 +246,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Action Sheet',
               routeName: SimpleActionSheetExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Asset Items',
+              routeName: SimpleAssetItemsExample.routeName,
             ),
           ],
         ),

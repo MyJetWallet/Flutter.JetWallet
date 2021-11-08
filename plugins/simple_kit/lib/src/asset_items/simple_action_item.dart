@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../simple_kit.dart';
+import '../../simple_kit.dart';
 
-class SActionSheetItem extends StatelessWidget {
-  const SActionSheetItem({
+/// Requires Icon with width target
+class SActionItem extends StatelessWidget {
+  const SActionItem({
     Key? key,
     this.helperText = '',
     required this.icon,
@@ -68,16 +69,13 @@ class SActionSheetItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          width: 190.w,
-                          child: Baseline(
-                            baseline: 15.5.h,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              description,
-                              style: sCaptionTextStyle.copyWith(
-                                color: SColorsLight().grey3,
-                              ),
+                        Baseline(
+                          baseline: 15.5.h,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            description,
+                            style: sCaptionTextStyle.copyWith(
+                              color: SColorsLight().grey3,
                             ),
                           ),
                         ),
