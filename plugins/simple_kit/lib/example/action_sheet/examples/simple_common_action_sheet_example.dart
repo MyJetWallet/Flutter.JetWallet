@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
-import '../../../src/action_sheet/components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../src/action_sheet/components/simple_bottom_sheet_header.dart';
 
 class SimpleCommonActionSheetExample extends StatelessWidget {
@@ -18,7 +17,7 @@ class SimpleCommonActionSheetExample extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
-                showBasicBottomSheet(
+                sShowBasicModalBottomSheet(
                   context: context,
                   pinned: const SBottomSheetHeader(
                     name: 'Deposit With',

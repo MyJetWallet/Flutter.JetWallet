@@ -28,95 +28,98 @@ class SBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 375.w,
-      height: 96.h,
-      child: Column(
-        children: [
-          const SpaceH14(),
-          Row(
-            children: [
-              SizedBox(
-                width: 23.5.w,
-              ),
-              if (!actionActive) ...[
-                STransparentInkWell(
-                  onTap: () => onChanged(0),
-                  child: Stack(
-                    children: [
-                      if (selectedIndex == 0)
-                        const SMarketActiveIcon()
-                      else
-                        const SMarketDefaultIcon(),
-                      NotificationBox(
-                        notifications: marketNotifications,
-                      )
-                    ],
-                  ),
+    return Material(
+      color: SColorsLight().white,
+      child: SizedBox(
+        width: 375.w,
+        height: 96.h,
+        child: Column(
+          children: [
+            const SpaceH14(),
+            Row(
+              children: [
+                SizedBox(
+                  width: 23.5.w,
                 ),
+                if (!actionActive) ...[
+                  STransparentInkWell(
+                    onTap: () => onChanged(0),
+                    child: Stack(
+                      children: [
+                        if (selectedIndex == 0)
+                          const SMarketActiveIcon()
+                        else
+                          const SMarketDefaultIcon(),
+                        NotificationBox(
+                          notifications: marketNotifications,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SpaceW12(),
+                  STransparentInkWell(
+                    onTap: () => onChanged(1),
+                    child: Stack(
+                      children: [
+                        if (selectedIndex == 1)
+                          const SPortfolioActiveIcon()
+                        else
+                          const SPortfolioDefaultIcon(),
+                        NotificationBox(
+                          notifications: portfolioNotifications,
+                        )
+                      ],
+                    ),
+                  ),
+                ] else
+                  const Spacer(),
                 const SpaceW12(),
                 STransparentInkWell(
-                  onTap: () => onChanged(1),
-                  child: Stack(
-                    children: [
-                      if (selectedIndex == 1)
-                        const SPortfolioActiveIcon()
-                      else
-                        const SPortfolioDefaultIcon(),
-                      NotificationBox(
-                        notifications: portfolioNotifications,
-                      )
-                    ],
-                  ),
-                ),
-              ] else
-                const Spacer(),
-              const SpaceW12(),
-              STransparentInkWell(
-                onTap: onActionTap,
-                child: actionActive
-                    ? const SActionActiveIcon()
-                    : const SActionDefaultIcon(),
-              ),
-              const SpaceW12(),
-              if (!actionActive) ...[
-                STransparentInkWell(
-                  onTap: () => onChanged(2),
-                  child: Stack(
-                    children: [
-                      if (selectedIndex == 2)
-                        const SNewsActiveIcon()
-                      else
-                        const SNewsDefaultIcon(),
-                      NotificationBox(
-                        notifications: newsNotifications,
-                      )
-                    ],
-                  ),
+                  onTap: onActionTap,
+                  child: actionActive
+                      ? const SActionActiveIcon()
+                      : const SActionDefaultIcon(),
                 ),
                 const SpaceW12(),
-                STransparentInkWell(
-                  onTap: () => onChanged(3),
-                  child: Stack(
-                    children: [
-                      if (selectedIndex == 3)
-                        const SProfileActiveIcon()
-                      else
-                        const SProfileDefaultIcon(),
-                      NotificationBox(
-                        notifications: profileNotifications,
-                      )
-                    ],
+                if (!actionActive) ...[
+                  STransparentInkWell(
+                    onTap: () => onChanged(2),
+                    child: Stack(
+                      children: [
+                        if (selectedIndex == 2)
+                          const SNewsActiveIcon()
+                        else
+                          const SNewsDefaultIcon(),
+                        NotificationBox(
+                          notifications: newsNotifications,
+                        )
+                      ],
+                    ),
                   ),
+                  const SpaceW12(),
+                  STransparentInkWell(
+                    onTap: () => onChanged(3),
+                    child: Stack(
+                      children: [
+                        if (selectedIndex == 3)
+                          const SProfileActiveIcon()
+                        else
+                          const SProfileDefaultIcon(),
+                        NotificationBox(
+                          notifications: profileNotifications,
+                        )
+                      ],
+                    ),
+                  ),
+                ] else
+                  const Spacer(),
+                SizedBox(
+                  width: 23.5.w,
                 ),
-              ] else
-                const Spacer(),
-              SizedBox(
-                width: 23.5.w,
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

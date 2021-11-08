@@ -1,43 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../simple_kit.dart';
-import 'components/bottom_sheet_bar.dart';
+import '../../../../../simple_kit.dart';
+import 'bottom_sheet_bar.dart';
 
-void showBasicBottomSheet({
-  Widget? pinned,
-  Function(dynamic)? then,
-  Function()? onDissmis,
-  double? maxHeight,
-  double? minHeight,
-  Color? color,
-  double? horizontalPadding,
-  bool removeBottomHeaderPadding = false,
-  bool scrollable = false,
-  required List<Widget> children,
-  required BuildContext context,
-}) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (context) {
-      return BasicBottomSheet(
-        color: color ?? SColorsLight().white,
-        pinned: pinned,
-        onDissmis: onDissmis,
-        maxHeight: maxHeight,
-        minHeight: minHeight,
-        horizontalPadding: horizontalPadding,
-        removeBottomHeaderPadding: removeBottomHeaderPadding,
-        scrollable: scrollable,
-        children: children,
-      );
-    },
-  ).then((value) => then?.call(value));
-}
-
-class BasicBottomSheet extends StatelessWidget {
+class BasicBottomSheet extends HookWidget {
   const BasicBottomSheet({
     Key? key,
     this.pinned,
@@ -45,6 +13,8 @@ class BasicBottomSheet extends StatelessWidget {
     this.maxHeight,
     this.minHeight,
     this.horizontalPadding,
+    this.onWillPop,
+    this.removeBottomSheetBar = false,
     required this.removeBottomHeaderPadding,
     required this.color,
     required this.scrollable,
@@ -56,6 +26,8 @@ class BasicBottomSheet extends StatelessWidget {
   final double? maxHeight;
   final double? minHeight;
   final double? horizontalPadding;
+  final Future<bool> Function()? onWillPop;
+  final bool removeBottomSheetBar;
   final bool removeBottomHeaderPadding;
   final Color color;
   final List<Widget> children;
@@ -63,11 +35,24 @@ class BasicBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// To avoid additional taps on barrier of bottom sheet when
+    /// it was already tapped and bottom sheet is closing
+    final isClosing = useState(false);
+
+    void _onDissmisAction(BuildContext context) {
+      if (!isClosing.value) {
+        onDissmis?.call();
+        Navigator.pop(context);
+        isClosing.value = true;
+      }
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        _onDissmisAction(context);
-        return Future.value(true);
-      },
+      onWillPop: onWillPop ??
+          () {
+            _onDissmisAction(context);
+            return Future.value(true);
+          },
       child: Column(
         children: [
           Expanded(
@@ -90,8 +75,10 @@ class BasicBottomSheet extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const SpaceH8(),
-                      const BottomSheetBar(),
+                      if (!removeBottomSheetBar) ...[
+                        const SpaceH8(),
+                        const BottomSheetBar(),
+                      ],
                       const SpaceH24(),
                       pinned ?? const SizedBox(),
                       if (!removeBottomHeaderPadding) const SpaceH24()
@@ -120,10 +107,5 @@ class BasicBottomSheet extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _onDissmisAction(BuildContext context) {
-    onDissmis?.call();
-    Navigator.pop(context);
   }
 }
