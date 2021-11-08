@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../helpers/password_validators.dart';
-import '../grey_24h_padding.dart';
 
 class PasswordValidation extends StatelessWidget {
   const PasswordValidation({
@@ -21,7 +20,7 @@ class PasswordValidation extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Grey24HPadding(),
+        const SpaceH24(),
         SPasswordRequirement(
           passed: case1,
           description: 'be between 8 to 31 characters',

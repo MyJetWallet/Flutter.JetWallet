@@ -93,12 +93,12 @@ class AboutUs extends HookWidget {
                 const Spacer(),
                 SecurityOption(
                   name: 'Terms of Use',
-                  onTap: () => launchURL(context, termsOfUseUrl),
+                  onTap: () => launchURL(context, userAgreementLink),
                 ),
                 const SecurityDivider(),
                 SecurityOption(
                   name: 'Privacy Policy',
-                  onTap: () => launchURL(context, privacyPolicyUrl),
+                  onTap: () => launchURL(context, privacyPolicyLink),
                 ),
                 const SecurityDivider(),
                 const SpaceH30(),
