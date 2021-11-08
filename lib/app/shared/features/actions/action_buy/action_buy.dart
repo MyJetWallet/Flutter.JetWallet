@@ -4,9 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../components/asset_tile/asset_tile.dart';
-import '../../../../providers/currencies_pod/currencies_pod.dart';
-import '../../../currency_buy/view/curency_buy.dart';
+import '../../../components/asset_tile/asset_tile.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../currency_buy/view/curency_buy.dart';
 
 class ActionBuy extends HookWidget {
   const ActionBuy({Key? key}) : super(key: key);

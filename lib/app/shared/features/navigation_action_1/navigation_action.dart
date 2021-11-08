@@ -9,13 +9,13 @@ import '../../components/action_sheet_button.dart';
 import '../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../helpers/is_balance_empty.dart';
 import '../../providers/currencies_pod/currencies_pod.dart';
+import '../actions/action_buy/action_buy.dart';
+import '../actions/action_deposit/action_deposit.dart';
+import '../actions/action_receive/action_receive.dart';
+import '../actions/action_sell/action_sell.dart';
+import '../actions/action_send/action_send.dart';
+import '../actions/action_withdraw/action_withdraw.dart';
 import '../convert/view/convert.dart';
-import 'actions/action_buy/action_buy.dart';
-import 'actions/action_deposit/action_deposit.dart';
-import 'actions/action_receive/action_receive.dart';
-import 'actions/action_sell/action_sell.dart';
-import 'actions/action_send/action_send.dart';
-import 'actions/action_withdraw/action_withdraw.dart';
 
 void showNavigationAction(BuildContext context, AppLocalizations intl) {
   final currencies = context.read(currenciesPod);
