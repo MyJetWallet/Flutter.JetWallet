@@ -3,12 +3,14 @@
 library simple_kit;
 
 /// Action sheet
-export 'src/action_sheet/components/basic_bottom_sheet/basic_bottom_sheet.dart';
+export 'src/action_sheet/components/basic_bottom_sheet/show_basic_bottom_sheet.dart';
+export 'src/action_sheet/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 export 'src/action_sheet/components/simple_action_sheet_item.dart';
 export 'src/action_sheet/components/simple_asset_sheet_item.dart';
 export 'src/action_sheet/components/simple_bottom_sheet_header.dart';
 export 'src/action_sheet/components/simple_fiat_sheet_item.dart';
-export 'src/action_sheet/sheets/simple_show_menu_action_sheet.dart';
+export 'src/action_sheet/components/simple_shade_animation_stack.dart';
+export 'src/action_sheet/sheets/show_menu_action_sheet.dart';
 
 /// Agreements
 export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
