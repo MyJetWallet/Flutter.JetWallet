@@ -26,6 +26,7 @@ dependencies:
   flutter_svg: ^0.22.0 # SVG rendering and widget library
   contacts_service: ^0.6.3 # contacts fetching
   permission_handler: ^8.2.2 # permissions handling
+  rive: ^0.7.22 # rive animations
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
@@ -130,6 +131,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/animations/
     # [Start] fast_rsa ->
     - packages/fast_rsa/web/assets/worker.js
     - packages/fast_rsa/web/assets/wasm_exec.js
