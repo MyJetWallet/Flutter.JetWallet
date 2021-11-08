@@ -45,13 +45,13 @@ class PinScreenState with _$PinScreenState {
   String get screenDescription {
     return screenUnion.when(
       enterPin: () {
-        return 'Enter your PIN';
+        return 'Enter a PIN code';
       },
       newPin: () {
-        return 'Set a new PIN';
+        return 'Create a PIN code';
       },
       confirmPin: () {
-        return 'Confirm a new PIN';
+        return 'Confirm a PIN code';
       },
     );
   }

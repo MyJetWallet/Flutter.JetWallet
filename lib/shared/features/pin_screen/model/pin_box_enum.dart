@@ -9,7 +9,12 @@ enum PinBoxEnum {
 }
 
 extension PinBoxEnumExtension on PinBoxEnum {
-  Color get color {
+  Color color(
+    Color black,
+    Color blue,
+    Color green,
+    Color red,
+  ) {
     if (this == PinBoxEnum.empty) {
       return Colors.black;
     } else if (this == PinBoxEnum.filled) {
