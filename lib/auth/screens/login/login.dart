@@ -47,6 +47,7 @@ class Login extends HookWidget {
         );
       },
       child: SPageFrame(
+        color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
             title: 'Sign in',
@@ -57,108 +58,105 @@ class Login extends HookWidget {
           ),
         ),
         child: AutofillGroup(
-          child: Material(
-            color: colors.grey5,
-            child: CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Material(
-                        color: SColorsLight().white,
-                        child: SPaddingH24(
-                          child: SStandardField(
-                            labelText: 'Email Address',
-                            autofocus: true,
-                            autofillHints: const [AutofillHints.email],
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            onChanged: (value) {
-                              emailError.value.disableError();
-                              passwordError.value.disableError();
-                              credentialsN.updateAndValidateEmail(value);
-                            },
-                            onErrorIconTap: () {
-                              showErrorNotification(
-                                notificationQueueN,
-                                'The email and password you entered did not '
-                                'match our records. Please double-check '
-                                'and try again.',
-                              );
-                            },
-                            errorNotifier: emailError.value,
-                          ),
-                        ),
-                      ),
-                      const SDivider(),
-                      Material(
-                        color: colors.white,
-                        child: SPaddingH24(
-                          child: SStandardFieldObscure(
-                            autofillHints: const [AutofillHints.password],
-                            onChanged: (value) {
-                              emailError.value.disableError();
-                              passwordError.value.disableError();
-                              credentialsN.updateAndValidatePassword(value);
-                            },
-                            labelText: 'Password',
-                            onErrorIconTap: () {
-                              showErrorNotification(
-                                notificationQueueN,
-                                'The email and password you entered did not '
-                                'match our records. Please double-check '
-                                'and try again.',
-                              );
-                            },
-                            errorNotifier: passwordError.value,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      SPaddingH24(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            top: 34.h,
-                            bottom: 17.h,
-                          ),
-                          child: SPolicyText(
-                            firstText: 'By logging in and Continue, '
-                                'I hereby agree and consent to the ',
-                            userAgreementText: 'User Agreement',
-                            betweenText: ' and the ',
-                            privacyPolicyText: 'Privacy Policy',
-                            onUserAgreementTap: () =>
-                                launchURL(context, userAgreementLink),
-                            onPrivacyPolicyTap: () =>
-                                launchURL(context, privacyPolicyLink),
-                          ),
-                        ),
-                      ),
-                      SPaddingH24(
-                        child: SPrimaryButton2(
-                          active: credentialsN.readyToLogin,
-                          name: 'Continue',
-                          onTap: () {
-                            if (credentialsN.readyToLogin) {
-                              authenticationN.authenticate(
-                                email: credentials.email,
-                                password: credentials.password,
-                                operation: AuthOperation.login,
-                              );
-
-                              credentialsN.unreadyToLogin();
-                            }
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Material(
+                      color: SColorsLight().white,
+                      child: SPaddingH24(
+                        child: SStandardField(
+                          labelText: 'Email Address',
+                          autofocus: true,
+                          autofillHints: const [AutofillHints.email],
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value) {
+                            emailError.value.disableError();
+                            passwordError.value.disableError();
+                            credentialsN.updateAndValidateEmail(value);
                           },
+                          onErrorIconTap: () {
+                            showErrorNotification(
+                              notificationQueueN,
+                              'The email and password you entered did not '
+                              'match our records. Please double-check '
+                              'and try again.',
+                            );
+                          },
+                          errorNotifier: emailError.value,
                         ),
                       ),
-                      const SpaceH24(),
-                    ],
-                  ),
+                    ),
+                    const SDivider(),
+                    Material(
+                      color: colors.white,
+                      child: SPaddingH24(
+                        child: SStandardFieldObscure(
+                          autofillHints: const [AutofillHints.password],
+                          onChanged: (value) {
+                            emailError.value.disableError();
+                            passwordError.value.disableError();
+                            credentialsN.updateAndValidatePassword(value);
+                          },
+                          labelText: 'Password',
+                          onErrorIconTap: () {
+                            showErrorNotification(
+                              notificationQueueN,
+                              'The email and password you entered did not '
+                              'match our records. Please double-check '
+                              'and try again.',
+                            );
+                          },
+                          errorNotifier: passwordError.value,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    SPaddingH24(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 34.h,
+                          bottom: 17.h,
+                        ),
+                        child: SPolicyText(
+                          firstText: 'By logging in and Continue, '
+                              'I hereby agree and consent to the ',
+                          userAgreementText: 'User Agreement',
+                          betweenText: ' and the ',
+                          privacyPolicyText: 'Privacy Policy',
+                          onUserAgreementTap: () =>
+                              launchURL(context, userAgreementLink),
+                          onPrivacyPolicyTap: () =>
+                              launchURL(context, privacyPolicyLink),
+                        ),
+                      ),
+                    ),
+                    SPaddingH24(
+                      child: SPrimaryButton2(
+                        active: credentialsN.readyToLogin,
+                        name: 'Continue',
+                        onTap: () {
+                          if (credentialsN.readyToLogin) {
+                            authenticationN.authenticate(
+                              email: credentials.email,
+                              password: credentials.password,
+                              operation: AuthOperation.login,
+                            );
+
+                            credentialsN.unreadyToLogin();
+                          }
+                        },
+                      ),
+                    ),
+                    const SpaceH24(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
