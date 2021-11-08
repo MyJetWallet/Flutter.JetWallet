@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../components/loaders/scaffold_loader.dart';
 import '../../../../components/page_frame/page_frame.dart';
 import '../../../../components/pin_code_field.dart';
-import '../../../../components/spacers.dart';
 import '../../../../components/texts/resend_in_text.dart';
 import '../../../../components/texts/resend_rich_text.dart';
 import '../../../../components/texts/verification_description_text.dart';
@@ -44,6 +44,7 @@ class PhoneVerificationConfirm extends HookWidget {
     // TODO add phoneVerificationCountdown
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
+    final pinError = useValueNotifier(StandardFieldErrorNotifier());
 
     return ProviderListener<PhoneVerificationConfirmState>(
       provider: phoneVerificationConfirmNotipod(onVerified),
@@ -79,9 +80,10 @@ class PhoneVerificationConfirm extends HookWidget {
                   onCompleted: (_) async {
                     await phoneN.verifyCode();
                   },
+                  pinError: pinError.value,
                 ),
                 if (timer != 0 && !phone.showResend)
-                  ResendInText(seconds: timer)
+                  ResendInText(text: 'You can resend in $timer seconds')
                 else ...[
                   ResendRichText(
                     onTap: () async {

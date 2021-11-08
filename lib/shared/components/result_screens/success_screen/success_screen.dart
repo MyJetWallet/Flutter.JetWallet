@@ -12,13 +12,17 @@ class SuccessScreen extends HookWidget {
     Key? key,
     this.then,
     this.header,
-    required this.description,
+    this.text2,
+    this.text3,
+    required this.text1,
   }) : super(key: key);
 
   // Triggered when SuccessScreen is done
   final Function()? then;
   final String? header;
-  final String description;
+  final String text1;
+  final String? text2;
+  final String? text3;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +48,25 @@ class SuccessScreen extends HookWidget {
               Text('Success', style: sTextH2Style),
               const SpaceH17(),
               Text(
-                description,
+                text1,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,
                 ),
               ),
+              if (text2 != null)
+                Text(
+                  text2!,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.black,
+                  ),
+                ),
+              if (text3 != null)
+                Text(
+                  text3!,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
             ],
           ),
         ),

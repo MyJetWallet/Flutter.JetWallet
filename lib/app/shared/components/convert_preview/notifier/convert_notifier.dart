@@ -164,7 +164,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       const SuccessScreen(
-        description: 'Order filled',
+        text1: 'Order filled',
       ),
     );
   }

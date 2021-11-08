@@ -119,7 +119,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
     navigatorPush(
       _context,
       SuccessScreen(
-        description: 'Your ${withdrawal.currency.symbol} $_verb '
+        text1: 'Your ${withdrawal.currency.symbol} $_verb '
             'request has been submitted',
       ),
     );

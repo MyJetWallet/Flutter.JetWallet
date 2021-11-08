@@ -99,7 +99,7 @@ void _pushToAuthSuccess(BuildContext context) {
   navigatorPush(
     context,
     SuccessScreen(
-      description: 'Your password has been reset',
+      text1: 'Your password has been reset',
       then: () {
         navigatorPush(context, const Login());
       },

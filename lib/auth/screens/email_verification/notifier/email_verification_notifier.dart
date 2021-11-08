@@ -105,7 +105,9 @@ void _pushToAuthSuccess(
     context,
     SuccessScreen(
       header: 'Email Verification',
-      description: 'Your email address $email is confirmed',
+      text1: 'Your email address',
+      text2: email,
+      text3: 'is confirmed',
     ),
     then,
   );
