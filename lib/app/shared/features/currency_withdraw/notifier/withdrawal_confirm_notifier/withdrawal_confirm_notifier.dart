@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_request_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_response_model.dart';
@@ -13,7 +14,6 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../../../shared/logging/levels.dart';
-import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
@@ -32,7 +32,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
     this.withdrawal,
   ) : super(null) {
     _operationId = read(withdrawalPreviewNotipod(withdrawal)).operationId;
-    _context = read(navigatorKeyPod).currentContext!;
+    _context = read(sNavigatorKeyPod).currentContext!;
     _verb = withdrawal.dictionary.verb.toLowerCase();
     _requestWithdrawalInfo();
   }
@@ -119,7 +119,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
     navigatorPush(
       _context,
       SuccessScreen(
-        description: 'Your ${withdrawal.currency.symbol} $_verb '
+        text1: 'Your ${withdrawal.currency.symbol} $_verb '
             'request has been submitted',
       ),
     );

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../components/loader.dart';
+import '../../../../components/loaders/loader.dart';
+import '../../../../components/loaders/scaffold_loader.dart';
 import '../../../../components/page_frame/page_frame.dart';
 import '../../../../components/pin_code_field.dart';
-import '../../../../components/spacers.dart';
 import '../../../../components/texts/resend_in_text.dart';
 import '../../../../components/texts/resend_rich_text.dart';
 import '../../../../components/texts/verification_description_text.dart';
@@ -54,6 +55,7 @@ class TwoFaPhone extends HookWidget {
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
+    final pinError = useValueNotifier(StandardFieldErrorNotifier());
 
     return ProviderListener<lu.LogoutUnion>(
       provider: logoutNotipod,
@@ -71,59 +73,61 @@ class TwoFaPhone extends HookWidget {
         provider: twoFaPhoneNotipod(trigger),
         onChange: (context, state) {
           state.union.maybeWhen(
-            error: (Object? error) {
-              showPlainSnackbar(context, error.toString());
+            error: (error) {
+              showPlainSnackbar(context, error);
+              twoFaN.resetError();
             },
             orElse: () {},
           );
         },
         child: logout.when(
           result: (_, __) {
-            return PageFrame(
-              header: 'Phone Confirmation',
-              onBackButton: () => trigger.when(
-                startup: () => logoutN.logout(),
-                security: (_) => Navigator.pop(context),
-              ),
-              child: Column(
-                children: [
-                  const SpaceH10(),
-                  VerificationDescriptionText(
-                    text: 'Enter the SMS code we have sent to your phone ',
-                    boldText: twoFa.phoneNumber,
+            return Stack(
+              children: [
+                PageFrame(
+                  header: 'Phone Confirmation',
+                  onBackButton: () => trigger.when(
+                    startup: () => logoutN.logout(),
+                    security: (_) => Navigator.pop(context),
                   ),
-                  const SpaceH120(),
-                  if (twoFa.union is Loading)
-                    const Loader()
-                  else ...[
-                    PinCodeField(
-                      length: 4,
-                      autoFocus: true,
-                      controller: twoFa.controller,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      onCompleted: (_) async {
-                        await twoFaN.verifyCode();
-                      },
-                    ),
-                    if (timer != 0 && !twoFa.showResend)
-                      ResendInText(seconds: timer)
-                    else ...[
-                      ResendRichText(
-                        onTap: () async {
-                          await twoFaN.sendCode();
-
-                          if (twoFa.union is Input) {
-                            timerN.refreshTimer();
-                            twoFaN.updateShowResend(
-                              value: false,
-                            );
-                          }
-                        },
+                  child: Column(
+                    children: [
+                      const SpaceH10(),
+                      VerificationDescriptionText(
+                        text: 'Enter the SMS code we have sent to your phone ',
+                        boldText: twoFa.phoneNumber,
                       ),
+                      const SpaceH120(),
+                      PinCodeField(
+                        length: 4,
+                        controller: twoFa.controller,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        onCompleted: (_) async {
+                          await twoFaN.verifyCode();
+                        },
+                        pinError: pinError.value,
+                      ),
+                      if (timer != 0 && !twoFa.showResend)
+                        ResendInText(text: 'You can resend in $timer seconds')
+                      else ...[
+                        ResendRichText(
+                          onTap: () async {
+                            await twoFaN.sendCode();
+
+                            if (twoFa.union is Input) {
+                              timerN.refreshTimer();
+                              twoFaN.updateShowResend(
+                                showResend: false,
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ],
-                  ]
-                ],
-              ),
+                  ),
+                ),
+                if (twoFa.union is Loading) const ScaffoldLoader(),
+              ],
             );
           },
           loading: () => const Loader(),

@@ -8,26 +8,26 @@ part 'currency_model.freezed.dart';
 class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
     String? prefixSymbol,
-    required String symbol,
-    required String description,
-    required int accuracy,
-    required int depositMode,
-    required int withdrawalMode,
-    required TagType tagType,
-    required AssetType type,
-    required AssetFeesModel fees,
-    required List<DepositMethods> depositMethods,
-    required List<WithdrawalMethods> withdrawalMethods,
-    required String assetId,
-    required double reserve,
-    required String lastUpdate,
-    required double sequenceId,
-    required double assetBalance,
-    required double baseBalance,
-    required String iconUrl,
-    required double currentPrice,
-    required double dayPriceChange,
-    required double dayPercentChange,
+    @Default('unknown') String symbol,
+    @Default('unknown') String description,
+    @Default(0) int accuracy,
+    @Default(0) int depositMode,
+    @Default(0) int withdrawalMode,
+    @Default(TagType.none) TagType tagType,
+    @Default(AssetType.crypto) AssetType type,
+    @Default(AssetFeesModel()) AssetFeesModel fees,
+    @Default([]) List<DepositMethods> depositMethods,
+    @Default([]) List<WithdrawalMethods> withdrawalMethods,
+    @Default('unknown') String assetId,
+    @Default(0.0) double reserve,
+    @Default('unknown') String lastUpdate,
+    @Default(0.0) double sequenceId,
+    @Default(0.0) double assetBalance,
+    @Default(0.0) double baseBalance,
+    @Default('') String iconUrl,
+    @Default(0.0) double currentPrice,
+    @Default(0.0) double dayPriceChange,
+    @Default(0.0) double dayPercentChange,
   }) = _CurrencyModel;
 
   const CurrencyModel._();
@@ -49,6 +49,8 @@ class CurrencyModel with _$CurrencyModel {
       return '$withdrawalFeeSize ${fees.withdrawalFee?.assetSymbol}';
     }
   }
+
+  String get emptyWithdrawalFee => '0 $symbol';
 
   bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
 

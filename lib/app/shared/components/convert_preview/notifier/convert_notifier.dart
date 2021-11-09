@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../service/services/swap/model/execute_quote/execute_quote_request_model.dart';
 import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
@@ -14,7 +15,6 @@ import '../../../../../../shared/components/result_screens/success_screen/succes
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
-import '../../../../../../shared/providers/other/navigator_key_pod.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../features/convert/view/convert.dart';
@@ -30,7 +30,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     this.input,
     this.read,
   ) : super(const ConvertState()) {
-    _context = read(navigatorKeyPod).currentContext!;
+    _context = read(sNavigatorKeyPod).currentContext!;
     _updateFrom(input);
     requestQuote();
   }
@@ -164,7 +164,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return navigatorPush(
       _context,
       const SuccessScreen(
-        description: 'Order filled',
+        text1: 'Order filled',
       ),
     );
   }

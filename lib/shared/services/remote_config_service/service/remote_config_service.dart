@@ -44,8 +44,8 @@ class RemoteConfigService {
   void overrideApisFrom(int index) {
     final flavor = connectionFlavors.flavors[index];
 
-    tradingApi = flavor.tradingApi;
-    tradingAuthApi = flavor.tradingAuthApi;
+    candlesApi = flavor.candlesApi;
+    authApi = flavor.authApi;
     walletApi = flavor.walletApi;
     walletApiSignalR = flavor.walletApiSignalR;
     validationApi = flavor.validationApi;

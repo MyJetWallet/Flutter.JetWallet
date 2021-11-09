@@ -32,7 +32,7 @@ class ApiSelectorScreen extends HookWidget {
                   for (final flavor in _config.connectionFlavors.flavors)
                     Center(
                       child: Text(
-                        apiTitleFromUrl(flavor.tradingApi),
+                        apiTitleFromUrl(flavor.candlesApi),
                       ),
                     )
                 ],

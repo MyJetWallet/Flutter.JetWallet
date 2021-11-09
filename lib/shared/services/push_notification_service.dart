@@ -15,7 +15,7 @@ class PushNotificationService {
   static const _channel = AndroidNotificationChannel(
     'high_importance_channel',
     'High Importance Notifications',
-    'This channel is used for important notifications.',
+    description: 'This channel is used for important notifications.',
     importance: Importance.high,
   );
 
@@ -23,7 +23,7 @@ class PushNotificationService {
     android: AndroidNotificationDetails(
       _channel.id,
       _channel.name,
-      _channel.description,
+      channelDescription: _channel.description,
       color: Colors.blue,
       icon: '@mipmap/ic_launcher',
     ),

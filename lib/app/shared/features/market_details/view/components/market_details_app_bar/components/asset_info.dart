@@ -5,9 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
-import '../../../../../../../screens/market/notifier/watchlist_notipod.dart';
+import '../../../../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../../../../../components/asset_icon.dart';
-
 
 class AssetInfo extends HookWidget {
   const AssetInfo({

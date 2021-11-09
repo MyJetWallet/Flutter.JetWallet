@@ -46,7 +46,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
       prefix: currency.prefixSymbol,
     )} ';
     final base = formatCurrencyStringAmount(
-      prefix: baseCurrency!.prefix,
+      prefix: baseCurrency?.prefix,
       value: baseConversionValue,
       symbol: baseCurrency!.symbol,
     );

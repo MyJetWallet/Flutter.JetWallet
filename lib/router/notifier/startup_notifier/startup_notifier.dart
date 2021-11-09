@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -30,14 +31,10 @@ class StartupNotifier extends StateNotifier<StartupState> {
         );
 
         if (info.emailVerified) {
-          if (info.phoneVerified) {
-            if (!info.twoFaPassed) {
-              _updateAuthorizedUnion(const TwoFaVerification());
-            } else {
-              _processPinState();
-            }
+          if (!info.twoFaPassed) {
+            _updateAuthorizedUnion(const TwoFaVerification());
           } else {
-            _updateAuthorizedUnion(const PhoneVerification());
+            _processPinState();
           }
         } else {
           _updateAuthorizedUnion(const EmailVerification());
@@ -64,6 +61,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
     _logger.log(notifier, 'successfulAuthentication');
 
     navigateToRouter(read);
+    TextInput.finishAutofillContext(); // prompt to save credentials
     _updatefromLoginRegister(fromLoginRegister: true);
     _processStartupState();
   }
@@ -76,23 +74,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
     _processStartupState();
   }
 
-  /// Called after successfull phone verification
-  void phoneVerified() {
-    _logger.log(notifier, 'phoneVerified');
-
-    navigateToRouter(read);
-    _processPinState();
-  }
-
-  /// Called when user decided to quite phone verification screen
-  void quitPhoneVerification() {
-    _logger.log(notifier, 'quitPhoneVerification');
-
-    navigateToRouter(read);
-    _processPinState();
-  }
-
-  /// Called when user makes cold boot and has enabled 2FA 
+  /// Called when user makes cold boot and has enabled 2FA
   /// and it was verified successfully
   void twoFaVerified() {
     _logger.log(notifier, 'twoFaVerified');
@@ -119,10 +101,14 @@ class StartupNotifier extends StateNotifier<StartupState> {
   // <- Trigger AuthorizedUnion change [End]
 
   void _processPinState() {
-    if (read(userInfoNotipod).pinEnabled) {
+    final userInfo = read(userInfoNotipod);
+
+    read(signalRServicePod).init();
+
+    if (userInfo.pinEnabled) {
       _updateAuthorizedUnion(const PinVerification());
     } else {
-      if (state.fromLoginRegister) {
+      if (state.fromLoginRegister || !userInfo.pinDisabled) {
         _updateAuthorizedUnion(const PinSetup());
       } else {
         _updateAuthorizedUnion(const Home());

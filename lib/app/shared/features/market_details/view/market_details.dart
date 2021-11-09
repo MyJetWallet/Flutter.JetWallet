@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../shared/components/loader.dart';
+import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../chart/notifier/chart_notipod.dart';

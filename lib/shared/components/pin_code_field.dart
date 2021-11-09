@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-class PinCodeField extends StatelessWidget {
+class PinCodeField extends HookWidget {
   const PinCodeField({
     Key? key,
     this.autoFocus = false,
@@ -10,6 +13,7 @@ class PinCodeField extends StatelessWidget {
     required this.length,
     required this.controller,
     required this.onCompleted,
+    required this.pinError,
   }) : super(key: key);
 
   final bool autoFocus;
@@ -17,9 +21,12 @@ class PinCodeField extends StatelessWidget {
   final int length;
   final TextEditingController controller;
   final Function(String) onCompleted;
+  final StandardFieldErrorNotifier pinError;
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return PinCodeTextField(
       length: length,
       appContext: context,
@@ -29,36 +36,27 @@ class PinCodeField extends StatelessWidget {
       animationType: AnimationType.fade,
       useExternalAutoFillGroup: true,
       animationDuration: const Duration(milliseconds: 300),
-      backgroundColor: Colors.white,
-      cursorColor: Colors.black,
+      backgroundColor: colors.white,
+      cursorColor: colors.blue,
       hintCharacter: 'X',
       mainAxisAlignment: mainAxisAlignment,
       keyboardType: TextInputType.number,
       pinTheme: PinTheme(
-        fieldWidth: 46.w,
+        fieldWidth: length == 4 ? 56.w : 48.w,
         fieldHeight: 42.h,
-        shape: PinCodeFieldShape.underline,
-        borderRadius: BorderRadius.circular(10.r),
         // colors of the selected box (body and border)
-        selectedFillColor: Colors.grey[200],
-        selectedColor: Colors.black,
+        selectedColor: colors.white,
         // color of the filled box (body and border)
-        activeFillColor: Colors.white,
-        activeColor: Colors.grey,
+        activeColor: colors.white,
         // color of the inactive box (body and border)
-        inactiveFillColor: Colors.white,
-        inactiveColor: Colors.grey,
+        inactiveColor: colors.white,
       ),
-      hintStyle: TextStyle(
-        fontSize: 38.sp,
-        color: Colors.grey,
-      ),
-      textStyle: TextStyle(
-        fontSize: 38.sp,
-        color: Colors.black,
+      hintStyle: sTextH2Style.copyWith(color: colors.grey4),
+      textStyle: sTextH2Style.copyWith(
+        color: pinError.value ? colors.red : colors.black,
       ),
       onCompleted: onCompleted,
-      onChanged: (_) {}, // required field
+      onChanged: (_) => pinError.disableError(), // required field
     );
   }
 }

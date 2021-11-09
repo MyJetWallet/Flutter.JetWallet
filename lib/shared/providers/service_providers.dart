@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
@@ -15,20 +16,20 @@ import '../../service/services/notification/service/notification_service.dart';
 import '../../service/services/operation_history/operation_history_service.dart';
 import '../../service/services/phone_verification/service/phone_verification_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
-import '../../service/services/sms_verification/service/sms_verification.dart';
 import '../../service/services/swap/service/swap_service.dart';
+import '../../service/services/transfer/service/transfer_service.dart';
 import '../../service/services/two_fa/service/two_fa_service.dart';
 import '../../service/services/validation/service/validation_service.dart';
 import '../../service/services/wallet/service/wallet_service.dart';
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
+import '../services/contact_service.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
-import 'other/navigator_key_pod.dart';
 
 final intlPod = Provider<AppLocalizations>((ref) {
-  final key = ref.watch(navigatorKeyPod);
+  final key = ref.watch(sNavigatorKeyPod);
 
   return AppLocalizations.of(key.currentContext!)!;
 });
@@ -137,14 +138,18 @@ final twoFaServicePod = Provider<TwoFaService>((ref) {
   return TwoFaService(dio);
 });
 
-final smsVerificationServicePod = Provider<SmsVerificationService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return SmsVerificationService(dio);
-});
-
 final phoneVerificationServicePod = Provider<PhoneVerificationService>((ref) {
   final dio = ref.watch(dioPod);
 
   return PhoneVerificationService(dio);
+});
+
+final transferServicePod = Provider<TransferService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return TransferService(dio);
+});
+
+final contactsServicePod = Provider<ContactService>((ref) {
+  return ContactService();
 });

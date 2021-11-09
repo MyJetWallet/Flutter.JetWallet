@@ -28,19 +28,18 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final rsaService = read(rsaServicePod);
 
   try {
-    final serverInfo = await authService.serverInfo();
+    final serverTime = await authService.serverTime();
     final privateKey = await storageService.getString(privateKeyKey);
-    final serverTime = serverInfo.serverTime;
     final refreshToken = authInfo.refreshToken;
 
     final tokenDateTimeSignatureBase64 = await rsaService.sign(
-      refreshToken + serverTime,
+      refreshToken + serverTime.time,
       privateKey!,
     );
 
     final model = AuthRefreshRequestModel(
       refreshToken: refreshToken,
-      requestTime: serverTime,
+      requestTime: serverTime.time,
       tokenDateTimeSignatureBase64: tokenDateTimeSignatureBase64,
     );
 
