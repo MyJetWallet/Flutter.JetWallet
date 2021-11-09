@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart' as simple_kit;
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../app/shared/components/number_keyboard/key_constants.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../helpers/biometrics_auth_helpers.dart';
 import '../../../helpers/remove_chars_from.dart';
 import '../../../logging/levels.dart';
 import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
