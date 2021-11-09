@@ -138,6 +138,7 @@ export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
+export 'src/shared/components/simple_network_svg.dart';
 
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';
