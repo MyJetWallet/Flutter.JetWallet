@@ -1,4 +1,4 @@
-const backspace = 'backspace';
+const backspace = '«';
 const period = '.';
 const zero = '0';
 const face = 'face';
