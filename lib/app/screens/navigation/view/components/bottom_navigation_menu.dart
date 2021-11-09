@@ -42,7 +42,7 @@ class BottomNavigationMenu extends HookWidget {
           sShowMenuActionSheet(
             context: context,
             isNotEmptyBalance: isNotEmptyBalance,
-            onBuy: () => navigatorPush(context, const ActionBuy()),
+            onBuy: () => showBuyAction(context),
             onSell: () => navigatorPush(context, const ActionSell()),
             onConvert: () => navigatorPush(context, const Convert()),
             onDeposit: () => navigatorPush(context, const ActionDeposit()),

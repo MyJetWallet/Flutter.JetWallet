@@ -96,17 +96,20 @@ class SMarketItem extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              SizedBox(
-                                width: 94.w,
-                                child: Text(
-                                  '$percent%',
-                                  textAlign: TextAlign.end,
-                                  style: sBodyText2Style.copyWith(
-                                    color: SColorsLight().grey3,
+                              if (percent.round() != 0)
+                                SizedBox(
+                                  width: 94.w,
+                                  child: Text(
+                                    '$percent%',
+                                    textAlign: TextAlign.end,
+                                    style: sBodyText2Style.copyWith(
+                                      color: SColorsLight().grey3,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              if (percent.isNegative)
+                              if (percent.round() == 0)
+                                const SizedBox()
+                              else if (percent.isNegative)
                                 const SSmallArrowNegativeIcon()
                               else
                                 const SSmallArrowPositiveIcon()
