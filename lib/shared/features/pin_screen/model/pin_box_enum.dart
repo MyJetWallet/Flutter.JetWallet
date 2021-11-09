@@ -16,17 +16,17 @@ extension PinBoxEnumExtension on PinBoxEnum {
     Color red,
   ) {
     if (this == PinBoxEnum.empty) {
-      return Colors.black;
+      return black;
     } else if (this == PinBoxEnum.filled) {
-      return Colors.black;
+      return black;
     } else if (this == PinBoxEnum.correct) {
-      return Colors.blue;
+      return blue;
     } else if (this == PinBoxEnum.success) {
-      return Colors.green;
+      return green;
     } else if (this == PinBoxEnum.error) {
-      return Colors.red;
+      return red;
     } else {
-      return Colors.black;
+      return black;
     }
   }
 }
