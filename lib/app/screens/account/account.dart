@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../shared/components/buttons/app_button_outlined.dart';
+import '../../../shared/components/item_menu_with_simple_icon.dart';
 import '../../../shared/components/loaders/loader.dart';
+import '../../../shared/components/log_out_option.dart';
 import '../../../shared/components/security_divider.dart';
-import '../../../shared/components/security_option.dart';
-import '../../../shared/components/spacers.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
@@ -43,55 +43,72 @@ class Account extends HookWidget {
       },
       child: logout.when(
         result: (_, __) {
-          return Padding(
-            padding: EdgeInsets.all(15.r),
-            child: ListView(
-              children: [
-                AccountScreenHeader(
-                  userEmail: authInfo.email,
-                ),
-                const SpaceH20(),
-                const AccountBannerList(),
-                SecurityOption(
-                  name: 'Profile Details',
-                  onTap: () {},
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'Security',
-                  onTap: () {
-                    navigatorPush(context, const AccountSecurity());
-                  },
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'Notifications',
-                  onTap: () {},
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'Chat with support',
-                  onTap: () {},
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'FAQ',
-                  onTap: () {},
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'About Us',
-                  onTap: () {
-                    navigatorPush(context, const AboutUs());
-                  },
-                ),
-                const SecurityDivider(),
-                const SpaceH20(),
-                AppButtonOutlined(
-                  name: intl.logout,
-                  onTap: () => logoutN.logout(),
-                ),
-              ],
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  AccountScreenHeader(
+                    userEmail: authInfo.email,
+                  ),
+                  const AccountBannerList(),
+                  const SpaceH20(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Column(
+                      children: <Widget>[
+                        ItemMenuWithSimpleIcon(
+                          title: 'Profile details',
+                          icon: const SProfileDetailsIcon(),
+                          onTap: () {},
+                        ),
+                        const SecurityDivider(),
+                        ItemMenuWithSimpleIcon(
+                          title: 'Security',
+                          icon: const SSecurityIcon(),
+                          onTap: () {
+                            navigatorPush(context, const AccountSecurity());
+                          },
+                        ),
+                        const SecurityDivider(),
+                        ItemMenuWithSimpleIcon(
+                          title: 'Notifications',
+                          icon: const SNotificationsIcon(),
+                          onTap: () {},
+                        ),
+                        const SecurityDivider(),
+                        ItemMenuWithSimpleIcon(
+                          title: 'Support',
+                          icon: const SSupportIcon(),
+                          onTap: () {},
+                        ),
+                        const SecurityDivider(),
+                        ItemMenuWithSimpleIcon(
+                          title: 'FAQ',
+                          icon: const SFaqIcon(),
+                          onTap: () {},
+                        ),
+                        const SecurityDivider(),
+                        ItemMenuWithSimpleIcon(
+                          title: 'About us',
+                          icon: const SAboutUsIcon(),
+                          onTap: () {
+                            navigatorPush(context, const AboutUs());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SecurityDivider(),
+                  const SpaceH20(),
+                  LogOutOption(
+                    name: intl.logout,
+                    onTap: () => logoutN.logout(),
+                  ),
+                  const SpaceH20(),
+                  const SecurityDivider(),
+                ],
+              ),
             ),
           );
         },
