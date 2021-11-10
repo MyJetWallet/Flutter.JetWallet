@@ -19,14 +19,18 @@ class VerificationDescriptionText extends HookWidget {
 
     return RichText(
       text: TextSpan(
-        style: sBodyText1Style.copyWith(color: colors.grey1),
+        style: sBodyText1Style.copyWith(
+          color: colors.grey1,
+        ),
         children: [
           TextSpan(
             text: text,
           ),
           TextSpan(
             text: boldText,
-            style: sBodyText1Style.copyWith(color: colors.black),
+            style: sBodyText1Style.copyWith(
+              color: colors.black,
+            ),
           ),
         ],
       ),

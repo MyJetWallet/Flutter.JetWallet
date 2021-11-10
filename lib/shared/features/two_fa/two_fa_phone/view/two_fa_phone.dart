@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/auth/shared/components/notifications/show_errror_notification.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../auth/shared/components/notifications/show_errror_notification.dart';
 import '../../../../components/loaders/loader.dart';
 import '../../../../components/pin_code_field.dart';
 import '../../../../components/texts/resend_in_text.dart';
@@ -111,9 +111,13 @@ class TwoFaPhone extends HookWidget {
                   ),
                   const SpaceH7(),
                   if (timer != 0 && !twoFa.showResend)
-                    ResendInText(text: 'You can resend in $timer seconds')
+                    ResendInText(
+                      text: 'You can resend in $timer seconds',
+                    )
                   else ...[
-                    const ResendInText(text: "Didn't receive the code?"),
+                    const ResendInText(
+                      text: "Didn't receive the code?",
+                    ),
                     const SpaceH24(),
                     STextButton1(
                       active: true,
