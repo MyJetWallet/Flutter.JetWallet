@@ -37,6 +37,7 @@ class BottomNavigationMenu extends HookWidget {
       profileNotifications: 2,
       selectedIndex: navigation.state,
       actionActive: actionActive.value,
+      animationController: transitionAnimationController,
       onActionTap: () {
         if (!actionActive.value) {
           sShowMenuActionSheet(

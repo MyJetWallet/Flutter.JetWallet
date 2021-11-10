@@ -13,6 +13,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
   Widget build(BuildContext context) {
     final selectedIndex = useState(0);
     final actionActive = useState(false);
+    final animationController = useAnimationController();
 
     return Scaffold(
       body: Column(
@@ -24,6 +25,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
               Container(
                 color: Colors.grey,
                 child: SBottomNavigationBar(
+                  animationController: animationController,
                   portfolioNotifications: 1,
                   newsNotifications: 99,
                   profileNotifications: 100,
@@ -201,6 +203,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
           ),
           const Spacer(),
           SBottomNavigationBar(
+            animationController: animationController,
             portfolioNotifications: 1,
             newsNotifications: 99,
             profileNotifications: 100,
