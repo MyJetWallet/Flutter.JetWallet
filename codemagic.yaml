@@ -31,8 +31,10 @@ definitions:
       - $HOME/Library/Caches/CocoaPods
 
   triggering: &triggering
+    events:
+        - push
     branch_patterns:
-      - pattern: '*'
+      - pattern: 'ci/auto-build'
         include: false
         source: false
     cancel_previous_builds: false
