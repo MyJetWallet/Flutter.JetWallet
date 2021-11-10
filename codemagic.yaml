@@ -34,7 +34,7 @@ definitions:
     events:
         - push
     branch_patterns:
-      - pattern: 'ci/auto-build'
+      - pattern: ci/auto-build
         include: true
         source: true
     cancel_previous_builds: false
