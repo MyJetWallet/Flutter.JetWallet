@@ -31,6 +31,13 @@ definitions:
       - $HOME/Library/Caches/CocoaPods
 
   triggering: &triggering
+    branch_patterns:
+      - pattern: '*'
+        include: false
+        source: false
+    cancel_previous_builds: false
+
+  auto_develop_triggering: &auto_develop_triggering
     events:
         - push
     branch_patterns:
@@ -166,7 +173,7 @@ workflows:
       <<: *versioning
     
     cache: *cache
-    triggering: *triggering
+    triggering: *auto_develop_triggering
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
