@@ -35,8 +35,8 @@ definitions:
         - push
     branch_patterns:
       - pattern: 'ci/auto-build'
-        include: false
-        source: false
+        include: true
+        source: true
     cancel_previous_builds: false
     
   scripts: &scripts
