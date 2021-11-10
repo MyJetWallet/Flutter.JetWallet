@@ -27,8 +27,6 @@ final providerNames = <String>[
   'logRecordsNotipod',
 ];
 
-// test comment rrrr
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
