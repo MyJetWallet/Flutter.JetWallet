@@ -108,10 +108,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     final result = await _pushQrView(context);
 
     if (result is Barcode) {
-      state.addressController.text = result.code;
+      state.addressController.text = result.code ?? '';
       _moveCursorAtTheEnd(state.addressController);
       state.addressFocus.requestFocus();
-      updateAddress(result.code);
+      updateAddress(result.code ?? '');
       await _validateAddressOrTag(_updateAddressValidation);
     }
   }
@@ -122,10 +122,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     final result = await _pushQrView(context);
 
     if (result is Barcode) {
-      state.tagController.text = result.code;
+      state.tagController.text = result.code ?? '';
       _moveCursorAtTheEnd(state.tagController);
       state.tagFocus.requestFocus();
-      updateTag(result.code);
+      updateTag(result.code ?? '');
       await _validateAddressOrTag(_updateTagValidation, withTag: true);
     }
   }
