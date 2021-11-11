@@ -58,13 +58,13 @@ class Account extends HookWidget {
                       AccountCategoryButton(
                         title: 'Profile details',
                         icon: const SProfileDetailsIcon(),
-                        isBottomBorder: true,
+                        isSDivider: true,
                         onTap: () {},
                       ),
                       AccountCategoryButton(
                         title: 'Security',
                         icon: const SSecurityIcon(),
-                        isBottomBorder: true,
+                        isSDivider: true,
                         onTap: () {
                           navigatorPush(context, const AccountSecurity());
                         },
@@ -72,25 +72,25 @@ class Account extends HookWidget {
                       AccountCategoryButton(
                         title: 'Notifications',
                         icon: const SNotificationsIcon(),
-                        isBottomBorder: true,
+                        isSDivider: true,
                         onTap: () {},
                       ),
                       AccountCategoryButton(
                         title: 'Support',
                         icon: const SSupportIcon(),
-                        isBottomBorder: true,
+                        isSDivider: true,
                         onTap: () {},
                       ),
                       AccountCategoryButton(
                         title: 'FAQ',
                         icon: const SFaqIcon(),
-                        isBottomBorder: true,
+                        isSDivider: true,
                         onTap: () {},
                       ),
                       AccountCategoryButton(
                         title: 'About us',
                         icon: const SAboutUsIcon(),
-                        isBottomBorder: false,
+                        isSDivider: false,
                         onTap: () {
                           navigatorPush(context, const AboutUs());
                         },
