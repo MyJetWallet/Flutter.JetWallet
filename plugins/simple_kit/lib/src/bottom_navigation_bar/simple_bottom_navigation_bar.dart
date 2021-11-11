@@ -11,6 +11,7 @@ class SBottomNavigationBar extends StatelessWidget {
     this.portfolioNotifications = 0,
     this.newsNotifications = 0,
     this.profileNotifications = 0,
+    required this.animationController,
     required this.selectedIndex,
     required this.actionActive,
     required this.onActionTap,
@@ -21,6 +22,7 @@ class SBottomNavigationBar extends StatelessWidget {
   final int portfolioNotifications;
   final int newsNotifications;
   final int profileNotifications;
+  final AnimationController animationController;
   final int selectedIndex;
   final bool actionActive;
   final void Function() onActionTap;
@@ -28,6 +30,18 @@ class SBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaleAnimation = Tween(
+      begin: 0.0,
+      end: 80.h,
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.linear,
+      ),
+    );
+
+    final translateOffset = Offset(0, scaleAnimation.value);
+
     return Material(
       color: SColorsLight().white,
       child: SizedBox(
@@ -41,8 +55,9 @@ class SBottomNavigationBar extends StatelessWidget {
                 SizedBox(
                   width: 23.5.w,
                 ),
-                if (!actionActive) ...[
-                  STransparentInkWell(
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(0),
                     child: Stack(
                       children: [
@@ -56,8 +71,11 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SpaceW12(),
-                  STransparentInkWell(
+                ),
+                const SpaceW12(),
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(1),
                     child: Stack(
                       children: [
@@ -71,8 +89,7 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                ] else
-                  const Spacer(),
+                ),
                 const SpaceW12(),
                 STransparentInkWell(
                   onTap: onActionTap,
@@ -81,8 +98,9 @@ class SBottomNavigationBar extends StatelessWidget {
                       : const SActionDefaultIcon(),
                 ),
                 const SpaceW12(),
-                if (!actionActive) ...[
-                  STransparentInkWell(
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(2),
                     child: Stack(
                       children: [
@@ -96,8 +114,11 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SpaceW12(),
-                  STransparentInkWell(
+                ),
+                const SpaceW12(),
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(3),
                     child: Stack(
                       children: [
@@ -111,8 +132,7 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                ] else
-                  const Spacer(),
+                ),
                 SizedBox(
                   width: 23.5.w,
                 ),

@@ -23,7 +23,7 @@ class _SimpleMenuActionSheetExampleState
     // animationController intentionally is not disposed,
     // because bottomSheet will dispose it on its own
     animationController = AnimationController(
-      duration: const Duration(milliseconds: 700),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     super.initState();
@@ -66,6 +66,7 @@ class _CustomBottomNavigationBar extends HookWidget {
     void updateActionState() => actionActive.value = !actionActive.value;
 
     return SBottomNavigationBar(
+      animationController: transitionAnimationController,
       selectedIndex: 1,
       actionActive: actionActive.value,
       onActionTap: () {
