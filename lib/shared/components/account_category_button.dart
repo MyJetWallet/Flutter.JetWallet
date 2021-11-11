@@ -7,12 +7,12 @@ class AccountCategoryButton extends HookWidget {
   const AccountCategoryButton({
     Key? key,
     this.onTap,
-    this.icon,
+    required this.icon,
     required this.title,
     required this.isSDivider,
   }) : super(key: key);
 
-  final Widget? icon;
+  final Widget icon;
   final Function()? onTap;
   final String title;
   final bool isSDivider;
@@ -31,9 +31,7 @@ class AccountCategoryButton extends HookWidget {
             ),
             child: Row(
               children: <Widget>[
-                SizedBox(
-                  child: icon,
-                ),
+                icon,
                 const SpaceW20(),
                 Text(
                   title,

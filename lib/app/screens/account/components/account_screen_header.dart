@@ -43,8 +43,6 @@ class AccountScreenHeader extends HookWidget {
                   Text(
                     'Jonh Shooter Jonh Shooter Jonh Shooter Jonh Shooter',
                     style: sTextH5Style,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                   const SpaceH2(),
                   Text(
@@ -52,8 +50,6 @@ class AccountScreenHeader extends HookWidget {
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey1,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
