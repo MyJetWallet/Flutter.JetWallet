@@ -20,9 +20,12 @@ class ReceiveDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fromPhoneNumber =
+        transactionListItem.receiveByPhoneInfo!.fromPhoneNumber ?? '';
+    final senderName = transactionListItem.receiveByPhoneInfo!.senderName ?? '';
     final contactName = useProvider(
       contactNameForPhoneFpod(
-        transactionListItem.receiveByPhoneInfo!.fromPhoneNumber,
+        fromPhoneNumber,
       ),
     );
 
@@ -42,8 +45,7 @@ class ReceiveDetails extends HookWidget {
             children: [
               TransactionDetailsValueText(
                 text:
-                    '+${transactionListItem
-                        .receiveByPhoneInfo!.fromPhoneNumber}',
+                    '+${transactionListItem.receiveByPhoneInfo!.fromPhoneNumber}',
               ),
               contactName.when(
                 data: (String? contactName) {
@@ -55,10 +57,9 @@ class ReceiveDetails extends HookWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     );
-                  } else if (transactionListItem
-                      .receiveByPhoneInfo!.senderName.isNotEmpty) {
+                  } else if (senderName.isNotEmpty) {
                     return Text(
-                      transactionListItem.receiveByPhoneInfo!.senderName,
+                      senderName,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,

@@ -21,9 +21,13 @@ class TransferDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final toPhoneNumber =
+        transactionListItem.transferByPhoneInfo!.toPhoneNumber ?? '';
+    final receiverName =
+        transactionListItem.transferByPhoneInfo!.receiverName ?? '';
     final contactName = useProvider(
       contactNameForPhoneFpod(
-        transactionListItem.transferByPhoneInfo!.toPhoneNumber,
+        toPhoneNumber,
       ),
     );
 
@@ -43,8 +47,7 @@ class TransferDetails extends HookWidget {
             children: [
               TransactionDetailsValueText(
                 text:
-                    '+${transactionListItem
-                        .transferByPhoneInfo!.toPhoneNumber}',
+                    '+${transactionListItem.transferByPhoneInfo!.toPhoneNumber}',
               ),
               contactName.when(
                 data: (String? contactName) {
@@ -56,10 +59,9 @@ class TransferDetails extends HookWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     );
-                  } else if (transactionListItem
-                      .transferByPhoneInfo!.receiverName.isNotEmpty) {
+                  } else if (receiverName.isNotEmpty) {
                     return Text(
-                      transactionListItem.transferByPhoneInfo!.receiverName,
+                      receiverName,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
