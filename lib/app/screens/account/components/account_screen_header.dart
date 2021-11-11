@@ -26,13 +26,11 @@ class AccountScreenHeader extends HookWidget {
         child: Row(
           children: <Widget>[
             Container(
-              height: 48.h,
+              height: 48.w,
               width: 48.w,
               decoration: BoxDecoration(
                 color: colors.red,
-                borderRadius: BorderRadius.circular(
-                  44.r,
-                ),
+                borderRadius: BorderRadius.circular(44.r),
               ),
             ),
             const SpaceW20(),
@@ -44,11 +42,8 @@ class AccountScreenHeader extends HookWidget {
                   // Todo: change 'Jonh Shooter' on username from provider
                   Text(
                     'Jonh Shooter Jonh Shooter Jonh Shooter Jonh Shooter',
-                    style: sTextH5Style.copyWith(
-                      color: colors.black,
-                    ),
+                    style: sTextH5Style,
                     maxLines: 1,
-                    softWrap: false,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SpaceH2(),
@@ -58,7 +53,6 @@ class AccountScreenHeader extends HookWidget {
                       color: colors.grey1,
                     ),
                     maxLines: 1,
-                    softWrap: false,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

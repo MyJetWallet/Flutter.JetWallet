@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import 'app_version_box/app_version_box.dart';
+import 'app_version_box.dart';
 
 class LogOutOption extends HookWidget {
   const LogOutOption({

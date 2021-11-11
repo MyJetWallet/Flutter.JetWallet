@@ -23,21 +23,23 @@ class AccountCategoryButton extends HookWidget {
     final colors = useProvider(sColorPod);
 
     return Container(
-      decoration: isBottomBorder ? BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: colors.grey4,
-            width: 1.h,
-          ),
-        ),
-      ) : BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 0.h,
-            color: Colors.transparent,
-          ),
-        ),
-      ),
+      decoration: isBottomBorder
+          ? BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: colors.grey4,
+                  width: 1.h,
+                ),
+              ),
+            )
+          : BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  width: 0.h,
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -47,17 +49,14 @@ class AccountCategoryButton extends HookWidget {
           ),
           child: Row(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(
-                  right: 20.w,
-                ),
+              SizedBox(
                 child: icon,
               ),
+              const SpaceW20(),
               Text(
                 title,
                 style: sSubtitle1Style,
               ),
-              const Spacer(),
             ],
           ),
         ),
