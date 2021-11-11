@@ -16,43 +16,56 @@ class AccountScreenHeader extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return Padding(
-      padding: EdgeInsets.all(24.w),
-      child: Row(
-        children: [
-          Container(
-            height: 48.h,
-            width: 48.w,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(44.r),
-            ),
-          ),
-          const SpaceW20(),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Todo: change 'Jonh Shooter' on username from provider
-                Text(
-                  'Jonh Shooter Jonh Shooter Jonh Shooter Jonh Shooter',
-                  style: sTextH5Style.copyWith(color: colors.black),
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
+    return Container(
+      padding: EdgeInsets.only(
+        top: 52.h,
+        bottom: 20.h,
+      ),
+      height: 120.h,
+      child: SPaddingH24(
+        child: Row(
+          children: <Widget>[
+            Container(
+              height: 48.h,
+              width: 48.w,
+              decoration: BoxDecoration(
+                color: colors.red,
+                borderRadius: BorderRadius.circular(
+                  44.r,
                 ),
-                const SpaceH2(),
-                Text(
-                  userEmail,
-                  style: sSubtitle3Style.copyWith(color: colors.grey1),
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            const SpaceW20(),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // Todo: change 'Jonh Shooter' on username from provider
+                  Text(
+                    'Jonh Shooter Jonh Shooter Jonh Shooter Jonh Shooter',
+                    style: sTextH5Style.copyWith(
+                      color: colors.black,
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SpaceH2(),
+                  Text(
+                    userEmail,
+                    style: sSubtitle3Style.copyWith(
+                      color: colors.grey1,
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

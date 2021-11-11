@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../shared/components/item_menu_with_simple_icon.dart';
+import '../../../shared/components/account_category_button.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/log_out_option.dart';
 import '../../../shared/components/security_divider.dart';
@@ -43,72 +42,72 @@ class Account extends HookWidget {
       },
       child: logout.when(
         result: (_, __) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AccountScreenHeader(
-                    userEmail: authInfo.email,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                AccountScreenHeader(
+                  userEmail: authInfo.email,
+                ),
+                const AccountBannerList(),
+                const SpaceH20(),
+
+                SPaddingH24(
+                  child: Column(
+                    children: <Widget>[
+                      AccountCategoryButton(
+                        title: 'Profile details',
+                        icon: const SProfileDetailsIcon(),
+                        isBottomBorder: true,
+                        onTap: () {},
+                      ),
+                      AccountCategoryButton(
+                        title: 'Security',
+                        icon: const SSecurityIcon(),
+                        isBottomBorder: true,
+                        onTap: () {
+                          navigatorPush(context, const AccountSecurity());
+                        },
+                      ),
+                      AccountCategoryButton(
+                        title: 'Notifications',
+                        icon: const SNotificationsIcon(),
+                        isBottomBorder: true,
+                        onTap: () {},
+                      ),
+                      AccountCategoryButton(
+                        title: 'Support',
+                        icon: const SSupportIcon(),
+                        isBottomBorder: true,
+                        onTap: () {},
+                      ),
+                      AccountCategoryButton(
+                        title: 'FAQ',
+                        icon: const SFaqIcon(),
+                        isBottomBorder: true,
+                        onTap: () {},
+                      ),
+                      AccountCategoryButton(
+                        title: 'About us',
+                        icon: const SAboutUsIcon(),
+                        isBottomBorder: false,
+                        onTap: () {
+                          navigatorPush(context, const AboutUs());
+                        },
+                      ),
+                    ],
                   ),
-                  const AccountBannerList(),
-                  const SpaceH20(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24.w),
-                    child: Column(
-                      children: <Widget>[
-                        ItemMenuWithSimpleIcon(
-                          title: 'Profile details',
-                          icon: const SProfileDetailsIcon(),
-                          onTap: () {},
-                        ),
-                        const SecurityDivider(),
-                        ItemMenuWithSimpleIcon(
-                          title: 'Security',
-                          icon: const SSecurityIcon(),
-                          onTap: () {
-                            navigatorPush(context, const AccountSecurity());
-                          },
-                        ),
-                        const SecurityDivider(),
-                        ItemMenuWithSimpleIcon(
-                          title: 'Notifications',
-                          icon: const SNotificationsIcon(),
-                          onTap: () {},
-                        ),
-                        const SecurityDivider(),
-                        ItemMenuWithSimpleIcon(
-                          title: 'Support',
-                          icon: const SSupportIcon(),
-                          onTap: () {},
-                        ),
-                        const SecurityDivider(),
-                        ItemMenuWithSimpleIcon(
-                          title: 'FAQ',
-                          icon: const SFaqIcon(),
-                          onTap: () {},
-                        ),
-                        const SecurityDivider(),
-                        ItemMenuWithSimpleIcon(
-                          title: 'About us',
-                          icon: const SAboutUsIcon(),
-                          onTap: () {
-                            navigatorPush(context, const AboutUs());
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SecurityDivider(),
-                  const SpaceH20(),
-                  LogOutOption(
-                    name: intl.logout,
-                    onTap: () => logoutN.logout(),
-                  ),
-                  const SpaceH20(),
-                  const SecurityDivider(),
-                ],
-              ),
+                ),
+                const SpaceH20(),
+                const SecurityDivider(),
+                const SpaceH20(),
+                LogOutOption(
+                  name: intl.logout,
+                  onTap: () => logoutN.logout(),
+                ),
+                const SpaceH20(),
+                const SecurityDivider(),
+              ],
             ),
           );
         },
