@@ -7,7 +7,6 @@ import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart
 import '../../../shared/components/account_category_button.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/log_out_option.dart';
-import '../../../shared/components/security_divider.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
@@ -99,14 +98,14 @@ class Account extends HookWidget {
                   ),
                 ),
                 const SpaceH20(),
-                const SecurityDivider(),
+                const SDivider(),
                 const SpaceH20(),
                 LogOutOption(
                   name: intl.logout,
                   onTap: () => logoutN.logout(),
                 ),
                 const SpaceH20(),
-                const SecurityDivider(),
+                const SDivider(),
               ],
             ),
           );
