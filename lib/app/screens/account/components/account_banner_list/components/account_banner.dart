@@ -19,8 +19,8 @@ class AccountBanner extends StatelessWidget {
       width: 0.86.sw,
       padding: EdgeInsets.all(15.r),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(10.r),
+        color: const Color(0xFFE0EBFA),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
