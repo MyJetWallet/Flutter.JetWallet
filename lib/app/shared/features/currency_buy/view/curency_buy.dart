@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/buttons/app_button_outlined.dart';
-import '../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/asset_input_error.dart';
-import '../../../components/asset_input_field.dart';
-import '../../../components/asset_selector_button.dart';
 import '../../../components/asset_tile/asset_tile.dart';
-import '../../../components/balance_selector/view/percent_selector.dart';
 import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../components/convert_preview/model/convert_preview_input.dart';
 import '../../../components/convert_preview/view/convert_preview.dart';
-import '../../../components/number_keyboard/number_keyboard_amount.dart';
-import '../../../components/text/asset_conversion_text.dart';
-import '../../../components/text/asset_selector_header.dart';
 import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
@@ -48,6 +39,44 @@ class CurrencyBuy extends HookWidget {
       ),
     );
 
+    // TODO: finish  function
+    void _showAssetSelector() {
+      sShowBasicModalBottomSheet(
+        children: [
+          for (final currency in state.currencies)
+            SAssetItem(
+              icon: NetworkSvgW24(
+                url: currency.iconUrl,
+              ),
+              name: currency.description,
+              amount: currency.formatBaseBalance(
+                state.baseCurrency!,
+              ),
+              description: currency.formattedAssetBalance,
+              onTap: () => Navigator.pop(context, currency),
+            ),
+          const SpaceH40(),
+        ],
+        context: context,
+        then: (value) {
+          if (value is CurrencyModel) {
+            if (value != state.selectedCurrency) {
+              if (value.symbol != state.baseCurrency!.symbol) {
+                notifier.updateTargetConversionPrice(null);
+              }
+              notifier.updateSelectedCurrency(value);
+              notifier.resetValuesToZero();
+            }
+          }
+        },
+        onDissmis: () {
+          Navigator.pop(context, state.selectedCurrency);
+        },
+      );
+    }
+    
+    /// TODO(Eli): remove in the next pr
+    // ignore: unused_element
     void _showAssetSheet() {
       showBasicBottomSheet(
         context: context,
@@ -71,95 +100,80 @@ class CurrencyBuy extends HookWidget {
             name: 'Deposit account',
           )
         ],
-        then: (value) {
-          if (value is CurrencyModel) {
-            if (value != state.selectedCurrency) {
-              if (value.symbol != state.baseCurrency!.symbol) {
-                notifier.updateTargetConversionPrice(null);
-              }
-              notifier.updateSelectedCurrency(value);
-              notifier.resetValuesToZero();
-            }
-          }
-        },
-        onDissmis: () {
-          Navigator.pop(context, state.selectedCurrency);
-        },
       );
     }
 
-    return PageFrame(
-      header: 'Buy ${currency.description}',
-      onBackButton: () => Navigator.pop(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: 'Buy ${currency.description}',
+        ),
+      ),
+      child: Stack(
         children: [
-          const Spacer(),
-          AssetInputField(
-            value: formatCurrencyStringAmount(
-              prefix: state.selectedCurrency?.prefixSymbol,
-              value: state.inputValue,
-              symbol: state.selectedCurrencySymbol,
-            ),
-          ),
-          const SpaceH8(),
-          if (state.inputError.isActive)
-            AssetInputError(
-              text: state.inputError.value,
-            )
-          else
-            CenterAssetConversionText(
-              text: state.conversionText(currency),
-            ),
-          const Spacer(),
-          const AssetSelectorHeader(
-            text: 'Pay from',
-          ),
-          const SpaceH4(),
-          if (state.selectedCurrency == null)
-            AssetSelectorButton(
-              name: 'Choose payment method',
-              onTap: () => _showAssetSheet(),
-            )
-          else
-            AssetTile(
-              headerColor: Colors.black,
-              leadingAssetBalance: true,
-              currency: state.selectedCurrency!,
-              onTap: () => _showAssetSheet(),
-            ),
-          const SpaceH20(),
-          PercentSelector(
-            disabled: false,
-            onSelection: (value) {
-              notifier.selectPercentFromBalance(value);
-            },
-          ),
-          const SpaceH10(),
-          NumberKeyboardAmount(
-            onKeyPressed: (value) => notifier.updateInputValue(value),
-          ),
-          const SpaceH20(),
-          AppButtonSolid(
-            active: state.inputValid,
-            name: 'Preview Buy',
-            onTap: () {
-              if (state.inputValid) {
-                navigatorPush(
-                  context,
-                  ConvertPreview(
-                    ConvertPreviewInput(
-                      currency: currency,
-                      fromAssetAmount: state.inputValue,
-                      fromAssetSymbol: state.selectedCurrency!.symbol,
-                      toAssetSymbol: currency.symbol,
-                      assetDescription: currency.description,
-                      action: TriggerAction.buy,
-                    ),
+          Column(
+            children: [
+              SActionPriceField(
+                price: formatCurrencyStringAmount(
+                  prefix: state.selectedCurrency?.prefixSymbol,
+                  value: state.inputValue,
+                  symbol: state.selectedCurrencySymbol,
+                ),
+                helper: state.conversionText(currency),
+                error: state.inputError.value,
+                isErrorActive: state.inputError.isActive,
+              ),
+              const Spacer(),
+              if (state.selectedCurrency == null)
+                SPaymentSelectDefault(
+                  icon: const SActionBuyIcon(),
+                  name: 'Choose payment method',
+                  onTap: () => _showAssetSelector(),
+                )
+              else
+                SPaymentSelectAsset(
+                  icon: NetworkSvgW24(
+                    url: state.selectedCurrency!.iconUrl,
                   ),
-                );
-              }
-            },
+                  name: state.selectedCurrency!.description,
+                  amount: state.selectedCurrency!.formatBaseBalance(
+                    state.baseCurrency!,
+                  ),
+                  description: state.selectedCurrency!.formattedAssetBalance,
+                  onTap: () => _showAssetSelector(),
+                ),
+              const SpaceH20(),
+              SNumericKeyboardAmount(
+                preset1Name: '25%',
+                preset2Name: '50%',
+                preset3Name: '100%',
+                selectedPreset: state.selectedPreset,
+                onPresetChanged: (preset) {
+                  notifier.selectPercentFromBalance(preset);
+                },
+                onKeyPressed: (value) {
+                  notifier.updateInputValue(value);
+                },
+                buttonType: SButtonType.primary2,
+                submitButtonActive: state.inputValid,
+                submitButtonName: 'Preview Buy',
+                onSubmitPressed: () {
+                  navigatorPush(
+                    context,
+                    ConvertPreview(
+                      ConvertPreviewInput(
+                        currency: currency,
+                        fromAssetAmount: state.inputValue,
+                        fromAssetSymbol: state.selectedCurrency!.symbol,
+                        toAssetSymbol: currency.symbol,
+                        assetDescription: currency.description,
+                        action: TriggerAction.buy,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),

@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../simple_kit.dart';
 
 /// Requires Icon with width target
-class SAssetItem extends StatelessWidget {
-  const SAssetItem({
+class SPaymentSelectAsset extends StatelessWidget {
+  const SPaymentSelectAsset({
     Key? key,
     this.helper = '',
     this.isCreditCard = false,
@@ -26,60 +26,66 @@ class SAssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      highlightColor: SColorsLight().grey5,
-      splashColor: Colors.transparent,
-      onTap: onTap,
-      child: SPaddingH24(
-        child: SizedBox(
+    return SPaddingH24(
+      child: InkWell(
+        highlightColor: SColorsLight().grey4,
+        splashColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(16.r),
+        onTap: onTap,
+        child: Ink(
           height: 88.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(
+              width: 1.r,
+              color: SColorsLight().grey4,
+            ),
+          ),
           child: Column(
             children: [
-              const SpaceH22(),
+              const SpaceH26(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  icon,
                   const SpaceW20(),
+                  icon,
+                  const SpaceW10(),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          textBaseline: TextBaseline.alphabetic,
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          children: [
-                            SizedBox(
-                              width: isCreditCard ? 180.w : 150.w,
-                              child: Baseline(
-                                baseline: 17.8.h,
-                                baselineType: TextBaseline.alphabetic,
+                        Baseline(
+                          baseline: 15.h,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: isCreditCard ? 150.w : 130.w,
                                 child: Text(
                                   name,
                                   style: sSubtitle2Style,
                                 ),
                               ),
-                            ),
-                            const Spacer(),
-                            SizedBox(
-                              width: isCreditCard ? 90.w : 120.w,
-                              child: Text(
-                                amount,
-                                textAlign: TextAlign.end,
-                                style: sSubtitle2Style,
+                              const Spacer(),
+                              SizedBox(
+                                width: isCreditCard ? 90.w : 110.w,
+                                child: Text(
+                                  amount,
+                                  textAlign: TextAlign.end,
+                                  style: sSubtitle2Style,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        Row(
-                          textBaseline: TextBaseline.alphabetic,
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          children: [
-                            SizedBox(
-                              width: isCreditCard ? 180.w : 150.w,
-                              child: Baseline(
-                                baseline: 15.4.h,
-                                baselineType: TextBaseline.alphabetic,
+                        Baseline(
+                          baseline: 15.4.h,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: isCreditCard ? 150.w : 130.w,
                                 child: Text(
                                   description,
                                   style: sCaptionTextStyle.copyWith(
@@ -87,11 +93,9 @@ class SAssetItem extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            ),
-                            const Spacer(),
-                            if (isCreditCard)
+                              const Spacer(),
                               SizedBox(
-                                width: 90.w,
+                                width: isCreditCard ? 90.w : 110.w,
                                 child: Text(
                                   helper,
                                   textAlign: TextAlign.end,
@@ -100,17 +104,15 @@ class SAssetItem extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  const SpaceW20(),
                 ],
               ),
-              const Spacer(),
-              SDivider(
-                width: 327.w,
-              )
             ],
           ),
         ),

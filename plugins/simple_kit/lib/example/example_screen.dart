@@ -7,6 +7,13 @@ import '../src/theme/provider/simple_theme_pod.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
+import 'actions/examples/simple_action_confirm_description.dart';
+import 'actions/examples/simple_action_confirm_text_example.dart';
+import 'actions/examples/simple_action_price_field_example.dart';
+import 'actions/examples/simple_payment_select_asset_example.dart';
+import 'actions/examples/simple_payment_select_default_example.dart';
+import 'actions/examples/simple_payment_select_fiat_example.dart';
+import 'actions/simple_actions_example.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
 import 'agreements/simple_agreements_example.dart';
@@ -59,7 +66,7 @@ class ExampleScreen extends ConsumerWidget {
         return MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          initialRoute: SimpleMarketItemExample.routeName,
+          initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
             SimpleButtonsExample.routeName: (context) {
@@ -182,6 +189,27 @@ class ExampleScreen extends ConsumerWidget {
             SimpleAssetItemsExample.routeName: (context) {
               return const SimpleAssetItemsExample();
             },
+            SimpleActionsExample.routeName: (context) {
+              return const SimpleActionsExample();
+            },
+            SimpleActionPriceFieldExample.routeName: (context) {
+              return const SimpleActionPriceFieldExample();
+            },
+            SimplePaymentSelectAssetExample.routeName: (context) {
+              return const SimplePaymentSelectAssetExample();
+            },
+            SimplePaymentSelectDefaultExample.routeName: (context) {
+              return const SimplePaymentSelectDefaultExample();
+            },
+            SimplePaymentSelectFiatExample.routeName: (context) {
+              return const SimplePaymentSelectFiatExample();
+            },
+            SimpleActionConfirmTextExample.routeName: (context) {
+              return const SimpleActionConfirmTextExample();
+            },
+            SimpleActionConfrimDescriptionExample.routeName: (context) {
+              return const SimpleActionConfrimDescriptionExample();
+            }
           },
         );
       },
@@ -250,6 +278,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Asset Items',
               routeName: SimpleAssetItemsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Actions',
+              routeName: SimpleActionsExample.routeName,
             ),
           ],
         ),

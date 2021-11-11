@@ -25,7 +25,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                     name: 'Asset Name',
                     amount: '\$1000000.00',
                     description: 'Description',
-                    helperText: 'Helper text',
+                    helper: 'Helper text',
                   ),
                 ),
                 Column(
@@ -147,7 +147,7 @@ class SimpleAssetItemExample extends StatelessWidget {
               name: 'Asset Name',
               amount: '\$1000000.00',
               description: 'Description',
-              helperText: 'Helper text',
+              helper: 'Helper text',
             ),
             const SpaceH20(),
             Stack(
@@ -161,7 +161,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                     name: 'Card Name',
                     amount: '**** 0000',
                     description: 'Date',
-                    helperText: 'Limit',
+                    helper: 'Limit',
                   ),
                 ),
                 Column(
@@ -284,7 +284,7 @@ class SimpleAssetItemExample extends StatelessWidget {
               name: 'Card Name',
               amount: '**** 0000',
               description: 'Date',
-              helperText: 'Limit',
+              helper: 'Limit',
             ),
           ],
         ),

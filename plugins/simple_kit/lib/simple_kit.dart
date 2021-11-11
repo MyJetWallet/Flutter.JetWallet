@@ -2,6 +2,14 @@
 
 library simple_kit;
 
+/// Actions
+export 'src/actions/simple_action_confirm_description.dart';
+export 'src/actions/simple_action_confirm_text.dart';
+export 'src/actions/simple_action_price_field.dart';
+export 'src/actions/simple_payment_select_asset.dart';
+export 'src/actions/simple_payment_select_default.dart';
+export 'src/actions/simple_payment_select_fiat.dart';
+
 /// Agreements
 export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
@@ -135,10 +143,10 @@ export 'src/shared/components/page_frames/simple_page_frame.dart';
 export 'src/shared/components/page_frames/simple_page_frame_with_padding.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
+export 'src/shared/components/simple_network_svg.dart';
 export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
-export 'src/shared/components/simple_network_svg.dart';
 
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';
