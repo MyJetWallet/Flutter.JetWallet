@@ -18,6 +18,7 @@ dependencies:
   flutter_svg: ^0.22.0 # SVG rendering and widget library
   local_auth: ^1.1.8 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   flash: ^2.0.3 # alerting library
+  rive: ^0.7.22 # rive animations
 
 dev_dependencies:
   flutter_test:

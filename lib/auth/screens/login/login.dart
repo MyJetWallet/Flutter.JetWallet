@@ -22,6 +22,7 @@ class Login extends HookWidget {
     final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
+    final authentication = useProvider(authenticationNotipod);
     final authenticationN = useProvider(authenticationNotipod.notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
@@ -47,6 +48,7 @@ class Login extends HookWidget {
         );
       },
       child: SPageFrame(
+        loading: authentication is Loading,
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
