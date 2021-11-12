@@ -12,7 +12,7 @@ class SimpleNumericKeyboardAmountExample extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedPreset = useState<KeyboardPreset?>(null);
+    final selectedPreset = useState<SKeyboardPreset?>(null);
     final activeButton = useState(false);
 
     return SPageFrame(

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_kit/simple_kit.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 
 import '../../../helpers/input_helpers.dart';
@@ -13,6 +14,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     double? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
+    SKeyboardPreset? selectedPreset,
     @Default('0') String inputValue,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,

@@ -5,9 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 class NetworkSvgW24 extends StatelessWidget {
   const NetworkSvgW24({
     Key? key,
+    this.color,
     required this.url,
   }) : super(key: key);
 
+  final Color? color;
   final String url;
 
   @override
@@ -16,6 +18,7 @@ class NetworkSvgW24 extends StatelessWidget {
       url,
       width: 24.w,
       height: 24.w,
+      color: color,
     );
   }
 }
@@ -23,9 +26,11 @@ class NetworkSvgW24 extends StatelessWidget {
 class NetworkSvgR24 extends StatelessWidget {
   const NetworkSvgR24({
     Key? key,
+    this.color,
     required this.url,
   }) : super(key: key);
 
+  final Color? color;
   final String url;
 
   @override
@@ -34,6 +39,7 @@ class NetworkSvgR24 extends StatelessWidget {
       url,
       width: 24.r,
       height: 24.r,
+      color: color,
     );
   }
 }

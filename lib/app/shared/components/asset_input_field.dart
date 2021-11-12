@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../shared/components/spacers.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 class AssetInputField extends StatelessWidget {
   const AssetInputField({
@@ -20,19 +18,9 @@ class AssetInputField extends StatelessWidget {
           child: Text(
             value,
             maxLines: 1,
-            style: TextStyle(
-              fontSize: 46.sp,
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
-            ),
+            style: sTextH1Style,
           ),
         ),
-        const SpaceH10(),
-        Container(
-          height: 1.5.h,
-          width: double.infinity,
-          color: Colors.black,
-        )
       ],
     );
   }

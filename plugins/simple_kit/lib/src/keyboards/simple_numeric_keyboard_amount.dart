@@ -7,10 +7,13 @@ import 'components/numeric_keyboard_preset.dart';
 import 'components/numeric_keyboard_row.dart';
 import 'constants.dart';
 
-enum KeyboardPreset { preset1, preset2, preset3 }
+enum SKeyboardPreset { preset1, preset2, preset3 }
+
+enum SButtonType { primary1, primary2 }
 
 class SNumericKeyboardAmount extends StatelessWidget {
   const SNumericKeyboardAmount({
+    this.buttonType = SButtonType.primary1,
     required this.preset1Name,
     required this.preset2Name,
     required this.preset3Name,
@@ -22,11 +25,12 @@ class SNumericKeyboardAmount extends StatelessWidget {
     required this.onSubmitPressed,
   });
 
+  final SButtonType buttonType;
   final String preset1Name;
   final String preset2Name;
   final String preset3Name;
-  final KeyboardPreset? selectedPreset;
-  final void Function(KeyboardPreset) onPresetChanged;
+  final SKeyboardPreset? selectedPreset;
+  final void Function(SKeyboardPreset) onPresetChanged;
   final void Function(String) onKeyPressed;
   final bool submitButtonActive;
   final String submitButtonName;
@@ -47,18 +51,18 @@ class SNumericKeyboardAmount extends StatelessWidget {
                 children: [
                   NumericKeyboardPreset(
                     name: preset1Name,
-                    selected: selectedPreset == KeyboardPreset.preset1,
-                    onTap: () => onPresetChanged(KeyboardPreset.preset1),
+                    selected: selectedPreset == SKeyboardPreset.preset1,
+                    onTap: () => onPresetChanged(SKeyboardPreset.preset1),
                   ),
                   NumericKeyboardPreset(
                     name: preset2Name,
-                    selected: selectedPreset == KeyboardPreset.preset2,
-                    onTap: () => onPresetChanged(KeyboardPreset.preset2),
+                    selected: selectedPreset == SKeyboardPreset.preset2,
+                    onTap: () => onPresetChanged(SKeyboardPreset.preset2),
                   ),
                   NumericKeyboardPreset(
                     name: preset3Name,
-                    selected: selectedPreset == KeyboardPreset.preset3,
-                    onTap: () => onPresetChanged(KeyboardPreset.preset3),
+                    selected: selectedPreset == SKeyboardPreset.preset3,
+                    onTap: () => onPresetChanged(SKeyboardPreset.preset3),
                   ),
                 ],
               ),
@@ -80,11 +84,17 @@ class SNumericKeyboardAmount extends StatelessWidget {
               onKeyPressed: onKeyPressed,
             ),
             SPaddingH24(
-              child: SPrimaryButton1(
-                active: submitButtonActive,
-                name: submitButtonName,
-                onTap: onSubmitPressed,
-              ),
+              child: buttonType == SButtonType.primary1
+                  ? SPrimaryButton1(
+                      active: submitButtonActive,
+                      name: submitButtonName,
+                      onTap: onSubmitPressed,
+                    )
+                  : SPrimaryButton2(
+                      active: submitButtonActive,
+                      name: submitButtonName,
+                      onTap: onSubmitPressed,
+                    ),
             ),
             const SpaceH24(),
           ],

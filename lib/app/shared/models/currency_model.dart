@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../service/services/signal_r/model/asset_model.dart';
+import '../helpers/format_currency_amount.dart';
+import '../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_model.freezed.dart';
 
@@ -55,4 +57,22 @@ class CurrencyModel with _$CurrencyModel {
   bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
 
   bool get hasTag => tagType != TagType.none;
+
+  String formatBaseBalance(BaseCurrencyModel baseCurrency) {
+    return formatCurrencyAmount(
+      prefix: baseCurrency.prefix,
+      value: baseBalance,
+      accuracy: baseCurrency.accuracy,
+      symbol: baseCurrency.symbol,
+    );
+  }
+
+  String get formattedAssetBalance {
+    return formatCurrencyAmount(
+      prefix: prefixSymbol,
+      value: assetBalance,
+      accuracy: accuracy,
+      symbol: symbol,
+    );
+  }
 }

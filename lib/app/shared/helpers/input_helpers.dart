@@ -1,6 +1,7 @@
+import 'package:simple_kit/simple_kit.dart';
+
 import '../../../shared/helpers/remove_chars_from.dart';
 import '../components/balance_selector/model/selected_percent.dart';
-import '../components/number_keyboard/key_constants.dart';
 import '../models/currency_model.dart';
 
 // This helpers are used in [BUY], [SELL], [CONVERT], [WITHDRAW] flows
