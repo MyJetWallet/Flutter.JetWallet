@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../helpers/navigate_to_router.dart';
-import 'components/success_image.dart';
+import 'components/success_animation.dart';
 
 class SuccessScreen extends HookWidget {
   const SuccessScreen({
@@ -29,7 +29,7 @@ class SuccessScreen extends HookWidget {
     final colors = useProvider(sColorPod);
 
     return ProviderListener<int>(
-      provider: timerNotipod(2),
+      provider: timerNotipod(3),
       onChange: (context, value) {
         if (value == 0) {
           navigateToRouter(context.read);
@@ -43,7 +43,7 @@ class SuccessScreen extends HookWidget {
           child: Column(
             children: [
               const SpaceH120(),
-              const SuccessImage(),
+              const SuccessAnimation(),
               const SpaceH131(),
               Text('Success', style: sTextH2Style),
               const SpaceH17(),
