@@ -22,11 +22,11 @@ class Login extends HookWidget {
     final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
-    final authentication = useProvider(authenticationNotipod);
     final authenticationN = useProvider(authenticationNotipod.notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
+    final loading = useValueNotifier(StackLoaderNotifier());
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -34,6 +34,7 @@ class Login extends HookWidget {
         union.when(
           input: (error, st) {
             if (error != null) {
+              loading.value.finishLoading();
               emailError.value.enableError();
               passwordError.value.enableError();
               showErrorNotification(
@@ -48,7 +49,7 @@ class Login extends HookWidget {
         );
       },
       child: SPageFrame(
-        loading: authentication is Loading,
+        loading: loading.value,
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
@@ -143,6 +144,8 @@ class Login extends HookWidget {
                         name: 'Continue',
                         onTap: () {
                           if (credentialsN.readyToLogin) {
+                            loading.value.startLoading();
+
                             authenticationN.authenticate(
                               email: credentials.email,
                               password: credentials.password,

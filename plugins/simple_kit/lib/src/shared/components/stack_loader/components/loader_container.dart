@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../../../simple_kit.dart';
+import '../constants.dart';
 
 class LoaderContainer extends StatelessWidget {
   const LoaderContainer({Key? key}) : super(key: key);
@@ -20,14 +21,16 @@ class LoaderContainer extends StatelessWidget {
           color: SColorsLight().white,
           borderRadius: BorderRadius.circular(16.r),
         ),
-        padding: EdgeInsets.symmetric(vertical: 20.h),
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               width: 24.r,
               height: 24.r,
-              child: const RiveAnimation.asset('assets/animations/loader.riv'),
+              child: const RiveAnimation.asset(loadingAnimationAsset),
             ),
             Baseline(
               baseline: 20.6.h,

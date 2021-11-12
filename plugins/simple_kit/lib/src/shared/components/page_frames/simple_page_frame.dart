@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/src/shared/components/page_frames/components/stack_loader.dart';
+import 'package:simple_kit/src/shared/components/stack_loader/stack_loader.dart';
+
+import '../../../../simple_kit.dart';
 
 class SPageFrame extends StatelessWidget {
   const SPageFrame({
     Key? key,
     this.header,
+    this.loading,
     this.color = Colors.transparent,
-    //TODO (Vova): change to required
-    this.loading = false,
     required this.child,
   }) : super(key: key);
 
   final Widget? header;
   final Widget child;
   final Color color;
-  final bool loading;
+  final StackLoaderNotifier? loading;
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../helpers/navigate_to_router.dart';
-import 'components/success_image.dart';
+import 'components/success_animation.dart';
 
 class SuccessScreen extends HookWidget {
   const SuccessScreen({

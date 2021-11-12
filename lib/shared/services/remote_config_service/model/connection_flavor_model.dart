@@ -26,8 +26,7 @@ class ConnectionFlavorModel with _$ConnectionFlavorModel {
     required String walletApi,
     required String walletApiSignalR,
     required String validationApi,
-    required String termsOfUseUrl,
-    required String privacyPolicyUrl,
+    required String iconApi,
   }) = _ConnectionFlavorModel;
 
   factory ConnectionFlavorModel.fromJson(Map<String, dynamic> json) =>

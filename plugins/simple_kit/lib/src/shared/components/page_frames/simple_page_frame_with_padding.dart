@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../../../simple_kit.dart';
 import '../simple_paddings.dart';
-import 'components/stack_loader.dart';
+import '../stack_loader/stack_loader.dart';
 
 class SPageFrameWithPadding extends StatelessWidget {
   const SPageFrameWithPadding({
     Key? key,
     this.header,
+    this.loading,
     this.color = Colors.transparent,
-    //TODO (Vova): change to required
-    this.loading = false,
     this.resizeToAvoidBottomInset = true,
     required this.child,
   }) : super(key: key);
@@ -17,8 +17,8 @@ class SPageFrameWithPadding extends StatelessWidget {
   final Widget? header;
   final Widget child;
   final Color color;
-  final bool loading;
   final bool resizeToAvoidBottomInset;
+  final StackLoaderNotifier? loading;
 
   @override
   Widget build(BuildContext context) {
