@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
-import '../../../components/number_keyboard/key_constants.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/input_helpers.dart';
@@ -73,12 +73,16 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     state = state.copyWith(selectedCurrency: currency);
   }
 
-  void selectPercentFromBalance(SelectedPercent selected) {
+  void selectPercentFromBalance(SKeyboardPreset preset) {
     if (state.selectedCurrency != null) {
       _logger.log(notifier, 'selectPercentFromBalance');
 
+      _updateSelectedPreset(preset);
+
+      final percent = _percentFromPreset(preset);
+
       final value = valueBasedOnSelectedPercent(
-        selected: selected,
+        selected: percent,
         currency: state.selectedCurrency!,
       );
 
@@ -88,6 +92,20 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       _validateInput();
       _calculateTargetConversion();
       _calculateBaseConversion();
+    }
+  }
+
+  void _updateSelectedPreset(SKeyboardPreset preset) {
+    state = state.copyWith(selectedPreset: preset);
+  }
+
+  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
+    if (preset == SKeyboardPreset.preset1) {
+      return SelectedPercent.pct25;
+    } else if (preset == SKeyboardPreset.preset2) {
+      return SelectedPercent.pct50;
+    } else {
+      return SelectedPercent.pct100;
     }
   }
 

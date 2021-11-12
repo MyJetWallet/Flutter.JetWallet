@@ -1,39 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/asset_tile/asset_tile.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../helpers/format_currency_amount.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
 
-class ActionBuy extends HookWidget {
-  const ActionBuy({Key? key}) : super(key: key);
+void showBuyAction(BuildContext context) {
+  sShowBasicModalBottomSheet(
+    context: context,
+    scrollable: true,
+    maxHeight: 664.h,
+    pinned: const SBottomSheetHeader(
+      name: 'Choose asset to buy',
+    ),
+    children: [const _ActionBuy()],
+  );
+}
+
+class _ActionBuy extends HookWidget {
+  const _ActionBuy({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PageFrame(
-      header: 'Choose a crypto to buy',
-      onBackButton: () => Navigator.pop(context),
-      child: ListView(
-        children: [
-          for (final currency in context.read(currenciesPod))
-            AssetTile(
-              enableBalanceColumn: false,
-              headerColor: Colors.black,
-              currency: currency,
-              onTap: () {
-                navigatorPush(
-                  context,
-                  CurrencyBuy(
-                    currency: currency,
-                  ),
-                );
-              },
+    final baseCurrency = useProvider(baseCurrencyPod);
+
+    return Column(
+      children: [
+        for (final currency in context.read(currenciesPod)) ...[
+          SMarketItem(
+            icon: NetworkSvgW24(
+              url: currency.iconUrl,
             ),
-        ],
-      ),
+            name: currency.description,
+            price: formatCurrencyAmount(
+              value: baseCurrency.symbol == currency.symbol
+                  ? 1
+                  : currency.currentPrice,
+              symbol: baseCurrency.symbol,
+              accuracy: baseCurrency.accuracy,
+            ),
+            ticker: currency.symbol,
+            percent: currency.dayPercentChange,
+            onTap: () {
+              navigatorPush(
+                context,
+                CurrencyBuy(
+                  currency: currency,
+                ),
+              );
+            },
+          ),
+        ]
+      ],
     );
   }
 }

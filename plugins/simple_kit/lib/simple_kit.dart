@@ -2,6 +2,14 @@
 
 library simple_kit;
 
+/// Actions
+export 'src/actions/simple_action_confirm_description.dart';
+export 'src/actions/simple_action_confirm_text.dart';
+export 'src/actions/simple_action_price_field.dart';
+export 'src/actions/simple_payment_select_asset.dart';
+export 'src/actions/simple_payment_select_default.dart';
+export 'src/actions/simple_payment_select_fiat.dart';
+
 /// Agreements
 export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
@@ -101,6 +109,13 @@ export 'src/icons/24x24/public/search/simple_search_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
+export 'src/icons/24x24/public/profile_details/simple_profile_details_icon.dart';
+export 'src/icons/24x24/public/security/simple_security_icon.dart';
+export 'src/icons/24x24/public/notifications/simple_notifications_icon.dart';
+export 'src/icons/24x24/public/support/simple_support_icon.dart';
+export 'src/icons/24x24/public/faq/simple_faq_icon.dart';
+export 'src/icons/24x24/public/about_us/simple_about_us_icon.dart';
+export 'src/icons/24x24/public/log_out/simple_log_out_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
@@ -133,6 +148,7 @@ export 'src/shared/components/page_frames/simple_page_frame.dart';
 export 'src/shared/components/page_frames/simple_page_frame_with_padding.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
+export 'src/shared/components/simple_network_svg.dart';
 export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';

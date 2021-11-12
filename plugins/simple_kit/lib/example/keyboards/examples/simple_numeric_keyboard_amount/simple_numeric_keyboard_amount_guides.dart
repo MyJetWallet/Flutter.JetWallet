@@ -21,7 +21,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                 preset1Name: '\$50',
                 preset2Name: '\$100',
                 preset3Name: '\$500',
-                selectedPreset: KeyboardPreset.preset3,
+                selectedPreset: SKeyboardPreset.preset3,
                 onPresetChanged: (keyboardPreset) {},
                 onKeyPressed: (key) {
                   showSnackBar(context, key);

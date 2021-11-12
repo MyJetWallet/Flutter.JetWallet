@@ -36,6 +36,14 @@ definitions:
         include: false
         source: false
     cancel_previous_builds: false
+
+  auto_develop_triggering: &auto_develop_triggering
+    events:
+        - push
+    branch_patterns:
+      - pattern: develop
+        include: true
+    cancel_previous_builds: false
     
   scripts: &scripts
     - name: Set up keychain
@@ -95,6 +103,7 @@ definitions:
         - andrey.p@smplt.net
         - andrey.v@smplt.net
         - danil.s@smplt.net
+        - denis.m@smplt.net
       
       notify:
         success: true
@@ -165,7 +174,7 @@ workflows:
       <<: *versioning
     
     cache: *cache
-    triggering: *triggering
+    triggering: *auto_develop_triggering
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts

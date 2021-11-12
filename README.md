@@ -1,10 +1,7 @@
 # Flutter.JetWallet
 
-SPOT Front-End Application
-
-<https://jetwallet-spot.mnftx.biz/#/>
-
-<https://jetwallet.page.link/app/>
+## Links
+[Spot Images](https://github.com/MyJetWallet/spotimages)
 
 ## Logging
 

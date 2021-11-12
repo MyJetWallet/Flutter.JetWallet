@@ -96,21 +96,22 @@ class EmailVerification extends HookWidget {
                   const SpaceH7(),
                   if (timer != 0 && !showResend.value)
                     ResendInText(text: 'You can resend in $timer seconds')
-                  else
+                  else ...[
                     const ResendInText(text: "Didn't receive the code?"),
-                  const SpaceH24(),
-                  STextButton1(
-                    active: true,
-                    name: 'Resend',
-                    onTap: () async {
-                      await verificationN.sendCode();
+                    const SpaceH24(),
+                    STextButton1(
+                      active: true,
+                      name: 'Resend',
+                      onTap: () async {
+                        await verificationN.sendCode();
 
-                      if (verification.union is Input) {
-                        timerN.refreshTimer();
-                        showResend.value = false;
-                      }
-                    },
-                  ),
+                        if (verification.union is Input) {
+                          timerN.refreshTimer();
+                          showResend.value = false;
+                        }
+                      },
+                    ),
+                  ]
                 ],
               ),
             );

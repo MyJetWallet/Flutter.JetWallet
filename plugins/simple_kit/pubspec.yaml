@@ -51,6 +51,13 @@ flutter:
     - assets/icons/light/24x24/photo/
     - assets/icons/light/24x24/search/
     - assets/icons/light/24x24/star/
+    - assets/icons/light/24x24/profile/about_us/
+    - assets/icons/light/24x24/profile/faq/
+    - assets/icons/light/24x24/profile/log_out/
+    - assets/icons/light/24x24/profile/notifications/
+    - assets/icons/light/24x24/profile/profile_details/
+    - assets/icons/light/24x24/profile/security/
+    - assets/icons/light/24x24/profile/support/
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/
     - assets/icons/light/36x36/keyboard_erase/
