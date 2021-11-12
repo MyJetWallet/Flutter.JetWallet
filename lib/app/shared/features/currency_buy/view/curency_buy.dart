@@ -3,13 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/buttons/app_button_outlined.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/asset_tile/asset_tile.dart';
-import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../components/convert_preview/model/convert_preview_input.dart';
 import '../../../components/convert_preview/view/convert_preview.dart';
-import '../../../components/text/asset_sheet_header.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
@@ -27,6 +23,7 @@ class CurrencyBuy extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final state = useProvider(currencyBuyNotipod(currency));
     final notifier = useProvider(currencyBuyNotipod(currency).notifier);
     useProvider(
@@ -39,13 +36,19 @@ class CurrencyBuy extends HookWidget {
       ),
     );
 
-    // TODO: finish  function
     void _showAssetSelector() {
       sShowBasicModalBottomSheet(
+        pinned: const SBottomSheetHeader(
+          name: 'Pay from',
+        ),
         children: [
           for (final currency in state.currencies)
             SAssetItem(
+              isSelected: currency == state.selectedCurrency,
               icon: NetworkSvgW24(
+                color: currency == state.selectedCurrency
+                    ? colors.blue
+                    : colors.black,
                 url: currency.iconUrl,
               ),
               name: currency.description,
@@ -69,37 +72,6 @@ class CurrencyBuy extends HookWidget {
             }
           }
         },
-        onDissmis: () {
-          Navigator.pop(context, state.selectedCurrency);
-        },
-      );
-    }
-    
-    /// TODO(Eli): remove in the next pr
-    // ignore: unused_element
-    void _showAssetSheet() {
-      showBasicBottomSheet(
-        context: context,
-        scrollable: true,
-        color: const Color(0xFF4F4F4F),
-        pinned: const AssetSheetHeader(
-          text: 'Pay from',
-        ),
-        children: [
-          for (final currency in state.currencies)
-            AssetTile(
-              currency: currency,
-              onTap: () => Navigator.pop(context, currency),
-              selectedBorder: state.selectedCurrency == currency,
-            ),
-          const SpaceH20(),
-          AppButtonOutlined(
-            onTap: () {},
-            textColor: Colors.white,
-            borderColor: Colors.grey,
-            name: 'Deposit account',
-          )
-        ],
       );
     }
 

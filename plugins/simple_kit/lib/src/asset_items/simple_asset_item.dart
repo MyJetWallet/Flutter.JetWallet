@@ -8,6 +8,7 @@ class SAssetItem extends StatelessWidget {
   const SAssetItem({
     Key? key,
     this.helper = '',
+    this.isSelected = false,
     this.isCreditCard = false,
     required this.icon,
     required this.name,
@@ -17,6 +18,7 @@ class SAssetItem extends StatelessWidget {
   }) : super(key: key);
 
   final String helper;
+  final bool isSelected;
   final bool isCreditCard;
   final Widget icon;
   final String name;
@@ -26,6 +28,8 @@ class SAssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainColor = isSelected ? SColorsLight().blue : SColorsLight().black;
+
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
@@ -56,7 +60,9 @@ class SAssetItem extends StatelessWidget {
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
                                   name,
-                                  style: sSubtitle2Style,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: mainColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -66,7 +72,9 @@ class SAssetItem extends StatelessWidget {
                               child: Text(
                                 amount,
                                 textAlign: TextAlign.end,
-                                style: sSubtitle2Style,
+                                style: sSubtitle2Style.copyWith(
+                                  color: mainColor,
+                                ),
                               ),
                             ),
                           ],
