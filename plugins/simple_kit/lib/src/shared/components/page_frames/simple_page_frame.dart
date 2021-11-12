@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/src/shared/components/stack_loader/stack_loader.dart';
 
 import '../../../../simple_kit.dart';
+import '../stack_loader/stack_loader.dart';
 
 class SPageFrame extends StatelessWidget {
   const SPageFrame({
