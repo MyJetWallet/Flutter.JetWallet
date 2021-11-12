@@ -41,7 +41,7 @@ class AccountScreenHeader extends HookWidget {
                 children: <Widget>[
                   // Todo: change 'Jonh Shooter' on username from provider
                   Text(
-                    'Jonh Shooter Jonh Shooter Jonh Shooter Jonh Shooter',
+                    'John Shooter',
                     style: sTextH5Style,
                   ),
                   const SpaceH2(),

@@ -51,51 +51,49 @@ class Account extends HookWidget {
                 const AccountBannerList(),
                 const SpaceH20(),
 
-                SPaddingH24(
-                  child: Column(
-                    children: <Widget>[
-                      AccountCategoryButton(
-                        title: 'Profile details',
-                        icon: const SProfileDetailsIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      AccountCategoryButton(
-                        title: 'Security',
-                        icon: const SSecurityIcon(),
-                        isSDivider: true,
-                        onTap: () {
-                          navigatorPush(context, const AccountSecurity());
-                        },
-                      ),
-                      AccountCategoryButton(
-                        title: 'Notifications',
-                        icon: const SNotificationsIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      AccountCategoryButton(
-                        title: 'Support',
-                        icon: const SSupportIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      AccountCategoryButton(
-                        title: 'FAQ',
-                        icon: const SFaqIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      AccountCategoryButton(
-                        title: 'About us',
-                        icon: const SAboutUsIcon(),
-                        isSDivider: false,
-                        onTap: () {
-                          navigatorPush(context, const AboutUs());
-                        },
-                      ),
-                    ],
-                  ),
+                Column(
+                  children: <Widget>[
+                    AccountCategoryButton(
+                      title: 'Profile details',
+                      icon: const SProfileDetailsIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    AccountCategoryButton(
+                      title: 'Security',
+                      icon: const SSecurityIcon(),
+                      isSDivider: true,
+                      onTap: () {
+                        navigatorPush(context, const AccountSecurity());
+                      },
+                    ),
+                    AccountCategoryButton(
+                      title: 'Notifications',
+                      icon: const SNotificationsIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    AccountCategoryButton(
+                      title: 'Support',
+                      icon: const SSupportIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    AccountCategoryButton(
+                      title: 'FAQ',
+                      icon: const SFaqIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    AccountCategoryButton(
+                      title: 'About us',
+                      icon: const SAboutUsIcon(),
+                      isSDivider: false,
+                      onTap: () {
+                        navigatorPush(context, const AboutUs());
+                      },
+                    ),
+                  ],
                 ),
                 const SpaceH20(),
                 const SDivider(),
