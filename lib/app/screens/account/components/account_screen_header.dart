@@ -26,8 +26,8 @@ class AccountScreenHeader extends HookWidget {
         child: Row(
           children: <Widget>[
             Container(
-              height: 48.w,
-              width: 48.w,
+              height: 48.h,
+              width: 48.h,
               decoration: BoxDecoration(
                 color: colors.red,
                 borderRadius: BorderRadius.circular(44.r),
