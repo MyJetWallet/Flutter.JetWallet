@@ -8,11 +8,11 @@ class SBigHeader extends StatelessWidget {
     Key? key,
     this.onLinkTap,
     this.onSearchButtonTap,
+    this.onBackButtonTap,
     this.linkText = '',
     this.showLink = false,
     this.showSearchButton = false,
     required this.title,
-    required this.onBackButtonTap,
   }) : super(key: key);
 
   final Function()? onLinkTap;
@@ -21,7 +21,7 @@ class SBigHeader extends StatelessWidget {
   final bool showLink;
   final bool showSearchButton;
   final String title;
-  final Function() onBackButtonTap;
+  final Function()? onBackButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class SBigHeader extends StatelessWidget {
           Row(
             children: [
               SIconButton(
-                onTap: onBackButtonTap,
+                onTap: onBackButtonTap ?? () => Navigator.pop(context),
                 defaultIcon: const SBackIcon(),
                 pressedIcon: const SBackPressedIcon(),
               ),

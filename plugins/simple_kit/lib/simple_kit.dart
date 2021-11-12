@@ -4,6 +4,7 @@ library simple_kit;
 
 /// Actions
 export 'src/actions/simple_action_confirm_description.dart';
+export 'src/actions/simple_action_confirm_icon_with_gradient_shadow.dart';
 export 'src/actions/simple_action_confirm_text.dart';
 export 'src/actions/simple_action_price_field.dart';
 export 'src/actions/simple_payment_select_asset.dart';

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/convert_preview/model/convert_preview_input.dart';
-import '../../../components/convert_preview/view/convert_preview.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../notifier/currency_buy_notipod.dart';
+import '../model/preview_buy_with_asset_input.dart';
+import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
+import 'preview_buy_with_asset.dart';
 
 class CurrencyBuy extends HookWidget {
   const CurrencyBuy({
@@ -38,26 +40,43 @@ class CurrencyBuy extends HookWidget {
 
     void _showAssetSelector() {
       sShowBasicModalBottomSheet(
+        scrollable: true,
+        maxHeight: 664.h,
         pinned: const SBottomSheetHeader(
           name: 'Pay from',
         ),
         children: [
           for (final currency in state.currencies)
-            SAssetItem(
-              isSelected: currency == state.selectedCurrency,
-              icon: NetworkSvgW24(
-                color: currency == state.selectedCurrency
-                    ? colors.blue
-                    : colors.black,
-                url: currency.iconUrl,
+            if (currency.type == AssetType.crypto)
+              SAssetItem(
+                isSelected: currency == state.selectedCurrency,
+                icon: NetworkSvgW24(
+                  color: currency == state.selectedCurrency
+                      ? colors.blue
+                      : colors.black,
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                amount: currency.formatBaseBalance(
+                  state.baseCurrency!,
+                ),
+                description: currency.formattedAssetBalance,
+                onTap: () => Navigator.pop(context, currency),
+              )
+            else
+              SFiatItem(
+                icon: NetworkSvgW24(
+                  color: currency == state.selectedCurrency
+                      ? colors.blue
+                      : colors.black,
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                amount: currency.formatBaseBalance(
+                  state.baseCurrency!,
+                ),
+                onTap: () => Navigator.pop(context, currency),
               ),
-              name: currency.description,
-              amount: currency.formatBaseBalance(
-                state.baseCurrency!,
-              ),
-              description: currency.formattedAssetBalance,
-              onTap: () => Navigator.pop(context, currency),
-            ),
           const SpaceH40(),
         ],
         context: context,
@@ -102,7 +121,7 @@ class CurrencyBuy extends HookWidget {
                   name: 'Choose payment method',
                   onTap: () => _showAssetSelector(),
                 )
-              else
+              else if (state.selectedCurrency!.type == AssetType.crypto)
                 SPaymentSelectAsset(
                   icon: NetworkSvgW24(
                     url: state.selectedCurrency!.iconUrl,
@@ -112,6 +131,17 @@ class CurrencyBuy extends HookWidget {
                     state.baseCurrency!,
                   ),
                   description: state.selectedCurrency!.formattedAssetBalance,
+                  onTap: () => _showAssetSelector(),
+                )
+              else
+                SPaymentSelectFiat(
+                  icon: NetworkSvgW24(
+                    url: state.selectedCurrency!.iconUrl,
+                  ),
+                  name: state.selectedCurrency!.description,
+                  amount: state.selectedCurrency!.formatBaseBalance(
+                    state.baseCurrency!,
+                  ),
                   onTap: () => _showAssetSelector(),
                 ),
               const SpaceH20(),
@@ -132,14 +162,11 @@ class CurrencyBuy extends HookWidget {
                 onSubmitPressed: () {
                   navigatorPush(
                     context,
-                    ConvertPreview(
-                      ConvertPreviewInput(
+                    PreviewBuyWithAsset(
+                      input: PreviewBuyWithAssetInput(
                         currency: currency,
                         fromAssetAmount: state.inputValue,
                         fromAssetSymbol: state.selectedCurrency!.symbol,
-                        toAssetSymbol: currency.symbol,
-                        assetDescription: currency.description,
-                        action: TriggerAction.buy,
                       ),
                     ),
                   );
