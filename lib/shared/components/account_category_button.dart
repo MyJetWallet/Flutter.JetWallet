@@ -22,27 +22,29 @@ class AccountCategoryButton extends HookWidget {
 
     return InkWell(
       onTap: onTap,
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 30.h,
-            margin: EdgeInsets.symmetric(
-              vertical: 18.h,
+      child: SPaddingH24(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 30.h,
+              margin: EdgeInsets.symmetric(
+                vertical: 18.h,
+              ),
+              child: Row(
+                children: <Widget>[
+                  icon,
+                  const SpaceW20(),
+                  Text(
+                    title,
+                    style: sSubtitle1Style,
+                  ),
+                ],
+              ),
             ),
-            child: Row(
-              children: <Widget>[
-                icon,
-                const SpaceW20(),
-                Text(
-                  title,
-                  style: sSubtitle1Style,
-                ),
-              ],
-            ),
-          ),
-          if (isSDivider)
-            const SDivider(),
-        ],
+            if (isSDivider)
+              const SDivider(),
+          ],
+        ),
       ),
     );
   }
