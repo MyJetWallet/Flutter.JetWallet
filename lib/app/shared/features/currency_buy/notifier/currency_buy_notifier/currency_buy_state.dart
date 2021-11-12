@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
-import '../../../helpers/format_currency_string_amount.dart';
+import '../../../../helpers/format_currency_string_amount.dart';
 
-import '../../../helpers/input_helpers.dart';
-import '../../../models/currency_model.dart';
-import '../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../../helpers/input_helpers.dart';
+import '../../../../models/currency_model.dart';
+import '../../../../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_buy_state.freezed.dart';
 
