@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../simple_kit.dart';
 import '../simple_paddings.dart';
-import '../stack_loader/stack_loader.dart';
+import '../stack_loader/view/stack_loader.dart';
 
 class SPageFrameWithPadding extends StatelessWidget {
   const SPageFrameWithPadding({

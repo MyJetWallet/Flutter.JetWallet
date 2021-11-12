@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../../../simple_kit.dart';
-import '../constants.dart';
+import '../../../../constants.dart';
 
 class LoaderContainer extends StatelessWidget {
   const LoaderContainer({Key? key}) : super(key: key);
