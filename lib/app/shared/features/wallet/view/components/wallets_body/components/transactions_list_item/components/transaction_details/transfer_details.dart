@@ -47,7 +47,8 @@ class TransferDetails extends HookWidget {
             children: [
               TransactionDetailsValueText(
                 text:
-                    '+${transactionListItem.transferByPhoneInfo!.toPhoneNumber}',
+                    '+${transactionListItem
+                        .transferByPhoneInfo!.toPhoneNumber}',
               ),
               contactName.when(
                 data: (String? contactName) {

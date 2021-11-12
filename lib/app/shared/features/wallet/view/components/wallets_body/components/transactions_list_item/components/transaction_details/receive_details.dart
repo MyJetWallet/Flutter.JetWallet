@@ -45,7 +45,8 @@ class ReceiveDetails extends HookWidget {
             children: [
               TransactionDetailsValueText(
                 text:
-                    '+${transactionListItem.receiveByPhoneInfo!.fromPhoneNumber}',
+                    '+${transactionListItem
+                        .receiveByPhoneInfo!.fromPhoneNumber}',
               ),
               contactName.when(
                 data: (String? contactName) {
