@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/security_divider.dart';
 import '../../../../../shared/components/security_option.dart';
-import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
@@ -19,14 +18,45 @@ class AccountSecurity extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
 
-    return PageFrame(
-      header: 'Security',
-      onBackButton: () => Navigator.pop(context),
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: 'Security',
+          onBackButtonTap: () => Navigator.pop(context),
+        ),
+      ),
+      // onBackButton: () => Navigator.pop(context),
       child: Column(
-        children: [
+        children: <Widget>[
           const SpaceH20(),
           const SecurityProtection(),
           const SpaceH20(),
+
+
+
+          SimpleSecurityCategoryButtonWithSwitch(
+            title: 'PIN / Biometrics',
+            icon: const SChangePinIcon(),
+            isSDivider: true,
+            onSwitchChanged: (value) {
+              if (userInfo.pinEnabled) {
+                PinScreen.push(context, const Disable());
+              } else {
+                PinScreen.push(context, const Enable());
+              }
+            },
+            switchValue: userInfo.pinEnabled,
+          ),
+
+
+
+
+          SimpleAccountCategoryButton(
+            title: 'PIN / Biometrics',
+            icon: const SChangePinIcon(),
+            isSDivider: true,
+            onTap: () => PinScreen.push(context, const Change()),
+          ),
           SecurityOption(
             name: 'PIN / Biometrics',
             icon: Icons.person,
@@ -41,15 +71,16 @@ class AccountSecurity extends HookWidget {
           ),
           const SecurityDivider(),
           if (userInfo.pinEnabled)
-            SecurityOption(
-              name: 'Change PIN',
-              icon: Icons.password,
+            SimpleAccountCategoryButton(
+              title: 'Change PIN',
+              icon: const SChangePinIcon(),
+              isSDivider: true,
               onTap: () => PinScreen.push(context, const Change()),
             ),
-          const SecurityDivider(),
-          SecurityOption(
-            name: '2-Factor authentication',
-            icon: Icons.lock,
+          SimpleAccountCategoryButton(
+            title: '2-Factor authentication',
+            icon: const STwoFactorAuthIcon(),
+            isSDivider: false,
             onTap: () => TwoFaScreen.push(context),
           ),
         ],

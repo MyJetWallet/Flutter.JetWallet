@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
+import '../../../src/icons/24x24/public/change_pin/simple_change_pin_icon.dart';
+import '../../../src/icons/24x24/public/touch_and_pin/simple_touch_and_pin_icon.dart';
+import '../../../src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
 
 class SimpleIcons24X24Example extends StatelessWidget {
   const SimpleIcons24X24Example({Key? key}) : super(key: key);
@@ -17,6 +20,9 @@ class SimpleIcons24X24Example extends StatelessWidget {
           child: GridView.count(
             crossAxisCount: 2,
             children: const [
+              STwoFactorAuthIcon(),
+              SChangePinIcon(),
+              STouchAndPinIcon(),
               SSupportIcon(),
               SNotificationsIcon(),
               SLogOutIcon(),

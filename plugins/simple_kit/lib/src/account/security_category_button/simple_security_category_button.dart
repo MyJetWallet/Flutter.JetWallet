@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:simple_kit/simple_kit.dart';
 
-class AccountCategoryButton extends HookWidget {
-  const AccountCategoryButton({
+import '../../../simple_kit.dart';
+
+class SimpleSecurityCategoryButton extends StatelessWidget {
+  const SimpleSecurityCategoryButton({
     Key? key,
-    this.onTap,
     required this.icon,
     required this.title,
     required this.isSDivider,
+    this.onSwitchChanged,
+    this.switchValue = false,
+    this.onTap,
   }) : super(key: key);
 
-  final Widget icon;
-  final Function()? onTap;
-  final String title;
   final bool isSDivider;
+  final Widget? icon;
+  final bool switchValue;
+  final Function()? onTap;
+  final Function(bool)? onSwitchChanged;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
       onTap: onTap,
       child: SPaddingH24(
@@ -32,12 +35,18 @@ class AccountCategoryButton extends HookWidget {
               ),
               child: Row(
                 children: <Widget>[
-                  icon,
+                  icon!,
                   const SpaceW20(),
-                  Text(
-                    title,
-                    style: sSubtitle1Style,
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: sSubtitle1Style,
+                    ),
                   ),
+                  Icon(
+                    Icons.arrow_right,
+                    size: 24.r,
+                  )
                 ],
               ),
             ),
@@ -49,3 +58,4 @@ class AccountCategoryButton extends HookWidget {
     );
   }
 }
+

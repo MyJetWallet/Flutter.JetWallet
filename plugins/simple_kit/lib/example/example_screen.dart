@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
+import 'account/simple_account_category_button_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
@@ -69,6 +70,18 @@ class ExampleScreen extends ConsumerWidget {
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
+            // SimpleAccountCategoryButtonExample.routeName: (context) {
+            //   return SimpleAccountCategoryButtonExample(
+            //
+            //   );
+            // },
+
+            // SimpleAccountCategoryButtonExample.routeName: (contex) {
+            //   return const SimpleAccountCategoryButtonExample();
+            // },
+
+
+
             SimpleButtonsExample.routeName: (context) {
               return const SimpleButtonsExample();
             },
@@ -231,6 +244,10 @@ class Home extends StatelessWidget {
         child: ListView(
           children: const [
             ThemeSwitch(),
+            // NavigationButton(
+            //   buttonName: 'Account',
+            //   routeName: SimpleAccountCategoryButtonExample.routeName,
+            // ),
             NavigationButton(
               buttonName: 'Buttons',
               routeName: SimpleButtonsExample.routeName,
