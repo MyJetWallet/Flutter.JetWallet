@@ -58,7 +58,6 @@ flutter:
     - assets/icons/light/24x24/profile/profile_details/
     - assets/icons/light/24x24/profile/security/
     - assets/icons/light/24x24/profile/support/
-    - assets/icons/light/24x24/touch_and_pin/
     - assets/icons/light/24x24/change_pin/
     - assets/icons/light/24x24/two_factor_auth/
     - assets/icons/light/24x24/lock/
