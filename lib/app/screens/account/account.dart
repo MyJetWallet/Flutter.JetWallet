@@ -13,7 +13,6 @@ import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
-import 'components/account_banner_list/account_banner_list.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -46,7 +45,7 @@ class Account extends HookWidget {
                 SimpleAccountCategoryHeader(
                   userEmail: authInfo.email,
                 ),
-                const AccountBannerList(),
+                const SimpleAccountBannerList(),
                 const SpaceH20(),
                 Column(
                   children: <Widget>[

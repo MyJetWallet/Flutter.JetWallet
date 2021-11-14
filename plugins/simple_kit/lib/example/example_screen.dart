@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_kit/example/account/banners/simple_account_banners_example.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
@@ -73,8 +74,6 @@ class ExampleScreen extends ConsumerWidget {
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
-
-
             SimpleAccountExample.routeName: (context) {
               return const SimpleAccountExample();
             },
@@ -84,9 +83,11 @@ class ExampleScreen extends ConsumerWidget {
             SimpleAccountHeadersExample.routeName: (context) {
               return const SimpleAccountHeadersExample();
             },
-
             SimpleAccountIndicatorsExample.routeName: (context) {
               return const SimpleAccountIndicatorsExample();
+            },
+            SimpleAccountBannersExample.routeName: (context) {
+              return const SimpleAccountBannersExample();
             },
 
 

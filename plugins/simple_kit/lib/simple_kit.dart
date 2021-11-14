@@ -9,6 +9,11 @@ export 'src/account/headers/simple_account_category_header.dart';
 /// Indicator
 export 'src/account/indicator/simple_account_protection_indicator.dart';
 
+/// Banner
+export 'src/account/banners/simple_account_banner_list.dart';
+export 'src/account/banners/simple_account_banner.dart';
+
+
 /// Actions
 export 'src/actions/simple_action_confirm_description.dart';
 export 'src/actions/simple_action_confirm_icon_with_gradient_shadow.dart';
