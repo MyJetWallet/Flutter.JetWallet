@@ -125,10 +125,7 @@ export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
 export 'src/icons/24x24/public/support/simple_support_icon.dart';
 export 'src/icons/24x24/public/change_pin/simple_change_pin_icon.dart';
 export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
-export 'src/icons/24x24/public/touch_and_pin/simple_touch_and_pin_icon.dart';
-
-
-
+export 'src/icons/24x24/public/lock/simple_lock_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';

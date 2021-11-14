@@ -3,8 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/security_divider.dart';
-import '../../../../../shared/components/security_option.dart';
 import '../../../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
@@ -29,10 +27,10 @@ class AccountSecurity extends HookWidget {
         children: <Widget>[
           const SpaceH20(),
           const SecurityProtection(),
-          const SpaceH20(),
+          const SpaceH40(),
           SimpleAccountCategoryButton(
             title: 'Face / Touch ID & PIN',
-            icon: const STouchAndPinIcon(),
+            icon: const SLockIcon(),
             isSDivider: true,
             onSwitchChanged: (value) {
               if (userInfo.pinEnabled) {

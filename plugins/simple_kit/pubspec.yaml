@@ -61,6 +61,7 @@ flutter:
     - assets/icons/light/24x24/touch_and_pin/
     - assets/icons/light/24x24/change_pin/
     - assets/icons/light/24x24/two_factor_auth/
+    - assets/icons/light/24x24/lock/
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/
     - assets/icons/light/36x36/keyboard_erase/

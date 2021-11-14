@@ -18,8 +18,6 @@ class SimpleAccountButtonsExample extends StatelessWidget {
               title: 'Button',
               isSDivider: true,
             ),
-
-
           ],
         ),
       ),
