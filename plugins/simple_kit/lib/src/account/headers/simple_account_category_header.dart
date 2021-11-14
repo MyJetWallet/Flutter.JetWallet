@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:simple_kit/simple_kit.dart';
+import '../../../simple_kit.dart';
 
-class AccountScreenHeader extends HookWidget {
-  const AccountScreenHeader({
+class SimpleAccountCategoryHeader extends StatelessWidget {
+  const SimpleAccountCategoryHeader({
     Key? key,
     required this.userEmail,
   }) : super(key: key);
@@ -14,8 +12,6 @@ class AccountScreenHeader extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
-
     return Container(
       padding: EdgeInsets.only(
         top: 52.h,
@@ -29,7 +25,7 @@ class AccountScreenHeader extends HookWidget {
               height: 48.h,
               width: 48.h,
               decoration: BoxDecoration(
-                color: colors.red,
+                color: SColorsLight().black,
                 borderRadius: BorderRadius.circular(44.r),
               ),
             ),
@@ -48,7 +44,7 @@ class AccountScreenHeader extends HookWidget {
                   Text(
                     userEmail,
                     style: sSubtitle3Style.copyWith(
-                      color: colors.grey1,
+                      color: SColorsLight().grey1,
                     ),
                   ),
                 ],

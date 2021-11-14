@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../simple_kit.dart';
 
-import '../../../simple_kit.dart';
 
-class SimpleSecurityCategoryButton extends StatelessWidget {
-  const SimpleSecurityCategoryButton({
+class SimpleAccountCategoryButton extends StatelessWidget {
+  const SimpleAccountCategoryButton({
     Key? key,
+    this.onTap,
     required this.icon,
     required this.title,
     required this.isSDivider,
     this.onSwitchChanged,
     this.switchValue = false,
-    this.onTap,
   }) : super(key: key);
 
-  final bool isSDivider;
-  final Widget? icon;
-  final bool switchValue;
+  final Widget icon;
   final Function()? onTap;
-  final Function(bool)? onSwitchChanged;
   final String title;
+  final bool isSDivider;
+  final Function(bool)? onSwitchChanged;
+  final bool switchValue;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class SimpleSecurityCategoryButton extends StatelessWidget {
               ),
               child: Row(
                 children: <Widget>[
-                  icon!,
+                  icon,
                   const SpaceW20(),
                   Expanded(
                     child: Text(
@@ -43,10 +43,23 @@ class SimpleSecurityCategoryButton extends StatelessWidget {
                       style: sSubtitle1Style,
                     ),
                   ),
-                  Icon(
-                    Icons.arrow_right,
-                    size: 24.r,
-                  )
+                  if (onSwitchChanged != null)
+                    Container(
+                      width: 40.w,
+                      height: 22.h,
+                      decoration: BoxDecoration(
+                        color: switchValue ? Colors.black : Colors.grey,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Switch(
+                        value: switchValue,
+                        onChanged: onSwitchChanged,
+                        activeColor: Colors.white,
+                        activeTrackColor: Colors.black,
+                        inactiveThumbColor: Colors.white,
+                        inactiveTrackColor: Colors.grey,
+                      ),
+                    )
                 ],
               ),
             ),
@@ -58,4 +71,3 @@ class SimpleSecurityCategoryButton extends StatelessWidget {
     );
   }
 }
-

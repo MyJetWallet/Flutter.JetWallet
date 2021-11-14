@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_kit/example/account/headers/simple_account_headers_example.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
-import 'account/simple_account_category_button_example.dart';
+import 'account/buttons/simple_account_buttons_example.dart';
+import 'account/simple_account_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
@@ -70,15 +72,17 @@ class ExampleScreen extends ConsumerWidget {
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
-            // SimpleAccountCategoryButtonExample.routeName: (context) {
-            //   return SimpleAccountCategoryButtonExample(
-            //
-            //   );
-            // },
 
-            // SimpleAccountCategoryButtonExample.routeName: (contex) {
-            //   return const SimpleAccountCategoryButtonExample();
-            // },
+
+            SimpleAccountExample.routeName: (context) {
+              return const SimpleAccountExample();
+            },
+            SimpleAccountButtonsExample.routeName: (context) {
+              return const SimpleAccountButtonsExample();
+            },
+            SimpleAccountHeadersExample.routeName: (context) {
+              return const SimpleAccountHeadersExample();
+            },
 
 
 
@@ -244,10 +248,10 @@ class Home extends StatelessWidget {
         child: ListView(
           children: const [
             ThemeSwitch(),
-            // NavigationButton(
-            //   buttonName: 'Account',
-            //   routeName: SimpleAccountCategoryButtonExample.routeName,
-            // ),
+            NavigationButton(
+              buttonName: 'Account',
+              routeName: SimpleAccountExample.routeName,
+            ),
             NavigationButton(
               buttonName: 'Buttons',
               routeName: SimpleButtonsExample.routeName,

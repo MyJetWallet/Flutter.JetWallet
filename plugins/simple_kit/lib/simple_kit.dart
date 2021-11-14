@@ -2,6 +2,11 @@
 
 library simple_kit;
 
+/// Account
+export 'src/account/buttons/account_category_button/simple_account_category_button.dart';
+export 'src/account/headers/simple_account_category_header.dart';
+
+
 /// Actions
 export 'src/actions/simple_action_confirm_description.dart';
 export 'src/actions/simple_action_confirm_icon_with_gradient_shadow.dart';
@@ -59,6 +64,7 @@ export 'src/headers/simple_big_header.dart';
 export 'src/headers/simple_market_header/simple_market_header.dart';
 export 'src/headers/simple_market_header/simple_market_header_closed.dart';
 export 'src/headers/simple_small_header.dart';
+export 'src/account/headers/simple_account_category_header.dart';
 
 /// Icons
 export 'src/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_icon.dart';
@@ -117,6 +123,12 @@ export 'src/icons/24x24/public/star/simple_star_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
 export 'src/icons/24x24/public/support/simple_support_icon.dart';
+export 'src/icons/24x24/public/change_pin/simple_change_pin_icon.dart';
+export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
+export 'src/icons/24x24/public/touch_and_pin/simple_touch_and_pin_icon.dart';
+
+
+
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';

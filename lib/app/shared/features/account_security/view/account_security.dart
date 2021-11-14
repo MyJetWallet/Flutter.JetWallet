@@ -25,41 +25,15 @@ class AccountSecurity extends HookWidget {
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
-      // onBackButton: () => Navigator.pop(context),
       child: Column(
         children: <Widget>[
           const SpaceH20(),
           const SecurityProtection(),
           const SpaceH20(),
-
-
-
-          SimpleSecurityCategoryButtonWithSwitch(
-            title: 'PIN / Biometrics',
-            icon: const SChangePinIcon(),
-            isSDivider: true,
-            onSwitchChanged: (value) {
-              if (userInfo.pinEnabled) {
-                PinScreen.push(context, const Disable());
-              } else {
-                PinScreen.push(context, const Enable());
-              }
-            },
-            switchValue: userInfo.pinEnabled,
-          ),
-
-
-
-
           SimpleAccountCategoryButton(
-            title: 'PIN / Biometrics',
-            icon: const SChangePinIcon(),
+            title: 'Face / Touch ID & PIN',
+            icon: const STouchAndPinIcon(),
             isSDivider: true,
-            onTap: () => PinScreen.push(context, const Change()),
-          ),
-          SecurityOption(
-            name: 'PIN / Biometrics',
-            icon: Icons.person,
             onSwitchChanged: (value) {
               if (userInfo.pinEnabled) {
                 PinScreen.push(context, const Disable());
@@ -69,7 +43,6 @@ class AccountSecurity extends HookWidget {
             },
             switchValue: userInfo.pinEnabled,
           ),
-          const SecurityDivider(),
           if (userInfo.pinEnabled)
             SimpleAccountCategoryButton(
               title: 'Change PIN',
