@@ -33,13 +33,8 @@ class SecurityProtection extends HookWidget {
             ),
           ),
           const SpaceH20(),
-          Container(
-            width: double.infinity,
-            height: 12.h,
-            decoration: BoxDecoration(
-              color: level.color,
-              borderRadius: BorderRadius.circular(16.r),
-            ),
+          SimpleAccountProtectionIndicator(
+            indicatorColor: level.color,
           ),
         ],
       ),

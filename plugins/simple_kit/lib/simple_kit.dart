@@ -6,6 +6,8 @@ library simple_kit;
 export 'src/account/buttons/account_category_button/simple_account_category_button.dart';
 export 'src/account/headers/simple_account_category_header.dart';
 
+/// Indicator
+export 'src/account/indicator/simple_account_protection_indicator.dart';
 
 /// Actions
 export 'src/actions/simple_action_confirm_description.dart';
