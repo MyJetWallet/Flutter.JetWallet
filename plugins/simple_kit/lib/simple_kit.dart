@@ -54,6 +54,7 @@ export 'src/buttons/secondary_button/public/simple_secondary_button_1.dart';
 export 'src/buttons/secondary_button/public/simple_secondary_button_2.dart';
 export 'src/buttons/text_button/public/simple_text_button_1.dart';
 export 'src/buttons/text_button/public/simple_text_button_2.dart';
+export 'src/account/buttons/term/simple_account_term_button.dart';
 
 /// Colors
 export 'src/colors/provider/simple_color_pod.dart';
@@ -95,6 +96,7 @@ export 'src/icons/24x24/public/action_receive/simple_action_receive_icon.dart';
 export 'src/icons/24x24/public/action_sell/simple_action_sell_icon.dart';
 export 'src/icons/24x24/public/action_send/simple_action_send_icon.dart';
 export 'src/icons/24x24/public/action_withdraw/simple_action_withdraw_icon.dart';
+export 'src/icons/24x24/public/asset_placeholder/simple_asset_placeholder_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_pressed_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_negative_icon.dart';

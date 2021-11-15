@@ -6,6 +6,6 @@ String apiTitleFromUrl(String url) {
   } else if (lowerCaseUrl.contains('uat')) {
     return 'UAT';
   } else {
-    return 'UNKNOWN';
+    return 'PROD';
   }
 }
