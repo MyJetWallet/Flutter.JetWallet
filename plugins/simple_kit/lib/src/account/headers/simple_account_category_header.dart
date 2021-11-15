@@ -18,40 +18,38 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
         bottom: 20.h,
       ),
       height: 120.h,
-      child: SPaddingH24(
-        child: Row(
-          children: <Widget>[
-            Container(
-              height: 48.h,
-              width: 48.h,
-              decoration: BoxDecoration(
-                color: SColorsLight().black,
-                borderRadius: BorderRadius.circular(44.r),
-              ),
+      child: Row(
+        children: <Widget>[
+          Container(
+            height: 48.h,
+            width: 48.h,
+            decoration: BoxDecoration(
+              color: SColorsLight().black,
+              borderRadius: BorderRadius.circular(44.r),
             ),
-            const SpaceW20(),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // Todo: change 'Jonh Shooter' on username from provider
-                  Text(
-                    'John Shooter',
-                    style: sTextH5Style,
+          ),
+          const SpaceW20(),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // Todo: change 'Jonh Shooter' on username from provider
+                Text(
+                  'John Shooter',
+                  style: sTextH5Style,
+                ),
+                const SpaceH2(),
+                Text(
+                  userEmail,
+                  style: sSubtitle3Style.copyWith(
+                    color: SColorsLight().grey1,
                   ),
-                  const SpaceH2(),
-                  Text(
-                    userEmail,
-                    style: sSubtitle3Style.copyWith(
-                      color: SColorsLight().grey1,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

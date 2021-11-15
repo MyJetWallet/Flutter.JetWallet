@@ -18,26 +18,24 @@ class SecurityProtection extends HookWidget {
     final level = protectionLevel(userInfo);
     final colors = useProvider(sColorPod);
 
-    return SPaddingH24(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.bottomLeft,
-            height: 40.h,
-            child: Text(
-              '${level.name} protection level',
-              style: sSubtitle3Style.copyWith(
-                color: colors.grey1,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          alignment: Alignment.bottomLeft,
+          height: 40.h,
+          child: Text(
+            '${level.name} protection level',
+            style: sSubtitle3Style.copyWith(
+              color: colors.grey1,
             ),
           ),
-          const SpaceH20(),
-          SimpleAccountProtectionIndicator(
-            indicatorColor: level.color,
-          ),
-        ],
-      ),
+        ),
+        const SpaceH20(),
+        SimpleAccountProtectionIndicator(
+          indicatorColor: level.color,
+        ),
+      ],
     );
   }
 }

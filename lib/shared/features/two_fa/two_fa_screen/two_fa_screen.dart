@@ -21,19 +21,18 @@ class TwoFaScreen extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
 
-    return SPageFrame(
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '2-Factor authentication',
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+    return SPageFrameWithPadding(
+      header: SSmallHeader(
+        title: 'SMS Authenticator',
+        onBackButtonTap: () => Navigator.pop(context),
       ),
       child: Column(
-        children: <Widget>[
+        children: [
           SimpleAccountCategoryButton(
             title: 'SMS Authenticator',
             icon: const SLockIcon(),
             isSDivider: false,
+            switchValue: userInfo.twoFaEnabled,
             onSwitchChanged: (value) {
               if (userInfo.twoFaEnabled) {
                 showSmsAuthWarning(context);
@@ -57,7 +56,6 @@ class TwoFaScreen extends HookWidget {
                 }
               }
             },
-            switchValue: userInfo.pinEnabled,
           ),
         ],
       ),

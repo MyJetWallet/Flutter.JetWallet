@@ -16,12 +16,10 @@ class AccountSecurity extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
 
-    return SPageFrame(
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: 'Security',
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+    return SPageFrameWithPadding(
+      header: SSmallHeader(
+        title: 'Security',
+        onBackButtonTap: () => Navigator.pop(context),
       ),
       child: Column(
         children: <Widget>[
