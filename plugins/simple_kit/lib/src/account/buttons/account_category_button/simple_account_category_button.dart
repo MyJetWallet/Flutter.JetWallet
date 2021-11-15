@@ -46,7 +46,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
                   if (onSwitchChanged != null)
                     Container(
                       width: 40.w,
-                      height: 22.h,
+                      height: 22.w,
                       decoration: BoxDecoration(
                         color: switchValue ? Colors.black : Colors.grey,
                         borderRadius: BorderRadius.circular(12.r),
