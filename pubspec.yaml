@@ -27,6 +27,7 @@ dependencies:
   contacts_service: ^0.6.3 # contacts fetching
   rive: ^0.7.22 # rive animations
   permission_handler: ^8.2.6 # permissions handling
+  flutter_displaymode: ^0.3.2 # set display mode in Android (60Hz, 90Hz, 120Hz)
 
   # RESPONSIVE UI
   device_preview: ^0.7.4

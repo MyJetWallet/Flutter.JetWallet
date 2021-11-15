@@ -1,6 +1,9 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -29,6 +32,12 @@ final providerNames = <String>[
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
   await Firebase.initializeApp();
   await PushNotificationService().initialize();
 
@@ -51,7 +60,21 @@ Future<void> main() async {
   );
 }
 
-class App extends HookWidget {
+class App extends StatefulHookWidget {
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
+      /// Set highest refresh rate that is supported by device
+      await FlutterDisplayMode.setHighRefreshRate();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
