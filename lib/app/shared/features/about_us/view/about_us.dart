@@ -63,9 +63,6 @@ class AboutUs extends HookWidget {
                 name: 'Terms of Use',
                 onTap: () => launchURL(context, userAgreementLink),
               ),
-              const Expanded(
-                child: SizedBox(),
-              ),
             ],
           ),
           const SpaceH20(),
@@ -74,9 +71,6 @@ class AboutUs extends HookWidget {
               SimpleAccountTermButton(
                 name: 'Privacy Policy',
                 onTap: () => launchURL(context, privacyPolicyLink),
-              ),
-              const Expanded(
-                child: SizedBox(),
               ),
             ],
           ),
