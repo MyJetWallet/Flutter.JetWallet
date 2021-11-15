@@ -15,7 +15,6 @@ import 'package:simple_kit/simple_kit.dart';
 import 'development/app_router_stage/app_router_stage.dart';
 import 'development/logs_screen/view/components/logs_persistant_button.dart';
 import 'router/view/components/app_init.dart';
-import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/services/push_notification_service.dart';
