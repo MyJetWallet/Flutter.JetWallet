@@ -70,20 +70,22 @@ class PhoneVerificationEnter extends HookWidget {
                     ),
                   ],
                 ),
-
                 // Container(
                 //   height: 88.h,
                 //   child: InternationalPhoneNumberInput(
+                //     selectorConfig: const SelectorConfig(
+                //       setSelectorButtonAsPrefixIcon: false,
+                //       selectorType: PhoneInputSelectorType.DROPDOWN,
+                //     ),
                 //     searchBoxDecoration: InputDecoration(
                 //       fillColor: Colors.red,
                 //       suffixIcon: Icon(Icons.sixty_fps),
                 //       prefixIcon: Icon(Icons.ten_k),
                 //       enabledBorder: const OutlineInputBorder(
                 //
-                //         // borderSide: const BorderSide(color: Colors.grey, width: 0.0),
-                //       ),
+                //           // borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+                //           ),
                 //     ),
-                //
                 //     hintText: '',
                 //     textStyle: sSubtitle1Style,
                 //     textAlignVertical: TextAlignVertical.top,
@@ -96,7 +98,6 @@ class PhoneVerificationEnter extends HookWidget {
                 //     onInputChanged: (number) {
                 //       notifier.updatePhoneNumber(number.phoneNumber);
                 //     },
-                //
                 //     spaceBetweenSelectorAndTextField: 2.0,
                 //     onInputValidated: (valid) {
                 //       notifier.updateValid(valid: valid);
@@ -121,9 +122,8 @@ class PhoneVerificationEnter extends HookWidget {
 
             Text(
               'This allow you to send and receive crypto by phone',
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: Colors.grey,
+              style: sCaptionTextStyle.copyWith(
+                color: SColorsLight().grey1,
               ),
             ),
             const Spacer(),
