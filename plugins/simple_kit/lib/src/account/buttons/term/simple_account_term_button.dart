@@ -16,14 +16,15 @@ class SimpleAccountTermButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 1.h),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            width: 1.w,
+            width: 2.h,
           ),
         ),
       ),
-      child: InkWell(
+      child: STransparentInkWell(
         onTap: onTap,
         child: Text(
           name,
