@@ -61,12 +61,10 @@ class PhoneVerificationEnter extends HookWidget {
                     ),
                     Expanded(
                       flex: 3,
-                      child: Container(
-                        child: Text(
-                          'Phone number',
-                          style: sCaptionTextStyle.copyWith(
-                            color: SColorsLight().grey2,
-                          ),
+                      child: Text(
+                        'Phone number',
+                        style: sCaptionTextStyle.copyWith(
+                          color: SColorsLight().grey2,
                         ),
                       ),
                     ),
