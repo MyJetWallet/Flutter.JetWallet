@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../simple_kit.dart';
+
 class NetworkSvgW24 extends StatelessWidget {
   const NetworkSvgW24({
     Key? key,
@@ -19,6 +21,9 @@ class NetworkSvgW24 extends StatelessWidget {
       width: 24.w,
       height: 24.w,
       color: color,
+      placeholderBuilder: (_) {
+        return const SAssetPlaceholderIcon();
+      },
     );
   }
 }
@@ -40,6 +45,9 @@ class NetworkSvgR24 extends StatelessWidget {
       width: 24.r,
       height: 24.r,
       color: color,
+      placeholderBuilder: (_) {
+        return const SAssetPlaceholderIcon();
+      },
     );
   }
 }

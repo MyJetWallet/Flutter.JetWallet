@@ -37,6 +37,7 @@ flutter:
     - assets/icons/light/24x24/action_sell/
     - assets/icons/light/24x24/action_send/
     - assets/icons/light/24x24/action_withdraw/
+    - assets/icons/light/24x24/asset_placeholder/
     - assets/icons/light/24x24/back/
     - assets/icons/light/24x24/big_arrow/
     - assets/icons/light/24x24/checkbox/

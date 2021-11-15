@@ -60,6 +60,7 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SActionSellIcon(),
               SActionSendIcon(),
               SActionWithdrawIcon(),
+              SAssetPlaceholderIcon(),
             ],
           ),
         ),
