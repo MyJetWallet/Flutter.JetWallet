@@ -13,7 +13,9 @@ import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'development/app_router_stage/app_router_stage.dart';
+import 'development/logs_screen/view/components/logs_persistant_button.dart';
 import 'router/view/components/app_init.dart';
+import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/services/push_notification_service.dart';
@@ -69,8 +71,22 @@ class _AppState extends State<App> {
   @override
   void initState() {
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
+      final modes = await FlutterDisplayMode.supported;
+
+      for (final i in modes) {
+        Logger('FPS').log(Level.INFO, 'Supported mode: $i');
+      }
+
+      final beforeMode = await FlutterDisplayMode.active;
+
+      Logger('FPS').log(Level.INFO, 'Before Mode: $beforeMode');
+
       /// Set highest refresh rate that is supported by device
       await FlutterDisplayMode.setHighRefreshRate();
+
+      final afterMode = await FlutterDisplayMode.active;
+
+      Logger('FPS').log(Level.INFO, 'After Mode: $afterMode');
     });
     super.initState();
   }
@@ -102,7 +118,7 @@ class _AppState extends State<App> {
                   AppInit.routeName: (context) => const AppInit(),
                 },
               ),
-              // const LogsPersistantButton(),
+              const LogsPersistantButton(),
             ],
           ),
         );
