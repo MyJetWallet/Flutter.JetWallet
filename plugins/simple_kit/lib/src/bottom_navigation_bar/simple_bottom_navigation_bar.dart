@@ -49,7 +49,9 @@ class SBottomNavigationBar extends StatelessWidget {
         height: 96.h,
         child: Column(
           children: [
-            const SpaceH14(),
+            // TODO(any): Hide divider when action sheet is opened
+            const SDivider(),
+            const SpaceH13(),
             Row(
               children: [
                 SizedBox(
