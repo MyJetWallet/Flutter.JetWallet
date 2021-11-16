@@ -38,68 +38,75 @@ class Market extends HookWidget {
     return DefaultTabController(
       length: marketTabsLength,
       child: Scaffold(
-        body: CustomScrollView(
-          controller: _scrollController,
-          slivers: <Widget>[
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              pinned: true,
-              elevation: 0,
-              expandedHeight: 160.h,
-              collapsedHeight: 120.h,
-              primary: false,
-              flexibleSpace: FadeOnScroll(
-                scrollController: _scrollController,
-                fullOpacityOffset: 50,
-                fadeInChild: SMarketHeaderClosed(
-                  title: 'Market',
-                  onSearchButtonTap: () {},
-                ),
-                fadeOutChild: SPaddingH24(
-                  child: SMarketHeader(
-                    title: 'Market',
-                    percent: 1.73,
-                    isPositive: true,
-                    subtitle: 'Market is up',
-                    onSearchButtonTap: () {},
+        body: Stack(
+          children: [
+            CustomScrollView(
+              controller: _scrollController,
+              slivers: <Widget>[
+                SliverAppBar(
+                  backgroundColor: Colors.white,
+                  pinned: true,
+                  elevation: 0,
+                  expandedHeight: 160.h,
+                  collapsedHeight: 120.h,
+                  primary: false,
+                  flexibleSpace: FadeOnScroll(
+                    scrollController: _scrollController,
+                    fullOpacityOffset: 50,
+                    fadeInChild: SMarketHeaderClosed(
+                      title: 'Market',
+                      onSearchButtonTap: () {},
+                    ),
+                    fadeOutChild: SPaddingH24(
+                      child: SMarketHeader(
+                        title: 'Market',
+                        percent: 1.73,
+                        isPositive: true,
+                        subtitle: 'Market is up',
+                        onSearchButtonTap: () {},
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  final item = items[index];
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      final item = items[index];
 
-                  return SMarketItem(
-                    icon: NetworkSvgW24(
-                      url: item.iconUrl,
-                    ),
-                    name: item.name,
-                    price: formatCurrencyAmount(
-                      prefix: baseCurrency.prefix,
-                      value: item.lastPrice,
-                      symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                    ),
-                    ticker: item.id,
-                    percent: item.dayPercentChange,
-                    onTap: () {
-                      navigatorPush(
-                        context,
-                        MarketDetails(
-                          marketItem: item,
+                      return SMarketItem(
+                        icon: NetworkSvgW24(
+                          url: item.iconUrl,
                         ),
+                        name: item.name,
+                        price: formatCurrencyAmount(
+                          prefix: baseCurrency.prefix,
+                          value: item.lastPrice,
+                          symbol: baseCurrency.symbol,
+                          accuracy: baseCurrency.accuracy,
+                        ),
+                        ticker: item.id,
+                        percent: item.dayPercentChange,
+                        onTap: () {
+                          navigatorPush(
+                            context,
+                            MarketDetails(
+                              marketItem: item,
+                            ),
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                childCount: items.length,
-              ),
+                    childCount: items.length,
+                  ),
+                ),
+              ],
             ),
+            const Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: MarketTabs(),
+            )
           ],
         ),
-        bottomNavigationBar: const MarketTabs(),
       ),
     );
   }

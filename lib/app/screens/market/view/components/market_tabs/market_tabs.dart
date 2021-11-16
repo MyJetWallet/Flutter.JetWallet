@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,39 +20,46 @@ class MarketTabs extends HookWidget {
     final loosers = useProvider(marketLoosersPod);
 
     return Container(
-      color: Colors.transparent,
+      color: Colors.white.withOpacity(0.4),
       height: 56.h,
       width: 375.w,
-      padding: EdgeInsets.only(
-        left: 24.w,
-        top: 10.h,
-        bottom: 10.h,
-      ),
-      child: TabBar(
-        indicator: BoxDecoration(
-          color: colors.grey5,
-          borderRadius: BorderRadius.all(
-            Radius.circular(24.r),
-          ),
-          border: Border.all(
-            width: 2.r,
-            color: colors.black,
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 24.w,
+              top: 10.h,
+              bottom: 10.h,
+            ),
+            child: TabBar(
+              indicator: BoxDecoration(
+                color: colors.grey5,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(24.r),
+                ),
+                border: Border.all(
+                  width: 2.r,
+                  color: colors.black,
+                ),
+              ),
+              labelColor: colors.black,
+              unselectedLabelColor: colors.grey1,
+              unselectedLabelStyle: TextStyle(color: colors.grey1),
+              isScrollable: true,
+              tabs: [
+                const MarketTab(text: 'All'),
+                const MarketTab(text: 'Watchlist'),
+                if (gainers.isNotEmpty) ...[
+                  const MarketTab(text: 'Gainers'),
+                ],
+                if (loosers.isNotEmpty) ...[
+                  const MarketTab(text: 'Loosers'),
+                ],
+              ],
+            ),
           ),
         ),
-        labelColor: colors.black,
-        unselectedLabelColor: colors.grey1,
-        unselectedLabelStyle: TextStyle(color: colors.grey1),
-        isScrollable: true,
-        tabs: [
-          const MarketTab(text: 'All'),
-          const MarketTab(text: 'Watchlist'),
-          if (gainers.isNotEmpty) ...[
-            const MarketTab(text: 'Gainers'),
-          ],
-          if (loosers.isNotEmpty) ...[
-            const MarketTab(text: 'Loosers'),
-          ],
-        ],
       ),
     );
   }
