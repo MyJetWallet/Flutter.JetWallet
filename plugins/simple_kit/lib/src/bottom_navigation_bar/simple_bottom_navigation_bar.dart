@@ -49,7 +49,8 @@ class SBottomNavigationBar extends StatelessWidget {
         height: 96.h,
         child: Column(
           children: [
-            const SpaceH14(),
+            const SDivider(),
+            const SpaceH13(),
             Row(
               children: [
                 SizedBox(
