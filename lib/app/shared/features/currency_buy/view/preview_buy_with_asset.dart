@@ -32,7 +32,7 @@ class PreviewBuyWithAsset extends HookWidget {
       child: Column(
         children: [
           const Spacer(),
-          SActionConfirmIconWithGradientShadow(
+          SActionConfirmIconWithAnimation(
             iconUrl: input.currency.iconUrl,
           ),
           const Spacer(),
