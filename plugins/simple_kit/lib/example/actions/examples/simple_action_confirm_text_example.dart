@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
-class SimpleActionConfirmTextExample extends StatelessWidget {
+class SimpleActionConfirmTextExample extends HookWidget {
   const SimpleActionConfirmTextExample({Key? key}) : super(key: key);
 
   static const routeName = '/simple_action_confirm_text_example';
 
   @override
   Widget build(BuildContext context) {
+    final controller = useAnimationController();
+
     return Scaffold(
       body: Center(
         child: SPaddingH24(
@@ -77,6 +80,21 @@ class SimpleActionConfirmTextExample extends StatelessWidget {
                   const _ValueWidthTester()
                 ],
               ),
+              const SpaceH20(),
+              Stack(
+                children: [
+                  Container(
+                    color: Colors.grey[200],
+                    child: SActionConfirmText(
+                      animation: controller,
+                      name: 'You will get really long text '
+                          'about go to this just more',
+                      value: '1 USD ≈ 0,0003431 BTC',
+                    ),
+                  ),
+                  const _ValueWidthTesterForTimer()
+                ],
+              ),
               const SActionConfirmText(
                 name: 'You will get',
                 value: '≈ 0,0192455 BTC',
@@ -120,6 +138,49 @@ class _ValueWidthTester extends StatelessWidget {
           height: 40.h,
           color: Colors.green.withOpacity(0.2),
           child: const Text('100px'),
+        ),
+      ],
+    );
+  }
+}
+
+class _ValueWidthTesterForTimer extends StatelessWidget {
+  const _ValueWidthTesterForTimer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Spacer(),
+        Container(
+          width: 10.w,
+          height: 40.h,
+          color: Colors.red.withOpacity(0.2),
+        ),
+        Container(
+          width: 100.w,
+          height: 40.h,
+          color: Colors.blue.withOpacity(0.2),
+          child: const Text('100px'),
+        ),
+        Column(
+          children: [
+            Container(
+              width: 100.w,
+              height: 40.h,
+              color: Colors.green.withOpacity(0.2),
+              child: const Text('100px'),
+            ),
+            Container(
+              width: 100.w,
+              height: 3.h,
+              color: Colors.red.withOpacity(0.2),
+              child: const Text('100px'),
+            ),
+          ],
         ),
       ],
     );

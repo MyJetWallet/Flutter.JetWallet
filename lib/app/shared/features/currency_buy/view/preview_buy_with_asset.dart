@@ -8,7 +8,7 @@ import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_notipod.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_union.dart';
 
-class PreviewBuyWithAsset extends HookWidget {
+class PreviewBuyWithAsset extends StatefulHookWidget {
   const PreviewBuyWithAsset({
     Key? key,
     required this.input,
@@ -17,9 +17,36 @@ class PreviewBuyWithAsset extends HookWidget {
   final PreviewBuyWithAssetInput input;
 
   @override
+  State<PreviewBuyWithAsset> createState() => _PreviewBuyWithAssetState();
+}
+
+class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(vsync: this);
+
+    final notifier = context.read(
+      previewBuyWithAssetNotipod(widget.input).notifier,
+    );
+    notifier.updateTimerAnimation(_animationController);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final state = useProvider(previewBuyWithAssetNotipod(input));
-    final notifier = useProvider(previewBuyWithAssetNotipod(input).notifier);
+    final state = useProvider(previewBuyWithAssetNotipod(widget.input));
+    final notifier = useProvider(
+      previewBuyWithAssetNotipod(widget.input).notifier,
+    );
 
     return SPageFrameWithPadding(
       header: SBigHeader(
@@ -33,21 +60,24 @@ class PreviewBuyWithAsset extends HookWidget {
         children: [
           const Spacer(),
           SActionConfirmIconWithAnimation(
-            iconUrl: input.currency.iconUrl,
+            iconUrl: widget.input.currency.iconUrl,
           ),
           const Spacer(),
           SActionConfirmText(
             name: 'You Pay',
-            value: '${input.fromAssetAmount} ${input.fromAssetSymbol}',
+            value: '${widget.input.fromAssetAmount} '
+                '${widget.input.fromAssetSymbol}',
           ),
           SActionConfirmText(
             name: 'You get',
-            value: '≈ ${state.toAssetAmount} ${input.currency.symbol}',
+            value: '≈ ${state.toAssetAmount} ${widget.input.currency.symbol}',
           ),
           SActionConfirmText(
             name: 'Exchange Rate',
-            value: '1 ${input.currency.symbol} = '
-                '${state.price} ${input.fromAssetSymbol}',
+            loading: state.union is QuoteLoading,
+            animation: state.timerAnimation,
+            value: '1 ${widget.input.fromAssetSymbol} = '
+                '${state.price} ${widget.input.currency.symbol}',
           ),
           const SpaceH40(),
           if (state.connectingToServer) ...[

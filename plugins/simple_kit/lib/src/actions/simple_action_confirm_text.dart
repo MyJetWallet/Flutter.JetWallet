@@ -7,11 +7,15 @@ class SActionConfirmText extends StatelessWidget {
   const SActionConfirmText({
     Key? key,
     this.valueColor,
+    this.animation,
+    this.loading = false,
     required this.name,
     required this.value,
   }) : super(key: key);
 
   final Color? valueColor;
+  final AnimationController? animation;
+  final bool loading;
   final String name;
   final String value;
 
@@ -40,15 +44,34 @@ class SActionConfirmText extends StatelessWidget {
           const SpaceW10(),
           Container(
             constraints: BoxConstraints(
-              maxWidth: 180.w,
+              maxWidth: animation != null ? 200.w : 180.w,
               minWidth: 100.w,
             ),
-            child: Text(
-              value,
-              style: sSubtitle3Style.copyWith(
-                color: valueColor ?? SColorsLight().black,
-              ),
-              textAlign: TextAlign.end,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: Text(
+                    value,
+                    style: sSubtitle3Style.copyWith(
+                      color: valueColor ?? SColorsLight().black,
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+                if (animation != null) ...[
+                  const SpaceW10(),
+                  Baseline(
+                    baseline: 17.h,
+                    baselineType: TextBaseline.alphabetic,
+                    child: SConfirmActionTimer(
+                      animation: animation!,
+                      loading: loading,
+                    ),
+                  ),
+                ]
+              ],
             ),
           ),
         ],
