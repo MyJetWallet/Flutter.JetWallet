@@ -16,9 +16,9 @@ class SimpleActionConfirmTextExample extends HookWidget {
     return Scaffold(
       body: Center(
         child: SPaddingH24(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
+              const SpaceH20(),
               Stack(
                 children: [
                   Container(
@@ -85,6 +85,21 @@ class SimpleActionConfirmTextExample extends HookWidget {
                 children: [
                   Container(
                     color: Colors.grey[200],
+                    child: const SActionConfirmText(
+                      contentLoading: true,
+                      name: 'You will get really long text '
+                          'about go to this just more',
+                      value: '≈ 0,0192455 BTC we have long',
+                    ),
+                  ),
+                  const _ValueWidthTester()
+                ],
+              ),
+              const SpaceH20(),
+              Stack(
+                children: [
+                  Container(
+                    color: Colors.grey[200],
                     child: SActionConfirmText(
                       animation: controller,
                       name: 'You will get really long text '
@@ -102,6 +117,12 @@ class SimpleActionConfirmTextExample extends HookWidget {
               SActionConfirmText(
                 name: 'You will pay',
                 value: '\$500,00',
+                valueColor: SColorsLight().blue,
+              ),
+              SActionConfirmText(
+                name: 'You will pay',
+                value: '\$500,00',
+                contentLoading: true,
                 valueColor: SColorsLight().blue,
               ),
             ],
@@ -125,18 +146,18 @@ class _ValueWidthTester extends StatelessWidget {
         Container(
           width: 10.w,
           height: 40.h,
-          color: Colors.red.withOpacity(0.2),
+          color: Colors.red.withOpacity(0.1),
         ),
         Container(
           width: 80.w,
           height: 40.h,
-          color: Colors.blue.withOpacity(0.2),
+          color: Colors.blue.withOpacity(0.1),
           child: const Text('80px'),
         ),
         Container(
           width: 100.w,
           height: 40.h,
-          color: Colors.green.withOpacity(0.2),
+          color: Colors.green.withOpacity(0.1),
           child: const Text('100px'),
         ),
       ],
@@ -158,12 +179,12 @@ class _ValueWidthTesterForTimer extends StatelessWidget {
         Container(
           width: 10.w,
           height: 40.h,
-          color: Colors.red.withOpacity(0.2),
+          color: Colors.red.withOpacity(0.1),
         ),
         Container(
           width: 100.w,
           height: 40.h,
-          color: Colors.blue.withOpacity(0.2),
+          color: Colors.blue.withOpacity(0.1),
           child: const Text('100px'),
         ),
         Column(
@@ -171,13 +192,13 @@ class _ValueWidthTesterForTimer extends StatelessWidget {
             Container(
               width: 100.w,
               height: 40.h,
-              color: Colors.green.withOpacity(0.2),
+              color: Colors.green.withOpacity(0.1),
               child: const Text('100px'),
             ),
             Container(
               width: 100.w,
               height: 3.h,
-              color: Colors.red.withOpacity(0.2),
+              color: Colors.red.withOpacity(0.1),
               child: const Text('100px'),
             ),
           ],

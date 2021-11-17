@@ -84,16 +84,19 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
             ),
             SActionConfirmText(
               name: 'You get',
+              contentLoading: state.union is QuoteLoading,
               value: '≈ ${state.toAssetAmount} ${widget.input.currency.symbol}',
             ),
             SActionConfirmText(
               name: 'Exchange Rate',
-              loading: state.union is QuoteLoading,
+              contentLoading: state.union is QuoteLoading,
+              timerLoading: state.union is QuoteLoading,
               animation: state.timerAnimation,
               value: '1 ${widget.input.fromAssetSymbol} = '
                   '${state.price} ${widget.input.currency.symbol}',
             ),
             const SpaceH40(),
+            // TODO(eli): Update with new UI
             if (state.connectingToServer) ...[
               QuoteErrorText(),
               const SpaceH20(),
