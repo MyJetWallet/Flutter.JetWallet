@@ -11,6 +11,7 @@ export 'src/actions/confirm_action_timer/simple_confirm_action_timer_painter.dar
 export 'src/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
 export 'src/actions/simple_action_confirm_description.dart';
 export 'src/actions/simple_action_confirm_icon_with_animation.dart';
+export 'src/actions/simple_action_confirm_skeleton_loader.dart';
 export 'src/actions/simple_action_confirm_text.dart';
 export 'src/actions/simple_action_price_field.dart';
 export 'src/actions/simple_payment_select_asset.dart';
