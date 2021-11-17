@@ -22,6 +22,9 @@ class SMarketItem extends StatelessWidget {
   final String name;
   final String price;
   final String ticker;
+
+  // TODO(any): refactor to String in order to get proper formatting or add
+  // TODO(any): formatting in this widget
   final double percent;
   final Function() onTap;
 

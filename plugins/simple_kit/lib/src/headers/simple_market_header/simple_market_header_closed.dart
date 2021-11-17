@@ -31,7 +31,6 @@ class SMarketHeaderClosed extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          const SDivider()
         ],
       ),
     );

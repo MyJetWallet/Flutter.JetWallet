@@ -4,8 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 class FadeOnScroll extends StatefulWidget {
   const FadeOnScroll({
     required this.scrollController,
-    required this.fadeOutChild,
-    required this.fadeInChild,
+    required this.fadeOutWidget,
+    required this.fadeInWidget,
+    required this.permanentWidget,
     this.zeroOpacityOffset = 0,
     this.fullOpacityOffset = 0,
   });
@@ -13,8 +14,9 @@ class FadeOnScroll extends StatefulWidget {
   final ScrollController scrollController;
   final double zeroOpacityOffset;
   final double fullOpacityOffset;
-  final Widget fadeOutChild;
-  final Widget fadeInChild;
+  final Widget fadeOutWidget;
+  final Widget fadeInWidget;
+  final Widget permanentWidget;
 
   @override
   _FadeOnScrollState createState() => _FadeOnScrollState();
@@ -52,8 +54,7 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
       } else if (_offset >= widget.fullOpacityOffset) {
         return 1;
       } else {
-        return (_offset - widget.zeroOpacityOffset) /
-            (widget.fullOpacityOffset - widget.zeroOpacityOffset);
+        return 0;
       }
     } else {
       // fading out
@@ -98,16 +99,20 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Opacity(
-          opacity: _calculateFadeInOpacity(),
-          child: SMarketHeaderClosed(
-            title: 'Market',
-            onSearchButtonTap: () {},
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Opacity(
+            opacity: _calculateFadeInOpacity(),
+            child: widget.fadeInWidget,
           ),
+        ),
+        SMarketHeaderClosed(
+          title: 'Market',
+          onSearchButtonTap: () {},
         ),
         Opacity(
           opacity: _calculateFadeOutOpacity(),
-          child: widget.fadeOutChild,
+          child: widget.fadeOutWidget,
         ),
       ],
     );
