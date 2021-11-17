@@ -16,7 +16,7 @@ class LoaderContainer extends StatelessWidget {
       top: 320.h,
       child: Container(
         width: 180.w,
-        height: 88.h,
+        height: 90.h,
         decoration: BoxDecoration(
           color: SColorsLight().white,
           borderRadius: BorderRadius.circular(16.r),

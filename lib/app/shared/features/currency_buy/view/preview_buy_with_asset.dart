@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../components/convert_preview/view/components/quote_error_text.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_notipod.dart';
+import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_state.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_union.dart';
 
 class PreviewBuyWithAsset extends StatefulHookWidget {
@@ -47,52 +48,66 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
     final notifier = useProvider(
       previewBuyWithAssetNotipod(widget.input).notifier,
     );
+    final loader = useValueNotifier(StackLoaderNotifier());
 
-    return SPageFrameWithPadding(
-      header: SBigHeader(
-        title: notifier.previewHeader,
-        onBackButtonTap: () {
-          notifier.cancelTimer();
-          Navigator.pop(context);
-        },
-      ),
-      child: Column(
-        children: [
-          const Spacer(),
-          SActionConfirmIconWithAnimation(
-            iconUrl: widget.input.currency.iconUrl,
-          ),
-          const Spacer(),
-          SActionConfirmText(
-            name: 'You Pay',
-            value: '${widget.input.fromAssetAmount} '
-                '${widget.input.fromAssetSymbol}',
-          ),
-          SActionConfirmText(
-            name: 'You get',
-            value: '≈ ${state.toAssetAmount} ${widget.input.currency.symbol}',
-          ),
-          SActionConfirmText(
-            name: 'Exchange Rate',
-            loading: state.union is QuoteLoading,
-            animation: state.timerAnimation,
-            value: '1 ${widget.input.fromAssetSymbol} = '
-                '${state.price} ${widget.input.currency.symbol}',
-          ),
-          const SpaceH40(),
-          if (state.connectingToServer) ...[
-            QuoteErrorText(),
-            const SpaceH20(),
+    return ProviderListener<PreviewBuyWithAssetState>(
+      provider: previewBuyWithAssetNotipod(widget.input),
+      onChange: (_, value) {
+        if (value.union is ExecuteLoading) {
+          loader.value.startLoading();
+        } else {
+          if (loader.value.value) {
+            loader.value.finishLoading();
+          }
+        }
+      },
+      child: SPageFrameWithPadding(
+        loading: loader.value,
+        header: SBigHeader(
+          title: notifier.previewHeader,
+          onBackButtonTap: () {
+            notifier.cancelTimer();
+            Navigator.pop(context);
+          },
+        ),
+        child: Column(
+          children: [
+            const Spacer(),
+            SActionConfirmIconWithAnimation(
+              iconUrl: widget.input.currency.iconUrl,
+            ),
+            const Spacer(),
+            SActionConfirmText(
+              name: 'You Pay',
+              value: '${widget.input.fromAssetAmount} '
+                  '${widget.input.fromAssetSymbol}',
+            ),
+            SActionConfirmText(
+              name: 'You get',
+              value: '≈ ${state.toAssetAmount} ${widget.input.currency.symbol}',
+            ),
+            SActionConfirmText(
+              name: 'Exchange Rate',
+              loading: state.union is QuoteLoading,
+              animation: state.timerAnimation,
+              value: '1 ${widget.input.fromAssetSymbol} = '
+                  '${state.price} ${widget.input.currency.symbol}',
+            ),
+            const SpaceH40(),
+            if (state.connectingToServer) ...[
+              QuoteErrorText(),
+              const SpaceH20(),
+            ],
+            SPrimaryButton2(
+              active: state.union is QuoteSuccess,
+              name: 'Confirm',
+              onTap: () {
+                notifier.executeQuote();
+              },
+            ),
+            const SpaceH24(),
           ],
-          SPrimaryButton2(
-            active: state.union is QuoteSuccess,
-            name: 'Confirm',
-            onTap: () {
-              notifier.executeQuote();
-            },
-          ),
-          const SpaceH24(),
-        ],
+        ),
       ),
     );
   }
