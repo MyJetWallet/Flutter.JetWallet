@@ -17,13 +17,17 @@ class SConfirmActionTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      /// TODO: Will be updated with UI updates
-      return SizedBox(
+      return Container(
         width: 16.w,
         height: 16.w,
+        padding: EdgeInsets.all(1.w),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: SColorsLight().green.withOpacity(0.2),
+        ),
         child: CircularProgressIndicator(
           strokeWidth: 2.w,
-          color: Colors.black,
+          color: SColorsLight().green,
         ),
       );
     } else {
