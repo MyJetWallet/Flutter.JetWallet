@@ -8,6 +8,7 @@ import '../../../shared/services/remote_config_service/service/remote_config_ser
 import 'remote_config_union.dart';
 
 const _retryTime = 10; // in seconds
+const _splashScreenDuration = 4000; // in milliseconds
 
 class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
   RemoteConfigNotifier() : super(const Loading()) {
@@ -23,9 +24,22 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
     state = const Loading();
 
     try {
+      final stopwatch = Stopwatch()..start();
+
       await RemoteConfigService().fetchAndActivate();
 
-      state = const Success();
+      if (stopwatch.elapsedMilliseconds < _splashScreenDuration) {
+        Timer(
+          Duration(
+            milliseconds: _splashScreenDuration - stopwatch.elapsedMilliseconds,
+          ),
+          () {
+            state = const Success();
+          },
+        );
+      } else {
+        state = const Success();
+      }
     } catch (e) {
       _logger.log(stateFlow, '_fetchAndActivate', e);
 
