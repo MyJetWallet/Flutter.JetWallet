@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../shared.dart';
-import 'examples/simple_action_confirm_description.dart';
+import 'examples/simple_action_confirm_description_example.dart';
+import 'examples/simple_action_confirm_skeleton_loader_example.dart';
 import 'examples/simple_action_confirm_text_example.dart';
 import 'examples/simple_action_price_field_example.dart';
 import 'examples/simple_payment_select_asset_example.dart';
@@ -43,6 +44,10 @@ class SimpleActionsExample extends StatelessWidget {
             NavigationButton(
               buttonName: 'Action Confirm Description',
               routeName: SimpleActionConfrimDescriptionExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Skeleton Loader',
+              routeName: SimpleActionConfrimSkeletonLoaderExample.routeName,
             ),
           ],
         ),

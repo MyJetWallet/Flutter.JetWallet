@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 
 class StackLoaderNotifier extends ValueNotifier<bool> {
   StackLoaderNotifier() : super(false);
@@ -11,7 +10,6 @@ class StackLoaderNotifier extends ValueNotifier<bool> {
   void startLoading() {
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       if (timer.tick == 2) {
-        SystemChannels.textInput.invokeMethod('TextInput.hide');
         value = true;
         timer.cancel();
       }
@@ -20,13 +18,11 @@ class StackLoaderNotifier extends ValueNotifier<bool> {
 
   void finishLoading() {
     if (_timer.tick >= 3) {
-      SystemChannels.textInput.invokeMethod('TextInput.show');
       _timer.cancel();
       value = false;
     } else {
       _timer.cancel();
       _timer = Timer(const Duration(milliseconds: 500), () {
-        SystemChannels.textInput.invokeMethod('TextInput.show');
         _timer.cancel();
         value = false;
       });

@@ -7,12 +7,14 @@ import '../../simple_kit.dart';
 class SFiatItem extends StatelessWidget {
   const SFiatItem({
     Key? key,
+    this.isSelected = false,
     required this.icon,
     required this.name,
     required this.amount,
     required this.onTap,
   }) : super(key: key);
 
+  final bool isSelected;
   final Widget icon;
   final String name;
   final String amount;
@@ -20,6 +22,8 @@ class SFiatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainColor = isSelected ? SColorsLight().blue : SColorsLight().black;
+
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
@@ -47,7 +51,9 @@ class SFiatItem extends StatelessWidget {
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               name,
-                              style: sSubtitle2Style,
+                              style: sSubtitle2Style.copyWith(
+                                color: mainColor,
+                              ),
                             ),
                           ),
                         ),
@@ -57,7 +63,9 @@ class SFiatItem extends StatelessWidget {
                           child: Text(
                             amount,
                             textAlign: TextAlign.end,
-                            style: sSubtitle2Style,
+                            style: sSubtitle2Style.copyWith(
+                              color: mainColor,
+                            ),
                           ),
                         ),
                       ],
