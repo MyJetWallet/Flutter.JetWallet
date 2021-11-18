@@ -6,7 +6,6 @@ const sPhoneNumbers = [
     countryName: 'Afghanistan',
     countryCode: '+93',
     alphaCode: 'AF',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -14,7 +13,6 @@ const sPhoneNumbers = [
     countryName: 'Åland Islands',
     countryCode: '+358',
     alphaCode: 'AX',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -22,7 +20,6 @@ const sPhoneNumbers = [
     countryName: 'Albania',
     countryCode: '+355',
     alphaCode: 'AL',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -30,7 +27,6 @@ const sPhoneNumbers = [
     countryName: 'Algeria',
     countryCode: '+213',
     alphaCode: 'DZ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -38,7 +34,6 @@ const sPhoneNumbers = [
     countryName: 'American Samoa',
     countryCode: '+1684',
     alphaCode: 'AS',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -46,7 +41,6 @@ const sPhoneNumbers = [
     countryName: 'Andorra',
     countryCode: '+376',
     alphaCode: 'AD',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -54,7 +48,6 @@ const sPhoneNumbers = [
     countryName: 'Angola',
     countryCode: '+244',
     alphaCode: 'AO',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -62,7 +55,6 @@ const sPhoneNumbers = [
     countryName: 'Anguilla',
     countryCode: '+1264',
     alphaCode: 'AI',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -70,7 +62,6 @@ const sPhoneNumbers = [
     countryName: 'Antarctica',
     countryCode: '+672',
     alphaCode: 'AQ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -78,7 +69,6 @@ const sPhoneNumbers = [
     countryName: 'Antigua and Barbuda',
     countryCode: '+1268',
     alphaCode: 'AG',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -86,7 +76,6 @@ const sPhoneNumbers = [
     countryName: 'Argentina',
     countryCode: '+54',
     alphaCode: 'AR',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -94,7 +83,6 @@ const sPhoneNumbers = [
     countryName: 'Armenia',
     countryCode: '+374',
     alphaCode: 'AM',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -102,7 +90,6 @@ const sPhoneNumbers = [
     countryName: 'Aruba',
     countryCode: '+297',
     alphaCode: 'AW',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -110,7 +97,6 @@ const sPhoneNumbers = [
     countryName: 'Australia',
     countryCode: '+61',
     alphaCode: 'AU',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -118,7 +104,6 @@ const sPhoneNumbers = [
     countryName: 'Austria',
     countryCode: '+43',
     alphaCode: 'AT',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -126,7 +111,6 @@ const sPhoneNumbers = [
     countryName: 'Azerbaijan',
     countryCode: '+994',
     alphaCode: 'AZ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -134,7 +118,6 @@ const sPhoneNumbers = [
     countryName: 'Bahamas',
     countryCode: '+1242',
     alphaCode: 'BS',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -142,7 +125,6 @@ const sPhoneNumbers = [
     countryName: 'Bahrain',
     countryCode: '+973',
     alphaCode: 'BH',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -150,7 +132,6 @@ const sPhoneNumbers = [
     countryName: 'Bangladesh',
     countryCode: '+880',
     alphaCode: 'BD',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -158,7 +139,6 @@ const sPhoneNumbers = [
     countryName: 'Barbados',
     countryCode: '+1246',
     alphaCode: 'BB',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -166,7 +146,6 @@ const sPhoneNumbers = [
     countryName: 'Belarus',
     countryCode: '+375',
     alphaCode: 'BY',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -174,7 +153,6 @@ const sPhoneNumbers = [
     countryName: 'Belgium',
     countryCode: '+32',
     alphaCode: 'BE',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -182,7 +160,6 @@ const sPhoneNumbers = [
     countryName: 'Belize',
     countryCode: '+501',
     alphaCode: 'BZ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -190,7 +167,6 @@ const sPhoneNumbers = [
     countryName: 'Benin',
     countryCode: '+229',
     alphaCode: 'BJ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -198,7 +174,6 @@ const sPhoneNumbers = [
     countryName: 'Bermuda',
     countryCode: '+1441',
     alphaCode: 'BM',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -206,7 +181,6 @@ const sPhoneNumbers = [
     countryName: 'Bhutan',
     countryCode: '+975',
     alphaCode: 'BT',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -214,7 +188,6 @@ const sPhoneNumbers = [
     countryName: 'Bolivia',
     countryCode: '+591',
     alphaCode: 'BO',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -222,7 +195,6 @@ const sPhoneNumbers = [
     countryName: 'Bosnia and Herzegovina',
     countryCode: '+387',
     alphaCode: 'BA',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -230,7 +202,6 @@ const sPhoneNumbers = [
     countryName: 'Botswana',
     countryCode: '+267',
     alphaCode: 'BW',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -238,7 +209,6 @@ const sPhoneNumbers = [
     countryName: 'Bouvet Island',
     countryCode: '+47',
     alphaCode: 'BV',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -246,7 +216,6 @@ const sPhoneNumbers = [
     countryName: 'Brazil',
     countryCode: '+55',
     alphaCode: 'BR',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -254,7 +223,6 @@ const sPhoneNumbers = [
     countryName: 'British Indian Ocean Territory',
     countryCode: '+246',
     alphaCode: 'IO',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -262,7 +230,6 @@ const sPhoneNumbers = [
     countryName: 'Brunei Darussalam',
     countryCode: '+673',
     alphaCode: 'BN',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -270,7 +237,6 @@ const sPhoneNumbers = [
     countryName: 'Bulgaria',
     countryCode: '+359',
     alphaCode: 'BG',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -278,7 +244,6 @@ const sPhoneNumbers = [
     countryName: 'Burkina Faso',
     countryCode: '+226',
     alphaCode: 'BF',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -286,7 +251,6 @@ const sPhoneNumbers = [
     countryName: 'Burundi',
     countryCode: '+257',
     alphaCode: 'BI',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -294,7 +258,6 @@ const sPhoneNumbers = [
     countryName: 'Cabo Verde',
     countryCode: '+238',
     alphaCode: 'CV',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -302,7 +265,6 @@ const sPhoneNumbers = [
     countryName: 'Cambodia',
     countryCode: '+855',
     alphaCode: 'KH',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -310,7 +272,6 @@ const sPhoneNumbers = [
     countryName: 'Cameroon',
     countryCode: '+237',
     alphaCode: 'CM',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -318,7 +279,6 @@ const sPhoneNumbers = [
     countryName: 'Canada',
     countryCode: '+1',
     alphaCode: 'CA',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -326,7 +286,6 @@ const sPhoneNumbers = [
     countryName: 'Cayman Islands',
     countryCode: '+1345',
     alphaCode: 'KY',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -334,7 +293,6 @@ const sPhoneNumbers = [
     countryName: 'Central African Republic',
     countryCode: '+236',
     alphaCode: 'CF',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -342,7 +300,6 @@ const sPhoneNumbers = [
     countryName: 'Chad',
     countryCode: '+235',
     alphaCode: 'TD',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -350,7 +307,6 @@ const sPhoneNumbers = [
     countryName: 'Chile',
     countryCode: '+56',
     alphaCode: 'CL',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -358,7 +314,6 @@ const sPhoneNumbers = [
     countryName: 'China',
     countryCode: '+86',
     alphaCode: 'CN',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -366,7 +321,6 @@ const sPhoneNumbers = [
     countryName: 'Christmas Island',
     countryCode: '+61',
     alphaCode: 'CX',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -374,7 +328,6 @@ const sPhoneNumbers = [
     countryName: 'Cocos (Keeling) Islands',
     countryCode: '+61',
     alphaCode: 'CC',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -382,7 +335,6 @@ const sPhoneNumbers = [
     countryName: 'Colombia',
     countryCode: '+57',
     alphaCode: 'CO',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -390,7 +342,6 @@ const sPhoneNumbers = [
     countryName: 'Comoros',
     countryCode: '+269',
     alphaCode: 'KM',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -398,7 +349,6 @@ const sPhoneNumbers = [
     countryName: 'Congo (Republic of the)',
     countryCode: '+242',
     alphaCode: 'CG',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -406,7 +356,6 @@ const sPhoneNumbers = [
     countryName: 'Congo (Democratic Republic of the)',
     countryCode: '+243',
     alphaCode: 'CD',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -414,7 +363,6 @@ const sPhoneNumbers = [
     countryName: 'Cook Islands',
     countryCode: '+682',
     alphaCode: '',
-    active: false,
     asset: 'CK',
   ),
   SPhoneNumber(
@@ -422,7 +370,6 @@ const sPhoneNumbers = [
     countryName: 'Costa Rica',
     countryCode: '+506',
     alphaCode: 'CR',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -430,7 +377,6 @@ const sPhoneNumbers = [
     countryName: "Côte d'Ivoire",
     countryCode: '+225',
     alphaCode: 'CI',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -438,7 +384,6 @@ const sPhoneNumbers = [
     countryName: 'Croatia',
     countryCode: '+385',
     alphaCode: 'HR',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -446,7 +391,6 @@ const sPhoneNumbers = [
     countryName: 'Cuba',
     countryCode: '+53',
     alphaCode: 'CU',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -454,7 +398,6 @@ const sPhoneNumbers = [
     countryName: 'Cyprus',
     countryCode: '+357',
     alphaCode: 'CY',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -462,7 +405,6 @@ const sPhoneNumbers = [
     countryName: 'Czech Republic',
     countryCode: '+420',
     alphaCode: 'CZ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -470,7 +412,6 @@ const sPhoneNumbers = [
     countryName: 'Denmark',
     countryCode: '+45',
     alphaCode: 'DK',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -478,7 +419,6 @@ const sPhoneNumbers = [
     countryName: 'Djibouti',
     countryCode: '+253',
     alphaCode: 'DJ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -486,7 +426,6 @@ const sPhoneNumbers = [
     countryName: 'Dominica',
     countryCode: '+1767',
     alphaCode: 'DM',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -494,7 +433,6 @@ const sPhoneNumbers = [
     countryName: 'Dominican Republic',
     countryCode: '+1',
     alphaCode: 'DO',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -502,7 +440,6 @@ const sPhoneNumbers = [
     countryName: 'Ecuador',
     countryCode: '+593',
     alphaCode: 'EC',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -510,7 +447,6 @@ const sPhoneNumbers = [
     countryName: 'Egypt',
     countryCode: '+20',
     alphaCode: 'EG',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -518,7 +454,6 @@ const sPhoneNumbers = [
     alphaCode: 'SV',
     countryName: 'El Salvador',
     countryCode: '+503',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -526,7 +461,6 @@ const sPhoneNumbers = [
     countryName: 'Equatorial Guinea',
     countryCode: '+240',
     alphaCode: 'GQ',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -534,7 +468,6 @@ const sPhoneNumbers = [
     alphaCode: 'ER',
     countryName: 'Eritrea',
     countryCode: '+291',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -542,7 +475,6 @@ const sPhoneNumbers = [
     alphaCode: 'EE',
     countryName: 'Estonia',
     countryCode: '+372',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -550,7 +482,6 @@ const sPhoneNumbers = [
     alphaCode: 'ET',
     countryName: 'Ethiopia',
     countryCode: '+251',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -558,7 +489,6 @@ const sPhoneNumbers = [
     alphaCode: 'FK',
     countryName: 'Falkland Islands (Malvinas)',
     countryCode: '+500',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -566,7 +496,6 @@ const sPhoneNumbers = [
     alphaCode: 'FO',
     countryName: 'Faroe Islands',
     countryCode: '+298',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -574,7 +503,6 @@ const sPhoneNumbers = [
     alphaCode: 'FJ',
     countryName: 'Fiji',
     countryCode: '+679',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -582,7 +510,6 @@ const sPhoneNumbers = [
     alphaCode: 'FI',
     countryName: 'Finland',
     countryCode: '+358',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -590,7 +517,6 @@ const sPhoneNumbers = [
     alphaCode: 'FR',
     countryName: 'France',
     countryCode: '+33',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -598,7 +524,6 @@ const sPhoneNumbers = [
     alphaCode: 'GF',
     countryName: 'French Guiana',
     countryCode: '+594',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -606,7 +531,6 @@ const sPhoneNumbers = [
     alphaCode: 'PF',
     countryName: 'French Polynesia',
     countryCode: '+689',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -614,7 +538,6 @@ const sPhoneNumbers = [
     alphaCode: 'TF',
     countryName: 'French Southern Territories',
     countryCode: '+262',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -622,7 +545,6 @@ const sPhoneNumbers = [
     alphaCode: 'GA',
     countryName: 'Gabon',
     countryCode: '+241',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -630,7 +552,6 @@ const sPhoneNumbers = [
     alphaCode: 'GM',
     countryName: 'Gambia',
     countryCode: '+220',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -638,7 +559,6 @@ const sPhoneNumbers = [
     alphaCode: 'GE',
     countryName: 'Georgia',
     countryCode: '+995',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -646,7 +566,6 @@ const sPhoneNumbers = [
     alphaCode: 'DE',
     countryName: 'Germany',
     countryCode: '+49',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -654,7 +573,6 @@ const sPhoneNumbers = [
     alphaCode: 'GH',
     countryName: 'Ghana',
     countryCode: '+233',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -662,7 +580,6 @@ const sPhoneNumbers = [
     alphaCode: 'GI',
     countryName: 'Gibraltar',
     countryCode: '+350',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -670,7 +587,6 @@ const sPhoneNumbers = [
     alphaCode: 'GR',
     countryName: 'Greece',
     countryCode: '+30',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -678,7 +594,6 @@ const sPhoneNumbers = [
     alphaCode: 'GL',
     countryName: 'Greenland',
     countryCode: '+299',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -686,7 +601,6 @@ const sPhoneNumbers = [
     alphaCode: 'GD',
     countryName: 'Grenada',
     countryCode: '+1473',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -694,7 +608,6 @@ const sPhoneNumbers = [
     alphaCode: 'GP',
     countryName: 'Guadeloupe',
     countryCode: '+590',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -702,7 +615,6 @@ const sPhoneNumbers = [
     alphaCode: 'GU',
     countryName: 'Guam',
     countryCode: '+1671',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -710,7 +622,6 @@ const sPhoneNumbers = [
     alphaCode: 'GT',
     countryName: 'Guatemala',
     countryCode: '+502',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -718,7 +629,6 @@ const sPhoneNumbers = [
     alphaCode: 'GG',
     countryName: 'Guernsey',
     countryCode: '+44',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -726,7 +636,6 @@ const sPhoneNumbers = [
     alphaCode: 'GN',
     countryName: 'Guinea',
     countryCode: '+224',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -734,7 +643,6 @@ const sPhoneNumbers = [
     alphaCode: 'GW',
     countryName: 'Guinea-Bissau',
     countryCode: '+245',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -742,7 +650,6 @@ const sPhoneNumbers = [
     alphaCode: 'GY',
     countryName: 'Guyana',
     countryCode: '+592',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -750,7 +657,6 @@ const sPhoneNumbers = [
     alphaCode: 'HT',
     countryName: 'Haiti',
     countryCode: '+509',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -758,7 +664,6 @@ const sPhoneNumbers = [
     alphaCode: 'HM',
     countryName: 'Heard Island and McDonald Islands',
     countryCode: '+0',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -766,7 +671,6 @@ const sPhoneNumbers = [
     alphaCode: 'VA',
     countryName: 'Vatican City State',
     countryCode: '+379',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -774,7 +678,6 @@ const sPhoneNumbers = [
     alphaCode: 'HN',
     countryName: 'Honduras',
     countryCode: '+504',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -782,7 +685,6 @@ const sPhoneNumbers = [
     alphaCode: 'HK',
     countryName: 'Hong Kong',
     countryCode: '+852',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -790,7 +692,6 @@ const sPhoneNumbers = [
     alphaCode: 'HU',
     countryName: 'Hungary',
     countryCode: '+36',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -798,7 +699,6 @@ const sPhoneNumbers = [
     alphaCode: 'IS',
     countryName: 'Iceland',
     countryCode: '+354',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -806,7 +706,6 @@ const sPhoneNumbers = [
     alphaCode: 'IN',
     countryName: 'India',
     countryCode: '+91',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -814,15 +713,13 @@ const sPhoneNumbers = [
     alphaCode: 'ID',
     countryName: 'Indonesia',
     countryCode: '+62',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
     numCode: '364',
     alphaCode: 'IR',
     countryName: 'Iran',
-    countryCode: '+Iranian, Persian',
-    active: false,
+    countryCode: '+98',
     asset: '',
   ),
   SPhoneNumber(
@@ -830,7 +727,6 @@ const sPhoneNumbers = [
     alphaCode: 'IQ',
     countryName: 'Iraq',
     countryCode: '+964',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -838,7 +734,6 @@ const sPhoneNumbers = [
     alphaCode: 'IE',
     countryName: 'Ireland',
     countryCode: '+353',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -846,7 +741,6 @@ const sPhoneNumbers = [
     alphaCode: 'IM',
     countryName: 'Isle of Man',
     countryCode: '+44',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -854,7 +748,6 @@ const sPhoneNumbers = [
     alphaCode: 'IL',
     countryName: 'Israel',
     countryCode: '+972',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -862,7 +755,6 @@ const sPhoneNumbers = [
     alphaCode: 'IT',
     countryName: 'Italy',
     countryCode: '+39',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -870,7 +762,6 @@ const sPhoneNumbers = [
     alphaCode: 'JM',
     countryName: 'Jamaica',
     countryCode: '+1876',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -878,7 +769,6 @@ const sPhoneNumbers = [
     alphaCode: 'JP',
     countryName: 'Japan',
     countryCode: '+81',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -886,7 +776,6 @@ const sPhoneNumbers = [
     alphaCode: 'JE',
     countryName: 'Jersey',
     countryCode: '+44',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -894,7 +783,6 @@ const sPhoneNumbers = [
     alphaCode: 'JO',
     countryName: 'Jordan',
     countryCode: '+962',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -902,7 +790,6 @@ const sPhoneNumbers = [
     alphaCode: 'KZ',
     countryName: 'Kazakhstan',
     countryCode: '+7',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -910,7 +797,6 @@ const sPhoneNumbers = [
     alphaCode: 'KE',
     countryName: 'Kenya',
     countryCode: '+254',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -918,7 +804,6 @@ const sPhoneNumbers = [
     alphaCode: 'KI',
     countryName: 'Kiribati',
     countryCode: '+686',
-    active: false,
     asset: '',
   ),
 
@@ -927,7 +812,6 @@ const sPhoneNumbers = [
     alphaCode: 'KP',
     countryName: "Korea (Democratic People's Republic of)",
     countryCode: '+850',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -935,7 +819,6 @@ const sPhoneNumbers = [
     alphaCode: 'KR',
     countryName: 'Korea (Republic of)',
     countryCode: '+82',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -943,7 +826,6 @@ const sPhoneNumbers = [
     alphaCode: 'KW',
     countryName: 'Kuwait',
     countryCode: '+965',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -951,7 +833,6 @@ const sPhoneNumbers = [
     alphaCode: 'KG',
     countryName: 'Kyrgyzstan',
     countryCode: '+996',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -959,7 +840,6 @@ const sPhoneNumbers = [
     alphaCode: 'LA',
     countryName: "Lao People's Democratic Republic",
     countryCode: '+856',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -967,7 +847,6 @@ const sPhoneNumbers = [
     alphaCode: 'LV',
     countryName: 'Latvia',
     countryCode: '+371',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -975,7 +854,6 @@ const sPhoneNumbers = [
     alphaCode: 'LB',
     countryName: 'Lebanon',
     countryCode: '+961',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -983,7 +861,6 @@ const sPhoneNumbers = [
     alphaCode: 'LS',
     countryName: 'Lesotho',
     countryCode: '+266',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -991,7 +868,6 @@ const sPhoneNumbers = [
     alphaCode: 'LR',
     countryName: 'Liberia',
     countryCode: '+231',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -999,7 +875,6 @@ const sPhoneNumbers = [
     alphaCode: 'LY',
     countryName: 'Libya',
     countryCode: '+218',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1007,7 +882,6 @@ const sPhoneNumbers = [
     alphaCode: 'LI',
     countryName: 'Liechtenstein',
     countryCode: '+423',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1015,7 +889,6 @@ const sPhoneNumbers = [
     alphaCode: 'LT',
     countryName: 'Lithuania',
     countryCode: '+370',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1023,7 +896,6 @@ const sPhoneNumbers = [
     alphaCode: 'LU',
     countryName: 'Luxembourg',
     countryCode: '+352',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1031,7 +903,6 @@ const sPhoneNumbers = [
     alphaCode: 'MO',
     countryName: 'Macao',
     countryCode: '+853',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1039,7 +910,6 @@ const sPhoneNumbers = [
     alphaCode: 'MK',
     countryName: 'Macedonia (the former Yugoslav Republic of)',
     countryCode: '+389',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1047,7 +917,6 @@ const sPhoneNumbers = [
     alphaCode: 'MG',
     countryName: 'Madagascar',
     countryCode: '+261',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1055,7 +924,6 @@ const sPhoneNumbers = [
     alphaCode: 'MW',
     countryName: 'Malawi',
     countryCode: '+265',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1063,7 +931,6 @@ const sPhoneNumbers = [
     alphaCode: 'MY',
     countryName: 'Malaysia',
     countryCode: '+60',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1071,7 +938,6 @@ const sPhoneNumbers = [
     alphaCode: 'MV',
     countryName: 'Maldives',
     countryCode: '+960',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1079,7 +945,6 @@ const sPhoneNumbers = [
     alphaCode: 'ML',
     countryName: 'Mali',
     countryCode: '+223',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1087,7 +952,6 @@ const sPhoneNumbers = [
     alphaCode: 'MT',
     countryName: 'Malta',
     countryCode: '+356',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1095,7 +959,6 @@ const sPhoneNumbers = [
     alphaCode: 'MH',
     countryName: 'Marshall Islands',
     countryCode: '+692',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1103,7 +966,6 @@ const sPhoneNumbers = [
     alphaCode: 'MQ',
     countryName: 'Martinique',
     countryCode: '+596',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1111,7 +973,6 @@ const sPhoneNumbers = [
     alphaCode: 'MR',
     countryName: 'Mauritania',
     countryCode: '+222',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1119,7 +980,6 @@ const sPhoneNumbers = [
     alphaCode: 'MU',
     countryName: 'Mauritius',
     countryCode: '+230',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1127,7 +987,6 @@ const sPhoneNumbers = [
     alphaCode: 'YT',
     countryName: 'Mayotte',
     countryCode: '+262',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1135,7 +994,6 @@ const sPhoneNumbers = [
     alphaCode: 'MX',
     countryName: 'Mexico',
     countryCode: '+52',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1143,7 +1001,6 @@ const sPhoneNumbers = [
     alphaCode: 'FM',
     countryName: 'Micronesia (Federated States of)',
     countryCode: '+691',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1151,7 +1008,6 @@ const sPhoneNumbers = [
     alphaCode: 'MD',
     countryName: 'Moldova (Republic of)',
     countryCode: '+373',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1159,7 +1015,6 @@ const sPhoneNumbers = [
     alphaCode: 'MC',
     countryName: 'Monaco',
     countryCode: '+377',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1167,7 +1022,6 @@ const sPhoneNumbers = [
     alphaCode: 'MN',
     countryName: 'Mongolia',
     countryCode: '+976',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1175,7 +1029,6 @@ const sPhoneNumbers = [
     alphaCode: 'ME',
     countryName: 'Montenegro',
     countryCode: '+382',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1183,7 +1036,6 @@ const sPhoneNumbers = [
     alphaCode: 'MS',
     countryName: 'Montserrat',
     countryCode: '+1664',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1191,7 +1043,6 @@ const sPhoneNumbers = [
     alphaCode: 'MA',
     countryName: 'Morocco',
     countryCode: '+212',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1199,7 +1050,6 @@ const sPhoneNumbers = [
     alphaCode: 'MZ',
     countryName: 'Mozambique',
     countryCode: '+258',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1207,7 +1057,6 @@ const sPhoneNumbers = [
     alphaCode: 'MM',
     countryName: 'Myanmar',
     countryCode: '+95',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1215,7 +1064,6 @@ const sPhoneNumbers = [
     alphaCode: 'NA',
     countryName: 'Namibia',
     countryCode: '+264',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1223,7 +1071,6 @@ const sPhoneNumbers = [
     alphaCode: 'NR',
     countryName: 'Nauru',
     countryCode: '+674',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1231,7 +1078,6 @@ const sPhoneNumbers = [
     alphaCode: 'NP',
     countryName: 'Nepal',
     countryCode: '+977',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1239,7 +1085,6 @@ const sPhoneNumbers = [
     alphaCode: 'NL',
     countryName: 'Netherlands',
     countryCode: '+31',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1247,7 +1092,6 @@ const sPhoneNumbers = [
     alphaCode: 'NC',
     countryName: 'New Caledonia',
     countryCode: '+687',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1255,7 +1099,6 @@ const sPhoneNumbers = [
     alphaCode: 'NZ',
     countryName: 'New Zealand',
     countryCode: '+64',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1263,7 +1106,6 @@ const sPhoneNumbers = [
     alphaCode: 'NI',
     countryName: 'Nicaragua',
     countryCode: '+505',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1271,7 +1113,6 @@ const sPhoneNumbers = [
     alphaCode: 'NE',
     countryName: 'Niger',
     countryCode: '+227',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1279,7 +1120,6 @@ const sPhoneNumbers = [
     alphaCode: 'NG',
     countryName: 'Nigeria',
     countryCode: '+234',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1287,7 +1127,6 @@ const sPhoneNumbers = [
     alphaCode: 'NU',
     countryName: 'Niue',
     countryCode: '+683',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1295,7 +1134,6 @@ const sPhoneNumbers = [
     alphaCode: 'NF',
     countryName: 'Norfolk Island',
     countryCode: '+672',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1303,7 +1141,6 @@ const sPhoneNumbers = [
     alphaCode: 'MP',
     countryName: 'Northern Mariana Islands',
     countryCode: '+1670',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1311,7 +1148,6 @@ const sPhoneNumbers = [
     alphaCode: 'NO',
     countryName: 'Norway',
     countryCode: '+47',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1319,7 +1155,6 @@ const sPhoneNumbers = [
     alphaCode: 'OM',
     countryName: 'Oman',
     countryCode: '+968',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1327,7 +1162,6 @@ const sPhoneNumbers = [
     alphaCode: 'PK',
     countryName: 'Pakistan',
     countryCode: '+92',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1335,7 +1169,6 @@ const sPhoneNumbers = [
     alphaCode: 'PW',
     countryName: 'Palau',
     countryCode: '+680',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1343,7 +1176,6 @@ const sPhoneNumbers = [
     alphaCode: 'PS',
     countryName: 'Palestine, State of',
     countryCode: '+970',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1351,7 +1183,6 @@ const sPhoneNumbers = [
     alphaCode: 'PA',
     countryName: 'Panama',
     countryCode: '+507',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1359,7 +1190,6 @@ const sPhoneNumbers = [
     alphaCode: 'PG',
     countryName: 'Papua New Guinea',
     countryCode: '+675',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1367,7 +1197,6 @@ const sPhoneNumbers = [
     alphaCode: 'PY',
     countryName: 'Paraguay',
     countryCode: '+595',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1375,7 +1204,6 @@ const sPhoneNumbers = [
     alphaCode: 'PE',
     countryName: 'Peru',
     countryCode: '+51',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1383,7 +1211,6 @@ const sPhoneNumbers = [
     alphaCode: 'PH',
     countryName: 'Philippines',
     countryCode: '+63',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1391,7 +1218,6 @@ const sPhoneNumbers = [
     alphaCode: 'PN',
     countryName: 'Pitcairn',
     countryCode: '+64',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1399,7 +1225,6 @@ const sPhoneNumbers = [
     alphaCode: 'PL',
     countryName: 'Poland',
     countryCode: '+48',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1407,7 +1232,6 @@ const sPhoneNumbers = [
     alphaCode: 'PT',
     countryName: 'Portugal',
     countryCode: '+351',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1415,7 +1239,6 @@ const sPhoneNumbers = [
     alphaCode: 'PR',
     countryName: 'Puerto Rico',
     countryCode: '+1939',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1423,7 +1246,6 @@ const sPhoneNumbers = [
     alphaCode: 'QA',
     countryName: 'Qatar',
     countryCode: '+974',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1431,7 +1253,6 @@ const sPhoneNumbers = [
     alphaCode: 'RE',
     countryName: 'Réunion',
     countryCode: '+262',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1439,7 +1260,6 @@ const sPhoneNumbers = [
     alphaCode: 'RO',
     countryName: 'Romania',
     countryCode: '+40',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1447,7 +1267,6 @@ const sPhoneNumbers = [
     alphaCode: 'RU',
     countryName: 'Russian Federation',
     countryCode: '+7',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1455,7 +1274,6 @@ const sPhoneNumbers = [
     alphaCode: 'RW',
     countryName: 'Rwanda',
     countryCode: '+250',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1463,7 +1281,6 @@ const sPhoneNumbers = [
     alphaCode: 'BL',
     countryName: 'Saint Barthélemy',
     countryCode: '+590',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1471,7 +1288,6 @@ const sPhoneNumbers = [
     alphaCode: 'SH',
     countryName: 'Saint Helena, Ascension and Tristan da Cunha',
     countryCode: '+290',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1479,7 +1295,6 @@ const sPhoneNumbers = [
     alphaCode: 'KN',
     countryName: 'Saint Kitts and Nevis',
     countryCode: '+1869',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1487,7 +1302,6 @@ const sPhoneNumbers = [
     alphaCode: 'LC',
     countryName: 'Saint Lucia',
     countryCode: '+1758',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1495,7 +1309,6 @@ const sPhoneNumbers = [
     alphaCode: 'MF',
     countryName: 'Saint Martin (French part)',
     countryCode: '+590',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1503,7 +1316,6 @@ const sPhoneNumbers = [
     alphaCode: 'PM',
     countryName: 'Saint Pierre and Miquelon',
     countryCode: '+508',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1511,7 +1323,6 @@ const sPhoneNumbers = [
     alphaCode: 'VC',
     countryName: 'Saint Vincent and the Grenadines',
     countryCode: '+1784',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1519,7 +1330,6 @@ const sPhoneNumbers = [
     alphaCode: 'WS',
     countryName: 'Samoa',
     countryCode: '+685',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1527,7 +1337,6 @@ const sPhoneNumbers = [
     alphaCode: 'SM',
     countryName: 'San Marino',
     countryCode: '+378',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1535,7 +1344,6 @@ const sPhoneNumbers = [
     alphaCode: 'ST',
     countryName: 'Sao Tome and Principe',
     countryCode: '+239',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1543,7 +1351,6 @@ const sPhoneNumbers = [
     alphaCode: 'SA',
     countryName: 'Saudi Arabia',
     countryCode: '+966',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1551,7 +1358,6 @@ const sPhoneNumbers = [
     alphaCode: 'SN',
     countryName: 'Senegal',
     countryCode: '+221',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1559,7 +1365,6 @@ const sPhoneNumbers = [
     alphaCode: 'RS',
     countryName: 'Serbia',
     countryCode: '+381',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1567,7 +1372,6 @@ const sPhoneNumbers = [
     alphaCode: 'SC',
     countryName: 'Seychelles',
     countryCode: '+248',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1575,7 +1379,6 @@ const sPhoneNumbers = [
     alphaCode: 'SL',
     countryName: 'Sierra Leone',
     countryCode: '+232',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1583,7 +1386,6 @@ const sPhoneNumbers = [
     alphaCode: 'SG',
     countryName: 'Singapore',
     countryCode: '+65',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1591,7 +1393,6 @@ const sPhoneNumbers = [
     alphaCode: 'SK',
     countryName: 'Slovakia',
     countryCode: '+421',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1599,7 +1400,6 @@ const sPhoneNumbers = [
     alphaCode: 'SI',
     countryName: 'Slovenia',
     countryCode: '+386',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1607,7 +1407,6 @@ const sPhoneNumbers = [
     alphaCode: 'SB',
     countryName: 'Solomon Islands',
     countryCode: '+677',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1615,7 +1414,6 @@ const sPhoneNumbers = [
     alphaCode: 'SO',
     countryName: 'Somalia',
     countryCode: '+252',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1623,7 +1421,6 @@ const sPhoneNumbers = [
     alphaCode: 'ZA',
     countryName: 'South Africa',
     countryCode: '+27',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1631,7 +1428,6 @@ const sPhoneNumbers = [
     alphaCode: 'GS',
     countryName: 'South Georgia and the South Sandwich Islands',
     countryCode: '+500',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1639,7 +1435,6 @@ const sPhoneNumbers = [
     alphaCode: 'SS',
     countryName: 'South Sudan',
     countryCode: '+211',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1647,7 +1442,6 @@ const sPhoneNumbers = [
     alphaCode: 'ES',
     countryName: 'Spain',
     countryCode: '+34',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1655,7 +1449,6 @@ const sPhoneNumbers = [
     alphaCode: 'LK',
     countryName: 'Sri Lanka',
     countryCode: '+94',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1663,7 +1456,6 @@ const sPhoneNumbers = [
     alphaCode: 'SD',
     countryName: 'Sudan',
     countryCode: '+249',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1671,7 +1463,6 @@ const sPhoneNumbers = [
     alphaCode: 'SR',
     countryName: 'Suriname',
     countryCode: '+597',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1679,7 +1470,6 @@ const sPhoneNumbers = [
     alphaCode: 'SJ',
     countryName: 'Svalbard and Jan Mayen',
     countryCode: '+47',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1687,7 +1477,6 @@ const sPhoneNumbers = [
     alphaCode: 'SZ',
     countryName: 'Swaziland',
     countryCode: '+268',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1695,7 +1484,6 @@ const sPhoneNumbers = [
     alphaCode: 'SE',
     countryName: 'Sweden',
     countryCode: '+46',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1703,7 +1491,6 @@ const sPhoneNumbers = [
     alphaCode: 'CH',
     countryName: 'Switzerland',
     countryCode: '+41',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1711,7 +1498,6 @@ const sPhoneNumbers = [
     alphaCode: 'SY',
     countryName: 'Syrian Arab Republic',
     countryCode: '+963',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1719,7 +1505,6 @@ const sPhoneNumbers = [
     alphaCode: 'TW',
     countryName: 'Taiwan',
     countryCode: '+886',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1727,7 +1512,6 @@ const sPhoneNumbers = [
     alphaCode: 'TJ',
     countryName: 'Tajikistan',
     countryCode: '+992',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1735,7 +1519,6 @@ const sPhoneNumbers = [
     alphaCode: 'TZ',
     countryName: 'Tanzania, United Republic of',
     countryCode: '+255',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1743,7 +1526,6 @@ const sPhoneNumbers = [
     alphaCode: 'TH',
     countryName: 'Thailand',
     countryCode: '+66',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1751,7 +1533,6 @@ const sPhoneNumbers = [
     alphaCode: 'TL',
     countryName: 'Timor-Leste',
     countryCode: '+670',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1759,7 +1540,6 @@ const sPhoneNumbers = [
     alphaCode: 'TG',
     countryName: 'Togo',
     countryCode: '+228',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1767,7 +1547,6 @@ const sPhoneNumbers = [
     alphaCode: 'TK',
     countryName: 'Tokelau',
     countryCode: '+690',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1775,7 +1554,6 @@ const sPhoneNumbers = [
     alphaCode: 'TO',
     countryName: 'Tonga',
     countryCode: '+676',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1783,7 +1561,6 @@ const sPhoneNumbers = [
     alphaCode: 'TT',
     countryName: 'Trinidad and Tobago',
     countryCode: '+1868',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1791,7 +1568,6 @@ const sPhoneNumbers = [
     alphaCode: 'TN',
     countryName: 'Tunisia',
     countryCode: '+216',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1799,7 +1575,6 @@ const sPhoneNumbers = [
     alphaCode: 'TR',
     countryName: 'Turkey',
     countryCode: '+90',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1807,7 +1582,6 @@ const sPhoneNumbers = [
     alphaCode: 'TM',
     countryName: 'Turkmenistan',
     countryCode: '+993',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1815,7 +1589,6 @@ const sPhoneNumbers = [
     alphaCode: 'TC',
     countryName: 'Turks and Caicos Islands',
     countryCode: '+1649',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1823,7 +1596,6 @@ const sPhoneNumbers = [
     alphaCode: 'TV',
     countryName: 'Tuvalu',
     countryCode: '+688',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1831,7 +1603,6 @@ const sPhoneNumbers = [
     alphaCode: 'UG',
     countryName: 'Uganda',
     countryCode: '+256',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1839,7 +1610,6 @@ const sPhoneNumbers = [
     alphaCode: 'UA',
     countryName: 'Ukraine',
     countryCode: '+380',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1847,7 +1617,6 @@ const sPhoneNumbers = [
     alphaCode: 'AE',
     countryName: 'United Arab Emirates',
     countryCode: '+971',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1855,7 +1624,6 @@ const sPhoneNumbers = [
     alphaCode: 'GB',
     countryName: 'United Kingdom of Great Britain and Northern Ireland',
     countryCode: '+44',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1863,7 +1631,6 @@ const sPhoneNumbers = [
     alphaCode: 'US',
     countryName: 'United States of America',
     countryCode: '+1',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1871,7 +1638,6 @@ const sPhoneNumbers = [
     alphaCode: 'UY',
     countryName: 'Uruguay',
     countryCode: '+598',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1879,7 +1645,6 @@ const sPhoneNumbers = [
     alphaCode: 'UZ',
     countryName: 'Uzbekistan',
     countryCode: '+998',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1887,7 +1652,6 @@ const sPhoneNumbers = [
     alphaCode: 'VU',
     countryName: 'Vanuatu',
     countryCode: '+678',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1895,7 +1659,6 @@ const sPhoneNumbers = [
     alphaCode: 'VE',
     countryName: 'Venezuela (Bolivarian Republic of)',
     countryCode: '+58',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1903,7 +1666,6 @@ const sPhoneNumbers = [
     alphaCode: 'VN',
     countryName: 'Vietnam',
     countryCode: '+84',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1911,7 +1673,6 @@ const sPhoneNumbers = [
     alphaCode: 'VG',
     countryName: 'Virgin Islands (British)',
     countryCode: '+1284',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1919,7 +1680,6 @@ const sPhoneNumbers = [
     alphaCode: 'VI',
     countryName: 'Virgin Islands (U.S.)',
     countryCode: '+1340',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1927,7 +1687,6 @@ const sPhoneNumbers = [
     alphaCode: 'WF',
     countryName: 'Wallis and Futuna',
     countryCode: '+681',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1935,7 +1694,6 @@ const sPhoneNumbers = [
     alphaCode: 'YE',
     countryName: 'Yemen',
     countryCode: '+967',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1943,7 +1701,6 @@ const sPhoneNumbers = [
     alphaCode: 'ZM',
     countryName: 'Zambia',
     countryCode: '+260',
-    active: false,
     asset: '',
   ),
   SPhoneNumber(
@@ -1951,7 +1708,6 @@ const sPhoneNumbers = [
     alphaCode: 'ZW',
     countryName: 'Zimbabwe',
     countryCode: '+263',
-    active: false,
     asset: '',
   ),
 ];

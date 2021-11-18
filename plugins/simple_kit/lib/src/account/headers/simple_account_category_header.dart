@@ -20,12 +20,12 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
       height: 120.h,
       child: Row(
         children: <Widget>[
-          Container(
-            height: 48.h,
-            width: 48.h,
-            decoration: BoxDecoration(
-              color: SColorsLight().black,
-              borderRadius: BorderRadius.circular(44.r),
+          CircleAvatar(
+            radius: 24.r,
+            backgroundColor: SColorsLight().blue,
+            child: Text(
+              userEmail.substring(0, 2).toUpperCase(),
+              style: sSubtitle2Style,
             ),
           ),
           const SpaceW20(),
@@ -35,10 +35,10 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 // Todo: change 'Jonh Shooter' on username from provider
-                Text(
-                  'John Shooter',
-                  style: sTextH5Style,
-                ),
+                // Text(
+                //   'John Shooter',
+                //   style: sTextH5Style,
+                // ),
                 const SpaceH2(),
                 Text(
                   userEmail,

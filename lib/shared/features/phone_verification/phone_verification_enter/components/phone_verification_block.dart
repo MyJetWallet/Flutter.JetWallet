@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class PhoneVerificationBlock extends StatelessWidget {
   const PhoneVerificationBlock({
     Key? key,
-    required this.onChange,
-    required this.isoCode,
+    required this.onChanged,
+    required this.countryCode,
     required this.showBottomSheet,
+    this.onErase,
   }) : super(key: key);
 
-  final Function(String value) onChange;
+  final Function(String value) onChanged;
   final Function() showBottomSheet;
-  final String isoCode;
+  final String countryCode;
+  final Function()? onErase;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class PhoneVerificationBlock extends StatelessWidget {
                     baseline: 22.h,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      isoCode,
+                      countryCode,
                       style: sSubtitle2Style,
                     ),
                   ),
@@ -57,13 +60,14 @@ class PhoneVerificationBlock extends StatelessWidget {
                 width: 250.w,
                 padding: EdgeInsets.only(left: 25.w),
                 child: SStandardField(
+                  onErase: onErase,
                   labelText: 'Phone number',
                   autofocus: true,
                   autofillHints: const [AutofillHints.telephoneNumber],
                   keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
                   alignLabelWithHint: true,
-                  onChanged: (String number) => onChange(number),
+                  onChanged: (String number) => onChanged(number),
                 ),
               ),
             ],

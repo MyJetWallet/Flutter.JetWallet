@@ -6,7 +6,7 @@ import '../../../../../service/services/phone_verification/model/phone_verificat
 import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../logging/levels.dart';
-import '../../../../notifiers/enter_phone_notifier/enter_phone_notipod.dart';
+import '../../../../notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../providers/service_providers.dart';
@@ -24,9 +24,12 @@ class PhoneVerificationConfirmNotifier
           ),
         ) {
     _userInfoN = read(userInfoNotipod.notifier);
-    final phoneVerification = read(enterPhoneNotipod);
+
+    final countryPhoneVerification = read(phoneNumberNotipod);
+
     final phoneNumberWithIso =
-        '${phoneVerification.isoCode}${phoneVerification.phoneNumber}';
+        '${countryPhoneVerification.countryCode}${countryPhoneVerification.phoneNumber}';
+
     _updatePhoneNumber(phoneNumberWithIso);
     sendCode();
   }

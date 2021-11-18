@@ -5,9 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../helpers/navigator_push.dart';
-import '../../../notifiers/enter_phone_notifier/enter_phone_notipod.dart';
+import '../../../notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../phone_verification_confirm/view/phone_verification_confirm.dart';
 import 'components/phone_number_bottom_sheet.dart';
+import 'components/phone_number_search.dart';
 import 'components/phone_verification_block.dart';
 
 class PhoneVerificationEnter extends HookWidget {
@@ -32,8 +33,8 @@ class PhoneVerificationEnter extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(enterPhoneNotipod);
-    final notifier = useProvider(enterPhoneNotipod.notifier);
+    final statePhoneNumber = useProvider(phoneNumberNotipod);
+    final notifierPhoneNumber = useProvider(phoneNumberNotipod.notifier);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -47,22 +48,49 @@ class PhoneVerificationEnter extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           PhoneVerificationBlock(
-            onChange: (String number) {
-              notifier.updatePhoneNumber(number);
+            onErase: () {
+              notifierPhoneNumber.updatePhoneNumber('');
+            },
+            onChanged: (String number) {
+              notifierPhoneNumber.updatePhoneNumber(number);
             },
             showBottomSheet: () {
+              notifierPhoneNumber.sortClearCountriesCode();
+
+              final sortWithActiveCountryCode =
+                  notifierPhoneNumber.sortActiveCountryCode();
+
               sShowBasicModalBottomSheet(
                 context: context,
                 removeBottomHeaderPadding: true,
-                minHeight: 745.h,
-                maxHeight: 745.h,
+                minHeight: 635.h,
+                maxHeight: 635.h,
                 scrollable: true,
+                pinned: PhoneNumberSearch(
+                  onErase: () {
+                    notifierPhoneNumber.sortClearCountriesCode();
+                  },
+                  onChange: (String countryName) {
+                    if (countryName.isNotEmpty && countryName.length > 1) {
+                      notifierPhoneNumber.sortCountriesCode(countryName);
+                    } else {
+                      notifierPhoneNumber.sortClearCountriesCode();
+                    }
+                  },
+                ),
                 children: [
-                  const PhoneNumberBottomSheet(),
+                  PhoneNumberBottomSheet(
+                    countriesCodeList: sortWithActiveCountryCode,
+                    onTap: (SPhoneNumber country) {
+                      notifierPhoneNumber
+                          .updateCountryCode(country.countryCode);
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 ],
               );
             },
-            isoCode: state.isoCode ?? '',
+            countryCode: statePhoneNumber.countryCode ?? '',
           ),
           SPaddingH24(
             child: Baseline(
@@ -79,15 +107,10 @@ class PhoneVerificationEnter extends HookWidget {
           const Spacer(),
           SPaddingH24(
             child: SPrimaryButton2(
-              active:
-                  state.isoCode != '' && state.phoneNumber != '' || false,
+              active: notifierPhoneNumber.setActiveCode(),
               name: 'Continue',
               onTap: () {
-                final isoCode = state.isoCode;
-                final phoneNumber = state.phoneNumber;
-                if (isoCode != null && phoneNumber != null) {
-                  PhoneVerificationConfirm.push(context, onVerified);
-                }
+                PhoneVerificationConfirm.push(context, onVerified);
               },
             ),
           ),

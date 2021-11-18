@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../current_theme_stpod.dart';
@@ -17,6 +18,7 @@ class SStandardField extends ConsumerWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
+    this.onErase,
     required this.onChanged,
     required this.labelText,
   }) : super(key: key);
@@ -28,6 +30,7 @@ class SStandardField extends ConsumerWidget {
   final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
+  final Function()? onErase;
   final Function(String) onChanged;
   final String labelText;
   final bool autofocus;
@@ -50,6 +53,7 @@ class SStandardField extends ConsumerWidget {
         autofocus: autofocus,
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
+        onErase: onErase,
       );
     } else {
       return SimpleLightStandardField(
@@ -64,6 +68,7 @@ class SStandardField extends ConsumerWidget {
         autofocus: autofocus,
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
+        onErase: onErase,
       );
     }
   }

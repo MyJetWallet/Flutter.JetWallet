@@ -7,10 +7,12 @@ class CountriesLoop extends StatelessWidget {
     Key? key,
     required this.countries,
     required this.onTap,
+    required this.activeCountryCode,
   }) : super(key: key);
 
   final List<SPhoneNumber> countries;
   final Function(SPhoneNumber country) onTap;
+  final String activeCountryCode;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,11 @@ class CountriesLoop extends StatelessWidget {
                     Expanded(
                       child: Text(
                         country.countryName,
-                        style: sSubtitle2Style,
+                        style: sSubtitle2Style.copyWith(
+                          color: (activeCountryCode == country.countryCode)
+                              ? SColorsLight().blue
+                              : SColorsLight().black,
+                        ),
                       ),
                     ),
                   ],
