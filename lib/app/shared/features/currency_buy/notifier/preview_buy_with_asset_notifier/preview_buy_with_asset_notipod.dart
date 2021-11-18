@@ -5,7 +5,9 @@ import 'preview_buy_with_asset_notifier.dart';
 import 'preview_buy_with_asset_state.dart';
 
 final previewBuyWithAssetNotipod = StateNotifierProvider.family.autoDispose<
-    PreviewBuyWithAssetNotifier, ConvertState, PreviewBuyWithAssetInput>(
+    PreviewBuyWithAssetNotifier,
+    PreviewBuyWithAssetState,
+    PreviewBuyWithAssetInput>(
   (ref, input) {
     return PreviewBuyWithAssetNotifier(input, ref.read);
   },

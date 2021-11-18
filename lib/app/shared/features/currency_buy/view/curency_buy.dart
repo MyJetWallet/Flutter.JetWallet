@@ -65,6 +65,7 @@ class CurrencyBuy extends HookWidget {
               )
             else
               SFiatItem(
+                isSelected: currency == state.selectedCurrency,
                 icon: NetworkSvgW24(
                   color: currency == state.selectedCurrency
                       ? colors.blue
