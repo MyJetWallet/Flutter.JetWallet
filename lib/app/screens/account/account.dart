@@ -39,70 +39,70 @@ class Account extends HookWidget {
       child: logout.when(
         result: (_, __) {
           return SingleChildScrollView(
-            child: SPaddingH24(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SimpleAccountCategoryHeader(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SPaddingH24(
+                  child: SimpleAccountCategoryHeader(
                     userEmail: authInfo.email,
                   ),
-                  const SimpleAccountBannerList(),
-                  const SpaceH20(),
-                  Column(
-                    children: <Widget>[
-                      SimpleAccountCategoryButton(
-                        title: 'Profile details',
-                        icon: const SProfileDetailsIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'Security',
-                        icon: const SSecurityIcon(),
-                        isSDivider: true,
-                        onTap: () {
-                          navigatorPush(context, const AccountSecurity());
-                        },
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'Notifications',
-                        icon: const SNotificationsIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'Support',
-                        icon: const SSupportIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'FAQ',
-                        icon: const SFaqIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'About us',
-                        icon: const SAboutUsIcon(),
-                        isSDivider: false,
-                        onTap: () {
-                          navigatorPush(context, const AboutUs());
-                        },
-                      ),
-                    ],
-                  ),
-                  const SpaceH20(),
-                  const SDivider(),
-                  const SpaceH20(),
-                  LogOutOption(
-                    name: intl.logout,
-                    onTap: () => logoutN.logout(),
-                  ),
-                  const SpaceH20(),
-                  const SDivider(),
-                ],
-              ),
+                ),
+                const SimpleAccountBannerList(),
+                const SpaceH20(),
+                Column(
+                  children: <Widget>[
+                    SimpleAccountCategoryButton(
+                      title: 'Profile details',
+                      icon: const SProfileDetailsIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'Security',
+                      icon: const SSecurityIcon(),
+                      isSDivider: true,
+                      onTap: () {
+                        navigatorPush(context, const AccountSecurity());
+                      },
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'Notifications',
+                      icon: const SNotificationsIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'Support',
+                      icon: const SSupportIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'FAQ',
+                      icon: const SFaqIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'About us',
+                      icon: const SAboutUsIcon(),
+                      isSDivider: false,
+                      onTap: () {
+                        navigatorPush(context, const AboutUs());
+                      },
+                    ),
+                  ],
+                ),
+                const SpaceH20(),
+                const SDivider(),
+                const SpaceH20(),
+                LogOutOption(
+                  name: intl.logout,
+                  onTap: () => logoutN.logout(),
+                ),
+                const SpaceH20(),
+                const SDivider(),
+              ],
             ),
           );
         },

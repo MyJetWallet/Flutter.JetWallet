@@ -16,6 +16,7 @@ class SimpleLightStandardField extends HookWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
+    this.alignLabelWithHint = false,
     required this.onChanged,
     required this.labelText,
   }) : super(key: key);
@@ -30,6 +31,7 @@ class SimpleLightStandardField extends HookWidget {
   final Function(String) onChanged;
   final String labelText;
   final bool autofocus;
+  final bool alignLabelWithHint;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class SimpleLightStandardField extends HookWidget {
       autofocus: autofocus,
       autofillHints: autofillHints,
       textInputAction: textInputAction,
+      alignLabelWithHint: alignLabelWithHint,
       suffixIcon: controller2.text.isNotEmpty
           ? GestureDetector(
               onTap: () => controller2.clear(),

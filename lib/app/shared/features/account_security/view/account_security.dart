@@ -16,15 +16,19 @@ class AccountSecurity extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
 
-    return SPageFrameWithPadding(
-      header: SSmallHeader(
-        title: 'Security',
-        onBackButtonTap: () => Navigator.pop(context),
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: 'Security',
+          onBackButtonTap: () => Navigator.pop(context),
+        ),
       ),
       child: Column(
         children: <Widget>[
           const SpaceH20(),
-          const SecurityProtection(),
+          const SPaddingH24(
+            child: SecurityProtection(),
+          ),
           const SpaceH40(),
           SimpleAccountCategoryButton(
             title: 'Face / Touch ID & PIN',

@@ -52,6 +52,7 @@ class PhoneVerificationConfirm extends HookWidget {
           error: (error) {
             showPlainSnackbar(context, error);
             phoneN.resetError();
+            Navigator.of(context).pop();
           },
           orElse: () {},
         );

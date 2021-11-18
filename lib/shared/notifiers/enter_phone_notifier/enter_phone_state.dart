@@ -7,5 +7,6 @@ class EnterPhoneState with _$EnterPhoneState {
   const factory EnterPhoneState({
     @Default(false) bool valid,
     @Default('') String? phoneNumber,
+    @Default('+380') String? isoCode,
   }) = _EnterPhoneState;
 }

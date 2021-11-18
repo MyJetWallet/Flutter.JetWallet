@@ -21,10 +21,12 @@ class TwoFaScreen extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
 
-    return SPageFrameWithPadding(
-      header: SSmallHeader(
-        title: 'SMS Authenticator',
-        onBackButtonTap: () => Navigator.pop(context),
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: 'SMS Authenticator',
+          onBackButtonTap: () => Navigator.pop(context),
+        ),
       ),
       child: Column(
         children: [

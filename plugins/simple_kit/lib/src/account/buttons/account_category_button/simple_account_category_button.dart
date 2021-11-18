@@ -25,46 +25,48 @@ class SimpleAccountCategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 30.h,
-            margin: EdgeInsets.symmetric(
-              vertical: 18.h,
-            ),
-            child: Row(
-              children: <Widget>[
-                icon,
-                const SpaceW20(),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: sSubtitle1Style,
+      child: SPaddingH24(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 30.h,
+              margin: EdgeInsets.symmetric(
+                vertical: 18.h,
+              ),
+              child: Row(
+                children: <Widget>[
+                  icon,
+                  const SpaceW20(),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: sSubtitle1Style,
+                    ),
                   ),
-                ),
-                if (onSwitchChanged != null)
-                  Container(
-                    width: 40.w,
-                    height: 22.w,
-                    decoration: BoxDecoration(
-                      color: switchValue ? Colors.black : Colors.grey,
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Switch(
-                      value: switchValue,
-                      onChanged: onSwitchChanged,
-                      activeColor: Colors.white,
-                      activeTrackColor: Colors.black,
-                      inactiveThumbColor: Colors.white,
-                      inactiveTrackColor: Colors.grey,
-                    ),
-                  )
-              ],
+                  if (onSwitchChanged != null)
+                    Container(
+                      width: 40.w,
+                      height: 22.w,
+                      decoration: BoxDecoration(
+                        color: switchValue ? Colors.black : Colors.grey,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Switch(
+                        value: switchValue,
+                        onChanged: onSwitchChanged,
+                        activeColor: Colors.white,
+                        activeTrackColor: Colors.black,
+                        inactiveThumbColor: Colors.white,
+                        inactiveTrackColor: Colors.grey,
+                      ),
+                    )
+                ],
+              ),
             ),
-          ),
-          if (isSDivider)
-            const SDivider(),
-        ],
+            if (isSDivider)
+              const SDivider(),
+          ],
+        ),
       ),
     );
   }

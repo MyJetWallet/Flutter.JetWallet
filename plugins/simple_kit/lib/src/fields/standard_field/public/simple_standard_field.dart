@@ -9,6 +9,7 @@ class SStandardField extends ConsumerWidget {
   const SStandardField({
     Key? key,
     this.autofocus = false,
+    this.alignLabelWithHint = false,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -30,6 +31,7 @@ class SStandardField extends ConsumerWidget {
   final Function(String) onChanged;
   final String labelText;
   final bool autofocus;
+  final bool alignLabelWithHint;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -47,6 +49,7 @@ class SStandardField extends ConsumerWidget {
         labelText: labelText,
         autofocus: autofocus,
         autofillHints: autofillHints,
+        alignLabelWithHint: alignLabelWithHint,
       );
     } else {
       return SimpleLightStandardField(
@@ -60,6 +63,7 @@ class SStandardField extends ConsumerWidget {
         labelText: labelText,
         autofocus: autofocus,
         autofillHints: autofillHints,
+        alignLabelWithHint: alignLabelWithHint,
       );
     }
   }

@@ -17,6 +17,7 @@ class SimpleBaseStandardField extends HookWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
+    this.alignLabelWithHint = false,
     required this.suffixIcon,
     required this.onChanged,
     required this.labelText,
@@ -24,6 +25,7 @@ class SimpleBaseStandardField extends HookWidget {
 
   final bool obscureText;
   final bool autofocus;
+  final bool alignLabelWithHint;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -63,6 +65,7 @@ class SimpleBaseStandardField extends HookWidget {
           decoration: InputDecoration(
             border: InputBorder.none,
             labelText: labelText,
+            alignLabelWithHint: alignLabelWithHint,
             labelStyle: sSubtitle2Style.copyWith(
               color: SColorsLight().grey2,
             ),

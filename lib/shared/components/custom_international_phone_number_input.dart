@@ -28,9 +28,9 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
           inputDecoration: InputDecoration(
             suffixIcon: controller.text.isNotEmpty
                 ? GestureDetector(
-              onTap: () => controller.clear(),
-              child: const SEraseIcon(),
-            )
+                    onTap: () => controller.clear(),
+                    child: const SEraseIcon(),
+                  )
                 : const SizedBox(),
             suffixIconConstraints: BoxConstraints(
               maxWidth: 24.r,
@@ -43,8 +43,10 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
               vertical: 24.h,
             ),
             labelText: 'Phone number',
+            alignLabelWithHint: true,
             labelStyle: TextStyle(
               color: SColorsLight().grey2,
+              textBaseline: TextBaseline.alphabetic,
             ),
             border: InputBorder.none,
           ),
@@ -52,22 +54,30 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
           inputBorder: const OutlineInputBorder(
             borderSide: BorderSide.none,
           ),
-          searchBoxDecoration: const InputDecoration(
-            hintText: 'Search country',
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            focusedBorder: OutlineInputBorder(
+          searchBoxDecoration: InputDecoration(
+            hintStyle: sTextH5Style,
+            labelText: 'Search country',
+            counterStyle: TextStyle(
+              height: 12.h,
+            ),
+            floatingLabelStyle: TextStyle(
+              color: SColorsLight().grey2,
+              textBaseline: TextBaseline.alphabetic,
+            ),
+            contentPadding: EdgeInsets.zero,
+            focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.transparent,
                 width: 0,
               ),
             ),
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.transparent,
                 width: 0,
               ),
             ),
-            errorBorder: OutlineInputBorder(
+            errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.transparent,
                 width: 0,
@@ -75,15 +85,17 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
             ),
             alignLabelWithHint: true,
           ),
-          selectorConfig: const SelectorConfig(
+          selectorConfig: SelectorConfig(
             showFlags: false,
-            leadingPadding: 3,
+            leadingPadding: 3.h,
             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
           ),
-          selectorTextStyle: sSubtitle2Style.copyWith(height: 3),
+
+          selectorTextStyle: sSubtitle2Style.copyWith(height: 3.h),
           onInputChanged: (number) => onChanged(number),
           onInputValidated: (valid) => onValidated(valid),
         ),
+
         Positioned(
           left: 74.w,
           child: Container(

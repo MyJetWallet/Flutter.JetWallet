@@ -25,7 +25,9 @@ class PhoneVerificationConfirmNotifier
         ) {
     _userInfoN = read(userInfoNotipod.notifier);
     final phoneVerification = read(enterPhoneNotipod);
-    _updatePhoneNumber(phoneVerification.phoneNumber);
+    final phoneNumberWithIso =
+        '${phoneVerification.isoCode}${phoneVerification.phoneNumber}';
+    _updatePhoneNumber(phoneNumberWithIso);
     sendCode();
   }
 

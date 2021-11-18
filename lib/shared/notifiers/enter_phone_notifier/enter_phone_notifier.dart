@@ -20,4 +20,14 @@ class EnterPhoneNotifier extends StateNotifier<EnterPhoneState> {
 
     state = state.copyWith(phoneNumber: number);
   }
+
+  void updateIsoCode(String? number) {
+    _logger.log(notifier, 'updateIsoCode');
+
+    state = EnterPhoneState(
+      phoneNumber: state.phoneNumber,
+      isoCode: number,
+      valid: state.valid,
+    );
+  }
 }
