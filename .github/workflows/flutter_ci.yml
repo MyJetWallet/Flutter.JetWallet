@@ -48,7 +48,7 @@ jobs:
       #   with:
       #     username: ${{ secrets.ST_DOCKER_USER }}
       #     password: ${{ secrets.ST_DOCKER_PASSWORD }}
-      #     registry: simpletrading.azurecr.io
+      #     registry: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
       #     repository: spot/myjetwallet.flutter.jetwallet-test
       #     tags: latest             
 
