@@ -12,7 +12,7 @@ class SWalletItem extends StatelessWidget {
     required this.icon,
     required this.name,
     required this.amount,
-    required this.ticker,
+    required this.balance,
     required this.onTap,
   }) : super(key: key);
 
@@ -21,7 +21,7 @@ class SWalletItem extends StatelessWidget {
   final Widget icon;
   final String name;
   final String amount;
-  final String ticker;
+  final String balance;
   final Function() onTap;
 
   @override
@@ -66,7 +66,7 @@ class SWalletItem extends StatelessWidget {
                           baseline: 19.4.h,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            ticker,
+                            balance,
                             style: sBodyText2Style.copyWith(
                               color: SColorsLight().grey3,
                             ),

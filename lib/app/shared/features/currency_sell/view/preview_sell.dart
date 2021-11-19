@@ -4,24 +4,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../components/convert_preview/view/components/quote_error_text.dart';
-import '../model/preview_buy_with_asset_input.dart';
-import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_notipod.dart';
-import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_state.dart';
-import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_union.dart';
+import '../model/preview_sell_input.dart';
+import '../notifier/preview_sell_notifier/preview_sell_notipod.dart';
+import '../notifier/preview_sell_notifier/preview_sell_state.dart';
+import '../notifier/preview_sell_notifier/preview_sell_union.dart';
 
-class PreviewBuyWithAsset extends StatefulHookWidget {
-  const PreviewBuyWithAsset({
+class PreviewSell extends StatefulHookWidget {
+  const PreviewSell({
     Key? key,
     required this.input,
   }) : super(key: key);
 
-  final PreviewBuyWithAssetInput input;
+  final PreviewSellInput input;
 
   @override
-  State<PreviewBuyWithAsset> createState() => _PreviewBuyWithAssetState();
+  State<PreviewSell> createState() => _PreviewSell();
 }
 
-class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
+class _PreviewSell extends State<PreviewSell>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
@@ -30,7 +30,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
     _animationController = AnimationController(vsync: this);
 
     final notifier = context.read(
-      previewBuyWithAssetNotipod(widget.input).notifier,
+      previewSellNotipod(widget.input).notifier,
     );
     notifier.updateTimerAnimation(_animationController);
     super.initState();
@@ -44,14 +44,12 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(previewBuyWithAssetNotipod(widget.input));
-    final notifier = useProvider(
-      previewBuyWithAssetNotipod(widget.input).notifier,
-    );
+    final state = useProvider(previewSellNotipod(widget.input));
+    final notifier = useProvider(previewSellNotipod(widget.input).notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
 
-    return ProviderListener<PreviewBuyWithAssetState>(
-      provider: previewBuyWithAssetNotipod(widget.input),
+    return ProviderListener<PreviewSellState>(
+      provider: previewSellNotipod(widget.input),
       onChange: (_, value) {
         if (value.union is ExecuteLoading) {
           loader.value.startLoading();
@@ -74,13 +72,12 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
           children: [
             const Spacer(),
             SActionConfirmIconWithAnimation(
-              iconUrl: widget.input.toCurrency.iconUrl,
+              iconUrl: widget.input.fromCurrency.iconUrl,
             ),
             const Spacer(),
             SActionConfirmText(
               name: 'You Pay',
-              value: '${state.fromAssetAmount} '
-                  '${state.fromAssetSymbol}',
+              value: '${state.fromAssetAmount} ${state.fromAssetSymbol}',
             ),
             SActionConfirmText(
               name: 'You get',

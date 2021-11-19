@@ -18,31 +18,30 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../../components/convert_preview/view/components/quote_updated_dialog.dart';
-import '../../model/preview_buy_with_asset_input.dart';
-import '../../view/curency_buy.dart';
-import 'preview_buy_with_asset_state.dart';
-import 'preview_buy_with_asset_union.dart';
+import '../../model/preview_sell_input.dart';
+import '../../view/currency_sell.dart';
+import 'preview_sell_state.dart';
+import 'preview_sell_union.dart';
 
-class PreviewBuyWithAssetNotifier
-    extends StateNotifier<PreviewBuyWithAssetState> {
-  PreviewBuyWithAssetNotifier(
+class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
+  PreviewSellNotifier(
     this.input,
     this.read,
-  ) : super(const PreviewBuyWithAssetState()) {
+  ) : super(const PreviewSellState()) {
     _context = read(sNavigatorKeyPod).currentContext!;
     _updateFrom(input);
     requestQuote();
   }
 
   final Reader read;
-  final PreviewBuyWithAssetInput input;
+  final PreviewSellInput input;
 
   Timer _timer = Timer(Duration.zero, () {});
   late BuildContext _context;
 
   static final _logger = Logger('PreviewBuyWithAssetNotifier');
 
-  void _updateFrom(PreviewBuyWithAssetInput input) {
+  void _updateFrom(PreviewSellInput input) {
     state = state.copyWith(
       fromAssetAmount: double.parse(input.amount),
       fromAssetSymbol: input.fromCurrency.symbol,
@@ -207,8 +206,8 @@ class PreviewBuyWithAssetNotifier
           Navigator.pushAndRemoveUntil(
             _context,
             MaterialPageRoute(
-              builder: (_) => CurrencyBuy(
-                currency: input.toCurrency,
+              builder: (_) => CurrencySell(
+                currency: input.fromCurrency,
               ),
             ),
             (route) => route.isFirst,
@@ -221,7 +220,7 @@ class PreviewBuyWithAssetNotifier
   }
 
   String get previewHeader {
-    return 'Confirm Buy ${input.toCurrency.description}';
+    return 'Confirm Sell ${input.fromCurrency.description}';
   }
 
   @override

@@ -24,7 +24,7 @@ class SimpleWalletItemExample extends StatelessWidget {
                   name: 'Bitcoin',
                   decline: false,
                   amount: '\$57 415.80',
-                  ticker: 'BTC',
+                  balance: 'BTC',
                 ),
               ),
               Container(
@@ -105,7 +105,7 @@ class SimpleWalletItemExample extends StatelessWidget {
             name: 'Bitcoin really long',
             amount: '\$0 000 000.00',
             decline: false,
-            ticker: 'BTC',
+            balance: 'BTC',
           ),
           SWalletItem(
             onTap: () {},
@@ -114,7 +114,7 @@ class SimpleWalletItemExample extends StatelessWidget {
             name: 'Bitcoin really long long',
             amount: '\$57 415.80',
             decline: false,
-            ticker: 'BTC',
+            balance: 'BTC',
           ),
           SWalletItem(
             onTap: () {},
@@ -123,7 +123,7 @@ class SimpleWalletItemExample extends StatelessWidget {
             name: 'Bitcoin really long long',
             amount: '\$57 415.80',
             decline: true,
-            ticker: 'BTC',
+            balance: 'BTC',
           ),
         ],
       ),
