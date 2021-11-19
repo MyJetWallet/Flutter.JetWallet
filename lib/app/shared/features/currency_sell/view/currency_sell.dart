@@ -5,13 +5,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../helpers/format_currency_amount.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../notifier/currency_sell_notipod.dart';
+import '../model/preview_sell_input.dart';
+import '../notifier/currency_sell_notifier/currency_sell_notipod.dart';
+import 'preview_sell.dart';
 
 class CurrencySell extends HookWidget {
   const CurrencySell({
@@ -167,31 +170,18 @@ class CurrencySell extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.inputValid,
-            submitButtonName: 'Preview Buy',
+            submitButtonName: 'Preview Sell',
             onSubmitPressed: () {
-              // navigatorPush(
-              //     context,
-              //     ConvertPreview(
-              //       ConvertPreviewInput(
-              //         currency: currency,
-              //         fromAssetAmount: state.inputValue,
-              //         fromAssetSymbol: currency.symbol,
-              //         toAssetSymbol: state.selectedCurrency!.symbol,
-              //         assetDescription: currency.description,
-              //         action: TriggerAction.sell,
-              //       ),
-              //     ),
-              //   );
-              // navigatorPush(
-              //   context,
-              //   PreviewBuyWithAsset(
-              //     input: PreviewBuyWithAssetInput(
-              //       currency: currency,
-              //       fromAssetAmount: state.inputValue,
-              //       fromAssetSymbol: state.selectedCurrency!.symbol,
-              //     ),
-              //   ),
-              // );
+              navigatorPush(
+                context,
+                PreviewSell(
+                  input: PreviewSellInput(
+                    amount: state.inputValue,
+                    fromCurrency: currency,
+                    toCurrency: state.selectedCurrency!,
+                  ),
+                ),
+              );
             },
           ),
         ],

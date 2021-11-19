@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../models/currency_model.dart';
+import '../../../../models/currency_model.dart';
 import 'currency_sell_notifier.dart';
 import 'currency_sell_state.dart';
 
