@@ -11,36 +11,34 @@ class SimplePasswordRequirementExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SPageFrameWithPadding(
-      child: Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SPasswordRequirement(
-              passed: true,
-              description: 'be between 8 to 31 characters',
-            ),
-            const SPasswordRequirement(
-              passed: false,
-              description: 'be between 8 to 31 characters',
-            ),
-            const SpaceH10(),
-            Stack(
-              children: [
-                Container(
-                  color: Colors.grey.withOpacity(0.3),
-                  child: const SPasswordRequirement(
-                    passed: false,
-                    description: 'be between 8 to 31 characters',
-                  ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SPasswordRequirement(
+            passed: true,
+            description: 'be between 8 to 31 characters',
+          ),
+          const SPasswordRequirement(
+            passed: false,
+            description: 'be between 8 to 31 characters',
+          ),
+          const SpaceH10(),
+          Stack(
+            children: [
+              Container(
+                color: Colors.grey.withOpacity(0.3),
+                child: const SPasswordRequirement(
+                  passed: false,
+                  description: 'be between 8 to 31 characters',
                 ),
-                Container(
-                  color: Colors.green.withOpacity(0.3),
-                  height: 17.h,
-                )
-              ],
-            ),
-          ],
-        ),
+              ),
+              Container(
+                color: Colors.green.withOpacity(0.3),
+                height: 17.h,
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
