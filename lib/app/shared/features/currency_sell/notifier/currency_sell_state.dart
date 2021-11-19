@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../helpers/format_currency_string_amount.dart';
+import 'package:simple_kit/simple_kit.dart';
 
+import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
@@ -10,12 +11,13 @@ part 'currency_sell_state.freezed.dart';
 @freezed
 class CurrencySellState with _$CurrencySellState {
   const factory CurrencySellState({
+    double? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
-    double? targetConversionPrice,
+    SKeyboardPreset? selectedPreset,
+    @Default('0') String inputValue,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,
-    @Default('0') String inputValue,
     @Default(false) bool inputValid,
     @Default([]) List<CurrencyModel> currencies,
     @Default(InputError.none) InputError inputError,
@@ -47,9 +49,9 @@ class CurrencySellState with _$CurrencySellState {
     );
 
     if (selectedCurrency == null) {
-      return base;
+      return '≈ $base';
     } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
-      return base;
+      return '≈ $base';
     } else {
       return '≈ $targetConversionValue ${selectedCurrency!.symbol} ($base)';
     }
