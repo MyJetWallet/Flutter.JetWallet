@@ -63,6 +63,7 @@ class PhoneVerificationEnter extends HookWidget {
               sShowBasicModalBottomSheet(
                 context: context,
                 removeBottomHeaderPadding: true,
+                horizontalPinnedPadding: 0,
                 minHeight: 635.h,
                 maxHeight: 635.h,
                 scrollable: true,

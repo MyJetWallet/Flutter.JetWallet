@@ -13,15 +13,22 @@ class PhoneNumberSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SStandardField(
-      onErase: onErase,
-      labelText: 'Search country',
-      autofocus: true,
-      autofillHints: const [AutofillHints.telephoneNumber],
-      keyboardType: TextInputType.phone,
-      textInputAction: TextInputAction.next,
-      alignLabelWithHint: true,
-      onChanged: (String value) => onChange(value),
+    return Column(
+      children: [
+        SPaddingH24(
+          child: SStandardField(
+            onErase: onErase,
+            labelText: 'Search country',
+            autofocus: true,
+            autofillHints: const [AutofillHints.telephoneNumber],
+            keyboardType: TextInputType.phone,
+            textInputAction: TextInputAction.next,
+            alignLabelWithHint: true,
+            onChanged: (String value) => onChange(value),
+          ),
+        ),
+        const SDivider(),
+      ],
     );
   }
 }

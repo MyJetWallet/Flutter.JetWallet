@@ -15,6 +15,7 @@ class BasicBottomSheet extends HookWidget {
     this.horizontalPadding,
     this.onWillPop,
     this.removeBottomSheetBar = false,
+    this.horizontalPinnedPadding,
     required this.removeBottomHeaderPadding,
     required this.color,
     required this.scrollable,
@@ -32,6 +33,7 @@ class BasicBottomSheet extends HookWidget {
   final Color color;
   final List<Widget> children;
   final bool scrollable;
+  final double? horizontalPinnedPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,7 @@ class BasicBottomSheet extends HookWidget {
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
-                    horizontal: 24.w,
+                    horizontal: horizontalPinnedPadding ?? 24.w,
                   ),
                   child: Column(
                     children: [
