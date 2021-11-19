@@ -99,7 +99,7 @@ class Account extends HookWidget {
                 const SDivider(),
                 const SpaceH20(),
                 LogOutOption(
-                  name: intl.logout,
+                  name: 'Log out',
                   onTap: () => logoutN.logout(),
                 ),
                 const SpaceH20(),
