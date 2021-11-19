@@ -24,7 +24,8 @@ class SMarketHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 160.h,
-      child: Column(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           SizedBox(
             height: 64.h,

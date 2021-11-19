@@ -5,6 +5,7 @@ library simple_kit;
 /// Account
 export 'src/account/buttons/account_category_button/simple_account_category_button.dart';
 export 'src/account/headers/simple_account_category_header.dart';
+export 'src/account/buttons/term/simple_account_term_button.dart';
 
 /// Indicator
 export 'src/account/indicator/simple_account_protection_indicator.dart';
@@ -13,10 +14,13 @@ export 'src/account/indicator/simple_account_protection_indicator.dart';
 export 'src/account/banners/simple_account_banner_list.dart';
 export 'src/account/banners/simple_account_banner.dart';
 
-
 /// Actions
+export 'src/actions/confirm_action_timer/simple_confirm_action_timer.dart';
+export 'src/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
+export 'src/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
 export 'src/actions/simple_action_confirm_description.dart';
-export 'src/actions/simple_action_confirm_icon_with_gradient_shadow.dart';
+export 'src/actions/simple_action_confirm_icon_with_animation.dart';
+export 'src/actions/simple_action_confirm_skeleton_loader.dart';
 export 'src/actions/simple_action_confirm_text.dart';
 export 'src/actions/simple_action_price_field.dart';
 export 'src/actions/simple_payment_select_asset.dart';

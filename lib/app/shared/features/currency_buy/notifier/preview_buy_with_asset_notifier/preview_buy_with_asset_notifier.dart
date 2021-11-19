@@ -23,11 +23,12 @@ import '../../view/curency_buy.dart';
 import 'preview_buy_with_asset_state.dart';
 import 'preview_buy_with_asset_union.dart';
 
-class PreviewBuyWithAssetNotifier extends StateNotifier<ConvertState> {
+class PreviewBuyWithAssetNotifier
+    extends StateNotifier<PreviewBuyWithAssetState> {
   PreviewBuyWithAssetNotifier(
     this.input,
     this.read,
-  ) : super(const ConvertState()) {
+  ) : super(const PreviewBuyWithAssetState()) {
     _context = read(sNavigatorKeyPod).currentContext!;
     _updateFrom(input);
     requestQuote();
@@ -43,9 +44,9 @@ class PreviewBuyWithAssetNotifier extends StateNotifier<ConvertState> {
 
   void _updateFrom(PreviewBuyWithAssetInput input) {
     state = state.copyWith(
-      fromAssetAmount: double.parse(input.fromAssetAmount),
-      fromAssetSymbol: input.fromAssetSymbol,
-      toAssetSymbol: input.currency.symbol,
+      fromAssetAmount: double.parse(input.amount),
+      fromAssetSymbol: input.fromCurrency.symbol,
+      toAssetSymbol: input.toCurrency.symbol,
     );
   }
 
@@ -74,6 +75,7 @@ class PreviewBuyWithAssetNotifier extends StateNotifier<ConvertState> {
         connectingToServer: false,
       );
 
+      _refreshTimerAnimation(response.expirationTime);
       _refreshTimer(response.expirationTime);
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'requestQuote', error.cause);
@@ -139,6 +141,17 @@ class PreviewBuyWithAssetNotifier extends StateNotifier<ConvertState> {
     _timer.cancel();
   }
 
+  /// Will be triggered during initState of the parent widget
+  void updateTimerAnimation(AnimationController controller) {
+    state = state.copyWith(timerAnimation: controller);
+  }
+
+  /// Will be triggered only when timerAnimation is not Null
+  void _refreshTimerAnimation(int duration) {
+    state.timerAnimation!.duration = Duration(seconds: duration);
+    state.timerAnimation!.countdown();
+  }
+
   void _refreshTimer(int initial) {
     _timer.cancel();
     state = state.copyWith(timer: initial);
@@ -195,7 +208,7 @@ class PreviewBuyWithAssetNotifier extends StateNotifier<ConvertState> {
             _context,
             MaterialPageRoute(
               builder: (_) => CurrencyBuy(
-                currency: input.currency,
+                currency: input.toCurrency,
               ),
             ),
             (route) => route.isFirst,
@@ -208,7 +221,7 @@ class PreviewBuyWithAssetNotifier extends StateNotifier<ConvertState> {
   }
 
   String get previewHeader {
-    return 'Confirm Buy ${input.currency.description}';
+    return 'Confirm Buy ${input.toCurrency.description}';
   }
 
   @override

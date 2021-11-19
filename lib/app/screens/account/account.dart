@@ -10,7 +10,6 @@ import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
-import '../../../shared/providers/service_providers.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 
@@ -21,7 +20,6 @@ class Account extends HookWidget {
   Widget build(BuildContext context) {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
-    final intl = useProvider(intlPod);
     final authInfo = useProvider(authInfoNotipod);
 
     return ProviderListener<LogoutUnion>(
@@ -97,7 +95,7 @@ class Account extends HookWidget {
                 const SDivider(),
                 const SpaceH20(),
                 LogOutOption(
-                  name: intl.logout,
+                  name: 'Log out',
                   onTap: () => logoutN.logout(),
                 ),
                 const SpaceH20(),

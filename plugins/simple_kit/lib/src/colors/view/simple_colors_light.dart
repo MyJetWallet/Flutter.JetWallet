@@ -4,13 +4,10 @@ import 'simple_colors.dart';
 
 class SColorsLight implements SimpleColors {
   @override
-  Color black = const Color(0xFF000000);
+  Color red = const Color(0xFFF50537);
 
   @override
   Color blue = const Color(0xFF374DFB);
-
-  @override
-  Color red = const Color(0xFFF50537);
 
   @override
   Color green = const Color(0xFF0BCA1E);
@@ -34,5 +31,23 @@ class SColorsLight implements SimpleColors {
   Color grey6 = const Color(0xFFE0EBFA);
 
   @override
+  Color black = const Color(0xFF000000);
+
+  @override
   Color white = const Color(0xFFFFFFFF);
+
+  @override
+  Color violet = const Color(0xFFE0E3FA);
+
+  @override
+  Color redLight = const Color(0xFFFAF2EE);
+
+  @override
+  Color blueLight = const Color(0xFFE0EBFA);
+
+  @override
+  Color greenLight = const Color(0xFFE8F9E8);
+
+  @override
+  Color yellowLight = const Color(0xFFFAF3E0);
 }

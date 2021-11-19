@@ -11,13 +11,15 @@ class MarketTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      margin: EdgeInsets.only(
+        right: 10.w,
+      ),
       padding: EdgeInsets.symmetric(
-        vertical: 4.h,
+        vertical: 6.h,
+        horizontal: 16.w,
       ),
-      child: Text(
-        text,
-      ),
+      child: Text(text),
     );
   }
 }

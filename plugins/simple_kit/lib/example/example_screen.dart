@@ -12,7 +12,8 @@ import 'account/simple_account_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
-import 'actions/examples/simple_action_confirm_description.dart';
+import 'actions/examples/simple_action_confirm_description_example.dart';
+import 'actions/examples/simple_action_confirm_skeleton_loader_example.dart';
 import 'actions/examples/simple_action_confirm_text_example.dart';
 import 'actions/examples/simple_action_price_field_example.dart';
 import 'actions/examples/simple_payment_select_asset_example.dart';
@@ -231,6 +232,9 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleActionConfrimDescriptionExample.routeName: (context) {
               return const SimpleActionConfrimDescriptionExample();
+            },
+            SimpleActionConfrimSkeletonLoaderExample.routeName: (context) {
+              return const SimpleActionConfrimSkeletonLoaderExample();
             }
           },
         );

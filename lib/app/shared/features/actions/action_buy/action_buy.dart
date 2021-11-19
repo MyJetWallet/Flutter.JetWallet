@@ -38,6 +38,7 @@ class _ActionBuy extends HookWidget {
             ),
             name: currency.description,
             price: formatCurrencyAmount(
+              prefix: baseCurrency.prefix,
               value: baseCurrency.symbol == currency.symbol
                   ? 1
                   : currency.currentPrice,
