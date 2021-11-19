@@ -7,8 +7,8 @@ part 'preview_buy_with_asset_input.freezed.dart';
 @freezed
 class PreviewBuyWithAssetInput with _$PreviewBuyWithAssetInput {
   const factory PreviewBuyWithAssetInput({
-    required CurrencyModel currency,
-    required String fromAssetAmount,
-    required String fromAssetSymbol,
+    required String amount,
+    required CurrencyModel fromCurrency,
+    required CurrencyModel toCurrency,
   }) = _PreviewBuyWithAssetInput;
 }

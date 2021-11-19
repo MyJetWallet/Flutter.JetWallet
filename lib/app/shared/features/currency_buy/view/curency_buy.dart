@@ -165,9 +165,9 @@ class CurrencyBuy extends HookWidget {
                     context,
                     PreviewBuyWithAsset(
                       input: PreviewBuyWithAssetInput(
-                        currency: currency,
-                        fromAssetAmount: state.inputValue,
-                        fromAssetSymbol: state.selectedCurrency!.symbol,
+                        amount: state.inputValue,
+                        fromCurrency: state.selectedCurrency!,
+                        toCurrency: currency,
                       ),
                     ),
                   );

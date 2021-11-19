@@ -44,9 +44,9 @@ class PreviewBuyWithAssetNotifier
 
   void _updateFrom(PreviewBuyWithAssetInput input) {
     state = state.copyWith(
-      fromAssetAmount: double.parse(input.fromAssetAmount),
-      fromAssetSymbol: input.fromAssetSymbol,
-      toAssetSymbol: input.currency.symbol,
+      fromAssetAmount: double.parse(input.amount),
+      fromAssetSymbol: input.fromCurrency.symbol,
+      toAssetSymbol: input.toCurrency.symbol,
     );
   }
 
@@ -208,7 +208,7 @@ class PreviewBuyWithAssetNotifier
             _context,
             MaterialPageRoute(
               builder: (_) => CurrencyBuy(
-                currency: input.currency,
+                currency: input.toCurrency,
               ),
             ),
             (route) => route.isFirst,
@@ -221,7 +221,7 @@ class PreviewBuyWithAssetNotifier
   }
 
   String get previewHeader {
-    return 'Confirm Buy ${input.currency.description}';
+    return 'Confirm Buy ${input.toCurrency.description}';
   }
 
   @override

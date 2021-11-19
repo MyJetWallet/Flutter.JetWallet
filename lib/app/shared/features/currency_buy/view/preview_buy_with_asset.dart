@@ -74,26 +74,26 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
           children: [
             const Spacer(),
             SActionConfirmIconWithAnimation(
-              iconUrl: widget.input.currency.iconUrl,
+              iconUrl: widget.input.toCurrency.iconUrl,
             ),
             const Spacer(),
             SActionConfirmText(
               name: 'You Pay',
-              value: '${widget.input.fromAssetAmount} '
-                  '${widget.input.fromAssetSymbol}',
+              value: '${state.fromAssetAmount} '
+                  '${state.fromAssetSymbol}',
             ),
             SActionConfirmText(
               name: 'You get',
               contentLoading: state.union is QuoteLoading,
-              value: '≈ ${state.toAssetAmount} ${widget.input.currency.symbol}',
+              value: '≈ ${state.toAssetAmount} ${state.toAssetSymbol}',
             ),
             SActionConfirmText(
               name: 'Exchange Rate',
               contentLoading: state.union is QuoteLoading,
               timerLoading: state.union is QuoteLoading,
               animation: state.timerAnimation,
-              value: '1 ${widget.input.fromAssetSymbol} = '
-                  '${state.price} ${widget.input.currency.symbol}',
+              value: '1 ${state.fromAssetSymbol} = '
+                  '${state.price} ${state.toAssetSymbol}',
             ),
             const SpaceH40(),
             // TODO(eli): Update with new UI
