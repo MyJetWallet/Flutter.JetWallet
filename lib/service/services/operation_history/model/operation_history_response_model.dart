@@ -49,6 +49,11 @@ enum OperationType {
   @JsonValue(7)
   receiveByPhone,
   @JsonValue(8)
+  paidInterestRate,
+  @JsonValue(9)
+  transfer,
+  @JsonValue(10)
+  feeSharePayment,
   unknown,
   buy,
   sell,
