@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/components/loaders/loader.dart';
+import 'package:jetwallet/auth/screens/splash/splash_screen.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
@@ -31,9 +31,7 @@ class AppInit extends HookWidget {
         return router.state.when(
           authorized: () {
             return startup.authorized.when(
-              loading: () => const Loader(
-                color: Colors.white,
-              ),
+              loading: () => const SplashScreen(),
               emailVerification: () => const EmailVerification(),
               twoFaVerification: () {
                 return const TwoFaPhone(
@@ -58,9 +56,7 @@ class AppInit extends HookWidget {
           unauthorized: () => const OnboardingScreen(),
         );
       },
-      loading: () => const Loader(
-        color: Colors.white,
-      ),
+      loading: () => const SplashScreen(),
       error: (e, st) => Text('$e'),
     );
   }
