@@ -28,7 +28,8 @@ class PhoneVerificationConfirmNotifier
     final countryPhoneVerification = read(phoneNumberNotipod);
 
     final phoneNumberWithIso =
-        '${countryPhoneVerification.countryCode}${countryPhoneVerification.phoneNumber}';
+        '${countryPhoneVerification.countryCode}'
+    '${countryPhoneVerification.phoneNumber}';
 
     _updatePhoneNumber(phoneNumberWithIso);
     sendCode();
