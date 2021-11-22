@@ -8,10 +8,10 @@ class PhoneNumberState with _$PhoneNumberState {
   const factory PhoneNumberState({
     @Default(false) bool valid,
     String? phoneNumber,
-    @Default('') String? countryName,
+    String? countryName,
     @Default('') String? countryCode,
-    @Default('') String? numCode,
-    @Default('') String? asset,
+    String? numCode,
+    String? asset,
     @Default([]) List<SPhoneNumber> filteredCountriesCode,
   }) = _PhoneNumberState;
 

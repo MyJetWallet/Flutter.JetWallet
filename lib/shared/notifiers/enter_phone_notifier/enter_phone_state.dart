@@ -6,7 +6,7 @@ part 'enter_phone_state.freezed.dart';
 class EnterPhoneState with _$EnterPhoneState {
   const factory EnterPhoneState({
     @Default(false) bool valid,
-    @Default('') String? phoneNumber,
-    @Default('+380') String? isoCode,
+    String? phoneNumber,
+    String? isoCode,
   }) = _EnterPhoneState;
 }
