@@ -27,7 +27,6 @@ class AccountSecurity extends HookWidget {
           const SpaceH20(),
           const SecurityProtection(),
           const SpaceH20(),
-
           SecurityOption(
             name: 'PIN / Biometrics',
             icon: Icons.person,
