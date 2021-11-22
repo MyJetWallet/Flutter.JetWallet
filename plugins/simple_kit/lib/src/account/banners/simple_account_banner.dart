@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../simple_kit.dart';
 
-import '../../../../../../shared/components/spacers.dart';
 
-class AccountBanner extends StatelessWidget {
-  const AccountBanner({
+class SimpleAccountBanner extends StatelessWidget {
+  const SimpleAccountBanner({
     Key? key,
     required this.header,
     required this.description,
@@ -19,7 +19,7 @@ class AccountBanner extends StatelessWidget {
       width: 0.86.sw,
       padding: EdgeInsets.all(15.r),
       decoration: BoxDecoration(
-        color: const Color(0xFFE0EBFA),
+        color: SColorsLight().blueLight,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
@@ -30,19 +30,14 @@ class AccountBanner extends StatelessWidget {
             header,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-            ),
+            style: sTextH5Style,
           ),
           const SpaceH4(),
           Text(
             description,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16.sp,
-            ),
+            style: sBodyText1Style,
           ),
         ],
       ),
