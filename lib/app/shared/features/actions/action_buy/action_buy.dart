@@ -28,10 +28,11 @@ class _ActionBuy extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
+    final currencies = context.read(currenciesPod);
 
     return Column(
       children: [
-        for (final currency in context.read(currenciesPod)) ...[
+        for (final currency in currencies) ...[
           SMarketItem(
             icon: NetworkSvgW24(
               url: currency.iconUrl,
@@ -46,6 +47,7 @@ class _ActionBuy extends HookWidget {
               accuracy: baseCurrency.accuracy,
             ),
             ticker: currency.symbol,
+            last: currency == currencies.last,
             percent: currency.dayPercentChange,
             onTap: () {
               navigatorPush(
