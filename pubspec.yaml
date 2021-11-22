@@ -78,9 +78,7 @@ dependencies:
   simple_kit:
     path: plugins/simple_kit
   charts:
-    git:
-      url: https://github.com/MyJetWallet/Flutter.Charts
-      ref: develop
+    path: plugins/chart
 
 dev_dependencies:
   flutter_test:

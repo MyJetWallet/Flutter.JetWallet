@@ -1,0 +1,23 @@
+name: telegram message
+
+on: 
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Flutter CI"]
+    types:
+      - completed
+
+jobs:
+  build:
+    name: Build
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest    
+    steps:
+    - uses: actions/checkout@master
+
+    - name: send custom message with args
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO_FLUTTER }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        args: Repository https://github.com/${{ github.repository }}/actions, action finished with error. (${{ github.event.workflow_run.workflow }})
