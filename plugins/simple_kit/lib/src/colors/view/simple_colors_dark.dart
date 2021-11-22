@@ -28,9 +28,6 @@ class SColorsDark implements SimpleColors {
   Color grey5 = const Color(0xFF141414);
 
   @override
-  Color grey6 = const Color(0xFFE0EBFA);
-
-  @override
   Color black = const Color(0xFF000000);
 
   @override

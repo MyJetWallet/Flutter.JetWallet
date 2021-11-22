@@ -35,13 +35,15 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   }
 
   void sortCountriesCode(String countryName) {
-    _logger.log(notifier, 'sortCountries');
+    _logger.log(notifier, 'sortCountriesCode');
 
     final filteredList = <SPhoneNumber>[];
 
     for (final element in allCountriesCode) {
-      final searchElement =
-      element.countryName.toLowerCase().contains(countryName.toLowerCase());
+      final searchElement = element.countryName
+              .toLowerCase()
+              .contains(countryName.toLowerCase()) ||
+          element.countryCode.toLowerCase().contains(countryName.toLowerCase());
 
       if (searchElement) {
         filteredList.add(element);
@@ -56,21 +58,16 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   }
 
   bool setActiveCode() {
-    if (state.phoneNumber != '' &&
-        state.phoneNumber != null &&
-        state.countryCode != '' &&
-        state.phoneNumber!.length > 5) {
-      return true;
-    }
-    return false;
+    return state.phoneNumber != null && state.phoneNumber!.length > 5;
   }
 
   List<SPhoneNumber> sortActiveCountryCode() {
     var newList = <SPhoneNumber>[];
 
     if (state.countryCode != '') {
-      final country = allCountriesCode.firstWhere((country) =>
-      country.countryCode == state.countryCode,);
+      final country = allCountriesCode.firstWhere(
+        (country) => country.countryCode == state.countryCode,
+      );
       final elementIndex = allCountriesCode.indexOf(country);
 
       newList = List<SPhoneNumber>.from(allCountriesCode);

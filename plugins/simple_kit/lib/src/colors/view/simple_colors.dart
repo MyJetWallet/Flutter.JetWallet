@@ -9,7 +9,6 @@ abstract class SimpleColors {
   abstract Color grey3;
   abstract Color grey4;
   abstract Color grey5;
-  abstract Color grey6;
   abstract Color black;
   abstract Color white;
   abstract Color violet;

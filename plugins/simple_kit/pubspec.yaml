@@ -73,9 +73,3 @@ flutter:
     - assets/icons/light/102x56/numeric_keyboard_erase/
     - assets/icons/light/102x56/numeric_keyboard_face_id/
     - assets/icons/light/102x56/numeric_keyboard_fingerprint/
-    - assets/icons/light/24x24/lock/lock.svg/
-    - assets/icons/light/24x24/change_pin/change_pin.svg/
-    - assets/icons/light/24x24/two_factor_auth/two_factor_auth.svg/
-    - assets/icons/light/24x24/two_factor_auth/two_factor_auth.svg/
-    - assets/icons/light/24x24/change_pin/change_pin.svg/
-    - assets/icons/light/24x24/lock/lock.svg/

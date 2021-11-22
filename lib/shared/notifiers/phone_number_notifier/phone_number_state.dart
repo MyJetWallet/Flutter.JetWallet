@@ -8,11 +8,11 @@ class PhoneNumberState with _$PhoneNumberState {
   const factory PhoneNumberState({
     @Default(false) bool valid,
     String? phoneNumber,
-    @Default('') String? countryName,
-    @Default('') String? countryCode,
-    @Default('') String? numCode,
-    @Default('') String? asset,
-    @Default([]) List<SPhoneNumber> filteredCountriesCode,
+    String? countryName,
+    String? countryCode,
+    String? numCode,
+    String? asset,
+    List<SPhoneNumber> filteredCountriesCode,
   }) = _PhoneNumberState;
 
   const PhoneNumberState._();

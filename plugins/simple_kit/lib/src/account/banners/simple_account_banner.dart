@@ -19,7 +19,7 @@ class SimpleAccountBanner extends StatelessWidget {
       width: 0.86.sw,
       padding: EdgeInsets.all(15.r),
       decoration: BoxDecoration(
-        color: SColorsLight().grey6,
+        color: SColorsLight().blueLight,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(

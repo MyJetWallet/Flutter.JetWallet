@@ -19,7 +19,7 @@ class SimpleAccountProtectionIndicator extends StatelessWidget {
             width: double.infinity,
             height: 12.h,
             decoration: BoxDecoration(
-              color: SColorsLight().grey6,
+              color: SColorsLight().blueLight,
               borderRadius: BorderRadius.circular(16.r),
             ),
           ),
