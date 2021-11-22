@@ -35,7 +35,7 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   }
 
   void sortCountriesCode(String countryName) {
-    _logger.log(notifier, 'sortCountries');
+    _logger.log(notifier, 'sortCountriesCode');
 
     final filteredList = <SPhoneNumber>[];
 
