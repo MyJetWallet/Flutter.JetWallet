@@ -2,7 +2,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../router/notifier/startup_notifier/authorized_union.dart' as authorized_union;
+import '../../../router/notifier/startup_notifier/authorized_union.dart'
+    as authorized_union;
 import '../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../router/provider/router_stpod/router_stpod.dart';
 import '../../../router/provider/router_stpod/router_union.dart';
@@ -29,8 +30,10 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
         token: read(authInfoNotipod).token,
       );
 
-      await read(authServicePod).logout(model);
-
+      _syncLogout(model);
+    } catch (e, _) {
+      _logger.log(stateFlow, 'logout', e);
+    } finally {
       await read(localStorageServicePod).clearStorage();
 
       if (read(startupNotipod).authorized is authorized_union.Home) {
@@ -42,9 +45,10 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
       read(authInfoNotipod.notifier).resetResendButton();
 
       state = const Result();
-    } catch (e, st) {
-      _logger.log(stateFlow, 'logout', e);
-      state = Result(e, st);
     }
+  }
+
+  void _syncLogout(LogoutRequestModel model) {
+    read(authServicePod).logout(model);
   }
 }
