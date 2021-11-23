@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
+import '../icons/16x16/public/minus/simple_minus_icon.dart';
 
 /// Requires Icon with width target
 class SMarketItem extends StatelessWidget {
   const SMarketItem({
     Key? key,
-    this.graph,
+    this.last = false,
     required this.icon,
     required this.name,
     required this.price,
@@ -16,15 +17,11 @@ class SMarketItem extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  /// The graph must have the following size 38x14
-  final Widget? graph;
   final Widget icon;
   final String name;
   final String price;
   final String ticker;
-
-  // TODO(any): refactor to String in order to get proper formatting or add
-  // TODO(any): formatting in this widget
+  final bool last;
   final double percent;
   final Function() onTap;
 
@@ -54,7 +51,7 @@ class SMarketItem extends StatelessWidget {
                           baseline: 17.8.h,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            name,
+                            ticker,
                             style: sSubtitle2Style,
                           ),
                         ),
@@ -62,7 +59,7 @@ class SMarketItem extends StatelessWidget {
                           baseline: 19.4.h,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            ticker,
+                            name,
                             style: sBodyText2Style.copyWith(
                               color: SColorsLight().grey3,
                             ),
@@ -72,16 +69,8 @@ class SMarketItem extends StatelessWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  // TODO change to SizedBox when Grpah will be added
-                  Container(
-                    color: Colors.red[100]!.withOpacity(0.3),
-                    width: 38.w,
-                    height: 30.h,
-                    child: graph,
-                  ),
-                  const SpaceW10(),
                   SizedBox(
-                    width: 110.w,
+                    width: 158.w,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -99,19 +88,18 @@ class SMarketItem extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              if (percent.round() != 0)
-                                SizedBox(
-                                  width: 94.w,
-                                  child: Text(
-                                    '$percent%',
-                                    textAlign: TextAlign.end,
-                                    style: sBodyText2Style.copyWith(
-                                      color: SColorsLight().grey3,
-                                    ),
+                              SizedBox(
+                                width: 142.w,
+                                child: Text(
+                                  _formatPercent(percent),
+                                  textAlign: TextAlign.end,
+                                  style: sBodyText2Style.copyWith(
+                                    color: SColorsLight().grey3,
                                   ),
                                 ),
-                              if (percent.round() == 0)
-                                const SizedBox()
+                              ),
+                              if (percent.compareTo(0) == 0)
+                                const SMinusIcon()
                               else if (percent.isNegative)
                                 const SSmallArrowNegativeIcon()
                               else
@@ -125,13 +113,24 @@ class SMarketItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              SDivider(
-                width: 327.w,
-              )
+              if (!last)
+                SDivider(
+                  width: 327.w,
+                )
             ],
           ),
         ),
       ),
     );
+  }
+
+  String _formatPercent(double percent) {
+    if (percent.compareTo(0) == 0) {
+      return '0.0%';
+    } else if (percent.isNegative) {
+      return '$percent%';
+    } else {
+      return '+$percent%';
+    }
   }
 }

@@ -95,12 +95,6 @@ class SimpleMarketItemExample extends StatelessWidget {
                         ),
                         const SpaceW10(),
                         Container(
-                          color: Colors.black.withOpacity(0.3),
-                          width: 38.w,
-                          height: 30.h,
-                        ),
-                        const SpaceW10(),
-                        Container(
                           width: 94.w,
                         ),
                         const SpaceW16(),
@@ -168,16 +162,21 @@ class SimpleMarketItemExample extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Spacer(),
                     Container(
-                      width: 110.w,
+                      width: 10.w,
+                      height: 88.h,
+                      color: Colors.blue.withOpacity(0.2),
+                      child: const Text('10px'),
+                    ),
+                    Container(
+                      width: 158.w,
                       height: 88.h,
                       color: Colors.red.withOpacity(0.2),
                       child: Column(
                         children: const [
                           Spacer(),
                           Text(
-                            '110px',
+                            '158px',
                           ),
                         ],
                       ),
@@ -197,34 +196,16 @@ class SimpleMarketItemExample extends StatelessWidget {
                       width: 125.w,
                       height: 88.h,
                     ),
-                    Container(
-                      color: Colors.blue.withOpacity(0.3),
-                      width: 10.w,
-                      height: 88.h,
-                      child: const Text('10px'),
-                    ),
-                    Container(
-                      color: Colors.black.withOpacity(0.3),
-                      width: 38.w,
-                      height: 30.h,
-                      child: const Text('38px'),
-                    ),
-                    Container(
-                      color: Colors.blue.withOpacity(0.3),
-                      width: 10.w,
-                      height: 88.h,
-                      child: const Text('10px'),
-                    ),
                     Column(
                       children: [
                         const SpaceH30(),
                         Row(
                           children: [
                             Container(
-                              width: 94.w,
+                              width: 152.w,
                               height: 30.h,
                               color: Colors.blue.withOpacity(0.2),
-                              child: const Text('94px'),
+                              child: const Text('    94px'),
                             ),
                             Container(
                               width: 16.w,
@@ -240,7 +221,7 @@ class SimpleMarketItemExample extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       width: 24.w,
                       height: 88.h,
-                      child: const Text('24px'),
+                      child: const Text('24 px'),
                     ),
                   ],
                 ),
@@ -262,9 +243,6 @@ class SimpleMarketItemExample extends StatelessWidget {
               price: '\$57 415.80',
               ticker: 'BTC',
               percent: 10,
-              graph: Container(
-                color: Colors.yellow.withOpacity(0.3),
-              ),
             ),
           ],
         ),

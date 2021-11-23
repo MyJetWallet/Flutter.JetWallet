@@ -30,6 +30,7 @@ flutter:
     - assets/icons/light/16x16/small_arrow/
     - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
+    - assets/icons/light/16x16/minus/
     - assets/icons/light/24x24/action_buy/
     - assets/icons/light/24x24/action_convert/
     - assets/icons/light/24x24/action_deposit/
