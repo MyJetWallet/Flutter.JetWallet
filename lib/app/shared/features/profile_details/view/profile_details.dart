@@ -24,23 +24,17 @@ class ProfileDetails extends HookWidget {
           SProfileDetailsButton(
             label: 'Email',
             value: authInfo.email,
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
           SProfileDetailsButton(
             label: 'Change password',
             value: '**********',
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
           SProfileDetailsButton(
             label: 'Change phone number',
             value: '+380 (93) 447 1844',
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
         ],
       ),

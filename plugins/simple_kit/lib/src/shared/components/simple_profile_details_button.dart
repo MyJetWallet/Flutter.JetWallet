@@ -29,7 +29,9 @@ class SProfileDetailsButton extends StatelessWidget {
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   label,
-                  style: sBodyText2Style.copyWith(color: SColorsLight().grey1),
+                  style: sBodyText2Style.copyWith(
+                    color: SColorsLight().grey1,
+                  ),
                 ),
               ),
               Baseline(
