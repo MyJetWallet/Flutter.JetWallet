@@ -12,6 +12,7 @@ import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
+import '../../shared/features/profile_details/view/profile_details.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -53,7 +54,9 @@ class Account extends HookWidget {
                       title: 'Profile details',
                       icon: const SProfileDetailsIcon(),
                       isSDivider: true,
-                      onTap: () {},
+                      onTap: () {
+                        navigatorPush(context, const ProfileDetails());
+                      },
                     ),
                     SimpleAccountCategoryButton(
                       title: 'Security',
