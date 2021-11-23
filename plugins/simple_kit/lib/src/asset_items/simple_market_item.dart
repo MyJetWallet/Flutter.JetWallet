@@ -22,9 +22,6 @@ class SMarketItem extends StatelessWidget {
   final String price;
   final String ticker;
   final bool last;
-
-  // TODO(any): refactor to String in order to get proper formatting or add
-  // TODO(any): formatting in this widget
   final double percent;
   final Function() onTap;
 
@@ -94,7 +91,7 @@ class SMarketItem extends StatelessWidget {
                               SizedBox(
                                 width: 142.w,
                                 child: Text(
-                                  _percentFrom(percent),
+                                  _formatPercent(percent),
                                   textAlign: TextAlign.end,
                                   style: sBodyText2Style.copyWith(
                                     color: SColorsLight().grey3,
@@ -127,7 +124,7 @@ class SMarketItem extends StatelessWidget {
     );
   }
 
-  String _percentFrom(double percent) {
+  String _formatPercent(double percent) {
     if (percent.compareTo(0) == 0) {
       return '0.0%';
     } else if (percent.isNegative) {
