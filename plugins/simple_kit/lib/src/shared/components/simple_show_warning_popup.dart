@@ -4,17 +4,17 @@ import '../../../simple_kit.dart';
 
 void simpleShowWarningPopup(
   BuildContext context, {
-  String? onTapCancelTitle,
-  Function(BuildContext builderContext)? onTapCancel,
-  String? subTitle,
+  Function(BuildContext builderContext)? onSecondaryButtonTap,
+  String? secondaryText,
+  String? secondaryButtonName,
   required String asset,
-  required String title,
-  required String onTapTitle,
-  required Function(BuildContext builderContext) onTap,
+  required String primaryText,
+  required String primaryButtonName,
+  required Function(BuildContext builderContext) onPrimaryButtonTap,
 }) {
   showDialog(
     context: context,
-    builder: (builderContext) {
+    builder: (context) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -38,25 +38,33 @@ void simpleShowWarningPopup(
                   height: 80.h,
                   child: Image.asset(asset),
                 ),
-                const SpaceH20(),
               ],
             ),
             content: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 children: [
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style:
+                  SizedBox(
+                    height: 40.h,
+                    child: Baseline(
+                      baseline: 40.h,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        primaryText,
+                        maxLines: (secondaryText != null) ? 5 : 12,
+                        textAlign: TextAlign.center,
+                        style:
                         sTextH5Style.copyWith(overflow: TextOverflow.visible),
+                      ),
+                    ),
                   ),
-                  if (subTitle != null)
+                  if (secondaryText != null)
                     Baseline(
                       baseline: 32.h,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
-                        subTitle,
+                        secondaryText,
+                        maxLines: 6,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: SColorsLight().grey1,
@@ -71,16 +79,17 @@ void simpleShowWarningPopup(
                 children: [
                   const SpaceH34(),
                   SPrimaryButton1(
-                    name: onTapTitle,
+                    name: primaryButtonName,
                     active: true,
-                    onTap: () => onTap(builderContext),
+                    onTap: () => onPrimaryButtonTap(context),
                   ),
                   const SpaceH10(),
-                  if (onTapCancel != null && onTapCancelTitle != null)
+                  if (onSecondaryButtonTap != null &&
+                      secondaryButtonName != null)
                     STextButton1(
-                      name: onTapCancelTitle,
+                      name: secondaryButtonName,
                       active: true,
-                      onTap: () => onTapCancel(builderContext),
+                      onTap: () => onSecondaryButtonTap(context),
                     ),
                   const SpaceH20(),
                 ],
