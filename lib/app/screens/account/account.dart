@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../shared/components/account_category_button.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/log_out_option.dart';
 import '../../../shared/helpers/navigator_push.dart';
@@ -13,8 +12,7 @@ import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
-import 'components/account_banner_list/account_banner_list.dart';
-import 'components/account_screen_header.dart';
+import '../../shared/features/profile_details/view/profile_details.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -43,21 +41,24 @@ class Account extends HookWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                AccountScreenHeader(
-                  userEmail: authInfo.email,
+                SPaddingH24(
+                  child: SimpleAccountCategoryHeader(
+                    userEmail: authInfo.email,
+                  ),
                 ),
-                const AccountBannerList(),
+                const SimpleAccountBannerList(),
                 const SpaceH20(),
-
                 Column(
                   children: <Widget>[
-                    AccountCategoryButton(
+                    SimpleAccountCategoryButton(
                       title: 'Profile details',
                       icon: const SProfileDetailsIcon(),
                       isSDivider: true,
-                      onTap: () {},
+                      onTap: () {
+                        navigatorPush(context, const ProfileDetails());
+                      },
                     ),
-                    AccountCategoryButton(
+                    SimpleAccountCategoryButton(
                       title: 'Security',
                       icon: const SSecurityIcon(),
                       isSDivider: true,
@@ -65,25 +66,25 @@ class Account extends HookWidget {
                         navigatorPush(context, const AccountSecurity());
                       },
                     ),
-                    AccountCategoryButton(
+                    SimpleAccountCategoryButton(
                       title: 'Notifications',
                       icon: const SNotificationsIcon(),
                       isSDivider: true,
                       onTap: () {},
                     ),
-                    AccountCategoryButton(
+                    SimpleAccountCategoryButton(
                       title: 'Support',
                       icon: const SSupportIcon(),
                       isSDivider: true,
                       onTap: () {},
                     ),
-                    AccountCategoryButton(
+                    SimpleAccountCategoryButton(
                       title: 'FAQ',
                       icon: const SFaqIcon(),
                       isSDivider: true,
                       onTap: () {},
                     ),
-                    AccountCategoryButton(
+                    SimpleAccountCategoryButton(
                       title: 'About us',
                       icon: const SAboutUsIcon(),
                       isSDivider: false,

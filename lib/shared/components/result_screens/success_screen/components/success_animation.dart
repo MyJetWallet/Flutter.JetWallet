@@ -9,14 +9,12 @@ class SuccessAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: 320.r,
-          height: 320.r,
-          child: const RiveAnimation.asset(successAnimationAsset),
-        ),
-      ],
+    return SizedBox(
+      width: 320.r,
+      height: 320.r,
+      child: const RiveAnimation.asset(
+        successAnimationAsset,
+      ),
     );
   }
 }

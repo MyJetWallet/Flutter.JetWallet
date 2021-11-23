@@ -16,6 +16,7 @@ void sShowBasicModalBottomSheet({
   bool removeBottomSheetBar = false,
   bool removeBottomHeaderPadding = false,
   bool scrollable = false,
+  double? horizontalPinnedPadding,
   required List<Widget> children,
   required BuildContext context,
 }) {
@@ -27,6 +28,7 @@ void sShowBasicModalBottomSheet({
       return BasicBottomSheet(
         color: color ?? SColorsLight().white,
         pinned: pinned,
+        horizontalPinnedPadding: horizontalPinnedPadding,
         onWillPop: onWillPop,
         onDissmis: onDissmis,
         maxHeight: maxHeight,

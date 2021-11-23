@@ -4,9 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
+import 'account/banners/simple_account_banners_example.dart';
+import 'account/buttons/simple_account_buttons_example.dart';
+import 'account/headers/simple_account_headers_example.dart';
+import 'account/indicators/simple_account_indicators_example.dart';
+import 'account/simple_account_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
+import 'actions/examples/simple_action_confirm_alert_example.dart';
 import 'actions/examples/simple_action_confirm_description_example.dart';
 import 'actions/examples/simple_action_confirm_skeleton_loader_example.dart';
 import 'actions/examples/simple_action_confirm_text_example.dart';
@@ -70,6 +76,21 @@ class ExampleScreen extends ConsumerWidget {
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
+            SimpleAccountExample.routeName: (context) {
+              return const SimpleAccountExample();
+            },
+            SimpleAccountButtonsExample.routeName: (context) {
+              return const SimpleAccountButtonsExample();
+            },
+            SimpleAccountHeadersExample.routeName: (context) {
+              return const SimpleAccountHeadersExample();
+            },
+            SimpleAccountIndicatorsExample.routeName: (context) {
+              return const SimpleAccountIndicatorsExample();
+            },
+            SimpleAccountBannersExample.routeName: (context) {
+              return const SimpleAccountBannersExample();
+            },
             SimpleButtonsExample.routeName: (context) {
               return const SimpleButtonsExample();
             },
@@ -213,6 +234,9 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleActionConfrimSkeletonLoaderExample.routeName: (context) {
               return const SimpleActionConfrimSkeletonLoaderExample();
+            },
+            SimpleActionConfrimAlertExample.routeName: (context) {
+              return const SimpleActionConfrimAlertExample();
             }
           },
         );
@@ -235,6 +259,10 @@ class Home extends StatelessWidget {
         child: ListView(
           children: const [
             ThemeSwitch(),
+            NavigationButton(
+              buttonName: 'Account',
+              routeName: SimpleAccountExample.routeName,
+            ),
             NavigationButton(
               buttonName: 'Buttons',
               routeName: SimpleButtonsExample.routeName,

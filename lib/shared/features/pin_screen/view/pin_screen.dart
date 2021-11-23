@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../helpers/navigator_push.dart';
+import '../../../notifiers/logout_notifier/logout_notipod.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_flow_union.dart';
 import '../notifier/pin_screen_notifier.dart';
@@ -39,36 +40,50 @@ class PinScreen extends HookWidget {
   Widget build(BuildContext context) {
     final pin = useProvider(pinScreenNotipod(union));
     final pinN = useProvider(pinScreenNotipod(union).notifier);
+    final logoutN = useProvider(logoutNotipod.notifier);
 
-    return SPageFrame(
-      header: SPaddingH24(
-        child: SBigHeader(
-          title: pin.screenDescription,
-          onBackButtonTap: () => Navigator.pop(context),
+    Function()? onbackButton;
+
+    if (union is Verification || union is Setup) {
+      onbackButton = () => logoutN.logout();
+    } else if (cannotLeave) {
+      onbackButton = null;
+    } else {
+      onbackButton = () => Navigator.pop(context);
+    }
+
+    return WillPopScope(
+      onWillPop: () => Future.value(!cannotLeave),
+      child: SPageFrame(
+        header: SPaddingH24(
+          child: SBigHeader(
+            title: pin.screenDescription,
+            onBackButtonTap: onbackButton,
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          const SpaceH134(),
-          ShakeWidget(
-            key: pin.shakePinKey,
-            shakeDuration: pinBoxErrorDuration,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (int id = 1; id <= localPinLength; id++)
-                  PinBox(
-                    state: pin.boxState(id),
-                  ),
-              ],
+        child: Column(
+          children: [
+            const SpaceH134(),
+            ShakeWidget(
+              key: pin.shakePinKey,
+              shakeDuration: pinBoxErrorDuration,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int id = 1; id <= localPinLength; id++)
+                    PinBox(
+                      state: pin.boxState(id),
+                    ),
+                ],
+              ),
             ),
-          ),
-          const SpaceH132(),
-          SNumericKeyboardPin(
-            hideBiometricButton: pin.hideBiometricButton,
-            onKeyPressed: (value) => pinN.updatePin(value),
-          ),
-        ],
+            const SpaceH132(),
+            SNumericKeyboardPin(
+              hideBiometricButton: pin.hideBiometricButton,
+              onKeyPressed: (value) => pinN.updatePin(value),
+            ),
+          ],
+        ),
       ),
     );
   }

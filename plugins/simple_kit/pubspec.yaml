@@ -30,6 +30,7 @@ flutter:
     - assets/icons/light/16x16/small_arrow/
     - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
+    - assets/icons/light/16x16/minus/
     - assets/icons/light/24x24/action_buy/
     - assets/icons/light/24x24/action_convert/
     - assets/icons/light/24x24/action_deposit/
@@ -59,6 +60,9 @@ flutter:
     - assets/icons/light/24x24/profile/profile_details/
     - assets/icons/light/24x24/profile/security/
     - assets/icons/light/24x24/profile/support/
+    - assets/icons/light/24x24/change_pin/
+    - assets/icons/light/24x24/two_factor_auth/
+    - assets/icons/light/24x24/lock/
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/
     - assets/icons/light/36x36/keyboard_erase/

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
@@ -16,6 +17,8 @@ class SimpleLightStandardField extends HookWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
+    this.onErase,
+    this.alignLabelWithHint = false,
     required this.onChanged,
     required this.labelText,
   }) : super(key: key);
@@ -27,9 +30,11 @@ class SimpleLightStandardField extends HookWidget {
   final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
+  final Function()? onErase;
   final Function(String) onChanged;
   final String labelText;
   final bool autofocus;
+  final bool alignLabelWithHint;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +52,13 @@ class SimpleLightStandardField extends HookWidget {
       autofocus: autofocus,
       autofillHints: autofillHints,
       textInputAction: textInputAction,
+      alignLabelWithHint: alignLabelWithHint,
       suffixIcon: controller2.text.isNotEmpty
           ? GestureDetector(
-              onTap: () => controller2.clear(),
+              onTap: () {
+                controller2.clear();
+                onErase?.call();
+              },
               child: const SEraseIcon(),
             )
           : const SizedBox(),

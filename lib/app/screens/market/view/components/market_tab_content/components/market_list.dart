@@ -42,6 +42,7 @@ class MarketList extends HookWidget {
             accuracy: baseCurrency.accuracy,
           ),
           ticker: item.id,
+          last: item == items.last,
           percent: item.dayPercentChange,
           onTap: () {
             navigatorPush(
