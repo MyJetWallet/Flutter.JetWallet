@@ -9,6 +9,7 @@ class SimpleLightStandardFieldObscure extends HookWidget {
   const SimpleLightStandardFieldObscure({
     Key? key,
     this.autofocus = false,
+    this.isErrorValueOn = true,
     this.controller,
     this.autofillHints,
     this.focusNode,
@@ -26,6 +27,7 @@ class SimpleLightStandardFieldObscure extends HookWidget {
   final Function(String) onChanged;
   final String labelText;
   final bool autofocus;
+  final bool isErrorValueOn;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class SimpleLightStandardFieldObscure extends HookWidget {
       errorNotifier: errorNotifier,
       onErrorIconTap: onErrorIconTap,
       autofocus: autofocus,
+      isErrorValueOn: isErrorValueOn,
       suffixIcon: focusNode2.hasFocus || controller2.text.isNotEmpty
           ? GestureDetector(
               onTap: () => obscure.value = !obscure.value,
