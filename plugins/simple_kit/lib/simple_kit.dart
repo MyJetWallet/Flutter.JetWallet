@@ -59,6 +59,7 @@ export 'src/buttons/secondary_button/public/simple_secondary_button_2.dart';
 export 'src/buttons/text_button/public/simple_text_button_1.dart';
 export 'src/buttons/text_button/public/simple_text_button_2.dart';
 export 'src/account/buttons/term/simple_account_term_button.dart';
+export 'src/shared/components/simple_profile_details_button.dart';
 
 /// Colors
 export 'src/colors/provider/simple_color_pod.dart';
