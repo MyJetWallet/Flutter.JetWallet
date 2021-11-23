@@ -8,10 +8,9 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_request_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_response_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
-import '../../../../../../shared/components/result_screens/failure_screens/failure_screen.dart';
+import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -116,35 +115,32 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
   }
 
   void _showSuccessScreen() {
-    navigatorPush(
-      _context,
-      SuccessScreen(
-        text1: 'Your ${withdrawal.currency.symbol} $_verb '
-            'request has been submitted',
-      ),
+    return SuccessScreen.push(
+      context: _context,
+      secondaryText: 'Your ${withdrawal.currency.symbol} $_verb '
+          'request has been submitted',
     );
   }
 
   void _showFailureScreen() {
-    navigatorPush(
-      _context,
-      FailureScreen(
-        description: 'Failed to $_verb',
-        firstButtonName: 'Edit Order',
-        onFirstButton: () {
-          Navigator.pushAndRemoveUntil(
-            _context,
-            MaterialPageRoute(
-              builder: (_) => WithdrawalAmount(
-                withdrawal: withdrawal,
-              ),
+    return FailureScreen.push(
+      context: _context,
+      primaryText: 'Failure',
+      secondaryText: 'Failed to $_verb',
+      primaryButtonName: 'Edit Order',
+      onPrimaryButtonTap: () {
+        Navigator.pushAndRemoveUntil(
+          _context,
+          MaterialPageRoute(
+            builder: (_) => WithdrawalAmount(
+              withdrawal: withdrawal,
             ),
-            (route) => route.isFirst,
-          );
-        },
-        secondButtonName: 'Close',
-        onSecondButton: () => navigateToRouter(read),
-      ),
+          ),
+          (route) => route.isFirst,
+        );
+      },
+      secondaryButtonName: 'Close',
+      onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 }
