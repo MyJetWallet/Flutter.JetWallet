@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../simple_kit.dart';
 
-void simpleShowWarningPopup(
+void sShowWarningPopup(
   BuildContext context, {
   Function(BuildContext builderContext)? onSecondaryButtonTap,
   String? secondaryText,
@@ -24,8 +24,12 @@ void simpleShowWarningPopup(
                 Radius.circular(24.r),
               ),
             ),
-            buttonPadding: EdgeInsets.symmetric(horizontal: 20.w),
-            insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
+            buttonPadding: EdgeInsets.symmetric(
+              horizontal: 14.w,
+            ),
+            insetPadding: EdgeInsets.symmetric(
+              horizontal: 24.w,
+            ),
             contentPadding: EdgeInsets.zero,
             titlePadding: EdgeInsets.zero,
             title: Column(
@@ -41,20 +45,20 @@ void simpleShowWarningPopup(
               ],
             ),
             content: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.w,
+              ),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 40.h,
-                    child: Baseline(
-                      baseline: 40.h,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        primaryText,
-                        maxLines: (secondaryText != null) ? 5 : 12,
-                        textAlign: TextAlign.center,
-                        style:
-                        sTextH5Style.copyWith(overflow: TextOverflow.visible),
+                  Baseline(
+                    baseline: 40.h,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      primaryText,
+                      maxLines: (secondaryText != null) ? 5 : 12,
+                      textAlign: TextAlign.center,
+                      style: sTextH5Style.copyWith(
+                        overflow: TextOverflow.visible,
                       ),
                     ),
                   ),
@@ -77,7 +81,7 @@ void simpleShowWarningPopup(
             actions: <Widget>[
               Column(
                 children: [
-                  const SpaceH34(),
+                  const SpaceH40(),
                   SPrimaryButton1(
                     name: primaryButtonName,
                     active: true,
@@ -91,7 +95,6 @@ void simpleShowWarningPopup(
                       active: true,
                       onTap: () => onSecondaryButtonTap(context),
                     ),
-                  const SpaceH20(),
                 ],
               ),
             ],
