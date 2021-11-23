@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../shared.dart';
+import 'examples/simple_action_confirm_alert_example.dart';
 import 'examples/simple_action_confirm_description_example.dart';
 import 'examples/simple_action_confirm_skeleton_loader_example.dart';
 import 'examples/simple_action_confirm_text_example.dart';
@@ -48,6 +49,10 @@ class SimpleActionsExample extends StatelessWidget {
             NavigationButton(
               buttonName: 'Skeleton Loader',
               routeName: SimpleActionConfrimSkeletonLoaderExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Action Confirm Alert',
+              routeName: SimpleActionConfrimAlertExample.routeName,
             ),
           ],
         ),
