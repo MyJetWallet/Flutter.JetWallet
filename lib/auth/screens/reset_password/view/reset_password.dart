@@ -96,13 +96,11 @@ class ResetPassword extends HookWidget {
 }
 
 void _pushToAuthSuccess(BuildContext context) {
-  navigatorPush(
-    context,
-    SuccessScreen(
-      text1: 'Your password has been reset',
-      then: () {
-        navigatorPush(context, const Login());
-      },
-    ),
+  return SuccessScreen.push(
+    context: context,
+    secondaryText: 'Your password has been reset',
+    then: () {
+      navigatorPush(context, const Login());
+    },
   );
 }

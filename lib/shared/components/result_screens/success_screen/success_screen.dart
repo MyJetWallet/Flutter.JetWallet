@@ -1,28 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../helpers/navigate_to_router.dart';
+import '../../../helpers/navigator_push.dart';
 import 'components/success_animation.dart';
 
 class SuccessScreen extends HookWidget {
   const SuccessScreen({
     Key? key,
     this.then,
-    this.header,
-    this.text2,
-    this.text3,
-    required this.text1,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
   }) : super(key: key);
 
   // Triggered when SuccessScreen is done
   final Function()? then;
-  final String? header;
-  final String text1;
-  final String? text2;
-  final String? text3;
+  final String? primaryText;
+  final String? secondaryText;
+  final Widget? specialTextWidget;
+
+  static void push({
+    Key? key,
+    Function()? then,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+    required BuildContext context,
+  }) {
+    navigatorPush(
+      context,
+      SuccessScreen(
+        primaryText: primaryText,
+        secondaryText: secondaryText,
+        specialTextWidget: specialTextWidget,
+      ),
+      then,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,38 +56,36 @@ class SuccessScreen extends HookWidget {
         }
       },
       child: SPageFrameWithPadding(
-        resizeToAvoidBottomInset: false,
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            children: [
-              const SpaceH120(),
-              const SuccessAnimation(),
-              const SpaceH131(),
-              Text('Success', style: sTextH2Style),
-              const SpaceH17(),
-              Text(
-                text1,
-                style: sBodyText1Style.copyWith(
-                  color: colors.grey1,
-                ),
+        child: Column(
+          children: [
+            Row(), // to expand Column in the cross axis
+            const SpaceH86(),
+            const SuccessAnimation(),
+            Baseline(
+              baseline: 136.h,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                primaryText ?? 'Success',
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: sTextH2Style,
               ),
-              if (text2 != null)
-                Text(
-                  text2!,
-                  style: sBodyText1Style.copyWith(
-                    color: colors.black,
-                  ),
-                ),
-              if (text3 != null)
-                Text(
-                  text3!,
+            ),
+            if (secondaryText != null)
+              Baseline(
+                baseline: 31.4.h,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  secondaryText!,
+                  maxLines: 10,
+                  textAlign: TextAlign.center,
                   style: sBodyText1Style.copyWith(
                     color: colors.grey1,
                   ),
                 ),
-            ],
-          ),
+              ),
+            if (specialTextWidget != null) specialTextWidget!
+          ],
         ),
       ),
     );
