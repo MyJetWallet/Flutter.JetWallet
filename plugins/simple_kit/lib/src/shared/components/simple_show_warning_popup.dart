@@ -3,15 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../simple_kit.dart';
 
 void simpleShowWarningPopup(
-    BuildContext context, {
-      String? onTapCancelTitle,
-      Function(BuildContext builderContext)? onTapCancel,
-      String? subTitle,
-      required String asset,
-      required String title,
-      required String onTapTitle,
-      required Function(BuildContext builderContext) onTap,
-    }) {
+  BuildContext context, {
+  String? onTapCancelTitle,
+  Function(BuildContext builderContext)? onTapCancel,
+  String? subTitle,
+  required String asset,
+  required String title,
+  required String onTapTitle,
+  required Function(BuildContext builderContext) onTap,
+}) {
   showDialog(
     context: context,
     builder: (builderContext) {
@@ -48,7 +48,8 @@ void simpleShowWarningPopup(
                   Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: sTextH5Style.copyWith(overflow: TextOverflow.visible),
+                    style:
+                        sTextH5Style.copyWith(overflow: TextOverflow.visible),
                   ),
                   if (subTitle != null)
                     Baseline(
