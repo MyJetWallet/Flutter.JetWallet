@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
+import 'components/change_password/change_password.dart';
 
 class ProfileDetails extends HookWidget {
   const ProfileDetails({Key? key}) : super(key: key);
@@ -28,8 +30,10 @@ class ProfileDetails extends HookWidget {
           ),
           SProfileDetailsButton(
             label: 'Change password',
-            value: '**********',
-            onTap: () {},
+            value: '• • • • • • • • • • •',
+            onTap: () {
+              navigatorPush(context, const ChangePassword());
+            },
           ),
           SProfileDetailsButton(
             label: 'Change phone number',
