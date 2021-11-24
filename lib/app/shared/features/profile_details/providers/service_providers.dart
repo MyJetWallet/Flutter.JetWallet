@@ -6,5 +6,5 @@ import '../../../../../shared/providers/service_providers.dart';
 final changePasswordPod = Provider<ChangePasswordService>((ref) {
   final dio = ref.watch(dioPod);
 
-   return ChangePasswordService(dio);
+  return ChangePasswordService(dio);
 });
