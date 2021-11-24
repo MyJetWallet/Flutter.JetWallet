@@ -8,7 +8,7 @@ import '../../../../../../../auth/shared/components/notifications/show_errror_no
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../notifier/change_password_notipod.dart';
 import '../../../notifier/change_password_state.dart';
-import 'components/change_new_password.dart';
+import 'components/set_new_password.dart';
 
 class ChangePassword extends HookWidget {
   const ChangePassword({
@@ -17,24 +17,24 @@ class ChangePassword extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useProvider(changePasswordNotipod);
-    final notifier = useProvider(changePasswordNotipod.notifier);
+    final changePassword = useProvider(changePasswordNotipod);
+    final changePasswordN = useProvider(changePasswordNotipod.notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final oldPasswordError = useValueNotifier(StandardFieldErrorNotifier());
+    final colors = useProvider(sColorPod);
 
     return ProviderListener<ChangePasswordState>(
       provider: changePasswordNotipod,
       onChange: (context, state) {
-        state.union.when(
+        state.union.maybeWhen(
           error: (error) {
             oldPasswordError.value.enableError();
           },
-          input: () {},
-          done: () {},
+          orElse: (){},
         );
       },
       child: SPageFrame(
-        color: SColorsLight().grey5,
+        color: colors.grey5,
         header: SPaddingH24(
           child: SSmallHeader(
             title: 'Change Password',
@@ -44,7 +44,7 @@ class ChangePassword extends HookWidget {
         child: Column(
           children: [
             Container(
-              color: SColorsLight().white,
+              color: colors.white,
               padding: EdgeInsets.only(bottom: 14.h),
               child: SPaddingH24(
                 child: Baseline(
@@ -54,7 +54,7 @@ class ChangePassword extends HookWidget {
                     'By changing a password will result in a 24- '
                     'hour hold on cryptocurrency withdrawals.',
                     style: sBodyText1Style.copyWith(
-                      color: SColorsLight().grey1,
+                      color: colors.grey1,
                       overflow: TextOverflow.visible,
                     ),
                   ),
@@ -62,13 +62,13 @@ class ChangePassword extends HookWidget {
               ),
             ),
             Container(
-              color: SColorsLight().white,
+              color: colors.white,
               child: SPaddingH24(
                 child: SStandardFieldObscure(
                   autofillHints: const [AutofillHints.password],
                   onChanged: (String password) {
                     oldPasswordError.value.disableError();
-                    notifier.setOldPassword(password);
+                    changePasswordN.setOldPassword(password);
                   },
                   autofocus: true,
                   labelText: 'Enter old Password',
@@ -78,7 +78,6 @@ class ChangePassword extends HookWidget {
                       'Try again that’s not your current password!',
                     );
                   },
-                  isErrorValueOn: false,
                   errorNotifier: oldPasswordError.value,
                 ),
               ),
@@ -88,14 +87,14 @@ class ChangePassword extends HookWidget {
               child: SPrimaryButton2(
                 name: 'Continue',
                 onTap: () {
-                  notifier.setInput();
+                  changePasswordN.setInput();
                   navigatorPush(
                     context,
-                    const ChangeNewPassword(),
+                    const SetNewPassword(),
                   );
                 },
                 active:
-                    notifier.activeButton() && !oldPasswordError.value.value,
+                changePassword.isButtonActive && !oldPasswordError.value.value,
               ),
             ),
             const SpaceH24(),

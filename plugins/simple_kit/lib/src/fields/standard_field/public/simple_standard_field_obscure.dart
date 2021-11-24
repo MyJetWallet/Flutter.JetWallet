@@ -9,7 +9,6 @@ class SStandardFieldObscure extends ConsumerWidget {
   const SStandardFieldObscure({
     Key? key,
     this.autofocus = false,
-    this.isErrorValueOn = true,
     this.controller,
     this.focusNode,
     this.autofillHints,
@@ -27,7 +26,6 @@ class SStandardFieldObscure extends ConsumerWidget {
   final Function(String) onChanged;
   final String labelText;
   final bool autofocus;
-  final bool isErrorValueOn;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -43,7 +41,6 @@ class SStandardFieldObscure extends ConsumerWidget {
         labelText: labelText,
         autofillHints: autofillHints,
         autofocus: autofocus,
-        isErrorValueOn: isErrorValueOn,
       );
     } else {
       return SimpleLightStandardFieldObscure(
@@ -55,7 +52,6 @@ class SStandardFieldObscure extends ConsumerWidget {
         labelText: labelText,
         autofillHints: autofillHints,
         autofocus: autofocus,
-        isErrorValueOn: isErrorValueOn,
       );
     }
   }

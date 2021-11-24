@@ -7,21 +7,21 @@ import '../../../../../../../../auth/shared/components/notifications/show_errror
 import '../../../../../../../../auth/shared/components/password_validation/password_validation.dart';
 import '../../../../../../../../auth/shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
-import '../../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../notifier/change_password_notipod.dart';
 import '../../../../notifier/change_password_state.dart';
 
-class ChangeNewPassword extends HookWidget {
-  const ChangeNewPassword({
+class SetNewPassword extends HookWidget {
+  const SetNewPassword({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final changePassword = useProvider(changePasswordNotipod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
-    final notifier = useProvider(changePasswordNotipod.notifier);
-    useProvider(changePasswordNotipod);
+    final changePasswordN = useProvider(changePasswordNotipod.notifier);
+    final colors = useProvider(sColorPod);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final loading = useValueNotifier(StackLoaderNotifier());
 
@@ -35,21 +35,19 @@ class ChangeNewPassword extends HookWidget {
               notificationQueueN,
               '$error',
             );
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
           input: () {},
           done: () {
-            navigatorPush(
-              context,
-              const SuccessScreen(
-                secondaryText: 'New password set',
-              ),
+            SuccessScreen.push(
+              context: context,
+              secondaryText: 'New password set',
             );
           },
         );
       },
       child: SPageFrame(
-        color: SColorsLight().grey5,
+        color: colors.grey5,
         header: SPaddingH24(
           child: SSmallHeader(
             title: 'Create a password',
@@ -57,43 +55,40 @@ class ChangeNewPassword extends HookWidget {
           ),
         ),
         loading: loading.value,
-        child: AutofillGroup(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: SColorsLight().white,
-                child: SPaddingH24(
-                  child: SStandardFieldObscure(
-                    autofillHints: const [AutofillHints.password],
-                    onChanged: (String password) {
-                      notifier.setNewPassword(password);
-                      credentialsN.updateAndValidatePassword(password);
-                    },
-                    labelText: 'Create a new Password',
-                    autofocus: true,
-                  ),
-                ),
-              ),
-              SPaddingH24(
-                child: PasswordValidation(
-                  password: credentials.password,
-                ),
-              ),
-              const Spacer(),
-              SPaddingH24(
-                child: SPrimaryButton2(
-                  active: true,
-                  name: 'Set new password',
-                  onTap: () {
-                    loading.value.startLoading();
-                    notifier.confirmNewPassword();
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: colors.white,
+              child: SPaddingH24(
+                child: SStandardFieldObscure(
+                  onChanged: (String password) {
+                    changePasswordN.setNewPassword(password);
+                    credentialsN.updateAndValidatePassword(password);
                   },
+                  labelText: 'Create a new Password',
+                  autofocus: true,
                 ),
               ),
-              const SpaceH24(),
-            ],
-          ),
+            ),
+            SPaddingH24(
+              child: PasswordValidation(
+                password: credentials.password,
+              ),
+            ),
+            const Spacer(),
+            SPaddingH24(
+              child: SPrimaryButton2(
+                active: changePassword.isNewPasswordButtonActive,
+                name: 'Set new password',
+                onTap: () {
+                  loading.value.startLoading();
+                  changePasswordN.confirmNewPassword();
+                },
+              ),
+            ),
+            const SpaceH24(),
+          ],
         ),
       ),
     );

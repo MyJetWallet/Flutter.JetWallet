@@ -2,40 +2,30 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../service/services/change_password/model/change_password_request_model.dart';
-import '../../../../../service/services/change_password/service/change_password_service.dart';
 import '../../../../../shared/logging/levels.dart';
+import '../providers/service_providers.dart';
 import 'change_password_state.dart';
 import 'change_password_union.dart';
 
 class ChangePasswordNotifier extends StateNotifier<ChangePasswordState> {
   ChangePasswordNotifier({
-    required this.changePasswordService,
+    required this.read,
   }) : super(const ChangePasswordState());
 
-  final ChangePasswordService changePasswordService;
+  final Reader read;
 
   static final _logger = Logger('ChangePasswordNotifier');
 
-  String? get oldPassword => state.oldPassword;
-
-  String? get newPassword => state.newPassword;
-
-  void setOldPassword(String? number) {
+  void setOldPassword(String password) {
     _logger.log(notifier, 'setOldPassword');
 
-    state = state.copyWith(oldPassword: number);
+    state = state.copyWith(oldPassword: password);
   }
 
-  void setNewPassword(String? number) {
+  void setNewPassword(String password) {
     _logger.log(notifier, 'setNewPassword');
 
-    state = state.copyWith(newPassword: number);
-  }
-
-  bool activeButton() {
-    _logger.log(notifier, 'activeButton');
-
-    return state.oldPassword != '' && state.oldPassword != null;
+    state = state.copyWith(newPassword: password);
   }
 
   Future<void> confirmNewPassword() async {
@@ -43,11 +33,11 @@ class ChangePasswordNotifier extends StateNotifier<ChangePasswordState> {
 
     try {
       final model = ChangePasswordRequestModel(
-        oldPassword: state.oldPassword!,
-        newPassword: state.newPassword!,
+        oldPassword: state.oldPassword,
+        newPassword: state.newPassword,
       );
 
-      await changePasswordService.confirmNewPassword(model);
+      await read(changePasswordPod).confirmNewPassword(model);
 
       state = state.copyWith(union: const Done());
     } catch (e) {

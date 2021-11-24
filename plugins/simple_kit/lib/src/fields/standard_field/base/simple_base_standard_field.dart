@@ -19,7 +19,6 @@ class SimpleBaseStandardField extends HookWidget {
     this.errorNotifier,
     this.onErrorIconTap,
     this.alignLabelWithHint = false,
-    this.isErrorValueOn = true,
     required this.suffixIcon,
     required this.onChanged,
     required this.labelText,
@@ -38,7 +37,6 @@ class SimpleBaseStandardField extends HookWidget {
   final Widget suffixIcon;
   final Function(String) onChanged;
   final String labelText;
-  final bool isErrorValueOn;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +80,7 @@ class SimpleBaseStandardField extends HookWidget {
               minWidth: 24.r,
               minHeight: 24.r,
             ),
-            suffixIcon: errorValue && isErrorValueOn
+            suffixIcon: errorValue
                 ? GestureDetector(
                     onTap: onErrorIconTap,
                     child: const SErrorIcon(),
