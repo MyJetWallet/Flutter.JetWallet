@@ -51,7 +51,7 @@ class ProviderLogger extends ProviderObserver {
   final List<String> ignoreByType;
 
   /// Providers you want Logger to ignore \
-  /// You need to add the name of providers
+  /// You need to add the name of provider
   final List<String> ignoreByName;
 
   static final _logger = Logger('');
