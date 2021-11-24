@@ -14,7 +14,6 @@ class KChartWidget extends StatefulWidget {
   const KChartWidget(
     this.datas, {
     required this.candleType,
-    required this.getData,
     required this.candleResolution,
     required this.candleWidth,
     required this.onCandleSelected,
@@ -23,7 +22,6 @@ class KChartWidget extends StatefulWidget {
   final List<CandleModel> datas;
   final ChartType candleType;
 
-  final Function(String, String, String) getData;
   final Function(ChartInfo?) onCandleSelected;
 
   final String candleResolution;

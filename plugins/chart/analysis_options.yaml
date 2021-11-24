@@ -7,7 +7,7 @@ linter:
     sort_constructors_first: true
 
     sort_pub_dependencies: false
-    
+
     prefer_relative_imports: true
     # conflicts with `prefer_relative_imports`
     avoid_relative_lib_imports: false
@@ -19,9 +19,7 @@ linter:
     unawaited_futures: true
 
     lines_longer_than_80_chars: true
-    
-    # experimental, add when stable
-    # require_trailing_comma: true
+
     # experimental, add when stable
     # avoid_dynamic_calls: true
 
@@ -30,7 +28,8 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
-  
+    - "lib/generated_plugin_registrant.dart"
+
   # possible options:
   # ignore, info, warning, error
   errors:
@@ -38,8 +37,10 @@ analyzer:
     missing_required_param: error
     missing_return: error
     avoid_void_async: error
-    invalid_use_of_protected_member: error    
+    invalid_use_of_protected_member: error
     unawaited_futures: error
+    noop_primitive_operations: error
+    null_argument_to_non_null_type: error
     avoid_unnecessary_containers: warning
     parameter_assignments: warning
-    argument_type_not_assignable: ignore
+    invalid_annotation_target: ignore

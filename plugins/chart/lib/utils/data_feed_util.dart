@@ -34,7 +34,8 @@ mixin DataFeedUtil {
         return ResolutionBackValues(Period.year, const Duration(days: 365));
 
       default:
-        return ResolutionBackValues(resolution, const Duration(hours: 2));
+        // 15 years
+        return ResolutionBackValues(resolution, const Duration(days: 5475));
     }
   }
 }

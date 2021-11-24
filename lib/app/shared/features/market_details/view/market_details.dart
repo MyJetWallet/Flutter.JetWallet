@@ -47,16 +47,12 @@ class MarketDetails extends HookWidget {
             ),
             child: Column(
               children: [
-                SizedBox(
-                  height: 0.35.sh,
-                  child: AssetChart(
-                    marketItem.associateAssetPair,
-                    (ChartInfo? chartInfo) {
-                      chartN.updateSelectedCandle(chartInfo?.right);
-                    },
-                  ),
+                AssetChart(
+                  marketItem.associateAssetPair,
+                  (ChartInfo? chartInfo) {
+                    chartN.updateSelectedCandle(chartInfo?.right);
+                  },
                 ),
-                const SpaceH15(),
                 ReturnRatesBlock(
                   assetSymbol: marketItem.associateAsset,
                 ),

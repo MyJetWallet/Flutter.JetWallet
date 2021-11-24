@@ -71,16 +71,12 @@ class PortfolioWithBalanceBody extends HookWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(
-              height: 0.35.sh,
-              child: BalanceChart(
-                onCandleSelected: (ChartInfo? chartInfo) {
-                  chartN.updateSelectedCandle(chartInfo?.right);
-                },
-                walletCreationDate: clientDetail.walletCreationDate,
-              ),
+            BalanceChart(
+              onCandleSelected: (ChartInfo? chartInfo) {
+                chartN.updateSelectedCandle(chartInfo?.right);
+              },
+              walletCreationDate: clientDetail.walletCreationDate,
             ),
-            const SpaceH15(),
             const SizedBox(
               width: double.infinity,
               child: HeaderText(

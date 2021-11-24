@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../providers/client_detail_pod/client_detail_pod.dart';
 import '../notifier/chart_notipod.dart';
 import '../provider/balance_chart_init_fpod.dart';
 import 'components/loading_chart_view.dart';
@@ -23,6 +24,7 @@ class BalanceChart extends HookWidget {
     final initChart = useProvider(balanceChartInitFpod);
     final chartNotifier = useProvider(chartNotipod.notifier);
     final chartState = useProvider(chartNotipod);
+    final clientDetail = useProvider(clientDetailPod);
 
     return initChart.when(
       data: (_) {
@@ -40,7 +42,9 @@ class BalanceChart extends HookWidget {
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
           ),
-          loading: () => LoadingChartView(),
+          loading: () => LoadingChartView(
+            walletCreationDate: clientDetail.walletCreationDate,
+          ),
           error: (String error) {
             return Center(
               child: Text(error),
@@ -48,7 +52,9 @@ class BalanceChart extends HookWidget {
           },
         );
       },
-      loading: () => LoadingChartView(),
+      loading: () => LoadingChartView(
+        walletCreationDate: clientDetail.walletCreationDate,
+      ),
       error: (_, __) => const Text('Error'),
     );
   }

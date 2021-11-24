@@ -20,14 +20,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: FutureBuilder(
-        future: mockCandles(context),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        future: _mockCandles(context),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<CandleModel>> snapshot) {
           if (snapshot.hasData) {
             return Chart(
               onResolutionChanged: (resolution) {},
               onChartTypeChanged: (chartType) {},
               onCandleSelected: (candleEntity) {},
-              candles: snapshot.data,
+              candles: snapshot.data!,
+              candleResolution: Period.day,
             );
           } else {
             return Container();
@@ -37,11 +39,11 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Future<List<CandleModel>> mockCandles(BuildContext context) async {
+  Future<List<CandleModel>> _mockCandles(BuildContext context) async {
     final data = await DefaultAssetBundle.of(context)
         .loadString('assets/candles_mock.json');
     final newCandles = (json.decode(data) as List)
-        .map((e) => CandleModel.fromJson(e))
+        .map((e) => CandleModel.fromJson(e as Map<String, dynamic>))
         .toList();
     return newCandles;
   }
@@ -54,8 +56,8 @@ class Chart extends StatefulWidget {
     required this.onChartTypeChanged,
     required this.onCandleSelected,
     required this.candles,
+    required this.candleResolution,
     this.chartType = ChartType.line,
-    this.candleResolution = Period.day,
     this.walletCreationDate,
   }) : super(key: key);
 
@@ -75,120 +77,188 @@ class _ChartState extends State<Chart> {
   ChartInfo? _chartInfo;
 
   @override
-  void initState() {
-    super.initState();
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width - 32.w;
+    // TODO(Vova): change to -24.w (left padding only)
+    final screenWidth = 1.sw - 48.w;
     final candleWidth = screenWidth / widget.candles.length;
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: ListView(
-        physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: double.infinity,
-                child: KChartWidget(
-                  widget.candles,
-                  candleType: widget.chartType,
-                  candleWidth: candleWidth,
-                  getData: (_, __, ___) {},
-                  candleResolution: widget.candleResolution,
-                  onCandleSelected: (ChartInfo? chartInfo) {
-                    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    // print('candle width =================== $candleWidth');
+    // print('screen width =================== $screenWidth');
+    // print('original screen width =================== ${1.sw}');
+    // print('candles =================== ${widget.candles.length}');
+
+    final currentDate = DateTime.now().toLocal();
+    final localCreationDate = widget.walletCreationDate == null
+        ? currentDate
+        : DateTime.parse('${widget.walletCreationDate}').toLocal();
+    bool showWeek;
+    bool showMonth;
+    bool showYear;
+    if (localCreationDate == currentDate) {
+      showWeek = true;
+      showMonth = true;
+      showYear = true;
+    } else {
+      final dateDifference = currentDate.difference(localCreationDate).inHours;
+      showWeek = dateDifference > const Duration(days: 1).inHours;
+      showMonth = dateDifference > const Duration(days: 7).inHours;
+      showYear = dateDifference > const Duration(days: 90).inHours;
+    }
+
+    print(
+        '===================${DateTime.fromMicrosecondsSinceEpoch(1632875940000)}');
+    // print(
+    //     '1===================${DateTime.fromMicrosecondsSinceEpoch(1606262400000)}');
+
+    return SizedBox(
+      height: 336.h,
+      width: 1.sw,
+      child: Scaffold(
+        body: ListView(
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            SizedBox(
+              height: 240.h,
+              width: 1.sw,
+              child: KChartWidget(
+                widget.candles,
+                candleType: widget.chartType,
+                candleWidth: candleWidth,
+                candleResolution: widget.candleResolution,
+                onCandleSelected: (ChartInfo? chartInfo) {
+                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    _chartInfo = chartInfo;
+                    widget.onCandleSelected(_chartInfo);
+
+                    setState(() {
                       _chartInfo = chartInfo;
                       widget.onCandleSelected(_chartInfo);
-                      setState(() {});
-
-                      setState(() {
-                        _chartInfo = chartInfo;
-                        widget.onCandleSelected(_chartInfo);
-                      });
                     });
-                  },
-                ),
+                  });
+                },
               ),
-            ],
-          ),
-          Wrap(
-            alignment: WrapAlignment.spaceEvenly,
-            children: <Widget>[
-              button(
-                Period.day,
-                color: widget.candleResolution == Period.day
-                    ? Colors.blue.shade200
-                    : null,
-                onPressed: widget.candleResolution == Period.day
-                    ? null
-                    : () => widget.onResolutionChanged(Period.day),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            SizedBox(
+              height: 36.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _resolutionButton(
+                    text: Period.day,
+                    showUnderline: widget.candleResolution == Period.day,
+                    onTap: widget.candleResolution == Period.day
+                        ? null
+                        : () {
+                            // setState(() {});
+                            widget.onResolutionChanged(Period.day);
+                          },
+                  ),
+                  if (showWeek)
+                    _resolutionButton(
+                      text: Period.week,
+                      showUnderline: widget.candleResolution == Period.week,
+                      onTap: widget.candleResolution == Period.week
+                          ? null
+                          : () {
+                              // setState(() {});
+                              widget.onResolutionChanged(Period.week);
+                            },
+                    ),
+                  if (showMonth)
+                    _resolutionButton(
+                      text: Period.month,
+                      showUnderline: widget.candleResolution == Period.month,
+                      onTap: widget.candleResolution == Period.month
+                          ? null
+                          : () {
+                              // setState(() {});
+                              widget.onResolutionChanged(Period.month);
+                            },
+                    ),
+                  if (showYear)
+                    _resolutionButton(
+                      text: Period.year,
+                      showUnderline: widget.candleResolution == Period.year,
+                      onTap: widget.candleResolution == Period.year
+                          ? null
+                          : () {
+                              // setState(() {});
+                              widget.onResolutionChanged(Period.year);
+                            },
+                    ),
+                  _resolutionButton(
+                    text: Period.all,
+                    showUnderline: widget.candleResolution == Period.all,
+                    onTap: widget.candleResolution == Period.all
+                        ? null
+                        : () {
+                            // setState(() {});
+                            widget.onResolutionChanged(Period.all);
+                          },
+                  ),
+                ],
               ),
-              button(
-                Period.week,
-                color: widget.candleResolution == Period.week
-                    ? Colors.blue.shade200
-                    : null,
-                onPressed: widget.candleResolution == Period.week
-                    ? null
-                    : () => widget.onResolutionChanged(Period.week),
-              ),
-              button(
-                Period.month,
-                color: widget.candleResolution == Period.month
-                    ? Colors.blue.shade200
-                    : null,
-                onPressed: widget.candleResolution == Period.month
-                    ? null
-                    : () => widget.onResolutionChanged(Period.month),
-              ),
-              button(
-                Period.year,
-                color: widget.candleResolution == Period.year
-                    ? Colors.blue.shade200
-                    : null,
-                onPressed: widget.candleResolution == Period.year
-                    ? null
-                    : () => widget.onResolutionChanged(Period.year),
-              ),
-              button(
-                Period.all,
-                color: widget.candleResolution == Period.all
-                    ? Colors.blue.shade200
-                    : null,
-                onPressed: widget.candleResolution == Period.all
-                    ? null
-                    : () => widget.onResolutionChanged(Period.all),
-              ),
-            ],
-          )
-        ],
+            ),
+            SizedBox(
+              height: 40.h,
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget button(
-    String text, {
-    VoidCallback? onPressed,
-    Color? color,
+  Widget _resolutionButton({
+    void Function()? onTap,
+    required String text,
+    required bool showUnderline,
   }) {
-    return SizedBox(
-      width: 0.15.sw,
-      child: MaterialButton(
-        onPressed: () {
-          if (onPressed != null) {
-            onPressed();
-            setState(() {});
-          }
-        },
-        color: color ?? Colors.blue,
-        child: Text(text),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 36.w,
+          margin: EdgeInsets.symmetric(
+            horizontal: 5.w,
+          ),
+          child: InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              if (onTap != null) {
+                onTap();
+              }
+            },
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+        if (showUnderline)
+          Container(
+            width: 36.w,
+            height: 3.h,
+            margin: EdgeInsets.only(
+              top: 5.h,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2.r),
+              color: Colors.black,
+            ),
+          )
+        else
+          SizedBox(
+            height: 8.h,
+          )
+      ],
     );
   }
 }

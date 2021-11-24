@@ -38,7 +38,7 @@ class AssetChart extends HookWidget {
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
           ),
-          loading: () => LoadingChartView(),
+          loading: () => const LoadingChartView(),
           error: (String error) {
             return Center(
               child: Text(error),
@@ -46,7 +46,7 @@ class AssetChart extends HookWidget {
           },
         );
       },
-      loading: () => LoadingChartView(),
+      loading: () => const LoadingChartView(),
       error: (_, __) => const Text('Error'),
     );
   }

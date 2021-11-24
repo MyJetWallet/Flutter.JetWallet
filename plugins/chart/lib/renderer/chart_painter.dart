@@ -100,11 +100,6 @@ class ChartPainter extends BaseChartPainter {
       final curX = getX(i);
       final lastX = i == 0 ? curX : getX(i - 1);
 
-      print(
-          '================first point ===== ${firstPoint} +++ ${curPoint} +++ ${datas[i]}');
-      print(
-          '================last point ===== ${lastPoint} +++ ${curPoint} +++ ${datas[i - 1]}');
-
       mMainRenderer?.drawChart(
         lastPoint,
         curPoint,
