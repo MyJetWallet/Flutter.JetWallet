@@ -4,8 +4,8 @@ import 'package:rive/rive.dart';
 
 import '../../../../constants.dart';
 
-class SuccessAnimation extends StatelessWidget {
-  const SuccessAnimation({Key? key}) : super(key: key);
+class FailureAnimation extends StatelessWidget {
+  const FailureAnimation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +13,7 @@ class SuccessAnimation extends StatelessWidget {
       width: 320.r,
       height: 320.r,
       child: const RiveAnimation.asset(
+        // TODO change to failureAnimationAsset
         successAnimationAsset,
       ),
     );

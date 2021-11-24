@@ -9,11 +9,9 @@ import '../../../../../../../../service/services/swap/model/execute_quote/execut
 import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../service/shared/models/server_reject_exception.dart';
-import '../../../../../../shared/components/result_screens/failure_screens/failure_screen.dart';
-import '../../../../../../shared/components/result_screens/failure_screens/no_response_from_server.dart';
+import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
@@ -171,12 +169,10 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   }
 
   void _showSuccessScreen() {
-    return navigatorPush(
-      _context,
-      const SuccessScreen(
-        text1: 'Order filled',
-      ),
-      () {
+    return SuccessScreen.push(
+      context: _context,
+      secondaryText: 'Order filled',
+      then: () {
         read(navigationStpod).state = 1;
         Navigator.pop(_context);
       },
@@ -184,38 +180,37 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   }
 
   void _showNoResponseScreen() {
-    return navigatorPush(
-      _context,
-      NoResponseFromServer(
-        description: 'Failed to place Order',
-        onOk: () {
-          read(navigationStpod).state = 1; // Portfolio
-          navigateToRouter(read);
-        },
-      ),
+    return FailureScreen.push(
+      context: _context,
+      primaryText: 'No Response From Server',
+      secondaryText: 'Failed to place Order',
+      primaryButtonName: 'OK',
+      onPrimaryButtonTap: () {
+        read(navigationStpod).state = 1; // Portfolio
+        navigateToRouter(read);
+      },
     );
   }
 
   void _showFailureScreen(ServerRejectException error) {
-    return navigatorPush(
-      _context,
-      FailureScreen(
-        description: error.cause,
-        firstButtonName: 'Edit Order',
-        onFirstButton: () {
-          Navigator.pushAndRemoveUntil(
-            _context,
-            MaterialPageRoute(
-              builder: (_) => CurrencySell(
-                currency: input.fromCurrency,
-              ),
+    return FailureScreen.push(
+      context: _context,
+      primaryText: 'Failure',
+      secondaryText: error.cause,
+      primaryButtonName: 'Edit Order',
+      onPrimaryButtonTap: () {
+        Navigator.pushAndRemoveUntil(
+          _context,
+          MaterialPageRoute(
+            builder: (_) => CurrencySell(
+              currency: input.fromCurrency,
             ),
-            (route) => route.isFirst,
-          );
-        },
-        secondButtonName: 'Close',
-        onSecondButton: () => navigateToRouter(read),
-      ),
+          ),
+          (route) => route.isFirst,
+        );
+      },
+      secondaryButtonName: 'Close',
+      onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 

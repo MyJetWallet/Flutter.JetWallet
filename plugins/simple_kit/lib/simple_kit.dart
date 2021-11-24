@@ -18,6 +18,7 @@ export 'src/account/banners/simple_account_banner.dart';
 export 'src/actions/confirm_action_timer/simple_confirm_action_timer.dart';
 export 'src/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
 export 'src/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
+export 'src/actions/simple_action_confirm_alert.dart';
 export 'src/actions/simple_action_confirm_description.dart';
 export 'src/actions/simple_action_confirm_icon_with_animation.dart';
 export 'src/actions/simple_action_confirm_skeleton_loader.dart';

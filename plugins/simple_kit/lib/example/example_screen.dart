@@ -12,6 +12,7 @@ import 'account/simple_account_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
+import 'actions/examples/simple_action_confirm_alert_example.dart';
 import 'actions/examples/simple_action_confirm_description_example.dart';
 import 'actions/examples/simple_action_confirm_skeleton_loader_example.dart';
 import 'actions/examples/simple_action_confirm_text_example.dart';
@@ -90,8 +91,6 @@ class ExampleScreen extends ConsumerWidget {
             SimpleAccountBannersExample.routeName: (context) {
               return const SimpleAccountBannersExample();
             },
-
-
             SimpleButtonsExample.routeName: (context) {
               return const SimpleButtonsExample();
             },
@@ -235,6 +234,9 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleActionConfrimSkeletonLoaderExample.routeName: (context) {
               return const SimpleActionConfrimSkeletonLoaderExample();
+            },
+            SimpleActionConfrimAlertExample.routeName: (context) {
+              return const SimpleActionConfrimAlertExample();
             }
           },
         );
