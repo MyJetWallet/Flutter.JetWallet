@@ -42,7 +42,7 @@ class ChangeNewPassword extends HookWidget {
             navigatorPush(
               context,
               const SuccessScreen(
-                text1: 'New password set',
+                secondaryText: 'New password set',
               ),
             );
           },
