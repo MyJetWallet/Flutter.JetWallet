@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../components/convert_preview/view/components/quote_error_text.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_notipod.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_state.dart';
@@ -96,9 +95,8 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   '${state.price} ${state.toAssetSymbol}',
             ),
             const SpaceH40(),
-            // TODO(eli): Update with new UI
             if (state.connectingToServer) ...[
-              QuoteErrorText(),
+              const SActionConfirmAlert(),
               const SpaceH20(),
             ],
             SPrimaryButton2(
