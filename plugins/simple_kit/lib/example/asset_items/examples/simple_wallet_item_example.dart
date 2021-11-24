@@ -102,6 +102,13 @@ class SimpleWalletItemExample extends StatelessWidget {
           SWalletItem(
             onTap: () {},
             icon: const SActionBuyIcon(),
+            name: 'Bitcoin really long really long really long',
+            decline: false,
+            balance: 'BTC',
+          ),
+          SWalletItem(
+            onTap: () {},
+            icon: const SActionBuyIcon(),
             name: 'Bitcoin really long',
             amount: '\$0 000 000.00',
             decline: false,
