@@ -1,4 +1,4 @@
-import 'package:charts/entity/candle_model.dart';
+import 'package:charts/simple_chart.dart';
 
 import '../../../../../service/shared/constants.dart';
 import '../../../helpers/format_currency_amount.dart';

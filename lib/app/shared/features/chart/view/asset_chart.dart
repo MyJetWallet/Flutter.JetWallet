@@ -1,5 +1,5 @@
-import 'package:charts/entity/chart_info.dart';
 import 'package:charts/main.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,7 +15,7 @@ class AssetChart extends HookWidget {
   );
 
   final String instrumentId;
-  final void Function(ChartInfo?) onCandleSelected;
+  final void Function(ChartInfoModel?) onCandleSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class AssetChart extends HookWidget {
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
           ),
-          loading: () => LoadingChartView(),
+          loading: () => const LoadingChartView(),
           error: (String error) {
             return Center(
               child: Text(error),
@@ -46,7 +46,7 @@ class AssetChart extends HookWidget {
           },
         );
       },
-      loading: () => LoadingChartView(),
+      loading: () => const LoadingChartView(),
       error: (_, __) => const Text('Error'),
     );
   }

@@ -13,8 +13,7 @@ class FailureAnimation extends StatelessWidget {
       width: 320.r,
       height: 320.r,
       child: const RiveAnimation.asset(
-        // TODO change to failureAnimationAsset
-        successAnimationAsset,
+        failureAnimationAsset,
       ),
     );
   }

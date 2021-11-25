@@ -4,13 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/format_currency_amount.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
 
 void showBuyAction(BuildContext context) {
+  Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -50,7 +51,7 @@ class _ActionBuy extends HookWidget {
             last: currency == currencies.last,
             percent: currency.dayPercentChange,
             onTap: () {
-              navigatorPush(
+              navigatorPushReplacement(
                 context,
                 CurrencyBuy(
                   currency: currency,

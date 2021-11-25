@@ -1,5 +1,4 @@
-import 'package:charts/entity/candle_model.dart';
-import 'package:charts/entity/candle_type_enum.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'chart_union.dart';
