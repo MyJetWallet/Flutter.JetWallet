@@ -2,6 +2,7 @@ import 'dart:async' show StreamSink;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../entity/candle_model.dart';
@@ -44,9 +45,18 @@ class ChartPainter extends BaseChartPainter {
   AnimationController? controller;
   double opacity;
   final Function(ChartInfo) onCandleSelected;
+  late Color chartColor;
 
   @override
   void initChartRenderer() {
+    if (isLongPress) {
+      chartColor = Colors.black;
+    } else {
+      chartColor = datas.first.close > datas.last.close
+          ? ChartColors.negativeChartColor
+          : ChartColors.positiveChartColor;
+    }
+
     mMainRenderer ??= MainRenderer(
       mMainRect,
       mMainMaxValue,
@@ -54,6 +64,7 @@ class ChartPainter extends BaseChartPainter {
       ChartStyle.topPadding,
       candleType,
       candleWidth,
+      chartColor,
       scaleX,
     );
   }
@@ -167,12 +178,9 @@ class ChartPainter extends BaseChartPainter {
     );
 
     final tp = getTextPainter(format(point.close));
-    final textHeight = tp.height;
     var textWidth = tp.width;
 
     const w1 = 5;
-    const w2 = 3;
-    var r = textHeight / 2 + w2;
     var y = getMainY(point.close);
     double x;
     const isLeft = false;
@@ -206,7 +214,6 @@ class ChartPainter extends BaseChartPainter {
 
     final dateTp = getTextPainter(getDate(point.date));
     textWidth = dateTp.width;
-    r = textHeight / 2;
     x = translateXtoX(getX(index));
     y = 0 + ChartStyle.bottomDateHigh;
 
@@ -215,25 +222,24 @@ class ChartPainter extends BaseChartPainter {
     } else if (mWidth - x < textWidth + 2 * w1) {
       x = mWidth - 1 - textWidth / 2 - w1;
     }
-    final baseLine = textHeight / 2;
-    canvas.drawRect(
-      Rect.fromLTRB(
-        x - textWidth / 2 - w1,
-        y,
-        x + textWidth / 2 + w1,
-        y + baseLine + r,
-      ),
-      selectPointPaint,
-    );
-    canvas.drawRect(
-      Rect.fromLTRB(
-        x - textWidth / 2 - w1,
-        y,
-        x + textWidth / 2 + w1,
-        y + baseLine + r,
-      ),
-      selectorBorderPaint,
-    );
+    // canvas.drawRect(
+    //   Rect.fromLTRB(
+    //     x - textWidth / 2 - w1,
+    //     y,
+    //     x + textWidth / 2 + w1,
+    //     y + baseLine + r,
+    //   ),
+    //   selectPointPaint,
+    // );
+    // canvas.drawRect(
+    //   Rect.fromLTRB(
+    //     x - textWidth / 2 - w1,
+    //     y,
+    //     x + textWidth / 2 + w1,
+    //     y + baseLine + r,
+    //   ),
+    //   selectorBorderPaint,
+    // );
 
     dateTp.paint(canvas, Offset(x - textWidth / 2, y));
     //Long press to show the details of this data
@@ -254,74 +260,74 @@ class ChartPainter extends BaseChartPainter {
 
   @override
   void drawMaxAndMin(Canvas canvas) {
-    //Plot the maximum and minimum values
-    var x = translateXtoX(getX(mMainMinIndex));
-    var y = getMainY(mMainLowMinValue!);
-    // print('x=${x} +++ y=${y}');
-    if (x < mWidth / 2) {
-      //Draw right
-      final tp = getTextPainter(
-        format(mMainLowMinValue!),
-        color: ChartColors.maxMinTextColor,
-      );
-      tp.paint(canvas, Offset(x, y - tp.height / 2));
-    } else {
-      final tp = getTextPainter(
-        format(mMainLowMinValue!),
-        color: ChartColors.maxMinTextColor,
-      );
-      tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
-    }
-    x = translateXtoX(getX(mMainMaxIndex));
-    y = getMainY(mMainHighMaxValue!);
-    if (x < mWidth / 2) {
-      //Draw right
-      final tp = getTextPainter(
-        format(mMainHighMaxValue!),
-        color: ChartColors.maxMinTextColor,
-      );
-      tp.paint(canvas, Offset(x, y - tp.height / 2));
-    } else {
-      final tp = getTextPainter(
-        format(mMainHighMaxValue!),
-        color: ChartColors.maxMinTextColor,
-      );
-      tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
+    if (!isLongPress) {
+      //Plot the maximum and minimum values
+      const x = 0.0;
+      var y = getMainY(mMainLowMinValue!) + 20.h;
+      if (x < mWidth / 2) {
+        //Draw right
+        final tp = getTextPainter(
+          format(mMainLowMinValue!),
+          color: ChartColors.maxMinTextColor,
+        );
+        tp.paint(canvas, Offset(x, y - tp.height / 2));
+      } else {
+        final tp = getTextPainter(
+          format(mMainLowMinValue!),
+          color: ChartColors.maxMinTextColor,
+        );
+        tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
+      }
+      y = getMainY(mMainHighMaxValue!) - 20.h;
+      if (x < mWidth / 2) {
+        //Draw right
+        final tp = getTextPainter(
+          format(mMainHighMaxValue!),
+          color: ChartColors.maxMinTextColor,
+        );
+        tp.paint(canvas, Offset(x, y - tp.height / 2));
+      } else {
+        final tp = getTextPainter(
+          format(mMainHighMaxValue!),
+          color: ChartColors.maxMinTextColor,
+        );
+        tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
+      }
     }
   }
 
   void drawCrossLine(Canvas canvas, Size size) {
     final index = calculateSelectedX(selectX);
-    // final point = getItem(index) as CandleModel;
+    final point = getItem(index) as CandleModel;
     final paintY = Paint()
-      ..color = Colors.black
+      ..color = const Color(0xFFA8B0BA)
       ..strokeWidth = ChartStyle.vCrossWidth
       ..isAntiAlias = true;
     final x = getX(index);
-    // final y = getMainY(point.close!);
+    final y = getMainY(point.close);
     // k-line graph vertical line
     canvas.drawLine(
-      Offset(x, ChartStyle.topPadding),
+      Offset(x, 40.h),
       Offset(x, size.height - ChartStyle.bottomDateHigh),
       paintY,
     );
 
-    // final paintX = Paint()
-    //   ..color = Colors.black
-    //   ..strokeWidth = ChartStyle.hCrossWidth
-    //   ..isAntiAlias = true;
+    final paintX = Paint()
+      ..color = Colors.black
+      ..strokeWidth = ChartStyle.hCrossWidth
+      ..isAntiAlias = true;
     // k-line graph horizontal line
     // canvas.drawLine(Offset(-mTranslateX, y),
     //     Offset(-mTranslateX + mWidth / scaleX, y), paintX);
-//    canvas.drawCircle(Offset(x, y), 2.0, paintX);
-//     canvas.drawOval(
-//       Rect.fromCenter(
-//         center: Offset(x, y),
-//         height: 2.0 * scaleX,
-//         width: 2.0,
-//       ),
-//       paintX,
-//     );
+    canvas.drawCircle(Offset(x, y), 3.r, paintX);
+    // canvas.drawOval(
+    //   Rect.fromCenter(
+    //     center: Offset(x, y),
+    //     height: 2.0 * scaleX,
+    //     width: 2.0,
+    //   ),
+    //   paintX,
+    // );
   }
 
   final Paint realTimePaint = Paint()
@@ -331,18 +337,16 @@ class ChartPainter extends BaseChartPainter {
 
   @override
   void drawRealTimePrice(Canvas canvas, Size size) {
-    // if (mMarginRight == 0 || datas.isEmpty == true) return;
-    // final point = datas.last;
+    if (mMarginRight == 0 || datas.isEmpty == true) return;
+    final point = datas.last;
     // var tp = getTextPainter(format(point.close!),
     //     color: ChartColors.rightRealTimeTextColor);
-    // var y = getMainY(point.close!);
+    final y = getMainY(point.close);
     // //The more the max slides to the right, the smaller the value
-    // final max = (mTranslateX.abs() +
-    //         mMarginRight -
-    //         getMinTranslateX().abs() +
-    //         mPointWidth) *
-    //     scaleX;
-    // var x = mWidth - max;
+    final max =
+        (mTranslateX.abs() + mMarginRight - getMinTranslateX().abs() + 2.r) *
+            scaleX;
+    final x = mWidth - max;
     // if (candleType == ChartType.candle) x += mPointWidth / 2;
     // const dashWidth = 10;
     // const dashSpace = 5;
@@ -356,19 +360,18 @@ class ChartPainter extends BaseChartPainter {
     //         realTimePaint..color = ChartColors.realTimeLineColor);
     //     startX += space;
     //   }
-    //   //Flash and flash point last price
-    //   // if (candleType == ChartType.area || candleType == ChartType.line) {
-    //   //   startAnimation();
-    //   //   final Gradient pointGradient = RadialGradient(
-    //   //       colors: [Colors.white.withOpacity(opacity), Colors.transparent]);
-    //   //   pointPaint.shader = pointGradient
-    //   //       .createShader(Rect.fromCircle(center: Offset(x, y), radius: 14.0));
-    //   //   canvas.drawCircle(Offset(x, y), 14.0, pointPaint);
-    //   //   canvas.drawCircle(
-    //   //       Offset(x, y), 2.0, realTimePaint..color = Colors.white);
-    //   // } else {
-    //   //   stopAnimation(); //Stop flashing
-    //   // }
+    // Flash and flash point last price
+    if (candleType == ChartType.area || candleType == ChartType.line) {
+      // startAnimation();
+      // final Gradient pointGradient = RadialGradient(
+      //     colors: [Colors.white.withOpacity(opacity), Colors.transparent]);
+      // pointPaint.shader = pointGradient
+      //     .createShader(Rect.fromCircle(center: Offset(x, y), radius: 14.0));
+      // canvas.drawCircle(Offset(x, y), 14.0, pointPaint);
+      canvas.drawCircle(Offset(x, y), 3.r, realTimePaint..color = chartColor);
+    } else {
+      // stopAnimation(); //Stop flashing
+    }
     //   final left = mWidth - tp.width;
     //   final top = y - tp.height / 2;
     //   canvas.drawRect(
@@ -440,7 +443,14 @@ class ChartPainter extends BaseChartPainter {
   }
 
   TextPainter getTextPainter(String text, {Color color = Colors.white}) {
-    final span = TextSpan(text: text, style: getTextStyle(color));
+    final span = TextSpan(
+      text: text,
+      style: TextStyle(
+        color: const Color(0xFFA8B0BA),
+        fontWeight: FontWeight.w500,
+        fontSize: 12.sp,
+      ),
+    );
     final tp = TextPainter(text: span, textDirection: ui.TextDirection.ltr);
     tp.layout();
     return tp;

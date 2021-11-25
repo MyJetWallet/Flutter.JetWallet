@@ -14,6 +14,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     double topPadding,
     this.candleType,
     this.candleWidth,
+    this.chartColor,
     double scaleX,
   ) : super(
           chartRect: mainRect,
@@ -36,12 +37,12 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     }
   }
 
-  ChartType? candleType;
-  double candleWidth;
+  final ChartType? candleType;
+  final double candleWidth;
 
   final double _contentPadding = 12.0;
 
-  late Color chartColor;
+  final Color chartColor;
 
   @override
   void drawText(Canvas canvas, CandleEntity data, double x) {
@@ -69,9 +70,6 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     Size size,
     Canvas canvas,
   ) {
-    chartColor = firstPoint.close > lastPoint.close
-        ? ChartColors.negativeChartColor
-        : ChartColors.positiveChartColor;
     switch (candleType) {
       case ChartType.candle:
         drawCandle(curPoint, canvas, curX);

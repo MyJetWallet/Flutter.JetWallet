@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'components/dashed_divider/dashed_divider.dart';
 import 'entity/candle_model.dart';
 import 'entity/candle_type_enum.dart';
 import 'entity/chart_info.dart';
@@ -153,8 +155,6 @@ class _KChartWidgetState extends State<KChartWidget>
       onScaleUpdate: (details) {
         if (isDrag || isLongPress) return;
         _scaleX = (_lastScale * details.scale).clamp(0.5, 2.2);
-        // ignore: avoid_print
-        // print(details);
         reRenderView();
       },
       onScaleEnd: (_) {
@@ -184,6 +184,18 @@ class _KChartWidgetState extends State<KChartWidget>
       },
       child: Stack(
         children: <Widget>[
+          if (!isLongPress)
+            DashedDivider(
+              topPadding: 20.h,
+            ),
+          if (!isLongPress)
+            DashedDivider(
+              topPadding: 120.h,
+            ),
+          if (!isLongPress)
+            DashedDivider(
+              topPadding: 220.h,
+            ),
           CustomPaint(
             size: Size.infinite,
             painter: ChartPainter(

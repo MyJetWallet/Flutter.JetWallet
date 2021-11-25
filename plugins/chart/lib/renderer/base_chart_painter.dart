@@ -266,7 +266,7 @@ abstract class BaseChartPainter extends CustomPainter {
   void drawRealTimePrice(Canvas canvas, Size size);
 
   String format(double n) {
-    return NumberUtil.format(n);
+    return '\$${NumberUtil.format(n)}';
   }
 
   @override

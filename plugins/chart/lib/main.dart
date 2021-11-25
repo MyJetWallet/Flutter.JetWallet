@@ -82,11 +82,6 @@ class _ChartState extends State<Chart> {
     final screenWidth = 1.sw - 48.w;
     final candleWidth = screenWidth / widget.candles.length;
 
-    // print('candle width =================== $candleWidth');
-    // print('screen width =================== $screenWidth');
-    // print('original screen width =================== ${1.sw}');
-    // print('candles =================== ${widget.candles.length}');
-
     final currentDate = DateTime.now().toLocal();
     final localCreationDate = widget.walletCreationDate == null
         ? currentDate
@@ -104,11 +99,6 @@ class _ChartState extends State<Chart> {
       showMonth = dateDifference > const Duration(days: 7).inHours;
       showYear = dateDifference > const Duration(days: 90).inHours;
     }
-
-    print(
-        '===================${DateTime.fromMicrosecondsSinceEpoch(1632875940000)}');
-    // print(
-    //     '1===================${DateTime.fromMicrosecondsSinceEpoch(1606262400000)}');
 
     return SizedBox(
       height: 336.h,

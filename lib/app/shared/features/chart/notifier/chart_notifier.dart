@@ -66,9 +66,6 @@ class ChartNotifier extends StateNotifier<ChartState> {
       final depth = DataFeedUtil.calculateHistoryDepth(resolution);
       final fromDate = toDate.subtract(depth.intervalBackDuration);
 
-      print('from date==================${fromDate}');
-      print('to date====================${toDate}');
-
       final model = CandlesRequestModel(
         candleId: instrumentId,
         type: timeFrameFrom(resolution),
