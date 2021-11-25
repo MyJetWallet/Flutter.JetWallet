@@ -108,7 +108,7 @@ class ChartPainter extends BaseChartPainter {
     for (var i = mStartIndex; i <= mStopIndex; i++) {
       final curPoint = datas[i];
       //TODO(Vova): Check this line
-      if (curPoint == null) continue;
+      // if (curPoint == null) continue;
       final lastPoint = i == 0 ? curPoint : datas[i - 1];
       final firstPoint = i == 0 ? curPoint : datas[i];
       final curX = getX(i);
