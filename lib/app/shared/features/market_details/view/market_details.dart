@@ -1,4 +1,4 @@
-import 'package:charts/entity/chart_info.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,16 +47,12 @@ class MarketDetails extends HookWidget {
             ),
             child: Column(
               children: [
-                SizedBox(
-                  height: 0.35.sh,
-                  child: AssetChart(
-                    marketItem.associateAssetPair,
-                    (ChartInfo? chartInfo) {
-                      chartN.updateSelectedCandle(chartInfo?.right);
-                    },
-                  ),
+                AssetChart(
+                  marketItem.associateAssetPair,
+                  (ChartInfoModel? chartInfo) {
+                    chartN.updateSelectedCandle(chartInfo?.right);
+                  },
                 ),
-                const SpaceH15(),
                 ReturnRatesBlock(
                   assetSymbol: marketItem.associateAsset,
                 ),

@@ -1,4 +1,4 @@
-import 'package:charts/entity/resolution_string_enum.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

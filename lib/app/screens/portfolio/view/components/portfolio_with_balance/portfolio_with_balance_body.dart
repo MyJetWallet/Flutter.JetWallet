@@ -1,4 +1,4 @@
-import 'package:charts/entity/chart_info.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,16 +71,12 @@ class PortfolioWithBalanceBody extends HookWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(
-              height: 0.35.sh,
-              child: BalanceChart(
-                onCandleSelected: (ChartInfo? chartInfo) {
-                  chartN.updateSelectedCandle(chartInfo?.right);
-                },
-                walletCreationDate: clientDetail.walletCreationDate,
-              ),
+            BalanceChart(
+              onCandleSelected: (ChartInfoModel? chartInfo) {
+                chartN.updateSelectedCandle(chartInfo?.right);
+              },
+              walletCreationDate: clientDetail.walletCreationDate,
             ),
-            const SpaceH15(),
             const SizedBox(
               width: double.infinity,
               child: HeaderText(
