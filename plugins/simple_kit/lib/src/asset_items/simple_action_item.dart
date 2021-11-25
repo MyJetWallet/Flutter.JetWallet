@@ -7,14 +7,14 @@ import '../../simple_kit.dart';
 class SActionItem extends StatelessWidget {
   const SActionItem({
     Key? key,
-    this.helperText = '',
+    this.helper = '',
     required this.icon,
     required this.name,
     required this.onTap,
     required this.description,
   }) : super(key: key);
 
-  final String helperText;
+  final String helper;
   final Widget icon;
   final String name;
   final Function() onTap;
@@ -36,7 +36,7 @@ class SActionItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   icon,
-                  const SpaceW10(),
+                  const SpaceW20(),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,7 @@ class SActionItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
                             SizedBox(
-                              width: 190.w,
+                              width: 177.w,
                               child: Baseline(
                                 baseline: 17.8.h,
                                 baselineType: TextBaseline.alphabetic,
@@ -60,7 +60,7 @@ class SActionItem extends StatelessWidget {
                             SizedBox(
                               width: 90.w,
                               child: Text(
-                                helperText,
+                                helper,
                                 textAlign: TextAlign.end,
                                 style: sCaptionTextStyle.copyWith(
                                   color: SColorsLight().grey3,
