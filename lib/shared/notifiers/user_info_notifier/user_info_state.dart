@@ -13,9 +13,14 @@ class UserInfoState with _$UserInfoState {
     @Default(false) bool pinDisabled,
     @Default(false) bool twoFaEnabled,
     @Default(false) bool phoneVerified,
+    @Default('denis.m@smplt.net') String email,
+    @Default('+380934471844') String phone,
+    @Default(true) bool phoneConfirmed,
   }) = _UserInfoState;
 
   const UserInfoState._();
 
   bool get pinEnabled => pin != null;
+
+  bool get enableChangePhoneNumber => phoneConfirmed && phone.isNotEmpty;
 }
