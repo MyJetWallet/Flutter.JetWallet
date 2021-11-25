@@ -224,14 +224,24 @@ This idea applies to model and provider layer as well.
 
 This project relies on [flutter_localizations][flutter_localizations_link] and follows the [official internationalization guide for Flutter][internationalization_link].
 
-### Authomatic translation
+### Algorithm for adding a new translation to the app
 
-1. When adding a new feature add your keys to [Poeditor](https://poeditor.com/)
-2. Then export arb files to the project under **l10n** folder
+1. Define a feature to which that specific translation belongs. (Example: login)
+2. Create a name:
+   * name must start from the feature name + `_`
+   * after `_` short description of the translation must be provided in camelCase
+
+   (Example: login_credentialsError)
+3. Provide description that describes use case of the transaltion and other useful information related to it
+4. Add translation to the core file `lib/l10n/app_en.arb`
+5. Import `app_en.arb` to the [Poeditor](https://poeditor.com/)
+6. Generate other languages if there are languages other than English
+7. Export all translations of languages(en, es, ru...) from Poeditor and add them under `l10n` folder
+8. Inform translators or product owners about the new change
 
 ### Adding Strings (Manual)
 
-1. To add a new localizable string, open the `app_en.arb` file at `lib/l10n/arb/app_en.arb`.
+1. To add a new localizable string, open the `app_en.arb` file at `lib/l10n/app_en.arb`.
 
 ```arb
 {
