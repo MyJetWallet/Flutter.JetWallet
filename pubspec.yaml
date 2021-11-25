@@ -78,7 +78,7 @@ dependencies:
   simple_kit:
     path: plugins/simple_kit
   charts:
-    path: plugins/chart
+    path: plugins/simple_chart
 
 dev_dependencies:
   flutter_test:
