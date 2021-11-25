@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/navigator_push.dart';
+import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
 import '../login/login.dart';
 import '../register/register.dart';
 import 'components/animated_slide.dart';
+
+const _textAnimationDuration = Duration(seconds: 1);
+const _slidesAnimationDuration = Duration(seconds: 2);
 
 class OnboardingScreen extends StatefulHookWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -30,20 +35,23 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
   );
   int _currentIndex = 0;
   bool _reverse = false;
-  static const _textAnimationDuration = Duration(seconds: 1);
-  static const _slidesAnimationDuration = Duration(seconds: 2);
-  static const List<String> _slides = [
-    'Welcome\nto Simple',
-    'Buy and Sell\ncrypto in 2 clicks',
-    'Send crypto\nto anyone',
-    'All wallets \nin one place',
-  ];
+
+  late List<String> _slides;
 
   @override
   void initState() {
     super.initState();
     _restartTextAnimation();
     _restartAnimation();
+
+    final intl = context.read(intlPod);
+
+    _slides = [
+      intl.onboarding_slide1,
+      intl.onboarding_slide2,
+      intl.onboarding_slide3,
+      intl.onboarding_slide4,
+    ];
 
     _textAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed ||
@@ -70,6 +78,8 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return OnboardingFullScreenGradient(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -106,13 +116,13 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
             const Spacer(),
             SPrimaryButton1(
               active: true,
-              name: 'Get Started',
+              name: intl.onboarding_getStarted,
               onTap: () => navigatorPush(context, const Register()),
             ),
             const SpaceH10(),
             STextButton1(
               active: true,
-              name: 'Sign in',
+              name: intl.onboarding_signIn,
               onTap: () => navigatorPush(context, const Login()),
             ),
             const SpaceH40(),

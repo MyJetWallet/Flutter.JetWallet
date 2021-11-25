@@ -1,7 +1,67 @@
 {
     "@@locale": "en",
-    "jetWalletAppVersion": "Jet Wallet App Version",
-    "@jetWalletAppVersion": {
-      "description": "Shown at the AuthPage, under SignIn Button"
+    "onboarding_getStarted": "Get started",
+    "@onboarding_getStarted": {
+      "description": "Shown on the first button of the Onboarding screen"
+    },
+    "onboarding_signIn": "Sign in",
+    "@onboarding_signIn": {
+      "description": "Shown on the second button of the Onboarding screen"
+    },
+    "onboarding_slide1": "Welcome\nto Simple",
+    "@onboarding_slide1": {
+      "description": "Shown on the Onboarding screen where 4 slides displayed"
+    },
+    "onboarding_slide2": "Buy and Sell\ncrypto in 2 clicks",
+    "@onboarding_slide2": {
+      "description": "Shown on the Onboarding screen where 4 slides displayed"
+    },
+    "onboarding_slide3": "Send crypto\nto anyone",
+    "@onboarding_slide3": {
+      "description": "Shown on the Onboarding screen where 4 slides displayed"
+    },
+    "onboarding_slide4": "All wallets\nin one place",
+    "@onboarding_slide4": {
+      "description": "Shown on the Onboarding screen where 4 slides displayed"
+    },
+    "login_credentialsError": "The email and password you entered did not match our records. Please double-check and try again.",
+    "@login_credentialsError": {
+      "description": "This error shown when user typed wrong login credentials"
+    },
+    "login_signIn": "Sign in",
+    "@login_signIn": {
+      "description": "Header of the login page"
+    },
+    "login_forgotPassword": "Forgot password?",
+    "@login_forgotPassword": {
+      "description": "Shown in login header"
+    },
+    "login_emailTextFieldLabel": "Email Address",
+    "@login_emailTextFieldLabel": {
+      "description": "Shown in the text field for email"
+    },
+    "login_passwordTextFieldLabel": "Password",
+    "@login_passwordTextFieldLabel": {
+      "description": "Shown in the text field for password"
+    },
+    "login_continueButton": "Continue",
+    "@login_continueButton": {
+      "description": "Name of the button that submits user credentials"
+    },
+    "login_policyText1": "By logging in and continuing, I hereby agree and consent to the",
+    "@login_policyText1": {
+      "description": "Privacy Policy Text (part 1)"
+    },
+    "login_policyText2": "User Agreement",
+    "@login_policyText2": {
+      "description": "Privacy Policy Text (part 2)"
+    },
+    "login_policyText3": "and the",
+    "@login_policyText3": {
+      "description": "Privacy Policy Text (part 3)"
+    },
+    "login_policyText4": "Privacy Policy",
+    "@login_policyText4": {
+      "description": "Privacy Policy Text (part 4) - last part"
     }
 }
