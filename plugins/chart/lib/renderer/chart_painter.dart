@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-import '../entity/candle_model.dart';
-import '../entity/candle_type_enum.dart';
-import '../entity/chart_info.dart';
-import '../entity/info_window_entity.dart';
-import '../entity/resolution_string_enum.dart';
+import '../model/candle_model.dart';
+import '../model/candle_type_enum.dart';
+import '../model/chart_info_model.dart';
+import '../model/info_window_model.dart';
+import '../model/resolution_string_enum.dart';
 import 'base_chart_painter.dart';
 import 'base_chart_renderer.dart';
 import 'main_renderer.dart';
@@ -41,10 +41,10 @@ class ChartPainter extends BaseChartPainter {
 
   static double get maxScrollX => BaseChartPainter.maxScrollX;
   BaseChartRenderer? mMainRenderer;
-  StreamSink<InfoWindowEntity?>? sink;
+  StreamSink<InfoWindowModel?>? sink;
   AnimationController? controller;
   double opacity;
-  final Function(ChartInfo) onCandleSelected;
+  final Function(ChartInfoModel) onCandleSelected;
   late Color chartColor;
 
   @override
@@ -52,9 +52,12 @@ class ChartPainter extends BaseChartPainter {
     if (isLongPress) {
       chartColor = Colors.black;
     } else {
-      chartColor = datas.first.close > datas.last.close
-          ? ChartColors.negativeChartColor
-          : ChartColors.positiveChartColor;
+      chartColor = Colors.white;
+      if (datas.isNotEmpty) {
+        chartColor = datas.first.close > datas.last.close
+            ? ChartColors.negativeChartColor
+            : ChartColors.positiveChartColor;
+      }
     }
 
     mMainRenderer ??= MainRenderer(
@@ -105,7 +108,7 @@ class ChartPainter extends BaseChartPainter {
     for (var i = mStartIndex; i <= mStopIndex; i++) {
       final curPoint = datas[i];
       //TODO(Vova): Check this line
-      // if (curPoint == null) continue;
+      if (curPoint == null) continue;
       final lastPoint = i == 0 ? curPoint : datas[i - 1];
       final firstPoint = i == 0 ? curPoint : datas[i];
       final curX = getX(i);
@@ -170,7 +173,7 @@ class ChartPainter extends BaseChartPainter {
     final point = getItem(index) as CandleModel;
 
     onCandleSelected(
-      ChartInfo(
+      ChartInfoModel(
         left: datas[0],
         right: datas[index],
         candleResolution: resolution,
@@ -243,7 +246,7 @@ class ChartPainter extends BaseChartPainter {
 
     dateTp.paint(canvas, Offset(x - textWidth / 2, y));
     //Long press to show the details of this data
-    sink?.add(InfoWindowEntity(point, isLeft: isLeft));
+    sink?.add(InfoWindowModel(point, isLeft: isLeft));
   }
 
   @override

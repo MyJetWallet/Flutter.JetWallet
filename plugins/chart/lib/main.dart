@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import './flutter_k_chart.dart';
 import './k_chart_widget.dart';
-import 'entity/candle_type_enum.dart';
-import 'entity/chart_info.dart';
-import 'entity/resolution_string_enum.dart';
+import './simple_chart.dart';
+import 'model/candle_model.dart';
+import 'model/candle_type_enum.dart';
+import 'model/chart_info_model.dart';
+import 'model/resolution_string_enum.dart';
 
 void main() => runApp(MyApp());
 
@@ -63,7 +64,7 @@ class Chart extends StatefulWidget {
 
   final void Function(String) onResolutionChanged;
   final void Function(ChartType) onChartTypeChanged;
-  final void Function(ChartInfo?) onCandleSelected;
+  final void Function(ChartInfoModel?) onCandleSelected;
   final List<CandleModel> candles;
   final ChartType chartType;
   final String candleResolution;
@@ -74,7 +75,7 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  ChartInfo? _chartInfo;
+  ChartInfoModel? _chartInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +116,7 @@ class _ChartState extends State<Chart> {
                 candleType: widget.chartType,
                 candleWidth: candleWidth,
                 candleResolution: widget.candleResolution,
-                onCandleSelected: (ChartInfo? chartInfo) {
+                onCandleSelected: (ChartInfoModel? chartInfo) {
                   WidgetsBinding.instance!.addPostFrameCallback((_) {
                     _chartInfo = chartInfo;
                     widget.onCandleSelected(_chartInfo);

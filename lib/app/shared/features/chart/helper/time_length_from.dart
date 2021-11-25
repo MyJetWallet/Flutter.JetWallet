@@ -1,4 +1,5 @@
-import 'package:charts/entity/resolution_string_enum.dart';
+import 'package:charts/simple_chart.dart';
+
 import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
 
 TimeLength timeLengthFrom(String resolution) {

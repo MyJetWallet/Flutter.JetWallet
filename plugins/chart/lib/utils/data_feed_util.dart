@@ -1,6 +1,6 @@
 import '../entity/custom_resolution_enum.dart';
 import '../entity/resolution_string_entity.dart';
-import '../entity/resolution_string_enum.dart';
+import '../model/resolution_string_enum.dart';
 
 mixin DataFeedUtil {
   static ResolutionForServerEnum parseCandleType(String resolution) {

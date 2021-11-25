@@ -1,7 +1,7 @@
 import 'candle_model.dart';
 
-class ChartInfo {
-  ChartInfo({
+class ChartInfoModel {
+  ChartInfoModel({
     required this.left,
     required this.right,
     required this.candleResolution,

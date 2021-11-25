@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../chart_style.dart';
-import '../entity/candle_entity.dart';
-import '../entity/candle_type_enum.dart';
+import '../model/candle_type_enum.dart';
+import '../simple_chart.dart';
 import 'base_chart_renderer.dart';
 
-class MainRenderer extends BaseChartRenderer<CandleEntity> {
+class MainRenderer extends BaseChartRenderer<CandleModel> {
   MainRenderer(
     Rect? mainRect,
     double maxValue,
@@ -45,7 +45,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
   final Color chartColor;
 
   @override
-  void drawText(Canvas canvas, CandleEntity data, double x) {
+  void drawText(Canvas canvas, CandleModel data, double x) {
     switch (candleType) {
       case ChartType.area:
       case ChartType.line:
@@ -62,9 +62,9 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
 
   @override
   void drawChart(
-    CandleEntity lastPoint,
-    CandleEntity curPoint,
-    CandleEntity firstPoint,
+    CandleModel lastPoint,
+    CandleModel curPoint,
+    CandleModel firstPoint,
     double lastX,
     double curX,
     Size size,
@@ -215,7 +215,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     mLinePath.reset();
   }
 
-  void drawCandle(CandleEntity curPoint, Canvas canvas, double curX) {
+  void drawCandle(CandleModel curPoint, Canvas canvas, double curX) {
     final high = getY(curPoint.high);
     final low = getY(curPoint.low);
     var open = getY(curPoint.open);

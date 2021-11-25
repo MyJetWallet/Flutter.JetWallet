@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../entity/candle_entity.dart';
+import '../../simple_chart.dart';
 
 class Prices extends StatelessWidget {
-  const Prices(this.candle);
+  const Prices(Key? key, this.candle) : super(key: key);
 
-  final CandleEntity? candle;
+  final CandleModel? candle;
 
   @override
   Widget build(BuildContext context) {

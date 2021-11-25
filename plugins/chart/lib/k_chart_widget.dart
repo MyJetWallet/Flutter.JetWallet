@@ -5,12 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'components/dashed_divider/dashed_divider.dart';
-import 'entity/candle_model.dart';
-import 'entity/candle_type_enum.dart';
-import 'entity/chart_info.dart';
-import 'entity/info_window_entity.dart';
+import 'model/candle_model.dart';
+import 'model/candle_type_enum.dart';
+import 'model/chart_info_model.dart';
+import 'model/info_window_model.dart';
 import 'renderer/chart_painter.dart';
-import 'utils/date_format_util.dart' hide S;
 
 class KChartWidget extends StatefulWidget {
   const KChartWidget(
@@ -24,7 +23,7 @@ class KChartWidget extends StatefulWidget {
   final List<CandleModel> datas;
   final ChartType candleType;
 
-  final Function(ChartInfo?) onCandleSelected;
+  final Function(ChartInfoModel?) onCandleSelected;
 
   final String candleResolution;
   final double candleWidth;
@@ -44,13 +43,13 @@ class _KChartWidgetState extends State<KChartWidget>
   bool isLongPress = false;
   late AnimationController _controller;
   late Animation<double> _animation;
-  late StreamController<InfoWindowEntity?> _infoWindowStream;
+  late StreamController<InfoWindowModel?> _infoWindowStream;
   late AnimationController _scrollXController;
 
   @override
   void initState() {
     super.initState();
-    _infoWindowStream = StreamController<InfoWindowEntity>();
+    _infoWindowStream = StreamController<InfoWindowModel>();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 850),
       vsync: this,
@@ -227,11 +226,4 @@ class _KChartWidgetState extends State<KChartWidget>
   }
 
   void reRenderView() => setState(() {});
-
-  String getDate(int date) {
-    return dateFormat(
-      DateTime.fromMillisecondsSinceEpoch(date * 1000, isUtc: true),
-      [yy, '-', mm, '-', dd, ' ', HH, ':', nn],
-    );
-  }
 }

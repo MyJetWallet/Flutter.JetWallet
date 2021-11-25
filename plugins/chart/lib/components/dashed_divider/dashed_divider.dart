@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DashedDivider extends StatelessWidget {
   const DashedDivider({
-    this.topPadding = 1,
-  });
+    Key? key,
+    required this.topPadding,
+  }) : super(key: key);
 
   final double topPadding;
 
@@ -13,7 +14,7 @@ class DashedDivider extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final boxWidth = constraints.constrainWidth();
-        const dashWidth = 5.0;
+        final dashWidth = 5.w;
         final dashCount = (boxWidth / (2 * dashWidth)).floor();
         return Flex(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

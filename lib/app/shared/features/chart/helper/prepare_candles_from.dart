@@ -1,4 +1,4 @@
-import 'package:charts/entity/candle_model.dart';
+import 'package:charts/simple_chart.dart';
 
 List<CandleModel> candlesFrom(Map<String, double> walletHistory) {
   final candles = <CandleModel>[];

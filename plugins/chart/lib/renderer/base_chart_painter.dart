@@ -4,9 +4,8 @@ import 'package:flutter/material.dart'
     show Color, TextStyle, Rect, Canvas, Size, CustomPainter;
 
 import '../chart_style.dart' show ChartStyle;
-import '../entity/candle_model.dart';
-import '../entity/candle_type_enum.dart';
-import '../utils/date_format_util.dart';
+import '../model/candle_model.dart';
+import '../model/candle_type_enum.dart';
 import '../utils/number_util.dart';
 
 export 'package:flutter/material.dart'
@@ -25,7 +24,6 @@ abstract class BaseChartPainter extends CustomPainter {
   }) {
     mItemCount = datas.length;
     mDataLen = mItemCount * candleWidth;
-    initFormats();
   }
 
   static double maxScrollX = 0.0;
@@ -56,35 +54,9 @@ abstract class BaseChartPainter extends CustomPainter {
   double? mMainLowMinValue = double.maxFinite;
   int mItemCount = 0;
   double mDataLen = 0.0; //Data occupies the total length of the screen
-  List<String> mFormats = [
-    yyyy,
-    '-',
-    mm,
-    '-',
-    dd,
-    ' ',
-    HH,
-    ':',
-    nn
-  ]; //Format time
   double mMarginRight = 0.0;
 
   String resolution; //The distance vacated on the right side of the k line
-
-  void initFormats() {
-    if (mItemCount < 2) return;
-    final firstTime = datas.first.date;
-    final secondTime = datas[1].date;
-    final time = secondTime - firstTime;
-    //Month
-    if (time >= 24 * 60 * 60 * 28) {
-      mFormats = [yy, '-', mm];
-    } else if (time >= 24 * 60 * 60) {
-      mFormats = [yy, '-', mm, '-', dd];
-    } else {
-      mFormats = [mm, '-', dd, ' ', HH, ':', nn];
-    }
-  }
 
   @override
   void paint(Canvas canvas, Size size) {

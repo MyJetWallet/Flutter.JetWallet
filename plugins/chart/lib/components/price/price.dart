@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Price extends StatelessWidget {
-  const Price(this.price);
+  const Price(Key? key, this.price) : super(key: key);
 
   final double? price;
 
