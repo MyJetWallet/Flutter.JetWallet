@@ -236,7 +236,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 4. Add translation to the core file `lib/l10n/app_en.arb`
 5. Import `app_en.arb` to the [Poeditor](https://poeditor.com/)
 6. Generate other languages if there are languages other than English
-7. Export all translations of languages(en, es, ru...) from Poeditor and add them under `l10n` folder
+7. Export all updated arb files(en, es, ru...) from Poeditor and add them under `l10n` folder
 8. Inform translators or product owners about the new change
 
 ### Adding Strings (Manual)
