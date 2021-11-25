@@ -229,7 +229,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 1. Define a feature to which that specific translation belongs. (Example: login)
 2. Create a name:
    * name must start from the feature name + `_`
-   * after `_` short description of the translation must be provided in camelCase
+   * after `_` short name of the translation must be provided in camelCase
 
    (Example: login_credentialsError)
 3. Provide description that describes use case of the transaltion and other useful information related to it
