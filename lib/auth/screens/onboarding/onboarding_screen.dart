@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/navigator_push.dart';
@@ -7,7 +8,7 @@ import '../login/login.dart';
 import '../register/register.dart';
 import 'components/animated_slide.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends StatefulHookWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
