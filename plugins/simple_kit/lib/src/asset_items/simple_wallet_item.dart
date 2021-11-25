@@ -8,20 +8,20 @@ class SWalletItem extends StatelessWidget {
   const SWalletItem({
     Key? key,
     this.amount,
+    this.decline,
     this.removeDivider = false,
-    required this.decline,
     required this.icon,
-    required this.name,
-    required this.balance,
+    required this.primaryText,
+    required this.secondaryText,
     required this.onTap,
   }) : super(key: key);
 
+  final bool? decline;
   final String? amount;
   final bool removeDivider;
-  final bool decline;
   final Widget icon;
-  final String name;
-  final String balance;
+  final String primaryText;
+  final String secondaryText;
   final Function() onTap;
 
   @override
@@ -29,7 +29,7 @@ class SWalletItem extends StatelessWidget {
     var textColor = SColorsLight().green;
     var borderColor = SColorsLight().greenLight;
 
-    if (decline) {
+    if (decline ?? false) {
       textColor = SColorsLight().red;
       borderColor = SColorsLight().redLight;
     }
@@ -58,7 +58,7 @@ class SWalletItem extends StatelessWidget {
                           baseline: 17.8.h,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            name,
+                            primaryText,
                             style: sSubtitle2Style,
                           ),
                         ),
@@ -66,7 +66,7 @@ class SWalletItem extends StatelessWidget {
                           baseline: 19.4.h,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            balance,
+                            secondaryText,
                             style: sBodyText2Style.copyWith(
                               color: SColorsLight().grey3,
                             ),

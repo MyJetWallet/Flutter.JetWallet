@@ -38,14 +38,14 @@ class _ActionSell extends HookWidget {
               icon: NetworkSvgW24(
                 url: currency.iconUrl,
               ),
-              name: currency.description,
+              primaryText: currency.description,
               amount: formatCurrencyAmount(
                 prefix: baseCurrency.prefix,
                 value: currency.baseBalance,
                 symbol: baseCurrency.symbol,
                 accuracy: baseCurrency.accuracy,
               ),
-              balance: '${currency.assetBalance} ${currency.symbol}',
+              secondaryText: '${currency.assetBalance} ${currency.symbol}',
               onTap: () {
                 navigatorPush(
                   context,
