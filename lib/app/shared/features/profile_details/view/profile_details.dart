@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
-import '../../../../../shared/features/phone_verification/phone_verification_confirm/view/phone_verification_confirm.dart';
+import '../../../../../shared/features/phone_verification/phone_verification_confirm/view/change_phone_verification_confirm.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
@@ -53,7 +53,7 @@ class ProfileDetails extends HookWidget {
                   onPrimaryButtonTap: (BuildContext builderContext) {
                     Navigator.pop(builderContext);
                     phoneNumberN.updatePhoneNumber(userInfo.phone);
-                    PhoneVerificationConfirm.push(context, () {
+                    ChangePhoneVerificationConfirm.push(context, () {
                       navigatorPush(context, const ChangePhoneNumber());
                     });
                   },

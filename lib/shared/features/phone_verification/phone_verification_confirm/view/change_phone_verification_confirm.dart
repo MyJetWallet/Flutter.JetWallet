@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../auth/shared/components/clickable_link_text/clickable_link_text.dart';
 import '../../../../components/loaders/scaffold_loader.dart';
 import '../../../../components/pin_code_field.dart';
 import '../../../../components/texts/resend_in_text.dart';
@@ -17,8 +16,8 @@ import '../notifier/phone_verification_confirm_notipod.dart';
 import '../notifier/phone_verification_confirm_state.dart';
 import '../notifier/phone_verification_confirm_union.dart';
 
-class PhoneVerificationConfirm extends HookWidget {
-  const PhoneVerificationConfirm({
+class ChangePhoneVerificationConfirm extends HookWidget {
+  const ChangePhoneVerificationConfirm({
     Key? key,
     required this.onVerified,
   }) : super(key: key);
@@ -28,7 +27,7 @@ class PhoneVerificationConfirm extends HookWidget {
   static void push(BuildContext context, Function() onVerified) {
     navigatorPush(
       context,
-      PhoneVerificationConfirm(
+      ChangePhoneVerificationConfirm(
         onVerified: onVerified,
       ),
     );
@@ -44,6 +43,7 @@ class PhoneVerificationConfirm extends HookWidget {
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
+    final colors = useProvider(sColorPod);
 
     return ProviderListener<PhoneVerificationConfirmState>(
       provider: phoneVerificationConfirmNotipod(onVerified),
@@ -76,9 +76,25 @@ class PhoneVerificationConfirm extends HookWidget {
                     boldText: phone.phoneNumber,
                   ),
                   const SpaceH18(),
-                  ClickableLinkText(
-                    text: 'Change number',
-                    onTap: () => Navigator.pop(context),
+                  RichText(
+                    text: TextSpan(
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
+                      ),
+                      children: [
+                        const TextSpan(
+                          text:
+                              'If you don’t have access to this number, '
+                                  ' please contact ',
+                        ),
+                        TextSpan(
+                          text: 'support',
+                          style: sBodyText1Style.copyWith(
+                            color: colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SpaceH80(),
                   PinCodeField(
