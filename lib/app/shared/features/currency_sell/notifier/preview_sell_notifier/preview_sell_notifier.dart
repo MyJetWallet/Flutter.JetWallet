@@ -174,7 +174,6 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
       secondaryText: 'Order filled',
       then: () {
         read(navigationStpod).state = 1;
-        Navigator.pop(_context);
       },
     );
   }

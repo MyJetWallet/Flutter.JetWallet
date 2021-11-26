@@ -175,7 +175,6 @@ class PreviewBuyWithAssetNotifier
       secondaryText: 'Order filled',
       then: () {
         read(navigationStpod).state = 1;
-        Navigator.pop(_context);
       },
     );
   }
