@@ -11,7 +11,7 @@ import '../../../../../../../shared/features/phone_verification/phone_verificati
 import '../../../../../../../shared/features/phone_verification/phone_verification_enter/components/phone_verification_block.dart';
 import '../../../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../../notifier/change_phone_notipod.dart';
+import '../../../notifier/change_phone_notifier/change_phone_notipod.dart';
 
 class ChangePhoneNumber extends HookWidget {
   const ChangePhoneNumber({

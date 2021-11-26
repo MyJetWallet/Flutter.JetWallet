@@ -7,8 +7,8 @@ import '../../../../../../../../auth/shared/components/notifications/show_errror
 import '../../../../../../../../auth/shared/components/password_validation/password_validation.dart';
 import '../../../../../../../../auth/shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
-import '../../../../notifier/change_password_notipod.dart';
-import '../../../../notifier/change_password_state.dart';
+import '../../../../notifier/change_password_notifier/change_password_notipod.dart';
+import '../../../../notifier/change_password_notifier/change_password_state.dart';
 
 class SetNewPassword extends HookWidget {
   const SetNewPassword({

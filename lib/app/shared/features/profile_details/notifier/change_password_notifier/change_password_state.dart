@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../../../../auth/shared/helpers/password_validators.dart';
+import '../../../../../../../auth/shared/helpers/password_validators.dart';
 import 'change_password_union.dart';
 
 part 'change_password_state.freezed.dart';

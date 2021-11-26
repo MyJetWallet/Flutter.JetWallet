@@ -6,8 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../auth/shared/components/notifications/show_errror_notification.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
-import '../../../notifier/change_password_notipod.dart';
-import '../../../notifier/change_password_state.dart';
+import '../../../notifier/change_password_notifier/change_password_notipod.dart';
+import '../../../notifier/change_password_notifier/change_password_state.dart';
 import 'components/set_new_password.dart';
 
 class ChangePassword extends HookWidget {

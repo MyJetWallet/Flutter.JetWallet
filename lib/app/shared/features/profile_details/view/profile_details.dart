@@ -8,7 +8,7 @@ import '../../../../../shared/features/phone_verification/phone_verification_con
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../notifier/change_phone_notipod.dart';
+import '../notifier/change_phone_notifier/change_phone_notipod.dart';
 import 'components/change_password/change_password.dart';
 import 'components/change_phone_number/change_phone_number.dart';
 
