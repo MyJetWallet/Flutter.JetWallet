@@ -114,7 +114,7 @@ class PhoneVerificationEnter extends HookWidget {
                 PhoneVerificationConfirm.push(
                   context,
                   onVerified,
-                  isChangeFonAlert: false,
+                  isChangeTextAlert: false,
                 );
               },
             ),

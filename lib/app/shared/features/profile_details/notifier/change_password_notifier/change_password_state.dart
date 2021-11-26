@@ -9,7 +9,6 @@ class ChangePasswordState with _$ChangePasswordState {
   const factory ChangePasswordState({
     @Default('') String oldPassword,
     @Default('') String newPassword,
-    @Default(false) bool oldPasswordValid,
     @Default(Input()) ChangePasswordUnion union,
   }) = _ChangePasswordState;
 

@@ -111,7 +111,7 @@ class ChangePhoneNumber extends HookWidget {
                       secondaryText: 'New phone number set',
                     );
                   },
-                  isChangeFonAlert: false,
+                  isChangeTextAlert: false,
                 );
               },
             ),

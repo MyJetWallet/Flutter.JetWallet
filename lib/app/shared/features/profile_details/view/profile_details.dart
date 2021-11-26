@@ -8,7 +8,6 @@ import '../../../../../shared/features/phone_verification/phone_verification_con
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../notifier/change_phone_notifier/change_phone_notipod.dart';
 import 'components/change_password/change_password.dart';
 import 'components/change_phone_number/change_phone_number.dart';
 
@@ -19,8 +18,6 @@ class ProfileDetails extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
     final phoneNumberN = useProvider(phoneNumberNotipod.notifier);
-
-    final changePhone = useProvider(changePhoneNotipod);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -56,14 +53,14 @@ class ProfileDetails extends HookWidget {
                   onPrimaryButtonTap: (BuildContext builderContext) {
                     Navigator.pop(builderContext);
                     phoneNumberN.updatePhoneNumber(
-                      changePhone.isoCode + changePhone.phone,
+                      userInfo.phone,
                     );
                     PhoneVerificationConfirm.push(
                       context,
                       () {
                         navigatorPush(context, const ChangePhoneNumber());
                       },
-                      isChangeFonAlert: true,
+                      isChangeTextAlert: true,
                     );
                   },
                   secondaryText: 'Withdrawals will be blocked within 24 hours',
