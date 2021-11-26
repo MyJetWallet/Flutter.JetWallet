@@ -86,7 +86,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       state = const Input();
 
-      read(startupNotipod.notifier).successfulAuthentication();
+      read(startupNotipod.notifier).successfullAuthentication();
     } catch (e, st) {
       _logger.log(stateFlow, 'authenticate', e);
 
