@@ -5,9 +5,9 @@ part 'change_phone_state.freezed.dart';
 @freezed
 class ChangePhoneState with _$ChangePhoneState {
   const factory ChangePhoneState({
-    @Default('934471844') String phone,
-    @Default(true) bool phoneConfirmed,
-    @Default('+380') String isoCode,
+    @Default('') String phone,
+    @Default(false) bool phoneConfirmed,
+    @Default('') String isoCode,
   }) = _ChangePhoneState;
 
   const ChangePhoneState._();
