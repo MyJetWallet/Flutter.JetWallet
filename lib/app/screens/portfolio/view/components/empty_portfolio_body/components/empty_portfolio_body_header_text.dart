@@ -16,11 +16,15 @@ class EmptyPortfolioBodyHeaderText extends HookWidget {
         children: [
           TextSpan(
             text: 'Get free crypto with every trade',
-            style: sTextH3Style.copyWith(color: colors.black),
+            style: sTextH3Style.copyWith(
+              color: colors.black,
+            ),
           ),
           TextSpan(
             text: ' over \$10',
-            style: sTextH3Style.copyWith(color: colors.blue),
+            style: sTextH3Style.copyWith(
+              color: colors.blue,
+            ),
           ),
         ],
       ),

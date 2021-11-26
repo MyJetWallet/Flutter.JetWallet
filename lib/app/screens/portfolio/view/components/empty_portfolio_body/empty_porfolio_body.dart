@@ -30,7 +30,9 @@ class EmptyPortfolioBody extends HookWidget {
         const SpaceH17(),
         Text(
           'Make a first trade and be rewarded',
-          style: sBodyText1Style.copyWith(color: colors.grey1),
+          style: sBodyText1Style.copyWith(
+            color: colors.grey1,
+          ),
         ),
         const SpaceH30(),
         SPrimaryButton1(

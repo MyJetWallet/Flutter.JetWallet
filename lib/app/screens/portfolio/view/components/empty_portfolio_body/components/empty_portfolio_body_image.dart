@@ -31,7 +31,9 @@ class EmptyPortfolioBodyImage extends HookWidget {
             symbol: baseCurrency.symbol,
             prefix: baseCurrency.prefix,
           ),
-          style: sTextH0Style.copyWith(color: colors.white),
+          style: sTextH0Style.copyWith(
+            color: colors.white,
+          ),
         ),
       ],
     );
