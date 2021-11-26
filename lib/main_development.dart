@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,10 +65,10 @@ class App extends HookWidget {
         /// Second material is placed to mimic structure of stage_env
         /// Because there are some issues with nested MaterialApps
         /// So, stage_env can be broken while dev_env is working fine
-        return MaterialApp(
+        return CupertinoApp(
           debugShowCheckedModeBanner: false,
           theme: theme,
-          home: MaterialApp(
+          home: CupertinoApp(
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
             theme: theme,

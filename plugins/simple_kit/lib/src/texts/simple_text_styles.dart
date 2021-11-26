@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const _basicTextStyle = TextStyle(
   overflow: TextOverflow.ellipsis,
+  fontFamily: 'Gilroy',
 );
 
 final sTextH0Style = _basicTextStyle.copyWith(
