@@ -219,3 +219,118 @@ notifier
 ```
 
 This idea applies to model and provider layer as well.
+
+## Working with Translations 🌐
+
+This project relies on [flutter_localizations][flutter_localizations_link] and follows the [official internationalization guide for Flutter][internationalization_link].
+
+### Algorithm for adding a new translation to the app
+
+1. Define a feature to which that specific translation belongs. (Example: login)
+2. Create a name:
+   * name must start from the feature name + `_`
+   * after `_` short name of the translation must be provided in camelCase
+
+   (Example: login_credentialsError)
+3. Provide description that describes use case of the transaltion and other useful information related to it
+4. Add translation to the core file `lib/l10n/app_en.arb`
+5. Import `app_en.arb` to the [Poeditor](https://poeditor.com/)
+6. Generate other languages if there are languages other than English
+7. Export all updated arb files(en, es, ru...) from Poeditor and add them under `l10n` folder
+8. Inform translators or product owners about the new change
+
+### Adding Strings (Manual)
+
+1. To add a new localizable string, open the `app_en.arb` file at `lib/l10n/app_en.arb`.
+
+```arb
+{
+    "@@locale": "en",
+    "counterAppBarTitle": "Counter",
+    "@counterAppBarTitle": {
+        "description": "Text shown in the AppBar of the Counter Page"
+    }
+}
+```
+
+2. Then add a new key/value and description
+
+```arb
+{
+    "@@locale": "en",
+    "counterAppBarTitle": "Counter",
+    "@counterAppBarTitle": {
+        "description": "Text shown in the AppBar of the Counter Page"
+    },
+    "helloWorld": "Hello World",
+    "@helloWorld": {
+        "description": "Hello World Text"
+    }
+}
+```
+
+3. Use the new string
+
+```dart
+@override
+Widget build(BuildContext context) {
+  final intl = useProvider(intlPod);
+  return Text(intl.helloWorld);
+}
+```
+
+### Adding Supported Locales
+
+Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info.plist` to include the new locale.
+
+```xml
+    ...
+
+    <key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>es</string>
+	</array>
+
+    ...
+```
+
+### Adding Translations
+
+1. For each supported locale, add a new ARB file in `lib/l10n/arb`.
+
+```
+├── l10n
+│   ├── arb
+│   │   ├── app_en.arb
+│   │   └── app_es.arb
+```
+
+2. Add the translated strings to each `.arb` file:
+
+`app_en.arb`
+
+```arb
+{
+    "@@locale": "en",
+    "counterAppBarTitle": "Counter",
+    "@counterAppBarTitle": {
+        "description": "Text shown in the AppBar of the Counter Page"
+    }
+}
+```
+
+`app_es.arb`
+
+```arb
+{
+    "@@locale": "es",
+    "counterAppBarTitle": "Contador",
+    "@counterAppBarTitle": {
+        "description": "Texto mostrado en la AppBar de la página del contador"
+    }
+}
+```
+
+[flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
+[internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization

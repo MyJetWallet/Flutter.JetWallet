@@ -29,6 +29,24 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     );
   }
 
+  void updateWithValuesFromProfileInfo({
+    required bool emailConfirmed,
+    required bool phoneConfirmed,
+    required bool kycPassed,
+    required String email,
+    required String phone,
+  }) {
+    _logger.log(notifier, 'updateWithValuesFromProfileInfo');
+
+    state = state.copyWith(
+      emailConfirmed: emailConfirmed,
+      phoneConfirmed: phoneConfirmed,
+      kycPassed: kycPassed,
+      email: email,
+      phone: phone,
+    );
+  }
+
   /// Inits PIN/Biometrics information
   Future<void> initPinStatus() async {
     _logger.log(notifier, 'initPinStatus');
@@ -94,11 +112,46 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     state = state.copyWith(phoneVerified: phoneVerified);
   }
 
+  void updateEmailConfirmed({required bool emailConfirmed}) {
+    _logger.log(notifier, 'updateEmailConfirmed');
+
+    state = state.copyWith(emailConfirmed: emailConfirmed);
+  }
+
+  void updatePhoneConfirmed({required bool phoneConfirmed}) {
+    _logger.log(notifier, 'updatePhoneConfirmed');
+
+    state = state.copyWith(phoneConfirmed: phoneConfirmed);
+  }
+
+  void updateKycPassed({required bool kycPassed}) {
+    _logger.log(notifier, 'updateKycPassed');
+
+    state = state.copyWith(kycPassed: kycPassed);
+  }
+
+  void updateEmail(String email) {
+    _logger.log(notifier, 'updateEmail');
+
+    state = state.copyWith(email: email);
+  }
+
+  void updatePhone(String phone) {
+    _logger.log(notifier, 'updatePhone');
+
+    state = state.copyWith(phone: phone);
+  }
+
   void clear() {
     state = state.copyWith(
       pin: null,
       phoneVerified: false,
       twoFaEnabled: false,
+      emailConfirmed: false,
+      phoneConfirmed: false,
+      kycPassed: false,
+      email: '',
+      phone: '',
     );
   }
 

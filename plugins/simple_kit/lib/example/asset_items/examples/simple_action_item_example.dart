@@ -23,7 +23,7 @@ class SimpleActionItemExample extends StatelessWidget {
                     onTap: () {},
                     icon: const SActionBuyIcon(),
                     name: 'Operation Name',
-                    helperText: 'Fee 3.5%',
+                    helper: 'Fee 3.5%',
                     description: 'Description',
                   ),
                 ),
@@ -43,11 +43,11 @@ class SimpleActionItemExample extends StatelessWidget {
                     ),
                     Container(
                       color: Colors.blue.withOpacity(0.3),
-                      width: 10.w,
+                      width: 20.w,
                       height: 64.h,
                       child: Center(
                         child: Text(
-                          '10px',
+                          '20px',
                           style: TextStyle(
                             fontSize: 10.sp,
                           ),
@@ -77,7 +77,7 @@ class SimpleActionItemExample extends StatelessWidget {
                           ),
                           Container(
                             color: Colors.green.withOpacity(0.3),
-                            width: 293.w,
+                            width: 283.w,
                             height: 18.h,
                             child: const Center(
                               child: Text(
@@ -87,7 +87,7 @@ class SimpleActionItemExample extends StatelessWidget {
                           ),
                           Container(
                             color: Colors.purple.withOpacity(0.3),
-                            width: 293.w,
+                            width: 283.w,
                             height: 20.h,
                             child: const Center(
                               child: Text(
@@ -108,7 +108,7 @@ class SimpleActionItemExample extends StatelessWidget {
               onTap: () {},
               icon: const SActionBuyIcon(),
               name: 'Operation Name',
-              helperText: 'Fee 3.5%',
+              helper: 'Fee 3.5%',
               description: 'Description',
             )
           ],

@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
+import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/components/notifications/show_errror_notification.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
@@ -19,6 +20,7 @@ class Login extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
@@ -39,9 +41,7 @@ class Login extends HookWidget {
               passwordError.value.enableError();
               showErrorNotification(
                 notificationQueueN,
-                'The email and password you entered did not '
-                'match our records. Please double-check '
-                'and try again.',
+                intl.login_credentialsError,
               );
             }
           },
@@ -53,10 +53,10 @@ class Login extends HookWidget {
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
-            title: 'Sign in',
+            title: intl.login_signIn,
             onBackButtonTap: () => Navigator.pop(context),
             showLink: true,
-            linkText: 'Forgot password?',
+            linkText: intl.login_forgotPassword,
             onLinkTap: () => navigatorPush(context, const ForgotPassword()),
           ),
         ),
@@ -72,7 +72,7 @@ class Login extends HookWidget {
                       color: SColorsLight().white,
                       child: SPaddingH24(
                         child: SStandardField(
-                          labelText: 'Email Address',
+                          labelText: intl.login_emailTextFieldLabel,
                           autofocus: true,
                           autofillHints: const [AutofillHints.email],
                           keyboardType: TextInputType.emailAddress,
@@ -85,9 +85,7 @@ class Login extends HookWidget {
                           onErrorIconTap: () {
                             showErrorNotification(
                               notificationQueueN,
-                              'The email and password you entered did not '
-                              'match our records. Please double-check '
-                              'and try again.',
+                              intl.login_credentialsError,
                             );
                           },
                           errorNotifier: emailError.value,
@@ -105,13 +103,11 @@ class Login extends HookWidget {
                             passwordError.value.disableError();
                             credentialsN.updateAndValidatePassword(value);
                           },
-                          labelText: 'Password',
+                          labelText: intl.login_passwordTextFieldLabel,
                           onErrorIconTap: () {
                             showErrorNotification(
                               notificationQueueN,
-                              'The email and password you entered did not '
-                              'match our records. Please double-check '
-                              'and try again.',
+                              intl.login_credentialsError,
                             );
                           },
                           errorNotifier: passwordError.value,
@@ -126,11 +122,10 @@ class Login extends HookWidget {
                           bottom: 17.h,
                         ),
                         child: SPolicyText(
-                          firstText: 'By logging in and Continue, '
-                              'I hereby agree and consent to the ',
-                          userAgreementText: 'User Agreement',
-                          betweenText: ' and the ',
-                          privacyPolicyText: 'Privacy Policy',
+                          firstText: '${intl.login_policyText1} ',
+                          userAgreementText: intl.login_policyText2,
+                          betweenText: ' ${intl.login_policyText3} ',
+                          privacyPolicyText: intl.login_policyText4,
                           onUserAgreementTap: () =>
                               launchURL(context, userAgreementLink),
                           onPrivacyPolicyTap: () =>
@@ -141,7 +136,7 @@ class Login extends HookWidget {
                     SPaddingH24(
                       child: SPrimaryButton2(
                         active: credentialsN.readyToLogin,
-                        name: 'Continue',
+                        name: intl.login_continueButton,
                         onTap: () {
                           if (credentialsN.readyToLogin) {
                             loading.value.startLoading();
