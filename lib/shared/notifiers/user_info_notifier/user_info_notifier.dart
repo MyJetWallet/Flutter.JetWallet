@@ -101,4 +101,10 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       twoFaEnabled: false,
     );
   }
+
+  void updatePhoneNumber(String phone) {
+    _logger.log(notifier, 'updatePhoneNumber');
+
+    state = state.copyWith(phone: phone);
+  }
 }

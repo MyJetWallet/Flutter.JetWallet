@@ -4,10 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
-import '../../../../../shared/features/phone_verification/phone_verification_confirm/view/change_phone_verification_confirm.dart';
+import '../../../../../shared/features/phone_verification/phone_verification_confirm/view/phone_verification_confirm.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../notifier/change_phone_notipod.dart';
 import 'components/change_password/change_password.dart';
 import 'components/change_phone_number/change_phone_number.dart';
 
@@ -18,6 +19,8 @@ class ProfileDetails extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
     final phoneNumberN = useProvider(phoneNumberNotipod.notifier);
+
+    final changePhone = useProvider(changePhoneNotipod);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -52,10 +55,16 @@ class ProfileDetails extends HookWidget {
                   primaryButtonName: 'Continue',
                   onPrimaryButtonTap: (BuildContext builderContext) {
                     Navigator.pop(builderContext);
-                    phoneNumberN.updatePhoneNumber(userInfo.phone);
-                    ChangePhoneVerificationConfirm.push(context, () {
-                      navigatorPush(context, const ChangePhoneNumber());
-                    });
+                    phoneNumberN.updatePhoneNumber(
+                      changePhone.isoCode + changePhone.phone,
+                    );
+                    PhoneVerificationConfirm.push(
+                      context,
+                      () {
+                        navigatorPush(context, const ChangePhoneNumber());
+                      },
+                      isChangeFonAlert: true,
+                    );
                   },
                   secondaryText: 'Withdrawals will be blocked within 24 hours',
                   secondaryButtonName: 'Cancel',

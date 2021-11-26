@@ -21,15 +21,22 @@ class PhoneVerificationConfirm extends HookWidget {
   const PhoneVerificationConfirm({
     Key? key,
     required this.onVerified,
+    required this.isChangeFonAlert,
   }) : super(key: key);
 
   final Function() onVerified;
+  final bool isChangeFonAlert;
 
-  static void push(BuildContext context, Function() onVerified) {
+  static void push(
+    BuildContext context,
+    Function() onVerified, {
+    required bool isChangeFonAlert,
+  }) {
     navigatorPush(
       context,
       PhoneVerificationConfirm(
         onVerified: onVerified,
+        isChangeFonAlert: isChangeFonAlert,
       ),
     );
   }
@@ -44,6 +51,7 @@ class PhoneVerificationConfirm extends HookWidget {
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
+    final colors = useProvider(sColorPod);
 
     return ProviderListener<PhoneVerificationConfirmState>(
       provider: phoneVerificationConfirmNotipod(onVerified),
@@ -76,10 +84,32 @@ class PhoneVerificationConfirm extends HookWidget {
                     boldText: phone.phoneNumber,
                   ),
                   const SpaceH18(),
-                  ClickableLinkText(
-                    text: 'Change number',
-                    onTap: () => Navigator.pop(context),
-                  ),
+                  if (isChangeFonAlert) ...[
+                    RichText(
+                      text: TextSpan(
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: 'If you don’t have access to this number, '
+                                ' please contact ',
+                          ),
+                          TextSpan(
+                            text: 'support',
+                            style: sBodyText1Style.copyWith(
+                              color: colors.blue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SpaceH18(),
+                  ] else
+                    ClickableLinkText(
+                      text: 'Change number',
+                      onTap: () => Navigator.pop(context),
+                    ),
                   const SpaceH80(),
                   PinCodeField(
                     length: 4,
