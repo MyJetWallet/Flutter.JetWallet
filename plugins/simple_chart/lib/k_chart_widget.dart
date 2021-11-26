@@ -164,13 +164,13 @@ class _KChartWidgetState extends State<KChartWidget>
         HapticFeedback.vibrate();
         isLongPress = true;
         if (_selectX != details.globalPosition.dx) {
-          _selectX = details.globalPosition.dx;
+          _selectX = details.globalPosition.dx - 25.w;
           reRenderView();
         }
       },
       onLongPressMoveUpdate: (details) {
         if (_selectX != details.globalPosition.dx) {
-          _selectX = details.globalPosition.dx;
+          _selectX = details.globalPosition.dx - 25.w;
           reRenderView();
         }
       },
