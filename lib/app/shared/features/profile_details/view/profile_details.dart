@@ -40,7 +40,7 @@ class ProfileDetails extends HookWidget {
               navigatorPush(context, const ChangePassword());
             },
           ),
-          if (userInfo.enableChangePhoneNumber)
+          if (userInfo.isPhoneNumberSet)
             SProfileDetailsButton(
               label: 'Change phone number',
               value: userInfo.phone,
@@ -56,8 +56,8 @@ class ProfileDetails extends HookWidget {
                       userInfo.phone,
                     );
                     PhoneVerificationConfirm.push(
-                      context,
-                      () {
+                      context: context,
+                      onVerified: () {
                         navigatorPush(context, const ChangePhoneNumber());
                       },
                       isChangeTextAlert: true,

@@ -20,8 +20,8 @@ class ChangePhoneNumber extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statePhoneNumber = useProvider(phoneNumberNotipod);
-    final notifierPhoneNumber = useProvider(phoneNumberNotipod.notifier);
+    final phoneNumber = useProvider(phoneNumberNotipod);
+    final phoneNumberN = useProvider(phoneNumberNotipod.notifier);
     final changePhoneN = useProvider(changePhoneNotipod.notifier);
     final changePhone = useProvider(changePhoneNotipod);
     final userInfoN = useProvider(userInfoNotipod.notifier);
@@ -37,17 +37,17 @@ class ChangePhoneNumber extends HookWidget {
         children: [
           PhoneVerificationBlock(
             onErase: () {
-              notifierPhoneNumber.updatePhoneNumber('');
+              phoneNumberN.updatePhoneNumber('');
             },
             onChanged: (String phone) {
               changePhoneN.updatePhone(phone);
-              notifierPhoneNumber.updatePhoneNumber(phone);
+              phoneNumberN.updatePhoneNumber(phone);
             },
             showBottomSheet: () {
-              notifierPhoneNumber.sortClearCountriesCode();
+              phoneNumberN.sortClearCountriesCode();
 
               final sortWithActiveCountryCode =
-                  notifierPhoneNumber.sortActiveCountryCode();
+                  phoneNumberN.sortActiveCountryCode();
 
               sShowBasicModalBottomSheet(
                 context: context,
@@ -58,14 +58,14 @@ class ChangePhoneNumber extends HookWidget {
                 scrollable: true,
                 pinned: PhoneNumberSearch(
                   onErase: () {
-                    notifierPhoneNumber.sortClearCountriesCode();
+                    phoneNumberN.sortClearCountriesCode();
                   },
                   onChange: (String countryCode) {
                     changePhoneN.updateIsoCode(countryCode);
                     if (countryCode.isNotEmpty && countryCode.length > 1) {
-                      notifierPhoneNumber.sortCountriesCode(countryCode);
+                      phoneNumberN.sortCountriesCode(countryCode);
                     } else {
-                      notifierPhoneNumber.sortClearCountriesCode();
+                      phoneNumberN.sortClearCountriesCode();
                     }
                   },
                 ),
@@ -74,15 +74,14 @@ class ChangePhoneNumber extends HookWidget {
                     countriesCodeList: sortWithActiveCountryCode,
                     onTap: (SPhoneNumber country) {
                       changePhoneN.updateIsoCode(country.countryCode);
-                      notifierPhoneNumber
-                          .updateCountryCode(country.countryCode);
+                      phoneNumberN.updateCountryCode(country.countryCode);
                       Navigator.of(context).pop();
                     },
                   ),
                 ],
               );
             },
-            countryCode: statePhoneNumber.countryCode ?? '',
+            countryCode: phoneNumber.countryCode ?? '',
           ),
           SPaddingH24(
             child: Baseline(
@@ -99,13 +98,13 @@ class ChangePhoneNumber extends HookWidget {
           const Spacer(),
           SPaddingH24(
             child: SPrimaryButton2(
-              active: notifierPhoneNumber.setActiveCode(),
+              active: phoneNumberN.setActiveCode(),
               name: 'Continue',
               onTap: () {
                 PhoneVerificationConfirm.push(
-                  context,
-                  () {
-                    userInfoN.updatePhoneNumber(changePhone.phoneNumber);
+                  context: context,
+                  onVerified: () {
+                    userInfoN.updatePhone(changePhone.phoneNumber);
                     SuccessScreen.push(
                       context: context,
                       secondaryText: 'New phone number set',

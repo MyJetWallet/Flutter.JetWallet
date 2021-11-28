@@ -49,6 +49,8 @@ class PhoneVerificationConfirmNotifier
   }
 
   Future<void> sendCode() async {
+    _logger.log(notifier, 'sendCode');
+
     await _requestTemplate(
       requestName: 'sendCode',
       body: () async {
@@ -58,7 +60,7 @@ class PhoneVerificationConfirmNotifier
         );
 
         await read(phoneVerificationServicePod).request(model);
-
+        state = state.copyWith(union: const Input());
         if (!mounted) return;
         state = state.copyWith(union: const Input());
       },

@@ -5,9 +5,7 @@ import '../../../../../../shared/logging/levels.dart';
 import 'change_phone_state.dart';
 
 class ChangePhoneNotifier extends StateNotifier<ChangePhoneState> {
-  ChangePhoneNotifier({
-    required this.read,
-  }) : super(const ChangePhoneState());
+  ChangePhoneNotifier(this.read) : super(const ChangePhoneState());
 
   final Reader read;
 

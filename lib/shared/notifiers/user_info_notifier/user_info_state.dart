@@ -25,5 +25,5 @@ class UserInfoState with _$UserInfoState {
 
   bool get pinEnabled => pin != null;
 
-  bool get enableChangePhoneNumber => phone.isNotEmpty;
+  bool get isPhoneNumberSet => phone.isNotEmpty;
 }

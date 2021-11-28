@@ -25,9 +25,9 @@ class PhoneVerificationConfirm extends HookWidget {
   final Function() onVerified;
   final bool isChangeTextAlert;
 
-  static void push(
-    BuildContext context,
-    Function() onVerified, {
+  static void push({
+    required BuildContext context,
+    required Function() onVerified,
     required bool isChangeTextAlert,
   }) {
     navigatorPush(
@@ -115,7 +115,7 @@ class PhoneVerificationConfirm extends HookWidget {
                     controller: phone.controller,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     onCompleted: (_) async {
-                      // loading.value.startLoading();
+                      loading.value.startLoading();
                       await phoneN.verifyCode();
                     },
                     pinError: pinError.value,
@@ -125,9 +125,7 @@ class PhoneVerificationConfirm extends HookWidget {
                   else ...[
                     ResendRichText(
                       onTap: () async {
-                        loading.value.startLoading();
                         await phoneN.sendCode();
-
                         timerN.refreshTimer();
                         phoneN.updateShowResend(
                           showResend: false,

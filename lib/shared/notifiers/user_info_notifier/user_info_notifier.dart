@@ -154,10 +154,4 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       phone: '',
     );
   }
-
-  void updatePhoneNumber(String phone) {
-    _logger.log(notifier, 'updatePhoneNumber');
-
-    state = state.copyWith(phone: phone);
-  }
 }

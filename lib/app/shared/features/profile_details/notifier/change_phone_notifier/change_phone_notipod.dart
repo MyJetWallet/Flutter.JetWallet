@@ -7,7 +7,7 @@ final changePhoneNotipod = StateNotifierProvider<
     ChangePhoneNotifier, ChangePhoneState>(
       (ref) {
     return ChangePhoneNotifier(
-      read: ref.read,
+      ref.read,
     );
   },
   name: 'changePhoneNotipod',
