@@ -27,6 +27,7 @@ void sShowBasicModalBottomSheet({
     builder: (context) {
       return BasicBottomSheet(
         color: color ?? SColorsLight().white,
+        isAnimating: transitionAnimationController?.isAnimating,
         pinned: pinned,
         horizontalPinnedPadding: horizontalPinnedPadding,
         onWillPop: onWillPop,
