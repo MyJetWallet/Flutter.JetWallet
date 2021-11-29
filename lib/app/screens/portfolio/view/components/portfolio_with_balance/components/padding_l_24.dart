@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PaddingW24 extends StatelessWidget {
-  const PaddingW24({
+class PaddingL24 extends StatelessWidget {
+  const PaddingL24({
     Key? key,
     required this.child,
   }) : super(key: key);

@@ -23,7 +23,7 @@ import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
 import '../../../helper/zero_balance_wallets_empty.dart';
 import '../../../provider/show_zero_balance_wallets_stpod.dart';
-import 'components/padding_w_24.dart';
+import 'components/padding_l_24.dart';
 
 class PortfolioWithBalanceBody extends HookWidget {
   const PortfolioWithBalanceBody({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class PortfolioWithBalanceBody extends HookWidget {
         children: [
           SizedBox(
             height: 68.h,
-            child: PaddingW24(
+            child: PaddingL24(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -92,7 +92,7 @@ class PortfolioWithBalanceBody extends HookWidget {
             walletCreationDate: clientDetail.walletCreationDate,
           ),
           const SpaceH76(),
-          PaddingW24(
+          PaddingL24(
             child: Text(
               'My wallets',
               style: sTextH4Style,
