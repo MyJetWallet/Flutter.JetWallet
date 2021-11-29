@@ -10,6 +10,7 @@ class SWalletItem extends StatelessWidget {
     this.amount,
     this.decline,
     this.removeDivider = false,
+    this.color,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -23,11 +24,13 @@ class SWalletItem extends StatelessWidget {
   final String primaryText;
   final String secondaryText;
   final Function() onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     var textColor = SColorsLight().green;
     var borderColor = SColorsLight().greenLight;
+    final formattedAmount = amount == '\$0.00' ? '\$0' : amount;
 
     if (decline ?? false) {
       textColor = SColorsLight().red;
@@ -96,9 +99,10 @@ class SWalletItem extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            amount!,
+                            formattedAmount!,
                             style: sSubtitle2Style.copyWith(
-                              color: textColor,
+                              color:
+                                  formattedAmount == '\$0' ? color : textColor,
                             ),
                           ),
                         ],

@@ -2,17 +2,24 @@
 
 library simple_kit;
 
-/// Account
-export 'src/account/buttons/account_category_button/simple_account_category_button.dart';
-export 'src/account/headers/simple_account_category_header.dart';
-export 'src/account/buttons/term/simple_account_term_button.dart';
-
-/// Indicator
-export 'src/account/indicator/simple_account_protection_indicator.dart';
+export 'src/account/banners/simple_account_banner.dart';
 
 /// Banner
 export 'src/account/banners/simple_account_banner_list.dart';
-export 'src/account/banners/simple_account_banner.dart';
+
+/// Account
+export 'src/account/buttons/account_category_button/simple_account_category_button.dart';
+export 'src/account/buttons/term/simple_account_term_button.dart';
+export 'src/account/buttons/term/simple_account_term_button.dart';
+export 'src/account/headers/simple_account_category_header.dart';
+export 'src/account/headers/simple_account_category_header.dart';
+
+/// Indicator
+export 'src/account/indicator/simple_account_protection_indicator.dart';
+export 'src/account/phone_number/simple_number.dart';
+
+/// Countries
+export 'src/account/phone_number/simple_phone_numbers.dart';
 
 /// Actions
 export 'src/actions/confirm_action_timer/simple_confirm_action_timer.dart';
@@ -59,8 +66,6 @@ export 'src/buttons/secondary_button/public/simple_secondary_button_1.dart';
 export 'src/buttons/secondary_button/public/simple_secondary_button_2.dart';
 export 'src/buttons/text_button/public/simple_text_button_1.dart';
 export 'src/buttons/text_button/public/simple_text_button_2.dart';
-export 'src/account/buttons/term/simple_account_term_button.dart';
-export 'src/shared/components/simple_profile_details_button.dart';
 
 /// Colors
 export 'src/colors/provider/simple_color_pod.dart';
@@ -78,7 +83,6 @@ export 'src/headers/simple_big_header.dart';
 export 'src/headers/simple_market_header/simple_market_header.dart';
 export 'src/headers/simple_market_header/simple_market_header_closed.dart';
 export 'src/headers/simple_small_header.dart';
-export 'src/account/headers/simple_account_category_header.dart';
 
 /// Icons
 export 'src/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_icon.dart';
@@ -107,6 +111,7 @@ export 'src/icons/24x24/public/back/simple_back_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_pressed_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_negative_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_positive_icon.dart';
+export 'src/icons/24x24/public/change_pin/simple_change_pin_icon.dart';
 export 'src/icons/24x24/public/checkbox/simple_checkbox_icon.dart';
 export 'src/icons/24x24/public/checkbox/simple_checkbox_selected_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_icon.dart';
@@ -122,8 +127,10 @@ export 'src/icons/24x24/public/eye_open/simple_eye_open_pressed_icon.dart';
 export 'src/icons/24x24/public/faq/simple_faq_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_pressed_icon.dart';
+export 'src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_pressed_icon.dart';
+export 'src/icons/24x24/public/lock/simple_lock_icon.dart';
 export 'src/icons/24x24/public/log_out/simple_log_out_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_pressed_icon.dart';
@@ -138,9 +145,7 @@ export 'src/icons/24x24/public/star/simple_star_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
 export 'src/icons/24x24/public/support/simple_support_icon.dart';
-export 'src/icons/24x24/public/change_pin/simple_change_pin_icon.dart';
 export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
-export 'src/icons/24x24/public/lock/simple_lock_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
@@ -175,6 +180,10 @@ export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
 export 'src/shared/components/simple_paddings.dart';
+export 'src/shared/components/simple_profile_details_button.dart';
+
+/// Popup
+export 'src/shared/components/simple_show_warning_popup.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 
@@ -192,10 +201,3 @@ export 'src/texts/simple_text_styles.dart';
 
 /// Theme
 export 'src/theme/provider/simple_theme_pod.dart';
-
-/// Countries
-export 'src/account/phone_number/simple_phone_numbers.dart';
-export 'src/account/phone_number/simple_number.dart';
-
-/// Popup
-export 'src/shared/components/simple_show_warning_popup.dart';
