@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_kit/src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
 
 import '../../../simple_kit.dart';
 
@@ -45,6 +46,7 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SEyeOpenPressedIcon(),
               SGiftIcon(),
               SGiftPressedIcon(),
+              SGiftPortfolioIcon(),
               SInfoIcon(),
               SInfoPressedIcon(),
               SMailIcon(),
