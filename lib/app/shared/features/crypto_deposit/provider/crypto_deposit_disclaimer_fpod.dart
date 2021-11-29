@@ -2,20 +2,20 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
 
-final depositDisclaimerFpod = FutureProvider.autoDispose
-    .family<DepositDisclaimer, String>((ref, assetSymbol) async {
+final cryptoDepositDisclaimerFpod = FutureProvider.autoDispose
+    .family<CryptoDepositDisclaimer, String>((ref, assetSymbol) async {
   final storageService = ref.watch(localStorageServicePod);
 
   final disclaimer = await storageService.getString(assetSymbol);
 
   if (disclaimer == null) {
-    return DepositDisclaimer.notAccepted;
+    return CryptoDepositDisclaimer.notAccepted;
   } else {
-    return DepositDisclaimer.accepted;
+    return CryptoDepositDisclaimer.accepted;
   }
 });
 
-enum DepositDisclaimer {
+enum CryptoDepositDisclaimer {
   accepted,
   notAccepted,
 }

@@ -7,7 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
-import '../../currency_deposit/view/currency_deposit.dart';
+import '../../crypto_deposit/view/crypto_deposit.dart';
 
 void showReceiveAction(BuildContext context) {
   Navigator.pop(context);
@@ -41,7 +41,7 @@ class _ActionReceive extends HookWidget {
                 onTap: () {
                   navigatorPushReplacement(
                     context,
-                    CurrencyDeposit(
+                    CryptoDeposit(
                       header: 'Receive',
                       currency: currency,
                     ),

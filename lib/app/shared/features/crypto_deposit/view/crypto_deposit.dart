@@ -9,15 +9,15 @@ import '../../../../../shared/components/page_frame/page_frame.dart';
 import '../../../../../shared/components/spacers.dart';
 import '../../../helpers/short_address_form.dart';
 import '../../../models/currency_model.dart';
-import '../notifier/currency_deposit_notipod.dart';
-import '../provider/deposit_disclaimer_fpod.dart';
+import '../notifier/crypto_deposit_notipod.dart';
+import '../provider/crypto_deposit_disclaimer_fpod.dart';
 import 'components/deposit_currency.dart';
 import 'components/deposit_field.dart';
 import 'components/deposit_info.dart';
 import 'components/show_deposit_disclaimer.dart';
 
-class CurrencyDeposit extends HookWidget {
-  const CurrencyDeposit({
+class CryptoDeposit extends HookWidget {
+  const CryptoDeposit({
     Key? key,
     required this.header,
     required this.currency,
@@ -28,19 +28,19 @@ class CurrencyDeposit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useProvider(depositDisclaimerFpod(currency.symbol).select((_) {}));
+    useProvider(cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}));
     final deposit = useProvider(
-      currencyDepositNotipod(currency.symbol),
+      cryptoDepositNotipod(currency.symbol),
     );
     final depositN = useProvider(
-      currencyDepositNotipod(currency.symbol).notifier,
+      cryptoDepositNotipod(currency.symbol).notifier,
     );
 
-    return ProviderListener<AsyncValue<DepositDisclaimer>>(
-      provider: depositDisclaimerFpod(currency.symbol),
+    return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
+      provider: cryptoDepositDisclaimerFpod(currency.symbol),
       onChange: (context, asyncValue) {
         asyncValue.whenData((value) {
-          if (value == DepositDisclaimer.notAccepted) {
+          if (value == CryptoDepositDisclaimer.notAccepted) {
             showDepositDisclaimer(context, currency.symbol);
           }
         });
