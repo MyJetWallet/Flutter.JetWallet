@@ -12,8 +12,7 @@ class SNewsCategory extends StatelessWidget {
     required this.newsText,
     required this.timestamp,
     required this.onTap,
-
-  }): super(key: key);
+  }) : super(key: key);
 
   final String newsLabel;
   final String newsText;
@@ -56,7 +55,9 @@ class SNewsCategory extends StatelessWidget {
                 child: Text(
                   newsText,
                   maxLines: 2,
-                  style: sBodyText1Style,
+                  style: sBodyText1Style.copyWith(
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],
