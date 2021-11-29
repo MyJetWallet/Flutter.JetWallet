@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../simple_kit.dart';
+import '../../../simple_kit.dart';
 
 final _loaderRadius = BorderRadius.circular(20.r);
 
-class SActionConfirmSkeletonLoader extends StatefulHookWidget {
-  const SActionConfirmSkeletonLoader({Key? key}) : super(key: key);
+class SSkeletonTextLoader extends StatefulHookWidget {
+  const SSkeletonTextLoader({Key? key}) : super(key: key);
 
   @override
   _SActionConfirmSkeletonLoaderState createState() =>
@@ -15,7 +15,7 @@ class SActionConfirmSkeletonLoader extends StatefulHookWidget {
 }
 
 class _SActionConfirmSkeletonLoaderState
-    extends State<SActionConfirmSkeletonLoader>
+    extends State<SSkeletonTextLoader>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

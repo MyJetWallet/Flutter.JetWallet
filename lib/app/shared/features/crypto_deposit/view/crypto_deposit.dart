@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/buttons/app_button_outlined.dart';
-import '../../../../../shared/components/loaders/loader.dart';
-import '../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../shared/components/spacers.dart';
 import '../../../helpers/short_address_form.dart';
 import '../../../models/currency_model.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../notifier/crypto_deposit_notipod.dart';
+import '../notifier/crypto_deposit_union.dart';
 import '../provider/crypto_deposit_disclaimer_fpod.dart';
-import 'components/deposit_currency.dart';
-import 'components/deposit_field.dart';
-import 'components/deposit_info.dart';
+import 'components/address_field_with_qr.dart';
 import 'components/show_deposit_disclaimer.dart';
 
+// TODO Draft
 class CryptoDeposit extends HookWidget {
   const CryptoDeposit({
     Key? key,
@@ -29,12 +29,8 @@ class CryptoDeposit extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}));
-    final deposit = useProvider(
-      cryptoDepositNotipod(currency.symbol),
-    );
-    final depositN = useProvider(
-      cryptoDepositNotipod(currency.symbol).notifier,
-    );
+    final baseCurrency = useProvider(baseCurrencyPod);
+    final deposit = useProvider(cryptoDepositNotipod(currency.symbol));
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
       provider: cryptoDepositDisclaimerFpod(currency.symbol),
@@ -45,59 +41,62 @@ class CryptoDeposit extends HookWidget {
           }
         });
       },
-      child: PageFrame(
-        header: '$header ${currency.description} (${currency.symbol})',
-        onBackButton: () => Navigator.pop(context),
-        child: deposit.union.when(
-          success: () {
-            return Column(
-              children: [
-                const SpaceH20(),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      DepositField(
-                        header: 'Wallet Address',
-                        open: deposit.openAddress,
-                        onTap: () => depositN.switchAddressQr(),
-                        text: shortAddressForm(deposit.address),
-                        actualValue: deposit.address,
-                      ),
-                      if (deposit.tag != null) ...[
-                        const SpaceH10(),
-                        DepositField(
-                          header: 'Tag',
-                          open: deposit.openTag,
-                          onTap: () => depositN.switchTagQr(),
-                          text: deposit.tag!,
-                        )
-                      ],
-                    ],
-                  ),
+      child: SPageFrame(
+        header: SPaddingH24(
+          child: SSmallHeader(
+            title: '$header ${currency.description}',
+          ),
+        ),
+        child: Column(
+          children: [
+            const Spacer(),
+            // TODO add to AddressFieldWithQr
+            QrImage(
+              padding: EdgeInsets.zero,
+              data: deposit.address,
+              errorCorrectionLevel: QrErrorCorrectLevel.H,
+              embeddedImage: const AssetImage(
+                'assets/images/qr_logo.png',
+              ),
+              embeddedImageStyle: QrEmbeddedImageStyle(
+                size: Size(90.r, 90.r),
+              ),
+              size: 220.r,
+            ),
+            const Spacer(),
+            AddressFieldWithQr(
+              header: 'BTC Wallet address',
+              value: shortAddressForm(deposit.address),
+              realValue: deposit.address,
+              afterCopyText: 'Address copied',
+              valueLoading: deposit.union is Loading,
+              actionIcon: const SAngleUpIcon(),
+              onTap: () {
+                // TODO
+              },
+            ),
+            const SDivider(),
+            SWalletItem(
+              icon: NetworkSvgW24(
+                url: currency.iconUrl,
+              ),
+              primaryText: currency.description,
+              amount: currency.formatBaseBalance(baseCurrency),
+              secondaryText: '${currency.assetBalance} ${currency.symbol}',
+            ),
+            SPaddingH24(
+              child: SPrimaryButton2(
+                active: true,
+                name: 'Share',
+                onTap: () => Share.share(
+                  // ignore: missing_whitespace_between_adjacent_strings
+                  'My ${currency.symbol} Address: ${deposit.address}'
+                  '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
                 ),
-                const SpaceH10(),
-                DepositCurrency(
-                  currency: currency,
-                ),
-                if (deposit.tag != null) ...[
-                  const SpaceH10(),
-                  DepositInfo(
-                    assetSymbol: currency.symbol,
-                  ),
-                ],
-                const SpaceH10(),
-                AppButtonOutlined(
-                  name: 'Share my address',
-                  onTap: () => Share.share(
-                    // ignore: missing_whitespace_between_adjacent_strings
-                    'My ${currency.symbol} Address: ${deposit.address}'
-                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
-                  ),
-                )
-              ],
-            );
-          },
-          loading: () => const Loader(),
+              ),
+            ),
+            const SpaceH24(),
+          ],
         ),
       ),
     );

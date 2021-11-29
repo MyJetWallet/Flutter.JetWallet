@@ -11,20 +11,20 @@ class SWalletItem extends StatelessWidget {
     this.decline,
     this.removeDivider = false,
     this.color,
+    this.onTap,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
-    required this.onTap,
   }) : super(key: key);
 
   final bool? decline;
   final String? amount;
   final bool removeDivider;
+  final Color? color;
+  final Function()? onTap;
   final Widget icon;
   final String primaryText;
   final String secondaryText;
-  final Function() onTap;
-  final Color? color;
 
   @override
   Widget build(BuildContext context) {

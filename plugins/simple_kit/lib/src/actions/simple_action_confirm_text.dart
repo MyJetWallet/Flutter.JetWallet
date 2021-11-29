@@ -50,7 +50,7 @@ class SActionConfirmText extends StatelessWidget {
             Baseline(
               baseline: 40.h,
               baselineType: TextBaseline.alphabetic,
-              child: const SActionConfirmSkeletonLoader(),
+              child: const SSkeletonTextLoader(),
             )
           else
             Container(
