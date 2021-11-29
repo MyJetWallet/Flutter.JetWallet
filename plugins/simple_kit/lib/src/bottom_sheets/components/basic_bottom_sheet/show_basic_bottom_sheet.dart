@@ -24,6 +24,7 @@ void sShowBasicBottomSheet({
     builder: (context) {
       return BasicBottomSheet(
         color: color ?? SColorsLight().white,
+        isAnimating: transitionAnimationController?.isAnimating,
         pinned: pinned,
         onWillPop: onWillPop,
         onDissmis: onDissmis,

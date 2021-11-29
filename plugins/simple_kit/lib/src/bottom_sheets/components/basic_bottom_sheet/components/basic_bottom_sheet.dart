@@ -8,20 +8,25 @@ import 'bottom_sheet_bar.dart';
 class BasicBottomSheet extends HookWidget {
   const BasicBottomSheet({
     Key? key,
+    this.isAnimating,
     this.pinned,
     this.onDissmis,
     this.maxHeight,
     this.minHeight,
     this.horizontalPadding,
     this.onWillPop,
-    this.removeBottomSheetBar = false,
     this.horizontalPinnedPadding,
+    this.removeBottomSheetBar = false,
     required this.removeBottomHeaderPadding,
     required this.color,
     required this.scrollable,
     required this.children,
   }) : super(key: key);
 
+  // In case if BottomSheet can be closed from outside of its scope
+  // then isAnimating parameter must be provided
+  // from transitionAnimationController
+  final bool? isAnimating;
   final Widget? pinned;
   final Function()? onDissmis;
   final double? maxHeight;
@@ -42,10 +47,10 @@ class BasicBottomSheet extends HookWidget {
     final isClosing = useState(false);
 
     void _onDissmisAction(BuildContext context) {
-      if (!isClosing.value) {
+      if (!isClosing.value && !(isAnimating ?? false)) {
+        isClosing.value = true;
         onDissmis?.call();
         Navigator.pop(context);
-        isClosing.value = true;
       }
     }
 
