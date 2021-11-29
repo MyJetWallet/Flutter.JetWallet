@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/wallet/view/empty_wallet.dart';
-import 'package:jetwallet/app/shared/features/wallet/view/wallet.dart';
-import 'package:jetwallet/shared/helpers/navigator_push.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
+import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/period_change.dart';
 import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
+import '../../../../../shared/features/wallet/view/empty_wallet.dart';
+import '../../../../../shared/features/wallet/view/wallet.dart';
 import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
@@ -23,6 +23,7 @@ import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
 import '../../../helper/zero_balance_wallets_empty.dart';
 import '../../../provider/show_zero_balance_wallets_stpod.dart';
+import 'components/padding_w_24.dart';
 
 class PortfolioWithBalanceBody extends HookWidget {
   const PortfolioWithBalanceBody({Key? key}) : super(key: key);
@@ -39,10 +40,7 @@ class PortfolioWithBalanceBody extends HookWidget {
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final clientDetail = useProvider(clientDetailPod);
-    final periodChange = _periodChange(
-      chart,
-      baseCurrency,
-    );
+    final periodChange = _periodChange(chart, baseCurrency);
     final periodChangeColor =
         periodChange.contains('-') ? colors.red : colors.green;
 
@@ -52,14 +50,11 @@ class PortfolioWithBalanceBody extends HookWidget {
         children: [
           SizedBox(
             height: 68.h,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 24.w,
-                  ),
-                  child: Text(
+            child: PaddingW24(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                     hidden.state
                         ? 'HIDDEN'
                         : _price(
@@ -69,27 +64,25 @@ class PortfolioWithBalanceBody extends HookWidget {
                           ),
                     style: sTextH1Style,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 24.w,
-                  ),
-                  child: Row(
+                  Row(
                     children: [
                       Text(
                         hidden.state ? '' : periodChange,
-                        style:
-                            sSubtitle3Style.copyWith(color: periodChangeColor),
+                        style: sSubtitle3Style.copyWith(
+                          color: periodChangeColor,
+                        ),
                       ),
                       const SpaceW10(),
                       Text(
                         'Today',
-                        style: sBodyText2Style.copyWith(color: colors.grey3),
+                        style: sBodyText2Style.copyWith(
+                          color: colors.grey3,
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           BalanceChart(
@@ -99,10 +92,7 @@ class PortfolioWithBalanceBody extends HookWidget {
             walletCreationDate: clientDetail.walletCreationDate,
           ),
           const SpaceH76(),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 24.w,
-            ),
+          PaddingW24(
             child: Text(
               'My wallets',
               style: sTextH4Style,
@@ -147,7 +137,9 @@ class PortfolioWithBalanceBody extends HookWidget {
               ),
           if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 27.5.h),
+              padding: EdgeInsets.symmetric(
+                vertical: 27.5.h,
+              ),
               child: Center(
                 child: InkWell(
                   splashColor: Colors.transparent,

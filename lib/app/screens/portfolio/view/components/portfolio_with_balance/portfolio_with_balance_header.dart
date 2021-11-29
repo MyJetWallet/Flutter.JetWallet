@@ -15,9 +15,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
       height: 120.h,
       child: Column(
         children: [
-          SizedBox(
-            height: 64.h,
-          ),
+          const SpaceH64(),
           Row(
             children: [
               const SpaceW24(),
