@@ -31,8 +31,7 @@ class ChangePassword extends HookWidget {
           error: (error) {
             oldPasswordError.value.enableError();
           },
-          orElse: () {
-          },
+          orElse: () {},
         );
       },
       child: SPageFrame(

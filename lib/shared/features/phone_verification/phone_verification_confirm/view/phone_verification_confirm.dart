@@ -137,7 +137,6 @@ class PhoneVerificationConfirm extends HookWidget {
               ),
             ),
           ),
-          //if (phone.union is Loading) const ScaffoldLoader(),
         ],
       ),
     );
