@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../simple_kit.dart';
 import '../stack_loader/view/stack_loader.dart';
 
-class SPageFrame extends StatelessWidget {
+class SPageFrame extends ConsumerWidget {
   const SPageFrame({
     Key? key,
     this.header,
@@ -18,8 +19,11 @@ class SPageFrame extends StatelessWidget {
   final StackLoaderNotifier? loading;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final theme = watch(sThemePod);
+
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: StackLoader(
         loading: loading,
         child: Column(

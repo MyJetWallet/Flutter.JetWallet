@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -60,11 +61,11 @@ class App extends HookWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
-        return MaterialApp(
+        return CupertinoApp(
           theme: theme,
           home: Stack(
             children: [
-              MaterialApp(
+              CupertinoApp(
                 theme: theme,
                 locale: DevicePreview.locale(context),
                 builder: DevicePreview.appBuilder,

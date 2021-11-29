@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void showQuoteUpdatedDialog({
@@ -8,7 +9,7 @@ void showQuoteUpdatedDialog({
     context: context,
     barrierDismissible: false,
     builder: (_) {
-      return AlertDialog(
+      return CupertinoAlertDialog(
         title: const Text(
           'Alert',
         ),
