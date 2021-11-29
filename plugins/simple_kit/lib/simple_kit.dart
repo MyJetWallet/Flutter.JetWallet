@@ -184,6 +184,10 @@ export 'src/shared/components/simple_profile_details_button.dart';
 
 /// Popup
 export 'src/shared/components/simple_show_warning_popup.dart';
+
+
+/// News
+export 'src/news/simple_news_category.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 

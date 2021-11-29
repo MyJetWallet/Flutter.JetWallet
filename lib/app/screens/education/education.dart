@@ -1,58 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:simple_kit/example/example_screen.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../service/services/education_news/model/education_news_response_model.dart';
+import '../../../shared/helpers/launch_url.dart';
+import '../../shared/features/education_news/notifier/education_news_notipod.dart';
+import '../../shared/features/education_news/provider/education_news_fpod.dart';
+import '../../shared/features/market_details/helper/format_news_date.dart';
 
 class Education extends HookWidget {
   const Education({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final newsInit = useProvider(educationNewsInitFpod);
+    final educationNewsN = useProvider(educationNewsNotipod.notifier);
+    final educationNews = useProvider(educationNewsNotipod);
+    final _scrollController = ScrollController();
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        educationNewsN.loadMoreNews();
+      }
+    });
+
+    return newsInit.when(
+      data: (_) {
+        if (educationNews.news.isNotEmpty) {
+          return SPageFrame(
+            header: SMarketHeaderClosed(
+              title: 'News',
+              isDivider: true,
+              onSearchButtonTap: () {},
+            ),
+            child: ListView.builder(
+              controller: _scrollController,
+              itemBuilder: (BuildContext context, int index) => SNewsCategory(
+                newsLabel: educationNews.news[index].source,
+                newsText: educationNews.news[index].topic,
+                sentiment: _newsColor(
+                  educationNews.news[index].sentiment,
+                ),
+                timestamp: formatNewsDate(
+                  educationNews.news[index].timestamp,
+                ),
+                onTap: () => launchURL(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const ExampleScreen();
-                    },
-                  ),
-                );
-              },
-              child: const Text(
-                'Example Screen',
+                  educationNews.news[index].urlAddress,
+                ),
               ),
+              itemCount: educationNews.news.length,
             ),
-            TextButton(
-              onPressed: () async {
-                notificationQueueN.addToQueue(
-                  SNotification(
-                    duration: 2,
-                    function: (context) {
-                      showSNotification(
-                        context: context,
-                        duration: 2,
-                        text: 'Perhaps you missed “.” or “@” somewhere?”',
-                      );
-                    },
-                  ),
-                );
-              },
-              child: const Text(
-                'Show notification',
-              ),
-            ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return Container();
+        }
+      },
+      loading: () => Container(),
+      error: (_, __) => Container(),
     );
   }
+
+  Color _newsColor(Sentiment sentiment) {
+    switch (sentiment) {
+      case Sentiment.neutral:
+        return Colors.yellow;
+      case Sentiment.positive:
+        return Colors.green;
+      case Sentiment.negative:
+        return Colors.red;
+    }
+  }
 }
+
+// NotificationListener<ScrollNotification>(
+// onNotification: (ScrollNotification scrollInfo) {
+// if (scrollInfo.metrics.pixels ==
+// scrollInfo.metrics.maxScrollExtent) {
+//
+// educationNewsN.loadMoreNews();
+//
+// print('END OF SCREEN');
+// return false;
+// }
+// print('RETURN FALSE');
+// return true;
+// },
+// child:
