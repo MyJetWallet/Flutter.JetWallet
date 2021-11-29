@@ -34,7 +34,7 @@ class EducationNewsNotifier extends StateNotifier<EducationNewsState> {
     }
   }
 
-  void updateTakeNews() {
+  void updateNewsPortionAmount() {
     state = state.copyWith(
       newsPortionAmount: state.newsPortionAmount + newsPortion,
     );
@@ -52,9 +52,20 @@ class EducationNewsNotifier extends StateNotifier<EducationNewsState> {
         ),
       );
 
+      if (state.news.isNotEmpty) {
+        cutExistedNews(news.news);
+      }
+
+      updateNewsPortionAmount();
       updateNews(news.news);
     } catch (e) {
       _logger.log(stateFlow, 'loadMoreNews', e);
     }
+  }
+
+  void cutExistedNews(List<EducationNewsModel> news) {
+    _logger.log(notifier, 'filteredExistedNews');
+
+    news.removeRange(0, state.newsPortionAmount - newsPortion);
   }
 }

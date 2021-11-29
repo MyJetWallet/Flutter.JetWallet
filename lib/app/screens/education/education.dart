@@ -36,6 +36,7 @@ class Education extends HookWidget {
               onSearchButtonTap: () {},
             ),
             child: ListView.builder(
+              padding: EdgeInsets.zero,
               controller: _scrollController,
               itemBuilder: (BuildContext context, int index) => SNewsCategory(
                 newsLabel: educationNews.news[index].source,
@@ -74,18 +75,3 @@ class Education extends HookWidget {
     }
   }
 }
-
-// NotificationListener<ScrollNotification>(
-// onNotification: (ScrollNotification scrollInfo) {
-// if (scrollInfo.metrics.pixels ==
-// scrollInfo.metrics.maxScrollExtent) {
-//
-// educationNewsN.loadMoreNews();
-//
-// print('END OF SCREEN');
-// return false;
-// }
-// print('RETURN FALSE');
-// return true;
-// },
-// child:

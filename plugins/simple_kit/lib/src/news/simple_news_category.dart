@@ -30,6 +30,7 @@ class SNewsCategory extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 20.h),
           height: 110.h,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
