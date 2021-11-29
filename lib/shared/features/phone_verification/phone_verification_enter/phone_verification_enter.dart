@@ -111,7 +111,11 @@ class PhoneVerificationEnter extends HookWidget {
               active: notifierPhoneNumber.setActiveCode(),
               name: 'Continue',
               onTap: () {
-                PhoneVerificationConfirm.push(context, onVerified);
+                PhoneVerificationConfirm.push(
+                  context: context,
+                  onVerified: onVerified,
+                  isChangeTextAlert: false,
+                );
               },
             ),
           ),

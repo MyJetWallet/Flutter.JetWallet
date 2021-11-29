@@ -24,4 +24,6 @@ class UserInfoState with _$UserInfoState {
   const UserInfoState._();
 
   bool get pinEnabled => pin != null;
+
+  bool get isPhoneNumberSet => phone.isNotEmpty;
 }

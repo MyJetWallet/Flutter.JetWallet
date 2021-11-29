@@ -5,9 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../auth/shared/components/notifications/show_errror_notification.dart';
+import '../../../../../../../auth/shared/helpers/password_validators.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
-import '../../../notifier/change_password_notipod.dart';
-import '../../../notifier/change_password_state.dart';
+import '../../../notifier/change_password_notifier/change_password_notipod.dart';
+import '../../../notifier/change_password_notifier/change_password_state.dart';
 import 'components/set_new_password.dart';
 
 class ChangePassword extends HookWidget {
@@ -30,7 +31,7 @@ class ChangePassword extends HookWidget {
           error: (error) {
             oldPasswordError.value.enableError();
           },
-          orElse: (){},
+          orElse: () {},
         );
       },
       child: SPageFrame(
@@ -67,7 +68,7 @@ class ChangePassword extends HookWidget {
                 child: SStandardFieldObscure(
                   autofillHints: const [AutofillHints.password],
                   onChanged: (String password) {
-                    oldPasswordError.value.disableError();
+                    changePasswordN.setInput();
                     changePasswordN.setOldPassword(password);
                   },
                   autofocus: true,
@@ -87,14 +88,12 @@ class ChangePassword extends HookWidget {
               child: SPrimaryButton2(
                 name: 'Continue',
                 onTap: () {
-                  changePasswordN.setInput();
                   navigatorPush(
                     context,
                     const SetNewPassword(),
                   );
                 },
-                active:
-                changePassword.isButtonActive && !oldPasswordError.value.value,
+                active: isPasswordValid(changePassword.oldPassword),
               ),
             ),
             const SpaceH24(),
