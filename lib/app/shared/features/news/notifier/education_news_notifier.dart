@@ -1,19 +1,19 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../service/services/education_news/model/education_news_request_model.dart';
-import '../../../../../service/services/education_news/model/education_news_response_model.dart';
+import '../../../../../service/services/news/model/news_request_model.dart';
+import '../../../../../service/services/news/model/news_response_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import 'education_news_state.dart';
 
 const newsPortion = 10;
 
-class EducationNewsNotifier extends StateNotifier<EducationNewsState> {
-  EducationNewsNotifier({
+class NewsNotifier extends StateNotifier<NewsState> {
+  NewsNotifier({
     required this.read,
   }) : super(
-          const EducationNewsState(
+          const NewsState(
             news: [],
             canLoadMore: true,
             newsPortionAmount: 10,
@@ -24,7 +24,7 @@ class EducationNewsNotifier extends StateNotifier<EducationNewsState> {
 
   static final _logger = Logger('EducationNewsNotifier');
 
-  void updateNews(List<EducationNewsModel> news) {
+  void updateNews(List<NewsModel> news) {
     _logger.log(notifier, 'updateNews');
 
     if (news.isEmpty) {
@@ -44,8 +44,8 @@ class EducationNewsNotifier extends StateNotifier<EducationNewsState> {
     _logger.log(notifier, 'loadMoreNews');
 
     try {
-      final news = await read(educationNewsServicePod).educationNews(
-        EducationNewsRequestModel(
+      final news = await read(newsServicePod).news(
+        NewsRequestModel(
           language: read(intlPod).localeName,
           lastSeen: state.news.last.timestamp,
           amount: state.newsPortionAmount,
@@ -63,7 +63,7 @@ class EducationNewsNotifier extends StateNotifier<EducationNewsState> {
     }
   }
 
-  void cutExistedNews(List<EducationNewsModel> news) {
+  void cutExistedNews(List<NewsModel> news) {
     _logger.log(notifier, 'filteredExistedNews');
 
     news.removeRange(0, state.newsPortionAmount - newsPortion);

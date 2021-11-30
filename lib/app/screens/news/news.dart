@@ -3,33 +3,33 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../service/services/education_news/model/education_news_response_model.dart';
+import '../../../service/services/news/model/news_response_model.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/helpers/launch_url.dart';
-import '../../shared/features/education_news/notifier/education_news_notipod.dart';
-import '../../shared/features/education_news/provider/education_news_fpod.dart';
 import '../../shared/features/market_details/helper/format_news_date.dart';
+import '../../shared/features/news/notifier/education_news_notipod.dart';
+import '../../shared/features/news/provider/education_news_fpod.dart';
 
-class Education extends HookWidget {
-  const Education({Key? key}) : super(key: key);
+class News extends HookWidget {
+  const News({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final newsInit = useProvider(educationNewsInitFpod);
-    final educationNewsN = useProvider(educationNewsNotipod.notifier);
-    final educationNews = useProvider(educationNewsNotipod);
+    final newsInit = useProvider(newsInitFpod);
+    final newsN = useProvider(newsNotipod.notifier);
+    final news = useProvider(newsNotipod);
     final _scrollController = ScrollController();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        educationNewsN.loadMoreNews();
+        newsN.loadMoreNews();
       }
     });
 
     return newsInit.when(
       data: (_) {
-        if (educationNews.news.isNotEmpty) {
+        if (news.news.isNotEmpty) {
           return SPageFrame(
             header: SMarketHeaderClosed(
               title: 'News',
@@ -40,20 +40,20 @@ class Education extends HookWidget {
               padding: EdgeInsets.zero,
               controller: _scrollController,
               itemBuilder: (BuildContext context, int index) => SNewsCategory(
-                newsLabel: educationNews.news[index].source,
-                newsText: educationNews.news[index].topic,
+                newsLabel: news.news[index].source,
+                newsText: news.news[index].topic,
                 sentiment: _newsColor(
-                  educationNews.news[index].sentiment,
+                  news.news[index].sentiment,
                 ),
                 timestamp: formatNewsDate(
-                  educationNews.news[index].timestamp,
+                  news.news[index].timestamp,
                 ),
                 onTap: () => launchURL(
                   context,
-                  educationNews.news[index].urlAddress,
+                  news.news[index].urlAddress,
                 ),
               ),
-              itemCount: educationNews.news.length,
+              itemCount: news.news.length,
             ),
           );
         } else {

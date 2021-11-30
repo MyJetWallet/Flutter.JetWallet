@@ -4,15 +4,15 @@ import '../../../../shared/logging/levels.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/helpers/handle_api_responses.dart';
 import '../../wallet/service/wallet_service.dart';
-import '../model/education_news_request_model.dart';
-import '../model/education_news_response_model.dart';
+import '../model/market_news_request_model.dart';
+import '../model/market_news_response_model.dart';
 
-Future<EducationNewsResponseModel> educationNewsService(
-    Dio dio,
-    EducationNewsRequestModel model,
-    ) async {
+Future<MarketNewsResponseModel> marketNewsService(
+  Dio dio,
+  MarketNewsRequestModel model,
+) async {
   final logger = WalletService.logger;
-  const message = 'educationNewsService';
+  const message = 'newsService';
 
   try {
     final response = await dio.post(
@@ -24,7 +24,8 @@ Future<EducationNewsResponseModel> educationNewsService(
       final responseData = response.data as Map<String, dynamic>;
 
       final data = handleFullResponse<Map>(responseData);
-      return EducationNewsResponseModel.fromJson(data);
+
+      return MarketNewsResponseModel.fromJson(data);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

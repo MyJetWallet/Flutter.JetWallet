@@ -3,10 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'education_news_notifier.dart';
 import 'education_news_state.dart';
 
-final educationNewsNotipod =
-StateNotifierProvider<EducationNewsNotifier, EducationNewsState>(
+final newsNotipod =
+StateNotifierProvider<NewsNotifier, NewsState>(
       (ref) {
-    return EducationNewsNotifier(
+    return NewsNotifier(
       read: ref.read,
     );
   },

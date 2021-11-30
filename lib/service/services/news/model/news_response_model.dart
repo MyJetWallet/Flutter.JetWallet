@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'news_response_model.freezed.dart';
+
 part 'news_response_model.g.dart';
 
 @freezed
@@ -23,6 +24,7 @@ class NewsModel with _$NewsModel {
     required String urlAddress,
     required Sentiment sentiment,
     required List<String> associatedAssets,
+    required String description,
   }) = _NewsModel;
 
   factory NewsModel.fromJson(Map<String, dynamic> json) =>

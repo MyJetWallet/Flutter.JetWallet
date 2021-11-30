@@ -4,13 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../../../shared/components/header_text.dart';
 import '../../../../../../../shared/components/spacers.dart';
 
-import '../../../notifier/news_notipod.dart';
-import '../../../provider/news_fpod.dart';
+import '../../../notifier/market_news_notipod.dart';
+import '../../../provider/market_news_fpod.dart';
 import '../about_block/components/clickable_underlined_text.dart';
-import 'components/news_item.dart';
+import 'components/market_news_item.dart';
 
-class NewsBlock extends HookWidget {
-  const NewsBlock({
+class MarketNewsBlock extends HookWidget {
+  const MarketNewsBlock({
     Key? key,
     required this.assetId,
   }) : super(key: key);
@@ -19,9 +19,9 @@ class NewsBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newsInit = useProvider(newsInitFpod(assetId));
-    final newsN = useProvider(newsNotipod.notifier);
-    final news = useProvider(newsNotipod);
+    final newsInit = useProvider(marketNewsInitFpod(assetId));
+    final newsN = useProvider(marketNewsNotipod.notifier);
+    final news = useProvider(marketNewsNotipod);
 
     return newsInit.when(
       data: (_) {

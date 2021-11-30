@@ -8,10 +8,10 @@ import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
 import '../../service/services/blockchain/service/blockchain_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
-import '../../service/services/education_news/education_news_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/market_info/market_info_service.dart';
+import '../../service/services/market_news/market_news_service.dart';
 import '../../service/services/news/news_service.dart';
 import '../../service/services/notification/service/notification_service.dart';
 import '../../service/services/operation_history/operation_history_service.dart';
@@ -122,16 +122,16 @@ final keyValueServicePod = Provider<KeyValueService>((ref) {
   return KeyValueService(dio);
 });
 
+final marketNewsServicePod = Provider<MarketNewsService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return MarketNewsService(dio);
+});
+
 final newsServicePod = Provider<NewsService>((ref) {
   final dio = ref.watch(dioPod);
 
   return NewsService(dio);
-});
-
-final educationNewsServicePod = Provider<EducationNewsService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return EducationNewsService(dio);
 });
 
 final operationHistoryServicePod = Provider<OperationHistoryService>((ref) {

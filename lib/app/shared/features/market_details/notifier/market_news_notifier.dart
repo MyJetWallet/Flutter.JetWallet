@@ -1,18 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../service/services/news/model/news_request_model.dart';
-import '../../../../../service/services/news/model/news_response_model.dart';
+import '../../../../../service/services/market_news/model/market_news_request_model.dart';
+import '../../../../../service/services/market_news/model/market_news_response_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../provider/news_fpod.dart';
-import 'news_state.dart';
+import '../provider/market_news_fpod.dart';
+import 'market_news_state.dart';
 
-class NewsNotifier extends StateNotifier<NewsState> {
-  NewsNotifier({
+class MarketNewsNotifier extends StateNotifier<MarketNewsState> {
+  MarketNewsNotifier({
     required this.read,
   }) : super(
-          const NewsState(
+          const MarketNewsState(
             news: [],
             canLoadMore: true,
           ),
@@ -28,8 +28,8 @@ class NewsNotifier extends StateNotifier<NewsState> {
     _logger.log(notifier, 'loadMoreNews');
 
     try {
-      final news = await read(newsServicePod).news(
-        NewsRequestModel(
+      final news = await read(marketNewsServicePod).marketNews(
+        MarketNewsRequestModel(
           assetId: assetId,
           language: read(intlPod).localeName,
           lastSeen: state.news.last.timestamp,
@@ -51,7 +51,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
     );
   }
 
-  void updateNews(List<NewsModel> news) {
+  void updateNews(List<MarketNewsModel> news) {
     _logger.log(notifier, 'updateNews');
 
     if (news.isEmpty) {
