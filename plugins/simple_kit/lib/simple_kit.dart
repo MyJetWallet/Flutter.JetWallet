@@ -28,7 +28,6 @@ export 'src/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
 export 'src/actions/simple_action_confirm_alert.dart';
 export 'src/actions/simple_action_confirm_description.dart';
 export 'src/actions/simple_action_confirm_icon_with_animation.dart';
-export 'src/actions/simple_action_confirm_skeleton_loader.dart';
 export 'src/actions/simple_action_confirm_text.dart';
 export 'src/actions/simple_action_price_field.dart';
 export 'src/actions/simple_payment_select_asset.dart';
@@ -106,6 +105,10 @@ export 'src/icons/24x24/public/action_receive/simple_action_receive_icon.dart';
 export 'src/icons/24x24/public/action_sell/simple_action_sell_icon.dart';
 export 'src/icons/24x24/public/action_send/simple_action_send_icon.dart';
 export 'src/icons/24x24/public/action_withdraw/simple_action_withdraw_icon.dart';
+export 'src/icons/24x24/public/angle_down/simple_angle_down_icon.dart';
+export 'src/icons/24x24/public/angle_down/simple_angle_down_pressed_icon.dart';
+export 'src/icons/24x24/public/angle_up/simple_angle_up_icon.dart';
+export 'src/icons/24x24/public/angle_up/simple_angle_up_pressed_icon.dart';
 export 'src/icons/24x24/public/asset_placeholder/simple_asset_placeholder_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_pressed_icon.dart';
@@ -116,6 +119,8 @@ export 'src/icons/24x24/public/checkbox/simple_checkbox_icon.dart';
 export 'src/icons/24x24/public/checkbox/simple_checkbox_selected_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_pressed_icon.dart';
+export 'src/icons/24x24/public/copy/simple_copy_icon.dart';
+export 'src/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_pressed_icon.dart';
 export 'src/icons/24x24/public/error/simple_error_icon.dart';
@@ -184,6 +189,7 @@ export 'src/shared/components/simple_profile_details_button.dart';
 
 /// Popup
 export 'src/shared/components/simple_show_warning_popup.dart';
+export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 

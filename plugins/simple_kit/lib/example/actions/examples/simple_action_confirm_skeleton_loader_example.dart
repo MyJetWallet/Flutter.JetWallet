@@ -16,11 +16,11 @@ class SimpleActionConfrimSkeletonLoaderExample extends HookWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              SActionConfirmSkeletonLoader(),
+              SSkeletonTextLoader(),
               SpaceH10(),
-              SActionConfirmSkeletonLoader(),
+              SSkeletonTextLoader(),
               SpaceH10(),
-              SActionConfirmSkeletonLoader(),
+              SSkeletonTextLoader(),
             ],
           ),
         ),
