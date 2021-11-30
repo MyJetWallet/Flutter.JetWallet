@@ -33,6 +33,7 @@ class ApiSelectorScreen extends HookWidget {
                     Center(
                       child: Text(
                         apiTitleFromUrl(flavor.candlesApi),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     )
                 ],
