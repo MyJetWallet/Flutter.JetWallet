@@ -53,6 +53,7 @@ class _NewsState extends State<News> {
               onSearchButtonTap: () {},
             ),
             child: ListView.builder(
+              key: const PageStorageKey<String>('_scrollController'),
               padding: EdgeInsets.zero,
               controller: _scrollController,
               itemBuilder: (BuildContext context, int index) => SNewsCategory(
