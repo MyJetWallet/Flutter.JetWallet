@@ -6,6 +6,7 @@ export 'src/account/banners/simple_account_banner.dart';
 
 /// Banner
 export 'src/account/banners/simple_account_banner_list.dart';
+export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 
 /// Account
 export 'src/account/buttons/account_category_button/simple_account_category_button.dart';
@@ -151,6 +152,8 @@ export 'src/icons/24x24/public/star/simple_star_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
 export 'src/icons/24x24/public/support/simple_support_icon.dart';
 export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
+export 'src/icons/24x24/public/complete/simple_complete_icon.dart';
+export 'src/icons/24x24/public/blue_right_arrow/simple_blue_right_arrow_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';

@@ -31,6 +31,8 @@ import 'asset_items/examples/simple_fiat_item_example.dart';
 import 'asset_items/examples/simple_market_item_example.dart';
 import 'asset_items/examples/simple_wallet_item_example.dart';
 import 'asset_items/simple_asset_items_example.dart';
+import 'banners/rewards_banner/simple_rewards_banner_example.dart';
+import 'banners/simple_banners_example.dart';
 import 'bottom_navigation_bar/simple_bottom_navigation_bar_example.dart';
 import 'buttons/examples/simple_link_button_example.dart';
 import 'buttons/examples/simple_primary_button_example.dart';
@@ -77,6 +79,12 @@ class ExampleScreen extends ConsumerWidget {
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
+            SimpleBannersExample.routeName: (context) {
+              return const SimpleBannersExample();
+            },
+            SimpleRewardsBannerExample.routeName: (context) {
+              return const SimpleRewardsBannerExample();
+            },
             SimpleAccountExample.routeName: (context) {
               return const SimpleAccountExample();
             },
@@ -260,6 +268,10 @@ class Home extends StatelessWidget {
         child: ListView(
           children: const [
             ThemeSwitch(),
+            NavigationButton(
+              buttonName: 'Banners',
+              routeName: SimpleBannersExample.routeName,
+            ),
             NavigationButton(
               buttonName: 'Account',
               routeName: SimpleAccountExample.routeName,

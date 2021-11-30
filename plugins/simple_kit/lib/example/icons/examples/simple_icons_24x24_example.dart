@@ -18,6 +18,8 @@ class SimpleIcons24X24Example extends StatelessWidget {
           child: GridView.count(
             crossAxisCount: 2,
             children: const [
+              SBlueRightArrowIcon(),
+              SCompleteIcon(),
               SLockIcon(),
               STwoFactorAuthIcon(),
               SChangePinIcon(),
