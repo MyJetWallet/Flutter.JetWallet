@@ -18,11 +18,17 @@ class News extends StatefulHookWidget {
 }
 
 class _NewsState extends State<News> {
-  late ScrollController _scrollController;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
-    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        final notifier = context.read(newsNotipod.notifier);
+        notifier.loadMoreNews();
+      }
+    });
     super.initState();
   }
 
@@ -36,15 +42,6 @@ class _NewsState extends State<News> {
   Widget build(BuildContext context) {
     final newsInit = useProvider(newsInitFpod);
     final news = useProvider(newsNotipod);
-    final _scrollController = ScrollController();
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        final notifier = context.read(newsNotipod.notifier);
-        notifier.loadMoreNews();
-      }
-    });
 
     return newsInit.when(
       data: (_) {
