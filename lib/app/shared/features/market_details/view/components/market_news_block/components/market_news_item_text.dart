@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NewsItemText extends StatelessWidget {
-  const NewsItemText({
+class MarketNewsItemText extends StatelessWidget {
+  const MarketNewsItemText({
     Key? key,
     required this.text,
   }) : super(key: key);

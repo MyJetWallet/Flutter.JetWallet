@@ -207,3 +207,8 @@ export 'src/texts/simple_text_styles.dart';
 
 /// Theme
 export 'src/theme/provider/simple_theme_pod.dart';
+
+/// News
+export 'src/news/simple_news_category.dart';
+export 'src/shared/components/simple_spacers.dart';
+export 'src/shared/components/simple_transparent_ink_well.dart';

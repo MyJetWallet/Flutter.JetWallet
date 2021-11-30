@@ -7,10 +7,12 @@ import 'components/simple_market_header_title.dart';
 class SMarketHeaderClosed extends StatelessWidget {
   const SMarketHeaderClosed({
     Key? key,
+    this.isDivider = false,
     required this.title,
     required this.onSearchButtonTap,
   }) : super(key: key);
 
+  final bool isDivider;
   final String title;
   final Function() onSearchButtonTap;
 
@@ -31,6 +33,7 @@ class SMarketHeaderClosed extends StatelessWidget {
             ),
           ),
           const Spacer(),
+          if (isDivider) const SDivider(),
         ],
       ),
     );

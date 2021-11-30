@@ -5,8 +5,9 @@ import '../../../../../service/services/news/model/news_request_model.dart';
 import '../../../../../service/services/news/model/news_response_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../provider/news_fpod.dart';
-import 'news_state.dart';
+import 'education_news_state.dart';
+
+const newsPortion = 10;
 
 class NewsNotifier extends StateNotifier<NewsState> {
   NewsNotifier({
@@ -15,41 +16,13 @@ class NewsNotifier extends StateNotifier<NewsState> {
           const NewsState(
             news: [],
             canLoadMore: true,
+            newsPortionAmount: 10,
           ),
         );
 
   final Reader read;
 
-  static final _logger = Logger('NewsNotifier');
-
-  bool get canLoadMore => state.news.length >= 3 && state.canLoadMore;
-
-  Future<void> loadMoreNews(String assetId) async {
-    _logger.log(notifier, 'loadMoreNews');
-
-    try {
-      final news = await read(newsServicePod).news(
-        NewsRequestModel(
-          assetId: assetId,
-          language: read(intlPod).localeName,
-          lastSeen: state.news.last.timestamp,
-          amount: newsPortionAmount,
-        ),
-      );
-
-      updateNews(news.news);
-    } catch (e) {
-      _logger.log(stateFlow, 'loadMoreNews', e);
-    }
-  }
-
-  void cutNewToDefaultSize() {
-    _logger.log(notifier, 'cutNewToDefaultSize');
-
-    state = state.copyWith(
-      news: state.news.sublist(0, newsPortionAmount),
-    );
-  }
+  static final _logger = Logger('EducationNewsNotifier');
 
   void updateNews(List<NewsModel> news) {
     _logger.log(notifier, 'updateNews');
@@ -59,5 +32,40 @@ class NewsNotifier extends StateNotifier<NewsState> {
     } else {
       state = state.copyWith(news: state.news + news);
     }
+  }
+
+  void updateNewsPortionAmount() {
+    state = state.copyWith(
+      newsPortionAmount: state.newsPortionAmount + newsPortion,
+    );
+  }
+
+  Future<void> loadMoreNews() async {
+    _logger.log(notifier, 'loadMoreNews');
+
+    try {
+      final news = await read(newsServicePod).news(
+        NewsRequestModel(
+          language: read(intlPod).localeName,
+          lastSeen: state.news.last.timestamp,
+          amount: state.newsPortionAmount,
+        ),
+      );
+
+      if (state.news.isNotEmpty) {
+        cutExistedNews(news.news);
+      }
+
+      updateNewsPortionAmount();
+      updateNews(news.news);
+    } catch (e) {
+      _logger.log(stateFlow, 'loadMoreNews', e);
+    }
+  }
+
+  void cutExistedNews(List<NewsModel> news) {
+    _logger.log(notifier, 'filteredExistedNews');
+
+    news.removeRange(0, state.newsPortionAmount - newsPortion);
   }
 }

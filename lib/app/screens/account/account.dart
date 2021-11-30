@@ -13,6 +13,7 @@ import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
+import '../../shared/features/support/view/support.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -76,7 +77,9 @@ class Account extends HookWidget {
                       title: 'Support',
                       icon: const SSupportIcon(),
                       isSDivider: true,
-                      onTap: () {},
+                      onTap: () {
+                        navigatorPush(context, const Support());
+                      },
                     ),
                     SimpleAccountCategoryButton(
                       title: 'FAQ',

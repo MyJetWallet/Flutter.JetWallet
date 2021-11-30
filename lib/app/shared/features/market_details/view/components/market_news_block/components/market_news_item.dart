@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../../service/services/market_news/model/market_news_response_model.dart';
 
-import '../../../../../../../../service/services/news/model/news_response_model.dart';
+
 import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../shared/helpers/launch_url.dart';
 import '../../../../helper/format_news_date.dart';
-import 'news_item_text.dart';
+import 'market_news_item_text.dart';
 
 class NewsItem extends StatelessWidget {
   const NewsItem({
@@ -13,7 +14,7 @@ class NewsItem extends StatelessWidget {
     required this.item,
   }) : super(key: key);
 
-  final NewsModel item;
+  final MarketNewsModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +35,14 @@ class NewsItem extends StatelessWidget {
               ),
               const SpaceW4(),
               Expanded(
-                child: NewsItemText(
+                child: MarketNewsItemText(
                   text: '${item.source} ',
                 ),
               ),
-              const NewsItemText(
+              const MarketNewsItemText(
                 text: '•',
               ),
-              NewsItemText(
+              MarketNewsItemText(
                 text: formatNewsDate(item.timestamp),
               ),
             ],

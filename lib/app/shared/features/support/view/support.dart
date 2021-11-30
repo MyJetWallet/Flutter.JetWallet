@@ -4,8 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/example/example_screen.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class Education extends HookWidget {
-  const Education({Key? key}) : super(key: key);
+// Todo: this screen is temporary
+class Support extends HookWidget {
+  const Support({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
