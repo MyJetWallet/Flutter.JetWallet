@@ -11,10 +11,10 @@ class SSmileIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (sentiment == Colors.green) {
+    if (sentiment == SColorsLight().green) {
       return const SSmileGoodIcon();
     }
-    if (sentiment == Colors.yellow) {
+    if (sentiment == SColorsLight().yellowLight) {
       return const SSmileNeutralIcon();
     } else {
       return const SSmileBadIcon();

@@ -10,20 +10,39 @@ import '../../shared/features/market_details/helper/format_news_date.dart';
 import '../../shared/features/news/notifier/education_news_notipod.dart';
 import '../../shared/features/news/provider/education_news_fpod.dart';
 
-class News extends HookWidget {
+class News extends StatefulHookWidget {
   const News({Key? key}) : super(key: key);
+
+  @override
+  State<News> createState() => _NewsState();
+}
+
+class _NewsState extends State<News> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final newsInit = useProvider(newsInitFpod);
-    final newsN = useProvider(newsNotipod.notifier);
     final news = useProvider(newsNotipod);
     final _scrollController = ScrollController();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        newsN.loadMoreNews();
+        final notifier = context.read(newsNotipod.notifier);
+        notifier.loadMoreNews();
       }
     });
 
@@ -68,11 +87,11 @@ class News extends HookWidget {
   Color _newsColor(Sentiment sentiment) {
     switch (sentiment) {
       case Sentiment.neutral:
-        return Colors.yellow;
+        return SColorsLight().yellowLight;
       case Sentiment.positive:
-        return Colors.green;
+        return SColorsLight().green;
       case Sentiment.negative:
-        return Colors.red;
+        return SColorsLight().red;
     }
   }
 }

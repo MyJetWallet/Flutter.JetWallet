@@ -26,7 +26,9 @@ class SNewsCategory extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.h),
+          padding: EdgeInsets.symmetric(
+            vertical: 20.h,
+          ),
           height: 110.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
