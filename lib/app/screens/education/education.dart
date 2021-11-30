@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../service/services/education_news/model/education_news_response_model.dart';
+import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../shared/features/education_news/notifier/education_news_notipod.dart';
 import '../../shared/features/education_news/provider/education_news_fpod.dart';
@@ -59,7 +60,7 @@ class Education extends HookWidget {
           return Container();
         }
       },
-      loading: () => Container(),
+      loading: () => const Loader(),
       error: (_, __) => Container(),
     );
   }
