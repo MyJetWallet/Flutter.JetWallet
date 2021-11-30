@@ -24,22 +24,22 @@ class StartupNotifier extends StateNotifier<StartupState> {
     if (read(routerStpod).state is Authorized) {
       try {
         final info = await read(infoServicePod).sessionInfo();
-        final profileInfo = await read(profileServicePod).info();
 
         read(userInfoNotipod.notifier).updateWithValuesFromSessionInfo(
           twoFaEnabled: info.twoFaEnabled,
           phoneVerified: info.phoneVerified,
         );
 
-        read(userInfoNotipod.notifier).updateWithValuesFromProfileInfo(
-          emailConfirmed: profileInfo.emailConfirmed,
-          phoneConfirmed: profileInfo.phoneConfirmed,
-          kycPassed: profileInfo.kycPassed,
-          email: profileInfo.email ?? '',
-          phone: profileInfo.phone ?? '',
-        );
-
         if (info.emailVerified) {
+          final profileInfo = await read(profileServicePod).info();
+
+          read(userInfoNotipod.notifier).updateWithValuesFromProfileInfo(
+            emailConfirmed: profileInfo.emailConfirmed,
+            phoneConfirmed: profileInfo.phoneConfirmed,
+            kycPassed: profileInfo.kycPassed,
+            email: profileInfo.email ?? '',
+            phone: profileInfo.phone ?? '',
+          );
           if (!info.twoFaPassed) {
             _updateAuthorizedUnion(const TwoFaVerification());
           } else {

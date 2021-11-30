@@ -6,16 +6,16 @@ import 'package:logging/logging.dart';
 import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import 'currency_deposit_state.dart';
-import 'currency_deposit_union.dart';
+import 'crypto_deposit_state.dart';
+import 'crypto_deposit_union.dart';
 
 const _retryTime = 5; // in seconds
 
-class CurrencyDepositNotifier extends StateNotifier<CurrencyDepositState> {
-  CurrencyDepositNotifier({
+class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
+  CryptoDepositNotifier({
     required this.read,
     required this.assetSymbol,
-  }) : super(const CurrencyDepositState()) {
+  }) : super(const CryptoDepositState()) {
     _requestDepositAddress();
   }
 

@@ -1,4 +1,5 @@
-import 'package:fast_rsa/rsa.dart';
+import 'package:fast_rsa/fast_rsa.dart';
+
 import 'local_storage_service.dart';
 
 class RsaService {
