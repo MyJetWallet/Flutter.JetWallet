@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
+import '../../../src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
 
 class SimpleIcons24X24Example extends StatelessWidget {
   const SimpleIcons24X24Example({Key? key}) : super(key: key);
@@ -17,6 +18,16 @@ class SimpleIcons24X24Example extends StatelessWidget {
           child: GridView.count(
             crossAxisCount: 2,
             children: const [
+              SLockIcon(),
+              STwoFactorAuthIcon(),
+              SChangePinIcon(),
+              SSupportIcon(),
+              SNotificationsIcon(),
+              SLogOutIcon(),
+              SFaqIcon(),
+              SSecurityIcon(),
+              SAboutUsIcon(),
+              SProfileDetailsIcon(),
               SBackIcon(),
               SBackPressedIcon(),
               SBigArrowPositiveIcon(),
@@ -35,6 +46,7 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SEyeOpenPressedIcon(),
               SGiftIcon(),
               SGiftPressedIcon(),
+              SGiftPortfolioIcon(),
               SInfoIcon(),
               SInfoPressedIcon(),
               SMailIcon(),
@@ -53,6 +65,13 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SActionSellIcon(),
               SActionSendIcon(),
               SActionWithdrawIcon(),
+              SAssetPlaceholderIcon(),
+              SAngleDownIcon(),
+              SAngleDownPressedIcon(),
+              SAngleUpIcon(),
+              SAngleUpPressedIcon(),
+              SCopyIcon(),
+              SCopyPressedIcon(),
             ],
           ),
         ),

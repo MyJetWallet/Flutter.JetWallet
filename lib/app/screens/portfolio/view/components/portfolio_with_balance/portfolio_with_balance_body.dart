@@ -1,18 +1,19 @@
-import 'package:charts/entity/chart_info.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/components/header_text.dart';
-import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
+import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/period_change.dart';
 import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
+import '../../../../../shared/features/wallet/view/empty_wallet.dart';
+import '../../../../../shared/features/wallet/view/wallet.dart';
 import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
@@ -22,14 +23,14 @@ import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
 import '../../../helper/zero_balance_wallets_empty.dart';
 import '../../../provider/show_zero_balance_wallets_stpod.dart';
-import 'components/portfolio_item.dart';
-import 'components/portfolio_small_text.dart';
+import 'components/padding_l_24.dart';
 
 class PortfolioWithBalanceBody extends HookWidget {
   const PortfolioWithBalanceBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);
@@ -39,86 +40,121 @@ class PortfolioWithBalanceBody extends HookWidget {
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final clientDetail = useProvider(clientDetailPod);
+    final periodChange = _periodChange(chart, baseCurrency);
+    final periodChangeColor =
+        periodChange.contains('-') ? colors.red : colors.green;
 
     return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.all(24.r),
-        child: Column(
-          children: [
-            Text(
-              hidden.state
-                  ? 'HIDDEN'
-                  : _price(
-                      chart,
-                      itemsWithBalance,
-                      baseCurrency,
-                    ),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 48.sp,
-                fontWeight: FontWeight.w600,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 68.h,
+            child: PaddingL24(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    hidden.state
+                        ? 'HIDDEN'
+                        : _price(
+                            chart,
+                            itemsWithBalance,
+                            baseCurrency,
+                          ),
+                    style: sTextH1Style,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        hidden.state ? '' : periodChange,
+                        style: sSubtitle3Style.copyWith(
+                          color: periodChangeColor,
+                        ),
+                      ),
+                      const SpaceW10(),
+                      Text(
+                        'Today',
+                        style: sBodyText2Style.copyWith(
+                          color: colors.grey3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            Text(
-              hidden.state
-                  ? ''
-                  : _periodChange(
-                      chart,
-                      baseCurrency,
-                    ),
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-              ),
+          ),
+          BalanceChart(
+            onCandleSelected: (ChartInfoModel? chartInfo) {
+              chartN.updateSelectedCandle(chartInfo?.right);
+            },
+            walletCreationDate: clientDetail.walletCreationDate,
+          ),
+          const SpaceH76(),
+          PaddingL24(
+            child: Text(
+              'My wallets',
+              style: sTextH4Style,
             ),
-            SizedBox(
-              height: 0.35.sh,
-              child: BalanceChart(
-                onCandleSelected: (ChartInfo? chartInfo) {
-                  chartN.updateSelectedCandle(chartInfo?.right);
-                },
-                walletCreationDate: clientDetail.walletCreationDate,
+          ),
+          const SpaceH15(),
+          for (final item in itemsWithBalance)
+            SWalletItem(
+              decline: item.dayPercentChange.isNegative,
+              icon: NetworkSvgW24(
+                url: item.iconUrl,
               ),
-            ),
-            const SpaceH15(),
-            const SizedBox(
-              width: double.infinity,
-              child: HeaderText(
-                text: 'My wallets',
-                textAlign: TextAlign.start,
+              primaryText: item.description,
+              amount: formatCurrencyAmount(
+                prefix: baseCurrency.prefix,
+                value: item.baseBalance,
+                symbol: baseCurrency.symbol,
+                accuracy: baseCurrency.accuracy,
               ),
+              secondaryText: '${item.assetBalance} ${item.symbol}',
+              onTap: () => _navigateToWallet(context, item),
+              removeDivider: item == itemsWithBalance.last,
             ),
-            const SpaceH15(),
-            for (final item in itemsWithBalance)
-              PortfolioItem(assetId: item.symbol),
-            if (showZeroBalanceWallets.state)
-              for (final item in itemsWithoutBalance)
-                PortfolioItem(assetId: item.symbol),
-            if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
-              InkWell(
-                onTap: () => showZeroBalanceWallets.state =
-                    !showZeroBalanceWallets.state,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    PortfolioSmallText(
-                      text: showZeroBalanceWallets.state
-                          ? 'Hide zero wallets'
-                          : 'Show all wallets',
-                    ),
-                    const SpaceW4(),
-                    Icon(
-                      showZeroBalanceWallets.state
-                          ? FontAwesomeIcons.chevronUp
-                          : FontAwesomeIcons.chevronDown,
-                      size: 12.r,
-                      color: Colors.grey.shade500,
-                    )
-                  ],
+          if (showZeroBalanceWallets.state)
+            for (final item in itemsWithoutBalance)
+              SWalletItem(
+                decline: item.dayPercentChange.isNegative,
+                icon: NetworkSvgW24(
+                  url: item.iconUrl,
+                ),
+                primaryText: item.description,
+                amount: formatCurrencyAmount(
+                  prefix: baseCurrency.prefix,
+                  value: item.baseBalance,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                secondaryText: '${item.assetBalance} ${item.symbol}',
+                onTap: () => _navigateToWallet(context, item),
+                color: colors.black,
+                removeDivider: item == itemsWithoutBalance.last,
+              ),
+          if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 27.5.h,
+              ),
+              child: Center(
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  onTap: () => showZeroBalanceWallets.state =
+                      !showZeroBalanceWallets.state,
+                  child: Text(
+                    showZeroBalanceWallets.state
+                        ? 'Hide zero wallets'
+                        : 'Show all wallets',
+                    style: sBodyText2Style,
+                  ),
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
@@ -164,6 +200,24 @@ class PortfolioWithBalanceBody extends HookWidget {
       return periodChange(
         chart: chart,
         baseCurrency: baseCurrency,
+      );
+    }
+  }
+
+  void _navigateToWallet(BuildContext context, CurrencyModel currency) {
+    if (currency.isAssetBalanceEmpty) {
+      navigatorPush(
+        context,
+        EmptyWallet(
+          assetName: currency.description,
+        ),
+      );
+    } else {
+      navigatorPush(
+        context,
+        Wallet(
+          assetId: currency.assetId,
+        ),
       );
     }
   }

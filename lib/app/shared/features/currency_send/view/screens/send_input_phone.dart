@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -130,7 +131,7 @@ class _SendInputPhoneState extends State<SendInputPhone> {
     showDialog(
       context: context,
       builder: (builderContext) {
-        return AlertDialog(
+        return CupertinoAlertDialog(
           title: const Text(
             'Use Address Book?',
           ),

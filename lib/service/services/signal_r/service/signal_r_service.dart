@@ -36,7 +36,7 @@ class SignalRService {
 
   /// connection is not restartable if it is stopped you cannot
   /// restart it - you need to create a new connection.
-  late HubConnection _connection;
+  HubConnection? _connection;
 
   final _assetsController = StreamController<AssetsModel>();
   final _balancesController = StreamController<BalancesModel>();
@@ -60,14 +60,14 @@ class SignalRService {
 
     _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
 
-    _connection.onclose((error) {
+    _connection?.onclose((error) {
       if (!isDisconnecting) {
         _logger.log(signalR, 'Connection closed', error);
         _startReconnect();
       }
     });
 
-    _connection.on(assetsMessage, (data) {
+    _connection?.on(assetsMessage, (data) {
       try {
         final assets = AssetsModel.fromJson(_json(data));
         _assetsController.add(assets);
@@ -76,7 +76,7 @@ class SignalRService {
       }
     });
 
-    _connection.on(balancesMessage, (data) {
+    _connection?.on(balancesMessage, (data) {
       try {
         final balances = BalancesModel.fromJson(_json(data));
         _balancesController.add(balances);
@@ -85,7 +85,7 @@ class SignalRService {
       }
     });
 
-    _connection.on(instrumentsMessage, (data) {
+    _connection?.on(instrumentsMessage, (data) {
       try {
         final instruments = InstrumentsModel.fromJson(_json(data));
         _instrumentsController.add(instruments);
@@ -94,13 +94,13 @@ class SignalRService {
       }
     });
 
-    _connection.on(pongMessage, (data) {
+    _connection?.on(pongMessage, (data) {
       _pongTimer?.cancel();
 
       _startPong();
     });
 
-    _connection.on(marketReferenceMessage, (data) {
+    _connection?.on(marketReferenceMessage, (data) {
       try {
         final marketReferences = MarketReferencesModel.fromJson(_json(data));
         _marketReferencesController.add(marketReferences);
@@ -109,7 +109,7 @@ class SignalRService {
       }
     });
 
-    _connection.on(basePricesMessage, (data) {
+    _connection?.on(basePricesMessage, (data) {
       try {
         _oldBasePrices = BasePricesModel.fromNewPrices(
           json: _json(data),
@@ -121,7 +121,7 @@ class SignalRService {
       }
     });
 
-    _connection.on(periodPricesMessage, (data) {
+    _connection?.on(periodPricesMessage, (data) {
       try {
         final basePrices = PeriodPricesModel.fromJson(_json(data));
         _periodPricesController.add(basePrices);
@@ -130,7 +130,7 @@ class SignalRService {
       }
     });
 
-    _connection.on(clientDetailMessage, (data) {
+    _connection?.on(clientDetailMessage, (data) {
       try {
         final clientDetail = ClientDetailModel.fromJson(_json(data));
         _clientDetailController.add(clientDetail);
@@ -139,7 +139,7 @@ class SignalRService {
       }
     });
 
-    _connection.on(keyValueMessage, (data) {
+    _connection?.on(keyValueMessage, (data) {
       try {
         final keyValue = KeyValueModel.parsed(
           KeyValueModel.fromJson(_json(data)),
@@ -153,14 +153,14 @@ class SignalRService {
     final token = read(authInfoNotipod).token;
 
     try {
-      await _connection.start();
+      await _connection?.start();
     } catch (e) {
       _logger.log(signalR, 'Failed to start connection', e);
       rethrow;
     }
 
     try {
-      await _connection.invoke(initMessage, args: [token]);
+      await _connection?.invoke(initMessage, args: [token]);
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);
       rethrow;
@@ -190,9 +190,9 @@ class SignalRService {
     _pingTimer = Timer.periodic(
       const Duration(seconds: _pingTime),
       (_) {
-        if (_connection.state == HubConnectionState.connected) {
+        if (_connection?.state == HubConnectionState.connected) {
           try {
-            _connection.invoke(pingMessage);
+            _connection?.invoke(pingMessage);
           } catch (e) {
             _logger.log(signalR, 'Failed to start ping', e);
             rethrow;
@@ -228,7 +228,7 @@ class SignalRService {
     _logger.log(signalR, 'Reconnecting...');
 
     try {
-      await _connection.stop();
+      await _connection?.stop();
 
       _pingTimer?.cancel();
       _pongTimer?.cancel();
@@ -260,7 +260,7 @@ class SignalRService {
     _pingTimer?.cancel();
     _pongTimer?.cancel();
     _reconnectTimer?.cancel();
-    await _connection.stop();
+    await _connection?.stop();
     _logger.log(signalR, 'Disconnected');
   }
 

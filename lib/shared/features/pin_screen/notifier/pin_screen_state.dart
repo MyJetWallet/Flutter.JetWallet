@@ -51,7 +51,7 @@ class PinScreenState with _$PinScreenState {
         return 'Set a new PIN';
       },
       confirmPin: () {
-        return 'Confirm a new PIN';
+        return 'Confirm new PIN';
       },
     );
   }

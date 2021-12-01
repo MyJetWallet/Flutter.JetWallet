@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../shared/components/spacers.dart';
 import '../../../../../shared/helpers/open_email_app.dart';
-import 'forgot_description_text.dart';
+import '../../../../shared/components/clickable_link_text/clickable_link_text.dart';
 
 class CheckYourEmail extends HookWidget {
   const CheckYourEmail(this.email);
@@ -14,23 +13,37 @@ class CheckYourEmail extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageFrame(
-      header: 'Check Your Email',
-      onBackButton: () => Navigator.pop(context),
+    final colors = useProvider(sColorPod);
+
+    return SPageFrameWithPadding(
+      header: SBigHeader(
+        title: 'Check your Email',
+        onBackButtonTap: () => Navigator.pop(context),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ForgotDescriptionText(
-            text: 'Recovery email with reset password instruction has been '
-                'sent to $email',
+          const SpaceH7(),
+          Text(
+            'Recovery email with reset password instruction has been '
+            'sent to',
+            style: sBodyText1Style.copyWith(color: colors.grey1),
+            maxLines: 2,
           ),
-          const SpaceH20(),
-          const ForgotDescriptionText(
-            text: 'If you don’t see the password recovery email in your inbox, '
-                'check your spam folder',
+          Text(
+            '$email \n',
+            style: sBodyText1Style,
+            maxLines: 2,
           ),
-          const Spacer(),
-          AppButtonSolid(
-            name: 'Open Email App',
+          Text(
+            'If you don’t see the password recovery email in your inbox, '
+            'check your spam folder',
+            style: sBodyText1Style.copyWith(color: colors.grey1),
+            maxLines: 2,
+          ),
+          const SpaceH17(),
+          ClickableLinkText(
+            text: 'Open Email App',
             onTap: () => openEmailApp(context),
           ),
         ],

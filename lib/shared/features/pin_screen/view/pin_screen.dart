@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../app/shared/components/number_keyboard/number_keyboard_pin.dart';
-import '../../../components/page_frame/page_frame.dart';
-import '../../../components/spacers.dart';
 import '../../../helpers/navigator_push.dart';
+import '../../../notifiers/logout_notifier/logout_notipod.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
-import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
 import '../notifier/pin_screen_notifier.dart';
 import '../notifier/pin_screen_notipod.dart';
 import 'components/pin_box.dart';
-import 'components/pin_text.dart';
 import 'components/shake_widget/shake_widget.dart';
 
 class PinScreen extends HookWidget {
@@ -44,40 +40,35 @@ class PinScreen extends HookWidget {
   Widget build(BuildContext context) {
     final pin = useProvider(pinScreenNotipod(union));
     final pinN = useProvider(pinScreenNotipod(union).notifier);
+    final logoutN = useProvider(logoutNotipod.notifier);
 
     Function()? onbackButton;
-    String? header;
 
     if (union is Verification || union is Setup) {
-      header = 'Simple';
+      onbackButton = () => logoutN.logout();
     } else if (cannotLeave) {
       onbackButton = null;
     } else {
       onbackButton = () => Navigator.pop(context);
-      header = pin.screenHeader;
     }
 
     return WillPopScope(
       onWillPop: () => Future.value(!cannotLeave),
-      child: PageFrame(
-        header: header,
-        onBackButton: onbackButton,
+      child: SPageFrame(
+        header: SPaddingH24(
+          child: SBigHeader(
+            title: pin.screenDescription,
+            onBackButtonTap: onbackButton,
+          ),
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
-            Center(
-              child: PinText(
-                text: pin.screenDescription,
-                fontSize: 16.sp,
-              ),
-            ),
-            const SpaceH40(),
+            const SpaceH134(),
             ShakeWidget(
               key: pin.shakePinKey,
               shakeDuration: pinBoxErrorDuration,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   for (int id = 1; id <= localPinLength; id++)
                     PinBox(
@@ -86,29 +77,11 @@ class PinScreen extends HookWidget {
                 ],
               ),
             ),
-            const SpaceH20(),
-            ShakeWidget(
-              key: pin.shakeTextKey,
-              shakeDuration: pinBoxErrorDuration,
-              child: pin.pinState == PinBoxEnum.error
-                  ? PinText(
-                      text: 'Wrong PIN',
-                      color: pin.pinState.color,
-                    )
-                  : const SizedBox(),
+            const SpaceH132(),
+            SNumericKeyboardPin(
+              hideBiometricButton: pin.hideBiometricButton,
+              onKeyPressed: (value) => pinN.updatePin(value),
             ),
-            const Spacer(),
-            if (pin.lockTime != 0)
-              PinText(
-                text: 'Input is disabled. '
-                    'Try again in ${pin.lockTime} seconds',
-              )
-            else ...[
-              NumberKeyboardPin(
-                hideBiometricButton: pin.hideBiometricButton,
-                onKeyPressed: (value) => pinN.updatePin(value),
-              ),
-            ]
           ],
         ),
       ),

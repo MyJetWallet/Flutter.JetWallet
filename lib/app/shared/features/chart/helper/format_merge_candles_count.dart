@@ -1,4 +1,4 @@
-import 'package:charts/entity/resolution_string_enum.dart';
+import 'package:charts/simple_chart.dart';
 
 int mergeCandlesCountFrom(String resolution) {
   if (resolution == Period.hour) {

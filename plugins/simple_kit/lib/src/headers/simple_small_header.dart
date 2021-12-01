@@ -36,7 +36,7 @@ class SSmallHeader extends StatelessWidget {
             children: [
               if (showBackButton)
                 SIconButton(
-                  onTap: onBackButtonTap,
+                  onTap: onBackButtonTap ?? () => Navigator.pop(context),
                   defaultIcon: const SBackIcon(),
                   pressedIcon: const SBackPressedIcon(),
                 )

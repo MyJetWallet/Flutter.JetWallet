@@ -1,4 +1,4 @@
-import 'package:charts/entity/chart_info.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +13,8 @@ import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
 import 'components/balance_block/balance_block.dart';
 import 'components/market_details_app_bar/market_details_app_bar.dart';
+import 'components/market_news_block/market_news_block.dart';
 import 'components/market_stats_block/market_stats_block.dart';
-import 'components/news_block/news_block.dart';
 import 'components/return_rates_block/return_rates_block.dart';
 
 class MarketDetails extends HookWidget {
@@ -47,16 +47,12 @@ class MarketDetails extends HookWidget {
             ),
             child: Column(
               children: [
-                SizedBox(
-                  height: 0.35.sh,
-                  child: AssetChart(
-                    marketItem.associateAssetPair,
-                    (ChartInfo? chartInfo) {
-                      chartN.updateSelectedCandle(chartInfo?.right);
-                    },
-                  ),
+                AssetChart(
+                  marketItem.associateAssetPair,
+                  (ChartInfoModel? chartInfo) {
+                    chartN.updateSelectedCandle(chartInfo?.right);
+                  },
                 ),
-                const SpaceH15(),
                 ReturnRatesBlock(
                   assetSymbol: marketItem.associateAsset,
                 ),
@@ -79,7 +75,7 @@ class MarketDetails extends HookWidget {
                   error: (e, _) => Text('$e'),
                 ),
                 const SpaceH15(),
-                NewsBlock(
+                MarketNewsBlock(
                   assetId: marketItem.associateAsset,
                 ),
                 const SpaceH30(),

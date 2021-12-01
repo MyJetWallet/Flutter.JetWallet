@@ -4,8 +4,7 @@ late String authApi;
 late String walletApi;
 late String walletApiSignalR;
 late String validationApi;
-late String termsOfUseUrl;
-late String privacyPolicyUrl;
+late String iconApi;
 
 // AppConfig
 late int emailVerificationCodeLength;

@@ -1,18 +1,36 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
-import 'action_sheet/examples/simple_action_sheet_item_example.dart';
-import 'action_sheet/examples/simple_asset_sheet_item_example.dart';
+import 'account/banners/simple_account_banners_example.dart';
+import 'account/buttons/simple_account_buttons_example.dart';
+import 'account/headers/simple_account_headers_example.dart';
+import 'account/indicators/simple_account_indicators_example.dart';
+import 'account/simple_account_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
-import 'action_sheet/examples/simple_fiat_sheet_item_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
+import 'actions/examples/simple_action_confirm_alert_example.dart';
+import 'actions/examples/simple_action_confirm_description_example.dart';
+import 'actions/examples/simple_action_confirm_skeleton_loader_example.dart';
+import 'actions/examples/simple_action_confirm_text_example.dart';
+import 'actions/examples/simple_action_price_field_example.dart';
+import 'actions/examples/simple_payment_select_asset_example.dart';
+import 'actions/examples/simple_payment_select_default_example.dart';
+import 'actions/examples/simple_payment_select_fiat_example.dart';
+import 'actions/simple_actions_example.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
 import 'agreements/simple_agreements_example.dart';
+import 'asset_items/examples/simple_action_item_example.dart';
+import 'asset_items/examples/simple_asset_item_example.dart';
+import 'asset_items/examples/simple_fiat_item_example.dart';
+import 'asset_items/examples/simple_market_item_example.dart';
+import 'asset_items/examples/simple_wallet_item_example.dart';
+import 'asset_items/simple_asset_items_example.dart';
 import 'bottom_navigation_bar/simple_bottom_navigation_bar_example.dart';
 import 'buttons/examples/simple_link_button_example.dart';
 import 'buttons/examples/simple_primary_button_example.dart';
@@ -53,12 +71,27 @@ class ExampleScreen extends ConsumerWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
-        return MaterialApp(
+        return CupertinoApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
           initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
+            SimpleAccountExample.routeName: (context) {
+              return const SimpleAccountExample();
+            },
+            SimpleAccountButtonsExample.routeName: (context) {
+              return const SimpleAccountButtonsExample();
+            },
+            SimpleAccountHeadersExample.routeName: (context) {
+              return const SimpleAccountHeadersExample();
+            },
+            SimpleAccountIndicatorsExample.routeName: (context) {
+              return const SimpleAccountIndicatorsExample();
+            },
+            SimpleAccountBannersExample.routeName: (context) {
+              return const SimpleAccountBannersExample();
+            },
             SimpleButtonsExample.routeName: (context) {
               return const SimpleButtonsExample();
             },
@@ -161,15 +194,51 @@ class ExampleScreen extends ConsumerWidget {
             SimpleMenuActionSheetExample.routeName: (context) {
               return const SimpleMenuActionSheetExample();
             },
-            SimpleFiatSheetItemExample.routeName: (context) {
-              return const SimpleFiatSheetItemExample();
+            SimpleAssetItemExample.routeName: (context) {
+              return const SimpleAssetItemExample();
             },
-            SimpleActionSheetItemExample.routeName: (context) {
-              return const SimpleActionSheetItemExample();
+            SimpleFiatItemExample.routeName: (context) {
+              return const SimpleFiatItemExample();
             },
-            SimpleAssetSheetItemExample.routeName: (context) {
-              return const SimpleAssetSheetItemExample();
+            SimpleActionItemExample.routeName: (context) {
+              return const SimpleActionItemExample();
             },
+            SimpleMarketItemExample.routeName: (context) {
+              return const SimpleMarketItemExample();
+            },
+            SimpleWalletItemExample.routeName: (context) {
+              return const SimpleWalletItemExample();
+            },
+            SimpleAssetItemsExample.routeName: (context) {
+              return const SimpleAssetItemsExample();
+            },
+            SimpleActionsExample.routeName: (context) {
+              return const SimpleActionsExample();
+            },
+            SimpleActionPriceFieldExample.routeName: (context) {
+              return const SimpleActionPriceFieldExample();
+            },
+            SimplePaymentSelectAssetExample.routeName: (context) {
+              return const SimplePaymentSelectAssetExample();
+            },
+            SimplePaymentSelectDefaultExample.routeName: (context) {
+              return const SimplePaymentSelectDefaultExample();
+            },
+            SimplePaymentSelectFiatExample.routeName: (context) {
+              return const SimplePaymentSelectFiatExample();
+            },
+            SimpleActionConfirmTextExample.routeName: (context) {
+              return const SimpleActionConfirmTextExample();
+            },
+            SimpleActionConfrimDescriptionExample.routeName: (context) {
+              return const SimpleActionConfrimDescriptionExample();
+            },
+            SimpleActionConfrimSkeletonLoaderExample.routeName: (context) {
+              return const SimpleActionConfrimSkeletonLoaderExample();
+            },
+            SimpleActionConfrimAlertExample.routeName: (context) {
+              return const SimpleActionConfrimAlertExample();
+            }
           },
         );
       },
@@ -188,11 +257,13 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: const [
             ThemeSwitch(),
+            NavigationButton(
+              buttonName: 'Account',
+              routeName: SimpleAccountExample.routeName,
+            ),
             NavigationButton(
               buttonName: 'Buttons',
               routeName: SimpleButtonsExample.routeName,
@@ -236,6 +307,14 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Action Sheet',
               routeName: SimpleActionSheetExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Asset Items',
+              routeName: SimpleAssetItemsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Actions',
+              routeName: SimpleActionsExample.routeName,
             ),
           ],
         ),

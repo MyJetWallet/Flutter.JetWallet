@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../helpers/calculate_base_balance.dart';
-import '../../helpers/valid_icon_url.dart';
+import '../../helpers/icon_url_from.dart';
 import '../../models/currency_model.dart';
 import '../base_currency_pod/base_currency_pod.dart';
 import '../signal_r/assets_spod.dart';
@@ -30,7 +30,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
           depositMethods: asset.depositMethods,
           fees: asset.fees,
           withdrawalMethods: asset.withdrawalMethods,
-          iconUrl: validIconUrl(asset.iconUrl),
+          iconUrl: iconUrlFrom(asset.symbol),
           prefixSymbol: asset.prefixSymbol,
         ),
       );

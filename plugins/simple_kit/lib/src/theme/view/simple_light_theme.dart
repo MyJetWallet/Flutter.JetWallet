@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../colors/view/simple_colors_light.dart';
 
-ThemeData sLightTheme = ThemeData(
+/// ! 1) For some reason scaffoldBackgroundColor doesn't set globally
+/// ! 2) For some reason fontFamily doesn't set globally
+/// ! INVESTIGATE
+CupertinoThemeData sLightTheme = CupertinoThemeData(
   scaffoldBackgroundColor: SColorsLight().white,
-  textTheme: TextTheme(
-    // default text style
-    bodyText2: TextStyle(
+  textTheme: CupertinoTextThemeData(
+    textStyle: TextStyle(
       color: SColorsLight().black,
+      fontFamily: 'Gilroy',
     ),
   ),
-  fontFamily: 'Gilroy',
 );

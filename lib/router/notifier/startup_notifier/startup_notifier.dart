@@ -31,6 +31,15 @@ class StartupNotifier extends StateNotifier<StartupState> {
         );
 
         if (info.emailVerified) {
+          final profileInfo = await read(profileServicePod).info();
+
+          read(userInfoNotipod.notifier).updateWithValuesFromProfileInfo(
+            emailConfirmed: profileInfo.emailConfirmed,
+            phoneConfirmed: profileInfo.phoneConfirmed,
+            kycPassed: profileInfo.kycPassed,
+            email: profileInfo.email ?? '',
+            phone: profileInfo.phone ?? '',
+          );
           if (!info.twoFaPassed) {
             _updateAuthorizedUnion(const TwoFaVerification());
           } else {
@@ -57,8 +66,8 @@ class StartupNotifier extends StateNotifier<StartupState> {
   }
 
   /// Called after successfull authentication
-  void successfulAuthentication() {
-    _logger.log(notifier, 'successfulAuthentication');
+  void successfullAuthentication() {
+    _logger.log(notifier, 'successfullAuthentication');
 
     navigateToRouter(read);
     TextInput.finishAutofillContext(); // prompt to save credentials
@@ -102,6 +111,8 @@ class StartupNotifier extends StateNotifier<StartupState> {
 
   void _processPinState() {
     final userInfo = read(userInfoNotipod);
+
+    read(signalRServicePod).init();
 
     if (userInfo.pinEnabled) {
       _updateAuthorizedUnion(const PinVerification());

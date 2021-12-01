@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../components/loaders/scaffold_loader.dart';
-import '../../../../components/page_frame/page_frame.dart';
+import '../../../../../auth/shared/components/clickable_link_text/clickable_link_text.dart';
 import '../../../../components/pin_code_field.dart';
-import '../../../../components/spacers.dart';
 import '../../../../components/texts/resend_in_text.dart';
 import '../../../../components/texts/resend_rich_text.dart';
 import '../../../../components/texts/verification_description_text.dart';
@@ -15,22 +14,27 @@ import '../../../../notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../services/remote_config_service/remote_config_values.dart';
 import '../notifier/phone_verification_confirm_notipod.dart';
 import '../notifier/phone_verification_confirm_state.dart';
-import '../notifier/phone_verification_confirm_union.dart';
-import 'components/change_number_button.dart';
 
 class PhoneVerificationConfirm extends HookWidget {
   const PhoneVerificationConfirm({
     Key? key,
     required this.onVerified,
+    required this.isChangeTextAlert,
   }) : super(key: key);
 
   final Function() onVerified;
+  final bool isChangeTextAlert;
 
-  static void push(BuildContext context, Function() onVerified) {
+  static void push({
+    required BuildContext context,
+    required Function() onVerified,
+    required bool isChangeTextAlert,
+  }) {
     navigatorPush(
       context,
       PhoneVerificationConfirm(
         onVerified: onVerified,
+        isChangeTextAlert: isChangeTextAlert,
       ),
     );
   }
@@ -44,6 +48,9 @@ class PhoneVerificationConfirm extends HookWidget {
     // TODO add phoneVerificationCountdown
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
+    final pinError = useValueNotifier(StandardFieldErrorNotifier());
+    final colors = useProvider(sColorPod);
+    final loading = useValueNotifier(StackLoaderNotifier());
 
     return ProviderListener<PhoneVerificationConfirmState>(
       provider: phoneVerificationConfirmNotipod(onVerified),
@@ -52,52 +59,84 @@ class PhoneVerificationConfirm extends HookWidget {
           error: (error) {
             showPlainSnackbar(context, error);
             phoneN.resetError();
+            Navigator.of(context).pop();
           },
           orElse: () {},
         );
       },
       child: Stack(
         children: [
-          PageFrame(
-            header: 'Phone Confirmation',
-            onBackButton: () => Navigator.pop(context),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SpaceH10(),
-                VerificationDescriptionText(
-                  text: 'Enter the SMS code we have sent to your phone ',
-                  boldText: phone.phoneNumber,
-                ),
-                const SpaceH10(),
-                const ChangeNumberButton(),
-                const SpaceH120(),
-                PinCodeField(
-                  length: 4,
-                  controller: phone.controller,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  onCompleted: (_) async {
-                    await phoneN.verifyCode();
-                  },
-                ),
-                if (timer != 0 && !phone.showResend)
-                  ResendInText(seconds: timer)
-                else ...[
-                  ResendRichText(
-                    onTap: () async {
-                      await phoneN.sendCode();
-
-                      timerN.refreshTimer();
-                      phoneN.updateShowResend(
-                        showResend: false,
-                      );
-                    },
+          SPageFrame(
+            loading: loading.value,
+            header: SPaddingH24(
+              child: SSmallHeader(
+                title: 'Phone confirmation',
+                onBackButtonTap: () => Navigator.pop(context),
+              ),
+            ),
+            child: SPaddingH24(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const SpaceH10(),
+                  VerificationDescriptionText(
+                    text: 'Enter the SMS code we have sent to your \nphone ',
+                    boldText: phone.phoneNumber,
                   ),
+                  const SpaceH18(),
+                  if (isChangeTextAlert) ...[
+                    RichText(
+                      text: TextSpan(
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: 'If you don’t have access to this number, '
+                                ' please contact ',
+                          ),
+                          TextSpan(
+                            text: 'support',
+                            style: sBodyText1Style.copyWith(
+                              color: colors.blue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ] else
+                    ClickableLinkText(
+                      text: 'Change number',
+                      onTap: () => Navigator.pop(context),
+                    ),
+                  const SpaceH18(),
+                  PinCodeField(
+                    length: 4,
+                    controller: phone.controller,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    onCompleted: (_) async {
+                      loading.value.startLoading();
+                      await phoneN.verifyCode();
+                    },
+                    pinError: pinError.value,
+                  ),
+                  if (timer != 0 && !phone.showResend)
+                    ResendInText(text: 'You can resend in $timer seconds')
+                  else ...[
+                    ResendRichText(
+                      onTap: () async {
+                        await phoneN.sendCode();
+                        timerN.refreshTimer();
+                        phoneN.updateShowResend(
+                          showResend: false,
+                        );
+                      },
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
-          if (phone.union is Loading) const ScaffoldLoader(),
         ],
       ),
     );

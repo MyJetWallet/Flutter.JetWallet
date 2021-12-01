@@ -6,7 +6,7 @@ import '../../../../../service/services/phone_verification/model/phone_verificat
 import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../logging/levels.dart';
-import '../../../../notifiers/enter_phone_notifier/enter_phone_notipod.dart';
+import '../../../../notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../providers/service_providers.dart';
@@ -24,8 +24,14 @@ class PhoneVerificationConfirmNotifier
           ),
         ) {
     _userInfoN = read(userInfoNotipod.notifier);
-    final phoneVerification = read(enterPhoneNotipod);
-    _updatePhoneNumber(phoneVerification.phoneNumber);
+
+    final countryPhoneVerification = read(phoneNumberNotipod);
+
+    final phoneNumberWithIso =
+        '${countryPhoneVerification.countryCode}'
+    '${countryPhoneVerification.phoneNumber}';
+
+    _updatePhoneNumber(phoneNumberWithIso);
     sendCode();
   }
 
@@ -43,6 +49,8 @@ class PhoneVerificationConfirmNotifier
   }
 
   Future<void> sendCode() async {
+    _logger.log(notifier, 'sendCode');
+
     await _requestTemplate(
       requestName: 'sendCode',
       body: () async {
@@ -52,7 +60,7 @@ class PhoneVerificationConfirmNotifier
         );
 
         await read(phoneVerificationServicePod).request(model);
-
+        state = state.copyWith(union: const Input());
         if (!mounted) return;
         state = state.copyWith(union: const Input());
       },

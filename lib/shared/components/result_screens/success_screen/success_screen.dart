@@ -1,51 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
-import '../components/result_frame.dart';
-import '../components/result_icon.dart';
+import '../../../helpers/navigate_to_router.dart';
+import '../../../helpers/navigator_push.dart';
+import 'components/success_animation.dart';
 
 class SuccessScreen extends HookWidget {
   const SuccessScreen({
     Key? key,
     this.then,
-    this.header,
-    required this.description,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
   }) : super(key: key);
 
   // Triggered when SuccessScreen is done
   final Function()? then;
-  final String? header;
-  final String description;
+  final String? primaryText;
+  final String? secondaryText;
+  final Widget? specialTextWidget;
+
+  static void push({
+    Key? key,
+    Function()? then,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+    required BuildContext context,
+  }) {
+    navigatorPush(
+      context,
+      SuccessScreen(
+        primaryText: primaryText,
+        secondaryText: secondaryText,
+        specialTextWidget: specialTextWidget,
+      ),
+      then,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return ProviderListener<int>(
-      provider: timerNotipod(2),
+      provider: timerNotipod(3),
       onChange: (context, value) {
         if (value == 0) {
           navigateToRouter(context.read);
           then?.call();
         }
       },
-      child: ResultFrame(
-        header: header,
-        resultIcon: const ResultIcon(
-          FontAwesomeIcons.checkCircle,
+      child: SPageFrameWithPadding(
+        child: Column(
+          children: [
+            Row(), // to expand Column in the cross axis
+            const SpaceH86(),
+            const SuccessAnimation(),
+            Baseline(
+              baseline: 136.h,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                primaryText ?? 'Success',
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: sTextH2Style,
+              ),
+            ),
+            if (secondaryText != null)
+              Baseline(
+                baseline: 31.4.h,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  secondaryText!,
+                  maxLines: 10,
+                  textAlign: TextAlign.center,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
+              ),
+            if (specialTextWidget != null) specialTextWidget!
+          ],
         ),
-        title: 'Success',
-        description: description,
-        children: [
-          LinearProgressIndicator(
-            minHeight: 8.h,
-            color: Colors.grey,
-            backgroundColor: const Color(0xffeeeeee),
-          )
-        ],
       ),
     );
   }

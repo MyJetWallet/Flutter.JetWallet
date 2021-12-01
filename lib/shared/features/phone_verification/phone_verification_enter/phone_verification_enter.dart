@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../components/buttons/app_button_solid.dart';
-import '../../../components/page_frame/page_frame.dart';
-import '../../../components/spacers.dart';
 import '../../../helpers/navigator_push.dart';
-import '../../../notifiers/enter_phone_notifier/enter_phone_notipod.dart';
+import '../../../notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../phone_verification_confirm/view/phone_verification_confirm.dart';
+import 'components/phone_number_bottom_sheet.dart';
+import 'components/phone_number_search.dart';
+import 'components/phone_verification_block.dart';
 
 class PhoneVerificationEnter extends HookWidget {
   const PhoneVerificationEnter({
@@ -33,52 +33,93 @@ class PhoneVerificationEnter extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(enterPhoneNotipod);
-    final notifier = useProvider(enterPhoneNotipod.notifier);
+    final statePhoneNumber = useProvider(phoneNumberNotipod);
+    final notifierPhoneNumber = useProvider(phoneNumberNotipod.notifier);
 
-    return PageFrame(
-      header: 'Enter phone number',
-      onBackButton: () => Navigator.pop(context),
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: 'Enter phone number',
+          onBackButtonTap: () => Navigator.pop(context),
+        ),
+      ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SpaceH40(),
-          Text(
-            'Your Phone Number',
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Colors.black,
-            ),
-          ),
-          const SpaceH4(),
-          InternationalPhoneNumberInput(
-            ignoreBlank: true,
-            autoValidateMode: AutovalidateMode.always,
-            onInputChanged: (number) {
-              notifier.updatePhoneNumber(number.phoneNumber);
+        children: <Widget>[
+          PhoneVerificationBlock(
+            onErase: () {
+              notifierPhoneNumber.updatePhoneNumber('');
             },
-            onInputValidated: (valid) {
-              notifier.updateValid(valid: valid);
+            onChanged: (String number) {
+              notifierPhoneNumber.updatePhoneNumber(number);
             },
+            showBottomSheet: () {
+              notifierPhoneNumber.sortClearCountriesCode();
+
+              final sortWithActiveCountryCode =
+                  notifierPhoneNumber.sortActiveCountryCode();
+
+              sShowBasicModalBottomSheet(
+                context: context,
+                removeBottomHeaderPadding: true,
+                horizontalPinnedPadding: 0,
+                minHeight: 635.h,
+                maxHeight: 635.h,
+                scrollable: true,
+                pinned: PhoneNumberSearch(
+                  onErase: () {
+                    notifierPhoneNumber.sortClearCountriesCode();
+                  },
+                  onChange: (String countryName) {
+                    if (countryName.isNotEmpty && countryName.length > 1) {
+                      notifierPhoneNumber.sortCountriesCode(countryName);
+                    } else {
+                      notifierPhoneNumber.sortClearCountriesCode();
+                    }
+                  },
+                ),
+                children: [
+                  PhoneNumberBottomSheet(
+                    countriesCodeList: sortWithActiveCountryCode,
+                    onTap: (SPhoneNumber country) {
+                      notifierPhoneNumber
+                          .updateCountryCode(country.countryCode);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+            countryCode: statePhoneNumber.countryCode ?? '',
           ),
-          const SpaceH10(),
-          Text(
-            'This allow you to send and receive crypto by phone',
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: Colors.grey,
+          SPaddingH24(
+            child: Baseline(
+              baselineType: TextBaseline.alphabetic,
+              baseline: 24,
+              child: Text(
+                'This allow you to send and receive crypto by phone',
+                style: sCaptionTextStyle.copyWith(
+                  color: SColorsLight().grey1,
+                ),
+              ),
             ),
           ),
           const Spacer(),
-          AppButtonSolid(
-            active: state.valid,
-            name: 'Continue',
-            onTap: () {
-              if (state.valid) {
-                PhoneVerificationConfirm.push(context, onVerified);
-              }
-            },
-          )
+          SPaddingH24(
+            child: SPrimaryButton2(
+              active: notifierPhoneNumber.setActiveCode(),
+              name: 'Continue',
+              onTap: () {
+                PhoneVerificationConfirm.push(
+                  context: context,
+                  onVerified: onVerified,
+                  isChangeTextAlert: false,
+                );
+              },
+            ),
+          ),
+          const SpaceH24(),
         ],
       ),
     );

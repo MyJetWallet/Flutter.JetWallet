@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,7 +11,6 @@ import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'development/app_router_stage/app_router_stage.dart';
-import 'development/logs_screen/view/components/logs_persistant_button.dart';
 import 'router/view/components/app_init.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
@@ -61,11 +61,11 @@ class App extends HookWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
-        return MaterialApp(
+        return CupertinoApp(
           theme: theme,
           home: Stack(
             children: [
-              MaterialApp(
+              CupertinoApp(
                 theme: theme,
                 locale: DevicePreview.locale(context),
                 builder: DevicePreview.appBuilder,
@@ -79,7 +79,7 @@ class App extends HookWidget {
                   AppInit.routeName: (context) => const AppInit(),
                 },
               ),
-              const LogsPersistantButton(),
+              // const LogsPersistantButton(),
             ],
           ),
         );

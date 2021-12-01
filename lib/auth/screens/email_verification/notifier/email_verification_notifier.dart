@@ -8,11 +8,11 @@ import '../../../../service/services/validation/model/send_email_verification_co
 import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/device_type.dart';
-import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../view/components/email_confirmed_success_text.dart';
 import 'email_verification_state.dart';
 import 'email_verification_union.dart';
 
@@ -79,10 +79,13 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       state = state.copyWith(union: const Input());
 
       if (!mounted) return;
-      _pushToAuthSuccess(
-        _context,
-        state.email,
-        read(startupNotipod.notifier).emailVerified,
+
+      SuccessScreen.push(
+        context: _context,
+        specialTextWidget: EmailConfirmedSuccessText(
+          email: state.email,
+        ),
+        then: read(startupNotipod.notifier).emailVerified,
       );
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);
@@ -94,19 +97,4 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
   void _updateEmail(String email) {
     state = state.copyWith(email: email);
   }
-}
-
-void _pushToAuthSuccess(
-  BuildContext context,
-  String email,
-  void Function() then,
-) {
-  navigatorPush(
-    context,
-    SuccessScreen(
-      header: 'Email Verification',
-      description: 'Your email address $email is confirmed',
-    ),
-    then,
-  );
 }
