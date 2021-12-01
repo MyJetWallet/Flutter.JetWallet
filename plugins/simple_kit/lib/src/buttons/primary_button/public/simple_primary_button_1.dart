@@ -9,11 +9,13 @@ import '../light/simple_light_primary_button_1.dart';
 class SPrimaryButton1 extends ConsumerWidget {
   const SPrimaryButton1({
     Key? key,
+    this.icon,
     required this.active,
     required this.name,
     required this.onTap,
   }) : super(key: key);
 
+  final Widget? icon;
   final bool active;
   final String name;
   final Function() onTap;
@@ -27,12 +29,14 @@ class SPrimaryButton1 extends ConsumerWidget {
         active: active,
         name: name,
         onTap: onTap,
+        icon: icon,
       );
     } else {
       return SimpleLightPrimaryButton1(
         active: active,
         name: name,
         onTap: onTap,
+        icon: icon,
       );
     }
   }

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:simple_kit/simple_kit.dart';
 
-// TODO refactor to simple_kit
-// also used in the Referral program
-class AddressFieldWithQr extends HookWidget {
-  const AddressFieldWithQr({
+import '../../../../simple_kit.dart';
+
+class SAddressFieldWithCopy extends HookWidget {
+  const SAddressFieldWithCopy({
     Key? key,
     this.realValue,
     this.onTap,
@@ -29,8 +27,6 @@ class AddressFieldWithQr extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
-
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 200),
       reverseDuration: const Duration(milliseconds: 200),
@@ -70,23 +66,23 @@ class AddressFieldWithQr extends HookWidget {
         Transform.translate(
           offset: translateOffset,
           child: Container(
-            color: colors.greenLight,
+            color: SColorsLight().greenLight,
             height: 64.h,
             width: double.infinity,
             child: Center(
               child: Text(
                 afterCopyText,
                 style: sBodyText1Style.copyWith(
-                  color: colors.green,
+                  color: SColorsLight().green,
                 ),
               ),
             ),
           ),
         ),
         Material(
-          color: colors.white,
+          color: SColorsLight().white,
           child: InkWell(
-            highlightColor: colors.grey4,
+            highlightColor: SColorsLight().grey4,
             splashColor: Colors.transparent,
             onTap: valueLoading ? null : onTap,
             onLongPress: valueLoading ? null : () => _onCopyAction(),
@@ -103,7 +99,7 @@ class AddressFieldWithQr extends HookWidget {
                           Text(
                             header,
                             style: sCaptionTextStyle.copyWith(
-                              color: colors.grey2,
+                              color: SColorsLight().grey2,
                             ),
                           ),
                           const SpaceH4(),

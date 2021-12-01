@@ -68,7 +68,7 @@ class _ActionDeposit extends HookWidget {
                   navigatorPushReplacement(
                     context,
                     CryptoDeposit(
-                      header: 'Receive',
+                      header: 'Deposit',
                       currency: currency,
                     ),
                   );

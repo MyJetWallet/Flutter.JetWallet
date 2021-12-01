@@ -27,21 +27,11 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
   Timer? _timer;
   late int retryTime;
 
-  void switchAddressQr() {
-    _logger.log(notifier, 'switchAddressQr');
+  void switchAddress() {
+    _logger.log(notifier, 'switchAddress');
 
     state = state.copyWith(
-      openAddress: true,
-      openTag: false,
-    );
-  }
-
-  void switchTagQr() {
-    _logger.log(notifier, 'switchTagQr');
-
-    state = state.copyWith(
-      openAddress: false,
-      openTag: true,
+      isAddressOpen: !state.isAddressOpen,
     );
   }
 

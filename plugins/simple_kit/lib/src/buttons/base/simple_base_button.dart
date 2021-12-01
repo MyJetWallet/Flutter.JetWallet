@@ -8,6 +8,7 @@ final _baseButtonRadius = BorderRadius.circular(16.r);
 class SimpleBaseButton extends StatelessWidget {
   const SimpleBaseButton({
     Key? key,
+    this.icon,
     this.onTap,
     required this.onHighlightChanged,
     required this.decoration,
@@ -15,6 +16,7 @@ class SimpleBaseButton extends StatelessWidget {
     required this.nameColor,
   }) : super(key: key);
 
+  final Widget? icon;
   final Function()? onTap;
   final Function(bool) onHighlightChanged;
   final BoxDecoration decoration;
@@ -34,13 +36,20 @@ class SimpleBaseButton extends StatelessWidget {
         decoration: decoration.copyWith(
           borderRadius: _baseButtonRadius,
         ),
-        child: Center(
-          child: Text(
-            name,
-            style: sButtonTextStyle.copyWith(
-              color: nameColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) ...[
+              icon!,
+              const SpaceW10(),
+            ],
+            Text(
+              name,
+              style: sButtonTextStyle.copyWith(
+                color: nameColor,
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
