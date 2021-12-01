@@ -8,8 +8,7 @@ part 'crypto_deposit_state.freezed.dart';
 class CryptoDepositState with _$CryptoDepositState {
   const factory CryptoDepositState({
     String? tag,
-    @Default(true) bool openAddress,
-    @Default(false) bool openTag,
+    @Default(true) bool isAddressOpen,
     @Default('') String address,
     @Default(Loading()) CryptoDepositUnion union,
   }) = _CryptoDepositState;

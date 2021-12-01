@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../helpers/short_address_form.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../notifier/crypto_deposit_notipod.dart';
-import '../notifier/crypto_deposit_union.dart';
 import '../provider/crypto_deposit_disclaimer_fpod.dart';
-import 'components/address_field_with_qr.dart';
+import 'components/crypto_deposit_with_address.dart';
+import 'components/crypto_deposit_with_address_and_tag/crypto_deposit_with_address_and_tag.dart';
 import 'components/show_deposit_disclaimer.dart';
 
-// TODO Draft
 class CryptoDeposit extends HookWidget {
   const CryptoDeposit({
     Key? key,
@@ -28,6 +24,7 @@ class CryptoDeposit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     useProvider(cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}));
     final baseCurrency = useProvider(baseCurrencyPod);
     final deposit = useProvider(cryptoDepositNotipod(currency.symbol));
@@ -49,32 +46,14 @@ class CryptoDeposit extends HookWidget {
         ),
         child: Column(
           children: [
-            const Spacer(),
-            // TODO add to AddressFieldWithQr
-            QrImage(
-              padding: EdgeInsets.zero,
-              data: deposit.address,
-              errorCorrectionLevel: QrErrorCorrectLevel.H,
-              embeddedImage: const AssetImage(
-                'assets/images/qr_logo.png',
+            if (deposit.tag != null)
+              CryptoDepositWithAddressAndTag(
+                currency: currency,
+              )
+            else
+              CryptoDepositWithAddress(
+                currency: currency,
               ),
-              embeddedImageStyle: QrEmbeddedImageStyle(
-                size: Size(90.r, 90.r),
-              ),
-              size: 220.r,
-            ),
-            const Spacer(),
-            AddressFieldWithQr(
-              header: 'BTC Wallet address',
-              value: shortAddressForm(deposit.address),
-              realValue: deposit.address,
-              afterCopyText: 'Address copied',
-              valueLoading: deposit.union is Loading,
-              actionIcon: const SAngleUpIcon(),
-              onTap: () {
-                // TODO
-              },
-            ),
             const SDivider(),
             SWalletItem(
               icon: NetworkSvgW24(
@@ -86,11 +65,13 @@ class CryptoDeposit extends HookWidget {
             ),
             SPaddingH24(
               child: SPrimaryButton2(
+                icon: SShareIcon(
+                  color: colors.white,
+                ),
                 active: true,
                 name: 'Share',
                 onTap: () => Share.share(
-                  // ignore: missing_whitespace_between_adjacent_strings
-                  'My ${currency.symbol} Address: ${deposit.address}'
+                  'My ${currency.symbol} Address: ${deposit.address} '
                   '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
                 ),
               ),
