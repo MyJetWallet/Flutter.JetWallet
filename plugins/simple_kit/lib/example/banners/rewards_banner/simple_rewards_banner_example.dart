@@ -20,9 +20,12 @@ class SimpleRewardsBannerExample extends StatelessWidget {
             SRewardBannerExample(
               bannerColor: SColorsLight().violet,
               primaryText: 'Invite friends\nand get \$10',
+              secondaryText: 'Get a rando m coin with every trade over \$50',
             ),
             const SpaceH20(),
-            const SThreeStepsRewardBanner(),
+            const SThreeStepsRewardBanner(
+              primaryText: 'Complete 3 steps to receive \$30',
+            ),
           ],
         ),
       ),

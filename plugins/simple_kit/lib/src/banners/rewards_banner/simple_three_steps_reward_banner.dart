@@ -4,7 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../simple_kit.dart';
 
 class SThreeStepsRewardBanner extends StatelessWidget {
-  const SThreeStepsRewardBanner({Key? key}) : super(key: key);
+  const SThreeStepsRewardBanner({
+    Key? key,
+    required this.primaryText,
+  }) : super(key: key);
+
+  final String primaryText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                             baseline: 24.h,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
-                              'Complete 3 steps to receive \$30',
+                              primaryText,
                               maxLines: 2,
                               style: sTextH4Style,
                             ),

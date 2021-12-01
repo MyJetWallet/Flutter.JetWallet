@@ -8,12 +8,12 @@ class SRewardBannerExample extends StatelessWidget {
     Key? key,
     required this.bannerColor,
     required this.primaryText,
+    this.secondaryText,
   }) : super(key: key);
-
-  static const routeName = '/simple_rewards_banner_example';
 
   final Color bannerColor;
   final String primaryText;
+  final String? secondaryText;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,6 @@ class SRewardBannerExample extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CircleAvatar(
-            backgroundColor: Colors.green,
             radius: 32.r,
           ),
           const SpaceW20(),
@@ -53,21 +52,22 @@ class SRewardBannerExample extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 203.w,
-                child: Baseline(
-                  baseline: 32.h,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    'Get a random coin with every trade over \$50',
-                    textAlign: TextAlign.start,
-                    maxLines: 3,
-                    style: sBodyText2Style.copyWith(
-                      color: SColorsLight().grey1,
+              if (secondaryText != null)
+                SizedBox(
+                  width: 203.w,
+                  child: Baseline(
+                    baseline: 32.h,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      secondaryText!,
+                      textAlign: TextAlign.start,
+                      maxLines: 3,
+                      style: sBodyText2Style.copyWith(
+                        color: SColorsLight().grey1,
+                      ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ],
