@@ -62,25 +62,18 @@ class App extends HookWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
-        /// Second material is placed to mimic structure of stage_env
-        /// Because there are some issues with nested MaterialApps
-        /// So, stage_env can be broken while dev_env is working fine
         return CupertinoApp(
-          debugShowCheckedModeBanner: false,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
           theme: theme,
-          home: CupertinoApp(
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            theme: theme,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            initialRoute: AppRouter.routeName,
-            navigatorKey: navigatorKey,
-            routes: {
-              AppRouter.routeName: (context) => const AppRouter(),
-            },
-          ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppRouter.routeName,
+          navigatorKey: navigatorKey,
+          routes: {
+            AppRouter.routeName: (context) => const AppRouter(),
+          },
         );
       },
     );
