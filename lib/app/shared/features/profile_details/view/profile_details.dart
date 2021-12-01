@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/constants.dart';
 import '../../../../../shared/features/phone_verification/phone_verification_confirm/view/phone_verification_confirm.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
@@ -45,13 +44,12 @@ class ProfileDetails extends HookWidget {
               label: 'Change phone number',
               value: userInfo.phone,
               onTap: () {
-                sShowWarningPopup(
+                sShowAlertPopup(
                   context,
-                  asset: ellipsisAsset,
                   primaryText: 'Pay attention',
                   primaryButtonName: 'Continue',
-                  onPrimaryButtonTap: (BuildContext builderContext) {
-                    Navigator.pop(builderContext);
+                  onPrimaryButtonTap: () {
+                    Navigator.pop(context);
                     phoneNumberN.updatePhoneNumber(
                       userInfo.phone,
                     );
@@ -65,8 +63,8 @@ class ProfileDetails extends HookWidget {
                   },
                   secondaryText: 'Withdrawals will be blocked within 24 hours',
                   secondaryButtonName: 'Cancel',
-                  onSecondaryButtonTap: (BuildContext builderContext) {
-                    Navigator.pop(builderContext);
+                  onSecondaryButtonTap: () {
+                    Navigator.pop(context);
                   },
                 );
               },
