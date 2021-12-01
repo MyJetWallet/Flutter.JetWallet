@@ -60,6 +60,7 @@ class Chart extends StatefulWidget {
     required this.candleResolution,
     this.chartType = ChartType.line,
     this.walletCreationDate,
+    this.selectedCandlePadding,
   }) : super(key: key);
 
   final void Function(String) onResolutionChanged;
@@ -69,6 +70,7 @@ class Chart extends StatefulWidget {
   final ChartType chartType;
   final String candleResolution;
   final String? walletCreationDate;
+  final double? selectedCandlePadding;
 
   @override
   _ChartState createState() => _ChartState();
@@ -105,6 +107,7 @@ class _ChartState extends State<Chart> {
       height: 336.h,
       width: 1.sw,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: ListView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
@@ -127,6 +130,7 @@ class _ChartState extends State<Chart> {
                     });
                   });
                 },
+                selectedCandlePadding: widget.selectedCandlePadding,
               ),
             ),
             SizedBox(
