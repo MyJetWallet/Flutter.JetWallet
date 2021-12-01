@@ -8,7 +8,7 @@ import 'bottom_sheet_bar.dart';
 class BasicBottomSheet extends HookWidget {
   const BasicBottomSheet({
     Key? key,
-    this.isAnimating,
+    this.transitionAnimationController,
     this.pinned,
     this.onDissmis,
     this.maxHeight,
@@ -24,9 +24,9 @@ class BasicBottomSheet extends HookWidget {
   }) : super(key: key);
 
   // In case if BottomSheet can be closed from outside of its scope
-  // then isAnimating parameter must be provided
-  // from transitionAnimationController
-  final bool? isAnimating;
+  // then transitionAnimationController parameter must be provided
+  // to listen for isAnimating parameter
+  final AnimationController? transitionAnimationController;
   final Widget? pinned;
   final Function()? onDissmis;
   final double? maxHeight;
@@ -42,12 +42,19 @@ class BasicBottomSheet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isAnimating = false;
+
+    if (transitionAnimationController != null) {
+      useListenable(transitionAnimationController!);
+      isAnimating = transitionAnimationController!.isAnimating;
+    }
+
     /// To avoid additional taps on barrier of bottom sheet when
     /// it was already tapped and bottom sheet is closing
     final isClosing = useState(false);
 
     void _onDissmisAction(BuildContext context) {
-      if (!isClosing.value && !(isAnimating ?? false)) {
+      if (!isClosing.value && !isAnimating) {
         isClosing.value = true;
         onDissmis?.call();
         Navigator.pop(context);
