@@ -10,7 +10,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="flutter_jetwallet"
+        android:label="Simple"
         android:usesCleartextTraffic="true"
         android:allowBackup="false"
         android:fullBackupContent="false">
