@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../base/simple_base_svg_w16x16.dart';
+import '../../base/simple_base_svg_w16x16.dart';
 
 class SimpleLightMinusIcon extends StatelessWidget {
   const SimpleLightMinusIcon({
