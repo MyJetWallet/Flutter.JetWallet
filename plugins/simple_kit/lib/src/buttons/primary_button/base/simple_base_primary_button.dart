@@ -6,6 +6,7 @@ import '../../base/simple_base_button.dart';
 class SimpleBasePrimaryButton extends HookWidget {
   const SimpleBasePrimaryButton({
     Key? key,
+    this.icon,
     required this.active,
     required this.name,
     required this.onTap,
@@ -15,6 +16,7 @@ class SimpleBasePrimaryButton extends HookWidget {
     required this.inactiveNameColor,
   }) : super(key: key);
 
+  final Widget? icon;
   final bool active;
   final String name;
   final Function() onTap;
@@ -49,6 +51,7 @@ class SimpleBasePrimaryButton extends HookWidget {
       onHighlightChanged: (value) {
         highlighted.value = value;
       },
+      icon: icon,
       nameColor: currentNameColor,
       decoration: BoxDecoration(
         color: currentColor,

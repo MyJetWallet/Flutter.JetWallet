@@ -2,9 +2,8 @@
 
 library simple_kit;
 
+/// Banners
 export 'src/account/banners/simple_account_banner.dart';
-
-/// Banner
 export 'src/account/banners/simple_account_banner_list.dart';
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
@@ -148,6 +147,7 @@ export 'src/icons/24x24/public/profile_details/simple_profile_details_icon.dart'
 export 'src/icons/24x24/public/search/simple_search_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_pressed_icon.dart';
 export 'src/icons/24x24/public/security/simple_security_icon.dart';
+export 'src/icons/24x24/public/share/simple_share_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
@@ -183,8 +183,17 @@ export 'src/notifications/notifier/simple_notification_queue_notifier.dart';
 export 'src/notifications/notifier/simple_notification_queue_notipod.dart';
 export 'src/notifications/view/show_simple_notification.dart';
 export 'src/notifications/view/simple_notification_box.dart';
+
+/// Page Frames
 export 'src/shared/components/page_frames/simple_page_frame.dart';
 export 'src/shared/components/page_frames/simple_page_frame_with_padding.dart';
+export 'src/shared/components/qr_code_fields/simple_address_field_with_copy.dart';
+
+/// QR Code related
+export 'src/shared/components/qr_code_fields/simple_qr_code_box.dart';
+export 'src/shared/components/qr_code_fields/simple_skeleton_qr_loader.dart';
+
+/// Components
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
@@ -192,12 +201,10 @@ export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_profile_details_button.dart';
 
 /// Popup
-export 'src/shared/components/simple_show_warning_popup.dart';
+export 'src/shared/components/simple_show_alert_popup.dart';
 export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
-
-/// Components
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 
 /// Helpers

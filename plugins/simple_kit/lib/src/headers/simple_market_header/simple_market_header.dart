@@ -25,6 +25,7 @@ class SMarketHeader extends StatelessWidget {
     return SizedBox(
       height: 160.h,
       child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           SizedBox(

@@ -63,25 +63,17 @@ class App extends HookWidget {
       builder: () {
         return CupertinoApp(
           theme: theme,
-          home: Stack(
-            children: [
-              CupertinoApp(
-                theme: theme,
-                locale: DevicePreview.locale(context),
-                builder: DevicePreview.appBuilder,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                debugShowCheckedModeBanner: false,
-                initialRoute: AppRouterStage.routeName,
-                navigatorKey: navigatorKey,
-                routes: {
-                  AppRouterStage.routeName: (context) => const AppRouterStage(),
-                  AppInit.routeName: (context) => const AppInit(),
-                },
-              ),
-              // const LogsPersistantButton(),
-            ],
-          ),
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppRouterStage.routeName,
+          navigatorKey: navigatorKey,
+          routes: {
+            AppRouterStage.routeName: (context) => const AppRouterStage(),
+            AppInit.routeName: (context) => const AppInit(),
+          },
         );
       },
     );

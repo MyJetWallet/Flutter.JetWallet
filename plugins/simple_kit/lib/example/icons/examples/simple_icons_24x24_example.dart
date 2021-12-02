@@ -74,6 +74,7 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SAngleUpPressedIcon(),
               SCopyIcon(),
               SCopyPressedIcon(),
+              SShareIcon(),
             ],
           ),
         ),

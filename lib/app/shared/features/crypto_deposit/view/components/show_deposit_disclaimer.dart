@@ -1,41 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../../../../../shared/providers/service_providers.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 void showDepositDisclaimer(BuildContext context, String assetSymbol) {
-  showDialog(
-    context: context,
+  sShowAlertPopup(
+    context,
+    primaryText: 'Receive only $assetSymbol to this deposit address. '
+        'Receiving any other coin or token to this address '
+        'may result in loss of your deposit.',
+    primaryButtonName: 'Got it',
     barrierDismissible: false,
-    builder: (builderContext) {
-      return WillPopScope(
-        onWillPop: () {
-          return Future.value(false);
-        },
-        child: CupertinoAlertDialog(
-          title: const Text(
-            'Info',
-          ),
-          content: Text(
-            'Send only $assetSymbol to this deposit address. '
-            'Sending any other coin or token to this '
-            'address may result in loss of your deposit.',
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(builderContext);
-                final storage = context.read(localStorageServicePod);
-                storage.setString(assetSymbol, 'accepted');
-              },
-              child: const Text(
-                'Got it!',
-              ),
-            )
-          ],
-        ),
-      );
+    willPopScope: false,
+    onPrimaryButtonTap: () {
+      Navigator.pop(context);
     },
   );
 }

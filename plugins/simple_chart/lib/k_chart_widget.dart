@@ -18,6 +18,7 @@ class KChartWidget extends StatefulWidget {
     required this.candleResolution,
     required this.candleWidth,
     required this.onCandleSelected,
+    this.selectedCandlePadding,
   });
 
   final List<CandleModel> datas;
@@ -27,6 +28,7 @@ class KChartWidget extends StatefulWidget {
 
   final String candleResolution;
   final double candleWidth;
+  final double? selectedCandlePadding;
 
   @override
   _KChartWidgetState createState() => _KChartWidgetState();
@@ -164,13 +166,15 @@ class _KChartWidgetState extends State<KChartWidget>
         HapticFeedback.vibrate();
         isLongPress = true;
         if (_selectX != details.globalPosition.dx) {
-          _selectX = details.globalPosition.dx - 25.w;
+          _selectX =
+              details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
           reRenderView();
         }
       },
       onLongPressMoveUpdate: (details) {
         if (_selectX != details.globalPosition.dx) {
-          _selectX = details.globalPosition.dx - 25.w;
+          _selectX =
+              details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
           reRenderView();
         }
       },
