@@ -9,8 +9,6 @@ import 'standard_field_error_notifier.dart';
 class SimpleBaseStandardField extends HookWidget {
   const SimpleBaseStandardField({
     Key? key,
-    this.autofocus = false,
-    this.obscureText = false,
     this.keyboardType,
     this.textInputAction,
     this.autofillHints,
@@ -18,15 +16,15 @@ class SimpleBaseStandardField extends HookWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
+    this.onChanged,
+    this.suffixIcons,
+    this.hideIconsIfError = true,
+    this.autofocus = false,
+    this.obscureText = false,
     this.alignLabelWithHint = false,
-    required this.suffixIcon,
-    required this.onChanged,
     required this.labelText,
   }) : super(key: key);
 
-  final bool obscureText;
-  final bool autofocus;
-  final bool alignLabelWithHint;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -34,8 +32,12 @@ class SimpleBaseStandardField extends HookWidget {
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Iterable<String>? autofillHints;
-  final Widget suffixIcon;
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
+  final List<Widget>? suffixIcons;
+  final bool hideIconsIfError;
+  final bool autofocus;
+  final bool obscureText;
+  final bool alignLabelWithHint;
   final String labelText;
 
   @override
@@ -55,7 +57,7 @@ class SimpleBaseStandardField extends HookWidget {
           textInputAction: textInputAction,
           autofillHints: autofillHints,
           onChanged: (value) {
-            onChanged(value);
+            onChanged?.call(value);
             errorNotifier?.disableError();
           },
           cursorWidth: 3.w,
@@ -74,18 +76,25 @@ class SimpleBaseStandardField extends HookWidget {
               fontSize: 18.sp,
               color: SColorsLight().grey2,
             ),
-            suffixIconConstraints: BoxConstraints(
-              maxWidth: 24.r,
-              maxHeight: 24.r,
-              minWidth: 24.r,
-              minHeight: 24.r,
-            ),
-            suffixIcon: errorValue
-                ? GestureDetector(
+            suffixIconConstraints: const BoxConstraints(),
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!hideIconsIfError || !errorValue)
+                  if (suffixIcons != null)
+                    for (final icon in suffixIcons!) ...[
+                      icon,
+                      if (icon != suffixIcons!.last) const SpaceW20(),
+                    ],
+                if (errorValue) ...[
+                  const SpaceW20(),
+                  GestureDetector(
                     onTap: onErrorIconTap,
                     child: const SErrorIcon(),
                   )
-                : suffixIcon,
+                ]
+              ],
+            ),
           ),
         ),
       ),

@@ -9,8 +9,6 @@ import '../light/simple_light_standard_field.dart';
 class SStandardField extends ConsumerWidget {
   const SStandardField({
     Key? key,
-    this.autofocus = false,
-    this.alignLabelWithHint = false,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -18,8 +16,13 @@ class SStandardField extends ConsumerWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
+    this.suffixIcons,
     this.onErase,
-    required this.onChanged,
+    this.onChanged,
+    this.hideIconsIfNotEmpty = true,
+    this.hideIconsIfError = true,
+    this.autofocus = false,
+    this.alignLabelWithHint = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -31,10 +34,13 @@ class SStandardField extends ConsumerWidget {
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Function()? onErase;
-  final Function(String) onChanged;
-  final String labelText;
+  final Function(String)? onChanged;
+  final List<Widget>? suffixIcons;
+  final bool hideIconsIfNotEmpty;
+  final bool hideIconsIfError;
   final bool autofocus;
   final bool alignLabelWithHint;
+  final String labelText;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -54,6 +60,9 @@ class SStandardField extends ConsumerWidget {
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
         onErase: onErase,
+        suffixIcons: suffixIcons,
+        hideIconsIfError: hideIconsIfError,
+        hideIconsIfNotEmpty: hideIconsIfNotEmpty,
       );
     } else {
       return SimpleLightStandardField(
@@ -69,6 +78,9 @@ class SStandardField extends ConsumerWidget {
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
         onErase: onErase,
+        suffixIcons: suffixIcons,
+        hideIconsIfError: hideIconsIfError,
+        hideIconsIfNotEmpty: hideIconsIfNotEmpty,
       );
     }
   }
