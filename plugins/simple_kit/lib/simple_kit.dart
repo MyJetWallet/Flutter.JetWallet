@@ -7,6 +7,8 @@ export 'src/account/banners/simple_account_banner.dart';
 export 'src/account/banners/simple_account_banner_list.dart';
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
+export 'src/banners/market_banner/simple_market_banner.dart';
+export 'src/banners/account_banner/simple_account_banner.dart';
 
 /// Account
 export 'src/account/buttons/account_category_button/simple_account_category_button.dart';

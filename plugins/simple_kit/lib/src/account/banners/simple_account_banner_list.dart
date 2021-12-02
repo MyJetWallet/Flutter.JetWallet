@@ -5,38 +5,53 @@ import '../../../simple_kit.dart';
 class SimpleAccountBannerList extends StatelessWidget {
   const SimpleAccountBannerList({
     Key? key,
+    required this.colors,
+    required this.twoFaEnabled,
+    required this.kycPassed,
   }) : super(key: key);
+
+  final SimpleColors colors;
+  final bool twoFaEnabled;
+  final bool kycPassed;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 0.2.sh,
+      height: 0.22.sh,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: const [
+        children: [
+          const SpaceW24(),
+          if (kycPassed)
           SimpleAccountBanner(
-            header: 'Verify your profile!',
+            bannerColor: colors.violet,
+            header: 'Verify your profile',
             description: 'In accordance with KYC and AML Policy, '
                 'you are required to pass the '
                 'verification process.',
           ),
-          SpaceW10(),
+
           SimpleAccountBanner(
-            header: 'We’re verifying now',
-            description: 'You’ll be notified after we’ve completed '
-                'the process. Usually within a few hours',
+            bannerColor: colors.greenLight,
+            header: 'Verifying now',
+            description:
+                'You’ll be notified after we’ve completed the process. '
+                'Usually within a few hours',
           ),
-          SpaceW10(),
+          if (twoFaEnabled)
+            SimpleAccountBanner(
+              bannerColor: colors.redLight,
+              header: 'Enable 2-Factor\nauthentication',
+              description:
+                  'To protect your account, it is recommended to turn on',
+            ),
+
           SimpleAccountBanner(
+            bannerColor: colors.yellowLight,
             header: 'Chat with support',
-            description: 'Have any questions? We are here to help 24/7',
+            description: 'Have any questions?\nWe here to help 24/7',
           ),
-          SpaceW10(),
-          SimpleAccountBanner(
-            header: 'Enable 2-Factor authentication',
-            description: 'To protect your account, it is '
-                'recommended to turn on',
-          ),
+          const SpaceW14(),
         ],
       ),
     );

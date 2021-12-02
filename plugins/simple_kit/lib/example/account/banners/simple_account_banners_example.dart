@@ -13,7 +13,7 @@ class SimpleAccountBannersExample extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
-            SimpleAccountBannerList(),
+            // SimpleAccountBannerList(),
           ],
         ),
       ),

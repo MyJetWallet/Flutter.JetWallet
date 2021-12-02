@@ -20,6 +20,8 @@ class SimpleIcons24X24Example extends StatelessWidget {
             children: const [
               SBlueRightArrowIcon(),
               SCompleteIcon(),
+              SBlueRightArrowIcon(),
+              SCompleteIcon(),
               SLockIcon(),
               STwoFactorAuthIcon(),
               SChangePinIcon(),

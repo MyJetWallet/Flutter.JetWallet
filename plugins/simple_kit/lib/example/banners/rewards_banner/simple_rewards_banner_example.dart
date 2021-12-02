@@ -17,10 +17,11 @@ class SimpleRewardsBannerExample extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SRewardBannerExample(
+            SRewardBanner(
               bannerColor: SColorsLight().violet,
               primaryText: 'Invite friends\nand get \$10',
               secondaryText: 'Get a rando m coin with every trade over \$50',
+              onClose: () {},
             ),
             const SpaceH20(),
             const SThreeStepsRewardBanner(

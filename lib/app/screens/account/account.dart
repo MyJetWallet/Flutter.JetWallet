@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/banners/view/rewards_banner.dart';
+import 'package:jetwallet/shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../service/services/campaign/model/campaign_response_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
@@ -13,6 +14,9 @@ import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
+import '../../shared/features/banners/providers/campaign_fpod.dart';
+import '../../shared/features/banners/view/account_banners.dart';
+import '../../shared/features/banners/view/rewards_banner.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/support/view/support.dart';
 
@@ -24,6 +28,8 @@ class Account extends HookWidget {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
+    final colors = useProvider(sColorPod);
+    final userInfo = useProvider(userInfoNotipod);
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
@@ -48,7 +54,11 @@ class Account extends HookWidget {
                     userEmail: authInfo.email,
                   ),
                 ),
-                const SimpleAccountBannerList(),
+                SimpleAccountBannerList(
+                  kycPassed: userInfo.kycPassed,
+                  twoFaEnabled: userInfo.twoFaEnabled,
+                  colors: colors,
+                ),
                 const SpaceH20(),
                 Column(
                   children: <Widget>[

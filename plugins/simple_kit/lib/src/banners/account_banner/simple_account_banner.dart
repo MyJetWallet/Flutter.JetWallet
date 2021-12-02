@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../simple_kit.dart';
 import '../../icons/24x24/public/erase/simple_erase_market_icon.dart';
 
-class SRewardBanner extends StatelessWidget {
-  const SRewardBanner({
+class SAccountBanner extends StatelessWidget {
+  const SAccountBanner({
     Key? key,
     this.secondaryText,
     this.imageUrl,
@@ -62,7 +62,7 @@ class SRewardBanner extends StatelessWidget {
                         primaryText,
                         textAlign: TextAlign.start,
                         maxLines: 2,
-                        style: sTextH4Style,
+                        style: sTextH5Style,
                       ),
                     ),
                   ),
@@ -98,18 +98,6 @@ class SRewardBanner extends StatelessWidget {
         //     color: Colors.green,
         //   ),
         // ),
-
-
-        Positioned(
-          top: 10.h,
-          right: 10.w,
-          child: GestureDetector(
-            onTap: onClose,
-            child: const SEraseMarketIcon(),
-          ),
-        ),
-
-
       ],
     );
   }

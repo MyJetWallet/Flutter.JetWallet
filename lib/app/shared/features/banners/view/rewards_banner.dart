@@ -31,6 +31,18 @@ class RewardsBanner extends HookWidget {
           child: ListView.builder(
             padding: EdgeInsets.zero,
             itemBuilder: (BuildContext context, int index) {
+
+
+              // return SMarketBanner(
+              //   primaryText: data.campaigns[index].title,
+              //   imageUrl: data.campaigns[index].imageUrl,
+              //   bannerColor: colors.violet,
+              //   onClose: () {
+              //     print('CLOSE ${data.campaigns[index].title}');
+              //   },
+              // );
+
+
               if (data.campaigns[index].conditions != null) {
                 return SThreeStepsRewardBanner(
                   primaryText: data.campaigns[index].title,
@@ -40,11 +52,12 @@ class RewardsBanner extends HookWidget {
                   imageUrl: data.campaigns[index].imageUrl,
                 );
               } else {
-                return SRewardBannerExample(
+                return SRewardBanner(
                   bannerColor: colors.violet,
                   primaryText: data.campaigns[index].title,
                   secondaryText: data.campaigns[index].description,
                   imageUrl: data.campaigns[index].imageUrl,
+                  onClose: () {},
                 );
               }
             },

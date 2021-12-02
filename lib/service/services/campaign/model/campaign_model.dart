@@ -9,7 +9,7 @@ class CampaignModel with _$CampaignModel {
   const factory CampaignModel({
     required String title,
     required String description,
-    required String timeToComplete,
+    @JsonKey(name: 'expirationTime') required String timeToComplete,
     List<CampaignConditionModel>? conditions,
     String? imageUrl,
   }) = _CampaignModel;
