@@ -44,6 +44,7 @@ void sShowAlertPopup(
                     else
                       Image.asset(
                         ellipsisAsset,
+                        package: 'simple_kit',
                       ),
                     Baseline(
                       baseline: 40.h,
