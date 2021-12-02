@@ -9,7 +9,6 @@ import '../base/standard_field_error_notifier.dart';
 class SimpleLightStandardField extends HookWidget {
   const SimpleLightStandardField({
     Key? key,
-    this.autofocus = false,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -18,8 +17,12 @@ class SimpleLightStandardField extends HookWidget {
     this.errorNotifier,
     this.onErrorIconTap,
     this.onErase,
+    this.onChanged,
+    this.suffixIcons,
+    this.hideIconsIfNotEmpty = true,
+    this.hideIconsIfError = true,
+    this.autofocus = false,
     this.alignLabelWithHint = false,
-    required this.onChanged,
     required this.labelText,
   }) : super(key: key);
 
@@ -31,10 +34,13 @@ class SimpleLightStandardField extends HookWidget {
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Function()? onErase;
-  final Function(String) onChanged;
-  final String labelText;
+  final Function(String)? onChanged;
+  final List<Widget>? suffixIcons;
+  final bool hideIconsIfNotEmpty;
+  final bool hideIconsIfError;
   final bool autofocus;
   final bool alignLabelWithHint;
+  final String labelText;
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +59,18 @@ class SimpleLightStandardField extends HookWidget {
       autofillHints: autofillHints,
       textInputAction: textInputAction,
       alignLabelWithHint: alignLabelWithHint,
-      suffixIcon: controller2.text.isNotEmpty
-          ? GestureDetector(
-              onTap: () {
-                controller2.clear();
-                onErase?.call();
-              },
-              child: const SEraseIcon(),
-            )
-          : const SizedBox(),
+      suffixIcons: [
+        if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
+          ...?suffixIcons,
+        if (controller2.text.isNotEmpty)
+          GestureDetector(
+            onTap: () {
+              controller2.clear();
+              onErase?.call();
+            },
+            child: const SEraseIcon(),
+          )
+      ],
     );
   }
 }
