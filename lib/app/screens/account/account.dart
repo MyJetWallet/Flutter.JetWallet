@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/banners/view/rewards_banner.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
@@ -85,7 +86,9 @@ class Account extends HookWidget {
                       title: 'FAQ',
                       icon: const SFaqIcon(),
                       isSDivider: true,
-                      onTap: () {},
+                      onTap: () {
+                        navigatorPush(context, const RewardsBanner());
+                      },
                     ),
                     SimpleAccountCategoryButton(
                       title: 'About us',

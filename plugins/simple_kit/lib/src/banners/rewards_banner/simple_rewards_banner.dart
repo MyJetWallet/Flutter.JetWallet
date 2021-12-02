@@ -9,15 +9,20 @@ class SRewardBannerExample extends StatelessWidget {
     required this.bannerColor,
     required this.primaryText,
     this.secondaryText,
+    this.imageUrl,
   }) : super(key: key);
 
   final Color bannerColor;
   final String primaryText;
   final String? secondaryText;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(
+        bottom: 20.h,
+      ),
       height: 180.h,
       padding: EdgeInsets.only(
         left: 20.w,
@@ -35,6 +40,8 @@ class SRewardBannerExample extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 32.r,
+            backgroundImage:
+                (imageUrl != null) ? NetworkImage(imageUrl!) : null,
           ),
           const SpaceW20(),
           Column(
