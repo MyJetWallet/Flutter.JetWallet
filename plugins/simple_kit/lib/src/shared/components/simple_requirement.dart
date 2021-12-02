@@ -23,11 +23,7 @@ class SRequirement extends StatelessWidget {
     late Widget icon;
 
     if (isError) {
-      icon = Container(
-        width: 16.r,
-        height: 16.r,
-        color: Colors.red,
-      );
+      icon = const SCrossIcon();
     } else if (loading) {
       icon = const _RequirementLoading();
     } else if (passed) {
