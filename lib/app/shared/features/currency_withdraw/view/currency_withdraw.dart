@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../shared/components/spacers.dart';
-import '../../../../../shared/components/text_fields/app_text_field.dart';
 import '../model/withdrawal_model.dart';
 import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
 import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
-import 'components/withdrawal_address_validator.dart';
-import 'components/withdrawal_field_suffix/withdrawal_field_suffix.dart';
 
 /// FLOW: WithdrawalAmount -> WithdrawalPreview -> WithdrawalConfirm
 class CurrencyWithdraw extends HookWidget {
@@ -24,83 +19,120 @@ class CurrencyWithdraw extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAddressNotipod(withdrawal));
     final notifier = useProvider(withdrawalAddressNotipod(withdrawal).notifier);
+    useValueListenable(state.addressErrorNotifier!);
+    useValueListenable(state.tagErrorNotifier!);
 
     final currency = withdrawal.currency;
 
-    return PageFrame(
-      header: '${withdrawal.dictionary.verb} '
-          '${currency.description} (${currency.symbol})',
-      onBackButton: () => Navigator.pop(context),
-      resizeToAvoidBottomInset: false,
-      child: Column(
+    return SPageFrame(
+      color: colors.grey5,
+      header: SPaddingH24(
+        child: SBigHeader(
+          title: '${withdrawal.dictionary.verb} ${currency.description}',
+        ),
+      ),
+      child: Stack(
         children: [
-          const SpaceH40(),
-          AppTextField(
-            header: 'Enter ${currency.symbol} address',
-            hintText: 'Paste or scan',
-            fontSize: 25.sp,
-            focusNode: state.addressFocus,
-            controller: state.addressController,
-            onChanged: (value) => notifier.updateAddress(value),
-            suffixIcon: WithdrawalFieldSuffix(
-              showErase: state.showAddressErase,
-              onErase: () => notifier.eraseAddress(),
-              onPaste: () => notifier.pasteAddress(),
-              onScanQr: () => notifier.scanAddressQr(context),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Material(
+                  color: colors.white,
+                  child: SPaddingH24(
+                    child: SStandardField(
+                      errorNotifier: state.addressErrorNotifier,
+                      labelText: 'Enter ${currency.symbol} address',
+                      focusNode: state.addressFocus,
+                      controller: state.addressController,
+                      onChanged: (value) => notifier.updateAddress(value),
+                      onErase: () => notifier.eraseAddress(),
+                      suffixIcons: [
+                        SIconButton(
+                          onTap: () => notifier.pasteAddress(),
+                          defaultIcon: const SCopyIcon(),
+                        ),
+                        SIconButton(
+                          onTap: () => notifier.scanAddressQr(context),
+                          defaultIcon: const SPhotoIcon(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (currency.hasTag) ...[
+                  Material(
+                    color: colors.white,
+                    child: SPaddingH24(
+                      child: SStandardField(
+                        errorNotifier: state.tagErrorNotifier,
+                        labelText: 'Enter Tag',
+                        focusNode: state.tagFocus,
+                        controller: state.tagController,
+                        onChanged: (value) => notifier.updateTag(value),
+                        onErase: () => notifier.eraseTag(),
+                        suffixIcons: [
+                          SIconButton(
+                            onTap: () => notifier.pasteTag(),
+                            defaultIcon: const SCopyIcon(),
+                          ),
+                          SIconButton(
+                            onTap: () => notifier.scanTagQr(context),
+                            defaultIcon: const SPhotoIcon(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+                if (state.addressValidation is! Hide) ...[
+                  const SpaceH20(),
+                  SPaddingH24(
+                    child: SRequirement(
+                      isError: state.isRequirementError,
+                      loading: state.requirementLoading,
+                      description: state.validationResult,
+                      // error and loading goes first in the RRequirement
+                      // condition, if not Error or Loading then
+                      // it's always passed
+                      passed: true,
+                    ),
+                  ),
+                ],
+                SPaddingH24(
+                  child: Baseline(
+                    baseline: 32.h,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      state.withdrawHint,
+                      maxLines: 3,
+                      style: sCaptionTextStyle.copyWith(
+                        color: colors.grey1,
+                      ),
+                    ),
+                  ),
+                ),
+                const SpaceH100(),
+              ],
             ),
           ),
-          if (state.addressValidation is! Hide) ...[
-            const SpaceH10(),
-            WithdrawalAddressValidator(
-              symbol: currency.symbol,
-              validation: state.addressValidation,
-            )
-          ],
-          if (currency.hasTag) ...[
-            const SpaceH40(),
-            AppTextField(
-              header: 'Enter Tag',
-              hintText: 'Paste or scan',
-              fontSize: 25.sp,
-              focusNode: state.tagFocus,
-              controller: state.tagController,
-              onChanged: (value) => notifier.updateTag(value),
-              suffixIcon: WithdrawalFieldSuffix(
-                showErase: state.showTagErase,
-                onErase: () => notifier.eraseTag(),
-                onPaste: () => notifier.pasteTag(),
-                onScanQr: () => notifier.scanTagQr(context),
+          Column(
+            children: [
+              const Spacer(),
+              SPaddingH24(
+                child: Material(
+                  child: SPrimaryButton2(
+                    active: state.isReadyToContinue,
+                    name: 'Continue',
+                    onTap: () => notifier.validateOnContinue(context),
+                  ),
+                ),
               ),
-            ),
-            if (state.tagValidation is! Hide) ...[
-              const SpaceH10(),
-              WithdrawalAddressValidator(
-                withTag: true,
-                symbol: currency.symbol,
-                validation: state.tagValidation,
-              ),
+              const SpaceH24(),
             ],
-          ],
-          const SpaceH20(),
-          Text(
-            'Instead of typing in an address, we recommend '
-            'pasting an address or scanning a QR code.',
-            style: TextStyle(
-              fontSize: 12.sp,
-            ),
-          ),
-          const Spacer(),
-          AppButtonSolid(
-            name: 'Next',
-            active: state.inputIsNotEmpty(currency),
-            onTap: () async {
-              if (state.inputIsNotEmpty(currency)) {
-                await notifier.validateAddressAndTag(context);
-              }
-            },
-          ),
+          )
         ],
       ),
     );

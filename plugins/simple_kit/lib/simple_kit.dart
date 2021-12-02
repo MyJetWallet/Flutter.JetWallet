@@ -34,7 +34,7 @@ export 'src/actions/simple_payment_select_default.dart';
 export 'src/actions/simple_payment_select_fiat.dart';
 
 /// Agreements
-export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
+export 'src/shared/components/simple_requirement.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_text.dart';
 

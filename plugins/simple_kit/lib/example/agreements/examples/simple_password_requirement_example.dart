@@ -14,11 +14,11 @@ class SimplePasswordRequirementExample extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SPasswordRequirement(
+          const SRequirement(
             passed: true,
             description: 'be between 8 to 31 characters',
           ),
-          const SPasswordRequirement(
+          const SRequirement(
             passed: false,
             description: 'be between 8 to 31 characters',
           ),
@@ -27,7 +27,7 @@ class SimplePasswordRequirementExample extends StatelessWidget {
             children: [
               Container(
                 color: Colors.grey.withOpacity(0.3),
-                child: const SPasswordRequirement(
+                child: const SRequirement(
                   passed: false,
                   description: 'be between 8 to 31 characters',
                 ),
