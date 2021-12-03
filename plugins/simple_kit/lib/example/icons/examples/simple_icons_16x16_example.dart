@@ -25,6 +25,7 @@ class SimpleIcons16X16Example extends StatelessWidget {
               SSmileGoodIcon(),
               SSmileNeutralIcon(),
               SCrossIcon(),
+              SFeeAlertIcon(),
             ],
           ),
         ),
