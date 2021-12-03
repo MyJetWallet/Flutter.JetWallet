@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/open_email_app.dart';
-import '../../../../shared/components/clickable_link_text/clickable_link_text.dart';
 
 class CheckYourEmail extends HookWidget {
   const CheckYourEmail(this.email);
@@ -42,7 +41,7 @@ class CheckYourEmail extends HookWidget {
             maxLines: 2,
           ),
           const SpaceH17(),
-          ClickableLinkText(
+          SClickableLinkText(
             text: 'Open Email App',
             onTap: () => openEmailApp(context),
           ),

@@ -25,7 +25,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
               ),
               const Spacer(),
               Container(
-                width: 77.h,
+                width: 76.w,
                 height: 28.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18.r),
@@ -33,7 +33,6 @@ class PortfolioWithBalanceHeader extends HookWidget {
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    vertical: 2.h,
                     horizontal: 10.w,
                   ),
                   child: Row(

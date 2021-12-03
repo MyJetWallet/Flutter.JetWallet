@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../auth/shared/components/notifications/show_errror_notification.dart';
 import '../../../../components/loaders/loader.dart';
 import '../../../../components/pin_code_field.dart';
 import '../../../../components/texts/resend_in_text.dart';
@@ -61,7 +60,7 @@ class TwoFaPhone extends HookWidget {
         union.when(
           result: (error, st) {
             if (error != null) {
-              showErrorNotification(
+              sShowErrorNotification(
                 notificationQueueN,
                 '$error',
               );

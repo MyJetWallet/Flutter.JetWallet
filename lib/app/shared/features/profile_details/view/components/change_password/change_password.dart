@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../auth/shared/components/notifications/show_errror_notification.dart';
 import '../../../../../../../auth/shared/helpers/password_validators.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../notifier/change_password_notifier/change_password_notipod.dart';
@@ -74,7 +73,7 @@ class ChangePassword extends HookWidget {
                   autofocus: true,
                   labelText: 'Enter old Password',
                   onErrorIconTap: () {
-                    showErrorNotification(
+                    sShowErrorNotification(
                       notificationQueueN,
                       'Try again that’s not your current password!',
                     );

@@ -11,8 +11,6 @@ import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_union.dart' as lu;
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../../shared/components/clickable_link_text/clickable_link_text.dart';
-import '../../../shared/components/notifications/show_errror_notification.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
@@ -51,7 +49,7 @@ class EmailVerification extends HookWidget {
           union.when(
             result: (error, st) {
               if (error != null) {
-                showErrorNotification(
+                sShowErrorNotification(
                   notificationQueueN,
                   '$error',
                 );
@@ -81,7 +79,7 @@ class EmailVerification extends HookWidget {
                     style: sBodyText1Style,
                   ),
                   const SpaceH17(),
-                  ClickableLinkText(
+                  SClickableLinkText(
                     text: 'Open Email App',
                     onTap: () => openEmailApp(context),
                   ),

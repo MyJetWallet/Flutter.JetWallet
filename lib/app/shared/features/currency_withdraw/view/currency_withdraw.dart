@@ -30,7 +30,8 @@ class CurrencyWithdraw extends HookWidget {
     return SPageFrame(
       color: colors.grey5,
       header: SPaddingH24(
-        child: SBigHeader(
+        child: SMegaHeader(
+          titleAlign: TextAlign.start,
           title: '${withdrawal.dictionary.verb} ${currency.description}',
         ),
       ),
@@ -52,11 +53,11 @@ class CurrencyWithdraw extends HookWidget {
                       suffixIcons: [
                         SIconButton(
                           onTap: () => notifier.pasteAddress(),
-                          defaultIcon: const SCopyIcon(),
+                          defaultIcon: const SPasteIcon(),
                         ),
                         SIconButton(
                           onTap: () => notifier.scanAddressQr(context),
-                          defaultIcon: const SPhotoIcon(),
+                          defaultIcon: const SQrCodeIcon(),
                         ),
                       ],
                     ),
@@ -76,11 +77,11 @@ class CurrencyWithdraw extends HookWidget {
                         suffixIcons: [
                           SIconButton(
                             onTap: () => notifier.pasteTag(),
-                            defaultIcon: const SCopyIcon(),
+                            defaultIcon: const SPasteIcon(),
                           ),
                           SIconButton(
                             onTap: () => notifier.scanTagQr(context),
-                            defaultIcon: const SPhotoIcon(),
+                            defaultIcon: const SQrCodeIcon(),
                           ),
                         ],
                       ),

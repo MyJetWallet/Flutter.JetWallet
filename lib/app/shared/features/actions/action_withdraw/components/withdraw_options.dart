@@ -52,7 +52,7 @@ class _WithdrawOptions extends HookWidget {
           },
         ),
         SActionItem(
-          icon: const SActionDepositIcon(),
+          icon: const SWireIcon(),
           name: 'Wire transfer',
           description: 'SEPA',
           helper: 'No fee',
@@ -61,7 +61,7 @@ class _WithdrawOptions extends HookWidget {
           },
         ),
         SActionItem(
-          icon: const SActionBuyIcon(),
+          icon: const SAdvCashIcon(),
           name: 'ADV Cash',
           description: 'Multifunctional payment hub',
           helper: 'No fee',
@@ -70,7 +70,7 @@ class _WithdrawOptions extends HookWidget {
           },
         ),
         SActionItem(
-          icon: const SMailIcon(),
+          icon: const SWalletIcon(),
           name: 'Crypto Wallet',
           description: 'BTC Wallet',
           onTap: () {

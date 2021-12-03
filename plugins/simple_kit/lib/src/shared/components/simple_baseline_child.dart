@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Can be used only for one-row text
 class SBaselineChild extends StatelessWidget {
   const SBaselineChild({
     Key? key,

@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/navigator_push.dart';
-import '../../../shared/components/notifications/show_errror_notification.dart';
 import '../notifier/forgot_password_notipod.dart';
 import '../notifier/forgot_password_state.dart';
 import '../notifier/forgot_password_union.dart';
@@ -31,7 +30,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
-            showErrorNotification(
+            sShowErrorNotification(
               notificationQueueN,
               '$error',
             );
@@ -83,7 +82,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       forgotN.updateAndValidateEmail(value);
                     },
                     onErrorIconTap: () {
-                      showErrorNotification(
+                      sShowErrorNotification(
                         notificationQueueN,
                         'Perhaps you missed "." or "@" somewhere?',
                       );
@@ -108,7 +107,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       }
                     } else {
                       emailError.value.enableError();
-                      showErrorNotification(
+                      sShowErrorNotification(
                         notificationQueueN,
                         'Perhaps you missed "." or "@" somewhere?',
                       );

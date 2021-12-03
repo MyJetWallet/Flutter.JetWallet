@@ -79,6 +79,7 @@ export 'src/fields/standard_field/public/simple_standard_field_obscure.dart';
 export 'src/headers/simple_big_header.dart';
 export 'src/headers/simple_market_header/simple_market_header.dart';
 export 'src/headers/simple_market_header/simple_market_header_closed.dart';
+export 'src/headers/simple_mega_header.dart';
 export 'src/headers/simple_small_header.dart';
 
 /// Icons
@@ -203,6 +204,7 @@ export 'src/shared/components/qr_code_fields/simple_skeleton_qr_loader.dart';
 
 /// Components
 export 'src/shared/components/simple_baseline_child.dart';
+export 'src/shared/components/simple_clickable_link_text.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
@@ -210,6 +212,7 @@ export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_profile_details_button.dart';
 export 'src/shared/components/simple_requirement.dart';
 export 'src/shared/components/simple_show_alert_popup.dart';
+export 'src/shared/components/simple_show_errror_notification.dart';
 export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_spacers.dart';
