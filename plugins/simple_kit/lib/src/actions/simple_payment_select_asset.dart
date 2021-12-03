@@ -7,22 +7,22 @@ import '../../simple_kit.dart';
 class SPaymentSelectAsset extends StatelessWidget {
   const SPaymentSelectAsset({
     Key? key,
+    this.onTap,
     this.helper = '',
+    this.amount = '',
     this.isCreditCard = false,
     required this.icon,
     required this.name,
-    required this.amount,
     required this.description,
-    required this.onTap,
   }) : super(key: key);
 
+  final Function()? onTap;
   final String helper;
+  final String amount;
   final bool isCreditCard;
   final Widget icon;
   final String name;
-  final String amount;
   final String description;
-  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
