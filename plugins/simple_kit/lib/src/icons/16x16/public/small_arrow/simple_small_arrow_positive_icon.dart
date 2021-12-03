@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../current_theme_stpod.dart';
-import '../../light/small_arrow/simple_light_small_arrow_positive.dart';
+import '../../light/small_arrow/simple_light_small_arrow_positive_icon.dart';
 
 class SSmallArrowPositiveIcon extends ConsumerWidget {
   const SSmallArrowPositiveIcon({Key? key}) : super(key: key);
