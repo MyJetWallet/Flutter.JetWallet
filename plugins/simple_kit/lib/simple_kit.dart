@@ -197,14 +197,13 @@ export 'src/shared/components/qr_code_fields/simple_qr_code_box.dart';
 export 'src/shared/components/qr_code_fields/simple_skeleton_qr_loader.dart';
 
 /// Components
+export 'src/shared/components/simple_baseline_child.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
 export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_profile_details_button.dart';
 export 'src/shared/components/simple_requirement.dart';
-
-/// Popup
 export 'src/shared/components/simple_show_alert_popup.dart';
 export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';

@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../helpers/format_currency_amount.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
@@ -113,16 +112,13 @@ class CurrencySell extends HookWidget {
             error: state.inputError.value,
             isErrorActive: state.inputError.isActive,
           ),
-          const SpaceH10(),
-          Text(
-            'Available: ${formatCurrencyAmount(
-              prefix: currency.prefixSymbol,
-              symbol: currency.symbol,
-              value: currency.assetBalance,
-              accuracy: currency.accuracy,
-            )}',
-            style: sSubtitle3Style.copyWith(
-              color: colors.grey2,
+          SBaselineChild(
+            baseline: 24.h,
+            child: Text(
+              'Available: ${currency.formattedAssetBalance}',
+              style: sSubtitle3Style.copyWith(
+                color: colors.grey2,
+              ),
             ),
           ),
           const Spacer(),
@@ -160,7 +156,7 @@ class CurrencySell extends HookWidget {
           SNumericKeyboardAmount(
             preset1Name: '25%',
             preset2Name: '50%',
-            preset3Name: '100%',
+            preset3Name: 'MAX',
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
               notifier.selectPercentFromBalance(preset);
