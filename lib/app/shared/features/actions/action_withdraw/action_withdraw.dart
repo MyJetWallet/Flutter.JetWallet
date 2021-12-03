@@ -33,23 +33,24 @@ class _ActionWithdraw extends HookWidget {
       children: [
         for (final currency in context.read(currenciesPod))
           if (currency.isAssetBalanceNotEmpty)
-            SWalletItem(
-              decline: currency.dayPercentChange.isNegative,
-              icon: NetworkSvgW24(
-                url: currency.iconUrl,
+            if (currency.supportsAtLeastOneWithdrawalMethod)
+              SWalletItem(
+                decline: currency.dayPercentChange.isNegative,
+                icon: NetworkSvgW24(
+                  url: currency.iconUrl,
+                ),
+                primaryText: currency.description,
+                amount: formatCurrencyAmount(
+                  prefix: baseCurrency.prefix,
+                  value: currency.baseBalance,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                secondaryText: '${currency.assetBalance} ${currency.symbol}',
+                onTap: () {
+                  showWithdrawOptions(context, currency);
+                },
               ),
-              primaryText: currency.description,
-              amount: formatCurrencyAmount(
-                prefix: baseCurrency.prefix,
-                value: currency.baseBalance,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              secondaryText: '${currency.assetBalance} ${currency.symbol}',
-              onTap: () {
-                showWithdrawOptions(context, currency);
-              },
-            ),
       ],
     );
   }

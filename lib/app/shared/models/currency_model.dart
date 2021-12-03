@@ -75,4 +75,42 @@ class CurrencyModel with _$CurrencyModel {
       symbol: symbol,
     );
   }
+
+  bool get supportsAtLeastOneFiatDepositMethod {
+    return supportsCardDeposit || supportsSepaDeposit || supportsSwiftDeposit;
+  }
+
+  bool get supportsCryptoDeposit {
+    return depositMethods.contains(DepositMethods.cryptoDeposit);
+  }
+
+  bool get supportsCardDeposit {
+    return depositMethods.contains(DepositMethods.cardDeposit);
+  }
+
+  bool get supportsSepaDeposit {
+    return depositMethods.contains(DepositMethods.sepaDeposit);
+  }
+
+  bool get supportsSwiftDeposit {
+    return depositMethods.contains(DepositMethods.swiftDeposit);
+  }
+
+  bool get supportsAtLeastOneWithdrawalMethod {
+    return supportsCryptoWithdrawal ||
+        supportsSepaWithdrawal ||
+        supportsSWiftWithdrawal;
+  }
+
+  bool get supportsCryptoWithdrawal {
+    return withdrawalMethods.contains(WithdrawalMethods.cryptoWithdrawal);
+  }
+
+  bool get supportsSepaWithdrawal {
+    return withdrawalMethods.contains(WithdrawalMethods.sepaWithdrawal);
+  }
+
+  bool get supportsSWiftWithdrawal {
+    return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
+  }
 }

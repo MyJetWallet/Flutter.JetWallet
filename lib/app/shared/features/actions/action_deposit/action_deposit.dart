@@ -40,30 +40,31 @@ class _ActionDeposit extends HookWidget {
         ),
         for (final currency in currencies)
           if (currency.type == AssetType.fiat)
-            SWalletItem(
-              removeDivider: lastFiat.symbol == currency.symbol,
-              icon: NetworkSvgW24(
-                url: currency.iconUrl,
+            if (currency.supportsAtLeastOneFiatDepositMethod)
+              SWalletItem(
+                removeDivider: lastFiat.symbol == currency.symbol,
+                icon: NetworkSvgW24(
+                  url: currency.iconUrl,
+                ),
+                primaryText: currency.description,
+                secondaryText: currency.symbol,
+                onTap: () {
+                  showDepositOptions(context, currency);
+                },
               ),
-              primaryText: currency.description,
-              secondaryText: '${currency.assetBalance} ${currency.symbol}',
-              onTap: () {
-                showDepositOptions(context, currency);
-              },
-            ),
         const DepositCategoryDescription(
           text: 'Crypto',
         ),
         for (final currency in currencies)
           if (currency.type == AssetType.crypto)
-            if (currency.depositMethods.contains(DepositMethods.cryptoDeposit))
+            if (currency.supportsCryptoDeposit)
               SWalletItem(
                 removeDivider: lastCrypto.symbol == currency.symbol,
                 icon: NetworkSvgW24(
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,
-                secondaryText: '${currency.assetBalance} ${currency.symbol}',
+                secondaryText: currency.symbol,
                 onTap: () {
                   navigatorPushReplacement(
                     context,
