@@ -263,12 +263,16 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   void _updateValidationOfBothFields(AddressValidationUnion value) {
     _updateAddressValidation(value);
-    _updateTagValidation(value);
+    if (currency.hasTag) {
+      _updateTagValidation(value);
+    }
   }
 
   void _triggerErrorOfBothFields() {
     _triggerErrorOfAddressField();
-    _triggerErrorOfTagField();
+    if (currency.hasTag) {
+      _triggerErrorOfTagField();
+    }
   }
 
   void _triggerErrorOfAddressField() {

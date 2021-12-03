@@ -72,12 +72,12 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
   String get validationResult {
     if (addressValidation is Loading || tagValidation is Loading) {
       return 'Checking...';
-    } else if (addressValidation is Invalid && tagValidation is Invalid) {
-      return 'Invalid ${currency!.symbol} Address & Tag';
     } else if (addressValidation is Invalid) {
       return 'Invalid ${currency!.symbol} Address';
     } else if (tagValidation is Invalid) {
       return 'Invalid ${currency!.symbol} Tag';
+    } else if (addressValidation is Invalid && tagValidation is Invalid) {
+      return 'Invalid ${currency!.symbol} Address & Tag';
     } else if (addressValidation is Valid && tagValidation is Valid) {
       return 'Valid ${currency!.symbol} Address & Tag';
     } else if (addressValidation is Valid) {
