@@ -1,6 +1,6 @@
-import 'package:simple_kit/simple_kit.dart';
+import '../../../simple_kit.dart';
 
-void showErrorNotification(
+void sShowErrorNotification(
   SNotificationQueueNotifier notifier,
   String text,
 ) {

@@ -1,9 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 
-class ClickableLinkText extends StatelessWidget {
-  const ClickableLinkText({
+import '../../../simple_kit.dart';
+
+class SClickableLinkText extends StatelessWidget {
+  const SClickableLinkText({
     Key? key,
     required this.text,
     required this.onTap,

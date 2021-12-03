@@ -65,7 +65,8 @@ class WithdrawalAmount extends HookWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SBigArrowPositiveIcon(),
+                const SFeeAlertIcon(),
+                const SpaceW10(),
                 Text(
                   _feeDescription(state.addressIsInternal, state.amount),
                   style: sCaptionTextStyle.copyWith(
@@ -78,7 +79,9 @@ class WithdrawalAmount extends HookWidget {
           const Spacer(),
           const SpaceH10(),
           SPaymentSelectAsset(
-            icon: const SGiftIcon(),
+            icon: SWalletIcon(
+              color: colors.black,
+            ),
             name: shortAddressForm(state.address),
             description: '${currency.symbol} wallet',
           ),
@@ -96,7 +99,7 @@ class WithdrawalAmount extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.valid,
-            submitButtonName: 'Preview ${withdrawal.dictionary.noun}',
+            submitButtonName: 'Preview ${withdrawal.dictionary.verb}',
             onSubmitPressed: () {
               navigatorPush(
                 context,

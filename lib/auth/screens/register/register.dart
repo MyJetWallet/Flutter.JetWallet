@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../shared/components/notifications/show_errror_notification.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import 'components/register_password_screen.dart';
 
@@ -45,7 +44,7 @@ class Register extends HookWidget {
                     credentialsN.updateAndValidateEmail(value);
                   },
                   onErrorIconTap: () {
-                    showErrorNotification(
+                    sShowErrorNotification(
                       notificationQueueN,
                       'Perhaps you missed "." or "@" somewhere?',
                     );
@@ -86,7 +85,7 @@ class Register extends HookWidget {
                       );
                     } else {
                       emailError.value.enableError();
-                      showErrorNotification(
+                      sShowErrorNotification(
                         notificationQueueN,
                         'Perhaps you missed "." or "@" somewhere?',
                       );
