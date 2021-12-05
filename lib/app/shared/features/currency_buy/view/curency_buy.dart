@@ -149,7 +149,7 @@ class CurrencyBuy extends HookWidget {
               SNumericKeyboardAmount(
                 preset1Name: '25%',
                 preset2Name: '50%',
-                preset3Name: '100%',
+                preset3Name: 'MAX',
                 selectedPreset: state.selectedPreset,
                 onPresetChanged: (preset) {
                   notifier.selectPercentFromBalance(preset);

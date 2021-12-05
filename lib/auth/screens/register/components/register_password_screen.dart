@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../shared/components/notifications/show_errror_notification.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
@@ -28,7 +27,7 @@ class RegisterPasswordScreen extends HookWidget {
         union.when(
           input: (error, st) {
             if (error != null) {
-              showErrorNotification(
+              sShowErrorNotification(
                 notificationQueueN,
                 '$error',
               );

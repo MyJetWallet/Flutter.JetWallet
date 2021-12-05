@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../auth/shared/components/clickable_link_text/clickable_link_text.dart';
 import '../../../../components/pin_code_field.dart';
 import '../../../../components/texts/resend_in_text.dart';
 import '../../../../components/texts/resend_rich_text.dart';
@@ -105,7 +104,7 @@ class PhoneVerificationConfirm extends HookWidget {
                       ),
                     ),
                   ] else
-                    ClickableLinkText(
+                    SClickableLinkText(
                       text: 'Change number',
                       onTap: () => Navigator.pop(context),
                     ),

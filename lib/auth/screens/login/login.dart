@@ -8,7 +8,6 @@ import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../shared/components/notifications/show_errror_notification.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
@@ -39,7 +38,7 @@ class Login extends HookWidget {
               loading.value.finishLoading();
               emailError.value.enableError();
               passwordError.value.enableError();
-              showErrorNotification(
+              sShowErrorNotification(
                 notificationQueueN,
                 intl.login_credentialsError,
               );
@@ -83,7 +82,7 @@ class Login extends HookWidget {
                             credentialsN.updateAndValidateEmail(value);
                           },
                           onErrorIconTap: () {
-                            showErrorNotification(
+                            sShowErrorNotification(
                               notificationQueueN,
                               intl.login_credentialsError,
                             );
@@ -105,7 +104,7 @@ class Login extends HookWidget {
                           },
                           labelText: intl.login_passwordTextFieldLabel,
                           onErrorIconTap: () {
-                            showErrorNotification(
+                            sShowErrorNotification(
                               notificationQueueN,
                               intl.login_credentialsError,
                             );

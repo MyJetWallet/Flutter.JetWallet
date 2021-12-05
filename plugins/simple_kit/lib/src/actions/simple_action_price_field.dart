@@ -21,36 +21,27 @@ class SActionPriceField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 60.h,
-          child: Baseline(
-            baseline: 60.h,
-            baselineType: TextBaseline.alphabetic,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                price,
-                maxLines: 1,
-                style: sTextH1Style.copyWith(
-                  color:
-                      isErrorActive ? SColorsLight().red : SColorsLight().black,
-                ),
+        SBaselineChild(
+          baseline: 60.h,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              price,
+              maxLines: 1,
+              style: sTextH1Style.copyWith(
+                color:
+                    isErrorActive ? SColorsLight().red : SColorsLight().black,
               ),
             ),
           ),
         ),
-        SizedBox(
-          height: 24.h,
-          child: Baseline(
-            baseline: 24.h,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              isErrorActive ? error : helper,
-              maxLines: 1,
-              style: sSubtitle3Style.copyWith(
-                color:
-                    isErrorActive ? SColorsLight().red : SColorsLight().black,
-              ),
+        SBaselineChild(
+          baseline: 24.h,
+          child: Text(
+            isErrorActive ? error : helper,
+            maxLines: 1,
+            style: sSubtitle3Style.copyWith(
+              color: isErrorActive ? SColorsLight().red : SColorsLight().black,
             ),
           ),
         ),

@@ -35,7 +35,7 @@ class _SendOptions extends StatelessWidget {
     return Column(
       children: [
         SActionItem(
-          icon: const SActionBuyIcon(),
+          icon: const SPhoneIcon(),
           name: 'Send by phone',
           description: 'Just choose friend from contacts',
           onTap: () {
@@ -50,7 +50,7 @@ class _SendOptions extends StatelessWidget {
           },
         ),
         SActionItem(
-          icon: const SActionDepositIcon(),
+          icon: const SWalletIcon(),
           name: 'Send by wallet',
           description: 'Send to any wallet (address required)',
           onTap: () {
