@@ -48,7 +48,7 @@ final dioPod = Provider<Dio>((ref) {
 });
 
 final dioWithoutInterceptorsPod = Provider<Dio>((ref) {
-  return dioWithoutInterceptors();
+  return dioWithoutInterceptors(ref.read);
 });
 
 final authServicePod = Provider<AuthenticationService>((ref) {

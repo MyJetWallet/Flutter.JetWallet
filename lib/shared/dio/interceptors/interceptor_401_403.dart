@@ -18,6 +18,7 @@ Future<void> interceptor401_403({
     if (result == RefreshTokenStatus.success) {
       final response = await retryRequest(
         dioError.requestOptions,
+        read,
         authModel.token,
       );
       handler.resolve(response);

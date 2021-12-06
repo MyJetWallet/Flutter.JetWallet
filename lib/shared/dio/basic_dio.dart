@@ -10,7 +10,7 @@ import 'helpers/setup_headers.dart';
 Dio basicDio(AuthInfoState authModel, Reader read) {
   final _dio = Dio();
 
-  setupHeaders(_dio, authModel.token);
+  setupHeaders(_dio, read, authModel.token);
 
   addSigning(_dio, read);
 
