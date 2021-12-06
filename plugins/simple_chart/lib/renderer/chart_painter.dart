@@ -265,7 +265,7 @@ class ChartPainter extends BaseChartPainter {
   void drawMaxAndMin(Canvas canvas) {
     if (!isLongPress) {
       //Plot the maximum and minimum values
-      const x = 0.0;
+      final x = 24.w;
       var y = getMainY(mMainLowMinValue!) + 20.h;
       if (x < mWidth / 2) {
         //Draw right

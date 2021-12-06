@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import './k_chart_widget.dart';
 import './simple_chart.dart';
 import 'model/candle_model.dart';
 import 'model/candle_type_enum.dart';
@@ -31,6 +30,8 @@ class MyApp extends StatelessWidget {
               onCandleSelected: (candleEntity) {},
               candles: snapshot.data!,
               candleResolution: Period.day,
+              chartHeight: 0,
+              chartWidgetHeight: 0,
             );
           } else {
             return Container();
@@ -58,6 +59,8 @@ class Chart extends StatefulWidget {
     required this.onCandleSelected,
     required this.candles,
     required this.candleResolution,
+    required this.chartHeight,
+    required this.chartWidgetHeight,
     this.chartType = ChartType.line,
     this.walletCreationDate,
     this.selectedCandlePadding,
@@ -71,6 +74,8 @@ class Chart extends StatefulWidget {
   final String candleResolution;
   final String? walletCreationDate;
   final double? selectedCandlePadding;
+  final double chartHeight;
+  final double chartWidgetHeight;
 
   @override
   _ChartState createState() => _ChartState();
@@ -81,8 +86,7 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(Vova): change to -24.w (left padding only)
-    final screenWidth = 1.sw - 48.w;
+    final screenWidth = 1.sw - 24.w;
     final candleWidth = screenWidth / widget.candles.length;
 
     final currentDate = DateTime.now().toLocal();
@@ -104,15 +108,14 @@ class _ChartState extends State<Chart> {
     }
 
     return SizedBox(
-      height: 336.h,
+      height: widget.chartWidgetHeight,
       width: 1.sw,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: ListView(
-          physics: const NeverScrollableScrollPhysics(),
+        body: Column(
           children: [
             SizedBox(
-              height: 240.h,
+              height: widget.chartHeight,
               width: 1.sw,
               child: KChartWidget(
                 widget.candles,

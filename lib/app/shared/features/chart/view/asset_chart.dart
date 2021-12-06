@@ -38,9 +38,13 @@ class AssetChart extends HookWidget {
             candleResolution: chartState.resolution,
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
-            selectedCandlePadding: 15.w,
+            chartHeight: 240.h,
+            chartWidgetHeight: 336.h,
           ),
-          loading: () => const LoadingChartView(),
+          loading: () => LoadingChartView(
+            chartHeight: 240.h,
+            chartWidgetHeight: 336.h,
+          ),
           error: (String error) {
             return Center(
               child: Text(error),
@@ -48,7 +52,10 @@ class AssetChart extends HookWidget {
           },
         );
       },
-      loading: () => const LoadingChartView(),
+      loading: () => LoadingChartView(
+        chartHeight: 240.h,
+        chartWidgetHeight: 336.h,
+      ),
       error: (_, __) => const Text('Error'),
     );
   }

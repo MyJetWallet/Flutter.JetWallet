@@ -13,10 +13,7 @@ class MarketStatsTableCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TableCell(
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
+      child: child,
     );
   }
 }

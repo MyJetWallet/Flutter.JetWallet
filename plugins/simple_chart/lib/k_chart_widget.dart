@@ -187,6 +187,7 @@ class _KChartWidgetState extends State<KChartWidget>
       },
       child: Stack(
         children: <Widget>[
+          // TODO(Vova): hide lines on Portfolio Chart
           if (!isLongPress)
             DashedDivider(
               topPadding: 20.h,

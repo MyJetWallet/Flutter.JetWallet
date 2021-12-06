@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../../../../../../screens/market/helper/format_day_percentage_change.dart';
 import '../../../../provider/return_rates_pod.dart';
 import 'return_rate_item.dart';
@@ -19,21 +20,22 @@ class ReturnRates extends HookWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         ReturnRateItem(
-          header: '1 day',
+          header: 'Day',
           value: formatDayPercentageChange(returnRates.dayPrice),
         ),
         ReturnRateItem(
-          header: '7 days',
+          header: 'Week',
           value: formatDayPercentageChange(returnRates.weekPrice),
         ),
         ReturnRateItem(
-          header: '1 month',
+          header: 'Month',
           value: formatDayPercentageChange(returnRates.monthPrice),
         ),
         ReturnRateItem(
-          header: '3 month',
+          header: '3 Months',
           value: formatDayPercentageChange(returnRates.threeMonthPrice),
         ),
       ],
