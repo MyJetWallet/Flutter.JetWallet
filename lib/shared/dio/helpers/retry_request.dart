@@ -1,15 +1,18 @@
 import 'package:dio/dio.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'setup_headers.dart';
 
-/// Must not depend on any providers, interceptors and other DIO.
+/// Must not depend on any dio dependent providers, interceptors.
 /// Because they can break it
 Future<Response> retryRequest(
   RequestOptions requestOptions,
+  Reader read,
   String token,
 ) async {
   final _dio = Dio();
 
-  setupHeaders(_dio, token);
+  setupHeaders(_dio, read, token);
 
   final options = Options(
     method: requestOptions.method,

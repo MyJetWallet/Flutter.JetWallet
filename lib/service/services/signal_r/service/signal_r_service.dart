@@ -7,6 +7,7 @@ import 'package:signalr_core/signalr_core.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
@@ -151,6 +152,7 @@ class SignalRService {
     });
 
     final token = read(authInfoNotipod).token;
+    final localeName = read(intlPod).localeName;
 
     try {
       await _connection?.start();
@@ -160,7 +162,10 @@ class SignalRService {
     }
 
     try {
-      await _connection?.invoke(initMessage, args: [token]);
+      await _connection?.invoke(
+        initMessage,
+        args: [token, localeName],
+      );
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);
       rethrow;
