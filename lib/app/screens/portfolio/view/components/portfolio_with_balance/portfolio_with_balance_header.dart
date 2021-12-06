@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/features/rewards/view/rewards.dart';
+
 class PortfolioWithBalanceHeader extends HookWidget {
   const PortfolioWithBalanceHeader({Key? key}) : super(key: key);
 
@@ -24,26 +27,31 @@ class PortfolioWithBalanceHeader extends HookWidget {
                 style: sTextH5Style,
               ),
               const Spacer(),
-              Container(
-                width: 76.w,
-                height: 28.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18.r),
-                  color: colors.green,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
+              GestureDetector(
+                onTap: () {
+                  navigatorPush(context, const Rewards());
+                },
+                child: Container(
+                  width: 76.w,
+                  height: 28.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18.r),
+                    color: colors.green,
                   ),
-                  child: Row(
-                    children: [
-                      const SGiftPortfolioIcon(),
-                      const SpaceW8(),
-                      Text(
-                        '\$15',
-                        style: sSubtitle3Style.copyWith(color: colors.white),
-                      )
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                    ),
+                    child: Row(
+                      children: [
+                        const SGiftPortfolioIcon(),
+                        const SpaceW8(),
+                        Text(
+                          '\$15',
+                          style: sSubtitle3Style.copyWith(color: colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

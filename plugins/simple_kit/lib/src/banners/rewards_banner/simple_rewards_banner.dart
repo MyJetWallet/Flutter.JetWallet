@@ -9,16 +9,18 @@ class SRewardBanner extends StatelessWidget {
     Key? key,
     this.secondaryText,
     this.imageUrl,
+    this.onClose,
+    this.fontPrimaryText,
     required this.bannerColor,
     required this.primaryText,
-    required this.onClose,
   }) : super(key: key);
 
   final Color bannerColor;
   final String primaryText;
   final String? secondaryText;
   final String? imageUrl;
-  final Function() onClose;
+  final Function()? onClose;
+  final TextStyle? fontPrimaryText;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class SRewardBanner extends StatelessWidget {
           margin: EdgeInsets.only(
             bottom: 20.h,
           ),
-          height: 180.h,
+          //height: 180.h,
           width: 327.w,
           padding: EdgeInsets.only(
             left: 20.w,
@@ -47,10 +49,13 @@ class SRewardBanner extends StatelessWidget {
               CircleAvatar(
                 radius: 40.r,
                 backgroundImage:
-                (imageUrl != null) ? NetworkImage(imageUrl!) : null,
+                    (imageUrl != null) ? NetworkImage(imageUrl!) : null,
               ),
               const SpaceW16(),
               Column(
+                mainAxisAlignment: (secondaryText != null)
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: 177.w,
@@ -62,7 +67,7 @@ class SRewardBanner extends StatelessWidget {
                         primaryText,
                         textAlign: TextAlign.start,
                         maxLines: 2,
-                        style: sTextH4Style,
+                        style: fontPrimaryText ?? sTextH4Style,
                       ),
                     ),
                   ),
@@ -87,29 +92,15 @@ class SRewardBanner extends StatelessWidget {
             ],
           ),
         ),
-
-
-        // Positioned(
-        //   top: 76,
-        //   right: 0,
-        //   child: Container(
-        //     width: 327.w,
-        //     height: 30.h,
-        //     color: Colors.green,
-        //   ),
-        // ),
-
-
-        Positioned(
-          top: 10.h,
-          right: 10.w,
-          child: GestureDetector(
-            onTap: onClose,
-            child: const SEraseMarketIcon(),
+        if (onClose != null)
+          Positioned(
+            top: 10.h,
+            right: 10.w,
+            child: GestureDetector(
+              onTap: onClose,
+              child: const SEraseMarketIcon(),
+            ),
           ),
-        ),
-
-
       ],
     );
   }

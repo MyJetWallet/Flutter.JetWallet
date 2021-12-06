@@ -6,7 +6,7 @@ part 'reward_model.g.dart';
 @freezed
 class RewardModel with _$RewardModel {
   const factory RewardModel({
-    required int amount,
+    required double amount,
     String? asset,
   }) = _RewardModel;
 

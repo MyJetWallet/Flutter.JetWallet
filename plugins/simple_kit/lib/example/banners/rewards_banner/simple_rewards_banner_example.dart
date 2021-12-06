@@ -24,10 +24,10 @@ class SimpleRewardsBannerExample extends StatelessWidget {
               onClose: () {},
             ),
             const SpaceH20(),
-            const SThreeStepsRewardBanner(
-              primaryText: 'Complete 3 steps to receive \$30',
-              timeToComplete: '',
-            ),
+            // const SThreeStepsRewardBanner(
+            //   primaryText: 'Complete 3 steps to receive \$30',
+            //   timeToComplete: '',
+            // ),
           ],
         ),
       ),

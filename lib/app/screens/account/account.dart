@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../../service/services/campaign/model/campaign_response_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/log_out_option.dart';
+import '../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
+import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
-import '../../shared/features/banners/providers/campaign_fpod.dart';
-import '../../shared/features/banners/view/account_banners.dart';
-import '../../shared/features/banners/view/rewards_banner.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
+import '../../shared/features/rewards/view/rewards.dart';
 import '../../shared/features/support/view/support.dart';
 
 class Account extends HookWidget {
@@ -48,16 +46,21 @@ class Account extends HookWidget {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SPaddingH24(
                   child: SimpleAccountCategoryHeader(
                     userEmail: authInfo.email,
                   ),
                 ),
+                const SpaceH20(),
                 SimpleAccountBannerList(
-                  kycPassed: userInfo.kycPassed,
-                  twoFaEnabled: userInfo.twoFaEnabled,
-                  colors: colors,
+                    kycPassed: userInfo.kycPassed,
+                    twoFaEnabled: userInfo.twoFaEnabled,
+                    phoneVerified: userInfo.phoneVerified,
+                    colors: colors,
+                    onTwoFaBannerTap: () => TwoFaScreen.push(context),
+                    onChatBannerTap: () {},
                 ),
                 const SpaceH20(),
                 Column(
@@ -97,7 +100,7 @@ class Account extends HookWidget {
                       icon: const SFaqIcon(),
                       isSDivider: true,
                       onTap: () {
-                        navigatorPush(context, const RewardsBanner());
+                        navigatorPush(context, const Rewards());
                       },
                     ),
                     SimpleAccountCategoryButton(

@@ -23,13 +23,10 @@ class SNewsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: SColorsLight().grey5,
       onTap: onTap,
       child: SPaddingH24(
         child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 20.h,
-          ),
-          height: 110.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,14 +36,10 @@ class SNewsCategory extends StatelessWidget {
                     sentiment: sentiment,
                   ),
                   const SpaceW10(),
-                  Baseline(
-                    baseline: 13,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      '$newsLabel - $timestamp',
-                      style: sCaptionTextStyle.copyWith(
-                        color: SColorsLight().grey1,
-                      ),
+                  Text(
+                    '$newsLabel - $timestamp',
+                    style: sCaptionTextStyle.copyWith(
+                      color: SColorsLight().grey1,
                     ),
                   ),
                 ],
@@ -62,6 +55,7 @@ class SNewsCategory extends StatelessWidget {
                   ),
                 ),
               ),
+              SpaceH20(),
             ],
           ),
         ),

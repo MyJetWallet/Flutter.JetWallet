@@ -15,15 +15,6 @@ class CampaignConditionModel with _$CampaignConditionModel {
     RewardModel? reward,
   }) = _CampaignConditionModel;
 
-
-  // factory CampaignConditionModel.fromList(List list) {
-  //   return CampaignConditionModel(
-  //     params: list
-  //         .map((e) => AdditionalPropModel.fromJson(e as Map<String, dynamic>))
-  //         .toList(),
-  //   );
-  // }
-
 factory CampaignConditionModel.fromJson(Map<String, dynamic> json) =>
     _$CampaignConditionModelFromJson(json);
 }

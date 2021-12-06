@@ -6,14 +6,20 @@ import '../../../simple_kit.dart';
 class SThreeStepsRewardBanner extends StatelessWidget {
   const SThreeStepsRewardBanner({
     Key? key,
+    this.imageUrl,
+    this.circleAvatarColor,
+    this.rewardIndicatorComplete,
+    required this.rewardDetail,
     required this.primaryText,
     required this.timeToComplete,
-    this.imageUrl,
   }) : super(key: key);
 
   final String primaryText;
   final String timeToComplete;
   final String? imageUrl;
+  final Color? circleAvatarColor;
+  final List<Widget> rewardDetail;
+  final Widget? rewardIndicatorComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +27,6 @@ class SThreeStepsRewardBanner extends StatelessWidget {
       children: [
         Container(
           height: 357.h,
-          margin: EdgeInsets.only(
-            bottom: 20.h,
-          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
@@ -47,36 +50,31 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                     Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Stack(
-                          children: [
-                            SizedBox(
-                              width: 197.w,
-                              child: Baseline(
-                                baseline: 24.h,
-                                baselineType: TextBaseline.alphabetic,
-                                child: Text(
-                                  primaryText,
-                                  maxLines: 2,
-                                  style: sTextH4Style,
+                        SizedBox(
+                          width: 197.w,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: primaryText,
+                                  style: sTextH4Style.copyWith(
+                                    color: SColorsLight().black,
+                                  ),
                                 ),
-                              ),
+                                const WidgetSpan(
+                                  child: SInfoPressedIcon(),
+                                ),
+                              ],
                             ),
-                            Positioned(
-                              bottom: 2,
-                              right: 12,
-                              child: SizedBox(
-                                width: 24.w,
-                                height: 24.w,
-                                child: const SInfoPressedIcon(),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                         const SpaceW20(),
                         CircleAvatar(
                           radius: 34.r,
-                          backgroundImage:
-                              (imageUrl != null) ? NetworkImage(imageUrl!) : null,
+                          backgroundColor: circleAvatarColor,
+                          backgroundImage: (imageUrl != null)
+                              ? NetworkImage(imageUrl!)
+                              : null,
                         ),
                       ],
                     ),
@@ -100,95 +98,38 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                 ),
               ),
               const SDivider(),
+
               SizedBox(
                 height: 209.h,
                 child: Column(
                   children: [
                     const SpaceH32(),
-                    SizedBox(
-                      width: 287.w,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Baseline(
-                              baselineType: TextBaseline.alphabetic,
-                              baseline: 17.h,
-                              child: const Text(
-                                'Get \$5 for account verification',
-                              ),
-                            ),
-                          ),
-                          const SCompleteIcon(),
-                        ],
-                      ),
-                    ),
-                    const SpaceH16(),
-                    SizedBox(
-                      width: 287.w,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Baseline(
-                              baselineType: TextBaseline.alphabetic,
-                              baseline: 17.h,
-                              child: const Text(
-                                'Get \$10 after making first deposit',
-                              ),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            height: 24.h,
-                            width: 24.w,
-                            child: SizedBox(
-                              height: 14.h,
-                              width: 8.5.w,
-                              child: const SBlueRightArrowIcon(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SpaceH16(),
-                    SizedBox(
-                      width: 287.w,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Baseline(
-                              baselineType: TextBaseline.alphabetic,
-                              baseline: 17.h,
-                              child: const Text(
-                                '\$15 after trading \$100 (57/100)',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SpaceH36(),
-                    SizedBox(
-                      width: 287.w,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 240.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.r),
-                              ),
-                              color: SColorsLight().grey4,
-                            ),
-                          ),
-                          Text(
-                            '1/3',
-                            style: sBodyText2Style,
-                          ),
-                        ],
-                      ),
-                    ),
+                    ...rewardDetail,
+                    if (rewardIndicatorComplete != null)
+                      rewardIndicatorComplete!,
+                    // const SpaceH36(),
+                    // SizedBox(
+                    //   width: 287.w,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Container(
+                    //         width: 240.w,
+                    //         height: 16.h,
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.all(
+                    //             Radius.circular(8.r),
+                    //           ),
+                    //           color: SColorsLight().grey4,
+                    //         ),
+                    //       ),
+                    //       Text(
+                    //         '1/3',
+                    //         style: sBodyText2Style,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
