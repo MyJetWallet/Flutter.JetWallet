@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../components/balance_selector/model/selected_percent.dart';
@@ -149,12 +150,16 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   /// We can select percent only from FromAssetAmount
-  void selectPercentFromBalance(SelectedPercent selected) {
+  void selectPercentFromBalance(SKeyboardPreset preset) {
     _logger.log(notifier, 'selectPercentFromBalance');
+
+    _updateSelectedPreset(preset);
+
+    final percent = _percentFromPreset(preset);
 
     if (state.fromAssetEnabled) {
       final value = valueBasedOnSelectedPercent(
-        selected: selected,
+        selected: percent,
         currency: state.fromAsset,
       );
 
@@ -162,6 +167,20 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
       _calculateConversion();
       _updateAmountsAccordingToAccuracy();
       _validateInput();
+    }
+  }
+
+  void _updateSelectedPreset(SKeyboardPreset preset) {
+    state = state.copyWith(selectedPreset: preset);
+  }
+
+  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
+    if (preset == SKeyboardPreset.preset1) {
+      return SelectedPercent.pct25;
+    } else if (preset == SKeyboardPreset.preset2) {
+      return SelectedPercent.pct50;
+    } else {
+      return SelectedPercent.pct100;
     }
   }
 

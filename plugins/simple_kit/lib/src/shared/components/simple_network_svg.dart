@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../simple_kit.dart';
 
+/// TODO rename to SNetworkSvgW24
 class NetworkSvgW24 extends StatelessWidget {
   const NetworkSvgW24({
     Key? key,
