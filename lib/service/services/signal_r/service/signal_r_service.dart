@@ -4,13 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
+import '../../../../app/shared/features/rewards/model/campaign_response_model.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
-import '../../campaign/model/campaign_response_model.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';

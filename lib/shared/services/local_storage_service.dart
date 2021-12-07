@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // KEYS
@@ -17,6 +19,14 @@ class LocalStorageService {
 
   Future<void> setString(String key, String value) async {
     await _storage.write(key: key, value: value);
+  }
+
+  Future<void> setStringArray(String key, List<String> value) async {
+    await _storage.write(key: key, value: jsonEncode(value));
+  }
+
+  Future<String?> getStringArray(String key) async {
+    return _storage.read(key: key);
   }
 
   Future<void> clearStorage() async {

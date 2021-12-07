@@ -15,7 +15,6 @@ import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
-import '../../shared/features/rewards/view/rewards.dart';
 import '../../shared/features/support/view/support.dart';
 
 class Account extends HookWidget {
@@ -99,9 +98,7 @@ class Account extends HookWidget {
                       title: 'FAQ',
                       icon: const SFaqIcon(),
                       isSDivider: true,
-                      onTap: () {
-                        navigatorPush(context, const Rewards());
-                      },
+                      onTap: () {},
                     ),
                     SimpleAccountCategoryButton(
                       title: 'About us',

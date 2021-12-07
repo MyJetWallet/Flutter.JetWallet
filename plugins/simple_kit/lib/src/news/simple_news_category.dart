@@ -28,6 +28,7 @@ class SNewsCategory extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SpaceH20(),
             Row(
               children: [
                 SSmileIcon(

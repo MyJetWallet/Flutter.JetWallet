@@ -1,13 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../screens/market/provider/market_campaigns_pod.dart';
 
 import 'campaign_notifier.dart';
 import 'campaign_state.dart';
 
-final campaignNotipod =
-StateNotifierProvider<CampaignNotifier, CampaignState>(
-      (ref) {
+final campaignNotipod = StateNotifierProvider.autoDispose
+    .family<CampaignNotifier, CampaignState, bool>(
+  (ref, isFilteredBanners) {
+    final campaigns = ref.watch(marketCampaignsPod);
+
     return CampaignNotifier(
       read: ref.read,
+      campaigns: campaigns,
+      isFilteredBanners: isFilteredBanners,
     );
   },
 );

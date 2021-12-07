@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/campaign/model/campaign_condition_model.dart';
+import '../model/campaign_condition_model.dart';
 import 'set_reward_description_item.dart';
 import 'set_reward_description_style.dart';
 import 'set_reward_icon.dart';
@@ -27,9 +27,6 @@ class RewardsDescriptionItem extends HookWidget {
       margin: EdgeInsets.only(
         bottom: 16.h,
       ),
-      // decoration: BoxDecoration(
-      //   border: Border.all(width: 1.w),
-      // ),
       width: 287.w,
       child: Row(
         children: [
@@ -48,7 +45,6 @@ class RewardsDescriptionItem extends HookWidget {
             ),
           ),
           setRewardIcon(condition, conditions),
-
         ],
       ),
     );

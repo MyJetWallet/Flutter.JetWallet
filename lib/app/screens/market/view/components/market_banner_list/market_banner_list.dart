@@ -15,72 +15,38 @@ class MarketBannerList extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final campaignN = useProvider(campaignNotipod.notifier);
+    useProvider(marketCampaignsPod);
+    final campaign = useProvider(campaignNotipod(true));
+    final campaignN = useProvider(campaignNotipod(true).notifier);
     final colors = useProvider(sColorPod);
 
-    final campaignsList = useProvider(marketCampaignsPod);
-
-    return SizedBox(
-      height: 0.18.sh,
-      child: ListView.builder(
-        itemCount: campaignsList.length,
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(
-          horizontal: 24.w,
-        ),
-        itemBuilder: (BuildContext context, int index) => Container(
-          padding: EdgeInsets.only(
-            right: (index != campaignsList.length - 1) ? 10.w : 0,
+    if (campaign.campaigns.isNotEmpty) {
+      return SizedBox(
+        height: 0.18.sh,
+        child: ListView.builder(
+          itemCount: campaign.campaigns.length,
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(
+            horizontal: 24.w,
           ),
-          child: SRewardBanner(
-            bannerColor: setBannerColor(index, colors),
-            primaryText: campaignsList[index].title,
-            imageUrl: campaignsList[index].imageUrl,
-            fontPrimaryText: sTextH5Style,
-            onClose: () {
-              campaignN.deleteCampaign(campaignsList[index]);
-            },
+          itemBuilder: (BuildContext context, int index) => Container(
+            padding: EdgeInsets.only(
+              right: (index != campaign.campaigns.length - 1) ? 10.w : 0,
+            ),
+            child: SRewardBanner(
+              bannerColor: setBannerColor(index, colors),
+              primaryText: campaign.campaigns[index].title,
+              imageUrl: campaign.campaigns[index].imageUrl,
+              fontPrimaryText: sTextH5Style,
+              onClose: () {
+                campaignN.deleteCampaign(campaign.campaigns[index]);
+              },
+            ),
           ),
         ),
-      ),
-    );
-
-
-
-
-
-    // return campaignsInit.when(
-    //   data: (_) {
-    //     if (campaignsList.isNotEmpty) {
-    //       return SizedBox(
-    //         height: 0.18.sh,
-    //         child: ListView.builder(
-    //           itemCount: campaignsList.length,
-    //           scrollDirection: Axis.horizontal,
-    //           padding: EdgeInsets.symmetric(
-    //             horizontal: 24.w,
-    //           ),
-    //           itemBuilder: (BuildContext context, int index) => Container(
-    //             padding: EdgeInsets.only(
-    //               right: (index != campaignsList.length - 1) ? 10.w : 0,
-    //             ),
-    //             child: SRewardBanner(
-    //               bannerColor: setBannerColor(index, colors),
-    //               primaryText: campaignsList[index].title,
-    //               imageUrl: campaignsList[index].imageUrl,
-    //               fontPrimaryText: sTextH5Style,
-    //               onClose: () {
-    //                 campaignN.deleteCampaign(campaignsList[index]);
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     }
-    //     return Container();
-    //   },
-    //   loading: () => const Loader(),
-    //   error: (_, __) => const Text('Error'),
-    // );
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 }

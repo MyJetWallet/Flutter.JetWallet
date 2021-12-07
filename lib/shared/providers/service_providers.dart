@@ -7,7 +7,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
 import '../../service/services/blockchain/service/blockchain_service.dart';
-import '../../service/services/campaign/campaign_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
@@ -133,12 +132,6 @@ final newsServicePod = Provider<NewsService>((ref) {
   final dio = ref.watch(dioPod);
 
   return NewsService(dio);
-});
-
-final campaignServicePod = Provider<CampaignService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return CampaignService(dio);
 });
 
 final operationHistoryServicePod = Provider<OperationHistoryService>((ref) {

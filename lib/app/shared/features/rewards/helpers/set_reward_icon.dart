@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/campaign/model/campaign_condition_model.dart';
+import '../model/campaign_condition_model.dart';
 
 Widget setRewardIcon(
   CampaignConditionModel condition,

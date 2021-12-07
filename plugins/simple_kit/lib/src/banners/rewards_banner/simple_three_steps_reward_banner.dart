@@ -26,7 +26,6 @@ class SThreeStepsRewardBanner extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 357.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
@@ -99,7 +98,6 @@ class SThreeStepsRewardBanner extends StatelessWidget {
               const SDivider(),
 
               SizedBox(
-                height: 209.h,
                 child: Column(
                   children: [
                     const SpaceH32(),

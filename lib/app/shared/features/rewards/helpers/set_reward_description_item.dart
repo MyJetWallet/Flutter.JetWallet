@@ -1,4 +1,4 @@
-import '../../../../../service/services/campaign/model/campaign_condition_model.dart';
+import '../model/campaign_condition_model.dart';
 import '../model/condition_type.dart';
 
 String setRewardDescriptionItem(
