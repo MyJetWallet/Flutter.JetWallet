@@ -6,13 +6,13 @@ import 'campaign_state.dart';
 
 final campaignNotipod = StateNotifierProvider.autoDispose
     .family<CampaignNotifier, CampaignState, bool>(
-  (ref, isFilteredBanners) {
+  (ref, isEnableFilterBanners) {
     final campaigns = ref.watch(marketCampaignsPod);
 
     return CampaignNotifier(
       read: ref.read,
       campaigns: campaigns,
-      isFilteredBanners: isFilteredBanners,
+      isEnableFilterBanners: isEnableFilterBanners,
     );
   },
 );

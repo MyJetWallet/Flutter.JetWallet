@@ -11,20 +11,21 @@ import 'campaign_state.dart';
 
 class CampaignNotifier extends StateNotifier<CampaignState> {
   CampaignNotifier({
+    this.isEnableFilterBanners = false,
     required this.read,
     required this.campaigns,
-    this.isFilteredBanners = false,
   }) : super(const CampaignState(campaigns: <CampaignModel>[])) {
     storage = read(localStorageServicePod);
+
     updateCampaigns(campaigns);
 
-    if (isFilteredBanners) {
+    if (isEnableFilterBanners) {
       _filteredBanners();
     }
   }
 
   final Reader read;
-  final bool isFilteredBanners;
+  final bool isEnableFilterBanners;
   final List<CampaignModel> campaigns;
   late LocalStorageService storage;
 
@@ -34,7 +35,9 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
     _logger.log(notifier, 'updateCampaigns');
 
     try {
-      state = state.copyWith(campaigns: campaigns);
+      if (campaigns.isNotEmpty) {
+        state = state.copyWith(campaigns: campaigns);
+      }
     } catch (e) {
       _logger.log(stateFlow, 'updateCampaigns', e);
     }
@@ -80,16 +83,16 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
     }
   }
 
-  Future<void> _setBannersIdsToStorage(String id) async {
+  Future<void> _setBannersIdsToStorage(String bannerId) async {
     _logger.log(notifier, '_setBannersIdsToStorage');
 
     try {
       final bannersIds = await _getBannersIdsFromStorage();
 
       if (bannersIds.isNotEmpty) {
-        await storage.setStringArray('bannersIds', [...bannersIds, id]);
+        await storage.setStringArray('bannersIds', [...bannersIds, bannerId]);
       } else {
-        await storage.setStringArray('bannersIds', [id]);
+        await storage.setStringArray('bannersIds', [bannerId]);
       }
     } catch (e) {
       _logger.log(stateFlow, '_setBannersIdsToStorage', e);

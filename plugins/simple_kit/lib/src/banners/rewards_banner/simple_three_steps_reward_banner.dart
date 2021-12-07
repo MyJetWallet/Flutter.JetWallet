@@ -96,7 +96,6 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                 ),
               ),
               const SDivider(),
-
               SizedBox(
                 child: Column(
                   children: [
@@ -107,30 +106,6 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                       rewardIndicatorComplete!,
                       const SpaceH30(),
                     ],
-
-                    // const SpaceH36(),
-                    // SizedBox(
-                    //   width: 287.w,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Container(
-                    //         width: 240.w,
-                    //         height: 16.h,
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.all(
-                    //             Radius.circular(8.r),
-                    //           ),
-                    //           color: SColorsLight().grey4,
-                    //         ),
-                    //       ),
-                    //       Text(
-                    //         '1/3',
-                    //         style: sBodyText2Style,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

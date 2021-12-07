@@ -10,7 +10,7 @@ import '../provider/market_gainers_pod.dart';
 import '../provider/market_items_pod.dart';
 import '../provider/market_losers_pod.dart';
 import 'components/fade_on_scroll.dart';
-import 'components/market_banner_list/market_banner_list.dart';
+import 'components/market_banner/market_banner.dart';
 import 'components/market_tab_content/market_tab_content.dart';
 import 'components/market_tabs/market_tabs.dart';
 
@@ -75,7 +75,7 @@ class Market extends HookWidget {
                   ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      const MarketBannerList(),
+                      const MarketBanner(),
                       const SpaceH10(),
                       MarketTabContent(
                         items: items,
