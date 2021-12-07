@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../models/currency_model.dart';
 
 class ConvertDropdownButton extends StatelessWidget {
@@ -21,37 +20,22 @@ class ConvertDropdownButton extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Image.network(
-            currency.iconUrl,
-            width: 35.w,
-            height: 35.w,
+          NetworkSvgW24(
+            url: currency.iconUrl,
           ),
           const SpaceW10(),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: 0.25.sw,
+              maxWidth: 89.w,
             ),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                currency.symbol,
-                maxLines: 1,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            child: Text(
+              currency.symbol,
+              maxLines: 1,
+              style: sTextH4Style,
             ),
           ),
-          const SpaceW4(),
-          FittedBox(
-            child: Icon(
-              FontAwesomeIcons.angleDown,
-              size: 20.r,
-            ),
-          ),
+          const SpaceW10(),
+          const SAngleDownIcon(),
         ],
       ),
     );

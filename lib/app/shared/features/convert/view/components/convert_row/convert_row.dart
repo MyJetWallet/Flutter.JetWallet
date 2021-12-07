@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../components/asset_tile/asset_tile.dart';
 import '../../../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
 import '../../../../../components/text/asset_sheet_header.dart';
-import '../../../../../helpers/format_currency_amount.dart';
 import '../../../../../models/currency_model.dart';
-import 'components/convert_asset_input.dart';
 import 'components/convert_dropdown_button.dart';
 
-class ConvertRow extends StatelessWidget {
+class ConvertRow extends HookWidget {
   const ConvertRow({
     Key? key,
     this.fromAsset = false,
@@ -31,6 +32,8 @@ class ConvertRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     void _showDropdownSheet() {
       showBasicBottomSheet(
         context: context,
@@ -62,46 +65,67 @@ class ConvertRow extends StatelessWidget {
       );
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        SizedBox(
-          width: 0.45.sw,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ConvertDropdownButton(
-                onTap: () => _showDropdownSheet(),
-                currency: currency,
-              ),
-              if (fromAsset)
-                FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    'Available: ${formatCurrencyAmount(
-                      symbol: currency.symbol,
-                      value: currency.assetBalance,
-                      accuracy: currency.accuracy,
-                      prefix: currency.prefixSymbol,
-                    )}',
-                    maxLines: 1,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                    ),
+    return SPaddingH24(
+      child: Stack(
+        children: [
+          SizedBox(
+            height: 88,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SpaceH22(),
+                Baseline(
+                  baseline: 20.h,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Row(
+                    textBaseline: TextBaseline.alphabetic,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    children: [
+                      Expanded(
+                        child: ConvertDropdownButton(
+                          onTap: () => _showDropdownSheet(),
+                          currency: currency,
+                        ),
+                      ),
+                      STransparentInkWell(
+                        onTap: onTap,
+                        child: SizedBox(
+                          width: 170.w,
+                          child: Text(
+                            value.isEmpty ? 'min 0.001' : value,
+                            textAlign: TextAlign.end,
+                            style: sTextH3Style.copyWith(
+                              color: enabled ? colors.black : colors.grey2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                Row(
+                  children: [
+                    const SpaceW34(),
+                    Baseline(
+                      baseline: 18.h,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Expanded(
+                        child: Text(
+                          'Available: ${currency.formattedAssetBalance}',
+                          maxLines: 1,
+                          style: sBodyText2Style.copyWith(
+                            color: colors.grey2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 )
-              else
-                const SizedBox(),
-            ],
+              ],
+            ),
           ),
-        ),
-        ConvertAssetInput(
-          onTap: onTap,
-          value: value,
-          enabled: enabled,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
