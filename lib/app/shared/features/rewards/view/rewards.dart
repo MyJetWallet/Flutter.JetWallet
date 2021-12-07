@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/rewards/model/condition_type.dart';
-import 'package:jetwallet/service/services/campaign/model/campaign_condition_model.dart';
-import 'package:jetwallet/service/services/campaign/model/campaign_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/campaign/model/campaign_condition_model.dart';
 import '../../../../../shared/components/loaders/loader.dart';
 import '../../../helpers/set_banner_colors.dart';
 import '../../market_details/helper/format_news_date.dart';
 import '../helpers/create_reward_detail.dart';
+import '../model/condition_type.dart';
 import '../notifier/campaign_notipod.dart';
 import '../providers/campaigns_fpod.dart';
 
@@ -23,7 +22,6 @@ class Rewards extends HookWidget {
   Widget build(BuildContext context) {
     final campaignsInit = useProvider(campaignsInitFpod);
     final campaign = useProvider(campaignNotipod);
-    final campaignN = useProvider(campaignNotipod.notifier);
     final colors = useProvider(sColorPod);
 
     return campaignsInit.when(
@@ -66,15 +64,6 @@ class Rewards extends HookWidget {
                   ],
                 ],
               );
-
-              // return SMarketBanner(
-              //   primaryText: data.campaigns[index].title,
-              //   imageUrl: data.campaigns[index].imageUrl,
-              //   bannerColor: colors.violet,
-              //   onClose: () {
-              //     print('CLOSE ${data.campaigns[index].title}');
-              //   },
-              // );
             },
             itemCount: campaign.campaigns.length,
           ),
@@ -86,7 +75,9 @@ class Rewards extends HookWidget {
   }
 
   Widget? setRewardIndicatorComplete(
-      List<CampaignConditionModel> conditions, SimpleColors colors) {
+    List<CampaignConditionModel> conditions,
+    SimpleColors colors,
+  ) {
     var completeIndicator = 0;
     var isDisplayIndicator = false;
 
@@ -108,9 +99,8 @@ class Rewards extends HookWidget {
               Container(
                 width: 240.w,
                 height: 16.h,
-                // padding: EdgeInsets.only(left: 20.w,),
                 decoration: BoxDecoration(
-                  color: SColorsLight().blueLight,
+                  color: colors.grey4,
                   borderRadius: BorderRadius.circular(16.r),
                 ),
               ),

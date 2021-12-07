@@ -18,20 +18,13 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
     _logger.log(notifier, 'updateCampaigns');
 
     state = state.copyWith(campaigns: campaigns);
-    print('WAS UPDATE updateCampaigns ${state.campaigns.length}');
   }
 
   void deleteCampaign(CampaignModel campaign) {
     _logger.log(notifier, 'deleteCampaign');
 
-    print('state  length before ${state.campaigns.length}');
-
     final newList = List<CampaignModel>.from(state.campaigns);
-    print('newList before ${newList.length}');
     newList.remove(campaign);
-    print('newList after ${newList.length}');
     state = state.copyWith(campaigns: newList);
-
-    print('state  length after ${state.campaigns.length}');
   }
 }

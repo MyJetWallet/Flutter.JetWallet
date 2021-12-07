@@ -51,9 +51,8 @@ class MarketBannerList extends HookWidget {
         }
         return Container();
       },
-      loading: () => Loader(),
+      loading: () => const Loader(),
       error: (_, __) => const Text('Error'),
     );
   }
 }
-

@@ -23,14 +23,20 @@ class RewardsDescriptionItem extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return SizedBox(
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: 16.h,
+      ),
+      // decoration: BoxDecoration(
+      //   border: Border.all(width: 1.w),
+      // ),
       width: 287.w,
       child: Row(
         children: [
           Expanded(
             child: Baseline(
               baselineType: TextBaseline.alphabetic,
-              baseline: 17.h,
+              baseline: 13.h,
               child: Text(
                 setRewardDescriptionItem(condition),
                 style: setRewardDescriptionStyle(
@@ -42,7 +48,7 @@ class RewardsDescriptionItem extends HookWidget {
             ),
           ),
           setRewardIcon(condition, conditions),
-          const SpaceW10(),
+
         ],
       ),
     );

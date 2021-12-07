@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../shared.dart';
-import 'banners/simple_account_banners_example.dart';
 import 'buttons/simple_account_buttons_example.dart';
 import 'headers/simple_account_headers_example.dart';
 import 'indicators/simple_account_indicators_example.dart';
@@ -30,11 +29,6 @@ class SimpleAccountExample extends StatelessWidget {
             NavigationButton(
               buttonName: 'Indicators',
               routeName: SimpleAccountIndicatorsExample.routeName,
-            ),
-
-            NavigationButton(
-              buttonName: 'Banners',
-              routeName: SimpleAccountBannersExample.routeName,
             ),
           ],
         ),

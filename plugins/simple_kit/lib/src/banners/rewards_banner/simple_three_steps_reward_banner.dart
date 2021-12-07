@@ -48,7 +48,6 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
                           width: 197.w,
@@ -105,8 +104,12 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                   children: [
                     const SpaceH32(),
                     ...rewardDetail,
-                    if (rewardIndicatorComplete != null)
+                    if (rewardIndicatorComplete != null) ...[
+                      const SpaceH24(),
                       rewardIndicatorComplete!,
+                      const SpaceH30(),
+                    ],
+
                     // const SpaceH36(),
                     // SizedBox(
                     //   width: 287.w,

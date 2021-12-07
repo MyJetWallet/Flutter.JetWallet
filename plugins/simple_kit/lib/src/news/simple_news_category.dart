@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import 'components/simple_smile_icon.dart';
@@ -26,38 +25,36 @@ class SNewsCategory extends StatelessWidget {
       highlightColor: SColorsLight().grey5,
       onTap: onTap,
       child: SPaddingH24(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SSmileIcon(
-                    sentiment: sentiment,
-                  ),
-                  const SpaceW10(),
-                  Text(
-                    '$newsLabel - $timestamp',
-                    style: sCaptionTextStyle.copyWith(
-                      color: SColorsLight().grey1,
-                    ),
-                  ),
-                ],
-              ),
-              Baseline(
-                baseline: 30,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  newsText,
-                  maxLines: 2,
-                  style: sBodyText1Style.copyWith(
-                    overflow: TextOverflow.ellipsis,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SSmileIcon(
+                  sentiment: sentiment,
+                ),
+                const SpaceW10(),
+                Text(
+                  '$newsLabel - $timestamp',
+                  style: sCaptionTextStyle.copyWith(
+                    color: SColorsLight().grey1,
                   ),
                 ),
+              ],
+            ),
+            Baseline(
+              baseline: 30,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                newsText,
+                maxLines: 2,
+                style: sBodyText1Style.copyWith(
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              SpaceH20(),
-            ],
-          ),
+            ),
+            const SpaceH20(),
+          ],
         ),
       ),
     );
