@@ -28,6 +28,8 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/icons/light/16x16/fee_alert/
+    - assets/icons/light/16x16/cross/
     - assets/icons/light/16x16/small_arrow/
     - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
@@ -69,6 +71,12 @@ flutter:
     - assets/icons/light/24x24/angle_up/
     - assets/icons/light/24x24/copy/
     - assets/icons/light/24x24/share/
+    - assets/icons/light/24x24/paste/
+    - assets/icons/light/24x24/qr_code/
+    - assets/icons/light/24x24/adv_cash/
+    - assets/icons/light/24x24/phone/
+    - assets/icons/light/24x24/wallet/
+    - assets/icons/light/24x24/wire/
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/
     - assets/icons/light/36x36/keyboard_erase/

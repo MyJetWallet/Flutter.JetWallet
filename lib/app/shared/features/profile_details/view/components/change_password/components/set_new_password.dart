@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../auth/shared/components/notifications/show_errror_notification.dart';
 import '../../../../../../../../auth/shared/components/password_validation/password_validation.dart';
 import '../../../../../../../../auth/shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
@@ -31,7 +30,7 @@ class SetNewPassword extends HookWidget {
         state.union.when(
           error: (error) {
             loading.value.finishLoading();
-            showErrorNotification(
+            sShowErrorNotification(
               notificationQueueN,
               '$error',
             );

@@ -124,7 +124,6 @@ class SAddressFieldWithCopy extends HookWidget {
                       SIconButton(
                         onTap: valueLoading ? null : onTap,
                         defaultIcon: actionIcon!,
-                        pressedIcon: actionIcon!,
                       ),
                     ]
                   ],

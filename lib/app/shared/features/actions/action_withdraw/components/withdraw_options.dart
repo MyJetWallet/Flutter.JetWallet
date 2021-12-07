@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push_replacement.dart';
@@ -34,57 +33,59 @@ class _WithdrawOptions extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = useProvider(sColorPod);
-
     return Column(
       children: [
-        SAssetItem(
-          icon: SActionDepositIcon(
-            color: color.black,
+        // TODO Add Credit Card feature
+        // SAssetItem(
+        //   icon: SActionDepositIcon(
+        //     color: color.black,
+        //   ),
+        //   isCreditCard: true,
+        //   name: 'Mastercard',
+        //   amount: '•••• 1212',
+        //   description: 'Exp: 01/24',
+        //   helper: 'Lim: \$10 / \$10000',
+        //   onTap: () {
+        //
+        //   },
+        // ),
+        // TODO Add ADV Cash feature
+        // SActionItem(
+        //   icon: const SAdvCashIcon(),
+        //   name: 'ADV Cash',
+        //   description: 'Multifunctional payment hub',
+        //   helper: 'No fee',
+        //   onTap: () {
+        //     // TODO Add ADV Cash feature
+        //   },
+        // ),
+        if (currency.supportsSepaWithdrawal)
+          SActionItem(
+            icon: const SWireIcon(),
+            name: 'Wire transfer',
+            description: 'SEPA',
+            helper: 'No fee',
+            onTap: () {
+              // TODO Add Sepa feature
+            },
           ),
-          isCreditCard: true,
-          name: 'Mastercard',
-          amount: '•••• 1212',
-          description: 'Exp: 01/24',
-          helper: 'Lim: \$10 / \$10000',
-          onTap: () {
-            // TODO Add Credit Card feature
-          },
-        ),
-        SActionItem(
-          icon: const SActionDepositIcon(),
-          name: 'Wire transfer',
-          description: 'SEPA',
-          helper: 'No fee',
-          onTap: () {
-            // TODO Add Sepa feature
-          },
-        ),
-        SActionItem(
-          icon: const SActionBuyIcon(),
-          name: 'ADV Cash',
-          description: 'Multifunctional payment hub',
-          helper: 'No fee',
-          onTap: () {
-            // TODO Add ADV Cash feature
-          },
-        ),
-        SActionItem(
-          icon: const SMailIcon(),
-          name: 'Crypto Wallet',
-          description: 'BTC Wallet',
-          onTap: () {
-            navigatorPushReplacement(
-              context,
-              CurrencyWithdraw(
-                withdrawal: WithdrawalModel(
-                  currency: currency,
-                  dictionary: const WithdrawalDictionaryModel.withdraw(),
+        if (currency.supportsCryptoWithdrawal)
+          SActionItem(
+            icon: const SWalletIcon(),
+            name: 'Crypto Wallet',
+            description: 'BTC Wallet',
+            onTap: () {
+              navigatorPushReplacement(
+                context,
+                CurrencyWithdraw(
+                  withdrawal: WithdrawalModel(
+                    currency: currency,
+                    dictionary: const WithdrawalDictionaryModel.withdraw(),
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
         const SpaceH40(),
       ],
     );

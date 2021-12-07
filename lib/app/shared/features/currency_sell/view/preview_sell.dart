@@ -60,7 +60,7 @@ class _PreviewSell extends State<PreviewSell>
       },
       child: SPageFrameWithPadding(
         loading: loader.value,
-        header: SBigHeader(
+        header: SMegaHeader(
           title: notifier.previewHeader,
           onBackButtonTap: () {
             notifier.cancelTimer();

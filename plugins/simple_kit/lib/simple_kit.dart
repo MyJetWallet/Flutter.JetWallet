@@ -34,7 +34,6 @@ export 'src/actions/simple_payment_select_default.dart';
 export 'src/actions/simple_payment_select_fiat.dart';
 
 /// Agreements
-export 'src/agreements/simple_password_requirement/simple_password_requirement.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'src/agreements/simple_privacy_policy/simple_policy_text.dart';
 
@@ -80,6 +79,7 @@ export 'src/fields/standard_field/public/simple_standard_field_obscure.dart';
 export 'src/headers/simple_big_header.dart';
 export 'src/headers/simple_market_header/simple_market_header.dart';
 export 'src/headers/simple_market_header/simple_market_header_closed.dart';
+export 'src/headers/simple_mega_header.dart';
 export 'src/headers/simple_small_header.dart';
 
 /// Icons
@@ -89,6 +89,8 @@ export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard
 export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard_face_id_pressed_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_pressed_icon.dart';
+export 'src/icons/16x16/public/close/simple_close_icon.dart';
+export 'src/icons/16x16/public/fee_alert/simple_fee_alert_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_positive_icon.dart';
 export 'src/icons/16x16/public/smiles/simple_smile_bad_icon.dart';
@@ -104,6 +106,7 @@ export 'src/icons/24x24/public/action_receive/simple_action_receive_icon.dart';
 export 'src/icons/24x24/public/action_sell/simple_action_sell_icon.dart';
 export 'src/icons/24x24/public/action_send/simple_action_send_icon.dart';
 export 'src/icons/24x24/public/action_withdraw/simple_action_withdraw_icon.dart';
+export 'src/icons/24x24/public/adv_cash/simple_adv_cash_icon.dart';
 export 'src/icons/24x24/public/angle_down/simple_angle_down_icon.dart';
 export 'src/icons/24x24/public/angle_down/simple_angle_down_pressed_icon.dart';
 export 'src/icons/24x24/public/angle_up/simple_angle_up_icon.dart';
@@ -139,9 +142,14 @@ export 'src/icons/24x24/public/log_out/simple_log_out_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_icon.dart';
 export 'src/icons/24x24/public/mail/simple_mail_pressed_icon.dart';
 export 'src/icons/24x24/public/notifications/simple_notifications_icon.dart';
+export 'src/icons/24x24/public/paste/simple_paste_icon.dart';
+export 'src/icons/24x24/public/paste/simple_paste_pressed_icon.dart';
+export 'src/icons/24x24/public/phone/simple_phone_icon.dart';
 export 'src/icons/24x24/public/photo/simple_photo_icon.dart';
 export 'src/icons/24x24/public/photo/simple_photo_pressed_icon.dart';
 export 'src/icons/24x24/public/profile_details/simple_profile_details_icon.dart';
+export 'src/icons/24x24/public/qr_code/simple_qr_code_icon.dart';
+export 'src/icons/24x24/public/qr_code/simple_qr_code_pressed_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_pressed_icon.dart';
 export 'src/icons/24x24/public/security/simple_security_icon.dart';
@@ -151,6 +159,8 @@ export 'src/icons/24x24/public/star/simple_star_pressed_icon.dart';
 export 'src/icons/24x24/public/star/simple_star_selected_icon.dart';
 export 'src/icons/24x24/public/support/simple_support_icon.dart';
 export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
+export 'src/icons/24x24/public/wallet/simple_wallet_icon.dart';
+export 'src/icons/24x24/public/wire/simple_wire_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
@@ -173,6 +183,9 @@ export 'src/keyboards/constants.dart';
 export 'src/keyboards/simple_numeric_keyboard_amount.dart';
 export 'src/keyboards/simple_numeric_keyboard_pin.dart';
 
+/// News
+export 'src/news/simple_news_category.dart';
+
 /// Notifications
 export 'src/notifications/model/simple_notification.dart';
 export 'src/notifications/notifier/simple_notification_queue_notifier.dart';
@@ -190,16 +203,20 @@ export 'src/shared/components/qr_code_fields/simple_qr_code_box.dart';
 export 'src/shared/components/qr_code_fields/simple_skeleton_qr_loader.dart';
 
 /// Components
+export 'src/shared/components/simple_baseline_child.dart';
+export 'src/shared/components/simple_clickable_link_text.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
 export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_profile_details_button.dart';
-
-/// Popup
+export 'src/shared/components/simple_requirement.dart';
 export 'src/shared/components/simple_show_alert_popup.dart';
+export 'src/shared/components/simple_show_errror_notification.dart';
 export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
+export 'src/shared/components/simple_spacers.dart';
+export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 
@@ -214,8 +231,3 @@ export 'src/texts/simple_text_styles.dart';
 
 /// Theme
 export 'src/theme/provider/simple_theme_pod.dart';
-
-/// News
-export 'src/news/simple_news_category.dart';
-export 'src/shared/components/simple_spacers.dart';
-export 'src/shared/components/simple_transparent_ink_well.dart';

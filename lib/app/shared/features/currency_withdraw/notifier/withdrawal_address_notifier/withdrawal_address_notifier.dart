@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/blockchain/model/validate_address/validate_address_request_model.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
@@ -21,6 +22,8 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     this.withdrawal,
   ) : super(
           WithdrawalAddressState(
+            addressErrorNotifier: StandardFieldErrorNotifier(),
+            tagErrorNotifier: StandardFieldErrorNotifier(),
             addressController: TextEditingController(),
             tagController: TextEditingController(),
             addressFocus: FocusNode(),
@@ -29,6 +32,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
           ),
         ) {
     currency = withdrawal.currency;
+    state = state.copyWith(currency: currency);
   }
 
   final Reader read;
@@ -88,7 +92,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _moveCursorAtTheEnd(state.addressController);
     state.addressFocus.requestFocus();
     updateAddress(copiedText);
-    await _validateAddressOrTag(_updateAddressValidation);
+    await _validateAddressOrTag(
+      _updateAddressValidation,
+      _triggerErrorOfAddressField,
+    );
   }
 
   Future<void> pasteTag() async {
@@ -99,7 +106,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _moveCursorAtTheEnd(state.tagController);
     state.tagFocus.requestFocus();
     updateTag(copiedText);
-    await _validateAddressOrTag(_updateTagValidation, withTag: true);
+    await _validateAddressOrTag(
+      _updateTagValidation,
+      _triggerErrorOfTagField,
+    );
   }
 
   Future<void> scanAddressQr(BuildContext context) async {
@@ -112,7 +122,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       _moveCursorAtTheEnd(state.addressController);
       state.addressFocus.requestFocus();
       updateAddress(result.code ?? '');
-      await _validateAddressOrTag(_updateAddressValidation);
+      await _validateAddressOrTag(
+        _updateAddressValidation,
+        _triggerErrorOfAddressField,
+      );
     }
   }
 
@@ -126,7 +139,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       _moveCursorAtTheEnd(state.tagController);
       state.tagFocus.requestFocus();
       updateTag(result.code ?? '');
-      await _validateAddressOrTag(_updateTagValidation, withTag: true);
+      await _validateAddressOrTag(
+        _updateTagValidation,
+        _triggerErrorOfTagField,
+      );
     }
   }
 
@@ -168,46 +184,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   Future<void> _validateAddressOrTag(
-    void Function(AddressValidationUnion) updateValidation, {
-    bool withTag = false,
-  }) async {
+    void Function(AddressValidationUnion) updateValidation,
+    void Function() triggerErrorOfField,
+  ) async {
     updateValidation(const Loading());
-
-    try {
-      final model = ValidateAddressRequestModel(
-        assetSymbol: currency.symbol,
-        toAddress: state.address,
-        toTag: withTag ? state.tag : null,
-      );
-
-      final service = read(blockchainServicePod);
-
-      final response = await service.validateAddress(model);
-
-      if (!mounted) return;
-
-      _updateAddressIsInternal(response.isInternal);
-
-      updateValidation(
-        response.isValid ? const Valid() : const Invalid(),
-      );
-    } catch (error) {
-      if (!mounted) return;
-      _logger.log(stateFlow, '_validateAddress', error);
-      updateValidation(const Invalid());
-    }
-  }
-
-  Future<void> validateAddressAndTag(BuildContext context) async {
-    _logger.log(notifier, 'validateAddressAndTag');
-
-    if (state.credentialsValid(currency)) {
-      _pushWithdrawalAmount(context);
-      return;
-    }
-
-    _updateAddressValidation(const Loading());
-    _updateTagValidation(const Loading());
 
     try {
       final model = ValidateAddressRequestModel(
@@ -224,20 +204,83 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
       _updateAddressIsInternal(response.isInternal);
 
-      final validation = response.isValid ? const Valid() : const Invalid();
+      if (response.isValid) {
+        updateValidation(const Valid());
+      } else {
+        updateValidation(const Invalid());
+        triggerErrorOfField();
+      }
+    } catch (error) {
+      if (!mounted) return;
+      _logger.log(stateFlow, '_validateAddressOrTag', error);
+      updateValidation(const Invalid());
+      triggerErrorOfField();
+    }
+  }
 
-      _updateAddressValidation(validation);
-      _updateTagValidation(validation);
+  Future<void> validateOnContinue(BuildContext context) async {
+    _logger.log(notifier, 'validateAddressAndTag');
 
-      if (state.credentialsValid(currency)) {
+    if (state.credentialsValid) {
+      _pushWithdrawalAmount(context);
+      return;
+    }
+
+    _updateValidationOfBothFields(const Loading());
+
+    try {
+      final model = ValidateAddressRequestModel(
+        assetSymbol: currency.symbol,
+        toAddress: state.address,
+        toTag: state.tag,
+      );
+
+      final service = read(blockchainServicePod);
+
+      final response = await service.validateAddress(model);
+
+      if (!mounted) return;
+
+      _updateAddressIsInternal(response.isInternal);
+
+      if (response.isValid) {
+        _updateValidationOfBothFields(const Valid());
+      } else {
+        _updateValidationOfBothFields(const Invalid());
+        _triggerErrorOfBothFields();
+      }
+
+      if (state.credentialsValid) {
         _pushWithdrawalAmount(context);
       }
     } catch (error) {
       if (!mounted) return;
       _logger.log(stateFlow, 'validateAddressAndTag', error);
-      _updateAddressValidation(const Invalid());
-      _updateTagValidation(const Invalid());
+      _updateValidationOfBothFields(const Invalid());
+      _triggerErrorOfBothFields();
     }
+  }
+
+  void _updateValidationOfBothFields(AddressValidationUnion value) {
+    _updateAddressValidation(value);
+    if (currency.hasTag) {
+      _updateTagValidation(value);
+    }
+  }
+
+  void _triggerErrorOfBothFields() {
+    _triggerErrorOfAddressField();
+    if (currency.hasTag) {
+      _triggerErrorOfTagField();
+    }
+  }
+
+  void _triggerErrorOfAddressField() {
+    state.addressErrorNotifier!.enableError();
+  }
+
+  void _triggerErrorOfTagField() {
+    state.tagErrorNotifier!.enableError();
   }
 
   void _updateAddressValidation(AddressValidationUnion value) {

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../../shared/components/loaders/loader.dart';
-import '../../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../../shared/components/spacers.dart';
-import '../../../../components/action_preview/action_preview_divider.dart';
-import '../../../../components/action_preview/action_preview_row.dart';
 import '../../../../helpers/short_address_form.dart';
 import '../../helper/user_will_receive.dart';
 import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
+import '../../notifier/withdrawal_preview_notifier/withdrawal_preview_state.dart';
 
 class WithdrawalPreview extends HookWidget {
   const WithdrawalPreview({
@@ -25,51 +22,67 @@ class WithdrawalPreview extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(withdrawalPreviewNotipod(withdrawal));
     final notifier = useProvider(withdrawalPreviewNotipod(withdrawal).notifier);
+    final loader = useValueNotifier(StackLoaderNotifier());
 
     final currency = withdrawal.currency;
     final verb = withdrawal.dictionary.verb;
 
-    return PageFrame(
-      header: '$verb ${currency.description} (${currency.symbol})',
-      onBackButton: () => Navigator.pop(context),
-      child: Column(
-        children: [
-          const Spacer(),
-          const ActionPreviewDivider(),
-          ActionPreviewRow(
-            description: '$verb to',
-            value: shortAddressForm(state.address),
-          ),
-          const ActionPreviewDivider(),
-          ActionPreviewRow(
-            description: 'You will receive',
-            value: userWillreceive(
-              currency: currency,
-              amount: state.amount,
-              addressIsInternal: state.addressIsInternal,
+    return ProviderListener<WithdrawalPreviewState>(
+      provider: withdrawalPreviewNotipod(withdrawal),
+      onChange: (_, state) {
+        if (state.loading) {
+          loader.value.startLoading();
+        } else {
+          loader.value.finishLoading();
+        }
+      },
+      child: SPageFrameWithPadding(
+        loading: loader.value,
+        header: SMegaHeader(
+          title: 'Confirm $verb ${currency.description}',
+        ),
+        child: Column(
+          children: [
+            const Spacer(),
+            SActionConfirmIconWithAnimation(
+              iconUrl: currency.iconUrl,
             ),
-          ),
-          const ActionPreviewDivider(),
-          ActionPreviewRow(
-            description: 'Fee',
-            value: state.addressIsInternal
-                ? 'No fee'
-                : currency.withdrawalFeeWithSymbol,
-          ),
-          const ActionPreviewDivider(),
-          ActionPreviewRow(
-            description: 'Total',
-            value: '${state.amount} ${currency.symbol}',
-          ),
-          const SpaceH20(),
-          if (state.loading)
-            const Loader()
-          else
-            AppButtonSolid(
+            const Spacer(),
+            SActionConfirmText(
+              name: '$verb to',
+              value: shortAddressForm(state.address),
+            ),
+            SActionConfirmText(
+              name: 'You will receive',
+              value: userWillreceive(
+                currency: currency,
+                amount: state.amount,
+                addressIsInternal: state.addressIsInternal,
+              ),
+            ),
+            SActionConfirmText(
+              name: 'Fee',
+              value: state.addressIsInternal
+                  ? 'No fee'
+                  : currency.withdrawalFeeWithSymbol,
+            ),
+            SBaselineChild(
+              baseline: 40.h,
+              child: const SDivider(),
+            ),
+            SActionConfirmText(
+              name: 'Total',
+              value: '${state.amount} ${currency.symbol}',
+            ),
+            const SpaceH40(),
+            SPrimaryButton2(
+              active: !state.loading,
               name: 'Confirm',
               onTap: () => notifier.withdraw(),
-            )
-        ],
+            ),
+            const SpaceH24(),
+          ],
+        ),
       ),
     );
   }

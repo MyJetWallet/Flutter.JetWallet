@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../../shared/components/loaders/loader.dart';
-import '../../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
@@ -27,80 +24,93 @@ class WithdrawalConfirm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final timer = useProvider(timerNotipod(withdrawalConfirmResendCountdown));
     final timerN = useProvider(
       timerNotipod(withdrawalConfirmResendCountdown).notifier,
     );
     final authInfo = useProvider(authInfoNotipod);
+    final confirm = useProvider(withdrawalConfirmNotipod(withdrawal));
     final confirmN = useProvider(withdrawalConfirmNotipod(withdrawal).notifier);
     final id = useProvider(withdrawalPreviewNotipod(withdrawal)).operationId;
     final dynamicLink = useProvider(withdrawDynamicLinkStpod(id));
+    final loader = useValueNotifier(StackLoaderNotifier());
 
     final verb = withdrawal.dictionary.verb.toLowerCase();
     final noun = withdrawal.dictionary.noun.toLowerCase();
 
-    return PageFrame(
-      leftIcon: Icons.clear,
-      onBackButton: () => navigateToRouter(context.read),
-      header: 'Confirm $verb request',
-      child: Column(
-        mainAxisAlignment: dynamicLink.state
-            ? MainAxisAlignment.center
-            : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (dynamicLink.state)
-            const Loader()
-          else ...[
-            const SpaceH20(),
-            Text(
-              'Confirm your $noun request by opening the link in '
-              'the email we sent to: ${authInfo.email}',
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: Colors.black54,
-              ),
-            ),
-            const SpaceH20(),
-            Text(
-              'This link expires in 1 hour',
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: Colors.black54,
-              ),
-            ),
-            const SpaceH2(),
-            if (timer != 0)
-              Text(
-                'You can resend in $timer',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.grey,
+    return ProviderListener<StateController<bool>>(
+      provider: withdrawDynamicLinkStpod(id),
+      onChange: (_, value) {
+        if (value.state) {
+          loader.value.startLoading();
+        } else {
+          loader.value.finishLoading();
+        }
+      },
+      child: SPageFrameWithPadding(
+        header: SMegaHeader(
+          title: 'Confirm $verb request',
+          titleAlign: TextAlign.start,
+          onBackButtonTap: () => navigateToRouter(context.read),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Baseline(
+              baseline: 24.h,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                'Confirm your $noun request by opening the link in '
+                'the email we sent to:',
+                maxLines: 3,
+                style: sBodyText1Style.copyWith(
+                  color: colors.grey1,
                 ),
-              )
-            else
-              InkWell(
+              ),
+            ),
+            Text(
+              authInfo.email,
+              maxLines: 2,
+              style: sBodyText1Style,
+            ),
+            SBaselineChild(
+              baseline: 40.h,
+              child: SClickableLinkText(
+                text: 'Open email app',
+                onTap: () => openEmailApp(context),
+              ),
+            ),
+            const Spacer(),
+            Center(
+              child: Text(
+                timer != 0
+                    ? 'You can resend in $timer seconds'
+                    : "Didn't receive the code?",
+                style: sCaptionTextStyle.copyWith(
+                  color: colors.grey2,
+                ),
+              ),
+            ),
+            const SpaceH14(),
+            Visibility(
+              visible: timer == 0,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: STextButton1(
+                active: !dynamicLink.state && !confirm.isResending,
+                name: 'Resend',
                 onTap: () {
                   confirmN.withdrawalResend(
                     then: () => timerN.refreshTimer(),
                   );
                 },
-                child: Text(
-                  'Resend',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.black54,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
               ),
-            const Spacer(),
-            AppButtonSolid(
-              name: 'Open Email App',
-              onTap: () => openEmailApp(context),
             ),
+            const SpaceH24(),
           ],
-        ],
+        ),
       ),
     );
   }

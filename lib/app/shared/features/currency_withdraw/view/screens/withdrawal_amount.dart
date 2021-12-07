@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../../shared/components/spacers.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../components/asset_input_error.dart';
-import '../../../../components/asset_input_field.dart';
-import '../../../../components/asset_tile/asset_tile.dart';
-import '../../../../components/balance_selector/view/percent_selector.dart';
-import '../../../../components/number_keyboard/number_keyboard_amount.dart';
-import '../../../../components/text/asset_conversion_text.dart';
+import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/short_address_form.dart';
 import '../../helper/minimum_amount.dart';
@@ -30,80 +24,89 @@ class WithdrawalAmount extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAmountNotipod(withdrawal));
     final notifier = useProvider(withdrawalAmountNotipod(withdrawal).notifier);
 
     final currency = withdrawal.currency;
 
-    return PageFrame(
-      header: '${withdrawal.dictionary.verb} '
-          '${currency.description} (${currency.symbol})',
-      onBackButton: () => Navigator.pop(context),
-      resizeToAvoidBottomInset: false,
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: '${withdrawal.dictionary.verb} ${currency.description}',
+        ),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SActionPriceField(
+            price: formatCurrencyStringAmount(
+              prefix: currency.prefixSymbol,
+              value: state.amount,
+              symbol: currency.symbol,
+            ),
+            helper: '≈ ${state.baseConversionValue} '
+                '${state.baseCurrency!.symbol}',
+            error: state.inputError == InputError.enterHigherAmount
+                ? '${state.inputError.value}. ${minimumAmount(currency)}'
+                : state.inputError.value,
+            isErrorActive: state.inputError.isActive,
+          ),
+          SBaselineChild(
+            baseline: 24.h,
+            child: Text(
+              'Available: ${currency.formattedAssetBalance}',
+              style: sSubtitle3Style.copyWith(
+                color: colors.grey2,
+              ),
+            ),
+          ),
+          SBaselineChild(
+            baseline: 36.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SFeeAlertIcon(),
+                const SpaceW10(),
+                Text(
+                  _feeDescription(state.addressIsInternal, state.amount),
+                  style: sCaptionTextStyle.copyWith(
+                    color: colors.grey2,
+                  ),
+                ),
+              ],
+            ),
+          ),
           const Spacer(),
-          AssetInputField(
-            value: '${state.amount} ${currency.symbol}',
-          ),
           const SpaceH10(),
-          if (state.inputError.isActive)
-            if (state.inputError == InputError.enterHigherAmount)
-              AssetInputError(
-                text: '${state.inputError.value}. ${minimumAmount(currency)}',
-              )
-            else
-              AssetInputError(
-                text: state.inputError.value,
-              )
-          else ...[
-            CenterAssetConversionText(
-              text: '≈ ${state.baseConversionValue} '
-                  '${state.baseCurrency!.symbol}',
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
+          SPaymentSelectAsset(
+            icon: SWalletIcon(
+              color: colors.black,
             ),
-            CenterAssetConversionText(
-              text: 'Available: ${currency.assetBalance} ${currency.symbol}',
-            ),
-            const SpaceH20(),
-            AssetConversionText(
-              text: _feeDescription(state.addressIsInternal, state.amount),
-            ),
-          ],
-          const Spacer(),
-          AssetTile(
-            headerColor: Colors.black,
-            firstColumnHeader: shortAddressForm(state.address),
-            firstColumnSubheader: '${currency.symbol} wallet',
-            enableBalanceColumn: false,
-            currency: currency,
-          ),
-          const SpaceH10(),
-          PercentSelector(
-            disabled: false,
-            onSelection: (value) {
-              notifier.selectPercentFromBalance(value);
-            },
-          ),
-          const SpaceH10(),
-          NumberKeyboardAmount(
-            onKeyPressed: (value) => notifier.updateAmount(value),
+            name: shortAddressForm(state.address),
+            description: '${currency.symbol} wallet',
           ),
           const SpaceH20(),
-          AppButtonSolid(
-            name: 'Preview ${withdrawal.dictionary.noun}',
-            active: state.valid,
-            onTap: () {
-              if (state.valid) {
-                navigatorPush(
-                  context,
-                  WithdrawalPreview(
-                    withdrawal: withdrawal,
-                  ),
-                );
-              }
+          SNumericKeyboardAmount(
+            preset1Name: '25%',
+            preset2Name: '50%',
+            preset3Name: 'MAX',
+            selectedPreset: state.selectedPreset,
+            onPresetChanged: (preset) {
+              notifier.selectPercentFromBalance(preset);
+            },
+            onKeyPressed: (value) {
+              notifier.updateAmount(value);
+            },
+            buttonType: SButtonType.primary2,
+            submitButtonActive: state.valid,
+            submitButtonName: 'Preview ${withdrawal.dictionary.verb}',
+            onSubmitPressed: () {
+              navigatorPush(
+                context,
+                WithdrawalPreview(
+                  withdrawal: withdrawal,
+                ),
+              );
             },
           ),
         ],
@@ -123,9 +126,9 @@ class WithdrawalAmount extends HookWidget {
     final youWillReceive = 'You will receive: $result';
 
     if (isInternal) {
-      return 'No ${withdrawal.dictionary.noun} fee! / $youWillReceive';
+      return 'No Fee / $youWillReceive';
     } else {
-      return 'Your fee is: ${currency.withdrawalFeeWithSymbol} / $youWillReceive';
+      return 'Fee: ${currency.withdrawalFeeWithSymbol} / $youWillReceive';
     }
   }
 }
