@@ -8,8 +8,8 @@ import '../../../../../shared/features/rewards/notifier/campaign_notipod.dart';
 import '../../../../../shared/helpers/set_banner_colors.dart';
 import '../../../provider/market_campaigns_pod.dart';
 
-class MarketBannerList extends HookWidget {
-  const MarketBannerList({
+class MarketBanner extends HookWidget {
+  const MarketBanner({
     Key? key,
   }) : super(key: key);
 
