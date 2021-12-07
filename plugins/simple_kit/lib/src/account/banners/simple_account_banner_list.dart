@@ -32,7 +32,7 @@ class SimpleAccountBannerList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           const SpaceW24(),
-          if (kycPassed)
+          if (!kycPassed)
             SimpleAccountBanner(
               onTap: () {},
               bannerColor: colors.violet,
@@ -41,7 +41,7 @@ class SimpleAccountBannerList extends StatelessWidget {
                   'you are required to pass the '
                   'verification process.',
             ),
-          if (phoneVerified)
+          if (!phoneVerified)
             SimpleAccountBanner(
               onTap: () {},
               bannerColor: colors.greenLight,
@@ -50,7 +50,7 @@ class SimpleAccountBannerList extends StatelessWidget {
                   'You’ll be notified after we’ve completed the process. '
                   'Usually within a few hours',
             ),
-          if (twoFaEnabled)
+          if (!twoFaEnabled)
             SimpleAccountBanner(
               onTap: () {
                 onTwoFaBannerTap?.call();
@@ -84,7 +84,7 @@ class SimpleAccountBannerList extends StatelessWidget {
     } else if (!twoFaEnabled) {
       return 0.18.sh;
     } else {
-      return 0.22.sh;
+      return 0.16.sh;
     }
   }
 }
