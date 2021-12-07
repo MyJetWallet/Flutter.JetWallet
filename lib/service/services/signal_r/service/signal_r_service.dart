@@ -10,6 +10,7 @@ import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
+import '../../campaign/model/campaign_response_model.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
@@ -47,6 +48,7 @@ class SignalRService {
   final _periodPricesController = StreamController<PeriodPricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
   final _keyValueController = StreamController<KeyValueModel>();
+  final _campaignsBannersController = StreamController<CampaignResponseModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -60,6 +62,15 @@ class SignalRService {
     isDisconnecting = false;
 
     _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
+
+    _connection?.on(campaignsBannersMessage, (data) {
+      try {
+        final campaigns = CampaignResponseModel.fromJson(_json(data));
+        _campaignsBannersController.add(campaigns);
+      } catch (e) {
+        _logger.log(contract, campaignsBannersMessage, e);
+      }
+    });
 
     _connection?.onclose((error) {
       if (!isDisconnecting) {
@@ -190,6 +201,9 @@ class SignalRService {
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
 
   Stream<KeyValueModel> keyValue() => _keyValueController.stream;
+
+  Stream<CampaignResponseModel> marketCampaigns() =>
+      _campaignsBannersController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

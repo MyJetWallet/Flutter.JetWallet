@@ -12,6 +12,8 @@ class CampaignModel with _$CampaignModel {
     @JsonKey(name: 'expirationTime') required String timeToComplete,
     List<CampaignConditionModel>? conditions,
     String? imageUrl,
+    required String campaignId,
+    required String deepLink,
   }) = _CampaignModel;
 
   factory CampaignModel.fromJson(Map<String, dynamic> json) =>
