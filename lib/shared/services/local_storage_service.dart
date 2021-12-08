@@ -9,6 +9,7 @@ const privateKeyKey = 'privateKey';
 const pinStatusKey = 'pinStatusKey';
 const contactsPermissionKey = 'contactsPermissionKey';
 const pinDisabledKey = 'pinDisabledKey';
+const bannersIdsKey = 'bannersIds';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
@@ -21,11 +22,11 @@ class LocalStorageService {
     await _storage.write(key: key, value: value);
   }
 
-  Future<void> setStringArray(String key, List<String> value) async {
-    await _storage.write(key: key, value: jsonEncode(value));
+  Future<void> setJson(String key, List<String> json) async {
+    await _storage.write(key: key, value: jsonEncode(json));
   }
 
-  Future<String?> getStringArray(String key) async {
+  Future<String?> getJson(String key) async {
     return _storage.read(key: key);
   }
 

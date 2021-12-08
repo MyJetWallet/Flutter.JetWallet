@@ -57,7 +57,6 @@ class Account extends HookWidget {
                     kycPassed: userInfo.kycPassed,
                     twoFaEnabled: userInfo.twoFaEnabled,
                     phoneVerified: userInfo.phoneVerified,
-                    colors: colors,
                     onTwoFaBannerTap: () => TwoFaScreen.push(context),
                     onChatBannerTap: () {},
                 ),

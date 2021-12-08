@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../simple_kit.dart';
+import 'helper/set_circle_background_image.dart';
 
 class SThreeStepsRewardBanner extends StatelessWidget {
   const SThreeStepsRewardBanner({
@@ -14,12 +16,12 @@ class SThreeStepsRewardBanner extends StatelessWidget {
     required this.timeToComplete,
   }) : super(key: key);
 
-  final String primaryText;
-  final String timeToComplete;
   final String? imageUrl;
   final Color? circleAvatarColor;
-  final List<Widget> rewardDetail;
   final Widget? rewardIndicatorComplete;
+  final String primaryText;
+  final String timeToComplete;
+  final List<Widget> rewardDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +70,9 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                         ),
                         const SpaceW20(),
                         CircleAvatar(
-                          radius: 34.r,
+                          radius: 32.r,
                           backgroundColor: circleAvatarColor,
-                          backgroundImage: (imageUrl != null)
-                              ? NetworkImage(imageUrl!)
-                              : null,
+                          backgroundImage: setCircleBackgroundImage(imageUrl),
                         ),
                       ],
                     ),

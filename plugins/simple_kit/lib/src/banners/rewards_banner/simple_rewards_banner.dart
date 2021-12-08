@@ -3,24 +3,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 import '../../icons/24x24/public/erase/simple_erase_market_icon.dart';
+import 'helper/set_circle_background_image.dart';
 
 class SRewardBanner extends StatelessWidget {
-  const SRewardBanner({
+  const
+  SRewardBanner({
     Key? key,
     this.secondaryText,
     this.imageUrl,
     this.onClose,
-    this.fontPrimaryText,
-    required this.bannerColor,
+    this.primaryTextStyle,
+    required this.color,
     required this.primaryText,
   }) : super(key: key);
 
-  final Color bannerColor;
-  final String primaryText;
+  final Function()? onClose;
   final String? secondaryText;
   final String? imageUrl;
-  final Function()? onClose;
-  final TextStyle? fontPrimaryText;
+  final TextStyle? primaryTextStyle;
+  final Color color;
+  final String primaryText;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,6 @@ class SRewardBanner extends StatelessWidget {
           margin: EdgeInsets.only(
             bottom: 20.h,
           ),
-          //height: 180.h,
           width: 327.w,
           padding: EdgeInsets.only(
             left: 20.w,
@@ -40,7 +41,7 @@ class SRewardBanner extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
-            color: bannerColor,
+            color: color,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,8 +49,7 @@ class SRewardBanner extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40.r,
-                backgroundImage:
-                    (imageUrl != null) ? NetworkImage(imageUrl!) : null,
+                backgroundImage: setCircleBackgroundImage(imageUrl),
               ),
               const SpaceW16(),
               Column(
@@ -67,7 +67,7 @@ class SRewardBanner extends StatelessWidget {
                         primaryText,
                         textAlign: TextAlign.start,
                         maxLines: 2,
-                        style: fontPrimaryText ?? sTextH4Style,
+                        style: primaryTextStyle ?? sTextH4Style,
                       ),
                     ),
                   ),

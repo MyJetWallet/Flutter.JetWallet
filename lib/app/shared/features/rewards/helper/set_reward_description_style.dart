@@ -12,7 +12,7 @@ TextStyle setRewardDescriptionStyle(
   if (conditions.length > 1) {
     if (condition.type == ConditionType.kYCCondition.value) {
       return TextStyle(
-        color: (condition.params!.passed == 'false')
+        color: (condition.parameters!.passed == 'false')
             ? colors.blue
             : colors.black,
       );
@@ -20,14 +20,14 @@ TextStyle setRewardDescriptionStyle(
       final currentIndexCondition = conditions.indexOf(condition);
       final prevCondition = conditions[currentIndexCondition - 1];
 
-      if (prevCondition.params!.passed == 'false') {
+      if (prevCondition.parameters!.passed == 'false') {
         return TextStyle(
           color: colors.grey1,
         );
       }
 
       return TextStyle(
-        color: (condition.params!.passed == 'false')
+        color: (condition.parameters!.passed == 'false')
             ? colors.blue
             : colors.black,
       );
@@ -35,7 +35,7 @@ TextStyle setRewardDescriptionStyle(
   } else {
     return TextStyle(
       color:
-      (condition.params!.passed == 'false') ? colors.blue : colors.black,
+      (condition.parameters!.passed == 'false') ? colors.blue : colors.black,
     );
   }
 }

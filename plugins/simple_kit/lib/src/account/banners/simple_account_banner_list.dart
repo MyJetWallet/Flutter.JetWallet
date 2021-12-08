@@ -7,18 +7,16 @@ class SimpleAccountBannerList extends StatelessWidget {
     Key? key,
     this.onTwoFaBannerTap,
     this.onChatBannerTap,
-    required this.colors,
     required this.twoFaEnabled,
     required this.kycPassed,
     required this.phoneVerified,
   }) : super(key: key);
 
-  final SimpleColors colors;
+  final Function()? onTwoFaBannerTap;
+  final Function()? onChatBannerTap;
   final bool twoFaEnabled;
   final bool kycPassed;
   final bool phoneVerified;
-  final Function()? onTwoFaBannerTap;
-  final Function()? onChatBannerTap;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class SimpleAccountBannerList extends StatelessWidget {
           if (!kycPassed)
             SimpleAccountBanner(
               onTap: () {},
-              bannerColor: colors.violet,
+              color: SColorsLight().violet,
               header: 'Verify your profile',
               description: 'In accordance with KYC and AML Policy, '
                   'you are required to pass the '
@@ -44,7 +42,7 @@ class SimpleAccountBannerList extends StatelessWidget {
           if (!phoneVerified)
             SimpleAccountBanner(
               onTap: () {},
-              bannerColor: colors.greenLight,
+              color: SColorsLight().greenLight,
               header: 'Verifying now',
               description:
                   'You’ll be notified after we’ve completed the process. '
@@ -55,7 +53,7 @@ class SimpleAccountBannerList extends StatelessWidget {
               onTap: () {
                 onTwoFaBannerTap?.call();
               },
-              bannerColor: colors.redLight,
+              color: SColorsLight().redLight,
               header: 'Enable 2-Factor\nauthentication',
               description:
                   'To protect your account, it is recommended to turn on',
@@ -64,7 +62,7 @@ class SimpleAccountBannerList extends StatelessWidget {
             onTap: () {
               onChatBannerTap?.call();
             },
-            bannerColor: colors.yellowLight,
+            color: SColorsLight().yellowLight,
             header: 'Chat with support',
             description: 'Have any questions?\nWe here to help 24/7',
           ),

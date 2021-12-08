@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'additional_prop_model.dart';
+import 'campaign_condition_parameters_model.dart';
 import 'reward_model.dart';
 
 part 'campaign_condition_model.freezed.dart';
@@ -10,9 +10,9 @@ part 'campaign_condition_model.g.dart';
 @freezed
 class CampaignConditionModel with _$CampaignConditionModel {
   const factory CampaignConditionModel({
-    required int type,
-    AdditionalPropModel? params,
+    @JsonKey(name: 'params') CampaignConditionParametersModel? parameters,
     RewardModel? reward,
+    required int type,
   }) = _CampaignConditionModel;
 
 factory CampaignConditionModel.fromJson(Map<String, dynamic> json) =>

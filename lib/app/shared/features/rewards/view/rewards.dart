@@ -5,14 +5,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../helpers/set_banner_colors.dart';
 import '../../market_details/helper/format_news_date.dart';
-import '../helpers/create_reward_detail.dart';
-import '../helpers/set_reward_indicator_complete.dart';
+import '../helper/create_reward_detail.dart';
+import '../helper/set_reward_indicator_complete.dart';
 import '../notifier/campaign_notipod.dart';
 
 class Rewards extends HookWidget {
-  const Rewards({
-    Key? key,
-  }) : super(key: key);
+  const Rewards({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +18,8 @@ class Rewards extends HookWidget {
     final colors = useProvider(sColorPod);
 
     return SPageFrameWithPadding(
-      header: SSmallHeader(
+      header: const SSmallHeader(
         title: 'Rewards',
-        onBackButtonTap: () => Navigator.pop(context),
       ),
       child: ListView.builder(
         padding: EdgeInsets.zero,
@@ -32,7 +29,7 @@ class Rewards extends HookWidget {
               if (index == 0) const SpaceH20(),
               if (campaign.campaigns[index].conditions == null) ...[
                 SRewardBanner(
-                  bannerColor: setBannerColor(index, colors),
+                  color: setBannerColor(index, colors),
                   primaryText: campaign.campaigns[index].title,
                   secondaryText: campaign.campaigns[index].description,
                   imageUrl: campaign.campaigns[index].imageUrl,

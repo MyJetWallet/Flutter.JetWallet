@@ -17,7 +17,7 @@ class SimpleRewardsBannerExample extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SRewardBanner(
-              bannerColor: SColorsLight().violet,
+              color: SColorsLight().violet,
               primaryText: 'Invite friends\nand get \$10',
               secondaryText: 'Get a rando m coin with every trade over \$50',
               onClose: () {},

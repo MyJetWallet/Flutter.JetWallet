@@ -7,11 +7,11 @@ part 'campaign_model.g.dart';
 @freezed
 class CampaignModel with _$CampaignModel {
   const factory CampaignModel({
-    required String title,
-    required String description,
-    @JsonKey(name: 'expirationTime') required String timeToComplete,
     List<CampaignConditionModel>? conditions,
     String? imageUrl,
+    @JsonKey(name: 'expirationTime') required String timeToComplete,
+    required String title,
+    required String description,
     required String campaignId,
     required String deepLink,
   }) = _CampaignModel;

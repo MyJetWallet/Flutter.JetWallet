@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../simple_kit.dart';
+import '../../banners/rewards_banner/helper/set_circle_background_image.dart';
 
 class SimpleAccountBanner extends StatelessWidget {
   const SimpleAccountBanner({
@@ -8,14 +10,14 @@ class SimpleAccountBanner extends StatelessWidget {
     this.imageUrl,
     required this.header,
     required this.description,
-    required this.bannerColor,
+    required this.color,
     required this.onTap,
   }) : super(key: key);
 
   final String? imageUrl;
   final String header;
   final String description;
-  final Color bannerColor;
+  final Color color;
   final Function() onTap;
 
   @override
@@ -35,29 +37,29 @@ class SimpleAccountBanner extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r),
-          color: bannerColor,
+          color: color,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
               radius: 40.r,
-              backgroundImage:
-                  (imageUrl != null) ? NetworkImage(imageUrl!) : null,
+              backgroundImage: setCircleBackgroundImage(imageUrl),
             ),
             const SpaceW16(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 8.h),
+                  padding: EdgeInsets.only(
+                    top: 8.h,
+                  ),
                   child: Baseline(
                     baseline: 20.h,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
                       header,
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                       style: sTextH5Style,
                     ),
                   ),
@@ -72,7 +74,7 @@ class SimpleAccountBanner extends StatelessWidget {
                       maxLines: 4,
                       style: sBodyText2Style.copyWith(
                         color: SColorsLight().grey1,
-                        height: 1.7.h,
+                     // height: 1.7.h, //Todo: comeback to this
                       ),
                     ),
                   ),

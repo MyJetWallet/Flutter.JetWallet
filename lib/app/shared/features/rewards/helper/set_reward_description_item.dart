@@ -9,7 +9,7 @@ String setRewardDescriptionItem(
   } else if (condition.type == ConditionType.depositCondition.value) {
     return 'Get \$${condition.reward!.amount} after making first deposit';
   } else if (condition.type == ConditionType.tradeCondition.value) {
-    return '\$${condition.reward!.amount} after trading \$100 (${condition.params!.tradedAmount}/${condition.params!.requiredAmount})';
+    return '\$${condition.reward!.amount} after trading \$100 (${condition.parameters!.tradedAmount}/${condition.parameters!.requiredAmount})';
   } else {
     return '';
   }

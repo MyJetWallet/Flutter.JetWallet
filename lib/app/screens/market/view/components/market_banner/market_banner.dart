@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/features/rewards/notifier/campaign_notipod.dart';
 import '../../../../../shared/helpers/set_banner_colors.dart';
-import '../../../provider/market_campaigns_pod.dart';
 
 class MarketBanner extends HookWidget {
   const MarketBanner({
@@ -15,7 +14,6 @@ class MarketBanner extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useProvider(marketCampaignsPod);
     final campaign = useProvider(campaignNotipod(true));
     final campaignN = useProvider(campaignNotipod(true).notifier);
     final colors = useProvider(sColorPod);
@@ -34,10 +32,10 @@ class MarketBanner extends HookWidget {
               right: (index != campaign.campaigns.length - 1) ? 10.w : 0,
             ),
             child: SRewardBanner(
-              bannerColor: setBannerColor(index, colors),
+              color: setBannerColor(index, colors),
               primaryText: campaign.campaigns[index].title,
               imageUrl: campaign.campaigns[index].imageUrl,
-              fontPrimaryText: sTextH5Style,
+              primaryTextStyle: sTextH5Style,
               onClose: () {
                 campaignN.deleteCampaign(campaign.campaigns[index]);
               },

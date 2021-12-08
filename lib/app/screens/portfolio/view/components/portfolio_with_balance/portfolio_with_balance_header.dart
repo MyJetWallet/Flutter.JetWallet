@@ -48,8 +48,10 @@ class PortfolioWithBalanceHeader extends HookWidget {
                         const SpaceW8(),
                         Text(
                           '\$15',
-                          style: sSubtitle3Style.copyWith(color: colors.white),
-                        )
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.white,
+                          ),
+                        ),
                       ],
                     ),
                   ),

@@ -11,25 +11,16 @@ Widget setRewardIcon(
   final currentIndexCondition = conditions.indexOf(condition);
   if (currentIndexCondition > 0) {
     final prevCondition = conditions[currentIndexCondition - 1];
-    if (prevCondition.params!.passed == 'false') {
+    if (prevCondition.parameters!.passed == 'false') {
       return const SizedBox();
     }
   }
-  if (condition.params!.passed == 'true') {
-    return SizedBox(
-      height: 24.r,
-      width: 24.r,
-      child: const SCompleteIcon(),
-    );
-  } else {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 5.h,
-        horizontal: 7.75.h,
-      ),
-      height: 24.r,
-      width: 24.r,
-      child: const SBlueRightArrowIcon(),
-    );
-  }
+
+  return SizedBox(
+    height: 24.r,
+    width: 24.r,
+    child: (condition.parameters!.passed == 'true')
+        ? const SCompleteIcon()
+        : const SBlueRightArrowIcon(),
+  );
 }

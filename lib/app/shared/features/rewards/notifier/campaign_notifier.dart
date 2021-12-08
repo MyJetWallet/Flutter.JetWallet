@@ -22,6 +22,7 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
   final Reader read;
   final bool isFilterEnabled;
   final List<CampaignModel> campaigns;
+
   late LocalStorageService storage;
 
   static final _logger = Logger('CampaignNotifier');
@@ -55,8 +56,6 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
   Future<List<CampaignModel>> _filteredBanners(
     List<CampaignModel> campaigns,
   ) async {
-    _logger.log(notifier, '_filteredBanners');
-
     final _bannersForRemove = <CampaignModel>[];
 
     try {
@@ -77,9 +76,6 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
             (CampaignModel element) => element.campaignId == banner.campaignId,
           );
         }
-        return campaigns;
-      } else {
-        return campaigns;
       }
     } catch (e) {
       _logger.log(stateFlow, '_filteredBanners', e);
@@ -88,15 +84,13 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
   }
 
   Future<void> _setBannersIdsToStorage(String bannerId) async {
-    _logger.log(notifier, '_setBannersIdsToStorage');
-
     try {
       final bannersIds = await _getBannersIdsFromStorage();
 
       if (bannersIds.isNotEmpty) {
-        await storage.setStringArray('bannersIds', [...bannersIds, bannerId]);
+        await storage.setJson(bannersIdsKey, [...bannersIds, bannerId]);
       } else {
-        await storage.setStringArray('bannersIds', [bannerId]);
+        await storage.setJson(bannersIdsKey, [bannerId]);
       }
     } catch (e) {
       _logger.log(stateFlow, '_setBannersIdsToStorage', e);
@@ -104,10 +98,8 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
   }
 
   Future<List<String>> _getBannersIdsFromStorage() async {
-    _logger.log(notifier, '_getBannersIdsFromStorage');
-
     try {
-      final bannersIds = await storage.getStringArray('bannersIds');
+      final bannersIds = await storage.getJson(bannersIdsKey);
       if (bannersIds != null) {
         final ids = jsonDecode(bannersIds);
         final arrayIds = (ids as List).map((item) => item as String).toList();

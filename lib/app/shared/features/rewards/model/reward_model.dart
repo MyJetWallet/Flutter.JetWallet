@@ -6,8 +6,8 @@ part 'reward_model.g.dart';
 @freezed
 class RewardModel with _$RewardModel {
   const factory RewardModel({
-    required double amount,
     String? asset,
+    required double amount,
   }) = _RewardModel;
 
   factory RewardModel.fromJson(Map<String, dynamic> json) =>
