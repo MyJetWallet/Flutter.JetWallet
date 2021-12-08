@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -16,11 +15,11 @@ class SimpleAccountTermButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 1.h),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(bottom: 1.0),
+      decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            width: 2.h,
+            width: 2.0,
           ),
         ),
       ),

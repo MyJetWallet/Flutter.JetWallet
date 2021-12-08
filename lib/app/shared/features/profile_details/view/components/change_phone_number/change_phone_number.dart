@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -53,8 +52,8 @@ class ChangePhoneNumber extends HookWidget {
                 context: context,
                 removeBottomHeaderPadding: true,
                 horizontalPinnedPadding: 0,
-                minHeight: 635.h,
-                maxHeight: 635.h,
+                minHeight: 635.0,
+                maxHeight: 635.0,
                 scrollable: true,
                 pinned: PhoneNumberSearch(
                   onErase: () {

@@ -17,31 +17,31 @@ class SimpleAccountProtectionIndicator extends StatelessWidget {
         Positioned(
           child: Container(
             width: double.infinity,
-            height: 12.h,
+            height: 12.0,
             decoration: BoxDecoration(
               color: SColorsLight().blueLight,
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(16.0),
             ),
           ),
         ),
         Positioned(
           child: Container(
             width: (indicatorColor == Colors.red)
-                ? 109.w
+                ? 109.0
                 : (indicatorColor == Colors.yellow)
-                ? 218.w
+                ? 218.0
                 : double.infinity,
-            height: 12.h,
+            height: 12.0,
             decoration: BoxDecoration(
               color: indicatorColor,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                bottomLeft: Radius.circular(16.r),
+                topLeft: const Radius.circular(16.0),
+                bottomLeft: const Radius.circular(16.0),
                 topRight: (indicatorColor == Colors.green)
-                    ? Radius.circular(16.r)
+                    ? const Radius.circular(16.0)
                     : Radius.zero,
                 bottomRight: (indicatorColor == Colors.green)
-                    ? Radius.circular(16.r)
+                    ? const Radius.circular(16.0)
                     : Radius.zero,
               ),
             ),
