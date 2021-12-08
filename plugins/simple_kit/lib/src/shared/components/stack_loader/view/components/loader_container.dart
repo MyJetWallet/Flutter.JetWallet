@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../../../simple_kit.dart';
@@ -11,29 +10,29 @@ class LoaderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: 97.w,
-      right: 98.w,
-      top: 320.h,
+      left: 97.0,
+      right: 98.0,
+      top: 320.0,
       child: Container(
-        width: 180.w,
-        height: 90.h,
+        width: 180.0,
+        height: 90.0,
         decoration: BoxDecoration(
           color: SColorsLight().white,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(16.0),
         ),
-        padding: EdgeInsets.symmetric(
-          vertical: 20.h,
+        padding: const EdgeInsets.symmetric(
+          vertical: 20.0,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 24.r,
-              height: 24.r,
-              child: const RiveAnimation.asset(loadingAnimationAsset),
+            const SizedBox(
+              width: 24.0,
+              height: 24.0,
+              child: RiveAnimation.asset(loadingAnimationAsset),
             ),
             Baseline(
-              baseline: 20.6.h,
+              baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 'Please wait ...',

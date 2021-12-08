@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import '../constants.dart';
@@ -28,13 +27,13 @@ void sShowAlertPopup(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Dialog(
-              insetPadding: EdgeInsets.all(24.r),
+              insetPadding: const EdgeInsets.all(24.0),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.r),
+                borderRadius: BorderRadius.circular(24.0),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
                 ),
                 child: Column(
                   children: [
@@ -47,7 +46,7 @@ void sShowAlertPopup(
                         package: 'simple_kit',
                       ),
                     Baseline(
-                      baseline: 40.h,
+                      baseline: 40.0,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
                         primaryText,
@@ -60,7 +59,7 @@ void sShowAlertPopup(
                     ),
                     if (secondaryText != null)
                       Baseline(
-                        baseline: 32.h,
+                        baseline: 32.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
                           secondaryText,

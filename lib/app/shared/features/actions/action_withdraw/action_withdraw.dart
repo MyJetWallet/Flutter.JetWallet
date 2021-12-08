@@ -36,7 +36,7 @@ class _ActionWithdraw extends HookWidget {
             if (currency.supportsAtLeastOneWithdrawalMethod)
               SWalletItem(
                 decline: currency.dayPercentChange.isNegative,
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,

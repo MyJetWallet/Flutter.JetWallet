@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
@@ -34,7 +33,7 @@ class SActionConfirmText extends StatelessWidget {
         children: [
           Flexible(
             child: Baseline(
-              baseline: 40.h,
+              baseline: 40.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 name,
@@ -47,16 +46,16 @@ class SActionConfirmText extends StatelessWidget {
           ),
           const SpaceW10(),
           if (contentLoading)
-            Baseline(
-              baseline: 40.h,
+            const Baseline(
+              baseline: 40.0,
               baselineType: TextBaseline.alphabetic,
-              child: const SSkeletonTextLoader(),
+              child: SSkeletonTextLoader(),
             )
           else
             Container(
               constraints: BoxConstraints(
-                maxWidth: animation != null ? 200.w : 180.w,
-                minWidth: 100.w,
+                maxWidth: animation != null ? 200.0 : 180.0,
+                minWidth: 100.0,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -74,7 +73,7 @@ class SActionConfirmText extends StatelessWidget {
                   if (animation != null) ...[
                     const SpaceW10(),
                     Baseline(
-                      baseline: 17.h,
+                      baseline: 17.0,
                       baselineType: TextBaseline.alphabetic,
                       child: SConfirmActionTimer(
                         animation: animation!,

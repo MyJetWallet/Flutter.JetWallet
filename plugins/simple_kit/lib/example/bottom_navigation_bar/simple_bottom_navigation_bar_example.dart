@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
@@ -59,11 +58,11 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                             Container(
                               color: Colors.yellow[200],
                               width: 56.0,
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   '56px ->',
                                   style: TextStyle(
-                                    fontSize: 10.sp,
+                                    fontSize: 10.0,
                                   ),
                                 ),
                               ),
@@ -72,13 +71,13 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                               color: Colors.yellow[200],
                               height: 56.0,
                               width: 12.0,
-                              child: RotatedBox(
+                              child: const RotatedBox(
                                 quarterTurns: 1,
                                 child: Center(
                                   child: Text(
                                     '56px ->',
                                     style: TextStyle(
-                                      fontSize: 10.sp,
+                                      fontSize: 10.0,
                                     ),
                                   ),
                                 ),
@@ -117,11 +116,11 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                             width: 56.0,
                             height: 6.0,
                             color: Colors.red[100],
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 '6px',
                                 style: TextStyle(
-                                  fontSize: 7.sp,
+                                  fontSize: 7.0,
                                 ),
                               ),
                             ),
@@ -132,11 +131,11 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                               width: 6.0,
                               height: 56.0,
                               color: Colors.red[100],
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   '6px',
                                   style: TextStyle(
-                                    fontSize: 7.sp,
+                                    fontSize: 7.0,
                                   ),
                                 ),
                               ),

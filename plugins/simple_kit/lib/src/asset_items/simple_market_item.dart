@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import '../icons/16x16/public/minus/simple_minus_icon.dart';
 
-/// Requires Icon with width target
 class SMarketItem extends StatelessWidget {
   const SMarketItem({
     Key? key,
@@ -33,7 +31,7 @@ class SMarketItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.h,
+          height: 88.0,
           child: Column(
             children: [
               const SpaceH22(),
@@ -42,13 +40,12 @@ class SMarketItem extends StatelessWidget {
                 children: [
                   icon,
                   const SpaceW10(),
-                  SizedBox(
-                    width: 125.w,
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Baseline(
-                          baseline: 17.8.h,
+                          baseline: 17.8,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             ticker,
@@ -56,7 +53,7 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4.h,
+                          baseline: 19.4,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             name,
@@ -70,12 +67,12 @@ class SMarketItem extends StatelessWidget {
                   ),
                   const SpaceW10(),
                   SizedBox(
-                    width: 158.w,
+                    width: 158.0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Baseline(
-                          baseline: 17.8.h,
+                          baseline: 17.8,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             price,
@@ -83,13 +80,13 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4.h,
+                          baseline: 19.4,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               SizedBox(
-                                width: 142.w,
+                                width: 142,
                                 child: Text(
                                   _formatPercent(percent),
                                   textAlign: TextAlign.end,
@@ -114,8 +111,8 @@ class SMarketItem extends StatelessWidget {
               ),
               const Spacer(),
               if (!last)
-                SDivider(
-                  width: 327.w,
+                const SDivider(
+                  width: 327,
                 )
             ],
           ),
