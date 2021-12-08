@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import 'components/notification_box.dart';
@@ -32,7 +31,7 @@ class SBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaleAnimation = Tween(
       begin: 0.0,
-      end: 80.h,
+      end: 80.0,
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -45,22 +44,22 @@ class SBottomNavigationBar extends StatelessWidget {
     return Material(
       color: SColorsLight().white,
       child: SizedBox(
-        width: 375.w,
-        height: 96.h,
+        height: 96.0,
         child: Column(
           children: [
-            if (scaleAnimation.value == 0) const SDivider(),
-            const SpaceH13(),
+            if (scaleAnimation.value == 0) ...[
+              const SDivider(),
+              const SpaceH13(),
+            ] else
+              const SpaceH14(),
             Row(
               children: [
-                SizedBox(
-                  width: 23.5.w,
-                ),
+                const Spacer(),
                 Transform.translate(
                   offset: translateOffset,
                   child: STransparentInkWell(
                     onTap: () => onChanged(0),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 0)
                           const SMarketActiveIcon()
@@ -73,12 +72,12 @@ class SBottomNavigationBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SpaceW12(),
+                const Spacer(),
                 Transform.translate(
                   offset: translateOffset,
                   child: STransparentInkWell(
                     onTap: () => onChanged(1),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 1)
                           const SPortfolioActiveIcon()
@@ -91,19 +90,23 @@ class SBottomNavigationBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SpaceW12(),
-                STransparentInkWell(
-                  onTap: onActionTap,
-                  child: actionActive
-                      ? const SActionActiveIcon()
-                      : const SActionDefaultIcon(),
+                const Spacer(),
+                SizedBox(
+                  width: 56.0,
+                  height: 56.0,
+                  child: STransparentInkWell(
+                    onTap: onActionTap,
+                    child: actionActive
+                        ? const SActionActiveIcon()
+                        : const SActionDefaultIcon(),
+                  ),
                 ),
-                const SpaceW12(),
+                const Spacer(),
                 Transform.translate(
                   offset: translateOffset,
                   child: STransparentInkWell(
                     onTap: () => onChanged(2),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 2)
                           const SNewsActiveIcon()
@@ -116,12 +119,12 @@ class SBottomNavigationBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SpaceW12(),
+                const Spacer(),
                 Transform.translate(
                   offset: translateOffset,
                   child: STransparentInkWell(
                     onTap: () => onChanged(3),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 3)
                           const SProfileActiveIcon()
@@ -134,13 +137,31 @@ class SBottomNavigationBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 23.5.w,
-                ),
+                const Spacer(),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _MenuItemFrame extends StatelessWidget {
+  const _MenuItemFrame({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 56.0,
+      height: 56.0,
+      child: Stack(
+        children: children,
       ),
     );
   }

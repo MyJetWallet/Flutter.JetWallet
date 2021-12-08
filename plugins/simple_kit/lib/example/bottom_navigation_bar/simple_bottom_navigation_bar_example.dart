@@ -49,22 +49,9 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                   ),
                   Row(
                     children: [
+                      const Spacer(),
                       Container(
-                        color: Colors.purple[100],
-                        child: SizedBox(
-                          height: 56.h,
-                          width: 23.5.w,
-                          child: Center(
-                            child: Text(
-                              '23.5px',
-                              style: TextStyle(
-                                fontSize: 10.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
+                        width: 56.w,
                         color: Colors.red[100],
                         child: Stack(
                           children: [
@@ -74,9 +61,25 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                               width: 56.w,
                               child: Center(
                                 child: Text(
-                                  '56px w ->',
+                                  '56px ->',
                                   style: TextStyle(
                                     fontSize: 10.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.yellow[200],
+                              height: 56.0,
+                              width: 12.0,
+                              child: RotatedBox(
+                                quarterTurns: 1,
+                                child: Center(
+                                  child: Text(
+                                    '56px ->',
+                                    style: TextStyle(
+                                      fontSize: 10.sp,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -84,58 +87,29 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                           ],
                         ),
                       ),
-                      Stack(
-                        children: [
-                          const SpaceW12(),
-                          Container(
-                            color: Colors.yellow[200],
-                            width: 12.w,
-                            height: 56.h,
-                            child: RotatedBox(
-                              quarterTurns: 1,
-                              child: Center(
-                                child: Text(
-                                  '56px h ->',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      const Spacer(),
                       Container(
+                        width: 56.w,
                         color: Colors.red[100],
                         child: const SPortfolioDefaultIcon(),
                       ),
+                      const Spacer(),
                       Container(
-                        color: Colors.white,
-                        child: SizedBox(
-                          width: 12.w,
-                          child: Center(
-                            child: Text(
-                              '12px',
-                              style: TextStyle(
-                                fontSize: 10.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
+                        width: 56.w,
                         color: Colors.red[100],
                         child: const SActionDefaultIcon(),
                       ),
-                      const SpaceW12(),
+                      const Spacer(),
                       Container(
+                        width: 56.w,
                         color: Colors.red[100],
                         child: const SNewsDefaultIcon(),
                       ),
-                      const SpaceW12(),
+                      const Spacer(),
                       Stack(
                         children: [
                           Container(
+                            width: 56.w,
                             color: Colors.red[100]!.withOpacity(0.2),
                             child: const SProfileDefaultIcon(),
                           ),
@@ -170,21 +144,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                           ),
                         ],
                       ),
-                      Container(
-                        color: Colors.purple[100],
-                        child: SizedBox(
-                          height: 56.h,
-                          width: 23.5.w,
-                          child: Center(
-                            child: Text(
-                              '23.5px',
-                              style: TextStyle(
-                                fontSize: 10.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      const Spacer(),
                     ],
                   ),
                   Container(
