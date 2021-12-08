@@ -39,10 +39,10 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                 children: [
                   Container(
                     color: Colors.blue[100],
-                    child: SizedBox(
-                      height: 14.h,
+                    child: const SizedBox(
+                      height: 14.0,
                       width: double.infinity,
-                      child: const Center(
+                      child: Center(
                         child: Text('14px'),
                       ),
                     ),
@@ -51,14 +51,14 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                     children: [
                       const Spacer(),
                       Container(
-                        width: 56.w,
+                        width: 56.0,
                         color: Colors.red[100],
                         child: Stack(
                           children: [
                             const SMarketDefaultIcon(),
                             Container(
                               color: Colors.yellow[200],
-                              width: 56.w,
+                              width: 56.0,
                               child: Center(
                                 child: Text(
                                   '56px ->',
@@ -89,19 +89,19 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                       ),
                       const Spacer(),
                       Container(
-                        width: 56.w,
+                        width: 56.0,
                         color: Colors.red[100],
                         child: const SPortfolioDefaultIcon(),
                       ),
                       const Spacer(),
                       Container(
-                        width: 56.w,
+                        width: 56.0,
                         color: Colors.red[100],
                         child: const SActionDefaultIcon(),
                       ),
                       const Spacer(),
                       Container(
-                        width: 56.w,
+                        width: 56.0,
                         color: Colors.red[100],
                         child: const SNewsDefaultIcon(),
                       ),
@@ -109,13 +109,13 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                       Stack(
                         children: [
                           Container(
-                            width: 56.w,
+                            width: 56.0,
                             color: Colors.red[100]!.withOpacity(0.2),
                             child: const SProfileDefaultIcon(),
                           ),
                           Container(
-                            width: 56.w,
-                            height: 6.r,
+                            width: 56.0,
+                            height: 6.0,
                             color: Colors.red[100],
                             child: Center(
                               child: Text(
@@ -129,8 +129,8 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                           Positioned(
                             right: 0,
                             child: Container(
-                              width: 6.r,
-                              height: 56.h,
+                              width: 6.0,
+                              height: 56.0,
                               color: Colors.red[100],
                               child: Center(
                                 child: Text(
@@ -149,10 +149,10 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                   ),
                   Container(
                     color: Colors.blue[100],
-                    child: SizedBox(
-                      height: 26.h,
+                    child: const SizedBox(
+                      height: 26.0,
                       width: double.infinity,
-                      child: const Center(
+                      child: Center(
                         child: Text('26px'),
                       ),
                     ),
