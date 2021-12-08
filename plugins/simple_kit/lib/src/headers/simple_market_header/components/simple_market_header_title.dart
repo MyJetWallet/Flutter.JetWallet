@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -20,7 +19,7 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       children: [
         Baseline(
-          baseline: 24.h,
+          baseline: 24.0,
           baselineType: TextBaseline.alphabetic,
           child: Text(
             title,
@@ -29,7 +28,7 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
         ),
         const Spacer(),
         Baseline(
-          baseline: 24.h,
+          baseline: 24.0,
           baselineType: TextBaseline.alphabetic,
           child: SIconButton(
             onTap: onSearchButtonTap,
