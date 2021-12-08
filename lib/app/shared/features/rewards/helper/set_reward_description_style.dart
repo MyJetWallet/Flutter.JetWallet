@@ -10,7 +10,7 @@ TextStyle setRewardDescriptionStyle(
     SimpleColors colors,
     ) {
   if (conditions.length > 1) {
-    if (condition.type == ConditionType.kYCCondition.value) {
+    if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition)) {
       return TextStyle(
         color: (condition.parameters!.passed == 'false')
             ? colors.blue

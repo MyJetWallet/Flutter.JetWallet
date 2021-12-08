@@ -16,7 +16,11 @@ Widget? setRewardIndicatorComplete(
     if (condition.parameters!.passed == 'true') {
       completeIndicator += 1;
     }
-    if (condition.type == ConditionType.tradeCondition.value) {
+
+    // conditionTypeSwitch(ConditionType.tradeCondition);
+
+
+    if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition)) {
       isDisplayIndicator = true;
     }
   }
