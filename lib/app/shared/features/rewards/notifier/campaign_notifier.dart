@@ -11,36 +11,32 @@ import 'campaign_state.dart';
 
 class CampaignNotifier extends StateNotifier<CampaignState> {
   CampaignNotifier({
-    this.isEnableFilterBanners = false,
+    this.isFilterEnabled = false,
     required this.read,
     required this.campaigns,
   }) : super(const CampaignState(campaigns: <CampaignModel>[])) {
     storage = read(localStorageServicePod);
-
     updateCampaigns(campaigns);
-
-    if (isEnableFilterBanners) {
-      _filteredBanners();
-    }
   }
 
   final Reader read;
-  final bool isEnableFilterBanners;
+  final bool isFilterEnabled;
   final List<CampaignModel> campaigns;
   late LocalStorageService storage;
 
   static final _logger = Logger('CampaignNotifier');
 
-  void updateCampaigns(List<CampaignModel> campaigns) {
+  Future<void> updateCampaigns(List<CampaignModel> campaigns) async {
     _logger.log(notifier, 'updateCampaigns');
 
-    try {
-      if (campaigns.isNotEmpty) {
-        state = state.copyWith(campaigns: campaigns);
-      }
-    } catch (e) {
-      _logger.log(stateFlow, 'updateCampaigns', e);
-    }
+    final validCampaigns = <CampaignModel>[
+      if (isFilterEnabled)
+        ...await _filteredBanners(campaigns)
+      else
+        ...campaigns
+    ];
+
+    state = state.copyWith(campaigns: validCampaigns);
   }
 
   Future<void> deleteCampaign(CampaignModel campaign) async {
@@ -56,31 +52,39 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
     }
   }
 
-  Future<void> _filteredBanners() async {
+  Future<List<CampaignModel>> _filteredBanners(
+    List<CampaignModel> campaigns,
+  ) async {
     _logger.log(notifier, '_filteredBanners');
 
-    try {
-      final bannersIds = await _getBannersIdsFromStorage();
-      final _existedBanners = <CampaignModel>[];
+    final _bannersForRemove = <CampaignModel>[];
 
-      if (bannersIds.isNotEmpty && state.campaigns.isNotEmpty) {
-        for (final id in bannersIds) {
-          for (final campaign in state.campaigns) {
-            if (id == campaign.campaignId) {
-              _existedBanners.add(campaign);
+    try {
+      final storageBannerIds = await _getBannersIdsFromStorage();
+      if (storageBannerIds.isNotEmpty && campaigns.isNotEmpty) {
+        for (final storageBannerId in storageBannerIds) {
+          for (final campaign in campaigns) {
+            if (storageBannerId == campaign.campaignId) {
+              _bannersForRemove.add(campaign);
             }
           }
         }
+      }
 
-        if (_existedBanners.isNotEmpty) {
-          for (final banner in _existedBanners) {
-            await _deleteCampaignWithOutAddToStorage(banner);
-          }
+      if (_bannersForRemove.isNotEmpty) {
+        for (final banner in _bannersForRemove) {
+          campaigns.removeWhere(
+            (CampaignModel element) => element.campaignId == banner.campaignId,
+          );
         }
+        return campaigns;
+      } else {
+        return campaigns;
       }
     } catch (e) {
       _logger.log(stateFlow, '_filteredBanners', e);
     }
+    return campaigns;
   }
 
   Future<void> _setBannersIdsToStorage(String bannerId) async {
@@ -114,20 +118,6 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
     } catch (e) {
       _logger.log(stateFlow, '_getBannersIdsFromStorage', e);
       return <String>[];
-    }
-  }
-
-  Future<void> _deleteCampaignWithOutAddToStorage(
-    CampaignModel campaign,
-  ) async {
-    _logger.log(notifier, '_deleteCampaignWithOutAddToStorage');
-
-    try {
-      final newList = List<CampaignModel>.from(state.campaigns);
-      newList.remove(campaign);
-      state = state.copyWith(campaigns: newList);
-    } catch (e) {
-      _logger.log(stateFlow, '_deleteCampaignWithOutAddToStorage', e);
     }
   }
 }
