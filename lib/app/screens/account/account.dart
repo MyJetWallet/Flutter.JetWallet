@@ -25,7 +25,6 @@ class Account extends HookWidget {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
-    final colors = useProvider(sColorPod);
     final userInfo = useProvider(userInfoNotipod);
 
     return ProviderListener<LogoutUnion>(

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'campaign_condition_parameters_model.freezed.dart';
+
 part 'campaign_condition_parameters_model.g.dart';
 
 @freezed
@@ -12,6 +13,7 @@ class CampaignConditionParametersModel with _$CampaignConditionParametersModel {
     @JsonKey(name: 'TradedAmount') String? tradedAmount,
   }) = _CampaignConditionParametersModel;
 
-  factory CampaignConditionParametersModel.fromJson(Map<String, dynamic> json) =>
-      _$CampaignConditionParametersModelFromJson(json);
+  factory CampaignConditionParametersModel.fromJson(
+    Map<String, dynamic> json,
+  ) => _$CampaignConditionParametersModelFromJson(json);
 }
