@@ -18,26 +18,26 @@ class MarketBanner extends HookWidget {
     final campaignN = useProvider(campaignNotipod(true).notifier);
     final colors = useProvider(sColorPod);
 
-    if (campaign.campaigns.isNotEmpty) {
+    if (campaign.isNotEmpty) {
       return SizedBox(
         height: 0.18.sh,
         child: ListView.builder(
-          itemCount: campaign.campaigns.length,
+          itemCount: campaign.length,
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(
             horizontal: 24.w,
           ),
           itemBuilder: (BuildContext context, int index) => Container(
             padding: EdgeInsets.only(
-              right: (index != campaign.campaigns.length - 1) ? 10.w : 0,
+              right: (index != campaign.length - 1) ? 10.w : 0,
             ),
             child: SRewardBanner(
               color: setBannerColor(index, colors),
-              primaryText: campaign.campaigns[index].title,
-              imageUrl: campaign.campaigns[index].imageUrl,
+              primaryText: campaign[index].title,
+              imageUrl: campaign[index].imageUrl,
               primaryTextStyle: sTextH5Style,
               onClose: () {
-                campaignN.deleteCampaign(campaign.campaigns[index]);
+                campaignN.deleteCampaign(campaign[index]);
               },
             ),
           ),

@@ -7,14 +7,13 @@ import '../../../../../service/services/signal_r/model/campaign_response_model.d
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/local_storage_service.dart';
-import 'campaign_state.dart';
 
-class CampaignNotifier extends StateNotifier<CampaignState> {
+class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
   CampaignNotifier({
     this.isFilterEnabled = false,
     required this.read,
     required this.campaigns,
-  }) : super(const CampaignState(campaigns: <CampaignModel>[])) {
+  }) : super(<CampaignModel>[]) {
     storage = read(localStorageServicePod);
     updateCampaigns(campaigns);
   }
@@ -37,17 +36,17 @@ class CampaignNotifier extends StateNotifier<CampaignState> {
         ...campaigns
     ];
 
-    state = state.copyWith(campaigns: validCampaigns);
+    state = validCampaigns;
   }
 
   Future<void> deleteCampaign(CampaignModel campaign) async {
     _logger.log(notifier, 'deleteCampaign');
 
     try {
-      final newList = List<CampaignModel>.from(state.campaigns);
+      final newList = List<CampaignModel>.from(state);
       newList.remove(campaign);
       await _setBannersIdsToStorage(campaign.campaignId);
-      state = state.copyWith(campaigns: newList);
+      state = newList;
     } catch (e) {
       _logger.log(stateFlow, 'deleteCampaign', e);
     }

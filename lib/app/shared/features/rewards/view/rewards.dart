@@ -27,27 +27,27 @@ class Rewards extends HookWidget {
           return Column(
             children: [
               if (index == 0) const SpaceH20(),
-              if (campaign.campaigns[index].conditions == null) ...[
+              if (campaign[index].conditions == null) ...[
                 SRewardBanner(
                   color: setBannerColor(index, colors),
-                  primaryText: campaign.campaigns[index].title,
-                  secondaryText: campaign.campaigns[index].description,
-                  imageUrl: campaign.campaigns[index].imageUrl,
+                  primaryText: campaign[index].title,
+                  secondaryText: campaign[index].description,
+                  imageUrl: campaign[index].imageUrl,
                 ),
               ],
-              if (campaign.campaigns[index].conditions != null) ...[
+              if (campaign[index].conditions != null) ...[
                 SThreeStepsRewardBanner(
-                  primaryText: campaign.campaigns[index].title,
+                  primaryText: campaign[index].title,
                   timeToComplete: formatBannersDate(
-                    campaign.campaigns[index].timeToComplete,
+                    campaign[index].timeToComplete,
                   ),
-                  imageUrl: campaign.campaigns[index].imageUrl,
+                  imageUrl: campaign[index].imageUrl,
                   circleAvatarColor: setBannerColor(index, colors),
                   rewardDetail: createRewardDetail(
-                    campaign.campaigns[index].conditions!,
+                    campaign[index].conditions!,
                   ),
                   rewardIndicatorComplete: setRewardIndicatorComplete(
-                    campaign.campaigns[index].conditions!,
+                    campaign[index].conditions!,
                     colors,
                   ),
                 ),
@@ -55,7 +55,7 @@ class Rewards extends HookWidget {
             ],
           );
         },
-        itemCount: campaign.campaigns.length,
+        itemCount: campaign.length,
       ),
     );
   }
