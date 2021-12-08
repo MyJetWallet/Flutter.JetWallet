@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../base/simple_base_button.dart';
 
@@ -54,7 +53,7 @@ class SimpleBaseSecondaryButton extends HookWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: currentColor,
-          width: 2.r,
+          width: 2.0,
         ),
       ),
     );
