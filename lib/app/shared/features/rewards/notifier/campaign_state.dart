@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../model/campaign_model.dart';
+import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 
 part 'campaign_state.freezed.dart';
 

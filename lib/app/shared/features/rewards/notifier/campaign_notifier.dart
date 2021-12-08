@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
+import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/local_storage_service.dart';
-import '../model/campaign_model.dart';
 import 'campaign_state.dart';
 
 class CampaignNotifier extends StateNotifier<CampaignState> {

@@ -1,4 +1,5 @@
-import '../model/campaign_condition_model.dart';
+import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
+
 import '../model/condition_type.dart';
 
 String setRewardDescriptionItem(
