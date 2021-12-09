@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
-import '../../../src/headers/simple_big_header.dart';
 import '../../shared.dart';
 
 class SimpleBigHeadersExample extends StatelessWidget {

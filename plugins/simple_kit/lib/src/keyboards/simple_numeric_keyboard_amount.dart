@@ -4,7 +4,6 @@ import '../../simple_kit.dart';
 import 'components/numeric_keyboard_frame.dart';
 import 'components/numeric_keyboard_preset.dart';
 import 'components/numeric_keyboard_row.dart';
-import 'constants.dart';
 
 enum SKeyboardPreset { preset1, preset2, preset3 }
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../chart_style.dart';
-import '../model/candle_type_enum.dart';
 import '../simple_chart.dart';
 import 'base_chart_renderer.dart';
 

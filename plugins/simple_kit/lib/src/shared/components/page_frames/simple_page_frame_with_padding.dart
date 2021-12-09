@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../simple_kit.dart';
-import '../simple_paddings.dart';
 import '../stack_loader/view/stack_loader.dart';
 
 class SPageFrameWithPadding extends ConsumerWidget {

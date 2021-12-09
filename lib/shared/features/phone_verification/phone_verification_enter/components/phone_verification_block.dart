@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:simple_kit/simple_kit.dart';
 
 class PhoneVerificationBlock extends StatelessWidget {
