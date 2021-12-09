@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import 'components/simple_market_header_title.dart';
@@ -23,13 +22,13 @@ class SMarketHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160.h,
+      height: 160.0,
       child: ListView(
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
-          SizedBox(
-            height: 64.h,
+          const SizedBox(
+            height: 64.0,
           ),
           SimpleMarketHeaderTitle(
             title: title,
@@ -40,7 +39,7 @@ class SMarketHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             children: [
               Baseline(
-                baseline: 31.4.h,
+                baseline: 31.4,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   subtitle,
@@ -50,7 +49,7 @@ class SMarketHeader extends StatelessWidget {
                 ),
               ),
               Baseline(
-                baseline: 31.4.h,
+                baseline: 31.4,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   ' ${isPositive ? '+' : '-'} $percent%',
@@ -61,7 +60,7 @@ class SMarketHeader extends StatelessWidget {
                 ),
               ),
               Baseline(
-                baseline: 37.4.h,
+                baseline: 37.4,
                 baselineType: TextBaseline.alphabetic,
                 child: isPositive
                     ? const SBigArrowPositiveIcon()

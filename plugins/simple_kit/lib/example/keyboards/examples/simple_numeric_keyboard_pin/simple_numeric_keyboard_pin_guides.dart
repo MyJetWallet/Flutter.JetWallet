@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -20,32 +19,32 @@ class SimpleNumericKeyboardPinGuides extends StatelessWidget {
                 onKeyPressed: (value) {},
               ),
               SizedBox(
-                height: 354.h,
+                height: 354.0,
                 child: Row(
                   children: [
                     Container(
-                      width: 24.w,
-                      height: 354.h,
+                      width: 24.0,
+                      height: 354.0,
                       color: Colors.blue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '24px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
                     ),
                     const Spacer(),
                     Container(
-                      width: 24.w,
-                      height: 354.h,
+                      width: 24.0,
+                      height: 354.0,
                       color: Colors.blue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '24px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
@@ -54,12 +53,12 @@ class SimpleNumericKeyboardPinGuides extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 354.h,
+                height: 354.0,
                 child: Column(
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 40.h,
+                      height: 40.0,
                       color: Colors.blue.withOpacity(0.3),
                       child: const Center(
                         child: Text('40px'),
@@ -67,74 +66,74 @@ class SimpleNumericKeyboardPinGuides extends StatelessWidget {
                     ),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
                     ),
                     Container(
                       width: double.infinity,
-                      height: 10.h,
+                      height: 10.0,
                       color: Colors.blue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '10px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
                     ),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
                     ),
                     Container(
                       width: double.infinity,
-                      height: 10.h,
+                      height: 10.0,
                       color: Colors.blue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '10px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
                     ),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
                     ),
                     Container(
                       width: double.infinity,
-                      height: 10.h,
+                      height: 10.0,
                       color: Colors.blue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '10px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
                     ),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
                     ),
                     Container(
                       width: double.infinity,
-                      height: 60.h,
+                      height: 60.0,
                       color: Colors.blue.withOpacity(0.3),
                       child: const Center(
                         child: Text('60px'),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../simple_kit.dart';
@@ -32,9 +31,9 @@ class SQrCodeBox extends StatelessWidget {
           package: 'simple_kit',
         ),
         embeddedImageStyle: QrEmbeddedImageStyle(
-          size: Size(90.r, 90.r),
+          size: const Size(90.0, 90.0),
         ),
-        size: 200.r,
+        size: 200.0,
       );
     }
   }

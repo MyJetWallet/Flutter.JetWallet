@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
@@ -26,13 +25,11 @@ class SBigHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180.h,
+      height: 180.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 64.h,
-          ),
+          const SpaceH64(),
           Row(
             children: [
               SIconButton(
@@ -54,7 +51,7 @@ class SBigHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             children: [
               Baseline(
-                baseline: 56.h,
+                baseline: 56.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   title,
@@ -64,7 +61,7 @@ class SBigHeader extends StatelessWidget {
               const Spacer(),
               if (showLink)
                 Baseline(
-                  baseline: 56.h,
+                  baseline: 56.0,
                   baselineType: TextBaseline.alphabetic,
                   child: GestureDetector(
                     onTap: onLinkTap,

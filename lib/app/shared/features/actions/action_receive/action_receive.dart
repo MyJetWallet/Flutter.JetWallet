@@ -33,7 +33,7 @@ class _ActionReceive extends HookWidget {
           if (currency.type == AssetType.crypto)
             if (currency.supportsCryptoDeposit)
               SWalletItem(
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,

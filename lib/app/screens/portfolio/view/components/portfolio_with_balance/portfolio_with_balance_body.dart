@@ -102,7 +102,7 @@ class PortfolioWithBalanceBody extends HookWidget {
           for (final item in itemsWithBalance)
             SWalletItem(
               decline: item.dayPercentChange.isNegative,
-              icon: NetworkSvgW24(
+              icon: SNetworkSvg24(
                 url: item.iconUrl,
               ),
               primaryText: item.description,
@@ -120,7 +120,7 @@ class PortfolioWithBalanceBody extends HookWidget {
             for (final item in itemsWithoutBalance)
               SWalletItem(
                 decline: item.dayPercentChange.isNegative,
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   url: item.iconUrl,
                 ),
                 primaryText: item.description,

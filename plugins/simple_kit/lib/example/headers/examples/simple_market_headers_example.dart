@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import '../../../src/headers/simple_market_header/simple_market_header.dart';
@@ -34,27 +33,27 @@ class SimpleMarketHeadersExample extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: 160.h,
+                  height: 160.0,
                   color: Colors.grey.withOpacity(0.3),
                 ),
                 Column(
                   children: [
                     Container(
-                      height: 64.h,
+                      height: 64.0,
                       color: Colors.blue.withOpacity(0.3),
                       child: const Center(
                         child: Text('64px'),
                       ),
                     ),
                     Container(
-                      height: 24.h,
+                      height: 24.0,
                       color: Colors.red.withOpacity(0.3),
                       child: const Center(
                         child: Text('24px'),
                       ),
                     ),
                     Container(
-                      height: 40.h,
+                      height: 40.0,
                       color: Colors.green.withOpacity(0.3),
                       child: const Center(
                         child: Text('40px'),
@@ -62,7 +61,7 @@ class SimpleMarketHeadersExample extends StatelessWidget {
                     ),
                     Container(
                       width: 100,
-                      height: 32.h,
+                      height: 32.0,
                       color: Colors.black.withOpacity(0.3),
                       child: const Center(
                         child: Text('32px'),
@@ -85,7 +84,7 @@ class SimpleMarketHeadersExample extends StatelessWidget {
             children: [
               SPaddingH24(
                 child: Container(
-                  height: 120.h,
+                  height: 120.0,
                   color: Colors.grey.withOpacity(0.3),
                 ),
               ),
@@ -93,14 +92,14 @@ class SimpleMarketHeadersExample extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      height: 64.h,
+                      height: 64.0,
                       color: Colors.blue.withOpacity(0.3),
                       child: const Center(
                         child: Text('64px'),
                       ),
                     ),
                     Container(
-                      height: 24.h,
+                      height: 24.0,
                       color: Colors.red.withOpacity(0.3),
                       child: const Center(
                         child: Text('24px'),
@@ -108,7 +107,7 @@ class SimpleMarketHeadersExample extends StatelessWidget {
                     ),
                     Container(
                       width: 100,
-                      height: 32.h,
+                      height: 32.0,
                       color: Colors.black.withOpacity(0.3),
                       child: const Center(
                         child: Text('32px'),

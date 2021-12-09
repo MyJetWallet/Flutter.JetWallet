@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
-/// Requires Icon with width target
 class SFiatItem extends StatelessWidget {
   const SFiatItem({
     Key? key,
@@ -30,7 +28,7 @@ class SFiatItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.h,
+          height: 88,
           child: Column(
             children: [
               const SpaceH34(),
@@ -45,9 +43,9 @@ class SFiatItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
                         SizedBox(
-                          width: 150.w,
+                          width: 150.0,
                           child: Baseline(
-                            baseline: 15.8.h,
+                            baseline: 15.8,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               name,
@@ -59,7 +57,7 @@ class SFiatItem extends StatelessWidget {
                         ),
                         const Spacer(),
                         SizedBox(
-                          width: 120.w,
+                          width: 120.0,
                           child: Text(
                             amount,
                             textAlign: TextAlign.end,
@@ -74,8 +72,8 @@ class SFiatItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              SDivider(
-                width: 327.w,
+              const SDivider(
+                width: 327.0,
               )
             ],
           ),

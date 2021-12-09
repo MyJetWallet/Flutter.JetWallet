@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -34,7 +33,7 @@ class SimplePasswordRequirementExample extends StatelessWidget {
               ),
               Container(
                 color: Colors.green.withOpacity(0.3),
-                height: 17.h,
+                height: 17.0,
               )
             ],
           ),

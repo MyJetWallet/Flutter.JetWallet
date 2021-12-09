@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SPaddingH24 extends StatelessWidget {
   const SPaddingH24({
@@ -12,8 +11,8 @@ class SPaddingH24 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 24.w,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24.0,
       ),
       child: child,
     );

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
-/// Requires Icon with width target
 class SPaymentSelectAsset extends StatelessWidget {
   const SPaymentSelectAsset({
     Key? key,
@@ -30,14 +28,13 @@ class SPaymentSelectAsset extends StatelessWidget {
       child: InkWell(
         highlightColor: SColorsLight().grey4,
         splashColor: Colors.transparent,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: 88.h,
+          height: 88.0,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.r),
+            borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
-              width: 1.r,
               color: SColorsLight().grey4,
             ),
           ),
@@ -54,13 +51,13 @@ class SPaymentSelectAsset extends StatelessWidget {
                     child: Column(
                       children: [
                         Baseline(
-                          baseline: 15.h,
+                          baseline: 15.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: isCreditCard ? 150.w : 130.w,
+                                width: isCreditCard ? 150.0 : 130.0,
                                 child: Text(
                                   name,
                                   style: sSubtitle2Style,
@@ -68,7 +65,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                               ),
                               const Spacer(),
                               SizedBox(
-                                width: isCreditCard ? 90.w : 110.w,
+                                width: isCreditCard ? 90.0 : 110.0,
                                 child: Text(
                                   amount,
                                   textAlign: TextAlign.end,
@@ -79,13 +76,13 @@ class SPaymentSelectAsset extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 15.4.h,
+                          baseline: 15.4,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: isCreditCard ? 150.w : 130.w,
+                                width: isCreditCard ? 150.0 : 130.0,
                                 child: Text(
                                   description,
                                   style: sCaptionTextStyle.copyWith(
@@ -95,7 +92,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                               ),
                               const Spacer(),
                               SizedBox(
-                                width: isCreditCard ? 90.w : 110.w,
+                                width: isCreditCard ? 90.0 : 110.0,
                                 child: Text(
                                   helper,
                                   textAlign: TextAlign.end,

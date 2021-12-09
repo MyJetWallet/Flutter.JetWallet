@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
@@ -17,23 +16,23 @@ class SActionConfirmIconWithAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
-          width: 160.r,
-          height: 160.r,
-          child: const RiveAnimation.asset(
+        const SizedBox(
+          width: 160.0,
+          height: 160.0,
+          child: RiveAnimation.asset(
             confirmActionAnimationAsset,
           ),
         ),
         SizedBox(
-          width: 160.r,
-          height: 160.r,
+          width: 160.0,
+          height: 160.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.network(
                 iconUrl,
-                width: 48.r,
-                height: 48.r,
+                width: 48.0,
+                height: 48.0,
                 color: Colors.white,
               ),
             ],

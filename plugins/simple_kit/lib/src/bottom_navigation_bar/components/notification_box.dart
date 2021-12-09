@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -23,35 +22,35 @@ class NotificationBox extends StatelessWidget {
       return Positioned(
         right: 0,
         child: Container(
-          margin: EdgeInsets.only(
-            top: 6.r,
-            right: 6.r,
+          margin: const EdgeInsets.only(
+            top: 6.0,
+            right: 6.0,
           ),
           child: Container(
-            padding: EdgeInsets.all(2.r),
+            padding: const EdgeInsets.all(2.0),
             decoration: BoxDecoration(
               color: SColorsLight().white,
-              borderRadius: BorderRadius.circular(18.r),
+              borderRadius: BorderRadius.circular(18.0),
             ),
             child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: 18.r,
-                minHeight: 18.r,
+              constraints: const BoxConstraints(
+                minWidth: 18.0,
+                minHeight: 18.0,
               ),
               child: Container(
                 decoration: BoxDecoration(
                   color: SColorsLight().blue,
-                  borderRadius: BorderRadius.circular(18.r),
+                  borderRadius: BorderRadius.circular(18.0),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 3.4.r,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 3.4,
                   ),
                   child: Center(
                     child: Text(
                       text,
                       style: TextStyle(
-                        fontSize: 9.sp,
+                        fontSize: 9.0,
                         color: SColorsLight().white,
                         fontWeight: FontWeight.w700,
                       ),

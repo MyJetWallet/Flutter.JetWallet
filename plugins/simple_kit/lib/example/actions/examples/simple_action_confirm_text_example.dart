@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -32,7 +31,7 @@ class SimpleActionConfirmTextExample extends HookWidget {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 40.h,
+                    height: 40.0,
                     color: Colors.red.withOpacity(0.2),
                     child: const Text('40px'),
                   )
@@ -144,19 +143,19 @@ class _ValueWidthTester extends StatelessWidget {
       children: [
         const Spacer(),
         Container(
-          width: 10.w,
-          height: 40.h,
+          width: 10.0,
+          height: 40.0,
           color: Colors.red.withOpacity(0.1),
         ),
         Container(
-          width: 80.w,
-          height: 40.h,
+          width: 80.0,
+          height: 40.0,
           color: Colors.blue.withOpacity(0.1),
           child: const Text('80px'),
         ),
         Container(
-          width: 100.w,
-          height: 40.h,
+          width: 100.0,
+          height: 40.0,
           color: Colors.green.withOpacity(0.1),
           child: const Text('100px'),
         ),
@@ -177,27 +176,27 @@ class _ValueWidthTesterForTimer extends StatelessWidget {
       children: [
         const Spacer(),
         Container(
-          width: 10.w,
-          height: 40.h,
+          width: 10.0,
+          height: 40.0,
           color: Colors.red.withOpacity(0.1),
         ),
         Container(
-          width: 100.w,
-          height: 40.h,
+          width: 100.0,
+          height: 40.0,
           color: Colors.blue.withOpacity(0.1),
           child: const Text('100px'),
         ),
         Column(
           children: [
             Container(
-              width: 100.w,
-              height: 40.h,
+              width: 100.0,
+              height: 40.0,
               color: Colors.green.withOpacity(0.1),
               child: const Text('100px'),
             ),
             Container(
-              width: 100.w,
-              height: 3.h,
+              width: 100.0,
+              height: 3.0,
               color: Colors.red.withOpacity(0.1),
               child: const Text('100px'),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../base/simple_base_svg_w24x24.dart';
+import '../../base/simple_base_svg_24x24.dart';
 
 class SimpleLightWireIcon extends StatelessWidget {
   const SimpleLightWireIcon({
@@ -12,7 +12,7 @@ class SimpleLightWireIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleBaseSvgW24X24(
+    return SimpleBaseSvg24X24(
       assetName: 'assets/icons/light/24x24/wire/wire.svg',
       color: color,
     );
