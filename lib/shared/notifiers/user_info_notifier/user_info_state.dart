@@ -26,4 +26,6 @@ class UserInfoState with _$UserInfoState {
   bool get pinEnabled => pin != null;
 
   bool get isPhoneNumberSet => phone.isNotEmpty;
+
+  bool get isShowBanner => !twoFaEnabled || !phoneVerified || !kycPassed;
 }

@@ -6,10 +6,12 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/log_out_option.dart';
+import '../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
+import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
@@ -23,6 +25,7 @@ class Account extends HookWidget {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
+    final userInfo = useProvider(userInfoNotipod);
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
@@ -41,13 +44,21 @@ class Account extends HookWidget {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SPaddingH24(
                   child: SimpleAccountCategoryHeader(
                     userEmail: authInfo.email,
                   ),
                 ),
-                const SimpleAccountBannerList(),
+                const SpaceH20(),
+                SimpleAccountBannerList(
+                    kycPassed: userInfo.kycPassed,
+                    twoFaEnabled: userInfo.twoFaEnabled,
+                    phoneVerified: userInfo.phoneVerified,
+                    onTwoFaBannerTap: () => TwoFaScreen.push(context),
+                    onChatBannerTap: () {},
+                ),
                 const SpaceH20(),
                 Column(
                   children: <Widget>[

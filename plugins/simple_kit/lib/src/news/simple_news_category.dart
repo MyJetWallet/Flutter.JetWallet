@@ -25,44 +25,37 @@ class SNewsCategory extends StatelessWidget {
       highlightColor: SColorsLight().grey5,
       onTap: onTap,
       child: SPaddingH24(
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SSmileIcon(
-                    sentiment: sentiment,
-                  ),
-                  const SpaceW10(),
-                  Baseline(
-                    baseline: 13,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      '$newsLabel - $timestamp',
-                      style: sCaptionTextStyle.copyWith(
-                        color: SColorsLight().grey1,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Baseline(
-                baseline: 30,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  newsText,
-                  maxLines: 2,
-                  style: sBodyText1Style.copyWith(
-                    overflow: TextOverflow.ellipsis,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SpaceH20(),
+            Row(
+              children: [
+                SSmileIcon(
+                  sentiment: sentiment,
+                ),
+                const SpaceW10(),
+                Text(
+                  '$newsLabel - $timestamp',
+                  style: sCaptionTextStyle.copyWith(
+                    color: SColorsLight().grey1,
                   ),
                 ),
+              ],
+            ),
+            Baseline(
+              baseline: 30,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                newsText,
+                maxLines: 2,
+                style: sBodyText1Style.copyWith(
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ],
-          ),
+            ),
+            const SpaceH20(),
+          ],
         ),
       ),
     );
