@@ -28,7 +28,7 @@ class BalanceBlock extends HookWidget {
           const SDivider(),
           SWalletItem(
             decline: marketItem.dayPercentChange.isNegative,
-            icon: NetworkSvgW24(
+            icon: SNetworkSvg24(
               url: marketItem.iconUrl,
             ),
             primaryText: '${marketItem.name} wallet',
