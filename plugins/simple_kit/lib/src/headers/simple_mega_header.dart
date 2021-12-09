@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../simple_kit.dart';
-import '../shared/components/simple_icon_button.dart';
 
 class SMegaHeader extends StatelessWidget {
   const SMegaHeader({

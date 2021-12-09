@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import 'components/simple_smile_icon.dart';
@@ -23,13 +22,13 @@ class SNewsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: SColorsLight().grey5,
       onTap: onTap,
       child: SPaddingH24(
         child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 20.h,
+          padding: const EdgeInsets.symmetric(
+            vertical: 20.0,
           ),
-          height: 110.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
