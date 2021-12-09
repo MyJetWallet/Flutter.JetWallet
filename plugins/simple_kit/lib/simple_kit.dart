@@ -167,6 +167,7 @@ export 'src/icons/24x24/public/wallet/simple_wallet_icon.dart';
 export 'src/icons/24x24/public/blue_right_arrow/simple_blue_right_arrow_icon.dart';
 export 'src/icons/24x24/public/complete/simple_complete_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_market_icon.dart';
+export 'src/icons/24x24/public/wire/simple_wire_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
