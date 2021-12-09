@@ -56,7 +56,6 @@ class SRewardBanner extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 177.w,
-                    height: 57.h,
                     child: Baseline(
                       baseline: 27.h,
                       baselineType: TextBaseline.alphabetic,

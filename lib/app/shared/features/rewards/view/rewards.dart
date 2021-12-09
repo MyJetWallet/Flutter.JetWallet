@@ -27,7 +27,9 @@ class Rewards extends HookWidget {
           return Column(
             children: [
               if (index == 0) const SpaceH20(),
-              if (campaign[index].conditions == null) ...[
+              if (campaign[index].conditions == null ||
+                  (campaign[index].conditions != null &&
+                      campaign[index].conditions!.isEmpty)) ...[
                 SRewardBanner(
                   color: setBannerColor(index, colors),
                   primaryText: campaign[index].title,
@@ -35,7 +37,8 @@ class Rewards extends HookWidget {
                   imageUrl: campaign[index].imageUrl,
                 ),
               ],
-              if (campaign[index].conditions != null) ...[
+              if (campaign[index].conditions != null &&
+                  campaign[index].conditions!.isNotEmpty) ...[
                 SThreeStepsRewardBanner(
                   primaryText: campaign[index].title,
                   timeToComplete: formatBannersDate(

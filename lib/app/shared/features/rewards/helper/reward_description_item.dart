@@ -29,21 +29,9 @@ class RewardsDescriptionItem extends HookWidget {
       ),
       width: 287.w,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Baseline(
-              baselineType: TextBaseline.alphabetic,
-              baseline: 13.h,
-              child: Text(
-                setRewardDescriptionItem(condition),
-                style: setRewardDescriptionStyle(
-                  condition,
-                  conditions,
-                  colors,
-                ),
-              ),
-            ),
-          ),
+          setRewardDescriptionItem(condition, conditions, colors),
           setRewardIcon(condition, conditions),
         ],
       ),
