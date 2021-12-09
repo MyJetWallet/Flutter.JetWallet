@@ -1,6 +1,6 @@
 import '../../../../service/shared/constants.dart';
 
-// TODO(any): move to shared helpers or remove
+// TODO(any): move to shared helper or remove
 String formatDayPercentageChange(double change) {
   final formattedChange = change.toStringAsFixed(signsAfterComma);
 
