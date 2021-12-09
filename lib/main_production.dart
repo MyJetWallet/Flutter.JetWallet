@@ -11,6 +11,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'router/view/router.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
+import 'shared/providers/device_uid_pod.dart';
 import 'shared/services/push_notification_service.dart';
 
 final providerTypes = <String>[
@@ -49,6 +50,7 @@ class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
+    useProvider(deviceUidPod);
     final navigatorKey = useProvider(sNavigatorKeyPod);
     final theme = useProvider(sThemePod);
 
