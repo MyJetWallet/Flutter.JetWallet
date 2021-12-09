@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
-import 'simple_confirm_action_timer_painter.dart';
 
 class SConfirmActionTimer extends StatelessWidget {
   const SConfirmActionTimer({

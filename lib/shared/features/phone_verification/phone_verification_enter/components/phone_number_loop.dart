@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class CountriesLoop extends StatelessWidget {
@@ -23,11 +22,10 @@ class CountriesLoop extends StatelessWidget {
             child: GestureDetector(
               onTap: () => onTap(country),
               child: Container(
-                height: 64.h,
+                height: 64.0,
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      width: 1.h,
                       color: SColorsLight().grey4,
                     ),
                   ),
@@ -35,17 +33,17 @@ class CountriesLoop extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      width: 24.r,
-                      height: 24.r,
+                      width: 24.0,
+                      height: 24.0,
                       decoration: BoxDecoration(
                         color: SColorsLight().grey2,
-                        borderRadius: BorderRadius.circular(20.r),
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
                     const SpaceW10(),
                     Container(
-                      height: 64.h,
-                      width: 68.w,
+                      height: 64.0,
+                      width: 68.0,
                       alignment: Alignment.centerLeft,
                       child: Text(
                         country.countryCode,

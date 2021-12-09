@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../simple_kit.dart';
-import '../shared/helpers/biometrics_auth_helpers.dart';
 import 'components/numeric_keyboard_frame.dart';
 import 'components/numeric_keyboard_row.dart';
-import 'constants.dart';
 
 final _biometricStatusFpod = FutureProvider.autoDispose<BiometricStatus>(
   (ref) {

@@ -26,6 +26,7 @@ class SNewsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: SColorsLight().grey5,
       onTap: onTap,
       child: SPaddingH24(
         child: Container(

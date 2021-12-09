@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import './simple_chart.dart';
-import 'model/candle_model.dart';
-import 'model/candle_type_enum.dart';
-import 'model/chart_info_model.dart';
-import 'model/resolution_string_enum.dart';
 
 void main() => runApp(MyApp());
 

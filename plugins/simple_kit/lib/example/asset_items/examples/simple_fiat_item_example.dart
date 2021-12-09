@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
-import '../../../src/asset_items/simple_fiat_item.dart';
 
 class SimpleFiatItemExample extends StatelessWidget {
   const SimpleFiatItemExample({Key? key}) : super(key: key);

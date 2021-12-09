@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
 import '../base/simple_base_standard_field.dart';
-import '../base/standard_field_error_notifier.dart';
 
 class SimpleLightStandardFieldObscure extends HookWidget {
   const SimpleLightStandardFieldObscure({

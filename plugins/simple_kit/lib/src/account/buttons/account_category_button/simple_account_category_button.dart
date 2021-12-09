@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../simple_kit.dart';
 
 
@@ -29,9 +29,9 @@ class SimpleAccountCategoryButton extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: 30.h,
-              margin: EdgeInsets.symmetric(
-                vertical: 18.h,
+              height: 30.0,
+              margin: const EdgeInsets.symmetric(
+                vertical: 18.0,
               ),
               child: Row(
                 children: <Widget>[
@@ -45,11 +45,11 @@ class SimpleAccountCategoryButton extends StatelessWidget {
                   ),
                   if (onSwitchChanged != null)
                     Container(
-                      width: 40.w,
-                      height: 22.w,
+                      width: 40.0,
+                      height: 22.0,
                       decoration: BoxDecoration(
                         color: switchValue ? Colors.black : Colors.grey,
-                        borderRadius: BorderRadius.circular(12.r),
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: Switch(
                         value: switchValue,
