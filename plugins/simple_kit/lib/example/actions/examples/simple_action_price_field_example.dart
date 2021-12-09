@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -27,7 +26,7 @@ class SimpleActionPriceFieldExample extends StatelessWidget {
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 60.h,
+                      height: 60.0,
                       color: Colors.green.withOpacity(0.2),
                       child: const Text(
                         '60px',
@@ -36,7 +35,7 @@ class SimpleActionPriceFieldExample extends StatelessWidget {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 24.h,
+                      height: 24.0,
                       color: Colors.red.withOpacity(0.2),
                       child: const Text(
                         '24px',

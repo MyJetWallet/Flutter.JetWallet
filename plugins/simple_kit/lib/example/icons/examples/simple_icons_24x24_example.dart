@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
-import '../../../src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
 
 class SimpleIcons24X24Example extends StatelessWidget {
   const SimpleIcons24X24Example({Key? key}) : super(key: key);

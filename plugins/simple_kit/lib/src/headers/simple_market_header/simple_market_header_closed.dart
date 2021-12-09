@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import 'components/simple_market_header_title.dart';
@@ -19,13 +18,11 @@ class SMarketHeaderClosed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120.h,
+      height: 120.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 64.h,
-          ),
+          const SpaceH64(),
           SPaddingH24(
             child: SimpleMarketHeaderTitle(
               title: title,

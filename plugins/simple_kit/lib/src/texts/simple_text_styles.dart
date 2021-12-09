@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const _basicTextStyle = TextStyle(
   overflow: TextOverflow.ellipsis,
@@ -7,71 +6,71 @@ const _basicTextStyle = TextStyle(
 );
 
 final sTextH0Style = _basicTextStyle.copyWith(
-  fontSize: 56.sp,
+  fontSize: 56.0,
   fontWeight: FontWeight.w600,
 );
 
 final sTextH1Style = _basicTextStyle.copyWith(
-  fontSize: 40.sp,
+  fontSize: 40.0,
   fontWeight: FontWeight.w600,
 );
 
 final sTextH2Style = _basicTextStyle.copyWith(
-  fontSize: 32.sp,
+  fontSize: 32.0,
   fontWeight: FontWeight.w600,
 );
 
 final sTextH3Style = _basicTextStyle.copyWith(
-  fontSize: 28.sp,
+  fontSize: 28.0,
   fontWeight: FontWeight.w600,
 );
 
 final sTextH4Style = _basicTextStyle.copyWith(
-  fontSize: 24.sp,
+  fontSize: 24.0,
   fontWeight: FontWeight.w600,
 );
 
 final sTextH5Style = _basicTextStyle.copyWith(
-  fontSize: 20.sp,
+  fontSize: 20.0,
   fontWeight: FontWeight.w600,
 );
 
 final sSubtitle1Style = _basicTextStyle.copyWith(
-  fontSize: 18.sp,
+  fontSize: 18.0,
   fontWeight: FontWeight.w700,
 );
 
 final sSubtitle2Style = _basicTextStyle.copyWith(
-  fontSize: 18.sp,
+  fontSize: 18.0,
   fontWeight: FontWeight.w600,
 );
 
 final sSubtitle3Style = _basicTextStyle.copyWith(
-  fontSize: 16.sp,
+  fontSize: 16.0,
   fontWeight: FontWeight.w600,
 );
 
 final sBodyText1Style = _basicTextStyle.copyWith(
-  fontSize: 16.sp,
+  fontSize: 16.0,
   fontWeight: FontWeight.w500,
 );
 
 final sBodyText2Style = _basicTextStyle.copyWith(
-  fontSize: 14.sp,
+  fontSize: 14.0,
   fontWeight: FontWeight.w500,
 );
 
 final sButtonTextStyle = _basicTextStyle.copyWith(
-  fontSize: 18.sp,
+  fontSize: 18.0,
   fontWeight: FontWeight.w700,
 );
 
 final sCaptionTextStyle = _basicTextStyle.copyWith(
-  fontSize: 12.sp,
+  fontSize: 12.0,
   fontWeight: FontWeight.w500,
 );
 
 final sOverlineTextStyle = _basicTextStyle.copyWith(
-  fontSize: 13.sp,
+  fontSize: 13.0,
   fontWeight: FontWeight.w600,
 );

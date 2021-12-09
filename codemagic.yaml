@@ -104,6 +104,8 @@ definitions:
         - andrey.v@smplt.net
         - danil.s@smplt.net
         - denis.m@smplt.net
+        - ruslan.s@smplt.net
+        - ruslan.skyba.ser@gmail.com
       
       notify:
         success: true

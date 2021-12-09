@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../simple_kit.dart';
 
 class SimpleAccountCategoryHeader extends StatelessWidget {
@@ -13,15 +13,15 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-        top: 52.h,
-        bottom: 20.h,
+      padding: const EdgeInsets.only(
+        top: 52.0,
+        bottom: 20.0,
       ),
-      height: 120.h,
+      height: 120.0,
       child: Row(
         children: <Widget>[
           CircleAvatar(
-            radius: 24.r,
+            radius: 24.0,
             backgroundColor: SColorsLight().blue,
             child: Text(
               userEmail.substring(0, 2).toUpperCase(),
@@ -34,11 +34,6 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Todo: change 'Jonh Shooter' on username from provider
-                // Text(
-                //   'John Shooter',
-                //   style: sTextH5Style,
-                // ),
                 const SpaceH2(),
                 Text(
                   userEmail,

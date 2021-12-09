@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SimpleBaseSvg56X56 extends StatelessWidget {
@@ -15,15 +14,11 @@ class SimpleBaseSvg56X56 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      /// Here we need explicitly to specify width and height
-      /// because these icons are used in the NavigationBar and if we 
-      /// use only .r, which is perfect square, then we can't fill the
-      /// whole NavigationBar in width
-      constraints: BoxConstraints(
-        maxWidth: 56.w,
-        maxHeight: 56.h,
-        minWidth: 56.w,
-        minHeight: 56.h,
+      constraints: const BoxConstraints(
+        maxWidth: 56.0,
+        maxHeight: 56.0,
+        minWidth: 56.0,
+        minHeight: 56.0,
       ),
       child: SvgPicture.asset(
         assetName,

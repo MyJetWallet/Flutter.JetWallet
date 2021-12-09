@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../base/simple_base_svg_r16x16.dart';
+import '../../base/simple_base_svg_16x16.dart';
 
 class SimpleLightTickSelectedIcon extends StatelessWidget {
   const SimpleLightTickSelectedIcon({
@@ -12,7 +12,7 @@ class SimpleLightTickSelectedIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleBaseSvgR16X16(
+    return SimpleBaseSvg16X16(
       assetName: 'assets/icons/light/16x16/tick/tick_selected.svg',
       color: color,
     );

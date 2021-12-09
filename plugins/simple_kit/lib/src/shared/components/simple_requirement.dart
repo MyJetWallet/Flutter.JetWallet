@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -34,7 +33,7 @@ class SRequirement extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 24.h,
+      height: 24.0,
       child: Row(
         children: [
           icon,
@@ -57,11 +56,11 @@ class _RequirementLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 16.r,
-      height: 16.r,
+      width: 16.0,
+      height: 16.0,
       child: CircularProgressIndicator(
         color: SColorsLight().black,
-        strokeWidth: 2.w,
+        strokeWidth: 2.0,
       ),
     );
   }

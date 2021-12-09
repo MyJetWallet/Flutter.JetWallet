@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -45,10 +44,10 @@ class ChangePassword extends HookWidget {
           children: [
             Container(
               color: colors.white,
-              padding: EdgeInsets.only(bottom: 14.h),
+              padding: const EdgeInsets.only(bottom: 14.0),
               child: SPaddingH24(
                 child: Baseline(
-                  baseline: 24.h,
+                  baseline: 24.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     'By changing a password will result in a 24- '

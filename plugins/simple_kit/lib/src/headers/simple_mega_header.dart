@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
-import '../shared/components/simple_icon_button.dart';
 
 class SMegaHeader extends StatelessWidget {
   const SMegaHeader({
@@ -19,15 +17,13 @@ class SMegaHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        minHeight: 180.h,
+      constraints: const BoxConstraints(
+        minHeight: 180.0,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 64.h,
-          ),
+          const SpaceH64(),
           Row(
             children: [
               SIconButton(
@@ -38,7 +34,7 @@ class SMegaHeader extends StatelessWidget {
             ],
           ),
           Baseline(
-            baseline: 56.h,
+            baseline: 56.0,
             baselineType: TextBaseline.alphabetic,
             child: Text(
               title,

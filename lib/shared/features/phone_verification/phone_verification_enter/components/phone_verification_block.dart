@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class PhoneVerificationBlock extends StatelessWidget {
@@ -20,13 +18,13 @@ class PhoneVerificationBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 88.h,
+      height: 88.0,
       child: Row(
         children: [
           GestureDetector(
             onTap: showBottomSheet,
             child: Container(
-              width: 100.w,
+              width: 100.0,
               color: Colors.transparent,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +36,7 @@ class PhoneVerificationBlock extends StatelessWidget {
                     ),
                   ),
                   Baseline(
-                    baseline: 22.h,
+                    baseline: 22.0,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
                       countryCode,
@@ -51,14 +49,14 @@ class PhoneVerificationBlock extends StatelessWidget {
           ),
           Container(
             color: SColorsLight().grey4,
-            width: 1.w,
+            width: 1.0,
           ),
           Column(
             children: [
               Container(
-                height: 88.h,
-                width: 250.w,
-                padding: EdgeInsets.only(left: 25.w),
+                height: 88.0,
+                width: 250.0,
+                padding: const EdgeInsets.only(left: 25.0),
                 child: SStandardField(
                   onErase: onErase,
                   labelText: 'Phone number',

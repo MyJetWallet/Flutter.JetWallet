@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import 'components/simple_policy_rich_text.dart';
@@ -37,7 +36,7 @@ class SPolicyCheckbox extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 94.h,
+      height: 94.0,
       child: Row(
         children: [
           Column(

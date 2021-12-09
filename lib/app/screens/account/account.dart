@@ -15,7 +15,7 @@ import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/features/about_us/view/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
-import '../../shared/features/support/view/support.dart';
+import '../../shared/features/support/support.dart';
 
 class Account extends HookWidget {
   const Account();

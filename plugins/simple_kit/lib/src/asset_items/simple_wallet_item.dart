@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
-/// Requires Icon with width target (24.w)
 class SWalletItem extends StatelessWidget {
   const SWalletItem({
     Key? key,
@@ -43,7 +41,7 @@ class SWalletItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.h,
+          height: 88.0,
           child: Column(
             children: [
               const SpaceH22(),
@@ -58,7 +56,7 @@ class SWalletItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Baseline(
-                          baseline: 17.8.h,
+                          baseline: 17.8,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             primaryText,
@@ -66,7 +64,7 @@ class SWalletItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4.h,
+                          baseline: 19.4,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             secondaryText,
@@ -81,19 +79,18 @@ class SWalletItem extends StatelessWidget {
                   if (amount != null) ...[
                     const SpaceW10(),
                     Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 157.w,
+                      constraints: const BoxConstraints(
+                        maxWidth: 157.0,
                       ),
-                      height: 44.h,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
+                      height: 44.0,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: borderColor,
-                          width: 1.w,
                         ),
-                        borderRadius: BorderRadius.circular(22.r),
+                        borderRadius: BorderRadius.circular(22.0),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -113,8 +110,8 @@ class SWalletItem extends StatelessWidget {
               ),
               const Spacer(),
               if (!removeDivider)
-                SDivider(
-                  width: 327.w,
+                const SDivider(
+                  width: 327.0,
                 )
             ],
           ),

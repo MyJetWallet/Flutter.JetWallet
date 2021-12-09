@@ -1,7 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -62,14 +61,20 @@ class App extends HookWidget {
       designSize: const Size(375, 812),
       builder: () {
         return CupertinoApp(
+          debugShowCheckedModeBanner: false,
           theme: theme,
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
+          navigatorKey: navigatorKey,
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: 1.0,
+              ),
+              child: child ?? const SizedBox(),
+            );
+          },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          debugShowCheckedModeBanner: false,
           initialRoute: AppRouterStage.routeName,
-          navigatorKey: navigatorKey,
           routes: {
             AppRouterStage.routeName: (context) => const AppRouterStage(),
             AppInit.routeName: (context) => const AppInit(),
