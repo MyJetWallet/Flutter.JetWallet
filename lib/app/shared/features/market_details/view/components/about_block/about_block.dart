@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../../../../../../../service/services/market_info/model/market_info_response_model.dart';
-import '../../../../../../../shared/components/header_text.dart';
-import '../../../../../../../shared/components/spacers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../service/services/market_info/model/market_info_response_model.dart';
 import 'components/about_block_text.dart';
 
 class AboutBlock extends HookWidget {
@@ -19,11 +19,18 @@ class AboutBlock extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const HeaderText(
-          text: 'About',
-          textAlign: TextAlign.start,
+        SizedBox(
+          height: 56.h,
+          child: Baseline(
+            baseline: 50.h,
+            baselineType: TextBaseline.alphabetic,
+            child: Text(
+              'About',
+              style: sTextH4Style,
+            ),
+          ),
         ),
-        const SpaceH8(),
+        const SpaceH24(),
         AboutBlockText(
           marketInfo: marketInfo,
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import 'components/simple_smile_icon.dart';
@@ -7,11 +6,13 @@ import 'components/simple_smile_icon.dart';
 class SNewsCategory extends StatelessWidget {
   const SNewsCategory({
     Key? key,
+    this.height,
     required this.sentiment,
     required this.newsLabel,
     required this.newsText,
     required this.timestamp,
     required this.onTap,
+    required this.padding,
   }) : super(key: key);
 
   final String newsLabel;
@@ -19,6 +20,8 @@ class SNewsCategory extends StatelessWidget {
   final Color sentiment;
   final String timestamp;
   final Function() onTap;
+  final double? height;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +29,8 @@ class SNewsCategory extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 20.h,
-          ),
-          height: 110.h,
+          padding: padding,
+          height: height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

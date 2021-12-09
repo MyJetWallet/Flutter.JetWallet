@@ -10,13 +10,22 @@ class ReturnRates extends HookWidget {
   const ReturnRates({
     Key? key,
     required this.assetSymbol,
+    required this.associateAssetPair,
   }) : super(key: key);
 
   final String assetSymbol;
+  final String associateAssetPair;
 
   @override
   Widget build(BuildContext context) {
-    final returnRates = useProvider(returnRatesPod(assetSymbol));
+    final returnRates = useProvider(
+      returnRatesPod(
+        ReturnRatesModel1(
+          assetSymbol,
+          associateAssetPair,
+        ),
+      ),
+    );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

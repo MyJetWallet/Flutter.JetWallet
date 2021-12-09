@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../shared/components/spacers.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
+import '../../../../../helpers/format_currency_amount.dart';
+import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import 'components/balance_action_buttons.dart';
-import 'components/balance_asset_item.dart';
-import 'components/balance_frame.dart';
 
-class BalanceBlock extends StatelessWidget {
+class BalanceBlock extends HookWidget {
   const BalanceBlock({
     Key? key,
     required this.marketItem,
@@ -17,15 +19,29 @@ class BalanceBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BalanceFrame(
-      backgroundColor: Colors.white,
-      height: 178.h,
+    final baseCurrency = useProvider(baseCurrencyPod);
+
+    return SizedBox(
+      height: 160.h,
       child: Column(
         children: [
-          BalanceAssetItem(
-            assetId: marketItem.associateAsset,
+          const SDivider(),
+          SWalletItem(
+            decline: marketItem.dayPercentChange.isNegative,
+            icon: NetworkSvgW24(
+              url: marketItem.iconUrl,
+            ),
+            primaryText: '${marketItem.name} wallet',
+            amount: formatCurrencyAmount(
+              prefix: baseCurrency.prefix,
+              value: marketItem.baseBalance,
+              symbol: baseCurrency.symbol,
+              accuracy: baseCurrency.accuracy,
+            ),
+            secondaryText: '${marketItem.assetBalance} ${marketItem.id}',
+            onTap: () {},
+            removeDivider: true,
           ),
-          const SpaceH10(),
           BalanceActionButtons(
             marketItem: marketItem,
           ),

@@ -12,6 +12,7 @@ import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/view/asset_chart.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
+import 'components/balance_block/balance_block.dart';
 import 'components/market_details_app_bar/components/asset_day_change.dart';
 import 'components/market_details_app_bar/components/asset_price.dart';
 import 'components/market_news_block/market_news_block.dart';
@@ -37,10 +38,6 @@ class MarketDetails extends HookWidget {
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     useProvider(watchlistIdsNotipod);
 
-    // bottomNavigationBar: BalanceBlock(
-    //   marketItem: marketItem,
-    // ),
-
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
@@ -57,6 +54,9 @@ class MarketDetails extends HookWidget {
             }
           },
         ),
+      ),
+      bottomNavigationBar: BalanceBlock(
+        marketItem: marketItem,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -83,30 +83,33 @@ class MarketDetails extends HookWidget {
             ),
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
+              associateAssetPair: marketItem.associateAssetPair,
             ),
             const SpaceH20(),
             marketInfo.when(
               data: (marketInfo) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MarketStatsBlock(
-                      marketInfo: marketInfo,
-                    ),
-                    AboutBlock(
-                      marketInfo: marketInfo,
-                    ),
-                  ],
+                return SPaddingH24(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MarketStatsBlock(
+                        marketInfo: marketInfo,
+                      ),
+                      AboutBlock(
+                        marketInfo: marketInfo,
+                      ),
+                    ],
+                  ),
                 );
               },
               loading: () => const Loader(),
               error: (e, _) => Text('$e'),
             ),
-            const SpaceH15(),
+            const SpaceH28(),
             MarketNewsBlock(
               assetId: marketItem.associateAsset,
             ),
-            const SpaceH30(),
+            const SpaceH34(),
           ],
         ),
       ),

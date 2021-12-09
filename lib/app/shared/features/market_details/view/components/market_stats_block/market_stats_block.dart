@@ -17,60 +17,58 @@ class MarketStatsBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SPaddingH24(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 56.h,
-            child: Baseline(
-              baseline: 50.h,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                'Market Stats',
-                textAlign: TextAlign.start,
-                style: sTextH4Style,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 56.h,
+          child: Baseline(
+            baseline: 50.h,
+            baselineType: TextBaseline.alphabetic,
+            child: Text(
+              'Market Stats',
+              textAlign: TextAlign.start,
+              style: sTextH4Style,
             ),
           ),
-          Table(
-            children: [
-              TableRow(
-                children: [
-                  TableCell(
-                    child: MarketStatsItem(
-                      name: 'Mark cap',
-                      value: '\$${formatNumber(marketInfo.marketCap)}',
-                    ),
+        ),
+        Table(
+          children: [
+            TableRow(
+              children: [
+                TableCell(
+                  child: MarketStatsItem(
+                    name: 'Mark cap',
+                    value: '\$${formatNumber(marketInfo.marketCap)}',
                   ),
-                  TableCell(
-                    child: MarketStatsItem(
-                      name: 'Vol (24h)',
-                      value: '\$${formatNumber(marketInfo.dayVolume)}',
-                    ),
+                ),
+                TableCell(
+                  child: MarketStatsItem(
+                    name: 'Vol (24h)',
+                    value: '\$${formatNumber(marketInfo.dayVolume)}',
                   ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(
-                    child: MarketStatsItem(
-                      name: 'Circ supply',
-                      value: formatNumber(marketInfo.supply),
-                    ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                TableCell(
+                  child: MarketStatsItem(
+                    name: 'Circ supply',
+                    value: formatNumber(marketInfo.supply),
                   ),
-                  const TableCell(
-                    child: MarketStatsItem(
-                      name: 'Santimentos (Buy/Sell)',
-                      value: '50%/50%',
-                    ),
+                ),
+                const TableCell(
+                  child: MarketStatsItem(
+                    name: 'Santimentos (Buy/Sell)',
+                    value: '50%/50%',
                   ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
