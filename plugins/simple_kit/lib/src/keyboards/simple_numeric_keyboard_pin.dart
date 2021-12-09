@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import '../shared/helpers/biometrics_auth_helpers.dart';
@@ -52,8 +51,8 @@ class SNumericKeyboardPin extends ConsumerWidget {
     bool _hideBiometricButton() => biometricIcon is SizedBox;
 
     return NumericKeyboardFrame(
-      height: 354.h,
-      paddingTop: 40.h,
+      height: 354.0,
+      paddingTop: 40.0,
       lastRow: NumericKeyboardRow(
         icon1: biometricIcon,
         iconPressed1: biometricPressedIcon,

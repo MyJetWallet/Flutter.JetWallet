@@ -76,16 +76,16 @@ class BasicBottomSheet extends HookWidget {
           ),
           Material(
             color: color,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24.r),
-              topRight: Radius.circular(24.r),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24.0),
+              topRight: Radius.circular(24.0),
             ),
             child: Column(
               children: [
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
-                    horizontal: horizontalPinnedPadding ?? 24.w,
+                    horizontal: horizontalPinnedPadding ?? 24.0,
                   ),
                   child: Column(
                     children: [

@@ -31,7 +31,7 @@ class MarketList extends HookWidget {
         final item = items[index];
 
         return SMarketItem(
-          icon: NetworkSvgW24(
+          icon: SNetworkSvg24(
             url: item.iconUrl,
           ),
           name: item.name,

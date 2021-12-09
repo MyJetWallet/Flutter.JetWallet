@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -54,7 +53,7 @@ class SimpleBaseLinkButton extends HookWidget {
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       child: Ink(
-        height: 56.h,
+        height: 56.0,
         child: Center(
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -65,9 +64,7 @@ class SimpleBaseLinkButton extends HookWidget {
                   color: currentColor,
                 ),
               ),
-              SizedBox(
-                width: 10.w,
-              ),
+              const SpaceW10(),
               currentIcon,
             ],
           ),

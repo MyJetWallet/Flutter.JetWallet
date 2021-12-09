@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
@@ -22,7 +21,7 @@ class SActionPriceField extends StatelessWidget {
     return Column(
       children: [
         SBaselineChild(
-          baseline: 60.h,
+          baseline: 60.0,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
@@ -36,7 +35,7 @@ class SActionPriceField extends StatelessWidget {
           ),
         ),
         SBaselineChild(
-          baseline: 24.h,
+          baseline: 24.0,
           child: Text(
             isErrorActive ? error : helper,
             maxLines: 1,

@@ -20,7 +20,7 @@ class ConvertDropdownButton extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          NetworkSvgW24(
+          SNetworkSvg24(
             url: currency.iconUrl,
           ),
           const SpaceW10(),

@@ -56,7 +56,7 @@ class CryptoDeposit extends HookWidget {
               ),
             const SDivider(),
             SWalletItem(
-              icon: NetworkSvgW24(
+              icon: SNetworkSvg24(
                 url: currency.iconUrl,
               ),
               primaryText: currency.description,

@@ -59,6 +59,14 @@ class App extends HookWidget {
         return CupertinoApp(
           theme: theme,
           navigatorKey: navigatorKey,
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: 1.0,
+              ),
+              child: child ?? const SizedBox(),
+            );
+          },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           initialRoute: AppRouter.routeName,

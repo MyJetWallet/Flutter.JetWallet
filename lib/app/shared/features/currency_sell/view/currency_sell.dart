@@ -50,7 +50,7 @@ class CurrencySell extends HookWidget {
             if (currency.type == AssetType.crypto)
               SAssetItem(
                 isSelected: currency == state.selectedCurrency,
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   color: currency == state.selectedCurrency
                       ? colors.blue
                       : colors.black,
@@ -66,7 +66,7 @@ class CurrencySell extends HookWidget {
             else
               SFiatItem(
                 isSelected: currency == state.selectedCurrency,
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   color: currency == state.selectedCurrency
                       ? colors.blue
                       : colors.black,
@@ -131,7 +131,7 @@ class CurrencySell extends HookWidget {
             )
           else if (state.selectedCurrency!.type == AssetType.crypto)
             SPaymentSelectAsset(
-              icon: NetworkSvgW24(
+              icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),
               name: state.selectedCurrency!.description,
@@ -143,7 +143,7 @@ class CurrencySell extends HookWidget {
             )
           else
             SPaymentSelectFiat(
-              icon: NetworkSvgW24(
+              icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),
               name: state.selectedCurrency!.description,

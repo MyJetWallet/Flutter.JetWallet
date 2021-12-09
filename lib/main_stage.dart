@@ -62,14 +62,20 @@ class App extends HookWidget {
       designSize: const Size(375, 812),
       builder: () {
         return CupertinoApp(
+          debugShowCheckedModeBanner: false,
           theme: theme,
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
+          navigatorKey: navigatorKey,
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: 1.0,
+              ),
+              child: child ?? const SizedBox(),
+            );
+          },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          debugShowCheckedModeBanner: false,
           initialRoute: AppRouterStage.routeName,
-          navigatorKey: navigatorKey,
           routes: {
             AppRouterStage.routeName: (context) => const AppRouterStage(),
             AppInit.routeName: (context) => const AppInit(),

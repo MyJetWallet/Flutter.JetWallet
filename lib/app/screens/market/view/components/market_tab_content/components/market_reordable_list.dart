@@ -32,7 +32,7 @@ class MarketReorderableList extends HookWidget {
             key: Key(
               '${items[index].weight}',
             ),
-            icon: NetworkSvgW24(
+            icon: SNetworkSvg24(
               url: item.iconUrl,
             ),
             name: item.name,

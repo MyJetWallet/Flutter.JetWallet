@@ -43,7 +43,7 @@ class _ActionDeposit extends HookWidget {
             if (currency.supportsAtLeastOneFiatDepositMethod)
               SWalletItem(
                 removeDivider: lastFiat.symbol == currency.symbol,
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,
@@ -60,7 +60,7 @@ class _ActionDeposit extends HookWidget {
             if (currency.supportsCryptoDeposit)
               SWalletItem(
                 removeDivider: lastCrypto.symbol == currency.symbol,
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,

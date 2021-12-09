@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -32,15 +31,15 @@ class SimplePaymentSelectDefaultExample extends StatelessWidget {
                       children: [
                         const SpaceH32(),
                         Container(
-                          width: 24.w,
-                          height: 24.w,
+                          width: 24.0,
+                          height: 24.0,
                           color: Colors.red.withOpacity(0.3),
                         ),
                       ],
                     ),
                     Container(
-                      width: 10.w,
-                      height: 88.h,
+                      width: 10.0,
+                      height: 88.0,
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('10px'),
                     ),
@@ -48,7 +47,7 @@ class SimplePaymentSelectDefaultExample extends StatelessWidget {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 32.h,
+                  height: 32.0,
                   color: Colors.blue.withOpacity(0.3),
                   child: const Text(
                     '32px',
@@ -56,7 +55,7 @@ class SimplePaymentSelectDefaultExample extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 50.h,
+                  height: 50.0,
                   width: double.infinity,
                   color: Colors.green.withOpacity(0.3),
                   child: Column(

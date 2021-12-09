@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -25,7 +24,7 @@ class SimpleActionConfrimDescriptionExample extends StatelessWidget {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 40.h,
+                    height: 40.0,
                     color: Colors.red.withOpacity(0.2),
                     child: const Text('40px'),
                   )

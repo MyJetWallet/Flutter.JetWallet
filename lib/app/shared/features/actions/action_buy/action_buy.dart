@@ -35,7 +35,7 @@ class _ActionBuy extends HookWidget {
       children: [
         for (final currency in currencies) ...[
           SMarketItem(
-            icon: NetworkSvgW24(
+            icon: SNetworkSvg24(
               url: currency.iconUrl,
             ),
             name: currency.description,

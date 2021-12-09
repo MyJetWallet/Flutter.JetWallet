@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
-/// Requires Icon with width target
 class SPaymentSelectDefault extends StatelessWidget {
   const SPaymentSelectDefault({
     Key? key,
@@ -22,14 +20,13 @@ class SPaymentSelectDefault extends StatelessWidget {
       child: InkWell(
         highlightColor: SColorsLight().grey4,
         splashColor: Colors.transparent,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: 88.h,
+          height: 88.0,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.r),
+            borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
-              width: 1.r,
               color: SColorsLight().grey4,
             ),
           ),
@@ -43,7 +40,7 @@ class SPaymentSelectDefault extends StatelessWidget {
                   icon,
                   const SpaceW10(),
                   Baseline(
-                    baseline: 17.h,
+                    baseline: 17.0,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
                       name,
