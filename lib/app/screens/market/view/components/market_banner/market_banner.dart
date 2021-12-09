@@ -20,7 +20,7 @@ class MarketBanner extends HookWidget {
 
     if (campaign.isNotEmpty) {
       return SizedBox(
-        height: 0.18.sh,
+        height: 120.h,
         child: ListView.builder(
           itemCount: campaign.length,
           scrollDirection: Axis.horizontal,
