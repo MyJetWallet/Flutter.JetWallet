@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import '../../shared.dart';
@@ -46,12 +45,12 @@ class SimplePrivacyPolicyExample extends HookWidget {
                 ),
               ),
               Container(
-                width: 24.w,
-                height: 20.h,
+                width: 24.0,
+                height: 20.0,
                 color: Colors.blue.withOpacity(0.3),
               ),
               Container(
-                height: 38.h,
+                height: 38.0,
                 color: Colors.green.withOpacity(0.3),
               ),
             ],
@@ -81,7 +80,7 @@ class SimplePrivacyPolicyExample extends HookWidget {
                 ),
               ),
               Container(
-                height: 24.h,
+                height: 24.0,
                 color: Colors.green.withOpacity(0.3),
               )
             ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../base/simple_base_svg_r24x24.dart';
+import '../../base/simple_base_svg_24x24.dart';
 
 class SimpleLightEyeOpenPressedIcon extends StatelessWidget {
   const SimpleLightEyeOpenPressedIcon({
@@ -12,7 +12,7 @@ class SimpleLightEyeOpenPressedIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleBaseSvgR24X24(
+    return SimpleBaseSvg24X24(
       assetName: 'assets/icons/light/24x24/eye_open/eye_open_pressed.svg',
       color: color,
     );

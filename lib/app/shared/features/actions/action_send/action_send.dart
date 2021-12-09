@@ -36,7 +36,7 @@ class _ActionSend extends HookWidget {
             if (currency.supportsCryptoWithdrawal)
               SWalletItem(
                 decline: currency.dayPercentChange.isNegative,
-                icon: NetworkSvgW24(
+                icon: SNetworkSvg24(
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,

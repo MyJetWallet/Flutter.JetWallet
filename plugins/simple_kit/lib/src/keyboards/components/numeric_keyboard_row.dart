@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../simple_kit.dart';
 import 'keys/keyboard_icon.dart';
 import 'keys/keyboard_key.dart';
 
@@ -57,6 +58,7 @@ class NumericKeyboardRow extends StatelessWidget {
             activeIcon: icon1,
             pressedIcon: iconPressed1,
           ),
+        const SpaceW10(),
         if (frontKey2 != null)
           KeyboardKey(
             realValue: realValue2,
@@ -70,6 +72,7 @@ class NumericKeyboardRow extends StatelessWidget {
             activeIcon: icon2,
             pressedIcon: iconPressed2,
           ),
+        const SpaceW10(),
         if (frontKey3 != null)
           KeyboardKey(
             realValue: realValue3,

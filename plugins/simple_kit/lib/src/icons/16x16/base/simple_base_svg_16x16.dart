@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// Sometimes we need an icon to target height and sometimes width in order
-// to satisfy design guides. This is why there exists BaseSvgR24 and BaseSvgW24
-class SimpleBaseSvgW24X24 extends StatelessWidget {
-  const SimpleBaseSvgW24X24({
+class SimpleBaseSvg16X16 extends StatelessWidget {
+  const SimpleBaseSvg16X16({
     Key? key,
     this.color,
     required this.assetName,
@@ -17,11 +14,11 @@ class SimpleBaseSvgW24X24 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: 24.w,
-        maxHeight: 24.w,
-        minWidth: 24.w,
-        minHeight: 24.w,
+      constraints: const BoxConstraints(
+        maxWidth: 16.0,
+        maxHeight: 16.0,
+        minWidth: 16.0,
+        minHeight: 16.0,
       ),
       child: SvgPicture.asset(
         assetName,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -17,7 +16,7 @@ class SDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 1.h,
+      height: 1.0,
       color: color ?? SColorsLight().grey4,
     );
   }

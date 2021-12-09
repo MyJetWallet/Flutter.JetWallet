@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../simple_kit.dart';
 
 class SProfileDetailsButton extends StatelessWidget {
@@ -24,7 +25,7 @@ class SProfileDetailsButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Baseline(
-                baseline: 38,
+                baseline: 38.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   label,
@@ -34,7 +35,7 @@ class SProfileDetailsButton extends StatelessWidget {
                 ),
               ),
               Baseline(
-                baseline: 24,
+                baseline: 24.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   value,

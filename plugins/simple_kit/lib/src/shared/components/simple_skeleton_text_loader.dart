@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
-final _loaderRadius = BorderRadius.circular(20.r);
+final _loaderRadius = BorderRadius.circular(20.0);
 
 class SSkeletonTextLoader extends StatefulHookWidget {
   const SSkeletonTextLoader({Key? key}) : super(key: key);
@@ -14,8 +13,7 @@ class SSkeletonTextLoader extends StatefulHookWidget {
       _SActionConfirmSkeletonLoaderState();
 }
 
-class _SActionConfirmSkeletonLoaderState
-    extends State<SSkeletonTextLoader>
+class _SActionConfirmSkeletonLoaderState extends State<SSkeletonTextLoader>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -40,8 +38,8 @@ class _SActionConfirmSkeletonLoaderState
     useListenable(_controller);
 
     final animation = Tween(
-      begin: -40.w,
-      end: 100.w,
+      begin: -40.0,
+      end: 100.0,
     ).animate(
       CurvedAnimation(
         parent: _controller,
@@ -54,8 +52,8 @@ class _SActionConfirmSkeletonLoaderState
       child: Stack(
         children: [
           Container(
-            width: 80.w,
-            height: 16.h,
+            width: 80.0,
+            height: 16.0,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 stops: const [0.5156, 1],
@@ -70,14 +68,14 @@ class _SActionConfirmSkeletonLoaderState
           Transform.translate(
             offset: Offset(animation.value, 0),
             child: Container(
-              width: 16.r,
-              height: 16.r,
+              width: 16.0,
+              height: 16.0,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
                     color: SColorsLight().grey5,
-                    blurRadius: 10.r,
-                    spreadRadius: 10.r,
+                    blurRadius: 10.0,
+                    spreadRadius: 10.0,
                   ),
                 ],
                 borderRadius: _loaderRadius,

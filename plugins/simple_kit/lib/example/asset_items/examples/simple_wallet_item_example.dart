@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -28,8 +27,8 @@ class SimpleWalletItemExample extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 22.h,
-                width: 200.w,
+                height: 22.0,
+                width: 200.0,
                 color: Colors.blue.withOpacity(0.2),
                 child: const Center(
                   child: Text(
@@ -40,7 +39,7 @@ class SimpleWalletItemExample extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    height: 40.h,
+                    height: 40.0,
                     color: Colors.green.withOpacity(0.2),
                     child: Column(
                       children: [
@@ -60,7 +59,7 @@ class SimpleWalletItemExample extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 24.h,
+                    height: 24.0,
                     color: Colors.purple.withOpacity(0.2),
                     child: Column(
                       children: [
@@ -85,8 +84,8 @@ class SimpleWalletItemExample extends StatelessWidget {
                 children: [
                   const Spacer(),
                   Container(
-                    width: 150.w,
-                    height: 50.h,
+                    width: 150.0,
+                    height: 50.0,
                     color: Colors.red.withOpacity(0.2),
                     child: const Center(
                       child: Text(

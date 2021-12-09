@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -28,29 +27,29 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: 20.w,
-                        height: 88.h,
+                        width: 20.0,
+                        height: 88.0,
                         color: Colors.blue.withOpacity(0.3),
                       ),
                       Column(
                         children: [
                           const SpaceH30(),
                           Container(
-                            width: 24.w,
-                            height: 24.w,
+                            width: 24.0,
+                            height: 24.0,
                             color: Colors.red.withOpacity(0.3),
                           ),
                         ],
                       ),
                       Container(
-                        width: 10.w,
-                        height: 88.h,
+                        width: 10.0,
+                        height: 88.0,
                         color: Colors.blue.withOpacity(0.2),
                         child: const Text('10px'),
                       ),
                       Container(
-                        width: 130.w,
-                        height: 88.h,
+                        width: 130.0,
+                        height: 88.0,
                         color: Colors.red.withOpacity(0.2),
                         child: Column(
                           children: const [
@@ -61,8 +60,8 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                       ),
                       const Spacer(),
                       Container(
-                        width: 110.w,
-                        height: 88.h,
+                        width: 110.0,
+                        height: 88.0,
                         color: Colors.red.withOpacity(0.2),
                         child: Column(
                           children: const [
@@ -72,8 +71,8 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 20.w,
-                        height: 88.h,
+                        width: 20.0,
+                        height: 88.0,
                         color: Colors.blue.withOpacity(0.3),
                       ),
                     ],
@@ -81,7 +80,7 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 30.h,
+                  height: 30.0,
                   color: Colors.blue.withOpacity(0.3),
                   child: const Text(
                     '30px',
@@ -89,7 +88,7 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 48.h,
+                  height: 48.0,
                   width: double.infinity,
                   color: Colors.green.withOpacity(0.3),
                   child: Column(

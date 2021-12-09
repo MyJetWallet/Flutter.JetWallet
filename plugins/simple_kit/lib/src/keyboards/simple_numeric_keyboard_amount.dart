@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import 'components/numeric_keyboard_frame.dart';
@@ -39,7 +38,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 422.h,
+      height: 422.0,
       child: Material(
         color: SColorsLight().grey5,
         child: Column(
@@ -54,11 +53,13 @@ class SNumericKeyboardAmount extends StatelessWidget {
                     selected: selectedPreset == SKeyboardPreset.preset1,
                     onTap: () => onPresetChanged(SKeyboardPreset.preset1),
                   ),
+                  const SpaceW10(),
                   NumericKeyboardPreset(
                     name: preset2Name,
                     selected: selectedPreset == SKeyboardPreset.preset2,
                     onTap: () => onPresetChanged(SKeyboardPreset.preset2),
                   ),
+                  const SpaceW10(),
                   NumericKeyboardPreset(
                     name: preset3Name,
                     selected: selectedPreset == SKeyboardPreset.preset3,
@@ -68,9 +69,9 @@ class SNumericKeyboardAmount extends StatelessWidget {
               ),
             ),
             NumericKeyboardFrame(
-              height: 274.h,
-              paddingTop: 10.h,
-              paddingBottom: 10.h,
+              height: 274.0,
+              paddingTop: 10.0,
+              paddingBottom: 10.0,
               lastRow: NumericKeyboardRow(
                 frontKey1: period,
                 realValue1: period,

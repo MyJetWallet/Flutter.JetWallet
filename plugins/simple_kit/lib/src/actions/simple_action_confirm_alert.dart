@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
@@ -18,12 +17,12 @@ class SActionConfirmAlert extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          width: 2.w,
+          width: 2.0,
           color: SColorsLight().grey4,
         ),
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(16.0),
       ),
-      padding: EdgeInsets.all(20.r),
+      padding: const EdgeInsets.all(20.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../base/simple_base_svg_w16x16.dart';
+import '../../base/simple_base_svg_16x16.dart';
 
 class SimpleLightFeeAlertIcon extends StatelessWidget {
   const SimpleLightFeeAlertIcon({
@@ -12,7 +12,7 @@ class SimpleLightFeeAlertIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleBaseSvgW16X16(
+    return SimpleBaseSvg16X16(
       assetName: 'assets/icons/light/16x16/fee_alert/fee_alert.svg',
       color: color,
     );

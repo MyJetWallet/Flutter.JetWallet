@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -34,7 +33,7 @@ class SAddressFieldWithCopy extends HookWidget {
 
     final scaleAnimation = Tween(
       begin: 0.0,
-      end: -64.h,
+      end: -64.0,
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -67,7 +66,7 @@ class SAddressFieldWithCopy extends HookWidget {
           offset: translateOffset,
           child: Container(
             color: SColorsLight().greenLight,
-            height: 64.h,
+            height: 64.0,
             width: double.infinity,
             child: Center(
               child: Text(
@@ -88,7 +87,7 @@ class SAddressFieldWithCopy extends HookWidget {
             onLongPress: valueLoading ? null : () => _onCopyAction(),
             child: SPaddingH24(
               child: SizedBox(
-                height: 88.h,
+                height: 88.0,
                 child: Row(
                   children: [
                     Expanded(

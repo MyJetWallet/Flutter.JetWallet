@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
@@ -14,7 +13,7 @@ class SActionConfirmDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Baseline(
-      baseline: 40.h,
+      baseline: 40.0,
       baselineType: TextBaseline.alphabetic,
       child: Text(
         text,
