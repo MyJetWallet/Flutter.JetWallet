@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -21,8 +20,8 @@ class MarketTabs extends HookWidget {
 
     return Container(
       color: Colors.white.withOpacity(0.4),
-      height: 56.h,
-      width: 375.w,
+      height: 56,
+      width: 375,
       child: ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(
@@ -32,18 +31,18 @@ class MarketTabs extends HookWidget {
           child: TabBar(
             indicator: BoxDecoration(
               color: colors.grey5,
-              borderRadius: BorderRadius.all(
-                Radius.circular(24.r),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(24),
               ),
               border: Border.all(
-                width: 2.r,
+                width: 2,
                 color: colors.black,
               ),
             ),
-            indicatorPadding: EdgeInsets.only(
-              top: 10.h,
-              bottom: 10.h,
-              right: 10.w,
+            indicatorPadding: const EdgeInsets.only(
+              top: 10,
+              bottom: 10,
+              right: 10,
             ),
             labelPadding: EdgeInsets.zero,
             labelColor: colors.black,
@@ -51,9 +50,9 @@ class MarketTabs extends HookWidget {
             unselectedLabelColor: colors.grey1,
             unselectedLabelStyle: sBodyText1Style,
             isScrollable: true,
-            padding: EdgeInsets.only(
-              left: 24.w,
-              right: 14.w,
+            padding: const EdgeInsets.only(
+              left: 24,
+              right: 14,
             ),
             tabs: [
               const MarketTab(text: 'All'),
