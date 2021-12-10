@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../helpers/input_helpers.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
+import 'components/convert_amount_cursor.dart';
 import 'components/convert_auto_size_amount.dart';
 import 'components/convert_dropdown_button.dart';
 
@@ -54,6 +55,7 @@ class ConvertRow extends HookWidget {
               isSelected: currency == item,
               icon: SNetworkSvg24(
                 url: item.iconUrl,
+                color: currency == item ? colors.blue : colors.black,
               ),
               name: item.description,
               description: item.symbol,
@@ -101,23 +103,12 @@ class ConvertRow extends HookWidget {
                         enabled: enabled,
                       ),
                       if (enabled) ...[
-                        const SpaceW5(),
                         if (cursorAnimation.value > 0.5)
-                          Container(
-                            width: 4.0,
-                            height: 36.0,
-                            color: colors.blue,
-                          )
+                          const ConvertAmountCursor()
                         else
-                          const SizedBox(
-                            width: 4.0,
-                            height: 36.0,
-                          )
+                          const ConvertAmountCursorPlaceholder()
                       ] else
-                        const SizedBox(
-                          width: 9.0,
-                          height: 36.0,
-                        )
+                        const ConvertAmountCursorPlaceholder()
                     ],
                   ),
                 ),

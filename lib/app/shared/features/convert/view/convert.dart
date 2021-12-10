@@ -4,12 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/convert_preview/model/convert_preview_input.dart';
-import '../../../components/convert_preview/view/convert_preview.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../notifier/convert_input_notipod.dart';
+import '../model/preview_convert_input.dart';
+import '../notifier/convert_input_notifier/convert_input_notipod.dart';
 import 'components/convert_row/convert_row.dart';
+import 'preview_convert.dart';
 
 class Convert extends HookWidget {
   const Convert({Key? key}) : super(key: key);
@@ -97,12 +97,11 @@ class Convert extends HookWidget {
             onSubmitPressed: () {
               navigatorPush(
                 context,
-                ConvertPreview(
-                  ConvertPreviewInput(
-                    fromAssetAmount: state.fromAssetAmount,
-                    fromAssetSymbol: state.fromAsset.symbol,
-                    toAssetSymbol: state.toAsset.symbol,
-                    action: TriggerAction.convert,
+                PreviewConvert(
+                  input: PreviewConvertInput(
+                    amount: state.fromAssetAmount,
+                    fromCurrency: state.fromAsset,
+                    toCurrency: state.toAsset,
                   ),
                 ),
               );
