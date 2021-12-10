@@ -51,6 +51,7 @@ import 'icons/examples/simple_icons_102x56_example.dart';
 import 'icons/examples/simple_icons_16x16_example.dart';
 import 'icons/examples/simple_icons_24x24_example.dart';
 import 'icons/examples/simple_icons_36x36_example.dart';
+import 'icons/examples/simple_icons_40x40_example.dart';
 import 'icons/examples/simple_icons_56x56_example.dart';
 import 'icons/simple_icons_example.dart';
 import 'keyboards/examples/simple_numeric_keyboard_amount/simple_numeric_keyboard_amount_example.dart';
@@ -140,6 +141,9 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleIcons36X36Example.routeName: (context) {
               return const SimpleIcons36X36Example();
+            },
+            SimpleIcons40X40Example.routeName: (context) {
+              return const SimpleIcons40X40Example();
             },
             SimpleIcons102X56Example.routeName: (context) {
               return const SimpleIcons102X56Example();

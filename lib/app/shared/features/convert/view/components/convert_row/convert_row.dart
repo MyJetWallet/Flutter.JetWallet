@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../components/asset_tile/asset_tile.dart';
-import '../../../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
-import '../../../../../components/text/asset_sheet_header.dart';
 import '../../../../../models/currency_model.dart';
+import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import 'components/convert_dropdown_button.dart';
 
 class ConvertRow extends HookWidget {
@@ -33,19 +30,30 @@ class ConvertRow extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final baseCurrency = useProvider(baseCurrencyPod);
+    final cursorAnimation = useAnimationController(
+      duration: const Duration(milliseconds: 1000),
+    )..repeat();
+
+    useListenable(cursorAnimation);
 
     void _showDropdownSheet() {
-      showBasicBottomSheet(
+      sShowBasicModalBottomSheet(
         context: context,
         scrollable: true,
-        color: const Color(0xFF4F4F4F),
-        pinned: AssetSheetHeader(
-          text: fromAsset ? 'From' : 'To',
+        pinned: SBottomSheetHeader(
+          name: fromAsset ? 'From' : 'To',
         ),
         children: [
           for (final item in currencies)
-            AssetTile(
-              currency: item,
+            SAssetItem(
+              isSelected: currency == item,
+              icon: SNetworkSvg24(
+                url: item.iconUrl,
+              ),
+              name: item.description,
+              description: item.symbol,
+              amount: item.formatBaseBalance(baseCurrency),
               onTap: () {
                 if (currency == item) {
                   Navigator.pop(context);
@@ -53,7 +61,6 @@ class ConvertRow extends HookWidget {
                   Navigator.pop(context, item);
                 }
               },
-              selectedBorder: currency == item,
             ),
         ],
         then: (value) {
@@ -61,7 +68,6 @@ class ConvertRow extends HookWidget {
             onDropdown(value);
           }
         },
-        onDissmis: () => Navigator.pop(context),
       );
     }
 
@@ -69,37 +75,50 @@ class ConvertRow extends HookWidget {
       child: Stack(
         children: [
           SizedBox(
-            height: 88,
+            height: 88.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SpaceH22(),
                 Baseline(
-                  baseline: 20.h,
+                  baseline: 20.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Row(
                     textBaseline: TextBaseline.alphabetic,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     children: [
-                      Expanded(
-                        child: ConvertDropdownButton(
-                          onTap: () => _showDropdownSheet(),
-                          currency: currency,
-                        ),
+                      ConvertDropdownButton(
+                        onTap: () => _showDropdownSheet(),
+                        currency: currency,
                       ),
-                      STransparentInkWell(
-                        onTap: onTap,
-                        child: SizedBox(
-                          width: 170.w,
+                      Expanded(
+                        child: STransparentInkWell(
+                          onTap: onTap,
                           child: Text(
                             value.isEmpty ? 'min 0.001' : value,
                             textAlign: TextAlign.end,
                             style: sTextH3Style.copyWith(
-                              color: enabled ? colors.black : colors.grey2,
+                              color: enabled
+                                  ? value.isEmpty
+                                      ? colors.grey2
+                                      : colors.black
+                                  : colors.grey2,
                             ),
                           ),
                         ),
                       ),
+                      if (enabled) ...[
+                        const SpaceW5(),
+                        if (cursorAnimation.value > 0.5)
+                          Container(
+                            width: 4.0,
+                            height: 36.0,
+                            color: colors.blue,
+                          )
+                        else
+                          const SpaceW4()
+                      ] else
+                        const SpaceW9()
                     ],
                   ),
                 ),
@@ -107,15 +126,13 @@ class ConvertRow extends HookWidget {
                   children: [
                     const SpaceW34(),
                     Baseline(
-                      baseline: 18.h,
+                      baseline: 16.0,
                       baselineType: TextBaseline.alphabetic,
-                      child: Expanded(
-                        child: Text(
-                          'Available: ${currency.formattedAssetBalance}',
-                          maxLines: 1,
-                          style: sBodyText2Style.copyWith(
-                            color: colors.grey2,
-                          ),
+                      child: Text(
+                        'Available: ${currency.formattedAssetBalance}',
+                        maxLines: 1,
+                        style: sBodyText2Style.copyWith(
+                          color: colors.grey2,
                         ),
                       ),
                     ),

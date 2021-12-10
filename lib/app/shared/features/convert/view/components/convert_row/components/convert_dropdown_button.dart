@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../models/currency_model.dart';
@@ -16,7 +15,7 @@ class ConvertDropdownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return STransparentInkWell(
       onTap: onTap,
       child: Row(
         children: [
@@ -25,8 +24,8 @@ class ConvertDropdownButton extends StatelessWidget {
           ),
           const SpaceW10(),
           ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: 89.w,
+            constraints: const BoxConstraints(
+              maxWidth: 90.0,
             ),
             child: Text(
               currency.symbol,
