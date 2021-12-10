@@ -23,6 +23,7 @@ class Market extends HookWidget {
   Widget build(BuildContext context) {
     useProvider(keyValueNotipod);
     useProvider(watchlistIdsNotipod);
+    final colors = useProvider(sColorPod);
     final items = useProvider(marketItemsPod);
     final gainers = useProvider(marketGainersPod);
     final losers = useProvider(marketLosersPod);
@@ -34,6 +35,7 @@ class Market extends HookWidget {
     return DefaultTabController(
       length: marketTabsLength,
       child: Scaffold(
+        backgroundColor: colors.white,
         body: Stack(
           children: [
             NestedScrollView(
