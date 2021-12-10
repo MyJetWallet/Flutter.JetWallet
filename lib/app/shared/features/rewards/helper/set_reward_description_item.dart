@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
-import '../../../helpers/icon_url_from.dart';
 import '../model/condition_type.dart';
 import 'set_reward_description_style.dart';
 
@@ -34,7 +33,7 @@ Widget setRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition))
         Text(
-          '\$${condition.reward!.amount}',
+          '\$${condition.reward!.amount.toStringAsFixed(0)}',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
@@ -43,7 +42,7 @@ Widget setRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition))
         Text(
-          '${condition.reward!.amount} for account verification',
+          '${condition.reward!.amount.toStringAsFixed(0)} for account verification',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
@@ -52,7 +51,7 @@ Widget setRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.depositCondition))
         Text(
-          '${condition.reward!.amount} after making first deposit',
+          '${condition.reward!.amount.toStringAsFixed(0)} after making first deposit',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
@@ -70,33 +69,4 @@ Widget setRewardDescriptionItem(
         ),
     ],
   );
-}
-
-Color _setStyle(
-  CampaignConditionModel condition,
-  List<CampaignConditionModel> conditions,
-  SimpleColors colors,
-) {
-  if (conditions.length > 1) {
-    if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition)) {
-      return (condition.parameters!.passed == 'false')
-          ? colors.blue
-          : colors.black;
-    } else {
-      final currentIndexCondition = conditions.indexOf(condition);
-      final prevCondition = conditions[currentIndexCondition - 1];
-
-      if (prevCondition.parameters!.passed == 'false') {
-        return colors.grey1;
-      }
-
-      return (condition.parameters!.passed == 'false')
-          ? colors.blue
-          : colors.black;
-    }
-  } else {
-    return (condition.parameters!.passed == 'false')
-        ? colors.blue
-        : colors.black;
-  }
 }

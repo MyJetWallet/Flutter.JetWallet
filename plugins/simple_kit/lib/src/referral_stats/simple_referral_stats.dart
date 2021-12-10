@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import 'simple_referral_stats_item.dart';
@@ -23,60 +22,78 @@ class SReferralStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 327.w,
-      padding: EdgeInsets.only(
-        left: 17.w,
-        right: 17.w,
-        top: 21.w,
-        bottom: 27.w,
-      ),
+      width: 327.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(16.0),
         border: Border.all(
-          width: 3.w,
+          width: 3.0,
           color: SColorsLight().grey4,
         ),
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Baseline(
-                baseline: 20,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  'ReferralStats',
-                  style: sTextH4Style,
+          Container(
+            padding: const EdgeInsets.only(
+              left: 17.0,
+              right: 17.0,
+              top: 21.0,
+              bottom: 24.0,
+            ),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: SColorsLight().grey4,
                 ),
               ),
-              const SInfoPressedIcon(),
-            ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Baseline(
+                  baseline: 20.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    'Referral Stats',
+                    style: sTextH4Style,
+                  ),
+                ),
+                const SInfoPressedIcon(),
+              ],
+            ),
           ),
-          const SpaceH24(),
-          SReferralStatsItem(
-            text: 'Referrals invited',
-            baselineHeight: 46.0,
-            value: '$referralInvited',
-          ),
-          SReferralStatsItem(
-            text: 'Referral activated',
-            value: '$referralInvited',
-          ),
-          SReferralStatsItem(
-            text: 'Bonus earned',
-            value: '\$$bonusEarned',
-          ),
-          SReferralStatsItem(
-            text: 'Commission earned',
-            value: '\$$commissionEarned',
-          ),
-          const SpaceH40(),
-          const SDivider(),
-          SReferralStatsItem(
-            text: 'Total',
-            value: '\$$total',
-            valueColor: SColorsLight().green,
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+            ),
+            child: Column(
+              children: [
+                SReferralStatsItem(
+                  text: 'Referrals invited',
+                  baselineHeight: 46.0,
+                  value: '$referralInvited',
+                ),
+                SReferralStatsItem(
+                  text: 'Referral activated',
+                  value: '$referralInvited',
+                ),
+                SReferralStatsItem(
+                  text: 'Bonus earned',
+                  value: '\$$bonusEarned',
+                ),
+                SReferralStatsItem(
+                  text: 'Commission earned',
+                  value: '\$$commissionEarned',
+                ),
+                const SpaceH40(),
+                const SDivider(),
+                SReferralStatsItem(
+                  text: 'Total',
+                  value: '\$$total',
+                  valueColor: SColorsLight().green,
+                ),
+                const SpaceH30(),
+              ],
+            ),
           ),
         ],
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 import 'helper/set_circle_background_image.dart';
@@ -28,15 +27,15 @@ class SRewardBanner extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          width: 327.w,
-          padding: EdgeInsets.only(
-            left: 20.w,
-            right: 20.w,
-            top: 20.w,
-            bottom: 30.w,
+          width: 327.0,
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20.0,
+            top: 20.0,
+            bottom: 30.0,
           ),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.r),
+            borderRadius: BorderRadius.circular(16.0),
             color: color,
           ),
           child: Row(
@@ -44,7 +43,7 @@ class SRewardBanner extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               CircleAvatar(
-                radius: 40.r,
+                radius: 40.0,
                 backgroundImage: setCircleBackgroundImage(imageUrl),
               ),
               const SpaceW16(),
@@ -54,9 +53,9 @@ class SRewardBanner extends StatelessWidget {
                     : MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 177.w,
+                    width: 177.0,
                     child: Baseline(
-                      baseline: 27.h,
+                      baseline: 27.0,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
                         primaryText,
@@ -68,9 +67,9 @@ class SRewardBanner extends StatelessWidget {
                   ),
                   if (secondaryText != null)
                     SizedBox(
-                      width: 177.w,
+                      width: 177.0,
                       child: Baseline(
-                        baseline: 30.h,
+                        baseline: 30.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
                           secondaryText!,
@@ -89,8 +88,8 @@ class SRewardBanner extends StatelessWidget {
         ),
         if (onClose != null)
           Positioned(
-            top: 10.h,
-            right: 10.w,
+            top: 10.0,
+            right: 10.0,
             child: GestureDetector(
               onTap: onClose,
               child: const SEraseMarketIcon(),
