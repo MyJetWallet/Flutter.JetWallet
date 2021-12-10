@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import 'set_reward_description_item.dart';
-import 'set_reward_description_style.dart';
 import 'set_reward_icon.dart';
 
 class RewardsDescriptionItem extends HookWidget {

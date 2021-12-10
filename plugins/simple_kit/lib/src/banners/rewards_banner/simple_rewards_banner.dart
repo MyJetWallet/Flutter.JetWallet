@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
-import '../../icons/24x24/public/erase/simple_erase_market_icon.dart';
 import 'helper/set_circle_background_image.dart';
 
 class SRewardBanner extends StatelessWidget {

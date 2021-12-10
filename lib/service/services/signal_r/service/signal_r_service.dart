@@ -20,6 +20,7 @@ import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
+import '../model/referral_stats_response_model.dart';
 
 class SignalRService {
   SignalRService(this.read);
@@ -50,6 +51,8 @@ class SignalRService {
   final _clientDetailController = StreamController<ClientDetailModel>();
   final _keyValueController = StreamController<KeyValueModel>();
   final _campaignsBannersController = StreamController<CampaignResponseModel>();
+  final _referralStatsController =
+      StreamController<ReferralStatsResponseModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -77,6 +80,15 @@ class SignalRService {
       if (!isDisconnecting) {
         _logger.log(signalR, 'Connection closed', error);
         _startReconnect();
+      }
+    });
+
+    _connection?.on(referralStatsMessage, (data) {
+      try {
+        final referrerStats = ReferralStatsResponseModel.fromList(data!);
+        _referralStatsController.add(referrerStats);
+      } catch (e) {
+        _logger.log(contract, referralStatsMessage, e);
       }
     });
 
@@ -206,6 +218,9 @@ class SignalRService {
 
   Stream<CampaignResponseModel> marketCampaigns() =>
       _campaignsBannersController.stream;
+
+  Stream<ReferralStatsResponseModel> referralStats() =>
+      _referralStatsController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

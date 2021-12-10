@@ -243,3 +243,6 @@ export 'src/theme/provider/simple_theme_pod.dart';
 export 'src/news/simple_news_category.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
+
+/// ReferrerStats
+export 'src/referral_stats/simple_referral_stats.dart';
