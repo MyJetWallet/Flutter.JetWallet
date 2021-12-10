@@ -5,9 +5,8 @@ import '../../../providers/signal_r/period_prices_spod.dart';
 import '../helper/calculate_percent_change.dart';
 import '../model/return_rates_model.dart';
 
-final returnRatesPod =
-    Provider.autoDispose.family<ReturnRatesModel, ReturnRatesModel1>(
-  (ref, returnRates1) {
+final returnRatesPod = Provider.autoDispose.family<ReturnRatesModel, String>(
+  (ref, assetId) {
     final periodPrices = ref.watch(periodPricesSpod);
     final currencies = ref.read(currenciesPod);
 
@@ -15,12 +14,10 @@ final returnRatesPod =
 
     periodPrices.whenData((value) {
       final periodPrice = value.prices.firstWhere(
-        (element) =>
-            element.assetSymbol ==
-            returnRates1.pair.substring(0, returnRates1.pair.length - 2),
+        (element) => element.assetSymbol == assetId,
       );
       final currency = currencies.firstWhere(
-        (element) => element.symbol == returnRates1.asset,
+        (element) => element.symbol == assetId,
       );
 
       model = model.copyWith(
@@ -46,13 +43,3 @@ final returnRatesPod =
     return model;
   },
 );
-
-class ReturnRatesModel1 {
-  ReturnRatesModel1(
-    this.asset,
-    this.pair,
-  );
-
-  final String asset;
-  final String pair;
-}

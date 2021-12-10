@@ -9,11 +9,9 @@ class ReturnRatesBlock extends HookWidget {
   const ReturnRatesBlock({
     Key? key,
     required this.assetSymbol,
-    required this.associateAssetPair,
   }) : super(key: key);
 
   final String assetSymbol;
-  final String associateAssetPair;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,6 @@ class ReturnRatesBlock extends HookWidget {
           ),
           ReturnRates(
             assetSymbol: assetSymbol,
-            associateAssetPair: associateAssetPair,
           ),
           const SpaceH12(),
           const SDivider(),

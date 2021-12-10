@@ -83,7 +83,6 @@ class MarketDetails extends HookWidget {
             ),
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
-              associateAssetPair: marketItem.associateAssetPair,
             ),
             const SpaceH20(),
             marketInfo.when(
