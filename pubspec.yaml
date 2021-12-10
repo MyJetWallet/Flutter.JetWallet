@@ -27,9 +27,11 @@ dependencies:
   contacts_service: ^0.6.3 # contacts fetching
   rive: ^0.7.22 # rive animations
   permission_handler: ^8.2.6 # permissions handling
+  auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
+  pixel_perfect: ^1.1.0 # Mock designs
   flutter_screenutil: ^5.0.0+2 
 
   # PLUS PLUGINS

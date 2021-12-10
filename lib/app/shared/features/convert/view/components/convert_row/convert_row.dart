@@ -3,14 +3,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../helpers/input_helpers.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
+import 'components/convert_auto_size_amount.dart';
 import 'components/convert_dropdown_button.dart';
 
 class ConvertRow extends HookWidget {
   const ConvertRow({
     Key? key,
     this.fromAsset = false,
+    this.inputError,
     required this.value,
     required this.onTap,
     required this.enabled,
@@ -20,6 +23,7 @@ class ConvertRow extends HookWidget {
   }) : super(key: key);
 
   final bool fromAsset;
+  final InputError? inputError;
   final String value;
   final Function() onTap;
   final bool enabled;
@@ -84,28 +88,17 @@ class ConvertRow extends HookWidget {
                   baseline: 20.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Row(
-                    textBaseline: TextBaseline.alphabetic,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: [
                       ConvertDropdownButton(
                         onTap: () => _showDropdownSheet(),
                         currency: currency,
                       ),
-                      Expanded(
-                        child: STransparentInkWell(
-                          onTap: onTap,
-                          child: Text(
-                            value.isEmpty ? 'min 0.001' : value,
-                            textAlign: TextAlign.end,
-                            style: sTextH3Style.copyWith(
-                              color: enabled
-                                  ? value.isEmpty
-                                      ? colors.grey2
-                                      : colors.black
-                                  : colors.grey2,
-                            ),
-                          ),
-                        ),
+                      ConvertAutoSizeAmount(
+                        onTap: onTap,
+                        value: value,
+                        enabled: enabled,
                       ),
                       if (enabled) ...[
                         const SpaceW5(),
@@ -116,27 +109,44 @@ class ConvertRow extends HookWidget {
                             color: colors.blue,
                           )
                         else
-                          const SpaceW4()
+                          const SizedBox(
+                            width: 4.0,
+                            height: 36.0,
+                          )
                       ] else
-                        const SpaceW9()
+                        const SizedBox(
+                          width: 9.0,
+                          height: 36.0,
+                        )
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    const SpaceW34(),
-                    Baseline(
-                      baseline: 16.0,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        'Available: ${currency.formattedAssetBalance}',
-                        maxLines: 1,
-                        style: sBodyText2Style.copyWith(
-                          color: colors.grey2,
+                Baseline(
+                  baseline: 16.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Row(
+                    children: [
+                      const SpaceW34(),
+                      if (inputError == null || inputError == InputError.none)
+                        Text(
+                          'Available: ${currency.formattedAssetBalance}',
+                          maxLines: 1,
+                          style: sBodyText2Style.copyWith(
+                            color: colors.grey2,
+                          ),
+                        )
+                      else ...[
+                        const Spacer(),
+                        Text(
+                          inputError!.value,
+                          maxLines: 1,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.red,
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
+                      ]
+                    ],
+                  ),
                 )
               ],
             ),

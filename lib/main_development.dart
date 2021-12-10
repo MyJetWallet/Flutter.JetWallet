@@ -22,6 +22,7 @@ final providerTypes = <String>[
   'AutoDisposeStreamProvider<BasePricesModel>',
   'AutoDisposeStateNotifierProvider<ChartNotifier, ChartState>',
   'AutoDisposeStateNotifierProvider<TimerNotifier, int>',
+  'AutoDisposeStateNotifierProvider<ConvertInputNotifier, ConvertInputState>',
 ];
 
 final providerNames = <String>[

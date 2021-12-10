@@ -38,9 +38,9 @@ class Convert extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SpaceH10(),
-          // TODO (inputError.value)
           ConvertRow(
             value: state.fromAssetAmount,
+            inputError: state.inputError,
             enabled: state.fromAssetEnabled,
             currency: state.fromAsset,
             currencies: state.fromAssetList,
