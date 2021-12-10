@@ -42,7 +42,8 @@ Widget setRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition))
         Text(
-          '${condition.reward!.amount.toStringAsFixed(0)} for account verification',
+          '${condition.reward!.amount.toStringAsFixed(0)}'
+              ' for account verification',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
@@ -51,7 +52,8 @@ Widget setRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.depositCondition))
         Text(
-          '${condition.reward!.amount.toStringAsFixed(0)} after making first deposit',
+          '${condition.reward!.amount.toStringAsFixed(0)}'
+              ' after making first deposit',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
