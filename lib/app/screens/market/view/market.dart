@@ -78,7 +78,6 @@ class Market extends HookWidget {
                     padding: EdgeInsets.zero,
                     children: [
                       const MarketBanner(),
-                      const SpaceH10(),
                       MarketTabContent(
                         items: items,
                       ),

@@ -24,8 +24,10 @@ class MarketBanner extends HookWidget {
         child: ListView.builder(
           itemCount: campaign.length,
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(
-            horizontal: 24.w,
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: 10,
           ),
           itemBuilder: (BuildContext context, int index) => Container(
             padding: EdgeInsets.only(
