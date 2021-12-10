@@ -15,7 +15,7 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
-import '../../../../components/convert_preview/view/components/quote_updated_dialog.dart';
+import '../../../../components/quote_updated_dialog.dart';
 import '../../model/preview_buy_with_asset_input.dart';
 import '../../view/curency_buy.dart';
 import 'preview_buy_with_asset_state.dart';
