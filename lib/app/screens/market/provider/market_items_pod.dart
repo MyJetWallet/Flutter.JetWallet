@@ -50,7 +50,7 @@ List<MarketItemModel> _formattedItems(
   List<MarketItemModel> items,
   String searchInput,
 ) {
-  items.sort((a, b) => b.weight.compareTo(a.weight));
+  items.sort((a, b) => a.weight.compareTo(b.weight));
 
   return items
       .where(
