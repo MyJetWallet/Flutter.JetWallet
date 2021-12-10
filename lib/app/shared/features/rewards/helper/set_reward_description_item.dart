@@ -23,11 +23,6 @@ Widget setRewardDescriptionItem(
             colors,
           ),
         ),
-      if (condition.parameters != null && condition.parameters!.asset != null)
-        SNetworkSvg24(
-          url: iconUrlFrom(condition.parameters!.asset!),
-          color: _setStyle(condition, conditions, colors),
-        ),
       if (condition.parameters != null && condition.parameters!.asset == null)
         Text(
           ' \$',
@@ -39,7 +34,7 @@ Widget setRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition))
         Text(
-          ' ${condition.reward!.amount}',
+          '\$${condition.reward!.amount}',
           style: setRewardDescriptionStyle(
             condition,
             conditions,

@@ -60,8 +60,12 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                                     color: SColorsLight().black,
                                   ),
                                 ),
-                                const WidgetSpan(
-                                  child: SInfoPressedIcon(),
+                                WidgetSpan(
+                                  child: Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 8,
+                                      ),
+                                      child: const SInfoPressedIcon()),
                                 ),
                               ],
                             ),
