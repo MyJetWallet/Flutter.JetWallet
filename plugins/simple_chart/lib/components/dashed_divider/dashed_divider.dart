@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../chart_style.dart';
+
 class DashedDivider extends StatelessWidget {
   const DashedDivider({
     Key? key,
@@ -34,7 +36,7 @@ class DashedDivider extends StatelessWidget {
                     height: 1.h,
                     child: const DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Color(0xFFE0E5EB),
+                        color: ChartColors.dashedLineColor,
                       ),
                     ),
                   ),
