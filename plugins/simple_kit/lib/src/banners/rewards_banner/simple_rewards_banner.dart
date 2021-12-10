@@ -27,7 +27,7 @@ class SRewardBanner extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          width: 327.0,
+          width: double.infinity,
           padding: const EdgeInsets.only(
             left: 20.0,
             right: 20.0,

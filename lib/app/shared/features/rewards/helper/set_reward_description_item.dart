@@ -5,7 +5,7 @@ import '../../../../../service/services/signal_r/model/campaign_response_model.d
 import '../model/condition_type.dart';
 import 'set_reward_description_style.dart';
 
-Widget setRewardDescriptionItem(
+Widget createRewardDescriptionItem(
   CampaignConditionModel condition,
   List<CampaignConditionModel> conditions,
   SimpleColors colors,

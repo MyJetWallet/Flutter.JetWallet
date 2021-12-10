@@ -5,11 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../helpers/set_banner_colors.dart';
-import '../../market_details/helper/format_news_date.dart';
 import '../../referral_stats/notifier/campaign_and_referral_notipod.dart';
-import '../helper/create_reward_detail.dart';
-import '../helper/set_reward_indicator_complete.dart';
+import '../helper/create_reward_banner.dart';
 
 class Rewards extends HookWidget {
   const Rewards({Key? key}) : super(key: key);
@@ -18,7 +15,7 @@ class Rewards extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    final rewardsData = useProvider(campaignAndReferralNotipod);
+    final campaignAndReferral = useProvider(campaignAndReferralNotipod);
     final rng = Random();
 
     return SPageFrameWithPadding(
@@ -30,43 +27,10 @@ class Rewards extends HookWidget {
           Expanded(
             child: ListView(
               children: [
-                for (final item in rewardsData.campaigns) ...[
-                  if (item.conditions == null ||
-                      (item.conditions != null &&
-                          item.conditions!.isEmpty)) ...[
-                    SRewardBanner(
-                      color: setBannerColor(
-                        rng.nextInt(3),
-                        colors,
-                      ),
-                      primaryText: item.title,
-                      secondaryText: item.description,
-                      imageUrl: item.imageUrl,
-                    ),
-                  ],
-                  if (item.conditions != null &&
-                      item.conditions!.isNotEmpty) ...[
-                    SThreeStepsRewardBanner(
-                      primaryText: item.title,
-                      timeToComplete: formatBannersDate(
-                        item.timeToComplete,
-                      ),
-                      imageUrl: item.imageUrl,
-                      circleAvatarColor: setBannerColor(
-                        rng.nextInt(3),
-                        colors,
-                      ),
-                      rewardDetail: createRewardDetail(
-                        item.conditions!,
-                      ),
-                      rewardIndicatorComplete: setRewardIndicatorComplete(
-                        item.conditions!,
-                        colors,
-                      ),
-                    ),
-                  ],
+                for (final item in campaignAndReferral.campaigns) ...[
+                    createRewardBanner(item, rng, colors),
                 ],
-                for (final item in rewardsData.referralStats) ...[
+                for (final item in campaignAndReferral.referralStats) ...[
                   const SpaceH20(),
                   SReferralStats(
                     referralInvited: item.referralInvited,

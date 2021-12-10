@@ -4,16 +4,16 @@ import '../../simple_kit.dart';
 class SReferralStatsItem extends StatelessWidget {
   const SReferralStatsItem({
     Key? key,
-    this.baselineHeight = 40.0,
     this.valueColor,
+    this.baselineHeight = 40.0,
     required this.value,
     required this.text,
   }) : super(key: key);
 
-  final String text;
+  final Color? valueColor;
   final double baselineHeight;
   final String value;
-  final Color? valueColor;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +35,9 @@ class SReferralStatsItem extends StatelessWidget {
           baselineType: TextBaseline.alphabetic,
           child: Text(
             value,
-            style: (valueColor != null)
-                ? sSubtitle3Style.copyWith(color: valueColor)
-                : sSubtitle3Style,
+            style: sSubtitle3Style.copyWith(
+                color: valueColor ?? SColorsLight().black,
+            ),
           ),
         ),
       ],
