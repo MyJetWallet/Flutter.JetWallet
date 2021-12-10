@@ -71,6 +71,8 @@ flutter:
     - assets/icons/light/24x24/angle_up/
     - assets/icons/light/24x24/copy/
     - assets/icons/light/24x24/share/
+    - assets/icons/light/24x24/complete/
+    - assets/icons/light/24x24/blue_right_arrow/
     - assets/icons/light/24x24/paste/
     - assets/icons/light/24x24/qr_code/
     - assets/icons/light/24x24/adv_cash/

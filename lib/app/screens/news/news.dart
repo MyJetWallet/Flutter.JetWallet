@@ -44,44 +44,57 @@ class _NewsState extends State<News> {
     final newsInit = useProvider(newsInitFpod);
     final news = useProvider(newsNotipod);
 
-    return newsInit.when(
-      data: (_) {
-        if (news.news.isNotEmpty) {
-          return SPageFrame(
-            header: SMarketHeaderClosed(
-              title: 'News',
-              isDivider: true,
-              onSearchButtonTap: () {},
+    return SPageFrame(
+      header: SMarketHeaderClosed(
+        title: 'News',
+        isDivider: true,
+        onSearchButtonTap: () {},
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          newsInit.when(
+            data: (_) {
+              if (news.news.isNotEmpty) {
+                return Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    key: const PageStorageKey<String>('_scrollController'),
+                    padding: EdgeInsets.zero,
+                    controller: _scrollController,
+                    itemBuilder: (BuildContext context, int index) =>
+                        SNewsCategory(
+                      newsLabel: news.news[index].source,
+                      newsText: news.news[index].topic,
+                      sentiment: _newsColor(
+                        news.news[index].sentiment,
+                      ),
+                      timestamp: formatNewsDate(
+                        news.news[index].timestamp,
+                      ),
+                      onTap: () => launchURL(
+                        context,
+                        news.news[index].urlAddress,
+                      ),
+                      height: 110.h,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.h,
+                      ),
+                    ),
+                    itemCount: news.news.length,
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
+            loading: () => const Center(
+              child: Loader(),
             ),
-            child: ListView.builder(
-              key: const PageStorageKey<String>('_scrollController'),
-              padding: EdgeInsets.zero,
-              controller: _scrollController,
-              itemBuilder: (BuildContext context, int index) => SNewsCategory(
-                newsLabel: news.news[index].source,
-                newsText: news.news[index].topic,
-                sentiment: _newsColor(
-                  news.news[index].sentiment,
-                ),
-                timestamp: formatNewsDate(
-                  news.news[index].timestamp,
-                ),
-                onTap: () => launchURL(
-                  context,
-                  news.news[index].urlAddress,
-                ),
-                height: 110.h,
-                padding: EdgeInsets.symmetric(vertical: 20.h),
-              ),
-              itemCount: news.news.length,
-            ),
-          );
-        } else {
-          return Container();
-        }
-      },
-      loading: () => const Loader(),
-      error: (_, __) => Container(),
+            error: (_, __) => Container(),
+          ),
+        ],
+      ),
     );
   }
 

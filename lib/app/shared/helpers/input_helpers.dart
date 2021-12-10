@@ -4,7 +4,7 @@ import '../../../shared/helpers/remove_chars_from.dart';
 import '../components/balance_selector/model/selected_percent.dart';
 import '../models/currency_model.dart';
 
-// This helpers are used in [BUY], [SELL], [CONVERT], [WITHDRAW] flows
+// This helper are used in [BUY], [SELL], [CONVERT], [WITHDRAW] flows
 // Working with NumberKeyboard in [amount] mode
 
 const specialPointCase = '0.';
