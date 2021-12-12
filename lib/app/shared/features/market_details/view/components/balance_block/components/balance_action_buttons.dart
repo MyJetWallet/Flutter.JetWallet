@@ -30,7 +30,7 @@ class BalanceActionButtons extends HookWidget {
         children: [
           Expanded(
             child: SPrimaryButton1(
-              name: 'Buy',
+              name: _buyButtonText(),
               onTap: () {
                 navigatorPush(
                   context,
@@ -43,7 +43,7 @@ class BalanceActionButtons extends HookWidget {
             ),
           ),
           if (!marketItem.isBalanceEmpty) ...[
-            const SpaceW12(),
+            const SpaceW11(),
             Expanded(
               child: SSecondaryButton1(
                 name: 'Sell',
@@ -58,10 +58,17 @@ class BalanceActionButtons extends HookWidget {
                 active: true,
               ),
             ),
-            const SpaceH24(),
           ]
         ],
       ),
     );
+  }
+
+  String _buyButtonText() {
+    if (marketItem.isBalanceEmpty) {
+      return 'Buy ${marketItem.name}';
+    } else {
+      return 'Buy';
+    }
   }
 }

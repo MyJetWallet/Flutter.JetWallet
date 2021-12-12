@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -22,7 +21,7 @@ class BalanceBlock extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
 
     return SizedBox(
-      height: 160.h,
+      height: 156,
       child: Column(
         children: [
           const SDivider(),
@@ -41,12 +40,25 @@ class BalanceBlock extends HookWidget {
             secondaryText: '${marketItem.assetBalance} ${marketItem.id}',
             onTap: () {},
             removeDivider: true,
+            leftBlockTopPadding: _leftBlockTopPadding(),
+            balanceTopMargin: 16,
+            height: 75,
+            showSecondaryText: !marketItem.isBalanceEmpty,
           ),
           BalanceActionButtons(
             marketItem: marketItem,
           ),
+          const SpaceH24(),
         ],
       ),
     );
+  }
+
+  double _leftBlockTopPadding() {
+    if (marketItem.isBalanceEmpty) {
+      return 26;
+    } else {
+      return 16;
+    }
   }
 }

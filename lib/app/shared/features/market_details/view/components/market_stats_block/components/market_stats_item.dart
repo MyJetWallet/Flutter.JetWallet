@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -25,9 +24,9 @@ class MarketStatsItem extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 44.h,
+              height: 44,
               child: Baseline(
-                baseline: 41.h,
+                baseline: 41,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   name,
@@ -36,9 +35,9 @@ class MarketStatsItem extends HookWidget {
               ),
             ),
             SizedBox(
-              height: 24.h,
+              height: 24,
               child: Baseline(
-                baseline: 20.h,
+                baseline: 20,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   value,

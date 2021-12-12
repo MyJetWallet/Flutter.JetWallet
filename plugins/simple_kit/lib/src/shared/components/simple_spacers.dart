@@ -682,6 +682,17 @@ class SpaceW12 extends StatelessWidget {
   }
 }
 
+class SpaceW11 extends StatelessWidget {
+  const SpaceW11({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 11.0,
+    );
+  }
+}
+
 class SpaceW10 extends StatelessWidget {
   const SpaceW10({Key? key}) : super(key: key);
 

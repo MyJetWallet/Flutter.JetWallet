@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// TODO(Vova): Delete when Wallet UI will be done
 class BalanceFrame extends StatelessWidget {
   const BalanceFrame({
     Key? key,

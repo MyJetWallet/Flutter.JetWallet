@@ -11,12 +11,14 @@ class LoadingChartView extends HookWidget {
     Key? key,
     required this.chartHeight,
     required this.chartWidgetHeight,
+    required this.isAssetChart,
     this.walletCreationDate,
   }) : super(key: key);
 
   final String? walletCreationDate;
   final double chartHeight;
   final double chartWidgetHeight;
+  final bool isAssetChart;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class LoadingChartView extends HookWidget {
           walletCreationDate: walletCreationDate,
           chartHeight: chartHeight,
           chartWidgetHeight: chartWidgetHeight,
+          isAssetChart: isAssetChart,
         ),
         const Loader(),
       ],

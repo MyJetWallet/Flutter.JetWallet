@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -16,9 +15,9 @@ class MarketSentimentItem extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 44.h,
+          height: 44,
           child: Baseline(
-            baseline: 41.h,
+            baseline: 41,
             baselineType: TextBaseline.alphabetic,
             child: Text(
               'Santimentos (Buy/Sell)',
@@ -26,28 +25,39 @@ class MarketSentimentItem extends HookWidget {
             ),
           ),
         ),
-        Row(
-          children: [
-            Text(
-              '50%',
-              style: sBodyText1Style,
-            ),
-            const Spacer(),
-            Text(
-              '50%',
-              style: sBodyText1Style,
-            ),
-          ],
+        SizedBox(
+          height: 24,
+          child: Row(
+            children: [
+              Baseline(
+                baseline: 19,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  '50%',
+                  style: sBodyText1Style,
+                ),
+              ),
+              const Spacer(),
+              Baseline(
+                baseline: 19,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  '50%',
+                  style: sBodyText1Style,
+                ),
+              ),
+            ],
+          ),
         ),
         LinearPercentIndicator(
-          width: 164.w,
-          lineHeight: 3.h,
+          width: 164,
+          lineHeight: 3,
           percent: 0.5,
           padding: EdgeInsets.zero,
           backgroundColor: colors.red,
           progressColor: colors.green,
         ),
-        const SpaceH10(),
+        const SpaceH9(),
         const SDivider(),
       ],
     );

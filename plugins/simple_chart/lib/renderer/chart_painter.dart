@@ -27,6 +27,7 @@ class ChartPainter extends BaseChartPainter {
     required double candleWidth,
     this.controller,
     this.opacity = 0.0,
+    required this.isAssetChart,
     required this.onCandleSelected,
   }) : super(
           datas: datas,
@@ -45,6 +46,7 @@ class ChartPainter extends BaseChartPainter {
   AnimationController? controller;
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
+  final bool isAssetChart;
   late Color chartColor;
 
   @override
@@ -263,7 +265,7 @@ class ChartPainter extends BaseChartPainter {
 
   @override
   void drawMaxAndMin(Canvas canvas) {
-    if (!isLongPress) {
+    if (!isLongPress && isAssetChart) {
       //Plot the maximum and minimum values
       final x = 24.w;
       var y = getMainY(mMainLowMinValue!) + 20.h;

@@ -10,6 +10,10 @@ class SWalletItem extends StatelessWidget {
     this.removeDivider = false,
     this.color,
     this.onTap,
+    this.leftBlockTopPadding = 22,
+    this.balanceTopMargin = 22,
+    this.height = 88,
+    this.showSecondaryText = true,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -23,6 +27,10 @@ class SWalletItem extends StatelessWidget {
   final Widget icon;
   final String primaryText;
   final String secondaryText;
+  final double leftBlockTopPadding;
+  final double balanceTopMargin;
+  final double height;
+  final bool showSecondaryText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,39 +49,45 @@ class SWalletItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.0,
+          height: height,
           child: Column(
             children: [
-              const SpaceH22(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  icon,
+                  Padding(
+                    padding: EdgeInsets.only(top: leftBlockTopPadding),
+                    child: icon,
+                  ),
                   const SpaceW10(),
                   Flexible(
                     fit: FlexFit.tight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Baseline(
-                          baseline: 17.8,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            primaryText,
-                            style: sSubtitle2Style,
-                          ),
-                        ),
-                        Baseline(
-                          baseline: 19.4,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            secondaryText,
-                            style: sBodyText2Style.copyWith(
-                              color: SColorsLight().grey3,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: leftBlockTopPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Baseline(
+                            baseline: 17.8,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              primaryText,
+                              style: sSubtitle2Style,
                             ),
                           ),
-                        ),
-                      ],
+                          if (showSecondaryText)
+                            Baseline(
+                              baseline: 19.4,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                secondaryText,
+                                style: sBodyText2Style.copyWith(
+                                  color: SColorsLight().grey3,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                   if (amount != null) ...[
@@ -85,6 +99,9 @@ class SWalletItem extends StatelessWidget {
                       height: 44.0,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
+                      ),
+                      margin: EdgeInsets.only(
+                        top: balanceTopMargin,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(

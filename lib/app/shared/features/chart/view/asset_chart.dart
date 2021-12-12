@@ -40,10 +40,12 @@ class AssetChart extends HookWidget {
             onCandleSelected: onCandleSelected,
             chartHeight: 240.h,
             chartWidgetHeight: 336.h,
+            isAssetChart: true,
           ),
           loading: () => LoadingChartView(
             chartHeight: 240.h,
             chartWidgetHeight: 336.h,
+            isAssetChart: true,
           ),
           error: (String error) {
             return Center(
@@ -55,6 +57,7 @@ class AssetChart extends HookWidget {
       loading: () => LoadingChartView(
         chartHeight: 240.h,
         chartWidgetHeight: 336.h,
+        isAssetChart: true,
       ),
       error: (_, __) => const Text('Error'),
     );

@@ -34,7 +34,7 @@ class EmptyPortfolioBody extends HookWidget {
             color: colors.grey1,
           ),
         ),
-        const SpaceH30(),
+        const Spacer(),
         SPrimaryButton1(
           active: true,
           name: 'Buy bitcoin',
@@ -47,6 +47,7 @@ class EmptyPortfolioBody extends HookWidget {
             );
           },
         ),
+        const SpaceH24(),
       ],
     );
   }

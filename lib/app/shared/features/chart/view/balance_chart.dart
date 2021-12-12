@@ -2,7 +2,6 @@ import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../providers/client_detail_pod/client_detail_pod.dart';
@@ -42,13 +41,15 @@ class BalanceChart extends HookWidget {
             walletCreationDate: walletCreationDate,
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
-            chartHeight: 200.h,
-            chartWidgetHeight: 296.h,
+            chartHeight: 200,
+            chartWidgetHeight: 296,
+            isAssetChart: false,
           ),
           loading: () => LoadingChartView(
             walletCreationDate: clientDetail.walletCreationDate,
-            chartHeight: 200.h,
-            chartWidgetHeight: 296.h,
+            chartHeight: 200,
+            chartWidgetHeight: 296,
+            isAssetChart: false,
           ),
           error: (String error) {
             return Center(
@@ -59,8 +60,9 @@ class BalanceChart extends HookWidget {
       },
       loading: () => LoadingChartView(
         walletCreationDate: clientDetail.walletCreationDate,
-        chartHeight: 200.h,
-        chartWidgetHeight: 296.h,
+        chartHeight: 200,
+        chartWidgetHeight: 296,
+        isAssetChart: false,
       ),
       error: (_, __) => const Text('Error'),
     );
