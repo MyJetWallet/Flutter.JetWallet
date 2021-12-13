@@ -6,9 +6,8 @@ part 'profile_info_reponse_model.g.dart';
 @freezed
 class ProfileInfoResponseModel with _$ProfileInfoResponseModel {
   const factory ProfileInfoResponseModel({
-    String? clientId,
     String? referralCode,
-    String? referrerClientId,
+    String? referralLink,
     String? email,
     String? firstName,
     String? lastName,
@@ -23,13 +22,10 @@ class ProfileInfoResponseModel with _$ProfileInfoResponseModel {
     bool? usCitizen,
     String? countryOfRegistration,
     String? ipOfRegistration,
-    String? brandId,
-    String? platformType,
     required Status2FA status2FA,
     required bool emailConfirmed,
     required bool phoneConfirmed,
     required bool kycPassed,
-    required String createdAt,
   }) = _ProfileInfoResponseModel;
 
   factory ProfileInfoResponseModel.fromJson(Map<String, dynamic> json) =>
