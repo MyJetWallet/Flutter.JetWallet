@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../helpers/input_helpers.dart';
-import '../../../models/currency_model.dart';
+import '../../../../helpers/input_helpers.dart';
+import '../../../../models/currency_model.dart';
 
 part 'convert_input_state.freezed.dart';
 

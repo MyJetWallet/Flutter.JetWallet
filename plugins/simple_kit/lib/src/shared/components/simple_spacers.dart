@@ -704,6 +704,17 @@ class SpaceW10 extends StatelessWidget {
   }
 }
 
+class SpaceW9 extends StatelessWidget {
+  const SpaceW9({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 9.0,
+    );
+  }
+}
+
 class SpaceW8 extends StatelessWidget {
   const SpaceW8({Key? key}) : super(key: key);
 
@@ -722,6 +733,17 @@ class SpaceW6 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SizedBox(
       width: 6.0,
+    );
+  }
+}
+
+class SpaceW5 extends StatelessWidget {
+  const SpaceW5({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 5.0,
     );
   }
 }
