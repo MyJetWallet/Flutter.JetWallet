@@ -19,7 +19,7 @@ class UserInfoState with _$UserInfoState {
     @Default(false) bool kycPassed,
     @Default('') String email,
     @Default('') String phone,
-    @Default('') String referralCode,
+    @Default('') String? referralLink,
   }) = _UserInfoState;
 
   const UserInfoState._();

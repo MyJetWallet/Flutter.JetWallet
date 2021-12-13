@@ -10,10 +10,12 @@ class SReferralInviteBody extends StatelessWidget {
     this.onReadMoreTap,
     required this.primaryText,
     required this.referralCode,
+    required this.referralLink,
   }) : super(key: key);
 
   final String primaryText;
   final String referralCode;
+  final String referralLink;
   final Function()? onReadMoreTap;
 
   @override
@@ -75,9 +77,9 @@ class SReferralInviteBody extends StatelessWidget {
           ],
         ),
         const SpaceH20(),
-        const SAddressFieldWithCopy(
+        SAddressFieldWithCopy(
           afterCopyText: 'Referral link copied',
-          value: 'http://simple.net/?Ref=7455258',
+          value: referralLink,
           header: 'Referral link',
         ),
         const SDivider(),

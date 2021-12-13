@@ -45,7 +45,8 @@ class MarketBanner extends HookWidget {
                 children: [
                   SReferralInviteBody(
                     primaryText: campaign[index].title,
-                    referralCode: userInfo.referralCode,
+                    referralCode: '',
+                    referralLink: userInfo.referralLink!,
                     onReadMoreTap: () {
                       print('onReadMoreTap');
                     },
