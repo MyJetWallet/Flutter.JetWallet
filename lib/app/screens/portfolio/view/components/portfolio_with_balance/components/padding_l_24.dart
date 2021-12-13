@@ -11,7 +11,7 @@ class PaddingL24 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 24,
       ),
       child: child,
