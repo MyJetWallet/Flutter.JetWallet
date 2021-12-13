@@ -8,7 +8,7 @@ import '../profile_service.dart';
 
 Future<ProfileInfoResponseModel> profileInfoService(Dio dio) async {
   final logger = ProfileService.logger;
-  const message = 'operationHistoryService';
+  const message = 'profileInfoService';
 
   try {
     final response = await dio.get(
