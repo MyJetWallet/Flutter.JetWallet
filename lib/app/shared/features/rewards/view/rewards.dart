@@ -30,17 +30,7 @@ class Rewards extends HookWidget {
       child: ListView(
         children: [
           for (final item in campaignAndReferral.campaigns) ...[
-            if (_boolConditionNotExist(item))
-              SRewardBanner(
-                color: setBannerColor(
-                  randomNumber.nextInt(maxRandomNumber),
-                  colors,
-                ),
-                primaryText: item.title,
-                secondaryText: item.description,
-                imageUrl: item.imageUrl,
-              ),
-            if (!_boolConditionNotExist(item))
+            if (_isCampaignConditionExist(item))
               SThreeStepsRewardBanner(
                 primaryText: item.title,
                 timeToComplete: formatBannersDate(
@@ -59,6 +49,16 @@ class Rewards extends HookWidget {
                   colors,
                 ),
               ),
+            if (!_isCampaignConditionExist(item))
+              SRewardBanner(
+                color: setBannerColor(
+                  randomNumber.nextInt(maxRandomNumber),
+                  colors,
+                ),
+                primaryText: item.title,
+                secondaryText: item.description,
+                imageUrl: item.imageUrl,
+              ),
           ],
           for (final item in campaignAndReferral.referralStats) ...[
             const SpaceH20(),
@@ -75,9 +75,7 @@ class Rewards extends HookWidget {
     );
   }
 
-  bool _boolConditionNotExist(CampaignModel item) {
-    return item.conditions == null ||
-        (item.conditions != null &&
-            item.conditions!.isEmpty);
+  bool _isCampaignConditionExist(CampaignModel item) {
+    return item.conditions != null && item.conditions!.isNotEmpty;
   }
 }
