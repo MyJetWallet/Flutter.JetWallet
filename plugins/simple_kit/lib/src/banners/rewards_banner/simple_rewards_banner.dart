@@ -39,7 +39,6 @@ class SRewardBanner extends StatelessWidget {
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: [
               CircleAvatar(
                 radius: 40.0,
