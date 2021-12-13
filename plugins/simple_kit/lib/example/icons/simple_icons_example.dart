@@ -5,6 +5,7 @@ import 'examples/simple_icons_102x56_example.dart';
 import 'examples/simple_icons_16x16_example.dart';
 import 'examples/simple_icons_24x24_example.dart';
 import 'examples/simple_icons_36x36_example.dart';
+import 'examples/simple_icons_40x40_example.dart';
 import 'examples/simple_icons_56x56_example.dart';
 
 class SimpleIconsExample extends StatelessWidget {
@@ -30,6 +31,10 @@ class SimpleIconsExample extends StatelessWidget {
             NavigationButton(
               buttonName: '36x36',
               routeName: SimpleIcons36X36Example.routeName,
+            ),
+            NavigationButton(
+              buttonName: '40x40',
+              routeName: SimpleIcons40X40Example.routeName,
             ),
             NavigationButton(
               buttonName: '56x56',

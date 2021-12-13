@@ -24,7 +24,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lint: ^1.7.2
+  lint: ^1.8.1
 
 flutter:
   assets:
@@ -82,6 +82,7 @@ flutter:
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/
     - assets/icons/light/36x36/keyboard_erase/
+    - assets/icons/light/40x40/convert/
     - assets/icons/light/56x56/action/
     - assets/icons/light/56x56/market/
     - assets/icons/light/56x56/news/

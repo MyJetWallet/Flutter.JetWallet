@@ -11,6 +11,8 @@ linter:
     prefer_relative_imports: true
     # conflicts with `prefer_relative_imports`
     avoid_relative_lib_imports: false
+    # conflicts with `prefer_relative_imports`
+    always_use_package_imports: false
 
     prefer_single_quotes: true
 

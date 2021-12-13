@@ -9,43 +9,41 @@ import '../../../../../../../../service/services/swap/model/execute_quote/execut
 import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
-import '../../../../screens/navigation/provider/navigation_stpod.dart';
-import '../../../features/convert/view/convert.dart';
-import '../../../features/currency_buy/view/curency_buy.dart';
-import '../../../features/currency_sell/view/currency_sell.dart';
-import '../model/convert_preview_input.dart';
-import '../view/components/quote_updated_dialog.dart';
-import 'convert_state.dart';
-import 'convert_union.dart';
+import '../../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../../../components/quote_updated_dialog.dart';
+import '../../model/preview_convert_input.dart';
+import '../../view/convert.dart';
+import 'preview_convert_state.dart';
+import 'preview_convert_union.dart';
 
-class ConvertNotifier extends StateNotifier<ConvertState> {
-  ConvertNotifier(
+class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
+  PreviewConvertNotifier(
     this.input,
     this.read,
-  ) : super(const ConvertState()) {
+  ) : super(const PreviewConvertState()) {
     _context = read(sNavigatorKeyPod).currentContext!;
     _updateFrom(input);
     requestQuote();
   }
 
   final Reader read;
-  final ConvertPreviewInput input;
+  final PreviewConvertInput input;
 
   Timer _timer = Timer(Duration.zero, () {});
   late BuildContext _context;
 
-  static final _logger = Logger('ConvertNotifier');
+  static final _logger = Logger('PreviewConvertNotifier');
 
-  void _updateFrom(ConvertPreviewInput input) {
+  void _updateFrom(PreviewConvertInput input) {
     state = state.copyWith(
-      fromAssetAmount: double.parse(input.fromAssetAmount),
-      fromAssetSymbol: input.fromAssetSymbol,
-      toAssetSymbol: input.toAssetSymbol,
+      fromAssetAmount: double.parse(input.amount),
+      fromAssetSymbol: input.fromCurrency.symbol,
+      toAssetSymbol: input.toCurrency.symbol,
     );
   }
 
@@ -74,6 +72,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         connectingToServer: false,
       );
 
+      _refreshTimerAnimation(response.expirationTime);
       _refreshTimer(response.expirationTime);
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'requestQuote', error.cause);
@@ -139,6 +138,17 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     _timer.cancel();
   }
 
+  /// Will be triggered during initState of the parent widget
+  void updateTimerAnimation(AnimationController controller) {
+    state = state.copyWith(timerAnimation: controller);
+  }
+
+  /// Will be triggered only when timerAnimation is not Null
+  void _refreshTimerAnimation(int duration) {
+    state.timerAnimation!.duration = Duration(seconds: duration);
+    state.timerAnimation!.countdown();
+  }
+
   void _refreshTimer(int initial) {
     _timer.cancel();
     state = state.copyWith(timer: initial);
@@ -162,6 +172,9 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     return SuccessScreen.push(
       context: _context,
       secondaryText: 'Order filled',
+      then: () {
+        read(navigationStpod).state = 1;
+      },
     );
   }
 
@@ -188,7 +201,7 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
         Navigator.pushAndRemoveUntil(
           _context,
           MaterialPageRoute(
-            builder: (_) => pageToPushOnEdit,
+            builder: (_) => const Convert(),
           ),
           (route) => route.isFirst,
         );
@@ -198,24 +211,9 @@ class ConvertNotifier extends StateNotifier<ConvertState> {
     );
   }
 
-  Widget get pageToPushOnEdit {
-    if (input.action == TriggerAction.convert) {
-      return const Convert();
-    } else if (input.action == TriggerAction.buy) {
-      return CurrencyBuy(currency: input.currency!);
-    } else {
-      return CurrencySell(currency: input.currency!);
-    }
-  }
-
   String get previewHeader {
-    if (input.action == TriggerAction.convert) {
-      return 'Convert ${state.fromAssetSymbol} to ${state.toAssetSymbol}';
-    } else if (input.action == TriggerAction.buy) {
-      return 'Confirm Buy ${input.assetDescription}';
-    } else {
-      return 'Confirm Sell ${input.assetDescription}';
-    }
+    return 'Confirm Convert ${input.fromCurrency.symbol} '
+        'to ${input.toCurrency.symbol}';
   }
 
   @override
