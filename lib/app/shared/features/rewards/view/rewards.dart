@@ -1,62 +1,81 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../../../helpers/set_banner_colors.dart';
 import '../../market_details/helper/format_news_date.dart';
+import '../../referral_stats/notifier/campaign_and_referral_notipod.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
-import '../notifier/campaign_notipod.dart';
+
+const maxRandomNumber = 3;
 
 class Rewards extends HookWidget {
   const Rewards({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final campaign = useProvider(campaignNotipod(false));
     final colors = useProvider(sColorPod);
+    final campaignAndReferral = useProvider(campaignAndReferralNotipod);
+    final randomNumber = Random();
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
         title: 'Rewards',
       ),
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: [
-              if (index == 0) const SpaceH20(),
-              if (campaign[index].conditions == null) ...[
-                SRewardBanner(
-                  color: setBannerColor(index, colors),
-                  primaryText: campaign[index].title,
-                  secondaryText: campaign[index].description,
-                  imageUrl: campaign[index].imageUrl,
+      child: ListView(
+        children: [
+          for (final item in campaignAndReferral.campaigns) ...[
+            if (_isCampaignConditionExist(item))
+              SThreeStepsRewardBanner(
+                primaryText: item.title,
+                timeToComplete: formatBannersDate(
+                  item.timeToComplete,
                 ),
-              ],
-              if (campaign[index].conditions != null) ...[
-                SThreeStepsRewardBanner(
-                  primaryText: campaign[index].title,
-                  timeToComplete: formatBannersDate(
-                    campaign[index].timeToComplete,
-                  ),
-                  imageUrl: campaign[index].imageUrl,
-                  circleAvatarColor: setBannerColor(index, colors),
-                  rewardDetail: createRewardDetail(
-                    campaign[index].conditions!,
-                  ),
-                  rewardIndicatorComplete: setRewardIndicatorComplete(
-                    campaign[index].conditions!,
-                    colors,
-                  ),
+                imageUrl: item.imageUrl,
+                circleAvatarColor: setBannerColor(
+                  randomNumber.nextInt(maxRandomNumber),
+                  colors,
                 ),
-              ],
-            ],
-          );
-        },
-        itemCount: campaign.length,
+                rewardDetail: createRewardDetail(
+                  item.conditions!,
+                ),
+                rewardIndicatorComplete: setRewardIndicatorComplete(
+                  item.conditions!,
+                  colors,
+                ),
+              ),
+            if (!_isCampaignConditionExist(item))
+              SRewardBanner(
+                color: setBannerColor(
+                  randomNumber.nextInt(maxRandomNumber),
+                  colors,
+                ),
+                primaryText: item.title,
+                secondaryText: item.description,
+                imageUrl: item.imageUrl,
+              ),
+          ],
+          for (final item in campaignAndReferral.referralStats) ...[
+            const SpaceH20(),
+            SReferralStats(
+              referralInvited: item.referralInvited,
+              referralActivated: item.referralActivated,
+              bonusEarned: item.bonusEarned,
+              commissionEarned: item.commissionEarned,
+              total: item.total,
+            ),
+          ],
+        ],
       ),
     );
+  }
+
+  bool _isCampaignConditionExist(CampaignModel item) {
+    return item.conditions != null && item.conditions!.isNotEmpty;
   }
 }

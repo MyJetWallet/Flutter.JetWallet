@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import 'helper/set_circle_background_image.dart';
@@ -28,9 +27,9 @@ class SThreeStepsRewardBanner extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.r),
+            borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
-              width: 3.w,
+              width: 3.0,
               color: SColorsLight().grey4,
             ),
           ),
@@ -38,19 +37,19 @@ class SThreeStepsRewardBanner extends StatelessWidget {
             children: [
               Container(
                 alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(
-                  top: 17.w,
-                  left: 17.w,
-                  bottom: 17.w,
+                padding: const EdgeInsets.only(
+                  top: 17.0,
+                  left: 17.0,
+                  bottom: 20.0,
                 ),
-                height: 141.h,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: 197.w,
+                          width: 197.0,
                           child: RichText(
                             text: TextSpan(
                               children: [
@@ -60,29 +59,39 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                                     color: SColorsLight().black,
                                   ),
                                 ),
-                                const WidgetSpan(
-                                  child: SInfoPressedIcon(),
+                                WidgetSpan(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                      left: 8,
+                                    ),
+                                    child: const SInfoPressedIcon(),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         const SpaceW20(),
-                        CircleAvatar(
-                          radius: 32.r,
-                          backgroundColor: circleAvatarColor,
-                          backgroundImage: setCircleBackgroundImage(imageUrl),
+                        Container(
+                          padding: const EdgeInsets.only(
+                            right: 17,
+                          ),
+                          child: CircleAvatar(
+                            radius: 32.0,
+                            backgroundColor: circleAvatarColor,
+                            backgroundImage: setCircleBackgroundImage(imageUrl),
+                          ),
                         ),
                       ],
                     ),
                     const SpaceH10(),
                     Container(
                       alignment: Alignment.center,
-                      width: 131.w,
-                      height: 26.h,
+                      width: 131.0,
+                      height: 26.0,
                       decoration: BoxDecoration(
                         color: SColorsLight().grey5,
-                        borderRadius: BorderRadius.circular(16.r),
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Text(
                         timeToComplete,
