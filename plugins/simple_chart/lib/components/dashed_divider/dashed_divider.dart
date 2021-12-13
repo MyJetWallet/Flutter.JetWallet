@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../chart_style.dart';
 
@@ -13,14 +12,17 @@ class DashedDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
-      width: 1.sw,
-      padding: EdgeInsets.only(left: 24.w),
+      width: screenWidth,
+      padding: const EdgeInsets.only(left: 24),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final boxWidth = constraints.constrainWidth();
-          final dashWidth = 5.w;
+          const dashWidth = 5.0;
           final dashCount = (boxWidth / (2 * dashWidth)).floor();
+
           return Flex(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             direction: Axis.horizontal,
@@ -31,10 +33,10 @@ class DashedDivider extends StatelessWidget {
                   padding: EdgeInsets.only(
                     top: topPadding,
                   ),
-                  child: SizedBox(
+                  child: const SizedBox(
                     width: dashWidth,
-                    height: 1.h,
-                    child: const DecoratedBox(
+                    height: 1,
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: ChartColors.dashedLineColor,
                       ),

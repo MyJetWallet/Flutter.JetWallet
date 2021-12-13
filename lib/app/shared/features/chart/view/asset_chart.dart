@@ -2,7 +2,6 @@ import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../notifier/chart_notipod.dart';
@@ -38,13 +37,13 @@ class AssetChart extends HookWidget {
             candleResolution: chartState.resolution,
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
-            chartHeight: 240.h,
-            chartWidgetHeight: 336.h,
+            chartHeight: 240,
+            chartWidgetHeight: 336,
             isAssetChart: true,
           ),
-          loading: () => LoadingChartView(
-            chartHeight: 240.h,
-            chartWidgetHeight: 336.h,
+          loading: () => const LoadingChartView(
+            chartHeight: 240,
+            chartWidgetHeight: 336,
             isAssetChart: true,
           ),
           error: (String error) {
@@ -54,9 +53,9 @@ class AssetChart extends HookWidget {
           },
         );
       },
-      loading: () => LoadingChartView(
-        chartHeight: 240.h,
-        chartWidgetHeight: 336.h,
+      loading: () => const LoadingChartView(
+        chartHeight: 240,
+        chartWidgetHeight: 336,
         isAssetChart: true,
       ),
       error: (_, __) => const Text('Error'),

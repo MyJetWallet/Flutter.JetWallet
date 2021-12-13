@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PaddingL24 extends StatelessWidget {
   const PaddingL24({
@@ -13,7 +12,7 @@ class PaddingL24 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 24.w,
+        left: 24,
       ),
       child: child,
     );

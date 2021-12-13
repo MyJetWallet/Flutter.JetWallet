@@ -44,7 +44,6 @@ class MarketDetails extends HookWidget {
           showStarButton: true,
           isStarSelected:
               watchlistIdsN.isInWatchlist(marketItem.associateAsset),
-          onBackButtonTap: () => Navigator.of(context).pop(),
           onStarButtonTap: () {
             if (watchlistIdsN.isInWatchlist(marketItem.associateAsset)) {
               watchlistIdsN.removeFromWatchlist(marketItem.associateAsset);

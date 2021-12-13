@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class ClickableUnderlinedText extends StatelessWidget {
@@ -17,13 +16,13 @@ class ClickableUnderlinedText extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(
-          bottom: 3.h,
+        padding: const EdgeInsets.only(
+          bottom: 3,
         ),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              width: 2.h,
+              width: 2,
             ),
           ),
         ),

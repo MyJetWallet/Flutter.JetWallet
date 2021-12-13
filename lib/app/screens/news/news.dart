@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -76,9 +75,9 @@ class _NewsState extends State<News> {
                         context,
                         news.news[index].urlAddress,
                       ),
-                      height: 110.h,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20.h,
+                      height: 110,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
                       ),
                     ),
                     itemCount: news.news.length,
