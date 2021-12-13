@@ -24,6 +24,7 @@ class ConvertAutoSizeAmount extends HookWidget {
       child: STransparentInkWell(
         onTap: onTap,
         child: AutoSizeText(
+          // TODO add reactive value (blocked by backend)
           value.isEmpty ? 'min 0.001' : value,
           textAlign: TextAlign.end,
           minFontSize: 4.0,
