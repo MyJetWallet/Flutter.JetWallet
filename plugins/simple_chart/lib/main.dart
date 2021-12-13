@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import './simple_chart.dart';
 
@@ -26,6 +25,9 @@ class MyApp extends StatelessWidget {
               onCandleSelected: (candleEntity) {},
               candles: snapshot.data!,
               candleResolution: Period.day,
+              chartHeight: 0,
+              chartWidgetHeight: 0,
+              isAssetChart: true,
             );
           } else {
             return Container();
@@ -53,6 +55,9 @@ class Chart extends StatefulWidget {
     required this.onCandleSelected,
     required this.candles,
     required this.candleResolution,
+    required this.chartHeight,
+    required this.chartWidgetHeight,
+    required this.isAssetChart,
     this.chartType = ChartType.line,
     this.walletCreationDate,
     this.selectedCandlePadding,
@@ -66,6 +71,9 @@ class Chart extends StatefulWidget {
   final String candleResolution;
   final String? walletCreationDate;
   final double? selectedCandlePadding;
+  final double chartHeight;
+  final double chartWidgetHeight;
+  final bool isAssetChart;
 
   @override
   _ChartState createState() => _ChartState();
@@ -76,9 +84,9 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(Vova): change to -24.w (left padding only)
-    final screenWidth = 1.sw - 48.w;
-    final candleWidth = screenWidth / widget.candles.length;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final chartWidth = screenWidth - 24;
+    final candleWidth = chartWidth / widget.candles.length;
 
     final currentDate = DateTime.now().toLocal();
     final localCreationDate = widget.walletCreationDate == null
@@ -99,16 +107,15 @@ class _ChartState extends State<Chart> {
     }
 
     return SizedBox(
-      height: 336.h,
-      width: 1.sw,
+      height: widget.chartWidgetHeight,
+      width: screenWidth,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: ListView(
-          physics: const NeverScrollableScrollPhysics(),
+        body: Column(
           children: [
             SizedBox(
-              height: 240.h,
-              width: 1.sw,
+              height: widget.chartHeight,
+              width: screenWidth,
               child: KChartWidget(
                 widget.candles,
                 candleType: widget.chartType,
@@ -126,13 +133,14 @@ class _ChartState extends State<Chart> {
                   });
                 },
                 selectedCandlePadding: widget.selectedCandlePadding,
+                isAssetChart: widget.isAssetChart,
               ),
             ),
-            SizedBox(
-              height: 20.h,
+            const SizedBox(
+              height: 20,
             ),
             SizedBox(
-              height: 36.h,
+              height: 36,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -192,8 +200,8 @@ class _ChartState extends State<Chart> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 40.h,
+            const SizedBox(
+              height: 40,
             ),
           ],
         ),
@@ -210,9 +218,9 @@ class _ChartState extends State<Chart> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 36.w,
-          margin: EdgeInsets.symmetric(
-            horizontal: 5.w,
+          width: 36,
+          margin: const EdgeInsets.symmetric(
+            horizontal: 5,
           ),
           child: InkWell(
             splashColor: Colors.transparent,
@@ -225,8 +233,8 @@ class _ChartState extends State<Chart> {
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12.sp,
+              style: const TextStyle(
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -234,19 +242,19 @@ class _ChartState extends State<Chart> {
         ),
         if (showUnderline)
           Container(
-            width: 36.w,
-            height: 3.h,
-            margin: EdgeInsets.only(
-              top: 5.h,
+            width: 36,
+            height: 3,
+            margin: const EdgeInsets.only(
+              top: 5,
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2.r),
+              borderRadius: BorderRadius.circular(2),
               color: Colors.black,
             ),
           )
         else
-          SizedBox(
-            height: 8.h,
+          const SizedBox(
+            height: 8,
           )
       ],
     );

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../shared/components/buttons/app_buton_white.dart';
-import '../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../providers/currencies_pod/currencies_pod.dart';
@@ -26,38 +25,50 @@ class BalanceActionButtons extends HookWidget {
       marketItem.associateAsset,
     );
 
-    return Row(
-      children: [
-        Expanded(
-          child: AppButtonWhite(
-            name: 'Buy',
-            onTap: () {
-              navigatorPush(
-                context,
-                CurrencyBuy(
-                  currency: currency,
-                ),
-              );
-            },
-          ),
-        ),
-        if (!marketItem.isBalanceEmpty) ...[
-          const SpaceW16(),
+    return SPaddingH24(
+      child: Row(
+        children: [
           Expanded(
-            child: AppButtonWhite(
-              name: 'Sell',
+            child: SPrimaryButton1(
+              name: _buyButtonText(),
               onTap: () {
                 navigatorPush(
                   context,
-                  CurrencySell(
+                  CurrencyBuy(
                     currency: currency,
                   ),
                 );
               },
+              active: true,
             ),
           ),
-        ]
-      ],
+          if (!marketItem.isBalanceEmpty) ...[
+            const SpaceW11(),
+            Expanded(
+              child: SSecondaryButton1(
+                name: 'Sell',
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    CurrencySell(
+                      currency: currency,
+                    ),
+                  );
+                },
+                active: true,
+              ),
+            ),
+          ]
+        ],
+      ),
     );
+  }
+
+  String _buyButtonText() {
+    if (marketItem.isBalanceEmpty) {
+      return 'Buy ${marketItem.name}';
+    } else {
+      return 'Buy';
+    }
   }
 }

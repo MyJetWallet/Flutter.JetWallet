@@ -75,6 +75,10 @@ class _NewsState extends State<News> {
                         context,
                         news.news[index].urlAddress,
                       ),
+                      height: 110,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                      ),
                     ),
                     itemCount: news.news.length,
                   ),

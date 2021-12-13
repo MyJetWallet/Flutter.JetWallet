@@ -19,16 +19,18 @@ class MarketBanner extends HookWidget {
 
     if (campaign.isNotEmpty) {
       return SizedBox(
-        height: 120.0,
+        height: 120,
         child: ListView.builder(
           itemCount: campaign.length,
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
+          padding: const EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: 10,
           ),
           itemBuilder: (BuildContext context, int index) => Container(
             padding: EdgeInsets.only(
-              right: (index != campaign.length - 1) ? 10.0 : 0,
+              right: (index != campaign.length - 1) ? 10 : 0,
             ),
             child: SRewardBanner(
               color: setBannerColor(index, colors),

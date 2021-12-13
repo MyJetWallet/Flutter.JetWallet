@@ -231,6 +231,17 @@ class SpaceH34 extends StatelessWidget {
   }
 }
 
+class SpaceH33 extends StatelessWidget {
+  const SpaceH33({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 33.0,
+    );
+  }
+}
+
 class SpaceH32 extends StatelessWidget {
   const SpaceH32({Key? key}) : super(key: key);
 
@@ -392,6 +403,17 @@ class SpaceH10 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SizedBox(
       height: 10.0,
+    );
+  }
+}
+
+class SpaceH9 extends StatelessWidget {
+  const SpaceH9({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 9.0,
     );
   }
 }
@@ -656,6 +678,17 @@ class SpaceW12 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SizedBox(
       width: 12.0,
+    );
+  }
+}
+
+class SpaceW11 extends StatelessWidget {
+  const SpaceW11({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 11.0,
     );
   }
 }

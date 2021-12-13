@@ -2,7 +2,6 @@ import 'dart:async' show StreamSink;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../model/candle_model.dart';
@@ -27,6 +26,7 @@ class ChartPainter extends BaseChartPainter {
     required double candleWidth,
     this.controller,
     this.opacity = 0.0,
+    required this.isAssetChart,
     required this.onCandleSelected,
   }) : super(
           datas: datas,
@@ -45,6 +45,7 @@ class ChartPainter extends BaseChartPainter {
   AnimationController? controller;
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
+  final bool isAssetChart;
   late Color chartColor;
 
   @override
@@ -263,10 +264,10 @@ class ChartPainter extends BaseChartPainter {
 
   @override
   void drawMaxAndMin(Canvas canvas) {
-    if (!isLongPress) {
+    if (!isLongPress && isAssetChart) {
       //Plot the maximum and minimum values
-      const x = 0.0;
-      var y = getMainY(mMainLowMinValue!) + 20.h;
+      const x = 24.0;
+      var y = getMainY(mMainLowMinValue!) + 20;
       if (x < mWidth / 2) {
         //Draw right
         final tp = getTextPainter(
@@ -281,7 +282,7 @@ class ChartPainter extends BaseChartPainter {
         );
         tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
       }
-      y = getMainY(mMainHighMaxValue!) - 20.h;
+      y = getMainY(mMainHighMaxValue!) - 20;
       if (x < mWidth / 2) {
         //Draw right
         final tp = getTextPainter(
@@ -310,7 +311,7 @@ class ChartPainter extends BaseChartPainter {
     final y = getMainY(point.close);
     // k-line graph vertical line
     canvas.drawLine(
-      Offset(x, 40.h),
+      Offset(x, 40),
       Offset(x, size.height - ChartStyle.bottomDateHigh),
       paintY,
     );
@@ -322,7 +323,7 @@ class ChartPainter extends BaseChartPainter {
     // k-line graph horizontal line
     // canvas.drawLine(Offset(-mTranslateX, y),
     //     Offset(-mTranslateX + mWidth / scaleX, y), paintX);
-    canvas.drawCircle(Offset(x, y), 3.r, paintX);
+    canvas.drawCircle(Offset(x, y), 3, paintX);
     // canvas.drawOval(
     //   Rect.fromCenter(
     //     center: Offset(x, y),
@@ -347,7 +348,7 @@ class ChartPainter extends BaseChartPainter {
     final y = getMainY(point.close);
     // //The more the max slides to the right, the smaller the value
     final max =
-        (mTranslateX.abs() + mMarginRight - getMinTranslateX().abs() + 2.r) *
+        (mTranslateX.abs() + mMarginRight - getMinTranslateX().abs() + 2) *
             scaleX;
     final x = mWidth - max;
     // if (candleType == ChartType.candle) x += mPointWidth / 2;
@@ -371,7 +372,7 @@ class ChartPainter extends BaseChartPainter {
       // pointPaint.shader = pointGradient
       //     .createShader(Rect.fromCircle(center: Offset(x, y), radius: 14.0));
       // canvas.drawCircle(Offset(x, y), 14.0, pointPaint);
-      canvas.drawCircle(Offset(x, y), 3.r, realTimePaint..color = chartColor);
+      canvas.drawCircle(Offset(x, y), 3, realTimePaint..color = chartColor);
     } else {
       // stopAnimation(); //Stop flashing
     }
@@ -448,10 +449,10 @@ class ChartPainter extends BaseChartPainter {
   TextPainter getTextPainter(String text, {Color color = Colors.white}) {
     final span = TextSpan(
       text: text,
-      style: TextStyle(
-        color: const Color(0xFFA8B0BA),
+      style: const TextStyle(
+        color: Color(0xFFA8B0BA),
         fontWeight: FontWeight.w500,
-        fontSize: 12.sp,
+        fontSize: 12,
       ),
     );
     final tp = TextPainter(text: span, textDirection: ui.TextDirection.ltr);

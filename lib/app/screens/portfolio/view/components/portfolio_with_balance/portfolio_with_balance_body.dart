@@ -49,7 +49,7 @@ class PortfolioWithBalanceBody extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 68.h,
+            height: 104,
             child: PaddingL24(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

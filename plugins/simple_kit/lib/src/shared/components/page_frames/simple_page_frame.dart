@@ -9,6 +9,7 @@ class SPageFrame extends ConsumerWidget {
     Key? key,
     this.header,
     this.loading,
+    this.bottomNavigationBar,
     this.color = Colors.transparent,
     required this.child,
   }) : super(key: key);
@@ -17,6 +18,7 @@ class SPageFrame extends ConsumerWidget {
   final Widget child;
   final Color color;
   final StackLoaderNotifier? loading;
+  final Widget? bottomNavigationBar;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -24,6 +26,7 @@ class SPageFrame extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
+      bottomNavigationBar: bottomNavigationBar,
       body: StackLoader(
         loading: loading,
         child: Column(
