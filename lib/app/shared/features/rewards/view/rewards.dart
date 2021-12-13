@@ -5,10 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../../../helpers/set_banner_colors.dart';
 import '../../market_details/helper/format_news_date.dart';
 import '../../referral_stats/notifier/campaign_and_referral_notipod.dart';
-import '../helper/create_reward_banner.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
 
@@ -30,7 +30,7 @@ class Rewards extends HookWidget {
       child: ListView(
         children: [
           for (final item in campaignAndReferral.campaigns) ...[
-            if (isConditionNotExist(item))
+            if (_boolConditionNotExist(item))
               SRewardBanner(
                 color: setBannerColor(
                   randomNumber.nextInt(maxRandomNumber),
@@ -40,7 +40,7 @@ class Rewards extends HookWidget {
                 secondaryText: item.description,
                 imageUrl: item.imageUrl,
               ),
-            if (!isConditionNotExist(item))
+            if (!_boolConditionNotExist(item))
               SThreeStepsRewardBanner(
                 primaryText: item.title,
                 timeToComplete: formatBannersDate(
@@ -73,5 +73,11 @@ class Rewards extends HookWidget {
         ],
       ),
     );
+  }
+
+  bool _boolConditionNotExist(CampaignModel item) {
+    return item.conditions == null ||
+        (item.conditions != null &&
+            item.conditions!.isEmpty);
   }
 }
