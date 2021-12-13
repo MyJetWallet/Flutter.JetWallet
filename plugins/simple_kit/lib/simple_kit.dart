@@ -45,6 +45,8 @@ export 'src/asset_items/simple_asset_item.dart';
 export 'src/asset_items/simple_fiat_item.dart';
 export 'src/asset_items/simple_market_item.dart';
 export 'src/asset_items/simple_wallet_item.dart';
+export 'src/banners/rewards_banner/simple_rewards_banner.dart';
+export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 
 /// Bottom Navigation Bar
 export 'src/bottom_navigation_bar/simple_bottom_navigation_bar.dart';
@@ -118,11 +120,13 @@ export 'src/icons/24x24/public/back/simple_back_icon.dart';
 export 'src/icons/24x24/public/back/simple_back_pressed_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_negative_icon.dart';
 export 'src/icons/24x24/public/big_arrow/simple_big_arrow_positive_icon.dart';
+export 'src/icons/24x24/public/blue_right_arrow/simple_blue_right_arrow_icon.dart';
 export 'src/icons/24x24/public/change_pin/simple_change_pin_icon.dart';
 export 'src/icons/24x24/public/checkbox/simple_checkbox_icon.dart';
 export 'src/icons/24x24/public/checkbox/simple_checkbox_selected_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_pressed_icon.dart';
+export 'src/icons/24x24/public/complete/simple_complete_icon.dart';
 export 'src/icons/24x24/public/copy/simple_copy_icon.dart';
 export 'src/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_icon.dart';
@@ -174,6 +178,8 @@ export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_pressed_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_pressed_icon.dart';
+export 'src/icons/40x40/public/convert/simple_convert_icon.dart';
+export 'src/icons/40x40/public/convert/simple_convert_pressed_icon.dart';
 export 'src/icons/56x56/public/action/simple_action_active_icon.dart';
 export 'src/icons/56x56/public/action/simple_action_default_icon.dart';
 export 'src/icons/56x56/public/market/simple_market_active_icon.dart';
@@ -189,6 +195,9 @@ export 'src/icons/56x56/public/profile/simple_profile_default_icon.dart';
 export 'src/keyboards/constants.dart';
 export 'src/keyboards/simple_numeric_keyboard_amount.dart';
 export 'src/keyboards/simple_numeric_keyboard_pin.dart';
+
+/// News
+export 'src/news/simple_news_category.dart';
 
 /// News
 export 'src/news/simple_news_category.dart';
@@ -223,6 +232,8 @@ export 'src/shared/components/simple_show_errror_notification.dart';
 export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_spacers.dart';
+export 'src/shared/components/simple_spacers.dart';
+export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
