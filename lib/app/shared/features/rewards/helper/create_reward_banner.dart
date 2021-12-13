@@ -11,15 +11,15 @@ import 'set_reward_indicator_complete.dart';
 
 Widget createRewardBanner(
     CampaignModel item,
-    Random rng,
     SimpleColors colors,
     ) {
+  final randomNumber = Random();
   if (item.conditions == null ||
       (item.conditions != null &&
           item.conditions!.isEmpty)) {
     return SRewardBanner(
       color: setBannerColor(
-        rng.nextInt(3),
+        randomNumber.nextInt(3),
         colors,
       ),
       primaryText: item.title,
@@ -34,7 +34,7 @@ Widget createRewardBanner(
       ),
       imageUrl: item.imageUrl,
       circleAvatarColor: setBannerColor(
-        rng.nextInt(3),
+        randomNumber.nextInt(3),
         colors,
       ),
       rewardDetail: createRewardDetail(
