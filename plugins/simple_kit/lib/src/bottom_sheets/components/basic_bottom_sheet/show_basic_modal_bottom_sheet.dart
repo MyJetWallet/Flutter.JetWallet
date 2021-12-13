@@ -15,6 +15,7 @@ void sShowBasicModalBottomSheet({
   Future<bool> Function()? onWillPop,
   bool removeBottomSheetBar = false,
   bool removeBottomHeaderPadding = false,
+  bool removeTopHeaderPadding = false,
   bool scrollable = false,
   double? horizontalPinnedPadding,
   required List<Widget> children,
@@ -38,6 +39,7 @@ void sShowBasicModalBottomSheet({
         removeBottomSheetBar: removeBottomSheetBar,
         removeBottomHeaderPadding: removeBottomHeaderPadding,
         scrollable: scrollable,
+        removeTopHeaderPadding: removeTopHeaderPadding,
         children: children,
       );
     },

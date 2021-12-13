@@ -22,6 +22,9 @@ const _confirmWithdraw = 'jw_withdrawal_email_confirm';
 const _confirmSend = 'jw_transfer_email_confirm';
 const _operationId = 'jw_operation_id';
 
+
+const _jwCommand = 'InviteFriend';
+
 final dynamicLinkPod = Provider<void>(
   (ref) {
     final service = ref.watch(dynamicLinkServicePod);
@@ -30,8 +33,13 @@ final dynamicLinkPod = Provider<void>(
 
     service.initDynamicLinks(
       handler: (link) {
+
+        print('LINK $link');
+
         final parameters = link.queryParameters;
         final command = parameters[_command];
+
+        print('LINK command $command');
 
         if (command == _confirmEmail) {
           if (startup.authorized is EmailVerification) {
@@ -40,6 +48,7 @@ final dynamicLinkPod = Provider<void>(
             notifier.updateCode(parameters[_code]);
           }
         } else if (command == _login) {
+          print('LOGIN');
           ref.read(logoutNotipod.notifier).logout();
 
           navigatorPush(navigatorKey.currentContext!, const Login());
@@ -53,6 +62,9 @@ final dynamicLinkPod = Provider<void>(
         } else if (command == _confirmWithdraw || command == _confirmSend) {
           final id = parameters[_operationId]!;
           ref.read(withdrawDynamicLinkStpod(id)).state = true;
+        } else if (command == _jwCommand) {
+
+          print('command  == jwCommand');
         } else {
           navigatorPush(
             navigatorKey.currentContext!,
