@@ -12,6 +12,7 @@ linter:
     # conflicts with `prefer_relative_imports`
     avoid_relative_lib_imports: false
     # conflicts with `prefer_relative_imports`
+    # TODO(Research) with dart 2.15 this is true
     always_use_package_imports: false
 
     prefer_single_quotes: true
