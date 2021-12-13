@@ -23,11 +23,10 @@ class MarketInfoResponseModel with _$MarketInfoResponseModel {
 @freezed
 class Fees with _$Fees {
   const factory Fees({
-    required WithdrawalFee withdrawalFee,
+    required WithdrawalFee? withdrawalFee,
   }) = _Fees;
 
-  factory Fees.fromJson(Map<String, dynamic> json) =>
-      _$FeesFromJson(json);
+  factory Fees.fromJson(Map<String, dynamic> json) => _$FeesFromJson(json);
 }
 
 @freezed

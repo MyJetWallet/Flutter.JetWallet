@@ -18,6 +18,7 @@ class KChartWidget extends StatefulWidget {
     required this.candleResolution,
     required this.candleWidth,
     required this.onCandleSelected,
+    required this.isAssetChart,
     this.selectedCandlePadding,
   });
 
@@ -29,6 +30,7 @@ class KChartWidget extends StatefulWidget {
   final String candleResolution;
   final double candleWidth;
   final double? selectedCandlePadding;
+  final bool isAssetChart;
 
   @override
   _KChartWidgetState createState() => _KChartWidgetState();
@@ -187,15 +189,16 @@ class _KChartWidgetState extends State<KChartWidget>
       },
       child: Stack(
         children: <Widget>[
-          if (!isLongPress)
+          // TODO(Vova): hide lines on Portfolio Chart
+          if (!isLongPress && widget.isAssetChart)
             DashedDivider(
               topPadding: 20.h,
             ),
-          if (!isLongPress)
+          if (!isLongPress && widget.isAssetChart)
             DashedDivider(
               topPadding: 120.h,
             ),
-          if (!isLongPress)
+          if (!isLongPress && widget.isAssetChart)
             DashedDivider(
               topPadding: 220.h,
             ),
@@ -214,6 +217,7 @@ class _KChartWidgetState extends State<KChartWidget>
               candleWidth: widget.candleWidth,
               controller: _controller,
               onCandleSelected: widget.onCandleSelected,
+              isAssetChart: widget.isAssetChart,
             ),
           ),
         ],

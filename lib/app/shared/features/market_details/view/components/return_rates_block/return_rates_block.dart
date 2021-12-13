@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../../../../../../../shared/components/header_text.dart';
-import '../../../../../../../shared/components/spacers.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import 'components/return_rates.dart';
 
@@ -15,19 +14,29 @@ class ReturnRatesBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const HeaderText(
-          text: 'Return Rates',
-          textAlign: TextAlign.start,
-        ),
-        const SpaceH8(),
-        ReturnRates(
-          assetSymbol: assetSymbol,
-        ),
-        const Divider(),
-      ],
+    return SPaddingH24(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 56,
+            child: Baseline(
+              baseline: 50,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                'Return Rates',
+                textAlign: TextAlign.start,
+                style: sTextH4Style,
+              ),
+            ),
+          ),
+          ReturnRates(
+            assetSymbol: assetSymbol,
+          ),
+          const SpaceH12(),
+          const SDivider(),
+        ],
+      ),
     );
   }
 }

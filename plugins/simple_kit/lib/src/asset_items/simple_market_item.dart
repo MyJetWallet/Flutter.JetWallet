@@ -48,7 +48,7 @@ class SMarketItem extends StatelessWidget {
                           baseline: 17.8,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            ticker,
+                            name,
                             style: sSubtitle2Style,
                           ),
                         ),
@@ -56,7 +56,7 @@ class SMarketItem extends StatelessWidget {
                           baseline: 19.4,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            name,
+                            ticker,
                             style: sBodyText2Style.copyWith(
                               color: SColorsLight().grey3,
                             ),

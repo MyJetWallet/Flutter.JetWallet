@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../../../../../../../../service/services/market_info/model/market_info_response_model.dart';
-import '../../../../../../../../shared/components/spacers.dart';
-import '../../../../../../../../shared/helpers/launch_url.dart';
+import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../service/services/market_info/model/market_info_response_model.dart';
+import '../../../../../../../../shared/helpers/launch_url.dart';
 import 'clickable_underlined_text.dart';
 
 class AboutBlockText extends HookWidget {
@@ -23,31 +23,30 @@ class AboutBlockText extends HookWidget {
       children: [
         Text(
           expandText.value ? marketInfo.aboutMore : marketInfo.aboutLess,
-          style: const TextStyle(
-            color: Colors.grey,
-          ),
+          maxLines: expandText.value ? 10 : 4,
+          style: sBodyText1Style.copyWith(color: Colors.black),
         ),
-        const SpaceH8(),
+        const SpaceH18(),
         ClickableUnderlinedText(
           text: expandText.value ? 'Read less' : 'Read more',
           onTap: () => expandText.value = !expandText.value,
         ),
         if (_urlValid(marketInfo.whitepaperUrl)) ...[
-          const SpaceH4(),
-          const Divider(),
+          const SpaceH15(),
           ClickableUnderlinedText(
             text: 'Whitepaper',
             onTap: () => launchURL(context, marketInfo.whitepaperUrl!),
           ),
         ],
         if (_urlValid(marketInfo.officialWebsiteUrl)) ...[
-          const SpaceH4(),
-          const Divider(),
+          const SpaceH15(),
           ClickableUnderlinedText(
             text: 'Official website',
             onTap: () => launchURL(context, marketInfo.officialWebsiteUrl!),
           ),
         ],
+        const SpaceH33(),
+        const SDivider(),
       ],
     );
   }

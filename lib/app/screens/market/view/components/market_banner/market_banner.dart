@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -20,16 +19,18 @@ class MarketBanner extends HookWidget {
 
     if (campaign.isNotEmpty) {
       return SizedBox(
-        height: 120.h,
+        height: 120,
         child: ListView.builder(
           itemCount: campaign.length,
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(
-            horizontal: 24.w,
+          padding: const EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: 10,
           ),
           itemBuilder: (BuildContext context, int index) => Container(
             padding: EdgeInsets.only(
-              right: (index != campaign.length - 1) ? 10.w : 0,
+              right: (index != campaign.length - 1) ? 10 : 0,
             ),
             child: SRewardBanner(
               color: setBannerColor(index, colors),

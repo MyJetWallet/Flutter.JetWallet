@@ -41,9 +41,15 @@ class BalanceChart extends HookWidget {
             walletCreationDate: walletCreationDate,
             candles: chartState.candles,
             onCandleSelected: onCandleSelected,
+            chartHeight: 200,
+            chartWidgetHeight: 296,
+            isAssetChart: false,
           ),
           loading: () => LoadingChartView(
             walletCreationDate: clientDetail.walletCreationDate,
+            chartHeight: 200,
+            chartWidgetHeight: 296,
+            isAssetChart: false,
           ),
           error: (String error) {
             return Center(
@@ -54,6 +60,9 @@ class BalanceChart extends HookWidget {
       },
       loading: () => LoadingChartView(
         walletCreationDate: clientDetail.walletCreationDate,
+        chartHeight: 200,
+        chartWidgetHeight: 296,
+        isAssetChart: false,
       ),
       error: (_, __) => const Text('Error'),
     );
