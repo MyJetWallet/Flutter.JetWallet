@@ -35,6 +35,8 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     required bool kycPassed,
     required String email,
     required String phone,
+    required String referralLink,
+    required String referralCode,
   }) {
     _logger.log(notifier, 'updateWithValuesFromProfileInfo');
 
@@ -44,6 +46,8 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       kycPassed: kycPassed,
       email: email,
       phone: phone,
+      referralLink: referralLink,
+      referralCode: referralCode,
     );
   }
 

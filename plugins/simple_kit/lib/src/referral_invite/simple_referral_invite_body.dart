@@ -39,17 +39,93 @@ class SReferralInviteBody extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                child: Baseline(
-                  baseline: 104,
-                  baselineType: TextBaseline.alphabetic,
-                  child: SimpleAccountTermButton(
-                    name: 'Read more',
-                    onTap: () => onReadMoreTap?.call(),
+              GestureDetector(
+                onTap: onReadMoreTap,
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Baseline(
+                    baseline: 104,
+                    baselineType: TextBaseline.alphabetic,
+                    child: SimpleAccountTermButton(
+                      name: 'Read more',
+                      onTap: () => onReadMoreTap?.call(),
+                    ),
                   ),
                 ),
               ),
+            ],
+          ),
+        ),
+        const SpaceH40(),
+        SPaddingH24(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SCompleteIcon(),
+              const SpaceW20(),
+              Baseline(
+                baseline: 16,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  'Get \$5 for account verification',
+                  style: sBodyText1Style,
+                ),
+              )
+            ],
+          ),
+        ),
+        const SpaceH16(),
+        SPaddingH24(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SCompleteIcon(),
+              const SpaceW20(),
+              Baseline(
+                baseline: 16,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  'Get \$10 after making first deposit',
+                  style: sBodyText1Style,
+                ),
+              )
+            ],
+          ),
+        ),
+        const SpaceH16(),
+        SPaddingH24(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SCompleteIcon(),
+              const SpaceW20(),
+              Baseline(
+                baseline: 16,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  'Get \$15 after trading \$100',
+                  style: sBodyText1Style,
+                ),
+              )
+            ],
+          ),
+        ),
+        const SpaceH16(),
+        SPaddingH24(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SCompleteIcon(),
+              const SpaceW20(),
+              Baseline(
+                baseline: 16,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  'Earn 20% trading commission from all\nfriends',
+                  style: sBodyText1Style,
+                  maxLines: 2,
+                ),
+              )
             ],
           ),
         ),

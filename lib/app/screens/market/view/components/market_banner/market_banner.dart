@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/features/phone_verification/phone_verification_enter/components/phone_number_bottom_sheet.dart';
-import 'package:jetwallet/shared/features/phone_verification/phone_verification_enter/components/phone_number_search.dart';
-import 'package:jetwallet/shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../../shared/services/deep_link_service.dart';
 import '../../../../../shared/features/rewards/notifier/campaign_notipod.dart';
 import '../../../../../shared/helpers/set_banner_colors.dart';
 
@@ -34,24 +33,11 @@ class MarketBanner extends HookWidget {
           ),
           itemBuilder: (BuildContext context, int index) => GestureDetector(
             onTap: () {
-              sShowBasicModalBottomSheet(
+              _deepLinkParse(
+                deepLink: campaign[index].deepLink,
                 context: context,
-                removeBottomHeaderPadding: true,
-                removeBottomSheetBar: true,
-                removeTopHeaderPadding: true,
-                horizontalPinnedPadding: 0,
-                scrollable: true,
-                pinned: const SReferralInvitePinned(),
-                children: [
-                  SReferralInviteBody(
-                    primaryText: campaign[index].title,
-                    referralCode: '',
-                    referralLink: userInfo.referralLink!,
-                    onReadMoreTap: () {
-                      print('onReadMoreTap');
-                    },
-                  ),
-                ],
+                referralLink: userInfo.referralLink!,
+                referralCode: userInfo.referralCode!,
               );
             },
             child: Container(
@@ -73,6 +59,23 @@ class MarketBanner extends HookWidget {
       );
     } else {
       return const SizedBox();
+    }
+  }
+
+  void _deepLinkParse({
+    required String deepLink,
+    required BuildContext context,
+    required String referralLink,
+    required String referralCode,
+  }) {
+    if (deepLink.contains('jw_command')) {
+      if (deepLink.contains('InviteFriend')) {
+        DeepLinkService().showBasicModalBottomSheet(
+          context,
+          referralLink,
+          referralCode,
+        );
+      }
     }
   }
 }

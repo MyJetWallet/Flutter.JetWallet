@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/market/view/market.dart';
+import 'package:jetwallet/app/shared/features/about_us/view/about_us.dart';
+import 'package:jetwallet/router/view/router.dart';
+import 'package:jetwallet/shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import 'package:jetwallet/shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import 'package:jetwallet/shared/services/deep_link_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
@@ -22,8 +28,8 @@ const _confirmWithdraw = 'jw_withdrawal_email_confirm';
 const _confirmSend = 'jw_transfer_email_confirm';
 const _operationId = 'jw_operation_id';
 
-
 const _jwCommand = 'InviteFriend';
+const _jwCommandRedirect = 'ReferralRedirect';
 
 final dynamicLinkPod = Provider<void>(
   (ref) {
@@ -33,13 +39,8 @@ final dynamicLinkPod = Provider<void>(
 
     service.initDynamicLinks(
       handler: (link) {
-
-        print('LINK $link');
-
         final parameters = link.queryParameters;
         final command = parameters[_command];
-
-        print('LINK command $command');
 
         if (command == _confirmEmail) {
           if (startup.authorized is EmailVerification) {
@@ -48,7 +49,6 @@ final dynamicLinkPod = Provider<void>(
             notifier.updateCode(parameters[_code]);
           }
         } else if (command == _login) {
-          print('LOGIN');
           ref.read(logoutNotipod.notifier).logout();
 
           navigatorPush(navigatorKey.currentContext!, const Login());
@@ -63,8 +63,12 @@ final dynamicLinkPod = Provider<void>(
           final id = parameters[_operationId]!;
           ref.read(withdrawDynamicLinkStpod(id)).state = true;
         } else if (command == _jwCommand) {
-
-          print('command  == jwCommand');
+          final userInfo = ref.read(userInfoNotipod);
+          DeepLinkService().showBasicModalBottomSheet(
+            navigatorKey.currentContext!,
+            userInfo.referralLink!,
+            userInfo.referralCode!,
+          );
         } else {
           navigatorPush(
             navigatorKey.currentContext!,
