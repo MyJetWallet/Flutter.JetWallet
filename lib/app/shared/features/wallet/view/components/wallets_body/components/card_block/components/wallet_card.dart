@@ -7,7 +7,6 @@ import '../../../../../../../../../screens/market/provider/market_items_pod.dart
 import '../../../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../helper/market_item_from.dart';
-import '../../../../../../provider/wallet_hidden_stpod.dart';
 
 class WalletCard extends HookWidget {
   const WalletCard({
@@ -25,7 +24,6 @@ class WalletCard extends HookWidget {
       useProvider(marketItemsPod),
       assetId,
     );
-    final hidden = useProvider(walletHiddenStPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
     var buttonColor = SColorsLight().green;
