@@ -42,6 +42,18 @@ class _NewsState extends State<News> {
   Widget build(BuildContext context) {
     final newsInit = useProvider(newsInitFpod);
     final news = useProvider(newsNotipod);
+    final colors = useProvider(sColorPod);
+
+    Color _newsColor(Sentiment sentiment) {
+      switch (sentiment) {
+        case Sentiment.neutral:
+          return colors.yellowLight;
+        case Sentiment.positive:
+          return colors.green;
+        case Sentiment.negative:
+          return colors.red;
+      }
+    }
 
     return SPageFrame(
       header: SMarketHeaderClosed(
@@ -95,16 +107,5 @@ class _NewsState extends State<News> {
         ],
       ),
     );
-  }
-
-  Color _newsColor(Sentiment sentiment) {
-    switch (sentiment) {
-      case Sentiment.neutral:
-        return SColorsLight().yellowLight;
-      case Sentiment.positive:
-        return SColorsLight().green;
-      case Sentiment.negative:
-        return SColorsLight().red;
-    }
   }
 }

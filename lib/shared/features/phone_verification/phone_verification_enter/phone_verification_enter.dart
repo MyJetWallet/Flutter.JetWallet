@@ -32,6 +32,7 @@ class PhoneVerificationEnter extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final statePhoneNumber = useProvider(phoneNumberNotipod);
     final notifierPhoneNumber = useProvider(phoneNumberNotipod.notifier);
 
@@ -99,7 +100,7 @@ class PhoneVerificationEnter extends HookWidget {
               child: Text(
                 'This allow you to send and receive crypto by phone',
                 style: sCaptionTextStyle.copyWith(
-                  color: SColorsLight().grey1,
+                  color: colors.grey1,
                 ),
               ),
             ),

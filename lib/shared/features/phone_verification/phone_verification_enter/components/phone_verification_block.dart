@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class PhoneVerificationBlock extends StatelessWidget {
+class PhoneVerificationBlock extends HookWidget {
   const PhoneVerificationBlock({
     Key? key,
     required this.onChanged,
@@ -17,6 +19,8 @@ class PhoneVerificationBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return SizedBox(
       height: 88.0,
       child: Row(
@@ -32,7 +36,7 @@ class PhoneVerificationBlock extends StatelessWidget {
                   Text(
                     'Code',
                     style: sCaptionTextStyle.copyWith(
-                      color: SColorsLight().grey2,
+                      color: colors.grey2,
                     ),
                   ),
                   Baseline(
@@ -48,7 +52,7 @@ class PhoneVerificationBlock extends StatelessWidget {
             ),
           ),
           Container(
-            color: SColorsLight().grey4,
+            color: colors.grey4,
             width: 1.0,
           ),
           Column(

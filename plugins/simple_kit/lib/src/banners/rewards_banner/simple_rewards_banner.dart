@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 import 'helper/set_circle_background_image.dart';
 
 class SRewardBanner extends StatelessWidget {
-  const
-  SRewardBanner({
+  const SRewardBanner({
     Key? key,
     this.secondaryText,
     this.imageUrl,

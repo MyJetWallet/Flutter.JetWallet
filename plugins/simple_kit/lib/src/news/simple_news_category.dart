@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 import 'components/simple_smile_icon.dart';
 
 class SNewsCategory extends StatelessWidget {

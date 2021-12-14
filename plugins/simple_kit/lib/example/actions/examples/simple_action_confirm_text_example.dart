@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../simple_kit.dart';
+import '../../../src/colors/view/simple_colors_light.dart';
 
 class SimpleActionConfirmTextExample extends HookWidget {
   const SimpleActionConfirmTextExample({Key? key}) : super(key: key);

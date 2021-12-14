@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../../../simple_kit.dart';
+import '../../../../../colors/view/simple_colors_light.dart';
 import '../../../../constants.dart';
 
 class LoaderContainer extends StatelessWidget {
