@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 import '../shared/constants.dart';
 
 class SReferralInviteBody extends StatelessWidget {
