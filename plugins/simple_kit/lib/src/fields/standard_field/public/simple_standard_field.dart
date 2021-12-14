@@ -18,9 +18,11 @@ class SStandardField extends ConsumerWidget {
     this.suffixIcons,
     this.onErase,
     this.onChanged,
+    this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
     this.autofocus = false,
+    this.readOnly = false,
     this.alignLabelWithHint = false,
     required this.labelText,
   }) : super(key: key);
@@ -35,9 +37,11 @@ class SStandardField extends ConsumerWidget {
   final Function()? onErase;
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
+  final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
   final bool autofocus;
+  final bool readOnly;
   final bool alignLabelWithHint;
   final String labelText;
 
@@ -56,10 +60,12 @@ class SStandardField extends ConsumerWidget {
         onChanged: onChanged,
         labelText: labelText,
         autofocus: autofocus,
+        readOnly: readOnly,
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
         onErase: onErase,
         suffixIcons: suffixIcons,
+        hideClearButton: hideClearButton,
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
       );
@@ -74,10 +80,12 @@ class SStandardField extends ConsumerWidget {
         onChanged: onChanged,
         labelText: labelText,
         autofocus: autofocus,
+        readOnly: readOnly,
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
         onErase: onErase,
         suffixIcons: suffixIcons,
+        hideClearButton: hideClearButton,
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
       );

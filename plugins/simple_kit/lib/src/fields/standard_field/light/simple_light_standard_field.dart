@@ -17,9 +17,11 @@ class SimpleLightStandardField extends HookWidget {
     this.onErase,
     this.onChanged,
     this.suffixIcons,
+    this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
     this.autofocus = false,
+    this.readOnly = false,
     this.alignLabelWithHint = false,
     required this.labelText,
   }) : super(key: key);
@@ -34,9 +36,11 @@ class SimpleLightStandardField extends HookWidget {
   final Function()? onErase;
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
+  final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
   final bool autofocus;
+  final bool readOnly;
   final bool alignLabelWithHint;
   final String labelText;
 
@@ -54,16 +58,18 @@ class SimpleLightStandardField extends HookWidget {
       onErrorIconTap: onErrorIconTap,
       keyboardType: keyboardType,
       autofocus: autofocus,
+      readOnly: readOnly,
       autofillHints: autofillHints,
       textInputAction: textInputAction,
       alignLabelWithHint: alignLabelWithHint,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,
-        if (controller2.text.isNotEmpty)
+        if (controller2.text.isNotEmpty && !hideClearButton)
           GestureDetector(
             onTap: () {
               controller2.clear();
+              onChanged?.call('');
               onErase?.call();
             },
             child: const SEraseIcon(),

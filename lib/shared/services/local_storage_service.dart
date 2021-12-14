@@ -10,6 +10,7 @@ const pinStatusKey = 'pinStatusKey';
 const contactsPermissionKey = 'contactsPermissionKey';
 const pinDisabledKey = 'pinDisabledKey';
 const bannersIdsKey = 'bannersIds';
+const phonebookStatusKey = 'phonebookStatusKey';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
