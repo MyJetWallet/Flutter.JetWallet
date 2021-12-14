@@ -23,11 +23,12 @@ class TransactionListItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final hidden = useProvider(walletHiddenStPod);
-    var color = SColorsLight().green;
+    var color = colors.green;
 
     if (transactionListItem.balanceChange.isNegative) {
-      color = SColorsLight().red;
+      color = colors.red;
     }
 
     return InkWell(

@@ -26,12 +26,12 @@ class WalletCard extends HookWidget {
     );
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
-    var buttonColor = SColorsLight().green;
-    var cardColor = SColorsLight().greenLight;
+    var buttonColor = colors.green;
+    var cardColor = colors.greenLight;
 
     if (marketItem.dayPercentChange.isNegative) {
-      buttonColor = SColorsLight().red;
-      cardColor = SColorsLight().redLight;
+      buttonColor = colors.red;
+      cardColor = colors.redLight;
     }
 
     return Container(
