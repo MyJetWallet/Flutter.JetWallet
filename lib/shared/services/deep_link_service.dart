@@ -3,7 +3,22 @@ import 'package:simple_kit/simple_kit.dart';
 
 class DeepLinkService {
 
-
+  void deepLinkCheck({
+    required String deepLink,
+    required BuildContext context,
+    required String referralLink,
+    required String referralCode,
+  }) {
+    if (deepLink.contains('jw_command')) {
+      if (deepLink.contains('InviteFriend')) {
+        showBasicModalBottomSheet(
+          context,
+          referralLink,
+          referralCode,
+        );
+      }
+    }
+  }
 
   void showBasicModalBottomSheet(
     BuildContext context,
@@ -21,7 +36,7 @@ class DeepLinkService {
       children: [
         SReferralInviteBody(
           primaryText: 'Invite friends and get \$10',
-          referralCode: referralCode,
+          qrCodeLink: referralLink,
           referralLink: referralLink,
           onReadMoreTap: () {
             print('onReadMoreTap');

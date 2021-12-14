@@ -33,7 +33,7 @@ class MarketBanner extends HookWidget {
           ),
           itemBuilder: (BuildContext context, int index) => GestureDetector(
             onTap: () {
-              _deepLinkParse(
+              _checkDeepLinkAndOpenBottomSheet(
                 deepLink: campaign[index].deepLink,
                 context: context,
                 referralLink: userInfo.referralLink!,
@@ -62,20 +62,17 @@ class MarketBanner extends HookWidget {
     }
   }
 
-  void _deepLinkParse({
+  void _checkDeepLinkAndOpenBottomSheet({
     required String deepLink,
     required BuildContext context,
     required String referralLink,
     required String referralCode,
   }) {
-    if (deepLink.contains('jw_command')) {
-      if (deepLink.contains('InviteFriend')) {
-        DeepLinkService().showBasicModalBottomSheet(
-          context,
-          referralLink,
-          referralCode,
-        );
-      }
-    }
+    DeepLinkService().deepLinkCheck(
+      deepLink: deepLink,
+      context: context,
+      referralLink: referralLink,
+      referralCode: referralCode,
+    );
   }
 }

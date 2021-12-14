@@ -9,12 +9,12 @@ class SReferralInviteBody extends StatelessWidget {
     Key? key,
     this.onReadMoreTap,
     required this.primaryText,
-    required this.referralCode,
+    required this.qrCodeLink,
     required this.referralLink,
   }) : super(key: key);
 
   final String primaryText;
-  final String referralCode;
+  final String qrCodeLink;
   final String referralLink;
   final Function()? onReadMoreTap;
 
@@ -59,7 +59,6 @@ class SReferralInviteBody extends StatelessWidget {
         const SpaceH40(),
         SPaddingH24(
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SCompleteIcon(),
               const SpaceW20(),
@@ -77,7 +76,6 @@ class SReferralInviteBody extends StatelessWidget {
         const SpaceH16(),
         SPaddingH24(
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SCompleteIcon(),
               const SpaceW20(),
@@ -95,7 +93,6 @@ class SReferralInviteBody extends StatelessWidget {
         const SpaceH16(),
         SPaddingH24(
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SCompleteIcon(),
               const SpaceW20(),
@@ -139,7 +136,7 @@ class SReferralInviteBody extends StatelessWidget {
           children: [
             QrImage(
               padding: EdgeInsets.zero,
-              data: referralCode,
+              data: qrCodeLink,
               errorCorrectionLevel: QrErrorCorrectLevel.H,
               embeddedImage: const AssetImage(
                 sQrLogo,
