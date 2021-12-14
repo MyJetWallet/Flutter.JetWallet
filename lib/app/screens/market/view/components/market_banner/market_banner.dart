@@ -3,8 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../../../../../shared/services/deep_link_service.dart';
+import '../../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/features/rewards/notifier/campaign_notipod.dart';
 import '../../../../../shared/helpers/set_banner_colors.dart';
 
@@ -18,7 +17,7 @@ class MarketBanner extends HookWidget {
     final campaign = useProvider(campaignNotipod(true));
     final campaignN = useProvider(campaignNotipod(true).notifier);
     final colors = useProvider(sColorPod);
-    final userInfo = useProvider(userInfoNotipod);
+    final deepLinkService = useProvider(deepLinkServicePod);
 
     if (campaign.isNotEmpty) {
       return SizedBox(
@@ -33,12 +32,7 @@ class MarketBanner extends HookWidget {
           ),
           itemBuilder: (BuildContext context, int index) => GestureDetector(
             onTap: () {
-              _checkDeepLinkAndOpenBottomSheet(
-                deepLink: campaign[index].deepLink,
-                context: context,
-                referralLink: userInfo.referralLink!,
-                referralCode: userInfo.referralCode!,
-              );
+              deepLinkService.handle(Uri.parse(campaign[index].deepLink));
             },
             child: Container(
               padding: EdgeInsets.only(
@@ -60,19 +54,5 @@ class MarketBanner extends HookWidget {
     } else {
       return const SizedBox();
     }
-  }
-
-  void _checkDeepLinkAndOpenBottomSheet({
-    required String deepLink,
-    required BuildContext context,
-    required String referralLink,
-    required String referralCode,
-  }) {
-    DeepLinkService().deepLinkCheck(
-      deepLink: deepLink,
-      context: context,
-      referralLink: referralLink,
-      referralCode: referralCode,
-    );
   }
 }

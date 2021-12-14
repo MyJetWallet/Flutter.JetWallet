@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class DeepLinkService {
+import '../notifiers/user_info_notifier/user_info_notipod.dart';
 
-  void deepLinkCheck({
-    required String deepLink,
-    required BuildContext context,
-    required String referralLink,
-    required String referralCode,
-  }) {
-    if (deepLink.contains('jw_command')) {
-      if (deepLink.contains('InviteFriend')) {
-        showBasicModalBottomSheet(
-          context,
-          referralLink,
-          referralCode,
-        );
-      }
+const _jwCommand = 'InviteFriend';
+
+class DeepLinkService {
+  DeepLinkService(this.read);
+
+  final Reader read;
+
+  void handle(Uri uri) {
+    if (uri.queryParameters['link']!.contains(_jwCommand)) {
+      handleInviteFriends();
     }
   }
 
-  void showBasicModalBottomSheet(
+  void handleInviteFriends() {
+    final context =  read(sNavigatorKeyPod).currentContext!;
+    final userInfo = read(userInfoNotipod);
+
+    _showBasicModalBottomSheet(
+      context,
+      userInfo.referralLink!,
+      userInfo.referralCode!,
+    );
+  }
+
+  void _showBasicModalBottomSheet(
     BuildContext context,
     String referralLink,
     String referralCode,
@@ -38,9 +46,7 @@ class DeepLinkService {
           primaryText: 'Invite friends and get \$10',
           qrCodeLink: referralLink,
           referralLink: referralLink,
-          onReadMoreTap: () {
-            print('onReadMoreTap');
-          },
+          onReadMoreTap: () {},
         ),
       ],
     );
