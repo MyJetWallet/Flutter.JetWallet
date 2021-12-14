@@ -26,7 +26,7 @@ dependencies:
   flutter_svg: ^0.22.0 # SVG rendering and widget library
   contacts_service: ^0.6.3 # contacts fetching
   rive: ^0.7.22 # rive animations
-  permission_handler: ^8.2.6 # permissions handling
+  permission_handler: ^8.3.0 # permissions handling
   percent_indicator: ^3.4.0 # Percent indicator
   auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds
 

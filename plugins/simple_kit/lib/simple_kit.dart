@@ -71,8 +71,6 @@ export 'src/buttons/text_button/public/simple_text_button_2.dart';
 /// Colors
 export 'src/colors/provider/simple_color_pod.dart';
 export 'src/colors/view/simple_colors.dart';
-export 'src/colors/view/simple_colors_dark.dart';
-export 'src/colors/view/simple_colors_light.dart';
 
 /// Fields
 export 'src/fields/standard_field/base/standard_field_error_notifier.dart';

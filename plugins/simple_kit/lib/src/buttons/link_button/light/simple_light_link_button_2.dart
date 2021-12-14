@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../simple_kit.dart';
+import '../../../colors/view/simple_colors_light.dart';
 import '../../../icons/24x24/light/mail/simple_light_mail_icon.dart';
 import '../../../icons/24x24/light/mail/simple_light_mail_pressed_icon.dart';
 import '../base/simple_base_link_button.dart';

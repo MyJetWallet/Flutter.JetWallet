@@ -54,6 +54,8 @@ enum OperationType {
   transfer,
   @JsonValue(10)
   feeSharePayment,
+  @JsonValue(11)
+  rewardPayment,
   unknown,
   buy,
   sell,

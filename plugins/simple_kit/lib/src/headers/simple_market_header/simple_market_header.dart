@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 import 'components/simple_market_header_title.dart';
 
 class SMarketHeader extends StatelessWidget {

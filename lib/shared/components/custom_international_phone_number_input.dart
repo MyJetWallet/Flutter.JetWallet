@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class CustomInternationalPhoneNumberInput extends StatelessWidget {
+class CustomInternationalPhoneNumberInput extends HookWidget {
   const CustomInternationalPhoneNumberInput({
     Key? key,
     required this.controller,
@@ -17,6 +19,8 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return Stack(
       children: [
         InternationalPhoneNumberInput(
@@ -24,7 +28,7 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
           textStyle: sSubtitle1Style,
           textAlignVertical: TextAlignVertical.top,
           ignoreBlank: true,
-          cursorColor: SColorsLight().blue,
+          cursorColor: colors.blue,
           inputDecoration: InputDecoration(
             suffixIcon: controller.text.isNotEmpty
                 ? GestureDetector(
@@ -45,7 +49,7 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
             labelText: 'Phone number',
             alignLabelWithHint: true,
             labelStyle: TextStyle(
-              color: SColorsLight().grey2,
+              color: colors.grey2,
               textBaseline: TextBaseline.alphabetic,
             ),
             border: InputBorder.none,
@@ -61,7 +65,7 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
               height: 12.h,
             ),
             floatingLabelStyle: TextStyle(
-              color: SColorsLight().grey2,
+              color: colors.grey2,
               textBaseline: TextBaseline.alphabetic,
             ),
             contentPadding: EdgeInsets.zero,
@@ -90,12 +94,10 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
             leadingPadding: 3.h,
             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
           ),
-
           selectorTextStyle: sSubtitle2Style.copyWith(height: 3.h),
           onInputChanged: (number) => onChanged(number),
           onInputValidated: (valid) => onValidated(valid),
         ),
-
         Positioned(
           left: 74.w,
           child: Container(
@@ -104,7 +106,7 @@ class CustomInternationalPhoneNumberInput extends StatelessWidget {
               border: Border(
                 right: BorderSide(
                   width: 1.w,
-                  color: SColorsLight().grey4,
+                  color: colors.grey4,
                 ),
               ),
             ),

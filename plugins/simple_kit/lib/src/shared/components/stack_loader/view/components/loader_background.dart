@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../simple_kit.dart';
+import '../../../../../colors/view/simple_colors_light.dart';
 
 class LoaderBackground extends StatelessWidget {
   const LoaderBackground({Key? key}) : super(key: key);

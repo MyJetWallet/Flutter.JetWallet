@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
+import '../../../colors/view/simple_colors_light.dart';
 
 class SimpleBaseStandardField extends HookWidget {
   const SimpleBaseStandardField({
@@ -17,6 +18,7 @@ class SimpleBaseStandardField extends HookWidget {
     this.suffixIcons,
     this.hideIconsIfError = true,
     this.autofocus = false,
+    this.readOnly = false,
     this.obscureText = false,
     this.alignLabelWithHint = false,
     required this.labelText,
@@ -33,6 +35,7 @@ class SimpleBaseStandardField extends HookWidget {
   final List<Widget>? suffixIcons;
   final bool hideIconsIfError;
   final bool autofocus;
+  final bool readOnly;
   final bool obscureText;
   final bool alignLabelWithHint;
   final String labelText;
@@ -51,6 +54,7 @@ class SimpleBaseStandardField extends HookWidget {
           obscureText: obscureText,
           keyboardType: keyboardType,
           autofocus: autofocus,
+          readOnly: readOnly,
           textInputAction: textInputAction,
           autofillHints: autofillHints,
           onChanged: (value) {

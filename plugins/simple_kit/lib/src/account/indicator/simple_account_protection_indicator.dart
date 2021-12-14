@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
 class SimpleAccountProtectionIndicator extends StatelessWidget {
   const SimpleAccountProtectionIndicator({
@@ -29,8 +29,8 @@ class SimpleAccountProtectionIndicator extends StatelessWidget {
             width: (indicatorColor == Colors.red)
                 ? 109.0
                 : (indicatorColor == Colors.yellow)
-                ? 218.0
-                : double.infinity,
+                    ? 218.0
+                    : double.infinity,
             height: 12.0,
             decoration: BoxDecoration(
               color: indicatorColor,

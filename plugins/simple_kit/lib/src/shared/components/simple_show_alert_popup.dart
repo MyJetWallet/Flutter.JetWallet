@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 import '../constants.dart';
 
 void sShowAlertPopup(
   BuildContext context, {
+  Function()? onWillPop,
   Function()? onSecondaryButtonTap,
   String? secondaryText,
   String? secondaryButtonName,
   Widget? image,
+  Widget? topSpacer,
   bool willPopScope = true,
   bool barrierDismissible = true,
   required String primaryText,
@@ -21,6 +24,7 @@ void sShowAlertPopup(
     builder: (context) {
       return WillPopScope(
         onWillPop: () {
+          onWillPop?.call();
           return Future.value(willPopScope);
         },
         child: Column(
@@ -37,7 +41,7 @@ void sShowAlertPopup(
                 ),
                 child: Column(
                   children: [
-                    const SpaceH40(),
+                    topSpacer ?? const SpaceH40(),
                     if (image != null)
                       image
                     else
@@ -65,7 +69,7 @@ void sShowAlertPopup(
                           secondaryText,
                           maxLines: 6,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: sBodyText1Style.copyWith(
                             color: SColorsLight().grey1,
                           ),
                         ),
