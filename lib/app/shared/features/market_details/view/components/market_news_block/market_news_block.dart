@@ -23,6 +23,18 @@ class MarketNewsBlock extends HookWidget {
     final newsInit = useProvider(marketNewsInitFpod(assetId));
     final newsN = useProvider(marketNewsNotipod.notifier);
     final news = useProvider(marketNewsNotipod);
+    final colors = useProvider(sColorPod);
+
+    Color _newsColor(Sentiment sentiment) {
+      switch (sentiment) {
+        case Sentiment.neutral:
+          return colors.yellowLight;
+        case Sentiment.positive:
+          return colors.green;
+        case Sentiment.negative:
+          return colors.red;
+      }
+    }
 
     return newsInit.when(
       data: (_) {
@@ -83,16 +95,5 @@ class MarketNewsBlock extends HookWidget {
       loading: () => Container(),
       error: (_, __) => Container(),
     );
-  }
-
-  Color _newsColor(Sentiment sentiment) {
-    switch (sentiment) {
-      case Sentiment.neutral:
-        return SColorsLight().yellowLight;
-      case Sentiment.positive:
-        return SColorsLight().green;
-      case Sentiment.negative:
-        return SColorsLight().red;
-    }
   }
 }

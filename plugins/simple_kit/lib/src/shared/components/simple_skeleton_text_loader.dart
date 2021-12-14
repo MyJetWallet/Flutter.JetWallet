@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
 final _loaderRadius = BorderRadius.circular(20.0);
 

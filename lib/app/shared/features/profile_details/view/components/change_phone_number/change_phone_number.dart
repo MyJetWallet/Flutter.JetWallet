@@ -24,6 +24,7 @@ class ChangePhoneNumber extends HookWidget {
     final changePhoneN = useProvider(changePhoneNotipod.notifier);
     final changePhone = useProvider(changePhoneNotipod);
     final userInfoN = useProvider(userInfoNotipod.notifier);
+    final colors = useProvider(sColorPod);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -89,7 +90,7 @@ class ChangePhoneNumber extends HookWidget {
               child: Text(
                 'This allow you to send and receive crypto by phone',
                 style: sCaptionTextStyle.copyWith(
-                  color: SColorsLight().grey1,
+                  color: colors.grey1,
                 ),
               ),
             ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class CountriesLoop extends StatelessWidget {
+class CountriesLoop extends HookWidget {
   const CountriesLoop({
     Key? key,
     required this.countries,
@@ -15,6 +17,8 @@ class CountriesLoop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return Column(
       children: [
         for (var country in countries)
@@ -26,7 +30,7 @@ class CountriesLoop extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: SColorsLight().grey4,
+                      color: colors.grey4,
                     ),
                   ),
                 ),
@@ -36,7 +40,7 @@ class CountriesLoop extends StatelessWidget {
                       width: 24.0,
                       height: 24.0,
                       decoration: BoxDecoration(
-                        color: SColorsLight().grey2,
+                        color: colors.grey2,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
@@ -48,7 +52,7 @@ class CountriesLoop extends StatelessWidget {
                       child: Text(
                         country.countryCode,
                         style: sSubtitle2Style.copyWith(
-                          color: SColorsLight().grey3,
+                          color: colors.grey3,
                         ),
                       ),
                     ),
@@ -58,8 +62,8 @@ class CountriesLoop extends StatelessWidget {
                         country.countryName,
                         style: sSubtitle2Style.copyWith(
                           color: (activeCountryCode == country.countryCode)
-                              ? SColorsLight().blue
-                              : SColorsLight().black,
+                              ? colors.blue
+                              : colors.black,
                         ),
                       ),
                     ),

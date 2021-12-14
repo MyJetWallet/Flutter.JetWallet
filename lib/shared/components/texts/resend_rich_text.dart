@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class ResendRichText extends HookWidget {
@@ -12,13 +13,14 @@ class ResendRichText extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     return Center(
       child: Column(
         children: <Widget>[
           Text(
             "Didn't receive the code",
             style: sCaptionTextStyle.copyWith(
-              color: SColorsLight().grey2,
+              color: colors.grey2,
             ),
           ),
           const SpaceH10(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
+import '../../../src/colors/view/simple_colors_light.dart';
 
 class SimpleRewardsBannerExample extends StatelessWidget {
   const SimpleRewardsBannerExample({

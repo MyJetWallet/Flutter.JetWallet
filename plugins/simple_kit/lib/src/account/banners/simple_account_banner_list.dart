@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
 class SimpleAccountBannerList extends StatelessWidget {
   const SimpleAccountBannerList({

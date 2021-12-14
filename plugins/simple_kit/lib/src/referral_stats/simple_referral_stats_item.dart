@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 
 class SReferralStatsItem extends StatelessWidget {
   const SReferralStatsItem({
@@ -36,7 +38,7 @@ class SReferralStatsItem extends StatelessWidget {
           child: Text(
             value,
             style: sSubtitle3Style.copyWith(
-                color: valueColor ?? SColorsLight().black,
+              color: valueColor ?? SColorsLight().black,
             ),
           ),
         ),

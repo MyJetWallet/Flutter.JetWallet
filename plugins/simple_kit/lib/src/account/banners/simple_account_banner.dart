@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 import '../../banners/rewards_banner/helper/set_circle_background_image.dart';
+import '../../colors/view/simple_colors_light.dart';
 
 class SimpleAccountBanner extends StatelessWidget {
   const SimpleAccountBanner({
@@ -74,7 +75,7 @@ class SimpleAccountBanner extends StatelessWidget {
                       maxLines: 4,
                       style: sBodyText2Style.copyWith(
                         color: SColorsLight().grey1,
-                     // height: 1.7.h, //Todo: comeback to this
+                        // height: 1.7.h, //Todo: comeback to this
                       ),
                     ),
                   ),
