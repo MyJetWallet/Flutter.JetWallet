@@ -32,7 +32,8 @@ class MarketBanner extends HookWidget {
           ),
           itemBuilder: (BuildContext context, int index) => GestureDetector(
             onTap: () {
-              deepLinkService.handle(Uri.parse(campaign[index].deepLink));
+              final deepLinkUri = _parseDeepLink(campaign[index].deepLink);
+              deepLinkService.handle(Uri.parse(deepLinkUri));
             },
             child: Container(
               padding: EdgeInsets.only(
@@ -54,5 +55,13 @@ class MarketBanner extends HookWidget {
     } else {
       return const SizedBox();
     }
+  }
+
+  String _parseDeepLink(String deepLink) {
+    final secondPartOfDeepLink = deepLink.split('/?')[1];
+    final secondPartOfDeepLink2 = secondPartOfDeepLink.split('&apn')[0];
+    final link = Uri.decodeComponent(secondPartOfDeepLink2);
+    final uriLink = link.split('link=')[1];
+    return uriLink;
   }
 }
