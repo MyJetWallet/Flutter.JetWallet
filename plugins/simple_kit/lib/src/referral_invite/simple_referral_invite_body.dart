@@ -7,7 +7,6 @@ import '../shared/constants.dart';
 class SReferralInviteBody extends StatelessWidget {
   const SReferralInviteBody({
     Key? key,
-    this.onReadMoreTap,
     required this.primaryText,
     required this.qrCodeLink,
     required this.referralLink,
@@ -16,7 +15,6 @@ class SReferralInviteBody extends StatelessWidget {
   final String primaryText;
   final String qrCodeLink;
   final String referralLink;
-  final Function()? onReadMoreTap;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +38,7 @@ class SReferralInviteBody extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: onReadMoreTap,
+                onTap: () {},
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   child: Baseline(
@@ -48,7 +46,7 @@ class SReferralInviteBody extends StatelessWidget {
                     baselineType: TextBaseline.alphabetic,
                     child: SimpleAccountTermButton(
                       name: 'Read more',
-                      onTap: () => onReadMoreTap?.call(),
+                      onTap: () {},
                     ),
                   ),
                 ),

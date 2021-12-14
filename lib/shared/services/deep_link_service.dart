@@ -74,7 +74,6 @@ class DeepLinkService {
             primaryText: 'Invite friends and get \$10',
             qrCodeLink: userInfo.referralLink!,
             referralLink: userInfo.referralLink!,
-            onReadMoreTap: () {},
           ),
         ],
       );
