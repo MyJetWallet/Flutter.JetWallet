@@ -5,16 +5,25 @@ import '../../../../current_theme_stpod.dart';
 import '../../light/info/simple_light_info_pressed_icon.dart';
 
 class SInfoPressedIcon extends ConsumerWidget {
-  const SInfoPressedIcon({Key? key}) : super(key: key);
+  const SInfoPressedIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = watch(currentThemeStpod);
 
     if (theme.state == STheme.dark) {
-      return const SimpleLightInfoPressedIcon();
+      return SimpleLightInfoPressedIcon(
+        color: color,
+      );
     } else {
-      return const SimpleLightInfoPressedIcon();
+      return SimpleLightInfoPressedIcon(
+        color: color,
+      );
     }
   }
 }
