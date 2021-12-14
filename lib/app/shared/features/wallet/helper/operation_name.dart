@@ -19,6 +19,7 @@ String operationName(OperationType type) {
     case OperationType.feeSharePayment:
     case OperationType.swap:
     case OperationType.withdrawalFee:
+    case OperationType.rewardPayment:
     case OperationType.unknown:
       return 'Unknown';
   }

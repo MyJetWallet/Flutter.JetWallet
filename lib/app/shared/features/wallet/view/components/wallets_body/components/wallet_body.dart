@@ -3,10 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../../../../../../../shared/components/header_text.dart';
-import '../../../../../../../../shared/components/spacers.dart';
+import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../helper/format_date.dart';
 import '../../../../notifier/operation_history_notipod.dart';
 import 'card_block/cards_block.dart';
@@ -67,9 +66,10 @@ class _WalletBodyState extends State<WalletBody>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const HeaderText(
-                  text: 'Transactions',
+                Text(
+                  '${widget.assetId} Transactions',
                   textAlign: TextAlign.start,
+                  style: sTextH4Style,
                 ),
                 const SpaceH20(),
                 Expanded(

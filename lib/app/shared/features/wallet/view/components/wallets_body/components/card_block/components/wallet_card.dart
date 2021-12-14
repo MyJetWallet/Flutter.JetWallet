@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
-import '../../../../../../../../components/asset_icon.dart';
 import '../../../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../helper/market_item_from.dart';
@@ -15,9 +13,11 @@ class WalletCard extends HookWidget {
   const WalletCard({
     Key? key,
     required this.assetId,
+    required this.currentPage,
   }) : super(key: key);
 
   final String assetId;
+  final int currentPage;
 
   @override
   Widget build(BuildContext context) {
@@ -27,81 +27,93 @@ class WalletCard extends HookWidget {
     );
     final hidden = useProvider(walletHiddenStPod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final colors = useProvider(sColorPod);
+    var buttonColor = SColorsLight().green;
+    var cardColor = SColorsLight().greenLight;
 
-    return Expanded(
-      child: Container(
-        height: 0.25.sh,
-        margin: EdgeInsets.symmetric(
-          horizontal: 24.w,
+    if (marketItem.dayPercentChange.isNegative) {
+      buttonColor = SColorsLight().red;
+      cardColor = SColorsLight().redLight;
+    }
+
+    return Container(
+      height: 280,
+      width: 280,
+      margin: EdgeInsets.symmetric(
+        horizontal: currentPage >= 1 ? 10 : 24,
+      ),
+      padding: const EdgeInsets.only(
+        top: 40,
+        left: 20,
+        right: 20,
+        bottom: 20,
+      ),
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(16),
         ),
-        padding: EdgeInsets.all(20.r),
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.all(
-            Radius.circular(16.r),
+      ),
+      child: Column(
+        children: [
+          SNetworkSvg24(
+            url: marketItem.iconUrl,
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                AssetIcon(
-                  imageUrl: marketItem.iconUrl,
+          const SpaceH14(),
+          Text(
+            marketItem.name,
+            style: sSubtitle2Style,
+          ),
+          const SpaceH2(),
+          Text(
+            formatCurrencyAmount(
+              prefix: baseCurrency.prefix,
+              value: marketItem.baseBalance,
+              accuracy: baseCurrency.accuracy,
+              symbol: baseCurrency.symbol,
+            ),
+            style: sTextH1Style,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            formatCurrencyAmount(
+              symbol: marketItem.id,
+              value: marketItem.assetBalance,
+              accuracy: marketItem.accuracy,
+              prefix: marketItem.prefixSymbol,
+            ),
+            style: sBodyText2Style,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 24,
+                width: 83,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
                 ),
-                const SpaceW8(),
-                Expanded(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: buttonColor,
+                ),
+                child: Baseline(
+                  baseline: 17,
+                  baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    marketItem.name,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    '+\$120.23',
+                    style: sSubtitle3Style.copyWith(color: colors.white),
                   ),
                 ),
-                InkWell(
-                  onTap: () => hidden.state = !hidden.state,
-                  child: Icon(
-                    hidden.state ? Icons.visibility_off : Icons.visibility,
-                  ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Text(
-              hidden.state
-                  ? 'Hidden'
-                  : formatCurrencyAmount(
-                      prefix: baseCurrency.prefix,
-                      value: marketItem.baseBalance,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    ),
-              style: TextStyle(
-                fontSize: 30.sp,
-                fontWeight: FontWeight.w600,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              hidden.state
-                  ? ' '
-                  : formatCurrencyAmount(
-                      symbol: marketItem.id,
-                      value: marketItem.assetBalance,
-                      accuracy: marketItem.accuracy,
-                      prefix: marketItem.prefixSymbol,
-                    ),
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
+              const SInfoIcon(),
+            ],
+          ),
+        ],
       ),
     );
   }
