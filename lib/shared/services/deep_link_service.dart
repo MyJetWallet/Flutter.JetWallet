@@ -24,11 +24,11 @@ const _operationId = 'jw_operation_id';
 const _jwCommand = 'InviteFriend';
 
 class DeepLinkService {
-  DeepLinkService(
-    this.read,
-    this.navigatorKey,
-    this.startup,
-  );
+  DeepLinkService({
+    required this.read,
+    required this.navigatorKey,
+    required this.startup,
+  });
 
   final Reader read;
   final GlobalKey navigatorKey;
@@ -38,52 +38,64 @@ class DeepLinkService {
     final parameters = link.queryParameters;
     final command = parameters[_command];
 
-    if (command == _confirmEmail) {
-      if (startup.authorized is EmailVerification) {
-        final notifier = read(emailVerificationNotipod.notifier);
-
-        notifier.updateCode(parameters[_code]);
-      }
-    } else if (command == _login) {
-      read(logoutNotipod.notifier).logout();
-
-      navigatorPush(navigatorKey.currentContext!, const Login());
-    } else if (command == _forgotPassword) {
-      navigatorPush(
-        navigatorKey.currentContext!,
-        ResetPassword(
-          token: parameters[_token]!,
-        ),
-      );
-    } else if (command == _confirmWithdraw || command == _confirmSend) {
-      final id = parameters[_operationId]!;
-      read(withdrawDynamicLinkStpod(id)).state = true;
-    } else if (command == _jwCommand) {
-      final userInfo = read(userInfoNotipod);
-
-      sShowBasicModalBottomSheet(
-        context: navigatorKey.currentContext!,
-        removeBottomHeaderPadding: true,
-        removeBottomSheetBar: true,
-        removeTopHeaderPadding: true,
-        horizontalPinnedPadding: 0,
-        scrollable: true,
-        pinned: const SReferralInvitePinned(),
-        children: [
-          SReferralInviteBody(
-            primaryText: 'Invite friends and get \$10',
-            qrCodeLink: userInfo.referralLink!,
-            referralLink: userInfo.referralLink!,
+    switch (command) {
+      case _confirmEmail:
+        if (startup.authorized is EmailVerification) {
+          final notifier = read(emailVerificationNotipod.notifier);
+          notifier.updateCode(parameters[_code]);
+        }
+        break;
+      case _login:
+        {
+          read(logoutNotipod.notifier).logout();
+          navigatorPush(navigatorKey.currentContext!, const Login());
+        }
+        break;
+      case _forgotPassword:
+        navigatorPush(
+          navigatorKey.currentContext!,
+          ResetPassword(
+            token: parameters[_token]!,
           ),
-        ],
-      );
-    } else {
-      navigatorPush(
-        navigatorKey.currentContext!,
-        _UndefinedDeepLink(
-          deepLinkParameters: parameters,
-        ),
-      );
+        );
+        break;
+      case _confirmWithdraw:
+        final id = parameters[_operationId]!;
+        read(withdrawDynamicLinkStpod(id)).state = true;
+        break;
+      case _confirmSend:
+        final id = parameters[_operationId]!;
+        read(withdrawDynamicLinkStpod(id)).state = true;
+        break;
+      case _jwCommand:
+        {
+          final userInfo = read(userInfoNotipod);
+
+          sShowBasicModalBottomSheet(
+            context: navigatorKey.currentContext!,
+            removeBottomHeaderPadding: true,
+            removeBottomSheetBar: true,
+            removeTopHeaderPadding: true,
+            horizontalPinnedPadding: 0,
+            scrollable: true,
+            pinned: const SReferralInvitePinned(),
+            children: [
+              SReferralInviteBody(
+                primaryText: 'Invite friends and get \$10',
+                qrCodeLink: userInfo.referralLink,
+                referralLink: userInfo.referralLink,
+              ),
+            ],
+          );
+        }
+        break;
+      default:
+        navigatorPush(
+          navigatorKey.currentContext!,
+          _UndefinedDeepLink(
+            deepLinkParameters: parameters,
+          ),
+        );
     }
   }
 }

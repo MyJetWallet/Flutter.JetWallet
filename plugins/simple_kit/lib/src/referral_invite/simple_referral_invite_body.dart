@@ -39,7 +39,9 @@ class SReferralInviteBody extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  // Todo: navigate to read more screen
+                },
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   child: Baseline(
@@ -47,7 +49,9 @@ class SReferralInviteBody extends StatelessWidget {
                     baselineType: TextBaseline.alphabetic,
                     child: SimpleAccountTermButton(
                       name: 'Read more',
-                      onTap: () {},
+                      onTap: () {
+                        // Todo: navigate to read more screen
+                      },
                     ),
                   ),
                 ),
@@ -158,7 +162,9 @@ class SReferralInviteBody extends StatelessWidget {
         const SpaceH24(),
         SPaddingH24(
           child: SPrimaryButton2(
-            onTap: () {},
+            onTap: () {
+              // Todo: navigate to share screen
+            },
             name: 'Share',
             active: true,
             icon: SShareIcon(

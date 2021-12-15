@@ -30,26 +30,28 @@ class MarketBanner extends HookWidget {
             right: 24,
             bottom: 10,
           ),
-          itemBuilder: (BuildContext context, int index) => GestureDetector(
-            onTap: () {
-              final deepLinkUri = _parseDeepLink(campaign[index].deepLink);
-              deepLinkService.handle(deepLinkUri);
-            },
-            child: Container(
-              padding: EdgeInsets.only(
-                right: (index != campaign.length - 1) ? 10 : 0,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                final deepLinkUri = _parseDeepLink(campaign[index].deepLink);
+                deepLinkService.handle(deepLinkUri);
+              },
+              child: Container(
+                padding: EdgeInsets.only(
+                  right: (index != campaign.length - 1) ? 10 : 0,
+                ),
+                child: SRewardBanner(
+                  color: setBannerColor(index, colors),
+                  primaryText: campaign[index].title,
+                  imageUrl: campaign[index].imageUrl,
+                  primaryTextStyle: sTextH5Style,
+                  onClose: () {
+                    campaignN.deleteCampaign(campaign[index]);
+                  },
+                ),
               ),
-              child: SRewardBanner(
-                color: setBannerColor(index, colors),
-                primaryText: campaign[index].title,
-                imageUrl: campaign[index].imageUrl,
-                primaryTextStyle: sTextH5Style,
-                onClose: () {
-                  campaignN.deleteCampaign(campaign[index]);
-                },
-              ),
-            ),
-          ),
+            );
+          },
         ),
       );
     } else {
