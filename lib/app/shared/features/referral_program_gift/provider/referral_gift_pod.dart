@@ -6,7 +6,7 @@ import '../../rewards/notifier/campaign_notipod.dart';
 
 const referralStatsTotal = 15;
 
-final referralGiftPod = Provider.autoDispose<bool>(
+final referralGiftPod = Provider.autoDispose<ReferralGiftStatus>(
   (ref) {
     final campaigns = ref.watch(campaignNotipod(false));
     final referralStats = ref.watch(referralStatsPod);
@@ -18,13 +18,20 @@ final referralGiftPod = Provider.autoDispose<bool>(
     if (referralProgramExist.isNotEmpty) {
       return referralGiftService.checkAllReferralConditionsPassed(
         referralProgramExist[0].conditions!,
-      );
+      )
+          ? ReferralGiftStatus.hideGift
+          : ReferralGiftStatus.showGift;
     } else {
       if (referralStats.isNotEmpty &&
           referralStats[0].total < referralStatsTotal) {
-        return false;
+        return ReferralGiftStatus.showGift;
       }
-      return true;
+      return ReferralGiftStatus.hideGift;
     }
   },
 );
+
+enum ReferralGiftStatus {
+  showGift,
+  hideGift,
+}

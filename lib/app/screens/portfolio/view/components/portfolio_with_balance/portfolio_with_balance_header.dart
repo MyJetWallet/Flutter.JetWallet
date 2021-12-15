@@ -46,7 +46,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
                   child: Row(
                     children: [
                       const SGiftPortfolioIcon(),
-                      if (!gift) ...[
+                      if (gift == ReferralGiftStatus.showGift) ...[
                         const SpaceW8(),
                         Text(
                           '\$15',
