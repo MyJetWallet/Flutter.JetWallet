@@ -9,8 +9,6 @@ enum UserLocation { app, settings }
 @freezed
 class SendByPhonePermissionState with _$SendByPhonePermissionState {
   const factory SendByPhonePermissionState({
-    @Default('') String code,
-    @Default('') String phoneNumber,
     @Default(UserLocation.app) UserLocation userLocation,
     @Default(PermissionStatus.denied) PermissionStatus permissionStatus,
     @Default(PhonebookStatus.undefined) PhonebookStatus phonebookStatus,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Processes the given string and returns the first letter 
+/// Processes the given string and returns the first letter
 /// from the first 2 words.
 String initialsFrom(String string) {
   var value = '';

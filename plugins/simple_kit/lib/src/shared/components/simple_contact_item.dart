@@ -40,7 +40,7 @@ class SContactItem extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      initialsFrom(name),
+                      (name != phone) ? initialsFrom(name) : '#',
                       style: sSubtitle3Style.copyWith(
                         color: SColorsLight().white,
                       ),
@@ -53,23 +53,24 @@ class SContactItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Baseline(
-                    baseline: 38.0,
+                    baseline: (name != phone) ? 38.0 : 48.0,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
                       name,
                       style: sSubtitle2Style,
                     ),
                   ),
-                  Baseline(
-                    baseline: 14.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      phone,
-                      style: sBodyText2Style.copyWith(
-                        color: SColorsLight().grey2,
+                  if (name != phone)
+                    Baseline(
+                      baseline: 14.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        phone,
+                        style: sBodyText2Style.copyWith(
+                          color: SColorsLight().grey2,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               )
             ],
