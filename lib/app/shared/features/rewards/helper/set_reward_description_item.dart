@@ -43,7 +43,7 @@ Widget createRewardDescriptionItem(
       if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition))
         Text(
           '${condition.reward!.amount.toStringAsFixed(0)}'
-              ' for account verification',
+          ' for account verification',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
@@ -53,7 +53,7 @@ Widget createRewardDescriptionItem(
       if (condition.type == conditionTypeSwitch(ConditionType.depositCondition))
         Text(
           '${condition.reward!.amount.toStringAsFixed(0)}'
-              ' after making first deposit',
+          ' after making first deposit',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
@@ -62,7 +62,7 @@ Widget createRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition))
         Text(
-          ' after trading \$100 (44/${condition.parameters!.requiredAmount})',
+          ' after trading \$100 (${condition.parameters!.tradedAmount!.split('.')[0]}/${condition.parameters!.requiredAmount})',
           style: setRewardDescriptionStyle(
             condition,
             conditions,
