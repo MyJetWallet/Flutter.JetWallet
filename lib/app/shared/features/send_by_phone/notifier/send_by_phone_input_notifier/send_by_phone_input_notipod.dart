@@ -6,7 +6,7 @@ import 'send_by_phone_input_state.dart';
 final sendByPhoneInputNotipod =
     StateNotifierProvider<SendByPhoneInputNotifier, SendByPhoneInputState>(
   (ref) {
-    return SendByPhoneInputNotifier(ref.read);
+    return SendByPhoneInputNotifier();
   },
   name: 'sendByPhoneInputNotipod',
 );

@@ -221,6 +221,7 @@ export 'src/shared/components/qr_code_fields/simple_skeleton_qr_loader.dart';
 /// Components
 export 'src/shared/components/simple_baseline_child.dart';
 export 'src/shared/components/simple_clickable_link_text.dart';
+export 'src/shared/components/simple_contact_item.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
@@ -237,6 +238,7 @@ export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';
+export 'src/shared/helpers/initials_from.dart';
 
 /// Providers
 export 'src/shared/providers/simple_navigator_key_pod.dart';

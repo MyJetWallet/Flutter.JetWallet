@@ -6,7 +6,31 @@ void showContactsBottomSheet(BuildContext context) {
     context: context,
     scrollable: true,
     pinned: const _ContactsPinned(),
-    children: [],
+    removeBarPadding: true,
+    removePinnedPadding: true,
+    children: [
+      const SContactItem(
+        name: 'Danil Shcherbak',
+        phone: '+380 (50) 333 44 55',
+      ),
+      const SContactItem(
+        name: 'Danil Shcherbak',
+        phone: '+380 (50) 333 44 55',
+      ),
+      const SContactItem(
+        name: 'Danil Shcherbak',
+        phone: '+380 (50) 333 44 55',
+      ),
+      const SContactItem(
+        name: 'Danil Shcherbak',
+        phone: '+380 (50) 333 44 55',
+      ),
+      const SContactItem(
+        name: 'Danil Shcherbak',
+        phone: '+380 (50) 333 44 55',
+      ),
+      const SpaceH24(),
+    ],
   );
 }
 
@@ -15,6 +39,8 @@ class _ContactsPinned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SStandardField(labelText: 'Phone number');
+    return const SStandardField(
+      labelText: 'Phone number',
+    );
   }
 }
