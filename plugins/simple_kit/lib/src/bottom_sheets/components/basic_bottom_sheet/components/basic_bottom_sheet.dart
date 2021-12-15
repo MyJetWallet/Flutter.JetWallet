@@ -17,6 +17,7 @@ class BasicBottomSheet extends HookWidget {
     this.onWillPop,
     this.horizontalPinnedPadding,
     this.removeBottomSheetBar = false,
+    this.removeTopHeaderPadding = false,
     required this.removeBottomHeaderPadding,
     required this.color,
     required this.scrollable,
@@ -35,6 +36,7 @@ class BasicBottomSheet extends HookWidget {
   final Future<bool> Function()? onWillPop;
   final bool removeBottomSheetBar;
   final bool removeBottomHeaderPadding;
+  final bool removeTopHeaderPadding;
   final Color color;
   final List<Widget> children;
   final bool scrollable;
@@ -93,7 +95,7 @@ class BasicBottomSheet extends HookWidget {
                         const SpaceH8(),
                         const BottomSheetBar(),
                       ],
-                      const SpaceH24(),
+                      if (!removeTopHeaderPadding) const SpaceH24(),
                       pinned ?? const SizedBox(),
                       if (!removeBottomHeaderPadding) const SpaceH24()
                     ],
