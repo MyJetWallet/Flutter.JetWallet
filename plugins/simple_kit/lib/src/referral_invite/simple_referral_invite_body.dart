@@ -4,6 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
 import '../shared/constants.dart';
+import 'components/simple_conditions_referral_invite.dart';
 
 class SReferralInviteBody extends StatelessWidget {
   const SReferralInviteBody({
@@ -60,74 +61,21 @@ class SReferralInviteBody extends StatelessWidget {
           ),
         ),
         const SpaceH40(),
-        SPaddingH24(
-          child: Row(
-            children: [
-              const SCompleteIcon(),
-              const SpaceW20(),
-              Baseline(
-                baseline: 16,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  'Get \$5 for account verification',
-                  style: sBodyText1Style,
-                ),
-              )
-            ],
-          ),
+        const SimpleConditionsReferralInvite(
+          conditionText: 'Get \$5 for account verification',
         ),
         const SpaceH16(),
-        SPaddingH24(
-          child: Row(
-            children: [
-              const SCompleteIcon(),
-              const SpaceW20(),
-              Baseline(
-                baseline: 16,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  'Get \$10 after making first deposit',
-                  style: sBodyText1Style,
-                ),
-              )
-            ],
-          ),
+        const SimpleConditionsReferralInvite(
+          conditionText: 'Get \$10 after making first deposit',
         ),
         const SpaceH16(),
-        SPaddingH24(
-          child: Row(
-            children: [
-              const SCompleteIcon(),
-              const SpaceW20(),
-              Baseline(
-                baseline: 16,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  'Get \$15 after trading \$100',
-                  style: sBodyText1Style,
-                ),
-              )
-            ],
-          ),
+        const SimpleConditionsReferralInvite(
+          conditionText: 'Get \$15 after trading \$100',
         ),
         const SpaceH16(),
-        SPaddingH24(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SCompleteIcon(),
-              const SpaceW20(),
-              Baseline(
-                baseline: 16,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  'Earn 20% trading commission from all\nfriends',
-                  style: sBodyText1Style,
-                  maxLines: 2,
-                ),
-              )
-            ],
-          ),
+        const SimpleConditionsReferralInvite(
+          conditionText: 'Earn 20% trading commission from all\nfriends',
+          crossAxisAlignment: CrossAxisAlignment.start,
         ),
         const SpaceH40(),
         const SPaddingH24(

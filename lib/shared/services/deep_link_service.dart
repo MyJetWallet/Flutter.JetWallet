@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
@@ -7,7 +7,7 @@ import '../../auth/screens/email_verification/notifier/email_verification_notipo
 import '../../auth/screens/email_verification/view/email_verification.dart';
 import '../../auth/screens/login/login.dart';
 import '../../auth/screens/reset_password/view/reset_password.dart';
-import '../../router/notifier/startup_notifier/startup_state.dart';
+import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../helpers/navigator_push.dart';
 import '../notifiers/logout_notifier/logout_notipod.dart';
 import '../notifiers/user_info_notifier/user_info_notipod.dart';
@@ -24,106 +24,64 @@ const _operationId = 'jw_operation_id';
 const _jwCommand = 'InviteFriend';
 
 class DeepLinkService {
-  DeepLinkService({
-    required this.read,
-    required this.navigatorKey,
-    required this.startup,
-  });
+  DeepLinkService(this.read);
 
   final Reader read;
-  final GlobalKey navigatorKey;
-  final StartupState startup;
+
+  final _logger = Logger('');
 
   void handle(Uri link) {
     final parameters = link.queryParameters;
     final command = parameters[_command];
 
-    switch (command) {
-      case _confirmEmail:
-        if (startup.authorized is EmailVerification) {
-          final notifier = read(emailVerificationNotipod.notifier);
-          notifier.updateCode(parameters[_code]);
-        }
-        break;
-      case _login:
-        {
-          read(logoutNotipod.notifier).logout();
-          navigatorPush(navigatorKey.currentContext!, const Login());
-        }
-        break;
-      case _forgotPassword:
-        navigatorPush(
-          navigatorKey.currentContext!,
-          ResetPassword(
-            token: parameters[_token]!,
-          ),
-        );
-        break;
-      case _confirmWithdraw:
-        final id = parameters[_operationId]!;
-        read(withdrawDynamicLinkStpod(id)).state = true;
-        break;
-      case _confirmSend:
-        final id = parameters[_operationId]!;
-        read(withdrawDynamicLinkStpod(id)).state = true;
-        break;
-      case _jwCommand:
-        {
-          final userInfo = read(userInfoNotipod);
+    if (command == _confirmEmail) {
+      if (read(startupNotipod).authorized is EmailVerification) {
+        final notifier = read(emailVerificationNotipod.notifier);
 
-          sShowBasicModalBottomSheet(
-            context: navigatorKey.currentContext!,
-            removeBottomHeaderPadding: true,
-            removeBottomSheetBar: true,
-            removeTopHeaderPadding: true,
-            horizontalPinnedPadding: 0,
-            scrollable: true,
-            pinned: const SReferralInvitePinned(),
-            children: [
-              SReferralInviteBody(
-                primaryText: 'Invite friends and get \$10',
-                qrCodeLink: userInfo.referralLink,
-                referralLink: userInfo.referralLink,
-              ),
-            ],
-          );
-        }
-        break;
-      default:
-        navigatorPush(
-          navigatorKey.currentContext!,
-          _UndefinedDeepLink(
-            deepLinkParameters: parameters,
+        notifier.updateCode(parameters[_code]);
+      }
+    } else if (command == _login) {
+      read(logoutNotipod.notifier).logout();
+
+      navigatorPush(read(sNavigatorKeyPod).currentContext!, const Login());
+    } else if (command == _forgotPassword) {
+      navigatorPush(
+        read(sNavigatorKeyPod).currentContext!,
+        ResetPassword(
+          token: parameters[_token]!,
+        ),
+      );
+    } else if (command == _confirmWithdraw || command == _confirmSend) {
+      final id = parameters[_operationId]!;
+      read(withdrawDynamicLinkStpod(id)).state = true;
+    } else if (command == _jwCommand) {
+      final userInfo = read(userInfoNotipod);
+
+      sShowBasicModalBottomSheet(
+        context: read(sNavigatorKeyPod).currentContext!,
+        removeBottomHeaderPadding: true,
+        removeBottomSheetBar: true,
+        removeTopHeaderPadding: true,
+        horizontalPinnedPadding: 0,
+        scrollable: true,
+        pinned: const SReferralInvitePinned(),
+        children: [
+          SReferralInviteBody(
+            primaryText: 'Invite friends and get \$10',
+            qrCodeLink: userInfo.referralLink,
+            referralLink: userInfo.referralLink,
           ),
-        );
+        ],
+      );
+    } else {
+      _logger.log(Level.INFO, 'Deep link is undefined');
     }
   }
-}
 
-class _UndefinedDeepLink extends StatelessWidget {
-  const _UndefinedDeepLink({
-    Key? key,
-    required this.deepLinkParameters,
-  }) : super(key: key);
-
-  final Map<String, String> deepLinkParameters;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Undefined Deep Link',
-        ),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            for (final parameter in deepLinkParameters.entries)
-              Text('${parameter.key}: ${parameter.value}')
-          ],
-        ),
-      ),
-    );
+  // Todo: remove after fix link on backend
+  Uri parseDeepLink(String deepLink) {
+    final secondPartOfDeepLink = deepLink.split('/?')[1];
+    final link = secondPartOfDeepLink.split('&apn')[0];
+    return Uri.parse(Uri.decodeComponent(link).split('link=')[1]);
   }
 }
