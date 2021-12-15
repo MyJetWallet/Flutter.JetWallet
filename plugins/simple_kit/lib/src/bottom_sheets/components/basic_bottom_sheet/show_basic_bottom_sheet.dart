@@ -6,7 +6,6 @@ import 'components/basic_bottom_sheet.dart';
 void sShowBasicBottomSheet({
   Widget? pinned,
   Function()? onDissmis,
-  double? maxHeight,
   double? minHeight,
   Color? color,
   double? horizontalPadding,
@@ -14,7 +13,7 @@ void sShowBasicBottomSheet({
   AnimationController? transitionAnimationController,
   Future<bool> Function()? onWillPop,
   bool removeBottomSheetBar = true,
-  bool removeBottomHeaderPadding = false,
+  bool removePinnedPadding = false,
   required List<Widget> children,
   required BuildContext context,
 }) {
@@ -28,11 +27,10 @@ void sShowBasicBottomSheet({
         pinned: pinned,
         onWillPop: onWillPop,
         onDissmis: onDissmis,
-        maxHeight: maxHeight,
         minHeight: minHeight,
         horizontalPadding: horizontalPadding,
         removeBottomSheetBar: removeBottomSheetBar,
-        removeBottomHeaderPadding: removeBottomHeaderPadding,
+        removePinnedPadding: removePinnedPadding,
         scrollable: false,
         children: children,
       );

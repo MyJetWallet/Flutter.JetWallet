@@ -41,7 +41,6 @@ class CurrencySell extends HookWidget {
     void _showAssetSelector() {
       sShowBasicModalBottomSheet(
         scrollable: true,
-        maxHeight: 664.h,
         pinned: const SBottomSheetHeader(
           name: 'For',
         ),

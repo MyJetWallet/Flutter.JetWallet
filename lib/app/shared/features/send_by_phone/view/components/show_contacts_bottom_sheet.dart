@@ -5,9 +5,16 @@ void showContactsBottomSheet(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const SBottomSheetHeader(
-      name: 'Contacts',
-    ),
+    pinned: const _ContactsPinned(),
     children: [],
   );
+}
+
+class _ContactsPinned extends StatelessWidget {
+  const _ContactsPinned({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SStandardField(labelText: 'Phone number');
+  }
 }
