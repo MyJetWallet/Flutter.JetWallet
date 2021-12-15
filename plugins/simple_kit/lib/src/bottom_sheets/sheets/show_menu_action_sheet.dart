@@ -20,7 +20,7 @@ void sShowMenuActionSheet({
     context: context,
     onDissmis: onDissmis,
     whenColmplete: whenComplete,
-    removeBottomHeaderPadding: true,
+    removePinnedPadding: true,
     onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [

@@ -59,9 +59,9 @@ class DeepLinkService {
 
       sShowBasicModalBottomSheet(
         context: read(sNavigatorKeyPod).currentContext!,
-        removeBottomHeaderPadding: true,
+        removePinnedPadding: true,
         removeBottomSheetBar: true,
-        removeTopHeaderPadding: true,
+        removeBarPadding: true,
         horizontalPinnedPadding: 0,
         scrollable: true,
         pinned: const SReferralInvitePinned(),

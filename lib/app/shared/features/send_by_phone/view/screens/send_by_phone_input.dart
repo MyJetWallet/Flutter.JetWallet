@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../models/currency_model.dart';
 import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_state.dart';
+import '../components/show_contacts_bottom_sheet.dart';
 
 /// BASE FLOW: Input -> Amount -> Preview
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
@@ -78,7 +79,9 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          showContactsBottomSheet(context);
+                        },
                         child: SizedBox(
                           width: 100,
                           child: AbsorbPointer(

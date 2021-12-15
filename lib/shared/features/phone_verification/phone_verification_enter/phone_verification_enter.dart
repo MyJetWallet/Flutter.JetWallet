@@ -62,10 +62,10 @@ class PhoneVerificationEnter extends HookWidget {
 
               sShowBasicModalBottomSheet(
                 context: context,
-                removeBottomHeaderPadding: true,
+                removePinnedPadding: true,
                 horizontalPinnedPadding: 0,
+                /// TODO isn't optimized for small devices
                 minHeight: 635.0,
-                maxHeight: 635.0,
                 scrollable: true,
                 pinned: PhoneNumberSearch(
                   onErase: () {
