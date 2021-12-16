@@ -5,8 +5,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../models/currency_model.dart';
-import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
-import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_state.dart';
+import '../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_notipod.dart';
+import '../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_state.dart';
 import '../components/show_contacts_bottom_sheet.dart';
 
 /// BASE FLOW: Input -> Amount -> Preview
@@ -41,8 +41,8 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      final state = context.read(sendByPhoneInputNotipod);
-      final notifier = context.read(sendByPhoneInputNotipod.notifier);
+      final state = context.read(sendByPhonePermissionNotipod);
+      final notifier = context.read(sendByPhonePermissionNotipod.notifier);
 
       // If returned from Settigns check whether user enabled permission or not
       if (state.userLocation == UserLocation.settings) {
@@ -56,8 +56,8 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final codeController = useTextEditingController(text: '+380');
-    final state = useProvider(sendByPhoneInputNotipod);
-    final notifier = useProvider(sendByPhoneInputNotipod.notifier);
+    final permission = useProvider(sendByPhonePermissionNotipod);
+    final permissionN = useProvider(sendByPhonePermissionNotipod.notifier);
 
     return SPageFrame(
       color: colors.grey5,
@@ -117,9 +117,9 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                 ),
               ),
               const SpaceH20(),
-              if (state.permissionStatus == PermissionStatus.denied)
+              if (permission.permissionStatus == PermissionStatus.denied)
                 GestureDetector(
-                  onTap: notifier.onHelperTextTap,
+                  onTap: permissionN.onHelperTextTap,
                   child: SPaddingH24(
                     child: Row(
                       children: [
