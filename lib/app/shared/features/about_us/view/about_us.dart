@@ -45,12 +45,12 @@ class AboutUs extends HookWidget {
             baselineType: TextBaseline.alphabetic,
             baseline: 48,
             child: Text(
-              'We’re building a product that reimagines \n'
-              'what it means to invest, simplifies the \n'
-              'access and breaks down these complex \n'
-              'barriers and fees. Its an easy to use financial \n'
-              'product that empowers you to see new \n'
-              'possibilities for your money and puts your \n'
+              'We’re building a product that reimagines '
+              'what it means to invest, simplifies the '
+              'access and breaks down these complex '
+              'barriers and fees. Its an easy to use financial '
+              'product that empowers you to see new '
+              'possibilities for your money and puts your '
               'money in motion!',
               maxLines: 13,
               style: sBodyText1Style,
@@ -60,14 +60,14 @@ class AboutUs extends HookWidget {
             baseline: 48,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'We will launch with simple but innovative \n'
-              'cryptocurrency trading and while you are \n'
-              'trading, our team will be working hard to put \n'
-              'the finishing touches on our community \n'
-              'driven trade-everything platform to offer \n'
-              'you stocks, commodities, as well as social \n'
-              'payments. All in one simple to use \n'
-              'application. Its what we call, finance made \n'
+              'We will launch with simple but innovative '
+              'cryptocurrency trading and while you are '
+              'trading, our team will be working hard to put '
+              'the finishing touches on our community '
+              'driven trade-everything platform to offer '
+              'you stocks, commodities, as well as social '
+              'payments. All in one simple to use '
+              'application. Its what we call, finance made '
               'SIMPLE.',
               maxLines: 16,
               style: sBodyText1Style,
