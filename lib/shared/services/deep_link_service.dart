@@ -67,7 +67,7 @@ class DeepLinkService {
         pinned: const SReferralInvitePinned(),
         children: [
           SReferralInviteBody(
-            primaryText: 'Invite friends and get \$10',
+            primaryText: 'Invite friends and get \$15',
             qrCodeLink: userInfo.referralLink,
             referralLink: userInfo.referralLink,
           ),
