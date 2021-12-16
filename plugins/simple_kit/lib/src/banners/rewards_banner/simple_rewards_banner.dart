@@ -29,9 +29,8 @@ class SRewardBanner extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(
             left: 20.0,
-            right: 20.0,
             top: 20.0,
-            bottom: 30.0,
+            bottom: 20.0,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
@@ -86,8 +85,8 @@ class SRewardBanner extends StatelessWidget {
         ),
         if (onClose != null)
           Positioned(
-            top: 10.0,
-            right: 10.0,
+            top: 12.0,
+            right: 12.0,
             child: GestureDetector(
               onTap: onClose,
               child: const SEraseMarketIcon(),
