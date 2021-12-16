@@ -33,9 +33,7 @@ class MarketBanner extends HookWidget {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                final deepLinkUri =
-                    deepLinkService.parseDeepLink(campaign[index].deepLink);
-                deepLinkService.handle(deepLinkUri);
+                deepLinkService.handle(Uri.parse(campaign[index].deepLink));
               },
               child: Container(
                 padding: EdgeInsets.only(

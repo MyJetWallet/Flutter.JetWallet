@@ -62,7 +62,7 @@ Widget createRewardDescriptionItem(
         ),
       if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition))
         Text(
-          ' after trading \$100 (44/${condition.parameters!.requiredAmount})',
+          ' after trading \$100 (${condition.parameters!.tradedAmount!.split('.')[0]}/${condition.parameters!.requiredAmount})',
           style: setRewardDescriptionStyle(
             condition,
             conditions,

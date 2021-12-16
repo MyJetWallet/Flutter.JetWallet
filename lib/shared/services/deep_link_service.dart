@@ -77,11 +77,4 @@ class DeepLinkService {
       _logger.log(Level.INFO, 'Deep link is undefined');
     }
   }
-
-  // Todo: remove after fix link on backend
-  Uri parseDeepLink(String deepLink) {
-    final secondPartOfDeepLink = deepLink.split('/?')[1];
-    final link = secondPartOfDeepLink.split('&apn')[0];
-    return Uri.parse(Uri.decodeComponent(link).split('link=')[1]);
-  }
 }
