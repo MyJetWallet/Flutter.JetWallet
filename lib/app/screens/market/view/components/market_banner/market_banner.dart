@@ -20,7 +20,10 @@ class MarketBanner extends HookWidget {
     final deepLinkService = useProvider(deepLinkServicePod);
 
     if (campaign.isNotEmpty) {
-      return SizedBox(
+      return Container(
+        margin: const EdgeInsets.only(
+          bottom: 10,
+        ),
         height: 120,
         child: ListView.builder(
           itemCount: campaign.length,
