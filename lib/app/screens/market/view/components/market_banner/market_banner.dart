@@ -28,7 +28,6 @@ class MarketBanner extends HookWidget {
           padding: const EdgeInsets.only(
             left: 24,
             right: 24,
-            bottom: 10,
           ),
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
@@ -36,7 +35,8 @@ class MarketBanner extends HookWidget {
                 deepLinkService.handle(Uri.parse(campaign[index].deepLink));
               },
               child: Container(
-                padding: EdgeInsets.only(
+                width: 327,
+                margin: EdgeInsets.only(
                   right: (index != campaign.length - 1) ? 10 : 0,
                 ),
                 child: SRewardBanner(
