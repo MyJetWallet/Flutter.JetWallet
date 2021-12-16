@@ -60,9 +60,7 @@ class SNewsCategory extends StatelessWidget {
                 child: Text(
                   newsText,
                   maxLines: 2,
-                  style: sBodyText1Style.copyWith(
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  style: sBodyText1Style,
                 ),
               ),
             ],
