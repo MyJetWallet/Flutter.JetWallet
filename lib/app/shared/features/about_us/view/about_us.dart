@@ -28,7 +28,6 @@ class AboutUs extends HookWidget {
               style: sTextH2Style,
             ),
           ),
-          // const SpaceH20(),
           Baseline(
             baselineType: TextBaseline.alphabetic,
             baseline: 48,
@@ -42,7 +41,6 @@ class AboutUs extends HookWidget {
               style: sBodyText1Style,
             ),
           ),
-          // const SpaceH20(),
           Baseline(
             baselineType: TextBaseline.alphabetic,
             baseline: 48,
@@ -58,7 +56,6 @@ class AboutUs extends HookWidget {
               style: sBodyText1Style,
             ),
           ),
-          // const SpaceH20(),
           Baseline(
             baseline: 48,
             baselineType: TextBaseline.alphabetic,
