@@ -52,7 +52,7 @@ class AboutUs extends HookWidget {
               'product that empowers you to see new '
               'possibilities for your money and puts your '
               'money in motion!',
-              maxLines: 13,
+              maxLines: 8,
               style: sBodyText1Style,
             ),
           ),
@@ -69,7 +69,7 @@ class AboutUs extends HookWidget {
               'payments. All in one simple to use '
               'application. Its what we call, finance made '
               'SIMPLE.',
-              maxLines: 16,
+              maxLines: 10,
               style: sBodyText1Style,
             ),
           ),
