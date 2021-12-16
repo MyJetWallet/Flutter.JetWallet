@@ -12,7 +12,7 @@ import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../shared/features/about_us/view/about_us.dart';
+import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/support/support.dart';
