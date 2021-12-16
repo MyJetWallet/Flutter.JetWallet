@@ -1,8 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../shared/providers/service_providers.dart';
 import '../../referral_stats/provider/referral_stats_pod.dart';
 import '../../rewards/notifier/campaign_notipod.dart';
+import '../helper/check_all_conditions_passed.dart';
+import '../helper/find_referral_program.dart';
 
 const referralStatsTotal = 15;
 
@@ -10,13 +11,11 @@ final referralGiftPod = Provider.autoDispose<ReferralGiftStatus>(
   (ref) {
     final campaigns = ref.watch(campaignNotipod(false));
     final referralStats = ref.watch(referralStatsPod);
-    final referralGiftService = ref.read(referralGiftServicePod);
 
-    final referralProgramExist =
-        referralGiftService.findReferralProgram(campaigns);
+    final referralProgramExist = findReferralProgram(campaigns);
 
     if (referralProgramExist.isNotEmpty) {
-      return referralGiftService.checkAllReferralConditionsPassed(
+      return checkAllReferralConditionsPassed(
         referralProgramExist[0].conditions!,
       )
           ? ReferralGiftStatus.hideGift
