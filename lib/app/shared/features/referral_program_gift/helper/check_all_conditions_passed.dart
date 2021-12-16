@@ -1,6 +1,6 @@
-import '../../../signal_r/model/campaign_response_model.dart';
+import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 
-bool checkAllReferralConditionsPassedService(
+bool checkAllReferralConditionsPassed(
   List<CampaignConditionModel> conditions,
 ) {
   for (final condition in conditions) {
