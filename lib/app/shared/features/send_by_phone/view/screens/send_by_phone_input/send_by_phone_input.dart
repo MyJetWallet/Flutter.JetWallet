@@ -4,13 +4,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../models/currency_model.dart';
-import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
-import '../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_notipod.dart';
-import '../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_state.dart';
-import '../components/send_info_text.dart';
-import '../components/show_contact_picker.dart';
-import '../components/show_dial_code_picker.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../models/currency_model.dart';
+import '../../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
+import '../../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_notipod.dart';
+import '../../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_state.dart';
+import '../send_by_phone_amount.dart';
+import 'components/send_helper_text.dart';
+import 'components/send_info_text.dart';
+import 'components/show_contact_picker.dart';
+import 'components/show_dial_code_picker.dart';
 
 /// BASE FLOW: Input -> Amount -> Preview
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
@@ -18,10 +21,10 @@ import '../components/show_dial_code_picker.dart';
 class SendByPhoneInput extends StatefulHookWidget {
   const SendByPhoneInput({
     Key? key,
-    this.currency,
+    required this.currency,
   }) : super(key: key);
 
-  final CurrencyModel? currency;
+  final CurrencyModel currency;
 
   @override
   State<SendByPhoneInput> createState() => _SendByPhoneInputState();
@@ -61,14 +64,15 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
     final input = useProvider(sendByPhoneInputNotipod);
     final permission = useProvider(sendByPhonePermissionNotipod);
     final permissionN = useProvider(sendByPhonePermissionNotipod.notifier);
+    useListenable(input.phoneNumberController);
+    useListenable(input.dialCodeController);
 
     return SPageFrame(
       color: colors.grey5,
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SMegaHeader(
           titleAlign: TextAlign.start,
-          // title: 'Send ${currency.description} by phone',
-          title: 'Send Bitcoin by phone',
+          title: 'Send ${widget.currency.description} by phone',
         ),
       ),
       child: Stack(
@@ -116,19 +120,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                   ),
                 ),
               ),
-              SPaddingH24(
-                child: Baseline(
-                  baseline: 32.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    'Start typing phone number or name from your phonebook',
-                    maxLines: 2,
-                    style: sCaptionTextStyle.copyWith(
-                      color: colors.grey1,
-                    ),
-                  ),
-                ),
-              ),
+              const SendHelperText(),
               const SpaceH20(),
               if (permission.permissionStatus == PermissionStatus.denied)
                 SendInfoText(
@@ -143,9 +135,16 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
             child: Material(
               color: Colors.transparent,
               child: SPrimaryButton2(
-                active: true,
+                active: input.isReadyToContinue,
                 name: 'Continue',
-                onTap: () {},
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    SendByPhoneAmount(
+                      currency: widget.currency,
+                    ),
+                  );
+                },
               ),
             ),
           )

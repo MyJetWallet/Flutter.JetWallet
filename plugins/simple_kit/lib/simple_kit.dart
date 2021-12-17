@@ -30,6 +30,8 @@ export 'src/actions/simple_action_confirm_icon_with_animation.dart';
 export 'src/actions/simple_action_confirm_text.dart';
 export 'src/actions/simple_action_price_field.dart';
 export 'src/actions/simple_payment_select_asset.dart';
+export 'src/actions/simple_payment_select_contact.dart';
+export 'src/actions/simple_payment_select_contact_without_name.dart';
 export 'src/actions/simple_payment_select_default.dart';
 export 'src/actions/simple_payment_select_fiat.dart';
 

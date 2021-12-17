@@ -9,7 +9,7 @@ import '../transfer_service.dart';
 
 Future<TransferByPhoneResponseModel> transferByPhoneService(
   Dio dio,
-    TransferByPhoneRequestModel model,
+  TransferByPhoneRequestModel model,
 ) async {
   final logger = TransferService.logger;
   const message = 'transferByPhoneService';
