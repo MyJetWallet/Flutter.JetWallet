@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../notifiers/phone_number_notifier/phone_number_notipod.dart';
-import 'phone_number_loop.dart';
 
 class PhoneNumberBottomSheet extends HookWidget {
   const PhoneNumberBottomSheet({
@@ -18,14 +17,20 @@ class PhoneNumberBottomSheet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statePhoneNumber = useProvider(phoneNumberNotipod);
+    final state = useProvider(phoneNumberNotipod);
+    final countries = state.filteredCountriesCode.isNotEmpty
+        ? state.filteredCountriesCode
+        : countriesCodeList;
 
-    return CountriesLoop(
-      activeCountryCode: statePhoneNumber.countryCode!,
-      onTap: (SPhoneNumber country) => onTap(country),
-      countries: statePhoneNumber.filteredCountriesCode.isNotEmpty
-          ? statePhoneNumber.filteredCountriesCode
-          : countriesCodeList,
+    return Column(
+      children: [
+        for (var dialCode in countries)
+          SDialCodeItem(
+            dialCode: dialCode,
+            active: state.countryCode == dialCode.countryCode,
+            onTap: () => onTap(dialCode),
+          ),
+      ],
     );
   }
 }

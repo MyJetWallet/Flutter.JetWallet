@@ -17,6 +17,7 @@ class SimpleLightStandardField extends HookWidget {
     this.onErase,
     this.onChanged,
     this.suffixIcons,
+    this.initialValue,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -24,7 +25,13 @@ class SimpleLightStandardField extends HookWidget {
     this.readOnly = false,
     this.alignLabelWithHint = false,
     required this.labelText,
-  }) : super(key: key);
+  })  : assert(
+          (controller == null && initialValue != null) ||
+              (controller != null && initialValue == null) ||
+              (controller == null && initialValue == null),
+          "Controller and initialValue can't be both provided",
+        ),
+        super(key: key);
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -36,6 +43,7 @@ class SimpleLightStandardField extends HookWidget {
   final Function()? onErase;
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
+  final String? initialValue;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -46,7 +54,10 @@ class SimpleLightStandardField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller2 = controller ?? useTextEditingController();
+    final controller2 = controller ??
+        useTextEditingController(
+          text: initialValue,
+        );
     useListenable(controller2);
 
     return SimpleBaseStandardField(

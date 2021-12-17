@@ -5,9 +5,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../models/currency_model.dart';
+import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import '../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_notipod.dart';
 import '../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_state.dart';
-import '../components/show_contacts_bottom_sheet.dart';
+import '../components/send_info_text.dart';
+import '../components/show_contact_picker.dart';
+import '../components/show_dial_code_picker.dart';
 
 /// BASE FLOW: Input -> Amount -> Preview
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
@@ -55,7 +58,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final codeController = useTextEditingController(text: '+380');
+    final input = useProvider(sendByPhoneInputNotipod);
     final permission = useProvider(sendByPhonePermissionNotipod);
     final permissionN = useProvider(sendByPhonePermissionNotipod.notifier);
 
@@ -80,7 +83,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                     children: [
                       GestureDetector(
                         onTap: () {
-                          showContactsBottomSheet(context);
+                          showDialCodePicker(context);
                         },
                         child: SizedBox(
                           width: 100,
@@ -88,15 +91,25 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                             child: SStandardField(
                               labelText: 'Code',
                               readOnly: true,
-                              controller: codeController,
                               hideClearButton: true,
+                              controller: input.dialCodeController,
                             ),
                           ),
                         ),
                       ),
-                      const Expanded(
-                        child: SStandardField(
-                          labelText: 'Phone number',
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            showContactPicker(context);
+                          },
+                          child: AbsorbPointer(
+                            child: SStandardField(
+                              labelText: 'Phone number',
+                              readOnly: true,
+                              hideClearButton: true,
+                              controller: input.phoneNumberController,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -118,28 +131,8 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
               ),
               const SpaceH20(),
               if (permission.permissionStatus == PermissionStatus.denied)
-                GestureDetector(
+                SendInfoText(
                   onTap: permissionN.onHelperTextTap,
-                  child: SPaddingH24(
-                    child: Row(
-                      children: [
-                        SInfoIcon(
-                          color: colors.blue,
-                        ),
-                        const SpaceW10(),
-                        Baseline(
-                          baseline: 16.0,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            'I want to use my phonebook',
-                            style: sCaptionTextStyle.copyWith(
-                              color: colors.blue,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                 )
             ],
           ),
