@@ -7,9 +7,9 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/local_storage_service.dart';
-import '../../view/components/show_contact_picker.dart';
-import '../../view/components/show_contacts_permission_settings_alert.dart';
-import '../../view/components/show_use_phonebook_alert.dart';
+import '../../view/screens/send_by_phone_input/components/show_contact_picker.dart';
+import '../../view/screens/send_by_phone_input/components/show_contacts_permission_settings_alert.dart';
+import '../../view/screens/send_by_phone_input/components/show_use_phonebook_alert.dart';
 import 'send_by_phone_permission_state.dart';
 
 /// Initialization Algorithm:

@@ -5,7 +5,7 @@ import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../models/currency_model.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../../currency_withdraw/view/currency_withdraw.dart';
-import '../../../send_by_phone/view/screens/send_by_phone_input.dart';
+import '../../../send_by_phone/view/screens/send_by_phone_input/send_by_phone_input.dart';
 
 void showSendOptions(BuildContext context, CurrencyModel currency) {
   Navigator.pop(context);

@@ -56,7 +56,10 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
         }
       }
 
-      state = state.copyWith(contacts: parsedContacts);
+      state = state.copyWith(
+        contacts: parsedContacts,
+        sortedContacts: parsedContacts,
+      );
     }
   }
 
@@ -176,6 +179,7 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
       state.phoneNumberController.text = parsable;
     } else {
       state.dialCodeController.clear();
+      state = state.copyWith(activeDialCode: null);
       if (contact.phoneNumber.startsWith('+')) {
         state.phoneNumberController.text = contact.phoneNumber.substring(1);
       } else {
