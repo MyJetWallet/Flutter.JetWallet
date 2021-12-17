@@ -14,6 +14,7 @@ class BasicBottomSheet extends HookWidget {
     this.horizontalPadding,
     this.onWillPop,
     this.horizontalPinnedPadding,
+    this.expanded = false,
     this.removeBottomSheetBar = false,
     this.removeBarPadding = false,
     this.removePinnedPadding = false,
@@ -31,6 +32,7 @@ class BasicBottomSheet extends HookWidget {
   final double? minHeight;
   final double? horizontalPadding;
   final Future<bool> Function()? onWillPop;
+  final bool expanded;
   final bool removeBottomSheetBar;
   final bool removeBarPadding;
   final bool removePinnedPadding;
@@ -74,6 +76,14 @@ class BasicBottomSheet extends HookWidget {
         padding: MediaQuery.of(context).viewInsets,
         child: LayoutBuilder(
           builder: (_, constraints) {
+            final maxHeight = _listViewMaxHeight(
+              maxHeight: constraints.maxHeight,
+              pinnedSize: pinnedSize.value,
+              removeBottomSheetBar: removeBottomSheetBar,
+              removeBarPadding: removeBarPadding,
+              removePinnedPadding: removePinnedPadding,
+            );
+
             return Column(
               children: [
                 Expanded(
@@ -118,14 +128,8 @@ class BasicBottomSheet extends HookWidget {
                           horizontal: horizontalPadding ?? 0,
                         ),
                         constraints: BoxConstraints(
-                          maxHeight: _listViewMaxHeight(
-                            maxHeight: constraints.maxHeight,
-                            pinnedSize: pinnedSize.value,
-                            removeBottomSheetBar: removeBottomSheetBar,
-                            removeBarPadding: removeBarPadding,
-                            removePinnedPadding: removePinnedPadding,
-                          ),
-                          minHeight: minHeight ?? 0,
+                          maxHeight: maxHeight,
+                          minHeight: expanded ? maxHeight : minHeight ?? 0,
                         ),
                         child: ListView(
                           physics: scrollable
