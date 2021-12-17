@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
@@ -28,47 +27,75 @@ class SimpleAccountBannerList extends StatelessWidget {
         phoneVerified: phoneVerified,
         twoFaEnabled: twoFaEnabled,
       ),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      child: Column(
         children: [
-          const SpaceW24(),
-          if (!kycPassed)
-            SimpleAccountBanner(
-              onTap: () {},
-              color: SColorsLight().violet,
-              header: 'Verify your profile',
-              description: 'In accordance with KYC and AML Policy, '
-                  'you are required to pass the '
-                  'verification process.',
+          if (!kycPassed || !phoneVerified || !twoFaEnabled)
+            Expanded(
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  const SpaceW24(),
+                  const SpaceW8(),
+                  if (!kycPassed)
+                    SimpleAccountBanner(
+                      onTap: () {},
+                      color: SColorsLight().violet,
+                      header: 'Verify your profile',
+                      description: 'In accordance with KYC and AML Policy, '
+                          'you are required to pass the '
+                          'verification process.',
+                    ),
+                  if (!phoneVerified)
+                    SimpleAccountBanner(
+                      onTap: () {},
+                      color: SColorsLight().greenLight,
+                      header: 'Verifying now',
+                      description:
+                          'You’ll be notified after we’ve completed the '
+                              'process. '
+                          'Usually within a few hours',
+                    ),
+                  if (!twoFaEnabled)
+                    SimpleAccountBanner(
+                      onTap: () {
+                        onTwoFaBannerTap?.call();
+                      },
+                      color: SColorsLight().redLight,
+                      header: 'Enable 2-Factor\nauthentication',
+                      description:
+                          'To protect your account, it is recommended '
+                              'to turn on',
+                    ),
+                  SimpleAccountBanner(
+                    onTap: () {
+                      onChatBannerTap?.call();
+                    },
+                    color: SColorsLight().yellowLight,
+                    header: 'Chat with support',
+                    description: 'Have any questions?\nWe here to help 24/7',
+                  ),
+                  const SpaceW14(),
+                ],
+              ),
             ),
-          if (!phoneVerified)
-            SimpleAccountBanner(
-              onTap: () {},
-              color: SColorsLight().greenLight,
-              header: 'Verifying now',
-              description:
-                  'You’ll be notified after we’ve completed the process. '
-                  'Usually within a few hours',
+          if (kycPassed || phoneVerified || twoFaEnabled)
+            Container(
+              alignment: Alignment.center,
+              height: setSizedBoxHeight(
+                kycPassed: kycPassed,
+                phoneVerified: phoneVerified,
+                twoFaEnabled: twoFaEnabled,
+              ),
+              margin: const EdgeInsets.only(left: 8),
+              child: SimpleAccountBanner(
+                onTap: () {
+                  onChatBannerTap?.call();
+                },
+                color: SColorsLight().yellowLight,
+                header: 'Chat with support',
+                description: 'Have any questions?\nWe here to help 24/7',
+              ),
             ),
-          if (!twoFaEnabled)
-            SimpleAccountBanner(
-              onTap: () {
-                onTwoFaBannerTap?.call();
-              },
-              color: SColorsLight().redLight,
-              header: 'Enable 2-Factor\nauthentication',
-              description:
-                  'To protect your account, it is recommended to turn on',
-            ),
-          SimpleAccountBanner(
-            onTap: () {
-              onChatBannerTap?.call();
-            },
-            color: SColorsLight().yellowLight,
-            header: 'Chat with support',
-            description: 'Have any questions?\nWe here to help 24/7',
-          ),
-          const SpaceW14(),
         ],
       ),
     );
@@ -80,11 +107,11 @@ class SimpleAccountBannerList extends StatelessWidget {
     required bool twoFaEnabled,
   }) {
     if (!kycPassed || !phoneVerified) {
-      return 0.22.sh;
+      return 171;
     } else if (!twoFaEnabled) {
-      return 0.18.sh;
+      return 155;
     } else {
-      return 0.16.sh;
+      return 129;
     }
   }
 }

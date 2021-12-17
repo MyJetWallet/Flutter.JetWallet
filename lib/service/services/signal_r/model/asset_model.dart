@@ -71,6 +71,8 @@ enum AssetType {
   fiat,
   @JsonValue('Crypto')
   crypto,
+  @JsonValue('Index')
+  indecies,
 }
 
 enum FeeType {

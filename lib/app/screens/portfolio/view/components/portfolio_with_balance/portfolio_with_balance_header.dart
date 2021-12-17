@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
 import '../../../../../shared/features/rewards/view/rewards.dart';
 
 class PortfolioWithBalanceHeader extends HookWidget {
@@ -12,6 +13,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final gift = useProvider(referralGiftPod);
 
     return SizedBox(
       height: 120,
@@ -31,7 +33,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
                   navigatorPush(context, const Rewards());
                 },
                 child: Container(
-                  width: 76,
+
                   height: 28,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -44,13 +46,15 @@ class PortfolioWithBalanceHeader extends HookWidget {
                   child: Row(
                     children: [
                       const SGiftPortfolioIcon(),
-                      const SpaceW8(),
-                      Text(
-                        '\$15',
-                        style: sSubtitle3Style.copyWith(
-                          color: colors.white,
+                      if (gift == ReferralGiftStatus.showGift) ...[
+                        const SpaceW8(),
+                        Text(
+                          '\$15',
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.white,
+                          ),
                         ),
-                      ),
+                      ],
                     ],
                   ),
                 ),
