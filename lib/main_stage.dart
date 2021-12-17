@@ -1,6 +1,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -31,8 +33,18 @@ final providerNames = <String>[
   'timerNotipod',
 ];
 
+/// TODO refactor to single instance
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Make android status bar transparent
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+
   await Firebase.initializeApp();
   await PushNotificationService().initialize();
 
@@ -54,6 +66,7 @@ Future<void> main() async {
   );
 }
 
+/// TODO refactor to single instance
 class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
