@@ -7,16 +7,20 @@ import 'package:signalr_core/signalr_core.dart';
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
+import '../../../../shared/providers/device_uid_pod.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
+import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
+import '../model/referral_stats_response_model.dart';
 
 class SignalRService {
   SignalRService(this.read);
@@ -46,6 +50,9 @@ class SignalRService {
   final _periodPricesController = StreamController<PeriodPricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
   final _keyValueController = StreamController<KeyValueModel>();
+  final _campaignsBannersController = StreamController<CampaignResponseModel>();
+  final _referralStatsController =
+      StreamController<ReferralStatsResponseModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -60,10 +67,28 @@ class SignalRService {
 
     _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
 
+    _connection?.on(campaignsBannersMessage, (data) {
+      try {
+        final campaigns = CampaignResponseModel.fromJson(_json(data));
+        _campaignsBannersController.add(campaigns);
+      } catch (e) {
+        _logger.log(contract, campaignsBannersMessage, e);
+      }
+    });
+
     _connection?.onclose((error) {
       if (!isDisconnecting) {
         _logger.log(signalR, 'Connection closed', error);
         _startReconnect();
+      }
+    });
+
+    _connection?.on(referralStatsMessage, (data) {
+      try {
+        final referrerStats = ReferralStatsResponseModel.fromList(data!);
+        _referralStatsController.add(referrerStats);
+      } catch (e) {
+        _logger.log(contract, referralStatsMessage, e);
       }
     });
 
@@ -151,6 +176,8 @@ class SignalRService {
     });
 
     final token = read(authInfoNotipod).token;
+    final localeName = read(intlPod).localeName;
+    final deviceUid = read(deviceUidPod);
 
     try {
       await _connection?.start();
@@ -160,7 +187,10 @@ class SignalRService {
     }
 
     try {
-      await _connection?.invoke(initMessage, args: [token]);
+      await _connection?.invoke(
+        initMessage,
+        args: [token, localeName, deviceUid],
+      );
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);
       rethrow;
@@ -185,6 +215,12 @@ class SignalRService {
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
 
   Stream<KeyValueModel> keyValue() => _keyValueController.stream;
+
+  Stream<CampaignResponseModel> marketCampaigns() =>
+      _campaignsBannersController.stream;
+
+  Stream<ReferralStatsResponseModel> referralStats() =>
+      _referralStatsController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

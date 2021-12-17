@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 
 class SBigHeader extends StatelessWidget {
   const SBigHeader({
     Key? key,
     this.onLinkTap,
     this.onSearchButtonTap,
+    this.onBackButtonTap,
     this.linkText = '',
     this.showLink = false,
     this.showSearchButton = false,
     required this.title,
-    required this.onBackButtonTap,
   }) : super(key: key);
 
   final Function()? onLinkTap;
@@ -21,22 +21,20 @@ class SBigHeader extends StatelessWidget {
   final bool showLink;
   final bool showSearchButton;
   final String title;
-  final Function() onBackButtonTap;
+  final Function()? onBackButtonTap;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180.h,
+      height: 180.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 64.h,
-          ),
+          const SpaceH64(),
           Row(
             children: [
               SIconButton(
-                onTap: onBackButtonTap,
+                onTap: onBackButtonTap ?? () => Navigator.pop(context),
                 defaultIcon: const SBackIcon(),
                 pressedIcon: const SBackPressedIcon(),
               ),
@@ -54,7 +52,7 @@ class SBigHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             children: [
               Baseline(
-                baseline: 56.h,
+                baseline: 56.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   title,
@@ -64,7 +62,7 @@ class SBigHeader extends StatelessWidget {
               const Spacer(),
               if (showLink)
                 Baseline(
-                  baseline: 56.h,
+                  baseline: 56.0,
                   baselineType: TextBaseline.alphabetic,
                   child: GestureDetector(
                     onTap: onLinkTap,

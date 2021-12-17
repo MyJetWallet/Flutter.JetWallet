@@ -3,18 +3,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
 import '../base/simple_base_standard_field.dart';
-import '../base/standard_field_error_notifier.dart';
 
 class SimpleLightStandardFieldObscure extends HookWidget {
   const SimpleLightStandardFieldObscure({
     Key? key,
-    this.autofocus = false,
     this.controller,
     this.autofillHints,
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
-    required this.onChanged,
+    this.onChanged,
+    this.autofocus = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -23,7 +22,7 @@ class SimpleLightStandardFieldObscure extends HookWidget {
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
   final Iterable<String>? autofillHints;
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
   final String labelText;
   final bool autofocus;
 
@@ -46,13 +45,14 @@ class SimpleLightStandardFieldObscure extends HookWidget {
       errorNotifier: errorNotifier,
       onErrorIconTap: onErrorIconTap,
       autofocus: autofocus,
-      suffixIcon: focusNode2.hasFocus || controller2.text.isNotEmpty
-          ? GestureDetector(
-              onTap: () => obscure.value = !obscure.value,
-              child:
-                  obscure.value ? const SEyeOpenIcon() : const SEyeCloseIcon(),
-            )
-          : const SizedBox(),
+      hideIconsIfError: false,
+      suffixIcons: [
+        if (focusNode2.hasFocus || controller2.text.isNotEmpty)
+          GestureDetector(
+            onTap: () => obscure.value = !obscure.value,
+            child: obscure.value ? const SEyeOpenIcon() : const SEyeCloseIcon(),
+          )
+      ],
     );
   }
 }

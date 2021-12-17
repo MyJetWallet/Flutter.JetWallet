@@ -1,6 +1,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,6 +15,8 @@ import 'router/view/router.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
+import 'shared/providers/device_uid_pod.dart';
+import 'shared/providers/package_info_fpod.dart';
 import 'shared/services/push_notification_service.dart';
 
 final providerTypes = <String>[
@@ -21,14 +25,25 @@ final providerTypes = <String>[
   'AutoDisposeStreamProvider<BasePricesModel>',
   'AutoDisposeStateNotifierProvider<ChartNotifier, ChartState>',
   'AutoDisposeStateNotifierProvider<TimerNotifier, int>',
+  'AutoDisposeStateNotifierProvider<ConvertInputNotifier, ConvertInputState>',
 ];
 
 final providerNames = <String>[
   'logRecordsNotipod',
 ];
 
+/// TODO refactor to single instance
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Make android status bar transparent
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+
   await Firebase.initializeApp();
   await PushNotificationService().initialize();
 
@@ -51,35 +66,31 @@ Future<void> main() async {
   );
 }
 
+/// TODO refactor to single instance
 class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
+    useProvider(deviceUidPod);
+    useProvider(packageInfoFpod);
     final navigatorKey = useProvider(sNavigatorKeyPod);
     final theme = useProvider(sThemePod);
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
-        /// Second material is placed to mimic structure of stage_env
-        /// Because there are some issues with nested MaterialApps
-        /// So, stage_env can be broken while dev_env is working fine
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
+        return CupertinoApp(
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
           theme: theme,
-          home: MaterialApp(
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            theme: theme,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            initialRoute: AppRouter.routeName,
-            navigatorKey: navigatorKey,
-            routes: {
-              AppRouter.routeName: (context) => const AppRouter(),
-            },
-          ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppRouter.routeName,
+          navigatorKey: navigatorKey,
+          routes: {
+            AppRouter.routeName: (context) => const AppRouter(),
+          },
         );
       },
     );

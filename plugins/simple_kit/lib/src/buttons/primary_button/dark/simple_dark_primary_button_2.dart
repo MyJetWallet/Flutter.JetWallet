@@ -6,11 +6,13 @@ import '../base/simple_base_primary_button.dart';
 class SimpleDarkPrimaryButton2 extends StatelessWidget {
   const SimpleDarkPrimaryButton2({
     Key? key,
+    this.icon,
     required this.active,
     required this.name,
     required this.onTap,
   }) : super(key: key);
 
+  final Widget? icon;
   final bool active;
   final String name;
   final Function() onTap;
@@ -21,6 +23,7 @@ class SimpleDarkPrimaryButton2 extends StatelessWidget {
       active: active,
       name: name,
       onTap: onTap,
+      icon: icon,
       activeColor: SColorsDark().blue,
       activeNameColor: SColorsDark().white,
       inactiveColor: SColorsDark().grey4,

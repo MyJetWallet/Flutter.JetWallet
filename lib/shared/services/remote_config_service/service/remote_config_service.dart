@@ -49,6 +49,7 @@ class RemoteConfigService {
     walletApi = flavor.walletApi;
     walletApiSignalR = flavor.walletApiSignalR;
     validationApi = flavor.validationApi;
+    iconApi = flavor.iconApi;
   }
 
   void overrideAppConfigValues() {

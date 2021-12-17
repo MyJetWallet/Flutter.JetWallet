@@ -1,0 +1,35 @@
+name: charts
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.14.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.3
+  intl: ^0.17.0
+  flutter_screenutil: ^5.0.0+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # RULES:
+  lint: ^1.8.1
+
+  # AUTOGEN:
+  freezed: ^0.14.5 # generation for immutable classes that has a simple syntax/API
+  build_runner: ^2.1.5 # generating files using Dart code
+  json_serializable: ^6.0.1 # dart build system builders for handling JSON
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/candles_mock.json

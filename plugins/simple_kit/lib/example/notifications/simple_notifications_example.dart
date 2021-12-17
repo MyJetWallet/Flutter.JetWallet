@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,41 +13,39 @@ class SimpleNotificationsExample extends ConsumerWidget {
     final notificationQueueN = watch(sNotificationQueueNotipod.notifier);
 
     return SPageFrameWithPadding(
-      child: Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              color: Colors.green[200],
-              child: const SNotificationBox(
-                text: 'Perhaps you missed “.” or “@” somewhere?”',
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            color: Colors.green[200],
+            child: const SNotificationBox(
+              text: 'Perhaps you missed “.” or “@” somewhere?”',
             ),
-            const SNotificationBox(
-              text: 'Single line Error',
+          ),
+          const SNotificationBox(
+            text: 'Single line Error',
+          ),
+          const SpaceH10(),
+          TextButton(
+            onPressed: () async {
+              notificationQueueN.addToQueue(
+                SNotification(
+                  duration: 2,
+                  function: (context) {
+                    showSNotification(
+                      context: context,
+                      duration: 2,
+                      text: 'Perhaps you missed “.” or “@” somewhere?”',
+                    );
+                  },
+                ),
+              );
+            },
+            child: const Text(
+              'Show notification',
             ),
-            const SpaceH10(),
-            TextButton(
-              onPressed: () async {
-                notificationQueueN.addToQueue(
-                  SNotification(
-                    duration: 2,
-                    function: (context) {
-                      showSNotification(
-                        context: context,
-                        duration: 2,
-                        text: 'Perhaps you missed “.” or “@” somewhere?”',
-                      );
-                    },
-                  ),
-                );
-              },
-              child: const Text(
-                'Show notification',
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

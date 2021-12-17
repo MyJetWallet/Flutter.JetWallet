@@ -21,15 +21,15 @@ class PasswordValidation extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SpaceH24(),
-        SPasswordRequirement(
+        SRequirement(
           passed: case1,
           description: 'be between 8 to 31 characters',
         ),
-        SPasswordRequirement(
+        SRequirement(
           passed: case2,
           description: 'сontain at least one letter (a-z)',
         ),
-        SPasswordRequirement(
+        SRequirement(
           passed: case3,
           description: 'contain at least one number (0-9)',
         ),

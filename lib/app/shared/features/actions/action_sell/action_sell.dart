@@ -1,39 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/asset_tile/asset_tile.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../helpers/format_currency_amount.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_sell/view/currency_sell.dart';
 
-class ActionSell extends HookWidget {
-  const ActionSell({Key? key}) : super(key: key);
+void showSellAction(BuildContext context) {
+  Navigator.pop(context); // close BasicBottomSheet from Menu
+  sShowBasicModalBottomSheet(
+    context: context,
+    scrollable: true,
+    pinned: const SBottomSheetHeader(
+      name: 'Choose asset to sell',
+    ),
+    children: [const _ActionSell()],
+  );
+}
+
+class _ActionSell extends HookWidget {
+  const _ActionSell({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PageFrame(
-      header: 'Choose asset to sell',
-      onBackButton: () => Navigator.pop(context),
-      child: ListView(
-        children: [
-          for (final currency in context.read(currenciesPod))
-            if (currency.isAssetBalanceNotEmpty)
-              AssetTile(
-                headerColor: Colors.black,
-                currency: currency,
-                onTap: () {
-                  navigatorPush(
-                    context,
-                    CurrencySell(
-                      currency: currency,
-                    ),
-                  );
-                },
+    final baseCurrency = useProvider(baseCurrencyPod);
+
+    return Column(
+      children: [
+        for (final currency in context.read(currenciesPod)) ...[
+          if (currency.isAssetBalanceNotEmpty)
+            SWalletItem(
+              decline: currency.dayPercentChange.isNegative,
+              icon: SNetworkSvg24(
+                url: currency.iconUrl,
               ),
-        ],
-      ),
+              primaryText: currency.description,
+              amount: formatCurrencyAmount(
+                prefix: baseCurrency.prefix,
+                value: currency.baseBalance,
+                symbol: baseCurrency.symbol,
+                accuracy: baseCurrency.accuracy,
+              ),
+              secondaryText: '${currency.assetBalance} ${currency.symbol}',
+              onTap: () {
+                navigatorPushReplacement(
+                  context,
+                  CurrencySell(
+                    currency: currency,
+                  ),
+                );
+              },
+            ),
+        ]
+      ],
     );
   }
 }

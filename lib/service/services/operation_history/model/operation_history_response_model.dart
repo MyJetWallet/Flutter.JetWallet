@@ -49,6 +49,13 @@ enum OperationType {
   @JsonValue(7)
   receiveByPhone,
   @JsonValue(8)
+  paidInterestRate,
+  @JsonValue(9)
+  transfer,
+  @JsonValue(10)
+  feeSharePayment,
+  @JsonValue(11)
+  rewardPayment,
   unknown,
   buy,
   sell,
@@ -120,8 +127,8 @@ class WithdrawalFeeInfo with _$WithdrawalFeeInfo {
 @freezed
 class TransferByPhoneInfo with _$TransferByPhoneInfo {
   const factory TransferByPhoneInfo({
-    required String toPhoneNumber,
-    required String receiverName,
+    String? toPhoneNumber,
+    String? receiverName,
     required String withdrawalAssetId,
     required double withdrawalAmount,
   }) = _TransferByPhoneInfo;
@@ -133,8 +140,8 @@ class TransferByPhoneInfo with _$TransferByPhoneInfo {
 @freezed
 class ReceiveByPhoneInfo with _$ReceiveByPhoneInfo {
   const factory ReceiveByPhoneInfo({
-    required String fromPhoneNumber,
-    required String senderName,
+    String? fromPhoneNumber,
+    String? senderName,
     required double depositAmount,
   }) = _ReceiveByPhoneInfo;
 

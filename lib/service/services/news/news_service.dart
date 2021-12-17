@@ -12,7 +12,9 @@ class NewsService {
 
   static final logger = Logger('NewsService');
 
-  Future<NewsResponseModel> news(NewsRequestModel model) {
+  Future<NewsResponseModel> news(
+    NewsRequestModel model,
+  ) {
     return newsService(dio, model);
   }
 }

@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-import '../../../../simple_kit.dart';
+import '../../../colors/view/simple_colors_light.dart';
 import 'components/basic_bottom_sheet.dart';
 
 void sShowBasicModalBottomSheet({
   Widget? pinned,
   Function(dynamic)? then,
   Function()? onDissmis,
-  double? maxHeight,
   double? minHeight,
   Color? color,
   double? horizontalPadding,
   AnimationController? transitionAnimationController,
   Future<bool> Function()? onWillPop,
+  bool expanded = false,
   bool removeBottomSheetBar = false,
-  bool removeBottomHeaderPadding = false,
+  bool removeBarPadding = false,
+  bool removePinnedPadding = false,
   bool scrollable = false,
+  double? horizontalPinnedPadding,
   required List<Widget> children,
   required BuildContext context,
 }) {
@@ -26,14 +28,17 @@ void sShowBasicModalBottomSheet({
     builder: (context) {
       return BasicBottomSheet(
         color: color ?? SColorsLight().white,
+        transitionAnimationController: transitionAnimationController,
         pinned: pinned,
+        horizontalPinnedPadding: horizontalPinnedPadding,
         onWillPop: onWillPop,
         onDissmis: onDissmis,
-        maxHeight: maxHeight,
         minHeight: minHeight,
         horizontalPadding: horizontalPadding,
+        expanded: expanded,
         removeBottomSheetBar: removeBottomSheetBar,
-        removeBottomHeaderPadding: removeBottomHeaderPadding,
+        removePinnedPadding: removePinnedPadding,
+        removeBarPadding: removeBarPadding,
         scrollable: scrollable,
         children: children,
       );

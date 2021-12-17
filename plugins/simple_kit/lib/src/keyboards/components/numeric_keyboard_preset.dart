@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
 class NumericKeyboardPreset extends StatelessWidget {
   const NumericKeyboardPreset({
@@ -17,25 +17,26 @@ class NumericKeyboardPreset extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 102.w,
-        height: 48.h,
-        decoration: BoxDecoration(
-          color: selected ? SColorsLight().grey5 : SColorsLight().white,
-          borderRadius: BorderRadius.circular(24.r),
-          border: selected
-              ? Border.all(
-                  width: 2.r,
-                )
-              : null,
-        ),
-        child: Center(
-          child: Text(
-            name,
-            style: sBodyText1Style.copyWith(
-              color: selected ? SColorsLight().black : SColorsLight().grey1,
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 48.0,
+          decoration: BoxDecoration(
+            color: selected ? SColorsLight().grey5 : SColorsLight().white,
+            borderRadius: BorderRadius.circular(24.0),
+            border: selected
+                ? Border.all(
+                    width: 2.0,
+                  )
+                : null,
+          ),
+          child: Center(
+            child: Text(
+              name,
+              style: sBodyText1Style.copyWith(
+                color: selected ? SColorsLight().black : SColorsLight().grey1,
+              ),
             ),
           ),
         ),

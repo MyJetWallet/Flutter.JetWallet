@@ -14,8 +14,12 @@ String operationName(OperationType type) {
       return 'Buy';
     case OperationType.sell:
       return 'Sell';
+    case OperationType.paidInterestRate:
+    case OperationType.transfer:
+    case OperationType.feeSharePayment:
     case OperationType.swap:
     case OperationType.withdrawalFee:
+    case OperationType.rewardPayment:
     case OperationType.unknown:
       return 'Unknown';
   }

@@ -37,18 +37,19 @@ class BottomNavigationMenu extends HookWidget {
       profileNotifications: 2,
       selectedIndex: navigation.state,
       actionActive: actionActive.value,
+      animationController: transitionAnimationController,
       onActionTap: () {
         if (!actionActive.value) {
           sShowMenuActionSheet(
             context: context,
             isNotEmptyBalance: isNotEmptyBalance,
-            onBuy: () => navigatorPush(context, const ActionBuy()),
-            onSell: () => navigatorPush(context, const ActionSell()),
+            onBuy: () => showBuyAction(context),
+            onSell: () => showSellAction(context),
             onConvert: () => navigatorPush(context, const Convert()),
-            onDeposit: () => navigatorPush(context, const ActionDeposit()),
-            onWithdraw: () => navigatorPush(context, const ActionWithdraw()),
-            onSend: () => navigatorPush(context, const ActionSend()),
-            onReceive: () => navigatorPush(context, const ActionReceive()),
+            onDeposit: () => showDepositAction(context),
+            onWithdraw: () => showWithdrawAction(context),
+            onSend: () => showSendAction(context),
+            onReceive: () => showReceiveAction(context),
             onDissmis: updateActionState,
             whenComplete: () {
               if (actionActive.value) updateActionState();

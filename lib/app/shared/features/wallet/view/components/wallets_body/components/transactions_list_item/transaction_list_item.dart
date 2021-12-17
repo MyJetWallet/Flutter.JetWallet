@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../../../../../../../../shared/components/spacers.dart';
+import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
@@ -23,7 +23,13 @@ class TransactionListItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final hidden = useProvider(walletHiddenStPod);
+    var color = colors.green;
+
+    if (transactionListItem.balanceChange.isNegative) {
+      color = colors.red;
+    }
 
     return InkWell(
       onTap: () => showTransactionDetails(
@@ -39,6 +45,7 @@ class TransactionListItem extends HookWidget {
                 Icon(
                   _icon(transactionListItem.operationType),
                   size: 20.r,
+                  color: color,
                 ),
                 const SpaceW10(),
                 TransactionListItemHeaderText(
@@ -104,8 +111,12 @@ class TransactionListItem extends HookWidget {
         return FontAwesomeIcons.plus;
       case OperationType.sell:
         return FontAwesomeIcons.minus;
+      case OperationType.paidInterestRate:
+      case OperationType.transfer:
+      case OperationType.feeSharePayment:
       case OperationType.withdrawalFee:
       case OperationType.swap:
+      case OperationType.rewardPayment:
       case OperationType.unknown:
         return FontAwesomeIcons.question;
     }

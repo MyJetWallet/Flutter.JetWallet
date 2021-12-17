@@ -3,12 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
 import '../base/simple_base_standard_field.dart';
-import '../base/standard_field_error_notifier.dart';
 
 class SimpleLightStandardField extends HookWidget {
   const SimpleLightStandardField({
     Key? key,
-    this.autofocus = false,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -16,9 +14,24 @@ class SimpleLightStandardField extends HookWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
-    required this.onChanged,
+    this.onErase,
+    this.onChanged,
+    this.suffixIcons,
+    this.initialValue,
+    this.hideClearButton = false,
+    this.hideIconsIfNotEmpty = true,
+    this.hideIconsIfError = true,
+    this.autofocus = false,
+    this.readOnly = false,
+    this.alignLabelWithHint = false,
     required this.labelText,
-  }) : super(key: key);
+  })  : assert(
+          (controller == null && initialValue != null) ||
+              (controller != null && initialValue == null) ||
+              (controller == null && initialValue == null),
+          "Controller and initialValue can't be both provided",
+        ),
+        super(key: key);
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -27,13 +40,24 @@ class SimpleLightStandardField extends HookWidget {
   final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
-  final Function(String) onChanged;
-  final String labelText;
+  final Function()? onErase;
+  final Function(String)? onChanged;
+  final List<Widget>? suffixIcons;
+  final String? initialValue;
+  final bool hideClearButton;
+  final bool hideIconsIfNotEmpty;
+  final bool hideIconsIfError;
   final bool autofocus;
+  final bool readOnly;
+  final bool alignLabelWithHint;
+  final String labelText;
 
   @override
   Widget build(BuildContext context) {
-    final controller2 = controller ?? useTextEditingController();
+    final controller2 = controller ??
+        useTextEditingController(
+          text: initialValue,
+        );
     useListenable(controller2);
 
     return SimpleBaseStandardField(
@@ -45,14 +69,23 @@ class SimpleLightStandardField extends HookWidget {
       onErrorIconTap: onErrorIconTap,
       keyboardType: keyboardType,
       autofocus: autofocus,
+      readOnly: readOnly,
       autofillHints: autofillHints,
       textInputAction: textInputAction,
-      suffixIcon: controller2.text.isNotEmpty
-          ? GestureDetector(
-              onTap: () => controller2.clear(),
-              child: const SEraseIcon(),
-            )
-          : const SizedBox(),
+      alignLabelWithHint: alignLabelWithHint,
+      suffixIcons: [
+        if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
+          ...?suffixIcons,
+        if (controller2.text.isNotEmpty && !hideClearButton)
+          GestureDetector(
+            onTap: () {
+              controller2.clear();
+              onChanged?.call('');
+              onErase?.call();
+            },
+            child: const SEraseIcon(),
+          )
+      ],
     );
   }
 }

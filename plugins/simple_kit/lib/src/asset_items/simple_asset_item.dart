@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 
-/// Requires Icon with width target
 class SAssetItem extends StatelessWidget {
   const SAssetItem({
     Key? key,
-    this.helperText = '',
+    this.helper = '',
+    this.isSelected = false,
     this.isCreditCard = false,
     required this.icon,
     required this.name,
@@ -16,7 +16,8 @@ class SAssetItem extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  final String helperText;
+  final String helper;
+  final bool isSelected;
   final bool isCreditCard;
   final Widget icon;
   final String name;
@@ -26,13 +27,15 @@ class SAssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainColor = isSelected ? SColorsLight().blue : SColorsLight().black;
+
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.h,
+          height: 88.0,
           child: Column(
             children: [
               const SpaceH22(),
@@ -50,23 +53,27 @@ class SAssetItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
                             SizedBox(
-                              width: isCreditCard ? 180.w : 150.w,
+                              width: isCreditCard ? 180.0 : 150.0,
                               child: Baseline(
-                                baseline: 17.8.h,
+                                baseline: 17.8,
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
                                   name,
-                                  style: sSubtitle2Style,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: mainColor,
+                                  ),
                                 ),
                               ),
                             ),
                             const Spacer(),
                             SizedBox(
-                              width: isCreditCard ? 90.w : 120.w,
+                              width: isCreditCard ? 90.0 : 120.0,
                               child: Text(
                                 amount,
                                 textAlign: TextAlign.end,
-                                style: sSubtitle2Style,
+                                style: sSubtitle2Style.copyWith(
+                                  color: mainColor,
+                                ),
                               ),
                             ),
                           ],
@@ -76,9 +83,9 @@ class SAssetItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
                             SizedBox(
-                              width: isCreditCard ? 180.w : 150.w,
+                              width: isCreditCard ? 180.0 : 150.0,
                               child: Baseline(
-                                baseline: 15.4.h,
+                                baseline: 15.4,
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
                                   description,
@@ -91,9 +98,9 @@ class SAssetItem extends StatelessWidget {
                             const Spacer(),
                             if (isCreditCard)
                               SizedBox(
-                                width: 90.w,
+                                width: 90.0,
                                 child: Text(
-                                  helperText,
+                                  helper,
                                   textAlign: TextAlign.end,
                                   style: sCaptionTextStyle.copyWith(
                                     color: SColorsLight().grey3,
@@ -108,8 +115,8 @@ class SAssetItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              SDivider(
-                width: 327.w,
+              const SDivider(
+                width: 327.0,
               )
             ],
           ),

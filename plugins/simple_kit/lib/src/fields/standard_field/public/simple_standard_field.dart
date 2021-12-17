@@ -8,7 +8,6 @@ import '../light/simple_light_standard_field.dart';
 class SStandardField extends ConsumerWidget {
   const SStandardField({
     Key? key,
-    this.autofocus = false,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -16,7 +15,16 @@ class SStandardField extends ConsumerWidget {
     this.focusNode,
     this.errorNotifier,
     this.onErrorIconTap,
-    required this.onChanged,
+    this.suffixIcons,
+    this.onErase,
+    this.onChanged,
+    this.initialValue,
+    this.hideClearButton = false,
+    this.hideIconsIfNotEmpty = true,
+    this.hideIconsIfError = true,
+    this.autofocus = false,
+    this.readOnly = false,
+    this.alignLabelWithHint = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -27,9 +35,17 @@ class SStandardField extends ConsumerWidget {
   final Iterable<String>? autofillHints;
   final StandardFieldErrorNotifier? errorNotifier;
   final Function()? onErrorIconTap;
-  final Function(String) onChanged;
-  final String labelText;
+  final Function()? onErase;
+  final Function(String)? onChanged;
+  final List<Widget>? suffixIcons;
+  final String? initialValue;
+  final bool hideClearButton;
+  final bool hideIconsIfNotEmpty;
+  final bool hideIconsIfError;
   final bool autofocus;
+  final bool readOnly;
+  final bool alignLabelWithHint;
+  final String labelText;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -46,7 +62,15 @@ class SStandardField extends ConsumerWidget {
         onChanged: onChanged,
         labelText: labelText,
         autofocus: autofocus,
+        readOnly: readOnly,
+        initialValue: initialValue,
         autofillHints: autofillHints,
+        alignLabelWithHint: alignLabelWithHint,
+        onErase: onErase,
+        suffixIcons: suffixIcons,
+        hideClearButton: hideClearButton,
+        hideIconsIfError: hideIconsIfError,
+        hideIconsIfNotEmpty: hideIconsIfNotEmpty,
       );
     } else {
       return SimpleLightStandardField(
@@ -59,7 +83,15 @@ class SStandardField extends ConsumerWidget {
         onChanged: onChanged,
         labelText: labelText,
         autofocus: autofocus,
+        readOnly: readOnly,
+        initialValue: initialValue,
         autofillHints: autofillHints,
+        alignLabelWithHint: alignLabelWithHint,
+        onErase: onErase,
+        suffixIcons: suffixIcons,
+        hideClearButton: hideClearButton,
+        hideIconsIfError: hideIconsIfError,
+        hideIconsIfNotEmpty: hideIconsIfNotEmpty,
       );
     }
   }

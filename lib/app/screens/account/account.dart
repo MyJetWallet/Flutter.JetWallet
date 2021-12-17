@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../shared/components/buttons/app_button_outlined.dart';
 import '../../../shared/components/loaders/loader.dart';
-import '../../../shared/components/security_divider.dart';
-import '../../../shared/components/security_option.dart';
-import '../../../shared/components/spacers.dart';
+import '../../../shared/components/log_out_option.dart';
+import '../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
-import '../../../shared/providers/service_providers.dart';
-import '../../shared/features/about_us/view/about_us.dart';
+import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
-import 'components/account_banner_list/account_banner_list.dart';
-import 'components/account_screen_header.dart';
+import '../../shared/features/profile_details/view/profile_details.dart';
+import '../../shared/features/support/support.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -26,8 +24,8 @@ class Account extends HookWidget {
   Widget build(BuildContext context) {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
-    final intl = useProvider(intlPod);
     final authInfo = useProvider(authInfoNotipod);
+    final userInfo = useProvider(userInfoNotipod);
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
@@ -43,54 +41,82 @@ class Account extends HookWidget {
       },
       child: logout.when(
         result: (_, __) {
-          return Padding(
-            padding: EdgeInsets.all(15.r),
-            child: ListView(
-              children: [
-                AccountScreenHeader(
-                  userEmail: authInfo.email,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SPaddingH24(
+                  child: SimpleAccountCategoryHeader(
+                    userEmail: authInfo.email,
+                  ),
                 ),
                 const SpaceH20(),
-                const AccountBannerList(),
-                SecurityOption(
-                  name: 'Profile Details',
-                  onTap: () {},
+                SimpleAccountBannerList(
+                    kycPassed: userInfo.kycPassed,
+                    twoFaEnabled: userInfo.twoFaEnabled,
+                    phoneVerified: userInfo.phoneVerified,
+                    onTwoFaBannerTap: () => TwoFaScreen.push(context),
+                    onChatBannerTap: () {},
                 ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'Security',
-                  onTap: () {
-                    navigatorPush(context, const AccountSecurity());
-                  },
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'Notifications',
-                  onTap: () {},
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'Chat with support',
-                  onTap: () {},
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'FAQ',
-                  onTap: () {},
-                ),
-                const SecurityDivider(),
-                SecurityOption(
-                  name: 'About Us',
-                  onTap: () {
-                    navigatorPush(context, const AboutUs());
-                  },
-                ),
-                const SecurityDivider(),
                 const SpaceH20(),
-                AppButtonOutlined(
-                  name: intl.logout,
+                Column(
+                  children: <Widget>[
+                    SimpleAccountCategoryButton(
+                      title: 'Profile details',
+                      icon: const SProfileDetailsIcon(),
+                      isSDivider: true,
+                      onTap: () {
+                        navigatorPush(context, const ProfileDetails());
+                      },
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'Security',
+                      icon: const SSecurityIcon(),
+                      isSDivider: true,
+                      onTap: () {
+                        navigatorPush(context, const AccountSecurity());
+                      },
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'Notifications',
+                      icon: const SNotificationsIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'Support',
+                      icon: const SSupportIcon(),
+                      isSDivider: true,
+                      onTap: () {
+                        navigatorPush(context, const Support());
+                      },
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'FAQ',
+                      icon: const SFaqIcon(),
+                      isSDivider: true,
+                      onTap: () {},
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'About us',
+                      icon: const SAboutUsIcon(),
+                      isSDivider: false,
+                      onTap: () {
+                        navigatorPush(context, const AboutUs());
+                      },
+                    ),
+                  ],
+                ),
+                const SpaceH20(),
+                const SDivider(),
+                const SpaceH20(),
+                LogOutOption(
+                  name: 'Log out',
                   onTap: () => logoutN.logout(),
                 ),
+                const SpaceH20(),
+                const SDivider(),
               ],
             ),
           );

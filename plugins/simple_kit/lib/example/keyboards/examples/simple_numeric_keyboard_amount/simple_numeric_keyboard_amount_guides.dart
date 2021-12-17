@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 import '../../../shared.dart';
@@ -21,7 +20,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                 preset1Name: '\$50',
                 preset2Name: '\$100',
                 preset3Name: '\$500',
-                selectedPreset: KeyboardPreset.preset3,
+                selectedPreset: SKeyboardPreset.preset3,
                 onPresetChanged: (keyboardPreset) {},
                 onKeyPressed: (key) {
                   showSnackBar(context, key);
@@ -33,32 +32,32 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 422.h,
+                height: 422.0,
                 child: Row(
                   children: [
                     Container(
-                      width: 24.w,
-                      height: 422.h,
+                      width: 24.0,
+                      height: 422.0,
                       color: Colors.blue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '24px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
                     ),
                     const Spacer(),
                     Container(
-                      width: 24.w,
-                      height: 422.h,
+                      width: 24.0,
+                      height: 422.0,
                       color: Colors.blue.withOpacity(0.3),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '24px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
@@ -67,12 +66,12 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 422.h,
+                height: 422.0,
                 child: Column(
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 20.h,
+                      height: 20.0,
                       color: Colors.blue.withOpacity(0.3),
                       child: const Center(
                         child: Text('20px'),
@@ -80,7 +79,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                     ),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 48.h,
+                      height: 48.0,
                       child: const Text(
                         '48px',
                       ),
@@ -88,7 +87,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                     const _ContainerH10(),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
@@ -96,7 +95,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                     const _ContainerH10(),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
@@ -104,7 +103,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                     const _ContainerH10(),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
@@ -112,15 +111,15 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                     const _ContainerH10(),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 56.h,
+                      height: 56.0,
                       child: const Text(
                         '56px',
                       ),
                     ),
                     const _ContainerH10(),
                     Container(
-                      width: 200.w,
-                      height: 56.h,
+                      width: 200.0,
+                      height: 56.0,
                       color: Colors.blue.withOpacity(0.3),
                       child: const Text(
                         '56px',
@@ -131,7 +130,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                     ),
                     Container(
                       color: Colors.green.withOpacity(0.3),
-                      height: 24.h,
+                      height: 24.0,
                       child: const Text(
                         '24px',
                       ),
@@ -156,13 +155,13 @@ class _ContainerH10 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 10.h,
+      height: 10.0,
       color: Colors.blue.withOpacity(0.3),
-      child: Center(
+      child: const Center(
         child: Text(
           '10px',
           style: TextStyle(
-            fontSize: 10.sp,
+            fontSize: 10.0,
           ),
         ),
       ),

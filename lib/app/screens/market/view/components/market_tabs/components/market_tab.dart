@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MarketTab extends StatelessWidget {
   const MarketTab({
@@ -11,13 +10,15 @@ class MarketTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: 4.h,
+    return Container(
+      margin: const EdgeInsets.only(
+        right: 10,
       ),
-      child: Text(
-        text,
+      padding: const EdgeInsets.symmetric(
+        vertical: 6,
+        horizontal: 16,
       ),
+      child: Text(text),
     );
   }
 }

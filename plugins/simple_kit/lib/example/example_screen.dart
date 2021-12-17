@@ -1,12 +1,26 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
+import 'account/buttons/simple_account_buttons_example.dart';
+import 'account/headers/simple_account_headers_example.dart';
+import 'account/indicators/simple_account_indicators_example.dart';
+import 'account/simple_account_example.dart';
 import 'action_sheet/examples/simple_common_action_sheet_example.dart';
 import 'action_sheet/examples/simple_menu_action_sheet_example.dart';
 import 'action_sheet/simple_action_sheet_example.dart';
+import 'actions/examples/simple_action_confirm_alert_example.dart';
+import 'actions/examples/simple_action_confirm_description_example.dart';
+import 'actions/examples/simple_action_confirm_skeleton_loader_example.dart';
+import 'actions/examples/simple_action_confirm_text_example.dart';
+import 'actions/examples/simple_action_price_field_example.dart';
+import 'actions/examples/simple_payment_select_asset_example.dart';
+import 'actions/examples/simple_payment_select_default_example.dart';
+import 'actions/examples/simple_payment_select_fiat_example.dart';
+import 'actions/simple_actions_example.dart';
 import 'agreements/examples/simple_password_requirement_example.dart';
 import 'agreements/examples/simple_privacy_policy_example.dart';
 import 'agreements/simple_agreements_example.dart';
@@ -16,6 +30,8 @@ import 'asset_items/examples/simple_fiat_item_example.dart';
 import 'asset_items/examples/simple_market_item_example.dart';
 import 'asset_items/examples/simple_wallet_item_example.dart';
 import 'asset_items/simple_asset_items_example.dart';
+import 'banners/rewards_banner/simple_rewards_banner_example.dart';
+import 'banners/simple_banners_example.dart';
 import 'bottom_navigation_bar/simple_bottom_navigation_bar_example.dart';
 import 'buttons/examples/simple_link_button_example.dart';
 import 'buttons/examples/simple_primary_button_example.dart';
@@ -35,6 +51,7 @@ import 'icons/examples/simple_icons_102x56_example.dart';
 import 'icons/examples/simple_icons_16x16_example.dart';
 import 'icons/examples/simple_icons_24x24_example.dart';
 import 'icons/examples/simple_icons_36x36_example.dart';
+import 'icons/examples/simple_icons_40x40_example.dart';
 import 'icons/examples/simple_icons_56x56_example.dart';
 import 'icons/simple_icons_example.dart';
 import 'keyboards/examples/simple_numeric_keyboard_amount/simple_numeric_keyboard_amount_example.dart';
@@ -56,12 +73,30 @@ class ExampleScreen extends ConsumerWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: () {
-        return MaterialApp(
+        return CupertinoApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          initialRoute: SimpleMarketItemExample.routeName,
+          initialRoute: Home.routeName,
           routes: {
             Home.routeName: (context) => const Home(),
+            SimpleBannersExample.routeName: (context) {
+              return const SimpleBannersExample();
+            },
+            SimpleRewardsBannerExample.routeName: (context) {
+              return const SimpleRewardsBannerExample();
+            },
+            SimpleAccountExample.routeName: (context) {
+              return const SimpleAccountExample();
+            },
+            SimpleAccountButtonsExample.routeName: (context) {
+              return const SimpleAccountButtonsExample();
+            },
+            SimpleAccountHeadersExample.routeName: (context) {
+              return const SimpleAccountHeadersExample();
+            },
+            SimpleAccountIndicatorsExample.routeName: (context) {
+              return const SimpleAccountIndicatorsExample();
+            },
             SimpleButtonsExample.routeName: (context) {
               return const SimpleButtonsExample();
             },
@@ -106,6 +141,9 @@ class ExampleScreen extends ConsumerWidget {
             },
             SimpleIcons36X36Example.routeName: (context) {
               return const SimpleIcons36X36Example();
+            },
+            SimpleIcons40X40Example.routeName: (context) {
+              return const SimpleIcons40X40Example();
             },
             SimpleIcons102X56Example.routeName: (context) {
               return const SimpleIcons102X56Example();
@@ -182,6 +220,33 @@ class ExampleScreen extends ConsumerWidget {
             SimpleAssetItemsExample.routeName: (context) {
               return const SimpleAssetItemsExample();
             },
+            SimpleActionsExample.routeName: (context) {
+              return const SimpleActionsExample();
+            },
+            SimpleActionPriceFieldExample.routeName: (context) {
+              return const SimpleActionPriceFieldExample();
+            },
+            SimplePaymentSelectAssetExample.routeName: (context) {
+              return const SimplePaymentSelectAssetExample();
+            },
+            SimplePaymentSelectDefaultExample.routeName: (context) {
+              return const SimplePaymentSelectDefaultExample();
+            },
+            SimplePaymentSelectFiatExample.routeName: (context) {
+              return const SimplePaymentSelectFiatExample();
+            },
+            SimpleActionConfirmTextExample.routeName: (context) {
+              return const SimpleActionConfirmTextExample();
+            },
+            SimpleActionConfrimDescriptionExample.routeName: (context) {
+              return const SimpleActionConfrimDescriptionExample();
+            },
+            SimpleActionConfrimSkeletonLoaderExample.routeName: (context) {
+              return const SimpleActionConfrimSkeletonLoaderExample();
+            },
+            SimpleActionConfrimAlertExample.routeName: (context) {
+              return const SimpleActionConfrimAlertExample();
+            }
           },
         );
       },
@@ -203,6 +268,14 @@ class Home extends StatelessWidget {
         child: ListView(
           children: const [
             ThemeSwitch(),
+            NavigationButton(
+              buttonName: 'Banners',
+              routeName: SimpleBannersExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Account',
+              routeName: SimpleAccountExample.routeName,
+            ),
             NavigationButton(
               buttonName: 'Buttons',
               routeName: SimpleButtonsExample.routeName,
@@ -250,6 +323,10 @@ class Home extends StatelessWidget {
             NavigationButton(
               buttonName: 'Asset Items',
               routeName: SimpleAssetItemsExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Actions',
+              routeName: SimpleActionsExample.routeName,
             ),
           ],
         ),

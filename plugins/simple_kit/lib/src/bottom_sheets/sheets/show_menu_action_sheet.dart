@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
-import '../../asset_items/simple_action_item.dart';
 
 void sShowMenuActionSheet({
   required BuildContext context,
@@ -21,7 +20,7 @@ void sShowMenuActionSheet({
     context: context,
     onDissmis: onDissmis,
     whenColmplete: whenComplete,
-    removeBottomHeaderPadding: true,
+    removePinnedPadding: true,
     onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [

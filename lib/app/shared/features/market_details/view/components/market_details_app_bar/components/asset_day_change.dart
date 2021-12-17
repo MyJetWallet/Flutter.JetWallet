@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_model.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../chart/notifier/chart_notipod.dart';
 import '../../../../../chart/notifier/chart_state.dart';
-import '../../../../../wallet/helper/market_item_from.dart';
 import '../../../../helper/period_change.dart';
 
 class AssetDayChange extends HookWidget {
@@ -20,33 +19,25 @@ class AssetDayChange extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final marketItem = marketItemFrom(
-      useProvider(marketItemsPod),
-      assetId,
-    );
+    final colors = useProvider(sColorPod);
     final chart = useProvider(chartNotipod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final periodChange = _periodChange(
+      chart,
+      baseCurrency,
+    );
+    final periodChangeColor =
+        periodChange.contains('-') ? colors.red : colors.green;
 
-    return Row(
-      children: [
-        Icon(
-          marketItem.isGrowing ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-          color: Colors.grey,
-        ),
-        Text(
-          _dayChange(
-            chart,
-            baseCurrency,
-          ),
-          style: const TextStyle(
-            color: Colors.grey,
-          ),
-        ),
-      ],
+    return Text(
+      periodChange,
+      style: sSubtitle3Style.copyWith(
+        color: periodChangeColor,
+      ),
     );
   }
 
-  String _dayChange(
+  String _periodChange(
     ChartState chart,
     BaseCurrencyModel baseCurrency,
   ) {

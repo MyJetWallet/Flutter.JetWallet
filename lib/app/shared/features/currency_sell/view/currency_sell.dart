@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/buttons/app_button_solid.dart';
-import '../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../shared/components/spacers.dart';
+import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/asset_input_error.dart';
-import '../../../components/asset_input_field.dart';
-import '../../../components/asset_selector_button.dart';
-import '../../../components/asset_tile/asset_tile.dart';
-import '../../../components/balance_selector/view/percent_selector.dart';
-import '../../../components/basic_bottom_sheet/basic_bottom_sheet.dart';
-import '../../../components/convert_preview/model/convert_preview_input.dart';
-import '../../../components/convert_preview/view/convert_preview.dart';
-import '../../../components/number_keyboard/number_keyboard_amount.dart';
-import '../../../components/text/asset_conversion_text.dart';
-import '../../../components/text/asset_selector_header.dart';
-import '../../../components/text/asset_sheet_header.dart';
-import '../../../helpers/format_currency_amount.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../notifier/currency_sell_notipod.dart';
+import '../model/preview_sell_input.dart';
+import '../notifier/currency_sell_notifier/currency_sell_notipod.dart';
+import 'preview_sell.dart';
 
 class CurrencySell extends HookWidget {
   const CurrencySell({
@@ -36,6 +25,7 @@ class CurrencySell extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final state = useProvider(currencySellNotipod(currency));
     final notifier = useProvider(currencySellNotipod(currency).notifier);
     useProvider(
@@ -48,120 +38,145 @@ class CurrencySell extends HookWidget {
       ),
     );
 
-    void _showAssetSheet() {
-      showBasicBottomSheet(
-        context: context,
+    void _showAssetSelector() {
+      sShowBasicModalBottomSheet(
         scrollable: true,
-        color: const Color(0xFF4F4F4F),
-        pinned: const AssetSheetHeader(
-          text: 'For',
+        pinned: const SBottomSheetHeader(
+          name: 'For',
         ),
         children: [
           for (final currency in state.currencies)
-            AssetTile(
-              currency: currency,
-              onTap: () => Navigator.pop(context, currency),
-              selectedBorder: state.selectedCurrency == currency,
-            ),
+            if (currency.type == AssetType.crypto)
+              SAssetItem(
+                isSelected: currency == state.selectedCurrency,
+                icon: SNetworkSvg24(
+                  color: currency == state.selectedCurrency
+                      ? colors.blue
+                      : colors.black,
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                amount: currency.formatBaseBalance(
+                  state.baseCurrency!,
+                ),
+                description: currency.formattedAssetBalance,
+                onTap: () => Navigator.pop(context, currency),
+              )
+            else
+              SFiatItem(
+                isSelected: currency == state.selectedCurrency,
+                icon: SNetworkSvg24(
+                  color: currency == state.selectedCurrency
+                      ? colors.blue
+                      : colors.black,
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                amount: currency.formatBaseBalance(
+                  state.baseCurrency!,
+                ),
+                onTap: () => Navigator.pop(context, currency),
+              ),
+          const SpaceH40(),
         ],
+        context: context,
         then: (value) {
           if (value is CurrencyModel) {
             if (value != state.selectedCurrency) {
-              notifier.updateTargetConversionPrice(null);
+              if (value.symbol != state.baseCurrency!.symbol) {
+                notifier.updateTargetConversionPrice(null);
+              }
+              notifier.updateSelectedCurrency(value);
             }
-            notifier.updateSelectedCurrency(value);
-          } else {
-            notifier.updateSelectedCurrency(null);
           }
-        },
-        onDissmis: () {
-          Navigator.pop(context, state.selectedCurrency);
         },
       );
     }
 
-    return PageFrame(
-      header: 'Sell ${currency.description}',
-      onBackButton: () => Navigator.pop(context),
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: 'Sell ${currency.description}',
+        ),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Spacer(),
-          AssetInputField(
-            value: formatCurrencyStringAmount(
+          SActionPriceField(
+            price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.inputValue,
               symbol: currency.symbol,
             ),
+            helper: state.conversionText(),
+            error: state.inputError.value,
+            isErrorActive: state.inputError.isActive,
           ),
-          const SpaceH8(),
-          if (state.inputError.isActive)
-            AssetInputError(
-              text: state.inputError.value,
-            )
-          else ...[
-            CenterAssetConversionText(
-              text: formatCurrencyAmount(
-                prefix: currency.prefixSymbol,
-                symbol: currency.symbol,
-                value: currency.assetBalance,
-                accuracy: currency.accuracy,
+          SBaselineChild(
+            baseline: 24.h,
+            child: Text(
+              'Available: ${currency.formattedAssetBalance}',
+              style: sSubtitle3Style.copyWith(
+                color: colors.grey2,
               ),
             ),
-            const SpaceH4(),
-            CenterAssetConversionText(
-              text: state.conversionText(),
-            )
-          ],
-          const Spacer(),
-          const AssetSelectorHeader(
-            text: 'For',
           ),
+          const Spacer(),
           const SpaceH4(),
           if (state.selectedCurrency == null)
-            AssetSelectorButton(
+            SPaymentSelectDefault(
+              icon: const SActionWithdrawIcon(),
               name: 'Choose destination',
-              onTap: () => _showAssetSheet(),
+              onTap: () => _showAssetSelector(),
+            )
+          else if (state.selectedCurrency!.type == AssetType.crypto)
+            SPaymentSelectAsset(
+              icon: SNetworkSvg24(
+                url: state.selectedCurrency!.iconUrl,
+              ),
+              name: state.selectedCurrency!.description,
+              amount: state.selectedCurrency!.formatBaseBalance(
+                state.baseCurrency!,
+              ),
+              description: state.selectedCurrency!.formattedAssetBalance,
+              onTap: () => _showAssetSelector(),
             )
           else
-            AssetTile(
-              enableBalanceColumn: false,
-              headerColor: Colors.black,
-              leadingAssetBalance: true,
-              currency: state.selectedCurrency!,
-              onTap: () => _showAssetSheet(),
+            SPaymentSelectFiat(
+              icon: SNetworkSvg24(
+                url: state.selectedCurrency!.iconUrl,
+              ),
+              name: state.selectedCurrency!.description,
+              amount: state.selectedCurrency!.formatBaseBalance(
+                state.baseCurrency!,
+              ),
+              onTap: () => _showAssetSelector(),
             ),
           const SpaceH20(),
-          PercentSelector(
-            disabled: false,
-            onSelection: (value) {
-              notifier.selectPercentFromBalance(value);
+          SNumericKeyboardAmount(
+            preset1Name: '25%',
+            preset2Name: '50%',
+            preset3Name: 'MAX',
+            selectedPreset: state.selectedPreset,
+            onPresetChanged: (preset) {
+              notifier.selectPercentFromBalance(preset);
             },
-          ),
-          const SpaceH10(),
-          NumberKeyboardAmount(
-            onKeyPressed: (value) => notifier.updateInputValue(value),
-          ),
-          const SpaceH20(),
-          AppButtonSolid(
-            active: state.inputValid,
-            name: 'Preview Sell',
-            onTap: () {
-              if (state.inputValid) {
-                navigatorPush(
-                  context,
-                  ConvertPreview(
-                    ConvertPreviewInput(
-                      currency: currency,
-                      fromAssetAmount: state.inputValue,
-                      fromAssetSymbol: currency.symbol,
-                      toAssetSymbol: state.selectedCurrency!.symbol,
-                      assetDescription: currency.description,
-                      action: TriggerAction.sell,
-                    ),
+            onKeyPressed: (value) {
+              notifier.updateInputValue(value);
+            },
+            buttonType: SButtonType.primary2,
+            submitButtonActive: state.inputValid,
+            submitButtonName: 'Preview Sell',
+            onSubmitPressed: () {
+              navigatorPush(
+                context,
+                PreviewSell(
+                  input: PreviewSellInput(
+                    amount: state.inputValue,
+                    fromCurrency: currency,
+                    toCurrency: state.selectedCurrency!,
                   ),
-                );
-              }
+                ),
+              );
             },
           ),
         ],

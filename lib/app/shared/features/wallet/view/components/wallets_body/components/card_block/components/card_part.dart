@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-class CardPart extends StatelessWidget {
+class CardPart extends HookWidget {
   const CardPart({
     Key? key,
+    this.width = 62,
     required this.left,
   }) : super(key: key);
 
   final bool left;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return Container(
-      height: 0.25.sh,
-      width: 0.05.sw,
+      height: 280,
+      width: width,
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: colors.greenLight,
         borderRadius: left
-            ? BorderRadius.only(
-                topRight: Radius.circular(16.r),
-                bottomRight: Radius.circular(16.r),
+            ? const BorderRadius.only(
+                topRight: Radius.circular(16),
+                bottomRight: Radius.circular(16),
               )
-            : BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                bottomLeft: Radius.circular(16.r),
+            : const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                bottomLeft: Radius.circular(16),
               ),
       ),
       child: const SizedBox(),

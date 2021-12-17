@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../simple_kit.dart';
+import '../../../colors/view/simple_colors_light.dart';
 import 'components/basic_bottom_sheet.dart';
 
 void sShowBasicBottomSheet({
   Widget? pinned,
   Function()? onDissmis,
-  double? maxHeight,
   double? minHeight,
   Color? color,
   double? horizontalPadding,
@@ -14,7 +13,7 @@ void sShowBasicBottomSheet({
   AnimationController? transitionAnimationController,
   Future<bool> Function()? onWillPop,
   bool removeBottomSheetBar = true,
-  bool removeBottomHeaderPadding = false,
+  bool removePinnedPadding = false,
   required List<Widget> children,
   required BuildContext context,
 }) {
@@ -24,14 +23,14 @@ void sShowBasicBottomSheet({
     builder: (context) {
       return BasicBottomSheet(
         color: color ?? SColorsLight().white,
+        transitionAnimationController: transitionAnimationController,
         pinned: pinned,
         onWillPop: onWillPop,
         onDissmis: onDissmis,
-        maxHeight: maxHeight,
         minHeight: minHeight,
         horizontalPadding: horizontalPadding,
         removeBottomSheetBar: removeBottomSheetBar,
-        removeBottomHeaderPadding: removeBottomHeaderPadding,
+        removePinnedPadding: removePinnedPadding,
         scrollable: false,
         children: children,
       );

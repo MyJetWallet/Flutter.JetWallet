@@ -5,13 +5,13 @@ class SIconButton extends HookWidget {
   const SIconButton({
     Key? key,
     this.onTap,
+    this.pressedIcon,
     required this.defaultIcon,
-    required this.pressedIcon,
   }) : super(key: key);
 
   final Function()? onTap;
+  final Widget? pressedIcon;
   final Widget defaultIcon;
-  final Widget pressedIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class SIconButton extends HookWidget {
       },
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      child: highlighted.value ? pressedIcon : defaultIcon,
+      child: highlighted.value ? (pressedIcon ?? defaultIcon) : defaultIcon,
     );
   }
 }

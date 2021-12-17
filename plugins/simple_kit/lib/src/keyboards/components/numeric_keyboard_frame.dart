@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 import 'numeric_keyboard_row.dart';
 
 class NumericKeyboardFrame extends StatelessWidget {
@@ -26,10 +26,10 @@ class NumericKeyboardFrame extends StatelessWidget {
       height: height,
       color: SColorsLight().grey5,
       padding: EdgeInsets.only(
-        left: 24.w,
-        right: 24.w,
+        left: 24.0,
+        right: 24.0,
         top: paddingTop,
-        bottom: paddingBottom ?? 0.h,
+        bottom: paddingBottom ?? 0,
       ),
       child: Column(
         children: [

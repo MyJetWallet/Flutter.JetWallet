@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -17,7 +16,7 @@ class SBottomSheetHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Baseline(
-          baseline: 20.h,
+          baseline: 20.0,
           baselineType: TextBaseline.alphabetic,
           child: Text(
             name,

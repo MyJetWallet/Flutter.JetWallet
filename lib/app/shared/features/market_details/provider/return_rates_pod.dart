@@ -1,12 +1,12 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../providers/signal_r/period_prices_spod.dart';
-
 import '../helper/calculate_percent_change.dart';
 import '../model/return_rates_model.dart';
 
 final returnRatesPod = Provider.autoDispose.family<ReturnRatesModel, String>(
-  (ref, assetSymbol) {
+  (ref, assetId) {
     final periodPrices = ref.watch(periodPricesSpod);
     final currencies = ref.read(currenciesPod);
 
@@ -14,10 +14,10 @@ final returnRatesPod = Provider.autoDispose.family<ReturnRatesModel, String>(
 
     periodPrices.whenData((value) {
       final periodPrice = value.prices.firstWhere(
-        (element) => element.assetSymbol == assetSymbol,
+        (element) => element.assetSymbol == assetId,
       );
       final currency = currencies.firstWhere(
-        (element) => element.symbol == assetSymbol,
+        (element) => element.symbol == assetId,
       );
 
       model = model.copyWith(

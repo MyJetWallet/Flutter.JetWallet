@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
-import '../../../src/headers/simple_small_header.dart';
 import '../../shared.dart';
 
 class SimpleSmallHeadersExample extends StatelessWidget {
@@ -40,13 +38,13 @@ class SimpleSmallHeadersExample extends StatelessWidget {
           Stack(
             children: [
               Container(
-                height: 120.h,
+                height: 120.0,
                 color: Colors.grey.withOpacity(0.3),
               ),
               Center(
                 child: Container(
                   width: 100,
-                  height: 84.h,
+                  height: 84.0,
                   color: Colors.green.withOpacity(0.3),
                   child: const Center(
                     child: Text('84px'),
@@ -56,14 +54,14 @@ class SimpleSmallHeadersExample extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    height: 64.h,
+                    height: 64.0,
                     color: Colors.blue.withOpacity(0.2),
                     child: const Center(
                       child: Text('64px'),
                     ),
                   ),
                   Container(
-                    height: 24.h,
+                    height: 24.0,
                     color: Colors.red.withOpacity(0.3),
                     child: Row(
                       children: const [
@@ -76,7 +74,7 @@ class SimpleSmallHeadersExample extends StatelessWidget {
                   ),
                   Container(
                     width: 100,
-                    height: 32.h,
+                    height: 32.0,
                     color: Colors.black.withOpacity(0.3),
                     child: const Center(
                       child: Text('32px'),

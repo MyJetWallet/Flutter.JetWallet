@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 import '../../shared.dart';
@@ -15,80 +14,78 @@ class SimplePrivacyPolicyExample extends HookWidget {
     final isChecked = useState(false);
 
     return SPageFrameWithPadding(
-      child: Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SPolicyCheckbox(
-              firstText: 'By clicking Agree and Continue, '
-                  'I hereby agree and consent to the ',
-              userAgreementText: 'User Agreement',
-              betweenText: ' and the ',
-              privacyPolicyText: 'Privacy Policy',
-              isChecked: isChecked.value,
-              onCheckboxTap: () => isChecked.value = !isChecked.value,
-              onUserAgreementTap: () => showSnackBar(context),
-              onPrivacyPolicyTap: () => showSnackBar(context),
-            ),
-            Stack(
-              children: [
-                Container(
-                  color: Colors.grey[200],
-                  child: SPolicyCheckbox(
-                    firstText: 'By clicking Agree and Continue, '
-                        'I hereby agree and consent to the ',
-                    userAgreementText: 'User Agreement',
-                    betweenText: ' and the ',
-                    privacyPolicyText: 'Privacy Policy',
-                    isChecked: isChecked.value,
-                    onCheckboxTap: () => isChecked.value = !isChecked.value,
-                    onUserAgreementTap: () => showSnackBar(context),
-                    onPrivacyPolicyTap: () => showSnackBar(context),
-                  ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SPolicyCheckbox(
+            firstText: 'By clicking Agree and Continue, '
+                'I hereby agree and consent to the ',
+            userAgreementText: 'User Agreement',
+            betweenText: ' and the ',
+            privacyPolicyText: 'Privacy Policy',
+            isChecked: isChecked.value,
+            onCheckboxTap: () => isChecked.value = !isChecked.value,
+            onUserAgreementTap: () => showSnackBar(context),
+            onPrivacyPolicyTap: () => showSnackBar(context),
+          ),
+          Stack(
+            children: [
+              Container(
+                color: Colors.grey[200],
+                child: SPolicyCheckbox(
+                  firstText: 'By clicking Agree and Continue, '
+                      'I hereby agree and consent to the ',
+                  userAgreementText: 'User Agreement',
+                  betweenText: ' and the ',
+                  privacyPolicyText: 'Privacy Policy',
+                  isChecked: isChecked.value,
+                  onCheckboxTap: () => isChecked.value = !isChecked.value,
+                  onUserAgreementTap: () => showSnackBar(context),
+                  onPrivacyPolicyTap: () => showSnackBar(context),
                 ),
-                Container(
-                  width: 24.w,
-                  height: 20.h,
-                  color: Colors.blue.withOpacity(0.3),
+              ),
+              Container(
+                width: 24.0,
+                height: 20.0,
+                color: Colors.blue.withOpacity(0.3),
+              ),
+              Container(
+                height: 38.0,
+                color: Colors.green.withOpacity(0.3),
+              ),
+            ],
+          ),
+          const SpaceH20(),
+          SPolicyText(
+            firstText: 'By logging in and Continue, '
+                'I hereby agree and consent to the ',
+            userAgreementText: 'User Agreement',
+            betweenText: ' and the ',
+            privacyPolicyText: 'Privacy Policy',
+            onUserAgreementTap: () => showSnackBar(context),
+            onPrivacyPolicyTap: () => showSnackBar(context),
+          ),
+          Stack(
+            children: [
+              Container(
+                color: Colors.grey[200],
+                child: SPolicyText(
+                  firstText: 'By logging in and Continue, '
+                      'I hereby agree and consent to the ',
+                  userAgreementText: 'User Agreement',
+                  betweenText: ' and the ',
+                  privacyPolicyText: 'Privacy Policy',
+                  onUserAgreementTap: () => showSnackBar(context),
+                  onPrivacyPolicyTap: () => showSnackBar(context),
                 ),
-                Container(
-                  height: 38.h,
-                  color: Colors.green.withOpacity(0.3),
-                ),
-              ],
-            ),
-            const SpaceH20(),
-            SPolicyText(
-              firstText: 'By logging in and Continue, '
-                  'I hereby agree and consent to the ',
-              userAgreementText: 'User Agreement',
-              betweenText: ' and the ',
-              privacyPolicyText: 'Privacy Policy',
-              onUserAgreementTap: () => showSnackBar(context),
-              onPrivacyPolicyTap: () => showSnackBar(context),
-            ),
-            Stack(
-              children: [
-                Container(
-                  color: Colors.grey[200],
-                  child: SPolicyText(
-                    firstText: 'By logging in and Continue, '
-                        'I hereby agree and consent to the ',
-                    userAgreementText: 'User Agreement',
-                    betweenText: ' and the ',
-                    privacyPolicyText: 'Privacy Policy',
-                    onUserAgreementTap: () => showSnackBar(context),
-                    onPrivacyPolicyTap: () => showSnackBar(context),
-                  ),
-                ),
-                Container(
-                  height: 24.h,
-                  color: Colors.green.withOpacity(0.3),
-                )
-              ],
-            ),
-          ],
-        ),
+              ),
+              Container(
+                height: 24.0,
+                color: Colors.green.withOpacity(0.3),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

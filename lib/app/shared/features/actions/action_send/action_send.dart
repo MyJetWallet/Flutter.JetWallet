@@ -1,41 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_model.dart';
-import '../../../../../../shared/components/page_frame/page_frame.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../components/asset_tile/asset_tile.dart';
+import '../../../helpers/format_currency_amount.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
-import '../../currency_send/view/send_options.dart';
+import 'components/send_options.dart';
 
-class ActionSend extends HookWidget {
-  const ActionSend({Key? key}) : super(key: key);
+void showSendAction(BuildContext context) {
+  Navigator.pop(context);
+  sShowBasicModalBottomSheet(
+    context: context,
+    scrollable: true,
+    pinned: const SBottomSheetHeader(
+      name: 'Choose asset to send',
+    ),
+    children: [const _ActionSend()],
+  );
+}
+
+class _ActionSend extends HookWidget {
+  const _ActionSend({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PageFrame(
-      header: 'Choose asset to send',
-      onBackButton: () => Navigator.pop(context),
-      child: ListView(
-        children: [
-          for (final currency in context.read(currenciesPod))
-            if (currency.isAssetBalanceNotEmpty &&
-                currency.type == AssetType.crypto)
-              AssetTile(
-                headerColor: Colors.black,
-                currency: currency,
+    final baseCurrency = useProvider(baseCurrencyPod);
+
+    return Column(
+      children: [
+        for (final currency in context.read(currenciesPod))
+          if (currency.isAssetBalanceNotEmpty)
+            if (currency.supportsCryptoWithdrawal)
+              SWalletItem(
+                decline: currency.dayPercentChange.isNegative,
+                icon: SNetworkSvg24(
+                  url: currency.iconUrl,
+                ),
+                primaryText: currency.description,
+                amount: formatCurrencyAmount(
+                  prefix: baseCurrency.prefix,
+                  value: currency.baseBalance,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                secondaryText: '${currency.assetBalance} ${currency.symbol}',
                 onTap: () {
-                  navigatorPush(
-                    context,
-                    SendOptions(
-                      currency: currency,
-                    ),
-                  );
+                  showSendOptions(context, currency);
                 },
               ),
-        ],
-      ),
+      ],
     );
   }
 }

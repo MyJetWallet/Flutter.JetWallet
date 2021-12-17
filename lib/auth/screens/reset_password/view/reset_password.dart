@@ -5,7 +5,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/navigator_push.dart';
-import '../../../shared/components/notifications/show_errror_notification.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../login/login.dart';
 import '../notifier/reset_password_notipod.dart';
@@ -32,7 +31,7 @@ class ResetPassword extends HookWidget {
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
-            showErrorNotification(
+            sShowErrorNotification(
               notificationQueueN,
               '$error',
             );
@@ -96,13 +95,11 @@ class ResetPassword extends HookWidget {
 }
 
 void _pushToAuthSuccess(BuildContext context) {
-  navigatorPush(
-    context,
-    SuccessScreen(
-      text1: 'Your password has been reset',
-      then: () {
-        navigatorPush(context, const Login());
-      },
-    ),
+  return SuccessScreen.push(
+    context: context,
+    secondaryText: 'Your password has been reset',
+    then: () {
+      navigatorPush(context, const Login());
+    },
   );
 }

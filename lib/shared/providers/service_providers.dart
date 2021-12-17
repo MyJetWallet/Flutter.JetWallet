@@ -11,10 +11,12 @@ import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/market_info/market_info_service.dart';
+import '../../service/services/market_news/market_news_service.dart';
 import '../../service/services/news/news_service.dart';
 import '../../service/services/notification/service/notification_service.dart';
 import '../../service/services/operation_history/operation_history_service.dart';
 import '../../service/services/phone_verification/service/phone_verification_service.dart';
+import '../../service/services/profile/service/profile_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
 import '../../service/services/swap/service/swap_service.dart';
 import '../../service/services/transfer/service/transfer_service.dart';
@@ -45,7 +47,7 @@ final dioPod = Provider<Dio>((ref) {
 });
 
 final dioWithoutInterceptorsPod = Provider<Dio>((ref) {
-  return dioWithoutInterceptors();
+  return dioWithoutInterceptors(ref.read);
 });
 
 final authServicePod = Provider<AuthenticationService>((ref) {
@@ -120,6 +122,12 @@ final keyValueServicePod = Provider<KeyValueService>((ref) {
   return KeyValueService(dio);
 });
 
+final marketNewsServicePod = Provider<MarketNewsService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return MarketNewsService(dio);
+});
+
 final newsServicePod = Provider<NewsService>((ref) {
   final dio = ref.watch(dioPod);
 
@@ -152,4 +160,10 @@ final transferServicePod = Provider<TransferService>((ref) {
 
 final contactsServicePod = Provider<ContactService>((ref) {
   return ContactService();
+});
+
+final profileServicePod = Provider<ProfileService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return ProfileService(dio);
 });

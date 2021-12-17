@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 
-/// Requires Icon with width target
 class SActionItem extends StatelessWidget {
   const SActionItem({
     Key? key,
-    this.helperText = '',
+    this.helper = '',
     required this.icon,
     required this.name,
     required this.onTap,
     required this.description,
   }) : super(key: key);
 
-  final String helperText;
+  final String helper;
   final Widget icon;
   final String name;
   final Function() onTap;
@@ -28,7 +27,7 @@ class SActionItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 64.h,
+          height: 64.0,
           child: Column(
             children: [
               const SpaceH10(),
@@ -36,7 +35,7 @@ class SActionItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   icon,
-                  const SpaceW10(),
+                  const SpaceW20(),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +45,9 @@ class SActionItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
                             SizedBox(
-                              width: 190.w,
+                              width: 177.0,
                               child: Baseline(
-                                baseline: 17.8.h,
+                                baseline: 17.8,
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
                                   name,
@@ -58,9 +57,9 @@ class SActionItem extends StatelessWidget {
                             ),
                             const Spacer(),
                             SizedBox(
-                              width: 90.w,
+                              width: 90.0,
                               child: Text(
-                                helperText,
+                                helper,
                                 textAlign: TextAlign.end,
                                 style: sCaptionTextStyle.copyWith(
                                   color: SColorsLight().grey3,
@@ -70,7 +69,7 @@ class SActionItem extends StatelessWidget {
                           ],
                         ),
                         Baseline(
-                          baseline: 15.5.h,
+                          baseline: 15.5,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             description,

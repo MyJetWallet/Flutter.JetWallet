@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
+import '../icons/16x16/public/minus/simple_minus_icon.dart';
 
-/// Requires Icon with width target
 class SMarketItem extends StatelessWidget {
   const SMarketItem({
     Key? key,
-    this.graph,
+    this.last = false,
     required this.icon,
     required this.name,
     required this.price,
@@ -16,12 +16,11 @@ class SMarketItem extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  /// The graph must have the following size 38x14
-  final Widget? graph;
   final Widget icon;
   final String name;
   final String price;
   final String ticker;
+  final bool last;
   final double percent;
   final Function() onTap;
 
@@ -33,7 +32,7 @@ class SMarketItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.h,
+          height: 88.0,
           child: Column(
             children: [
               const SpaceH22(),
@@ -42,13 +41,12 @@ class SMarketItem extends StatelessWidget {
                 children: [
                   icon,
                   const SpaceW10(),
-                  SizedBox(
-                    width: 125.w,
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Baseline(
-                          baseline: 17.8.h,
+                          baseline: 17.8,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             name,
@@ -56,7 +54,7 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4.h,
+                          baseline: 19.4,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             ticker,
@@ -69,21 +67,13 @@ class SMarketItem extends StatelessWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  // TODO change to SizedBox when Grpah will be added
-                  Container(
-                    color: Colors.red[100]!.withOpacity(0.3),
-                    width: 38.w,
-                    height: 30.h,
-                    child: graph,
-                  ),
-                  const SpaceW10(),
                   SizedBox(
-                    width: 110.w,
+                    width: 158.0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Baseline(
-                          baseline: 17.8.h,
+                          baseline: 17.8,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             price,
@@ -91,22 +81,24 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4.h,
+                          baseline: 19.4,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               SizedBox(
-                                width: 94.w,
+                                width: 142,
                                 child: Text(
-                                  '$percent%',
+                                  _formatPercent(percent),
                                   textAlign: TextAlign.end,
                                   style: sBodyText2Style.copyWith(
                                     color: SColorsLight().grey3,
                                   ),
                                 ),
                               ),
-                              if (percent.isNegative)
+                              if (percent.compareTo(0) == 0)
+                                const SMinusIcon()
+                              else if (percent.isNegative)
                                 const SSmallArrowNegativeIcon()
                               else
                                 const SSmallArrowPositiveIcon()
@@ -119,13 +111,24 @@ class SMarketItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              SDivider(
-                width: 327.w,
-              )
+              if (!last)
+                const SDivider(
+                  width: 327,
+                )
             ],
           ),
         ),
       ),
     );
+  }
+
+  String _formatPercent(double percent) {
+    if (percent.compareTo(0) == 0) {
+      return '0.0%';
+    } else if (percent.isNegative) {
+      return '$percent%';
+    } else {
+      return '+$percent%';
+    }
   }
 }

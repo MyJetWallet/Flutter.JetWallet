@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 
-/// Requires Icon with width target
 class SFiatItem extends StatelessWidget {
   const SFiatItem({
     Key? key,
+    this.isSelected = false,
     required this.icon,
     required this.name,
     required this.amount,
     required this.onTap,
   }) : super(key: key);
 
+  final bool isSelected;
   final Widget icon;
   final String name;
   final String amount;
@@ -20,13 +21,15 @@ class SFiatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainColor = isSelected ? SColorsLight().blue : SColorsLight().black;
+
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.h,
+          height: 88,
           child: Column(
             children: [
               const SpaceH34(),
@@ -41,23 +44,27 @@ class SFiatItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
                         SizedBox(
-                          width: 150.w,
+                          width: 150.0,
                           child: Baseline(
-                            baseline: 15.8.h,
+                            baseline: 15.8,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               name,
-                              style: sSubtitle2Style,
+                              style: sSubtitle2Style.copyWith(
+                                color: mainColor,
+                              ),
                             ),
                           ),
                         ),
                         const Spacer(),
                         SizedBox(
-                          width: 120.w,
+                          width: 120.0,
                           child: Text(
                             amount,
                             textAlign: TextAlign.end,
-                            style: sSubtitle2Style,
+                            style: sSubtitle2Style.copyWith(
+                              color: mainColor,
+                            ),
                           ),
                         ),
                       ],
@@ -66,8 +73,8 @@ class SFiatItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              SDivider(
-                width: 327.w,
+              const SDivider(
+                width: 327.0,
               )
             ],
           ),

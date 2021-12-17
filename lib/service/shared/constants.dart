@@ -11,6 +11,8 @@ const periodPricesMessage = 'base-prices';
 const basePricesMessage = 'prices-base-currency';
 const clientDetailMessage = 'client-detail';
 const keyValueMessage = 'key-values';
+const campaignsBannersMessage  = 'campaigns-banners';
+const referralStatsMessage  = 'referrer-stats';
 
 // HTTP
 const postRequest = 'POST';

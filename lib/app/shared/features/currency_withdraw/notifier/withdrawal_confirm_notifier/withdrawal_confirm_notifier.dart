@@ -8,16 +8,16 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_request_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_response_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
-import '../../../../../../shared/components/result_screens/failure_screens/failure_screen.dart';
+import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import '../withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
+import 'withdrawal_confirm_state.dart';
 
 /// How often we check withdraw request status
 const _retryTime = 5; // in seconds
@@ -26,11 +26,11 @@ const _retryTime = 5; // in seconds
 /// 1. If withdrawal is pending continue querying
 /// 2. If withdrawal is successful redirects to SuccessScreen
 /// 3. If withdrawal is failed redirects to FailureScreen
-class WithdrawalConfirmNotifier extends StateNotifier<void> {
+class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   WithdrawalConfirmNotifier(
     this.read,
     this.withdrawal,
-  ) : super(null) {
+  ) : super(const WithdrawalConfirmState()) {
     _operationId = read(withdrawalPreviewNotipod(withdrawal)).operationId;
     _context = read(sNavigatorKeyPod).currentContext!;
     _verb = withdrawal.dictionary.verb.toLowerCase();
@@ -51,6 +51,8 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
   Future<void> withdrawalResend({required Function() then}) async {
     _logger.log(notifier, 'withdrawalResend');
 
+    _updateIsResending(true);
+
     try {
       final service = read(blockchainServicePod);
 
@@ -61,11 +63,20 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
       await service.withdrawalResend(model);
 
       if (!mounted) return;
+      _updateIsResending(false);
       then();
     } catch (error) {
       _logger.log(stateFlow, 'withdrawalResend', error);
-      showPlainSnackbar(_context, 'Failed to resend. Try again!');
+      _updateIsResending(false);
+      sShowErrorNotification(
+        read(sNotificationQueueNotipod.notifier),
+        'Failed to resend. Try again!',
+      );
     }
+  }
+
+  void _updateIsResending(bool value) {
+    state = state.copyWith(isResending: value);
   }
 
   Future<void> _requestWithdrawalInfo() async {
@@ -116,35 +127,35 @@ class WithdrawalConfirmNotifier extends StateNotifier<void> {
   }
 
   void _showSuccessScreen() {
-    navigatorPush(
-      _context,
-      SuccessScreen(
-        text1: 'Your ${withdrawal.currency.symbol} $_verb '
-            'request has been submitted',
-      ),
+    return SuccessScreen.push(
+      context: _context,
+      secondaryText: 'Your ${withdrawal.currency.symbol} $_verb '
+          'request has been submitted',
+      then: () {
+        read(navigationStpod).state = 1;
+      },
     );
   }
 
   void _showFailureScreen() {
-    navigatorPush(
-      _context,
-      FailureScreen(
-        description: 'Failed to $_verb',
-        firstButtonName: 'Edit Order',
-        onFirstButton: () {
-          Navigator.pushAndRemoveUntil(
-            _context,
-            MaterialPageRoute(
-              builder: (_) => WithdrawalAmount(
-                withdrawal: withdrawal,
-              ),
+    return FailureScreen.push(
+      context: _context,
+      primaryText: 'Failure',
+      secondaryText: 'Failed to $_verb',
+      primaryButtonName: 'Edit Order',
+      onPrimaryButtonTap: () {
+        Navigator.pushAndRemoveUntil(
+          _context,
+          MaterialPageRoute(
+            builder: (_) => WithdrawalAmount(
+              withdrawal: withdrawal,
             ),
-            (route) => route.isFirst,
-          );
-        },
-        secondButtonName: 'Close',
-        onSecondButton: () => navigateToRouter(read),
-      ),
+          ),
+          (route) => route.isFirst,
+        );
+      },
+      secondaryButtonName: 'Close',
+      onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 }

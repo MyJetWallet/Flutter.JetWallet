@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 import 'components/notification_box.dart';
 
 class SBottomNavigationBar extends StatelessWidget {
@@ -11,6 +11,7 @@ class SBottomNavigationBar extends StatelessWidget {
     this.portfolioNotifications = 0,
     this.newsNotifications = 0,
     this.profileNotifications = 0,
+    required this.animationController,
     required this.selectedIndex,
     required this.actionActive,
     required this.onActionTap,
@@ -21,6 +22,7 @@ class SBottomNavigationBar extends StatelessWidget {
   final int portfolioNotifications;
   final int newsNotifications;
   final int profileNotifications;
+  final AnimationController animationController;
   final int selectedIndex;
   final bool actionActive;
   final void Function() onActionTap;
@@ -28,23 +30,37 @@ class SBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaleAnimation = Tween(
+      begin: 0.0,
+      end: 80.0,
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.linear,
+      ),
+    );
+
+    final translateOffset = Offset(0, scaleAnimation.value);
+
     return Material(
       color: SColorsLight().white,
       child: SizedBox(
-        width: 375.w,
-        height: 96.h,
+        height: 96.0,
         child: Column(
           children: [
-            const SpaceH14(),
+            if (scaleAnimation.value == 0) ...[
+              const SDivider(),
+              const SpaceH13(),
+            ] else
+              const SpaceH14(),
             Row(
               children: [
-                SizedBox(
-                  width: 23.5.w,
-                ),
-                if (!actionActive) ...[
-                  STransparentInkWell(
+                const Spacer(),
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(0),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 0)
                           const SMarketActiveIcon()
@@ -56,10 +72,13 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SpaceW12(),
-                  STransparentInkWell(
+                ),
+                const Spacer(),
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(1),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 1)
                           const SPortfolioActiveIcon()
@@ -71,20 +90,24 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                ] else
-                  const Spacer(),
-                const SpaceW12(),
-                STransparentInkWell(
-                  onTap: onActionTap,
-                  child: actionActive
-                      ? const SActionActiveIcon()
-                      : const SActionDefaultIcon(),
                 ),
-                const SpaceW12(),
-                if (!actionActive) ...[
-                  STransparentInkWell(
+                const Spacer(),
+                SizedBox(
+                  width: 56.0,
+                  height: 56.0,
+                  child: STransparentInkWell(
+                    onTap: onActionTap,
+                    child: actionActive
+                        ? const SActionActiveIcon()
+                        : const SActionDefaultIcon(),
+                  ),
+                ),
+                const Spacer(),
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(2),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 2)
                           const SNewsActiveIcon()
@@ -96,10 +119,13 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SpaceW12(),
-                  STransparentInkWell(
+                ),
+                const Spacer(),
+                Transform.translate(
+                  offset: translateOffset,
+                  child: STransparentInkWell(
                     onTap: () => onChanged(3),
-                    child: Stack(
+                    child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 3)
                           const SProfileActiveIcon()
@@ -111,15 +137,32 @@ class SBottomNavigationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                ] else
-                  const Spacer(),
-                SizedBox(
-                  width: 23.5.w,
                 ),
+                const Spacer(),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _MenuItemFrame extends StatelessWidget {
+  const _MenuItemFrame({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 56.0,
+      height: 56.0,
+      child: Stack(
+        children: children,
       ),
     );
   }

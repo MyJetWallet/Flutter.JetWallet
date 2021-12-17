@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../shared/helpers/valid_icon_url.dart';
+import '../../../shared/helpers/icon_url_from.dart';
 import '../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../model/market_item_model.dart';
@@ -24,7 +24,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
       if (currency.symbol != baseCurrency.symbol) {
         items.add(
           MarketItemModel(
-            iconUrl: validIconUrl(marketReference.iconUrl),
+            iconUrl: iconUrlFrom(currency.symbol),
             weight: marketReference.weight,
             associateAsset: marketReference.associateAsset,
             associateAssetPair: marketReference.associateAssetPair,
@@ -50,7 +50,7 @@ List<MarketItemModel> _formattedItems(
   List<MarketItemModel> items,
   String searchInput,
 ) {
-  items.sort((a, b) => b.weight.compareTo(a.weight));
+  items.sort((a, b) => a.weight.compareTo(b.weight));
 
   return items
       .where(

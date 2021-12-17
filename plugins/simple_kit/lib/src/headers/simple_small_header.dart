@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 
@@ -24,19 +23,17 @@ class SSmallHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120.h,
+      height: 120.0,
       child: Column(
         children: [
-          SizedBox(
-            height: 64.h,
-          ),
+          const SpaceH64(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (showBackButton)
                 SIconButton(
-                  onTap: onBackButtonTap,
+                  onTap: onBackButtonTap ?? () => Navigator.pop(context),
                   defaultIcon: const SBackIcon(),
                   pressedIcon: const SBackPressedIcon(),
                 )
@@ -69,9 +66,9 @@ class _IconPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 24.w,
-      height: 24.h,
+    return const SizedBox(
+      width: 24.0,
+      height: 24.0,
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -25,7 +24,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                     name: 'Asset Name',
                     amount: '\$1000000.00',
                     description: 'Description',
-                    helperText: 'Helper text',
+                    helper: 'Helper text',
                   ),
                 ),
                 Column(
@@ -35,8 +34,8 @@ class SimpleAssetItemExample extends StatelessWidget {
                       children: [
                         const SpaceW24(),
                         Container(
-                          width: 24.w,
-                          height: 24.w,
+                          width: 24.0,
+                          height: 24.0,
                           color: Colors.purple.withOpacity(0.2),
                         ),
                       ],
@@ -48,14 +47,14 @@ class SimpleAssetItemExample extends StatelessWidget {
                     const SpaceW24(),
                     const SpaceW24(),
                     Container(
-                      width: 20.w,
-                      height: 88.h,
+                      width: 20.0,
+                      height: 88.0,
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('20px'),
                     ),
                     Container(
-                      width: 150.w,
-                      height: 88.h,
+                      width: 150.0,
+                      height: 88.0,
                       color: Colors.red.withOpacity(0.2),
                       child: Column(
                         children: const [
@@ -68,8 +67,8 @@ class SimpleAssetItemExample extends StatelessWidget {
                     ),
                     const Spacer(),
                     Container(
-                      width: 120.w,
-                      height: 88.h,
+                      width: 120.0,
+                      height: 88.0,
                       color: Colors.red.withOpacity(0.2),
                       child: Column(
                         children: const [
@@ -84,7 +83,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  height: 22.h,
+                  height: 22.0,
                   color: Colors.blue.withOpacity(0.2),
                   child: const Center(
                     child: Text(
@@ -95,7 +94,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                 Column(
                   children: [
                     Container(
-                      height: 40.h,
+                      height: 40.0,
                       color: Colors.green.withOpacity(0.2),
                       child: Column(
                         children: [
@@ -116,7 +115,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 20.h,
+                      height: 20.0,
                       color: Colors.purple.withOpacity(0.2),
                       child: Column(
                         children: [
@@ -147,7 +146,7 @@ class SimpleAssetItemExample extends StatelessWidget {
               name: 'Asset Name',
               amount: '\$1000000.00',
               description: 'Description',
-              helperText: 'Helper text',
+              helper: 'Helper text',
             ),
             const SpaceH20(),
             Stack(
@@ -161,7 +160,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                     name: 'Card Name',
                     amount: '**** 0000',
                     description: 'Date',
-                    helperText: 'Limit',
+                    helper: 'Limit',
                   ),
                 ),
                 Column(
@@ -171,8 +170,8 @@ class SimpleAssetItemExample extends StatelessWidget {
                       children: [
                         const SpaceW24(),
                         Container(
-                          width: 24.w,
-                          height: 24.w,
+                          width: 24.0,
+                          height: 24.0,
                           color: Colors.purple.withOpacity(0.2),
                         ),
                       ],
@@ -184,14 +183,14 @@ class SimpleAssetItemExample extends StatelessWidget {
                     const SpaceW24(),
                     const SpaceW24(),
                     Container(
-                      width: 20.w,
-                      height: 88.h,
+                      width: 20.0,
+                      height: 88.0,
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('20px'),
                     ),
                     Container(
-                      width: 180.w,
-                      height: 88.h,
+                      width: 180.0,
+                      height: 88.0,
                       color: Colors.red.withOpacity(0.2),
                       child: Column(
                         children: const [
@@ -204,8 +203,8 @@ class SimpleAssetItemExample extends StatelessWidget {
                     ),
                     const Spacer(),
                     Container(
-                      width: 90.w,
-                      height: 88.h,
+                      width: 90.0,
+                      height: 88.0,
                       color: Colors.red.withOpacity(0.2),
                       child: Column(
                         children: const [
@@ -220,7 +219,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  height: 22.h,
+                  height: 22.0,
                   color: Colors.blue.withOpacity(0.2),
                   child: const Center(
                     child: Text(
@@ -231,7 +230,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                 Column(
                   children: [
                     Container(
-                      height: 40.h,
+                      height: 40.0,
                       color: Colors.green.withOpacity(0.2),
                       child: Column(
                         children: [
@@ -252,7 +251,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 20.h,
+                      height: 20.0,
                       color: Colors.purple.withOpacity(0.2),
                       child: Column(
                         children: [
@@ -284,7 +283,7 @@ class SimpleAssetItemExample extends StatelessWidget {
               name: 'Card Name',
               amount: '**** 0000',
               description: 'Date',
-              helperText: 'Limit',
+              helper: 'Limit',
             ),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -23,7 +22,7 @@ class SimpleActionItemExample extends StatelessWidget {
                     onTap: () {},
                     icon: const SActionBuyIcon(),
                     name: 'Operation Name',
-                    helperText: 'Fee 3.5%',
+                    helper: 'Fee 3.5%',
                     description: 'Description',
                   ),
                 ),
@@ -35,7 +34,7 @@ class SimpleActionItemExample extends StatelessWidget {
                       children: [
                         const SpaceH10(),
                         Container(
-                          height: 24.h,
+                          height: 24.0,
                           color: Colors.red[100]!.withOpacity(0.6),
                           child: const SpaceW24(),
                         ),
@@ -43,13 +42,13 @@ class SimpleActionItemExample extends StatelessWidget {
                     ),
                     Container(
                       color: Colors.blue.withOpacity(0.3),
-                      width: 10.w,
-                      height: 64.h,
-                      child: Center(
+                      width: 20.0,
+                      height: 64.0,
+                      child: const Center(
                         child: Text(
-                          '10px',
+                          '20px',
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 10.0,
                           ),
                         ),
                       ),
@@ -65,20 +64,20 @@ class SimpleActionItemExample extends StatelessWidget {
                           Container(
                             color: Colors.blue.withOpacity(0.3),
                             width: double.infinity,
-                            height: 10.h,
-                            child: Center(
+                            height: 10.0,
+                            child: const Center(
                               child: Text(
                                 '10px',
                                 style: TextStyle(
-                                  fontSize: 10.sp,
+                                  fontSize: 10.0,
                                 ),
                               ),
                             ),
                           ),
                           Container(
                             color: Colors.green.withOpacity(0.3),
-                            width: 293.w,
-                            height: 18.h,
+                            width: 283.0,
+                            height: 18.0,
                             child: const Center(
                               child: Text(
                                 '18px',
@@ -87,8 +86,8 @@ class SimpleActionItemExample extends StatelessWidget {
                           ),
                           Container(
                             color: Colors.purple.withOpacity(0.3),
-                            width: 293.w,
-                            height: 20.h,
+                            width: 283.0,
+                            height: 20.0,
                             child: const Center(
                               child: Text(
                                 '20px',
@@ -108,7 +107,7 @@ class SimpleActionItemExample extends StatelessWidget {
               onTap: () {},
               icon: const SActionBuyIcon(),
               name: 'Operation Name',
-              helperText: 'Fee 3.5%',
+              helper: 'Fee 3.5%',
               description: 'Description',
             )
           ],

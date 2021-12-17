@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../service/services/signal_r/model/asset_model.dart';
+import '../helpers/format_currency_amount.dart';
+import '../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_model.freezed.dart';
 
@@ -55,4 +57,60 @@ class CurrencyModel with _$CurrencyModel {
   bool get isFeeInOtherCurrency => symbol != fees.withdrawalFee?.assetSymbol;
 
   bool get hasTag => tagType != TagType.none;
+
+  String formatBaseBalance(BaseCurrencyModel baseCurrency) {
+    return formatCurrencyAmount(
+      prefix: baseCurrency.prefix,
+      value: baseBalance,
+      accuracy: baseCurrency.accuracy,
+      symbol: baseCurrency.symbol,
+    );
+  }
+
+  String get formattedAssetBalance {
+    return formatCurrencyAmount(
+      prefix: prefixSymbol,
+      value: assetBalance,
+      accuracy: accuracy,
+      symbol: symbol,
+    );
+  }
+
+  bool get supportsAtLeastOneFiatDepositMethod {
+    return supportsCardDeposit || supportsSepaDeposit || supportsSwiftDeposit;
+  }
+
+  bool get supportsCryptoDeposit {
+    return depositMethods.contains(DepositMethods.cryptoDeposit);
+  }
+
+  bool get supportsCardDeposit {
+    return depositMethods.contains(DepositMethods.cardDeposit);
+  }
+
+  bool get supportsSepaDeposit {
+    return depositMethods.contains(DepositMethods.sepaDeposit);
+  }
+
+  bool get supportsSwiftDeposit {
+    return depositMethods.contains(DepositMethods.swiftDeposit);
+  }
+
+  bool get supportsAtLeastOneWithdrawalMethod {
+    return supportsCryptoWithdrawal ||
+        supportsSepaWithdrawal ||
+        supportsSWiftWithdrawal;
+  }
+
+  bool get supportsCryptoWithdrawal {
+    return withdrawalMethods.contains(WithdrawalMethods.cryptoWithdrawal);
+  }
+
+  bool get supportsSepaWithdrawal {
+    return withdrawalMethods.contains(WithdrawalMethods.sepaWithdrawal);
+  }
+
+  bool get supportsSWiftWithdrawal {
+    return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
+  }
 }
