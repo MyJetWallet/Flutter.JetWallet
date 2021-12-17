@@ -3,12 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../currency_withdraw/helper/minimum_amount.dart';
 import '../../notifier/send_by_phone_amount_notifier/send_by_phone_amount_notipod.dart';
 import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
+import 'send_by_phone_preview.dart';
 
 class SendByPhoneAmount extends HookWidget {
   const SendByPhoneAmount({
@@ -82,12 +84,12 @@ class SendByPhoneAmount extends HookWidget {
             submitButtonActive: amount.valid,
             submitButtonName: 'Preview Send',
             onSubmitPressed: () {
-              // navigatorPush(
-              //   context,
-              //   WithdrawalPreview(
-              //     withdrawal: withdrawal,
-              //   ),
-              // );
+              navigatorPush(
+                context,
+                SendByPhonePreview(
+                  currency: currency,
+                ),
+              );
             },
           ),
         ],
