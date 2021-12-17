@@ -5,16 +5,25 @@ import '../../../../current_theme_stpod.dart';
 import '../../light/phone/simple_light_phone_icon.dart';
 
 class SPhoneIcon extends ConsumerWidget {
-  const SPhoneIcon({Key? key}) : super(key: key);
+  const SPhoneIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = watch(currentThemeStpod);
 
     if (theme.state == STheme.dark) {
-      return const SimpleLightPhoneIcon();
+      return SimpleLightPhoneIcon(
+        color: color,
+      );
     } else {
-      return const SimpleLightPhoneIcon();
+      return SimpleLightPhoneIcon(
+        color: color,
+      );
     }
   }
 }

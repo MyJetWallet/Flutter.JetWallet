@@ -4,10 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import '../../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_notipod.dart';
 import '../../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_state.dart';
+import '../send_by_phone_amount.dart';
 import 'components/send_helper_text.dart';
 import 'components/send_info_text.dart';
 import 'components/show_contact_picker.dart';
@@ -135,7 +137,14 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
               child: SPrimaryButton2(
                 active: input.isReadyToContinue,
                 name: 'Continue',
-                onTap: () {},
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    SendByPhoneAmount(
+                      currency: widget.currency,
+                    ),
+                  );
+                },
               ),
             ),
           )

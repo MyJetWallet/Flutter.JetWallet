@@ -94,8 +94,11 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
   }
 
   void pickDialCodeFromSearch(SPhoneNumber code) {
-    state = state.copyWith(activeDialCode: code);
     state.dialCodeController.text = code.countryCode;
+    updateActiveDialCode(code);
+    updateContactName(
+      '${code.countryCode} ${state.phoneNumberController.text}',
+    );
   }
 
   void initPhoneSearch() {
@@ -167,25 +170,30 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
     final parsable = await PhoneNumber.getParsableNumber(phoneNumber);
 
     var validNumber = false;
+    var code = sPhoneNumbers[0];
 
     for (final sNumber in sPhoneNumbers) {
       if (sNumber.isoCode == info.isoCode) {
         validNumber = true;
+        code = sNumber;
       }
     }
 
     if (info.dialCode != null && validNumber) {
       state.dialCodeController.text = '+${info.dialCode!}';
       state.phoneNumberController.text = parsable;
+      updateActiveDialCode(code);
     } else {
       state.dialCodeController.clear();
-      state = state.copyWith(activeDialCode: null);
+      updateActiveDialCode(null);
       if (contact.phoneNumber.startsWith('+')) {
         state.phoneNumberController.text = contact.phoneNumber.substring(1);
       } else {
         state.phoneNumberController.text = contact.phoneNumber;
       }
     }
+
+    updateContactName(contact.name);
   }
 
   bool _isContactInSearch(ContactModel contact) {
@@ -195,5 +203,13 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
     final parsedNamber = number.replaceAll('-', '');
 
     return name.contains(search) || parsedNamber.contains(search);
+  }
+
+  void updateContactName(String name) {
+    state = state.copyWith(contactName: name);
+  }
+
+  void updateActiveDialCode(SPhoneNumber? number) {
+    state = state.copyWith(activeDialCode: number);
   }
 }

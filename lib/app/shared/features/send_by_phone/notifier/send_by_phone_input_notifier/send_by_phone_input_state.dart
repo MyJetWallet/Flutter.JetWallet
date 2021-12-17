@@ -10,6 +10,7 @@ part 'send_by_phone_input_state.freezed.dart';
 class SendByPhoneInputState with _$SendByPhoneInputState {
   const factory SendByPhoneInputState({
     SPhoneNumber? activeDialCode,
+    @Default('') String contactName,
     @Default('') String dialCodeSearch,
     @Default([]) List<SPhoneNumber> sortedDialCodes,
     @Default('') String phoneSearch,
@@ -20,6 +21,11 @@ class SendByPhoneInputState with _$SendByPhoneInputState {
   }) = _SendByPhoneInputState;
 
   const SendByPhoneInputState._();
+
+  /// Will be called at SendByPhoneInput screen
+  String get fullNumber {
+    return '${dialCodeController.text} ${phoneNumberController.text}';
+  }
 
   bool get isReadyToContinue {
     return dialCodeController.text.isNotEmpty &&
