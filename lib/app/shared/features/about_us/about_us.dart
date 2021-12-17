@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/helpers/launch_url.dart';
-import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../../../shared/helpers/launch_url.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 
 class AboutUs extends HookWidget {
   const AboutUs({Key? key}) : super(key: key);

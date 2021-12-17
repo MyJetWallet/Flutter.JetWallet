@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../app/shared/features/about_us/provider/package_info_fpod.dart';
+import '../providers/package_info_fpod.dart';
 
 class AppVersionBox extends HookWidget {
   const AppVersionBox({Key? key}): super(key: key);
