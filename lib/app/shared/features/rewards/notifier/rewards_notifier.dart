@@ -62,7 +62,7 @@ class RewardsNotifier extends StateNotifier<List<CombinedRewardModel>> {
     }
 
     sortedRewards.sort((a, b) {
-      return b.weight!.compareTo(a.weight!);
+      return a.weight!.compareTo(b.weight!);
     });
     return sortedRewards;
   }
