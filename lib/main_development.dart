@@ -12,6 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'router/view/router.dart';
+import 'shared/components/app_builder.dart';
 import 'shared/logging/debug_logging.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
@@ -81,7 +82,11 @@ class App extends HookWidget {
       builder: () {
         return CupertinoApp(
           locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
+          builder: (context, child) {
+            child = DevicePreview.appBuilder(context, child);
+            child = AppBuilder(child);
+            return child;
+          },
           theme: theme,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
