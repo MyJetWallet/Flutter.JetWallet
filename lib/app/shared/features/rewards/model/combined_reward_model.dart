@@ -24,7 +24,6 @@ class CombinedRewardModel {
   final double? bonusEarned;
   final double? commissionEarned;
   final double? total;
-
   final List<CampaignConditionModel>? conditions;
   final String? imageUrl;
   final String? timeToComplete;
