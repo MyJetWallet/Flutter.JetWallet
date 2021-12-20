@@ -22,6 +22,7 @@ class ReferralStatsResponseModel with _$ReferralStatsResponseModel {
 @freezed
 class ReferralStatsModel with _$ReferralStatsModel {
   const factory ReferralStatsModel({
+    required int weight,
     required int referralInvited,
     required int referralActivated,
     required double bonusEarned,
@@ -39,4 +40,12 @@ class CampaignAndReferralStatsModel with _$CampaignAndReferralStatsModel {
     @Default(<ReferralStatsModel>[]) List<ReferralStatsModel> referralStats,
     @Default(<CampaignModel>[]) List<CampaignModel> campaigns,
   }) = _CampaignAndReferralStatsModel;
+}
+
+@freezed
+class RewardsModel with _$RewardsModel {
+  const factory RewardsModel({
+    @Default(<ReferralStatsModel>[]) List<ReferralStatsModel> referralStats,
+    @Default(<CampaignModel>[]) List<CampaignModel> campaigns,
+  }) = _RewardsModel;
 }
