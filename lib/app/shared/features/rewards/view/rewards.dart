@@ -30,28 +30,28 @@ class Rewards extends HookWidget {
       child: ListView(
         children: [
           for (final item in rewards) ...[
-            if (item.conditions != null)
-              if (item.conditions!.isNotEmpty)
-                if (_displaySThreeStepsRewardBanner(item))
-                  SThreeStepsRewardBanner(
-                    primaryText: item.title!,
-                    timeToComplete: formatBannersDate(
-                      item.timeToComplete!,
-                    ),
-                    imageUrl: item.imageUrl,
-                    circleAvatarColor: setBannerColor(
-                      randomNumber.nextInt(maxRandomNumber),
-                      colors,
-                    ),
-                    rewardDetail: createRewardDetail(
-                      item.conditions!,
-                    ),
-                    rewardIndicatorComplete: setRewardIndicatorComplete(
-                      item.conditions!,
-                      colors,
-                    ),
-                  ),
-            if (_displaySRewardBanner(item))
+            if (_displaySThreeStepsRewardBanner(item)) ...[
+              SThreeStepsRewardBanner(
+                primaryText: item.title!,
+                timeToComplete: formatBannersDate(
+                  item.timeToComplete!,
+                ),
+                imageUrl: item.imageUrl,
+                circleAvatarColor: setBannerColor(
+                  randomNumber.nextInt(maxRandomNumber),
+                  colors,
+                ),
+                rewardDetail: createRewardDetail(
+                  item.conditions!,
+                ),
+                rewardIndicatorComplete: setRewardIndicatorComplete(
+                  item.conditions!,
+                  colors,
+                ),
+              ),
+              const SpaceH20(),
+            ],
+            if (_displaySRewardBanner(item)) ...[
               SRewardBanner(
                 color: setBannerColor(
                   randomNumber.nextInt(maxRandomNumber),
@@ -61,7 +61,9 @@ class Rewards extends HookWidget {
                 secondaryText: item.description,
                 imageUrl: item.imageUrl,
               ),
-            if (_displaySReferralStats(item))
+              const SpaceH20(),
+            ],
+            if (_displaySReferralStats(item)) ...[
               SReferralStats(
                 referralInvited: item.referralInvited!,
                 referralActivated: item.referralActivated!,
@@ -69,6 +71,7 @@ class Rewards extends HookWidget {
                 commissionEarned: item.commissionEarned!,
                 total: item.total!,
               ),
+            ],
           ],
         ],
       ),
@@ -76,13 +79,21 @@ class Rewards extends HookWidget {
   }
 
   bool _displaySThreeStepsRewardBanner(CombinedRewardModel item) {
-    return item.conditions != null ||
-        (item.conditions != null && item.conditions!.isNotEmpty);
+    if (item.total == null) {
+      return item.conditions != null &&
+          (item.conditions != null && item.conditions!.isNotEmpty);
+    } else {
+      return false;
+    }
   }
 
   bool _displaySRewardBanner(CombinedRewardModel item) {
-    return item.conditions == null ||
-        (item.conditions != null && item.conditions!.isEmpty);
+    if (item.total == null) {
+      return item.conditions == null ||
+          (item.conditions != null && item.conditions!.isEmpty);
+    } else {
+      return false;
+    }
   }
 
   bool _displaySReferralStats(CombinedRewardModel item) {
