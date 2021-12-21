@@ -53,11 +53,11 @@ class Account extends HookWidget {
                 ),
                 const SpaceH20(),
                 SimpleAccountBannerList(
-                    kycPassed: userInfo.kycPassed,
-                    twoFaEnabled: userInfo.twoFaEnabled,
-                    phoneVerified: userInfo.phoneVerified,
-                    onTwoFaBannerTap: () => TwoFaScreen.push(context),
-                    onChatBannerTap: () {},
+                  kycPassed: userInfo.kycPassed,
+                  twoFaEnabled: userInfo.twoFaEnabled,
+                  phoneVerified: userInfo.phoneVerified,
+                  onTwoFaBannerTap: () => TwoFaScreen.push(context),
+                  onChatBannerTap: () {},
                 ),
                 const SpaceH20(),
                 Column(

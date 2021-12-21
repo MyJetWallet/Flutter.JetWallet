@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
+import 'simple_account_banner.dart';
 
 class SimpleAccountBannerList extends StatelessWidget {
   const SimpleAccountBannerList({
@@ -21,6 +21,19 @@ class SimpleAccountBannerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = PageController(viewportFraction: 0.85);
+
+    final banners = createBannersList(
+      twoFaEnabled: twoFaEnabled,
+      kycPassed: kycPassed,
+      phoneVerified: phoneVerified,
+    );
+
+    final pages = List.generate(
+      banners.length,
+      (index) => banners[index],
+    );
+
     return SizedBox(
       height: setSizedBoxHeight(
         kycPassed: kycPassed,
@@ -29,73 +42,15 @@ class SimpleAccountBannerList extends StatelessWidget {
       ),
       child: Column(
         children: [
-          if (!kycPassed || !phoneVerified || !twoFaEnabled)
-            Expanded(
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  const SpaceW24(),
-                  const SpaceW8(),
-                  if (!kycPassed)
-                    SimpleAccountBanner(
-                      onTap: () {},
-                      color: SColorsLight().violet,
-                      header: 'Verify your profile',
-                      description: 'In accordance with KYC and AML Policy, '
-                          'you are required to pass the '
-                          'verification process.',
-                    ),
-                  if (!phoneVerified)
-                    SimpleAccountBanner(
-                      onTap: () {},
-                      color: SColorsLight().greenLight,
-                      header: 'Verifying now',
-                      description:
-                          'You’ll be notified after we’ve completed the '
-                              'process. '
-                          'Usually within a few hours',
-                    ),
-                  if (!twoFaEnabled)
-                    SimpleAccountBanner(
-                      onTap: () {
-                        onTwoFaBannerTap?.call();
-                      },
-                      color: SColorsLight().redLight,
-                      header: 'Enable 2-Factor\nauthentication',
-                      description:
-                          'To protect your account, it is recommended '
-                              'to turn on',
-                    ),
-                  SimpleAccountBanner(
-                    onTap: () {
-                      onChatBannerTap?.call();
-                    },
-                    color: SColorsLight().yellowLight,
-                    header: 'Chat with support',
-                    description: 'Have any questions?\nWe here to help 24/7',
-                  ),
-                  const SpaceW14(),
-                ],
-              ),
+          Expanded(
+            child: PageView.builder(
+              controller: controller,
+              itemCount: banners.length,
+              itemBuilder: (_, index) {
+                return pages[index % banners.length];
+              },
             ),
-          if (kycPassed || phoneVerified || twoFaEnabled)
-            Container(
-              alignment: Alignment.center,
-              height: setSizedBoxHeight(
-                kycPassed: kycPassed,
-                phoneVerified: phoneVerified,
-                twoFaEnabled: twoFaEnabled,
-              ),
-              margin: const EdgeInsets.only(left: 8),
-              child: SimpleAccountBanner(
-                onTap: () {
-                  onChatBannerTap?.call();
-                },
-                color: SColorsLight().yellowLight,
-                header: 'Chat with support',
-                description: 'Have any questions?\nWe here to help 24/7',
-              ),
-            ),
+          ),
         ],
       ),
     );
@@ -113,5 +68,66 @@ class SimpleAccountBannerList extends StatelessWidget {
     } else {
       return 129;
     }
+  }
+
+  List<Widget> createBannersList({
+    required bool twoFaEnabled,
+    required bool kycPassed,
+    required bool phoneVerified,
+  }) {
+    final bannersList = <Widget>[];
+
+    if (!kycPassed) {
+      bannersList.add(
+        SimpleAccountBanner(
+          onTap: () {},
+          color: SColorsLight().violet,
+          header: 'Verify your profile',
+          description: 'In accordance with KYC and AML Policy, '
+              'you are required to pass the '
+              'verification process.',
+        ),
+      );
+    }
+
+    if (!phoneVerified) {
+      bannersList.add(
+        SimpleAccountBanner(
+          onTap: () {},
+          color: SColorsLight().greenLight,
+          header: 'Verifying now',
+          description: 'You’ll be notified after we’ve completed the '
+              'process. '
+              'Usually within a few hours',
+        ),
+      );
+    }
+
+    if (!twoFaEnabled) {
+      bannersList.add(
+        SimpleAccountBanner(
+          onTap: () {
+            onTwoFaBannerTap?.call();
+          },
+          color: SColorsLight().redLight,
+          header: 'Enable 2-Factor\nauthentication',
+          description: 'To protect your account, it is recommended '
+              'to turn on',
+        ),
+      );
+    }
+
+    bannersList.add(
+      SimpleAccountBanner(
+        onTap: () {
+          onChatBannerTap?.call();
+        },
+        color: SColorsLight().yellowLight,
+        header: 'Chat with support',
+        description: 'Have any questions?\nWe here to help 24/7',
+      ),
+    );
+
+    return bannersList;
   }
 }
