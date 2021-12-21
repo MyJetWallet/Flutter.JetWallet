@@ -19,7 +19,7 @@ import '../../view/screens/send_by_phone_amount.dart';
 import '../send_by_phone_preview_notifier/send_by_phone_preview_notipod.dart';
 import 'send_by_phone_confirm_state.dart';
 
-/// How often we check withdraw request status
+/// How often we check transfer request status
 const _retryTime = 5; // in seconds
 
 /// Queries transferlInfo every [n] seconds and acts acording to response
@@ -34,7 +34,7 @@ class SendByPhoneConfirmNotifier
   ) : super(const SendByPhoneConfirmState()) {
     _operationId = read(sendByPhonePreviewNotipod(currency)).operationId;
     _context = read(sNavigatorKeyPod).currentContext!;
-    _requestWithdrawalInfo();
+    requestTransferInfo();
   }
 
   final Reader read;
@@ -44,7 +44,6 @@ class SendByPhoneConfirmNotifier
   late int retryTime;
   late BuildContext _context;
   late String _operationId;
-  late String _verb;
 
   static final _logger = Logger('SendByPhoneConfirmNotifier');
 
@@ -75,11 +74,17 @@ class SendByPhoneConfirmNotifier
     }
   }
 
-  void _updateIsResending(bool value) {
-    state = state.copyWith(isResending: value);
+  Future<void> requestTransferInfo() async {
+    _logger.log(notifier, 'requestTransferInfo');
+
+    if (!state.isRequesting) {
+      await _requestTransferInfo();
+    }
   }
 
-  Future<void> _requestWithdrawalInfo() async {
+  Future<void> _requestTransferInfo() async {
+    _updateIsRequesting(true);
+
     try {
       final service = read(transferServicePod);
 
@@ -93,14 +98,26 @@ class SendByPhoneConfirmNotifier
         _refreshTimer();
       } else if (response.status == TransferStatus.success) {
         _showSuccessScreen();
+        _timer?.cancel();
       } else {
         _showFailureScreen();
+        _timer?.cancel();
       }
     } catch (error) {
-      _logger.log(stateFlow, '_withdrawalInfo', error);
+      _logger.log(stateFlow, '_requestTransferInfo', error);
 
       _refreshTimer();
     }
+
+    _updateIsRequesting(false);
+  }
+
+  void _updateIsResending(bool value) {
+    state = state.copyWith(isResending: value);
+  }
+
+  void _updateIsRequesting(bool value) {
+    state = state.copyWith(isRequesting: value);
   }
 
   void _refreshTimer() {
@@ -112,7 +129,7 @@ class SendByPhoneConfirmNotifier
       (timer) {
         if (retryTime == 0) {
           timer.cancel();
-          _requestWithdrawalInfo();
+          requestTransferInfo();
         } else {
           retryTime -= 1;
         }
@@ -129,7 +146,7 @@ class SendByPhoneConfirmNotifier
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Your ${currency.symbol} $_verb '
+      secondaryText: 'Your ${currency.symbol} send '
           'request has been submitted',
       then: () {
         read(navigationStpod).state = 1;
@@ -141,7 +158,7 @@ class SendByPhoneConfirmNotifier
     return FailureScreen.push(
       context: _context,
       primaryText: 'Failure',
-      secondaryText: 'Failed to $_verb',
+      secondaryText: 'Failed to send',
       primaryButtonName: 'Edit Order',
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(

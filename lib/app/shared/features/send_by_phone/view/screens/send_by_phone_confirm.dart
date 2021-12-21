@@ -31,55 +31,68 @@ class SendByPhoneConfirm extends HookWidget {
     final confirmN = useProvider(sendByPhoneConfirmNotipod(currency).notifier);
     final id = useProvider(sendByPhonePreviewNotipod(currency)).operationId;
     final dynamicLink = useProvider(sendByPhoneDynamicLinkStpod(id));
-    // ignore: unused_local_variable
     final loader = useValueNotifier(StackLoaderNotifier());
 
     final colors = useProvider(sColorPod);
     final authInfo = useProvider(authInfoNotipod);
 
-    return SPageFrameWithPadding(
-      header: SMegaHeader(
-        title: 'Confirm Send request',
-        titleAlign: TextAlign.start,
-        onBackButtonTap: () => navigateToRouter(context.read),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Baseline(
-            baseline: 24.0,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              'Confirm your send request by opening the link in '
-              'the email we sent to:',
-              maxLines: 3,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
+    return ProviderListener<StateController<bool>>(
+      provider: sendByPhoneDynamicLinkStpod(id),
+      onChange: (_, value) {
+        if (value.state) {
+          loader.value.startLoading();
+          confirmN.requestTransferInfo().then((_) {
+            loader.value.finishLoading();
+          });
+        } else {
+          loader.value.finishLoading();
+        }
+      },
+      child: SPageFrameWithPadding(
+        loading: loader.value,
+        header: SMegaHeader(
+          title: 'Confirm Send request',
+          titleAlign: TextAlign.start,
+          onBackButtonTap: () => navigateToRouter(context.read),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Baseline(
+              baseline: 24.0,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                'Confirm your send request by opening the link in '
+                'the email we sent to:',
+                maxLines: 3,
+                style: sBodyText1Style.copyWith(
+                  color: colors.grey1,
+                ),
               ),
             ),
-          ),
-          Text(
-            authInfo.email,
-            maxLines: 2,
-            style: sBodyText1Style,
-          ),
-          const SpaceH16(),
-          SClickableLinkText(
-            text: 'Open email app',
-            onTap: () => openEmailApp(context),
-          ),
-          const Spacer(),
-          SResendButton(
-            active: !dynamicLink.state && !confirm.isResending,
-            timer: timer,
-            onTap: () {
-              confirmN.transferResend(
-                then: () => timerN.refreshTimer(),
-              );
-            },
-          ),
-          const SpaceH24(),
-        ],
+            Text(
+              authInfo.email,
+              maxLines: 2,
+              style: sBodyText1Style,
+            ),
+            const SpaceH16(),
+            SClickableLinkText(
+              text: 'Open email app',
+              onTap: () => openEmailApp(context),
+            ),
+            const Spacer(),
+            SResendButton(
+              active: !dynamicLink.state && !confirm.isResending,
+              timer: timer,
+              onTap: () {
+                confirmN.transferResend(
+                  then: () => timerN.refreshTimer(),
+                );
+              },
+            ),
+            const SpaceH24(),
+          ],
+        ),
       ),
     );
   }

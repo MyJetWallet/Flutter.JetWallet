@@ -44,11 +44,15 @@ class WithdrawalConfirm extends HookWidget {
       onChange: (_, value) {
         if (value.state) {
           loader.value.startLoading();
+          confirmN.requestWithdrawalInfo().then((_) {
+            loader.value.finishLoading();
+          });
         } else {
           loader.value.finishLoading();
         }
       },
       child: SPageFrameWithPadding(
+        loading: loader.value,
         header: SMegaHeader(
           title: 'Confirm $verb request',
           titleAlign: TextAlign.start,
