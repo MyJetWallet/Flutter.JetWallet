@@ -3,14 +3,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/features/rewards/notifier/campaign_notipod.dart';
 import '../../../../../shared/helpers/set_banner_colors.dart';
 
 class MarketBanner extends HookWidget {
-  const MarketBanner({
-    Key? key,
-  }) : super(key: key);
+  const MarketBanner({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,45 +18,64 @@ class MarketBanner extends HookWidget {
     final colors = useProvider(sColorPod);
     final deepLinkService = useProvider(deepLinkServicePod);
 
+    final controller = PageController(viewportFraction: 0.88);
+
+    final banners = _createMarketBannersList(
+      campaign,
+      colors,
+      (CampaignModel campaign) {
+        campaignN.deleteCampaign(campaign);
+      },
+      (CampaignModel campaign) {
+        deepLinkService.handle(Uri.parse(campaign.deepLink));
+      },
+    );
+
+    final pages = List.generate(
+      banners.length,
+      (index) => banners[index],
+    );
+
     if (campaign.isNotEmpty) {
-      return Container(
-        margin: const EdgeInsets.only(
-          bottom: 10,
-        ),
+      return SizedBox(
         height: 120,
-        child: ListView.builder(
-          itemCount: campaign.length,
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(
-            left: 24,
-            right: 24,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                deepLinkService.handle(Uri.parse(campaign[index].deepLink));
-              },
-              child: Container(
-                width: 327,
-                margin: EdgeInsets.only(
-                  right: (index != campaign.length - 1) ? 10 : 0,
-                ),
-                child: SRewardBanner(
-                  color: setBannerColor(index, colors),
-                  primaryText: campaign[index].title,
-                  imageUrl: campaign[index].imageUrl,
-                  primaryTextStyle: sTextH5Style,
-                  onClose: () {
-                    campaignN.deleteCampaign(campaign[index]);
-                  },
-                ),
-              ),
-            );
+        child: PageView.builder(
+          controller: controller,
+          itemCount: banners.length,
+          itemBuilder: (_, index) {
+            return pages[index % banners.length];
           },
         ),
       );
     } else {
       return const SizedBox();
     }
+  }
+
+  List<Widget> _createMarketBannersList(
+    List<CampaignModel> campaigns,
+    SimpleColors colors,
+    Function(CampaignModel campaign) onClose,
+    Function(CampaignModel campaign) onBannerTap,
+  ) {
+    final bannersList = <Widget>[];
+
+    for (var index = 0; index < campaigns.length; index++) {
+      bannersList.add(
+        GestureDetector(
+          onTap: () => onBannerTap(campaigns[index]),
+          child: SRewardBanner(
+            color: setBannerColor(index, colors),
+            primaryText: campaigns[index].title,
+            imageUrl: campaigns[index].imageUrl,
+            primaryTextStyle: sTextH5Style,
+            onClose: () => onClose(campaigns[index]),
+            indentRight: campaigns.length == 1,
+          ),
+        ),
+      );
+    }
+
+    return bannersList;
   }
 }
