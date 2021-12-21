@@ -46,17 +46,17 @@ definitions:
     cancel_previous_builds: false
     
   scripts: &scripts
-    # - name: Set up keychain
-    #   script: keychain initialize
+    - name: Set up keychain
+      script: keychain initialize
 
-    # - name: Fetch signing files
-    #   script: app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
+    - name: Fetch signing files
+      script: app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
 
-    # - name: Use system default keychain
-    #   script: keychain add-certificates
+    - name: Use system default keychain
+      script: keychain add-certificates
 
-    # - name: Set up code signing settings on Xcode project
-    #   script: xcode-project use-profiles    
+    - name: Set up code signing settings on Xcode project
+      script: xcode-project use-profiles    
 
     - name: Add google-services.json
       script: echo $GOOGLE_SERVICE_ANDROID | base64 --decode > ./android/app/google-services.json
