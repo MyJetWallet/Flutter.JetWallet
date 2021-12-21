@@ -20,7 +20,7 @@ class SimpleAccountBannerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(viewportFraction: 0.85);
+    final controller = PageController(viewportFraction: 0.88);
 
     final banners = createBannersList(
       twoFaEnabled: twoFaEnabled,
