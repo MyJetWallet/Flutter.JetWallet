@@ -76,15 +76,15 @@ definitions:
     - name: Run tests
       script: flutter test --update-goldens
     
-    # - name: Build IOS with automatic versioning
-    #   script: |
-    #     flutter clean
-    #     rm -f ios/Podfile.lock pubspec.lock
-    #     rm -rf ios/Pods ios/Runner.xcworkspace
-    #     flutter build ipa -t $MAIN_TARGET --release --build-name=1.0.1 \
-    #     --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))  \
-    #     --dart-define=MY_APP_ENV=prod \
-    #     --export-options-plist=/Users/builder/export_options.plist
+    - name: Build IOS with automatic versioning
+      script: |
+        flutter clean
+        rm -f ios/Podfile.lock pubspec.lock
+        rm -rf ios/Pods ios/Runner.xcworkspace
+        flutter build ipa -t $MAIN_TARGET --release --build-name=1.0.1 \
+        --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))  \
+        --dart-define=MY_APP_ENV=prod \
+        --export-options-plist=/Users/builder/export_options.plist
     
     - name: Build Android (APK)
       script: flutter build apk -t $MAIN_TARGET
@@ -109,7 +109,7 @@ definitions:
       
       notify:
         success: true
-        failure: false
+        failure: true
 
     scripts:
       - name: Post-publish script
