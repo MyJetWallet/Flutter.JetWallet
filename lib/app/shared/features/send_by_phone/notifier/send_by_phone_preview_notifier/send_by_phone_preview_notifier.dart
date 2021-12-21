@@ -15,7 +15,6 @@ import '../../../../models/currency_model.dart';
 import '../../view/screens/send_by_phone_amount.dart';
 import '../../view/screens/send_by_phone_confirm.dart';
 import '../send_by_phone_amount_notifier/send_by_phone_amount_notipod.dart';
-import '../send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import 'send_by_phone_preview_state.dart';
 
 class SendByPhonePreviewNotifier
@@ -26,7 +25,10 @@ class SendByPhonePreviewNotifier
   ) : super(const SendByPhonePreviewState()) {
     final amount = read(sendByPhoneAmountNotipod(currency));
 
-    state = state.copyWith(amount: amount.amount);
+    state = state.copyWith(
+      amount: amount.amount,
+      pickedContact: amount.pickedContact,
+    );
 
     _context = read(sNavigatorKeyPod).currentContext!;
   }
@@ -41,6 +43,22 @@ class SendByPhonePreviewNotifier
   Future<void> send() async {
     _logger.log(notifier, 'send');
 
+    // TODO(ELI) blocked by backend
+    // final info = await PhoneNumber.getRegionInfoFromPhoneNumber(
+    //   state.pickedContact!.phoneNumber,
+    // );
+
+    // final phoneNumber = PhoneNumber(
+    //   phoneNumber: info.phoneNumber,
+    //   isoCode: info.isoCode,
+    // );
+
+    // final parsable = await PhoneNumber.getParsableNumber(phoneNumber);
+
+    // 1. ISO: info.isoCode
+    // 2. COUNTRY CODE: +${info.dialCode}
+    // 3. NUMBER: final number = parsable.replaceAll(' ', '');
+
     state = state.copyWith(loading: true);
 
     try {
@@ -48,7 +66,7 @@ class SendByPhonePreviewNotifier
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: currency.symbol,
         amount: double.parse(state.amount),
-        toPhoneNumber: read(sendByPhoneInputNotipod).fullNumber,
+        toPhoneNumber: state.pickedContact!.phoneNumber,
         lang: read(intlPod).localeName,
       );
 

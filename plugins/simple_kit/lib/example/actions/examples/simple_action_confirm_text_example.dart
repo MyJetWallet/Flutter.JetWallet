@@ -24,6 +24,24 @@ class SimpleActionConfirmTextExample extends HookWidget {
                   Container(
                     color: Colors.grey[200],
                     child: const SActionConfirmText(
+                      name: 'You will get really los ',
+                      value: '≈ 0,0192455 BTC',
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 40.0,
+                    color: Colors.red.withOpacity(0.2),
+                    child: const Text('40px'),
+                  )
+                ],
+              ),
+              const SpaceH20(),
+              Stack(
+                children: [
+                  Container(
+                    color: Colors.grey[200],
+                    child: const SActionConfirmText(
                       name: 'You will get really long text about this '
                           'transaction, go more text, I need more text '
                           'You will get really long text about this ',
@@ -125,6 +143,7 @@ class SimpleActionConfirmTextExample extends HookWidget {
                 contentLoading: true,
                 valueColor: SColorsLight().blue,
               ),
+              const SpaceH40(),
             ],
           ),
         ),

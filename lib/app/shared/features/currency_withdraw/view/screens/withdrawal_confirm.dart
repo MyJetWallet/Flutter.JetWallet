@@ -82,33 +82,15 @@ class WithdrawalConfirm extends HookWidget {
               ),
             ),
             const Spacer(),
-            Center(
-              child: Text(
-                timer != 0
-                    ? 'You can resend in $timer seconds'
-                    : "Didn't receive the code?",
-                style: sCaptionTextStyle.copyWith(
-                  color: colors.grey2,
-                ),
-              ),
+            SResendButton(
+              active: !dynamicLink.state && !confirm.isResending,
+              timer: timer,
+              onTap: () {
+                confirmN.withdrawalResend(
+                  then: () => timerN.refreshTimer(),
+                );
+              },
             ),
-            const SpaceH14(),
-            Visibility(
-              visible: timer == 0,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: STextButton1(
-                active: !dynamicLink.state && !confirm.isResending,
-                name: 'Resend',
-                onTap: () {
-                  confirmN.withdrawalResend(
-                    then: () => timerN.refreshTimer(),
-                  );
-                },
-              ),
-            ),
-            const SpaceH24(),
           ],
         ),
       ),

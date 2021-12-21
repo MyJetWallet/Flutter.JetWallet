@@ -5,7 +5,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../models/currency_model.dart';
 import '../../../currency_withdraw/helper/user_will_receive.dart';
-import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import '../../notifier/send_by_phone_preview_notifier/send_by_phone_preview_notipod.dart';
 import '../../notifier/send_by_phone_preview_notifier/send_by_phone_preview_state.dart';
 
@@ -20,9 +19,8 @@ class SendByPhonePreview extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final input = useProvider(sendByPhoneInputNotipod);
-    final preview = useProvider(sendByPhonePreviewNotipod(currency));
-    final previewN = useProvider(sendByPhonePreviewNotipod(currency).notifier);
+    final state = useProvider(sendByPhonePreviewNotipod(currency));
+    final notifier = useProvider(sendByPhonePreviewNotipod(currency).notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
 
     return ProviderListener<SendByPhonePreviewState>(
@@ -37,43 +35,43 @@ class SendByPhonePreview extends HookWidget {
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
-          title: 'Confirm Send ${currency.description}',
+          title: 'Send ${currency.description} by phone',
         ),
         child: Column(
           children: [
-            const Spacer(),
+            const SpaceH24(),
             SActionConfirmIconWithAnimation(
               iconUrl: currency.iconUrl,
             ),
             const Spacer(),
             SActionConfirmText(
               name: 'You send to',
-              value: input.fullNumber,
+              value: state.pickedContact!.phoneNumber,
+              valueDescription: 'Dima Korzhunovghjdhrvmrk sasas',
             ),
             SActionConfirmText(
               name: 'Amount to send',
+              customBaseline: 35.0,
               value: userWillreceive(
                 currency: currency,
-                amount: preview.amount,
+                amount: state.amount,
                 addressIsInternal: false,
               ),
             ),
-            const SBaselineChild(
-              baseline: 40.0,
-              child: SDivider(),
-            ),
+            const SpaceH35(),
+            const SDivider(),
+            const SpaceH4(),
             SActionConfirmText(
               name: 'Total',
-              value: '${preview.amount} ${currency.symbol}',
+              customBaseline: 35.0,
+              value: '${state.amount} ${currency.symbol}',
               valueColor: colors.blue,
             ),
-            const SpaceH40(),
+            const SpaceH35(),
             SPrimaryButton2(
-              active: !preview.loading,
+              active: !state.loading,
               name: 'Confirm',
-              onTap: () {
-                previewN.send();
-              },
+              onTap: () => notifier.send(),
             ),
             const SpaceH24(),
           ],

@@ -62,7 +62,7 @@ class SendConfirmNotifier extends StateNotifier<void> {
         operationId: _operationId,
       );
 
-      await service.resendTransfer(model);
+      await service.transferResend(model);
 
       if (!mounted) return;
       then();
@@ -75,14 +75,14 @@ class SendConfirmNotifier extends StateNotifier<void> {
   Future<void> _requestSendInfo() async {
     try {
       final model = TransferInfoRequestModel(
-        transferId: _operationId,
+        operationId: _operationId,
       );
 
       final response = await read(transferServicePod).transferInfo(model);
 
-      if (response.status == TransferInfoStatus.pendingApproval) {
+      if (response.status == TransferStatus.pendingApproval) {
         _refreshTimer();
-      } else if (response.status == TransferInfoStatus.success) {
+      } else if (response.status == TransferStatus.success) {
         _showSuccessScreen();
       } else {
         _showFailureScreen();
