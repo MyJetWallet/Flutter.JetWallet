@@ -4,6 +4,8 @@ import '../../../colors/view/simple_colors_light.dart';
 import '../simple_account_banner.dart';
 
 List<Widget> createBannersList({
+  Function()? onChatBannerTap,
+  Function()? onTwoFaBannerTap,
   required bool twoFaEnabled,
   required bool kycPassed,
   required bool phoneVerified,
