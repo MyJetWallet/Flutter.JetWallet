@@ -11,11 +11,13 @@ import '../../../../../../service/services/transfer/model/transfer_resend_reques
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../../models/currency_model.dart';
 import '../../view/screens/send_by_phone_amount.dart';
+import '../../view/screens/send_by_phone_notify_recipient.dart';
 import '../send_by_phone_preview_notifier/send_by_phone_preview_notipod.dart';
 import 'send_by_phone_confirm_state.dart';
 
@@ -32,7 +34,9 @@ class SendByPhoneConfirmNotifier
     this.read,
     this.currency,
   ) : super(const SendByPhoneConfirmState()) {
-    _operationId = read(sendByPhonePreviewNotipod(currency)).operationId;
+    final preview = read(sendByPhonePreviewNotipod(currency));
+    _operationId = preview.operationId;
+    _receiverIsRegistered = preview.receiverIsRegistered;
     _context = read(sNavigatorKeyPod).currentContext!;
     requestTransferInfo();
   }
@@ -44,6 +48,8 @@ class SendByPhoneConfirmNotifier
   late int retryTime;
   late BuildContext _context;
   late String _operationId;
+  late bool _receiverIsRegistered;
+  late String toPhoneNumber;
 
   static final _logger = Logger('SendByPhoneConfirmNotifier');
 
@@ -93,6 +99,8 @@ class SendByPhoneConfirmNotifier
       );
 
       final response = await service.transferInfo(model);
+
+      toPhoneNumber = response.toPhoneNumber;
 
       if (response.status == TransferStatus.pendingApproval) {
         _refreshTimer();
@@ -149,6 +157,14 @@ class SendByPhoneConfirmNotifier
       secondaryText: 'Your ${currency.symbol} send '
           'request has been submitted',
       then: () {
+        if (!_receiverIsRegistered) {
+          navigatorPush(
+            _context,
+            SendByPhoneNotifyRecipient(
+              toPhoneNumber: toPhoneNumber,
+            ),
+          );
+        }
         read(navigationStpod).state = 1;
       },
     );

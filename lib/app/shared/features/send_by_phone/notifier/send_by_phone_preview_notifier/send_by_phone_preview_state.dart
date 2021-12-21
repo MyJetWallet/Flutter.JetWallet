@@ -9,7 +9,7 @@ class SendByPhonePreviewState with _$SendByPhonePreviewState {
   const factory SendByPhonePreviewState({
     ContactModel? pickedContact,
     @Default('0') String amount,
-
+    @Default(false) bool receiverIsRegistered,
     /// Needed to track status of the operation on ConfirmScreen
     @Default('') String operationId,
     @Default(false) bool loading,

@@ -47,7 +47,7 @@ class SendByPhonePreview extends HookWidget {
             SActionConfirmText(
               name: 'You send to',
               value: state.pickedContact!.phoneNumber,
-              valueDescription: 'Dima Korzhunovghjdhrvmrk sasas',
+              valueDescription: state.pickedContact!.name,
             ),
             SActionConfirmText(
               name: 'Amount to send',

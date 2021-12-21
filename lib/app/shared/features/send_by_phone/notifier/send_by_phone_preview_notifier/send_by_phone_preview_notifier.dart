@@ -73,6 +73,7 @@ class SendByPhonePreviewNotifier
       final response = await read(transferServicePod).transferByPhone(model);
 
       _updateOperationId(response.operationId);
+      _updateReceiverIsRegistered(response.receiverIsRegistered);
 
       _showSendByPhoneConfirm();
     } on ServerRejectException catch (error) {
@@ -90,6 +91,10 @@ class SendByPhonePreviewNotifier
 
   void _updateOperationId(String value) {
     state = state.copyWith(operationId: value);
+  }
+
+  void _updateReceiverIsRegistered(bool value) {
+    state = state.copyWith(receiverIsRegistered: value);
   }
 
   void _showSendByPhoneConfirm() {
