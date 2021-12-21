@@ -157,7 +157,8 @@ workflows:
       <<: *versioning
     
     cache: *cache
-    triggering: *auto_develop_triggering
+    #  triggering: *auto_develop_triggering
+    triggering: *triggering
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
