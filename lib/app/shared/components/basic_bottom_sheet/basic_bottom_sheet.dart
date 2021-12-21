@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'components/bottom_sheet_bar.dart';
 
+/// TODO (remove legacy code)
 void showBasicBottomSheet({
   Widget? pinned,
   Function(dynamic)? then,
