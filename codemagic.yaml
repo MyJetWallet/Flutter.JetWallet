@@ -130,7 +130,7 @@ workflows:
 
     environment:
       vars:
-          MAIN_TARGET: "lib/main_development.dart"
+          MAIN_TARGET: "lib/main_stage.dart"
           <<: *developer_credentials
           <<: *apple_signing
           <<: *new_app_trading_config
@@ -149,7 +149,7 @@ workflows:
 
     environment:
       vars:
-          MAIN_TARGET: "lib/main_stage.dart"
+          MAIN_TARGET: "lib/main_development.dart"
           <<: *developer_credentials
           <<: *apple_signing
           <<: *new_app_trading_config

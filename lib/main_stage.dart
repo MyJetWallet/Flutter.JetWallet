@@ -83,16 +83,14 @@ class App extends HookWidget {
           debugShowCheckedModeBanner: false,
           theme: theme,
           navigatorKey: navigatorKey,
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          // builder: (context, child) {
-          //   return MediaQuery(
-          //     data: MediaQuery.of(context).copyWith(
-          //       textScaleFactor: 1.0,
-          //     ),
-          //     child: child ?? const SizedBox(),
-          //   );
-          // },
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: 1.0,
+              ),
+              child: child ?? const SizedBox(),
+            );
+          },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           initialRoute: AppRouterStage.routeName,
