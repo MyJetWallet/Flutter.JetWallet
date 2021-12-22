@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
+import '../../../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 
 void showDialCodePicker(BuildContext context) {
   context.read(sendByPhoneInputNotipod.notifier).initDialCodeSearch();
@@ -52,7 +52,7 @@ class _DialCodes extends HookWidget {
         for (final code in state.sortedDialCodes)
           SDialCodeItem(
             dialCode: code,
-            active: state.activeDialCode.isoCode == code.isoCode,
+            active: state.activeDialCode?.isoCode == code.isoCode,
             onTap: () {
               notifier.pickDialCodeFromSearch(code);
               Navigator.pop(context);
