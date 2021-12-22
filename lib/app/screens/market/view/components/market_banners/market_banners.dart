@@ -19,37 +19,39 @@ class MarketBanners extends HookWidget {
 
     final controller = PageController(viewportFraction: 0.88);
 
-    if (state.isNotEmpty) {
-      return SizedBox(
-        height: 120,
-        child: PageView.builder(
-          controller: controller,
-          itemCount: state.length,
-          itemBuilder: (_, index) {
-            final campaign = state[index];
+    return AnimatedContainer(
+      duration: (state.isNotEmpty)
+          ? Duration.zero
+          : const Duration(milliseconds: 300),
+      curve: Curves.fastOutSlowIn,
+      height: state.isNotEmpty ? 120.0 : 0.0,
+      child: (state.isNotEmpty)
+          ? PageView.builder(
+              controller: controller,
+              itemCount: state.length,
+              itemBuilder: (_, index) {
+                final campaign = state[index];
 
-            return GestureDetector(
-              onTap: () {
-                deepLinkService.handle(
-                  Uri.parse(campaign.deepLink),
+                return GestureDetector(
+                  onTap: () {
+                    deepLinkService.handle(
+                      Uri.parse(campaign.deepLink),
+                    );
+                  },
+                  child: SRewardBanner(
+                    color: randomBannerColor(colors),
+                    primaryText: campaign.title,
+                    imageUrl: campaign.imageUrl,
+                    primaryTextStyle: sTextH5Style,
+                    onClose: () {
+                      notifier.deleteCampaign(campaign);
+                    },
+                    indentRight: state.length == 1,
+                  ),
                 );
               },
-              child: SRewardBanner(
-                color: randomBannerColor(colors),
-                primaryText: campaign.title,
-                imageUrl: campaign.imageUrl,
-                primaryTextStyle: sTextH5Style,
-                onClose: () {
-                  notifier.deleteCampaign(campaign);
-                },
-                indentRight: state.length == 1,
-              ),
-            );
-          },
-        ),
-      );
-    } else {
-      return const SizedBox();
-    }
+            )
+          : const SizedBox(),
+    );
   }
 }
