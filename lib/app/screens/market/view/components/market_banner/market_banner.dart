@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/deep_link_service_pod.dart';
-import '../../../../../shared/features/rewards/notifier/campaign_notipod.dart';
-import '../../../../../shared/helpers/set_banner_colors.dart';
+import '../../../../../shared/features/rewards/notifier/campaign/campaign_notipod.dart';
+import '../../../../../shared/helpers/random_banner_color.dart';
 
 class MarketBanner extends HookWidget {
   const MarketBanner({
@@ -43,7 +43,7 @@ class MarketBanner extends HookWidget {
                   right: (index != campaign.length - 1) ? 10 : 0,
                 ),
                 child: SRewardBanner(
-                  color: setBannerColor(index, colors),
+                  color: randomBannerColor(colors),
                   primaryText: campaign[index].title,
                   imageUrl: campaign[index].imageUrl,
                   primaryTextStyle: sTextH5Style,

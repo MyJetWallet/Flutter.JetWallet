@@ -1,18 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../helpers/set_banner_colors.dart';
+import '../../../helpers/random_banner_color.dart';
 import '../../market_details/helper/format_news_date.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
-import '../model/combined_reward_model.dart';
-import '../notifier/rewards_notipod.dart';
-
-const maxRandomNumber = 3;
+import '../model/campaign_or_referral_model.dart';
+import '../notifier/reward/rewards_notipod.dart';
 
 class Rewards extends HookWidget {
   const Rewards({Key? key}) : super(key: key);
@@ -20,8 +16,7 @@ class Rewards extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final rewards = useProvider(rewardsNotipod);
-    final randomNumber = Random();
+    final state = useProvider(rewardsNotipod);
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
@@ -29,23 +24,20 @@ class Rewards extends HookWidget {
       ),
       child: ListView(
         children: [
-          for (final item in rewards) ...[
+          for (final item in state) ...[
             if (_displaySThreeStepsRewardBanner(item)) ...[
               SThreeStepsRewardBanner(
-                primaryText: item.title!,
+                primaryText: item.campaign!.title,
                 timeToComplete: formatBannersDate(
-                  item.timeToComplete!,
+                  item.campaign!.timeToComplete,
                 ),
-                imageUrl: item.imageUrl,
-                circleAvatarColor: setBannerColor(
-                  randomNumber.nextInt(maxRandomNumber),
-                  colors,
-                ),
+                imageUrl: item.campaign!.imageUrl,
+                circleAvatarColor: randomBannerColor(colors),
                 rewardDetail: createRewardDetail(
-                  item.conditions!,
+                  item.campaign!.conditions!,
                 ),
                 rewardIndicatorComplete: setRewardIndicatorComplete(
-                  item.conditions!,
+                  item.campaign!.conditions!,
                   colors,
                 ),
               ),
@@ -53,23 +45,20 @@ class Rewards extends HookWidget {
             ],
             if (_displaySRewardBanner(item)) ...[
               SRewardBanner(
-                color: setBannerColor(
-                  randomNumber.nextInt(maxRandomNumber),
-                  colors,
-                ),
-                primaryText: item.title!,
-                secondaryText: item.description,
-                imageUrl: item.imageUrl,
+                color: randomBannerColor(colors),
+                primaryText: item.campaign!.title,
+                secondaryText: item.campaign!.description,
+                imageUrl: item.campaign!.imageUrl,
               ),
               const SpaceH20(),
             ],
             if (_displaySReferralStats(item)) ...[
               SReferralStats(
-                referralInvited: item.referralInvited!,
-                referralActivated: item.referralActivated!,
-                bonusEarned: item.bonusEarned!,
-                commissionEarned: item.commissionEarned!,
-                total: item.total!,
+                referralInvited: item.referralState!.referralInvited,
+                referralActivated: item.referralState!.referralActivated,
+                bonusEarned: item.referralState!.bonusEarned,
+                commissionEarned: item.referralState!.commissionEarned,
+                total: item.referralState!.total,
               ),
             ],
           ],
@@ -78,25 +67,30 @@ class Rewards extends HookWidget {
     );
   }
 
-  bool _displaySThreeStepsRewardBanner(CombinedRewardModel item) {
-    if (item.total == null) {
-      return item.conditions != null &&
-          (item.conditions != null && item.conditions!.isNotEmpty);
-    } else {
+  bool _displaySThreeStepsRewardBanner(CampaignOrReferralModel item) {
+    if (item.campaign == null) {
       return false;
     }
+
+    return item.campaign!.conditions != null &&
+        (item.campaign!.conditions != null &&
+            item.campaign!.conditions!.isNotEmpty);
   }
 
-  bool _displaySRewardBanner(CombinedRewardModel item) {
-    if (item.total == null) {
-      return item.conditions == null ||
-          (item.conditions != null && item.conditions!.isEmpty);
-    } else {
+  bool _displaySRewardBanner(CampaignOrReferralModel item) {
+    if (item.campaign == null) {
       return false;
     }
+
+    return item.campaign!.conditions == null ||
+        (item.campaign!.conditions != null &&
+            item.campaign!.conditions!.isEmpty);
   }
 
-  bool _displaySReferralStats(CombinedRewardModel item) {
-    return item.total != null;
+  bool _displaySReferralStats(CampaignOrReferralModel item) {
+    if (item.referralState == null) {
+      return false;
+    }
+    return true;
   }
 }
