@@ -19,7 +19,10 @@ class MarketBanner extends HookWidget {
     final deepLinkService = useProvider(deepLinkServicePod);
 
     final controller = PageController(viewportFraction: 0.88);
-    final _bannerHeight = useState(120.0);
+
+    print('campaign.isNotEmpty1121 ${campaign.isNotEmpty}');
+
+    final _bannerHeight = useState((campaign.isNotEmpty) ? 0.0 : 120.0);
 
     final banners = _createMarketBannersList(
       campaign,
@@ -42,7 +45,7 @@ class MarketBanner extends HookWidget {
     );
 
     return AnimatedContainer(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.fastOutSlowIn,
       height: _bannerHeight.value,
       child: (campaign.isNotEmpty) ? PageView.builder(
