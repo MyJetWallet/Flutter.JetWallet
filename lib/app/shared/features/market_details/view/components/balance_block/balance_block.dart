@@ -6,6 +6,9 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../helpers/format_currency_amount.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../wallet/helper/navigate_to_wallet.dart';
+import '../../../helper/currency_from.dart';
 import 'components/balance_action_buttons.dart';
 
 class BalanceBlock extends HookWidget {
@@ -19,6 +22,10 @@ class BalanceBlock extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
+    final currency = currencyFrom(
+      useProvider(currenciesPod),
+      marketItem.associateAsset,
+    );
 
     return SizedBox(
       height: 156,
@@ -38,7 +45,7 @@ class BalanceBlock extends HookWidget {
               accuracy: baseCurrency.accuracy,
             ),
             secondaryText: '${marketItem.assetBalance} ${marketItem.id}',
-            onTap: () {},
+            onTap: () => navigateToWallet(context, currency),
             removeDivider: true,
             leftBlockTopPadding: _leftBlockTopPadding(),
             balanceTopMargin: 16,
