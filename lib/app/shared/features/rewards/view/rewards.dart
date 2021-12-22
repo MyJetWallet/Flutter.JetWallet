@@ -8,7 +8,7 @@ import '../../market_details/helper/format_news_date.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
 import '../model/campaign_or_referral_model.dart';
-import '../notifier/reward/rewards_notipod.dart';
+import '../provider/rewards_pod.dart';
 
 class Rewards extends HookWidget {
   const Rewards({Key? key}) : super(key: key);
@@ -54,12 +54,13 @@ class Rewards extends HookWidget {
             ],
             if (_displaySReferralStats(item)) ...[
               SReferralStats(
-                referralInvited: item.referralState!.referralInvited,
-                referralActivated: item.referralState!.referralActivated,
-                bonusEarned: item.referralState!.bonusEarned,
-                commissionEarned: item.referralState!.commissionEarned,
-                total: item.referralState!.total,
+                referralInvited: item.referralStat!.referralInvited,
+                referralActivated: item.referralStat!.referralActivated,
+                bonusEarned: item.referralStat!.bonusEarned,
+                commissionEarned: item.referralStat!.commissionEarned,
+                total: item.referralStat!.total,
               ),
+              const SpaceH20(),
             ],
           ],
         ],
@@ -88,9 +89,6 @@ class Rewards extends HookWidget {
   }
 
   bool _displaySReferralStats(CampaignOrReferralModel item) {
-    if (item.referralState == null) {
-      return false;
-    }
-    return true;
+    return item.referralStat == null || true;
   }
 }

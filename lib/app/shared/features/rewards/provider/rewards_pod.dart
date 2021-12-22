@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../service/services/signal_r/model/campaign_response_model.dart';
-import '../../../../../../service/services/signal_r/model/referral_stats_response_model.dart';
-import '../../../../../screens/market/provider/market_campaigns_pod.dart';
-import '../../../referral_stats/provider/referral_stats_pod.dart';
-import '../../model/campaign_or_referral_model.dart';
+import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
+import '../../../../../service/services/signal_r/model/referral_stats_response_model.dart';
+import '../../../../screens/market/provider/market_campaigns_pod.dart';
+import '../../referral_stats/provider/referral_stats_pod.dart';
+import '../model/campaign_or_referral_model.dart';
 
 final rewardsNotipod = Provider.autoDispose<List<CampaignOrReferralModel>>(
   (ref) {
@@ -32,12 +32,12 @@ List<CampaignOrReferralModel> _sorting(RewardsModel rewards) {
   }
 
   for (final referralStat in referralStatsArray) {
-    combinedArray.add(CampaignOrReferralModel(referralState: referralStat));
+    combinedArray.add(CampaignOrReferralModel(referralStat: referralStat));
   }
 
   combinedArray.sort((a, b) {
-    final weight1 = a.campaign?.weight ?? a.referralState!.weight;
-    final weight2 = b.campaign?.weight ?? b.referralState!.weight;
+    final weight1 = a.campaign?.weight ?? a.referralStat!.weight;
+    final weight2 = b.campaign?.weight ?? b.referralStat!.weight;
 
     return weight1.compareTo(weight2);
   });
