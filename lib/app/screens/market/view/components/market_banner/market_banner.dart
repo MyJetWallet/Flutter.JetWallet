@@ -20,19 +20,11 @@ class MarketBanner extends HookWidget {
 
     final controller = PageController(viewportFraction: 0.88);
 
-    print('campaign.isNotEmpty1121 ${campaign.isNotEmpty}');
-
-    final _bannerHeight = useState((campaign.isNotEmpty) ? 0.0 : 120.0);
-
     final banners = _createMarketBannersList(
       campaign,
       colors,
       (CampaignModel campaignItem) {
         campaignN.deleteCampaign(campaignItem);
-
-        if (campaign.length == 1) {
-          _bannerHeight.value = 0;
-        }
       },
       (CampaignModel campaign) {
         deepLinkService.handle(Uri.parse(campaign.deepLink));
@@ -45,16 +37,20 @@ class MarketBanner extends HookWidget {
     );
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+      duration: (campaign.isNotEmpty)
+          ? Duration.zero
+          : const Duration(milliseconds: 300),
       curve: Curves.fastOutSlowIn,
-      height: _bannerHeight.value,
-      child: (campaign.isNotEmpty) ? PageView.builder(
-        controller: controller,
-        itemCount: banners.length,
-        itemBuilder: (_, index) {
-          return pages[index % banners.length];
-        },
-      ) : const SizedBox(),
+      height: campaign.isNotEmpty ? 120.0 : 0.0,
+      child: (campaign.isNotEmpty)
+          ? PageView.builder(
+              controller: controller,
+              itemCount: banners.length,
+              itemBuilder: (_, index) {
+                return pages[index % banners.length];
+              },
+            )
+          : const SizedBox(),
     );
   }
 
