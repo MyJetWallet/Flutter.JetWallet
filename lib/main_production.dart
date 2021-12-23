@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'router/view/router.dart';
+import 'shared/components/app_builder.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/device_uid_pod.dart';
@@ -78,11 +80,14 @@ class App extends HookWidget {
           theme: theme,
           navigatorKey: navigatorKey,
           builder: (context, child) {
+            child = DevicePreview.appBuilder(context, child);
+            child = AppBuilder(child);
+
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(
                 textScaleFactor: 1.0,
               ),
-              child: child ?? const SizedBox(),
+              child: child,
             );
           },
           localizationsDelegates: AppLocalizations.localizationsDelegates,

@@ -1,19 +1,16 @@
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/period_change.dart';
+import '../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
 import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
-import '../../../../../shared/features/wallet/view/empty_wallet.dart';
-import '../../../../../shared/features/wallet/view/wallet.dart';
 import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
@@ -113,7 +110,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                 accuracy: baseCurrency.accuracy,
               ),
               secondaryText: '${item.assetBalance} ${item.symbol}',
-              onTap: () => _navigateToWallet(context, item),
+              onTap: () => navigateToWallet(context, item),
               removeDivider: item == itemsWithBalance.last,
             ),
           if (showZeroBalanceWallets.state)
@@ -131,14 +128,14 @@ class PortfolioWithBalanceBody extends HookWidget {
                   accuracy: baseCurrency.accuracy,
                 ),
                 secondaryText: '${item.assetBalance} ${item.symbol}',
-                onTap: () => _navigateToWallet(context, item),
+                onTap: () => navigateToWallet(context, item),
                 color: colors.black,
                 removeDivider: item == itemsWithoutBalance.last,
               ),
           if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
             Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 27.5.h,
+              padding: const EdgeInsets.symmetric(
+                vertical: 27.5,
               ),
               child: Center(
                 child: InkWell(
@@ -200,24 +197,6 @@ class PortfolioWithBalanceBody extends HookWidget {
       return periodChange(
         chart: chart,
         baseCurrency: baseCurrency,
-      );
-    }
-  }
-
-  void _navigateToWallet(BuildContext context, CurrencyModel currency) {
-    if (currency.isAssetBalanceEmpty) {
-      navigatorPush(
-        context,
-        EmptyWallet(
-          assetName: currency.description,
-        ),
-      );
-    } else {
-      navigatorPush(
-        context,
-        Wallet(
-          assetId: currency.assetId,
-        ),
       );
     }
   }
