@@ -6,8 +6,8 @@ import '../../../shared/helpers/navigate_to_router.dart';
 import '../../../shared/logging/levels.dart';
 import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../shared/providers/service_providers.dart';
-import '../../provider/router_stpod/router_stpod.dart';
-import '../../provider/router_stpod/router_union.dart';
+import '../../provider/authorization_stpod/authorization_stpod.dart';
+import '../../provider/authorization_stpod/authorization_union.dart';
 import 'authorized_union.dart';
 import 'startup_state.dart';
 
@@ -25,7 +25,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
   Future<void> _processStartupState() async {
     _updateAuthorizedUnion(const Loading());
 
-    if (read(routerStpod).state is Authorized) {
+    if (read(authorizationStpod).state is Authorized) {
       try {
         final info = await read(infoServicePod).sessionInfo();
 

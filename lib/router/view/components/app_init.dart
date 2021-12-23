@@ -12,7 +12,7 @@ import '../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_
 import '../../../shared/features/two_fa/two_fa_phone/view/two_fa_phone.dart';
 import '../../notifier/startup_notifier/startup_notipod.dart';
 import '../../provider/app_init_fpod.dart';
-import '../../provider/router_stpod/router_stpod.dart';
+import '../../provider/authorization_stpod/authorization_stpod.dart';
 
 /// Launches application goes after [RemoteConfigInit]
 class AppInit extends HookWidget {
@@ -22,7 +22,7 @@ class AppInit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final router = useProvider(routerStpod);
+    final router = useProvider(authorizationStpod);
     final appInit = useProvider(appInitFpod);
     final startup = useProvider(startupNotipod);
 
