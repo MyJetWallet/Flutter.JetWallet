@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../logs_screen.dart';
 
 class LogsPersistantButton extends StatelessWidget {

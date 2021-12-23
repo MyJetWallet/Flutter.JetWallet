@@ -11,7 +11,7 @@ import 'components/remote_config_init.dart';
 class AppRouter extends HookWidget {
   const AppRouter({Key? key}) : super(key: key);
 
-  static const routeName = '/';
+  static const routeName = '/router';
 
   @override
   Widget build(BuildContext context) {
