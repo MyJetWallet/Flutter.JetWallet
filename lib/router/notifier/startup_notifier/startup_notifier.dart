@@ -18,6 +18,10 @@ class StartupNotifier extends StateNotifier<StartupState> {
 
   static final _logger = Logger('StartupNotifier');
 
+  void _initSignalRSynchronously() {
+    read(signalRServicePod).init();
+  }
+
   Future<void> _processStartupState() async {
     _updateAuthorizedUnion(const Loading());
 
@@ -29,6 +33,8 @@ class StartupNotifier extends StateNotifier<StartupState> {
           twoFaEnabled: info.twoFaEnabled,
           phoneVerified: info.phoneVerified,
         );
+
+        _initSignalRSynchronously();
 
         if (info.emailVerified) {
           final profileInfo = await read(profileServicePod).info();
@@ -113,8 +119,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
 
   void _processPinState() {
     final userInfo = read(userInfoNotipod);
-
-    read(signalRServicePod).init();
 
     if (userInfo.pinEnabled) {
       _updateAuthorizedUnion(const PinVerification());
