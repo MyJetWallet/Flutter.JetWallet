@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../../shared/components/spacers.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import 'components/empty_wallet_balance_text.dart';
 
-class EmptyWalletBody extends StatelessWidget {
+class EmptyWalletBody extends HookWidget {
   const EmptyWalletBody({
     Key? key,
     required this.assetName,
@@ -13,33 +16,43 @@ class EmptyWalletBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey.shade200,
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(
-                'All $assetName transaction',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
-                ),
-              ),
-              const SpaceH8(),
-              const Text(
-                'Your transactions will appear here',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            ],
+    final colors = useProvider(sColorPod);
+    final deviceSize = useProvider(deviceSizePod);
+
+    return Column(
+      children: [
+        deviceSize.when(
+          small: () {
+            return const EmptyWalletBalanceText(
+              height: 128,
+              baseline: 115,
+            );
+          },
+          medium: () {
+            return const EmptyWalletBalanceText(
+              height: 184,
+              baseline: 171,
+            );
+          },
+        ),
+        const Spacer(),
+        Text(
+          'All $assetName transaction',
+          maxLines: 3,
+          textAlign: TextAlign.center,
+          style: sTextH3Style,
+        ),
+        const SpaceH13(),
+        Text(
+          'Your transactions will appear here',
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          style: sBodyText1Style.copyWith(
+            color: colors.grey1,
           ),
         ),
-      ),
+        const Spacer(),
+      ],
     );
   }
 }
