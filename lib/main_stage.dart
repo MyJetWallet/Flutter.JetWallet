@@ -13,6 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import 'development/app_router_stage/app_router_stage.dart';
 import 'router/view/components/app_init.dart';
+import 'shared/components/app_builder.dart';
 import 'shared/logging/provider_logger.dart';
 import 'shared/providers/background/initialize_background_providers.dart';
 import 'shared/providers/device_uid_pod.dart';
@@ -84,11 +85,14 @@ class App extends HookWidget {
           theme: theme,
           navigatorKey: navigatorKey,
           builder: (context, child) {
+            child = DevicePreview.appBuilder(context, child);
+            child = AppBuilder(child);
+
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(
                 textScaleFactor: 1.0,
               ),
-              child: child ?? const SizedBox(),
+              child: child,
             );
           },
           localizationsDelegates: AppLocalizations.localizationsDelegates,
