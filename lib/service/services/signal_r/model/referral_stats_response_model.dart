@@ -41,11 +41,3 @@ class CampaignAndReferralStatsModel with _$CampaignAndReferralStatsModel {
     @Default(<CampaignModel>[]) List<CampaignModel> campaigns,
   }) = _CampaignAndReferralStatsModel;
 }
-
-@freezed
-class RewardsModel with _$RewardsModel {
-  const factory RewardsModel({
-    @Default(<ReferralStatsModel>[]) List<ReferralStatsModel> referralStats,
-    @Default(<CampaignModel>[]) List<CampaignModel> campaigns,
-  }) = _RewardsModel;
-}

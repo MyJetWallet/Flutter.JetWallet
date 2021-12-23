@@ -16,13 +16,16 @@ class Rewards extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final state = useProvider(rewardsNotipod);
+    final state = useProvider(rewardsPod);
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
         title: 'Rewards',
       ),
       child: ListView(
+        padding: const EdgeInsets.only(
+          top: 20,
+        ),
         children: [
           for (final item in state) ...[
             if (_displaySThreeStepsRewardBanner(item)) ...[
@@ -89,6 +92,9 @@ class Rewards extends HookWidget {
   }
 
   bool _displaySReferralStats(CampaignOrReferralModel item) {
-    return item.referralStat == null || true;
+    if (item.referralStat == null) {
+      return false;
+    }
+    return true;
   }
 }

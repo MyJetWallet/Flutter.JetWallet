@@ -6,26 +6,23 @@ import '../../../../screens/market/provider/market_campaigns_pod.dart';
 import '../../referral_stats/provider/referral_stats_pod.dart';
 import '../model/campaign_or_referral_model.dart';
 
-final rewardsNotipod = Provider.autoDispose<List<CampaignOrReferralModel>>(
+final rewardsPod = Provider.autoDispose<List<CampaignOrReferralModel>>(
   (ref) {
     final referralStats = ref.watch(referralStatsPod);
     final campaigns = ref.watch(marketCampaignsPod);
 
-    final rewards = RewardsModel(
-      referralStats: referralStats,
-      campaigns: campaigns,
-    );
-
-    return _sorting(rewards);
+    return _sorting(campaigns, referralStats);
   },
   name: 'rewardsNotipod',
 );
 
-List<CampaignOrReferralModel> _sorting(RewardsModel rewards) {
+List<CampaignOrReferralModel> _sorting(
+  List<CampaignModel> campaigns,
+  List<ReferralStatsModel> referralStats,
+) {
   final combinedArray = <CampaignOrReferralModel>[];
-  final campaignsArray = List<CampaignModel>.from(rewards.campaigns);
-  final referralStatsArray =
-      List<ReferralStatsModel>.from(rewards.referralStats);
+  final campaignsArray = List<CampaignModel>.from(campaigns);
+  final referralStatsArray = List<ReferralStatsModel>.from(referralStats);
 
   for (final campaign in campaignsArray) {
     combinedArray.add(CampaignOrReferralModel(campaign: campaign));
