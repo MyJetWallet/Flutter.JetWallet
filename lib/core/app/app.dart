@@ -12,7 +12,7 @@ import '../../shared/logging/provider_logger.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
 import '../../shared/providers/device_uid_pod.dart';
 import '../../shared/providers/package_info_fpod.dart';
-import '../development/app_router_stage/app_router_stage.dart';
+import '../stage/app_router_stage/app_router_stage.dart';
 import 'app_builder.dart';
 
 final _providerTypes = <String>[
