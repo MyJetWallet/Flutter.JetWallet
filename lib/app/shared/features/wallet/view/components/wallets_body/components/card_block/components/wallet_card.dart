@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -12,11 +13,11 @@ class WalletCard extends HookWidget {
   const WalletCard({
     Key? key,
     required this.assetId,
-    required this.currentPage,
+    required this.walletBackground,
   }) : super(key: key);
 
   final String assetId;
-  final int currentPage;
+  final String walletBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -26,93 +27,100 @@ class WalletCard extends HookWidget {
     );
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
-    var buttonColor = colors.green;
-    var cardColor = colors.greenLight;
 
-    if (marketItem.dayPercentChange.isNegative) {
-      buttonColor = colors.red;
-      cardColor = colors.redLight;
-    }
-
-    return Container(
-      height: 280,
-      width: 280,
-      margin: EdgeInsets.symmetric(
-        horizontal: currentPage >= 1 ? 10 : 24,
-      ),
-      padding: const EdgeInsets.only(
-        top: 40,
-        left: 20,
-        right: 20,
-        bottom: 20,
-      ),
-      decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(16),
+    return Stack(
+      children: [
+        SvgPicture.asset(
+          walletBackground,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.fill,
         ),
-      ),
-      child: Column(
-        children: [
-          SNetworkSvg24(
-            url: marketItem.iconUrl,
-          ),
-          const SpaceH14(),
-          Text(
-            marketItem.name,
-            style: sSubtitle2Style,
-          ),
-          const SpaceH2(),
-          Text(
-            formatCurrencyAmount(
-              prefix: baseCurrency.prefix,
-              value: marketItem.baseBalance,
-              accuracy: baseCurrency.accuracy,
-              symbol: baseCurrency.symbol,
-            ),
-            style: sTextH1Style,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            formatCurrencyAmount(
-              symbol: marketItem.id,
-              value: marketItem.assetBalance,
-              accuracy: marketItem.accuracy,
-              prefix: marketItem.prefixSymbol,
-            ),
-            style: sBodyText2Style,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        SizedBox(
+          height: 270,
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 24,
-                width: 83,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: buttonColor,
-                ),
-                child: Baseline(
-                  baseline: 17,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    '+\$120.23',
-                    style: sSubtitle3Style.copyWith(color: colors.white),
-                  ),
+              SPaddingH24(
+                child: SSmallHeader(
+                  title: '${marketItem.name} wallet',
                 ),
               ),
-              const SInfoIcon(),
+              const Spacer(),
+              SPaddingH24(
+                child: Row(
+                  children: [
+                    SNetworkSvg24(
+                      url: marketItem.iconUrl,
+                    ),
+                    const SpaceW10(),
+                    Text(
+                      marketItem.name,
+                      style: sSubtitle2Style,
+                    ),
+                    const Spacer(),
+                    Container(
+                      height: 24,
+                      width: 83,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: colors.green,
+                      ),
+                      child: Baseline(
+                        baseline: 17,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          '+\$120.23',
+                          style: sSubtitle3Style.copyWith(color: colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SpaceH8(),
+              SPaddingH24(
+                child: Text(
+                  formatCurrencyAmount(
+                    prefix: baseCurrency.prefix,
+                    value: marketItem.baseBalance,
+                    accuracy: baseCurrency.accuracy,
+                    symbol: baseCurrency.symbol,
+                  ),
+                  style: sTextH1Style,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SPaddingH24(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      formatCurrencyAmount(
+                        symbol: marketItem.id,
+                        value: marketItem.assetBalance,
+                        accuracy: marketItem.accuracy,
+                        prefix: marketItem.prefixSymbol,
+                      ),
+                      style: sBodyText2Style.copyWith(color: colors.grey1),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SInfoIcon(),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              // const SpaceH20(),
             ],
           ),
-        ],
-      ),
+        )
+      ],
     );
   }
 }

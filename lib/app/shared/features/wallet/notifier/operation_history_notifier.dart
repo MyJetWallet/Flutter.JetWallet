@@ -6,9 +6,8 @@ import '../../../../../service/services/operation_history/model/operation_histor
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 
-
 class OperationHistoryNotifier
-    extends StateNotifier<List<OperationHistoryItem>> {
+    extends StateNotifier<List<List<OperationHistoryItem>>> {
   OperationHistoryNotifier({
     required this.read,
   }) : super([]);
@@ -30,9 +29,12 @@ class OperationHistoryNotifier
         ),
       );
 
-      state = _filterUnusedOperationTypeItemsFrom(
-        operationHistory.operationHistory,
-      );
+      state = state
+        ..add(
+          _filterUnusedOperationTypeItemsFrom(
+            operationHistory.operationHistory,
+          ),
+        );
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
     }
@@ -46,7 +48,7 @@ class OperationHistoryNotifier
         OperationHistoryRequestModel(
           assetId: assetId,
           batchSize: 20,
-          lastDate: state.last.timeStamp,
+          // lastDate: state.last.timeStamp,
         ),
       );
 
@@ -59,7 +61,7 @@ class OperationHistoryNotifier
   void updateOperationHistory(List<OperationHistoryItem> items) {
     _logger.log(notifier, 'updateOperationHistory');
 
-    state = state + _filterUnusedOperationTypeItemsFrom(items);
+    state = state..add(_filterUnusedOperationTypeItemsFrom(items));
   }
 
   Future<OperationHistoryResponseModel> _requestOperationHistory(

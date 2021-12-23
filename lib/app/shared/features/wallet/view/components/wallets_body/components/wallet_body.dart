@@ -48,8 +48,6 @@ class _WalletBodyState extends State<WalletBody>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final transactionHistory = useProvider(operationHistoryNotipod);
-
     return Column(
       children: [
         CardBlock(
@@ -74,7 +72,7 @@ class _WalletBodyState extends State<WalletBody>
                 const SpaceH20(),
                 Expanded(
                   child: GroupedListView<OperationHistoryItem, String>(
-                    elements: transactionHistory,
+                    elements: const [],
                     controller: _scrollController,
                     useStickyGroupSeparators: true,
                     stickyHeaderBackgroundColor: Colors.white,

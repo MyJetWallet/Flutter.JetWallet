@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
-import 'components/action_button.dart';
 import 'components/wallets_body/empty_wallet_body.dart';
 
 class EmptyWallet extends HookWidget {
@@ -32,7 +31,7 @@ class EmptyWallet extends HookWidget {
       header: SSmallHeader(
         title: '$assetName wallet',
       ),
-      bottomNavigationBar: const ActionButton(),
+      // bottomNavigationBar: const ActionButton(),
       child: EmptyWalletBody(
         assetName: assetName,
       ),

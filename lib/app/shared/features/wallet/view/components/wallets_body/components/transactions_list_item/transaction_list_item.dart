@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -16,10 +15,12 @@ import 'components/transaction_list_item_text.dart';
 class TransactionListItem extends HookWidget {
   const TransactionListItem({
     Key? key,
+    this.removeDivider = false,
     required this.transactionListItem,
   }) : super(key: key);
 
   final OperationHistoryItem transactionListItem;
+  final bool removeDivider;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +38,15 @@ class TransactionListItem extends HookWidget {
         transactionListItem,
       ),
       child: SizedBox(
-        height: 80.h,
+        height: 80,
         child: Column(
           children: [
+            const SpaceH12(),
             Row(
               children: [
                 Icon(
                   _icon(transactionListItem.operationType),
-                  size: 20.r,
+                  size: 20,
                   color: color,
                 ),
                 const SpaceW10(),
@@ -61,24 +63,28 @@ class TransactionListItem extends HookWidget {
               children: [
                 const SpaceW30(),
                 TransactionListItemText(
-                  text: formatDateToHm(transactionListItem.timeStamp),
+                  text: '${formatDateToDMY(transactionListItem.timeStamp)} '
+                      '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                  color: colors.grey1,
                 ),
                 const Spacer(),
                 if (transactionListItem.operationType ==
                     OperationType.sell) ...[
                   TransactionListItemText(
                     text: _sellAmount(hidden.state),
+                    color: colors.grey1,
                   ),
                 ],
                 if (transactionListItem.operationType == OperationType.buy) ...[
                   TransactionListItemText(
                     text: _buyAmount(hidden.state),
+                    color: colors.grey1,
                   ),
                 ]
               ],
             ),
-            const SpaceH10(),
-            const Divider(),
+            const SpaceH18(),
+            if (!removeDivider) const SDivider(),
           ],
         ),
       ),

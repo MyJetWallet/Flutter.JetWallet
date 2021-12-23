@@ -39,10 +39,10 @@ class Market extends HookWidget {
           children: [
             NestedScrollView(
               controller: _scrollController,
-              headerSliverBuilder: (context, value) {
+              headerSliverBuilder: (context, _) {
                 return [
                   SliverAppBar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: colors.white,
                     pinned: true,
                     elevation: 0,
                     expandedHeight: 160,

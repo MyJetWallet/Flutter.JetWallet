@@ -23,7 +23,7 @@ class SSmallHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120.0,
+      height: 115.0,
       child: Column(
         children: [
           const SpaceH64(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 class TransactionListItemHeaderText extends StatelessWidget {
   const TransactionListItemHeaderText({
@@ -13,10 +13,7 @@ class TransactionListItemHeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18.sp,
-      ),
+      style: sSubtitle2Style,
     );
   }
 }

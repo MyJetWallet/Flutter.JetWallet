@@ -6,8 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../../shared/helpers/contains_single_element.dart';
 import '../../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../helper/assets_with_balance_from.dart';
-import 'components/card_part.dart';
-import 'components/wallet_card.dart';
 
 class CardBlock extends HookWidget {
   const CardBlock({
@@ -31,16 +29,7 @@ class CardBlock extends HookWidget {
         Row(
           children: [
             if (!containsSingleElement(itemsWithBalance) && currentPage > 0)
-              const CardPart(
-                left: true,
-                width: 24,
-              ),
-            WalletCard(assetId: assetId, currentPage: currentPage),
-            if (!containsSingleElement(itemsWithBalance) &&
-                currentPage != itemsWithBalance.length - 1)
-              const CardPart(
-                left: false,
-              ),
+              Container()
           ],
         ),
         const SpaceH36(),
