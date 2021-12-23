@@ -101,8 +101,8 @@ class _App extends HookWidget {
           routes: {
             AppRouter.routeName: (_) => const AppRouter(),
             // [START] Stage only routes ->
-            AppRouterStage.routeName: (context) => const AppRouterStage(),
-            AppInit.routeName: (context) => const AppInit(),
+            AppRouterStage.routeName: (_) => const AppRouterStage(),
+            AppInit.routeName: (_) => const AppInit(),
             // <- Stage only routes [END]
           },
         );
