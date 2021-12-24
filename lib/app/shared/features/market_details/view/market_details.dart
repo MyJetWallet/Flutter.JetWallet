@@ -2,6 +2,7 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/wallet/provider/operation_history_fpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/loaders/loader.dart';
@@ -36,6 +37,7 @@ class MarketDetails extends HookWidget {
     final chartN = useProvider(chartNotipod.notifier);
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     useProvider(watchlistIdsNotipod);
+    useProvider(operationHistoryInitFpod('ETH'));
 
     return SPageFrame(
       header: SPaddingH24(

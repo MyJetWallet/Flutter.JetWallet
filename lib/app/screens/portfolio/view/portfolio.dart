@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/wallet/provider/operation_history_fpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/is_balance_empty.dart';
@@ -15,6 +16,7 @@ class Portfolio extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final balanceEmpty = isBalanceEmpty(useProvider(currenciesPod));
+    useProvider(operationHistoryInitFpod('ETH'));
 
     if (balanceEmpty) {
       return const SPageFrameWithPadding(
