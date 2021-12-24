@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/wallet/provider/operation_history_fpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../shared/features/wallet/provider/operation_history_fpod.dart';
 import '../../../shared/helpers/is_balance_empty.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/empty_portfolio_body/empty_porfolio_body.dart';
