@@ -6,8 +6,8 @@ import '../../../shared/helpers/navigate_to_router.dart';
 import '../../../shared/logging/levels.dart';
 import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../shared/providers/service_providers.dart';
-import '../../provider/router_stpod/router_stpod.dart';
-import '../../provider/router_stpod/router_union.dart';
+import '../../provider/authorization_stpod/authorization_stpod.dart';
+import '../../provider/authorization_stpod/authorization_union.dart';
 import 'authorized_union.dart';
 import 'startup_state.dart';
 
@@ -23,9 +23,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
   }
 
   Future<void> _processStartupState() async {
-    _updateAuthorizedUnion(const Loading());
-
-    if (read(routerStpod).state is Authorized) {
+    if (read(authorizationStpod).state is Authorized) {
       try {
         final info = await read(infoServicePod).sessionInfo();
 
@@ -77,17 +75,18 @@ class StartupNotifier extends StateNotifier<StartupState> {
   void successfullAuthentication() {
     _logger.log(notifier, 'successfullAuthentication');
 
-    navigateToRouter(read);
     TextInput.finishAutofillContext(); // prompt to save credentials
     _updatefromLoginRegister(fromLoginRegister: true);
-    _processStartupState();
+    _processStartupState().then((value) {
+      /// Needed to dissmis Register/Login pushed screens
+      navigateToRouter(read);
+    });
   }
 
   /// Called after successfull email verification
   void emailVerified() {
     _logger.log(notifier, 'emailVerified');
 
-    navigateToRouter(read);
     _processStartupState();
   }
 
@@ -96,7 +95,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
   void twoFaVerified() {
     _logger.log(notifier, 'twoFaVerified');
 
-    navigateToRouter(read);
     _processPinState();
   }
 
@@ -104,7 +102,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
   void pinSet() {
     _logger.log(notifier, 'pinSet');
 
-    navigateToRouter(read);
     _updateAuthorizedUnion(const Home());
   }
 
@@ -112,7 +109,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
   void pinVerified() {
     _logger.log(notifier, 'pinVerified');
 
-    navigateToRouter(read);
     _updateAuthorizedUnion(const Home());
   }
   // <- Trigger AuthorizedUnion change [End]

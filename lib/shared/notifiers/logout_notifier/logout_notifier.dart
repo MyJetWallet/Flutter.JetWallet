@@ -5,8 +5,8 @@ import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart
 import '../../../router/notifier/startup_notifier/authorized_union.dart'
     as authorized_union;
 import '../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../router/provider/router_stpod/router_stpod.dart';
-import '../../../router/provider/router_stpod/router_union.dart';
+import '../../../router/provider/authorization_stpod/authorization_stpod.dart';
+import '../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../service/services/authentication/model/logout/logout_request_model.dart';
 import '../../logging/levels.dart';
 import '../../providers/service_providers.dart';
@@ -40,7 +40,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
         await read(signalRServicePod).disconnect();
       }
 
-      read(routerStpod).state = const Unauthorized();
+      read(authorizationStpod).state = const Unauthorized();
       read(userInfoNotipod.notifier).clear();
       read(authInfoNotipod.notifier).resetResendButton();
 

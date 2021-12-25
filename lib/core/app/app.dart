@@ -6,13 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../router/view/components/app_init.dart';
 import '../../router/view/router.dart';
 import '../../shared/logging/provider_logger.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
 import '../../shared/providers/device_uid_pod.dart';
 import '../../shared/providers/package_info_fpod.dart';
 import '../stage/app_router_stage/app_router_stage.dart';
+import '../stage/components/app_init.dart';
 import 'app_builder.dart';
 
 final _providerTypes = <String>[
