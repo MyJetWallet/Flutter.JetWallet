@@ -37,7 +37,15 @@ definitions:
         source: false
     cancel_previous_builds: false
 
-  auto_develop_triggering: &auto_develop_triggering
+  stage_triggering: &stage_triggering
+    events:
+        - pull_request
+    branch_patterns:
+      - pattern: develop
+        include: true
+    cancel_previous_builds: false
+
+  prod_triggering: &prod_triggering
     events:
         - push
     branch_patterns:
@@ -157,7 +165,7 @@ workflows:
       <<: *versioning
     
     cache: *cache
-    triggering: *auto_develop_triggering
+    triggering: *stage_triggering
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
@@ -176,7 +184,7 @@ workflows:
       <<: *versioning
     
     cache: *cache
-    triggering: *triggering
+    triggering: *prod_triggering
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
