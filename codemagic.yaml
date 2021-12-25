@@ -43,6 +43,7 @@ definitions:
     branch_patterns:
       - pattern: develop
         include: true
+        source: false
     cancel_previous_builds: false
 
   prod_triggering: &prod_triggering
