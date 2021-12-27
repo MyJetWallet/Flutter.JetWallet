@@ -41,11 +41,7 @@ class SendByPhoneConfirm extends HookWidget {
       onChange: (_, value) {
         if (value.state) {
           loader.value.startLoading();
-          confirmN.requestTransferInfo().then((_) {
-            loader.value.finishLoading();
-          });
-        } else {
-          loader.value.finishLoading();
+          confirmN.requestTransferInfo();
         }
       },
       child: SPageFrameWithPadding(
