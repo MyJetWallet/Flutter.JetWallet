@@ -43,7 +43,6 @@ class SendByPhonePreviewNotifier
   Future<void> send() async {
     _logger.log(notifier, 'send');
 
-    // TODO(ELI) blocked by backend
     // final info = await PhoneNumber.getRegionInfoFromPhoneNumber(
     //   state.pickedContact!.phoneNumber,
     // );
@@ -66,7 +65,12 @@ class SendByPhonePreviewNotifier
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: currency.symbol,
         amount: double.parse(state.amount),
-        toPhoneNumber: state.pickedContact!.phoneNumber,
+        // TODO refactor to function when backend will be ready
+        toPhoneNumber: state.pickedContact!.phoneNumber
+            .replaceAll(' ', '')
+            .replaceAll('(', '')
+            .replaceAll(')', '')
+            .replaceAll('-', ''),
         lang: read(intlPod).localeName,
       );
 
