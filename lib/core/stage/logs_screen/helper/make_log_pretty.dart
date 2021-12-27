@@ -1,8 +1,8 @@
 import 'package:logging/logging.dart';
 
-import '../../../shared/logging/debug_logging.dart';
-import '../../../shared/logging/levels.dart';
-import '../../../shared/logging/provider_logger.dart';
+import '../../../../shared/logging/debug_logging.dart';
+import '../../../../shared/logging/levels.dart';
+import '../../../../shared/logging/provider_logger.dart';
 
 String makeLogPretty(LogRecord r, String breaker) {
   if (isConventionLevel(r)) {

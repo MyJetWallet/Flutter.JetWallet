@@ -4,9 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../router/view/components/app_init.dart';
-import '../../../../shared/dio/dio_proxy_notifier/dio_proxy_notipod.dart';
-import '../../../../shared/services/remote_config_service/service/remote_config_service.dart';
+import '../../../../../shared/dio/dio_proxy_notifier/dio_proxy_notipod.dart';
+import '../../../../../shared/services/remote_config_service/service/remote_config_service.dart';
+import '../../../components/app_init.dart';
 import '../helper/api_title_from.dart';
 
 final _config = RemoteConfigService();

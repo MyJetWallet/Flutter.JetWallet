@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../helpers/device_size_from.dart';
-import '../providers/device_size/device_size_pod.dart';
+import '../../shared/helpers/device_size_from.dart';
+import '../../shared/providers/device_size/device_size_pod.dart';
 
 class AppBuilder extends HookWidget {
   const AppBuilder(this.child);
@@ -20,7 +20,12 @@ class AppBuilder extends HookWidget {
           deviceSizeFrom(mediaQuery.size.height),
         ),
       ],
-      child: child ?? const SizedBox(),
+      child: MediaQuery(
+        data: mediaQuery.copyWith(
+          textScaleFactor: 1.0,
+        ),
+        child: child ?? const SizedBox(),
+      ),
     );
   }
 }
