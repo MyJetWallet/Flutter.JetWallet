@@ -56,7 +56,12 @@ class ProfileDetails extends HookWidget {
                     PhoneVerificationConfirm.push(
                       context: context,
                       onVerified: () {
-                        navigatorPush(context, const ChangePhoneNumber());
+                        navigatorPush(
+                          context,
+                          ChangePhoneNumber(
+                            onVerified: () {},
+                          ),
+                        );
                       },
                       isChangeTextAlert: true,
                     );

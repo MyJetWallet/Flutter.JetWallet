@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../app/shared/features/profile_details/view/components/change_phone_number/change_phone_number.dart';
 import '../../../helpers/navigator_push.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../phone_verification/phone_verification_enter/phone_verification_enter.dart';
 import '../two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import '../two_fa_phone/view/two_fa_phone.dart';
 import 'components/show_sms_auth_warning.dart';
@@ -47,7 +47,7 @@ class TwoFaScreen extends HookWidget {
                     ),
                   );
                 } else {
-                  PhoneVerificationEnter.push(
+                  ChangePhoneNumber.push(
                     context: context,
                     onVerified: () {
                       // TODO reconsider navigation practices
