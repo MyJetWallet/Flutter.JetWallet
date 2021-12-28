@@ -85,8 +85,9 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         specialTextWidget: EmailConfirmedSuccessText(
           email: state.email,
         ),
-        then: read(startupNotipod.notifier).emailVerified,
       );
+
+      read(startupNotipod.notifier).emailVerified();
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);
 

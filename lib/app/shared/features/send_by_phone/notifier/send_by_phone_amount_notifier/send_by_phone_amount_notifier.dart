@@ -3,11 +3,12 @@ import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/logging/levels.dart';
-import '../../../../components/balance_selector/model/selected_percent.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
+import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import 'send_by_phone_amount_state.dart';
 
 class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
@@ -17,6 +18,7 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
   ) : super(const SendByPhoneAmountState()) {
     state = state.copyWith(
       baseCurrency: read(baseCurrencyPod),
+      pickedContact: read(sendByPhoneInputNotipod).pickedContact,
     );
   }
 

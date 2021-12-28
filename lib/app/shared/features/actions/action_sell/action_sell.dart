@@ -27,10 +27,11 @@ class _ActionSell extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
+    final currencies = useProvider(currenciesPod);
 
     return Column(
       children: [
-        for (final currency in context.read(currenciesPod)) ...[
+        for (final currency in currencies) ...[
           if (currency.isAssetBalanceNotEmpty)
             SWalletItem(
               decline: currency.dayPercentChange.isNegative,

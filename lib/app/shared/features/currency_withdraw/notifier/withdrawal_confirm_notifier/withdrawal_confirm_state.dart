@@ -6,5 +6,6 @@ part 'withdrawal_confirm_state.freezed.dart';
 class WithdrawalConfirmState with _$WithdrawalConfirmState {
   const factory WithdrawalConfirmState({
     @Default(false) bool isResending,
+    @Default(false) bool isRequesting,
   }) = _WithdrawalConfirmState;
 }
