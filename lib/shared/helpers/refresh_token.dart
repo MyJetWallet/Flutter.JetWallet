@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../router/provider/router_stpod/router_stpod.dart';
-import '../../router/provider/router_stpod/router_union.dart';
+import '../../router/provider/authorization_stpod/authorization_stpod.dart';
+import '../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
 import '../providers/service_providers.dart';
 import '../services/local_storage_service.dart';
@@ -20,7 +20,7 @@ enum RefreshTokenStatus { success, caught }
 ///
 /// Else [throws] an error
 Future<RefreshTokenStatus> refreshToken(Reader read) async {
-  final router = read(routerStpod.notifier);
+  final router = read(authorizationStpod.notifier);
   final authInfo = read(authInfoNotipod);
   final authInfoN = read(authInfoNotipod.notifier);
   final authService = read(authServicePod);

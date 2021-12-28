@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/navigator_push.dart';
 import 'components/action_button.dart';
 import 'components/wallets_body/wallets_body.dart';
 
@@ -12,6 +13,18 @@ class Wallet extends HookWidget {
   }) : super(key: key);
 
   final String assetId;
+
+  static void push({
+    required BuildContext context,
+    required String assetId,
+  }) {
+    navigatorPush(
+      context,
+      Wallet(
+        assetId: assetId,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
