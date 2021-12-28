@@ -28,51 +28,55 @@ class _ActionDeposit extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final currencies = useProvider(currenciesPod);
-    final lastFiat = currencies.lastWhere((e) => e.type == AssetType.fiat);
-    final lastCrypto = currencies.lastWhere((e) => e.type == AssetType.crypto);
+    final fiat = currencies.where(
+      (e) => e.type == AssetType.fiat && e.supportsAtLeastOneFiatDepositMethod,
+    );
+    final crypto = currencies.where(
+      (e) => e.type == AssetType.crypto && e.supportsCryptoDeposit,
+    );
 
     return Column(
       children: [
-        const DepositCategoryDescription(
-          text: 'Fiat',
-        ),
-        for (final currency in currencies)
-          if (currency.type == AssetType.fiat)
-            if (currency.supportsAtLeastOneFiatDepositMethod)
-              SWalletItem(
-                removeDivider: lastFiat.symbol == currency.symbol,
-                icon: SNetworkSvg24(
-                  url: currency.iconUrl,
-                ),
-                primaryText: currency.description,
-                secondaryText: currency.symbol,
-                onTap: () {
-                  showDepositOptions(context, currency);
-                },
+        if (fiat.isNotEmpty) ...[
+          const DepositCategoryDescription(
+            text: 'Fiat',
+          ),
+          for (final currency in fiat)
+            SWalletItem(
+              removeDivider: currency.symbol == crypto.last.symbol,
+              icon: SNetworkSvg24(
+                url: currency.iconUrl,
               ),
-        const DepositCategoryDescription(
-          text: 'Crypto',
-        ),
-        for (final currency in currencies)
-          if (currency.type == AssetType.crypto)
-            if (currency.supportsCryptoDeposit)
-              SWalletItem(
-                removeDivider: lastCrypto.symbol == currency.symbol,
-                icon: SNetworkSvg24(
-                  url: currency.iconUrl,
-                ),
-                primaryText: currency.description,
-                secondaryText: currency.symbol,
-                onTap: () {
-                  navigatorPushReplacement(
-                    context,
-                    CryptoDeposit(
-                      header: 'Deposit',
-                      currency: currency,
-                    ),
-                  );
-                },
+              primaryText: currency.description,
+              secondaryText: currency.symbol,
+              onTap: () {
+                showDepositOptions(context, currency);
+              },
+            ),
+        ],
+        if (crypto.isNotEmpty) ...[
+          const DepositCategoryDescription(
+            text: 'Crypto',
+          ),
+          for (final currency in crypto)
+            SWalletItem(
+              removeDivider: currency.symbol == crypto.last.symbol,
+              icon: SNetworkSvg24(
+                url: currency.iconUrl,
               ),
+              primaryText: currency.description,
+              secondaryText: currency.symbol,
+              onTap: () {
+                navigatorPushReplacement(
+                  context,
+                  CryptoDeposit(
+                    header: 'Deposit',
+                    currency: currency,
+                  ),
+                );
+              },
+            ),
+        ]
       ],
     );
   }
