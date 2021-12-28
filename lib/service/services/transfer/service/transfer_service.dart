@@ -29,9 +29,7 @@ class TransferService {
     return transferInfoService(dio, model);
   }
 
-  Future<void> resendTransfer(
-      TransferResendRequestModel model,
-      ) {
+  Future<void> transferResend(TransferResendRequestModel model) {
     return transferResendService(dio, model);
   }
 }

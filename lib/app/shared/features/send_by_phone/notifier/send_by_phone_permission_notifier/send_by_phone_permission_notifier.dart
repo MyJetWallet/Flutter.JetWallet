@@ -126,11 +126,13 @@ class SendByPhonePermissionNotifier
         if (permission == PermissionStatus.granted) {
           await _setPhonebookStatusInStorage(granted.name);
           _updatePhonebookStatus(granted);
+          _updatePermissionStatus(permission);
           if (!mounted) return;
           showContactPicker(_context);
         } else {
           await _setPhonebookStatusInStorage(denied.name);
           _updatePhonebookStatus(denied);
+          _updatePermissionStatus(permission);
         }
       },
       onPopupQuit: () async {

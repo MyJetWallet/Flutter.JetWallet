@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transfer_info_response_model.freezed.dart';
-
 part 'transfer_info_response_model.g.dart';
 
 @freezed
@@ -10,7 +9,7 @@ class TransferInfoResponseModel with _$TransferInfoResponseModel {
     required String id,
     required double amount,
     required String assetSymbol,
-    required TransferInfoStatus status,
+    required TransferStatus status,
     required String toPhoneNumber,
   }) = _TransferInfoResponseModel;
 
@@ -18,7 +17,7 @@ class TransferInfoResponseModel with _$TransferInfoResponseModel {
       _$TransferInfoResponseModelFromJson(json);
 }
 
-enum TransferInfoStatus {
+enum TransferStatus {
   @JsonValue(0)
   pendingApproval,
   @JsonValue(1)
