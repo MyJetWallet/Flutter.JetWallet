@@ -17,7 +17,7 @@ class MarketBanners extends HookWidget {
     final colors = useProvider(sColorPod);
     final deepLinkService = useProvider(deepLinkServicePod);
 
-    final controller = PageController(viewportFraction: 0.88);
+    final controller = PageController(viewportFraction: 0.92);
 
     if (state.isNotEmpty) {
       return SizedBox(
