@@ -41,4 +41,3 @@ class CampaignAndReferralStatsModel with _$CampaignAndReferralStatsModel {
     @Default(<CampaignModel>[]) List<CampaignModel> campaigns,
   }) = _CampaignAndReferralStatsModel;
 }
-
