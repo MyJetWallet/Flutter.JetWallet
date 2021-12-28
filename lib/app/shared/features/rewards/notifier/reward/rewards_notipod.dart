@@ -11,21 +11,19 @@ final rewardsNotipod = Provider.autoDispose<List<CampaignOrReferralModel>>(
     final referralStats = ref.watch(referralStatsPod);
     final campaigns = ref.watch(marketCampaignsPod);
 
-    final rewards = RewardsModel(
-      referralStats: referralStats,
-      campaigns: campaigns,
-    );
-
-    return _sort(rewards);
+    return _sort(campaigns, referralStats);
   },
   name: 'rewardsNotipod',
 );
 
-List<CampaignOrReferralModel> _sort(RewardsModel rewards) {
+List<CampaignOrReferralModel> _sort(
+  List<CampaignModel> campaigns,
+  List<ReferralStatsModel> referralStats,
+) {
   final combinedArray = <CampaignOrReferralModel>[];
-  final campaignsArray = List<CampaignModel>.from(rewards.campaigns);
+  final campaignsArray = List<CampaignModel>.from(campaigns);
   final referralStatsArray =
-      List<ReferralStatsModel>.from(rewards.referralStats);
+      List<ReferralStatsModel>.from(referralStats);
 
   for (final campaign in campaignsArray) {
     combinedArray.add(CampaignOrReferralModel(campaign: campaign));
