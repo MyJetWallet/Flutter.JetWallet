@@ -32,7 +32,7 @@ class SRewardBanner extends StatelessWidget {
           margin: indentRight
               ? EdgeInsets.zero
               : const EdgeInsets.only(
-            right: 10,
+            right: 8,
           ),
           padding: const EdgeInsets.only(
             left: 20.0,
