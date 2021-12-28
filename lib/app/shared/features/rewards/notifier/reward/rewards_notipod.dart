@@ -16,12 +16,12 @@ final rewardsNotipod = Provider.autoDispose<List<CampaignOrReferralModel>>(
       campaigns: campaigns,
     );
 
-    return _sorting(rewards);
+    return _sort(rewards);
   },
   name: 'rewardsNotipod',
 );
 
-List<CampaignOrReferralModel> _sorting(RewardsModel rewards) {
+List<CampaignOrReferralModel> _sort(RewardsModel rewards) {
   final combinedArray = <CampaignOrReferralModel>[];
   final campaignsArray = List<CampaignModel>.from(rewards.campaigns);
   final referralStatsArray =
