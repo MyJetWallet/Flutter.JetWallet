@@ -9,7 +9,6 @@ import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../currency_withdraw/helper/minimum_amount.dart';
 import '../../notifier/send_by_phone_amount_notifier/send_by_phone_amount_notipod.dart';
-import '../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import 'send_by_phone_preview.dart';
 
 class SendByPhoneAmount extends HookWidget {
@@ -23,9 +22,8 @@ class SendByPhoneAmount extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final input = useProvider(sendByPhoneInputNotipod);
-    final amount = useProvider(sendByPhoneAmountNotipod(currency));
-    final amountN = useProvider(sendByPhoneAmountNotipod(currency).notifier);
+    final state = useProvider(sendByPhoneAmountNotipod(currency));
+    final notifier = useProvider(sendByPhoneAmountNotipod(currency).notifier);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -38,15 +36,15 @@ class SendByPhoneAmount extends HookWidget {
           SActionPriceField(
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
-              value: amount.amount,
+              value: state.amount,
               symbol: currency.symbol,
             ),
-            helper: '≈ ${amount.baseConversionValue} '
-                '${amount.baseCurrency!.symbol}',
-            error: amount.inputError == InputError.enterHigherAmount
-                ? '${amount.inputError.value}. ${minimumAmount(currency)}'
-                : amount.inputError.value,
-            isErrorActive: amount.inputError.isActive,
+            helper: '≈ ${state.baseConversionValue} '
+                '${state.baseCurrency!.symbol}',
+            error: state.inputError == InputError.enterHigherAmount
+                ? '${state.inputError.value}. ${minimumAmount(currency)}'
+                : state.inputError.value,
+            isErrorActive: state.inputError.isActive,
           ),
           SBaselineChild(
             baseline: 24.0,
@@ -59,29 +57,29 @@ class SendByPhoneAmount extends HookWidget {
           ),
           const Spacer(),
           const SpaceH10(),
-          if (input.contactName != input.fullNumber)
+          if (state.pickedContact!.isContactWithName)
             SPaymentSelectContact(
-              name: input.contactName,
-              phone: input.fullNumber,
+              name: state.pickedContact!.name,
+              phone: state.pickedContact!.phoneNumber,
             )
           else
             SPaymentSelectContactWithoutName(
-              phone: input.fullNumber,
+              phone: state.pickedContact!.phoneNumber,
             ),
           const SpaceH20(),
           SNumericKeyboardAmount(
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',
-            selectedPreset: amount.selectedPreset,
+            selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
-              amountN.selectPercentFromBalance(preset);
+              notifier.selectPercentFromBalance(preset);
             },
             onKeyPressed: (value) {
-              amountN.updateAmount(value);
+              notifier.updateAmount(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: amount.valid,
+            submitButtonActive: state.valid,
             submitButtonName: 'Preview Send',
             onSubmitPressed: () {
               navigatorPush(

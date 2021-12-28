@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// TODO (remove legacy code)
 class BottomSheetBar extends StatelessWidget {
   const BottomSheetBar({
     Key? key,

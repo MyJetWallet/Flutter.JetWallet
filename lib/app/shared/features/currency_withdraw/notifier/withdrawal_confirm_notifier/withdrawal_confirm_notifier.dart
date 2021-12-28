@@ -34,7 +34,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
     _operationId = read(withdrawalPreviewNotipod(withdrawal)).operationId;
     _context = read(sNavigatorKeyPod).currentContext!;
     _verb = withdrawal.dictionary.verb.toLowerCase();
-    _requestWithdrawalInfo();
+    requestWithdrawalInfo();
   }
 
   final Reader read;
@@ -75,11 +75,17 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
     }
   }
 
-  void _updateIsResending(bool value) {
-    state = state.copyWith(isResending: value);
+  Future<void> requestWithdrawalInfo() async {
+    _logger.log(notifier, 'requestWithdrawalInfo');
+
+    if (!state.isRequesting) {
+      await _requestWithdrawalInfo();
+    }
   }
 
   Future<void> _requestWithdrawalInfo() async {
+    _updateIsRequesting(true);
+
     try {
       final service = read(blockchainServicePod);
 
@@ -93,14 +99,26 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
         _refreshTimer();
       } else if (response.status == WithdrawalStatus.success) {
         _showSuccessScreen();
+        _timer?.cancel();
       } else {
         _showFailureScreen();
+        _timer?.cancel();
       }
     } catch (error) {
-      _logger.log(stateFlow, '_withdrawalInfo', error);
+      _logger.log(stateFlow, '_requestWithdrawalInfo', error);
 
       _refreshTimer();
     }
+
+    _updateIsRequesting(false);
+  }
+
+  void _updateIsResending(bool value) {
+    state = state.copyWith(isResending: value);
+  }
+
+  void _updateIsRequesting(bool value) {
+    state = state.copyWith(isRequesting: value);
   }
 
   void _refreshTimer() {
@@ -112,7 +130,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
       (timer) {
         if (retryTime == 0) {
           timer.cancel();
-          _requestWithdrawalInfo();
+          requestWithdrawalInfo();
         } else {
           retryTime -= 1;
         }
