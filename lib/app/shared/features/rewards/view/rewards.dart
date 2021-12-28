@@ -25,7 +25,7 @@ class Rewards extends HookWidget {
       child: ListView(
         children: [
           for (final item in state) ...[
-            if (_displaySThreeStepsRewardBanner(item)) ...[
+            if (_displayThreeStepsRewardBanner(item)) ...[
               SThreeStepsRewardBanner(
                 primaryText: item.campaign!.title,
                 timeToComplete: formatBannersDate(
@@ -43,7 +43,7 @@ class Rewards extends HookWidget {
               ),
               const SpaceH20(),
             ],
-            if (_displaySRewardBanner(item)) ...[
+            if (_displayRewardBanner(item)) ...[
               SRewardBanner(
                 color: randomBannerColor(colors),
                 primaryText: item.campaign!.title,
@@ -53,7 +53,7 @@ class Rewards extends HookWidget {
               ),
               const SpaceH20(),
             ],
-            if (_displaySReferralStats(item)) ...[
+            if (_displayReferralStats(item)) ...[
               SReferralStats(
                 referralInvited: item.referralState!.referralInvited,
                 referralActivated: item.referralState!.referralActivated,
@@ -69,7 +69,7 @@ class Rewards extends HookWidget {
     );
   }
 
-  bool _displaySThreeStepsRewardBanner(CampaignOrReferralModel item) {
+  bool _displayThreeStepsRewardBanner(CampaignOrReferralModel item) {
     if (item.campaign == null) {
       return false;
     }
@@ -79,7 +79,7 @@ class Rewards extends HookWidget {
             item.campaign!.conditions!.isNotEmpty);
   }
 
-  bool _displaySRewardBanner(CampaignOrReferralModel item) {
+  bool _displayRewardBanner(CampaignOrReferralModel item) {
     if (item.campaign == null) {
       return false;
     }
@@ -89,7 +89,7 @@ class Rewards extends HookWidget {
             item.campaign!.conditions!.isEmpty);
   }
 
-  bool _displaySReferralStats(CampaignOrReferralModel item) {
+  bool _displayReferralStats(CampaignOrReferralModel item) {
     if (item.referralState == null) {
       return false;
     }
