@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../referral_stats/provider/referral_stats_pod.dart';
-import '../../rewards/notifier/campaign_notipod.dart';
+import '../../rewards/notifier/campaign/campaign_notipod.dart';
 import '../helper/check_all_conditions_passed.dart';
 import '../helper/find_referral_program.dart';
 
