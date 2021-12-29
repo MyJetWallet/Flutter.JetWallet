@@ -8,8 +8,7 @@ import '../../../../../../../shared/features/phone_verification/phone_verificati
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../../../send_by_phone/notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
-import '../../../../send_by_phone/view/screens/send_by_phone_input/components/show_dial_code_picker.dart';
+import '../bottom_sheet/change_phone_dial_code_picker.dart';
 
 class ChangePhoneNumber extends StatefulHookWidget {
   const ChangePhoneNumber({
@@ -52,11 +51,12 @@ class _ChangePhoneNumberState extends State<ChangePhoneNumber>
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final input = useProvider(sendByPhoneInputNotipod);
-    final userInfoN = useProvider(userInfoNotipod.notifier);
+    final phoneNumberInput = useProvider(phoneNumberNotipod);
     final phoneNumberN = useProvider(phoneNumberNotipod.notifier);
-    useListenable(input.phoneNumberController);
-    useListenable(input.dialCodeController);
+    final userInfoN = useProvider(userInfoNotipod.notifier);
+
+    useListenable(phoneNumberInput.phoneNumberController);
+    useListenable(phoneNumberInput.dialCodeController);
 
     return SPageFrame(
       color: colors.grey5,
@@ -87,10 +87,7 @@ class _ChangePhoneNumberState extends State<ChangePhoneNumber>
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          print('GestureDetectorGestureDetector');
-                          // ScaffoldMessenger.of(context).showMaterialBanner()
-
-                          showDialCodePicker(context);
+                          changePhoneDialCodePicker(context);
                         },
                         child: SizedBox(
                           width: 76,
@@ -99,7 +96,7 @@ class _ChangePhoneNumberState extends State<ChangePhoneNumber>
                               labelText: 'Code',
                               readOnly: true,
                               hideClearButton: true,
-                              controller: input.dialCodeController,
+                              controller: phoneNumberInput.dialCodeController,
                             ),
                           ),
                         ),
@@ -114,7 +111,7 @@ class _ChangePhoneNumberState extends State<ChangePhoneNumber>
                           keyboardType: TextInputType.phone,
                           textInputAction: TextInputAction.next,
                           alignLabelWithHint: true,
-                          controller: input.phoneNumberController,
+                          controller: phoneNumberInput.phoneNumberController,
                         ),
                       ),
                     ),
@@ -142,21 +139,21 @@ class _ChangePhoneNumberState extends State<ChangePhoneNumber>
             child: Material(
               color: Colors.transparent,
               child: SPrimaryButton2(
-                active: input.isReadyToContinue,
+                active: phoneNumberInput.isReadyToContinue,
                 name: 'Continue',
                 onTap: () {
                   phoneNumberN.updateCountryCode(
-                    input.dialCodeController.text,
+                    phoneNumberInput.dialCodeController.text,
                   );
                   phoneNumberN.updatePhoneNumber(
-                    input.phoneNumberController.text,
+                    phoneNumberInput.phoneNumberController.text,
                   );
                   PhoneVerificationConfirm.push(
                     context: context,
                     onVerified: () {
                       userInfoN.updatePhone(
-                        '${input.dialCodeController.text}'
-                        '${input.phoneNumberController.text}',
+                        '${phoneNumberInput.dialCodeController.text}'
+                        '${phoneNumberInput.phoneNumberController.text}',
                       );
                       SuccessScreen.push(
                         context: context,

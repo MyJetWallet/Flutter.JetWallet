@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -6,21 +7,18 @@ import '../../logging/levels.dart';
 import 'phone_number_state.dart';
 
 class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
-  PhoneNumberNotifier() : super(const PhoneNumberState());
+  PhoneNumberNotifier()
+      : super(
+          PhoneNumberState(
+            activeDialCode: sPhoneNumbers[0],
+            dialCodeController: TextEditingController(
+              text: sPhoneNumbers[0].countryCode,
+            ),
+            phoneNumberController: TextEditingController(),
+          ),
+        );
 
   static final _logger = Logger('PhoneNumberNotifier');
-
-  final allCountriesCode = sPhoneNumbers;
-  final _filteredCountriesCode = <SPhoneNumber>[];
-  final filteredWithActiveCountryCode = <SPhoneNumber>[];
-
-  List<SPhoneNumber> get filteredCountriesCode => _filteredCountriesCode;
-
-  void updateValid({required bool valid}) {
-    _logger.log(notifier, 'updateValid');
-
-    state = state.copyWith(valid: valid);
-  }
 
   void updatePhoneNumber(String? number) {
     _logger.log(notifier, 'updatePhoneNumber');
@@ -34,51 +32,42 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
     state = state.copyWith(countryCode: code);
   }
 
-  void sortCountriesCode(String countryName) {
-    _logger.log(notifier, 'sortCountriesCode');
-
-    final filteredList = <SPhoneNumber>[];
-
-    for (final element in allCountriesCode) {
-      final searchElement =
-          element.countryName.toLowerCase().contains(countryName.toLowerCase());
-
-      final searchElementCode =
-          element.countryCode.toLowerCase().contains(countryName.toLowerCase());
-
-      if (searchElement || searchElementCode) {
-        filteredList.add(element);
-      }
-    }
-
-    state = state.copyWith(filteredCountriesCode: filteredList);
+  void initDialCodeSearch() {
+    updateDialCodeSearch('');
   }
 
-  void sortClearCountriesCode() {
-    state = state.copyWith(filteredCountriesCode: []);
+  void updateDialCodeSearch(String dialCodeSearch) {
+    _logger.log(notifier, 'updateDialCodeSearch');
+
+    state = state.copyWith(dialCodeSearch: dialCodeSearch);
+
+    _filterByDialCodeSearch();
   }
 
-  bool setActiveCode() {
-    return state.countryCode != '' &&
-        state.phoneNumber != null &&
-        state.phoneNumber!.length > 5;
+  void _filterByDialCodeSearch() {
+    final newList = List<SPhoneNumber>.from(sPhoneNumbers);
+
+    newList.removeWhere((element) {
+      return !_isDialCodeInSearch(element);
+    });
+
+    state = state.copyWith(sortedDialCodes: List.from(newList));
   }
 
-  List<SPhoneNumber> sortActiveCountryCode() {
-    var newList = <SPhoneNumber>[];
+  bool _isDialCodeInSearch(SPhoneNumber number) {
+    final search = state.dialCodeSearch.toLowerCase().replaceAll(' ', '');
+    final code = number.countryCode.toLowerCase().replaceAll(' ', '');
+    final name = number.countryName.toLowerCase().replaceAll(' ', '');
 
-    if (state.countryCode != '') {
-      final country = allCountriesCode.firstWhere(
-        (country) => country.countryCode == state.countryCode,
-      );
-      final elementIndex = allCountriesCode.indexOf(country);
+    return code.contains(search) || name.contains(search);
+  }
 
-      newList = List<SPhoneNumber>.from(allCountriesCode);
-      newList.removeAt(elementIndex);
-      newList.insert(0, country);
-    } else {
-      newList = allCountriesCode;
-    }
-    return newList;
+  void pickDialCodeFromSearch(SPhoneNumber code) {
+    state.dialCodeController.text = code.countryCode;
+    updateActiveDialCode(code);
+  }
+
+  void updateActiveDialCode(SPhoneNumber? number) {
+    state = state.copyWith(activeDialCode: number);
   }
 }
