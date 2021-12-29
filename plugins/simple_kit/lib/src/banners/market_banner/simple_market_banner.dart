@@ -4,10 +4,6 @@ import '../../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
 import '../rewards_banner/helper/set_circle_background_image.dart';
 
-/// (bannersLength != 1 && bannersLength == index + 1)
-/// It is necessary to align the banner in the center if it is 1, if the banner
-/// is the last then the indent is 24 otherwise the gap is 8 between the banners
-
 class SMarketBanner extends StatelessWidget {
   const SMarketBanner({
     Key? key,
@@ -34,6 +30,9 @@ class SMarketBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
+        /// It is necessary to align the banner in the center if it is 1, if the
+        /// banner is the last then the indent is 24 otherwise the gap is 8
+        /// between the banners
         right: (bannersLength != 1 && bannersLength == index + 1)
             ? 24
             : 8,
