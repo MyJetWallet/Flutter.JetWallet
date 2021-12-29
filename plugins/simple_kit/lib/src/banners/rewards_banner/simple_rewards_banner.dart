@@ -12,7 +12,6 @@ class SRewardBanner extends StatelessWidget {
     this.primaryTextStyle,
     this.index,
     this.bannersLength,
-    this.indentRight = false,
     required this.color,
     required this.primaryText,
   }) : super(key: key);
@@ -22,18 +21,12 @@ class SRewardBanner extends StatelessWidget {
   final TextStyle? primaryTextStyle;
   final Color color;
   final String primaryText;
-  final bool indentRight;
   final int? index;
   final int? bannersLength;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: indentRight
-          ? EdgeInsets.zero
-          : const EdgeInsets.only(
-        right: 8,
-      ),
       padding: const EdgeInsets.only(
         left: 20.0,
         top: 20.0,

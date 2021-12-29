@@ -49,7 +49,6 @@ class Rewards extends HookWidget {
                 primaryText: item.campaign!.title,
                 secondaryText: item.campaign!.description,
                 imageUrl: item.campaign!.imageUrl,
-                indentRight: true,
               ),
               const SpaceH20(),
             ],
