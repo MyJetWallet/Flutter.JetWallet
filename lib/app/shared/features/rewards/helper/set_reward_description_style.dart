@@ -4,38 +4,31 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../model/condition_type.dart';
 
-TextStyle setRewardDescriptionStyle(
-    CampaignConditionModel condition,
-    List<CampaignConditionModel> conditions,
-    SimpleColors colors,
-    ) {
+Color setRewardDescriptionStyle(
+  CampaignConditionModel condition,
+  List<CampaignConditionModel> conditions,
+  SimpleColors colors,
+) {
   if (conditions.length > 1) {
     if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition)) {
-      return TextStyle(
-        color: (condition.parameters!.passed == 'false')
-            ? colors.blue
-            : colors.black,
-      );
+      return (condition.parameters!.passed == 'false')
+          ? colors.blue
+          : colors.black;
     } else {
       final currentIndexCondition = conditions.indexOf(condition);
-      final prevCondition = conditions[currentIndexCondition - 1];
-
-      if (prevCondition.parameters!.passed == 'false') {
-        return TextStyle(
-          color: colors.grey1,
-        );
+      if (currentIndexCondition > 0) {
+        final prevCondition = conditions[currentIndexCondition - 1];
+        if (prevCondition.parameters!.passed == 'false') {
+          return colors.grey1;
+        }
       }
-
-      return TextStyle(
-        color: (condition.parameters!.passed == 'false')
-            ? colors.blue
-            : colors.black,
-      );
+      return (condition.parameters!.passed == 'false')
+          ? colors.blue
+          : colors.black;
     }
   } else {
-    return TextStyle(
-      color:
-      (condition.parameters!.passed == 'false') ? colors.blue : colors.black,
-    );
+    return (condition.parameters!.passed == 'false')
+        ? colors.blue
+        : colors.black;
   }
 }
