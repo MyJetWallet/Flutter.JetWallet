@@ -50,50 +50,56 @@ class EmailVerification extends HookWidget {
           title: 'Email verification',
           onBackButtonTap: () => logoutN.logout(),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceH7(),
-            Text(
-              'Enter the code we have sent to your email',
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpaceH7(),
+                  Text(
+                    'Enter the code we have sent to your email',
+                    style: sBodyText1Style.copyWith(
+                      color: colors.grey1,
+                    ),
+                  ),
+                  Text(
+                    authInfo.email,
+                    style: sBodyText1Style,
+                  ),
+                  const SpaceH17(),
+                  SClickableLinkText(
+                    text: 'Open Email App',
+                    onTap: () => openEmailApp(context),
+                  ),
+                  const Spacer(),
+                  PinCodeField(
+                    controller: verification.controller,
+                    length: emailVerificationCodeLength,
+                    onCompleted: (_) {
+                      loader.value.startLoading();
+                      verificationN.verifyCode();
+                    },
+                    autoFocus: true,
+                    pinError: pinError.value,
+                  ),
+                  const Spacer(),
+                  SResendButton(
+                    active: !verification.isResending,
+                    timer: showResend.value ? 0 : timer,
+                    onTap: () {
+                      verificationN.resendCode(
+                        onSuccess: () {
+                          timerN.refreshTimer();
+                          showResend.value = false;
+                        },
+                      );
+                    },
+                  ),
+                  const SpaceH24(),
+                ],
               ),
             ),
-            Text(
-              authInfo.email,
-              style: sBodyText1Style,
-            ),
-            const SpaceH17(),
-            SClickableLinkText(
-              text: 'Open Email App',
-              onTap: () => openEmailApp(context),
-            ),
-            const SpaceH49(),
-            PinCodeField(
-              controller: verification.controller,
-              length: emailVerificationCodeLength,
-              onCompleted: (_) {
-                loader.value.startLoading();
-                verificationN.verifyCode();
-              },
-              autoFocus: true,
-              pinError: pinError.value,
-            ),
-            const Spacer(),
-            SResendButton(
-              active: !verification.isResending,
-              timer: showResend.value ? 0 : timer,
-              onTap: () {
-                verificationN.resendCode(
-                  onSuccess: () {
-                    timerN.refreshTimer();
-                    showResend.value = false;
-                  },
-                );
-              },
-            ),
-            const SpaceH24(),
           ],
         ),
       ),
