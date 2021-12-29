@@ -121,7 +121,6 @@ class SThreeStepsRewardBanner extends StatelessWidget {
             ],
           ),
         ),
-        const SpaceH20(),
       ],
     );
   }
