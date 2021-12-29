@@ -31,14 +31,12 @@ class SAccountBannerList extends StatelessWidget {
 
     return SizedBox(
       height: _bannerHeight(),
-      child: Expanded(
-        child: PageView.builder(
-          controller: controller,
-          itemCount: banners.length,
-          itemBuilder: (_, index) {
-            return banners[index];
-          },
-        ),
+      child: PageView.builder(
+        controller: controller,
+        itemCount: banners.length,
+        itemBuilder: (_, index) {
+          return banners[index];
+        },
       ),
     );
   }
