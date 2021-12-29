@@ -52,7 +52,7 @@ class Account extends HookWidget {
                   ),
                 ),
                 const SpaceH20(),
-                SimpleAccountBannerList(
+                SAccountBannerList(
                     kycPassed: userInfo.kycPassed,
                     twoFaEnabled: userInfo.twoFaEnabled,
                     phoneVerified: userInfo.phoneVerified,
