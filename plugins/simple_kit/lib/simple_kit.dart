@@ -52,6 +52,9 @@ export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 
+/// Market Banners
+export 'src/banners/market_banner/simple_market_banner.dart';
+
 /// Bottom Navigation Bar
 export 'src/bottom_navigation_bar/simple_bottom_navigation_bar.dart';
 

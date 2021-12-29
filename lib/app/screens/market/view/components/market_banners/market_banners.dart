@@ -17,7 +17,7 @@ class MarketBanners extends HookWidget {
     final colors = useProvider(sColorPod);
     final deepLinkService = useProvider(deepLinkServicePod);
 
-    final controller = PageController(viewportFraction: 0.92);
+    final controller = PageController(viewportFraction: 0.96);
 
     return AnimatedContainer(
       duration: (state.isNotEmpty)
@@ -27,30 +27,33 @@ class MarketBanners extends HookWidget {
       height: state.isNotEmpty ? 120.0 : 0.0,
       child: (state.isNotEmpty)
           ? PageView.builder(
-        controller: controller,
-        itemCount: state.length,
-        itemBuilder: (_, index) {
-          final campaign = state[index];
+              controller: controller,
+              itemCount: state.length,
+              padEnds: false,
+              itemBuilder: (_, index) {
+                final campaign = state[index];
 
-          return GestureDetector(
-            onTap: () {
-              deepLinkService.handle(
-                Uri.parse(campaign.deepLink),
-              );
-            },
-            child: SRewardBanner(
-              color: randomBannerColor(colors),
-              primaryText: campaign.title,
-              imageUrl: campaign.imageUrl,
-              primaryTextStyle: sTextH5Style,
-              onClose: () {
-                notifier.deleteCampaign(campaign);
+                return GestureDetector(
+                  onTap: () {
+                    deepLinkService.handle(
+                      Uri.parse(campaign.deepLink),
+                    );
+                  },
+                  child: SMarketBanner(
+                    index: index,
+                    bannersLength: state.length,
+                    color: randomBannerColor(colors),
+                    primaryText: campaign.title,
+                    imageUrl: campaign.imageUrl,
+                    primaryTextStyle: sTextH5Style,
+                    onClose: () {
+                      notifier.deleteCampaign(campaign);
+                    },
+                    // indentRight: state.length == 1,
+                  ),
+                );
               },
-              indentRight: state.length == 1,
-            ),
-          );
-        },
-      )
+            )
           : const SizedBox(),
     );
   }
