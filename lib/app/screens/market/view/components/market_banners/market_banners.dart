@@ -17,7 +17,7 @@ class MarketBanners extends HookWidget {
     final colors = useProvider(sColorPod);
     final deepLinkService = useProvider(deepLinkServicePod);
 
-    final controller = PageController(viewportFraction: 0.96);
+    final controller = PageController(viewportFraction: 0.9);
 
     return Column(
       children: [
@@ -31,7 +31,6 @@ class MarketBanners extends HookWidget {
               ? PageView.builder(
                   controller: controller,
                   itemCount: state.length,
-                  padEnds: false,
                   itemBuilder: (_, index) {
                     final campaign = state[index];
 
@@ -41,24 +40,27 @@ class MarketBanners extends HookWidget {
                           Uri.parse(campaign.deepLink),
                         );
                       },
-                      child: SMarketBanner(
-                        index: index,
-                        bannersLength: state.length,
-                        color: randomBannerColor(colors),
-                        primaryText: campaign.title,
-                        imageUrl: campaign.imageUrl,
-                        primaryTextStyle: sTextH5Style,
-                        onClose: () {
-                          notifier.deleteCampaign(campaign);
-                        },
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          left: 4,
+                          right: 4,
+                        ),
+                        child: SMarketBanner(
+                          color: randomBannerColor(colors),
+                          primaryText: campaign.title,
+                          imageUrl: campaign.imageUrl,
+                          primaryTextStyle: sTextH5Style,
+                          onClose: () {
+                            notifier.deleteCampaign(campaign);
+                          },
+                        ),
                       ),
                     );
                   },
                 )
               : const SizedBox(),
         ),
-        if (state.isNotEmpty)
-          const SpaceH10(),
+        if (state.isNotEmpty) const SpaceH10(),
       ],
     );
   }

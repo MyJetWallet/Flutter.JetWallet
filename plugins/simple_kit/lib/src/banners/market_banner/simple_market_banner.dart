@@ -13,8 +13,6 @@ class SMarketBanner extends StatelessWidget {
     this.primaryTextStyle,
     required this.color,
     required this.primaryText,
-    required this.index,
-    required this.bannersLength,
   }) : super(key: key);
 
   final Function()? onClose;
@@ -23,21 +21,12 @@ class SMarketBanner extends StatelessWidget {
   final TextStyle? primaryTextStyle;
   final Color color;
   final String primaryText;
-  final int index;
-  final int bannersLength;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.only(
-            /// It is necessary to align the banner in the center if it is 1, if
-            /// the banner is the last then the indent is 24 otherwise the gap
-            /// is 8 between the banners
-            right: (bannersLength != 1 && bannersLength == index + 1) ? 24 : 8,
-            left: (index == 0) ? 24 : 0,
-          ),
           padding: const EdgeInsets.only(
             left: 20.0,
             bottom: 20.0,
@@ -48,7 +37,6 @@ class SMarketBanner extends StatelessWidget {
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -103,7 +91,7 @@ class SMarketBanner extends StatelessWidget {
         if (onClose != null)
           Positioned(
             top: 10,
-            right: (bannersLength != 1 && bannersLength == index + 1) ? 35 : 20,
+            right: 10,
             child: GestureDetector(
               onTap: onClose,
               child: const SEraseMarketIcon(),
