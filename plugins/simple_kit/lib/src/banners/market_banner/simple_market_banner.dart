@@ -4,6 +4,10 @@ import '../../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
 import '../rewards_banner/helper/set_circle_background_image.dart';
 
+/// (bannersLength != 1 && bannersLength == index + 1)
+/// It is necessary to align the banner in the center if it is 1, if the banner
+/// is the last then the indent is 24 otherwise the gap is 8 between the banners
+
 class SMarketBanner extends StatelessWidget {
   const SMarketBanner({
     Key? key,
@@ -11,19 +15,18 @@ class SMarketBanner extends StatelessWidget {
     this.imageUrl,
     this.onClose,
     this.primaryTextStyle,
-    this.indentRight = false,
     required this.color,
     required this.primaryText,
     required this.index,
     required this.bannersLength,
   }) : super(key: key);
+
   final Function()? onClose;
   final String? secondaryText;
   final String? imageUrl;
   final TextStyle? primaryTextStyle;
   final Color color;
   final String primaryText;
-  final bool indentRight;
   final int index;
   final int bannersLength;
 

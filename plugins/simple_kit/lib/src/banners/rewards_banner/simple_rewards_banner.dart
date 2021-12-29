@@ -10,8 +10,6 @@ class SRewardBanner extends StatelessWidget {
     this.secondaryText,
     this.imageUrl,
     this.primaryTextStyle,
-    this.index,
-    this.bannersLength,
     required this.color,
     required this.primaryText,
   }) : super(key: key);
@@ -21,8 +19,6 @@ class SRewardBanner extends StatelessWidget {
   final TextStyle? primaryTextStyle;
   final Color color;
   final String primaryText;
-  final int? index;
-  final int? bannersLength;
 
   @override
   Widget build(BuildContext context) {

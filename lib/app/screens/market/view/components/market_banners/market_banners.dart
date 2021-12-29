@@ -49,7 +49,6 @@ class MarketBanners extends HookWidget {
                     onClose: () {
                       notifier.deleteCampaign(campaign);
                     },
-                    // indentRight: state.length == 1,
                   ),
                 );
               },
