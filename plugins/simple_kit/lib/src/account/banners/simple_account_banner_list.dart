@@ -19,7 +19,7 @@ class SAccountBannerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(viewportFraction: 0.88);
+    final controller = PageController(viewportFraction: 0.9);
 
     final banners = createBannersList(
       twoFaEnabled: twoFaEnabled,
@@ -35,7 +35,13 @@ class SAccountBannerList extends StatelessWidget {
         controller: controller,
         itemCount: banners.length,
         itemBuilder: (_, index) {
-          return banners[index];
+          return Container(
+            margin: const EdgeInsets.only(
+              left: 4,
+              right: 4,
+            ),
+            child: banners[index],
+          );
         },
       ),
     );
