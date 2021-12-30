@@ -30,7 +30,6 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     if (isEmailValid(state.email)) {
       state = state.copyWith(
         emailValid: true,
-        readyToLogin: true,
       );
     } else {
       state = state.copyWith(emailValid: false);
@@ -43,7 +42,6 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     if (isPasswordValid(state.password)) {
       state = state.copyWith(
         passwordValid: true,
-        readyToLogin: true,
       );
     } else {
       state = state.copyWith(passwordValid: false);
@@ -51,11 +49,15 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
   }
 
   void updateAndValidateEmail(String email) {
+    _logger.log(notifier, 'updateAndValidateEmail');
+
     updateEmail(email);
     validateEmail();
   }
 
   void updateAndValidatePassword(String password) {
+    _logger.log(notifier, 'updateAndValidatePassword');
+
     updatePassword(password);
     validatePassword();
   }
@@ -64,26 +66,6 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     _logger.log(notifier, 'checkPolicy');
 
     state = state.copyWith(policyChecked: !state.policyChecked);
-  }
-
-  void unreadyToLogin() {
-    _logger.log(notifier, 'unreadyToLogin');
-
-    state = state.copyWith(readyToLogin: false);
-  }
-
-  bool get readyToRegister {
-    return state.emailValid && state.passwordValid;
-  }
-
-  bool get readyToLogin {
-    return state.emailValid &&
-        isPasswordLengthValid(state.password) &&
-        state.readyToLogin;
-  }
-
-  bool get emailIsNotEmptyAndPolicyChecked {
-    return state.email.isNotEmpty && state.policyChecked;
   }
 
   void clear() {

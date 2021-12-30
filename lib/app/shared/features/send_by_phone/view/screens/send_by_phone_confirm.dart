@@ -82,7 +82,7 @@ class SendByPhoneConfirm extends HookWidget {
               timer: timer,
               onTap: () {
                 confirmN.transferResend(
-                  then: () => timerN.refreshTimer(),
+                  onSuccess: timerN.refreshTimer,
                 );
               },
             ),

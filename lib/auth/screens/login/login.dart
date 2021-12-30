@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/launch_url.dart';
-import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
@@ -17,6 +16,12 @@ import '../forgot_password/view/forgot_password.dart';
 class Login extends HookWidget {
   const Login({Key? key}) : super(key: key);
 
+  static const routeName = '/login';
+
+  static Future push(BuildContext context) {
+    return Navigator.pushNamed(context, routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
@@ -27,7 +32,8 @@ class Login extends HookWidget {
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
-    final loading = useValueNotifier(StackLoaderNotifier());
+    final loader = useValueNotifier(StackLoaderNotifier());
+    final disableContinue = useState(false);
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -35,7 +41,8 @@ class Login extends HookWidget {
         union.when(
           input: (error, st) {
             if (error != null) {
-              loading.value.finishLoading();
+              disableContinue.value = false;
+              loader.value.finishLoading();
               emailError.value.enableError();
               passwordError.value.enableError();
               sShowErrorNotification(
@@ -48,15 +55,14 @@ class Login extends HookWidget {
         );
       },
       child: SPageFrame(
-        loading: loading.value,
+        loading: loader.value,
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
             title: intl.login_signIn,
-            onBackButtonTap: () => Navigator.pop(context),
             showLink: true,
             linkText: intl.login_forgotPassword,
-            onLinkTap: () => navigatorPush(context, const ForgotPassword()),
+            onLinkTap: () => ForgotPassword.push(context),
           ),
         ),
         child: AutofillGroup(
@@ -125,29 +131,29 @@ class Login extends HookWidget {
                           userAgreementText: intl.login_policyText2,
                           betweenText: ' ${intl.login_policyText3} ',
                           privacyPolicyText: intl.login_policyText4,
-                          onUserAgreementTap: () =>
-                              launchURL(context, userAgreementLink),
-                          onPrivacyPolicyTap: () =>
-                              launchURL(context, privacyPolicyLink),
+                          onUserAgreementTap: () {
+                            launchURL(context, userAgreementLink);
+                          },
+                          onPrivacyPolicyTap: () {
+                            launchURL(context, privacyPolicyLink);
+                          },
                         ),
                       ),
                     ),
                     SPaddingH24(
                       child: SPrimaryButton2(
-                        active: credentialsN.readyToLogin,
+                        active: credentials.readyToLogin &&
+                            !disableContinue.value &&
+                            !loader.value.value,
                         name: intl.login_continueButton,
                         onTap: () {
-                          if (credentialsN.readyToLogin) {
-                            loading.value.startLoading();
-
-                            authenticationN.authenticate(
-                              email: credentials.email,
-                              password: credentials.password,
-                              operation: AuthOperation.login,
-                            );
-
-                            credentialsN.unreadyToLogin();
-                          }
+                          disableContinue.value = true;
+                          loader.value.startLoading();
+                          authenticationN.authenticate(
+                            email: credentials.email,
+                            password: credentials.password,
+                            operation: AuthOperation.login,
+                          );
                         },
                       ),
                     ),
