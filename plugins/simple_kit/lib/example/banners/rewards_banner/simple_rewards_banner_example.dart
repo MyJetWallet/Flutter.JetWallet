@@ -20,8 +20,7 @@ class SimpleRewardsBannerExample extends StatelessWidget {
             SRewardBanner(
               color: SColorsLight().violet,
               primaryText: 'Invite friends\nand get \$10',
-              secondaryText: 'Get a rando m coin with every trade over \$50',
-              onClose: () {},
+              secondaryText: 'Get a random coin with every trade over \$50',
             ),
             const SpaceH20(),
           ],

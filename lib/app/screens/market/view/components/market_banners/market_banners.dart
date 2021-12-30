@@ -17,41 +17,51 @@ class MarketBanners extends HookWidget {
     final colors = useProvider(sColorPod);
     final deepLinkService = useProvider(deepLinkServicePod);
 
-    final controller = PageController(viewportFraction: 0.92);
+    final controller = PageController(viewportFraction: 0.9);
 
-    return AnimatedContainer(
-      duration: (state.isNotEmpty)
-          ? Duration.zero
-          : const Duration(milliseconds: 300),
-      curve: Curves.fastOutSlowIn,
-      height: state.isNotEmpty ? 120.0 : 0.0,
-      child: (state.isNotEmpty)
-          ? PageView.builder(
-        controller: controller,
-        itemCount: state.length,
-        itemBuilder: (_, index) {
-          final campaign = state[index];
+    return Column(
+      children: [
+        AnimatedContainer(
+          duration: (state.isNotEmpty)
+              ? Duration.zero
+              : const Duration(milliseconds: 300),
+          curve: Curves.fastOutSlowIn,
+          height: state.isNotEmpty ? 120.0 : 0.0,
+          child: (state.isNotEmpty)
+              ? PageView.builder(
+                  controller: controller,
+                  itemCount: state.length,
+                  itemBuilder: (_, index) {
+                    final campaign = state[index];
 
-          return GestureDetector(
-            onTap: () {
-              deepLinkService.handle(
-                Uri.parse(campaign.deepLink),
-              );
-            },
-            child: SRewardBanner(
-              color: randomBannerColor(colors),
-              primaryText: campaign.title,
-              imageUrl: campaign.imageUrl,
-              primaryTextStyle: sTextH5Style,
-              onClose: () {
-                notifier.deleteCampaign(campaign);
-              },
-              indentRight: state.length == 1,
-            ),
-          );
-        },
-      )
-          : const SizedBox(),
+                    return GestureDetector(
+                      onTap: () {
+                        deepLinkService.handle(
+                          Uri.parse(campaign.deepLink),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          left: 4,
+                          right: 4,
+                        ),
+                        child: SMarketBanner(
+                          color: randomBannerColor(colors),
+                          primaryText: campaign.title,
+                          imageUrl: campaign.imageUrl,
+                          primaryTextStyle: sTextH5Style,
+                          onClose: () {
+                            notifier.deleteCampaign(campaign);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : const SizedBox(),
+        ),
+        if (state.isNotEmpty) const SpaceH10(),
+      ],
     );
   }
 }
