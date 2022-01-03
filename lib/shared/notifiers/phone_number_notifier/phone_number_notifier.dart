@@ -20,7 +20,7 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
 
   static final _logger = Logger('PhoneNumberNotifier');
 
-  void updatePhoneNumber(String? number) {
+  void updatePhoneNumber(String number) {
     _logger.log(notifier, 'updatePhoneNumber');
 
     state = state.copyWith(phoneNumber: number);
@@ -29,7 +29,9 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   void updateCountryCode(String? code) {
     _logger.log(notifier, 'updateCountryCode');
 
-    state = state.copyWith(countryCode: code);
+    state = state.copyWith(
+      countryCode: code ?? sPhoneNumbers[0].countryCode,
+    );
   }
 
   void initDialCodeSearch() {
@@ -67,7 +69,10 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
     updateActiveDialCode(code);
   }
 
-  void updateActiveDialCode(SPhoneNumber? number) {
-    state = state.copyWith(activeDialCode: number);
+  void updateActiveDialCode(SPhoneNumber code) {
+    state = state.copyWith(
+      activeDialCode: code,
+      countryCode: code.countryCode,
+    );
   }
 }

@@ -80,7 +80,7 @@ class PhoneVerificationConfirmNotifier
 
         _userInfoN.updatePhoneVerified(phoneVerified: true);
         _userInfoN.updateTwoFaStatus(enabled: true);
-
+        _userInfoN.updatePhone(state.phoneNumber);
         if (!mounted) return;
         onVerified();
       },

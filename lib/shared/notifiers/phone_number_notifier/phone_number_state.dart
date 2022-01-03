@@ -8,9 +8,9 @@ part 'phone_number_state.freezed.dart';
 class PhoneNumberState with _$PhoneNumberState {
   const factory PhoneNumberState({
     String? asset,
-    String? phoneNumber,
     String? countryName,
     SPhoneNumber? activeDialCode,
+    @Default('') String phoneNumber,
     @Default('') String dialCodeSearch,
     @Default('') String? countryCode,
     @Default([]) List<SPhoneNumber> sortedDialCodes,
@@ -19,9 +19,4 @@ class PhoneNumberState with _$PhoneNumberState {
   }) = _PhoneNumberState;
 
   const PhoneNumberState._();
-
-  bool get isReadyToContinue {
-    return dialCodeController.text.isNotEmpty &&
-        phoneNumberController.text.isNotEmpty;
-  }
 }
