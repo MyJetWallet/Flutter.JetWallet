@@ -91,10 +91,11 @@ class WithdrawalConfirm extends HookWidget {
               timer: timer,
               onTap: () {
                 confirmN.withdrawalResend(
-                  then: () => timerN.refreshTimer(),
+                  onSuccess: timerN.refreshTimer,
                 );
               },
             ),
+            const SpaceH24(),
           ],
         ),
       ),

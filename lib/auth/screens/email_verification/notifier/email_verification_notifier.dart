@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../service/services/validation/model/send_email_verification_code_request_model.dart';
 import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
+import '../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/refresh_token.dart';
@@ -40,10 +41,10 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
     state.controller.text = code ?? '';
   }
 
-  Future<void> sendCode() async {
-    _logger.log(notifier, 'sendCode');
+  Future<void> resendCode({required Function() onSuccess}) async {
+    _logger.log(notifier, 'resendCode');
 
-    state = state.copyWith(union: const Loading());
+    _updateIsResending(true);
 
     try {
       final model = SendEmailVerificationCodeRequestModel(
@@ -53,11 +54,16 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
       await read(validationServicePod).sendEmailVerificationCode(model);
 
-      state = state.copyWith(union: const Input());
+      if (!mounted) return;
+      _updateIsResending(false);
+      onSuccess();
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
-
-      state = state.copyWith(union: Error(e));
+      _updateIsResending(false);
+      sShowErrorNotification(
+        read(sNotificationQueueNotipod.notifier),
+        'Failed to resend. Try again!',
+      );
     }
   }
 
@@ -88,14 +94,22 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       );
 
       read(startupNotipod.notifier).emailVerified();
-    } catch (e) {
-      _logger.log(stateFlow, 'verifyCode', e);
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'verifyCode', error.cause);
 
-      state = state.copyWith(union: Error(e));
+      state = state.copyWith(union: Error(error.cause));
+    } catch (error) {
+      _logger.log(stateFlow, 'verifyCode', error);
+
+      state = state.copyWith(union: Error(error));
     }
   }
 
   void _updateEmail(String email) {
     state = state.copyWith(email: email);
+  }
+
+  void _updateIsResending(bool value) {
+    state = state.copyWith(isResending: value);
   }
 }

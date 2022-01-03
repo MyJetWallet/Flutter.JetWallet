@@ -6,6 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../auth/screens/forgot_password/view/confirm_password_reset.dart';
+import '../../auth/screens/forgot_password/view/forgot_password.dart';
+import '../../auth/screens/login/login.dart';
+import '../../auth/screens/register/register.dart';
+import '../../auth/screens/register/register_password_screen.dart';
+import '../../auth/screens/reset_password/view/reset_password.dart';
 import '../../router/view/router.dart';
 import '../../shared/logging/provider_logger.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
@@ -99,11 +105,35 @@ class _App extends HookWidget {
           initialRoute:
               isStageEnv ? AppRouterStage.routeName : AppRouter.routeName,
           routes: {
-            AppRouter.routeName: (_) => const AppRouter(),
+            AppRouter.routeName: (_) {
+              return const AppRouter();
+            },
             // [START] Stage only routes ->
-            AppRouterStage.routeName: (_) => const AppRouterStage(),
-            AppInit.routeName: (_) => const AppInit(),
+            AppRouterStage.routeName: (_) {
+              return const AppRouterStage();
+            },
+            AppInit.routeName: (_) {
+              return const AppInit();
+            },
             // <- Stage only routes [END]
+            RegisterPasswordScreen.routeName: (_) {
+              return const RegisterPasswordScreen();
+            },
+            ResetPassword.routeName: (_) {
+              return const ResetPassword();
+            },
+            Login.routeName: (_) {
+              return const Login();
+            },
+            Register.routeName: (_) {
+              return const Register();
+            },
+            ForgotPassword.routeName: (_) {
+              return const ForgotPassword();
+            },
+            ConfirmPasswordReset.routeName: (_) {
+              return const ConfirmPasswordReset();
+            },
           },
         );
       },

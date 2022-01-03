@@ -23,65 +23,59 @@ class SimpleAccountBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
-        right: 8,
-      ),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: 327,
-          padding: const EdgeInsets.only(
-            top: 20,
-            left: 20,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.r),
-            color: color,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: setCircleBackgroundImage(imageUrl),
-              ),
-              const SpaceW16(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 14,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.only(
+          top: 20,
+          left: 20,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.r),
+          color: color,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: setCircleBackgroundImage(imageUrl),
+            ),
+            const SpaceW16(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 14,
+                  ),
+                  child: Baseline(
+                    baseline: 20,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      header,
+                      maxLines: 2,
+                      style: sTextH5Style,
                     ),
-                    child: Baseline(
-                      baseline: 20,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        header,
-                        maxLines: 2,
-                        style: sTextH5Style,
+                  ),
+                ),
+                SizedBox(
+                  width: 177,
+                  child: Baseline(
+                    baseline: 22,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      description,
+                      maxLines: 4,
+                      style: sBodyText2Style.copyWith(
+                        color: SColorsLight().grey1,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 177,
-                    child: Baseline(
-                      baseline: 22,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        description,
-                        maxLines: 4,
-                        style: sBodyText2Style.copyWith(
-                          color: SColorsLight().grey1,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

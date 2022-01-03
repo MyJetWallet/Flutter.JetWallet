@@ -5,9 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../app/shared/features/send_by_phone/provider/send_by_phone_dynamic_link_stpod.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
-import '../../auth/screens/email_verification/view/email_verification.dart';
 import '../../auth/screens/login/login.dart';
 import '../../auth/screens/reset_password/view/reset_password.dart';
+import '../../router/notifier/startup_notifier/authorized_union.dart';
 import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../helpers/navigator_push.dart';
 import '../notifiers/logout_notifier/logout_notipod.dart';
@@ -70,11 +70,9 @@ class DeepLinkService {
   }
 
   void _forgotPasswordCommand(Map<String, String> parameters) {
-    navigatorPush(
-      read(sNavigatorKeyPod).currentContext!,
-      ResetPassword(
-        token: parameters[_token]!,
-      ),
+    ResetPassword.push(
+      context: read(sNavigatorKeyPod).currentContext!,
+      args: ResetPasswordArgs(token: parameters[_token]!),
     );
   }
 
