@@ -5,7 +5,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../../shared/features/phone_verification/phone_verification_confirm/view/phone_verification_confirm.dart';
-import '../../../../../../../shared/helpers/device_type.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../bottom_sheet/change_phone_dial_code_picker.dart';
@@ -38,9 +37,13 @@ class ChangePhoneNumber extends HookWidget {
 
     return SPageFrame(
       color: colors.grey5,
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
           title: 'Enter phone number',
+          onBackButtonTap: () {
+            notifier.clearCountryCode();
+            Navigator.pop(context);
+          },
         ),
       ),
       child: Column(
@@ -132,25 +135,9 @@ class ChangePhoneNumber extends HookWidget {
               },
             ),
           ),
-          if (deviceType == 'ios')
-            Padding(
-              padding: EdgeInsets.only(
-                bottom: _paddingHeight(context),
-              ),
-            ),
           const SpaceH24(),
         ],
       ),
     );
-  }
-
-  double _paddingHeight(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size.height;
-
-    if (screenSize > 667) {
-      return 291.0;
-    } else {
-      return 216.0;
-    }
   }
 }

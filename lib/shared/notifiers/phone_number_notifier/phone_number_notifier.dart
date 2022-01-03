@@ -75,4 +75,8 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
       countryCode: code.countryCode,
     );
   }
+
+  void clearCountryCode() {
+    state = state.copyWith(countryCode: '');
+  }
 }
