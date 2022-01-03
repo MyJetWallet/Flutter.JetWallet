@@ -15,7 +15,6 @@ class PhoneNumberState with _$PhoneNumberState {
     @Default('') String? countryCode,
     @Default([]) List<SPhoneNumber> sortedDialCodes,
     required TextEditingController dialCodeController,
-    required TextEditingController phoneNumberController,
   }) = _PhoneNumberState;
 
   const PhoneNumberState._();

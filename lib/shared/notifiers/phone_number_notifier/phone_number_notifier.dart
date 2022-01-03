@@ -14,7 +14,6 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
             dialCodeController: TextEditingController(
               text: sPhoneNumbers[0].countryCode,
             ),
-            phoneNumberController: TextEditingController(),
           ),
         );
 
