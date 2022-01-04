@@ -9,11 +9,7 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
-  // TODO for some reason when parameter is not provided
-  // it's [Closure: () => Null] and isn't [null],
-  // so, if-check on the null doesn't work. Investiagte!
-  // Couldn't reproduce the issue on other screens
-  final Function()? onSearchButtonTap;
+  final void Function()? onSearchButtonTap;
   final String title;
 
   @override
@@ -30,17 +26,17 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
             style: sTextH2Style,
           ),
         ),
-        // TODO uncomment when search feature will be ready
-        // const Spacer(),
-        // Baseline(
-        //   baseline: 24.0,
-        //   baselineType: TextBaseline.alphabetic,
-        //   child: SIconButton(
-        //     onTap: onSearchButtonTap,
-        //     defaultIcon: const SSearchIcon(),
-        //     pressedIcon: const SSearchPressedIcon(),
-        //   ),
-        // ),
+        const Spacer(),
+        if (onSearchButtonTap != null)
+          Baseline(
+            baseline: 24.0,
+            baselineType: TextBaseline.alphabetic,
+            child: SIconButton(
+              onTap: onSearchButtonTap,
+              defaultIcon: const SSearchIcon(),
+              pressedIcon: const SSearchPressedIcon(),
+            ),
+          ),
       ],
     );
   }

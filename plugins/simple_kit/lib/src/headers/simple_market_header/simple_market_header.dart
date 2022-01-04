@@ -14,7 +14,7 @@ class SMarketHeader extends StatelessWidget {
     required this.isPositive,
   }) : super(key: key);
 
-  final Function()? onSearchButtonTap;
+  final void Function()? onSearchButtonTap;
   final String title;
   final String subtitle;
   final double percent;
@@ -32,6 +32,7 @@ class SMarketHeader extends StatelessWidget {
             height: 64.0,
           ),
           SimpleMarketHeaderTitle(
+            key: key,
             title: title,
             onSearchButtonTap: onSearchButtonTap,
           ),

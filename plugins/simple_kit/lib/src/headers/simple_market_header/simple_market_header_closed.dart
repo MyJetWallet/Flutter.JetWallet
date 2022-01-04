@@ -11,7 +11,7 @@ class SMarketHeaderClosed extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
-  final Function()? onSearchButtonTap;
+  final void Function()? onSearchButtonTap;
   final bool isDivider;
   final String title;
 
