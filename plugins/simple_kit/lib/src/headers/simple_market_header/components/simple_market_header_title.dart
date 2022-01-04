@@ -5,12 +5,16 @@ import '../../../../simple_kit.dart';
 class SimpleMarketHeaderTitle extends StatelessWidget {
   const SimpleMarketHeaderTitle({
     Key? key,
+    this.onSearchButtonTap,
     required this.title,
-    required this.onSearchButtonTap,
   }) : super(key: key);
 
+  // TODO for some reason when parameter is not provided
+  // it's [Closure: () => Null] and isn't [null],
+  // so, if-check on the null doesn't work. Investiagte!
+  // Couldn't reproduce the issue on other screens
+  final Function()? onSearchButtonTap;
   final String title;
-  final Function() onSearchButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +30,17 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
             style: sTextH2Style,
           ),
         ),
-        const Spacer(),
-        Baseline(
-          baseline: 24.0,
-          baselineType: TextBaseline.alphabetic,
-          child: SIconButton(
-            onTap: onSearchButtonTap,
-            defaultIcon: const SSearchIcon(),
-            pressedIcon: const SSearchPressedIcon(),
-          ),
-        ),
+        // TODO uncomment when search feature will be ready
+        // const Spacer(),
+        // Baseline(
+        //   baseline: 24.0,
+        //   baselineType: TextBaseline.alphabetic,
+        //   child: SIconButton(
+        //     onTap: onSearchButtonTap,
+        //     defaultIcon: const SSearchIcon(),
+        //     pressedIcon: const SSearchPressedIcon(),
+        //   ),
+        // ),
       ],
     );
   }
