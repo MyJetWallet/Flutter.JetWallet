@@ -12,6 +12,7 @@ void sShowAlertPopup(
   String? secondaryButtonName,
   Widget? image,
   Widget? topSpacer,
+  Widget? child,
   bool willPopScope = true,
   bool barrierDismissible = true,
   required String primaryText,
@@ -75,6 +76,7 @@ void sShowAlertPopup(
                         ),
                       ),
                     const SpaceH40(),
+                    if (child != null) child,
                     SPrimaryButton1(
                       name: primaryButtonName,
                       active: true,

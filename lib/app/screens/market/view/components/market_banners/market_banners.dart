@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/features/rewards/notifier/campaign/campaign_notipod.dart';
 import '../../../../../shared/helpers/random_banner_color.dart';
@@ -36,9 +37,70 @@ class MarketBanners extends HookWidget {
 
                     return GestureDetector(
                       onTap: () {
-                        deepLinkService.handle(
-                          Uri.parse(campaign.deepLink),
+                        sShowAlertPopup(
+                          context,
+                          image: Image.asset(
+                            verifyYourProfileAsset,
+                          ),
+                          primaryText: 'Verify your profile!',
+                          secondaryText: 'To complete profile verification you '
+                              'need to pass following steps:',
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(
+                                      color: colors.grey4,
+                                    ),
+                                  ),
+                                ),
+                                height: 100,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: const [
+                                        Baseline(
+                                          baseline: 24.0,
+                                          baselineType: TextBaseline.alphabetic,
+                                          child: Text('1. Secure your account'),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: const [
+                                        Baseline(
+                                          baseline: 24.0,
+                                          baselineType: TextBaseline.alphabetic,
+                                          child:
+                                              Text('2. Verify your identity'),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                child: Container(
+                                  height: 23,
+                                  width: 200,
+                                  color: Colors.red.withOpacity(0.4),
+                                ),
+                              ),
+                            ],
+                          ),
+                          primaryButtonName: 'Continue',
+                          secondaryButtonName: 'Later',
+                          onPrimaryButtonTap: () {},
+                          onSecondaryButtonTap: () {
+                            Navigator.pop(context);
+                          },
                         );
+
+                        // deepLinkService.handle(
+                        //   Uri.parse(campaign.deepLink),
+                        // );
                       },
                       child: Container(
                         padding: const EdgeInsets.only(
