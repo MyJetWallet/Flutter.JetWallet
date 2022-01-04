@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/profile_details/view/components/change_phone_number/change_phone_number.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/constants.dart';
@@ -45,54 +46,66 @@ class MarketBanners extends HookWidget {
                           primaryText: 'Verify your profile!',
                           secondaryText: 'To complete profile verification you '
                               'need to pass following steps:',
-                          child: Stack(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    top: BorderSide(
-                                      color: colors.grey4,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  clipBehavior: Clip.hardEdge,
+                                  // height: 110,
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        color: colors.grey4,
+                                      ),
                                     ),
                                   ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Baseline(
+                                            baseline: 40.0,
+                                            baselineType:
+                                                TextBaseline.alphabetic,
+                                            child: Text(
+                                              '1. Secure your account',
+                                              style: sBodyText1Style.copyWith(
+                                                color: colors.grey1,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Baseline(
+                                            baseline: 40.0,
+                                            baselineType:
+                                                TextBaseline.alphabetic,
+                                            child: Text(
+                                              '2. Verify your identity',
+                                              style: sBodyText1Style.copyWith(
+                                                color: colors.grey1,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                height: 100,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: const [
-                                        Baseline(
-                                          baseline: 24.0,
-                                          baselineType: TextBaseline.alphabetic,
-                                          child: Text('1. Secure your account'),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: const [
-                                        Baseline(
-                                          baseline: 24.0,
-                                          baselineType: TextBaseline.alphabetic,
-                                          child:
-                                              Text('2. Verify your identity'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                child: Container(
-                                  height: 23,
-                                  width: 200,
-                                  color: Colors.red.withOpacity(0.4),
-                                ),
-                              ),
-                            ],
+                                const SpaceH40(),
+                              ],
+                            ),
                           ),
                           primaryButtonName: 'Continue',
                           secondaryButtonName: 'Later',
-                          onPrimaryButtonTap: () {},
+                          onPrimaryButtonTap: () {
+                            ChangePhoneNumber.push(
+                              context: context,
+                              onVerified: () {},
+                            );
+                          },
                           onSecondaryButtonTap: () {
                             Navigator.pop(context);
                           },

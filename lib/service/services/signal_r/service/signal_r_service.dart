@@ -158,6 +158,9 @@ class SignalRService {
 
     _connection?.on(clientDetailMessage, (data) {
       try {
+
+        print('DATA FROM SIGNAL R $data');
+
         final clientDetail = ClientDetailModel.fromJson(_json(data));
         _clientDetailController.add(clientDetail);
       } catch (e) {

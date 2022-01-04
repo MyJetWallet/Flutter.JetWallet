@@ -8,6 +8,7 @@ import '../../../../../../../shared/features/phone_verification/phone_verificati
 import '../../../../../../../shared/features/phone_verification/phone_verification_enter/components/phone_number_bottom_sheet.dart';
 import '../../../../../../../shared/features/phone_verification/phone_verification_enter/components/phone_number_search.dart';
 import '../../../../../../../shared/features/phone_verification/phone_verification_enter/components/phone_verification_block.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifier/change_phone_notifier/change_phone_notipod.dart';
@@ -15,7 +16,22 @@ import '../../../notifier/change_phone_notifier/change_phone_notipod.dart';
 class ChangePhoneNumber extends HookWidget {
   const ChangePhoneNumber({
     Key? key,
+    required this.onVerified,
   }) : super(key: key);
+
+  final Function() onVerified;
+
+  static void push({
+    required BuildContext context,
+    required Function() onVerified,
+  }) {
+    navigatorPush(
+      context,
+      ChangePhoneNumber(
+        onVerified: onVerified,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
