@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 
-void changePhoneDialCodePicker(BuildContext context) {
+void showPhoneDialCodePicker(BuildContext context) {
   context.read(phoneNumberNotipod.notifier).initDialCodeSearch();
 
   sShowBasicModalBottomSheet(

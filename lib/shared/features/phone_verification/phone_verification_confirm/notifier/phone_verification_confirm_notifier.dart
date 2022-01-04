@@ -6,7 +6,6 @@ import '../../../../../service/services/phone_verification/model/phone_verificat
 import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../logging/levels.dart';
-import '../../../../notifiers/phone_number_notifier/phone_number_notifier.dart';
 import '../../../../notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../../notifiers/user_info_notifier/user_info_notipod.dart';
@@ -25,13 +24,18 @@ class PhoneVerificationConfirmNotifier
           ),
         ) {
     _userInfoN = read(userInfoNotipod.notifier);
-    _phoneNumberN = read(phoneNumberNotipod.notifier);
 
     final countryPhoneVerification = read(phoneNumberNotipod);
 
-    final phoneNumberWithIso =
-        '${countryPhoneVerification.countryCode}'
-    '${countryPhoneVerification.phoneNumber}';
+    String phoneNumberWithIso;
+
+    if (countryPhoneVerification.countryCode.isNotEmpty) {
+      phoneNumberWithIso =
+          '${countryPhoneVerification.countryCode}'
+          '${countryPhoneVerification.phoneNumber}';
+    } else {
+      phoneNumberWithIso = countryPhoneVerification.phoneNumber;
+    }
 
     _updatePhoneNumber(phoneNumberWithIso);
     sendCode();
@@ -41,7 +45,6 @@ class PhoneVerificationConfirmNotifier
   final Function() onVerified;
 
   late UserInfoNotifier _userInfoN;
-  late PhoneNumberNotifier _phoneNumberN;
 
   static final _logger = Logger('PhoneVerificationConfirmNotifier');
 
@@ -84,7 +87,6 @@ class PhoneVerificationConfirmNotifier
         _userInfoN.updatePhoneVerified(phoneVerified: true);
         _userInfoN.updateTwoFaStatus(enabled: true);
         _userInfoN.updatePhone(state.phoneNumber);
-        _phoneNumberN.updatePhoneNumber('');
         if (!mounted) return;
         onVerified();
       },

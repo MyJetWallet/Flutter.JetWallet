@@ -37,13 +37,9 @@ class ChangePhoneNumber extends HookWidget {
 
     return SPageFrame(
       color: colors.grey5,
-      header: SPaddingH24(
+      header: const SPaddingH24(
         child: SSmallHeader(
           title: 'Enter phone number',
-          onBackButtonTap: () {
-            notifier.clearCountryCode();
-            Navigator.pop(context);
-          },
         ),
       ),
       child: Column(
@@ -66,7 +62,7 @@ class ChangePhoneNumber extends HookWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      changePhoneDialCodePicker(context);
+                      showPhoneDialCodePicker(context);
                     },
                     child: SizedBox(
                       width: 76,
@@ -91,9 +87,7 @@ class ChangePhoneNumber extends HookWidget {
                       textInputAction: TextInputAction.next,
                       alignLabelWithHint: true,
                       onChanged: (String phone) {
-                        notifier.updatePhoneNumber(
-                          phone,
-                        );
+                        notifier.updatePhoneNumber(phone);
                       },
                     ),
                   ),
@@ -119,9 +113,6 @@ class ChangePhoneNumber extends HookWidget {
               active: state.phoneNumber.isNotEmpty,
               name: 'Continue',
               onTap: () {
-                notifier.updateCountryCode(
-                  state.dialCodeController.text,
-                );
                 PhoneVerificationConfirm.push(
                   context: context,
                   onVerified: () {

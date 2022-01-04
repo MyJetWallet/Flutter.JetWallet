@@ -10,10 +10,7 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   PhoneNumberNotifier()
       : super(
           PhoneNumberState(
-            activeDialCode: sPhoneNumbers[0],
-            dialCodeController: TextEditingController(
-              text: sPhoneNumbers[0].countryCode,
-            ),
+            dialCodeController: TextEditingController(),
           ),
         );
 
@@ -23,14 +20,6 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
     _logger.log(notifier, 'updatePhoneNumber');
 
     state = state.copyWith(phoneNumber: number);
-  }
-
-  void updateCountryCode(String? code) {
-    _logger.log(notifier, 'updateCountryCode');
-
-    state = state.copyWith(
-      countryCode: code ?? sPhoneNumbers[0].countryCode,
-    );
   }
 
   void initDialCodeSearch() {
@@ -71,11 +60,6 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   void updateActiveDialCode(SPhoneNumber code) {
     state = state.copyWith(
       activeDialCode: code,
-      countryCode: code.countryCode,
     );
-  }
-
-  void clearCountryCode() {
-    state = state.copyWith(countryCode: '');
   }
 }

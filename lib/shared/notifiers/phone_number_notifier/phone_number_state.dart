@@ -12,10 +12,13 @@ class PhoneNumberState with _$PhoneNumberState {
     SPhoneNumber? activeDialCode,
     @Default('') String phoneNumber,
     @Default('') String dialCodeSearch,
-    @Default('') String? countryCode,
     @Default([]) List<SPhoneNumber> sortedDialCodes,
     required TextEditingController dialCodeController,
   }) = _PhoneNumberState;
 
   const PhoneNumberState._();
+
+  String get countryCode {
+    return dialCodeController.text;
+  }
 }
