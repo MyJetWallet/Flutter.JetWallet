@@ -62,9 +62,8 @@ class Market extends HookWidget {
                           subtitle: 'Market is up',
                         ),
                       ),
-                      permanentWidget: SMarketHeaderClosed(
+                      permanentWidget: const SMarketHeaderClosed(
                         title: 'Market',
-                        onSearchButtonTap: () {},
                       ),
                     ),
                   ),
