@@ -5,12 +5,12 @@ import '../../../../simple_kit.dart';
 class SimpleMarketHeaderTitle extends StatelessWidget {
   const SimpleMarketHeaderTitle({
     Key? key,
+    this.onSearchButtonTap,
     required this.title,
-    required this.onSearchButtonTap,
   }) : super(key: key);
 
+  final void Function()? onSearchButtonTap;
   final String title;
-  final Function() onSearchButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +27,16 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        Baseline(
-          baseline: 24.0,
-          baselineType: TextBaseline.alphabetic,
-          child: SIconButton(
-            onTap: onSearchButtonTap,
-            defaultIcon: const SSearchIcon(),
-            pressedIcon: const SSearchPressedIcon(),
+        if (onSearchButtonTap != null)
+          Baseline(
+            baseline: 24.0,
+            baselineType: TextBaseline.alphabetic,
+            child: SIconButton(
+              onTap: onSearchButtonTap,
+              defaultIcon: const SSearchIcon(),
+              pressedIcon: const SSearchPressedIcon(),
+            ),
           ),
-        ),
       ],
     );
   }

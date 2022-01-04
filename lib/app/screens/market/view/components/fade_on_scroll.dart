@@ -106,9 +106,8 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
             child: widget.fadeInWidget,
           ),
         ),
-        SMarketHeaderClosed(
+        const SMarketHeaderClosed(
           title: 'Market',
-          onSearchButtonTap: () {},
         ),
         Opacity(
           opacity: _calculateFadeOutOpacity(),

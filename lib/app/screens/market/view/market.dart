@@ -54,18 +54,16 @@ class Market extends HookWidget {
                       fadeInWidget: const SDivider(
                         width: double.infinity,
                       ),
-                      fadeOutWidget: SPaddingH24(
+                      fadeOutWidget: const SPaddingH24(
                         child: SMarketHeader(
                           title: 'Market',
                           percent: 1.73,
                           isPositive: true,
                           subtitle: 'Market is up',
-                          onSearchButtonTap: () {},
                         ),
                       ),
-                      permanentWidget: SMarketHeaderClosed(
+                      permanentWidget: const SMarketHeaderClosed(
                         title: 'Market',
-                        onSearchButtonTap: () {},
                       ),
                     ),
                   ),
