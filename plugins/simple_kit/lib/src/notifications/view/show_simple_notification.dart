@@ -8,22 +8,26 @@ void showSNotification({
   required int duration,
   required String text,
 }) {
-  showFlash(
-    context: context,
-    duration: Duration(seconds: duration),
-    persistent: true,
-    builder: (_, controller) {
-      return Flash(
-        controller: controller,
-        backgroundColor: Colors.transparent,
-        behavior: FlashBehavior.fixed,
-        position: FlashPosition.top,
-        useSafeArea: false,
-        child: SPaddingH24(
-          child: SNotificationBox(
-            text: text,
-          ),
-        ),
+  WidgetsBinding.instance?.addPostFrameCallback(
+    (_) {
+      showFlash(
+        context: context,
+        duration: Duration(seconds: duration),
+        persistent: true,
+        builder: (_, controller) {
+          return Flash(
+            controller: controller,
+            backgroundColor: Colors.transparent,
+            behavior: FlashBehavior.fixed,
+            position: FlashPosition.top,
+            useSafeArea: false,
+            child: SPaddingH24(
+              child: SNotificationBox(
+                text: text,
+              ),
+            ),
+          );
+        },
       );
     },
   );

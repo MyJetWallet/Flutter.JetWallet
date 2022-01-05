@@ -4,10 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../../../../helper/market_item_from.dart';
+import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../../../../market_details/helper/currency_from.dart';
 
 class WalletCard extends HookWidget {
   const WalletCard({
@@ -21,8 +21,8 @@ class WalletCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final marketItem = marketItemFrom(
-      useProvider(marketItemsPod),
+    final currency = currencyFrom(
+      useProvider(currenciesPod),
       assetId,
     );
     final baseCurrency = useProvider(baseCurrencyPod);
@@ -44,7 +44,7 @@ class WalletCard extends HookWidget {
             children: [
               SPaddingH24(
                 child: SSmallHeader(
-                  title: '${marketItem.name} wallet',
+                  title: '${currency.description} wallet',
                 ),
               ),
               const Spacer(),
@@ -52,11 +52,11 @@ class WalletCard extends HookWidget {
                 child: Row(
                   children: [
                     SNetworkSvg24(
-                      url: marketItem.iconUrl,
+                      url: currency.iconUrl,
                     ),
                     const SpaceW10(),
                     Text(
-                      marketItem.name,
+                      currency.description,
                       style: sSubtitle2Style,
                     ),
                     const Spacer(),
@@ -87,7 +87,7 @@ class WalletCard extends HookWidget {
                 child: Text(
                   formatCurrencyAmount(
                     prefix: baseCurrency.prefix,
-                    value: marketItem.baseBalance,
+                    value: currency.baseBalance,
                     accuracy: baseCurrency.accuracy,
                     symbol: baseCurrency.symbol,
                   ),
@@ -102,10 +102,10 @@ class WalletCard extends HookWidget {
                   children: [
                     Text(
                       formatCurrencyAmount(
-                        symbol: marketItem.id,
-                        value: marketItem.assetBalance,
-                        accuracy: marketItem.accuracy,
-                        prefix: marketItem.prefixSymbol,
+                        symbol: currency.assetId,
+                        value: currency.assetBalance,
+                        accuracy: currency.accuracy,
+                        prefix: currency.prefixSymbol,
                       ),
                       style: sBodyText2Style.copyWith(color: colors.grey1),
                       maxLines: 1,

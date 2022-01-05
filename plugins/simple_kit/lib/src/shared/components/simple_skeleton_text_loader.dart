@@ -6,7 +6,14 @@ import '../../colors/view/simple_colors_light.dart';
 final _loaderRadius = BorderRadius.circular(20.0);
 
 class SSkeletonTextLoader extends StatefulHookWidget {
-  const SSkeletonTextLoader({Key? key}) : super(key: key);
+  const SSkeletonTextLoader({
+    Key? key,
+    this.height = 16,
+    this.width = 80,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
 
   @override
   _SActionConfirmSkeletonLoaderState createState() =>
@@ -52,8 +59,8 @@ class _SActionConfirmSkeletonLoaderState extends State<SSkeletonTextLoader>
       child: Stack(
         children: [
           Container(
-            width: 80.0,
-            height: 16.0,
+            width: widget.width,
+            height: widget.height,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 stops: const [0.5156, 1],
@@ -69,7 +76,7 @@ class _SActionConfirmSkeletonLoaderState extends State<SSkeletonTextLoader>
             offset: Offset(animation.value, 0),
             child: Container(
               width: 16.0,
-              height: 16.0,
+              height: widget.height,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(

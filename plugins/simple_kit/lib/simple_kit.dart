@@ -179,6 +179,7 @@ export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_pressed_icon.dart';
 export 'src/icons/40x40/public/convert/simple_convert_icon.dart';
 export 'src/icons/40x40/public/convert/simple_convert_pressed_icon.dart';
+export 'src/icons/56x56/public/action/simple_action_active_highlighted_icon.dart';
 export 'src/icons/56x56/public/action/simple_action_active_icon.dart';
 export 'src/icons/56x56/public/action/simple_action_default_icon.dart';
 export 'src/icons/56x56/public/market/simple_market_active_icon.dart';
@@ -239,6 +240,9 @@ export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
+
+/// Constants
+export 'src/shared/constants.dart';
 
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';

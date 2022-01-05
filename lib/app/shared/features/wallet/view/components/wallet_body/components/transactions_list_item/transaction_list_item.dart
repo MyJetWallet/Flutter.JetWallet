@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -8,7 +8,6 @@ import '../../../../../../../../../service/services/operation_history/model/oper
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
-import '../../../../../provider/wallet_hidden_stpod.dart';
 import 'components/transaction_list_item_header_text.dart';
 import 'components/transaction_list_item_text.dart';
 
@@ -25,7 +24,6 @@ class TransactionListItem extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final hidden = useProvider(walletHiddenStPod);
     var color = colors.green;
 
     if (transactionListItem.balanceChange.isNegative) {
@@ -44,10 +42,17 @@ class TransactionListItem extends HookWidget {
             const SpaceH12(),
             Row(
               children: [
-                Icon(
-                  _icon(transactionListItem.operationType),
-                  size: 20,
-                  color: color,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 20.0,
+                    maxHeight: 20.0,
+                    minWidth: 20.0,
+                    minHeight: 20.0,
+                  ),
+                  child: SvgPicture.asset(
+                    _icon(transactionListItem.operationType),
+                    color: color,
+                  ),
                 ),
                 const SpaceW10(),
                 TransactionListItemHeaderText(
@@ -55,7 +60,8 @@ class TransactionListItem extends HookWidget {
                 ),
                 const Spacer(),
                 TransactionListItemHeaderText(
-                  text: _balanceChange(hidden.state),
+                  text: '${transactionListItem.balanceChange} '
+                      '${transactionListItem.assetId}',
                 ),
               ],
             ),
@@ -71,13 +77,15 @@ class TransactionListItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.sell) ...[
                   TransactionListItemText(
-                    text: _sellAmount(hidden.state),
+                    text: 'For ${transactionListItem.swapInfo!.buyAmount} '
+                        '${transactionListItem.swapInfo!.buyAssetId}',
                     color: colors.grey1,
                   ),
                 ],
                 if (transactionListItem.operationType == OperationType.buy) ...[
                   TransactionListItemText(
-                    text: _buyAmount(hidden.state),
+                    text: 'With ${transactionListItem.swapInfo!.sellAmount} '
+                        '${transactionListItem.swapInfo!.sellAssetId}',
                     color: colors.grey1,
                   ),
                 ]
@@ -91,40 +99,32 @@ class TransactionListItem extends HookWidget {
     );
   }
 
-  String _buyAmount(bool hidden) =>
-      'With ${'${hidden ? '???' : transactionListItem.swapInfo!.sellAmount}'} '
-      '${transactionListItem.swapInfo!.sellAssetId}';
-
-  String _sellAmount(bool hidden) =>
-      'For ${'${hidden ? '???' : transactionListItem.swapInfo!.buyAmount}'} '
-      '${transactionListItem.swapInfo!.buyAssetId}';
-
-  String _balanceChange(bool hidden) =>
-      '${hidden ? '???' : transactionListItem.balanceChange} '
-      '${transactionListItem.assetId}';
-
-  IconData _icon(OperationType type) {
+  String _icon(OperationType type) {
     switch (type) {
       case OperationType.deposit:
-        return FontAwesomeIcons.creditCard;
+        return 'assets/images/deposit_icon.svg';
       case OperationType.withdraw:
-        return Icons.arrow_forward;
+        return 'assets/images/withdrawal_fee_icon.svg';
       case OperationType.transferByPhone:
-        return Icons.arrow_upward;
+        return 'assets/images/transfer_by_phone_icon.svg';
       case OperationType.receiveByPhone:
-        return Icons.arrow_downward;
+        return 'assets/images/receive_by_phone_icon.svg';
       case OperationType.buy:
-        return FontAwesomeIcons.plus;
+        return 'assets/images/plus_icon.svg';
       case OperationType.sell:
-        return FontAwesomeIcons.minus;
+        return 'assets/images/minus_icon.svg';
       case OperationType.paidInterestRate:
-      case OperationType.transfer:
+        return 'assets/images/paid_interest_rate_icon.svg';
       case OperationType.feeSharePayment:
+        return 'assets/images/paid_interest_rate_icon.svg';
       case OperationType.withdrawalFee:
+        return 'assets/images/withdrawal_fee_icon.svg';
       case OperationType.swap:
+        return 'assets/images/swap_icon.svg';
       case OperationType.rewardPayment:
+        return 'assets/images/reward_payment_icon.svg';
       case OperationType.unknown:
-        return FontAwesomeIcons.question;
+        return '';
     }
   }
 }

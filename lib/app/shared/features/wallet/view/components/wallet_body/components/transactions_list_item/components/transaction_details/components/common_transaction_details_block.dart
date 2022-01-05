@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../../../../../../../../../../../shared/components/header_text.dart';
-import '../../../../../../../../../../../../shared/components/spacers.dart';
 import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -21,6 +19,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final asset = currencyFrom(
       useProvider(currenciesPod),
       transactionListItem.assetId,
@@ -28,33 +27,24 @@ class CommonTransactionDetailsBlock extends HookWidget {
 
     return Column(
       children: [
-        HeaderText(
-          text:
-              '${operationName(transactionListItem.operationType)} '
-                  '${asset.description}',
-          textAlign: TextAlign.center,
+        Text(
+          '${operationName(transactionListItem.operationType)} '
+          '${asset.description}',
+          style: sTextH5Style,
         ),
-        const SpaceH75(),
+        const SpaceH67(),
+        Text(
+          '${transactionListItem.balanceChange} '
+          '${transactionListItem.assetId}',
+          style: sTextH1Style,
+        ),
         Text(
           DateFormat('EEEE, MMMM d, y').format(
             DateTime.parse('${transactionListItem.timeStamp}Z').toLocal(),
           ),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 12.sp,
-          ),
+          style: sBodyText2Style.copyWith(color: colors.grey2),
         ),
-        Text(
-          '${transactionListItem.balanceChange} '
-          '${transactionListItem.assetId}',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 40.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SpaceH96(),
+        const SpaceH72(),
       ],
     );
   }

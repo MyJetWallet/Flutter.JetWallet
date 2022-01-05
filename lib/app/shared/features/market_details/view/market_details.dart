@@ -9,7 +9,6 @@ import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/view/asset_chart.dart';
-import '../../wallet/provider/operation_history_fpod.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
 import 'components/balance_block/balance_block.dart';
@@ -37,7 +36,6 @@ class MarketDetails extends HookWidget {
     final chartN = useProvider(chartNotipod.notifier);
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     useProvider(watchlistIdsNotipod);
-    useProvider(operationHistoryInitFpod('ETH'));
 
     return SPageFrame(
       header: SPaddingH24(

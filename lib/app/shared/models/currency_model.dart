@@ -44,6 +44,8 @@ class CurrencyModel with _$CurrencyModel {
 
   double get withdrawalFeeSize => fees.withdrawalFee?.size ?? 0;
 
+  bool get isGrowing => dayPercentChange > 0;
+
   String get withdrawalFeeWithSymbol {
     if (withdrawalFeeSize == 0) {
       return '0 $symbol';
