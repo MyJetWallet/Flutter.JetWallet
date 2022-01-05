@@ -6,4 +6,7 @@ const failureAnimationAsset = 'assets/animations/failure.riv';
 // Images
 const watchlistImageAsset = 'assets/images/watchlist.svg';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
+
+// Kyc popup images
 const verifyYourProfileAsset = 'assets/images/verify_your_profile.png';
+const verifyingNowAsset = 'assets/images/verifying_now.png';
