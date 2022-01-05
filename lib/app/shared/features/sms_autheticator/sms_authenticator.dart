@@ -3,18 +3,18 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../app/shared/features/profile_details/view/components/change_phone_number/change_phone_number.dart';
-import '../../../helpers/navigator_push.dart';
-import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
-import '../two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import '../two_fa_phone/view/two_fa_phone.dart';
+import '../../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import '../../../../shared/features/two_fa/two_fa_phone/view/two_fa_phone.dart';
+import '../../../../shared/helpers/navigator_push.dart';
+import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../set_phone_number/view/set_phone_number.dart';
 import 'components/show_sms_auth_warning.dart';
 
-class TwoFaScreen extends HookWidget {
-  const TwoFaScreen({Key? key}) : super(key: key);
+class SmsAuthenticator extends HookWidget {
+  const SmsAuthenticator({Key? key}) : super(key: key);
 
   static void push(BuildContext context) {
-    navigatorPush(context, const TwoFaScreen());
+    navigatorPush(context, const SmsAuthenticator());
   }
 
   @override
@@ -47,13 +47,9 @@ class TwoFaScreen extends HookWidget {
                     ),
                   );
                 } else {
-                  ChangePhoneNumber.push(
+                  SetPhoneNumber.push(
                     context: context,
-                    onVerified: () {
-                      // TODO reconsider navigation practices
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
+                    successText: '2-Factor verification enabled',
                   );
                 }
               }

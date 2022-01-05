@@ -3,28 +3,32 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
-import '../../../../../../../shared/features/phone_verification/phone_verification_confirm/view/phone_verification_confirm.dart';
-import '../../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
-import '../bottom_sheet/change_phone_dial_code_picker.dart';
+import '../../../../../shared/components/result_screens/success_screen/success_screen.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../phone_verification/view/phone_verification.dart';
+import '../notifier/set_phone_number_notipod.dart';
+import 'components/show_dial_code_picker.dart';
 
-class ChangePhoneNumber extends HookWidget {
-  const ChangePhoneNumber({
+/// Called in 2 cases:
+/// 1. when we want to change number
+/// 2. when we are enabling 2FA but we haven't added phone number yet
+class SetPhoneNumber extends HookWidget {
+  const SetPhoneNumber({
     Key? key,
-    required this.onVerified,
+    required this.successText,
   }) : super(key: key);
 
-  final Function() onVerified;
+  final String successText;
 
   static void push({
     required BuildContext context,
-    required Function() onVerified,
+    required String successText,
   }) {
     navigatorPush(
       context,
-      ChangePhoneNumber(
-        onVerified: onVerified,
+      SetPhoneNumber(
+        successText: successText,
       ),
     );
   }
@@ -32,10 +36,13 @@ class ChangePhoneNumber extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final state = useProvider(phoneNumberNotipod);
-    final notifier = useProvider(phoneNumberNotipod.notifier);
+    final state = useProvider(setPhoneNumberNotipod);
+    final notifier = useProvider(setPhoneNumberNotipod.notifier);
+    useListenable(state.dialCodeController);
+    useListenable(state.phoneNumberController);
 
     return SPageFrame(
+      loading: state.loader,
       color: colors.grey5,
       header: const SPaddingH24(
         child: SSmallHeader(
@@ -62,7 +69,7 @@ class ChangePhoneNumber extends HookWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      showPhoneDialCodePicker(context);
+                      showDialCodePicker(context);
                     },
                     child: SizedBox(
                       width: 76,
@@ -85,10 +92,7 @@ class ChangePhoneNumber extends HookWidget {
                       autofillHints: const [AutofillHints.telephoneNumber],
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
-                      alignLabelWithHint: true,
-                      onChanged: (String phone) {
-                        notifier.updatePhoneNumber(phone);
-                      },
+                      controller: state.phoneNumberController,
                     ),
                   ),
                 ),
@@ -110,18 +114,33 @@ class ChangePhoneNumber extends HookWidget {
           const Spacer(),
           SPaddingH24(
             child: SPrimaryButton2(
-              active: state.phoneNumber.isNotEmpty,
+              active: state.isReadyToContinue,
               name: 'Continue',
               onTap: () {
-                PhoneVerificationConfirm.push(
-                  context: context,
-                  onVerified: () {
-                    SuccessScreen.push(
+                notifier.sendCode(
+                  then: () {
+                    PhoneVerification.push(
                       context: context,
-                      secondaryText: 'New phone number set',
+                      args: PhoneVerificationArgs(
+                        phoneNumber: state.phoneNumber,
+                        sendCodeOnInitState: false,
+                        onVerified: () {
+                          final userInfoN = context.read(
+                            userInfoNotipod.notifier,
+                          );
+
+                          userInfoN.updatePhoneVerified(phoneVerified: true);
+                          userInfoN.updateTwoFaStatus(enabled: true);
+                          userInfoN.updatePhone(state.phoneNumber);
+
+                          SuccessScreen.push(
+                            context: context,
+                            secondaryText: successText,
+                          );
+                        },
+                      ),
                     );
                   },
-                  isChangeTextAlert: false,
                 );
               },
             ),

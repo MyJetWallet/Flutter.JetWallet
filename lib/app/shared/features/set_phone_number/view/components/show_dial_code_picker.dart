@@ -3,10 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
+import '../../notifier/set_phone_number_notipod.dart';
 
-void showPhoneDialCodePicker(BuildContext context) {
-  context.read(phoneNumberNotipod.notifier).initDialCodeSearch();
+void showDialCodePicker(BuildContext context) {
+  context.read(setPhoneNumberNotipod.notifier).initDialCodeSearch();
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -27,7 +27,7 @@ class _SearchPinned extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = useProvider(phoneNumberNotipod.notifier);
+    final notifier = useProvider(setPhoneNumberNotipod.notifier);
 
     return SStandardField(
       autofocus: true,
@@ -44,8 +44,8 @@ class _DialCodes extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(phoneNumberNotipod);
-    final notifier = useProvider(phoneNumberNotipod.notifier);
+    final state = useProvider(setPhoneNumberNotipod);
+    final notifier = useProvider(setPhoneNumberNotipod.notifier);
 
     return Column(
       children: [

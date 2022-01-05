@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../simple_kit.dart';
 import '../../../colors/view/simple_colors_light.dart';
 
+// TODO rename to SAccount
 class SimpleAccountCategoryButton extends StatelessWidget {
   const SimpleAccountCategoryButton({
     Key? key,

@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
 import '../../service/services/blockchain/service/blockchain_service.dart';
+import '../../service/services/change_password/service/change_password_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
@@ -166,4 +167,10 @@ final profileServicePod = Provider<ProfileService>((ref) {
   final dio = ref.watch(dioPod);
 
   return ProfileService(dio);
+});
+
+final changePasswordSerivcePod = Provider<ChangePasswordService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return ChangePasswordService(dio);
 });
