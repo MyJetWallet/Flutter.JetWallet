@@ -13,6 +13,11 @@ class AppBuilder extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = useMemoized(() => MediaQuery.of(context));
+    // reactiveMediaQuery is needed to update viewInsets and 
+    // other stuff when it changes.
+    // In the case above changes are unwanted, so we placed 
+    // mediaQuery inside useMemorized hook
+    final reactiveMediaQuery = MediaQuery.of(context);
 
     return ProviderScope(
       overrides: [
@@ -21,7 +26,7 @@ class AppBuilder extends HookWidget {
         ),
       ],
       child: MediaQuery(
-        data: mediaQuery.copyWith(
+        data: reactiveMediaQuery.copyWith(
           textScaleFactor: 1.0,
         ),
         child: child ?? const SizedBox(),

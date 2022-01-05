@@ -11,5 +11,6 @@ class EmailVerificationState with _$EmailVerificationState {
     @Default('') String email,
     @Default(Input()) EmailVerificationUnion union,
     required TextEditingController controller,
+    @Default(false) bool isResending,
   }) = _EmailVerificationState;
 }

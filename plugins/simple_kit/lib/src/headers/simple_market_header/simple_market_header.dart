@@ -7,16 +7,16 @@ import 'components/simple_market_header_title.dart';
 class SMarketHeader extends StatelessWidget {
   const SMarketHeader({
     Key? key,
+    this.onSearchButtonTap,
     required this.title,
     required this.subtitle,
-    required this.onSearchButtonTap,
     required this.percent,
     required this.isPositive,
   }) : super(key: key);
 
+  final void Function()? onSearchButtonTap;
   final String title;
   final String subtitle;
-  final Function() onSearchButtonTap;
   final double percent;
   final bool isPositive;
 
@@ -32,6 +32,7 @@ class SMarketHeader extends StatelessWidget {
             height: 64.0,
           ),
           SimpleMarketHeaderTitle(
+            key: key,
             title: title,
             onSearchButtonTap: onSearchButtonTap,
           ),

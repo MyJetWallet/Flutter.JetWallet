@@ -53,7 +53,7 @@ class SendByPhoneConfirmNotifier
 
   static final _logger = Logger('SendByPhoneConfirmNotifier');
 
-  Future<void> transferResend({required Function() then}) async {
+  Future<void> transferResend({required Function() onSuccess}) async {
     _logger.log(notifier, 'transferResend');
 
     _updateIsResending(true);
@@ -69,7 +69,7 @@ class SendByPhoneConfirmNotifier
 
       if (!mounted) return;
       _updateIsResending(false);
-      then();
+      onSuccess();
     } catch (error) {
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);

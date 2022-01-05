@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
 import '../login/login.dart';
@@ -117,13 +116,13 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
             SPrimaryButton1(
               active: true,
               name: intl.onboarding_getStarted,
-              onTap: () => navigatorPush(context, const Register()),
+              onTap: () => Register.push(context),
             ),
             const SpaceH10(),
             STextButton1(
               active: true,
               name: intl.onboarding_signIn,
-              onTap: () => navigatorPush(context, const Login()),
+              onTap: () => Login.push(context),
             ),
             const SpaceH40(),
           ],

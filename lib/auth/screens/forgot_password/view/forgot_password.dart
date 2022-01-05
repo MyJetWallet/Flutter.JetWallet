@@ -3,20 +3,20 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../shared/helpers/navigator_push.dart';
 import '../notifier/forgot_password_notipod.dart';
 import '../notifier/forgot_password_state.dart';
 import '../notifier/forgot_password_union.dart';
-import 'components/check_your_email.dart';
+import 'confirm_password_reset.dart';
 
-class ForgotPassword extends StatefulHookWidget {
+class ForgotPassword extends HookWidget {
   const ForgotPassword({Key? key}) : super(key: key);
 
-  @override
-  _ForgotPasswordState createState() => _ForgotPasswordState();
-}
+  static const routeName = '/forgot_password';
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+  static Future push(BuildContext context) {
+    return Navigator.pushNamed(context, routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
@@ -24,12 +24,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     final forgotN = useProvider(forgotPasswordNotipod.notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
+    final loader = useValueNotifier(StackLoaderNotifier());
+    final disableContinue = useState(false);
+    useListenable(loader.value);
 
     return ProviderListener<ForgotPasswordState>(
       provider: forgotPasswordNotipod,
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
+            disableContinue.value = false;
+            loader.value.finishLoading();
             sShowErrorNotification(
               notificationQueueN,
               '$error',
@@ -39,18 +44,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         );
       },
       child: SPageFrame(
+        loading: loader.value,
         color: colors.grey5,
-        header: SPaddingH24(
+        header: const SPaddingH24(
           child: SBigHeader(
             title: 'Forgot Password',
-            onBackButtonTap: () => Navigator.pop(context),
           ),
         ),
         child: AutofillGroup(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Material(
+              Container(
                 color: colors.white,
                 child: Column(
                   children: [
@@ -60,7 +65,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         'Resetting a forgotten password will logout other'
                         ' devices and will result in a 24-hour hold on'
                         ' cryptocurrency withdrawals.',
-                        style: sBodyText1Style.copyWith(color: colors.grey1),
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
                         maxLines: 3,
                       ),
                     ),
@@ -68,7 +75,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ],
                 ),
               ),
-              Material(
+              Container(
                 color: colors.white,
                 child: SPaddingH24(
                   child: SStandardField(
@@ -76,7 +83,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     autofocus: true,
                     autofillHints: const [AutofillHints.email],
                     keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
                     onChanged: (value) {
                       emailError.value.disableError();
                       forgotN.updateAndValidateEmail(value);
@@ -94,17 +100,26 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const Spacer(),
               SPaddingH24(
                 child: SPrimaryButton2(
+                  active: forgot.email.isNotEmpty &&
+                      !disableContinue.value &&
+                      !loader.value.value,
                   name: 'Reset password',
-                  onTap: () async {
+                  onTap: () {
                     if (forgot.emailValid) {
-                      final email = forgot.email;
-
-                      await forgotN.sendRecoveryLink();
-
-                      if (forgot.union is Input) {
-                        if (!mounted) return;
-                        navigatorPush(context, CheckYourEmail(email));
-                      }
+                      disableContinue.value = true;
+                      loader.value.startLoading();
+                      forgotN.sendRecoveryLink().then((value) {
+                        if (forgot.union is Input) {
+                          ConfirmPasswordReset.push(
+                            context: context,
+                            args: ConfirmPasswordResetArgs(
+                              email: forgot.email,
+                            ),
+                          );
+                          disableContinue.value = false;
+                          loader.value.finishLoading();
+                        }
+                      });
                     } else {
                       emailError.value.enableError();
                       sShowErrorNotification(
@@ -113,7 +128,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       );
                     }
                   },
-                  active: forgotN.emailIsNotEmpty,
                 ),
               ),
               const SpaceH24(),

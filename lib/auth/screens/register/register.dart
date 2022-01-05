@@ -4,13 +4,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/launch_url.dart';
-import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
-import 'components/register_password_screen.dart';
+import 'register_password_screen.dart';
 
+/// FLOW: Register -> RegisterPasswordScreen
 class Register extends HookWidget {
   const Register({Key? key}) : super(key: key);
+
+  static const routeName = '/register';
+
+  static Future push(BuildContext context) {
+    return Navigator.pushNamed(context, routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +26,18 @@ class Register extends HookWidget {
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
 
+    void _showError() {
+      sShowErrorNotification(
+        notificationQueueN,
+        'Perhaps you missed "." or "@" somewhere?',
+      );
+    }
+
     return SPageFrame(
       color: colors.grey5,
-      header: SPaddingH24(
+      header: const SPaddingH24(
         child: SBigHeader(
           title: 'Enter your Email',
-          onBackButtonTap: () => Navigator.of(context).pop(),
         ),
       ),
       child: AutofillGroup(
@@ -43,12 +55,7 @@ class Register extends HookWidget {
                   onChanged: (value) {
                     credentialsN.updateAndValidateEmail(value);
                   },
-                  onErrorIconTap: () {
-                    sShowErrorNotification(
-                      notificationQueueN,
-                      'Perhaps you missed "." or "@" somewhere?',
-                    );
-                  },
+                  onErrorIconTap: () => _showError(),
                   errorNotifier: emailError.value,
                 ),
               ),
@@ -65,31 +72,25 @@ class Register extends HookWidget {
                   privacyPolicyText: 'Privacy Policy',
                   isChecked: credentials.policyChecked,
                   onCheckboxTap: () => credentialsN.checkPolicy(),
-                  onUserAgreementTap: () =>
-                      launchURL(context, userAgreementLink),
-                  onPrivacyPolicyTap: () =>
-                      launchURL(context, privacyPolicyLink),
+                  onUserAgreementTap: () {
+                    launchURL(context, userAgreementLink);
+                  },
+                  onPrivacyPolicyTap: () {
+                    launchURL(context, privacyPolicyLink);
+                  },
                 ),
               ),
             ),
             SPaddingH24(
               child: SPrimaryButton2(
-                active: credentialsN.emailIsNotEmptyAndPolicyChecked,
+                active: credentials.emailIsNotEmptyAndPolicyChecked,
                 name: 'Continue',
                 onTap: () {
-                  if (credentialsN.emailIsNotEmptyAndPolicyChecked) {
-                    if (credentials.emailValid) {
-                      navigatorPush(
-                        context,
-                        const RegisterPasswordScreen(),
-                      );
-                    } else {
-                      emailError.value.enableError();
-                      sShowErrorNotification(
-                        notificationQueueN,
-                        'Perhaps you missed "." or "@" somewhere?',
-                      );
-                    }
+                  if (credentials.emailValid) {
+                    RegisterPasswordScreen.push(context);
+                  } else {
+                    emailError.value.enableError();
+                    _showError();
                   }
                 },
               ),

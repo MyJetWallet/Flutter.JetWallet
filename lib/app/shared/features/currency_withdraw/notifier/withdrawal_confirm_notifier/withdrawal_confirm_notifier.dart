@@ -48,7 +48,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
 
   static final _logger = Logger('WithdrawalConfirmNotifier');
 
-  Future<void> withdrawalResend({required Function() then}) async {
+  Future<void> withdrawalResend({required Function() onSuccess}) async {
     _logger.log(notifier, 'withdrawalResend');
 
     _updateIsResending(true);
@@ -64,7 +64,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
 
       if (!mounted) return;
       _updateIsResending(false);
-      then();
+      onSuccess();
     } catch (error) {
       _logger.log(stateFlow, 'withdrawalResend', error);
       _updateIsResending(false);

@@ -56,10 +56,9 @@ class _NewsState extends State<News> {
     }
 
     return SPageFrame(
-      header: SMarketHeaderClosed(
+      header: const SMarketHeaderClosed(
         title: 'News',
         isDivider: true,
-        onSearchButtonTap: () {},
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +86,6 @@ class _NewsState extends State<News> {
                         context,
                         news.news[index].urlAddress,
                       ),
-                      height: 116,
                       padding: const EdgeInsets.symmetric(
                         vertical: 20,
                       ),
