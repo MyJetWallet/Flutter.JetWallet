@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import '../../../../../shared/features/two_fa/two_fa_phone/view/two_fa_phone.dart';
+import '../../../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import '../../../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
 
 void showSmsAuthWarning(BuildContext context) {
   sShowAlertPopup(

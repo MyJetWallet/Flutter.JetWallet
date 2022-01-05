@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import '../../../../shared/features/two_fa/two_fa_phone/view/two_fa_phone.dart';
+import '../../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import '../../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../set_phone_number/view/set_phone_number.dart';
