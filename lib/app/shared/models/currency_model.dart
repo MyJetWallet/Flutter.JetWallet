@@ -30,6 +30,9 @@ class CurrencyModel with _$CurrencyModel {
     @Default(0.0) double currentPrice,
     @Default(0.0) double dayPriceChange,
     @Default(0.0) double dayPercentChange,
+    @Default(0.0) double totalEarnAmount,
+    @Default('') String nextPaymentDate,
+    @Default(0.0) double apy,
   }) = _CurrencyModel;
 
   const CurrencyModel._();

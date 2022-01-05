@@ -21,6 +21,9 @@ class BalanceModel with _$BalanceModel {
     required double reserve,
     required String lastUpdate,
     required double sequenceId,
+    required double totalEarnAmount,
+    required String nextPaymentDate,
+    required double apy,
   }) = _BalanceModel;
 
   factory BalanceModel.fromJson(Map<String, dynamic> json) =>

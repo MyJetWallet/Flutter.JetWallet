@@ -50,6 +50,9 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
               lastUpdate: balance.lastUpdate,
               sequenceId: balance.sequenceId,
               assetBalance: balance.balance,
+              totalEarnAmount: balance.totalEarnAmount,
+              nextPaymentDate: balance.nextPaymentDate,
+              apy: balance.apy,
             );
           }
         }
