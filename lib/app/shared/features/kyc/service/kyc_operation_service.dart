@@ -93,9 +93,7 @@ class KycAlertHandler {
       onSecondaryButtonTap: () {
         Navigator.pop(context);
       },
-      child: Column(
-        children: [_showDocuments(kycVerified.requiredDocuments)],
-      ),
+      child: _showDocuments(kycVerified.requiredDocuments),
     );
   }
 
