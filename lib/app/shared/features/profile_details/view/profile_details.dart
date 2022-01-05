@@ -53,7 +53,7 @@ class ProfileDetails extends HookWidget {
                         phoneNumber: userInfo.phone,
                         showChangeTextAlert: true,
                         onVerified: () {
-                          SetPhoneNumber.push(
+                          SetPhoneNumber.pushReplacement(
                             context: context,
                             successText: 'New phone number confirmed',
                           );

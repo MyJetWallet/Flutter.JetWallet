@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../notifier/set_phone_number_notipod.dart';
@@ -26,6 +27,18 @@ class SetPhoneNumber extends HookWidget {
     required String successText,
   }) {
     navigatorPush(
+      context,
+      SetPhoneNumber(
+        successText: successText,
+      ),
+    );
+  }
+
+  static void pushReplacement({
+    required BuildContext context,
+    required String successText,
+  }) {
+    navigatorPushReplacement(
       context,
       SetPhoneNumber(
         successText: successText,
