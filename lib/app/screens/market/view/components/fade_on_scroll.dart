@@ -116,4 +116,3 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
     );
   }
 }
-}
