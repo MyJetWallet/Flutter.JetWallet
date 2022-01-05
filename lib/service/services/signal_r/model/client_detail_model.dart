@@ -13,7 +13,6 @@ class ClientDetailModel with _$ClientDetailModel {
     @Default([]) List<int> requiredDocuments,
     @Default([]) List<int> requiredVerifications,
     required String walletCreationDate,
-
   }) = _ClientDetailModel;
 
   factory ClientDetailModel.fromJson(Map<String, dynamic> json) =>
