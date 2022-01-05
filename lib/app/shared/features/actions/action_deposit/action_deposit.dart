@@ -11,7 +11,7 @@ import 'components/deposit_category_description.dart';
 import 'components/deposit_options.dart';
 
 void showDepositAction(BuildContext context) {
-  // Navigator.pop(context);
+  Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,

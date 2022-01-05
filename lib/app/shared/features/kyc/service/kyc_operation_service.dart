@@ -41,7 +41,7 @@ class KycAlertHandler {
   }
 
   // Check on trade
-  void handleTrade(
+  void handleSell(
     int tradeStatus,
     KycVerifiedModel kycVerified,
   ) {
