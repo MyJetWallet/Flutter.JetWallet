@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/wallet/notifier/operation_history_union.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -38,11 +39,15 @@ class _WalletTestState extends State<WalletBody>
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.offset) {
-        final transactionHistoryN = context.read(
-          operationHistoryNotipod(widget.item.assetId).notifier,
-        );
+        final transactionHistory =
+            context.read(operationHistoryNotipod(widget.item.assetId));
+        if (transactionHistory.union == const OperationHistoryUnion.loaded()) {
+          final transactionHistoryN = context.read(
+            operationHistoryNotipod(widget.item.assetId).notifier,
+          );
 
-        transactionHistoryN.operationHistory(widget.item.assetId);
+          transactionHistoryN.operationHistory(widget.item.assetId);
+        }
       }
     });
     super.initState();
