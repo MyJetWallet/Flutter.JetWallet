@@ -5,7 +5,7 @@ import '../../../../../shared/constants.dart';
 import '../../actions/action_deposit/action_deposit.dart';
 import '../../actions/action_sell/action_sell.dart';
 import '../../actions/action_withdraw/action_withdraw.dart';
-import '../../profile_details/view/components/change_phone_number/change_phone_number.dart';
+import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
 import '../view/popup/show_kyc_popup.dart';
@@ -85,9 +85,9 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
-        ChangePhoneNumber.push(
+        SetPhoneNumber.pushReplacement(
           context: context,
-          onVerified: () {},
+          successText: 'New phone number confirmed',
         );
       },
       onSecondaryButtonTap: () {
@@ -125,9 +125,9 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
-        ChangePhoneNumber.push(
+        SetPhoneNumber.pushReplacement(
           context: context,
-          onVerified: () {},
+          successText: 'New phone number confirmed',
         );
       },
       onSecondaryButtonTap: () {
