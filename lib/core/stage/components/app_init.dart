@@ -11,8 +11,8 @@ import '../../../router/provider/app_init_fpod.dart';
 import '../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../shared/features/pin_screen/view/pin_screen.dart';
-import '../../../shared/features/two_fa/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import '../../../shared/features/two_fa/two_fa_phone/view/two_fa_phone.dart';
+import '../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import '../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
 
 /// Launches application goes after [RemoteConfigInit]
 class AppInit extends HookWidget {
