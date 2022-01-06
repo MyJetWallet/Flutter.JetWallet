@@ -42,6 +42,8 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
+      final referralCode = await storageService.getString(referralCodeKey);
+
       await rsaService.init();
       await rsaService.savePrivateKey(storageService);
 
@@ -64,6 +66,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         platformType: platformType,
         platform: currentPlatform,
         deviceUid: id,
+        referralCode: referralCode,
       );
 
       AuthenticationResponseModel authModel;
