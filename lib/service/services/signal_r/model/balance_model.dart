@@ -22,6 +22,7 @@ class BalanceModel with _$BalanceModel {
     required String lastUpdate,
     required double sequenceId,
     required double totalEarnAmount,
+    required double currentEarnAmount,
     required String nextPaymentDate,
     required double apy,
   }) = _BalanceModel;

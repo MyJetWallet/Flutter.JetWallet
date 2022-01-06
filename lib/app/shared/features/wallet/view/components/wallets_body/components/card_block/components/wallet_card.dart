@@ -141,7 +141,12 @@ class WalletCard extends HookWidget {
                 Text(
                   '${DateFormat('d MMM').format(
                     DateTime.parse(currency.nextPaymentDate).toLocal(),
-                  )} (\$12.10)',
+                  )} (${formatCurrencyAmount(
+                    prefix: baseCurrency.prefix,
+                    value: currency.currentEarnAmount,
+                    accuracy: baseCurrency.accuracy,
+                    symbol: baseCurrency.symbol,
+                  )})',
                   style: sBodyText1Style,
                 ),
               ],
