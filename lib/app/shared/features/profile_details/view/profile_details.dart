@@ -3,12 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/features/phone_verification/phone_verification_confirm/view/phone_verification_confirm.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/notifiers/phone_number_notifier/phone_number_notipod.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../phone_verification/view/phone_verification.dart';
+import '../../set_phone_number/view/set_phone_number.dart';
 import 'components/change_password/change_password.dart';
-import 'components/change_phone_number/change_phone_number.dart';
 
 class ProfileDetails extends HookWidget {
   const ProfileDetails({Key? key}) : super(key: key);
@@ -16,7 +15,6 @@ class ProfileDetails extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
-    final phoneNumberN = useProvider(phoneNumberNotipod.notifier);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -49,19 +47,18 @@ class ProfileDetails extends HookWidget {
                   primaryText: 'Pay attention',
                   primaryButtonName: 'Continue',
                   onPrimaryButtonTap: () {
-                    Navigator.pop(context);
-                    phoneNumberN.updatePhoneNumber(
-                      userInfo.phone,
-                    );
-                    PhoneVerificationConfirm.push(
+                    PhoneVerification.pushReplacement(
                       context: context,
-                      onVerified: () {
-                        ChangePhoneNumber.push(
-                          context: context,
-                          onVerified: () {},
-                        );
-                      },
-                      isChangeTextAlert: true,
+                      args: PhoneVerificationArgs(
+                        phoneNumber: userInfo.phone,
+                        showChangeTextAlert: true,
+                        onVerified: () {
+                          SetPhoneNumber.pushReplacement(
+                            context: context,
+                            successText: 'New phone number confirmed',
+                          );
+                        },
+                      ),
                     );
                   },
                   secondaryText: 'Withdrawals will be blocked within 24 hours',

@@ -56,10 +56,9 @@ class _NewsState extends State<News> {
     }
 
     return SPageFrame(
-      header: SMarketHeaderClosed(
+      header: const SMarketHeaderClosed(
         title: 'News',
         isDivider: true,
-        onSearchButtonTap: () {},
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
