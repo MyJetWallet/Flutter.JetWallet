@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/app/shared/features/kyc/view/components/kyc_verify.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
@@ -49,10 +50,7 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
-        SetPhoneNumber.pushReplacement(
-          context: context,
-          successText: 'New phone number confirmed',
-        );
+        _navigateVerifiedNavigate(kycVerified.requiredVerifications);
       },
       onSecondaryButtonTap: () {
         Navigator.pop(context);
@@ -116,6 +114,24 @@ class KycAlertHandler {
     );
   }
 
+  void _navigateVerifiedNavigate(List<RequiredVerified> requiredVerifications) {
+    print('_navigateVerifiedNavigate_navigateVerifiedNavigate $requiredVerifications');
+
+    for (var i = 0; i < requiredVerifications.length; i++) {
+      if (requiredVerifications[i] == RequiredVerified.proofOfPhone) {
+        SetPhoneNumber.pushReplacement(
+          context: context,
+          successText: 'New phone number confirmed',
+        );
+      } else {
+        KycVerify.pushReplacement(
+          context: context,
+          requiredVerifications: requiredVerifications,
+        );
+      }
+    }
+  }
+
   void _navigateTo(KycStatusType statusType) {
     switch (statusType) {
       case KycStatusType.deposit:
@@ -130,12 +146,12 @@ class KycAlertHandler {
     }
   }
 
-  Widget _showDocuments(List<RequiredVerified> verified) {
+  Widget _showDocuments(List<RequiredVerified> requiredVerifications) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SDivider(),
-        ..._listRequiredVerification(verified),
+        ..._listRequiredVerification(requiredVerifications),
         const SpaceH30(),
       ],
     );
@@ -154,23 +170,23 @@ class KycAlertHandler {
     );
   }
 
-  List<Widget> _listRequiredVerification(List<RequiredVerified> verified) {
+  List<Widget> _listRequiredVerification(List<RequiredVerified> requiredVerifications) {
     final requiredVerified = <Widget>[];
 
-    for (var i = 0; i < verified.length; i++) {
-      if (verified[i] == RequiredVerified.proofOfIdentity) {
+    for (var i = 0; i < requiredVerifications.length; i++) {
+      if (requiredVerifications[i] == RequiredVerified.proofOfIdentity) {
         requiredVerified.add(
           _documentText('Verify your identity', i),
         );
-      } else if (verified[i] == RequiredVerified.proofOfAddress) {
+      } else if (requiredVerifications[i] == RequiredVerified.proofOfAddress) {
         requiredVerified.add(
           _documentText('Address verification', i),
         );
-      } else if (verified[i] == RequiredVerified.proofOfFunds) {
+      } else if (requiredVerifications[i] == RequiredVerified.proofOfFunds) {
         requiredVerified.add(
           _documentText('Proof source of funds', i),
         );
-      } else if (verified[i] == RequiredVerified.proofOfPhone) {
+      } else if (requiredVerifications[i] == RequiredVerified.proofOfPhone) {
         requiredVerified.add(
           _documentText('Secure your account', i),
         );
@@ -179,4 +195,6 @@ class KycAlertHandler {
 
     return requiredVerified;
   }
+
+
 }

@@ -41,5 +41,7 @@ final kycChecksFpod = FutureProvider.autoDispose<KycVerifiedModel>((ref) async {
     );
   });
 
+  print('KycVerifiedModel123 $value');
+
   return value;
 });
