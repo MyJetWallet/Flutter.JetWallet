@@ -11,5 +11,6 @@ class KycVerifiedModel with _$KycVerifiedModel {
     @Default(0) int withdrawalStatus,
     @Default([]) List<KycDocumentType> requiredDocuments,
     @Default([]) List<RequiredVerified> requiredVerifications,
+    @Default(false) bool verificationInProgress,
   }) = _KycVerifiedModel;
 }

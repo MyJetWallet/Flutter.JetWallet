@@ -16,43 +16,7 @@ class KycAlertHandler {
   final BuildContext context;
   final SimpleColors colors;
 
-  // Check on deposit
-  void handleDeposit(
-    int depositStatus,
-    KycVerifiedModel kycVerified,
-  ) {
-    _checkKycOperationStatus(
-      depositStatus,
-      kycVerified,
-      KycStatusType.deposit,
-    );
-  }
-
-  // Check on withdrawal
-  void handleWithdrawal(
-    int withdrawalStatus,
-    KycVerifiedModel kycVerified,
-  ) {
-    _checkKycOperationStatus(
-      withdrawalStatus,
-      kycVerified,
-      KycStatusType.withdrawal,
-    );
-  }
-
-  // Check on trade
-  void handleSell(
-    int tradeStatus,
-    KycVerifiedModel kycVerified,
-  ) {
-    _checkKycOperationStatus(
-      tradeStatus,
-      kycVerified,
-      KycStatusType.sell,
-    );
-  }
-
-  void _checkKycOperationStatus(
+  void handle(
     int status,
     KycVerifiedModel kycVerified,
     KycStatusType statusType,
@@ -93,7 +57,7 @@ class KycAlertHandler {
       onSecondaryButtonTap: () {
         Navigator.pop(context);
       },
-      child: _showDocuments(kycVerified.requiredDocuments),
+      child: _showDocuments(kycVerified.requiredVerifications),
     );
   }
 
@@ -113,9 +77,9 @@ class KycAlertHandler {
   }
 
   void _showAllowedWithAlert(
-      KycVerifiedModel kycVerified,
-      KycStatusType statusType,
-      ) {
+    KycVerifiedModel kycVerified,
+    KycStatusType statusType,
+  ) {
     showKycPopup(
       context: context,
       imageAsset: verifyYourProfileAsset,
@@ -135,7 +99,7 @@ class KycAlertHandler {
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_showDocuments(kycVerified.requiredDocuments)],
+        children: [_showDocuments(kycVerified.requiredVerifications)],
       ),
     );
   }
@@ -166,12 +130,12 @@ class KycAlertHandler {
     }
   }
 
-  Widget _showDocuments(List<KycDocumentType> documents) {
+  Widget _showDocuments(List<RequiredVerified> verified) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SDivider(),
-        ..._listRequiredDocuments(documents),
+        ..._listRequiredVerification(verified),
         const SpaceH30(),
       ],
     );
@@ -190,40 +154,29 @@ class KycAlertHandler {
     );
   }
 
-  List<Widget> _listRequiredDocuments(List<KycDocumentType> documents) {
-    final requiredDocuments = <Widget>[];
-    for (var i = 0; i < documents.length; i++) {
-      if (documents[i] == KycDocumentType.governmentId) {
-        requiredDocuments.add(
-          _documentText('GovernmentId', i),
+  List<Widget> _listRequiredVerification(List<RequiredVerified> verified) {
+    final requiredVerified = <Widget>[];
+
+    for (var i = 0; i < verified.length; i++) {
+      if (verified[i] == RequiredVerified.proofOfIdentity) {
+        requiredVerified.add(
+          _documentText('Verify your identity', i),
         );
-      } else if (documents[i] == KycDocumentType.passport) {
-        requiredDocuments.add(
-          _documentText('Passport', i),
+      } else if (verified[i] == RequiredVerified.proofOfAddress) {
+        requiredVerified.add(
+          _documentText('Address verification', i),
         );
-      } else if (documents[i] == KycDocumentType.driverLicense) {
-        requiredDocuments.add(
-          _documentText('DriverLicense', i),
+      } else if (verified[i] == RequiredVerified.proofOfFunds) {
+        requiredVerified.add(
+          _documentText('Proof source of funds', i),
         );
-      } else if (documents[i] == KycDocumentType.residentPermit) {
-        requiredDocuments.add(
-          _documentText('ResidentPermit', i),
-        );
-      } else if (documents[i] == KycDocumentType.selfieImage) {
-        requiredDocuments.add(
-          _documentText('SelfieImage', i),
-        );
-      } else if (documents[i] == KycDocumentType.addressDocument) {
-        requiredDocuments.add(
-          _documentText('AddressDocument', i),
-        );
-      } else if (documents[i] == KycDocumentType.financialDocument) {
-        requiredDocuments.add(
-          _documentText('FinancialDocument', i),
+      } else if (verified[i] == RequiredVerified.proofOfPhone) {
+        requiredVerified.add(
+          _documentText('Secure your account', i),
         );
       }
     }
 
-    return requiredDocuments;
+    return requiredVerified;
   }
 }

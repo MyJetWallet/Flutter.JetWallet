@@ -9,7 +9,8 @@ import '../../../../shared/features/actions/action_buy/action_buy.dart';
 import '../../../../shared/features/actions/action_receive/action_receive.dart';
 import '../../../../shared/features/actions/action_send/action_send.dart';
 import '../../../../shared/features/convert/view/convert.dart';
-import '../../../../shared/features/kyc/provider/kyc_verified_pod.dart';
+import '../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
+import '../../../../shared/features/kyc/provider/kyc_checks_fpod.dart';
 import '../../../../shared/helpers/is_balance_empty.dart';
 import '../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../provider/navigation_stpod.dart';
@@ -27,10 +28,11 @@ class BottomNavigationMenu extends HookWidget {
     final navigation = useProvider(navigationStpod);
     final currencies = useProvider(currenciesPod);
     final actionActive = useState(false);
-    final kycVerified = useProvider(kycVerifiedPod);
+
     final kycAlertHandler = useProvider(
       kycAlertHandlerPod(context),
     );
+    final kycChecks = useProvider(kycChecksFpod);
 
     final isNotEmptyBalance = !isBalanceEmpty(currencies);
 
@@ -49,23 +51,33 @@ class BottomNavigationMenu extends HookWidget {
             onBuy: () => showBuyAction(context),
             onSell: () {
               Navigator.of(context).pop();
-              kycAlertHandler.handleSell(
-                kycVerified.depositStatus,
-                kycVerified,
+              kycChecks.whenData(
+                (value) => kycAlertHandler.handle(
+                  value.sellStatus,
+                  value,
+                  KycStatusType.sell,
+                ),
               );
             },
             onConvert: () => navigatorPush(context, const Convert()),
             onDeposit: () {
               Navigator.of(context).pop();
-              kycAlertHandler.handleDeposit(
-                kycVerified.depositStatus,
-                kycVerified,
+              kycChecks.whenData(
+                (value) => kycAlertHandler.handle(
+                  value.depositStatus,
+                  value,
+                  KycStatusType.deposit,
+                ),
               );
             },
             onWithdraw: () {
-              kycAlertHandler.handleWithdrawal(
-                kycVerified.depositStatus,
-                kycVerified,
+              Navigator.of(context).pop();
+              kycChecks.whenData(
+                (value) => kycAlertHandler.handle(
+                  value.withdrawalStatus,
+                  value,
+                  KycStatusType.withdrawal,
+                ),
               );
             },
             onSend: () => showSendAction(context),

@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../app/shared/features/kyc/service/kyc_alert_handler.dart';
+import '../../app/shared/features/kyc/helper/kyc_alert_handler.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
 import '../../service/services/blockchain/service/blockchain_service.dart';
@@ -13,6 +13,7 @@ import '../../service/services/change_password/service/change_password_service.d
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
+import '../../service/services/kyc/service/kyc_service.dart';
 import '../../service/services/market_info/market_info_service.dart';
 import '../../service/services/market_news/market_news_service.dart';
 import '../../service/services/news/news_service.dart';
@@ -176,6 +177,12 @@ final kycAlertHandlerPod =
   final colors = ref.read(sColorPod);
 
   return KycAlertHandler(context, colors);
+});
+
+final kysServicePod = Provider<KycService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return KycService(dio);
 });
 
 final changePasswordSerivcePod = Provider<ChangePasswordService>((ref) {
