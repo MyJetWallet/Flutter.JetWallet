@@ -12,6 +12,8 @@ import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../helpers/navigator_push.dart';
 import '../notifiers/logout_notifier/logout_notipod.dart';
 import '../notifiers/user_info_notifier/user_info_notipod.dart';
+import '../providers/service_providers.dart';
+import 'local_storage_service.dart';
 
 /// Parameters
 const _code = 'jw_code';
@@ -26,6 +28,7 @@ const _forgotPassword = 'ForgotPassword';
 const _confirmWithdraw = 'jw_withdrawal_email_confirm';
 const _confirmSendByPhone = 'jw_transfer_email_confirm';
 const _inviteFriend = 'InviteFriend';
+const _referralRedirect = 'ReferralRedirect';
 
 class DeepLinkService {
   DeepLinkService(this.read);
@@ -50,6 +53,8 @@ class DeepLinkService {
       _confirmSendByPhoneCommand(parameters);
     } else if (command == _inviteFriend) {
       _inviteFriendCommand();
+    } else if (command == _referralRedirect) {
+      _referralRedirectCommand(parameters);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
@@ -105,5 +110,12 @@ class DeepLinkService {
         ),
       ],
     );
+  }
+
+  void _referralRedirectCommand(Map<String, String> parameters) {
+    final storage = read(localStorageServicePod);
+    final referralCode = parameters[_code];
+
+    storage.setString(referralCodeKey, referralCode);
   }
 }
