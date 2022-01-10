@@ -1,0 +1,15 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../model/kyc_operation_status_model.dart';
+import 'kyc_step_state.dart';
+import 'kyc_steps_notifier.dart';
+import 'kyc_steps_state.dart';
+
+final kycStepsNotipod = StateNotifierProvider.autoDispose
+    .family<KycStepsNotifier, KycStepsState, List<RequiredVerified>>(
+  (ref, requiredVerifications) {
+    return KycStepsNotifier(
+      read: ref.read,
+      requiredVerifications: requiredVerifications,
+    );
+  },
+);
