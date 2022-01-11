@@ -15,7 +15,7 @@ class KycAlertHandler {
   KycAlertHandler({
     required this.context,
     required this.colors,
-});
+  });
 
   final BuildContext context;
   final SimpleColors colors;
@@ -53,7 +53,10 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
-        _navigateVerifiedNavigate(kycVerified.requiredVerifications);
+        _navigateVerifiedNavigate(
+          kycVerified.requiredVerifications,
+          kycVerified.requiredDocuments,
+        );
       },
       onSecondaryButtonTap: () {
         Navigator.pop(context);
@@ -90,7 +93,10 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
-        _navigateVerifiedNavigate(kycVerified.requiredVerifications);
+        _navigateVerifiedNavigate(
+          kycVerified.requiredVerifications,
+          kycVerified.requiredDocuments,
+        );
       },
       onSecondaryButtonTap: () {
         _navigateTo(statusType);
@@ -114,7 +120,10 @@ class KycAlertHandler {
     );
   }
 
-  void _navigateVerifiedNavigate(List<RequiredVerified> requiredVerifications) {
+  void _navigateVerifiedNavigate(
+    List<RequiredVerified> requiredVerifications,
+    List<KycDocumentType> documents,
+  ) {
     if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
       SetPhoneNumber.push(
         context: context,
@@ -122,12 +131,14 @@ class KycAlertHandler {
         then: () => KycVerifyYourProfile.push(
           context: context,
           requiredVerifications: requiredVerifications,
+          documents: documents,
         ),
       );
     } else {
       KycVerifyYourProfile.pushReplacement(
         context: context,
         requiredVerifications: requiredVerifications,
+        documents: documents,
       );
     }
   }
@@ -171,7 +182,8 @@ class KycAlertHandler {
   }
 
   List<Widget> _listRequiredVerification(
-      List<RequiredVerified> requiredVerifications) {
+      List<RequiredVerified> requiredVerifications,
+      ) {
     final requiredVerified = <Widget>[];
 
     for (var i = 0; i < requiredVerifications.length; i++) {

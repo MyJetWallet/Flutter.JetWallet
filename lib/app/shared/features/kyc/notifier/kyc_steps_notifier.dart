@@ -1,5 +1,4 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logging/logging.dart';
 
 import '../model/kyc_operation_status_model.dart';
 import 'kyc_steps_state.dart';
@@ -16,8 +15,6 @@ class KycStepsNotifier extends StateNotifier<KycStepsState> {
 
   final Reader read;
   final List<ModifyRequiredVerified> requiredVerifications;
-
-  static final _logger = Logger('KycStepsNotifier');
 
   void _init(List<ModifyRequiredVerified> requiredVerifications) {
     state = state.copyWith(requiredVerifications: requiredVerifications);

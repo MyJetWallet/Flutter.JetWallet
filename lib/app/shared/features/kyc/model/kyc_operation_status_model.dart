@@ -54,7 +54,6 @@ RequiredVerified requiredVerifiedStatus(int num) {
   }
 }
 
-
 enum KycDocumentType {
   unknown,
   governmentId,
@@ -66,7 +65,28 @@ enum KycDocumentType {
   financialDocument,
 }
 
- KycDocumentType kycDocumentType(int type) {
+String stringKycDocumentType(KycDocumentType type) {
+  switch (type) {
+    case KycDocumentType.unknown:
+      return 'unknown';
+    case KycDocumentType.governmentId:
+      return 'ID card';
+    case KycDocumentType.passport:
+      return 'International passport';
+    case KycDocumentType.driverLicense:
+      return 'Driver license';
+    case KycDocumentType.residentPermit:
+      return 'Residence permit';
+    case KycDocumentType.selfieImage:
+      return 'Take a selfie';
+    case KycDocumentType.addressDocument:
+      return 'Address document';
+    default:
+      return 'Financial document';
+  }
+}
+
+KycDocumentType kycDocumentType(int type) {
   switch (type) {
     case 0:
       return KycDocumentType.unknown;

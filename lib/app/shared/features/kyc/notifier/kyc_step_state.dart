@@ -9,5 +9,3 @@ class KycStepState with _$KycStepState {
     @Default([]) List<ModifyRequiredVerified> requiredVerified,
   }) = _KycStepState;
 }
-
-
