@@ -17,12 +17,15 @@ import 'components/show_dial_code_picker.dart';
 class SetPhoneNumber extends HookWidget {
   const SetPhoneNumber({
     Key? key,
+    this.then,
     required this.successText,
   }) : super(key: key);
 
+  final Function()? then;
   final String successText;
 
   static void push({
+    Function()? then,
     required BuildContext context,
     required String successText,
   }) {
@@ -30,11 +33,13 @@ class SetPhoneNumber extends HookWidget {
       context,
       SetPhoneNumber(
         successText: successText,
+        then: then,
       ),
     );
   }
 
   static void pushReplacement({
+    Function()? then,
     required BuildContext context,
     required String successText,
   }) {
@@ -42,6 +47,7 @@ class SetPhoneNumber extends HookWidget {
       context,
       SetPhoneNumber(
         successText: successText,
+        then: then,
       ),
     );
   }
@@ -149,6 +155,7 @@ class SetPhoneNumber extends HookWidget {
                           SuccessScreen.push(
                             context: context,
                             secondaryText: successText,
+                            then: then,
                           );
                         },
                       ),

@@ -90,10 +90,7 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
-        SetPhoneNumber.pushReplacement(
-          context: context,
-          successText: 'New phone number confirmed',
-        );
+        _navigateVerifiedNavigate(kycVerified.requiredVerifications);
       },
       onSecondaryButtonTap: () {
         _navigateTo(statusType);
@@ -118,18 +115,20 @@ class KycAlertHandler {
   }
 
   void _navigateVerifiedNavigate(List<RequiredVerified> requiredVerifications) {
-    for (var i = 0; i < requiredVerifications.length; i++) {
-      if (requiredVerifications[i] == RequiredVerified.proofOfPhone) {
-        SetPhoneNumber.pushReplacement(
-          context: context,
-          successText: 'New phone number confirmed',
-        );
-      } else {
-        KycVerifyYourProfile.pushReplacement(
+    if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
+      SetPhoneNumber.push(
+        context: context,
+        successText: '2-Factor verification enabled',
+        then: () => KycVerifyYourProfile.push(
           context: context,
           requiredVerifications: requiredVerifications,
-        );
-      }
+        ),
+      );
+    } else {
+      KycVerifyYourProfile.pushReplacement(
+        context: context,
+        requiredVerifications: requiredVerifications,
+      );
     }
   }
 

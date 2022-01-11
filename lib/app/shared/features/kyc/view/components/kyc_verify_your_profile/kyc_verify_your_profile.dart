@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/kyc_steps_notipod.dart';
@@ -16,6 +17,18 @@ class KycVerifyYourProfile extends HookWidget {
   }) : super(key: key);
 
   final List<RequiredVerified> requiredVerifications;
+
+  static void push({
+    required BuildContext context,
+    required List<RequiredVerified> requiredVerifications,
+  }) {
+    navigatorPush(
+      context,
+      KycVerifyYourProfile(
+        requiredVerifications: requiredVerifications,
+      ),
+    );
+  }
 
   static void pushReplacement({
     required BuildContext context,
