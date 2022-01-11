@@ -57,7 +57,7 @@ class KycVerifyYourProfile extends HookWidget {
                 title: '${index + 1}. ${stringRequiredVerified(
                   RequiredVerified.proofOfPhone,
                 )}',
-                completeIcon: !state.requiredVerifications[index].verifiedDone,
+                completeIcon: state.requiredVerifications[index].verifiedDone,
                 isSDivider: _dividerVerifyStep(
                   state.requiredVerifications.length,
                   index,
