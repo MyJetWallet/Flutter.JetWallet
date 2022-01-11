@@ -96,8 +96,12 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
   void pickDialCodeFromSearch(SPhoneNumber code) {
     state.dialCodeController.text = code.countryCode;
     updateActiveDialCode(code);
+    final number = '${code.countryCode} ${state.phoneNumberController.text}';
     updateContactName(
-      '${code.countryCode} ${state.phoneNumberController.text}',
+      ContactModel(
+        name: number,
+        phoneNumber: number,
+      ),
     );
   }
 
@@ -147,6 +151,7 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
         ContactModel(
           name: number,
           phoneNumber: phoneNumber,
+          isCustomContact: true,
           valid: await isInternationalPhoneNumberValid(phoneNumber),
         ),
       );
@@ -193,7 +198,16 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
       }
     }
 
-    updateContactName(contact.name);
+    if (contact.isCustomContact) {
+      updateContactName(
+        ContactModel(
+          name: contact.phoneNumber,
+          phoneNumber: contact.phoneNumber,
+        ),
+      );
+    } else {
+      updateContactName(contact);
+    }
   }
 
   bool _isContactInSearch(ContactModel contact) {
@@ -205,8 +219,8 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
     return name.contains(search) || parsedNamber.contains(search);
   }
 
-  void updateContactName(String name) {
-    state = state.copyWith(contactName: name);
+  void updateContactName(ContactModel contact) {
+    state = state.copyWith(pickedContact: contact);
   }
 
   void updateActiveDialCode(SPhoneNumber? number) {

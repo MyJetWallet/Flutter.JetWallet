@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/device_uid_pod.dart';
@@ -189,7 +190,7 @@ class SignalRService {
     try {
       await _connection?.invoke(
         initMessage,
-        args: [token, localeName, deviceUid],
+        args: [token, localeName, deviceUid, deviceType],
       );
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);

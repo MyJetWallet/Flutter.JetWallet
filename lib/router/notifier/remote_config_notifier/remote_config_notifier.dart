@@ -20,12 +20,22 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
   Timer? _timer;
   late Timer _durationTimer;
   late int retryTime;
+  final stopwatch = Stopwatch();
+  bool isStopwatchStarted = false;
+
+  void _startStopwatch() {
+    isStopwatchStarted = true;
+
+    if (!isStopwatchStarted) {
+      stopwatch.start();
+    }
+  }
 
   Future<void> _fetchAndActivate() async {
     state = const Loading();
 
     try {
-      final stopwatch = Stopwatch()..start();
+      _startStopwatch();
 
       await RemoteConfigService().fetchAndActivate();
 

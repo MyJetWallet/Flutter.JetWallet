@@ -43,6 +43,7 @@ class SMegaHeader extends StatelessWidget {
               style: sTextH2Style,
             ),
           ),
+          const SpaceH28(),
         ],
       ),
     );

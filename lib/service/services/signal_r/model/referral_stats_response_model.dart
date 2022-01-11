@@ -22,6 +22,7 @@ class ReferralStatsResponseModel with _$ReferralStatsResponseModel {
 @freezed
 class ReferralStatsModel with _$ReferralStatsModel {
   const factory ReferralStatsModel({
+    required int weight,
     required int referralInvited,
     required int referralActivated,
     required double bonusEarned,

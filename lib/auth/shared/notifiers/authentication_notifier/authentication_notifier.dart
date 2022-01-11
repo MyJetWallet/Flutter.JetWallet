@@ -8,8 +8,8 @@ import '../../../../../service/shared/constants.dart';
 import '../../../../../shared/helpers/current_platform.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../../router/provider/router_stpod/router_stpod.dart';
-import '../../../../router/provider/router_stpod/router_union.dart';
+import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
+import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
 import '../../../../shared/helpers/device_uid.dart';
 import '../../../../shared/providers/service_providers.dart';
@@ -33,7 +33,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   }) async {
     _logger.log(notifier, 'authenticate');
 
-    final router = read(routerStpod.notifier);
+    final router = read(authorizationStpod.notifier);
     final authInfoN = read(authInfoNotipod.notifier);
     final authService = read(authServicePod);
     final storageService = read(localStorageServicePod);
@@ -41,6 +41,8 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
     try {
       state = const Loading();
+
+      final referralCode = await storageService.getString(referralCodeKey);
 
       await rsaService.init();
       await rsaService.savePrivateKey(storageService);
@@ -64,6 +66,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         platformType: platformType,
         platform: currentPlatform,
         deviceUid: id,
+        referralCode: referralCode,
       );
 
       AuthenticationResponseModel authModel;

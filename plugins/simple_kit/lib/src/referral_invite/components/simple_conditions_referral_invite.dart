@@ -24,6 +24,7 @@ class SimpleConditionsReferralInvite extends StatelessWidget {
             baselineType: TextBaseline.alphabetic,
             child: Text(
               conditionText,
+              maxLines: 2,
               style: sBodyText1Style,
             ),
           )

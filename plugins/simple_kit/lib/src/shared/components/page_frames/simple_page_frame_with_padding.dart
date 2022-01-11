@@ -9,6 +9,7 @@ class SPageFrameWithPadding extends ConsumerWidget {
     Key? key,
     this.header,
     this.loading,
+    this.bottomNavigationBar,
     this.color = Colors.transparent,
     this.resizeToAvoidBottomInset = true,
     required this.child,
@@ -19,6 +20,7 @@ class SPageFrameWithPadding extends ConsumerWidget {
   final Color color;
   final bool resizeToAvoidBottomInset;
   final StackLoaderNotifier? loading;
+  final Widget? bottomNavigationBar;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -27,6 +29,7 @@ class SPageFrameWithPadding extends ConsumerWidget {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      bottomNavigationBar: bottomNavigationBar,
       body: StackLoader(
         loading: loading,
         child: SPaddingH24(

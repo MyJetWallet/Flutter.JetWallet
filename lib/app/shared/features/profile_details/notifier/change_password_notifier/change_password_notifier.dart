@@ -3,7 +3,7 @@ import 'package:logging/logging.dart';
 
 import '../../../../../../service/services/change_password/model/change_password_request_model.dart';
 import '../../../../../../shared/logging/levels.dart';
-import '../../providers/service_providers.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import 'change_password_state.dart';
 import 'change_password_union.dart';
 
@@ -37,7 +37,7 @@ class ChangePasswordNotifier extends StateNotifier<ChangePasswordState> {
         newPassword: state.newPassword,
       );
 
-      await read(changePasswordPod).confirmNewPassword(model);
+      await read(changePasswordSerivcePod).confirmNewPassword(model);
 
       state = state.copyWith(union: const Done());
     } catch (e) {

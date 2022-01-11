@@ -39,10 +39,17 @@ class SSmallHeader extends StatelessWidget {
                 )
               else
                 const _IconPlaceholder(),
-              Text(
-                title,
-                style: sTextH5Style,
+              const SpaceW12(),
+              Expanded(
+                child: Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  style: sTextH5Style,
+                ),
               ),
+              const SpaceW12(),
               if (showStarButton)
                 SIconButton(
                   onTap: onStarButtonTap,

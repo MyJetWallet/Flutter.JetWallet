@@ -27,7 +27,7 @@ class _ActionBuy extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    final currencies = context.read(currenciesPod);
+    final currencies = useProvider(currenciesPod);
 
     return Column(
       children: [

@@ -19,6 +19,8 @@ class CampaignModel with _$CampaignModel {
     List<CampaignConditionModel>? conditions,
     String? imageUrl,
     @JsonKey(name: 'expirationTime') required String timeToComplete,
+    @Default(false) bool showReferrerStats,
+    required int weight,
     required String title,
     required String description,
     required String campaignId,

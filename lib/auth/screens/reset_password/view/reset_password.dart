@@ -4,23 +4,42 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
-import '../../../../shared/helpers/navigator_push.dart';
+import '../../../../shared/helpers/get_args.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../../login/login.dart';
 import '../notifier/reset_password_notipod.dart';
 import '../notifier/reset_password_state.dart';
 import '../notifier/reset_password_union.dart';
 
-class ResetPassword extends HookWidget {
-  const ResetPassword({
-    Key? key,
+@immutable
+class ResetPasswordArgs {
+  const ResetPasswordArgs({
     required this.token,
-  }) : super(key: key);
+  });
 
   final String token;
+}
+
+class ResetPassword extends HookWidget {
+  const ResetPassword({Key? key}) : super(key: key);
+
+  static const routeName = '/reset_password';
+
+  static Future push({
+    required BuildContext context,
+    required ResetPasswordArgs args,
+  }) {
+    return Navigator.pushNamed(
+      context,
+      routeName,
+      arguments: args,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final args = getArgs(context) as ResetPasswordArgs;
+    
     final colors = useProvider(sColorPod);
     final reset = useProvider(resetPasswordNotipod);
     final resetN = useProvider(resetPasswordNotipod.notifier);
@@ -41,10 +60,9 @@ class ResetPassword extends HookWidget {
       },
       child: SPageFrame(
         color: colors.grey5,
-        header: SPaddingH24(
+        header: const SPaddingH24(
           child: SBigHeader(
             title: 'Password reset',
-            onBackButtonTap: () => Navigator.of(context).pop(),
           ),
         ),
         child: AutofillGroup(
@@ -75,12 +93,15 @@ class ResetPassword extends HookWidget {
                   active: reset.passwordValid,
                   name: 'Continue',
                   onTap: () {
-                    if (reset.passwordValid) {
-                      resetN.resetPassword(token);
+                    resetN.resetPassword(args.token);
 
-                      if (reset.union is Input) {
-                        _pushToAuthSuccess(context);
-                      }
+                    /// todo start loading
+                    if (reset.union is Input) {
+                      SuccessScreen.push(
+                        context: context,
+                        secondaryText: 'Your password has been reset',
+                        then: () => Login.push(context),
+                      );
                     }
                   },
                 ),
@@ -92,14 +113,4 @@ class ResetPassword extends HookWidget {
       ),
     );
   }
-}
-
-void _pushToAuthSuccess(BuildContext context) {
-  return SuccessScreen.push(
-    context: context,
-    secondaryText: 'Your password has been reset',
-    then: () {
-      navigatorPush(context, const Login());
-    },
-  );
 }

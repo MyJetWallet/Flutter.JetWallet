@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// TODO(ELI) update this dialog
+/// TODO (remove legacy code)
 void showQuoteUpdatedDialog({
   required BuildContext context,
   required Function() onPressed,

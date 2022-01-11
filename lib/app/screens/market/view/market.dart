@@ -9,7 +9,7 @@ import '../provider/market_gainers_pod.dart';
 import '../provider/market_items_pod.dart';
 import '../provider/market_losers_pod.dart';
 import 'components/fade_on_scroll.dart';
-import 'components/market_banner/market_banner.dart';
+import 'components/market_banners/market_banners.dart';
 import 'components/market_tab_content/market_tab_content.dart';
 import 'components/market_tabs/market_tabs.dart';
 
@@ -54,18 +54,16 @@ class Market extends HookWidget {
                       fadeInWidget: const SDivider(
                         width: double.infinity,
                       ),
-                      fadeOutWidget: SPaddingH24(
+                      fadeOutWidget: const SPaddingH24(
                         child: SMarketHeader(
                           title: 'Market',
                           percent: 1.73,
                           isPositive: true,
                           subtitle: 'Market is up',
-                          onSearchButtonTap: () {},
                         ),
                       ),
-                      permanentWidget: SMarketHeaderClosed(
+                      permanentWidget: const SMarketHeaderClosed(
                         title: 'Market',
-                        onSearchButtonTap: () {},
                       ),
                     ),
                   ),
@@ -76,7 +74,7 @@ class Market extends HookWidget {
                   ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      const MarketBanner(),
+                      const MarketBanners(),
                       MarketTabContent(
                         items: items,
                       ),
