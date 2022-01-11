@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/app/shared/features/kyc/view/components/kyc_verify.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
@@ -9,10 +8,14 @@ import '../../actions/action_withdraw/action_withdraw.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
+import '../view/components/kyc_verify_your_profile/kyc_verify_your_profile.dart';
 import '../view/popup/show_kyc_popup.dart';
 
 class KycAlertHandler {
-  KycAlertHandler(this.context, this.colors);
+  KycAlertHandler({
+    required this.context,
+    required this.colors,
+});
 
   final BuildContext context;
   final SimpleColors colors;
@@ -115,8 +118,6 @@ class KycAlertHandler {
   }
 
   void _navigateVerifiedNavigate(List<RequiredVerified> requiredVerifications) {
-    print('_navigateVerifiedNavigate_navigateVerifiedNavigate $requiredVerifications');
-
     for (var i = 0; i < requiredVerifications.length; i++) {
       if (requiredVerifications[i] == RequiredVerified.proofOfPhone) {
         SetPhoneNumber.pushReplacement(
@@ -124,7 +125,7 @@ class KycAlertHandler {
           successText: 'New phone number confirmed',
         );
       } else {
-        KycVerify.pushReplacement(
+        KycVerifyYourProfile.pushReplacement(
           context: context,
           requiredVerifications: requiredVerifications,
         );
@@ -170,7 +171,8 @@ class KycAlertHandler {
     );
   }
 
-  List<Widget> _listRequiredVerification(List<RequiredVerified> requiredVerifications) {
+  List<Widget> _listRequiredVerification(
+      List<RequiredVerified> requiredVerifications) {
     final requiredVerified = <Widget>[];
 
     for (var i = 0; i < requiredVerifications.length; i++) {
@@ -195,6 +197,4 @@ class KycAlertHandler {
 
     return requiredVerified;
   }
-
-
 }

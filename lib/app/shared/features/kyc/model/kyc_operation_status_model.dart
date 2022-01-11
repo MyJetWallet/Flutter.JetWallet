@@ -28,6 +28,19 @@ enum RequiredVerified {
   proofOfPhone,
 }
 
+String stringRequiredVerified(RequiredVerified type) {
+  switch (type) {
+    case RequiredVerified.proofOfIdentity:
+      return 'Verify your identity';
+    case RequiredVerified.proofOfAddress:
+      return 'Address verification';
+    case RequiredVerified.proofOfFunds:
+      return 'Proof source of funds';
+    case RequiredVerified.proofOfPhone:
+      return 'Secure your account';
+  }
+}
+
 RequiredVerified requiredVerifiedStatus(int num) {
   switch (num) {
     case 1:

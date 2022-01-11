@@ -6,6 +6,16 @@ part 'kyc_steps_state.freezed.dart';
 @freezed
 class KycStepsState with _$KycStepsState {
   const factory KycStepsState({
-    @Default([]) List<RequiredVerified> requiredVerifications,
+    @Default([]) List<ModifyRequiredVerified> requiredVerifications,
   }) = _KycStepsState;
+
+  const KycStepsState._();
+}
+
+@freezed
+class ModifyRequiredVerified with _$ModifyRequiredVerified {
+  const factory ModifyRequiredVerified({
+    RequiredVerified? requiredVerified,
+    @Default(false) bool verifiedDone,
+  }) = _ModifyRequiredVerified;
 }

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../model/kyc_operation_status_model.dart';
+import 'kyc_steps_state.dart';
 
 part 'kyc_step_state.freezed.dart';
 
@@ -10,12 +10,4 @@ class KycStepState with _$KycStepState {
   }) = _KycStepState;
 }
 
-class ModifyRequiredVerified {
-  ModifyRequiredVerified({
-    this.verifiedDone = false,
-    this.requiredVerified,
-  });
 
-  final RequiredVerified? requiredVerified;
-  final bool verifiedDone;
-}

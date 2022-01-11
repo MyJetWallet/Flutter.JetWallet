@@ -4,12 +4,22 @@ import 'kyc_step_state.dart';
 import 'kyc_steps_notifier.dart';
 import 'kyc_steps_state.dart';
 
-final kycStepsNotipod = StateNotifierProvider.autoDispose
+final kycStepsNotipod = StateNotifierProvider
     .family<KycStepsNotifier, KycStepsState, List<RequiredVerified>>(
   (ref, requiredVerifications) {
+
+    final modifyRequiredVerified = <ModifyRequiredVerified>[];
+    for (var i = 0; i < requiredVerifications.length; i++) {
+      modifyRequiredVerified.add(
+        ModifyRequiredVerified(
+          requiredVerified: requiredVerifications[i],
+        ),
+      );
+    }
+
     return KycStepsNotifier(
       read: ref.read,
-      requiredVerifications: requiredVerifications,
+      requiredVerifications: modifyRequiredVerified,
     );
   },
 );

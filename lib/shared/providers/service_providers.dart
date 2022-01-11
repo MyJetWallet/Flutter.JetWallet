@@ -176,7 +176,7 @@ final kycAlertHandlerPod =
     Provider.family<KycAlertHandler, BuildContext>((ref, context) {
   final colors = ref.read(sColorPod);
 
-  return KycAlertHandler(context, colors);
+  return KycAlertHandler(context: context, colors: colors);
 });
 
 final kysServicePod = Provider<KycService>((ref) {

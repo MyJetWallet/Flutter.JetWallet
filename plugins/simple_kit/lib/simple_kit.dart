@@ -15,6 +15,7 @@ export 'src/account/headers/simple_account_category_header.dart';
 
 /// Indicator
 export 'src/account/indicator/simple_account_protection_indicator.dart';
+export 'src/account/indicator/simple_verify_indicator.dart';
 export 'src/account/phone_number/simple_number.dart';
 
 /// Countries
