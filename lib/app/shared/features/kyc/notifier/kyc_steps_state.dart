@@ -8,8 +8,6 @@ class KycStepsState with _$KycStepsState {
   const factory KycStepsState({
     @Default([]) List<ModifyRequiredVerified> requiredVerifications,
   }) = _KycStepsState;
-
-  const KycStepsState._();
 }
 
 @freezed

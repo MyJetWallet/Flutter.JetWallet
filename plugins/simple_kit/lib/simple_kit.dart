@@ -76,6 +76,7 @@ export 'src/buttons/basic_buttons/text_button/public/simple_text_button_2.dart';
 export 'src/buttons/link_button/public/simple_link_button_1.dart';
 export 'src/buttons/link_button/public/simple_link_button_2.dart';
 export 'src/buttons/resend_button/simple_resend_button.dart';
+export 'src/buttons/kyc_button/simple_choose_document_button.dart';
 
 /// Colors
 export 'src/colors/provider/simple_color_pod.dart';
@@ -175,6 +176,7 @@ export 'src/icons/24x24/public/support/simple_support_icon.dart';
 export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
 export 'src/icons/24x24/public/wallet/simple_wallet_icon.dart';
 export 'src/icons/24x24/public/wire/simple_wire_icon.dart';
+export 'src/icons/24x24/public/kyc/simple_document_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
@@ -243,6 +245,7 @@ export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
+export 'src/kyc/simple_documents_recommendations.dart';
 
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';
