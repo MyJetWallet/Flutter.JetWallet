@@ -15,7 +15,7 @@ definitions:
       - development
   
   flavor_development_vars: &flavor_development_vars
-    FLAVOR: "dev"
+    XCODE_SCHEME: "dev"
     BUNDLE_ID: "dev.app.simple.com"
     APP_STORE_ID: 1604368665
 
@@ -26,7 +26,7 @@ definitions:
       - staging
 
   flavor_staging_vars: &flavor_staging_vars
-    FLAVOR: "stage"
+    XCODE_SCHEME: "stage"
     BUNDLE_ID: "stage.app.simple.com"
     APP_STORE_ID: 1604368566
 
@@ -37,7 +37,7 @@ definitions:
       - production
   
   flavor_production_vars: &flavor_production_vars
-    FLAVOR: "prod"
+    XCODE_SCHEME: "prod"
     BUNDLE_ID: "app.simple.com"
     APP_STORE_ID: 1603406843
 
@@ -83,7 +83,7 @@ definitions:
         flutter clean
         rm -f ios/Podfile.lock pubspec.lock
         rm -rf ios/Pods ios/Runner.xcworkspace
-        flutter build ipa -t $MAIN_TARGET --flavor $FLAVOR --release --build-name=1.0.1 \
+        flutter build ipa -t $MAIN_TARGET --flavor $XCODE_SCHEME --release --build-name=1.0.1 \
         --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))  \
         --dart-define=MY_APP_ENV=prod \
         --export-options-plist=/Users/builder/export_options.plist
