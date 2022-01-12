@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'upload_kyc_documents_state.dart';
 
@@ -13,5 +15,13 @@ class UploadKycDocumentsNotifier
 
   void changeDocumentSide(int index) {
     state = state.copyWith(numberSide: index);
+  }
+
+  void updateDocumentSide(File file) {
+    if (state.numberSide == 0) {
+      state = state.copyWith(documentFirstSide: file);
+    } else {
+      state = state.copyWith(documentSecondSide: file);
+    }
   }
 }

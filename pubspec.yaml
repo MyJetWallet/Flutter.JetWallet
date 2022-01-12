@@ -76,6 +76,7 @@ dependencies:
   logging: ^1.0.2 # APIs for debugging and error logging
   fast_rsa: ^3.2.0 # RSA signing
   timeago: ^3.1.0 # Date converter
+  image_picker: ^0.8.4+4
 
   # OWN LIBS:
   simple_kit:

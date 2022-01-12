@@ -11,12 +11,22 @@ class UploadKycDocumentsState with _$UploadKycDocumentsState {
     File? documentSecondSide,
     @Default(0) int numberSide,
   }) = _UploadKycDocumentsState;
-}
 
-@freezed
-class UploadKycDocument with _$UploadKycDocument {
-  const factory UploadKycDocument({
-    File? documentFirstSide,
-    File? documentSecondSide,
-  }) = _UploadKycDocument;
+  const UploadKycDocumentsState._();
+
+  bool get activeScanButton {
+    if (numberSide == 0) {
+      if (documentFirstSide == null) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (documentSecondSide == null) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }
