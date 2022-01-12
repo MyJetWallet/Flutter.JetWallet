@@ -1,4 +1,4 @@
-package com.example.flutter_jetwallet
+package dev.app.simple.com
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
