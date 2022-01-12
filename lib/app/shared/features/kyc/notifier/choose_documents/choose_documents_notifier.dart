@@ -33,6 +33,10 @@ class ChooseDocumentsNotifier extends StateNotifier<ChooseDocumentsState> {
     state = state.copyWith(documents: list);
   }
 
+  DocumentsModel getActiveDocument() {
+    return state.documents.firstWhere((element) => element.active);
+  }
+
   bool activeButton() {
     final document = state.documents.where((element) => element.active);
     return document.isNotEmpty;

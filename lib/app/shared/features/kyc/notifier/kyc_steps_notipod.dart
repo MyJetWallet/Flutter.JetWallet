@@ -9,11 +9,20 @@ final kycStepsNotipod = StateNotifierProvider
 
     final modifyRequiredVerified = <ModifyRequiredVerified>[];
     for (var i = 0; i < requiredVerifications.length; i++) {
-      modifyRequiredVerified.add(
-        ModifyRequiredVerified(
-          requiredVerified: requiredVerifications[i],
-        ),
-      );
+      if (requiredVerifications[i] == RequiredVerified.proofOfPhone) {
+        modifyRequiredVerified.add(
+          ModifyRequiredVerified(
+            requiredVerified: requiredVerifications[i],
+            verifiedDone: true,
+          ),
+        );
+      } else {
+        modifyRequiredVerified.add(
+          ModifyRequiredVerified(
+            requiredVerified: requiredVerifications[i],
+          ),
+        );
+      }
     }
 
     return KycStepsNotifier(

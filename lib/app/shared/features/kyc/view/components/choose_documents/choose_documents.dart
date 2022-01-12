@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
+import '../upload_documents/upload_kyc_documents.dart';
 
 class ChooseDocuments extends HookWidget {
   const ChooseDocuments({
@@ -48,7 +49,12 @@ class ChooseDocuments extends HookWidget {
           right: 24,
         ),
         child: SPrimaryButton2(
-          onTap: () {},
+          onTap: () async {
+            UploadKycDocuments.pushReplacement(
+              context: context,
+              activeDocument: notifier.getActiveDocument(),
+            );
+          },
           name: 'Choose document',
           active: notifier.activeButton(),
         ),

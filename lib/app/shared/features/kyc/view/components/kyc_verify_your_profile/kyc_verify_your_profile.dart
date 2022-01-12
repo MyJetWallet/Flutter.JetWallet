@@ -7,6 +7,7 @@ import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/kyc_steps_notipod.dart';
+import '../../../notifier/kyc_steps_state.dart';
 import '../choose_documents/choose_documents.dart';
 import 'components/verify_step.dart';
 
@@ -85,6 +86,7 @@ class KycVerifyYourProfile extends HookWidget {
                   state.requiredVerifications[index].verifiedDone,
                   index,
                   colors,
+                  state.requiredVerifications,
                 ),
               ),
             if (state.requiredVerifications[index].requiredVerified ==
@@ -102,6 +104,7 @@ class KycVerifyYourProfile extends HookWidget {
                   state.requiredVerifications[index].verifiedDone,
                   index,
                   colors,
+                  state.requiredVerifications,
                 ),
               ),
             if (state.requiredVerifications[index].requiredVerified ==
@@ -119,6 +122,7 @@ class KycVerifyYourProfile extends HookWidget {
                   state.requiredVerifications[index].verifiedDone,
                   index,
                   colors,
+                  state.requiredVerifications,
                 ),
               ),
             if (state.requiredVerifications[index].requiredVerified ==
@@ -136,6 +140,7 @@ class KycVerifyYourProfile extends HookWidget {
                   state.requiredVerifications[index].verifiedDone,
                   index,
                   colors,
+                  state.requiredVerifications,
                 ),
               ),
           ],
@@ -161,12 +166,21 @@ class KycVerifyYourProfile extends HookWidget {
     bool verifiedDone,
     int index,
     SimpleColors colors,
+    List<ModifyRequiredVerified> requiredVerifications,
   ) {
-    return verifiedDone
-        ? colors.black
-        : !verifiedDone && index == 0
-            ? colors.blue
-            : colors.grey1;
+    if (verifiedDone) {
+      return colors.black;
+    }
+
+    if (index != 0 && !requiredVerifications[index].verifiedDone) {
+      if (requiredVerifications[index - 1].verifiedDone) {
+        return colors.blue;
+      } else {
+        return colors.grey1;
+      }
+    } else {
+      return colors.blue;
+    }
   }
 
   bool _dividerVerifyStep(

@@ -24,8 +24,6 @@ final kycChecksFpod = FutureProvider.autoDispose<KycVerifiedModel>((ref) async {
 
     final requiredVerified = <RequiredVerified>[];
     if (response.requiredVerifications.isNotEmpty) {
-      response.requiredVerifications.sort((a, b) => a.compareTo(b));
-
       for (final item in response.requiredVerifications) {
         requiredVerified.add(requiredVerifiedStatus(item));
       }
