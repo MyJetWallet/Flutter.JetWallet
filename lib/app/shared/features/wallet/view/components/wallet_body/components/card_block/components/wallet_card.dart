@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -13,11 +12,9 @@ class WalletCard extends HookWidget {
   const WalletCard({
     Key? key,
     required this.assetId,
-    required this.walletBackground,
   }) : super(key: key);
 
   final String assetId;
-  final String walletBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -28,99 +25,107 @@ class WalletCard extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
 
-    return Stack(
-      children: [
-        SvgPicture.asset(
-          walletBackground,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.fill,
-        ),
-        SizedBox(
-          height: 270,
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SPaddingH24(
-                child: SSmallHeader(
-                  title: '${currency.description} wallet',
-                ),
-              ),
-              const Spacer(),
-              SPaddingH24(
-                child: Row(
-                  children: [
-                    SNetworkSvg24(
-                      url: currency.iconUrl,
-                    ),
-                    const SpaceW10(),
-                    Text(
-                      currency.description,
-                      style: sSubtitle2Style,
-                    ),
-                    const Spacer(),
-                    Container(
-                      height: 24,
-                      width: 83,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: colors.green,
-                      ),
-                      child: Baseline(
-                        baseline: 17,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          '+\$120.23',
-                          style: sSubtitle3Style.copyWith(color: colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SpaceH8(),
-              SPaddingH24(
-                child: Text(
-                  formatCurrencyAmount(
-                    prefix: baseCurrency.prefix,
-                    value: currency.baseBalance,
-                    accuracy: baseCurrency.accuracy,
-                    symbol: baseCurrency.symbol,
-                  ),
-                  style: sTextH1Style,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              SPaddingH24(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      formatCurrencyAmount(
-                        symbol: currency.assetId,
-                        value: currency.assetBalance,
-                        accuracy: currency.accuracy,
-                        prefix: currency.prefixSymbol,
-                      ),
-                      style: sBodyText2Style.copyWith(color: colors.grey1),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SInfoIcon(),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              // const SpaceH20(),
-            ],
+    return Container(
+      height: 150,
+      width: double.infinity,
+      margin: const EdgeInsets.only(
+        top: 120,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24.0,
+      ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 32,
+            ),
+            child: SNetworkSvg24(
+              url: currency.iconUrl,
+            ),
           ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 34,
+            ),
+            child: SBaselineChild(
+              baseline: 50,
+              child: Text(
+                currency.description,
+                style: sSubtitle2Style,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              height: 24,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              margin: const EdgeInsets.only(top: 32),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: colors.green,
+              ),
+              child: SBaselineChild(
+                baseline: 17,
+                child: Text(
+                  '+\$120.23',
+                  style: sSubtitle3Style.copyWith(color: colors.white),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 50,
+            ),
+            child: SBaselineChild(
+              baseline: 48,
+              child: Text(
+                formatCurrencyAmount(
+                  prefix: baseCurrency.prefix,
+                  value: currency.baseBalance,
+                  accuracy: baseCurrency.accuracy,
+                  symbol: baseCurrency.symbol,
+                ),
+                style: sTextH1Style,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 98,
+            ),
+            child: SBaselineChild(
+              baseline: 24,
+              child: Text(
+                formatCurrencyAmount(
+                  symbol: currency.assetId,
+                  value: currency.assetBalance,
+                  accuracy: currency.accuracy,
+                  prefix: currency.prefixSymbol,
+                ),
+                style: sBodyText2Style.copyWith(color: colors.grey1),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(
+              bottom: 20,
+            ),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: SInfoIcon(),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

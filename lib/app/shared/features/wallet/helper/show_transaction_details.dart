@@ -46,6 +46,7 @@ void showTransactionDetails(
           transactionListItem: transactionListItem,
         ),
       ],
+      const SpaceH40(),
     ],
     context: context,
   );

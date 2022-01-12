@@ -9,6 +9,7 @@ import '../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../provider/current_asset_pod.dart';
 import 'components/action_button/action_button.dart';
 import 'components/wallet_body/wallet_body.dart';
 
@@ -73,12 +74,15 @@ class _WalletState extends State<Wallet>
     final itemsWithBalance = currenciesWithBalanceFrom(
       useProvider(currenciesPod),
     );
+    final currentAsset = useProvider(
+      currentAssetStpod(widget.currency.assetId),
+    );
     useListenable(_animationController);
 
     return Scaffold(
       bottomNavigationBar: ActionButton(
         transitionAnimationController: _animationController,
-        currency: widget.currency,
+        currency: currentAsset.state,
       ),
       body: Material(
         color: Colors.transparent,
@@ -88,6 +92,9 @@ class _WalletState extends State<Wallet>
             children: [
               PageView(
                 controller: _pageController,
+                onPageChanged: (page) {
+                  currentAsset.state = itemsWithBalance[page];
+                },
                 children: [
                   for (final item in itemsWithBalance)
                     WalletBody(

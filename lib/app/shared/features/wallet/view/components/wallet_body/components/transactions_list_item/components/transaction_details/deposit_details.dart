@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
@@ -22,8 +23,24 @@ class DepositDetails extends StatelessWidget {
         children: [
           TransactionDetailsItem(
             text: 'Transaction ID',
-            value: TransactionDetailsValueText(
-              text: shortAddressForm(transactionListItem.operationId),
+            value: Row(
+              children: [
+                TransactionDetailsValueText(
+                  text: shortAddressForm(transactionListItem.operationId),
+                ),
+                const SpaceW10(),
+                SIconButton(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: transactionListItem.operationId,
+                      ),
+                    );
+                  },
+                  defaultIcon: const SCopyIcon(),
+                  pressedIcon: const SCopyPressedIcon(),
+                ),
+              ],
             ),
           ),
           const SpaceH14(),

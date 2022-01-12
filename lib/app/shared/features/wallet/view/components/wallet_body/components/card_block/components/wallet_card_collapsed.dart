@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -13,11 +12,9 @@ class WalletCardCollapsed extends HookWidget {
   const WalletCardCollapsed({
     Key? key,
     required this.assetId,
-    required this.walletBackground,
   }) : super(key: key);
 
   final String assetId;
-  final String walletBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -28,68 +25,45 @@ class WalletCardCollapsed extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
 
-    Stack(
-      children: [
-        SvgPicture.asset(
-          walletBackground,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.fill,
-        ),
-        SPaddingH24(
-          child: SSmallHeader(
-            title: '${currency.description} wallet',
+    return Container(
+      height: 200,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24.0,
+      ),
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          const SpaceH120(),
+          SBaselineChild(
+            baseline: 40,
+            child: Text(
+              formatCurrencyAmount(
+                prefix: baseCurrency.prefix,
+                value: currency.baseBalance,
+                accuracy: baseCurrency.accuracy,
+                symbol: baseCurrency.symbol,
+              ),
+              style: sTextH5Style,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-      ],
-    );
-
-    return Stack(
-      children: [
-        SvgPicture.asset(
-          walletBackground,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.fill,
-        ),
-        SizedBox(
-          height: 204,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              SPaddingH24(
-                child: SSmallHeader(
-                  title: '${currency.description} wallet',
-                ),
+          SBaselineChild(
+            baseline: 20,
+            child: Text(
+              formatCurrencyAmount(
+                symbol: currency.assetId,
+                value: currency.assetBalance,
+                accuracy: currency.accuracy,
+                prefix: currency.prefixSymbol,
               ),
-              const Spacer(),
-              Text(
-                formatCurrencyAmount(
-                  prefix: baseCurrency.prefix,
-                  value: currency.baseBalance,
-                  accuracy: baseCurrency.accuracy,
-                  symbol: baseCurrency.symbol,
-                ),
-                style: sTextH5Style,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                formatCurrencyAmount(
-                  symbol: currency.assetId,
-                  value: currency.assetBalance,
-                  accuracy: currency.accuracy,
-                  prefix: currency.prefixSymbol,
-                ),
-                style: sBodyText2Style.copyWith(color: colors.grey1),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SpaceH14(),
-            ],
+              style: sBodyText2Style.copyWith(color: colors.grey1),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }

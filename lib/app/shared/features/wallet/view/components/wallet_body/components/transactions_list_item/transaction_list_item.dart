@@ -24,11 +24,6 @@ class TransactionListItem extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    var color = colors.green;
-
-    if (transactionListItem.balanceChange.isNegative) {
-      color = colors.red;
-    }
 
     return InkWell(
       onTap: () => showTransactionDetails(
@@ -51,7 +46,6 @@ class TransactionListItem extends HookWidget {
                   ),
                   child: SvgPicture.asset(
                     _icon(transactionListItem.operationType),
-                    color: color,
                   ),
                 ),
                 const SpaceW10(),
@@ -71,7 +65,7 @@ class TransactionListItem extends HookWidget {
                 TransactionListItemText(
                   text: '${formatDateToDMY(transactionListItem.timeStamp)} '
                       '- ${formatDateToHm(transactionListItem.timeStamp)}',
-                  color: colors.grey1,
+                  color: colors.grey2,
                 ),
                 const Spacer(),
                 if (transactionListItem.operationType ==
@@ -79,14 +73,14 @@ class TransactionListItem extends HookWidget {
                   TransactionListItemText(
                     text: 'For ${transactionListItem.swapInfo!.buyAmount} '
                         '${transactionListItem.swapInfo!.buyAssetId}',
-                    color: colors.grey1,
+                    color: colors.grey2,
                   ),
                 ],
                 if (transactionListItem.operationType == OperationType.buy) ...[
                   TransactionListItemText(
                     text: 'With ${transactionListItem.swapInfo!.sellAmount} '
                         '${transactionListItem.swapInfo!.sellAssetId}',
-                    color: colors.grey1,
+                    color: colors.grey2,
                   ),
                 ]
               ],
@@ -106,7 +100,7 @@ class TransactionListItem extends HookWidget {
       case OperationType.withdraw:
         return 'assets/images/withdrawal_fee_icon.svg';
       case OperationType.transferByPhone:
-        return 'assets/images/transfer_by_phone_icon.svg';
+        return 'assets/images/send_by_phone_icon.svg';
       case OperationType.receiveByPhone:
         return 'assets/images/receive_by_phone_icon.svg';
       case OperationType.buy:
