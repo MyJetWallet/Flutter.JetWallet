@@ -90,7 +90,7 @@ definitions:
         --flavor=$FLAVOR
     
     - name: Build Android (APK)
-      script: flutter build apk --target=$MAIN_TARGET --flavor=$FLAVOR
+      script: flutter build appbundle --target=$MAIN_TARGET --flavor=$FLAVOR
 
   publishing: &publishing
     app_store_connect:             
