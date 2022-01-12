@@ -87,7 +87,7 @@ definitions:
         --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))  \
         --dart-define=MY_APP_ENV=prod \
         --export-options-plist=/Users/builder/export_options.plist \
-        --flavor $XCODE_SCHEME
+        --flavor=$XCODE_SCHEME
     
     - name: Build Android (APK)
       script: flutter build apk -t $MAIN_TARGET
