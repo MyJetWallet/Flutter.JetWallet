@@ -13,6 +13,7 @@ definitions:
       - apple_credentials
       - apple_signing
       - development
+      - keystore_credentials_development
   
   flavor_development_vars: &flavor_development_vars
     FLAVOR: "dev"
@@ -24,6 +25,7 @@ definitions:
       - apple_credentials
       - apple_signing
       - staging
+      - keystore_credentials_staging
 
   flavor_staging_vars: &flavor_staging_vars
     FLAVOR: "stage"
@@ -35,6 +37,7 @@ definitions:
       - apple_credentials
       - apple_signing
       - production
+      - keystore_credentials_production
   
   flavor_production_vars: &flavor_production_vars
     FLAVOR: "prod"
@@ -88,8 +91,13 @@ definitions:
         --dart-define=MY_APP_ENV=prod \
         --export-options-plist=/Users/builder/export_options.plist \
         --flavor=$FLAVOR
+
+    - name: Decode keystore
+      script: |
+        echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
+        cd android && ./gradlew assembleRelease 
     
-    - name: Build Android (APK)
+    - name: Build Android (APPBUNDLE)
       script: flutter build appbundle --target=$MAIN_TARGET --flavor=$FLAVOR
 
   publishing: &publishing
