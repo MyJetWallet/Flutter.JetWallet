@@ -81,21 +81,20 @@ definitions:
     - name: Run tests
       script: flutter test --update-goldens
     
-    - name: Build IOS with automatic versioning
-      script: |
-        flutter clean
-        rm -f ios/Podfile.lock pubspec.lock
-        rm -rf ios/Pods ios/Runner.xcworkspace
-        flutter build ipa --target=$MAIN_TARGET --release --build-name=1.0.1 \
-        --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))  \
-        --dart-define=MY_APP_ENV=prod \
-        --export-options-plist=/Users/builder/export_options.plist \
-        --flavor=$FLAVOR
+    # - name: Build IOS with automatic versioning
+    #   script: |
+    #     flutter clean
+    #     rm -f ios/Podfile.lock pubspec.lock
+    #     rm -rf ios/Pods ios/Runner.xcworkspace
+    #     flutter build ipa --target=$MAIN_TARGET --release --build-name=1.0.1 \
+    #     --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1))  \
+    #     --dart-define=MY_APP_ENV=prod \
+    #     --export-options-plist=/Users/builder/export_options.plist \
+    #     --flavor=$FLAVOR
 
     - name: Decode keystore
       script: |
         echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
-        cd android && ./gradlew assembleRelease 
     
     - name: Build Android (APPBUNDLE)
       script: flutter build appbundle --target=$MAIN_TARGET --flavor=$FLAVOR
