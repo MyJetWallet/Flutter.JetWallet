@@ -93,10 +93,9 @@ definitions:
     #     --flavor=$FLAVOR
 
     - name: Decode keystore
-      script: |
-        echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
+      script: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
     
-    - name: Build Android (APPBUNDLE)
+    - name: Build Android
       script: flutter build appbundle --target=$MAIN_TARGET --flavor=$FLAVOR
 
   publishing: &publishing
