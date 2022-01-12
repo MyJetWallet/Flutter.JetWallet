@@ -56,7 +56,7 @@ class WalletCard extends HookWidget {
                 Text(
                   formatCurrencyAmount(
                     prefix: baseCurrency.prefix,
-                    value: marketItem.baseBalance,
+                    value: marketItem.lastPrice,
                     accuracy: baseCurrency.accuracy,
                     symbol: baseCurrency.symbol,
                   ),
@@ -105,15 +105,18 @@ class WalletCard extends HookWidget {
             Row(
               children: [
                 Text(
-                  'Accumulated interest earned',
+                  'Interest earned',
                   style: sBodyText2Style,
                 ),
                 const SpaceW10(),
-                STransparentInkWell(
-                  onTap: () {
-                    // TODO(Vova): Open webview on tap
-                  },
-                  child: const SInfoIcon(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: STransparentInkWell(
+                    onTap: () {
+                      // TODO(Vova): Open webview on tap
+                    },
+                    child: const SInfoIcon(),
+                  ),
                 ),
                 const Spacer(),
                 Text(
@@ -129,6 +132,7 @@ class WalletCard extends HookWidget {
                 ),
               ],
             ),
+            const SpaceH1(),
             Row(
               children: [
                 Text(
@@ -151,6 +155,7 @@ class WalletCard extends HookWidget {
                 ),
               ],
             ),
+            const SpaceH2(),
             Row(
               children: [
                 Text(
@@ -166,6 +171,7 @@ class WalletCard extends HookWidget {
                 ),
               ],
             ),
+            const SpaceH40(),
           ],
         );
       },
