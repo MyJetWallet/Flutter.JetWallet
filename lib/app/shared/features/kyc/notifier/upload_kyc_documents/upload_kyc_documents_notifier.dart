@@ -24,4 +24,12 @@ class UploadKycDocumentsNotifier
       state = state.copyWith(documentSecondSide: file);
     }
   }
+
+  void removeDocumentSide() {
+    if (state.numberSide == 0) {
+      state = state.copyWith(documentFirstSide: null);
+    } else {
+      state = state.copyWith(documentSecondSide: null);
+    }
+  }
 }

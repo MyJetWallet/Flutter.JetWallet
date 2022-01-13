@@ -15,6 +15,9 @@ class UploadKycDocumentsState with _$UploadKycDocumentsState {
   const UploadKycDocumentsState._();
 
   bool get activeScanButton {
+    if (documentFirstSide != null && documentSecondSide != null) {
+      return true;
+    }
     if (numberSide == 0) {
       if (documentFirstSide == null) {
         return true;
@@ -28,5 +31,16 @@ class UploadKycDocumentsState with _$UploadKycDocumentsState {
         return false;
       }
     }
+  }
+
+  String get buttonName {
+    if (numberSide == 0 || numberSide == 1) {
+      if (documentFirstSide == null || documentSecondSide == null) {
+        return 'Scan ${numberSide + 1} side';
+      } else if (documentFirstSide != null && documentSecondSide != null) {
+        return 'Upload photos';
+      }
+    }
+    return '';
   }
 }

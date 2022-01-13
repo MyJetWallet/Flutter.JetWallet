@@ -1,17 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:jetwallet/app/shared/features/kyc/view/components/upload_documents/components/page_indicator.dart';
-import 'package:jetwallet/shared/providers/service_providers.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../notifier/choose_documents/choose_documents_state.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_notipod.dart';
-import 'components/skeleton_first_side.dart';
+import 'components/create_kyc_banners_list.dart';
+import 'components/page_indicator.dart';
 
 class UploadKycDocuments extends HookWidget {
   const UploadKycDocuments({
@@ -39,6 +36,15 @@ class UploadKycDocuments extends HookWidget {
     final state = useProvider(uploadKycDocumentsNotipod);
     final notifier = useProvider(uploadKycDocumentsNotipod.notifier);
     final imagePicker = useProvider(imagePickerPod);
+    final colors = useProvider(sColorPod);
+    final uploadKycDocuments = useProvider(uploadKycDocumentsPod);
+
+    final _banners = createKycBannersList(
+      documentFirstSide: state.documentFirstSide,
+      documentSecondSide: state.documentSecondSide,
+      colors: colors,
+      notifier: notifier,
+    );
 
     return SPageFrame(
       header: SPaddingH24(
@@ -55,14 +61,23 @@ class UploadKycDocuments extends HookWidget {
         ),
         child: SPrimaryButton2(
           onTap: () async {
-            final file = await imagePicker.pickedFile();
-            if (file != null) {
-              notifier.updateDocumentSide(file);
+            if (state.documentFirstSide == null ||
+                state.documentSecondSide == null) {
+              final file = await imagePicker.pickedFile();
+              if (file != null) {
+                notifier.updateDocumentSide(file);
+              }
+            } else {
+              // Upload Files
+              await uploadKycDocuments.uploadDocuments();
             }
           },
-          name: 'Scan ${state.numberSide + 1} side',
+          name: state.buttonName,
           active: state.activeScanButton,
-          icon: const SWhitePhotoIcon(),
+          icon: (state.documentFirstSide != null &&
+                  state.documentSecondSide != null)
+              ? const SArrowUpIcon()
+              : const SWhitePhotoIcon(),
         ),
       ),
       child: Column(
@@ -87,7 +102,8 @@ class UploadKycDocuments extends HookWidget {
                     left: 4,
                     right: 4,
                   ),
-                  child: const SkeletonFirstSide(),
+                  child: _banners[index],
+                  // const SkeletonFirstSide(),
                 );
               },
             ),

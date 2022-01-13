@@ -178,6 +178,8 @@ export 'src/icons/24x24/public/wallet/simple_wallet_icon.dart';
 export 'src/icons/24x24/public/wire/simple_wire_icon.dart';
 export 'src/icons/24x24/public/kyc/simple_document_icon.dart';
 export 'src/icons/24x24/public/photo/simple_white_photo_icon.dart';
+export 'src/icons/24x24/public/big_arrow/simple_arrow_up_icon.dart';
+export 'src/icons/24x24/public/close/simple_close_with_border_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jetwallet/service/services/image_picker/image_picker_service.dart';
+import 'package:jetwallet/service/services/kyc/service/upload_documents_kyc_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/shared/features/kyc/helper/kyc_alert_handler.dart';
@@ -188,6 +189,12 @@ final kysServicePod = Provider<KycService>((ref) {
 
 final imagePickerPod = Provider<ImagePickerService>((ref) {
   return ImagePickerService();
+});
+
+final uploadKycDocumentsPod = Provider<UploadDocumentsKycService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return UploadDocumentsKycService(dio);
 });
 
 final changePasswordSerivcePod = Provider<ChangePasswordService>((ref) {

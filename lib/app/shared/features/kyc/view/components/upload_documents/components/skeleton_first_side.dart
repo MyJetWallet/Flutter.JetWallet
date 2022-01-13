@@ -5,17 +5,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/constants.dart';
-import '../../../../notifier/upload_kyc_documents/upload_kyc_documents_notipod.dart';
 
 class SkeletonFirstSide extends HookWidget {
-  const SkeletonFirstSide({
-    Key? key,
-  }) : super(key: key);
+  const SkeletonFirstSide({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final state = useProvider(uploadKycDocumentsNotipod);
 
     return Stack(
       children: [
