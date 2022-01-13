@@ -115,7 +115,7 @@ definitions:
 
     google_play:
       credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-      track: internal
+      track: alpha
       in_app_update_priority: 0
       submit_as_draft: true
 
