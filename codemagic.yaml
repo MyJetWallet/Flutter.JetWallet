@@ -111,6 +111,7 @@ definitions:
       credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       track: internal
       in_app_update_priority: 0
+      submit_as_draft: true
 
     email:
       recipients:
