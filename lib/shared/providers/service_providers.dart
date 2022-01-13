@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/service/services/image_picker/image_picker_service.dart';
-import 'package:jetwallet/service/services/kyc/service/upload_documents_kyc_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/shared/features/kyc/helper/kyc_alert_handler.dart';
@@ -13,9 +11,11 @@ import '../../service/services/authentication/service/authentication_service.dar
 import '../../service/services/blockchain/service/blockchain_service.dart';
 import '../../service/services/change_password/service/change_password_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
+import '../../service/services/image_picker/image_picker_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/kyc/service/kyc_service.dart';
+import '../../service/services/kyc/service/upload_documents_kyc_service.dart';
 import '../../service/services/market_info/market_info_service.dart';
 import '../../service/services/market_news/market_news_service.dart';
 import '../../service/services/news/news_service.dart';
@@ -31,6 +31,7 @@ import '../../service/services/validation/service/validation_service.dart';
 import '../../service/services/wallet/service/wallet_service.dart';
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
+import '../dio/image_dio.dart';
 import '../services/contact_service.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
@@ -54,6 +55,12 @@ final dioPod = Provider<Dio>((ref) {
 
 final dioWithoutInterceptorsPod = Provider<Dio>((ref) {
   return dioWithoutInterceptors(ref.read);
+});
+
+final imageDioPod = Provider<Dio>((ref) {
+  final authInfo = ref.watch(authInfoNotipod);
+
+  return imageDio(authInfo, ref.read);
 });
 
 final authServicePod = Provider<AuthenticationService>((ref) {
@@ -192,7 +199,7 @@ final imagePickerPod = Provider<ImagePickerService>((ref) {
 });
 
 final uploadKycDocumentsPod = Provider<UploadDocumentsKycService>((ref) {
-  final dio = ref.watch(dioPod);
+  final dio = ref.watch(imageDioPod);
 
   return UploadDocumentsKycService(dio);
 });

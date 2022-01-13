@@ -109,6 +109,27 @@ KycDocumentType kycDocumentType(int type) {
   }
 }
 
+int kycDocumentTypeInt(KycDocumentType type) {
+  switch (type) {
+    case KycDocumentType.unknown:
+      return 0;
+    case KycDocumentType.governmentId:
+      return 1;
+    case KycDocumentType.passport:
+      return 2;
+    case KycDocumentType.driverLicense:
+      return 3;
+    case KycDocumentType.residentPermit:
+      return 4;
+    case KycDocumentType.selfieImage:
+      return 5;
+    case KycDocumentType.addressDocument:
+      return 6;
+    case KycDocumentType.financialDocument:
+      return 7;
+  }
+}
+
 enum KycStatusType {
   deposit,
   withdrawal,

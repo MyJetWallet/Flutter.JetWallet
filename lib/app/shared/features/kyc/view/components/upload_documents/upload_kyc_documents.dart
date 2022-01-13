@@ -5,6 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../shared/providers/service_providers.dart';
+import '../../../helper/convert_kyc_documents.dart';
+import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_state.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_notipod.dart';
 import 'components/create_kyc_banners_list.dart';
@@ -69,7 +71,14 @@ class UploadKycDocuments extends HookWidget {
               }
             } else {
               // Upload Files
-              await uploadKycDocuments.uploadDocuments();
+              final formData = await convertKycDocuments(
+                state.documentFirstSide,
+                state.documentSecondSide,
+              );
+              await uploadKycDocuments.uploadDocuments(
+                formData,
+                kycDocumentTypeInt(activeDocument.document),
+              );
             }
           },
           name: state.buttonName,
@@ -103,7 +112,6 @@ class UploadKycDocuments extends HookWidget {
                     right: 4,
                   ),
                   child: _banners[index],
-                  // const SkeletonFirstSide(),
                 );
               },
             ),
