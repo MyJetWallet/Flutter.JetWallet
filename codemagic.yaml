@@ -20,6 +20,7 @@ definitions:
     FLAVOR: "dev"
     BUNDLE_ID: "dev.app.simple.com"
     APP_STORE_ID: 1604368665
+    FIREBASE_APP_ID: 1:440447150598:android:a31f38c8dd14cb677fb187
 
   flavor_staging_groups: &flavor_staging_groups
     groups:
@@ -33,6 +34,7 @@ definitions:
     FLAVOR: "stage"
     BUNDLE_ID: "stage.app.simple.com"
     APP_STORE_ID: 1604368566
+    FIREBASE_APP_ID: 1:709845370864:android:5dd30cc672286c1781ff35
 
   flavor_production_groups: &flavor_production_groups
     groups:
@@ -46,6 +48,7 @@ definitions:
     FLAVOR: "prod"
     BUNDLE_ID: "app.simple.com"
     APP_STORE_ID: 1603406843
+    FIREBASE_APP_ID: 1:403762259621:android:e4cb6f9d00b51a0d020f4c
 
   cache: &cache
     cache_paths:
@@ -112,6 +115,13 @@ definitions:
       track: internal
       in_app_update_priority: 0
       submit_as_draft: true
+
+    firebase:
+      firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
+      android:
+        app_id: $FIREBASE_APP_ID
+        groups: 
+          - main_group
 
     email:
       recipients:
