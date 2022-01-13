@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'upload_kyc_documents_union.dart';
 
 part 'upload_kyc_documents_state.freezed.dart';
 
@@ -10,6 +11,7 @@ class UploadKycDocumentsState with _$UploadKycDocumentsState {
     File? documentFirstSide,
     File? documentSecondSide,
     @Default(0) int numberSide,
+    @Default(Input()) UploadKycDocumentsUnion union,
   }) = _UploadKycDocumentsState;
 
   const UploadKycDocumentsState._();

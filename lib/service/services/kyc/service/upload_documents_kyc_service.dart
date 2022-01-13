@@ -6,6 +6,6 @@ class UploadDocumentsKycService {
   final Dio dio;
 
   Future<void> uploadDocuments(FormData formData, int typeDocument) async {
-    return uploadDocumentsService(dio, typeDocument);
+    return uploadDocumentsService(dio, formData, typeDocument);
   }
 }

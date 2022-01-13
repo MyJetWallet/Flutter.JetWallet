@@ -77,6 +77,7 @@ dependencies:
   fast_rsa: ^3.2.0 # RSA signing
   timeago: ^3.1.0 # Date converter
   image_picker: ^0.8.4+4
+  mime_type: ^1.0.0
 
   # OWN LIBS:
   simple_kit:

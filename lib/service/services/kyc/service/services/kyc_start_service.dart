@@ -5,23 +5,16 @@ import '../../../../../shared/services/remote_config_service/remote_config_value
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../../operation_history/operation_history_service.dart';
 
-Future<void> uploadDocumentsService(
-  Dio dio,
-  FormData formData,
-  int documentType,
-) async {
+Future<void> kycStartService(Dio dio) async {
   final logger = OperationHistoryService.logger;
-  const message = 'uploadDocumentsService';
+  const message = 'kycStartService';
 
   try {
-    final response = await dio.post(
-      '$walletApi/kyc/verification/kyc_documents/$documentType',
-      data: formData,
-    );
+    final response = await dio.get('$walletApi/kyc/verification/kyc_start');
 
     try {
       final responseData = response.data as Map<String, dynamic>;
-      handleResultResponse(responseData);
+      final data = handleFullResponse<Map>(responseData);
     } catch (e) {
       logger.log(contract, message);
       rethrow;
