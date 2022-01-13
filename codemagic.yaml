@@ -10,6 +10,7 @@ definitions:
 
   flavor_development_groups: &flavor_development_groups
     groups:
+      - google_credentials
       - apple_credentials
       - apple_signing
       - development
@@ -22,6 +23,7 @@ definitions:
 
   flavor_staging_groups: &flavor_staging_groups
     groups:
+      - google_credentials
       - apple_credentials
       - apple_signing
       - staging
@@ -34,6 +36,7 @@ definitions:
 
   flavor_production_groups: &flavor_production_groups
     groups:
+      - google_credentials
       - apple_credentials
       - apple_signing
       - production
@@ -105,7 +108,7 @@ definitions:
       password: $APPLE_APP_SPECIFIC_PASSWORD
 
     google_play:
-      credentials: Encrypted()
+      credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       track: internal
       in_app_update_priority: 0
 
