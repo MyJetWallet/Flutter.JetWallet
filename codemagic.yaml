@@ -103,9 +103,14 @@ definitions:
     - name: Decode keystore
       script: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
     
-    - name: Build Android
+    - name: Build Android (AAB)
       script: |
         flutter build appbundle --release --target=$MAIN_TARGET --flavor=$FLAVOR \
+        --build-number=$PROJECT_BUILD_NUMBER
+    
+    - name: Build Android (APK)
+      script: |
+        flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-number=$PROJECT_BUILD_NUMBER
 
   publishing: &publishing
@@ -125,6 +130,7 @@ definitions:
         app_id: $FIREBASE_APP_ID
         groups: 
           - main_group
+        artifact_type: 'apk'
 
     email:
       recipients:
