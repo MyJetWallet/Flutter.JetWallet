@@ -83,14 +83,14 @@ class Account extends HookWidget {
                       isSDivider: true,
                       onTap: () {},
                     ),
-                    SimpleAccountCategoryButton(
-                      title: 'Support',
-                      icon: const SSupportIcon(),
-                      isSDivider: true,
-                      onTap: () {
-                        //  navigatorPush(context, const Support());
-                      },
-                    ),
+                    // SimpleAccountCategoryButton(
+                    //   title: 'Support',
+                    //   icon: const SSupportIcon(),
+                    //   isSDivider: true,
+                    //   onTap: () {
+                    //     navigatorPush(context, const Support());
+                    //   },
+                    // ),
                     SimpleAccountCategoryButton(
                       title: 'FAQ',
                       icon: const SFaqIcon(),
