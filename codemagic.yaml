@@ -130,8 +130,8 @@ definitions:
         failure: true
 
     scripts:
-      - name: Post-publish script
-        script: echo 'Published Successfully!'
+      - name: Android post-publish script
+        script: jarsinger -verify -verbose -certs $FCI_BUILD_OUTPUT_DIR/*.aab
 
   artifacts: &artifacts
     - build/**/outputs/**/*.aab
