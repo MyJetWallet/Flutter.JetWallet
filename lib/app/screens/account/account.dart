@@ -15,7 +15,6 @@ import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
-import '../../shared/features/support/support.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -84,14 +83,14 @@ class Account extends HookWidget {
                       isSDivider: true,
                       onTap: () {},
                     ),
-                    SimpleAccountCategoryButton(
-                      title: 'Support',
-                      icon: const SSupportIcon(),
-                      isSDivider: true,
-                      onTap: () {
-                        navigatorPush(context, const Support());
-                      },
-                    ),
+                    // SimpleAccountCategoryButton(
+                    //   title: 'Support',
+                    //   icon: const SSupportIcon(),
+                    //   isSDivider: true,
+                    //   onTap: () {
+                    //     navigatorPush(context, const Support());
+                    //   },
+                    // ),
                     SimpleAccountCategoryButton(
                       title: 'FAQ',
                       icon: const SFaqIcon(),
