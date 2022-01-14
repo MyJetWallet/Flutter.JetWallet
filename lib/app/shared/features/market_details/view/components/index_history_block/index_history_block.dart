@@ -1,0 +1,153 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
+import 'package:jetwallet/app/shared/features/transaction_history/view/transaction_hisotry.dart';
+import 'package:jetwallet/shared/constants.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+class IndexHistoryBlock extends HookWidget {
+  const IndexHistoryBlock({
+    Key? key,
+    required this.marketItem,
+  }) : super(key: key);
+
+  final MarketItemModel marketItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
+    return Container(
+      height: 170,
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 24,
+      ),
+      decoration: BoxDecoration(
+        color: colors.grey5,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 19,
+              top: 24,
+            ),
+            child: SvgPicture.asset(
+              statsImageAsset,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 46,
+              top: 19,
+            ),
+            child: Text(
+              'My stats',
+              style: sSubtitle3Style,
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 16,
+                top: 16,
+              ),
+              child: InkWell(
+                onTap: () {
+                  TransactionHistory.push(
+                    context: context,
+                    assetName: marketItem.name,
+                    assetId: marketItem.id,
+                  );
+                },
+                child: SvgPicture.asset(
+                  indexHistoryImageAsset,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              top: 63,
+            ),
+            child: Text(
+              'Avg. cost',
+              style: sBodyText2Style.copyWith(
+                color: colors.grey1,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              top: 93,
+            ),
+            child: Text(
+              "Today's return",
+              style: sBodyText2Style.copyWith(
+                color: colors.grey1,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              top: 123,
+            ),
+            child: Text(
+              'Total return',
+              style: sBodyText2Style.copyWith(
+                color: colors.grey1,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 21,
+                top: 61,
+              ),
+              child: Text(
+                'Coming soon',
+                style: sBodyText1Style,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 21,
+                top: 91,
+              ),
+              child: Text(
+                'Coming soon',
+                style: sBodyText1Style,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 21,
+                top: 121,
+              ),
+              child: Text(
+                'Coming soon',
+                style: sBodyText1Style,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

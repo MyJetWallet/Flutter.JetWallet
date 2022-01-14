@@ -5,23 +5,21 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../provider/market_gainers_pod.dart';
-import '../../../provider/market_losers_pod.dart';
-import 'components/market_tab.dart';
+class BottomTabs extends HookWidget {
+  const BottomTabs({
+    Key? key,
+    required this.tabs,
+  }) : super(key: key);
 
-class MarketTabs extends HookWidget {
-  const MarketTabs({Key? key}) : super(key: key);
+  final List<Widget> tabs;
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final gainers = useProvider(marketGainersPod);
-    final losers = useProvider(marketLosersPod);
 
     return Container(
       color: Colors.white.withOpacity(0.4),
       height: 56,
-      width: 375,
       child: ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(
@@ -54,16 +52,7 @@ class MarketTabs extends HookWidget {
               left: 24,
               right: 14,
             ),
-            tabs: [
-              const MarketTab(text: 'All'),
-              const MarketTab(text: 'Watchlist'),
-              if (gainers.isNotEmpty) ...[
-                const MarketTab(text: 'Gainers'),
-              ],
-              if (losers.isNotEmpty) ...[
-                const MarketTab(text: 'Losers'),
-              ],
-            ],
+            tabs: tabs,
           ),
         ),
       ),

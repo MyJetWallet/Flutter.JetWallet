@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/service/services/signal_r/model/indices_model.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
@@ -54,6 +55,7 @@ class SignalRService {
   final _campaignsBannersController = StreamController<CampaignResponseModel>();
   final _referralStatsController =
       StreamController<ReferralStatsResponseModel>();
+  final _indicesController = StreamController<IndicesModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -176,6 +178,15 @@ class SignalRService {
       }
     });
 
+    _connection?.on(indicesMessage, (data) {
+      try {
+        final indices = IndicesModel.fromJson(_json(data));
+        _indicesController.add(indices);
+      } catch (e) {
+        _logger.log(contract, indicesMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
     final deviceUid = read(deviceUidPod);
@@ -222,6 +233,8 @@ class SignalRService {
 
   Stream<ReferralStatsResponseModel> referralStats() =>
       _referralStatsController.stream;
+
+  Stream<IndicesModel> indices() => _indicesController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

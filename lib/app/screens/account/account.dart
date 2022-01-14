@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/shared/constants.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
@@ -76,6 +78,16 @@ class Account extends HookWidget {
                       isSDivider: true,
                       onTap: () {
                         navigatorPush(context, const AccountSecurity());
+                      },
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'History',
+                      icon: SvgPicture.asset(
+                        indexHistoryImageAsset,
+                      ),
+                      isSDivider: true,
+                      onTap: () {
+                        // TODO(Vova): add navigation to history
                       },
                     ),
                     SimpleAccountCategoryButton(

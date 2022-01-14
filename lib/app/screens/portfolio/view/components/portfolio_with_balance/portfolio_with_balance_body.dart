@@ -1,7 +1,13 @@
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/market/provider/market_cryptos_pod.dart';
+import 'package:jetwallet/app/screens/market/provider/market_currencies_indices_pod.dart';
+import 'package:jetwallet/app/screens/market/provider/market_fiats_pod.dart';
+import 'package:jetwallet/app/screens/market/provider/market_indices_pod.dart';
+import 'package:jetwallet/shared/constants.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
@@ -31,6 +37,18 @@ class PortfolioWithBalanceBody extends HookWidget {
     final currencies = useProvider(currenciesPod);
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);
+    final cryptosWithBalance =
+        currenciesWithBalanceFrom(useProvider(marketCryptosPod));
+    final cryptosWithoutBalance =
+    currenciesWithoutBalanceFrom(useProvider(marketCryptosPod));
+    final indicesWithBalance =
+    currenciesWithBalanceFrom(useProvider(marketCurrenciesIndicesPod));
+    final indicesWithoutBalance =
+    currenciesWithoutBalanceFrom(useProvider(marketCurrenciesIndicesPod));
+    final fiatsWithBalance =
+    currenciesWithBalanceFrom(useProvider(marketFiatsPod));
+    final fiatsWithoutBalance =
+    currenciesWithoutBalanceFrom(useProvider(marketFiatsPod));
     final chartN = useProvider(chartNotipod.notifier);
     final chart = useProvider(chartNotipod);
     final hidden = useProvider(walletHiddenStPod);
@@ -89,68 +107,284 @@ class PortfolioWithBalanceBody extends HookWidget {
             walletCreationDate: clientDetail.walletCreationDate,
           ),
           const SpaceH76(),
-          PaddingL24(
-            child: Text(
-              'My wallets',
-              style: sTextH4Style,
+          SPaddingH24(
+            child: Row(
+              children: [
+                Text(
+                  'Portfolio',
+                  style: sTextH4Style,
+                ),
+                const Spacer(),
+                SvgPicture.asset(
+                  indexHistoryImageAsset,
+                ),
+              ],
             ),
           ),
           const SpaceH15(),
-          for (final item in itemsWithBalance)
-            SWalletItem(
-              decline: item.dayPercentChange.isNegative,
-              icon: SNetworkSvg24(
-                url: item.iconUrl,
-              ),
-              primaryText: item.description,
-              amount: formatCurrencyAmount(
-                prefix: baseCurrency.prefix,
-                value: item.baseBalance,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              secondaryText: '${item.assetBalance} ${item.symbol}',
-              onTap: () => navigateToWallet(context, item),
-              removeDivider: item == itemsWithBalance.last,
-            ),
-          if (showZeroBalanceWallets.state)
-            for (final item in itemsWithoutBalance)
-              SWalletItem(
-                decline: item.dayPercentChange.isNegative,
-                icon: SNetworkSvg24(
-                  url: item.iconUrl,
-                ),
-                primaryText: item.description,
-                amount: formatCurrencyAmount(
-                  prefix: baseCurrency.prefix,
-                  value: item.baseBalance,
-                  symbol: baseCurrency.symbol,
-                  accuracy: baseCurrency.accuracy,
-                ),
-                secondaryText: '${item.assetBalance} ${item.symbol}',
-                onTap: () => navigateToWallet(context, item),
-                color: colors.black,
-                removeDivider: item == itemsWithoutBalance.last,
-              ),
-          if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 27.5,
-              ),
-              child: Center(
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  onTap: () => showZeroBalanceWallets.state =
-                      !showZeroBalanceWallets.state,
-                  child: Text(
-                    showZeroBalanceWallets.state
-                        ? 'Hide zero wallets'
-                        : 'Show all wallets',
-                    style: sBodyText2Style,
+          SizedBox(
+            height: 300,
+            child: TabBarView(
+              children: [
+                SizedBox(
+                  height: 300,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      for (final item in itemsWithBalance)
+                        SWalletItem(
+                          decline: item.dayPercentChange.isNegative,
+                          icon: SNetworkSvg24(
+                            url: item.iconUrl,
+                          ),
+                          primaryText: item.description,
+                          amount: formatCurrencyAmount(
+                            prefix: baseCurrency.prefix,
+                            value: item.baseBalance,
+                            symbol: baseCurrency.symbol,
+                            accuracy: baseCurrency.accuracy,
+                          ),
+                          secondaryText: '${item.assetBalance} ${item.symbol}',
+                          onTap: () => navigateToWallet(context, item),
+                          removeDivider: item == itemsWithBalance.last,
+                        ),
+                      if (showZeroBalanceWallets.state)
+                        for (final item in itemsWithoutBalance)
+                          SWalletItem(
+                            decline: item.dayPercentChange.isNegative,
+                            icon: SNetworkSvg24(
+                              url: item.iconUrl,
+                            ),
+                            primaryText: item.description,
+                            amount: formatCurrencyAmount(
+                              prefix: baseCurrency.prefix,
+                              value: item.baseBalance,
+                              symbol: baseCurrency.symbol,
+                              accuracy: baseCurrency.accuracy,
+                            ),
+                            secondaryText:
+                                '${item.assetBalance} ${item.symbol}',
+                            onTap: () => navigateToWallet(context, item),
+                            color: colors.black,
+                            removeDivider: item == itemsWithoutBalance.last,
+                          ),
+                      if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 27.5,
+                          ),
+                          child: Center(
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () => showZeroBalanceWallets.state =
+                                  !showZeroBalanceWallets.state,
+                              child: Text(
+                                showZeroBalanceWallets.state
+                                    ? 'Hide zero wallets'
+                                    : 'Show all wallets',
+                                style: sBodyText2Style,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
-              ),
+                SizedBox(
+                  height: 300,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      for (final item in cryptosWithBalance)
+                        SWalletItem(
+                          decline: item.dayPercentChange.isNegative,
+                          icon: SNetworkSvg24(
+                            url: item.iconUrl,
+                          ),
+                          primaryText: item.description,
+                          amount: formatCurrencyAmount(
+                            prefix: baseCurrency.prefix,
+                            value: item.baseBalance,
+                            symbol: baseCurrency.symbol,
+                            accuracy: baseCurrency.accuracy,
+                          ),
+                          secondaryText: '${item.assetBalance} ${item.symbol}',
+                          onTap: () => navigateToWallet(context, item),
+                          removeDivider: item == cryptosWithBalance.last,
+                        ),
+                      if (showZeroBalanceWallets.state)
+                        for (final item in cryptosWithoutBalance)
+                          SWalletItem(
+                            decline: item.dayPercentChange.isNegative,
+                            icon: SNetworkSvg24(
+                              url: item.iconUrl,
+                            ),
+                            primaryText: item.description,
+                            amount: formatCurrencyAmount(
+                              prefix: baseCurrency.prefix,
+                              value: item.baseBalance,
+                              symbol: baseCurrency.symbol,
+                              accuracy: baseCurrency.accuracy,
+                            ),
+                            secondaryText:
+                            '${item.assetBalance} ${item.symbol}',
+                            onTap: () => navigateToWallet(context, item),
+                            color: colors.black,
+                            removeDivider: item == itemsWithoutBalance.last,
+                          ),
+                      if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 27.5,
+                          ),
+                          child: Center(
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () => showZeroBalanceWallets.state =
+                              !showZeroBalanceWallets.state,
+                              child: Text(
+                                showZeroBalanceWallets.state
+                                    ? 'Hide zero wallets'
+                                    : 'Show all wallets',
+                                style: sBodyText2Style,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      for (final item in indicesWithBalance)
+                        SWalletItem(
+                          decline: item.dayPercentChange.isNegative,
+                          icon: SNetworkSvg24(
+                            url: item.iconUrl,
+                          ),
+                          primaryText: item.description,
+                          amount: formatCurrencyAmount(
+                            prefix: baseCurrency.prefix,
+                            value: item.baseBalance,
+                            symbol: baseCurrency.symbol,
+                            accuracy: baseCurrency.accuracy,
+                          ),
+                          secondaryText: '${item.assetBalance} ${item.symbol}',
+                          onTap: () => navigateToWallet(context, item),
+                          removeDivider: item == indicesWithBalance.last,
+                        ),
+                      if (showZeroBalanceWallets.state)
+                        for (final item in indicesWithoutBalance)
+                          SWalletItem(
+                            decline: item.dayPercentChange.isNegative,
+                            icon: SNetworkSvg24(
+                              url: item.iconUrl,
+                            ),
+                            primaryText: item.description,
+                            amount: formatCurrencyAmount(
+                              prefix: baseCurrency.prefix,
+                              value: item.baseBalance,
+                              symbol: baseCurrency.symbol,
+                              accuracy: baseCurrency.accuracy,
+                            ),
+                            secondaryText:
+                            '${item.assetBalance} ${item.symbol}',
+                            onTap: () => navigateToWallet(context, item),
+                            color: colors.black,
+                            removeDivider: item == indicesWithoutBalance.last,
+                          ),
+                      if (!zeroBalanceWalletsEmpty(indicesWithoutBalance))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 27.5,
+                          ),
+                          child: Center(
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () => showZeroBalanceWallets.state =
+                              !showZeroBalanceWallets.state,
+                              child: Text(
+                                showZeroBalanceWallets.state
+                                    ? 'Hide zero wallets'
+                                    : 'Show all wallets',
+                                style: sBodyText2Style,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      for (final item in fiatsWithBalance)
+                        SWalletItem(
+                          decline: item.dayPercentChange.isNegative,
+                          icon: SNetworkSvg24(
+                            url: item.iconUrl,
+                          ),
+                          primaryText: item.description,
+                          amount: formatCurrencyAmount(
+                            prefix: baseCurrency.prefix,
+                            value: item.baseBalance,
+                            symbol: baseCurrency.symbol,
+                            accuracy: baseCurrency.accuracy,
+                          ),
+                          secondaryText: '${item.assetBalance} ${item.symbol}',
+                          onTap: () => navigateToWallet(context, item),
+                          removeDivider: item == fiatsWithBalance.last,
+                        ),
+                      if (showZeroBalanceWallets.state)
+                        for (final item in fiatsWithoutBalance)
+                          SWalletItem(
+                            decline: item.dayPercentChange.isNegative,
+                            icon: SNetworkSvg24(
+                              url: item.iconUrl,
+                            ),
+                            primaryText: item.description,
+                            amount: formatCurrencyAmount(
+                              prefix: baseCurrency.prefix,
+                              value: item.baseBalance,
+                              symbol: baseCurrency.symbol,
+                              accuracy: baseCurrency.accuracy,
+                            ),
+                            secondaryText:
+                            '${item.assetBalance} ${item.symbol}',
+                            onTap: () => navigateToWallet(context, item),
+                            color: colors.black,
+                            removeDivider: item == fiatsWithoutBalance.last,
+                          ),
+                      if (!zeroBalanceWalletsEmpty(fiatsWithoutBalance))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 27.5,
+                          ),
+                          child: Center(
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () => showZeroBalanceWallets.state =
+                              !showZeroBalanceWallets.state,
+                              child: Text(
+                                showZeroBalanceWallets.state
+                                    ? 'Hide zero wallets'
+                                    : 'Show all wallets',
+                                style: sBodyText2Style,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+          ),
         ],
       ),
     );

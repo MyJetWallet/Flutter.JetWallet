@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/components/bottom_tabs/bottom_tabs.dart';
+import 'package:jetwallet/app/shared/components/bottom_tabs/components/bottom_tab.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/is_balance_empty.dart';
@@ -25,9 +27,20 @@ class Portfolio extends HookWidget {
         child: EmptyPortfolioBody(),
       );
     } else {
-      return const SPageFrame(
-        header: PortfolioWithBalanceHeader(),
-        child: PortfolioWithBalanceBody(),
+      return const DefaultTabController(
+        length: 4,
+        child: SPageFrame(
+          header: PortfolioWithBalanceHeader(),
+          bottomNavigationBar: BottomTabs(
+            tabs: [
+              BottomTab(text: 'All'),
+              BottomTab(text: 'Crypto'),
+              BottomTab(text: 'Indices'),
+              BottomTab(text: 'Fiat'),
+            ],
+          ),
+          child: PortfolioWithBalanceBody(),
+        ),
       );
     }
   }

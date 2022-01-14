@@ -1,7 +1,12 @@
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/market_details/provider/indices_details_pod.dart';
+import 'package:jetwallet/app/shared/features/market_details/provider/indices_details_spod.dart';
+import 'package:jetwallet/service/services/signal_r/model/asset_model.dart';
+import 'package:jetwallet/shared/constants.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/loaders/loader.dart';
@@ -12,6 +17,9 @@ import '../../chart/view/asset_chart.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
 import 'components/balance_block/balance_block.dart';
+import 'components/index_allocation_block/index_allocation_block.dart';
+import 'components/index_history_block/index_history_block.dart';
+import 'components/index_overview_block/index_overview_block.dart';
 import 'components/market_details_app_bar/components/asset_day_change.dart';
 import 'components/market_details_app_bar/components/asset_price.dart';
 import 'components/market_news_block/market_news_block.dart';
@@ -79,19 +87,32 @@ class MarketDetails extends HookWidget {
                 chartN.updateSelectedCandle(chartInfo?.right);
               },
             ),
+            if (marketItem.type == AssetType.indices) ...[
+              IndexHistoryBlock(
+                marketItem: marketItem,
+              ),
+            ],
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
             ),
             const SpaceH20(),
+            if (marketItem.type == AssetType.indices) ...[
+              IndexAllocationBlock(
+                marketItem: marketItem,
+              ),
+              const IndexOverviewBlock(),
+            ],
             marketInfo.when(
               data: (marketInfo) {
                 return SPaddingH24(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MarketStatsBlock(
-                        marketInfo: marketInfo,
-                      ),
+                      if (marketItem.type != AssetType.indices) ...[
+                        MarketStatsBlock(
+                          marketInfo: marketInfo,
+                        ),
+                      ],
                       AboutBlock(
                         marketInfo: marketInfo,
                       ),

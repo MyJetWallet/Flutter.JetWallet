@@ -72,7 +72,7 @@ enum AssetType {
   @JsonValue('Crypto')
   crypto,
   @JsonValue('Index')
-  indecies,
+  indices,
 }
 
 enum FeeType {

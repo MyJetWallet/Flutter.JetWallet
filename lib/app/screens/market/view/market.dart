@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/market/provider/market_indices_pod.dart';
+import 'package:jetwallet/app/shared/components/bottom_tabs/bottom_tabs.dart';
+import 'package:jetwallet/app/shared/components/bottom_tabs/components/bottom_tab.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
@@ -11,7 +14,6 @@ import '../provider/market_losers_pod.dart';
 import 'components/fade_on_scroll.dart';
 import 'components/market_banners/market_banners.dart';
 import 'components/market_tab_content/market_tab_content.dart';
-import 'components/market_tabs/market_tabs.dart';
 
 class Market extends HookWidget {
   Market({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class Market extends HookWidget {
     useProvider(watchlistIdsNotipod);
     final colors = useProvider(sColorPod);
     final items = useProvider(marketItemsPod);
+    final indices = useProvider(marketIndicesPod);
     final gainers = useProvider(marketGainersPod);
     final losers = useProvider(marketLosersPod);
     final marketTabsLength = _marketTabsLength(
@@ -84,6 +87,9 @@ class Market extends HookWidget {
                     items: [],
                     watchlist: true,
                   ),
+                  MarketTabContent(
+                    items: indices,
+                  ),
                   if (gainers.isNotEmpty) ...[
                     MarketTabContent(
                       items: gainers,
@@ -97,9 +103,23 @@ class Market extends HookWidget {
                 ],
               ),
             ),
-            const Align(
+            Align(
               alignment: FractionalOffset.bottomCenter,
-              child: MarketTabs(),
+              child: BottomTabs(
+                tabs: [
+                  const BottomTab(text: 'All'),
+                  const BottomTab(text: 'Watchlist'),
+                  if (indices.isNotEmpty) ...[
+                    const BottomTab(text: 'Crypto Indices'),
+                  ],
+                  if (gainers.isNotEmpty) ...[
+                    const BottomTab(text: 'Gainers'),
+                  ],
+                  if (losers.isNotEmpty) ...[
+                    const BottomTab(text: 'Losers'),
+                  ],
+                ],
+              ),
             )
           ],
         ),
@@ -108,7 +128,7 @@ class Market extends HookWidget {
   }
 
   int _marketTabsLength(bool gainersEmpty, bool losersEmpty) {
-    var marketTabsLength = 4;
+    var marketTabsLength = 5;
 
     if (gainersEmpty) {
       marketTabsLength--;
