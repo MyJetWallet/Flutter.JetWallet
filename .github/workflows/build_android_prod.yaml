@@ -29,7 +29,7 @@ jobs:
       - run: flutter test
 
       # Build apk with Production target
-      - run: flutter build apk -t lib/main_production.dart --build-number=${{ github.run_number }}
+      - run: flutter build apk -t lib/main_production.dart --flavor prod --build-number=${{ github.run_number }}
 
       # Upload generated apk to the artifacts.
       - uses: actions/upload-artifact@v1
