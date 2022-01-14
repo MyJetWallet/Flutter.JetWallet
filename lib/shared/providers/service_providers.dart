@@ -188,7 +188,7 @@ final kycAlertHandlerPod =
   return KycAlertHandler(context: context, colors: colors);
 });
 
-final kysServicePod = Provider<KycService>((ref) {
+final kycServicePod = Provider<KycService>((ref) {
   final dio = ref.watch(dioPod);
 
   return KycService(dio);

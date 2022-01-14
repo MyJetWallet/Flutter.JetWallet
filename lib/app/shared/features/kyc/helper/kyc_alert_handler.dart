@@ -128,7 +128,7 @@ class KycAlertHandler {
       SetPhoneNumber.push(
         context: context,
         successText: '2-Factor verification enabled',
-        then: () => KycVerifyYourProfile.push(
+        then: () => KycVerifyYourProfile.pushReplacement(
           context: context,
           requiredVerifications: requiredVerifications,
           documents: documents,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/kyc/view/components/allow_camera/allow_camera.dart';
+import 'package:jetwallet/shared/helpers/navigator_push_replacement.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
@@ -17,6 +20,20 @@ class ChooseDocuments extends HookWidget {
 
   final String headerTitle;
   final List<KycDocumentType> documents;
+
+  static void pushReplacement({
+    required BuildContext context,
+    required String headerTitle,
+    required List<KycDocumentType> documents,
+  }) {
+    navigatorPushReplacement(
+      context,
+      ChooseDocuments(
+        headerTitle: headerTitle,
+        documents: documents,
+      ),
+    );
+  }
 
   static void push({
     required BuildContext context,
@@ -50,10 +67,22 @@ class ChooseDocuments extends HookWidget {
         ),
         child: SPrimaryButton2(
           onTap: () async {
-            UploadKycDocuments.pushReplacement(
-              context: context,
-              activeDocument: notifier.getActiveDocument(),
-            );
+            final status = await Permission.camera.status;
+            if (status == PermissionStatus.granted) {
+              AllowCamera.push(
+                context: context,
+                activeDocument: notifier.getActiveDocument(),
+              );
+              // UploadKycDocuments.push(
+              //   context: context,
+              //   activeDocument: notifier.getActiveDocument(),
+              // );
+            } else {
+              AllowCamera.push(
+                context: context,
+                activeDocument: notifier.getActiveDocument(),
+              );
+            }
           },
           name: 'Choose document',
           active: notifier.activeButton(),

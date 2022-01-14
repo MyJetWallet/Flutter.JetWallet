@@ -23,6 +23,18 @@ class UploadKycDocuments extends HookWidget {
 
   final DocumentsModel activeDocument;
 
+  static void push({
+    required BuildContext context,
+    required DocumentsModel activeDocument,
+  }) {
+    navigatorPush(
+      context,
+      UploadKycDocuments(
+        activeDocument: activeDocument,
+      ),
+    );
+  }
+
   static void pushReplacement({
     required BuildContext context,
     required DocumentsModel activeDocument,
@@ -68,7 +80,7 @@ class UploadKycDocuments extends HookWidget {
                   context,
                   const KycSelfie(),
                 );
-              }
+              },
             );
           },
           orElse: () {},
@@ -134,7 +146,6 @@ class UploadKycDocuments extends HookWidget {
                     loader.value.startLoading();
                     await notifier.uploadDocuments(
                       kycDocumentTypeInt(activeDocument.document),
-                      context,
                     );
                   }
                 },

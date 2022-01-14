@@ -21,20 +21,6 @@ class KycVerifyYourProfile extends HookWidget {
   final List<RequiredVerified> requiredVerifications;
   final List<KycDocumentType> documents;
 
-  static void push({
-    required BuildContext context,
-    required List<RequiredVerified> requiredVerifications,
-    required List<KycDocumentType> documents,
-  }) {
-    navigatorPush(
-      context,
-      KycVerifyYourProfile(
-        requiredVerifications: requiredVerifications,
-        documents: documents,
-      ),
-    );
-  }
-
   static void pushReplacement({
     required BuildContext context,
     required List<RequiredVerified> requiredVerifications,
@@ -149,7 +135,7 @@ class KycVerifyYourProfile extends HookWidget {
             active: true,
             name: 'Continue',
             onTap: () {
-              ChooseDocuments.push(
+              ChooseDocuments.pushReplacement(
                 context: context,
                 headerTitle: notifier.chooseDocumentsHeaderTitle(),
                 documents: documents,

@@ -44,7 +44,6 @@ class UploadKycDocumentsNotifier
 
   Future<void> uploadDocuments(
     int type,
-    BuildContext context,
   ) async {
     _logger.log(notifier, 'uploadDocuments');
 

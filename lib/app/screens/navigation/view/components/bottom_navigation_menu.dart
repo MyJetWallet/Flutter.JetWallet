@@ -32,6 +32,7 @@ class BottomNavigationMenu extends HookWidget {
     final kycAlertHandler = useProvider(
       kycAlertHandlerPod(context),
     );
+
     final kycChecks = useProvider(kycChecksFpod);
 
     final isNotEmptyBalance = !isBalanceEmpty(currencies);

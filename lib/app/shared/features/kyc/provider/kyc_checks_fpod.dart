@@ -6,8 +6,9 @@ import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
 
 final kycChecksFpod = FutureProvider.autoDispose<KycVerifiedModel>((ref) async {
+  print('START kycChecksFpod1231231');
   final clientDetail = ref.watch(clientDetailSpod);
-  final kycChecksService = ref.read(kysServicePod);
+  final kycChecksService = ref.read(kycServicePod);
   final response = await kycChecksService.kycChecks();
 
   var value = const KycVerifiedModel();

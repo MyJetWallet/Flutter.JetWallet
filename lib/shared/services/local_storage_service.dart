@@ -11,6 +11,7 @@ const contactsPermissionKey = 'contactsPermissionKey';
 const pinDisabledKey = 'pinDisabledKey';
 const bannersIdsKey = 'bannersIds';
 const phonebookStatusKey = 'phonebookStatusKey';
+const cameraStatusKey = 'cameraStatusKey';
 const referralCodeKey = 'referralCodeKey';
 
 class LocalStorageService {

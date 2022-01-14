@@ -15,4 +15,5 @@ class KycService {
   Future<void> kycStart() async {
     return kycStartService(dio);
   }
+
 }
