@@ -15,13 +15,13 @@ import '../../../../crypto_deposit/view/crypto_deposit.dart';
 import '../../../../currency_buy/view/curency_buy.dart';
 import '../../../../currency_sell/view/currency_sell.dart';
 
-const expandInterval = Interval(
+const _expandInterval = Interval(
   0.0,
   0.5,
   curve: Cubic(0.42, 0, 0, 0.99),
 );
 
-const narrowInterval = Interval(
+const _narrowInterval = Interval(
   0.5,
   1.0,
   curve: Cubic(1, 0, 0.58, 1),
@@ -105,8 +105,8 @@ class _ActionButtonState extends State<ActionButton> {
                     duration:
                         Duration(milliseconds: actionActive.value ? 150 : 300),
                     curve: actionActive.value
-                        ? expandInterval
-                        : narrowInterval,
+                        ? _expandInterval
+                        : _narrowInterval,
                     child: InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
@@ -208,8 +208,8 @@ class _ActionButtonState extends State<ActionButton> {
                     duration:
                         Duration(milliseconds: actionActive.value ? 300 : 150),
                     curve: actionActive.value
-                        ? expandInterval
-                        : narrowInterval,
+                        ? _expandInterval
+                        : _narrowInterval,
                     child: InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
