@@ -13,7 +13,6 @@ void showInterestRate({
   required CurrencyModel currency,
   required BaseCurrencyModel baseCurrency,
   required SimpleColors colors,
-  required Color buttonColor,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
@@ -47,7 +46,7 @@ void showInterestRate({
               child: Text(
                 ' (${formatDayPercentageChange(currency.dayPercentChange)}'
                 ')',
-                style: sSubtitle3Style.copyWith(color: buttonColor),
+                style: sSubtitle3Style.copyWith(color: colors.green),
               ),
             ),
           ),
