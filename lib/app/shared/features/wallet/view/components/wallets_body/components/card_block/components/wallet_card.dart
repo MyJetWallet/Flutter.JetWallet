@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../../screens/market/helper/format_day_percentage_change.dart';
 import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../market_details/helper/currency_from.dart';
 import '../../../../../../helper/market_item_from.dart';
+import '../../../../../../helper/show_interest_rate.dart';
 
 class WalletCard extends HookWidget {
   const WalletCard({
@@ -44,135 +43,12 @@ class WalletCard extends HookWidget {
 
     return InkWell(
       onTap: () {
-        sShowBasicModalBottomSheet(
+        showInterestRate(
           context: context,
-          removeBarPadding: true,
-          horizontalPadding: 24,
-          children: [
-            const SpaceH11(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  formatCurrencyAmount(
-                    prefix: baseCurrency.prefix,
-                    value: marketItem.lastPrice,
-                    accuracy: baseCurrency.accuracy,
-                    symbol: baseCurrency.symbol,
-                  ),
-                  style: sSubtitle3Style,
-                ),
-                Text(
-                  ' (${formatDayPercentageChange(marketItem.dayPercentChange)}'
-                  ')',
-                  style: sSubtitle3Style.copyWith(color: buttonColor),
-                ),
-              ],
-            ),
-            const SpaceH53(),
-            Center(
-              child: Text(
-                marketItem.name,
-                style: sSubtitle2Style,
-              ),
-            ),
-            const SpaceH2(),
-            Center(
-              child: Text(
-                formatCurrencyAmount(
-                  prefix: baseCurrency.prefix,
-                  value: marketItem.baseBalance,
-                  accuracy: baseCurrency.accuracy,
-                  symbol: baseCurrency.symbol,
-                ),
-                style: sTextH1Style,
-              ),
-            ),
-            Center(
-              child: Text(
-                formatCurrencyAmount(
-                  symbol: marketItem.id,
-                  value: marketItem.assetBalance,
-                  accuracy: marketItem.accuracy,
-                  prefix: marketItem.prefixSymbol,
-                ),
-                style: sBodyText2Style.copyWith(
-                  color: colors.grey1,
-                ),
-              ),
-            ),
-            const SpaceH82(),
-            Row(
-              children: [
-                Text(
-                  'Interest earned',
-                  style: sBodyText2Style,
-                ),
-                const SpaceW10(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: STransparentInkWell(
-                    onTap: () {
-                      // TODO(Vova): Open webview on tap
-                    },
-                    child: const SInfoIcon(),
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  formatCurrencyAmount(
-                    prefix: baseCurrency.prefix,
-                    value: currency.totalEarnAmount,
-                    accuracy: baseCurrency.accuracy,
-                    symbol: baseCurrency.symbol,
-                  ),
-                  style: sBodyText1Style.copyWith(
-                    color: colors.green,
-                  ),
-                ),
-              ],
-            ),
-            const SpaceH1(),
-            Row(
-              children: [
-                Text(
-                  'Next pay',
-                  style: sBodyText2Style.copyWith(
-                    color: colors.grey1,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  '${DateFormat('d MMM').format(
-                    DateTime.parse(currency.nextPaymentDate).toLocal(),
-                  )} (${formatCurrencyAmount(
-                    prefix: baseCurrency.prefix,
-                    value: currency.currentEarnAmount,
-                    accuracy: baseCurrency.accuracy,
-                    symbol: baseCurrency.symbol,
-                  )})',
-                  style: sBodyText1Style,
-                ),
-              ],
-            ),
-            const SpaceH2(),
-            Row(
-              children: [
-                Text(
-                  'APY',
-                  style: sBodyText2Style.copyWith(
-                    color: colors.grey1,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  '${currency.apy.toInt()}%',
-                  style: sBodyText1Style,
-                ),
-              ],
-            ),
-            const SpaceH40(),
-          ],
+          currency: currency,
+          baseCurrency: baseCurrency,
+          colors: colors,
+          buttonColor: buttonColor,
         );
       },
       child: Container(

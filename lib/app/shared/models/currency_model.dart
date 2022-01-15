@@ -30,8 +30,10 @@ class CurrencyModel with _$CurrencyModel {
     @Default(0.0) double currentPrice,
     @Default(0.0) double dayPriceChange,
     @Default(0.0) double dayPercentChange,
-    @Default(0.0) double totalEarnAmount,
-    @Default(0.0) double currentEarnAmount,
+    @Default(0.0) double assetTotalEarnAmount,
+    @Default(0.0) double baseTotalEarnAmount,
+    @Default(0.0) double assetCurrentEarnAmount,
+    @Default(0.0) double baseCurrentEarnAmount,
     @Default('') String nextPaymentDate,
     @Default(0.0) double apy,
   }) = _CurrencyModel;
