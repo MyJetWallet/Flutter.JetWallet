@@ -56,7 +56,10 @@ class SActionConfirmText extends StatelessWidget {
           Baseline(
             baseline: customBaseline ?? 40.0,
             baselineType: TextBaseline.alphabetic,
-            child: const SSkeletonTextLoader(),
+            child: const SSkeletonTextLoader(
+              height: 16,
+              width: 80,
+            ),
           )
         else
           Container(

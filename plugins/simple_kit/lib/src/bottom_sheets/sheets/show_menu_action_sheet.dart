@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../simple_kit.dart';
 
 void sShowMenuActionSheet({
+  bool isDepositAvailable = true,
+  bool isWithdrawAvailable = true,
+  bool isSendAvailable = true,
+  bool isReceiveAvailable = true,
   required BuildContext context,
   required void Function() onBuy,
   required void Function() onSell,
@@ -44,32 +48,40 @@ void sShowMenuActionSheet({
           description: 'Quickly swap one crypto for another',
         ),
       ],
-      SActionItem(
-        onTap: onDeposit,
-        icon: const SActionDepositIcon(),
-        name: 'Deposit',
-        description: 'Deposit with fiat',
-      ),
-      if (isNotEmptyBalance) ...[
+      if (isDepositAvailable) ...[
         SActionItem(
-          onTap: onWithdraw,
-          icon: const SActionWithdrawIcon(),
-          name: 'Withdraw',
-          description: 'Withdraw crypto to your credit card',
-        ),
-        SActionItem(
-          onTap: onSend,
-          icon: const SActionSendIcon(),
-          name: 'Send',
-          description: 'Send crypto to another wallet',
+          onTap: onDeposit,
+          icon: const SActionDepositIcon(),
+          name: 'Deposit',
+          description: 'Deposit with fiat',
         ),
       ],
-      SActionItem(
-        onTap: onReceive,
-        icon: const SActionReceiveIcon(),
-        name: 'Receive',
-        description: 'Receive crypto from another wallet',
-      ),
+      if (isNotEmptyBalance) ...[
+        if (isWithdrawAvailable) ...[
+          SActionItem(
+            onTap: onWithdraw,
+            icon: const SActionWithdrawIcon(),
+            name: 'Withdraw',
+            description: 'Withdraw crypto to your credit card',
+          ),
+        ],
+        if (isSendAvailable) ...[
+          SActionItem(
+            onTap: onSend,
+            icon: const SActionSendIcon(),
+            name: 'Send',
+            description: 'Send crypto to another wallet',
+          ),
+        ],
+      ],
+      if (isReceiveAvailable) ...[
+        SActionItem(
+          onTap: onReceive,
+          icon: const SActionReceiveIcon(),
+          name: 'Receive',
+          description: 'Receive crypto from another wallet',
+        ),
+      ],
       const SpaceH20(),
     ],
   );

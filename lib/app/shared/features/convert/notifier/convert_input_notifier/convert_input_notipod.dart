@@ -18,7 +18,7 @@ final convertInputNotipod = StateNotifierProvider.autoDispose
 
     final defaultState = _defaultConvertState(
       currencies,
-      currencies.first,
+      from ?? currencies.first,
     );
 
     return ConvertInputNotifier(

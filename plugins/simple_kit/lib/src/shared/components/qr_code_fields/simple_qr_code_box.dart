@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../simple_kit.dart';
-import '../../constants.dart';
-import 'simple_skeleton_qr_loader.dart';
 
 enum SQrCodePosition { below, above }
 

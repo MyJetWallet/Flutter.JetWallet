@@ -29,11 +29,12 @@ dependencies:
   permission_handler: ^8.3.0 # permissions handling
   percent_indicator: ^3.4.0 # Percent indicator
   auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds
+  smooth_page_indicator: ^1.0.0+2 # Animated PageView indicators
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
   pixel_perfect: ^1.1.0 # Mock designs
-  flutter_screenutil: ^5.0.0+2 
+  flutter_screenutil: ^5.0.0+2
 
   # PLUS PLUGINS
   # packages without '_plus' was made originally by flutter team are not supported anymore
@@ -133,8 +134,3 @@ flutter:
     - assets/
     - assets/images/
     - assets/animations/
-    # [Start] fast_rsa ->
-    - packages/fast_rsa/web/assets/worker.js
-    - packages/fast_rsa/web/assets/wasm_exec.js
-    - packages/fast_rsa/web/assets/rsa.wasm
-    # <- fast_rsa [End]

@@ -16,11 +16,20 @@ class SimpleActionConfrimSkeletonLoaderExample extends HookWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              SSkeletonTextLoader(),
+              SSkeletonTextLoader(
+                height: 16,
+                width: 80,
+              ),
               SpaceH10(),
-              SSkeletonTextLoader(),
+              SSkeletonTextLoader(
+                height: 16,
+                width: 80,
+              ),
               SpaceH10(),
-              SSkeletonTextLoader(),
+              SSkeletonTextLoader(
+                height: 16,
+                width: 80,
+              ),
             ],
           ),
         ),

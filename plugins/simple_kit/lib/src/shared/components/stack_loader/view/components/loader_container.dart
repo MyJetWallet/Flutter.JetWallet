@@ -3,7 +3,6 @@ import 'package:rive/rive.dart';
 
 import '../../../../../../simple_kit.dart';
 import '../../../../../colors/view/simple_colors_light.dart';
-import '../../../../constants.dart';
 
 class LoaderContainer extends StatelessWidget {
   const LoaderContainer({Key? key}) : super(key: key);
