@@ -75,7 +75,7 @@ dependencies:
   freezed_annotation: ^0.14.3 # Annotations for the freezed
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
-  #  fast_rsa: ^3.2.0 # RSA signing
+  fast_rsa: ^3.2.0 # RSA signing
   timeago: ^3.1.0 # Date converter
 
   # OWN LIBS:
