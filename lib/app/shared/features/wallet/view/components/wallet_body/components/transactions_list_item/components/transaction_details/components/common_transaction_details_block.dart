@@ -42,7 +42,9 @@ class CommonTransactionDetailsBlock extends HookWidget {
           DateFormat('EEEE, MMMM d, y').format(
             DateTime.parse('${transactionListItem.timeStamp}Z').toLocal(),
           ),
-          style: sBodyText2Style.copyWith(color: colors.grey2),
+          style: sBodyText2Style.copyWith(
+            color: colors.grey2,
+          ),
         ),
         const SpaceH72(),
       ],

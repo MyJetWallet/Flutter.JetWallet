@@ -72,7 +72,9 @@ class WalletCard extends HookWidget {
                 baseline: 17,
                 child: Text(
                   '+\$120.23',
-                  style: sSubtitle3Style.copyWith(color: colors.white),
+                  style: sSubtitle3Style.copyWith(
+                    color: colors.white,
+                  ),
                 ),
               ),
             ),
@@ -109,7 +111,9 @@ class WalletCard extends HookWidget {
                   accuracy: currency.accuracy,
                   prefix: currency.prefixSymbol,
                 ),
-                style: sBodyText2Style.copyWith(color: colors.grey1),
+                style: sBodyText2Style.copyWith(
+                  color: colors.grey1,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

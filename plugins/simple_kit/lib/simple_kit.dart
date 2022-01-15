@@ -46,14 +46,14 @@ export 'src/asset_items/simple_fiat_item.dart';
 export 'src/asset_items/simple_market_item.dart';
 export 'src/asset_items/simple_wallet_item.dart';
 
+/// Market Banners
+export 'src/banners/market_banner/simple_market_banner.dart';
+
 /// Rewards Banners
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
-
-/// Market Banners
-export 'src/banners/market_banner/simple_market_banner.dart';
 
 /// Bottom Navigation Bar
 export 'src/bottom_navigation_bar/simple_bottom_navigation_bar.dart';
@@ -108,6 +108,16 @@ export 'src/icons/16x16/public/smiles/simple_smile_good_icon.dart';
 export 'src/icons/16x16/public/smiles/simple_smile_neutral_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_selected_icon.dart';
+export 'src/icons/18x18/public/paid_interest_rate/simple_paid_interest_rate_icon.dart';
+export 'src/icons/20x20/public/deposit/simple_deposit_icon.dart';
+export 'src/icons/20x20/public/minus/simple_minus_icon.dart';
+export 'src/icons/20x20/public/plus/simple_plus_icon.dart';
+export 'src/icons/20x20/public/receive_by_phone/simple_receive_by_phone_icon.dart';
+export 'src/icons/20x20/public/reward_payment/simple_reward_payment_icon.dart';
+export 'src/icons/20x20/public/send/simple_send_icon.dart';
+export 'src/icons/20x20/public/send_by_phone/simple_send_by_phone_icon.dart';
+export 'src/icons/20x20/public/swap/simple_swap_icon.dart';
+export 'src/icons/20x20/public/withdrawal_fee/simple_withdrawal_fee_icon.dart';
 export 'src/icons/24x24/public/about_us/simple_about_us_icon.dart';
 export 'src/icons/24x24/public/action_buy/simple_action_buy_icon.dart';
 export 'src/icons/24x24/public/action_convert/simple_action_convert_icon.dart';

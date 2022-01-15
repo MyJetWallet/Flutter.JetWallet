@@ -22,12 +22,19 @@ class TransactionListLoadingItem extends HookWidget {
               children: const [
                 SpaceW2(),
                 SSkeletonTextLoader(
+                  height: 16,
                   width: 16,
                 ),
                 SpaceW12(),
-                SSkeletonTextLoader(),
+                SSkeletonTextLoader(
+                  height: 16,
+                  width: 80,
+                ),
                 Spacer(),
-                SSkeletonTextLoader(),
+                SSkeletonTextLoader(
+                  height: 16,
+                  width: 80,
+                ),
               ],
             ),
             const SpaceH12(),

@@ -7,6 +7,7 @@ import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../shared/constants.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../helper/format_date.dart';
@@ -18,6 +19,7 @@ import 'components/card_block/components/wallet_card_collapsed.dart';
 import 'components/transactions_list_item/transaction_list_item.dart';
 import 'components/transactions_list_item/transaction_list_loading_item.dart';
 
+// TODO: refactor this widget
 class WalletBody extends StatefulHookWidget {
   const WalletBody({
     Key? key,
@@ -81,10 +83,10 @@ class _WalletTestState extends State<WalletBody>
     );
     final screenHeight = MediaQuery.of(context).size.height;
 
-    var walletBackground = 'assets/images/green_wallet_gradient.svg';
+    var walletBackground = walletGreenBackgroundImageAsset;
 
     if (!widget.item.isGrowing) {
-      walletBackground = 'assets/images/red_wallet_gradient.svg';
+      walletBackground = walletRedBackgroundImageAsset;
     }
 
     return Scaffold(

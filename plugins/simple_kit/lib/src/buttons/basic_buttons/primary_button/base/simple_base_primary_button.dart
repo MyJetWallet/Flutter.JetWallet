@@ -54,7 +54,7 @@ class SimpleBasePrimaryButton extends HookWidget {
         highlighted.value = value;
       },
       icon: icon,
-      addIconPadding: addIconPadding,
+      enableIconPadding: addIconPadding,
       nameColor: currentNameColor,
       decoration: BoxDecoration(
         color: currentColor,

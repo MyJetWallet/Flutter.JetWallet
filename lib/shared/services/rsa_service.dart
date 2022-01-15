@@ -1,4 +1,4 @@
-import 'package:fast_rsa/fast_rsa.dart';
+// import 'package:fast_rsa/fast_rsa.dart';
 
 import 'local_storage_service.dart';
 
@@ -9,10 +9,12 @@ class RsaService {
   late String privateKey;
 
   Future<void> init() async {
-    final key = await RSA.generate(_bits);
-
-    publicKey = key.publicKey;
-    privateKey = key.privateKey;
+    publicKey = '';
+    privateKey = '';
+    // final key = await RSA.generate(_bits);
+    //
+    // publicKey = key.publicKey;
+    // privateKey = key.privateKey;
   }
 
   Future<void> savePrivateKey(
@@ -22,6 +24,7 @@ class RsaService {
   }
 
   Future<String> sign(String text, String privateKey) async {
-    return RSA.signPKCS1v15(text, Hash.SHA256, privateKey);
+    return Future.value('');
+    // return RSA.signPKCS1v15(text, Hash.SHA256, privateKey);
   }
 }

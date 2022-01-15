@@ -34,7 +34,7 @@ dependencies:
   # RESPONSIVE UI
   device_preview: ^0.7.4
   pixel_perfect: ^1.1.0 # Mock designs
-  flutter_screenutil: ^5.0.0+2 
+  flutter_screenutil: ^5.0.0+2
 
   # PLUS PLUGINS
   # packages without '_plus' was made originally by flutter team are not supported anymore
@@ -75,7 +75,7 @@ dependencies:
   freezed_annotation: ^0.14.3 # Annotations for the freezed
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
-  fast_rsa: ^3.2.0 # RSA signing
+  #  fast_rsa: ^3.2.0 # RSA signing
   timeago: ^3.1.0 # Date converter
 
   # OWN LIBS:

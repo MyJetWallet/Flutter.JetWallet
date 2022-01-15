@@ -38,13 +38,15 @@ class ReceiveDetails extends HookWidget {
               children: [
                 TransactionDetailsValueText(
                   text:
-                      '${transactionListItem.receiveByPhoneInfo!
-                          .fromPhoneNumber}',
+                      '${transactionListItem.receiveByPhoneInfo!.fromPhoneNumber
+                      }',
                 ),
                 if (senderName.isNotEmpty) ...[
                   Text(
                     senderName,
-                    style: sBodyText2Style.copyWith(color: colors.grey1),
+                    style: sBodyText2Style.copyWith(
+                      color: colors.grey1,
+                    ),
                   )
                 ]
               ],

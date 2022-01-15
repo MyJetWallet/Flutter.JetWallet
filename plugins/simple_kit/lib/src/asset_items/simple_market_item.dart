@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
 import '../icons/16x16/public/minus/simple_minus_icon.dart';
+import '../icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
+import '../icons/16x16/public/small_arrow/simple_small_arrow_positive_icon.dart';
+import '../shared/components/simple_divider.dart';
+import '../shared/components/simple_paddings.dart';
+import '../shared/components/simple_spacers.dart';
+import '../texts/simple_text_styles.dart';
 
 class SMarketItem extends StatelessWidget {
   const SMarketItem({

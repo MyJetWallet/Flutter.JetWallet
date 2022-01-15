@@ -57,7 +57,9 @@ class WalletCardCollapsed extends HookWidget {
                 accuracy: currency.accuracy,
                 prefix: currency.prefixSymbol,
               ),
-              style: sBodyText2Style.copyWith(color: colors.grey1),
+              style: sBodyText2Style.copyWith(
+                color: colors.grey1,
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

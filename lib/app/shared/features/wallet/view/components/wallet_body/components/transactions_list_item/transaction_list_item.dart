@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -37,17 +36,7 @@ class TransactionListItem extends HookWidget {
             const SpaceH12(),
             Row(
               children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 20.0,
-                    maxHeight: 20.0,
-                    minWidth: 20.0,
-                    minHeight: 20.0,
-                  ),
-                  child: SvgPicture.asset(
-                    _icon(transactionListItem.operationType),
-                  ),
-                ),
+                _icon(transactionListItem.operationType),
                 const SpaceW10(),
                 TransactionListItemHeaderText(
                   text: operationName(transactionListItem.operationType),
@@ -93,32 +82,32 @@ class TransactionListItem extends HookWidget {
     );
   }
 
-  String _icon(OperationType type) {
+  Widget _icon(OperationType type) {
     switch (type) {
       case OperationType.deposit:
-        return 'assets/images/deposit_icon.svg';
+        return const SDepositIcon();
       case OperationType.withdraw:
-        return 'assets/images/withdrawal_fee_icon.svg';
+        return const SWithdrawalFeeIcon();
       case OperationType.transferByPhone:
-        return 'assets/images/send_by_phone_icon.svg';
+        return const SSendByPhoneIcon();
       case OperationType.receiveByPhone:
-        return 'assets/images/receive_by_phone_icon.svg';
+        return const SReceiveByPhoneIcon();
       case OperationType.buy:
-        return 'assets/images/plus_icon.svg';
+        return const SPlusIcon();
       case OperationType.sell:
-        return 'assets/images/minus_icon.svg';
+        return const SMinusIcon();
       case OperationType.paidInterestRate:
-        return 'assets/images/paid_interest_rate_icon.svg';
+        return const SPaidInterestRateIcon();
       case OperationType.feeSharePayment:
-        return 'assets/images/paid_interest_rate_icon.svg';
+        return const SPaidInterestRateIcon();
       case OperationType.withdrawalFee:
-        return 'assets/images/withdrawal_fee_icon.svg';
+        return const SWithdrawalFeeIcon();
       case OperationType.swap:
-        return 'assets/images/swap_icon.svg';
+        return const SSwapIcon();
       case OperationType.rewardPayment:
-        return 'assets/images/reward_payment_icon.svg';
+        return const SRewardPaymentIcon();
       case OperationType.unknown:
-        return '';
+        return const SizedBox();
     }
   }
 }

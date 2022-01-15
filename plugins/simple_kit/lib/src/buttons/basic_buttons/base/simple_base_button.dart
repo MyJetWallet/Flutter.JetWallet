@@ -9,7 +9,7 @@ class SimpleBaseButton extends StatelessWidget {
     Key? key,
     this.icon,
     this.onTap,
-    this.addIconPadding = true,
+    this.enableIconPadding = true,
     required this.onHighlightChanged,
     required this.decoration,
     required this.name,
@@ -22,7 +22,7 @@ class SimpleBaseButton extends StatelessWidget {
   final BoxDecoration decoration;
   final String name;
   final Color nameColor;
-  final bool addIconPadding;
+  final bool enableIconPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class SimpleBaseButton extends StatelessWidget {
             children: [
               if (icon != null) ...[
                 icon!,
-                if (addIconPadding) const SpaceW10(),
+                if (enableIconPadding) const SpaceW10(),
               ],
               Text(
                 name,
