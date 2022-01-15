@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/log_out_option.dart';
-import '../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
@@ -15,7 +14,7 @@ import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
-import '../../shared/features/support/support.dart';
+import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -53,11 +52,11 @@ class Account extends HookWidget {
                 ),
                 const SpaceH20(),
                 SAccountBannerList(
-                    kycPassed: userInfo.kycPassed,
-                    twoFaEnabled: userInfo.twoFaEnabled,
-                    phoneVerified: userInfo.phoneVerified,
-                    onTwoFaBannerTap: () => TwoFaScreen.push(context),
-                    onChatBannerTap: () {},
+                  kycPassed: userInfo.kycPassed,
+                  twoFaEnabled: userInfo.twoFaEnabled,
+                  phoneVerified: userInfo.phoneVerified,
+                  onTwoFaBannerTap: () => SmsAuthenticator.push(context),
+                  onChatBannerTap: () {},
                 ),
                 const SpaceH20(),
                 Column(
@@ -84,14 +83,14 @@ class Account extends HookWidget {
                       isSDivider: true,
                       onTap: () {},
                     ),
-                    SimpleAccountCategoryButton(
-                      title: 'Support',
-                      icon: const SSupportIcon(),
-                      isSDivider: true,
-                      onTap: () {
-                        navigatorPush(context, const Support());
-                      },
-                    ),
+                    // SimpleAccountCategoryButton(
+                    //   title: 'Support',
+                    //   icon: const SSupportIcon(),
+                    //   isSDivider: true,
+                    //   onTap: () {
+                    //     navigatorPush(context, const Support());
+                    //   },
+                    // ),
                     SimpleAccountCategoryButton(
                       title: 'FAQ',
                       icon: const SFaqIcon(),

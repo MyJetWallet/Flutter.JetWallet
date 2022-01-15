@@ -9,6 +9,7 @@ class RegisterRequestModel with _$RegisterRequestModel {
     String? deviceUid,
     String? captcha,
     String? phone,
+    String? referralCode,
     @JsonKey(name: 'publicKeyPem') required String publicKey,
     required String email,
     required String password,
