@@ -5,8 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../../../shared/features/pin_screen/view/pin_screen.dart';
-import '../../../../../shared/features/two_fa/two_fa_screen/two_fa_screen.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../sms_autheticator/sms_authenticator.dart';
 import 'components/security_protection.dart';
 
 class AccountSecurity extends HookWidget {
@@ -54,7 +54,7 @@ class AccountSecurity extends HookWidget {
             title: '2-Factor authentication',
             icon: const STwoFactorAuthIcon(),
             isSDivider: false,
-            onTap: () => TwoFaScreen.push(context),
+            onTap: () => SmsAuthenticator.push(context),
           ),
         ],
       ),

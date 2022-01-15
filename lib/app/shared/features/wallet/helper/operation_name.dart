@@ -5,7 +5,7 @@ String operationName(OperationType type) {
     case OperationType.deposit:
       return 'Deposit';
     case OperationType.withdraw:
-      return 'Withdraw';
+      return 'Withdrawal';
     case OperationType.transferByPhone:
       return 'Transfer by Phone';
     case OperationType.receiveByPhone:
@@ -15,11 +15,15 @@ String operationName(OperationType type) {
     case OperationType.sell:
       return 'Sell';
     case OperationType.paidInterestRate:
-    case OperationType.transfer:
+      return 'Interest Rate';
     case OperationType.feeSharePayment:
+      return 'Referral program fee share';
     case OperationType.swap:
+      return 'Swap';
     case OperationType.withdrawalFee:
+      return 'Withdrawal Fee';
     case OperationType.rewardPayment:
+      return 'Referral program bonus';
     case OperationType.unknown:
       return 'Unknown';
   }

@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
 import '../../service/services/blockchain/service/blockchain_service.dart';
+import '../../service/services/change_password/service/change_password_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
@@ -25,7 +26,6 @@ import '../../service/services/validation/service/validation_service.dart';
 import '../../service/services/wallet/service/wallet_service.dart';
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
-import '../services/contact_service.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
@@ -158,12 +158,14 @@ final transferServicePod = Provider<TransferService>((ref) {
   return TransferService(dio);
 });
 
-final contactsServicePod = Provider<ContactService>((ref) {
-  return ContactService();
-});
-
 final profileServicePod = Provider<ProfileService>((ref) {
   final dio = ref.watch(dioPod);
 
   return ProfileService(dio);
+});
+
+final changePasswordSerivcePod = Provider<ChangePasswordService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return ChangePasswordService(dio);
 });
