@@ -4,7 +4,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/market_info/model/market_info_response_model.dart';
 import '../../../helper/format_number.dart';
-import 'components/market_sentiment_item.dart';
 import 'components/market_stats_item.dart';
 
 class MarketStatsBlock extends HookWidget {
@@ -59,7 +58,9 @@ class MarketStatsBlock extends HookWidget {
                   ),
                 ),
                 const TableCell(
-                  child: MarketSentimentItem(),
+                  child: SizedBox(),
+                  // TODO(Vova): Add santiment when back will be ready
+                  // child: MarketSentimentItem(),
                 ),
               ],
             ),
