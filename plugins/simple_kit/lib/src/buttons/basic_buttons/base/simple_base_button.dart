@@ -46,7 +46,10 @@ class SimpleBaseButton extends StatelessWidget {
                   icon!,
                   const SpaceW10(),
                 ],
-                Expanded(
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.75,
+                  ),
                   child: Text(
                     name,
                     style: sButtonTextStyle.copyWith(
