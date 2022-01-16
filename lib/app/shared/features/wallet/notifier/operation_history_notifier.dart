@@ -85,11 +85,18 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
   void updateOperationHistory(List<OperationHistoryItem> items) {
     _logger.log(notifier, 'updateOperationHistory');
 
-    state = state.copyWith(
-      operationHistoryItems: state.operationHistoryItems +
-          _filterUnusedOperationTypeItemsFrom(items),
-      union: const Loaded(),
-    );
+    if (items.isEmpty) {
+      state = state.copyWith(
+        nothingToLoad: true,
+        union: const Loaded(),
+      );
+    } else {
+      state = state.copyWith(
+        operationHistoryItems: state.operationHistoryItems +
+            _filterUnusedOperationTypeItemsFrom(items),
+        union: const Loaded(),
+      );
+    }
   }
 
   Future<OperationHistoryResponseModel> _requestOperationHistory(

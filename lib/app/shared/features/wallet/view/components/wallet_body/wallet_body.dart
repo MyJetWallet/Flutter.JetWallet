@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/wallet/notifier/operation_history_state.dart';
+import 'package:jetwallet/app/shared/features/wallet/view/components/wallet_body/components/loading_sliver_list.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -16,8 +18,8 @@ import '../../../notifier/operation_history_union.dart';
 import '../../../provider/operation_history_fpod.dart';
 import 'components/card_block/components/wallet_card.dart';
 import 'components/card_block/components/wallet_card_collapsed.dart';
+import 'components/transaction_month_separator.dart';
 import 'components/transactions_list_item/transaction_list_item.dart';
-import 'components/transactions_list_item/transaction_list_loading_item.dart';
 
 // TODO: refactor this widget
 class WalletBody extends StatefulHookWidget {
@@ -47,7 +49,8 @@ class _WalletTestState extends State<WalletBody>
           ),
         );
 
-        if (transactionHistory.union == const OperationHistoryUnion.loaded()) {
+        if (transactionHistory.union == const OperationHistoryUnion.loaded() &&
+            !transactionHistory.nothingToLoad) {
           final transactionHistoryN = context.read(
             operationHistoryNotipod(
               widget.item.assetId,
@@ -136,120 +139,105 @@ class _WalletTestState extends State<WalletBody>
                   ),
                 ),
               ),
+              SliverToBoxAdapter(
+                child: SPaddingH24(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SpaceH36(),
+                      Text(
+                        '${widget.item.description} transactions',
+                        style: sTextH4Style,
+                      ),
+                      if (transactionHistory.union !=
+                          const OperationHistoryUnion.error())
+                        const SpaceH15(),
+                    ],
+                  ),
+                ),
+              ),
               SliverPadding(
                 padding: EdgeInsets.only(
-                  bottom: transactionHistory.union !=
-                          const OperationHistoryUnion.error()
-                      ? 72
-                      : 0,
+                  bottom: _addBottomPadding(transactionHistory) ? 72 : 0,
                 ),
                 sliver: initTransactionHistory.when(
                   data: (_) {
                     return transactionHistory.union.when(
                       loading: () {
-                        return SliverGroupedListView<OperationHistoryItem,
-                            String>(
-                          elements: transactionHistory.operationHistoryItems,
-                          groupBy: (transaction) {
-                            return formatDate(transaction.timeStamp);
-                          },
-                          groupSeparatorBuilder: (String date) {
-                            if (date ==
-                                formatDate(
+                        if (transactionHistory.operationHistoryItems.isEmpty) {
+                          return const LoadingSliverList();
+                        } else {
+                          return SliverGroupedListView<OperationHistoryItem,
+                              String>(
+                            elements: transactionHistory.operationHistoryItems,
+                            groupBy: (transaction) {
+                              return formatDate(transaction.timeStamp);
+                            },
+                            groupSeparatorBuilder: (String date) {
+                              return TransactionMonthSeparator(
+                                text: date,
+                              );
+                            },
+                            groupComparator: (date1, date2) => 0,
+                            itemBuilder: (context, transaction) {
+                              final index = transactionHistory
+                                  .operationHistoryItems
+                                  .indexOf(transaction);
+                              final currentDate =
+                                  formatDate(transaction.timeStamp);
+                              var nextDate = '';
+                              if (index !=
+                                  (transactionHistory
+                                          .operationHistoryItems.length -
+                                      1)) {
+                                nextDate = formatDate(
                                   transactionHistory
-                                      .operationHistoryItems.first.timeStamp,
-                                )) {
-                              return const SizedBox();
-                            } else {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                ),
-                                child: SDivider(
-                                  color: colors.grey3,
-                                ),
-                              );
-                            }
-                          },
-                          groupComparator: (date1, date2) => 0,
-                          itemBuilder: (context, transaction) {
-                            final index = transactionHistory
-                                .operationHistoryItems
-                                .indexOf(transaction);
-                            final currentDate =
-                                formatDate(transaction.timeStamp);
-                            var nextDate = '';
-                            if (index !=
-                                (transactionHistory
-                                        .operationHistoryItems.length -
-                                    1)) {
-                              nextDate = formatDate(
-                                transactionHistory
-                                    .operationHistoryItems[index + 1].timeStamp,
-                              );
-                            }
-                            final removeDividerForLastInGroup =
-                                currentDate != nextDate;
+                                      .operationHistoryItems[index + 1]
+                                      .timeStamp,
+                                );
+                              }
+                              final removeDividerForLastInGroup =
+                                  currentDate != nextDate;
 
-                            if (transactionHistory.operationHistoryItems
-                                    .indexOf(transaction) ==
-                                0) {
-                              return SPaddingH24(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              if (transactionHistory.operationHistoryItems
+                                      .indexOf(transaction) ==
+                                  transactionHistory
+                                          .operationHistoryItems.length -
+                                      1) {
+                                return Column(
                                   children: [
-                                    const SpaceH36(),
-                                    Text(
-                                      '${widget.item.description} transactions',
-                                      style: sTextH4Style,
+                                    SPaddingH24(
+                                      child: TransactionListItem(
+                                        transactionListItem: transaction,
+                                        removeDivider:
+                                            removeDividerForLastInGroup,
+                                      ),
                                     ),
-                                    const SpaceH15(),
-                                    TransactionListItem(
-                                      transactionListItem: transaction,
-                                      removeDivider:
-                                          removeDividerForLastInGroup,
+                                    const SpaceH24(),
+                                    Container(
+                                      width: 24.0,
+                                      height: 24.0,
+                                      decoration: BoxDecoration(
+                                        color: colors.grey5,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const RiveAnimation.asset(
+                                        loadingAnimationAsset,
+                                      ),
                                     ),
                                   ],
-                                ),
-                              );
-                            } else if (transactionHistory.operationHistoryItems
-                                    .indexOf(transaction) ==
-                                transactionHistory
-                                        .operationHistoryItems.length -
-                                    1) {
-                              return Column(
-                                children: [
-                                  SPaddingH24(
-                                    child: TransactionListItem(
-                                      transactionListItem: transaction,
-                                      removeDivider:
-                                          removeDividerForLastInGroup,
-                                    ),
+                                );
+                              } else {
+                                return SPaddingH24(
+                                  child: TransactionListItem(
+                                    transactionListItem: transaction,
+                                    removeDivider: removeDividerForLastInGroup,
                                   ),
-                                  const SpaceH24(),
-                                  Container(
-                                    width: 24.0,
-                                    height: 24.0,
-                                    decoration: BoxDecoration(
-                                      color: colors.grey5,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const RiveAnimation.asset(
-                                      loadingAnimationAsset,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return SPaddingH24(
-                                child: TransactionListItem(
-                                  transactionListItem: transaction,
-                                  removeDivider: removeDividerForLastInGroup,
-                                ),
-                              );
-                            }
-                          },
-                        );
+                                );
+                              }
+                            },
+                          );
+                        }
                       },
                       loaded: () {
                         return SliverGroupedListView<OperationHistoryItem,
@@ -259,22 +247,9 @@ class _WalletTestState extends State<WalletBody>
                             return formatDate(transaction.timeStamp);
                           },
                           groupSeparatorBuilder: (String date) {
-                            if (date ==
-                                formatDate(
-                                  transactionHistory
-                                      .operationHistoryItems.first.timeStamp,
-                                )) {
-                              return const SizedBox();
-                            } else {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                ),
-                                child: SDivider(
-                                  color: colors.grey3,
-                                ),
-                              );
-                            }
+                            return TransactionMonthSeparator(
+                              text: date,
+                            );
                           },
                           groupComparator: (date1, date2) => 0,
                           itemBuilder: (context, transaction) {
@@ -297,30 +272,6 @@ class _WalletTestState extends State<WalletBody>
                                 currentDate != nextDate;
 
                             if (transactionHistory.operationHistoryItems
-                                    .indexOf(transaction) ==
-                                0) {
-                              return SPaddingH24(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SpaceH36(),
-                                    Text(
-                                      '${widget.item.description} transactions',
-                                      style: sTextH4Style,
-                                    ),
-                                    const SpaceH15(),
-                                    TransactionListItem(
-                                      transactionListItem: transaction,
-                                      removeDivider: transactionHistory
-                                                  .operationHistoryItems
-                                                  .length ==
-                                              1 ||
-                                          removeDividerForLastInGroup,
-                                    )
-                                  ],
-                                ),
-                              );
-                            } else if (transactionHistory.operationHistoryItems
                                     .indexOf(transaction) ==
                                 transactionHistory
                                         .operationHistoryItems.length -
@@ -347,20 +298,6 @@ class _WalletTestState extends State<WalletBody>
                           return SliverList(
                             delegate: SliverChildListDelegate(
                               [
-                                SPaddingH24(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SpaceH36(),
-                                      Text(
-                                        '${widget.item.description} '
-                                        'transactions',
-                                        style: sTextH4Style,
-                                      ),
-                                    ],
-                                  ),
-                                ),
                                 Container(
                                   width: double.infinity,
                                   height: 137,
@@ -438,22 +375,9 @@ class _WalletTestState extends State<WalletBody>
                               return formatDate(transaction.timeStamp);
                             },
                             groupSeparatorBuilder: (String date) {
-                              if (date ==
-                                  formatDate(
-                                    transactionHistory
-                                        .operationHistoryItems.first.timeStamp,
-                                  )) {
-                                return const SizedBox();
-                              } else {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  child: SDivider(
-                                    color: colors.grey3,
-                                  ),
-                                );
-                              }
+                              return TransactionMonthSeparator(
+                                text: date,
+                              );
                             },
                             groupComparator: (date1, date2) => 0,
                             itemBuilder: (context, transaction) {
@@ -477,30 +401,6 @@ class _WalletTestState extends State<WalletBody>
                                   currentDate != nextDate;
 
                               if (transactionHistory.operationHistoryItems
-                                      .indexOf(transaction) ==
-                                  0) {
-                                return SPaddingH24(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SpaceH36(),
-                                      Text(
-                                        '${widget.item.description} '
-                                        'transactions',
-                                        style: sTextH4Style,
-                                      ),
-                                      const SpaceH15(),
-                                      TransactionListItem(
-                                        transactionListItem: transaction,
-                                        removeDivider:
-                                            removeDividerForLastInGroup,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              } else if (transactionHistory
-                                      .operationHistoryItems
                                       .indexOf(transaction) ==
                                   transactionHistory
                                           .operationHistoryItems.length -
@@ -600,56 +500,11 @@ class _WalletTestState extends State<WalletBody>
                       },
                     );
                   },
-                  loading: () {
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          final isFirst = index == 0;
-                          final removeDivider = index == 4;
-
-                          if (isFirst) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SpaceH36(),
-                                SPaddingH24(
-                                  child: Text(
-                                    '${widget.item.description} transactions',
-                                    style: sTextH4Style,
-                                  ),
-                                ),
-                                const SpaceH15(),
-                                TransactionListLoadingItem(
-                                  removeDivider: removeDivider,
-                                ),
-                              ],
-                            );
-                          } else {
-                            return TransactionListLoadingItem(
-                              removeDivider: removeDivider,
-                            );
-                          }
-                        },
-                        childCount: 5,
-                      ),
-                    );
-                  },
+                  loading: () => const LoadingSliverList(),
                   error: (_, __) {
                     return SliverList(
                       delegate: SliverChildListDelegate(
                         [
-                          SPaddingH24(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SpaceH36(),
-                                Text(
-                                  '${widget.item.description} transactions',
-                                  style: sTextH4Style,
-                                ),
-                              ],
-                            ),
-                          ),
                           Container(
                             width: double.infinity,
                             height: 137,
@@ -743,6 +598,11 @@ class _WalletTestState extends State<WalletBody>
         ),
       );
     }
+  }
+
+  bool _addBottomPadding(OperationHistoryState transactionHistory) {
+    return (transactionHistory.union != const OperationHistoryUnion.error()) &&
+        !transactionHistory.nothingToLoad;
   }
 
   @override
