@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import '../../simple_kit.dart';
-import '../shared/constants.dart';
 
 class SReferralInvitePinned extends StatelessWidget {
   const SReferralInvitePinned({Key? key}) : super(key: key);

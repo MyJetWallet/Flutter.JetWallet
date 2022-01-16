@@ -1,19 +1,20 @@
-import '../../../../screens/market/model/market_item_model.dart';
+import '../../../models/currency_model.dart';
 
 /// Value can't be null because this function is invoked on the screens
-/// [Wallet] where at least one asset with balance exists. On other screens
+/// [Wallet] where at least one currency with balance exists. On other screens
 /// can throw: BadStateException.
-List<MarketItemModel> marketItemsWithBalanceFrom(
-  List<MarketItemModel> assets,
-  String? assetId,
+List<CurrencyModel> sortedCurrenciesWithBalanceFrom(
+  List<CurrencyModel> currencies,
+  String? currencyId,
 ) {
-  final marketItemsWithBalance =
-      assets.where((asset) => !asset.isBalanceEmpty).toList();
-  final marketItem = marketItemsWithBalance
-      .firstWhere((item) => item.associateAsset == assetId);
+  final currenciesWithBalance =
+      currencies.where((currency) => !currency.isAssetBalanceEmpty).toList();
+  final currency = currenciesWithBalance
+      .firstWhere((currency) => currency.assetId == currencyId);
 
-  marketItemsWithBalance.removeWhere((item) => item.associateAsset == assetId);
-  marketItemsWithBalance.insert(0, marketItem);
+  currenciesWithBalance
+      .removeWhere((currency) => currency.assetId == currencyId);
+  currenciesWithBalance.insert(0, currency);
 
-  return marketItemsWithBalance;
+  return currenciesWithBalance;
 }

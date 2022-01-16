@@ -16,7 +16,6 @@ import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/period_change.dart';
 import '../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
-import '../../../../../shared/features/wallet/provider/wallet_hidden_stpod.dart';
 import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
@@ -51,7 +50,6 @@ class PortfolioWithBalanceBody extends HookWidget {
     currenciesWithoutBalanceFrom(useProvider(marketFiatsPod));
     final chartN = useProvider(chartNotipod.notifier);
     final chart = useProvider(chartNotipod);
-    final hidden = useProvider(walletHiddenStPod);
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final clientDetail = useProvider(clientDetailPod);
@@ -70,19 +68,17 @@ class PortfolioWithBalanceBody extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    hidden.state
-                        ? 'HIDDEN'
-                        : _price(
-                            chart,
-                            itemsWithBalance,
-                            baseCurrency,
-                          ),
+                    _price(
+                      chart,
+                      itemsWithBalance,
+                      baseCurrency,
+                    ),
                     style: sTextH1Style,
                   ),
                   Row(
                     children: [
                       Text(
-                        hidden.state ? '' : periodChange,
+                        periodChange,
                         style: sSubtitle3Style.copyWith(
                           color: periodChangeColor,
                         ),

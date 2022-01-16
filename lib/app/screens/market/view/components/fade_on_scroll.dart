@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 
 class FadeOnScroll extends StatefulWidget {
   const FadeOnScroll({
@@ -45,52 +44,57 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
   }
 
   double _calculateFadeInOpacity() {
-    if (widget.fullOpacityOffset == widget.zeroOpacityOffset) {
+    final fullOpacityOffset = widget.fullOpacityOffset;
+
+    if (fullOpacityOffset == widget.zeroOpacityOffset) {
       return 1;
-    } else if (widget.fullOpacityOffset > widget.zeroOpacityOffset) {
+    } else if (fullOpacityOffset > widget.zeroOpacityOffset) {
       // fading in
       if (_offset <= widget.zeroOpacityOffset) {
         return 0;
-      } else if (_offset >= widget.fullOpacityOffset) {
+      } else if (_offset >= fullOpacityOffset) {
         return 1;
       } else {
-        return 0;
+        return (_offset - widget.zeroOpacityOffset) /
+            (fullOpacityOffset - widget.zeroOpacityOffset);
       }
     } else {
       // fading out
-      if (_offset <= widget.fullOpacityOffset) {
+      if (_offset <= fullOpacityOffset) {
         return 1;
       } else if (_offset >= widget.zeroOpacityOffset) {
         return 0;
       } else {
-        return (_offset - widget.fullOpacityOffset) /
-            (widget.zeroOpacityOffset - widget.fullOpacityOffset);
+        return (_offset - fullOpacityOffset) /
+            (widget.zeroOpacityOffset - fullOpacityOffset);
       }
     }
   }
 
   double _calculateFadeOutOpacity() {
-    if (widget.fullOpacityOffset == widget.zeroOpacityOffset) {
+    final fullOpacityOffset = widget.fullOpacityOffset / 2;
+
+    if (fullOpacityOffset == widget.zeroOpacityOffset) {
       return 1;
-    } else if (widget.fullOpacityOffset > widget.zeroOpacityOffset) {
+    } else if (fullOpacityOffset > widget.zeroOpacityOffset) {
       // fading in
       if (_offset <= widget.zeroOpacityOffset) {
         return 1;
-      } else if (_offset >= widget.fullOpacityOffset) {
+      } else if (_offset >= fullOpacityOffset) {
         return 0;
       } else {
-        return (_offset - widget.fullOpacityOffset) /
-            (widget.zeroOpacityOffset - widget.fullOpacityOffset);
+        return (_offset - fullOpacityOffset) /
+            (widget.zeroOpacityOffset - fullOpacityOffset);
       }
     } else {
       // fading out
-      if (_offset <= widget.fullOpacityOffset) {
+      if (_offset <= fullOpacityOffset) {
         return 1;
       } else if (_offset >= widget.zeroOpacityOffset) {
         return 0;
       } else {
-        return (_offset - widget.fullOpacityOffset) /
-            (widget.zeroOpacityOffset - widget.fullOpacityOffset);
+        return (_offset - fullOpacityOffset) /
+            (widget.zeroOpacityOffset - fullOpacityOffset);
       }
     }
   }
@@ -99,15 +103,10 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Opacity(
-            opacity: _calculateFadeInOpacity(),
-            child: widget.fadeInWidget,
-          ),
-        ),
-        const SMarketHeaderClosed(
-          title: 'Market',
+        widget.permanentWidget,
+        Opacity(
+          opacity: _calculateFadeInOpacity(),
+          child: widget.fadeInWidget,
         ),
         Opacity(
           opacity: _calculateFadeOutOpacity(),

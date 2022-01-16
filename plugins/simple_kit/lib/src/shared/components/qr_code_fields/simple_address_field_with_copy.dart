@@ -104,7 +104,10 @@ class SAddressFieldWithCopy extends HookWidget {
                           ),
                           const SpaceH4(),
                           if (valueLoading)
-                            const SSkeletonTextLoader()
+                            const SSkeletonTextLoader(
+                              height: 16,
+                              width: 80,
+                            )
                           else
                             Text(
                               value,
