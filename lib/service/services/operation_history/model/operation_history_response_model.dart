@@ -50,8 +50,6 @@ enum OperationType {
   receiveByPhone,
   @JsonValue(8)
   paidInterestRate,
-  @JsonValue(9)
-  transfer,
   @JsonValue(10)
   feeSharePayment,
   @JsonValue(11)

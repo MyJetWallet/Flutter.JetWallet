@@ -47,14 +47,14 @@ export 'src/asset_items/simple_fiat_item.dart';
 export 'src/asset_items/simple_market_item.dart';
 export 'src/asset_items/simple_wallet_item.dart';
 
+/// Market Banners
+export 'src/banners/market_banner/simple_market_banner.dart';
+
 /// Rewards Banners
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 export 'src/banners/rewards_banner/simple_three_steps_reward_banner.dart';
-
-/// Market Banners
-export 'src/banners/market_banner/simple_market_banner.dart';
 
 /// Bottom Navigation Bar
 export 'src/bottom_navigation_bar/simple_bottom_navigation_bar.dart';
@@ -110,6 +110,16 @@ export 'src/icons/16x16/public/smiles/simple_smile_good_icon.dart';
 export 'src/icons/16x16/public/smiles/simple_smile_neutral_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_selected_icon.dart';
+export 'src/icons/18x18/public/paid_interest_rate/simple_paid_interest_rate_icon.dart';
+export 'src/icons/20x20/public/deposit/simple_deposit_icon.dart';
+export 'src/icons/20x20/public/minus/simple_minus_icon.dart';
+export 'src/icons/20x20/public/plus/simple_plus_icon.dart';
+export 'src/icons/20x20/public/receive_by_phone/simple_receive_by_phone_icon.dart';
+export 'src/icons/20x20/public/reward_payment/simple_reward_payment_icon.dart';
+export 'src/icons/20x20/public/send/simple_send_icon.dart';
+export 'src/icons/20x20/public/send_by_phone/simple_send_by_phone_icon.dart';
+export 'src/icons/20x20/public/swap/simple_swap_icon.dart';
+export 'src/icons/20x20/public/withdrawal_fee/simple_withdrawal_fee_icon.dart';
 export 'src/icons/24x24/public/about_us/simple_about_us_icon.dart';
 export 'src/icons/24x24/public/action_buy/simple_action_buy_icon.dart';
 export 'src/icons/24x24/public/action_convert/simple_action_convert_icon.dart';
@@ -188,6 +198,7 @@ export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_pressed_icon.dart';
 export 'src/icons/40x40/public/convert/simple_convert_icon.dart';
 export 'src/icons/40x40/public/convert/simple_convert_pressed_icon.dart';
+export 'src/icons/56x56/public/action/simple_action_active_highlighted_icon.dart';
 export 'src/icons/56x56/public/action/simple_action_active_icon.dart';
 export 'src/icons/56x56/public/action/simple_action_default_icon.dart';
 export 'src/icons/56x56/public/market/simple_market_active_icon.dart';
@@ -249,6 +260,9 @@ export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 export 'src/kyc/simple_documents_recommendations.dart';
+
+/// Constants
+export 'src/shared/constants.dart';
 
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';

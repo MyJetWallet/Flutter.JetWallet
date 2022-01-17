@@ -33,7 +33,6 @@ class PortfolioWithBalanceHeader extends HookWidget {
                   navigatorPush(context, const Rewards());
                 },
                 child: Container(
-
                   height: 28,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
