@@ -33,6 +33,7 @@ class SFloatingButtonFrame extends StatelessWidget {
             ),
           ),
           Material(
+            color: Colors.white,
             child: Column(
               children: [
                 SPaddingH24(

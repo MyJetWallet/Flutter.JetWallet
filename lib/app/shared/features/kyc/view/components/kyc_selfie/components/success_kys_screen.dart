@@ -37,23 +37,6 @@ class SuccessKycScreen extends HookWidget {
     );
   }
 
-  static void push({
-    Key? key,
-    String? primaryText,
-    String? secondaryText,
-    Widget? specialTextWidget,
-    required BuildContext context,
-  }) {
-    navigatorPushReplacement(
-      context,
-      SuccessKycScreen(
-        primaryText: primaryText,
-        secondaryText: secondaryText,
-        specialTextWidget: specialTextWidget,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);

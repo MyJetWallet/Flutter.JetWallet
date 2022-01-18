@@ -2,24 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../notifier/camera_permission/camera_permission_notipod.dart';
+import '../../../notifier/camera_permission/camera_permission_state.dart';
 import '../../../notifier/choose_documents/choose_documents_state.dart';
-import '../../../provider/is_permission_deny_stpod.dart';
-import '../upload_documents/upload_kyc_documents.dart';
 
-class AllowCamera extends HookWidget {
-  const AllowCamera({
-    Key? key,
-    required this.activeDocument,
-  }) : super(key: key);
-
-  final DocumentsModel activeDocument;
+class AllowCamera extends StatefulHookWidget {
+  const AllowCamera({Key? key}) : super(key: key);
 
   static void push({
     required BuildContext context,
@@ -27,9 +20,7 @@ class AllowCamera extends HookWidget {
   }) {
     navigatorPush(
       context,
-      AllowCamera(
-        activeDocument: activeDocument,
-      ),
+      const AllowCamera(),
     );
   }
 
@@ -39,23 +30,50 @@ class AllowCamera extends HookWidget {
   }) {
     navigatorPushReplacement(
       context,
-      AllowCamera(
-        //Todo: need refactor, delete activeDocument
-        activeDocument: activeDocument,
-      ),
+      const AllowCamera(),
     );
+  }
+
+  @override
+  State<AllowCamera> createState() => _AllowCameraState();
+}
+
+class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      final state = context.read(cameraPermissionNotipod);
+      final notifier = context.read(cameraPermissionNotipod.notifier);
+
+      // If returned from Settings check whether user enabled permission or not
+      if (state.userLocation == UserLocation.settings) {
+        notifier.handleCameraPermissionAfterSettingsChange(context);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final state = useProvider(cameraPermissionNotipod);
     final notifier = useProvider(cameraPermissionNotipod.notifier);
-    final isPermissionDeny = useProvider(isPermissionDenyStPod);
 
     return SPageFrameWithPadding(
       header: SMegaHeader(
         titleAlign: TextAlign.left,
-        title: isPermissionDeny.state
+        title: state.permissionDenied
             ? 'Give permission to\nallow to use camera'
             : 'Allow camera access',
       ),
@@ -67,21 +85,11 @@ class AllowCamera extends HookWidget {
           right: 24,
         ),
         child: SPrimaryButton2(
-          onTap: () async {
-            await openAppSettings();
-            final result = await notifier.checkCameraStatus();
-
-            if (result) {
-              UploadKycDocuments.pushReplacement(
-                context: context,
-                activeDocument: activeDocument,
-              );
-            } else {
-              isPermissionDeny.state = true;
-            }
-          },
-          name: isPermissionDeny.state ? 'Go to Settings' : 'Enable camera',
           active: true,
+          onTap: () async {
+            await notifier.handleCameraPermission(context);
+          },
+          name: state.permissionDenied ? 'Go to Settings' : 'Enable camera',
         ),
       ),
       child: CustomScrollView(
@@ -96,7 +104,7 @@ class AllowCamera extends HookWidget {
                   allowCameraAsset,
                 ),
                 const Spacer(),
-                if (!isPermissionDeny.state)
+                if (state.permissionDenied)
                   Baseline(
                     baseline: 48,
                     baselineType: TextBaseline.alphabetic,

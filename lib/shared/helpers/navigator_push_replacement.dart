@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
-void navigatorPushReplacement(BuildContext context, Widget page) {
+void navigatorPushReplacement(
+  BuildContext context,
+  Widget page, [
+  void Function()? then,
+]) {
   Navigator.pushReplacement(
     context,
     CupertinoPageRoute(
@@ -8,5 +12,7 @@ void navigatorPushReplacement(BuildContext context, Widget page) {
         return page;
       },
     ),
-  );
+  ).then((value) {
+    then?.call();
+  });
 }

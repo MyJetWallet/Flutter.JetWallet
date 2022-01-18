@@ -54,41 +54,16 @@ class ChooseDocuments extends HookWidget {
     final state = useProvider(chooseDocumentsNotipod);
     final notifier = useProvider(chooseDocumentsNotipod.notifier);
 
-    return SPageFrameWithPadding(
-      header: SSmallHeader(
-        title: headerTitle,
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          bottom: 24,
-          top: 40,
-          left: 24,
-          right: 24,
-        ),
-        child: SPrimaryButton2(
-          onTap: () async {
-            final status = await Permission.camera.status;
-            if (status == PermissionStatus.granted) {
-              UploadKycDocuments.push(
-                context: context,
-                activeDocument: notifier.getActiveDocument(),
-              );
-            } else {
-              AllowCamera.push(
-                context: context,
-                activeDocument: notifier.getActiveDocument(),
-              );
-            }
-          },
-          name: 'Choose document',
-          active: notifier.activeButton(),
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: headerTitle,
         ),
       ),
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
+      child: Stack(
+        children: [
+          SPaddingH24(
+            child: ListView(
               children: [
                 Row(
                   children: [
@@ -121,9 +96,29 @@ class ChooseDocuments extends HookWidget {
                     ),
                   const SpaceH10(),
                 ],
-                const Spacer(),
+                // const Spacer(),
                 const SDocumentsRecommendations(),
               ],
+            ),
+          ),
+          SFloatingButtonFrame(
+            button: SPrimaryButton2(
+              onTap: () async {
+                final status = await Permission.camera.status;
+                if (status == PermissionStatus.granted) {
+                  UploadKycDocuments.push(
+                    context: context,
+                    activeDocument: notifier.getActiveDocument(),
+                  );
+                } else {
+                  AllowCamera.push(
+                    context: context,
+                    activeDocument: notifier.getActiveDocument(),
+                  );
+                }
+              },
+              name: 'Choose document',
+              active: notifier.activeButton(),
             ),
           ),
         ],

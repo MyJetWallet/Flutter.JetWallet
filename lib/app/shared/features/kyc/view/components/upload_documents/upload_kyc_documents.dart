@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +9,7 @@ import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../model/kyc_operation_status_model.dart';
+import '../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../../../notifier/choose_documents/choose_documents_state.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_notipod.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_state.dart';
@@ -16,12 +18,7 @@ import 'components/create_kyc_banners_list.dart';
 import 'components/page_indicator.dart';
 
 class UploadKycDocuments extends HookWidget {
-  const UploadKycDocuments({
-    Key? key,
-    required this.activeDocument,
-  }) : super(key: key);
-
-  final DocumentsModel activeDocument;
+  const UploadKycDocuments({Key? key}) : super(key: key);
 
   static void push({
     required BuildContext context,
@@ -29,21 +26,14 @@ class UploadKycDocuments extends HookWidget {
   }) {
     navigatorPush(
       context,
-      UploadKycDocuments(
-        activeDocument: activeDocument,
-      ),
+      const UploadKycDocuments(),
     );
   }
 
-  static void pushReplacement({
-    required BuildContext context,
-    required DocumentsModel activeDocument,
-  }) {
+  static void pushReplacement(BuildContext context) {
     navigatorPushReplacement(
       context,
-      UploadKycDocuments(
-        activeDocument: activeDocument,
-      ),
+      const UploadKycDocuments(),
     );
   }
 
@@ -55,6 +45,8 @@ class UploadKycDocuments extends HookWidget {
     final imagePicker = useProvider(imagePickerPod);
     final colors = useProvider(sColorPod);
     final loader = useValueNotifier(StackLoaderNotifier());
+    final document =
+        useProvider(chooseDocumentsNotipod.notifier).getActiveDocument();
 
     final _banners = createKycBannersList(
       documentFirstSide: state.documentFirstSide,
@@ -71,11 +63,11 @@ class UploadKycDocuments extends HookWidget {
             loader.value.finishLoading();
           },
           done: () {
-            SuccessScreen.push(
+            SuccessScreen.pushReplacement(
               context: context,
               secondaryText: 'Your document has been uploaded.',
-              then: () {
-                KycSelfie.push(context: context);
+              onSuccess: (context) {
+                KycSelfie.pushReplacement(context: context);
               },
             );
           },
@@ -86,57 +78,59 @@ class UploadKycDocuments extends HookWidget {
         loading: loader.value,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: 'Upload ${activeDocument.document.name}',
+            title: 'Upload ${stringKycDocumentType(document.document)}',
           ),
         ),
-        child: Column(
+        child: Stack(
           children: [
-            const Spacer(),
-            Text(
-              'Side ${state.numberSide + 1}',
-              style: sSubtitle2Style,
-            ),
-            const SpaceH20(),
-            SizedBox(
-              height: 200,
-              child: PageView.builder(
-                controller: controller,
-                onPageChanged: (int index) {
-                  notifier.changeDocumentSide(index);
-                },
-                itemCount: (activeDocument.document != KycDocumentType.passport)
-                    ? 2
-                    : 1,
-                itemBuilder: (_, index) {
-                  return Container(
-                    padding: const EdgeInsets.only(
-                      left: 4,
-                      right: 4,
+            ListView(
+              children: [
+                // const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Side ${state.numberSide + 1}',
+                      style: sSubtitle2Style,
                     ),
-                    child: _banners[index],
-                  );
-                },
-              ),
+                  ],
+                ),
+                const SpaceH20(),
+                SizedBox(
+                  height: 200,
+                  child: PageView.builder(
+                    controller: controller,
+                    onPageChanged: (int index) {
+                      notifier.changeDocumentSide(index);
+                    },
+                    itemCount:
+                        (document.document != KycDocumentType.passport) ? 2 : 1,
+                    itemBuilder: (_, index) {
+                      return Container(
+                        padding: const EdgeInsets.only(
+                          left: 4,
+                          right: 4,
+                        ),
+                        child: _banners[index],
+                      );
+                    },
+                  ),
+                ),
+                const SpaceH18(),
+                PageIndicator(
+                  documentType: document.document,
+                ),
+                // const Spacer(),
+                const SPaddingH24(
+                  child: SDocumentsRecommendations(),
+                ),
+              ],
             ),
-            const SpaceH18(),
-            PageIndicator(
-              documentType: activeDocument.document,
-            ),
-            const Spacer(),
-            const SPaddingH24(
-              child: SDocumentsRecommendations(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 24.0,
-                top: 40.0,
-                left: 24.0,
-                right: 24.0,
-              ),
-              child: SPrimaryButton2(
+            SFloatingButtonFrame(
+              button: SPrimaryButton2(
                 onTap: () async {
                   // Todo: need refactor
-                  if (activeDocument.document != KycDocumentType.passport) {
+                  if (document.document != KycDocumentType.passport) {
                     if (state.documentFirstSide == null ||
                         state.documentSecondSide == null) {
                       final file = await imagePicker.pickedFile();
@@ -149,7 +143,7 @@ class UploadKycDocuments extends HookWidget {
                       // Upload Files
                       loader.value.startLoading();
                       await notifier.uploadDocuments(
-                        kycDocumentTypeInt(activeDocument.document),
+                        kycDocumentTypeInt(document.document),
                       );
                     }
                   } else {
@@ -161,13 +155,13 @@ class UploadKycDocuments extends HookWidget {
                     } else {
                       loader.value.startLoading();
                       await notifier.uploadPassportDocument(
-                        kycDocumentTypeInt(activeDocument.document),
+                        kycDocumentTypeInt(document.document),
                       );
                     }
                   }
                 },
-                name: _buttonName(state),
-                active: _activeScanButton(state),
+                name: _buttonName(state, document),
+                active: _activeScanButton(state, document),
                 icon: (state.documentFirstSide != null &&
                         state.documentSecondSide != null)
                     ? const SArrowUpIcon()
@@ -205,8 +199,11 @@ class UploadKycDocuments extends HookWidget {
     }
   }
 
-  bool _activeScanButton(UploadKycDocumentsState state) {
-    if (activeDocument.document == KycDocumentType.passport) {
+  bool _activeScanButton(
+    UploadKycDocumentsState state,
+    DocumentsModel document,
+  ) {
+    if (document.document == KycDocumentType.passport) {
       return true;
     }
 
@@ -228,9 +225,9 @@ class UploadKycDocuments extends HookWidget {
     }
   }
 
-  String _buttonName(UploadKycDocumentsState state) {
+  String _buttonName(UploadKycDocumentsState state, DocumentsModel document) {
     if (state.numberSide == 0 || state.numberSide == 1) {
-      if (activeDocument.document != KycDocumentType.passport) {
+      if (document.document != KycDocumentType.passport) {
         if (state.documentFirstSide == null ||
             state.documentSecondSide == null) {
           return 'Scan ${state.numberSide + 1} side';

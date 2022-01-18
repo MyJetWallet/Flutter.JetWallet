@@ -31,7 +31,7 @@ void sShowAlertPopup(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Dialog(
-              insetPadding: const EdgeInsets.symmetric(horizontal: 24.0),
+              insetPadding: const EdgeInsets.all(24.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.0),
               ),
@@ -50,14 +50,17 @@ void sShowAlertPopup(
                         package: 'simple_kit',
                       ),
                     Baseline(
-                        baseline: 40.0,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          primaryText,
-                          textAlign: TextAlign.center,
-                          style: sTextH5Style,
+                      baseline: 40.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        primaryText,
+                        maxLines: (secondaryText != null) ? 5 : 12,
+                        textAlign: TextAlign.center,
+                        style: sTextH5Style.copyWith(
+                          overflow: TextOverflow.visible,
                         ),
                       ),
+                    ),
                     if (secondaryText != null)
                       Baseline(
                         baseline: 32.0,

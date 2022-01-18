@@ -30,7 +30,7 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycOperationStatus.kycRequired)) {
+    if (status == kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
       _showKycRequiredAlert(
         kycVerified,
       );
@@ -39,7 +39,7 @@ class KycAlertHandler {
     } else if (status == kycOperationStatus(KycOperationStatus.allowed)) {
       _navigateTo(currentNavigate, navigatePop);
     } else if (status ==
-        kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
+        kycOperationStatus(KycOperationStatus.kycRequired)) {
       _showAllowedWithAlert(
         kycVerified,
         currentNavigate,
