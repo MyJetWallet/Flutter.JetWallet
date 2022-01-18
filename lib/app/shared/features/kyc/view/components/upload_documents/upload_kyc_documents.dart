@@ -83,46 +83,55 @@ class UploadKycDocuments extends HookWidget {
         ),
         child: Stack(
           children: [
-            ListView(
-              children: [
-                // const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Side ${state.numberSide + 1}',
-                      style: sSubtitle2Style,
-                    ),
-                  ],
-                ),
-                const SpaceH20(),
-                SizedBox(
-                  height: 200,
-                  child: PageView.builder(
-                    controller: controller,
-                    onPageChanged: (int index) {
-                      notifier.changeDocumentSide(index);
-                    },
-                    itemCount:
-                        (document.document != KycDocumentType.passport) ? 2 : 1,
-                    itemBuilder: (_, index) {
-                      return Container(
-                        padding: const EdgeInsets.only(
-                          left: 4,
-                          right: 4,
+            CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Side ${state.numberSide + 1}',
+                            style: sSubtitle2Style,
+                          ),
+                        ],
+                      ),
+                      const SpaceH20(),
+                      SizedBox(
+                        height: 200,
+                        child: PageView.builder(
+                          controller: controller,
+                          onPageChanged: (int index) {
+                            notifier.changeDocumentSide(index);
+                          },
+                          itemCount:
+                              (document.document != KycDocumentType.passport)
+                                  ? 2
+                                  : 1,
+                          itemBuilder: (_, index) {
+                            return Container(
+                              padding: const EdgeInsets.only(
+                                left: 4,
+                                right: 4,
+                              ),
+                              child: _banners[index],
+                            );
+                          },
                         ),
-                        child: _banners[index],
-                      );
-                    },
+                      ),
+                      const SpaceH18(),
+                      PageIndicator(
+                        documentType: document.document,
+                      ),
+                      const Spacer(),
+                      const SPaddingH24(
+                        child: SDocumentsRecommendations(),
+                      ),
+                      const SpaceH120(),
+                    ],
                   ),
-                ),
-                const SpaceH18(),
-                PageIndicator(
-                  documentType: document.document,
-                ),
-                // const Spacer(),
-                const SPaddingH24(
-                  child: SDocumentsRecommendations(),
                 ),
               ],
             ),

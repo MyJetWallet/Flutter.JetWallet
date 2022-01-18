@@ -63,41 +63,48 @@ class ChooseDocuments extends HookWidget {
       child: Stack(
         children: [
           SPaddingH24(
-            child: ListView(
-              children: [
-                Row(
-                  children: [
-                    Baseline(
-                      baseline: 24,
-                      baselineType: TextBaseline.ideographic,
-                      child: Text(
-                        'Please scan your document',
-                        style: sBodyText1Style,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Baseline(
+                            baseline: 24,
+                            baselineType: TextBaseline.ideographic,
+                            child: Text(
+                              'Please scan your document',
+                              style: sBodyText1Style,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      const SpaceH20(),
+                      for (var index = 0;
+                          index < state.documents.length;
+                          index++) ...[
+                        if (state.documents[index].document !=
+                                KycDocumentType.selfieImage &&
+                            state.documents[index].document !=
+                                KycDocumentType.residentPermit)
+                          SChooseDocument(
+                            primaryText: stringKycDocumentType(
+                              state.documents[index].document,
+                            ),
+                            activeDocument: state.documents[index].active,
+                            onTap: () {
+                              notifier.activeDocument(state.documents[index]);
+                            },
+                          ),
+                        const SpaceH10(),
+                      ],
+                      const Spacer(),
+                      const SDocumentsRecommendations(),
+                      const SpaceH120(),
+                    ],
+                  ),
                 ),
-                const SpaceH20(),
-                for (var index = 0;
-                    index < state.documents.length;
-                    index++) ...[
-                  if (state.documents[index].document !=
-                          KycDocumentType.selfieImage &&
-                      state.documents[index].document !=
-                          KycDocumentType.residentPermit)
-                    SChooseDocument(
-                      primaryText: stringKycDocumentType(
-                        state.documents[index].document,
-                      ),
-                      activeDocument: state.documents[index].active,
-                      onTap: () {
-                        notifier.activeDocument(state.documents[index]);
-                      },
-                    ),
-                  const SpaceH10(),
-                ],
-                // const Spacer(),
-                const SDocumentsRecommendations(),
               ],
             ),
           ),

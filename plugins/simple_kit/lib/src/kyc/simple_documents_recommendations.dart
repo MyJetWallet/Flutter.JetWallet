@@ -10,6 +10,7 @@ class SDocumentsRecommendations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SDocumentRecommendation(
           primaryText: 'The document should clearly show:',

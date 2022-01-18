@@ -67,13 +67,6 @@ class KycSelfie extends HookWidget {
               ),
               (route) => route.isFirst,
             );
-            // SuccessKycScreen.pushReplacement(
-            //   context: context,
-            //   primaryText: 'We’re verifying now',
-            //   secondaryText:
-            //       'You’ll be notified after we’ve completed the process. '
-            //       'Usually within a few minutes.',
-            // );
           },
           orElse: () {},
         );
