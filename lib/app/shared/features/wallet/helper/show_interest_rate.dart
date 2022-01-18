@@ -25,7 +25,7 @@ void showInterestRate({
           SizedBox(
             height: 28,
             child: Baseline(
-              baseline: 24,
+              baseline: 28,
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 formatCurrencyAmount(
@@ -41,7 +41,7 @@ void showInterestRate({
           SizedBox(
             height: 28,
             child: Baseline(
-              baseline: 24,
+              baseline: 28,
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 ' (${formatDayPercentageChange(currency.dayPercentChange)}'
@@ -54,9 +54,9 @@ void showInterestRate({
       ),
       Center(
         child: SizedBox(
-          height: 80,
+          height: 83,
           child: Baseline(
-            baseline: 74,
+            baseline: 80,
             baselineType: TextBaseline.alphabetic,
             child: Text(
               currency.description,
@@ -69,7 +69,7 @@ void showInterestRate({
         child: SizedBox(
           height: 48,
           child: Baseline(
-            baseline: 38,
+            baseline: 46,
             baselineType: TextBaseline.alphabetic,
             child: Text(
               formatCurrencyAmount(
@@ -103,12 +103,12 @@ void showInterestRate({
           ),
         ),
       ),
-      const SpaceH92(),
+      const SpaceH90(),
       SizedBox(
         height: 24,
         child: Baseline(
           baselineType: TextBaseline.alphabetic,
-          baseline: 23,
+          baseline: 20,
           child: Row(
             children: [
               Text(
@@ -117,7 +117,7 @@ void showInterestRate({
               ),
               const SpaceW10(),
               Padding(
-                padding: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.only(top: 5),
                 child: STransparentInkWell(
                   onTap: () {
                     // TODO(Vova): Open webview on tap
@@ -146,7 +146,7 @@ void showInterestRate({
         child: SizedBox(
           height: 20,
           child: Baseline(
-            baseline: 17,
+            baseline: 14,
             baselineType: TextBaseline.alphabetic,
             child: Text(
               formatCurrencyAmount(
@@ -227,7 +227,7 @@ void showInterestRate({
           ),
         ],
       ),
-      const SpaceH40(),
+      const SpaceH42(),
     ],
   );
 }
