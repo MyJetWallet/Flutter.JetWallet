@@ -8,15 +8,20 @@ final packageInfoFpod = FutureProvider<PackageInfo>(
   name: '_packageInfoFpod',
 );
 
-final appVersionPod = Provider<String>(
+final packageInfoPod = Provider<PackageInfo>(
   (ref) {
-    var version = '';
+    var info = PackageInfo(
+      appName: 'unknown',
+      packageName: 'unknown',
+      version: 'unknown',
+      buildNumber: 'unknown',
+    );
 
     ref.watch(packageInfoFpod).whenData((value) {
-      version = value.version;
+      info = value;
     });
 
-    return version;
+    return info;
   },
-  name: 'appVersionPod',
+  name: 'packageInfoPod',
 );
