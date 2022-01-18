@@ -79,79 +79,95 @@ class KycSelfie extends HookWidget {
         ),
         child: Stack(
           children: [
-            ListView(
-              children: [
-                // const Spacer(),
-                if (state.selfie == null)
-                  SPaddingH24(
-                    child: EmptySelfieBox(
-                      colors: colors,
-                    ),
-                  ),
-                if (state.selfie != null) const SelfieBox(),
-                // const Spacer(),
-                Row(
-                  children: const [
-                    Text('We’ll compare it with your document.'),
-                  ],
-                ),
-                Row(
-                  children: const [
-                    Baseline(
-                      baseline: 48,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text('The selfie should clearly show:'),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: [
-                    Positioned(
-                      top: 24,
-                      child: Container(
-                        height: 3,
-                        width: 6,
-                        margin: const EdgeInsets.only(right: 10.0),
-                        color: colors.grey1,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const SpaceW16(),
-                        Baseline(
-                          baseline: 30,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            'Face forward and make sure your eyes\n'
-                            'are clearly visible',
-                            style: sBodyText1Style.copyWith(
-                              color: colors.grey1,
-                            ),
+            CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      if (state.selfie == null)
+                        SPaddingH24(
+                          child: EmptySelfieBox(
+                            colors: colors,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 3,
-                      width: 6,
-                      margin: const EdgeInsets.only(right: 10.0),
-                      color: colors.grey1,
-                    ),
-                    SizedBox(
-                      height: 30,
-                      child: Text(
-                        'Remove your glasses, if necessary',
-                        maxLines: 3,
-                        style: sBodyText1Style.copyWith(
-                          color: colors.grey1,
+                      if (state.selfie != null) const SelfieBox(),
+                      const Spacer(),
+                      SPaddingH24(
+                        child: Row(
+                          children: const [
+                            Text('We’ll compare it with your document.'),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      SPaddingH24(
+                        child: Row(
+                          children: const [
+                            Baseline(
+                              baseline: 48,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text('The selfie should clearly show:'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SPaddingH24(
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 24,
+                              child: Container(
+                                height: 3,
+                                width: 6,
+                                margin: const EdgeInsets.only(right: 10.0),
+                                color: colors.grey1,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                const SpaceW16(),
+                                Baseline(
+                                  baseline: 30,
+                                  baselineType: TextBaseline.alphabetic,
+                                  child: Text(
+                                    'Face forward and make sure your eyes\n'
+                                        'are clearly visible',
+                                    style: sBodyText1Style.copyWith(
+                                      color: colors.grey1,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SPaddingH24(
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 3,
+                              width: 6,
+                              margin: const EdgeInsets.only(right: 10.0),
+                              color: colors.grey1,
+                            ),
+                            SizedBox(
+                              height: 30,
+                              child: Text(
+                                'Remove your glasses, if necessary',
+                                maxLines: 3,
+                                style: sBodyText1Style.copyWith(
+                                  color: colors.grey1,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SpaceH120(),
+                    ],
+                  ),
                 ),
               ],
             ),
