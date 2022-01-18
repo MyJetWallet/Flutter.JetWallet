@@ -40,6 +40,7 @@ class LocalStorageService {
     await _storage.delete(key: privateKeyKey);
     await _storage.delete(key: pinStatusKey);
     await _storage.delete(key: contactsPermissionKey);
+    await _storage.delete(key: cameraStatusKey);
     await _storage.delete(key: pinDisabledKey);
     await _storage.delete(key: bannersIdsKey);
     await _storage.delete(key: phonebookStatusKey);

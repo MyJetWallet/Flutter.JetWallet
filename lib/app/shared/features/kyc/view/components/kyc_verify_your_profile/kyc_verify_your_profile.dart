@@ -4,10 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
-import '../../../notifier/kyc_steps_notipod.dart';
-import '../../../notifier/kyc_steps_state.dart';
+import '../../../notifier/kyc_steps/kyc_steps_notipod.dart';
+import '../../../notifier/kyc_steps/kyc_steps_state.dart';
 import '../choose_documents/choose_documents.dart';
 import 'components/verify_step.dart';
 
@@ -21,12 +20,12 @@ class KycVerifyYourProfile extends HookWidget {
   final List<RequiredVerified> requiredVerifications;
   final List<KycDocumentType> documents;
 
-  static void pushReplacement({
+  static void push({
     required BuildContext context,
     required List<RequiredVerified> requiredVerifications,
     required List<KycDocumentType> documents,
   }) {
-    navigatorPushReplacement(
+    navigatorPush(
       context,
       KycVerifyYourProfile(
         requiredVerifications: requiredVerifications,

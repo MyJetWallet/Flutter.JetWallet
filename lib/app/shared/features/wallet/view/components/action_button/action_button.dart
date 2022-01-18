@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../actions/action_deposit/components/deposit_options.dart';
 import '../../../../actions/action_send/components/send_options.dart';
@@ -14,6 +15,7 @@ import '../../../../convert/view/convert.dart';
 import '../../../../crypto_deposit/view/crypto_deposit.dart';
 import '../../../../currency_buy/view/curency_buy.dart';
 import '../../../../currency_sell/view/currency_sell.dart';
+import '../../../../kyc/notifier/kyc/kyc_notipod.dart';
 
 const _expandInterval = Interval(
   0.0,
@@ -50,6 +52,11 @@ class _ActionButtonState extends State<ActionButton> {
     final isDepositAvailable =
         widget.currency.supportsAtLeastOneFiatDepositMethod ||
             widget.currency.supportsCryptoDeposit;
+
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
+    );
 
     void updateActionState() => actionActive.value = !actionActive.value;
 
@@ -104,9 +111,8 @@ class _ActionButtonState extends State<ActionButton> {
                     opacity: actionActive.value ? 1 : 0,
                     duration:
                         Duration(milliseconds: actionActive.value ? 150 : 300),
-                    curve: actionActive.value
-                        ? _expandInterval
-                        : _narrowInterval,
+                    curve:
+                        actionActive.value ? _expandInterval : _narrowInterval,
                     child: InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
@@ -135,57 +141,104 @@ class _ActionButtonState extends State<ActionButton> {
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
                             onBuy: () {
-                              navigatorPushReplacement(
-                                context,
-                                CurrencyBuy(
-                                  currency: widget.currency,
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => navigatorPushReplacement(
+                                  context,
+                                  CurrencyBuy(
+                                    currency: widget.currency,
+                                  ),
                                 ),
                               );
                             },
                             onSell: () {
-                              navigatorPushReplacement(
-                                context,
-                                CurrencySell(
-                                  currency: widget.currency,
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => navigatorPushReplacement(
+                                  context,
+                                  CurrencySell(
+                                    currency: widget.currency,
+                                  ),
                                 ),
                               );
                             },
                             onConvert: () {
-                              navigatorPush(
-                                context,
-                                Convert(
-                                  fromCurrency: widget.currency,
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => navigatorPush(
+                                  context,
+                                  Convert(
+                                    fromCurrency: widget.currency,
+                                  ),
                                 ),
                               );
                             },
                             onDeposit: () {
                               if (widget.currency.type == AssetType.fiat) {
-                                showDepositOptions(
-                                  context,
-                                  widget.currency,
+                                kycAlertHandler.handle(
+                                  status: kycState.sellStatus,
+                                  kycVerified: kycState,
+                                  isProgress: kycState.verificationInProgress,
+                                  currentNavigate: () => showDepositOptions(
+                                    context,
+                                    widget.currency,
+                                  ),
                                 );
                               } else {
-                                navigatorPushReplacement(
-                                  context,
-                                  CryptoDeposit(
-                                    header: 'Deposit',
-                                    currency: widget.currency,
+                                kycAlertHandler.handle(
+                                  status: kycState.sellStatus,
+                                  kycVerified: kycState,
+                                  isProgress: kycState.verificationInProgress,
+                                  currentNavigate: () =>
+                                      navigatorPushReplacement(
+                                    context,
+                                    CryptoDeposit(
+                                      header: 'Deposit',
+                                      currency: widget.currency,
+                                    ),
                                   ),
                                 );
                               }
                             },
                             onWithdraw: () {
-                              showWithdrawOptions(context, widget.currency);
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => showWithdrawOptions(
+                                  context,
+                                  widget.currency,
+                                ),
+                              );
                             },
                             onSend: () {
-                              showSendOptions(context, widget.currency);
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => showSendOptions(
+                                  context,
+                                  widget.currency,
+                                ),
+                              );
                             },
                             onReceive: () {
-                              navigatorPushReplacement(
-                                context,
-                                CryptoDeposit(
-                                  header: 'Receive',
-                                  currency: widget.currency,
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => navigatorPushReplacement(
+                                  context,
+                                  CryptoDeposit(
+                                    header: 'Receive',
+                                    currency: widget.currency,
+                                  ),
                                 ),
                               );
                             },
@@ -207,9 +260,8 @@ class _ActionButtonState extends State<ActionButton> {
                     opacity: actionActive.value ? 0 : 1,
                     duration:
                         Duration(milliseconds: actionActive.value ? 300 : 150),
-                    curve: actionActive.value
-                        ? _expandInterval
-                        : _narrowInterval,
+                    curve:
+                        actionActive.value ? _expandInterval : _narrowInterval,
                     child: InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
@@ -235,57 +287,109 @@ class _ActionButtonState extends State<ActionButton> {
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
                             onBuy: () {
-                              navigatorPushReplacement(
-                                context,
-                                CurrencyBuy(
-                                  currency: widget.currency,
+                              Navigator.of(context).pop();
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => navigatorPushReplacement(
+                                  context,
+                                  CurrencyBuy(
+                                    currency: widget.currency,
+                                  ),
                                 ),
                               );
                             },
                             onSell: () {
-                              navigatorPushReplacement(
-                                context,
-                                CurrencySell(
-                                  currency: widget.currency,
+                              Navigator.of(context).pop();
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => navigatorPushReplacement(
+                                  context,
+                                  CurrencySell(
+                                    currency: widget.currency,
+                                  ),
                                 ),
                               );
                             },
                             onConvert: () {
-                              navigatorPush(
-                                context,
-                                Convert(
-                                  fromCurrency: widget.currency,
+                              Navigator.of(context).pop();
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                navigatePop: true,
+                                currentNavigate: () => navigatorPush(
+                                  context,
+                                  Convert(
+                                    fromCurrency: widget.currency,
+                                  ),
                                 ),
                               );
                             },
                             onDeposit: () {
                               if (widget.currency.type == AssetType.fiat) {
-                                showDepositOptions(
-                                  context,
-                                  widget.currency,
+                                kycAlertHandler.handle(
+                                  status: kycState.sellStatus,
+                                  kycVerified: kycState,
+                                  isProgress: kycState.verificationInProgress,
+                                  currentNavigate: () => showDepositOptions(
+                                    context,
+                                    widget.currency,
+                                  ),
                                 );
                               } else {
-                                navigatorPushReplacement(
-                                  context,
-                                  CryptoDeposit(
-                                    header: 'Deposit',
-                                    currency: widget.currency,
+                                Navigator.of(context).pop();
+                                kycAlertHandler.handle(
+                                  status: kycState.sellStatus,
+                                  kycVerified: kycState,
+                                  isProgress: kycState.verificationInProgress,
+                                  currentNavigate: () =>
+                                      navigatorPushReplacement(
+                                    context,
+                                    CryptoDeposit(
+                                      header: 'Deposit',
+                                      currency: widget.currency,
+                                    ),
                                   ),
                                 );
                               }
                             },
                             onWithdraw: () {
-                              showWithdrawOptions(context, widget.currency);
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => showWithdrawOptions(
+                                  context,
+                                  widget.currency,
+                                ),
+                              );
                             },
                             onSend: () {
-                              showSendOptions(context, widget.currency);
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => showSendOptions(
+                                  context,
+                                  widget.currency,
+                                ),
+                              );
                             },
                             onReceive: () {
-                              navigatorPushReplacement(
-                                context,
-                                CryptoDeposit(
-                                  header: 'Receive',
-                                  currency: widget.currency,
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => navigatorPushReplacement(
+                                  context,
+                                  CryptoDeposit(
+                                    header: 'Receive',
+                                    currency: widget.currency,
+                                  ),
                                 ),
                               );
                             },

@@ -63,7 +63,6 @@ class UploadKycDocuments extends HookWidget {
       notifier: notifier,
     );
 
-
     return ProviderListener<UploadKycDocumentsState>(
       provider: uploadKycDocumentsNotipod,
       onChange: (context, state) {
@@ -76,10 +75,7 @@ class UploadKycDocuments extends HookWidget {
               context: context,
               secondaryText: 'Your document has been uploaded.',
               then: () {
-                navigatorPush(
-                  context,
-                  const KycSelfie(),
-                );
+                KycSelfie.push(context: context);
               },
             );
           },
@@ -108,7 +104,9 @@ class UploadKycDocuments extends HookWidget {
                 onPageChanged: (int index) {
                   notifier.changeDocumentSide(index);
                 },
-                itemCount: 2,
+                itemCount: (activeDocument.document != KycDocumentType.passport)
+                    ? 2
+                    : 1,
                 itemBuilder: (_, index) {
                   return Container(
                     padding: const EdgeInsets.only(
@@ -121,7 +119,9 @@ class UploadKycDocuments extends HookWidget {
               ),
             ),
             const SpaceH18(),
-            const PageIndicator(),
+            PageIndicator(
+              documentType: activeDocument.document,
+            ),
             const Spacer(),
             const SPaddingH24(
               child: SDocumentsRecommendations(),
@@ -135,24 +135,41 @@ class UploadKycDocuments extends HookWidget {
               ),
               child: SPrimaryButton2(
                 onTap: () async {
-                  if (state.documentFirstSide == null ||
-                      state.documentSecondSide == null) {
-                    final file = await imagePicker.pickedFile();
-                    if (file != null) {
-                      notifier.updateDocumentSide(file);
+                  // Todo: need refactor
+                  if (activeDocument.document != KycDocumentType.passport) {
+                    if (state.documentFirstSide == null ||
+                        state.documentSecondSide == null) {
+                      final file = await imagePicker.pickedFile();
+                      if (file != null) {
+                        notifier.updateDocumentSide(file);
+                      }
+
+                      await _animatePageView(state, controller);
+                    } else {
+                      // Upload Files
+                      loader.value.startLoading();
+                      await notifier.uploadDocuments(
+                        kycDocumentTypeInt(activeDocument.document),
+                      );
                     }
                   } else {
-                    // Upload Files
-                    loader.value.startLoading();
-                    await notifier.uploadDocuments(
-                      kycDocumentTypeInt(activeDocument.document),
-                    );
+                    if (state.documentFirstSide == null) {
+                      final file = await imagePicker.pickedFile();
+                      if (file != null) {
+                        notifier.updateDocumentSide(file);
+                      }
+                    } else {
+                      loader.value.startLoading();
+                      await notifier.uploadPassportDocument(
+                        kycDocumentTypeInt(activeDocument.document),
+                      );
+                    }
                   }
                 },
-                name: state.buttonName,
-                active: state.activeScanButton,
+                name: _buttonName(state),
+                active: _activeScanButton(state),
                 icon: (state.documentFirstSide != null &&
-                    state.documentSecondSide != null)
+                        state.documentSecondSide != null)
                     ? const SArrowUpIcon()
                     : const SWhitePhotoIcon(),
               ),
@@ -161,5 +178,74 @@ class UploadKycDocuments extends HookWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _animatePageView(
+    UploadKycDocumentsState state,
+    PageController controller,
+  ) async {
+    if (state.numberSide == 0 && state.documentSecondSide != null ||
+        state.numberSide == 1 && state.documentFirstSide != null) {
+      return;
+    }
+
+    if (state.numberSide == 0 && state.documentFirstSide == null) {
+      await controller.animateToPage(
+        1,
+        duration: const Duration(milliseconds: 2000),
+        curve: Curves.ease,
+      );
+    }
+    if (state.numberSide == 1 && state.documentSecondSide == null) {
+      await controller.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 2000),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  bool _activeScanButton(UploadKycDocumentsState state) {
+    if (activeDocument.document == KycDocumentType.passport) {
+      return true;
+    }
+
+    if (state.documentFirstSide != null && state.documentSecondSide != null) {
+      return true;
+    }
+    if (state.numberSide == 0) {
+      if (state.documentFirstSide == null) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (state.documentSecondSide == null) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  String _buttonName(UploadKycDocumentsState state) {
+    if (state.numberSide == 0 || state.numberSide == 1) {
+      if (activeDocument.document != KycDocumentType.passport) {
+        if (state.documentFirstSide == null ||
+            state.documentSecondSide == null) {
+          return 'Scan ${state.numberSide + 1} side';
+        } else if (state.documentFirstSide != null &&
+            state.documentSecondSide != null) {
+          return 'Upload photos';
+        }
+      } else {
+        if (state.documentFirstSide != null) {
+          return 'Upload photos';
+        } else {
+          return 'Scan ${state.numberSide + 1} side';
+        }
+      }
+    }
+    return '';
   }
 }

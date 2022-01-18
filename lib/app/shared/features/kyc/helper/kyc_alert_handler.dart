@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
-import '../../actions/action_deposit/action_deposit.dart';
-import '../../actions/action_sell/action_sell.dart';
-import '../../actions/action_withdraw/action_withdraw.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
+import '../view/components/choose_documents/choose_documents.dart';
 import '../view/components/kyc_verify_your_profile/kyc_verify_your_profile.dart';
 import '../view/popup/show_kyc_popup.dart';
 
@@ -20,11 +18,18 @@ class KycAlertHandler {
   final BuildContext context;
   final SimpleColors colors;
 
-  void handle(
-    int status,
-    KycVerifiedModel kycVerified,
-    KycStatusType statusType,
-  ) {
+  void handle({
+    bool navigatePop = false,
+    required Function() currentNavigate,
+    required int status,
+    required KycModel kycVerified,
+    required bool isProgress,
+  }) {
+    if (isProgress) {
+      _showVerifyingAlert();
+      return;
+    }
+
     if (status == kycOperationStatus(KycOperationStatus.kycRequired)) {
       _showKycRequiredAlert(
         kycVerified,
@@ -32,17 +37,21 @@ class KycAlertHandler {
     } else if (status == kycOperationStatus(KycOperationStatus.kycInProgress)) {
       _showVerifyingAlert();
     } else if (status == kycOperationStatus(KycOperationStatus.allowed)) {
-      _navigateTo(statusType);
+      _navigateTo(currentNavigate, navigatePop);
     } else if (status ==
         kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
-      _showAllowedWithAlert(kycVerified, statusType);
+      _showAllowedWithAlert(
+        kycVerified,
+        currentNavigate,
+        navigatePop,
+      );
     } else {
       _showBlockedAlert();
     }
   }
 
   void _showKycRequiredAlert(
-    KycVerifiedModel kycVerified,
+    KycModel kycVerified,
   ) {
     showKycPopup(
       context: context,
@@ -53,6 +62,7 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
+        Navigator.pop(context);
         _navigateVerifiedNavigate(
           kycVerified.requiredVerifications,
           kycVerified.requiredDocuments,
@@ -81,8 +91,9 @@ class KycAlertHandler {
   }
 
   void _showAllowedWithAlert(
-    KycVerifiedModel kycVerified,
-    KycStatusType statusType,
+    KycModel kycVerified,
+    Function() currentNavigat,
+    bool navigatePop,
   ) {
     showKycPopup(
       context: context,
@@ -93,13 +104,14 @@ class KycAlertHandler {
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
       onPrimaryButtonTap: () {
+        Navigator.pop(context);
         _navigateVerifiedNavigate(
           kycVerified.requiredVerifications,
           kycVerified.requiredDocuments,
         );
       },
       onSecondaryButtonTap: () {
-        _navigateTo(statusType);
+        _navigateTo(currentNavigat, navigatePop);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,33 +140,26 @@ class KycAlertHandler {
       SetPhoneNumber.push(
         context: context,
         successText: '2-Factor verification enabled',
-        then: () => KycVerifyYourProfile.pushReplacement(
+        then: () => KycVerifyYourProfile.push(
           context: context,
           requiredVerifications: requiredVerifications,
           documents: documents,
         ),
       );
     } else {
-      KycVerifyYourProfile.pushReplacement(
+      ChooseDocuments.push(
         context: context,
-        requiredVerifications: requiredVerifications,
+        headerTitle: stringRequiredVerified(requiredVerifications.first),
         documents: documents,
       );
     }
   }
 
-  void _navigateTo(KycStatusType statusType) {
-    switch (statusType) {
-      case KycStatusType.deposit:
-        showDepositAction(context);
-        return;
-      case KycStatusType.withdrawal:
-        showWithdrawAction(context);
-        return;
-      case KycStatusType.sell:
-        showSellAction(context);
-        return;
+  void _navigateTo(Function() currentNavigate, bool navigatePop) {
+    if (navigatePop) {
+      Navigator.of(context).pop();
     }
+    currentNavigate();
   }
 
   Widget _showDocuments(List<RequiredVerified> requiredVerifications) {
@@ -170,7 +175,7 @@ class KycAlertHandler {
 
   Widget _documentText(String title, int textNumber) {
     return Baseline(
-      baseline: 40.0,
+      baseline: 37.0,
       baselineType: TextBaseline.alphabetic,
       child: Text(
         '${textNumber + 1}. $title',
@@ -182,8 +187,8 @@ class KycAlertHandler {
   }
 
   List<Widget> _listRequiredVerification(
-      List<RequiredVerified> requiredVerifications,
-      ) {
+    List<RequiredVerified> requiredVerifications,
+  ) {
     final requiredVerified = <Widget>[];
 
     for (var i = 0; i < requiredVerifications.length; i++) {

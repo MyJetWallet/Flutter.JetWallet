@@ -4,10 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../currency_buy/view/curency_buy.dart';
 import '../../../../../currency_sell/view/currency_sell.dart';
+import '../../../../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../helper/currency_from.dart';
 
 class BalanceActionButtons extends HookWidget {
@@ -25,6 +27,11 @@ class BalanceActionButtons extends HookWidget {
       marketItem.associateAsset,
     );
 
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
+    );
+
     return SPaddingH24(
       child: Row(
         children: [
@@ -32,12 +39,25 @@ class BalanceActionButtons extends HookWidget {
             child: SPrimaryButton1(
               name: _buyButtonText(),
               onTap: () {
-                navigatorPush(
-                  context,
-                  CurrencyBuy(
-                    currency: currency,
+                kycAlertHandler.handle(
+                  status: kycState.sellStatus,
+                  kycVerified: kycState,
+                  isProgress: kycState.verificationInProgress,
+                  navigatePop: true,
+                  currentNavigate: () => navigatorPush(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                    ),
                   ),
                 );
+
+                // navigatorPush(
+                //   context,
+                //   CurrencyBuy(
+                //     currency: currency,
+                //   ),
+                // );
               },
               active: true,
             ),
@@ -48,10 +68,15 @@ class BalanceActionButtons extends HookWidget {
               child: SSecondaryButton1(
                 name: 'Sell',
                 onTap: () {
-                  navigatorPush(
-                    context,
-                    CurrencySell(
-                      currency: currency,
+                  kycAlertHandler.handle(
+                    status: kycState.sellStatus,
+                    kycVerified: kycState,
+                    isProgress: kycState.verificationInProgress,
+                    currentNavigate: () => navigatorPush(
+                      context,
+                      CurrencySell(
+                        currency: currency,
+                      ),
                     ),
                   );
                 },

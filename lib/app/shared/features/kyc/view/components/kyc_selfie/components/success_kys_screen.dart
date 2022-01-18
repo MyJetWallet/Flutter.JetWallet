@@ -20,6 +20,23 @@ class SuccessKycScreen extends HookWidget {
   final String? secondaryText;
   final Widget? specialTextWidget;
 
+  static void pushReplacement({
+    Key? key,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+    required BuildContext context,
+  }) {
+    navigatorPushReplacement(
+      context,
+      SuccessKycScreen(
+        primaryText: primaryText,
+        secondaryText: secondaryText,
+        specialTextWidget: specialTextWidget,
+      ),
+    );
+  }
+
   static void push({
     Key? key,
     String? primaryText,

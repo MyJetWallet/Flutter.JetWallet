@@ -1,9 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/kyc/view/components/allow_camera/allow_camera.dart';
-import 'package:jetwallet/app/shared/features/kyc/view/components/upload_documents/upload_kyc_documents.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'choose_documents_state.dart';
 

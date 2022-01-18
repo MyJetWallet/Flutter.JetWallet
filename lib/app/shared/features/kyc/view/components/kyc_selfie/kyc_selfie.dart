@@ -5,60 +5,36 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
+import '../../../notifier/kyc/kyc_notipod.dart';
 import '../../../notifier/kyc_selfie/kyc_selfie_notipod.dart';
 import '../../../notifier/kyc_selfie/kyc_selfie_state.dart';
 import 'components/empty_selfie_box.dart';
 import 'components/selfie_box.dart';
 import 'components/success_kys_screen.dart';
 
-// class KycSelfie extends StatefulHookWidget {
-//   const KycSelfie({
-//     Key? key,
-//   }) : super(key: key);
-//
-//
-//   @override
-//   State<KycSelfie> createState() => _KycSelfieState();
-// }
-//
-// class _KycSelfieState extends State<KycSelfie>
-//     with WidgetsBindingObserver {
-//   @override
-//   void initState() {
-//     super.initState();
-//     WidgetsBinding.instance!.addObserver(this);
-//   }
-//
-//   @override
-//   void dispose() {
-//     WidgetsBinding.instance!.removeObserver(this);
-//     super.dispose();
-//   }
-//
-//   @override
-//   void didChangeAppLifecycleState(AppLifecycleState state) {
-//     if (state == AppLifecycleState.resumed) {
-//       final state = context.read(sendByPhonePermissionNotipod);
-//       final notifier = context.read(sendByPhonePermissionNotipod.notifier);
-//
-//       // If returned from Settigns check whether user enabled permission or not
-//       if (state.userLocation == UserLocation.settings) {
-//         notifier.initPermissionState();
-//         notifier.updateUserLocation(UserLocation.app);
-//       }
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column();
-//   }
-// }
-
-
 class KycSelfie extends HookWidget {
   const KycSelfie({Key? key}) : super(key: key);
+
+  static void pushReplacement({
+    required BuildContext context,
+  }) {
+    navigatorPushReplacement(
+      context,
+      const KycSelfie(),
+    );
+  }
+
+  static void push({
+    required BuildContext context,
+  }) {
+    navigatorPush(
+      context,
+      const KycSelfie(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +42,7 @@ class KycSelfie extends HookWidget {
     final notifier = useProvider(kycSelfieNotipod.notifier);
     final colors = useProvider(sColorPod);
     final loader = useValueNotifier(StackLoaderNotifier());
+    final kycN = useProvider(kycNotipod.notifier);
 
     return ProviderListener<KycSelfieState>(
       provider: kycSelfieNotipod,
@@ -75,7 +52,8 @@ class KycSelfie extends HookWidget {
             loader.value.finishLoading();
           },
           done: () {
-            SuccessKycScreen.push(
+            kycN.updateKycStatus();
+            SuccessKycScreen.pushReplacement(
               context: context,
               primaryText: 'We’re verifying now',
               secondaryText:

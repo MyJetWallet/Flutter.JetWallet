@@ -6,11 +6,13 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../../shared/features/actions/action_buy/action_buy.dart';
+import '../../../../shared/features/actions/action_deposit/action_deposit.dart';
 import '../../../../shared/features/actions/action_receive/action_receive.dart';
+import '../../../../shared/features/actions/action_sell/action_sell.dart';
 import '../../../../shared/features/actions/action_send/action_send.dart';
+import '../../../../shared/features/actions/action_withdraw/action_withdraw.dart';
 import '../../../../shared/features/convert/view/convert.dart';
-import '../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
-import '../../../../shared/features/kyc/provider/kyc_checks_fpod.dart';
+import '../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../shared/helpers/is_balance_empty.dart';
 import '../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../provider/navigation_stpod.dart';
@@ -29,11 +31,10 @@ class BottomNavigationMenu extends HookWidget {
     final currencies = useProvider(currenciesPod);
     final actionActive = useState(false);
 
+    final kycState = useProvider(kycNotipod);
     final kycAlertHandler = useProvider(
       kycAlertHandlerPod(context),
     );
-
-    final kycChecks = useProvider(kycChecksFpod);
 
     final isNotEmptyBalance = !isBalanceEmpty(currencies);
 
@@ -49,40 +50,70 @@ class BottomNavigationMenu extends HookWidget {
           sShowMenuActionSheet(
             context: context,
             isNotEmptyBalance: isNotEmptyBalance,
-            onBuy: () => showBuyAction(context),
-            onSell: () {
+            onBuy: () {
               Navigator.of(context).pop();
-              kycChecks.whenData(
-                (value) => kycAlertHandler.handle(
-                  value.sellStatus,
-                  value,
-                  KycStatusType.sell,
-                ),
+              kycAlertHandler.handle(
+                status: kycState.sellStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showBuyAction(context),
               );
             },
-            onConvert: () => navigatorPush(context, const Convert()),
+            onSell: () {
+              Navigator.of(context).pop();
+              kycAlertHandler.handle(
+                status: kycState.sellStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSellAction(context),
+              );
+            },
+            onConvert: () {
+              Navigator.of(context).pop();
+              kycAlertHandler.handle(
+                status: kycState.depositStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => navigatorPush(context, const Convert()),
+                navigatePop: true,
+              );
+            },
             onDeposit: () {
               Navigator.of(context).pop();
-              kycChecks.whenData(
-                (value) => kycAlertHandler.handle(
-                  value.depositStatus,
-                  value,
-                  KycStatusType.deposit,
-                ),
+              kycAlertHandler.handle(
+                status: kycState.depositStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showDepositAction(context),
               );
             },
             onWithdraw: () {
               Navigator.of(context).pop();
-              kycChecks.whenData(
-                (value) => kycAlertHandler.handle(
-                  value.withdrawalStatus,
-                  value,
-                  KycStatusType.withdrawal,
-                ),
+              kycAlertHandler.handle(
+                status: kycState.withdrawalStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showWithdrawAction(context),
               );
             },
-            onSend: () => showSendAction(context),
-            onReceive: () => showReceiveAction(context),
+            onSend: () {
+              Navigator.of(context).pop();
+              kycAlertHandler.handle(
+                status: kycState.withdrawalStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSendAction(context),
+              );
+            },
+            onReceive: () {
+              Navigator.of(context).pop();
+              kycAlertHandler.handle(
+                status: kycState.withdrawalStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showReceiveAction(context),
+              );
+            },
             onDissmis: updateActionState,
             whenComplete: () {
               if (actionActive.value) updateActionState();

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/kyc/view/components/allow_camera/allow_camera.dart';
-import 'package:jetwallet/shared/helpers/navigator_push_replacement.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
+import '../allow_camera/allow_camera.dart';
 import '../upload_documents/upload_kyc_documents.dart';
 
 class ChooseDocuments extends HookWidget {
@@ -51,8 +51,8 @@ class ChooseDocuments extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(chooseDocumentsNotipod(documents));
-    final notifier = useProvider(chooseDocumentsNotipod(documents).notifier);
+    final state = useProvider(chooseDocumentsNotipod);
+    final notifier = useProvider(chooseDocumentsNotipod.notifier);
 
     return SPageFrameWithPadding(
       header: SSmallHeader(
@@ -69,14 +69,10 @@ class ChooseDocuments extends HookWidget {
           onTap: () async {
             final status = await Permission.camera.status;
             if (status == PermissionStatus.granted) {
-              AllowCamera.push(
+              UploadKycDocuments.push(
                 context: context,
                 activeDocument: notifier.getActiveDocument(),
               );
-              // UploadKycDocuments.push(
-              //   context: context,
-              //   activeDocument: notifier.getActiveDocument(),
-              // );
             } else {
               AllowCamera.push(
                 context: context,
@@ -111,7 +107,9 @@ class ChooseDocuments extends HookWidget {
                     index < state.documents.length;
                     index++) ...[
                   if (state.documents[index].document !=
-                      KycDocumentType.selfieImage)
+                          KycDocumentType.selfieImage &&
+                      state.documents[index].document !=
+                          KycDocumentType.residentPermit)
                     SChooseDocument(
                       primaryText: stringKycDocumentType(
                         state.documents[index].document,
