@@ -13,13 +13,16 @@ class SuccessScreen extends HookWidget {
   const SuccessScreen({
     Key? key,
     this.then,
+    this.onSuccess,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
   }) : super(key: key);
 
-  // Triggered when SuccessScreen is done
+  // Triggered after onSuccess callback
   final Function()? then;
+  // Triggered when SuccessScreen is done
+  final Function()? onSuccess;
   final String? primaryText;
   final String? secondaryText;
   final Widget? specialTextWidget;
@@ -51,7 +54,11 @@ class SuccessScreen extends HookWidget {
       provider: timerNotipod(3),
       onChange: (context, value) {
         if (value == 0) {
-          navigateToRouter(context.read);
+          if (onSuccess == null) {
+            navigateToRouter(context.read);
+          } else {
+            onSuccess!.call();
+          }
           then?.call();
         }
       },

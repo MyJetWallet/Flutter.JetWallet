@@ -13,10 +13,12 @@ import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../shared/providers/flavor_pod.dart';
 import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
+import '../../shared/features/support/support.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 
 class Account extends HookWidget {
@@ -24,6 +26,7 @@ class Account extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final flavor = useProvider(flavorPod);
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
@@ -96,14 +99,15 @@ class Account extends HookWidget {
                       isSDivider: true,
                       onTap: () {},
                     ),
-                    // SimpleAccountCategoryButton(
-                    //   title: 'Support',
-                    //   icon: const SSupportIcon(),
-                    //   isSDivider: true,
-                    //   onTap: () {
-                    //     navigatorPush(context, const Support());
-                    //   },
-                    // ),
+                    if (flavor == Flavor.dev)
+                      SimpleAccountCategoryButton(
+                        title: 'Support',
+                        icon: const SSupportIcon(),
+                        isSDivider: true,
+                        onTap: () {
+                          navigatorPush(context, const Support());
+                        },
+                      ),
                     SimpleAccountCategoryButton(
                       title: 'FAQ',
                       icon: const SFaqIcon(),
