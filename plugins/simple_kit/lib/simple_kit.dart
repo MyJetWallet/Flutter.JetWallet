@@ -75,6 +75,7 @@ export 'src/buttons/basic_buttons/text_button/public/simple_text_button_2.dart';
 export 'src/buttons/link_button/public/simple_link_button_1.dart';
 export 'src/buttons/link_button/public/simple_link_button_2.dart';
 export 'src/buttons/resend_button/simple_resend_button.dart';
+export 'src/buttons/simple_floating_button_frame.dart';
 
 /// Colors
 export 'src/colors/provider/simple_color_pod.dart';

@@ -5,7 +5,6 @@ import '../../../../current_theme_stpod.dart';
 import '../dark/simple_dark_secondary_button_1.dart';
 import '../light/simple_light_secondary_button_1.dart';
 
-/// This button requires horizontal padding (24.w)
 class SSecondaryButton1 extends ConsumerWidget {
   const SSecondaryButton1({
     Key? key,
