@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/service/services/signal_r/model/indices_model.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
@@ -18,6 +17,7 @@ import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
+import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/market_references_model.dart';

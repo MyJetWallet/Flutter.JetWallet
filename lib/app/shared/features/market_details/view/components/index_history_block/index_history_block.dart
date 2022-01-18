@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
-import 'package:jetwallet/app/shared/features/transaction_history/view/transaction_hisotry.dart';
-import 'package:jetwallet/shared/constants.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../../../../../shared/constants.dart';
+import '../../../../../../screens/market/model/market_item_model.dart';
+import '../../../../transaction_history/view/transaction_hisotry.dart';
 
 class IndexHistoryBlock extends HookWidget {
   const IndexHistoryBlock({

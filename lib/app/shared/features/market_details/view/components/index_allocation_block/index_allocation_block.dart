@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
-import 'package:jetwallet/app/shared/features/market_details/provider/indices_details_pod.dart';
-import 'package:jetwallet/app/shared/features/market_details/view/components/index_overview_block/components/index_allocation_item.dart';
-import 'package:jetwallet/service/services/signal_r/model/indices_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../../../../../service/services/signal_r/model/indices_model.dart';
+import '../../../../../../screens/market/model/market_item_model.dart';
+import '../../../provider/indices_details_pod.dart';
+import '../index_overview_block/components/index_allocation_item.dart';
 
 class IndexAllocationBlock extends HookWidget {
   const IndexAllocationBlock({

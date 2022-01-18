@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/market/model/market_item_model.dart';
-import 'package:jetwallet/app/screens/market/provider/market_items_pod.dart';
-import 'package:jetwallet/app/shared/features/wallet/helper/market_item_from.dart';
-import 'package:jetwallet/service/services/signal_r/model/indices_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../../../../../../service/services/signal_r/model/indices_model.dart';
+import '../../../../../../../screens/market/provider/market_items_pod.dart';
+import '../../../../../wallet/helper/market_item_from.dart';
 
 class IndexAllocationItem extends HookWidget {
   const IndexAllocationItem({
@@ -25,7 +25,7 @@ class IndexAllocationItem extends HookWidget {
     final targetRebalanceWeightPercent =
         (basketAssetModel.targetRebalanceWeight * 100).toInt();
 
-    return Container(
+    return SizedBox(
       height: 40,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

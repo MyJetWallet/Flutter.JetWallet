@@ -1,19 +1,17 @@
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/market_details/provider/indices_details_pod.dart';
-import 'package:jetwallet/app/shared/features/market_details/provider/indices_details_spod.dart';
-import 'package:jetwallet/service/services/signal_r/model/asset_model.dart';
-import 'package:jetwallet/shared/constants.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/view/asset_chart.dart';
+import '../../wallet/notifier/operation_history_notipod.dart';
+import '../../wallet/provider/operation_history_fpod.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
 import 'components/balance_block/balance_block.dart';
@@ -43,6 +41,16 @@ class MarketDetails extends HookWidget {
     );
     final chartN = useProvider(chartNotipod.notifier);
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
+    final initTransactionHistory = useProvider(
+      operationHistoryInitFpod(
+        marketItem.id,
+      ),
+    );
+    final transactionHistory = useProvider(
+      operationHistoryNotipod(
+        marketItem.id,
+      ),
+    );
     useProvider(watchlistIdsNotipod);
 
     return SPageFrame(
@@ -87,11 +95,20 @@ class MarketDetails extends HookWidget {
                 chartN.updateSelectedCandle(chartInfo?.right);
               },
             ),
-            if (marketItem.type == AssetType.indices) ...[
-              IndexHistoryBlock(
-                marketItem: marketItem,
-              ),
-            ],
+            initTransactionHistory.when(
+              data: (data) {
+                if (marketItem.type == AssetType.indices &&
+                    transactionHistory.operationHistoryItems.isNotEmpty) {
+                  return IndexHistoryBlock(
+                    marketItem: marketItem,
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+              loading: () => const Loader(),
+              error: (_, __) => const SizedBox(),
+            ),
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
             ),

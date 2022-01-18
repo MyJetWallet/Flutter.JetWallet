@@ -3,8 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../service/services/market_info/model/market_info_response_model.dart';
-
 class IndexOverviewBlock extends HookWidget {
   const IndexOverviewBlock({
     Key? key,

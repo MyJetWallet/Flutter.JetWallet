@@ -1,7 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/models/currency_model.dart';
-import 'package:jetwallet/app/shared/providers/currencies_pod/currencies_pod.dart';
-import 'package:jetwallet/service/services/signal_r/model/asset_model.dart';
+
+import '../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../shared/models/currency_model.dart';
+import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 
 final marketCurrenciesIndicesPod =
     Provider.autoDispose<List<CurrencyModel>>((ref) {

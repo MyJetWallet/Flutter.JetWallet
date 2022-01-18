@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/constants.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/components/log_out_option.dart';
+import '../../../shared/constants.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
@@ -17,6 +17,7 @@ import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
+import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -85,9 +86,9 @@ class Account extends HookWidget {
                         indexHistoryImageAsset,
                       ),
                       isSDivider: true,
-                      onTap: () {
-                        // TODO(Vova): add navigation to history
-                      },
+                      onTap: () => TransactionHistory.push(
+                        context: context,
+                      ),
                     ),
                     SimpleAccountCategoryButton(
                       title: 'Notifications',

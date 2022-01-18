@@ -20,7 +20,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
         );
 
   final Reader read;
-  final String assetId;
+  final String? assetId;
 
   static final _logger = Logger('OperationHistoryNotifier');
 
@@ -53,7 +53,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     }
   }
 
-  Future<void> operationHistory(String assetId) async {
+  Future<void> operationHistory(String? assetId) async {
     _logger.log(notifier, 'operationHistory');
 
     try {
