@@ -11,6 +11,8 @@ int timeFrameFrom(String resolution) {
     return Timeframe.month;
   } else if (resolution == Period.year) {
     return Timeframe.year;
+  } else if (resolution == Period.all) {
+    return Timeframe.all;
   }
 
   return Timeframe.day;
