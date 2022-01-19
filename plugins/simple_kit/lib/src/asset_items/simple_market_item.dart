@@ -51,7 +51,7 @@ class SMarketItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Baseline(
-                          baseline: 17.8,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             name,
@@ -59,7 +59,7 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             ticker,
@@ -78,7 +78,7 @@ class SMarketItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Baseline(
-                          baseline: 17.8,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             price,
@@ -86,9 +86,11 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
+                            textBaseline: TextBaseline.alphabetic,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               SizedBox(
@@ -101,12 +103,11 @@ class SMarketItem extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              if (percent.compareTo(0) == 0)
-                                const SMinusIcon()
-                              else if (percent.isNegative)
-                                const SSmallArrowNegativeIcon()
-                              else
-                                const SSmallArrowPositiveIcon()
+                              Baseline(
+                                baseline: 20.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: _percentIcon(percent),
+                              ),
                             ],
                           ),
                         ),
@@ -125,6 +126,18 @@ class SMarketItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _percentIcon(double percent) {
+    if (percent.compareTo(0) == 0) {
+      return const SMinusIcon();
+    } else {
+      if (percent.isNegative) {
+        return const SSmallArrowNegativeIcon();
+      } else {
+        return const SSmallArrowPositiveIcon();
+      }
+    }
   }
 
   String _formatPercent(double percent) {
