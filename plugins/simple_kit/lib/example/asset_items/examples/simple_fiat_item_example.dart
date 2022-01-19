@@ -50,20 +50,23 @@ class SimpleFiatItemExample extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('20px'),
                     ),
-                    Container(
-                      width: 150.0,
-                      height: 88.0,
-                      color: Colors.red.withOpacity(0.2),
-                      child: Column(
-                        children: const [
-                          Spacer(),
-                          Text(
-                            '150px',
-                          ),
-                        ],
+                    Expanded(
+                      child: Container(
+                        height: 88.0,
+                        color: Colors.red.withOpacity(0.2),
+                        child: Column(
+                          children: const [
+                            Spacer(),
+                            Text(
+                              'Expanded',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const Spacer(),
+                    const SizedBox(
+                      width: 16.0,
+                    ),
                     Container(
                       width: 120.0,
                       height: 88.0,
