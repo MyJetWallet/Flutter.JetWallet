@@ -55,9 +55,7 @@ class SFiatItem extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
+                        const SpaceW16(),
                         Baseline(
                           baseline: 16.0,
                           baselineType: TextBaseline.alphabetic,

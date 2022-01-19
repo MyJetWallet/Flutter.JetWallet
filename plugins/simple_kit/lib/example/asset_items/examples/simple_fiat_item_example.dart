@@ -64,8 +64,11 @@ class SimpleFiatItemExample extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(
+                    Container(
                       width: 16.0,
+                      height: 88.0,
+                      color: Colors.blue.withOpacity(0.2),
+                      child: const Text('16px'),
                     ),
                     Container(
                       width: 120.0,

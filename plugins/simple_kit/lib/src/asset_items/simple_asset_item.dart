@@ -52,10 +52,9 @@ class SAssetItem extends StatelessWidget {
                           textBaseline: TextBaseline.alphabetic,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
-                            SizedBox(
-                              width: isCreditCard ? 180.0 : 150.0,
+                            Expanded(
                               child: Baseline(
-                                baseline: 17.8,
+                                baseline: 18.0,
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
                                   name,
@@ -65,14 +64,18 @@ class SAssetItem extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Spacer(),
-                            SizedBox(
-                              width: isCreditCard ? 90.0 : 120.0,
-                              child: Text(
-                                amount,
-                                textAlign: TextAlign.end,
-                                style: sSubtitle2Style.copyWith(
-                                  color: mainColor,
+                            const SpaceW16(),
+                            Baseline(
+                              baseline: 18.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: SizedBox(
+                                width: isCreditCard ? 90.0 : 120.0,
+                                child: Text(
+                                  amount,
+                                  textAlign: TextAlign.end,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: mainColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -82,28 +85,33 @@ class SAssetItem extends StatelessWidget {
                           textBaseline: TextBaseline.alphabetic,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
-                            SizedBox(
-                              width: isCreditCard ? 180.0 : 150.0,
-                              child: Baseline(
-                                baseline: 15.4,
-                                baselineType: TextBaseline.alphabetic,
-                                child: Text(
-                                  description,
-                                  style: sCaptionTextStyle.copyWith(
-                                    color: SColorsLight().grey3,
+                            Expanded(
+                              child: SizedBox(
+                                child: Baseline(
+                                  baseline: 14.0,
+                                  baselineType: TextBaseline.alphabetic,
+                                  child: Text(
+                                    description,
+                                    style: sCaptionTextStyle.copyWith(
+                                      color: SColorsLight().grey3,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            const Spacer(),
+                            const SpaceW16(),
                             if (isCreditCard)
-                              SizedBox(
-                                width: 90.0,
-                                child: Text(
-                                  helper,
-                                  textAlign: TextAlign.end,
-                                  style: sCaptionTextStyle.copyWith(
-                                    color: SColorsLight().grey3,
+                              Baseline(
+                                baseline: 14.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: SizedBox(
+                                  width: 90.0,
+                                  child: Text(
+                                    helper,
+                                    textAlign: TextAlign.end,
+                                    style: sCaptionTextStyle.copyWith(
+                                      color: SColorsLight().grey3,
+                                    ),
                                   ),
                                 ),
                               ),
