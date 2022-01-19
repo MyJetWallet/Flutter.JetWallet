@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../service/services/transfer/model/tranfer_by_phone/transfer_by_phone_request_model.dart';
 import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
+import '../../../../../../shared/helpers/decompose_phone_number.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
@@ -43,35 +44,21 @@ class SendByPhonePreviewNotifier
   Future<void> send() async {
     _logger.log(notifier, 'send');
 
-    // final info = await PhoneNumber.getRegionInfoFromPhoneNumber(
-    //   state.pickedContact!.phoneNumber,
-    // );
-
-    // final phoneNumber = PhoneNumber(
-    //   phoneNumber: info.phoneNumber,
-    //   isoCode: info.isoCode,
-    // );
-
-    // final parsable = await PhoneNumber.getParsableNumber(phoneNumber);
-
-    // 1. ISO: info.isoCode
-    // 2. COUNTRY CODE: +${info.dialCode}
-    // 3. NUMBER: final number = parsable.replaceAll(' ', '');
-
     state = state.copyWith(loading: true);
 
     try {
+      final number = await decomposePhoneNumber(
+        state.pickedContact!.phoneNumber,
+      );
+
       final model = TransferByPhoneRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: currency.symbol,
         amount: double.parse(state.amount),
-        // TODO refactor to function when backend will be ready
-        toPhoneNumber: state.pickedContact!.phoneNumber
-            .replaceAll(' ', '')
-            .replaceAll('(', '')
-            .replaceAll(')', '')
-            .replaceAll('-', ''),
-        lang: read(intlPod).localeName,
+        toPhoneBody: number.body,
+        toPhoneCode: number.dialCode,
+        toPhoneIso: number.isoCode,
+        locale: read(intlPod).localeName,
       );
 
       final response = await read(transferServicePod).transferByPhone(model);
