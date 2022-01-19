@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
 
+/// TODO remove dependecy on Market details
+/// This arguments are redundant, seperate widget for MarketDetails needed
 class SWalletItem extends StatelessWidget {
   const SWalletItem({
     Key? key,
@@ -69,7 +71,7 @@ class SWalletItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Baseline(
-                            baseline: 17.8,
+                            baseline: 18.0,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               primaryText,
@@ -78,7 +80,7 @@ class SWalletItem extends StatelessWidget {
                           ),
                           if (showSecondaryText)
                             Baseline(
-                              baseline: 19.4,
+                              baseline: 16.0,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
                                 secondaryText,
@@ -93,34 +95,39 @@ class SWalletItem extends StatelessWidget {
                   ),
                   if (amount != null) ...[
                     const SpaceW10(),
-                    Container(
-                      constraints: const BoxConstraints(
-                        maxWidth: 157.0,
-                      ),
-                      height: 44.0,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                      ),
-                      margin: EdgeInsets.only(
-                        top: balanceTopMargin,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: borderColor,
+                    Baseline(
+                      baseline: 50.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Container(
+                        constraints: const BoxConstraints(
+                          maxWidth: 157.0,
                         ),
-                        borderRadius: BorderRadius.circular(22.0),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            formattedAmount!,
-                            style: sSubtitle2Style.copyWith(
-                              color:
-                                  formattedAmount == '\$0' ? color : textColor,
-                            ),
+                        height: 44.0,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                        ),
+                        margin: EdgeInsets.only(
+                          top: balanceTopMargin,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: borderColor,
                           ),
-                        ],
+                          borderRadius: BorderRadius.circular(22.0),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              formattedAmount!,
+                              style: sSubtitle2Style.copyWith(
+                                color: formattedAmount == '\$0'
+                                    ? color
+                                    : textColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ]
