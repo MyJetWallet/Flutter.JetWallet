@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'upload_kyc_documents_union.dart';
 
@@ -12,6 +13,7 @@ class UploadKycDocumentsState with _$UploadKycDocumentsState {
     File? documentSecondSide,
     @Default(0) int numberSide,
     @Default(Input()) UploadKycDocumentsUnion union,
+    required PageController pageViewController,
   }) = _UploadKycDocumentsState;
 
   const UploadKycDocumentsState._();
@@ -44,5 +46,9 @@ class UploadKycDocumentsState with _$UploadKycDocumentsState {
       }
     }
     return '';
+  }
+
+  bool get buttonIcon {
+    return documentFirstSide != null && documentSecondSide != null;
   }
 }

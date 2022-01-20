@@ -135,3 +135,17 @@ enum KycStatusType {
   withdrawal,
   sell,
 }
+
+enum ActiveScanButton {
+  active,
+  notActive,
+}
+
+bool activeScanButtonType(ActiveScanButton type) {
+  switch (type) {
+    case ActiveScanButton.active:
+      return true;
+    case ActiveScanButton.notActive:
+      return false;
+  }
+}

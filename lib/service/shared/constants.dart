@@ -13,6 +13,7 @@ const clientDetailMessage = 'client-detail';
 const keyValueMessage = 'key-values';
 const campaignsBannersMessage  = 'campaigns-banners';
 const referralStatsMessage  = 'referrer-stats';
+const kycCountriesMessage = 'kyc-countries';
 
 // HTTP
 const postRequest = 'POST';

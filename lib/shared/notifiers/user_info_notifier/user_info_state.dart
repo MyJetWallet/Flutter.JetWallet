@@ -21,6 +21,8 @@ class UserInfoState with _$UserInfoState {
     @Default('') String phone,
     @Default('') String referralLink,
     @Default('') String referralCode,
+    @Default('') String ipOfRegistration,
+    @Default('') String countryOfRegistration,
   }) = _UserInfoState;
 
   const UserInfoState._();

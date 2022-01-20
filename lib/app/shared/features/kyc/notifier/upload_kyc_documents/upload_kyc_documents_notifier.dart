@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -7,6 +8,8 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../helper/convert_kyc_documents.dart';
+import '../../model/kyc_operation_status_model.dart';
+import '../choose_documents/choose_documents_notipod.dart';
 import 'upload_kyc_documents_state.dart';
 import 'upload_kyc_documents_union.dart';
 
@@ -15,7 +18,9 @@ class UploadKycDocumentsNotifier
   UploadKycDocumentsNotifier({
     required this.read,
   }) : super(
-          const UploadKycDocumentsState(),
+          UploadKycDocumentsState(
+            pageViewController: PageController(viewportFraction: 0.9),
+          ),
         );
 
   final Reader read;
@@ -23,14 +28,6 @@ class UploadKycDocumentsNotifier
 
   void changeDocumentSide(int index) {
     state = state.copyWith(numberSide: index);
-  }
-
-  void updateDocumentSide(File file) {
-    if (state.numberSide == 0) {
-      state = state.copyWith(documentFirstSide: file);
-    } else {
-      state = state.copyWith(documentSecondSide: file);
-    }
   }
 
   void removeDocumentSide() {
@@ -59,7 +56,7 @@ class UploadKycDocumentsNotifier
       state = state.copyWith(union: const UploadKycDocumentsUnion.done());
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
-      
+
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       sShowErrorNotification(
         read(sNotificationQueueNotipod.notifier),
@@ -69,8 +66,8 @@ class UploadKycDocumentsNotifier
   }
 
   Future<void> uploadPassportDocument(
-      int type,
-      ) async {
+    int type,
+  ) async {
     _logger.log(notifier, 'uploadPassportDocument');
 
     try {
@@ -92,6 +89,96 @@ class UploadKycDocumentsNotifier
         read(sNotificationQueueNotipod.notifier),
         'Something went wrong. Please try again',
       );
+    }
+  }
+
+  bool activeScanButton() {
+    _logger.log(notifier, 'activeScanButton');
+
+    final activeDocument =
+        read(chooseDocumentsNotipod.notifier).getActiveDocument();
+
+    if (activeDocument.document == KycDocumentType.passport) {
+      return activeScanButtonType(ActiveScanButton.active);
+    }
+
+    if (state.documentFirstSide != null && state.documentSecondSide != null) {
+      return activeScanButtonType(ActiveScanButton.active);
+    }
+
+    if (state.numberSide == 0) {
+      if (state.documentFirstSide == null) {
+        return activeScanButtonType(ActiveScanButton.active);
+      } else {
+        return activeScanButtonType(ActiveScanButton.notActive);
+      }
+    } else {
+      if (state.documentSecondSide == null) {
+        return activeScanButtonType(ActiveScanButton.active);
+      } else {
+        return activeScanButtonType(ActiveScanButton.notActive);
+      }
+    }
+  }
+
+  Future<void> documentPageViewLogic(
+    KycDocumentType document,
+  ) async {
+    _logger.log(notifier, 'documentPageViewLogic');
+
+    if (document != KycDocumentType.passport) {
+      await _pickFile(true);
+    } else {
+      await _pickFile(false);
+    }
+  }
+
+  Future<void> _pickFile(bool isAnimatePageView) async {
+    final imagePicker = read(imagePickerPod);
+    final file = await imagePicker.pickedFile();
+    if (file != null) {
+      _updateDocumentSide(file);
+      if (isAnimatePageView) await _animatePageView(state.pageViewController);
+    }
+  }
+
+  Future<void> _animatePageView(
+    PageController controller,
+  ) async {
+    if (state.numberSide == 0 && state.documentSecondSide == null ||
+        state.numberSide == 1 && state.documentFirstSide == null) {
+      await controller.animateToPage(
+        (state.numberSide == 0) ? 1 : 0,
+        duration: const Duration(milliseconds: 2000),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void _updateDocumentSide(File file) {
+    if (state.numberSide == 0) {
+      state = state.copyWith(documentFirstSide: file);
+    } else {
+      state = state.copyWith(documentSecondSide: file);
+    }
+  }
+
+  String buttonName() {
+    final activeDocument =
+        read(chooseDocumentsNotipod.notifier).getActiveDocument();
+
+    if (activeDocument.document != KycDocumentType.passport) {
+      if (state.documentFirstSide != null && state.documentSecondSide != null) {
+        return 'Upload photos';
+      } else {
+        return 'Scan ${state.numberSide + 1} side';
+      }
+    } else {
+      if (state.documentFirstSide != null) {
+        return 'Upload photos';
+      } else {
+        return 'Scan ${state.numberSide + 1} side';
+      }
     }
   }
 }

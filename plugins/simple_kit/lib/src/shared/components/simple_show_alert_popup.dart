@@ -61,20 +61,17 @@ void sShowAlertPopup(
                         ),
                       ),
                     ),
+                    const SpaceH7(),
                     if (secondaryText != null)
-                      Baseline(
-                        baseline: 32.0,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          secondaryText,
-                          maxLines: 6,
-                          textAlign: TextAlign.center,
-                          style: sBodyText1Style.copyWith(
-                            color: SColorsLight().grey1,
-                          ),
+                      Text(
+                        secondaryText,
+                        maxLines: 6,
+                        textAlign: TextAlign.center,
+                        style: sBodyText1Style.copyWith(
+                          color: SColorsLight().grey1,
                         ),
                       ),
-                    const SpaceH40(),
+                    const SpaceH36(),
                     if (child != null) child,
                     SPrimaryButton1(
                       name: primaryButtonName,

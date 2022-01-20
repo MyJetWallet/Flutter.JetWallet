@@ -10,6 +10,8 @@ import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../allow_camera/allow_camera.dart';
 import '../upload_documents/upload_kyc_documents.dart';
+import 'components/kyc_country.dart';
+import 'components/show_kyc_country_picker.dart';
 
 class ChooseDocuments extends HookWidget {
   const ChooseDocuments({
@@ -62,17 +64,24 @@ class ChooseDocuments extends HookWidget {
       ),
       child: Stack(
         children: [
-          SPaddingH24(
-            child: CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  child: Column(
-                    children: [
-                      Row(
+          CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                child: Column(
+                  children: [
+                    KycCountry(
+                      openCountryList: () {
+                        showKycCountryPicker(context);
+                      },
+                    ),
+                    const SDivider(),
+                    const SpaceH20(),
+                    SPaddingH24(
+                      child: Row(
                         children: [
                           Baseline(
-                            baseline: 24,
-                            baselineType: TextBaseline.ideographic,
+                            baseline: 18,
+                            baselineType: TextBaseline.alphabetic,
                             child: Text(
                               'Please scan your document',
                               style: sBodyText1Style,
@@ -80,33 +89,35 @@ class ChooseDocuments extends HookWidget {
                           ),
                         ],
                       ),
-                      const SpaceH20(),
-                      for (var index = 0;
-                          index < state.documents.length;
-                          index++) ...[
-                        if (state.documents[index].document !=
-                                KycDocumentType.selfieImage &&
-                            state.documents[index].document !=
-                                KycDocumentType.residentPermit)
-                          SChooseDocument(
-                            primaryText: stringKycDocumentType(
-                              state.documents[index].document,
-                            ),
-                            activeDocument: state.documents[index].active,
-                            onTap: () {
-                              notifier.activeDocument(state.documents[index]);
-                            },
+                    ),
+                    const SpaceH16(),
+                    for (var index = 0;
+                        index < state.documents.length;
+                        index++) ...[
+                      if (state.documents[index].document !=
+                              KycDocumentType.selfieImage &&
+                          state.documents[index].document !=
+                              KycDocumentType.residentPermit)
+                        SChooseDocument(
+                          primaryText: stringKycDocumentType(
+                            state.documents[index].document,
                           ),
-                        const SpaceH10(),
-                      ],
-                      const Spacer(),
-                      const SDocumentsRecommendations(),
-                      const SpaceH120(),
+                          activeDocument: state.documents[index].active,
+                          onTap: () {
+                            notifier.activeDocument(state.documents[index]);
+                          },
+                        ),
+                      const SpaceH10(),
                     ],
-                  ),
+                    const Spacer(),
+                    const SPaddingH24(
+                      child: SDocumentsRecommendations(),
+                    ),
+                    const SpaceH120(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           SFloatingButtonFrame(
             button: SPrimaryButton2(

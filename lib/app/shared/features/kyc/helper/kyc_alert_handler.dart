@@ -30,7 +30,7 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
+    if (status == kycOperationStatus(KycOperationStatus.kycRequired)) {
       _showKycRequiredAlert(
         kycVerified,
       );
@@ -39,7 +39,7 @@ class KycAlertHandler {
     } else if (status == kycOperationStatus(KycOperationStatus.allowed)) {
       _navigateTo(currentNavigate, navigatePop);
     } else if (status ==
-        kycOperationStatus(KycOperationStatus.kycRequired)) {
+        kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
       _showAllowedWithAlert(
         kycVerified,
         currentNavigate,
@@ -57,7 +57,7 @@ class KycAlertHandler {
       context: context,
       imageAsset: verifyYourProfileAsset,
       primaryText: 'Verify your profile!',
-      secondaryText: 'To complete profile verification you '
+      secondaryText: 'To complete profile verification you\n'
           'need to pass following steps:',
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
@@ -168,22 +168,36 @@ class KycAlertHandler {
       children: [
         const SDivider(),
         ..._listRequiredVerification(requiredVerifications),
-        const SpaceH30(),
+        const SpaceH36(),
       ],
     );
   }
 
   Widget _documentText(String title, int textNumber) {
-    return Baseline(
-      baseline: 37.0,
-      baselineType: TextBaseline.alphabetic,
-      child: Text(
-        '${textNumber + 1}. $title',
-        style: sBodyText1Style.copyWith(
-          color: colors.grey1,
+    if (textNumber == 0) {
+      return Baseline(
+        baseline: 37.0,
+        baselineType: TextBaseline.alphabetic,
+        child: Text(
+          '${textNumber + 1}. $title',
+          style: sBodyText1Style.copyWith(
+            color: colors.grey1,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Column(
+        children: [
+          const SpaceH17(),
+          Text(
+            '${textNumber + 1}. $title',
+            style: sBodyText1Style.copyWith(
+              color: colors.grey1,
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   List<Widget> _listRequiredVerification(

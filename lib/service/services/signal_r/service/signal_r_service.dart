@@ -19,6 +19,7 @@ import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
+import '../model/kyc_countries_response_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/referral_stats_response_model.dart';
@@ -54,6 +55,7 @@ class SignalRService {
   final _campaignsBannersController = StreamController<CampaignResponseModel>();
   final _referralStatsController =
       StreamController<ReferralStatsResponseModel>();
+  final _kycCountriesController = StreamController<KycCountriesResponseModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -67,6 +69,15 @@ class SignalRService {
     isDisconnecting = false;
 
     _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
+
+    _connection?.on(kycCountriesMessage, (data) {
+      try {
+        final countries = KycCountriesResponseModel.fromJson(_json(data));
+        _kycCountriesController.add(countries);
+      } catch (e) {
+        _logger.log(contract, kycCountriesMessage, e);
+      }
+    });
 
     _connection?.on(campaignsBannersMessage, (data) {
       try {
@@ -222,6 +233,9 @@ class SignalRService {
 
   Stream<ReferralStatsResponseModel> referralStats() =>
       _referralStatsController.stream;
+
+  Stream<KycCountriesResponseModel> kycCountries() =>
+      _kycCountriesController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

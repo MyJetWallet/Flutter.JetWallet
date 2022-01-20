@@ -41,107 +41,130 @@ class KycVerifyYourProfile extends HookWidget {
         useProvider(kycStepsNotipod(requiredVerifications).notifier);
     final colors = useProvider(sColorPod);
 
-    return SPageFrameWithPadding(
-      header: const SSmallHeader(
-        title: 'Verify your profile!',
+    return SPageFrame(
+      header: const SPaddingH24(
+        child: SSmallHeader(
+          title: 'Verify your profile!',
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          SVerifyIndicator(
-            indicatorToComplete: state.requiredVerifications.length,
-            indicator: notifier.getVerifyComplete(),
+          CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                child: SPaddingH24(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SVerifyIndicator(
+                        indicatorToComplete: state.requiredVerifications.length,
+                        indicator: notifier.getVerifyComplete(),
+                      ),
+                      const SpaceH40(),
+                      for (var index = 0;
+                          index < state.requiredVerifications.length;
+                          index++) ...[
+                        if (state.requiredVerifications[index]
+                                .requiredVerified ==
+                            RequiredVerified.proofOfPhone)
+                          VerifyStep(
+                            title: '${index + 1}. ${stringRequiredVerified(
+                              RequiredVerified.proofOfPhone,
+                            )}',
+                            completeIcon:
+                                state.requiredVerifications[index].verifiedDone,
+                            isSDivider: _dividerVerifyStep(
+                              state.requiredVerifications.length,
+                              index,
+                            ),
+                            color: _colorVerifyStep(
+                              state.requiredVerifications[index].verifiedDone,
+                              index,
+                              colors,
+                              state.requiredVerifications,
+                            ),
+                          ),
+                        if (state.requiredVerifications[index]
+                                .requiredVerified ==
+                            RequiredVerified.proofOfIdentity)
+                          VerifyStep(
+                            title: '${index + 1}. ${stringRequiredVerified(
+                              RequiredVerified.proofOfIdentity,
+                            )}',
+                            completeIcon:
+                                state.requiredVerifications[index].verifiedDone,
+                            isSDivider: _dividerVerifyStep(
+                              state.requiredVerifications.length,
+                              index,
+                            ),
+                            color: _colorVerifyStep(
+                              state.requiredVerifications[index].verifiedDone,
+                              index,
+                              colors,
+                              state.requiredVerifications,
+                            ),
+                          ),
+                        if (state.requiredVerifications[index]
+                                .requiredVerified ==
+                            RequiredVerified.proofOfFunds)
+                          VerifyStep(
+                            title: '${index + 1}. ${stringRequiredVerified(
+                              RequiredVerified.proofOfFunds,
+                            )}',
+                            completeIcon:
+                                state.requiredVerifications[index].verifiedDone,
+                            isSDivider: _dividerVerifyStep(
+                              state.requiredVerifications.length,
+                              index,
+                            ),
+                            color: _colorVerifyStep(
+                              state.requiredVerifications[index].verifiedDone,
+                              index,
+                              colors,
+                              state.requiredVerifications,
+                            ),
+                          ),
+                        if (state.requiredVerifications[index]
+                                .requiredVerified ==
+                            RequiredVerified.proofOfAddress)
+                          VerifyStep(
+                            title: '${index + 1}. ${stringRequiredVerified(
+                              RequiredVerified.proofOfAddress,
+                            )}',
+                            completeIcon:
+                                state.requiredVerifications[index].verifiedDone,
+                            isSDivider: _dividerVerifyStep(
+                              state.requiredVerifications.length,
+                              index,
+                            ),
+                            color: _colorVerifyStep(
+                              state.requiredVerifications[index].verifiedDone,
+                              index,
+                              colors,
+                              state.requiredVerifications,
+                            ),
+                          ),
+                      ],
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SpaceH40(),
-          for (var index = 0;
-              index < state.requiredVerifications.length;
-              index++) ...[
-            if (state.requiredVerifications[index].requiredVerified ==
-                RequiredVerified.proofOfPhone)
-              VerifyStep(
-                title: '${index + 1}. ${stringRequiredVerified(
-                  RequiredVerified.proofOfPhone,
-                )}',
-                completeIcon: state.requiredVerifications[index].verifiedDone,
-                isSDivider: _dividerVerifyStep(
-                  state.requiredVerifications.length,
-                  index,
-                ),
-                color: _colorVerifyStep(
-                  state.requiredVerifications[index].verifiedDone,
-                  index,
-                  colors,
-                  state.requiredVerifications,
-                ),
-              ),
-            if (state.requiredVerifications[index].requiredVerified ==
-                RequiredVerified.proofOfIdentity)
-              VerifyStep(
-                title: '${index + 1}. ${stringRequiredVerified(
-                  RequiredVerified.proofOfIdentity,
-                )}',
-                completeIcon: state.requiredVerifications[index].verifiedDone,
-                isSDivider: _dividerVerifyStep(
-                  state.requiredVerifications.length,
-                  index,
-                ),
-                color: _colorVerifyStep(
-                  state.requiredVerifications[index].verifiedDone,
-                  index,
-                  colors,
-                  state.requiredVerifications,
-                ),
-              ),
-            if (state.requiredVerifications[index].requiredVerified ==
-                RequiredVerified.proofOfFunds)
-              VerifyStep(
-                title: '${index + 1}. ${stringRequiredVerified(
-                  RequiredVerified.proofOfFunds,
-                )}',
-                completeIcon: state.requiredVerifications[index].verifiedDone,
-                isSDivider: _dividerVerifyStep(
-                  state.requiredVerifications.length,
-                  index,
-                ),
-                color: _colorVerifyStep(
-                  state.requiredVerifications[index].verifiedDone,
-                  index,
-                  colors,
-                  state.requiredVerifications,
-                ),
-              ),
-            if (state.requiredVerifications[index].requiredVerified ==
-                RequiredVerified.proofOfAddress)
-              VerifyStep(
-                title: '${index + 1}. ${stringRequiredVerified(
-                  RequiredVerified.proofOfAddress,
-                )}',
-                completeIcon: state.requiredVerifications[index].verifiedDone,
-                isSDivider: _dividerVerifyStep(
-                  state.requiredVerifications.length,
-                  index,
-                ),
-                color: _colorVerifyStep(
-                  state.requiredVerifications[index].verifiedDone,
-                  index,
-                  colors,
-                  state.requiredVerifications,
-                ),
-              ),
-          ],
-          const Spacer(),
-          SPrimaryButton2(
-            active: true,
-            name: 'Continue',
-            onTap: () {
-              ChooseDocuments.pushReplacement(
-                context: context,
-                headerTitle: notifier.chooseDocumentsHeaderTitle(),
-                documents: documents,
-              );
-            },
+          SFloatingButtonFrame(
+            button: SPrimaryButton2(
+              active: true,
+              name: 'Continue',
+              onTap: () {
+                ChooseDocuments.pushReplacement(
+                  context: context,
+                  headerTitle: notifier.chooseDocumentsHeaderTitle(),
+                  documents: documents,
+                );
+              },
+            ),
           ),
-          const SpaceH24(),
         ],
       ),
     );
