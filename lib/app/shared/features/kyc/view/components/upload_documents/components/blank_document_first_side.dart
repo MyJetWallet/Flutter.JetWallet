@@ -6,8 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/constants.dart';
 
-class SkeletonFirstSide extends HookWidget {
-  const SkeletonFirstSide({Key? key}) : super(key: key);
+class BlankDocumentFirstSide extends HookWidget {
+  const BlankDocumentFirstSide({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

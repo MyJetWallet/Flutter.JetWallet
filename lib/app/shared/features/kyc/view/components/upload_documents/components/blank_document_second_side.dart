@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class SkeletonSecondSide extends HookWidget {
-  const SkeletonSecondSide({Key? key}) : super(key: key);
+class BlankDocumentSecondSide extends HookWidget {
+  const BlankDocumentSecondSide({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
