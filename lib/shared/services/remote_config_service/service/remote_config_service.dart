@@ -6,7 +6,7 @@ import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
 import '../remote_config_values.dart';
 
-const _defaultFlavorIndex = 1;
+const _defaultFlavorIndex = 0;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfigService {
