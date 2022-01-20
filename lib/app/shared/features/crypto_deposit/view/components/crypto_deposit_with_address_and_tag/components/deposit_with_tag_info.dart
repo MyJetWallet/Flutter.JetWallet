@@ -5,7 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class DepositWithTagInfo extends HookWidget {
-  const DepositWithTagInfo();
+  const DepositWithTagInfo({
+    required this.currencySymbol,
+  });
+
+  final String currencySymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class DepositWithTagInfo extends HookWidget {
             horizontal: 40.r,
           ),
           child: Text(
-            'Tag and Address both are required to receive XRP.',
+            'Tag and Address both are required to receive $currencySymbol.',
             maxLines: 3,
             textAlign: TextAlign.center,
             style: sBodyText1Style,

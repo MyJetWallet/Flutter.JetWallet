@@ -7,6 +7,7 @@ import '../../../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../market_details/helper/currency_from.dart';
+import '../../../../../../helper/show_interest_rate.dart';
 
 class WalletCard extends HookWidget {
   const WalletCard({
@@ -58,22 +59,37 @@ class WalletCard extends HookWidget {
           ),
           Align(
             alignment: Alignment.topRight,
-            child: Container(
-              height: 24,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              margin: const EdgeInsets.only(top: 32),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: colors.green,
-              ),
-              child: SBaselineChild(
-                baseline: 17,
-                child: Text(
-                  '+\$120.23',
-                  style: sSubtitle3Style.copyWith(
-                    color: colors.white,
+            child: InkWell(
+              onTap: () {
+                showInterestRate(
+                  context: context,
+                  currency: currency,
+                  baseCurrency: baseCurrency,
+                  colors: colors,
+                );
+              },
+              child: Container(
+                height: 24,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                margin: const EdgeInsets.only(top: 32),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: colors.green,
+                ),
+                child: SBaselineChild(
+                  baseline: 17,
+                  child: Text(
+                    '+${formatCurrencyAmount(
+                      prefix: baseCurrency.prefix,
+                      value: currency.baseTotalEarnAmount,
+                      accuracy: baseCurrency.accuracy,
+                      symbol: baseCurrency.symbol,
+                    )}',
+                    style: sSubtitle3Style.copyWith(
+                      color: colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -119,13 +135,23 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(
+          Padding(
+            padding: const EdgeInsets.only(
               bottom: 20,
             ),
             child: Align(
               alignment: Alignment.bottomRight,
-              child: SInfoIcon(),
+              child: InkWell(
+                onTap: () {
+                  showInterestRate(
+                    context: context,
+                    currency: currency,
+                    baseCurrency: baseCurrency,
+                    colors: colors,
+                  );
+                },
+                child: const SInfoIcon(),
+              ),
             ),
           )
         ],
