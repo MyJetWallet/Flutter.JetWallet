@@ -7,6 +7,8 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:jetwallet.page.link</string>
+		<string>applinks:mobile.simple-spot.biz</string>
+		<string>applinks:mobile.simple.app</string>
 	</array>
 </dict>
 </plist>
