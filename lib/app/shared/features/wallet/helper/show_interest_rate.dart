@@ -8,6 +8,7 @@ import '../../../helpers/format_currency_amount.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
 
+// TODO: Refactor
 void showInterestRate({
   required BuildContext context,
   required CurrencyModel currency,
