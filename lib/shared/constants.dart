@@ -15,4 +15,3 @@ const walletRedBackgroundImageAsset = 'assets/images/red_wallet_gradient.svg';
 const verifyYourProfileAsset = 'assets/images/verify_your_profile.png';
 const verifyingNowAsset = 'assets/images/verifying_now.png';
 const allowCameraAsset = 'assets/images/allow_camera.png';
-const personaAsset = 'assets/images/persona_icon.svg';

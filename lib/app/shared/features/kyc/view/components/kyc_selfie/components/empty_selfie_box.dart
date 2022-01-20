@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_kit/simple_kit.dart';
-
-import '../../../../../../../../shared/constants.dart';
 
 class EmptySelfieBox extends StatelessWidget {
   const EmptySelfieBox({
@@ -27,10 +24,13 @@ class EmptySelfieBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         color: colors.grey4,
       ),
-      child: SvgPicture.asset(
-        personaAsset,
+      child: SSelfieIcon(
         color: colors.grey5,
       ),
+      // SvgPicture.asset(
+      //   personaAsset,
+      //   color: colors.grey5,
+      // ),
     );
   }
 }

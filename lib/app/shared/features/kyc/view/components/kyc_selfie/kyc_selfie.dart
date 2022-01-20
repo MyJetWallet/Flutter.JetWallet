@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
@@ -14,6 +12,7 @@ import '../../../notifier/kyc_selfie/kyc_selfie_notipod.dart';
 import '../../../notifier/kyc_selfie/kyc_selfie_state.dart';
 import 'components/empty_selfie_box.dart';
 import 'components/selfie_box.dart';
+import 'components/selfie_icon.dart';
 import 'components/success_kys_screen.dart';
 
 class KycSelfie extends HookWidget {
@@ -72,6 +71,7 @@ class KycSelfie extends HookWidget {
         );
       },
       child: SPageFrame(
+        loading: loader.value,
         header: const SPaddingH24(
           child: SSmallHeader(
             title: 'Take a selfie',
@@ -187,16 +187,7 @@ class KycSelfie extends HookWidget {
                 active: true,
                 icon: (state.isSelfieNotEmpty)
                     ? const SArrowUpIcon()
-                    : Padding(
-                        padding: const EdgeInsets.only(
-                          top: 17.0,
-                          bottom: 17.0,
-                        ),
-                        child: SvgPicture.asset(
-                          personaAsset,
-                          color: colors.grey5,
-                        ),
-                      ),
+                    : const SelfieIcon(),
               ),
             ),
           ],
