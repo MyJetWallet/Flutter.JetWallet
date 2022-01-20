@@ -136,7 +136,7 @@ class SWalletItem extends StatelessWidget {
               const Spacer(),
               if (!removeDivider)
                 const SDivider(
-                  width: 327.0,
+                  width: double.infinity,
                 )
             ],
           ),

@@ -77,7 +77,7 @@ class SFiatItem extends StatelessWidget {
               ),
               const Spacer(),
               const SDivider(
-                width: 327.0,
+                width: double.infinity,
               )
             ],
           ),

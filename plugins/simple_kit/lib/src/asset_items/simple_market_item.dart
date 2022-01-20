@@ -119,7 +119,7 @@ class SMarketItem extends StatelessWidget {
               const Spacer(),
               if (!last)
                 const SDivider(
-                  width: 327,
+                  width: double.infinity,
                 )
             ],
           ),
