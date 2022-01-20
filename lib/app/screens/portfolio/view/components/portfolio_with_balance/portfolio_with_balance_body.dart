@@ -198,7 +198,7 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody>
                               context,
                               MarketDetails(
                                 marketItem: marketItemFrom(
-                                  useProvider(marketItemsPod),
+                                  marketItems,
                                   item.symbol,
                                 ),
                               ),
@@ -230,7 +230,7 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody>
                                 context,
                                 MarketDetails(
                                   marketItem: marketItemFrom(
-                                    useProvider(marketItemsPod),
+                                    marketItems,
                                     item.symbol,
                                   ),
                                 ),
@@ -361,7 +361,7 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody>
                                 context,
                                 MarketDetails(
                                   marketItem: marketItemFrom(
-                                    useProvider(marketItemsPod),
+                                    marketItems,
                                     item.symbol,
                                   ),
                                 ),
