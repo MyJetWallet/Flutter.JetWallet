@@ -24,17 +24,13 @@ class SPaymentSelectContactWithoutName extends StatelessWidget {
         ),
         child: Column(
           children: [
+            const SpaceH31(), // + 1px border
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SpaceW20(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 32.0,
-                  ),
-                  child: SPhoneIcon(
-                    color: SColorsLight().black,
-                  ),
+                const SpaceW19(), // + 1px border
+                SPhoneIcon(
+                  color: SColorsLight().black,
                 ),
                 const SpaceW10(),
                 Expanded(
@@ -42,7 +38,7 @@ class SPaymentSelectContactWithoutName extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Baseline(
-                        baseline: 50.0,
+                        baseline: 18.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
                           phone,
@@ -52,7 +48,7 @@ class SPaymentSelectContactWithoutName extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SpaceW20(),
+                const SpaceW19(), // + 1px border
               ],
             ),
           ],
