@@ -35,11 +35,11 @@ class SPaymentSelectFiat extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SpaceH30(),
+              const SpaceH31(), // + 1px border
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SpaceW20(),
+                  const SpaceW19(), // + 1px border
                   icon,
                   const SpaceW10(),
                   Expanded(
@@ -47,10 +47,9 @@ class SPaymentSelectFiat extends StatelessWidget {
                       textBaseline: TextBaseline.alphabetic,
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
-                        SizedBox(
-                          width: 130.0,
+                        Expanded(
                           child: Baseline(
-                            baseline: 17.0,
+                            baseline: 18.0,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               name,
@@ -58,19 +57,23 @@ class SPaymentSelectFiat extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Spacer(),
-                        SizedBox(
-                          width: 110.0,
-                          child: Text(
-                            amount,
-                            textAlign: TextAlign.end,
-                            style: sSubtitle2Style,
+                        const SpaceW16(),
+                        Baseline(
+                          baseline: 18.0,
+                          baselineType: TextBaseline.alphabetic,
+                          child: SizedBox(
+                            width: 110.0,
+                            child: Text(
+                              amount,
+                              textAlign: TextAlign.end,
+                              style: sSubtitle2Style,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SpaceW20(),
+                  const SpaceW19(), // + 1px border
                 ],
               ),
             ],

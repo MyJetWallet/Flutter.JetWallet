@@ -43,10 +43,9 @@ class SFiatItem extends StatelessWidget {
                       textBaseline: TextBaseline.alphabetic,
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
-                        SizedBox(
-                          width: 150.0,
+                        Expanded(
                           child: Baseline(
-                            baseline: 15.8,
+                            baseline: 16.0,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               name,
@@ -56,14 +55,18 @@ class SFiatItem extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Spacer(),
-                        SizedBox(
-                          width: 120.0,
-                          child: Text(
-                            amount,
-                            textAlign: TextAlign.end,
-                            style: sSubtitle2Style.copyWith(
-                              color: mainColor,
+                        const SpaceW16(),
+                        Baseline(
+                          baseline: 16.0,
+                          baselineType: TextBaseline.alphabetic,
+                          child: SizedBox(
+                            width: 120.0,
+                            child: Text(
+                              amount,
+                              textAlign: TextAlign.end,
+                              style: sSubtitle2Style.copyWith(
+                                color: mainColor,
+                              ),
                             ),
                           ),
                         ),
@@ -74,7 +77,7 @@ class SFiatItem extends StatelessWidget {
               ),
               const Spacer(),
               const SDivider(
-                width: 327.0,
+                width: double.infinity,
               )
             ],
           ),
