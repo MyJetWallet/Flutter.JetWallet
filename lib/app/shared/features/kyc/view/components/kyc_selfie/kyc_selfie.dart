@@ -164,7 +164,6 @@ class KycSelfie extends HookWidget {
                           ],
                         ),
                       ),
-
                       const SpaceH120(),
                     ],
                   ),
