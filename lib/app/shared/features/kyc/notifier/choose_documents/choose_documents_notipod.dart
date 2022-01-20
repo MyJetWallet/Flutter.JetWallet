@@ -7,7 +7,7 @@ final chooseDocumentsNotipod = StateNotifierProvider.autoDispose<
     ChooseDocumentsNotifier, ChooseDocumentsState>((
   ref,
 ) {
-  final kycN = ref.read(kycNotipod.notifier);
+  final kycN = ref.watch(kycNotipod.notifier);
 
   final modifyDocuments = <DocumentsModel>[];
   for (var i = 0; i < kycN.kycModel.requiredDocuments.length; i++) {

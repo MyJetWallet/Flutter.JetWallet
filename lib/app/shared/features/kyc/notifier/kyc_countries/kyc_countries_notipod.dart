@@ -9,7 +9,7 @@ import 'kyc_countries_notifier.dart';
 final kycCountriesNotipod = StateNotifierProvider.autoDispose<
     KycCountriesNotifier, KycCountriesState>((ref) {
   final kycCountries = ref.watch(kycCountriesSpod);
-  final userInfo = ref.read(userInfoNotipod);
+  final userInfo = ref.watch(userInfoNotipod);
   final value = <KycCountryModel>[];
 
   kycCountries.whenData((data) {
