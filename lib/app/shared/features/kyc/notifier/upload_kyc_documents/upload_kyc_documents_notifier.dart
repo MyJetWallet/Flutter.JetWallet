@@ -65,7 +65,34 @@ class UploadKycDocumentsNotifier
     }
   }
 
-  Future<void> uploadPassportDocument(
+  Future<void> documentPageViewLogic(
+    KycDocumentType document,
+    ValueNotifier<StackLoaderNotifier> loader,
+  ) async {
+    _logger.log(notifier, 'documentPageViewLogic');
+
+    if (document != KycDocumentType.passport) {
+      if (state.documentFirstSide == null || state.documentSecondSide == null) {
+        await _pickFile(true);
+      } else {
+        loader.value.startLoading();
+        await uploadDocuments(
+          kycDocumentTypeInt(document),
+        );
+      }
+    } else {
+      if (state.documentFirstSide == null) {
+        await _pickFile(false);
+      } else {
+        loader.value.startLoading();
+        await _uploadPassportDocument(
+          kycDocumentTypeInt(document),
+        );
+      }
+    }
+  }
+
+  Future<void> _uploadPassportDocument(
     int type,
   ) async {
     _logger.log(notifier, 'uploadPassportDocument');
@@ -118,18 +145,6 @@ class UploadKycDocumentsNotifier
       } else {
         return activeScanButtonType(ActiveScanButton.notActive);
       }
-    }
-  }
-
-  Future<void> documentPageViewLogic(
-    KycDocumentType document,
-  ) async {
-    _logger.log(notifier, 'documentPageViewLogic');
-
-    if (document != KycDocumentType.passport) {
-      await _pickFile(true);
-    } else {
-      await _pickFile(false);
     }
   }
 

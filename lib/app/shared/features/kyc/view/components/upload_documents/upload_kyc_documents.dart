@@ -127,6 +127,7 @@ class UploadKycDocuments extends HookWidget {
                 onTap: () async {
                   await notifier.documentPageViewLogic(
                     activeDocument.document,
+                    loader,
                   );
                 },
                 name: notifier.buttonName(),
