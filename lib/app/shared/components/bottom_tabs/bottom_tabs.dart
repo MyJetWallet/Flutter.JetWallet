@@ -8,10 +8,12 @@ import 'package:simple_kit/simple_kit.dart';
 class BottomTabs extends HookWidget {
   const BottomTabs({
     Key? key,
+    this.tabController,
     this.bottomPadding = 0,
     required this.tabs,
   }) : super(key: key);
 
+  final TabController? tabController;
   final List<Widget> tabs;
   final double bottomPadding;
 
@@ -23,7 +25,7 @@ class BottomTabs extends HookWidget {
       return const SizedBox();
     } else {
       return Container(
-        color: Colors.white.withOpacity(0.4),
+        color: colors.white.withOpacity(0.4),
         height: 56 + bottomPadding,
         width: double.infinity,
         child: ClipRect(
@@ -33,6 +35,7 @@ class BottomTabs extends HookWidget {
               sigmaY: 10.0,
             ),
             child: TabBar(
+              controller: tabController,
               indicator: BoxDecoration(
                 color: colors.grey5,
                 borderRadius: const BorderRadius.all(

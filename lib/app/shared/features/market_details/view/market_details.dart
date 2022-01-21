@@ -12,7 +12,9 @@ import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/view/asset_chart.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
+import '../notifier/market_news_notipod.dart';
 import '../provider/market_info_fpod.dart';
+import '../provider/market_news_fpod.dart';
 import 'components/about_block/about_block.dart';
 import 'components/balance_block/balance_block.dart';
 import 'components/index_allocation_block/index_allocation_block.dart';
@@ -51,6 +53,8 @@ class MarketDetails extends HookWidget {
         marketItem.id,
       ),
     );
+    final newsInit = useProvider(marketNewsInitFpod(marketItem.id));
+    final news = useProvider(marketNewsNotipod);
     useProvider(watchlistIdsNotipod);
 
     return SPageFrame(
@@ -125,24 +129,33 @@ class MarketDetails extends HookWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (marketItem.type != AssetType.indices) ...[
-                        MarketStatsBlock(
+                      if (marketInfo != null) ...[
+                        if (marketItem.type != AssetType.indices) ...[
+                          MarketStatsBlock(
+                            marketInfo: marketInfo,
+                          ),
+                        ],
+                        AboutBlock(
                           marketInfo: marketInfo,
                         ),
                       ],
-                      AboutBlock(
-                        marketInfo: marketInfo,
-                      ),
                     ],
                   ),
                 );
               },
               loading: () => const Loader(),
-              error: (e, _) => Text('$e'),
+              error: (_, __) => const SizedBox(),
             ),
             const SpaceH28(),
-            MarketNewsBlock(
-              assetId: marketItem.associateAsset,
+            newsInit.when(
+              data: (_) {
+                return MarketNewsBlock(
+                  news: news.news,
+                  assetId: marketItem.associateAsset,
+                );
+              },
+              loading: () => const Loader(),
+              error: (_, __) => const SizedBox(),
             ),
             const SpaceH34(),
           ],

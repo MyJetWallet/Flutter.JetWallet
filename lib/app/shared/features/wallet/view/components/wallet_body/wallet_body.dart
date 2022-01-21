@@ -23,10 +23,10 @@ class WalletBody extends StatefulHookWidget {
   final CurrencyModel item;
 
   @override
-  State<StatefulWidget> createState() => _WalletTestState();
+  State<StatefulWidget> createState() => _WalletBodyState();
 }
 
-class _WalletTestState extends State<WalletBody>
+class _WalletBodyState extends State<WalletBody>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
 

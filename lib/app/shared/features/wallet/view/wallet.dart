@@ -7,6 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../../shared/helpers/contains_single_element.dart';
 import '../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/non_indices_currencies_with_balance_from.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../provider/current_asset_pod.dart';
@@ -71,8 +72,10 @@ class _WalletState extends State<Wallet>
     super.build(context);
 
     final colors = useProvider(sColorPod);
-    final itemsWithBalance = currenciesWithBalanceFrom(
-      useProvider(currenciesPod),
+    final itemsWithBalance = nonIndicesCurrenciesWithBalanceFrom(
+      currenciesWithBalanceFrom(
+        useProvider(currenciesPod),
+      ),
     );
     final currentAsset = useProvider(
       currentAssetStpod(widget.currency.assetId),

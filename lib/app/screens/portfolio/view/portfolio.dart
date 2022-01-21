@@ -15,8 +15,40 @@ import 'components/empty_portfolio_body/empty_porfolio_body.dart';
 import 'components/portfolio_with_balance/portfolio_with_balance_body.dart';
 import 'components/portfolio_with_balance/portfolio_with_balance_header.dart';
 
-class Portfolio extends HookWidget {
+class Portfolio extends StatefulHookWidget {
   const Portfolio({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _PortfolioState();
+}
+
+class _PortfolioState extends State<Portfolio>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    final cryptosWithBalance =
+        currenciesWithBalanceFrom(context.read(marketCryptosPod));
+    final indicesWithBalance =
+        currenciesWithBalanceFrom(context.read(marketCurrenciesIndicesPod));
+    final fiatsWithBalance =
+        currenciesWithBalanceFrom(context.read(marketFiatsPod));
+    final tabsLength = _tabsLength(
+      cryptosWithBalance.isEmpty,
+      indicesWithBalance.isEmpty,
+      fiatsWithBalance.isEmpty,
+    );
+
+    tabController = TabController(length: tabsLength, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +59,6 @@ class Portfolio extends HookWidget {
         currenciesWithBalanceFrom(useProvider(marketCurrenciesIndicesPod));
     final fiatsWithBalance =
         currenciesWithBalanceFrom(useProvider(marketFiatsPod));
-    final tabsLength = _tabsLength(
-      cryptosWithBalance.isEmpty,
-      indicesWithBalance.isEmpty,
-      fiatsWithBalance.isEmpty,
-    );
 
     if (balanceEmpty) {
       return const SPageFrameWithPadding(
@@ -42,26 +69,22 @@ class Portfolio extends HookWidget {
         child: EmptyPortfolioBody(),
       );
     } else {
-      return DefaultTabController(
-        length: tabsLength,
-        child: SPageFrame(
-          header: const PortfolioWithBalanceHeader(),
-          bottomNavigationBar: BottomTabs(
-            tabs: [
-              if (cryptosWithBalance.isNotEmpty ||
-                  indicesWithBalance.isNotEmpty ||
-                  fiatsWithBalance.isNotEmpty)
-                const BottomTab(text: 'All'),
-              if (cryptosWithBalance.isNotEmpty)
-                const BottomTab(text: 'Crypto'),
-              if (indicesWithBalance.isNotEmpty)
-                const BottomTab(text: 'Indices'),
-              if (fiatsWithBalance.isNotEmpty) const BottomTab(text: 'Fiat'),
-            ],
-          ),
-          child: PortfolioWithBalanceBody(
-            tabsLength: tabsLength,
-          ),
+      return SPageFrame(
+        header: const PortfolioWithBalanceHeader(),
+        bottomNavigationBar: BottomTabs(
+          tabController: tabController,
+          tabs: [
+            if (cryptosWithBalance.isNotEmpty ||
+                indicesWithBalance.isNotEmpty ||
+                fiatsWithBalance.isNotEmpty)
+              const BottomTab(text: 'All'),
+            if (cryptosWithBalance.isNotEmpty) const BottomTab(text: 'Crypto'),
+            if (indicesWithBalance.isNotEmpty) const BottomTab(text: 'Indices'),
+            if (fiatsWithBalance.isNotEmpty) const BottomTab(text: 'Fiat'),
+          ],
+        ),
+        child: PortfolioWithBalanceBody(
+          tabController: tabController,
         ),
       );
     }
