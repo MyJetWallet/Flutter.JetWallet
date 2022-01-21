@@ -2,12 +2,12 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/chart/notifier/chart_notipod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
+import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/view/asset_chart.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';

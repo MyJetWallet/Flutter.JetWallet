@@ -22,7 +22,7 @@ class LoadingChartView extends HookWidget {
     // final chart = useProvider(chartNotipod(null));
 
     return Stack(
-      children: [
+      children: const [
         // Chart(
         //   onResolutionChanged: (_) {},
         //   onChartTypeChanged: (_) {},
@@ -34,7 +34,7 @@ class LoadingChartView extends HookWidget {
         //   chartWidgetHeight: chartWidgetHeight,
         //   isAssetChart: isAssetChart,
         // ),
-        const Loader(),
+        Loader(),
       ],
     );
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import './simple_chart.dart';
 
+bool showAnimation = false;
+
 // void main() => runApp(MyApp());
 //
 // class MyApp extends StatelessWidget {
@@ -15,7 +17,8 @@ import './simple_chart.dart';
 //       home: FutureBuilder(
 //         future: _mockCandles(context),
 //         builder:
-//             (BuildContext context, AsyncSnapshot<List<CandleModel>> snapshot) {
+//             (BuildContext context, AsyncSnapshot<List<CandleModel>> snapshot)
+//             {
 //           if (snapshot.hasData) {
 //             return Chart(
 //               onResolutionChanged: (resolution) {},
@@ -77,8 +80,6 @@ class Chart extends StatefulWidget {
   @override
   _ChartState createState() => _ChartState();
 }
-
-var showAnimation = false;
 
 class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
   late final AnimationController animationController = AnimationController(
@@ -173,6 +174,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                     position: _offsetAnimation,
                     child: Container(
                       color: Colors.white,
+                      height: 190,
                       width: screenWidth,
                     ),
                   ),

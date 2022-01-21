@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../providers/client_detail_pod/client_detail_pod.dart';
 import '../notifier/chart_notipod.dart';
 import '../provider/balance_chart_init_fpod.dart';
 
@@ -29,7 +28,6 @@ class _BalanceChartState extends State<BalanceChart>
     final initChart = useProvider(balanceChartInitFpod);
     final chartNotifier = useProvider(chartNotipod.notifier);
     final chartState = useProvider(chartNotipod);
-    final clientDetail = useProvider(clientDetailPod);
 
     return initChart.when(
       data: (_) {

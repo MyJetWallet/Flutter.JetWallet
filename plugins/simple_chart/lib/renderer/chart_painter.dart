@@ -247,7 +247,9 @@ class ChartPainter extends BaseChartPainter {
 
     final datePadding = isLeft ? -5 : -5;
     dateTp.paint(
-        canvas, Offset(x + datePadding - textWidth / 2, y - tp.height / 2));
+      canvas,
+      Offset(x + datePadding - textWidth / 2, y - tp.height / 2),
+    );
     //Long press to show the details of this data
     sink?.add(InfoWindowModel(point, isLeft: isLeft));
   }
@@ -348,9 +350,6 @@ class ChartPainter extends BaseChartPainter {
     //     color: ChartColors.rightRealTimeTextColor);
     final y = getMainY(point.close);
     // //The more the max slides to the right, the smaller the value
-    final max =
-        (mTranslateX.abs() + mMarginRight - getMinTranslateX().abs() + 2) *
-            scaleX;
     final x = getX(datas.length - 1);
     // if (candleType == ChartType.candle) x += mPointWidth / 2;
     // const dashWidth = 10;

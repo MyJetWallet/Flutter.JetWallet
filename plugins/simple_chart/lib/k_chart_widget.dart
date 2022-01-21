@@ -40,7 +40,6 @@ class _KChartWidgetState extends State<KChartWidget>
   double _scaleX = 1.0;
   double _scrollX = 0.0;
   double _selectX = 0.0;
-  double _lastScale = 1.0;
   bool isScale = false;
   bool isDrag = false;
   bool isLongPress = false;
