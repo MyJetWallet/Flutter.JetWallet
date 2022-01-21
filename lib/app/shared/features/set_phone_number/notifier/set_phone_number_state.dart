@@ -7,8 +7,8 @@ import '../../../helpers/is_phone_number_valid.dart';
 part 'set_phone_number_state.freezed.dart';
 
 @freezed
-class SetPhoneNumberState with _$SetPhoneNumberState {
-  const factory SetPhoneNumberState({
+class PhoneNumberState with _$PhoneNumberState {
+  const factory PhoneNumberState({
     SPhoneNumber? activeDialCode,
     StackLoaderNotifier? loader,
     StandardFieldErrorNotifier? phoneFieldError,
@@ -16,9 +16,9 @@ class SetPhoneNumberState with _$SetPhoneNumberState {
     @Default([]) List<SPhoneNumber> sortedDialCodes,
     required TextEditingController dialCodeController,
     required TextEditingController phoneNumberController,
-  }) = _SetPhoneNumberState;
+  }) = _PhoneNumberState;
 
-  const SetPhoneNumberState._();
+  const PhoneNumberState._();
 
   String get phoneNumber {
     return dialCodeController.text + phoneNumberController.text;

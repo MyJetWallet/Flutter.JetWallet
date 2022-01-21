@@ -3,14 +3,18 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../helpers/flag_icon_svg.dart';
+import '../../../../model/kyc_country_model.dart';
 import '../../../../notifier/kyc_countries/kyc_countries_notipod.dart';
 
 class KycCountry extends HookWidget {
   const KycCountry({
     Key? key,
+    required this.activeCountry,
     required this.openCountryList,
   }) : super(key: key);
 
+  final KycCountryModel activeCountry;
   final Function() openCountryList;
 
   @override
@@ -24,53 +28,38 @@ class KycCountry extends HookWidget {
       child: SPaddingH24(
         child: Column(
           children: [
-            if (state.activeCountry != null) ...[
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 21,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Country of Issue',
-                      style: sCaptionTextStyle.copyWith(
-                        color: colors.grey2,
-                      ),
-                    ),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 21,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 21,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      state.activeCountry!.countryName,
-                      style: sSubtitle2Style,
+              child: Row(
+                children: [
+                  Text(
+                    'Country of Issue',
+                    style: sCaptionTextStyle.copyWith(
+                      color: colors.grey2,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-            if (state.activeCountry == null)
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 30,
-                  bottom: 30,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Country of Issue',
-                      style: sSubtitle2Style.copyWith(
-                        color: colors.grey2,
-                      ),
-                    ),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 21,
               ),
+              child: Row(
+                children: [
+                  FlagIconSvg(
+                    countryCode: state.activeCountry.countryCode,
+                  ),
+                  const SpaceW10(),
+                  Text(
+                    state.activeCountry.countryName,
+                    style: sSubtitle2Style,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

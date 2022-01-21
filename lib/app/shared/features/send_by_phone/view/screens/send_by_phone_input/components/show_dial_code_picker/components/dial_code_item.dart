@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../simple_kit.dart';
-import '../../colors/view/simple_colors_light.dart';
+import '../../../../../../../../helpers/flag_icon_svg.dart';
 
-class SDialCodeItem extends StatelessWidget {
-  const SDialCodeItem({
+
+class DialCodeItem extends HookWidget {
+  const DialCodeItem({
     Key? key,
     this.active = false,
     required this.dialCode,
@@ -17,10 +20,11 @@ class SDialCodeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final size = MediaQuery.of(context).size;
 
     return InkWell(
-      highlightColor: SColorsLight().grey5,
+      highlightColor: colors.grey5,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
@@ -31,16 +35,9 @@ class SDialCodeItem extends StatelessWidget {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20.0,
-                    ),
-                    child: Container(
-                      width: 24.0,
-                      height: 24.0,
-                      decoration: BoxDecoration(
-                        color: SColorsLight().grey2,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
+                    padding: const EdgeInsets.only(top: 20,),
+                    child: FlagIconSvg(
+                      countryCode: dialCode.isoCode,
                     ),
                   ),
                   const SpaceW10(),
@@ -54,7 +51,7 @@ class SDialCodeItem extends StatelessWidget {
                           child: Text(
                             dialCode.countryCode,
                             style: sSubtitle2Style.copyWith(
-                              color: SColorsLight().grey3,
+                              color: colors.grey3,
                             ),
                           ),
                         ),
@@ -65,8 +62,8 @@ class SDialCodeItem extends StatelessWidget {
                             dialCode.countryName,
                             style: sSubtitle2Style.copyWith(
                               color: active
-                                  ? SColorsLight().blue
-                                  : SColorsLight().black,
+                                  ? colors.blue
+                                  : colors.black,
                             ),
                           ),
                         ),

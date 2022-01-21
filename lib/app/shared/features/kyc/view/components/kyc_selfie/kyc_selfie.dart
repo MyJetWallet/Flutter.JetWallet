@@ -175,9 +175,10 @@ class KycSelfie extends HookWidget {
                 onTap: () async {
                   if (state.isSelfieNotEmpty) {
                     loader.value.startLoading();
-                    await notifier.uploadDocuments(
-                      kycDocumentTypeInt(KycDocumentType.selfieImage),
-                    );
+                    
+                    // await notifier.uploadDocuments(
+                    //   kycDocumentTypeInt(KycDocumentType.selfieImage),
+                    // );
                   } else {
                     await notifier.pickedImage();
                   }

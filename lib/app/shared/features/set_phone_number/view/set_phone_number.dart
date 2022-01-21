@@ -9,7 +9,7 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../notifier/set_phone_number_notipod.dart';
-import 'components/show_dial_code_picker.dart';
+import 'components/show_country_phone_number_picker.dart';
 
 /// Called in 2 cases:
 /// 1. when we want to change number
@@ -55,8 +55,8 @@ class SetPhoneNumber extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final state = useProvider(setPhoneNumberNotipod);
-    final notifier = useProvider(setPhoneNumberNotipod.notifier);
+    final state = useProvider(phoneNumberNotipod);
+    final notifier = useProvider(phoneNumberNotipod.notifier);
     useListenable(state.dialCodeController);
     useListenable(state.phoneNumberController);
 
@@ -88,7 +88,7 @@ class SetPhoneNumber extends HookWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      showDialCodePicker(context);
+                      showCountryPhoneNumberPicker(context);
                     },
                     child: SizedBox(
                       width: 76,

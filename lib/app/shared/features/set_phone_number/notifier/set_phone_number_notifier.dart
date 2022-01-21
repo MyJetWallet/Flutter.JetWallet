@@ -9,10 +9,10 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import 'set_phone_number_state.dart';
 
-class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
-  SetPhoneNumberNotifier(this.read)
+class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
+  PhoneNumberNotifier(this.read)
       : super(
-          SetPhoneNumberState(
+          PhoneNumberState(
             activeDialCode: sPhoneNumbers[0],
             dialCodeController: TextEditingController(
               text: sPhoneNumbers[0].countryCode,

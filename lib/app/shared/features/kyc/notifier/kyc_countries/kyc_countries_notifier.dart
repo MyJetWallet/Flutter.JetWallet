@@ -71,9 +71,9 @@ class KycCountriesNotifier extends StateNotifier<KycCountriesState> {
     final newList = List<KycCountryModel>.from(state.countries);
 
     newList.removeWhere(
-      (KycCountryModel element) => !element.countryName.contains(
-        state.countryNameSearch,
-      ),
+      (KycCountryModel element) => !element.countryName.toLowerCase().contains(
+            state.countryNameSearch.toLowerCase(),
+          ),
     );
     state = state.copyWith(sortedCountries: List.from(newList));
   }

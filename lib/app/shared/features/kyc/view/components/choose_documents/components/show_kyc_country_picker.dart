@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../notifier/kyc_countries/kyc_countries_notipod.dart';
+import 'country_item/country_item.dart';
 
 void showKycCountryPicker(BuildContext context) {
   context.read(kycCountriesNotipod.notifier).initCountrySearch();
@@ -56,66 +57,17 @@ class _Countries extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(kycCountriesNotipod);
     final notifier = useProvider(kycCountriesNotipod.notifier);
-    final colors = useProvider(sColorPod);
-    final size = MediaQuery.of(context).size;
 
     return Column(
       children: [
         for (final country in state.sortedCountries)
-          InkWell(
-            highlightColor: colors.grey5,
-            splashColor: Colors.transparent,
+          CountryItem(
             onTap: () {
               notifier.pickCountryFromSearch(country);
               Navigator.pop(context);
             },
-            child: SPaddingH24(
-              child: SizedBox(
-                height: 64.0,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 20.0,
-                          ),
-                          child: Container(
-                            width: 24.0,
-                            height: 24.0,
-                            decoration: BoxDecoration(
-                              color: colors.grey2,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                          ),
-                        ),
-                        const SpaceW10(),
-                        Baseline(
-                          baseline: 38.0,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Row(
-                            children: [
-                              const SpaceW10(),
-                              SizedBox(
-                                width: size.width - 160.0,
-                                child: Text(
-                                  country.countryName,
-                                  style: sSubtitle2Style.copyWith(
-                                    color: colors.black,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const SDivider()
-                  ],
-                ),
-              ),
-            ),
+            countryCode: country.countryCode,
+            countryName: country.countryName,
           ),
       ],
     );

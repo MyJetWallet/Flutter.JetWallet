@@ -8,6 +8,7 @@ import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
+import '../../../notifier/kyc_countries/kyc_countries_notipod.dart';
 import '../allow_camera/allow_camera.dart';
 import '../upload_documents/upload_kyc_documents.dart';
 import 'components/kyc_country.dart';
@@ -55,6 +56,7 @@ class ChooseDocuments extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(chooseDocumentsNotipod);
     final notifier = useProvider(chooseDocumentsNotipod.notifier);
+    final countries = useProvider(kycCountriesNotipod);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -70,6 +72,7 @@ class ChooseDocuments extends HookWidget {
                 child: Column(
                   children: [
                     KycCountry(
+                      activeCountry: countries.activeCountry,
                       openCountryList: () {
                         showKycCountryPicker(context);
                       },

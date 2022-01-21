@@ -247,7 +247,6 @@ export 'src/shared/components/qr_code_fields/simple_skeleton_qr_loader.dart';
 export 'src/shared/components/simple_baseline_child.dart';
 export 'src/shared/components/simple_clickable_link_text.dart';
 export 'src/shared/components/simple_contact_item.dart';
-export 'src/shared/components/simple_dial_code_item.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
