@@ -187,39 +187,39 @@ class ChartPainter extends BaseChartPainter {
     const w1 = 5;
     var y = getMainY(point.close);
     double x;
-    const isLeft = false;
-    // if (translateXtoX(getX(index)) < mWidth / 2) {
-    //   isLeft = false;
-    //   x = 1;
-    //   final path = Path();
-    //   path.moveTo(x, y - r);
-    //   path.lineTo(x, y + r);
-    //   path.lineTo(textWidth + 2 * w1, y + r);
-    //   path.lineTo(textWidth + 2 * w1 + w2, y);
-    //   path.lineTo(textWidth + 2 * w1, y - r);
-    //   path.close();
-    //   canvas.drawPath(path, selectPointPaint);
-    //   canvas.drawPath(path, selectorBorderPaint);
-    //   tp.paint(canvas, Offset(x + w1, y - textHeight / 2));
-    // } else {
-    //   isLeft = true;
-    //   x = mWidth - textWidth - 1 - 2 * w1 - w2;
-    //   final path = Path();
-    //   path.moveTo(x, y);
-    //   path.lineTo(x + w2, y + r);
-    //   path.lineTo(mWidth - 2, y + r);
-    //   path.lineTo(mWidth - 2, y - r);
-    //   path.lineTo(x + w2, y - r);
-    //   path.close();
-    //   canvas.drawPath(path, selectPointPaint);
-    //   canvas.drawPath(path, selectorBorderPaint);
-    //   tp.paint(canvas, Offset(x + w1 + w2, y - textHeight / 2));
-    // }
+    var isLeft = false;
+    if (translateXtoX(getX(index)) < mWidth / 2) {
+      isLeft = false;
+      // x = 1;
+      // final path = Path();
+      // path.moveTo(x, y - r);
+      // path.lineTo(x, y + r);
+      // path.lineTo(textWidth + 2 * w1, y + r);
+      // path.lineTo(textWidth + 2 * w1 + w2, y);
+      // path.lineTo(textWidth + 2 * w1, y - r);
+      // path.close();
+      // canvas.drawPath(path, selectPointPaint);
+      // canvas.drawPath(path, selectorBorderPaint);
+      // tp.paint(canvas, Offset(x + w1, y - textHeight / 2));
+    } else {
+      isLeft = true;
+      // x = mWidth - textWidth - 1 - 2 * w1 - w2;
+      // final path = Path();
+      // path.moveTo(x, y);
+      // path.lineTo(x + w2, y + r);
+      // path.lineTo(mWidth - 2, y + r);
+      // path.lineTo(mWidth - 2, y - r);
+      // path.lineTo(x + w2, y - r);
+      // path.close();
+      // canvas.drawPath(path, selectPointPaint);
+      // canvas.drawPath(path, selectorBorderPaint);
+      // tp.paint(canvas, Offset(x + w1 + w2, y - textHeight / 2));
+    }
 
     final dateTp = getTextPainter(getDate(point.date));
     textWidth = dateTp.width;
     x = translateXtoX(getX(index));
-    y = 0 + ChartStyle.bottomDateHigh;
+    y = getMainY(mMainHighMaxValue!) - 20;
 
     if (x < textWidth + 2 * w1) {
       x = 1 + textWidth / 2 + w1;
@@ -245,7 +245,9 @@ class ChartPainter extends BaseChartPainter {
     //   selectorBorderPaint,
     // );
 
-    dateTp.paint(canvas, Offset(x - textWidth / 2, y));
+    final datePadding = isLeft ? -5 : -5;
+    dateTp.paint(
+        canvas, Offset(x + datePadding - textWidth / 2, y - tp.height / 2));
     //Long press to show the details of this data
     sink?.add(InfoWindowModel(point, isLeft: isLeft));
   }
@@ -274,7 +276,7 @@ class ChartPainter extends BaseChartPainter {
           format(mMainLowMinValue!),
           color: ChartColors.maxMinTextColor,
         );
-        tp.paint(canvas, Offset(x, y - tp.height / 2));
+        tp.paint(canvas, Offset(x, (y - tp.height / 2) + 2));
       } else {
         final tp = getTextPainter(
           format(mMainLowMinValue!),
@@ -311,7 +313,7 @@ class ChartPainter extends BaseChartPainter {
     final y = getMainY(point.close);
     // k-line graph vertical line
     canvas.drawLine(
-      Offset(x, 40),
+      Offset(x, 20),
       Offset(x, size.height - ChartStyle.bottomDateHigh),
       paintY,
     );
@@ -341,7 +343,6 @@ class ChartPainter extends BaseChartPainter {
 
   @override
   void drawRealTimePrice(Canvas canvas, Size size) {
-    if (mMarginRight == 0 || datas.isEmpty == true) return;
     final point = datas.last;
     // var tp = getTextPainter(format(point.close!),
     //     color: ChartColors.rightRealTimeTextColor);
@@ -350,7 +351,7 @@ class ChartPainter extends BaseChartPainter {
     final max =
         (mTranslateX.abs() + mMarginRight - getMinTranslateX().abs() + 2) *
             scaleX;
-    final x = mWidth - max;
+    final x = getX(datas.length - 1);
     // if (candleType == ChartType.candle) x += mPointWidth / 2;
     // const dashWidth = 10;
     // const dashSpace = 5;

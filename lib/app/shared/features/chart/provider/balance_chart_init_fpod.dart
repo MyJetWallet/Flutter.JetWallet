@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
@@ -6,9 +7,10 @@ import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../helper/prepare_candles_from.dart';
 import '../notifier/chart_notipod.dart';
 
-final balanceChartInitFpod = FutureProvider.autoDispose<void>(
-  (ref) async {
-    final notifier = ref.watch(chartNotipod.notifier);
+final balanceChartInitFpod =
+    FutureProvider.autoDispose.family<void, AnimationController>(
+  (ref, animationController) async {
+    final notifier = ref.watch(chartNotipod(animationController).notifier);
     final chartService = ref.watch(chartServicePod);
     final baseCurrency = ref.watch(baseCurrencyPod);
 

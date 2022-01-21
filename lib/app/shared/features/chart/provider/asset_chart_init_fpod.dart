@@ -1,5 +1,6 @@
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
+import 'package:flutter/animation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service/services/chart/model/candles_request_model.dart';
@@ -8,9 +9,11 @@ import '../helper/format_merge_candles_count.dart';
 import '../helper/format_resolution.dart';
 import '../notifier/chart_notipod.dart';
 
-final assetChartInitFpod = FutureProvider.family.autoDispose<void, String>(
-  (ref, instrumentId) async {
-    final notifier = ref.watch(chartNotipod.notifier);
+final assetChartInitFpod =
+    FutureProvider.family.autoDispose<void, ChartInitModel>(
+  (ref, chartInit) async {
+    final notifier =
+        ref.watch(chartNotipod(chartInit.animationController).notifier);
     final chartService = ref.watch(chartServicePod);
 
     final toDate = DateTime.now().toUtc();
@@ -18,7 +21,7 @@ final assetChartInitFpod = FutureProvider.family.autoDispose<void, String>(
     final fromDate = toDate.subtract(depth.intervalBackDuration);
 
     final model = CandlesRequestModel(
-      candleId: instrumentId,
+      candleId: chartInit.instrumentId,
       type: timeFrameFrom(Period.day),
       bidOrAsk: 0,
       fromDate: fromDate.millisecondsSinceEpoch,
@@ -31,3 +34,13 @@ final assetChartInitFpod = FutureProvider.family.autoDispose<void, String>(
     notifier.updateCandles(candles.candles);
   },
 );
+
+class ChartInitModel {
+  ChartInitModel({
+    required this.animationController,
+    required this.instrumentId,
+  });
+
+  final AnimationController animationController;
+  final String instrumentId;
+}

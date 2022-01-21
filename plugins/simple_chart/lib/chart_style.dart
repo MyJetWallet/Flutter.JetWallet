@@ -44,7 +44,6 @@ class ChartStyle {
   static const int gridColumns = 4;
 
   static const double topPadding = 20.0;
-  // TODO(Vova): change to 20.h
   static const double bottomDateHigh = 20.0;
   static const double childPadding = 0.0;
 

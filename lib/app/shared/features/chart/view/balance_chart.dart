@@ -7,9 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../providers/client_detail_pod/client_detail_pod.dart';
 import '../notifier/chart_notipod.dart';
 import '../provider/balance_chart_init_fpod.dart';
-import 'components/loading_chart_view.dart';
 
-class BalanceChart extends HookWidget {
+class BalanceChart extends StatefulHookWidget {
   const BalanceChart({
     Key? key,
     required this.onCandleSelected,
@@ -20,10 +19,22 @@ class BalanceChart extends HookWidget {
   final String walletCreationDate;
 
   @override
+  State<StatefulWidget> createState() => _BalanceChartState();
+}
+
+class _BalanceChartState extends State<BalanceChart>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController = AnimationController(
+    duration: const Duration(seconds: 4),
+    vsync: this,
+  );
+
+  @override
   Widget build(BuildContext context) {
-    final initChart = useProvider(balanceChartInitFpod);
-    final chartNotifier = useProvider(chartNotipod.notifier);
-    final chartState = useProvider(chartNotipod);
+    final initChart = useProvider(balanceChartInitFpod(animationController));
+    final chartNotifier =
+        useProvider(chartNotipod(animationController).notifier);
+    final chartState = useProvider(chartNotipod(animationController));
     final clientDetail = useProvider(clientDetailPod);
 
     return initChart.when(
@@ -38,18 +49,30 @@ class BalanceChart extends HookWidget {
             },
             chartType: chartState.type,
             candleResolution: chartState.resolution,
-            walletCreationDate: walletCreationDate,
+            walletCreationDate: widget.walletCreationDate,
             candles: chartState.candles,
-            onCandleSelected: onCandleSelected,
+            onCandleSelected: widget.onCandleSelected,
             chartHeight: 200,
             chartWidgetHeight: 296,
             isAssetChart: false,
+            animationController: animationController,
           ),
-          loading: () => LoadingChartView(
-            walletCreationDate: clientDetail.walletCreationDate,
+          loading: () => Chart(
+            onResolutionChanged: (resolution) {
+              chartNotifier.fetchBalanceCandles(resolution);
+            },
+            onChartTypeChanged: (type) {
+              chartNotifier.updateChartType(type);
+            },
+            chartType: chartState.type,
+            candleResolution: chartState.resolution,
+            walletCreationDate: widget.walletCreationDate,
+            candles: chartState.candles,
+            onCandleSelected: widget.onCandleSelected,
             chartHeight: 200,
             chartWidgetHeight: 296,
             isAssetChart: false,
+            animationController: animationController,
           ),
           error: (String error) {
             return Center(
@@ -58,11 +81,22 @@ class BalanceChart extends HookWidget {
           },
         );
       },
-      loading: () => LoadingChartView(
-        walletCreationDate: clientDetail.walletCreationDate,
+      loading: () => Chart(
+        onResolutionChanged: (resolution) {
+          chartNotifier.fetchBalanceCandles(resolution);
+        },
+        onChartTypeChanged: (type) {
+          chartNotifier.updateChartType(type);
+        },
+        chartType: chartState.type,
+        candleResolution: chartState.resolution,
+        walletCreationDate: widget.walletCreationDate,
+        candles: chartState.candles,
+        onCandleSelected: widget.onCandleSelected,
         chartHeight: 200,
         chartWidgetHeight: 296,
         isAssetChart: false,
+        animationController: animationController,
       ),
       error: (_, __) => const Text('Error'),
     );

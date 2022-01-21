@@ -2,12 +2,12 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/chart/notifier/chart_notipod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
-import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/view/asset_chart.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
@@ -18,43 +18,55 @@ import 'components/market_news_block/market_news_block.dart';
 import 'components/market_stats_block/market_stats_block.dart';
 import 'components/return_rates_block/return_rates_block.dart';
 
-class MarketDetails extends HookWidget {
+class MarketDetails extends StatefulHookWidget {
   const MarketDetails({
     Key? key,
     required this.marketItem,
   }) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() => _MarketDetailsState();
+
   final MarketItemModel marketItem;
+}
+
+class _MarketDetailsState extends State<MarketDetails>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController = AnimationController(
+    duration: const Duration(seconds: 4),
+    vsync: this,
+  );
 
   @override
   Widget build(BuildContext context) {
     final marketInfo = useProvider(
       marketInfoFpod(
-        marketItem.associateAsset,
+        widget.marketItem.associateAsset,
       ),
     );
-    final chartN = useProvider(chartNotipod.notifier);
+    final chartN = useProvider(chartNotipod(animationController).notifier);
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     useProvider(watchlistIdsNotipod);
 
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${marketItem.name} (${marketItem.id})',
+          title: '${widget.marketItem.name} (${widget.marketItem.id})',
           showStarButton: true,
           isStarSelected:
-              watchlistIdsN.isInWatchlist(marketItem.associateAsset),
+              watchlistIdsN.isInWatchlist(widget.marketItem.associateAsset),
           onStarButtonTap: () {
-            if (watchlistIdsN.isInWatchlist(marketItem.associateAsset)) {
-              watchlistIdsN.removeFromWatchlist(marketItem.associateAsset);
+            if (watchlistIdsN.isInWatchlist(widget.marketItem.associateAsset)) {
+              watchlistIdsN
+                  .removeFromWatchlist(widget.marketItem.associateAsset);
             } else {
-              watchlistIdsN.addToWatchlist(marketItem.associateAsset);
+              watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
             }
           },
         ),
       ),
       bottomNavigationBar: BalanceBlock(
-        marketItem: marketItem,
+        marketItem: widget.marketItem,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -63,24 +75,25 @@ class MarketDetails extends HookWidget {
               height: 104,
               child: Column(
                 children: [
-                  const SpaceH9(),
                   AssetPrice(
-                    assetId: marketItem.associateAsset,
+                    animationController: animationController,
+                    assetId: widget.marketItem.associateAsset,
                   ),
                   AssetDayChange(
-                    assetId: marketItem.associateAsset,
+                    animationController: animationController,
+                    assetId: widget.marketItem.associateAsset,
                   ),
                 ],
               ),
             ),
             AssetChart(
-              marketItem.associateAssetPair,
+              widget.marketItem.associateAssetPair,
               (ChartInfoModel? chartInfo) {
-                chartN.updateSelectedCandle(chartInfo?.right);
+                // chartN.updateSelectedCandle(chartInfo?.right);
               },
             ),
             ReturnRatesBlock(
-              assetSymbol: marketItem.associateAsset,
+              assetSymbol: widget.marketItem.associateAsset,
             ),
             const SpaceH20(),
             marketInfo.when(
@@ -104,7 +117,7 @@ class MarketDetails extends HookWidget {
             ),
             const SpaceH28(),
             MarketNewsBlock(
-              assetId: marketItem.associateAsset,
+              assetId: widget.marketItem.associateAsset,
             ),
             const SpaceH34(),
           ],

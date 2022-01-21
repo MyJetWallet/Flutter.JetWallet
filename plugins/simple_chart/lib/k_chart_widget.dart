@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'components/dashed_divider/dashed_divider.dart';
 import 'model/candle_model.dart';
@@ -153,16 +152,16 @@ class _KChartWidgetState extends State<KChartWidget>
       // },
       // onHorizontalDragCancel: () => isDrag = false,
       onScaleStart: (_) {
-        isScale = true;
+        // isScale = true;
       },
       onScaleUpdate: (details) {
-        if (isDrag || isLongPress) return;
-        _scaleX = (_lastScale * details.scale).clamp(0.5, 2.2);
-        reRenderView();
+        // if (isDrag || isLongPress) return;
+        // _scaleX = (_lastScale * details.scale).clamp(0.5, 2.2);
+        // reRenderView();
       },
       onScaleEnd: (_) {
-        isScale = false;
-        _lastScale = _scaleX;
+        // isScale = false;
+        // _lastScale = _scaleX;
       },
       onLongPressStart: (details) {
         HapticFeedback.vibrate();
@@ -189,18 +188,17 @@ class _KChartWidgetState extends State<KChartWidget>
       },
       child: Stack(
         children: <Widget>[
-          // TODO(Vova): hide lines on Portfolio Chart
           if (!isLongPress && widget.isAssetChart)
-            DashedDivider(
-              topPadding: 20.h,
+            const DashedDivider(
+              topPadding: 20,
             ),
           if (!isLongPress && widget.isAssetChart)
-            DashedDivider(
-              topPadding: 120.h,
+            const DashedDivider(
+              topPadding: 120,
             ),
           if (!isLongPress && widget.isAssetChart)
-            DashedDivider(
-              topPadding: 220.h,
+            const DashedDivider(
+              topPadding: 219,
             ),
           CustomPaint(
             size: Size.infinite,

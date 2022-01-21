@@ -15,9 +15,11 @@ import '../../../../../wallet/helper/market_item_from.dart';
 class AssetPrice extends HookWidget {
   const AssetPrice({
     Key? key,
+    required this.animationController,
     required this.assetId,
   }) : super(key: key);
 
+  final AnimationController animationController;
   final String assetId;
 
   @override
@@ -26,16 +28,23 @@ class AssetPrice extends HookWidget {
       useProvider(marketItemsPod),
       assetId,
     );
-    final chart = useProvider(chartNotipod);
+    final chart = useProvider(chartNotipod(animationController));
     final baseCurrency = useProvider(baseCurrencyPod);
 
-    return Text(
-      _price(
-        marketItem,
-        chart,
-        baseCurrency,
+    return SizedBox(
+      height: 40,
+      child: Baseline(
+        baseline: 40.5,
+        baselineType: TextBaseline.alphabetic,
+        child: Text(
+          _price(
+            marketItem,
+            chart,
+            baseCurrency,
+          ),
+          style: sTextH2Style,
+        ),
       ),
-      style: sTextH2Style,
     );
   }
 

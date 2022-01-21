@@ -1,5 +1,6 @@
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
+import 'package:flutter/animation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -18,6 +19,7 @@ import 'chart_union.dart';
 class ChartNotifier extends StateNotifier<ChartState> {
   ChartNotifier({
     required this.read,
+    required this.animationController,
   }) : super(
           const ChartState(
             candles: [],
@@ -27,6 +29,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
         );
 
   final Reader read;
+  final AnimationController? animationController;
 
   static final _logger = Logger('ChartNotifier');
 
@@ -91,6 +94,10 @@ class ChartNotifier extends StateNotifier<ChartState> {
       candles: candles,
       union: const Candles(),
     );
+
+    print('________________________${animationController}');
+    animationController?.reset();
+    animationController?.forward();
   }
 
   void updateChartType(ChartType type) {

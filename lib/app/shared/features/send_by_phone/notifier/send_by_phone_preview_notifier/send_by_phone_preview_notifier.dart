@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/shared/components/result_screens/failure_screen/failure_screen.dart';
+import 'package:jetwallet/shared/helpers/navigate_to_router.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/transfer/model/tranfer_by_phone/transfer_by_phone_request_model.dart';
 import '../../../../../../service/shared/models/server_reject_exception.dart';
-import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
-import '../../../../../../shared/helpers/decompose_phone_number.dart';
-import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -47,17 +46,17 @@ class SendByPhonePreviewNotifier
     state = state.copyWith(loading: true);
 
     try {
-      final number = await decomposePhoneNumber(
-        state.pickedContact!.phoneNumber,
-      );
+      // final number = await decomposePhoneNumber(
+      //   state.pickedContact!.phoneNumber,
+      // );
 
       final model = TransferByPhoneRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: currency.symbol,
         amount: double.parse(state.amount),
-        toPhoneBody: number.body,
-        toPhoneCode: number.dialCode,
-        toPhoneIso: number.isoCode,
+        toPhoneBody: '',
+        toPhoneCode: '',
+        toPhoneIso: '',
         locale: read(intlPod).localeName,
       );
 

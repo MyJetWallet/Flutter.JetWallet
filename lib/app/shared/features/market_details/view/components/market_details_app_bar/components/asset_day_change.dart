@@ -12,15 +12,17 @@ import '../../../../helper/period_change.dart';
 class AssetDayChange extends HookWidget {
   const AssetDayChange({
     Key? key,
+    required this.animationController,
     required this.assetId,
   }) : super(key: key);
 
+  final AnimationController animationController;
   final String assetId;
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final chart = useProvider(chartNotipod);
+    final chart = useProvider(chartNotipod(animationController));
     final baseCurrency = useProvider(baseCurrencyPod);
     final periodChange = _periodChange(
       chart,
@@ -29,10 +31,17 @@ class AssetDayChange extends HookWidget {
     final periodChangeColor =
         periodChange.contains('-') ? colors.red : colors.green;
 
-    return Text(
-      periodChange,
-      style: sSubtitle3Style.copyWith(
-        color: periodChangeColor,
+    return SizedBox(
+      height: 24,
+      child: Baseline(
+        baseline: 24,
+        baselineType: TextBaseline.alphabetic,
+        child: Text(
+          periodChange,
+          style: sSubtitle3Style.copyWith(
+            color: periodChangeColor,
+          ),
+        ),
       ),
     );
   }
