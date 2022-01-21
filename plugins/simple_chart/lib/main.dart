@@ -49,7 +49,6 @@ import './simple_chart.dart';
 class Chart extends StatefulWidget {
   const Chart({
     Key? key,
-    required this.animationController,
     required this.onResolutionChanged,
     required this.onChartTypeChanged,
     required this.onCandleSelected,
@@ -63,7 +62,6 @@ class Chart extends StatefulWidget {
     this.selectedCandlePadding,
   }) : super(key: key);
 
-  final AnimationController animationController;
   final void Function(String) onResolutionChanged;
   final void Function(ChartType) onChartTypeChanged;
   final void Function(ChartInfoModel?) onCandleSelected;
@@ -80,13 +78,19 @@ class Chart extends StatefulWidget {
   _ChartState createState() => _ChartState();
 }
 
+var showAnimation = false;
+
 class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
+  late final AnimationController animationController = AnimationController(
+    duration: const Duration(seconds: 4),
+    vsync: this,
+  );
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
     begin: Offset.zero,
     end: const Offset(5.0, 0.0),
   ).animate(
     CurvedAnimation(
-      parent: widget.animationController,
+      parent: animationController,
       curve: Curves.linear,
     ),
   );
@@ -94,13 +98,13 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    widget.animationController.forward();
+    animationController.forward();
     super.initState();
   }
 
   @override
   void dispose() {
-    widget.animationController.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -126,6 +130,12 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
       showWeek = dateDifference > const Duration(days: 7).inHours;
       showMonth = dateDifference > const Duration(days: 30).inHours;
       showYear = dateDifference > const Duration(days: 365).inHours;
+    }
+
+    if (showAnimation) {
+      animationController.reset();
+      animationController.forward();
+      showAnimation = false;
     }
 
     return SizedBox(

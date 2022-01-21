@@ -9,11 +9,9 @@ import '../helper/format_merge_candles_count.dart';
 import '../helper/format_resolution.dart';
 import '../notifier/chart_notipod.dart';
 
-final assetChartInitFpod =
-    FutureProvider.family.autoDispose<void, ChartInitModel>(
-  (ref, chartInit) async {
-    final notifier =
-        ref.watch(chartNotipod(chartInit.animationController).notifier);
+final assetChartInitFpod = FutureProvider.family.autoDispose<void, String>(
+  (ref, instrumentId) async {
+    final notifier = ref.watch(chartNotipod.notifier);
     final chartService = ref.watch(chartServicePod);
 
     final toDate = DateTime.now().toUtc();
@@ -21,7 +19,7 @@ final assetChartInitFpod =
     final fromDate = toDate.subtract(depth.intervalBackDuration);
 
     final model = CandlesRequestModel(
-      candleId: chartInit.instrumentId,
+      candleId: instrumentId,
       type: timeFrameFrom(Period.day),
       bidOrAsk: 0,
       fromDate: fromDate.millisecondsSinceEpoch,

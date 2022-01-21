@@ -23,26 +23,18 @@ class AssetChart extends StatefulHookWidget {
 
 class _AssetChartState extends State<AssetChart>
     with SingleTickerProviderStateMixin {
-  late final AnimationController animationController = AnimationController(
-    duration: const Duration(seconds: 4),
-    vsync: this,
-  );
-
   @override
   Widget build(BuildContext context) {
     final initCharts = useProvider(
       assetChartInitFpod(
-        ChartInitModel(
-          animationController: animationController,
-          instrumentId: widget.instrumentId,
-        ),
+        widget.instrumentId,
       ),
     );
     final chartNotifier = useProvider(
-      chartNotipod(animationController).notifier,
+      chartNotipod.notifier,
     );
     final chartState = useProvider(
-      chartNotipod(animationController),
+      chartNotipod,
     );
 
     return initCharts.when(
@@ -66,30 +58,27 @@ class _AssetChartState extends State<AssetChart>
               chartHeight: 240,
               chartWidgetHeight: 336,
               isAssetChart: true,
-              animationController: animationController,
             );
           },
           loading: () {
-            return Container();
-            // return Chart(
-            //   onResolutionChanged: (resolution) {
-            //     chartNotifier.fetchAssetCandles(
-            //       resolution,
-            //       widget.instrumentId,
-            //     );
-            //   },
-            //   onChartTypeChanged: (type) {
-            //     chartNotifier.updateChartType(type);
-            //   },
-            //   chartType: chartState.type,
-            //   candleResolution: chartState.resolution,
-            //   candles: chartState.candles,
-            //   onCandleSelected: widget.onCandleSelected,
-            //   chartHeight: 240,
-            //   chartWidgetHeight: 336,
-            //   isAssetChart: true,
-            //   animationController: animationController,
-            // );
+            return Chart(
+              onResolutionChanged: (resolution) {
+                chartNotifier.fetchAssetCandles(
+                  resolution,
+                  widget.instrumentId,
+                );
+              },
+              onChartTypeChanged: (type) {
+                chartNotifier.updateChartType(type);
+              },
+              chartType: chartState.type,
+              candleResolution: chartState.resolution,
+              candles: chartState.candles,
+              onCandleSelected: widget.onCandleSelected,
+              chartHeight: 240,
+              chartWidgetHeight: 336,
+              isAssetChart: true,
+            );
           },
           error: (String error) {
             return Center(

@@ -32,19 +32,14 @@ class PortfolioWithBalanceBody extends StatefulHookWidget {
 
 class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody>
     with SingleTickerProviderStateMixin {
-  late final AnimationController animationController = AnimationController(
-    duration: const Duration(seconds: 4),
-    vsync: this,
-  );
-
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);
-    final chartN = useProvider(chartNotipod(animationController).notifier);
-    final chart = useProvider(chartNotipod(animationController));
+    final chartN = useProvider(chartNotipod.notifier);
+    final chart = useProvider(chartNotipod);
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final clientDetail = useProvider(clientDetailPod);

@@ -32,11 +32,6 @@ class MarketDetails extends StatefulHookWidget {
 
 class _MarketDetailsState extends State<MarketDetails>
     with SingleTickerProviderStateMixin {
-  late final AnimationController animationController = AnimationController(
-    duration: const Duration(seconds: 4),
-    vsync: this,
-  );
-
   @override
   Widget build(BuildContext context) {
     final marketInfo = useProvider(
@@ -44,7 +39,7 @@ class _MarketDetailsState extends State<MarketDetails>
         widget.marketItem.associateAsset,
       ),
     );
-    final chartN = useProvider(chartNotipod(animationController).notifier);
+    final chartN = useProvider(chartNotipod.notifier);
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     useProvider(watchlistIdsNotipod);
 
@@ -76,11 +71,9 @@ class _MarketDetailsState extends State<MarketDetails>
               child: Column(
                 children: [
                   AssetPrice(
-                    animationController: animationController,
                     assetId: widget.marketItem.associateAsset,
                   ),
                   AssetDayChange(
-                    animationController: animationController,
                     assetId: widget.marketItem.associateAsset,
                   ),
                 ],
