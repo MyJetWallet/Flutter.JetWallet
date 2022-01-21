@@ -17,7 +17,7 @@ class KycCountriesNotifier extends StateNotifier<KycCountriesState> {
       sortedCountries: countries.countries,
     );
 
-    _setCountryByRegistration(countryOfRegistration);
+    _identifyCountryByUserRegister(countryOfRegistration);
   }
 
   final Reader read;
@@ -44,9 +44,7 @@ class KycCountriesNotifier extends StateNotifier<KycCountriesState> {
     state = state.copyWith(activeCountry: country);
   }
 
-  void _setCountryByRegistration(String? countryOfRegistration) {
-    _logger.log(notifier, '_setCountryByRegistration');
-
+  void _identifyCountryByUserRegister(String? countryOfRegistration) {
     final country = <KycCountryModel>[];
 
     if (countryOfRegistration != null) {

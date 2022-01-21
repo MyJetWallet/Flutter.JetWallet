@@ -6,8 +6,10 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import 'set_phone_number_state.dart';
+import '../../../helpers/country_code_by_user_register.dart';
+import 'phone_number_state.dart';
 
 class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
   PhoneNumberNotifier(this.read)
@@ -21,7 +23,9 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
             loader: StackLoaderNotifier(),
             phoneFieldError: StandardFieldErrorNotifier(),
           ),
-        );
+        ) {
+    _checkRegisterCountryUser()
+  };
 
   final Reader read;
 
@@ -71,6 +75,25 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
     state = state.copyWith(dialCodeSearch: dialCodeSearch);
 
     _filterByDialCodeSearch();
+  }
+
+  void _checkRegisterCountryUser() {
+    final userInfo = read(userInfoNotipod);
+
+    if (userInfo.countryOfRegistration.isNotEmpty) {
+      final phoneNumber = countryCodeByUserRegister(
+        userInfo.countryOfRegistration,
+      );
+
+      if (phoneNumber != null) {
+        state = state.copyWith(
+          activeDialCode: phoneNumber,
+          dialCodeController: TextEditingController(
+            text: phoneNumber.countryCode,
+          ),
+        );
+      }
+    }
   }
 
   void _filterByDialCodeSearch() {
