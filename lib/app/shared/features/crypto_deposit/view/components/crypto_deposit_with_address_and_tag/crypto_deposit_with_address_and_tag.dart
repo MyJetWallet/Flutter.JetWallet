@@ -28,7 +28,9 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
     return Expanded(
       child: Column(
         children: [
-          const DepositWithTagInfo(),
+          DepositWithTagInfo(
+            currencySymbol: currency.symbol,
+          ),
           SAddressFieldWithCopy(
             header: '${currency.symbol} Wallet address',
             value: shortAddressForm(deposit.address),

@@ -44,10 +44,9 @@ class SActionItem extends StatelessWidget {
                           textBaseline: TextBaseline.alphabetic,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
-                            SizedBox(
-                              width: 177.0,
+                            Expanded(
                               child: Baseline(
-                                baseline: 17.8,
+                                baseline: 18.0,
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
                                   name,
@@ -55,7 +54,7 @@ class SActionItem extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Spacer(),
+                            const SpaceW16(),
                             SizedBox(
                               width: 90.0,
                               child: Text(
@@ -69,7 +68,7 @@ class SActionItem extends StatelessWidget {
                           ],
                         ),
                         Baseline(
-                          baseline: 15.5,
+                          baseline: 14.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             description,

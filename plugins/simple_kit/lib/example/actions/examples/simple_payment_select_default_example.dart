@@ -25,24 +25,20 @@ class SimplePaymentSelectDefaultExample extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SpaceW24(),
-                    const SpaceW24(),
-                    const SpaceW24(),
-                    Column(
-                      children: [
-                        const SpaceH32(),
-                        Container(
-                          width: 24.0,
-                          height: 24.0,
-                          color: Colors.red.withOpacity(0.3),
-                        ),
-                      ],
-                    ),
                     Container(
-                      width: 10.0,
+                      width: 20.0,
                       height: 88.0,
                       color: Colors.blue.withOpacity(0.2),
-                      child: const Text('10px'),
+                      child: const Text('20px'),
                     ),
+                    const Spacer(),
+                    Container(
+                      width: 20.0,
+                      height: 88.0,
+                      color: Colors.blue.withOpacity(0.2),
+                      child: const Text('20px'),
+                    ),
+                    const SpaceW24(),
                   ],
                 ),
                 Container(
