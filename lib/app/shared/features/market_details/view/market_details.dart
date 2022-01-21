@@ -82,7 +82,7 @@ class _MarketDetailsState extends State<MarketDetails>
             AssetChart(
               widget.marketItem.associateAssetPair,
               (ChartInfoModel? chartInfo) {
-                // chartN.updateSelectedCandle(chartInfo?.right);
+                chartN.updateSelectedCandle(chartInfo?.right);
               },
             ),
             ReturnRatesBlock(
