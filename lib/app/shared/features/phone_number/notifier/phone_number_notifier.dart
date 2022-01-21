@@ -24,8 +24,8 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
             phoneFieldError: StandardFieldErrorNotifier(),
           ),
         ) {
-    _checkRegisterCountryUser()
-  };
+    _checkRegisterCountryUser();
+  }
 
   final Reader read;
 

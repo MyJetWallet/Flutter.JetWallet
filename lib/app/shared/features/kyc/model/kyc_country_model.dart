@@ -16,7 +16,6 @@ class KycCountriesState with _$KycCountriesState {
         isBlocked: false,
       ),
     ) KycCountryModel activeCountry,
-
   }) = _KycCountriesState;
 }
 

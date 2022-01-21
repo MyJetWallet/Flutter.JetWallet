@@ -8,14 +8,14 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../phone_verification/view/phone_verification.dart';
-import '../notifier/set_phone_number_notipod.dart';
+import '../notifier/phone_number_notipod.dart';
 import 'components/show_country_phone_number_picker.dart';
 
 /// Called in 2 cases:
 /// 1. when we want to change number
 /// 2. when we are enabling 2FA but we haven't added phone number yet
-class SetPhoneNumber extends HookWidget {
-  const SetPhoneNumber({
+class PhoneNumber extends HookWidget {
+  const PhoneNumber({
     Key? key,
     this.then,
     required this.successText,
@@ -31,7 +31,7 @@ class SetPhoneNumber extends HookWidget {
   }) {
     navigatorPush(
       context,
-      SetPhoneNumber(
+      PhoneNumber(
         successText: successText,
         then: then,
       ),
@@ -45,7 +45,7 @@ class SetPhoneNumber extends HookWidget {
   }) {
     navigatorPushReplacement(
       context,
-      SetPhoneNumber(
+      PhoneNumber(
         successText: successText,
         then: then,
       ),

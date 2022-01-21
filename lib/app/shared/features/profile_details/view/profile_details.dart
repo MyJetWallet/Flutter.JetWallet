@@ -5,8 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../phone_number/view/set_phone_number.dart';
 import '../../phone_verification/view/phone_verification.dart';
-import '../../set_phone_number/view/set_phone_number.dart';
 import 'components/change_password/change_password.dart';
 
 class ProfileDetails extends HookWidget {
@@ -53,7 +53,7 @@ class ProfileDetails extends HookWidget {
                         phoneNumber: userInfo.phone,
                         showChangeTextAlert: true,
                         onVerified: () {
-                          SetPhoneNumber.pushReplacement(
+                          PhoneNumber.pushReplacement(
                             context: context,
                             successText: 'New phone number confirmed',
                           );

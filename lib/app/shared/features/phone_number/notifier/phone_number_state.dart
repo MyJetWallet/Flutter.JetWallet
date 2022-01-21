@@ -4,7 +4,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../helpers/is_phone_number_valid.dart';
 
-part 'set_phone_number_state.freezed.dart';
+part 'phone_number_state.freezed.dart';
 
 @freezed
 class PhoneNumberState with _$PhoneNumberState {
