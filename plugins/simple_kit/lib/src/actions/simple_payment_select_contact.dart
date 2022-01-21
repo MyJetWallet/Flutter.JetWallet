@@ -26,22 +26,22 @@ class SPaymentSelectContact extends StatelessWidget {
         ),
         child: Column(
           children: [
+            const SpaceH23(), // + 1px border
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SpaceW20(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24.0,
+                const SpaceW19(), // + 1px border
+                Container(
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: SColorsLight().blue,
                   ),
-                  child: Container(
-                    width: 40.0,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: SColorsLight().blue,
-                    ),
-                    child: Center(
+                  child: Center(
+                    child: Baseline(
+                      baseline: 16.0,
+                      baselineType: TextBaseline.alphabetic,
                       child: Text(
                         initialsFrom(name),
                         style: sSubtitle3Style.copyWith(
@@ -57,7 +57,7 @@ class SPaymentSelectContact extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Baseline(
-                        baseline: 42.0,
+                        baseline: 18.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
                           name,
@@ -77,7 +77,7 @@ class SPaymentSelectContact extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SpaceW20(),
+                const SpaceW19(), // + 1px border
               ],
             ),
           ],

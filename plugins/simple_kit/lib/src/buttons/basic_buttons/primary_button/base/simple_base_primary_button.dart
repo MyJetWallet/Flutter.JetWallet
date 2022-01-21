@@ -7,7 +7,6 @@ class SimpleBasePrimaryButton extends HookWidget {
   const SimpleBasePrimaryButton({
     Key? key,
     this.icon,
-    this.addIconPadding = true,
     required this.active,
     required this.name,
     required this.onTap,
@@ -25,7 +24,6 @@ class SimpleBasePrimaryButton extends HookWidget {
   final Color activeNameColor;
   final Color inactiveColor;
   final Color inactiveNameColor;
-  final bool addIconPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +52,6 @@ class SimpleBasePrimaryButton extends HookWidget {
         highlighted.value = value;
       },
       icon: icon,
-      enableIconPadding: addIconPadding,
       nameColor: currentNameColor,
       decoration: BoxDecoration(
         color: currentColor,

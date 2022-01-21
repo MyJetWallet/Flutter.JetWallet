@@ -14,6 +14,7 @@ const keyValueMessage = 'key-values';
 const campaignsBannersMessage  = 'campaigns-banners';
 const referralStatsMessage  = 'referrer-stats';
 const kycCountriesMessage = 'kyc-countries';
+const indicesMessage = 'index-details';
 
 // HTTP
 const postRequest = 'POST';

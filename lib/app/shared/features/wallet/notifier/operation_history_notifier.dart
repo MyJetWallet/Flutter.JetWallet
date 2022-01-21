@@ -20,7 +20,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
         );
 
   final Reader read;
-  final String assetId;
+  final String? assetId;
 
   static final _logger = Logger('OperationHistoryNotifier');
 
@@ -53,7 +53,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     }
   }
 
-  Future<void> operationHistory(String assetId) async {
+  Future<void> operationHistory(String? assetId) async {
     _logger.log(notifier, 'operationHistory');
 
     try {
@@ -85,11 +85,18 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
   void updateOperationHistory(List<OperationHistoryItem> items) {
     _logger.log(notifier, 'updateOperationHistory');
 
-    state = state.copyWith(
-      operationHistoryItems: state.operationHistoryItems +
-          _filterUnusedOperationTypeItemsFrom(items),
-      union: const Loaded(),
-    );
+    if (items.isEmpty) {
+      state = state.copyWith(
+        nothingToLoad: true,
+        union: const Loaded(),
+      );
+    } else {
+      state = state.copyWith(
+        operationHistoryItems: state.operationHistoryItems +
+            _filterUnusedOperationTypeItemsFrom(items),
+        union: const Loaded(),
+      );
+    }
   }
 
   Future<OperationHistoryResponseModel> _requestOperationHistory(

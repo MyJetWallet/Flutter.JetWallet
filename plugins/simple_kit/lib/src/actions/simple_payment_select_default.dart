@@ -33,21 +33,25 @@ class SPaymentSelectDefault extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SpaceH32(),
+              const SpaceH31(), // + 1 px border
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SpaceW19(), // + 1 px border
                   icon,
                   const SpaceW10(),
-                  Baseline(
-                    baseline: 17.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      name,
-                      style: sSubtitle2Style,
+                  Flexible(
+                    child: Baseline(
+                      baseline: 18.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        name,
+                        style: sSubtitle2Style,
+                      ),
                     ),
                   ),
+                  const SpaceW19(), // + 1 px border
                 ],
               ),
             ],

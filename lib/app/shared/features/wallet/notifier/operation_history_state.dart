@@ -10,5 +10,6 @@ class OperationHistoryState with _$OperationHistoryState {
   const factory OperationHistoryState({
     required List<OperationHistoryItem> operationHistoryItems,
     @Default(Loading()) OperationHistoryUnion union,
+    @Default(false) bool nothingToLoad,
   }) = _OperationHistoryState;
 }

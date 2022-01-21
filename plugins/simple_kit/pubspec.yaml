@@ -28,6 +28,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/icons/light/13x14/stats/
     - assets/icons/light/16x16/fee_alert/
     - assets/icons/light/16x16/cross/
     - assets/icons/light/16x16/small_arrow/
@@ -44,6 +45,7 @@ flutter:
     - assets/icons/light/20x20/send_by_phone/
     - assets/icons/light/20x20/swap/
     - assets/icons/light/20x20/withdrawal_fee/
+    - assets/icons/light/24x24/index_history/
     - assets/icons/light/24x24/action_buy/
     - assets/icons/light/24x24/action_convert/
     - assets/icons/light/24x24/action_deposit/
