@@ -14,22 +14,18 @@ class KycVerifyYourProfile extends HookWidget {
   const KycVerifyYourProfile({
     Key? key,
     required this.requiredVerifications,
-    required this.documents,
   }) : super(key: key);
 
   final List<RequiredVerified> requiredVerifications;
-  final List<KycDocumentType> documents;
 
   static void push({
     required BuildContext context,
     required List<RequiredVerified> requiredVerifications,
-    required List<KycDocumentType> documents,
   }) {
     navigatorPush(
       context,
       KycVerifyYourProfile(
         requiredVerifications: requiredVerifications,
-        documents: documents,
       ),
     );
   }
@@ -160,7 +156,6 @@ class KycVerifyYourProfile extends HookWidget {
                 ChooseDocuments.pushReplacement(
                   context: context,
                   headerTitle: notifier.chooseDocumentsHeaderTitle(),
-                  documents: documents,
                 );
               },
             ),

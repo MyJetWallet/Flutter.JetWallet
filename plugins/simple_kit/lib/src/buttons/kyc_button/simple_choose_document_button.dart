@@ -6,12 +6,12 @@ import '../../colors/view/simple_colors_light.dart';
 class SChooseDocument extends StatelessWidget {
   const SChooseDocument({
     Key? key,
-    this.activeDocument = false,
+    this.active = false,
     required this.primaryText,
     required this.onTap,
   }) : super(key: key);
 
-  final bool activeDocument;
+  final bool active;
   final String primaryText;
   final Function() onTap;
 
@@ -27,12 +27,12 @@ class SChooseDocument extends StatelessWidget {
             left: 20.0,
           ),
           decoration: BoxDecoration(
-            border: activeDocument
+            border: active
                 ? null
                 : Border.all(
                     color: SColorsLight().grey4,
                   ),
-            color: activeDocument ? SColorsLight().grey5 : Colors.transparent,
+            color: active ? SColorsLight().grey5 : Colors.transparent,
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Row(
@@ -42,7 +42,7 @@ class SChooseDocument extends StatelessWidget {
               Text(
                 primaryText,
                 style: sSubtitle2Style.copyWith(
-                  color: activeDocument
+                  color: active
                       ? SColorsLight().blue
                       : SColorsLight().black,
                 ),

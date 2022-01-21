@@ -10,7 +10,6 @@ import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
-import '../../../notifier/choose_documents/choose_documents_state.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_notipod.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_state.dart';
 import '../kyc_selfie/kyc_selfie.dart';
@@ -23,7 +22,6 @@ class UploadKycDocuments extends HookWidget {
 
   static void push({
     required BuildContext context,
-    required DocumentsModel activeDocument,
   }) {
     navigatorPush(
       context,

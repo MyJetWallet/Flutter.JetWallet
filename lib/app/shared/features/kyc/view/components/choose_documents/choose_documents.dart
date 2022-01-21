@@ -18,22 +18,18 @@ class ChooseDocuments extends HookWidget {
   const ChooseDocuments({
     Key? key,
     required this.headerTitle,
-    required this.documents,
   }) : super(key: key);
 
   final String headerTitle;
-  final List<KycDocumentType> documents;
 
   static void pushReplacement({
     required BuildContext context,
     required String headerTitle,
-    required List<KycDocumentType> documents,
   }) {
     navigatorPushReplacement(
       context,
       ChooseDocuments(
         headerTitle: headerTitle,
-        documents: documents,
       ),
     );
   }
@@ -47,7 +43,6 @@ class ChooseDocuments extends HookWidget {
       context,
       ChooseDocuments(
         headerTitle: headerTitle,
-        documents: documents,
       ),
     );
   }
@@ -105,7 +100,7 @@ class ChooseDocuments extends HookWidget {
                           primaryText: stringKycDocumentType(
                             state.documents[index].document,
                           ),
-                          activeDocument: state.documents[index].active,
+                          active: state.documents[index].active,
                           onTap: () {
                             notifier.activeDocument(state.documents[index]);
                           },
@@ -129,7 +124,6 @@ class ChooseDocuments extends HookWidget {
                 if (status == PermissionStatus.granted) {
                   UploadKycDocuments.push(
                     context: context,
-                    activeDocument: notifier.getActiveDocument(),
                   );
                 } else {
                   AllowCamera.push(

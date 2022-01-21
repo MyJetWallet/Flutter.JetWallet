@@ -6,20 +6,17 @@ part 'kyc_country_model.freezed.dart';
 @freezed
 class KycCountriesState with _$KycCountriesState {
   const factory KycCountriesState({
-    @Default([])
-        List<KycCountryModel> countries,
-    @Default([])
-        List<KycCountryModel> sortedCountries,
-    @Default('')
-        String countryNameSearch,
+    @Default([]) List<KycCountryModel> countries,
+    @Default([]) List<KycCountryModel> sortedCountries,
+    @Default('') String countryNameSearch,
     @Default(
       KycCountryModel(
         countryName: 'Afghanistan',
         countryCode: 'AF',
         isBlocked: false,
       ),
-    )
-        KycCountryModel activeCountry,
+    ) KycCountryModel activeCountry,
+
   }) = _KycCountriesState;
 }
 

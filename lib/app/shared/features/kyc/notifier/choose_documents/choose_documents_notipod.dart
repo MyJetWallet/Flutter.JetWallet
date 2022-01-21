@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../kyc/kyc_notipod.dart';
+
+import '../kyc_countries/kyc_countries_notipod.dart';
 import 'choose_documents_notifier.dart';
 import 'choose_documents_state.dart';
 
@@ -7,13 +8,13 @@ final chooseDocumentsNotipod = StateNotifierProvider.autoDispose<
     ChooseDocumentsNotifier, ChooseDocumentsState>((
   ref,
 ) {
-  final kycN = ref.watch(kycNotipod.notifier);
+  final countries = ref.watch(kycCountriesNotipod);
 
   final modifyDocuments = <DocumentsModel>[];
-  for (var i = 0; i < kycN.kycModel.requiredDocuments.length; i++) {
+  for (var i = 0; i < countries.activeCountry.acceptedDocuments.length; i++) {
     modifyDocuments.add(
       DocumentsModel(
-        document: kycN.kycModel.requiredDocuments[i],
+        document: countries.activeCountry.acceptedDocuments[i],
       ),
     );
   }

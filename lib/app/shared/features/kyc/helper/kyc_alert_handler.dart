@@ -143,7 +143,6 @@ class KycAlertHandler {
         then: () => KycVerifyYourProfile.push(
           context: context,
           requiredVerifications: requiredVerifications,
-          documents: documents,
         ),
       );
     } else {
