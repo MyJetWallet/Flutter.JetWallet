@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'flag_asset_name.dart';
 
-class FlagIconSvg extends StatelessWidget {
+class FlagIconSvg extends HookWidget {
   const FlagIconSvg({
     Key? key,
     required this.countryCode,
@@ -12,6 +15,8 @@ class FlagIconSvg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(
@@ -19,11 +24,15 @@ class FlagIconSvg extends StatelessWidget {
       ),
       height: 24,
       width: 24,
-      child: SvgPicture.asset(
+      child: (countryFlagExist(countryCode)) ? SvgPicture.asset(
         flagAssetName(countryCode),
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
         height: 24,
         width: 24,
+      ) : Container(
+        height: 24,
+        width: 24,
+        color: colors.grey4,
       ),
     );
   }

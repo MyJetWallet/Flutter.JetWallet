@@ -186,13 +186,17 @@ class UploadKycDocumentsNotifier
       if (state.documentFirstSide != null && state.documentSecondSide != null) {
         return 'Upload photos';
       } else {
-        return 'Scan ${state.numberSide + 1} side';
+        if (state.numberSide == 0) {
+          return 'Front side';
+        } else {
+          return 'Back side';
+        }
       }
     } else {
       if (state.documentFirstSide != null) {
         return 'Upload photos';
       } else {
-        return 'Scan ${state.numberSide + 1} side';
+        return 'Front side';
       }
     }
   }

@@ -97,18 +97,24 @@ class KycSelfie extends HookWidget {
                       const Spacer(),
                       SPaddingH24(
                         child: Row(
-                          children: const [
-                            Text('We’ll compare it with your document.'),
+                          children: [
+                            Text(
+                              'We’ll compare it with your document.',
+                              style: sBodyText1Style,
+                            ),
                           ],
                         ),
                       ),
                       SPaddingH24(
                         child: Row(
-                          children: const [
+                          children: [
                             Baseline(
                               baseline: 48,
                               baselineType: TextBaseline.alphabetic,
-                              child: Text('The selfie should clearly show:'),
+                              child: Text(
+                                'The selfie should clearly show:',
+                                style: sBodyText1Style,
+                              ),
                             ),
                           ],
                         ),
@@ -133,7 +139,7 @@ class KycSelfie extends HookWidget {
                                   baselineType: TextBaseline.alphabetic,
                                   child: Text(
                                     'Face forward and make sure your eyes\n'
-                                        'are clearly visible',
+                                    'are clearly visible',
                                     style: sBodyText1Style.copyWith(
                                       color: colors.grey1,
                                     ),
@@ -177,7 +183,7 @@ class KycSelfie extends HookWidget {
                 onTap: () async {
                   if (state.isSelfieNotEmpty) {
                     loader.value.startLoading();
-                    
+
                     await notifier.uploadDocuments(
                       kycDocumentTypeInt(KycDocumentType.selfieImage),
                     );

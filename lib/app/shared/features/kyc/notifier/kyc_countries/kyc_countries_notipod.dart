@@ -18,14 +18,11 @@ final kycCountriesNotipod =
       for (var i = 0; i < data.countries.length; i++) {
         final documents = <KycDocumentType>[];
         if (data.countries[i].acceptedDocuments.isNotEmpty) {
+          data.countries[i].acceptedDocuments.sort((a, b) => a.compareTo(b));
+
           for (final document in data.countries[i].acceptedDocuments) {
             documents.add(kycDocumentType(document));
           }
-        } else {
-          documents.add(kycDocumentType(1));
-          documents.add(kycDocumentType(2));
-          documents.add(kycDocumentType(3));
-          documents.add(kycDocumentType(4));
         }
 
         value.add(

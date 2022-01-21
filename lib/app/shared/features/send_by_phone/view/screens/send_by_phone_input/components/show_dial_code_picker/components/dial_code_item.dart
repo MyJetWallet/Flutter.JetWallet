@@ -5,7 +5,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../helpers/flag_icon_svg.dart';
 
-
 class DialCodeItem extends HookWidget {
   const DialCodeItem({
     Key? key,
@@ -35,7 +34,9 @@ class DialCodeItem extends HookWidget {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 20,),
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                    ),
                     child: FlagIconSvg(
                       countryCode: dialCode.isoCode,
                     ),
@@ -61,9 +62,7 @@ class DialCodeItem extends HookWidget {
                           child: Text(
                             dialCode.countryName,
                             style: sSubtitle2Style.copyWith(
-                              color: active
-                                  ? colors.blue
-                                  : colors.black,
+                              color: active ? colors.blue : colors.black,
                             ),
                           ),
                         ),

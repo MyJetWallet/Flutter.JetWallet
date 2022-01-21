@@ -7,12 +7,10 @@ class SPhoneNumber {
     required this.countryCode,
     required this.isoCode,
     required this.numCode,
-    required this.asset,
   });
 
   final String countryName;
   final String countryCode;
   final String isoCode;
   final String numCode;
-  final String asset;
 }

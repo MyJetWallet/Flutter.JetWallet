@@ -89,7 +89,9 @@ class UploadKycDocuments extends HookWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Side ${state.numberSide + 1}',
+                            (state.numberSide == 0)
+                                ? 'Front side'
+                                : 'Back side',
                             style: sSubtitle2Style,
                           ),
                         ],

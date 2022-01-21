@@ -4,7 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/currency_buy/view/curency_buy.dart';
+import '../../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../../shared/features/market_details/helper/currency_from.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/empty_portfolio_body_header_text.dart';
@@ -19,6 +21,10 @@ class EmptyPortfolioBody extends HookWidget {
     final currency = currencyFrom(
       useProvider(currenciesPod),
       'BTC',
+    );
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
     );
 
     return Column(
@@ -39,10 +45,15 @@ class EmptyPortfolioBody extends HookWidget {
           active: true,
           name: 'Buy bitcoin',
           onTap: () {
-            navigatorPush(
-              context,
-              CurrencyBuy(
-                currency: currency,
+            kycAlertHandler.handle(
+              status: kycState.sellStatus,
+              kycVerified: kycState,
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () => navigatorPush(
+                context,
+                CurrencyBuy(
+                  currency: currency,
+                ),
               ),
             );
           },
