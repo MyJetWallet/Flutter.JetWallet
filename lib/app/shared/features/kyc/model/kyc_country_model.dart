@@ -9,13 +9,7 @@ class KycCountriesState with _$KycCountriesState {
     @Default([]) List<KycCountryModel> countries,
     @Default([]) List<KycCountryModel> sortedCountries,
     @Default('') String countryNameSearch,
-    @Default(
-      KycCountryModel(
-        countryName: 'Afghanistan',
-        countryCode: 'AF',
-        isBlocked: false,
-      ),
-    ) KycCountryModel activeCountry,
+    KycCountryModel? activeCountry,
   }) = _KycCountriesState;
 }
 

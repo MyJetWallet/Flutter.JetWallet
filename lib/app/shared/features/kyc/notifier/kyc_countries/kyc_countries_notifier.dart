@@ -10,8 +10,18 @@ class KycCountriesNotifier extends StateNotifier<KycCountriesState> {
     required this.read,
     required this.countries,
   }) : super(
-          const KycCountriesState(),
-        ) {
+    KycCountriesState(
+      activeCountry: countries.countries.isNotEmpty ? countries.countries[0]
+          : const KycCountryModel(
+        countryCode: '',
+        countryName: '',
+        isBlocked: false,
+        acceptedDocuments: [],
+      ),
+      countries: countries.countries,
+      sortedCountries: countries.countries,
+    ),
+  ) {
     state = state.copyWith(
       countries: countries.countries,
       sortedCountries: countries.countries,
@@ -69,9 +79,10 @@ class KycCountriesNotifier extends StateNotifier<KycCountriesState> {
     final newList = List<KycCountryModel>.from(state.countries);
 
     newList.removeWhere(
-      (KycCountryModel element) => !element.countryName.toLowerCase().contains(
-            state.countryNameSearch.toLowerCase(),
-          ),
+          (KycCountryModel element) =>
+      !element.countryName.toLowerCase().contains(
+        state.countryNameSearch.toLowerCase(),
+      ),
     );
     state = state.copyWith(sortedCountries: List.from(newList));
   }

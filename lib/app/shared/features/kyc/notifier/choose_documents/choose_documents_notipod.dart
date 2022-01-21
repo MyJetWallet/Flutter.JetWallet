@@ -11,10 +11,10 @@ final chooseDocumentsNotipod = StateNotifierProvider.autoDispose<
   final countries = ref.watch(kycCountriesNotipod);
 
   final modifyDocuments = <DocumentsModel>[];
-  for (var i = 0; i < countries.activeCountry.acceptedDocuments.length; i++) {
+  for (var i = 0; i < countries.activeCountry!.acceptedDocuments.length; i++) {
     modifyDocuments.add(
       DocumentsModel(
-        document: countries.activeCountry.acceptedDocuments[i],
+        document: countries.activeCountry!.acceptedDocuments[i],
       ),
     );
   }

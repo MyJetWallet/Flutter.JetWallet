@@ -50,11 +50,11 @@ class KycCountry extends HookWidget {
               child: Row(
                 children: [
                   FlagIconSvg(
-                    countryCode: state.activeCountry.countryCode,
+                    countryCode: state.activeCountry!.countryCode,
                   ),
                   const SpaceW10(),
                   Text(
-                    state.activeCountry.countryName,
+                    state.activeCountry!.countryName,
                     style: sSubtitle2Style,
                   ),
                 ],

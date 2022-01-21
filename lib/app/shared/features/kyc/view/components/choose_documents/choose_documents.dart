@@ -49,9 +49,9 @@ class ChooseDocuments extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final countries = useProvider(kycCountriesNotipod);
     final state = useProvider(chooseDocumentsNotipod);
     final notifier = useProvider(chooseDocumentsNotipod.notifier);
-    final countries = useProvider(kycCountriesNotipod);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -67,7 +67,7 @@ class ChooseDocuments extends HookWidget {
                 child: Column(
                   children: [
                     KycCountry(
-                      activeCountry: countries.activeCountry,
+                      activeCountry: countries.activeCountry!,
                       openCountryList: () {
                         showKycCountryPicker(context);
                       },

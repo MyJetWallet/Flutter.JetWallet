@@ -6,8 +6,9 @@ import '../../model/kyc_country_model.dart';
 import '../../model/kyc_operation_status_model.dart';
 import 'kyc_countries_notifier.dart';
 
-final kycCountriesNotipod = StateNotifierProvider.autoDispose<
-    KycCountriesNotifier, KycCountriesState>((ref) {
+final kycCountriesNotipod =
+    StateNotifierProvider.autoDispose<KycCountriesNotifier, KycCountriesState>(
+        (ref) {
   final kycCountries = ref.watch(kycCountriesSpod);
   final userInfo = ref.watch(userInfoNotipod);
   final value = <KycCountryModel>[];
@@ -20,6 +21,11 @@ final kycCountriesNotipod = StateNotifierProvider.autoDispose<
           for (final document in data.countries[i].acceptedDocuments) {
             documents.add(kycDocumentType(document));
           }
+        } else {
+          documents.add(kycDocumentType(1));
+          documents.add(kycDocumentType(2));
+          documents.add(kycDocumentType(3));
+          documents.add(kycDocumentType(4));
         }
 
         value.add(
