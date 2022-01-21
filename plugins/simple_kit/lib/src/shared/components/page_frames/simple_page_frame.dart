@@ -9,6 +9,7 @@ class SPageFrame extends ConsumerWidget {
     Key? key,
     this.header,
     this.loading,
+    this.loadSuccess,
     this.bottomNavigationBar,
     this.color = Colors.transparent,
     required this.child,
@@ -18,6 +19,7 @@ class SPageFrame extends ConsumerWidget {
   final Widget child;
   final Color color;
   final StackLoaderNotifier? loading;
+  final StackLoaderNotifier? loadSuccess;
   final Widget? bottomNavigationBar;
 
   @override
@@ -29,6 +31,7 @@ class SPageFrame extends ConsumerWidget {
       bottomNavigationBar: bottomNavigationBar,
       body: StackLoader(
         loading: loading,
+        loadSuccess: loadSuccess,
         child: Column(
           children: [
             if (header != null) header!,

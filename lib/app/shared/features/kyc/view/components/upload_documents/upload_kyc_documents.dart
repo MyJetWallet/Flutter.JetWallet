@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../model/kyc_operation_status_model.dart';
@@ -43,6 +44,7 @@ class UploadKycDocuments extends HookWidget {
     final notifier = useProvider(uploadKycDocumentsNotipod.notifier);
     final colors = useProvider(sColorPod);
     final loader = useValueNotifier(StackLoaderNotifier());
+    final loaderSuccess = useValueNotifier(StackLoaderNotifier());
     final activeDocument =
         useProvider(chooseDocumentsNotipod.notifier).getActiveDocument();
 
@@ -61,19 +63,17 @@ class UploadKycDocuments extends HookWidget {
             loader.value.finishLoading();
           },
           done: () {
-            SuccessScreen.pushReplacement(
-              context: context,
-              secondaryText: 'Your document has been uploaded.',
-              onSuccess: (context) {
-                KycSelfie.pushReplacement(context: context);
-              },
-            );
+            loaderSuccess.value.startLoading();
+            Timer(const Duration(seconds: 2), () {
+              KycSelfie.pushReplacement(context: context);
+            });
           },
           orElse: () {},
         );
       },
       child: SPageFrame(
         loading: loader.value,
+        loadSuccess: loaderSuccess.value,
         header: SPaddingH24(
           child: SSmallHeader(
             title: 'Upload ${stringKycDocumentType(activeDocument.document)}',

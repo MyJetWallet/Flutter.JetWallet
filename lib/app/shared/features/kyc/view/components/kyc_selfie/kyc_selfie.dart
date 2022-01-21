@@ -42,6 +42,7 @@ class KycSelfie extends HookWidget {
     final notifier = useProvider(kycSelfieNotipod.notifier);
     final colors = useProvider(sColorPod);
     final loader = useValueNotifier(StackLoaderNotifier());
+    final loaderSuccess = useValueNotifier(StackLoaderNotifier());
     final kycN = useProvider(kycNotipod.notifier);
 
     return ProviderListener<KycSelfieState>(
@@ -72,6 +73,7 @@ class KycSelfie extends HookWidget {
       },
       child: SPageFrame(
         loading: loader.value,
+        loadSuccess: loaderSuccess.value,
         header: const SPaddingH24(
           child: SSmallHeader(
             title: 'Take a selfie',
@@ -176,9 +178,9 @@ class KycSelfie extends HookWidget {
                   if (state.isSelfieNotEmpty) {
                     loader.value.startLoading();
                     
-                    // await notifier.uploadDocuments(
-                    //   kycDocumentTypeInt(KycDocumentType.selfieImage),
-                    // );
+                    await notifier.uploadDocuments(
+                      kycDocumentTypeInt(KycDocumentType.selfieImage),
+                    );
                   } else {
                     await notifier.pickedImage();
                   }
