@@ -9,7 +9,6 @@ class SPrimaryButton1 extends ConsumerWidget {
   const SPrimaryButton1({
     Key? key,
     this.icon,
-    this.addIconPadding = true,
     required this.active,
     required this.name,
     required this.onTap,
@@ -19,7 +18,6 @@ class SPrimaryButton1 extends ConsumerWidget {
   final bool active;
   final String name;
   final Function() onTap;
-  final bool addIconPadding;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -38,7 +36,6 @@ class SPrimaryButton1 extends ConsumerWidget {
         name: name,
         onTap: onTap,
         icon: icon,
-        addIconPadding: addIconPadding,
       );
     }
   }

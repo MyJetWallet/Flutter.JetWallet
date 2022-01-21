@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MarketTab extends StatelessWidget {
-  const MarketTab({
+class BottomTab extends StatelessWidget {
+  const BottomTab({
     Key? key,
     required this.text,
   }) : super(key: key);
