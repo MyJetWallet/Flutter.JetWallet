@@ -8,7 +8,7 @@ import '../../../shared/components/bottom_tabs/bottom_tabs.dart';
 import '../../../shared/components/bottom_tabs/components/bottom_tab.dart';
 import '../../../shared/helpers/is_balance_empty.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
-import '../../market/provider/market_cryptos_pod.dart';
+import '../../market/provider/market_crypto_pod.dart';
 import '../../market/provider/market_currencies_indices_pod.dart';
 import '../../market/provider/market_fiats_pod.dart';
 import 'components/empty_portfolio_body/empty_porfolio_body.dart';
@@ -30,7 +30,7 @@ class _PortfolioState extends State<Portfolio>
   void initState() {
     super.initState();
     final cryptosWithBalance =
-        currenciesWithBalanceFrom(context.read(marketCryptosPod));
+        currenciesWithBalanceFrom(context.read(marketCryptoPod));
     final indicesWithBalance =
         currenciesWithBalanceFrom(context.read(marketCurrenciesIndicesPod));
     final fiatsWithBalance =
@@ -54,7 +54,7 @@ class _PortfolioState extends State<Portfolio>
   Widget build(BuildContext context) {
     final balanceEmpty = isBalanceEmpty(useProvider(currenciesPod));
     final cryptosWithBalance =
-        currenciesWithBalanceFrom(useProvider(marketCryptosPod));
+        currenciesWithBalanceFrom(useProvider(marketCryptoPod));
     final indicesWithBalance =
         currenciesWithBalanceFrom(useProvider(marketCurrenciesIndicesPod));
     final fiatsWithBalance =

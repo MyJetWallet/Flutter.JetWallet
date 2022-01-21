@@ -1,12 +1,10 @@
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
-import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
@@ -23,7 +21,7 @@ import '../../../../../shared/providers/base_currency_pod/base_currency_model.da
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../shared/providers/client_detail_pod/client_detail_pod.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
-import '../../../../market/provider/market_cryptos_pod.dart';
+import '../../../../market/provider/market_crypto_pod.dart';
 import '../../../../market/provider/market_currencies_indices_pod.dart';
 import '../../../../market/provider/market_fiats_pod.dart';
 import '../../../../market/provider/market_items_pod.dart';
@@ -33,6 +31,7 @@ import '../../../provider/show_zero_balance_wallets_stpod.dart';
 import 'components/padding_l_24.dart';
 import 'components/portfolio_divider.dart';
 
+// TODO: refactor
 class PortfolioWithBalanceBody extends HookWidget {
   const PortfolioWithBalanceBody({
     Key? key,
@@ -49,9 +48,9 @@ class PortfolioWithBalanceBody extends HookWidget {
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);
     final cryptosWithBalance =
-        currenciesWithBalanceFrom(useProvider(marketCryptosPod));
+        currenciesWithBalanceFrom(useProvider(marketCryptoPod));
     final cryptosWithoutBalance =
-        currenciesWithoutBalanceFrom(useProvider(marketCryptosPod));
+        currenciesWithoutBalanceFrom(useProvider(marketCryptoPod));
     final indicesWithBalance =
         currenciesWithBalanceFrom(useProvider(marketCurrenciesIndicesPod));
     final indicesWithoutBalance =
@@ -129,9 +128,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                       context: context,
                     );
                   },
-                  child: SvgPicture.asset(
-                    indexHistoryImageAsset,
-                  ),
+                  child: const SIndexHistoryIcon(),
                 ),
               ],
             ),
@@ -516,6 +513,7 @@ class PortfolioWithBalanceBody extends HookWidget {
     }
   }
 
+  // TODO: refactor
   double? _walletsListHeight({
     required int currentTabIndex,
     required bool showZeroBalanceWallets,

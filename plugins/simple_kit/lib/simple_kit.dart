@@ -100,6 +100,7 @@ export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard
 export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard_face_id_pressed_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_pressed_icon.dart';
+export 'src/icons/13x14/public/stats/simple_stats_icon.dart';
 export 'src/icons/16x16/public/close/simple_close_icon.dart';
 export 'src/icons/16x16/public/fee_alert/simple_fee_alert_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
@@ -159,6 +160,7 @@ export 'src/icons/24x24/public/faq/simple_faq_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_pressed_icon.dart';
 export 'src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
+export 'src/icons/24x24/public/index_history/simple_index_history_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_pressed_icon.dart';
 export 'src/icons/24x24/public/lock/simple_lock_icon.dart';

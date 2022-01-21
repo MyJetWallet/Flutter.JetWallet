@@ -10,17 +10,13 @@ class PortfolioDivider extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 10,
-          ),
-          child: SDivider(
-            color: colors.grey3,
-          ),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+      ),
+      child: SDivider(
+        color: colors.grey3,
+      ),
     );
   }
 }

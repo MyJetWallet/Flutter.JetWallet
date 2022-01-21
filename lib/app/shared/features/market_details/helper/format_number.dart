@@ -1,3 +1,4 @@
+// TODO: Use function from intl
 // This function is used for formatting bug numbers to format k, m, b
 // eg. 1000 = 1k, 1 000 000 = 1m, etc
 String formatNumber(double? num) {

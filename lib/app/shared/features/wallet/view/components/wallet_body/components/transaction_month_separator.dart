@@ -28,7 +28,9 @@ class TransactionMonthSeparator extends HookWidget {
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 text,
-                style: sCaptionTextStyle.copyWith(color: colors.grey3),
+                style: sCaptionTextStyle.copyWith(
+                  color: colors.grey3,
+                ),
               ),
             ),
           ),

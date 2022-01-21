@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../shared/constants.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../transaction_history/view/transaction_hisotry.dart';
 
+// Todo: refactor
 class IndexHistoryBlock extends HookWidget {
   const IndexHistoryBlock({
     Key? key,
@@ -32,14 +31,12 @@ class IndexHistoryBlock extends HookWidget {
       ),
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               left: 19,
               top: 24,
             ),
-            child: SvgPicture.asset(
-              statsImageAsset,
-            ),
+            child: SStatsIcon(),
           ),
           Padding(
             padding: const EdgeInsets.only(
@@ -66,9 +63,7 @@ class IndexHistoryBlock extends HookWidget {
                     assetId: marketItem.id,
                   );
                 },
-                child: SvgPicture.asset(
-                  indexHistoryImageAsset,
-                ),
+                child: const SIndexHistoryIcon(),
               ),
             ),
           ),

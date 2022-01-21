@@ -6,8 +6,6 @@ const failureAnimationAsset = 'assets/animations/failure.riv';
 // Images
 const watchlistImageAsset = 'assets/images/watchlist.svg';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
-const indexHistoryImageAsset = 'assets/images/index_history.svg';
-const statsImageAsset = 'assets/images/stats.svg';
 const walletGreenBackgroundImageAsset =
     'assets/images/green_wallet_gradient.svg';
 const walletRedBackgroundImageAsset = 'assets/images/red_wallet_gradient.svg';
