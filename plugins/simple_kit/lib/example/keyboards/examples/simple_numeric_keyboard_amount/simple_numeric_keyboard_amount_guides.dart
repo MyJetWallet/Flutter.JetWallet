@@ -31,6 +31,24 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
                   showSnackBar(context, 'Submit pressed');
                 },
               ),
+              Column(
+                children: [
+                  const SpaceH20(),
+                  Container(
+                    width: 100.0,
+                    height: 29.0,
+                    color: Colors.red.withOpacity(0.3),
+                    child: const Center(
+                      child: Text(
+                        '29px',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 422.0,
                 child: Row(

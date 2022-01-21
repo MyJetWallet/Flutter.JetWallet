@@ -41,30 +41,29 @@ class SPaymentSelectAsset extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SpaceH26(),
+              const SpaceH23(), // + 1 px border
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SpaceW20(),
+                  const SpaceW19(), // 1 px border
                   icon,
                   const SpaceW10(),
                   Expanded(
                     child: Column(
                       children: [
                         Baseline(
-                          baseline: 15.0,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                width: isCreditCard ? 150.0 : 130.0,
+                              Expanded(
                                 child: Text(
                                   name,
                                   style: sSubtitle2Style,
                                 ),
                               ),
-                              const Spacer(),
+                              const SpaceW16(),
                               SizedBox(
                                 width: isCreditCard ? 90.0 : 110.0,
                                 child: Text(
@@ -77,13 +76,12 @@ class SPaymentSelectAsset extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 15.4,
+                          baseline: 14.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                width: isCreditCard ? 150.0 : 130.0,
+                              Expanded(
                                 child: Text(
                                   description,
                                   style: sCaptionTextStyle.copyWith(
@@ -91,7 +89,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const Spacer(),
+                              const SpaceW16(),
                               SizedBox(
                                 width: isCreditCard ? 90.0 : 110.0,
                                 child: Text(
@@ -108,7 +106,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SpaceW20(),
+                  const SpaceW19(), // 1 px border
                 ],
               ),
             ],

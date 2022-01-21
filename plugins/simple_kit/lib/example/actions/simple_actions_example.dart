@@ -7,6 +7,8 @@ import 'examples/simple_action_confirm_skeleton_loader_example.dart';
 import 'examples/simple_action_confirm_text_example.dart';
 import 'examples/simple_action_price_field_example.dart';
 import 'examples/simple_payment_select_asset_example.dart';
+import 'examples/simple_payment_select_contact_example.dart';
+import 'examples/simple_payment_select_contact_without_name_example.dart';
 import 'examples/simple_payment_select_default_example.dart';
 import 'examples/simple_payment_select_fiat_example.dart';
 
@@ -23,8 +25,12 @@ class SimpleActionsExample extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             NavigationButton(
-              buttonName: 'Action Price Field',
-              routeName: SimpleActionPriceFieldExample.routeName,
+              buttonName: 'Payment Select Contact',
+              routeName: SimplePaymentSelectContactExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Payment Select Contact Without Name',
+              routeName: SimplePaymentSelectContactWithoutNameExample.routeName,
             ),
             NavigationButton(
               buttonName: 'Payment Select Default',
@@ -37,6 +43,10 @@ class SimpleActionsExample extends StatelessWidget {
             NavigationButton(
               buttonName: 'Payment Select Fiat',
               routeName: SimplePaymentSelectFiatExample.routeName,
+            ),
+            NavigationButton(
+              buttonName: 'Action Price Field',
+              routeName: SimpleActionPriceFieldExample.routeName,
             ),
             NavigationButton(
               buttonName: 'Action Confirm Text',

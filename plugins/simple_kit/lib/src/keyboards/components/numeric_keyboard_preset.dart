@@ -32,10 +32,14 @@ class NumericKeyboardPreset extends StatelessWidget {
                 : null,
           ),
           child: Center(
-            child: Text(
-              name,
-              style: sBodyText1Style.copyWith(
-                color: selected ? SColorsLight().black : SColorsLight().grey1,
+            child: Baseline(
+              baseline: 15.0,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                name,
+                style: sBodyText1Style.copyWith(
+                  color: selected ? SColorsLight().black : SColorsLight().grey1,
+                ),
               ),
             ),
           ),

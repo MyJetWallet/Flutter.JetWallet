@@ -148,17 +148,18 @@ class SimpleMarketItemExample extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('10px'),
                     ),
-                    Container(
-                      width: 125.0,
-                      height: 88.0,
-                      color: Colors.red.withOpacity(0.2),
-                      child: Column(
-                        children: const [
-                          Spacer(),
-                          Text(
-                            '125px',
-                          ),
-                        ],
+                    Expanded(
+                      child: Container(
+                        height: 88.0,
+                        color: Colors.red.withOpacity(0.2),
+                        child: Column(
+                          children: const [
+                            Spacer(),
+                            Text(
+                              'Expanded',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Container(
@@ -191,26 +192,19 @@ class SimpleMarketItemExample extends StatelessWidget {
                       width: 10.0,
                       height: 88.0,
                     ),
+                    const Spacer(),
                     const SizedBox(
-                      width: 125.0,
+                      width: 10.0,
                       height: 88.0,
                     ),
                     Column(
                       children: [
                         const SpaceH30(),
                         Row(
-                          children: [
-                            Container(
-                              width: 152.0,
+                          children: const [
+                            SizedBox(
+                              width: 158.0,
                               height: 30.0,
-                              color: Colors.blue.withOpacity(0.2),
-                              child: const Text('    94px'),
-                            ),
-                            Container(
-                              width: 16.0,
-                              height: 30.0,
-                              color: Colors.white.withOpacity(0.2),
-                              child: const Text('16px'),
                             ),
                           ],
                         ),

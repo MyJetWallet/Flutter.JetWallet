@@ -33,7 +33,7 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          const SpaceH30(),
+                          const SpaceH32(),
                           Container(
                             width: 24.0,
                             height: 24.0,
@@ -47,18 +47,24 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                         color: Colors.blue.withOpacity(0.2),
                         child: const Text('10px'),
                       ),
-                      Container(
-                        width: 130.0,
-                        height: 88.0,
-                        color: Colors.red.withOpacity(0.2),
-                        child: Column(
-                          children: const [
-                            Spacer(),
-                            Text('130px'),
-                          ],
+                      Expanded(
+                        child: Container(
+                          height: 88.0,
+                          color: Colors.red.withOpacity(0.2),
+                          child: Column(
+                            children: const [
+                              Spacer(),
+                              Text('Expanded'),
+                            ],
+                          ),
                         ),
                       ),
-                      const Spacer(),
+                      Container(
+                        width: 16.0,
+                        height: 88.0,
+                        color: Colors.blue.withOpacity(0.2),
+                        child: const Text('16px'),
+                      ),
                       Container(
                         width: 110.0,
                         height: 88.0,
@@ -80,21 +86,21 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 30.0,
+                  height: 32.0,
                   color: Colors.blue.withOpacity(0.3),
                   child: const Text(
-                    '30px',
+                    '32px',
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Container(
-                  height: 48.0,
+                  height: 50.0,
                   width: double.infinity,
                   color: Colors.green.withOpacity(0.3),
                   child: Column(
                     children: const [
                       SpaceH30(),
-                      Text('48px'),
+                      Text('50px'),
                     ],
                   ),
                 ),

@@ -18,22 +18,24 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
 
   assets.whenData((value) {
     for (final asset in value.assets) {
-      currencies.add(
-        CurrencyModel(
-          symbol: asset.symbol,
-          description: asset.description,
-          accuracy: asset.accuracy.toInt(),
-          depositMode: asset.depositMode,
-          withdrawalMode: asset.withdrawalMode,
-          tagType: asset.tagType,
-          type: asset.type,
-          depositMethods: asset.depositMethods,
-          fees: asset.fees,
-          withdrawalMethods: asset.withdrawalMethods,
-          iconUrl: iconUrlFrom(asset.symbol),
-          prefixSymbol: asset.prefixSymbol,
-        ),
-      );
+      if (!asset.hideInTerminal) {
+        currencies.add(
+          CurrencyModel(
+            symbol: asset.symbol,
+            description: asset.description,
+            accuracy: asset.accuracy.toInt(),
+            depositMode: asset.depositMode,
+            withdrawalMode: asset.withdrawalMode,
+            tagType: asset.tagType,
+            type: asset.type,
+            depositMethods: asset.depositMethods,
+            fees: asset.fees,
+            withdrawalMethods: asset.withdrawalMethods,
+            iconUrl: iconUrlFrom(asset.symbol),
+            prefixSymbol: asset.prefixSymbol,
+          ),
+        );
+      }
     }
   });
 
@@ -50,6 +52,10 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
               lastUpdate: balance.lastUpdate,
               sequenceId: balance.sequenceId,
               assetBalance: balance.balance,
+              assetTotalEarnAmount: balance.totalEarnAmount,
+              assetCurrentEarnAmount: balance.currentEarnAmount,
+              nextPaymentDate: balance.nextPaymentDate,
+              apy: balance.apy,
             );
           }
         }
@@ -74,6 +80,20 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
           assetPrice: assetPrice,
           baseCurrencySymbol: baseCurrency.symbol,
         );
+        final baseTotalEarnAmount = calculateBaseBalance(
+          accuracy: baseCurrency.accuracy,
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetTotalEarnAmount,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: baseCurrency.symbol,
+        );
+        final baseCurrentEarnAmount = calculateBaseBalance(
+          accuracy: baseCurrency.accuracy,
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetCurrentEarnAmount,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: baseCurrency.symbol,
+        );
 
         currencies[index] = currency.copyWith(
           baseBalance: baseBalance,
@@ -84,6 +104,8 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
           ),
           dayPriceChange: assetPrice.dayPriceChange,
           dayPercentChange: assetPrice.dayPercentChange,
+          baseTotalEarnAmount: baseTotalEarnAmount,
+          baseCurrentEarnAmount: baseCurrentEarnAmount,
         );
       }
     }
