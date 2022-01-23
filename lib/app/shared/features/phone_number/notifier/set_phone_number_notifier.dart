@@ -9,12 +9,12 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/country_code_by_user_register.dart';
-import 'phone_number_state.dart';
+import 'set_phone_number_state.dart';
 
-class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
-  PhoneNumberNotifier(this.read)
+class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
+  SetPhoneNumberNotifier(this.read)
       : super(
-          PhoneNumberState(
+          SetPhoneNumberState(
             activeDialCode: sPhoneNumbers[0],
             dialCodeController: TextEditingController(
               text: sPhoneNumbers[0].countryCode,
@@ -24,12 +24,12 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
             phoneFieldError: StandardFieldErrorNotifier(),
           ),
         ) {
-    _checkRegisterCountryUser();
+    _registerCountryUser();
   }
 
   final Reader read;
 
-  static final _logger = Logger('SetPhoneNumberNotifier');
+  static final _logger = Logger('PhoneNumberNotifier');
 
   Future<void> sendCode({required void Function() then}) async {
     _logger.log(notifier, 'sendCode');
@@ -77,7 +77,7 @@ class PhoneNumberNotifier extends StateNotifier<PhoneNumberState> {
     _filterByDialCodeSearch();
   }
 
-  void _checkRegisterCountryUser() {
+  void _registerCountryUser() {
     final userInfo = read(userInfoNotipod);
 
     if (userInfo.countryOfRegistration.isNotEmpty) {

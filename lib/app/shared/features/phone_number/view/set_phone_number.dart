@@ -8,7 +8,7 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../phone_verification/view/phone_verification.dart';
-import '../notifier/phone_number_notipod.dart';
+import '../notifier/set_phone_number_notipod.dart';
 import 'components/show_country_phone_number_picker.dart';
 
 /// Called in 2 cases:
@@ -55,8 +55,8 @@ class PhoneNumber extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final state = useProvider(phoneNumberNotipod);
-    final notifier = useProvider(phoneNumberNotipod.notifier);
+    final state = useProvider(setPhoneNumberNotipod);
+    final notifier = useProvider(setPhoneNumberNotipod.notifier);
     useListenable(state.dialCodeController);
     useListenable(state.phoneNumberController);
 

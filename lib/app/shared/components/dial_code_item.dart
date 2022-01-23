@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../helpers/flag_icon_svg.dart';
+import 'flag_item.dart';
 
 class DialCodeItem extends HookWidget {
   const DialCodeItem({
@@ -37,7 +37,7 @@ class DialCodeItem extends HookWidget {
                     padding: const EdgeInsets.only(
                       top: 20,
                     ),
-                    child: FlagIconSvg(
+                    child: FlagItem(
                       countryCode: dialCode.isoCode,
                     ),
                   ),

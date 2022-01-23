@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../helpers/flag_icon_svg.dart';
+import '../../../../../../../components/flag_item.dart';
 import 'country_name.dart';
 
 class CountryItem extends HookWidget {
@@ -37,7 +37,7 @@ class CountryItem extends HookWidget {
                     padding: const EdgeInsets.only(
                       top: 20.0,
                     ),
-                    child: FlagIconSvg(
+                    child: FlagItem(
                       countryCode: countryCode,
                     ),
                   ),

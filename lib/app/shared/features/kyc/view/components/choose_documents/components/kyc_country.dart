@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../helpers/flag_icon_svg.dart';
+import '../../../../../../components/flag_item.dart';
 import '../../../../model/kyc_country_model.dart';
 import '../../../../notifier/kyc_countries/kyc_countries_notipod.dart';
 
@@ -49,7 +49,7 @@ class KycCountry extends HookWidget {
               ),
               child: Row(
                 children: [
-                  FlagIconSvg(
+                  FlagItem(
                     countryCode: state.activeCountry!.countryCode,
                   ),
                   const SpaceW10(),

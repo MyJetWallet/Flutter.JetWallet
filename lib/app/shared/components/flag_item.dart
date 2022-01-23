@@ -3,10 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'flag_asset_name.dart';
 
-class FlagIconSvg extends HookWidget {
-  const FlagIconSvg({
+import '../helpers/flag_asset_name.dart';
+
+class FlagItem extends HookWidget {
+  const FlagItem({
     Key? key,
     required this.countryCode,
   }) : super(key: key);

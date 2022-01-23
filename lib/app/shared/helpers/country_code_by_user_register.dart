@@ -4,15 +4,11 @@ SPhoneNumber? countryCodeByUserRegister(String countryOfRegistration) {
   SPhoneNumber? phoneNumber;
 
   for (var i = 0; i < sPhoneNumbers.length; i++) {
-    if (sPhoneNumbers[i].isoCode.toLowerCase() ==
+    if (sPhoneNumbers[i].alphaCode.toLowerCase() ==
         countryOfRegistration.toLowerCase()) {
       phoneNumber = sPhoneNumbers[i];
     }
   }
 
-  if (phoneNumber != null) {
-    return phoneNumber;
-  } else {
-    return null;
-  }
+  return phoneNumber;
 }
