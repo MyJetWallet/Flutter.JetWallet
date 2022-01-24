@@ -7,6 +7,7 @@ import '../../../../../service/services/phone_verification/model/phone_verificat
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../helpers/country_code_by_user_register.dart';
 import 'set_phone_number_state.dart';
 
 class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
@@ -21,7 +22,9 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
             loader: StackLoaderNotifier(),
             phoneFieldError: StandardFieldErrorNotifier(),
           ),
-        );
+        ) {
+    _registerCountryUser();
+  }
 
   final Reader read;
 
@@ -97,8 +100,19 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
   }
 
   void updateActiveDialCode(SPhoneNumber code) {
-    state = state.copyWith(
-      activeDialCode: code,
-    );
+    state = state.copyWith(activeDialCode: code);
+  }
+
+  void _registerCountryUser() {
+    final phoneNumber = countryCodeByUserRegister(read);
+
+    if (phoneNumber != null) {
+      state = state.copyWith(
+        activeDialCode: phoneNumber,
+        dialCodeController: TextEditingController(
+          text: phoneNumber.countryCode,
+        ),
+      );
+    }
   }
 }
