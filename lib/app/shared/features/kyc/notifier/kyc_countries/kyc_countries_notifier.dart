@@ -58,11 +58,9 @@ class KycCountriesNotifier extends StateNotifier<KycCountriesState> {
     final country = <KycCountryModel>[];
 
     if (countryOfRegistration != null) {
-      final countryCodeOfRegistration = countryOfRegistration.toLowerCase();
-
       for (var i = 0; i < state.countries.length; i++) {
         if (state.countries[i].countryCode.toLowerCase() ==
-            countryCodeOfRegistration) {
+            countryOfRegistration.toLowerCase()) {
           country.add(state.countries[i]);
         }
       }
