@@ -61,6 +61,7 @@ class KycAlertHandler {
           'need to pass following steps:',
       primaryButtonName: 'Continue',
       secondaryButtonName: 'Later',
+      activePrimaryButton: kycVerified.requiredVerifications.isNotEmpty,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
         _navigateVerifiedNavigate(

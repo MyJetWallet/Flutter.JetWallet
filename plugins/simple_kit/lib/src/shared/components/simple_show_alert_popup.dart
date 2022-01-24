@@ -14,6 +14,7 @@ void sShowAlertPopup(
   Widget? child,
   bool willPopScope = true,
   bool barrierDismissible = true,
+  bool activePrimaryButton = true,
   required String primaryText,
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
@@ -75,7 +76,7 @@ void sShowAlertPopup(
                     if (child != null) child,
                     SPrimaryButton1(
                       name: primaryButtonName,
-                      active: true,
+                      active: activePrimaryButton,
                       onTap: () => onPrimaryButtonTap(),
                     ),
                     if (onSecondaryButtonTap != null &&

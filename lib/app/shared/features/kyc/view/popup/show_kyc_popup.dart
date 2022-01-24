@@ -6,6 +6,7 @@ void showKycPopup({
   String? secondaryButtonName,
   Function()? onSecondaryButtonTap,
   Widget? child,
+  bool activePrimaryButton = true,
   required BuildContext context,
   required String primaryText,
   required String secondaryText,
@@ -25,5 +26,6 @@ void showKycPopup({
     secondaryButtonName: secondaryButtonName,
     onPrimaryButtonTap: onPrimaryButtonTap,
     onSecondaryButtonTap: onSecondaryButtonTap,
+    activePrimaryButton: activePrimaryButton,
   );
 }
