@@ -75,23 +75,25 @@ class _PreviewSell extends State<PreviewSell>
             ),
             const Spacer(),
             SActionConfirmText(
-              name: 'You Pay',
+              name: 'You pay',
               value: '${state.fromAssetAmount} ${state.fromAssetSymbol}',
             ),
             SActionConfirmText(
               name: 'You get',
+              baseline: 35.0,
               contentLoading: state.union is QuoteLoading,
               value: '≈ ${state.toAssetAmount} ${state.toAssetSymbol}',
             ),
             SActionConfirmText(
               name: 'Exchange Rate',
+              baseline: 34.0,
               contentLoading: state.union is QuoteLoading,
               timerLoading: state.union is QuoteLoading,
               animation: state.timerAnimation,
-              value: '1 ${state.fromAssetSymbol} = '
+              value: '1 ${state.fromAssetSymbol} =\n'
                   '${state.price} ${state.toAssetSymbol}',
             ),
-            const SpaceH40(),
+            const SpaceH36(),
             if (state.connectingToServer) ...[
               const SActionConfirmAlert(),
               const SpaceH20(),

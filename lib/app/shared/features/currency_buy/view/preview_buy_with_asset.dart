@@ -98,7 +98,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     contentLoading: state.union is QuoteLoading,
                     timerLoading: state.union is QuoteLoading,
                     animation: state.timerAnimation,
-                    value: '1 ${state.fromAssetSymbol} = \n'
+                    value: '1 ${state.fromAssetSymbol} =\n'
                         '${state.price} ${state.toAssetSymbol}',
                   ),
                   const SpaceH36(),

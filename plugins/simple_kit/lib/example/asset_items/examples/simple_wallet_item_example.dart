@@ -113,14 +113,38 @@ class SimpleWalletItemExample extends StatelessWidget {
             decline: false,
             secondaryText: 'BTC',
           ),
-          SWalletItem(
-            onTap: () {},
-            icon: const SActionBuyIcon(),
-            removeDivider: true,
-            primaryText: 'Bitcoin really long long',
-            amount: '\$57 415.80',
-            decline: false,
-            secondaryText: 'BTC',
+          Stack(
+            children: [
+              Container(
+                width: 400.0,
+                height: 22.0,
+                color: Colors.blue.withOpacity(0.2),
+                child: const Center(
+                  child: Text(
+                    '22px',
+                  ),
+                ),
+              ),
+              Container(
+                width: 400.0,
+                height: 50.0,
+                color: Colors.red.withOpacity(0.2),
+                child: const Center(
+                  child: Text(
+                    '50px',
+                  ),
+                ),
+              ),
+              SWalletItem(
+                onTap: () {},
+                icon: const SActionBuyIcon(),
+                removeDivider: true,
+                primaryText: 'Bitcoin really long long',
+                amount: '\$57 415.80',
+                decline: false,
+                secondaryText: 'BTC',
+              ),
+            ],
           ),
           SWalletItem(
             onTap: () {},
