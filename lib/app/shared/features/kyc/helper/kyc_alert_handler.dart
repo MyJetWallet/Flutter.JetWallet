@@ -36,8 +36,6 @@ class KycAlertHandler {
       );
     } else if (status == kycOperationStatus(KycOperationStatus.kycInProgress)) {
       _showVerifyingAlert();
-    } else if (status == kycOperationStatus(KycOperationStatus.allowed)) {
-      _navigateTo(currentNavigate, navigatePop);
     } else if (status ==
         kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
       _showAllowedWithAlert(

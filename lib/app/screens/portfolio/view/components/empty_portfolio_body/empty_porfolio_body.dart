@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/currency_buy/view/curency_buy.dart';
+import '../../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../../shared/features/market_details/helper/currency_from.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
@@ -45,17 +46,27 @@ class EmptyPortfolioBody extends HookWidget {
           active: true,
           name: 'Buy bitcoin',
           onTap: () {
-            kycAlertHandler.handle(
-              status: kycState.sellStatus,
-              kycVerified: kycState,
-              isProgress: kycState.verificationInProgress,
-              currentNavigate: () => navigatorPush(
+            if (kycState.depositStatus ==
+                kycOperationStatus(KycOperationStatus.allowed)) {
+              navigatorPush(
                 context,
                 CurrencyBuy(
                   currency: currency,
                 ),
-              ),
-            );
+              );
+            } else {
+              kycAlertHandler.handle(
+                status: kycState.sellStatus,
+                kycVerified: kycState,
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => navigatorPush(
+                  context,
+                  CurrencyBuy(
+                    currency: currency,
+                  ),
+                ),
+              );
+            }
           },
         ),
         const SpaceH24(),

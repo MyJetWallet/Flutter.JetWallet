@@ -9,6 +9,7 @@ import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../currency_buy/view/curency_buy.dart';
 import '../../../../../currency_sell/view/currency_sell.dart';
+import '../../../../../kyc/model/kyc_operation_status_model.dart';
 import '../../../../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../helper/currency_from.dart';
 
@@ -39,25 +40,28 @@ class BalanceActionButtons extends HookWidget {
             child: SPrimaryButton1(
               name: _buyButtonText(),
               onTap: () {
-                kycAlertHandler.handle(
-                  status: kycState.sellStatus,
-                  kycVerified: kycState,
-                  isProgress: kycState.verificationInProgress,
-                  navigatePop: true,
-                  currentNavigate: () => navigatorPush(
+                if (kycState.depositStatus ==
+                    kycOperationStatus(KycOperationStatus.allowed)) {
+                  navigatorPush(
                     context,
                     CurrencyBuy(
                       currency: currency,
                     ),
-                  ),
-                );
-
-                // navigatorPush(
-                //   context,
-                //   CurrencyBuy(
-                //     currency: currency,
-                //   ),
-                // );
+                  );
+                } else {
+                  kycAlertHandler.handle(
+                    status: kycState.sellStatus,
+                    kycVerified: kycState,
+                    isProgress: kycState.verificationInProgress,
+                    navigatePop: true,
+                    currentNavigate: () => navigatorPush(
+                      context,
+                      CurrencyBuy(
+                        currency: currency,
+                      ),
+                    ),
+                  );
+                }
               },
               active: true,
             ),
@@ -68,17 +72,27 @@ class BalanceActionButtons extends HookWidget {
               child: SSecondaryButton1(
                 name: 'Sell',
                 onTap: () {
-                  kycAlertHandler.handle(
-                    status: kycState.sellStatus,
-                    kycVerified: kycState,
-                    isProgress: kycState.verificationInProgress,
-                    currentNavigate: () => navigatorPush(
+                  if (kycState.sellStatus ==
+                      kycOperationStatus(KycOperationStatus.allowed)) {
+                    navigatorPush(
                       context,
                       CurrencySell(
                         currency: currency,
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      kycVerified: kycState,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => navigatorPush(
+                        context,
+                        CurrencySell(
+                          currency: currency,
+                        ),
+                      ),
+                    );
+                  }
                 },
                 active: true,
               ),
