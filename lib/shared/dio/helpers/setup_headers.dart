@@ -11,7 +11,7 @@ void setupHeaders(Dio dio, Reader read, [String? token]) {
   final locale = read(intlPod).localeName;
   final deviceUid = read(deviceUidPod);
   final appVersion = read(packageInfoPod).version;
-  final mediaQuery = read(mediaQueryStpod).state!;
+  final mediaQuery = read(mediaQueryPod);
   final deviceSize = mediaQuery.size;
   final devicePixelRatio = mediaQuery.devicePixelRatio;
 
