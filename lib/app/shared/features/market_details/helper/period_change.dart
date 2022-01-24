@@ -12,8 +12,8 @@ String periodChange({
   CandleModel? selectedCandle,
 }) {
   if (chart.candles.isNotEmpty) {
-    final firstPrice = chart.candles.first.close;
-    final lastPrice = selectedCandle?.close ?? chart.candles.last.close;
+    final firstPrice = chart.candles[0]!.first.close;
+    final lastPrice = selectedCandle?.close ?? chart.candles[0]!.last.close;
     final periodPriceChange = lastPrice - firstPrice;
     final periodPercentChange = percentChangeBetween(firstPrice, lastPrice);
 
