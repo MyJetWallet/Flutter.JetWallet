@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/screens/portfolio/helper/zero_balance_wallets_empty.dart';
-import 'package:jetwallet/app/shared/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/constants.dart';
@@ -13,6 +11,7 @@ import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/period_change.dart';
+import '../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
 import '../../../../../shared/helpers/format_currency_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
@@ -20,6 +19,7 @@ import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart
 import '../../../../../shared/providers/client_detail_pod/client_detail_pod.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../helper/currencies_without_balance_from.dart';
+import '../../../helper/zero_balance_wallets_empty.dart';
 import '../../../provider/show_zero_balance_wallets_stpod.dart';
 import 'components/padding_l_24.dart';
 
@@ -51,7 +51,7 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody>
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 100),
+            padding: const EdgeInsets.only(top: 100),
             child: SizedBox(
               width: double.infinity,
               height: 465,

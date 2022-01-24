@@ -174,7 +174,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                     position: _offsetAnimation,
                     child: Container(
                       color: Colors.white,
-                      height: 190,
+                      height: widget.isAssetChart ? 230 : 190,
                       width: screenWidth,
                     ),
                   ),

@@ -15,21 +15,111 @@ final assetChartInitFpod = FutureProvider.family.autoDispose<void, String>(
     final chartService = ref.watch(chartServicePod);
 
     final toDate = DateTime.now().toUtc();
-    final depth = DataFeedUtil.calculateHistoryDepth(Period.day);
-    final fromDate = toDate.subtract(depth.intervalBackDuration);
 
-    final model = CandlesRequestModel(
+    final dayDepth = DataFeedUtil.calculateHistoryDepth(Period.day);
+    final dayFromDate = toDate.subtract(
+      dayDepth.intervalBackDuration +
+          const Duration(
+            minutes: 15,
+          ),
+    );
+
+    final weekDepth = DataFeedUtil.calculateHistoryDepth(Period.week);
+    final weekFromDate = toDate.subtract(
+      weekDepth.intervalBackDuration +
+          const Duration(
+            hours: 2,
+          ),
+    );
+
+    final monthDepth = DataFeedUtil.calculateHistoryDepth(Period.month);
+    final monthFromDate = toDate.subtract(
+      monthDepth.intervalBackDuration +
+          const Duration(
+            hours: 8,
+          ),
+    );
+
+    final yearDepth = DataFeedUtil.calculateHistoryDepth(Period.year);
+    final yearFromDate = toDate.subtract(
+      yearDepth.intervalBackDuration +
+          const Duration(
+            days: 4,
+          ),
+    );
+
+    final allDepth = DataFeedUtil.calculateHistoryDepth(Period.all);
+    final allFromDate = toDate.subtract(
+      allDepth.intervalBackDuration +
+          const Duration(
+            days: 7,
+          ),
+    );
+
+    final dayModel = CandlesRequestModel(
       candleId: instrumentId,
       type: timeFrameFrom(Period.day),
       bidOrAsk: 0,
-      fromDate: fromDate.millisecondsSinceEpoch,
+      fromDate: dayFromDate.millisecondsSinceEpoch,
       toDate: toDate.millisecondsSinceEpoch,
       mergeCandlesCount: mergeCandlesCountFrom(Period.day),
     );
 
-    final candles = await chartService.candles(model);
+    final dayCandles = await chartService.candles(dayModel);
 
-    notifier.updateCandles(candles.candles);
+    final weekModel = CandlesRequestModel(
+      candleId: instrumentId,
+      type: timeFrameFrom(Period.week),
+      bidOrAsk: 0,
+      fromDate: weekFromDate.millisecondsSinceEpoch,
+      toDate: toDate.millisecondsSinceEpoch,
+      mergeCandlesCount: mergeCandlesCountFrom(Period.week),
+    );
+
+    final weekCandles = await chartService.candles(weekModel);
+
+    final monthModel = CandlesRequestModel(
+      candleId: instrumentId,
+      type: timeFrameFrom(Period.month),
+      bidOrAsk: 0,
+      fromDate: monthFromDate.millisecondsSinceEpoch,
+      toDate: toDate.millisecondsSinceEpoch,
+      mergeCandlesCount: mergeCandlesCountFrom(Period.month),
+    );
+
+    final monthCandles = await chartService.candles(monthModel);
+
+    final yearModel = CandlesRequestModel(
+      candleId: instrumentId,
+      type: timeFrameFrom(Period.day),
+      bidOrAsk: 0,
+      fromDate: yearFromDate.millisecondsSinceEpoch,
+      toDate: toDate.millisecondsSinceEpoch,
+      mergeCandlesCount: mergeCandlesCountFrom(Period.year),
+    );
+
+    final yearCandles = await chartService.candles(yearModel);
+
+    final allModel = CandlesRequestModel(
+      candleId: instrumentId,
+      type: timeFrameFrom(Period.all),
+      bidOrAsk: 0,
+      fromDate: allFromDate.millisecondsSinceEpoch,
+      toDate: toDate.millisecondsSinceEpoch,
+      mergeCandlesCount: mergeCandlesCountFrom(Period.all),
+    );
+
+    final allCandles = await chartService.candles(allModel);
+
+    final mapCandles = {
+      'day': dayCandles.candles,
+      'week': weekCandles.candles,
+      'month': monthCandles.candles,
+      'year': yearCandles.candles,
+      'all': allCandles.candles,
+    };
+
+    notifier.updateCandles(mapCandles);
   },
 );
 

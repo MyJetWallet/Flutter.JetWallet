@@ -19,6 +19,10 @@ final balanceChartInitFpod = FutureProvider.autoDispose<void>(
 
     final walletHistory = await chartService.walletHistory(model);
 
-    notifier.updateCandles(candlesFrom(walletHistory.graph));
+    notifier.updateCandles(
+      {
+        'day': candlesFrom(walletHistory.graph),
+      },
+    );
   },
 );
