@@ -144,7 +144,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onBuy: () {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPushReplacement(
                                   context,
                                   CurrencyBuy(
@@ -169,7 +170,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onSell: () {
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPushReplacement(
                                   context,
                                   CurrencySell(
@@ -194,7 +196,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onConvert: () {
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPush(
                                   context,
                                   Convert(
@@ -219,7 +222,8 @@ class _ActionButtonState extends State<ActionButton> {
                               if (widget.currency.type == AssetType.fiat) {
                                 if (kycState.depositStatus ==
                                     kycOperationStatus(
-                                        KycOperationStatus.allowed)) {
+                                      KycOperationStatus.allowed,
+                                    )) {
                                   showDepositOptions(
                                     context,
                                     widget.currency,
@@ -238,7 +242,8 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 if (kycState.depositStatus ==
                                     kycOperationStatus(
-                                        KycOperationStatus.allowed)) {
+                                      KycOperationStatus.allowed,
+                                    )) {
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
@@ -266,7 +271,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onWithdraw: () {
                               if (kycState.withdrawalStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 showWithdrawOptions(
                                   context,
                                   widget.currency,
@@ -286,7 +292,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onSend: () {
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 showSendOptions(
                                   context,
                                   widget.currency,
@@ -306,7 +313,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onReceive: () {
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(
@@ -377,7 +385,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onBuy: () {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPushReplacement(
                                   context,
                                   CurrencyBuy(
@@ -403,7 +412,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onSell: () {
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPushReplacement(
                                   context,
                                   CurrencySell(
@@ -429,7 +439,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onConvert: () {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPush(
                                   context,
                                   Convert(
@@ -456,7 +467,8 @@ class _ActionButtonState extends State<ActionButton> {
                               if (widget.currency.type == AssetType.fiat) {
                                 if (kycState.depositStatus ==
                                     kycOperationStatus(
-                                        KycOperationStatus.allowed)) {
+                                      KycOperationStatus.allowed,
+                                    )) {
                                   showDepositOptions(
                                     context,
                                     widget.currency,
@@ -475,7 +487,8 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 if (kycState.depositStatus ==
                                     kycOperationStatus(
-                                        KycOperationStatus.allowed)) {
+                                      KycOperationStatus.allowed,
+                                    )) {
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
@@ -504,7 +517,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onWithdraw: () {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 showWithdrawOptions(
                                   context,
                                   widget.currency,
@@ -524,7 +538,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onSend: () {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 showSendOptions(
                                   context,
                                   widget.currency,
@@ -544,7 +559,8 @@ class _ActionButtonState extends State<ActionButton> {
                             onReceive: () {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
-                                      KycOperationStatus.allowed)) {
+                                    KycOperationStatus.allowed,
+                                  )) {
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(
