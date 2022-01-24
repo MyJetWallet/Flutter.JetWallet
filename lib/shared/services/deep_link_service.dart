@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
@@ -102,6 +103,11 @@ class DeepLinkService {
       horizontalPinnedPadding: 0,
       scrollable: true,
       pinned: const SReferralInvitePinned(),
+      pinnedBottom: SReferralInviteBottomPinned(
+        onShare: () {
+          Share.share(userInfo.referralLink);
+        },
+      ),
       children: [
         SReferralInviteBody(
           primaryText: 'Invite friends and get \$15',

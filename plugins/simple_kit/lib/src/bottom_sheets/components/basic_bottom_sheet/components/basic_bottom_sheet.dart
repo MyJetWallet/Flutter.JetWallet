@@ -14,6 +14,7 @@ class BasicBottomSheet extends HookWidget {
     this.horizontalPadding,
     this.onWillPop,
     this.horizontalPinnedPadding,
+    this.pinnedBottom,
     this.expanded = false,
     this.removeBottomSheetBar = false,
     this.removeBarPadding = false,
@@ -28,6 +29,7 @@ class BasicBottomSheet extends HookWidget {
   // to listen for isAnimating parameter
   final AnimationController? transitionAnimationController;
   final Widget? pinned;
+  final Widget? pinnedBottom;
   final Function()? onDissmis;
   final double? minHeight;
   final double? horizontalPadding;
@@ -82,6 +84,7 @@ class BasicBottomSheet extends HookWidget {
               removeBottomSheetBar: removeBottomSheetBar,
               removeBarPadding: removeBarPadding,
               removePinnedPadding: removePinnedPadding,
+              pinnedBottom: pinnedBottom,
             );
 
             return Column(
@@ -139,6 +142,7 @@ class BasicBottomSheet extends HookWidget {
                           children: children,
                         ),
                       ),
+                      if (pinnedBottom != null) pinnedBottom!,
                     ],
                   ),
                 ),
@@ -157,6 +161,7 @@ double _listViewMaxHeight({
   required bool removeBarPadding,
   required bool removePinnedPadding,
   required Size? pinnedSize,
+  required Widget? pinnedBottom,
 }) {
   var max = maxHeight;
 
@@ -174,6 +179,10 @@ double _listViewMaxHeight({
     if (!removePinnedPadding) {
       max = max - 24;
     }
+  }
+
+  if (pinnedBottom != null) {
+    max = max - 104;
   }
 
   return max - 60; // required spacing from the top edge of the device;

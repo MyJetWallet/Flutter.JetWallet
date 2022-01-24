@@ -222,6 +222,7 @@ export 'src/notifications/notifier/simple_notification_queue_notipod.dart';
 export 'src/notifications/view/show_simple_notification.dart';
 export 'src/notifications/view/simple_notification_box.dart';
 export 'src/referral_invite/simple_referral_invite_body.dart';
+export 'src/referral_invite/simple_referral_invite_bottom_pinned.dart';
 
 /// Referral Invite
 export 'src/referral_invite/simple_referral_invite_pinned.dart';
