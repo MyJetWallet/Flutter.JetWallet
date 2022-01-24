@@ -53,9 +53,9 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
         );
 
         final model = PhoneVerificationRequestModel(
-          toPhoneBody: number.body,
-          toPhoneCode: number.dialCode,
-          toPhoneIso: number.isoCode,
+          phoneBody: number.body,
+          phoneCode: '+${number.dialCode}',
+          phoneIso: number.isoCode,
         );
 
         await read(phoneVerificationServicePod).request(model);
@@ -69,9 +69,14 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     await _requestTemplate(
       requestName: 'verifyCode',
       body: () async {
+        final number = await decomposePhoneNumber(
+          state.phoneNumber,
+        );
+
         final model = PhoneVerificationVerifyRequestModel(
-          code: state.controller.text,
-          phoneNumber: state.phoneNumber,
+          phoneBody: number.body,
+          phoneCode: '+${number.dialCode}',
+          phoneIso: number.isoCode,
         );
 
         await read(phoneVerificationServicePod).verify(model);

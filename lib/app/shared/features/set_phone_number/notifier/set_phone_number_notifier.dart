@@ -42,9 +42,9 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
       );
 
       final model = PhoneVerificationRequestModel(
-        toPhoneBody: number.body,
-        toPhoneCode: number.dialCode,
-        toPhoneIso: number.isoCode,
+        phoneBody: number.body,
+        phoneCode: '+${number.dialCode}',
+        phoneIso: number.isoCode,
       );
 
       await read(phoneVerificationServicePod).request(model);
