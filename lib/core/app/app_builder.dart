@@ -15,11 +15,9 @@ class AppBuilder extends HookWidget {
   Widget build(BuildContext context) {
     final mediaQuery = useMemoized(() => MediaQuery.of(context));
     useMemoized(() {
-      try {
-        context.read(mediaQueryPod).state = mediaQuery;
-      } catch (e) {
-        return; // Allowed exception
-      }
+      Future.sync(() {
+        context.read(mediaQueryStpod).state = mediaQuery;
+      });
     });
     // reactiveMediaQuery is needed to update viewInsets and
     // other stuff when it changes.
