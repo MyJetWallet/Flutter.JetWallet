@@ -120,8 +120,19 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
   }
 
   void updateActiveDialCode(SPhoneNumber code) {
-    state = state.copyWith(
-      activeDialCode: code,
-    );
+    state = state.copyWith(activeDialCode: code);
+  }
+
+  void _registerCountryUser() {
+    final phoneNumber = countryCodeByUserRegister(read);
+
+    if (phoneNumber != null) {
+      state = state.copyWith(
+        activeDialCode: phoneNumber,
+        dialCodeController: TextEditingController(
+          text: phoneNumber.countryCode,
+        ),
+      );
+    }
   }
 }

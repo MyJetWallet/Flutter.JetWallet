@@ -1,12 +1,18 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-SPhoneNumber? countryCodeByUserRegister(String countryOfRegistration) {
-  SPhoneNumber? phoneNumber;
+import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 
-  for (var i = 0; i < sPhoneNumbers.length; i++) {
-    if (sPhoneNumbers[i].isoCode.toLowerCase() ==
-        countryOfRegistration.toLowerCase()) {
-      phoneNumber = sPhoneNumbers[i];
+SPhoneNumber? countryCodeByUserRegister(Reader read) {
+  SPhoneNumber? phoneNumber;
+  final userInfo = read(userInfoNotipod);
+
+  if (userInfo.countryOfRegistration.isNotEmpty) {
+    for (final number in sPhoneNumbers) {
+      if (number.isoCode.toLowerCase() ==
+          userInfo.countryOfRegistration.toLowerCase()) {
+        phoneNumber = number;
+      }
     }
   }
 

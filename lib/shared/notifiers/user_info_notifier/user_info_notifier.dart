@@ -38,7 +38,6 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     required String referralLink,
     required String referralCode,
     required String countryOfRegistration,
-    required String ipOfRegistration,
   }) {
     _logger.log(notifier, 'updateWithValuesFromProfileInfo');
 
@@ -51,7 +50,6 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       referralLink: referralLink,
       referralCode: referralCode,
       countryOfRegistration: countryOfRegistration,
-      ipOfRegistration: ipOfRegistration,
     );
   }
 
