@@ -51,7 +51,7 @@ class SendByPhonePreview extends HookWidget {
             ),
             SActionConfirmText(
               name: 'Amount to send',
-              customBaseline: 35.0,
+              baseline: 35.0,
               value: userWillreceive(
                 currency: currency,
                 amount: state.amount,
@@ -63,7 +63,7 @@ class SendByPhonePreview extends HookWidget {
             const SpaceH4(),
             SActionConfirmText(
               name: 'Total',
-              customBaseline: 35.0,
+              baseline: 35.0,
               value: '${state.amount} ${currency.symbol}',
               valueColor: colors.blue,
             ),
