@@ -11,6 +11,7 @@ import '../../../../../service/services/two_fa/model/two_fa_enable/two_fa_enable
 import '../../../../../service/services/two_fa/model/two_fa_verification/two_fa_verification_request_model.dart';
 import '../../../../../service/services/two_fa/model/two_fa_verify/two_fa_verify_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
+import '../../../helpers/decompose_phone_number.dart';
 import '../../../helpers/device_type.dart';
 import '../../../logging/levels.dart';
 import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
@@ -191,9 +192,14 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     await _requestTemplate(
       requestName: 'sendCode',
       body: () async {
+        final number = await decomposePhoneNumber(
+          state.phoneNumber,
+        );
+
         final model = PhoneVerificationRequestModel(
-          language: read(intlPod).localeName,
-          phoneNumber: state.phoneNumber,
+          toPhoneBody: number.body,
+          toPhoneCode: number.dialCode,
+          toPhoneIso: number.isoCode,
         );
 
         await read(phoneVerificationServicePod).request(model);

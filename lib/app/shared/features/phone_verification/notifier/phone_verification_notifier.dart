@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
 import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../../shared/helpers/decompose_phone_number.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../view/phone_verification.dart';
@@ -47,9 +48,14 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     await _requestTemplate(
       requestName: 'sendCode',
       body: () async {
+        final number = await decomposePhoneNumber(
+          state.phoneNumber,
+        );
+
         final model = PhoneVerificationRequestModel(
-          language: read(intlPod).localeName,
-          phoneNumber: state.phoneNumber,
+          toPhoneBody: number.body,
+          toPhoneCode: number.dialCode,
+          toPhoneIso: number.isoCode,
         );
 
         await read(phoneVerificationServicePod).request(model);
