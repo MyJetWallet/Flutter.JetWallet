@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../shared/helpers/device_size_from.dart';
 import '../../shared/providers/device_size/device_size_pod.dart';
+import '../../shared/providers/device_size/media_query_pod.dart';
 
 class AppBuilder extends HookWidget {
   const AppBuilder(this.child);
@@ -13,9 +14,14 @@ class AppBuilder extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = useMemoized(() => MediaQuery.of(context));
-    // reactiveMediaQuery is needed to update viewInsets and 
+    useMemoized(() {
+      Future.sync(() {
+        context.read(mediaQueryStpod).state = mediaQuery;
+      });
+    });
+    // reactiveMediaQuery is needed to update viewInsets and
     // other stuff when it changes.
-    // In the case above changes are unwanted, so we placed 
+    // In the case above changes are unwanted, so we placed
     // mediaQuery inside useMemorized hook
     final reactiveMediaQuery = MediaQuery.of(context);
 

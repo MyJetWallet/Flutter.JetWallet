@@ -8,7 +8,7 @@ class OperationHistoryRequestModel with _$OperationHistoryRequestModel {
   const factory OperationHistoryRequestModel({
     String? lastDate,
     int? batchSize,
-    required String assetId,
+    String? assetId,
   }) = _OperationHistoryRequestModel;
 
   factory OperationHistoryRequestModel.fromJson(Map<String, dynamic> json) =>

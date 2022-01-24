@@ -17,6 +17,7 @@ import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/support/support.dart';
+import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -79,6 +80,14 @@ class Account extends HookWidget {
                       onTap: () {
                         navigatorPush(context, const AccountSecurity());
                       },
+                    ),
+                    SimpleAccountCategoryButton(
+                      title: 'History',
+                      icon: const SIndexHistoryIcon(),
+                      isSDivider: true,
+                      onTap: () => TransactionHistory.push(
+                        context: context,
+                      ),
                     ),
                     SimpleAccountCategoryButton(
                       title: 'Notifications',

@@ -5,56 +5,61 @@ import 'package:simple_kit/simple_kit.dart';
 class TransactionListLoadingItem extends HookWidget {
   const TransactionListLoadingItem({
     Key? key,
+    required this.opacity,
     this.removeDivider = false,
   }) : super(key: key);
 
   final bool removeDivider;
+  final double opacity;
 
   @override
   Widget build(BuildContext context) {
-    return SPaddingH24(
-      child: SizedBox(
-        height: 80,
-        child: Column(
-          children: [
-            const SpaceH18(),
-            Row(
-              children: const [
-                SpaceW2(),
-                SSkeletonTextLoader(
-                  height: 16,
-                  width: 16,
-                ),
-                SpaceW12(),
-                SSkeletonTextLoader(
-                  height: 16,
-                  width: 80,
-                ),
-                Spacer(),
-                SSkeletonTextLoader(
-                  height: 16,
-                  width: 80,
-                ),
-              ],
-            ),
-            const SpaceH12(),
-            Row(
-              children: const [
-                SpaceW30(),
-                SSkeletonTextLoader(
-                  height: 10,
-                  width: 109,
-                ),
-                Spacer(),
-                SSkeletonTextLoader(
-                  height: 10,
-                  width: 60,
-                ),
-              ],
-            ),
-            const Spacer(),
-            if (!removeDivider) const SDivider(),
-          ],
+    return Opacity(
+      opacity: opacity,
+      child: SPaddingH24(
+        child: SizedBox(
+          height: 80,
+          child: Column(
+            children: [
+              const SpaceH18(),
+              Row(
+                children: const [
+                  SpaceW2(),
+                  SSkeletonTextLoader(
+                    height: 16,
+                    width: 16,
+                  ),
+                  SpaceW12(),
+                  SSkeletonTextLoader(
+                    height: 16,
+                    width: 80,
+                  ),
+                  Spacer(),
+                  SSkeletonTextLoader(
+                    height: 16,
+                    width: 80,
+                  ),
+                ],
+              ),
+              const SpaceH12(),
+              Row(
+                children: const [
+                  SpaceW30(),
+                  SSkeletonTextLoader(
+                    height: 10,
+                    width: 109,
+                  ),
+                  Spacer(),
+                  SSkeletonTextLoader(
+                    height: 10,
+                    width: 60,
+                  ),
+                ],
+              ),
+              const Spacer(),
+              if (!removeDivider) const SDivider(),
+            ],
+          ),
         ),
       ),
     );

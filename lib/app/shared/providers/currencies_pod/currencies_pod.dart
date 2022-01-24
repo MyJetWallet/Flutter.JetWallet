@@ -18,22 +18,24 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
 
   assets.whenData((value) {
     for (final asset in value.assets) {
-      currencies.add(
-        CurrencyModel(
-          symbol: asset.symbol,
-          description: asset.description,
-          accuracy: asset.accuracy.toInt(),
-          depositMode: asset.depositMode,
-          withdrawalMode: asset.withdrawalMode,
-          tagType: asset.tagType,
-          type: asset.type,
-          depositMethods: asset.depositMethods,
-          fees: asset.fees,
-          withdrawalMethods: asset.withdrawalMethods,
-          iconUrl: iconUrlFrom(asset.symbol),
-          prefixSymbol: asset.prefixSymbol,
-        ),
-      );
+      if (!asset.hideInTerminal) {
+        currencies.add(
+          CurrencyModel(
+            symbol: asset.symbol,
+            description: asset.description,
+            accuracy: asset.accuracy.toInt(),
+            depositMode: asset.depositMode,
+            withdrawalMode: asset.withdrawalMode,
+            tagType: asset.tagType,
+            type: asset.type,
+            depositMethods: asset.depositMethods,
+            fees: asset.fees,
+            withdrawalMethods: asset.withdrawalMethods,
+            iconUrl: iconUrlFrom(asset.symbol),
+            prefixSymbol: asset.prefixSymbol,
+          ),
+        );
+      }
     }
   });
 

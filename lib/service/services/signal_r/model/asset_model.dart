@@ -19,6 +19,7 @@ class AssetModel with _$AssetModel {
   const factory AssetModel({
     String? iconUrl,
     String? prefixSymbol,
+    required bool hideInTerminal,
     required String symbol,
     required String description,
     required double accuracy,
@@ -72,7 +73,7 @@ enum AssetType {
   @JsonValue('Crypto')
   crypto,
   @JsonValue('Index')
-  indecies,
+  indices,
 }
 
 enum FeeType {
