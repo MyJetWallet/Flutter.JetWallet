@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -20,6 +19,7 @@ class WithdrawalPreview extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalPreviewNotipod(withdrawal));
     final notifier = useProvider(withdrawalPreviewNotipod(withdrawal).notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
@@ -41,46 +41,55 @@ class WithdrawalPreview extends HookWidget {
         header: SMegaHeader(
           title: 'Confirm $verb ${currency.description}',
         ),
-        child: Column(
-          children: [
-            const Spacer(),
-            SActionConfirmIconWithAnimation(
-              iconUrl: currency.iconUrl,
-            ),
-            const Spacer(),
-            SActionConfirmText(
-              name: '$verb to',
-              value: shortAddressForm(state.address),
-            ),
-            SActionConfirmText(
-              name: 'You will receive',
-              value: userWillreceive(
-                currency: currency,
-                amount: state.amount,
-                addressIsInternal: state.addressIsInternal,
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  SActionConfirmIconWithAnimation(
+                    iconUrl: currency.iconUrl,
+                  ),
+                  const Spacer(),
+                  SActionConfirmText(
+                    name: '$verb to',
+                    value: shortAddressForm(state.address),
+                  ),
+                  SActionConfirmText(
+                    name: 'You will receive',
+                    baseline: 36.0,
+                    value: userWillreceive(
+                      currency: currency,
+                      amount: state.amount,
+                      addressIsInternal: state.addressIsInternal,
+                    ),
+                  ),
+                  SActionConfirmText(
+                    name: 'Fee',
+                    baseline: 35.0,
+                    value: state.addressIsInternal
+                        ? 'No fee'
+                        : currency.withdrawalFeeWithSymbol,
+                  ),
+                  const SBaselineChild(
+                    baseline: 34.0,
+                    child: SDivider(),
+                  ),
+                  SActionConfirmText(
+                    name: 'Total',
+                    value: '${state.amount} ${currency.symbol}',
+                    valueColor: colors.blue,
+                  ),
+                  const SpaceH36(),
+                  SPrimaryButton2(
+                    active: !state.loading,
+                    name: 'Confirm',
+                    onTap: () => notifier.withdraw(),
+                  ),
+                  const SpaceH24(),
+                ],
               ),
             ),
-            SActionConfirmText(
-              name: 'Fee',
-              value: state.addressIsInternal
-                  ? 'No fee'
-                  : currency.withdrawalFeeWithSymbol,
-            ),
-            SBaselineChild(
-              baseline: 40.h,
-              child: const SDivider(),
-            ),
-            SActionConfirmText(
-              name: 'Total',
-              value: '${state.amount} ${currency.symbol}',
-            ),
-            const SpaceH40(),
-            SPrimaryButton2(
-              active: !state.loading,
-              name: 'Confirm',
-              onTap: () => notifier.withdraw(),
-            ),
-            const SpaceH24(),
           ],
         ),
       ),

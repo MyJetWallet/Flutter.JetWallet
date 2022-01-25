@@ -75,10 +75,8 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
               hasScrollBody: false,
               child: Column(
                 children: [
-                  Center(
-                    child: SActionConfirmIconWithAnimation(
-                      iconUrl: widget.input.toCurrency.iconUrl,
-                    ),
+                  SActionConfirmIconWithAnimation(
+                    iconUrl: widget.input.toCurrency.iconUrl,
                   ),
                   const Spacer(),
                   SActionConfirmText(

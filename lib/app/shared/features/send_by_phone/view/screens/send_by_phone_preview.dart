@@ -37,43 +37,49 @@ class SendByPhonePreview extends HookWidget {
         header: SMegaHeader(
           title: 'Send ${currency.description} by phone',
         ),
-        child: Column(
-          children: [
-            const SpaceH24(),
-            SActionConfirmIconWithAnimation(
-              iconUrl: currency.iconUrl,
-            ),
-            const Spacer(),
-            SActionConfirmText(
-              name: 'You send to',
-              value: state.pickedContact!.phoneNumber,
-              valueDescription: state.pickedContact!.name,
-            ),
-            SActionConfirmText(
-              name: 'Amount to send',
-              baseline: 35.0,
-              value: userWillreceive(
-                currency: currency,
-                amount: state.amount,
-                addressIsInternal: false,
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  SActionConfirmIconWithAnimation(
+                    iconUrl: currency.iconUrl,
+                  ),
+                  const Spacer(),
+                  SActionConfirmText(
+                    name: 'You send to',
+                    value: state.pickedContact!.phoneNumber,
+                    valueDescription: state.pickedContact!.name,
+                  ),
+                  SActionConfirmText(
+                    name: 'Amount to send',
+                    baseline: 35.0,
+                    value: userWillreceive(
+                      currency: currency,
+                      amount: state.amount,
+                      addressIsInternal: false,
+                    ),
+                  ),
+                  const SpaceH35(),
+                  const SDivider(),
+                  const SpaceH4(),
+                  SActionConfirmText(
+                    name: 'Total',
+                    baseline: 35.0,
+                    value: '${state.amount} ${currency.symbol}',
+                    valueColor: colors.blue,
+                  ),
+                  const SpaceH35(),
+                  SPrimaryButton2(
+                    active: !state.loading,
+                    name: 'Confirm',
+                    onTap: () => notifier.send(),
+                  ),
+                  const SpaceH24(),
+                ],
               ),
             ),
-            const SpaceH35(),
-            const SDivider(),
-            const SpaceH4(),
-            SActionConfirmText(
-              name: 'Total',
-              baseline: 35.0,
-              value: '${state.amount} ${currency.symbol}',
-              valueColor: colors.blue,
-            ),
-            const SpaceH35(),
-            SPrimaryButton2(
-              active: !state.loading,
-              name: 'Confirm',
-              onTap: () => notifier.send(),
-            ),
-            const SpaceH24(),
           ],
         ),
       ),
