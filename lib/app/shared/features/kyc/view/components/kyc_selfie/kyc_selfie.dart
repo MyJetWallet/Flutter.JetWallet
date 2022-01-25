@@ -84,6 +84,7 @@ class KycSelfie extends HookWidget {
             CustomScrollView(
               slivers: [
                 SliverFillRemaining(
+                  hasScrollBody: false,
                   child: Column(
                     children: [
                       const Spacer(),

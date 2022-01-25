@@ -64,6 +64,7 @@ class ChooseDocuments extends HookWidget {
           CustomScrollView(
             slivers: [
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Column(
                   children: [
                     KycCountry(

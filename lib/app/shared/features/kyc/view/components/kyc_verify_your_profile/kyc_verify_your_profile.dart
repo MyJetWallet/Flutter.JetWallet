@@ -48,6 +48,7 @@ class KycVerifyYourProfile extends HookWidget {
           CustomScrollView(
             slivers: [
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: SPaddingH24(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
