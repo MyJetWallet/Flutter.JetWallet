@@ -104,7 +104,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                   allowCameraAsset,
                 ),
                 const Spacer(),
-                if (state.permissionDenied)
+                if (!state.permissionDenied)
                   Baseline(
                     baseline: 48,
                     baselineType: TextBaseline.alphabetic,
