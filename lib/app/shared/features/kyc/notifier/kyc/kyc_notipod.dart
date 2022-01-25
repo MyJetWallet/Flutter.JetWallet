@@ -34,7 +34,11 @@ final kycNotipod =
       withdrawalStatus: clientDetailData.withdrawalStatus,
       requiredVerifications: requiredVerified,
       requiredDocuments: documents,
-      verificationInProgress: false,
+      verificationInProgress: _kycInProgress(
+        clientDetailData.depositStatus,
+        clientDetailData.tradeStatus,
+        clientDetailData.withdrawalStatus,
+      ),
     );
   });
 
@@ -43,3 +47,23 @@ final kycNotipod =
     kycModel: value,
   );
 });
+
+bool _kycInProgress(
+  int depositStatus,
+  int sellStatus,
+  int withdrawalStatus,
+) {
+  if (depositStatus == kycOperationStatus(KycOperationStatus.kycInProgress)) {
+    return true;
+  }
+
+  if (sellStatus == kycOperationStatus(KycOperationStatus.kycInProgress)) {
+    return true;
+  }
+
+  if (withdrawalStatus ==
+      kycOperationStatus(KycOperationStatus.kycInProgress)) {
+    return true;
+  }
+  return false;
+}

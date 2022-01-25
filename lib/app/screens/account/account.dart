@@ -12,12 +12,16 @@ import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../shared/providers/flavor_pod.dart';
+import '../../../shared/providers/service_providers.dart';
 import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
+import '../../shared/features/kyc/model/kyc_operation_status_model.dart';
+import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/support/support.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
+import 'components/account_banner_list.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -29,6 +33,11 @@ class Account extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
+
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
+    );
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
@@ -55,12 +64,25 @@ class Account extends HookWidget {
                   ),
                 ),
                 const SpaceH20(),
-                SAccountBannerList(
-                  kycPassed: userInfo.kycPassed,
+                AccountBannerList(
+                  kycPassed: _checkKycPassed(
+                    kycState.depositStatus,
+                    kycState.sellStatus,
+                    kycState.withdrawalStatus,
+                  ),
+                  verificationInProgress: kycState.inVerificationProgress,
                   twoFaEnabled: userInfo.twoFaEnabled,
                   phoneVerified: userInfo.phoneVerified,
                   onTwoFaBannerTap: () => SmsAuthenticator.push(context),
                   onChatBannerTap: () {},
+                  onKycBannerTap: () {
+                    kycAlertHandler.handle(
+                      status: kycState.depositStatus,
+                      kycVerified: kycState,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () {},
+                    );
+                  },
                 ),
                 const SpaceH20(),
                 Column(
@@ -136,5 +158,31 @@ class Account extends HookWidget {
         loading: () => const Loader(),
       ),
     );
+  }
+
+  bool _checkKycPassed(
+    int depositStatus,
+    int sellStatus,
+    int withdrawalStatus,
+  ) {
+    if (depositStatus == kycOperationStatus(KycOperationStatus.kycRequired) ||
+        depositStatus ==
+            kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
+      return false;
+    }
+
+    if (sellStatus == kycOperationStatus(KycOperationStatus.kycRequired) ||
+        sellStatus ==
+            kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
+      return false;
+    }
+
+    if (withdrawalStatus ==
+            kycOperationStatus(KycOperationStatus.kycRequired) ||
+        withdrawalStatus ==
+            kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
+      return false;
+    }
+    return true;
   }
 }

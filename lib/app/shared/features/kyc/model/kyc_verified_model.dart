@@ -13,4 +13,10 @@ class KycModel with _$KycModel {
     @Default([]) List<RequiredVerified> requiredVerifications,
     @Default(false) bool verificationInProgress,
   }) = _KycModel;
+
+  const KycModel._();
+
+  bool get inVerificationProgress {
+    return verificationInProgress;
+  }
 }
