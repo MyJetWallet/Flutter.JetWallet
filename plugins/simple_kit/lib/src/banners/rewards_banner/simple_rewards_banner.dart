@@ -12,6 +12,7 @@ class SRewardBanner extends StatelessWidget {
     this.primaryTextStyle,
     required this.color,
     required this.primaryText,
+    required this.onTap,
   }) : super(key: key);
 
   final String? secondaryText;
@@ -19,64 +20,68 @@ class SRewardBanner extends StatelessWidget {
   final TextStyle? primaryTextStyle;
   final Color color;
   final String primaryText;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 20.0,
-        top: 20.0,
-        bottom: 20.0,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
-        color: color,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 40.0,
-            backgroundImage: setCircleBackgroundImage(imageUrl),
-          ),
-          const SpaceW16(),
-          Column(
-            mainAxisAlignment: (secondaryText != null)
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 177.0,
-                child: Baseline(
-                  baseline: 27.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    primaryText,
-                    textAlign: TextAlign.start,
-                    maxLines: 2,
-                    style: primaryTextStyle ?? sTextH4Style,
-                  ),
-                ),
-              ),
-              if (secondaryText != null)
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 20.0,
+          top: 20.0,
+          bottom: 20.0,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.0),
+          color: color,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 40.0,
+              backgroundImage: setCircleBackgroundImage(imageUrl),
+            ),
+            const SpaceW16(),
+            Column(
+              mainAxisAlignment: (secondaryText != null)
+                  ? MainAxisAlignment.start
+                  : MainAxisAlignment.center,
+              children: [
                 SizedBox(
                   width: 177.0,
                   child: Baseline(
-                    baseline: 30.0,
+                    baseline: 27.0,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      secondaryText!,
+                      primaryText,
                       textAlign: TextAlign.start,
-                      maxLines: 3,
-                      style: sBodyText2Style.copyWith(
-                        color: SColorsLight().grey1,
-                      ),
+                      maxLines: 2,
+                      style: primaryTextStyle ?? sTextH4Style,
                     ),
                   ),
                 ),
-            ],
-          ),
-        ],
+                if (secondaryText != null)
+                  SizedBox(
+                    width: 177.0,
+                    child: Baseline(
+                      baseline: 30.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        secondaryText!,
+                        textAlign: TextAlign.start,
+                        maxLines: 3,
+                        style: sBodyText2Style.copyWith(
+                          color: SColorsLight().grey1,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
