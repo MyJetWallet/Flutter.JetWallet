@@ -197,6 +197,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
         );
 
         final model = PhoneVerificationRequestModel(
+          language: read(intlPod).localeName,
           phoneBody: number.body,
           phoneCode: '+${number.dialCode}',
           phoneIso: number.isoCode,
@@ -223,6 +224,7 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
         );
 
         final model = PhoneVerificationVerifyRequestModel(
+          code: state.controller.text,
           phoneBody: number.body,
           phoneCode: '+${number.dialCode}',
           phoneIso: number.isoCode,

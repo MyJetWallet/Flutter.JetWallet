@@ -53,6 +53,7 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
         );
 
         final model = PhoneVerificationRequestModel(
+          language: read(intlPod).localeName,
           phoneBody: number.body,
           phoneCode: '+${number.dialCode}',
           phoneIso: number.isoCode,
@@ -74,6 +75,7 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
         );
 
         final model = PhoneVerificationVerifyRequestModel(
+          code: state.controller.text,
           phoneBody: number.body,
           phoneCode: '+${number.dialCode}',
           phoneIso: number.isoCode,

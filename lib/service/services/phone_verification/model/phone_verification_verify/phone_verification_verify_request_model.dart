@@ -7,6 +7,8 @@ part 'phone_verification_verify_request_model.g.dart';
 class PhoneVerificationVerifyRequestModel
     with _$PhoneVerificationVerifyRequestModel {
   const factory PhoneVerificationVerifyRequestModel({
+    @Default('') String language,
+    @Default('') String code,
     required String phoneBody,
     required String phoneCode,
     required String phoneIso,
