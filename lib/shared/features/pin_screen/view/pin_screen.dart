@@ -63,7 +63,7 @@ class PinScreen extends HookWidget {
         ),
         child: Column(
           children: [
-            const SpaceH134(),
+            const Spacer(),
             ShakeWidget(
               key: pin.shakePinKey,
               shakeDuration: pinBoxErrorDuration,
@@ -77,7 +77,7 @@ class PinScreen extends HookWidget {
                 ],
               ),
             ),
-            const SpaceH132(),
+            const Spacer(),
             SNumericKeyboardPin(
               hideBiometricButton: pin.hideBiometricButton,
               onKeyPressed: (value) => pinN.updatePin(value),
