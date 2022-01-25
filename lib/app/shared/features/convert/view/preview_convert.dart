@@ -63,6 +63,7 @@ class _PreviewConvertState extends State<PreviewConvert>
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
+          crossAxisAlignment: CrossAxisAlignment.center,
           title: notifier.previewHeader,
           onBackButtonTap: () {
             notifier.cancelTimer();

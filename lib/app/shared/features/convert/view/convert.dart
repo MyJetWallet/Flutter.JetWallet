@@ -22,6 +22,7 @@ class Convert extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final state = useProvider(convertInputNotipod(fromCurrency));
     final notifier = useProvider(convertInputNotipod(fromCurrency).notifier);
     useProvider(
@@ -58,9 +59,11 @@ class Convert extends HookWidget {
           Stack(
             children: [
               Column(
-                children: const [
-                  SpaceH20(),
-                  SDivider(),
+                children: [
+                  const SpaceH20(),
+                  SDivider(
+                    color: colors.grey3,
+                  ),
                 ],
               ),
               Center(
