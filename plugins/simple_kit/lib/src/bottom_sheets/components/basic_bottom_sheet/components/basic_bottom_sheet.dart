@@ -54,6 +54,7 @@ class BasicBottomSheet extends HookWidget {
 
     /// Needed to get the size of the pinned Widget
     final pinnedSize = useState<Size?>(Size.zero);
+    final pinnedBottomSize = useState<Size?>(Size.zero);
 
     /// To avoid additional taps on barrier of bottom sheet when
     /// it was already tapped and bottom sheet is closing
@@ -81,6 +82,7 @@ class BasicBottomSheet extends HookWidget {
             final maxHeight = _listViewMaxHeight(
               maxHeight: constraints.maxHeight,
               pinnedSize: pinnedSize.value,
+              pinnedBottomSize: pinnedBottomSize.value,
               removeBottomSheetBar: removeBottomSheetBar,
               removeBarPadding: removeBarPadding,
               removePinnedPadding: removePinnedPadding,
@@ -142,7 +144,14 @@ class BasicBottomSheet extends HookWidget {
                           children: children,
                         ),
                       ),
-                      if (pinnedBottom != null) pinnedBottom!,
+                      if (pinnedBottom != null) ...[
+                        SWidgetBottomSize(
+                          child: pinnedBottom!,
+                          onChange: (size) {
+                            pinnedBottomSize.value = size;
+                          },
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -161,6 +170,7 @@ double _listViewMaxHeight({
   required bool removeBarPadding,
   required bool removePinnedPadding,
   required Size? pinnedSize,
+  required Size? pinnedBottomSize,
   required Widget? pinnedBottom,
 }) {
   var max = maxHeight;
@@ -181,8 +191,8 @@ double _listViewMaxHeight({
     }
   }
 
-  if (pinnedBottom != null) {
-    max = max - 104;
+  if (pinnedBottomSize != null) {
+    max = max - pinnedBottomSize.height;
   }
 
   return max - 60; // required spacing from the top edge of the device;

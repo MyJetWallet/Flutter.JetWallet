@@ -256,6 +256,7 @@ export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_size.dart';
+export 'src/shared/components/simple_widget_bottom_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 
 /// Constants

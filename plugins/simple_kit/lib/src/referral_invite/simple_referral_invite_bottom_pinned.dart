@@ -29,8 +29,8 @@ class SReferralInviteBottomPinned extends StatelessWidget {
           onTap: onShare,
           name: 'Share',
           active: true,
-          icon: const SShareIcon(
-            color: Colors.white,
+          icon: SShareIcon(
+            color: SColorsLight().white,
           ),
         ),
       ),
