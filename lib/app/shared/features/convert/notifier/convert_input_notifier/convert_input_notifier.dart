@@ -260,7 +260,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void _validateInput() {
-    final error = inputError(
+    final error = onTradeInputErrorHandler(
       state.fromAssetAmount,
       state.fromAsset,
     );

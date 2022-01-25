@@ -95,7 +95,10 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
   }
 
   void _validateAmount() {
-    final error = inputError(state.amount, currency);
+    final error = onWithdrawInputErrorHandler(
+      state.amount,
+      currency,
+    );
 
     if (error == InputError.none) {
       _updateValid(
