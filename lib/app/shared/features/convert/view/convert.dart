@@ -43,7 +43,7 @@ class Convert extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SpaceH10(),
+          const Spacer(),
           ConvertRow(
             value: state.fromAssetAmount,
             inputError: state.inputError,
@@ -54,7 +54,7 @@ class Convert extends HookWidget {
             onDropdown: (value) => notifier.updateFromAsset(value!),
             fromAsset: true,
           ),
-          const SpaceH10(),
+          const Spacer(),
           Stack(
             children: [
               Column(
@@ -72,7 +72,7 @@ class Convert extends HookWidget {
               ),
             ],
           ),
-          const SpaceH10(),
+          const Spacer(),
           ConvertRow(
             value: state.toAssetAmount,
             enabled: state.toAssetEnabled,
