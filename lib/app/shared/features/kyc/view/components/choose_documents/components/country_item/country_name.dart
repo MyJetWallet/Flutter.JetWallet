@@ -14,6 +14,7 @@ class CountryName extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final size = MediaQuery.of(context).size;
 
     return Baseline(
       baseline: 38.0,
@@ -21,10 +22,13 @@ class CountryName extends HookWidget {
       child: Row(
         children: [
           const SpaceW10(),
-          Text(
-            countryName,
-            style: sSubtitle2Style.copyWith(
-              color: colors.black,
+          SizedBox(
+            width: size.width - 140.0,
+            child: Text(
+              countryName,
+              style: sSubtitle2Style.copyWith(
+                color: colors.black,
+              ),
             ),
           ),
         ],
