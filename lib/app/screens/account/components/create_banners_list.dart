@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-
-import '../../../colors/view/simple_colors_light.dart';
-import '../simple_account_banner.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 List<Widget> createBannersList({
   Function()? onChatBannerTap,
   Function()? onTwoFaBannerTap,
-  required bool twoFaEnabled,
+  Function()? onKycBannerTap,
   required bool kycPassed,
+  required bool twoFaEnabled,
   required bool phoneVerified,
+  required bool verificationInProgress,
+  required SimpleColors colors,
 }) {
   final bannersList = <Widget>[];
 
-  if (!kycPassed) {
+  if (!verificationInProgress && !kycPassed) {
     bannersList.add(
       SimpleAccountBanner(
-        onTap: () {},
-        color: SColorsLight().violet,
+        onTap: () {
+          onKycBannerTap?.call();
+        },
+        color: colors.violet,
         header: 'Verify your profile',
         description: 'In accordance with KYC and AML Policy, '
             'you are required to pass the '
@@ -25,11 +28,11 @@ List<Widget> createBannersList({
     );
   }
 
-  if (!phoneVerified) {
+  if (verificationInProgress) {
     bannersList.add(
       SimpleAccountBanner(
         onTap: () {},
-        color: SColorsLight().greenLight,
+        color: colors.greenLight,
         header: 'Verifying now',
         description: 'You’ll be notified after we’ve completed the '
             'process. '
@@ -44,7 +47,7 @@ List<Widget> createBannersList({
         onTap: () {
           onTwoFaBannerTap?.call();
         },
-        color: SColorsLight().redLight,
+        color: colors.redLight,
         header: 'Enable 2-Factor\nauthentication',
         description: 'To protect your account, it is recommended '
             'to turn on',
@@ -57,7 +60,7 @@ List<Widget> createBannersList({
       onTap: () {
         onChatBannerTap?.call();
       },
-      color: SColorsLight().yellowLight,
+      color: colors.yellowLight,
       header: 'Chat with support',
       description: 'Have any questions?\nWe here to help 24/7',
     ),
