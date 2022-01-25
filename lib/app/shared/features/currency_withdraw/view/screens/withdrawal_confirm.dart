@@ -77,12 +77,10 @@ class WithdrawalConfirm extends HookWidget {
               maxLines: 2,
               style: sBodyText1Style,
             ),
-            SBaselineChild(
-              baseline: 40.0,
-              child: SClickableLinkText(
-                text: 'Open email app',
-                onTap: () => openEmailApp(context),
-              ),
+            const SpaceH24(),
+            SClickableLinkText(
+              text: 'Open email app',
+              onTap: () => openEmailApp(context),
             ),
             const Spacer(),
             SResendButton(
