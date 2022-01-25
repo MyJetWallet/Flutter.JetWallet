@@ -12,7 +12,7 @@ const basePricesMessage = 'prices-base-currency';
 const clientDetailMessage = 'client-detail';
 const keyValueMessage = 'key-values';
 const campaignsBannersMessage = 'campaigns-banners';
-const referralStatsMessage = 'referrer-index_history';
+const referralStatsMessage = 'referrer-stats';
 const indicesMessage = 'index-details';
 
 // HTTP

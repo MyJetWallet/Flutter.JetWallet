@@ -8,7 +8,9 @@ class PhoneVerificationVerifyRequestModel
     with _$PhoneVerificationVerifyRequestModel {
   const factory PhoneVerificationVerifyRequestModel({
     required String code,
-    required String phoneNumber,
+    required String phoneBody,
+    required String phoneCode,
+    required String phoneIso,
   }) = _PhoneVerificationVerifyRequestModel;
 
   factory PhoneVerificationVerifyRequestModel.fromJson(
