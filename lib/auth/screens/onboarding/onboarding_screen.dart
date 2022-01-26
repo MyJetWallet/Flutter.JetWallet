@@ -135,7 +135,6 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                       ],
                     ),
                   ),
-                  const Spacer(),
                   Image.asset(_showImages(_currentIndex)),
                   const SpaceH40(),
                 ],
