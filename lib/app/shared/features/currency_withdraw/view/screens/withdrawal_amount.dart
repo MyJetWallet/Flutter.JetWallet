@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -52,7 +51,7 @@ class WithdrawalAmount extends HookWidget {
             isErrorActive: state.inputError.isActive,
           ),
           SBaselineChild(
-            baseline: 24.h,
+            baseline: 24.0,
             child: Text(
               'Available: ${currency.formattedAssetBalance}',
               style: sSubtitle3Style.copyWith(
@@ -61,7 +60,7 @@ class WithdrawalAmount extends HookWidget {
             ),
           ),
           SBaselineChild(
-            baseline: 36.h,
+            baseline: 36.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

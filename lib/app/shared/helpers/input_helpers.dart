@@ -140,7 +140,23 @@ extension InputErrorValue on InputError {
   bool get isActive => this != InputError.none;
 }
 
-InputError inputError(
+InputError onTradeInputErrorHandler(
+  String input,
+  CurrencyModel currency, {
+  bool addressIsInternal = false,
+}) {
+  if (input.isNotEmpty) {
+    final value = double.parse(input);
+
+    if (currency.assetBalance < value) {
+      return InputError.notEnoughFunds;
+    }
+  }
+
+  return InputError.none;
+}
+
+InputError onWithdrawInputErrorHandler(
   String input,
   CurrencyModel currency, {
   bool addressIsInternal = false,
