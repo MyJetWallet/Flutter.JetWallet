@@ -35,7 +35,7 @@ class _SearchPinned extends HookWidget {
       children: [
         const SpaceH20(),
         Text(
-          'Country if Issue',
+          'Country of Issue',
           style: sTextH2Style,
         ),
         SStandardField(
