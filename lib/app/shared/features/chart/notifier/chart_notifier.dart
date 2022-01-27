@@ -27,6 +27,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
 
     try {
       _updateResolution(resolution);
+      showAnimation = true;
       // state = state.copyWith(union: const Loading());
       //
       // final model = WalletHistoryRequestModel(
@@ -50,6 +51,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
 
     try {
       _updateResolution(resolution);
+      showAnimation = true;
       // state = state.copyWith(union: const Loading());
       //
       // final toDate = DateTime.now().toUtc();
@@ -80,6 +82,8 @@ class ChartNotifier extends StateNotifier<ChartState> {
     _logger.log(notifier, 'updateCandles');
 
     showAnimation = true;
+
+    if (!mounted) return;
 
     state = state.copyWith(
       candles: candles,

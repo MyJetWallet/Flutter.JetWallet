@@ -110,7 +110,7 @@ abstract class BaseChartPainter extends CustomPainter {
       0,
       ChartStyle.topPadding,
       mWidth,
-      ChartStyle.topPadding + mainHeight,
+      ChartStyle.topPadding + mainHeight - 20,
     );
   }
 

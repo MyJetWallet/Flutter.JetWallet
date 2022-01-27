@@ -8,6 +8,7 @@ import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../chart/notifier/chart_notipod.dart';
+import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
 import '../provider/market_info_fpod.dart';
 import 'components/about_block/about_block.dart';
@@ -34,30 +35,40 @@ class _MarketDetailsState extends State<MarketDetails>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final marketInfo = useProvider(
       marketInfoFpod(
         widget.marketItem.associateAsset,
       ),
     );
     final chartN = useProvider(chartNotipod.notifier);
+    final chart = useProvider(
+      chartNotipod,
+    );
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     useProvider(watchlistIdsNotipod);
 
     return SPageFrame(
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '${widget.marketItem.name} (${widget.marketItem.id})',
-          showStarButton: true,
-          isStarSelected:
-              watchlistIdsN.isInWatchlist(widget.marketItem.associateAsset),
-          onStarButtonTap: () {
-            if (watchlistIdsN.isInWatchlist(widget.marketItem.associateAsset)) {
-              watchlistIdsN
-                  .removeFromWatchlist(widget.marketItem.associateAsset);
-            } else {
-              watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
-            }
-          },
+      header: Material(
+        color: chart.union != const ChartUnion.loading()
+            ? Colors.transparent
+            : colors.grey5,
+        child: SPaddingH24(
+          child: SSmallHeader(
+            title: '${widget.marketItem.name} (${widget.marketItem.id})',
+            showStarButton: true,
+            isStarSelected:
+                watchlistIdsN.isInWatchlist(widget.marketItem.associateAsset),
+            onStarButtonTap: () {
+              if (watchlistIdsN
+                  .isInWatchlist(widget.marketItem.associateAsset)) {
+                watchlistIdsN
+                    .removeFromWatchlist(widget.marketItem.associateAsset);
+              } else {
+                watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
+              }
+            },
+          ),
         ),
       ),
       bottomNavigationBar: BalanceBlock(
@@ -66,21 +77,37 @@ class _MarketDetailsState extends State<MarketDetails>
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 104,
-              child: Column(
-                children: [
-                  AssetPrice(
-                    assetId: widget.marketItem.associateAsset,
-                  ),
-                  AssetDayChange(
-                    assetId: widget.marketItem.associateAsset,
-                  ),
-                ],
+            if (chart.union != const ChartUnion.loading())
+              SizedBox(
+                height: 104,
+                child: Column(
+                  children: [
+                    AssetPrice(
+                      assetId: widget.marketItem.associateAsset,
+                    ),
+                    AssetDayChange(
+                      assetId: widget.marketItem.associateAsset,
+                    ),
+                  ],
+                ),
               ),
-            ),
+            if (chart.union == const ChartUnion.loading())
+              Container(
+                height: 104,
+                width: double.infinity,
+                color: colors.grey5,
+                child: Column(
+                  children: const [
+                    SpaceH17(),
+                    SSkeletonTextLoader(height: 24, width: 152),
+                    SpaceH10(),
+                    SSkeletonTextLoader(height: 16, width: 80),
+                    SpaceH37(),
+                  ],
+                ),
+              ),
             AssetChart(
-              widget.marketItem.associateAssetPair,
+              widget.marketItem,
               (ChartInfoModel? chartInfo) {
                 chartN.updateSelectedCandle(chartInfo?.right);
               },

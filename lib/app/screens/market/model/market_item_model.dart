@@ -19,6 +19,7 @@ class MarketItemModel with _$MarketItemModel {
     required double assetBalance,
     required double baseBalance,
     required int accuracy,
+    required String startMarketTime,
   }) = _MarketItemModel;
 
   factory MarketItemModel.fromJson(Map<String, dynamic> json) =>

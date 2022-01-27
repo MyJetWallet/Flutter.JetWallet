@@ -9,6 +9,7 @@ import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
+import '../../../../../shared/features/chart/notifier/chart_union.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/period_change.dart';
 import '../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
@@ -50,57 +51,83 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody>
     return SingleChildScrollView(
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: SizedBox(
-              width: double.infinity,
-              height: 465,
-              child: SvgPicture.asset(
-                periodChange.contains('-')
-                    ? redPortfolioImageAsset
-                    : greenPortfolioImageAsset,
-                fit: BoxFit.fill,
+          if (chart.union != const ChartUnion.loading())
+            Padding(
+              padding: const EdgeInsets.only(top: 100),
+              child: SizedBox(
+                width: double.infinity,
+                height: 465,
+                child: SvgPicture.asset(
+                  periodChange.contains('-')
+                      ? redPortfolioImageAsset
+                      : greenPortfolioImageAsset,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
+          if (chart.union == const ChartUnion.loading())
+            Container(
+              width: double.infinity,
+              height: 465,
+              color: colors.grey5,
+            ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 104,
-                child: PaddingL24(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _price(
-                          chart,
-                          itemsWithBalance,
-                          baseCurrency,
+              if (chart.union != const ChartUnion.loading())
+                SizedBox(
+                  height: 104,
+                  child: PaddingL24(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _price(
+                            chart,
+                            itemsWithBalance,
+                            baseCurrency,
+                          ),
+                          style: sTextH1Style,
                         ),
-                        style: sTextH1Style,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            periodChange,
-                            style: sSubtitle3Style.copyWith(
-                              color: periodChangeColor,
+                        Row(
+                          children: [
+                            Text(
+                              periodChange,
+                              style: sSubtitle3Style.copyWith(
+                                color: periodChangeColor,
+                              ),
                             ),
-                          ),
-                          const SpaceW10(),
-                          Text(
-                            'Today',
-                            style: sBodyText2Style.copyWith(
-                              color: colors.grey3,
+                            const SpaceW10(),
+                            Text(
+                              'Today',
+                              style: sBodyText2Style.copyWith(
+                                color: colors.grey3,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              if (chart.union == const ChartUnion.loading())
+                Container(
+                  height: 104,
+                  width: double.infinity,
+                  color: colors.grey5,
+                  child: PaddingL24(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        SpaceH13(),
+                        SSkeletonTextLoader(height: 24, width: 152),
+                        SpaceH13(),
+                        SSkeletonTextLoader(height: 16, width: 80),
+                        SpaceH38(),
+                      ],
+                    ),
+                  ),
+                ),
               BalanceChart(
                 onCandleSelected: (ChartInfoModel? chartInfo) {
                   chartN.updateSelectedCandle(chartInfo?.right);

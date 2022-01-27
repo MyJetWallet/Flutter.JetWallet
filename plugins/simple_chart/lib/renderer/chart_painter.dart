@@ -271,7 +271,7 @@ class ChartPainter extends BaseChartPainter {
     if (!isLongPress && isAssetChart) {
       //Plot the maximum and minimum values
       const x = 24.0;
-      var y = getMainY(mMainLowMinValue!) + 20;
+      var y = getMainY(mMainLowMinValue!) + 40;
       if (x < mWidth / 2) {
         //Draw right
         final tp = getTextPainter(

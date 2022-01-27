@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../notifier/chart_notipod.dart';
 import '../provider/balance_chart_init_fpod.dart';
+import 'components/loading_chart_view.dart';
 
 class BalanceChart extends StatefulHookWidget {
   const BalanceChart({
@@ -42,27 +43,15 @@ class _BalanceChartState extends State<BalanceChart>
             chartType: chartState.type,
             candleResolution: chartState.resolution,
             walletCreationDate: widget.walletCreationDate,
-            candles: chartState.candles[0]!,
+            candles: chartState.candles[chartState.resolution]!,
             onCandleSelected: widget.onCandleSelected,
             chartHeight: 200,
             chartWidgetHeight: 296,
             isAssetChart: false,
           ),
-          loading: () => Chart(
-            onResolutionChanged: (resolution) {
-              chartNotifier.fetchBalanceCandles(resolution);
-            },
-            onChartTypeChanged: (type) {
-              chartNotifier.updateChartType(type);
-            },
-            chartType: chartState.type,
-            candleResolution: chartState.resolution,
-            walletCreationDate: widget.walletCreationDate,
-            candles: chartState.candles[0]!,
-            onCandleSelected: widget.onCandleSelected,
-            chartHeight: 200,
-            chartWidgetHeight: 296,
-            isAssetChart: false,
+          loading: () => const LoadingChartView(
+            height: 296,
+            showLoader: false,
           ),
           error: (String error) {
             return Center(
@@ -71,23 +60,14 @@ class _BalanceChartState extends State<BalanceChart>
           },
         );
       },
-      loading: () => Chart(
-        onResolutionChanged: (resolution) {
-          chartNotifier.fetchBalanceCandles(resolution);
-        },
-        onChartTypeChanged: (type) {
-          chartNotifier.updateChartType(type);
-        },
-        chartType: chartState.type,
-        candleResolution: chartState.resolution,
-        walletCreationDate: widget.walletCreationDate,
-        candles: chartState.candles[0]!,
-        onCandleSelected: widget.onCandleSelected,
-        chartHeight: 200,
-        chartWidgetHeight: 296,
-        isAssetChart: false,
+      loading: () => const LoadingChartView(
+        height: 296,
+        showLoader: true,
       ),
-      error: (_, __) => const Text('Error'),
+      error: (_, __) => const LoadingChartView(
+        height: 296,
+        showLoader: false,
+      ),
     );
   }
 }

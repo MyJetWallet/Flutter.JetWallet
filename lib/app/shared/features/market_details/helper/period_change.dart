@@ -12,18 +12,24 @@ String periodChange({
   CandleModel? selectedCandle,
 }) {
   if (chart.candles.isNotEmpty) {
-    final firstPrice = chart.candles[0]!.first.close;
-    final lastPrice = selectedCandle?.close ?? chart.candles[0]!.last.close;
+    final firstPrice = chart.candles[chart.resolution]!.first.close;
+    final lastPrice =
+        selectedCandle?.close ?? chart.candles[chart.resolution]!.last.close;
     final periodPriceChange = lastPrice - firstPrice;
     final periodPercentChange = percentChangeBetween(firstPrice, lastPrice);
+
+    var periodPercentChangeString = '';
+    if (periodPercentChange.isFinite) {
+      periodPercentChangeString =
+          '(${periodPercentChange.toStringAsFixed(signsAfterComma)}%)';
+    }
 
     return '${formatCurrencyAmount(
       prefix: baseCurrency.prefix,
       value: periodPriceChange,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
-    )} '
-        '(${periodPercentChange.toStringAsFixed(signsAfterComma)}%)';
+    )} $periodPercentChangeString';
   } else {
     return '';
   }
