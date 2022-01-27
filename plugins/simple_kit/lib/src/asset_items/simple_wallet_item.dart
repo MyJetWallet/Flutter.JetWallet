@@ -95,40 +95,42 @@ class SWalletItem extends StatelessWidget {
                   ),
                   if (amount != null) ...[
                     const SpaceW10(),
-                    Baseline(
-                      baseline: 50.0,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Container(
-                        constraints: const BoxConstraints(
-                          maxWidth: 157.0,
-                        ),
-                        height: 44.0,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                        ),
-                        margin: EdgeInsets.only(
-                          top: balanceTopMargin,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: borderColor,
+                    Column(
+                      children: [
+                        const SpaceH22(),
+                        Container(
+                          constraints: const BoxConstraints(
+                            maxWidth: 157.0,
                           ),
-                          borderRadius: BorderRadius.circular(22.0),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              formattedAmount!,
-                              style: sSubtitle2Style.copyWith(
-                                color: formattedAmount == '\$0'
-                                    ? color
-                                    : textColor,
-                              ),
+                          height: 44.0,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: borderColor,
                             ),
-                          ],
+                            borderRadius: BorderRadius.circular(22.0),
+                          ),
+                          child: Baseline(
+                            baseline: 27.0,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  formattedAmount!,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: formattedAmount == '\$0'
+                                        ? color
+                                        : textColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     )
                   ]
                 ],

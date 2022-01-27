@@ -109,9 +109,13 @@ class SAddressFieldWithCopy extends HookWidget {
                               width: 80,
                             )
                           else
-                            Text(
-                              value,
-                              style: sSubtitle2Style,
+                            Baseline(
+                              baseline: 16.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                value,
+                                style: sSubtitle2Style,
+                              ),
                             ),
                         ],
                       ),

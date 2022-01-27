@@ -29,7 +29,7 @@ class SResendButton extends StatelessWidget {
             ),
           ),
         ),
-        const SpaceH14(),
+        const SpaceH10(),
         Visibility(
           visible: timer == 0,
           maintainSize: true,

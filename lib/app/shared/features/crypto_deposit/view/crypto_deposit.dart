@@ -5,7 +5,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../models/currency_model.dart';
-import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../notifier/crypto_deposit_notipod.dart';
 import '../provider/crypto_deposit_disclaimer_fpod.dart';
 import 'components/crypto_deposit_with_address.dart';
@@ -26,7 +25,6 @@ class CryptoDeposit extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     useProvider(cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}));
-    final baseCurrency = useProvider(baseCurrencyPod);
     final deposit = useProvider(cryptoDepositNotipod(currency.symbol));
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
@@ -55,14 +53,7 @@ class CryptoDeposit extends HookWidget {
                 currency: currency,
               ),
             const SDivider(),
-            SWalletItem(
-              icon: SNetworkSvg24(
-                url: currency.iconUrl,
-              ),
-              primaryText: currency.description,
-              amount: currency.formatBaseBalance(baseCurrency),
-              secondaryText: '${currency.assetBalance} ${currency.symbol}',
-            ),
+            const SpaceH24(),
             SPaddingH24(
               child: SPrimaryButton2(
                 icon: SShareIcon(
