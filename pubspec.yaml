@@ -34,7 +34,6 @@ dependencies:
   # RESPONSIVE UI
   device_preview: ^0.7.4
   pixel_perfect: ^1.1.0 # Mock designs
-  flutter_screenutil: ^5.0.0+2
 
   # PLUS PLUGINS
   # packages without '_plus' was made originally by flutter team are not supported anymore
