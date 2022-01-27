@@ -47,16 +47,15 @@ class LogOutOption extends HookWidget {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
         ),
         const Positioned(
-        top: 19,
-        right: 24,
-        child: AppVersionBox(),
-    ),
+          top: 19,
+          right: 24,
+          child: AppVersionBox(),
+        ),
       ],
     );
   }
