@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PinText extends StatelessWidget {
   const PinText({
@@ -19,7 +18,7 @@ class PinText extends StatelessWidget {
       text,
       style: TextStyle(
         color: color,
-        fontSize: fontSize ?? 14.sp,
+        fontSize: fontSize ?? 14.0,
         fontWeight: FontWeight.bold,
       ),
     );

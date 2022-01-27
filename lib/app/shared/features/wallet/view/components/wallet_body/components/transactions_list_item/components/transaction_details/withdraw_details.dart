@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
@@ -34,14 +33,14 @@ class WithdrawDetails extends StatelessWidget {
             value: transactionListItem.withdrawalInfo!.isInternal
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      const TransactionDetailsValueText(
+                    children: const [
+                      TransactionDetailsValueText(
                         text: 'No Fee',
                       ),
                       Text(
                         'Internal transfer',
                         style: TextStyle(
-                          fontSize: 12.sp,
+                          fontSize: 12.0,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
