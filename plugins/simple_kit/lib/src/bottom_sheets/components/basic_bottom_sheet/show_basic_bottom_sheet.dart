@@ -14,6 +14,7 @@ void sShowBasicBottomSheet({
   Future<bool> Function()? onWillPop,
   bool removeBottomSheetBar = true,
   bool removePinnedPadding = false,
+  Widget? pinnedBottom,
   required List<Widget> children,
   required BuildContext context,
 }) {
@@ -32,6 +33,7 @@ void sShowBasicBottomSheet({
         removeBottomSheetBar: removeBottomSheetBar,
         removePinnedPadding: removePinnedPadding,
         scrollable: false,
+        pinnedBottom: pinnedBottom,
         children: children,
       );
     },

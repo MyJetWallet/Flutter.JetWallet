@@ -38,6 +38,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
             prefixSymbol: currency.prefixSymbol,
             accuracy: currency.accuracy,
             startMarketTime: marketReference.startMarketTime,
+            type: currency.type,
           ),
         );
       }

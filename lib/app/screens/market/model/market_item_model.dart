@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../service/services/signal_r/model/asset_model.dart';
+
 part 'market_item_model.freezed.dart';
 part 'market_item_model.g.dart';
 
@@ -20,6 +22,7 @@ class MarketItemModel with _$MarketItemModel {
     required double baseBalance,
     required int accuracy,
     required String startMarketTime,
+    required AssetType type,
   }) = _MarketItemModel;
 
   factory MarketItemModel.fromJson(Map<String, dynamic> json) =>

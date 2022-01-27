@@ -158,7 +158,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
   }
 
   void _validateInput() {
-    final error = inputError(
+    final error = onTradeInputErrorHandler(
       state.inputValue,
       currencyModel,
     );

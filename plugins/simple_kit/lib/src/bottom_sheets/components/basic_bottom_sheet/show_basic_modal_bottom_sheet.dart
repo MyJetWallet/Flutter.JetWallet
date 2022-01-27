@@ -18,6 +18,7 @@ void sShowBasicModalBottomSheet({
   bool removePinnedPadding = false,
   bool scrollable = false,
   double? horizontalPinnedPadding,
+  Widget? pinnedBottom,
   required List<Widget> children,
   required BuildContext context,
 }) {
@@ -40,6 +41,7 @@ void sShowBasicModalBottomSheet({
         removePinnedPadding: removePinnedPadding,
         removeBarPadding: removeBarPadding,
         scrollable: scrollable,
+        pinnedBottom: pinnedBottom,
         children: children,
       );
     },

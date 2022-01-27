@@ -126,7 +126,7 @@ class SimplePaymentSelectAssetExample extends StatelessWidget {
                 SPaymentSelectAsset(
                   icon: const SActionBuyIcon(),
                   name: 'Card name',
-                  amount: '**** 0000',
+                  amount: '•••• 0000',
                   description: 'Date',
                   helper: 'Limit',
                   onTap: () {},
@@ -241,7 +241,7 @@ class SimplePaymentSelectAssetExample extends StatelessWidget {
               icon: const SActionBuyIcon(),
               isCreditCard: true,
               name: 'Card name',
-              amount: '**** 0000',
+              amount: '•••• 0000',
               description: 'Date',
               helper: 'Limit',
               onTap: () {},

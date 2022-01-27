@@ -100,6 +100,7 @@ export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard
 export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard_face_id_pressed_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_pressed_icon.dart';
+export 'src/icons/13x14/public/stats/simple_stats_icon.dart';
 export 'src/icons/16x16/public/close/simple_close_icon.dart';
 export 'src/icons/16x16/public/fee_alert/simple_fee_alert_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
@@ -159,6 +160,7 @@ export 'src/icons/24x24/public/faq/simple_faq_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_pressed_icon.dart';
 export 'src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
+export 'src/icons/24x24/public/index_history/simple_index_history_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_pressed_icon.dart';
 export 'src/icons/24x24/public/lock/simple_lock_icon.dart';
@@ -220,6 +222,7 @@ export 'src/notifications/notifier/simple_notification_queue_notipod.dart';
 export 'src/notifications/view/show_simple_notification.dart';
 export 'src/notifications/view/simple_notification_box.dart';
 export 'src/referral_invite/simple_referral_invite_body.dart';
+export 'src/referral_invite/simple_referral_invite_bottom_pinned.dart';
 
 /// Referral Invite
 export 'src/referral_invite/simple_referral_invite_pinned.dart';
@@ -253,6 +256,7 @@ export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_size.dart';
+export 'src/shared/components/simple_widget_bottom_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 export 'src/shared/components/stack_loader/view/components/loader_spinner.dart';
 
