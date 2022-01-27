@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../simple_kit.dart';
 import '../shared.dart';
@@ -69,9 +68,9 @@ class _ColorBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50.r,
-      height: 50.r,
-      margin: EdgeInsets.all(4.r),
+      width: 50.0,
+      height: 50.0,
+      margin: const EdgeInsets.all(4.0),
       color: color,
     );
   }
