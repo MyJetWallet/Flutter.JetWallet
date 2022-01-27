@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -62,7 +61,12 @@ class Login extends HookWidget {
             title: intl.login_signIn,
             showLink: true,
             linkText: intl.login_forgotPassword,
-            onLinkTap: () => ForgotPassword.push(context),
+            onLinkTap: () => ForgotPassword.push(
+              context: context,
+              args: ForgotPasswordArgs(
+                email: credentials.email,
+              ),
+            ),
           ),
         ),
         child: AutofillGroup(
@@ -122,9 +126,9 @@ class Login extends HookWidget {
                     const Spacer(),
                     SPaddingH24(
                       child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 34.h,
-                          bottom: 17.h,
+                        padding: const EdgeInsets.only(
+                          top: 34.0,
+                          bottom: 17.0,
                         ),
                         child: SPolicyText(
                           firstText: '${intl.login_policyText1} ',
