@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../simple_kit.dart';
 
@@ -13,7 +12,7 @@ class SimpleIcons16X16Example extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(30.w),
+          padding: const EdgeInsets.all(30.0),
           child: GridView.count(
             crossAxisCount: 2,
             children: const [

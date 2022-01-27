@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'components/dashed_divider/dashed_divider.dart';
 import 'model/candle_model.dart';
@@ -191,16 +190,16 @@ class _KChartWidgetState extends State<KChartWidget>
         children: <Widget>[
           // TODO(Vova): hide lines on Portfolio Chart
           if (!isLongPress && widget.isAssetChart)
-            DashedDivider(
-              topPadding: 20.h,
+            const DashedDivider(
+              topPadding: 20.0,
             ),
           if (!isLongPress && widget.isAssetChart)
-            DashedDivider(
-              topPadding: 120.h,
+            const DashedDivider(
+              topPadding: 120.0,
             ),
           if (!isLongPress && widget.isAssetChart)
-            DashedDivider(
-              topPadding: 220.h,
+            const DashedDivider(
+              topPadding: 220.0,
             ),
           CustomPaint(
             size: Size.infinite,

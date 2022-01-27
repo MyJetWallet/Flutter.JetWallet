@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
@@ -19,7 +18,6 @@ Widget? setRewardIndicatorComplete(
 
     // conditionTypeSwitch(ConditionType.tradeCondition);
 
-
     if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition)) {
       isDisplayIndicator = true;
     }
@@ -32,29 +30,29 @@ Widget? setRewardIndicatorComplete(
         Stack(
           children: <Widget>[
             Container(
-              width: 240.w,
-              height: 16.h,
+              width: 240.0,
+              height: 16.0,
               decoration: BoxDecoration(
                 color: colors.grey4,
-                borderRadius: BorderRadius.circular(16.r),
+                borderRadius: BorderRadius.circular(16.0),
               ),
             ),
             Positioned(
               child: Container(
                 width: _setIndicatorValue(completeIndicator),
-                height: 16.h,
+                height: 16.0,
                 decoration: BoxDecoration(
                   color: colors.blue,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    bottomLeft: Radius.circular(16.r),
+                    topLeft: const Radius.circular(16.0),
+                    bottomLeft: const Radius.circular(16.0),
                     topRight:
                         _setBorderRadius(completeIndicator, conditions.length)
-                            ? Radius.circular(16.r)
+                            ? const Radius.circular(16.0)
                             : Radius.zero,
                     bottomRight:
                         _setBorderRadius(completeIndicator, conditions.length)
-                            ? Radius.circular(16.r)
+                            ? const Radius.circular(16.0)
                             : Radius.zero,
                   ),
                 ),
@@ -73,12 +71,12 @@ Widget? setRewardIndicatorComplete(
 
 double _setIndicatorValue(int completeIndicator) {
   return (completeIndicator == 0)
-      ? 0.w
+      ? 0.0
       : (completeIndicator == 1)
-          ? 80.w
+          ? 80.0
           : (completeIndicator == 2)
-              ? 160.w
-              : 240.w;
+              ? 160.0
+              : 240.0;
 }
 
 bool _setBorderRadius(completeIndicator, int conditionsLength) {

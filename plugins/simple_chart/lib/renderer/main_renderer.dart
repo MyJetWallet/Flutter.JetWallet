@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_chart.dart';
 import 'base_chart_renderer.dart';
@@ -207,7 +206,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
     canvas.drawPath(
       mLinePath,
       mLinePaint
-        ..strokeWidth = 2.w
+        ..strokeWidth = 2.0
         ..color = chartColor,
     );
     mLinePath.reset();

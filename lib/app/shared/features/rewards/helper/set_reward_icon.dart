@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
@@ -17,8 +16,8 @@ Widget setRewardIcon(
   }
 
   return SizedBox(
-    height: 24.r,
-    width: 24.r,
+    height: 24.0,
+    width: 24.0,
     child: (condition.parameters!.passed == 'true')
         ? const SCompleteIcon()
         : const SBlueRightArrowIcon(),

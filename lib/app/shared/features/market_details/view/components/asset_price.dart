@@ -3,14 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../screens/market/model/market_item_model.dart';
-import '../../../../../../../screens/market/provider/market_items_pod.dart';
-import '../../../../../../helpers/format_currency_amount.dart';
-import '../../../../../../providers/base_currency_pod/base_currency_model.dart';
-import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../../../chart/notifier/chart_notipod.dart';
-import '../../../../../chart/notifier/chart_state.dart';
-import '../../../../../wallet/helper/market_item_from.dart';
+import '../../../../../screens/market/model/market_item_model.dart';
+import '../../../../../screens/market/provider/market_items_pod.dart';
+import '../../../../helpers/format_currency_amount.dart';
+import '../../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../chart/notifier/chart_notipod.dart';
+import '../../../chart/notifier/chart_state.dart';
+import '../../../wallet/helper/market_item_from.dart';
 
 class AssetPrice extends HookWidget {
   const AssetPrice({
