@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SlideContainer extends StatelessWidget {
   const SlideContainer({
@@ -14,11 +13,11 @@ class SlideContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 2.h,
+      height: 2.0,
       width: width,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(3.r),
+        borderRadius: BorderRadius.circular(3.0),
       ),
     );
   }
