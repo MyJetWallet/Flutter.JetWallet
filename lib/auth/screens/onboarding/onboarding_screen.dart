@@ -10,7 +10,7 @@ import '../login/login.dart';
 import '../register/register.dart';
 import 'components/animated_slide.dart';
 
-const _textAnimationDuration = Duration(seconds: 1);
+const _textAnimationDuration = Duration(seconds: 2);
 const _slidesAnimationDuration = Duration(seconds: 4);
 
 const onboardingImages = [
