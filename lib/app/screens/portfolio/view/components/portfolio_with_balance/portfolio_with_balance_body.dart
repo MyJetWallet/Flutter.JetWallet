@@ -159,7 +159,7 @@ class PortfolioWithBalanceBody extends HookWidget {
               ),
               const SpaceH40(),
               Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   top: 36,
                 ),
                 decoration: BoxDecoration(
