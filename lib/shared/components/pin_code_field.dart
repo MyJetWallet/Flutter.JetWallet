@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -42,8 +41,8 @@ class PinCodeField extends HookWidget {
       mainAxisAlignment: mainAxisAlignment,
       keyboardType: TextInputType.number,
       pinTheme: PinTheme(
-        fieldWidth: length == 4 ? 56.w : 48.w,
-        fieldHeight: 42.h,
+        fieldWidth: length == 4 ? 56.0 : 48.0,
+        fieldHeight: 42.0,
         // colors of the selected box (body and border)
         selectedColor: colors.white,
         // color of the filled box (body and border)
