@@ -215,6 +215,8 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
       if (_currentIndex - 1 != -1) {
         _currentIndex -= 1;
         _restartAnimation();
+      } else {
+        _restartAnimation();
       }
     });
   }
