@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
-import '../../phone_number/view/set_phone_number.dart';
+import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
 import '../view/components/choose_documents/choose_documents.dart';
@@ -136,7 +136,7 @@ class KycAlertHandler {
     List<KycDocumentType> documents,
   ) {
     if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
-      PhoneNumber.push(
+      SetPhoneNumber.push(
         context: context,
         successText: '2-Factor verification enabled',
         then: () => KycVerifyYourProfile.push(
