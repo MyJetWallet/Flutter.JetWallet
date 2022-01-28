@@ -49,8 +49,8 @@ class _SActionConfirmSkeletonLoaderState extends State<SSkeletonQrCodeLoader>
       child: Stack(
         children: [
           Container(
-            width: 163.0,
-            height: 10.0,
+            width: 200.0,
+            height: 200.0,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 stops: const [0.5156, 1],

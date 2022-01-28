@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../../../simple_kit.dart';
 import 'components/loader_background.dart';
 import 'components/loader_container.dart';
-import 'components/loader_success_container.dart';
+import 'components/simple_loader_success.dart';
 
 class StackLoader extends HookWidget {
   const StackLoader({
@@ -35,7 +35,7 @@ class StackLoader extends HookWidget {
         ],
         if (loadSuccessValue) ...[
           const LoaderBackground(),
-          const LoaderSuccessContainer(),
+          const SimpleLoaderSuccess(),
         ],
       ],
     );

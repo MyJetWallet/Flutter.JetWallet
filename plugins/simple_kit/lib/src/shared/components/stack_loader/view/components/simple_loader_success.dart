@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../../../simple_kit.dart';
 import '../../../../../colors/view/simple_colors_light.dart';
 
-class LoaderSuccessContainer extends StatelessWidget {
-  const LoaderSuccessContainer({Key? key}) : super(key: key);
+class SimpleLoaderSuccess extends StatelessWidget {
+  const SimpleLoaderSuccess({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
