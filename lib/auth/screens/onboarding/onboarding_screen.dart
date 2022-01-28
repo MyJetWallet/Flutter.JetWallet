@@ -123,7 +123,14 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                         .values
                         .toList(),
                   ),
-                  const SpaceH40(),
+                  deviceSize.when(
+                    small: () {
+                      return const SpaceH20();
+                    },
+                    medium: () {
+                      return const SpaceH40();
+                    },
+                  ),
                   FadeTransition(
                     opacity: _textAnimation,
                     child: Column(
@@ -142,7 +149,7 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                     small: () {
                       return Image.asset(
                         _showImages(_currentIndex),
-                        height: size.width * 0.667,
+                        height: size.width * 0.7,
                       );
                     },
                     medium: () {
