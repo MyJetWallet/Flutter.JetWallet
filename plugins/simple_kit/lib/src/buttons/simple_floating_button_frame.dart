@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 
 class SFloatingButtonFrame extends StatelessWidget {
   const SFloatingButtonFrame({
@@ -33,6 +34,7 @@ class SFloatingButtonFrame extends StatelessWidget {
             ),
           ),
           Material(
+            color: SColorsLight().white,
             child: Column(
               children: [
                 SPaddingH24(

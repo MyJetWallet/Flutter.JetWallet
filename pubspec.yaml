@@ -30,6 +30,9 @@ dependencies:
   percent_indicator: ^3.4.0 # Percent indicator
   auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds
   smooth_page_indicator: ^1.0.0+2 # Animated PageView indicators
+  timeago: ^3.1.0 # Date converter
+  image_picker: ^0.8.4+4 # For selecting images from the Android and iOS image library
+  mime_type: ^1.0.0 # MIME type library for Dart HTTP server applications
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
@@ -75,7 +78,6 @@ dependencies:
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
   fast_rsa: ^3.2.0 # RSA signing
-  timeago: ^3.1.0 # Date converter
 
   # OWN LIBS:
   simple_kit:
@@ -133,3 +135,4 @@ flutter:
     - assets/
     - assets/images/
     - assets/animations/
+    - assets/flags/
