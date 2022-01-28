@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -90,52 +89,45 @@ class _App extends HookWidget {
     final navigatorKey = useProvider(sNavigatorKeyPod);
     final theme = useProvider(sThemePod);
 
-    /// TODO remove ScreenUtilInit
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      builder: () {
-        return CupertinoApp(
-          locale: locale,
-          theme: theme,
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-          builder: builder ?? (_, child) => AppBuilder(child),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          initialRoute:
-              isStageEnv ? AppRouterStage.routeName : AppRouter.routeName,
-          routes: {
-            AppRouter.routeName: (_) {
-              return const AppRouter();
-            },
-            // [START] Stage only routes ->
-            AppRouterStage.routeName: (_) {
-              return const AppRouterStage();
-            },
-            AppInit.routeName: (_) {
-              return const AppInit();
-            },
-            // <- Stage only routes [END]
-            RegisterPasswordScreen.routeName: (_) {
-              return const RegisterPasswordScreen();
-            },
-            ResetPassword.routeName: (_) {
-              return const ResetPassword();
-            },
-            Login.routeName: (_) {
-              return const Login();
-            },
-            Register.routeName: (_) {
-              return const Register();
-            },
-            ForgotPassword.routeName: (_) {
-              return const ForgotPassword();
-            },
-            ConfirmPasswordReset.routeName: (_) {
-              return const ConfirmPasswordReset();
-            },
-          },
-        );
+    return CupertinoApp(
+      locale: locale,
+      theme: theme,
+      navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+      builder: builder ?? (_, child) => AppBuilder(child),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      initialRoute: isStageEnv ? AppRouterStage.routeName : AppRouter.routeName,
+      routes: {
+        AppRouter.routeName: (_) {
+          return const AppRouter();
+        },
+        // [START] Stage only routes ->
+        AppRouterStage.routeName: (_) {
+          return const AppRouterStage();
+        },
+        AppInit.routeName: (_) {
+          return const AppInit();
+        },
+        // <- Stage only routes [END]
+        RegisterPasswordScreen.routeName: (_) {
+          return const RegisterPasswordScreen();
+        },
+        ResetPassword.routeName: (_) {
+          return const ResetPassword();
+        },
+        Login.routeName: (_) {
+          return const Login();
+        },
+        Register.routeName: (_) {
+          return const Register();
+        },
+        ForgotPassword.routeName: (_) {
+          return const ForgotPassword();
+        },
+        ConfirmPasswordReset.routeName: (_) {
+          return const ConfirmPasswordReset();
+        },
       },
     );
   }

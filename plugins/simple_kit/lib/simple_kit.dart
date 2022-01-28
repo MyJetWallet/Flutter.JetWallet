@@ -228,6 +228,7 @@ export 'src/notifications/notifier/simple_notification_queue_notipod.dart';
 export 'src/notifications/view/show_simple_notification.dart';
 export 'src/notifications/view/simple_notification_box.dart';
 export 'src/referral_invite/simple_referral_invite_body.dart';
+export 'src/referral_invite/simple_referral_invite_bottom_pinned.dart';
 
 /// Referral Invite
 export 'src/referral_invite/simple_referral_invite_pinned.dart';
@@ -260,6 +261,7 @@ export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_size.dart';
+export 'src/shared/components/simple_widget_bottom_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 export 'src/kyc/simple_documents_recommendations.dart';
 

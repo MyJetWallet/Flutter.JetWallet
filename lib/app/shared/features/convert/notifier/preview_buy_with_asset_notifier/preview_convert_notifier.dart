@@ -212,7 +212,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   String get previewHeader {
-    return 'Confirm Convert ${input.fromCurrency.symbol} '
+    return 'Confirm Convert\n${input.fromCurrency.symbol} '
         'to ${input.toCurrency.symbol}';
   }
 

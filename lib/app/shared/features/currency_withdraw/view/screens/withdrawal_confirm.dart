@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -62,7 +61,7 @@ class WithdrawalConfirm extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Baseline(
-              baseline: 24.h,
+              baseline: 24.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 'Confirm your $noun request by opening the link in '
@@ -78,12 +77,10 @@ class WithdrawalConfirm extends HookWidget {
               maxLines: 2,
               style: sBodyText1Style,
             ),
-            SBaselineChild(
-              baseline: 40.h,
-              child: SClickableLinkText(
-                text: 'Open email app',
-                onTap: () => openEmailApp(context),
-              ),
+            const SpaceH24(),
+            SClickableLinkText(
+              text: 'Open email app',
+              onTap: () => openEmailApp(context),
             ),
             const Spacer(),
             SResendButton(
