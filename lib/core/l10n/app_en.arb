@@ -264,19 +264,19 @@
     "@onboarding_signIn": {
       "description": "Shown on the second button of the Onboarding screen"
     },
-    "onboarding_slide1": "Welcome\nto Simple",
+    "onboarding_slide1": "Simple app\nfor your finance",
     "@onboarding_slide1": {
       "description": "Shown on the Onboarding screen where 4 slides displayed"
     },
-    "onboarding_slide2": "Buy and Sell\ncrypto in 2 clicks",
+    "onboarding_slide2": "Don't just buy\ncrypto, earn it",
     "@onboarding_slide2": {
       "description": "Shown on the Onboarding screen where 4 slides displayed"
     },
-    "onboarding_slide3": "Send crypto\nto anyone",
+    "onboarding_slide3": "Crypto indecies -\ninvest in all\nmarket in one tap",
     "@onboarding_slide3": {
       "description": "Shown on the Onboarding screen where 4 slides displayed"
     },
-    "onboarding_slide4": "All wallets\nin one place",
+    "onboarding_slide4": "Invite friends\nand earn more",
     "@onboarding_slide4": {
       "description": "Shown on the Onboarding screen where 4 slides displayed"
     },
