@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../simple_kit.dart';
 import '../src/theme/provider/simple_theme_pod.dart';
@@ -72,191 +71,186 @@ class ExampleScreen extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = watch(sThemePod);
 
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      builder: () {
-        return CupertinoApp(
-          theme: theme,
-          debugShowCheckedModeBanner: false,
-          initialRoute: Home.routeName,
-          routes: {
-            Home.routeName: (context) => const Home(),
-            SimpleBannersExample.routeName: (context) {
-              return const SimpleBannersExample();
-            },
-            SimpleRewardsBannerExample.routeName: (context) {
-              return const SimpleRewardsBannerExample();
-            },
-            SimpleAccountExample.routeName: (context) {
-              return const SimpleAccountExample();
-            },
-            SimpleAccountButtonsExample.routeName: (context) {
-              return const SimpleAccountButtonsExample();
-            },
-            SimpleAccountHeadersExample.routeName: (context) {
-              return const SimpleAccountHeadersExample();
-            },
-            SimpleAccountIndicatorsExample.routeName: (context) {
-              return const SimpleAccountIndicatorsExample();
-            },
-            SimpleButtonsExample.routeName: (context) {
-              return const SimpleButtonsExample();
-            },
-            SimplePrimaryButtonExample.routeName: (context) {
-              return const SimplePrimaryButtonExample();
-            },
-            SimpleSecondaryButtonExample.routeName: (context) {
-              return const SimpleSecondaryButtonExample();
-            },
-            SimpleTextButtonExample.routeName: (context) {
-              return const SimpleTextButtonExample();
-            },
-            SimpleLinkButtonExample.routeName: (context) {
-              return const SimpleLinkButtonExample();
-            },
-            SimpleColorsExample.routeName: (context) {
-              return const SimpleColorsExample();
-            },
-            SimpleTextsExample.routeName: (context) {
-              return const SimpleTextsExample();
-            },
-            SimpleFieldsExample.routeName: (context) {
-              return const SimpleFieldsExample();
-            },
-            SimpleConfirmationCodeFieldExample.routeName: (context) {
-              return const SimpleConfirmationCodeFieldExample();
-            },
-            SimplePinCodeFieldExample.routeName: (context) {
-              return const SimplePinCodeFieldExample();
-            },
-            SimpleStandardFieldExample.routeName: (context) {
-              return const SimpleStandardFieldExample();
-            },
-            SimpleIconsExample.routeName: (context) {
-              return const SimpleIconsExample();
-            },
-            SimpleIcons16X16Example.routeName: (context) {
-              return const SimpleIcons16X16Example();
-            },
-            SimpleIcons24X24Example.routeName: (context) {
-              return const SimpleIcons24X24Example();
-            },
-            SimpleIcons36X36Example.routeName: (context) {
-              return const SimpleIcons36X36Example();
-            },
-            SimpleIcons40X40Example.routeName: (context) {
-              return const SimpleIcons40X40Example();
-            },
-            SimpleIcons102X56Example.routeName: (context) {
-              return const SimpleIcons102X56Example();
-            },
-            SimpleIcons56X56Example.routeName: (context) {
-              return const SimpleIcons56X56Example();
-            },
-            SimpleHeadersExample.routeName: (context) {
-              return const SimpleHeadersExample();
-            },
-            SimpleSmallHeadersExample.routeName: (context) {
-              return const SimpleSmallHeadersExample();
-            },
-            SimpleBigHeadersExample.routeName: (context) {
-              return const SimpleBigHeadersExample();
-            },
-            SimpleMarketHeadersExample.routeName: (context) {
-              return const SimpleMarketHeadersExample();
-            },
-            SimpleAgreementsExample.routeName: (context) {
-              return const SimpleAgreementsExample();
-            },
-            SimplePasswordRequirementExample.routeName: (context) {
-              return const SimplePasswordRequirementExample();
-            },
-            SimplePrivacyPolicyExample.routeName: (context) {
-              return const SimplePrivacyPolicyExample();
-            },
-            SimpleNotificationsExample.routeName: (context) {
-              return const SimpleNotificationsExample();
-            },
-            SimpleKeyboardsExample.routeName: (context) {
-              return const SimpleKeyboardsExample();
-            },
-            SimpleNumericKeyboardAmountExample.routeName: (context) {
-              return const SimpleNumericKeyboardAmountExample();
-            },
-            SimpleNumericKeyboardPinExample.routeName: (context) {
-              return const SimpleNumericKeyboardPinExample();
-            },
-            SimpleNumericKeyboardAmountGuides.routeName: (context) {
-              return const SimpleNumericKeyboardAmountGuides();
-            },
-            SimpleNumericKeyboardPinGuides.routeName: (context) {
-              return const SimpleNumericKeyboardPinGuides();
-            },
-            SimpleBottomNavigationBarExample.routeName: (context) {
-              return const SimpleBottomNavigationBarExample();
-            },
-            SimpleActionSheetExample.routeName: (context) {
-              return const SimpleActionSheetExample();
-            },
-            SimpleCommonActionSheetExample.routeName: (context) {
-              return const SimpleCommonActionSheetExample();
-            },
-            SimpleMenuActionSheetExample.routeName: (context) {
-              return const SimpleMenuActionSheetExample();
-            },
-            SimpleAssetItemExample.routeName: (context) {
-              return const SimpleAssetItemExample();
-            },
-            SimpleFiatItemExample.routeName: (context) {
-              return const SimpleFiatItemExample();
-            },
-            SimpleActionItemExample.routeName: (context) {
-              return const SimpleActionItemExample();
-            },
-            SimpleMarketItemExample.routeName: (context) {
-              return const SimpleMarketItemExample();
-            },
-            SimpleWalletItemExample.routeName: (context) {
-              return const SimpleWalletItemExample();
-            },
-            SimpleAssetItemsExample.routeName: (context) {
-              return const SimpleAssetItemsExample();
-            },
-            SimpleActionsExample.routeName: (context) {
-              return const SimpleActionsExample();
-            },
-            SimpleActionPriceFieldExample.routeName: (context) {
-              return const SimpleActionPriceFieldExample();
-            },
-            SimplePaymentSelectAssetExample.routeName: (context) {
-              return const SimplePaymentSelectAssetExample();
-            },
-            SimplePaymentSelectDefaultExample.routeName: (context) {
-              return const SimplePaymentSelectDefaultExample();
-            },
-            SimplePaymentSelectFiatExample.routeName: (context) {
-              return const SimplePaymentSelectFiatExample();
-            },
-            SimpleActionConfirmTextExample.routeName: (context) {
-              return const SimpleActionConfirmTextExample();
-            },
-            SimpleActionConfrimDescriptionExample.routeName: (context) {
-              return const SimpleActionConfrimDescriptionExample();
-            },
-            SimpleActionConfrimSkeletonLoaderExample.routeName: (context) {
-              return const SimpleActionConfrimSkeletonLoaderExample();
-            },
-            SimpleActionConfrimAlertExample.routeName: (context) {
-              return const SimpleActionConfrimAlertExample();
-            },
-            SimplePaymentSelectContactExample.routeName: (context) {
-              return const SimplePaymentSelectContactExample();
-            },
-            SimplePaymentSelectContactWithoutNameExample.routeName: (context) {
-              return const SimplePaymentSelectContactWithoutNameExample();
-            }
-          },
-        );
+    return CupertinoApp(
+      theme: theme,
+      debugShowCheckedModeBanner: false,
+      initialRoute: Home.routeName,
+      routes: {
+        Home.routeName: (context) => const Home(),
+        SimpleBannersExample.routeName: (context) {
+          return const SimpleBannersExample();
+        },
+        SimpleRewardsBannerExample.routeName: (context) {
+          return const SimpleRewardsBannerExample();
+        },
+        SimpleAccountExample.routeName: (context) {
+          return const SimpleAccountExample();
+        },
+        SimpleAccountButtonsExample.routeName: (context) {
+          return const SimpleAccountButtonsExample();
+        },
+        SimpleAccountHeadersExample.routeName: (context) {
+          return const SimpleAccountHeadersExample();
+        },
+        SimpleAccountIndicatorsExample.routeName: (context) {
+          return const SimpleAccountIndicatorsExample();
+        },
+        SimpleButtonsExample.routeName: (context) {
+          return const SimpleButtonsExample();
+        },
+        SimplePrimaryButtonExample.routeName: (context) {
+          return const SimplePrimaryButtonExample();
+        },
+        SimpleSecondaryButtonExample.routeName: (context) {
+          return const SimpleSecondaryButtonExample();
+        },
+        SimpleTextButtonExample.routeName: (context) {
+          return const SimpleTextButtonExample();
+        },
+        SimpleLinkButtonExample.routeName: (context) {
+          return const SimpleLinkButtonExample();
+        },
+        SimpleColorsExample.routeName: (context) {
+          return const SimpleColorsExample();
+        },
+        SimpleTextsExample.routeName: (context) {
+          return const SimpleTextsExample();
+        },
+        SimpleFieldsExample.routeName: (context) {
+          return const SimpleFieldsExample();
+        },
+        SimpleConfirmationCodeFieldExample.routeName: (context) {
+          return const SimpleConfirmationCodeFieldExample();
+        },
+        SimplePinCodeFieldExample.routeName: (context) {
+          return const SimplePinCodeFieldExample();
+        },
+        SimpleStandardFieldExample.routeName: (context) {
+          return const SimpleStandardFieldExample();
+        },
+        SimpleIconsExample.routeName: (context) {
+          return const SimpleIconsExample();
+        },
+        SimpleIcons16X16Example.routeName: (context) {
+          return const SimpleIcons16X16Example();
+        },
+        SimpleIcons24X24Example.routeName: (context) {
+          return const SimpleIcons24X24Example();
+        },
+        SimpleIcons36X36Example.routeName: (context) {
+          return const SimpleIcons36X36Example();
+        },
+        SimpleIcons40X40Example.routeName: (context) {
+          return const SimpleIcons40X40Example();
+        },
+        SimpleIcons102X56Example.routeName: (context) {
+          return const SimpleIcons102X56Example();
+        },
+        SimpleIcons56X56Example.routeName: (context) {
+          return const SimpleIcons56X56Example();
+        },
+        SimpleHeadersExample.routeName: (context) {
+          return const SimpleHeadersExample();
+        },
+        SimpleSmallHeadersExample.routeName: (context) {
+          return const SimpleSmallHeadersExample();
+        },
+        SimpleBigHeadersExample.routeName: (context) {
+          return const SimpleBigHeadersExample();
+        },
+        SimpleMarketHeadersExample.routeName: (context) {
+          return const SimpleMarketHeadersExample();
+        },
+        SimpleAgreementsExample.routeName: (context) {
+          return const SimpleAgreementsExample();
+        },
+        SimplePasswordRequirementExample.routeName: (context) {
+          return const SimplePasswordRequirementExample();
+        },
+        SimplePrivacyPolicyExample.routeName: (context) {
+          return const SimplePrivacyPolicyExample();
+        },
+        SimpleNotificationsExample.routeName: (context) {
+          return const SimpleNotificationsExample();
+        },
+        SimpleKeyboardsExample.routeName: (context) {
+          return const SimpleKeyboardsExample();
+        },
+        SimpleNumericKeyboardAmountExample.routeName: (context) {
+          return const SimpleNumericKeyboardAmountExample();
+        },
+        SimpleNumericKeyboardPinExample.routeName: (context) {
+          return const SimpleNumericKeyboardPinExample();
+        },
+        SimpleNumericKeyboardAmountGuides.routeName: (context) {
+          return const SimpleNumericKeyboardAmountGuides();
+        },
+        SimpleNumericKeyboardPinGuides.routeName: (context) {
+          return const SimpleNumericKeyboardPinGuides();
+        },
+        SimpleBottomNavigationBarExample.routeName: (context) {
+          return const SimpleBottomNavigationBarExample();
+        },
+        SimpleActionSheetExample.routeName: (context) {
+          return const SimpleActionSheetExample();
+        },
+        SimpleCommonActionSheetExample.routeName: (context) {
+          return const SimpleCommonActionSheetExample();
+        },
+        SimpleMenuActionSheetExample.routeName: (context) {
+          return const SimpleMenuActionSheetExample();
+        },
+        SimpleAssetItemExample.routeName: (context) {
+          return const SimpleAssetItemExample();
+        },
+        SimpleFiatItemExample.routeName: (context) {
+          return const SimpleFiatItemExample();
+        },
+        SimpleActionItemExample.routeName: (context) {
+          return const SimpleActionItemExample();
+        },
+        SimpleMarketItemExample.routeName: (context) {
+          return const SimpleMarketItemExample();
+        },
+        SimpleWalletItemExample.routeName: (context) {
+          return const SimpleWalletItemExample();
+        },
+        SimpleAssetItemsExample.routeName: (context) {
+          return const SimpleAssetItemsExample();
+        },
+        SimpleActionsExample.routeName: (context) {
+          return const SimpleActionsExample();
+        },
+        SimpleActionPriceFieldExample.routeName: (context) {
+          return const SimpleActionPriceFieldExample();
+        },
+        SimplePaymentSelectAssetExample.routeName: (context) {
+          return const SimplePaymentSelectAssetExample();
+        },
+        SimplePaymentSelectDefaultExample.routeName: (context) {
+          return const SimplePaymentSelectDefaultExample();
+        },
+        SimplePaymentSelectFiatExample.routeName: (context) {
+          return const SimplePaymentSelectFiatExample();
+        },
+        SimpleActionConfirmTextExample.routeName: (context) {
+          return const SimpleActionConfirmTextExample();
+        },
+        SimpleActionConfrimDescriptionExample.routeName: (context) {
+          return const SimpleActionConfrimDescriptionExample();
+        },
+        SimpleActionConfrimSkeletonLoaderExample.routeName: (context) {
+          return const SimpleActionConfrimSkeletonLoaderExample();
+        },
+        SimpleActionConfrimAlertExample.routeName: (context) {
+          return const SimpleActionConfrimAlertExample();
+        },
+        SimplePaymentSelectContactExample.routeName: (context) {
+          return const SimplePaymentSelectContactExample();
+        },
+        SimplePaymentSelectContactWithoutNameExample.routeName: (context) {
+          return const SimplePaymentSelectContactWithoutNameExample();
+        }
       },
     );
   }

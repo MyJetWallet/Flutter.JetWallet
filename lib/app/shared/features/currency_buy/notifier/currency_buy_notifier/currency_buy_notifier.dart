@@ -191,7 +191,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     if (state.selectedCurrency == null) {
       _updateInputValid(false);
     } else {
-      final error = inputError(
+      final error = onTradeInputErrorHandler(
         state.inputValue,
         state.selectedCurrency!,
       );

@@ -32,9 +32,8 @@ class SFiatItem extends StatelessWidget {
           height: 88,
           child: Column(
             children: [
-              const SpaceH34(),
+              const SpaceH32(),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   icon,
                   const SpaceW20(),
@@ -45,7 +44,7 @@ class SFiatItem extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Baseline(
-                            baseline: 16.0,
+                            baseline: 18.0,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               name,
@@ -57,7 +56,7 @@ class SFiatItem extends StatelessWidget {
                         ),
                         const SpaceW16(),
                         Baseline(
-                          baseline: 16.0,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: SizedBox(
                             width: 120.0,

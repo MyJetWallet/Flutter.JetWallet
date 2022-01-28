@@ -27,7 +27,7 @@ class SimpleFiatItemExample extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    const SpaceH34(),
+                    const SpaceH32(),
                     Row(
                       children: [
                         const SpaceW24(),
@@ -87,11 +87,11 @@ class SimpleFiatItemExample extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  height: 34.0,
+                  height: 32.0,
                   color: Colors.blue.withOpacity(0.2),
                   child: const Center(
                     child: Text(
-                      '34px',
+                      '32px',
                     ),
                   ),
                 ),

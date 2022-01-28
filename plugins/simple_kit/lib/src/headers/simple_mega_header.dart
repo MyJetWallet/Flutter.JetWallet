@@ -6,11 +6,13 @@ class SMegaHeader extends StatelessWidget {
   const SMegaHeader({
     Key? key,
     this.onBackButtonTap,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
     this.titleAlign = TextAlign.center,
     required this.title,
   }) : super(key: key);
 
   final Function()? onBackButtonTap;
+  final CrossAxisAlignment crossAxisAlignment;
   final TextAlign titleAlign;
   final String title;
 
@@ -21,7 +23,7 @@ class SMegaHeader extends StatelessWidget {
         minHeight: 180.0,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: crossAxisAlignment,
         children: [
           const SpaceH64(),
           Row(
