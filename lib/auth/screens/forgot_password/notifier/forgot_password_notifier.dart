@@ -3,19 +3,24 @@ import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../service/services/authentication/model/forgot_password/forgot_password_request_model.dart';
-import '../../../../service/services/authentication/service/authentication_service.dart';
 import '../../../../service/shared/constants.dart';
 import '../../../../shared/helpers/device_type.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/helpers/is_email_valid.dart';
+import '../view/forgot_password.dart';
 import 'forgot_password_state.dart';
 import 'forgot_password_union.dart';
 
 class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
-  ForgotPasswordNotifier({
-    required this.authService,
-  }) : super(const ForgotPasswordState());
+  ForgotPasswordNotifier(
+    this.read,
+    this.args,
+  ) : super(const ForgotPasswordState()) {
+    updateEmail(args.email);
+  }
 
-  final AuthenticationService authService;
+  final Reader read;
+  final ForgotPasswordArgs args;
 
   static final _logger = Logger('ForgotPasswordNotifier');
 
@@ -54,7 +59,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
         deviceType: deviceType,
       );
 
-      await authService.forgotPassword(model);
+      await read(authServicePod).forgotPassword(model);
 
       state = state.copyWith(union: const Input());
     } catch (e) {

@@ -35,8 +35,8 @@ class ForgotPassword extends HookWidget {
     final args = getArgs(context) as ForgotPasswordArgs;
 
     final colors = useProvider(sColorPod);
-    final forgot = useProvider(forgotPasswordNotipod);
-    final forgotN = useProvider(forgotPasswordNotipod.notifier);
+    final forgot = useProvider(forgotPasswordNotipod(args));
+    final forgotN = useProvider(forgotPasswordNotipod(args).notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
@@ -45,7 +45,7 @@ class ForgotPassword extends HookWidget {
     useListenable(loader.value);
 
     return ProviderListener<ForgotPasswordState>(
-      provider: forgotPasswordNotipod,
+      provider: forgotPasswordNotipod(args),
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
@@ -97,7 +97,7 @@ class ForgotPassword extends HookWidget {
                   child: SStandardField(
                     labelText: 'Email Address',
                     autofocus: true,
-                    initialValue: args.email,
+                    initialValue: forgot.email,
                     autofillHints: const [AutofillHints.email],
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
