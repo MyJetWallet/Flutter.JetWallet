@@ -11,8 +11,9 @@ const periodPricesMessage = 'base-prices';
 const basePricesMessage = 'prices-base-currency';
 const clientDetailMessage = 'client-detail';
 const keyValueMessage = 'key-values';
-const campaignsBannersMessage = 'campaigns-banners';
-const referralStatsMessage = 'referrer-stats';
+const campaignsBannersMessage  = 'campaigns-banners';
+const referralStatsMessage  = 'referrer-stats';
+const kycCountriesMessage = 'kyc-countries';
 const indicesMessage = 'index-details';
 
 // HTTP

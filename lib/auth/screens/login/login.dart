@@ -61,7 +61,12 @@ class Login extends HookWidget {
             title: intl.login_signIn,
             showLink: true,
             linkText: intl.login_forgotPassword,
-            onLinkTap: () => ForgotPassword.push(context),
+            onLinkTap: () => ForgotPassword.push(
+              context: context,
+              args: ForgotPasswordArgs(
+                email: credentials.email,
+              ),
+            ),
           ),
         ),
         child: AutofillGroup(
