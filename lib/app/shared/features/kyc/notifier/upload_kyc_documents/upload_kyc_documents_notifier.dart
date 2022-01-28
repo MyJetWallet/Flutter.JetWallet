@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -149,10 +150,10 @@ class UploadKycDocumentsNotifier
   }
 
   Future<void> _pickFile(bool isAnimatePageView) async {
-    final imagePicker = read(imagePickerPod);
-    final file = await imagePicker.pickedFile();
+    final imagePicker = ImagePicker();
+    final file = await imagePicker.pickImage(source: ImageSource.camera);
     if (file != null) {
-      _updateDocumentSide(file);
+      _updateDocumentSide(File(file.path));
       if (isAnimatePageView) await _animatePageView(state.pageViewController);
     }
   }

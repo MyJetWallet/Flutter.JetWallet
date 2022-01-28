@@ -14,8 +14,8 @@ import 'components/show_country_phone_number_picker.dart';
 /// Called in 2 cases:
 /// 1. when we want to change number
 /// 2. when we are enabling 2FA but we haven't added phone number yet
-class PhoneNumber extends HookWidget {
-  const PhoneNumber({
+class SetPhoneNumber extends HookWidget {
+  const SetPhoneNumber({
     Key? key,
     this.then,
     required this.successText,
@@ -31,7 +31,7 @@ class PhoneNumber extends HookWidget {
   }) {
     navigatorPush(
       context,
-      PhoneNumber(
+      SetPhoneNumber(
         successText: successText,
         then: then,
       ),
@@ -45,7 +45,7 @@ class PhoneNumber extends HookWidget {
   }) {
     navigatorPushReplacement(
       context,
-      PhoneNumber(
+      SetPhoneNumber(
         successText: successText,
         then: then,
       ),

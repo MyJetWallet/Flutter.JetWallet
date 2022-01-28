@@ -29,7 +29,7 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
 
   final Reader read;
 
-  static final _logger = Logger('PhoneNumberNotifier');
+  static final _logger = Logger('SetPhoneNumberNotifier');
 
   Future<void> sendCode({required void Function() then}) async {
     _logger.log(notifier, 'sendCode');

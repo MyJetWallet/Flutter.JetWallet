@@ -11,7 +11,6 @@ import '../../service/services/authentication/service/authentication_service.dar
 import '../../service/services/blockchain/service/blockchain_service.dart';
 import '../../service/services/change_password/service/change_password_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
-import '../../service/services/image_picker/image_picker_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/kyc/service/kyc_service.dart';
@@ -187,10 +186,6 @@ final kycServicePod = Provider<KycService>((ref) {
   final dio = ref.watch(dioPod);
 
   return KycService(dio);
-});
-
-final imagePickerPod = Provider<ImagePickerService>((ref) {
-  return ImagePickerService();
 });
 
 final uploadKycDocumentsPod = Provider<UploadDocumentsKycService>((ref) {
