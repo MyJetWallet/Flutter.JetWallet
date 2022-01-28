@@ -14,7 +14,7 @@ import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/kyc/service/kyc_service.dart';
-import '../../service/services/kyc/service/upload_documents_kyc_service.dart';
+import '../../service/services/kyc_documents/kyc_documents_service.dart';
 import '../../service/services/market_info/market_info_service.dart';
 import '../../service/services/market_news/market_news_service.dart';
 import '../../service/services/news/news_service.dart';
@@ -188,10 +188,10 @@ final kycServicePod = Provider<KycService>((ref) {
   return KycService(dio);
 });
 
-final uploadKycDocumentsPod = Provider<UploadDocumentsKycService>((ref) {
+final kycDocumentsServicePod = Provider<KycDocumentsService>((ref) {
   final dio = ref.watch(imageDioPod);
 
-  return UploadDocumentsKycService(dio);
+  return KycDocumentsService(dio);
 });
 
 final changePasswordSerivcePod = Provider<ChangePasswordService>((ref) {

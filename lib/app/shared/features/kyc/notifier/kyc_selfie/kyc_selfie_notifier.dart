@@ -44,14 +44,14 @@ class KycSelfieNotifier extends StateNotifier<KycSelfieState> {
     _logger.log(notifier, 'uploadDocuments');
 
     try {
-      final service = read(uploadKycDocumentsPod);
+      final service = read(kycDocumentsServicePod);
 
       final formData = await convertKycDocuments(
         state.selfie,
         null,
       );
 
-      await service.uploadDocuments(formData, type);
+      await service.upload(formData, type);
 
       state = state.copyWith(union: const KycSelfieUnion.done());
     } catch (error) {

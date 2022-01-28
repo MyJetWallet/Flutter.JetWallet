@@ -4,9 +4,9 @@ import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../operation_history/operation_history_service.dart';
 
-Future<void> kycStartService(Dio dio) async {
+Future<void> startService(Dio dio) async {
   final logger = OperationHistoryService.logger;
-  const message = 'kycStartService';
+  const message = 'startService';
 
   try {
     await dio.get('$walletApi/kyc/verification/kyc_start');

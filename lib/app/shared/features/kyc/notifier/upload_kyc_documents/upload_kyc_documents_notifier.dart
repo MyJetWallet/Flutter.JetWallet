@@ -45,14 +45,14 @@ class UploadKycDocumentsNotifier
     _logger.log(notifier, 'uploadDocuments');
 
     try {
-      final service = read(uploadKycDocumentsPod);
+      final service = read(kycDocumentsServicePod);
 
       final formData = await convertKycDocuments(
         state.documentFirstSide,
         state.documentSecondSide,
       );
 
-      await service.uploadDocuments(formData, type);
+      await service.upload(formData, type);
 
       state = state.copyWith(union: const UploadKycDocumentsUnion.done());
     } catch (error) {
@@ -99,14 +99,14 @@ class UploadKycDocumentsNotifier
     _logger.log(notifier, 'uploadPassportDocument');
 
     try {
-      final service = read(uploadKycDocumentsPod);
+      final service = read(kycDocumentsServicePod);
 
       final formData = await convertKycDocuments(
         state.documentFirstSide,
         null,
       );
 
-      await service.uploadDocuments(formData, type);
+      await service.upload(formData, type);
 
       state = state.copyWith(union: const UploadKycDocumentsUnion.done());
     } catch (error) {
