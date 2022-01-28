@@ -29,6 +29,7 @@ class KycStepsNotifier extends StateNotifier<KycStepsState> {
     }
   }
 
+  // TODO fix bug here (Bad state, no element)
   String chooseDocumentsHeaderTitle() {
     final element = state.requiredVerifications
         .firstWhere((element) => !element.verifiedDone);
