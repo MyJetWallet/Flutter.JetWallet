@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/constants.dart';
+import '../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
 import '../login/login.dart';
@@ -87,6 +88,8 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
+    final deviceSize = useProvider(deviceSizePod);
+    final size = MediaQuery.of(context).size;
 
     return OnboardingFullScreenGradient(
       backgroundColor: _backgroundColor(_currentIndex, colors),
@@ -97,13 +100,12 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
       onPanEnd: _onPanEnd,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Flex(
-          direction: Axis.vertical,
-          children: [
-            Expanded(
-              child: ListView(
+        body: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              child: Column(
                 children: [
-                  const SpaceH75(),
+                  const SpaceH60(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _slides
@@ -135,23 +137,37 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                       ],
                     ),
                   ),
-                  Image.asset(_showImages(_currentIndex)),
+                  const Spacer(),
+                  deviceSize.when(
+                    small: () {
+                      return Image.asset(
+                        _showImages(_currentIndex),
+                        height: size.width * 0.667,
+                      );
+                    },
+                    medium: () {
+                      return Image.asset(
+                        _showImages(_currentIndex),
+                        height: size.width,
+                      );
+                    },
+                  ),
+                  const Spacer(),
+                  SPrimaryButton1(
+                    active: true,
+                    name: intl.onboarding_getStarted,
+                    onTap: () => Register.push(context),
+                  ),
+                  const SpaceH10(),
+                  STextButton1(
+                    active: true,
+                    name: intl.onboarding_signIn,
+                    onTap: () => Login.push(context),
+                  ),
                   const SpaceH40(),
                 ],
               ),
             ),
-            SPrimaryButton1(
-              active: true,
-              name: intl.onboarding_getStarted,
-              onTap: () => Register.push(context),
-            ),
-            const SpaceH10(),
-            STextButton1(
-              active: true,
-              name: intl.onboarding_signIn,
-              onTap: () => Login.push(context),
-            ),
-            const SpaceH40(),
           ],
         ),
       ),
