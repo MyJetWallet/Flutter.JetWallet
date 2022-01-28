@@ -20,8 +20,8 @@ import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/support/support.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
-import 'components/log_out_option.dart';
 import 'components/account_banner_list.dart';
+import 'components/log_out_option.dart';
 
 class Account extends HookWidget {
   const Account();
@@ -63,86 +63,105 @@ class Account extends HookWidget {
                 ),
               ),
               const SpaceH20(),
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    AccountBannerList(
-                      kycPassed: _checkKycPassed(
-                        kycState.depositStatus,
-                        kycState.sellStatus,
-                        kycState.withdrawalStatus,
-                      ),
-                    ),
-                    const SpaceH20(),
-                    Column(
-                      children: <Widget>[
-                        SimpleAccountCategoryButton(
-                          title: 'Profile details',
-                          icon: const SProfileDetailsIcon(),
-                          isSDivider: true,
-                          onTap: () {
-                            navigatorPush(context, const ProfileDetails());
-                          },
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'Security',
-                          icon: const SSecurityIcon(),
-                          isSDivider: true,
-                          onTap: () {
-                            navigatorPush(context, const AccountSecurity());
-                          },
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'History',
-                          icon: const SIndexHistoryIcon(),
-                          isSDivider: true,
-                          onTap: () => TransactionHistory.push(
-                            context: context,
-                          ),
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'Notifications',
-                          icon: const SNotificationsIcon(),
-                          isSDivider: true,
-                          onTap: () {},
-                        ),
-                        if (flavor == Flavor.dev)
-                          SimpleAccountCategoryButton(
-                            title: 'Support',
-                            icon: const SSupportIcon(),
-                            isSDivider: true,
-                            onTap: () {
-                              navigatorPush(context, const Support());
-                            },
-                          ),
-                        SimpleAccountCategoryButton(
-                          title: 'FAQ',
-                          icon: const SFaqIcon(),
-                          isSDivider: true,
-                          onTap: () {},
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'About us',
-                          icon: const SAboutUsIcon(),
-                          isSDivider: false,
-                          onTap: () {
-                            navigatorPush(context, const AboutUs());
-                          },
-                        ),
-                      ],
-                    ),
-                    const SpaceH20(),
-                    const SDivider(),
-                    const SpaceH20(),
-                    LogOutOption(
-                      name: 'Log out',
-                      onTap: () => logoutN.logout(),
-                    ),
-                    const SpaceH20(),
-                    const SDivider(),
-                  ],
+              AccountBannerList(
+                kycPassed: _checkKycPassed(
+                  kycState.depositStatus,
+                  kycState.sellStatus,
+                  kycState.withdrawalStatus,
                 ),
+                verificationInProgress: kycState.inVerificationProgress,
+                twoFaEnabled: userInfo.twoFaEnabled,
+                phoneVerified: userInfo.phoneVerified,
+                onTwoFaBannerTap: () => SmsAuthenticator.push(context),
+                onChatBannerTap: () {},
+                onKycBannerTap: () {
+                  kycAlertHandler.handle(
+                    status: kycState.depositStatus,
+                    kycVerified: kycState,
+                    isProgress: kycState.verificationInProgress,
+                    currentNavigate: () {},
+                  );
+                },
+              ),
+              const SpaceH20(),
+              Column(
+                children: <Widget>[
+                  SimpleAccountCategoryButton(
+                    title: 'Profile details',
+                    icon: const SProfileDetailsIcon(),
+                    isSDivider: true,
+                    onTap: () {
+                      navigatorPush(context, const ProfileDetails());
+                    },
+                  ),
+                  const SpaceH20(),
+                  Column(
+                    children: <Widget>[
+                      SimpleAccountCategoryButton(
+                        title: 'Profile details',
+                        icon: const SProfileDetailsIcon(),
+                        isSDivider: true,
+                        onTap: () {
+                          navigatorPush(context, const ProfileDetails());
+                        },
+                      ),
+                      SimpleAccountCategoryButton(
+                        title: 'Security',
+                        icon: const SSecurityIcon(),
+                        isSDivider: true,
+                        onTap: () {
+                          navigatorPush(context, const AccountSecurity());
+                        },
+                      ),
+                      SimpleAccountCategoryButton(
+                        title: 'History',
+                        icon: const SIndexHistoryIcon(),
+                        isSDivider: true,
+                        onTap: () => TransactionHistory.push(
+                          context: context,
+                        ),
+                      ),
+                      SimpleAccountCategoryButton(
+                        title: 'Notifications',
+                        icon: const SNotificationsIcon(),
+                        isSDivider: true,
+                        onTap: () {},
+                      ),
+                      if (flavor == Flavor.dev)
+                        SimpleAccountCategoryButton(
+                          title: 'Support',
+                          icon: const SSupportIcon(),
+                          isSDivider: true,
+                          onTap: () {
+                            navigatorPush(context, const Support());
+                          },
+                        ),
+                      SimpleAccountCategoryButton(
+                        title: 'FAQ',
+                        icon: const SFaqIcon(),
+                        isSDivider: true,
+                        onTap: () {},
+                      ),
+                      SimpleAccountCategoryButton(
+                        title: 'About us',
+                        icon: const SAboutUsIcon(),
+                        isSDivider: false,
+                        onTap: () {
+                          navigatorPush(context, const AboutUs());
+                        },
+                      ),
+                    ],
+                  ),
+                  const SpaceH20(),
+                  const SDivider(),
+                  const SpaceH20(),
+                  LogOutOption(
+                    name: 'Log out',
+                    onTap: () => logoutN.logout(),
+                  ),
+                  const SpaceH20(),
+                  const SDivider(),
+                ],
               ),
             ],
           );
