@@ -23,30 +23,40 @@ class LogOutOption extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 30.0,
-        margin: const EdgeInsets.symmetric(
-          vertical: 18.0,
-          horizontal: 24.0,
-        ),
-        child: Row(
-          children: <Widget>[
-            const SLogOutIcon(),
-            const SpaceW20(),
-            Expanded(
-              child: Text(
-                name,
-                style: sSubtitle1Style.copyWith(
-                  color: colors.red,
-                ),
-              ),
+    return Stack(
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 30.0,
+            margin: const EdgeInsets.symmetric(
+              vertical: 18.0,
+              horizontal: 24.0,
             ),
-            const AppVersionBox(),
-          ],
+            child: Row(
+              children: <Widget>[
+                const SLogOutIcon(),
+                const SpaceW20(),
+                Baseline(
+                  baseline: 20,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    name,
+                    style: sSubtitle1Style.copyWith(
+                      color: colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+        const Positioned(
+          top: 19,
+          right: 24,
+          child: AppVersionBox(),
+        ),
+      ],
     );
   }
 }
