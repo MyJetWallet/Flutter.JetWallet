@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
@@ -51,20 +52,25 @@ class BottomNavigationMenu extends HookWidget {
           sShowMenuActionSheet(
             context: context,
             isNotEmptyBalance: isNotEmptyBalance,
-            onBuy: () {
-              if (kycState.depositStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
-                showBuyAction(context);
-              } else {
-                Navigator.of(context).pop();
-                kycAlertHandler.handle(
-                  status: kycState.depositStatus,
-                  kycVerified: kycState,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () => showBuyAction(context),
-                );
-              }
-            },
+            onBuy: () => Kyc.verify(
+              read: context.read,
+              onVerified: () => showBuyAction(context),
+              trigger: TriggerAction.deposit,
+            ),
+            // onBuy: () {
+            //   if (kycState.depositStatus ==
+            //       kycOperationStatus(KycOperationStatus.allowed)) {
+            //     showBuyAction(context);
+            //   } else {
+            //     Navigator.of(context).pop();
+            //     kycAlertHandler.handle(
+            //       status: kycState.depositStatus,
+            //       kycVerified: kycState,
+            //       isProgress: kycState.verificationInProgress,
+            //       currentNavigate: () => showBuyAction(context),
+            //     );
+            //   }
+            // },
             onSell: () {
               if (kycState.sellStatus ==
                   kycOperationStatus(KycOperationStatus.allowed)) {

@@ -1,24 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
+import '../notifier/kyc/kyc_notipod.dart';
 import '../view/components/choose_documents/choose_documents.dart';
 import '../view/components/kyc_verify_your_profile/kyc_verify_your_profile.dart';
 import '../view/popup/show_kyc_popup.dart';
 
-class KycAlertHandler {
-  KycAlertHandler({
-    required this.context,
-    required this.colors,
-  });
+class Kyc {
+  static void verify({
+    required Reader read,
+    required void Function()
+        onVerified, // navigate if kycStatus allow or allowWithAlert
+    required TriggerAction trigger,
+  }) {
+    final status = _statusFromTrigger(read, trigger);
 
-  final BuildContext context;
-  final SimpleColors colors;
+    if (status == KycStatus.allowed.toInt) {
+      onVerified();
+    } else if (status == KycStatus.allowedWithKycAlert.toInt) {
+      _handleAllowedWithAlert(onVerified, read);
+    } else {
+      _handle(status, onVerified, read);
+    }
 
-  void handle({
+
+
+
+    // if (trigger == TriggerAction.deposit) {
+    //   _handleStatus(status, onVerified);
+    // } else if (trigger == TriggerAction.sell) {
+    //
+    // } else {
+    //
+    // }
+
+    // if (trigger == KycStatus.allowed.toInt) {
+    //   onVerified();
+    // } else if (status == KycStatus.allowedWithKycAlert.toInt) {
+    //   _handleAllowedWithAlert(onVerified);
+    // } else if () {
+    //   // we are verifying
+    // } else {
+    //   Kyc.handle(read);
+    // }
+  }
+
+  // static void _handle(
+  //   int status,
+  //   Function() onVerified,
+  //   Reader read,
+  // ) {
+  //   if (status == KycStatus.allowed.toInt) {
+  //     onVerified();
+  //   } else if (status == KycStatus.allowedWithKycAlert.toInt) {
+  //     _handleAllowedWithAlert(onVerified, read);
+  //   }
+  // }
+
+  static void _handleAllowedWithAlert(
+    Function() onVerified,
+    Reader read,
+  ) {
+    _showAllowedWithAlert(
+      kycVerified,
+      read,
+      onVerified,
+      false,
+    );
+  }
+
+  static int _statusFromTrigger(Reader read, TriggerAction trigger) {
+    final kycState = read(kycNotipod);
+
+    if (trigger == TriggerAction.deposit) {
+      return kycState.depositStatus;
+    } else if (trigger == TriggerAction.sell) {
+      return kycState.sellStatus;
+    } else {
+      return kycState.withdrawalStatus;
+    }
+  }
+
+// handles internal KYC flow
+//   static void handle(Reader read) {
+//     // we are verifying
+//     if (status == KycStatus.isRequired.toInt()) {
+//       _handleIsRequired(kycVerified);
+//     } else if (status == KycStatus.inProgress.toInt()) {
+//       _handleInProgress();
+//     } else {
+//       _handleBlocked();
+//     }
+//   }
+
+  static void _handle({
     bool navigatePop = false,
     required Function() currentNavigate,
     required int status,
@@ -89,10 +169,11 @@ class KycAlertHandler {
     );
   }
 
-  void _showAllowedWithAlert(
+  static void _showAllowedWithAlert(
     KycModel kycVerified,
     Function() currentNavigat,
     bool navigatePop,
+    BuildContext context,
   ) {
     showKycPopup(
       context: context,
@@ -131,7 +212,7 @@ class KycAlertHandler {
     );
   }
 
-  void _navigateVerifiedNavigate(
+  static void _navigateVerifiedNavigate(
     List<RequiredVerified> requiredVerifications,
     List<KycDocumentType> documents,
   ) {

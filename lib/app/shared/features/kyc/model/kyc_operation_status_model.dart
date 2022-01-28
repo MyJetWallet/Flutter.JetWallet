@@ -1,9 +1,32 @@
-enum KycOperationStatus {
+enum TriggerAction {
+  deposit,
+  sell,
+  withdrawal,
+}
+
+enum KycStatus {
   kycRequired,
   kycInProgress,
   allowed,
   allowedWithKycAlert,
   blocked
+}
+
+extension KycStatusExtension on KycStatus {
+  int get toInt {
+    switch (this) {
+      case KycStatus.kycRequired:
+        return 0;
+      case KycStatus.kycInProgress:
+        return 1;
+      case KycStatus.allowed:
+        return 2;
+      case KycStatus.allowedWithKycAlert:
+        return 3;
+      case KycStatus.blocked:
+        return 4;
+    }
+  }
 }
 
 int kycOperationStatus(KycOperationStatus status) {

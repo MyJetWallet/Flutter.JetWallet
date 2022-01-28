@@ -176,10 +176,10 @@ final profileServicePod = Provider<ProfileService>((ref) {
 });
 
 final kycAlertHandlerPod =
-    Provider.family<KycAlertHandler, BuildContext>((ref, context) {
+    Provider.family<Kyc, BuildContext>((ref, context) {
   final colors = ref.read(sColorPod);
 
-  return KycAlertHandler(context: context, colors: colors);
+  return Kyc();
 });
 
 final kycServicePod = Provider<KycService>((ref) {
