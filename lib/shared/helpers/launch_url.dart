@@ -5,7 +5,10 @@ import 'show_plain_snackbar.dart';
 
 Future<void> launchURL(BuildContext context, String url) async {
   if (await canLaunch(url)) {
-    await launch(url);
+    await launch(
+      url,
+      forceWebView: true,
+    );
   } else {
     showPlainSnackbar(context, 'Could not launch $url');
   }
