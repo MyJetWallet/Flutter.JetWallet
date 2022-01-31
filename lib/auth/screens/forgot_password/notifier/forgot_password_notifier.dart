@@ -16,7 +16,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
     this.read,
     this.args,
   ) : super(const ForgotPasswordState()) {
-    updateEmail(args.email);
+    updateAndValidateEmail(args.email);
   }
 
   final Reader read;
@@ -24,10 +24,13 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
 
   static final _logger = Logger('ForgotPasswordNotifier');
 
-  void updateEmail(String email) {
-    _logger.log(notifier, 'updateEmail');
+  void updateAndValidateEmail(String email) {
+    _logger.log(notifier, 'updateAndValidateEmail');
 
-    state = state.copyWith(email: email);
+    state = state.copyWith(union: const Input());
+
+    _updateEmail(email);
+    validateEmail();
   }
 
   void validateEmail() {
@@ -40,11 +43,8 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
     }
   }
 
-  void updateAndValidateEmail(String email) {
-    state = state.copyWith(union: const Input());
-
-    updateEmail(email);
-    validateEmail();
+  void _updateEmail(String email) {
+    state = state.copyWith(email: email);
   }
 
   Future<void> sendRecoveryLink() async {
