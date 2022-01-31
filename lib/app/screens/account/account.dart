@@ -14,12 +14,12 @@ import '../../../shared/providers/flavor_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
-import '../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/support/support.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
+import '../../shared/helpers/check_kyc_passed.dart';
 import 'components/account_banner_list.dart';
 import 'components/log_out_option.dart';
 
@@ -64,7 +64,7 @@ class Account extends HookWidget {
               ),
               const SpaceH20(),
               AccountBannerList(
-                kycPassed: _checkKycPassed(
+                kycPassed: checkKycPassed(
                   kycState.depositStatus,
                   kycState.sellStatus,
                   kycState.withdrawalStatus,
@@ -169,31 +169,5 @@ class Account extends HookWidget {
         loading: () => const Loader(),
       ),
     );
-  }
-
-  bool _checkKycPassed(
-    int depositStatus,
-    int sellStatus,
-    int withdrawalStatus,
-  ) {
-    if (depositStatus == kycOperationStatus(KycOperationStatus.kycRequired) ||
-        depositStatus ==
-            kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
-      return false;
-    }
-
-    if (sellStatus == kycOperationStatus(KycOperationStatus.kycRequired) ||
-        sellStatus ==
-            kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
-      return false;
-    }
-
-    if (withdrawalStatus ==
-            kycOperationStatus(KycOperationStatus.kycRequired) ||
-        withdrawalStatus ==
-            kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
-      return false;
-    }
-    return true;
   }
 }

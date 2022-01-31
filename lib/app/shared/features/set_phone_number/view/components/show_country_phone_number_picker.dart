@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../components/dial_code_item.dart';
-import '../../../set_phone_number/notifier/set_phone_number_notipod.dart';
+import '../../notifier/set_phone_number_notipod.dart';
 
 void showCountryPhoneNumberPicker(BuildContext context) {
   context.read(setPhoneNumberNotipod.notifier).initDialCodeSearch();
