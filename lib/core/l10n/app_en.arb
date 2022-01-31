@@ -272,7 +272,7 @@
     "@onboarding_slide2": {
       "description": "Shown on the Onboarding screen where 4 slides displayed"
     },
-    "onboarding_slide3": "Crypto indecies -\ninvest in all\nmarket in one tap",
+    "onboarding_slide3": "Crypto indices -\ninvest in all\nmarket in one tap",
     "@onboarding_slide3": {
       "description": "Shown on the Onboarding screen where 4 slides displayed"
     },
