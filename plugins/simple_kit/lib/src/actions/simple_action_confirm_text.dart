@@ -68,48 +68,46 @@ class SActionConfirmText extends StatelessWidget {
                 maxWidth: animation != null ? 200.0 : 180.0,
                 minWidth: 100.0,
               ),
-              child: Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          value,
-                          style: sSubtitle3Style.copyWith(
-                            color: valueColor ?? SColorsLight().black,
-                          ),
-                          textAlign: TextAlign.end,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        value,
+                        style: sSubtitle3Style.copyWith(
+                          color: valueColor ?? SColorsLight().black,
                         ),
-                        if (animation != null) ...[
-                          const SpaceW10(),
-                          Baseline(
-                            baseline: -4.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: SConfirmActionTimer(
-                              animation: animation!,
-                              loading: timerLoading,
-                            ),
+                        textAlign: TextAlign.end,
+                      ),
+                      if (animation != null) ...[
+                        const SpaceW10(),
+                        Baseline(
+                          baseline: -4.0,
+                          baselineType: TextBaseline.alphabetic,
+                          child: SConfirmActionTimer(
+                            animation: animation!,
+                            loading: timerLoading,
                           ),
-                        ]
-                      ],
-                    ),
-                    if (valueDescription != null)
-                      Baseline(
-                        baseline: 15.0,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          valueDescription!,
-                          style: sBodyText2Style.copyWith(
-                            color: SColorsLight().grey1,
-                          ),
-                          textAlign: TextAlign.end,
                         ),
-                      )
-                  ],
-                ),
+                      ]
+                    ],
+                  ),
+                  if (valueDescription != null)
+                    Baseline(
+                      baseline: 15.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        valueDescription!,
+                        style: sBodyText2Style.copyWith(
+                          color: SColorsLight().grey1,
+                        ),
+                        textAlign: TextAlign.end,
+                      ),
+                    )
+                ],
               ),
             ),
         ],
