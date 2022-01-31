@@ -47,7 +47,7 @@ class EmptyPortfolioBody extends HookWidget {
           name: 'Buy bitcoin',
           onTap: () {
             if (kycState.depositStatus ==
-                kycOperationStatus(KycOperationStatus.allowed)) {
+                kycOperationStatus(KycStatus.allowed)) {
               navigatorPush(
                 context,
                 CurrencyBuy(

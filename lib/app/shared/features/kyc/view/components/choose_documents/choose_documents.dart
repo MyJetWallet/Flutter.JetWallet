@@ -129,7 +129,6 @@ class ChooseDocuments extends HookWidget {
                 } else {
                   AllowCamera.push(
                     context: context,
-                    activeDocument: notifier.getActiveDocument(),
                   );
                 }
               },

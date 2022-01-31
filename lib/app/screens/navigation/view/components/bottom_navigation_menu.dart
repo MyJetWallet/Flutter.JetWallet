@@ -16,7 +16,7 @@ import '../../../../shared/features/convert/view/convert.dart';
 import '../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../../../shared/features/kyc/model/kyc_verified_model.dart';
 import '../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
-import '../../../../shared/helpers/check_kyc_passed.dart';
+import '../../../../shared/helpers/check_kyc_status.dart';
 import '../../../../shared/helpers/is_balance_empty.dart';
 import '../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../provider/navigation_stpod.dart';
@@ -59,7 +59,7 @@ class BottomNavigationMenu extends HookWidget {
             isNotEmptyBalance: isNotEmptyBalance,
             onBuy: () {
               if (kycState.depositStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
+                  kycOperationStatus(KycStatus.allowed)) {
                 showBuyAction(context);
               } else {
                 Navigator.of(context).pop();
@@ -73,7 +73,7 @@ class BottomNavigationMenu extends HookWidget {
             },
             onSell: () {
               if (kycState.sellStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
+                  kycOperationStatus(KycStatus.allowed)) {
                 showSellAction(context);
               } else {
                 Navigator.of(context).pop();
@@ -87,7 +87,7 @@ class BottomNavigationMenu extends HookWidget {
             },
             onConvert: () {
               if (kycState.depositStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
+                  kycOperationStatus(KycStatus.allowed)) {
                 navigatorPush(context, const Convert());
               } else {
                 Navigator.of(context).pop();
@@ -103,7 +103,7 @@ class BottomNavigationMenu extends HookWidget {
             },
             onDeposit: () {
               if (kycState.depositStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
+                  kycOperationStatus(KycStatus.allowed)) {
                 showDepositAction(context);
               } else {
                 Navigator.of(context).pop();
@@ -117,7 +117,7 @@ class BottomNavigationMenu extends HookWidget {
             },
             onWithdraw: () {
               if (kycState.withdrawalStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
+                  kycOperationStatus(KycStatus.allowed)) {
                 showWithdrawAction(context);
               } else {
                 Navigator.of(context).pop();
@@ -131,7 +131,7 @@ class BottomNavigationMenu extends HookWidget {
             },
             onSend: () {
               if (kycState.withdrawalStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
+                  kycOperationStatus(KycStatus.allowed)) {
                 showSendAction(context);
               } else {
                 Navigator.of(context).pop();
@@ -145,7 +145,7 @@ class BottomNavigationMenu extends HookWidget {
             },
             onReceive: () {
               if (kycState.withdrawalStatus ==
-                  kycOperationStatus(KycOperationStatus.allowed)) {
+                  kycOperationStatus(KycStatus.allowed)) {
                 showReceiveAction(context);
               } else {
                 Navigator.of(context).pop();

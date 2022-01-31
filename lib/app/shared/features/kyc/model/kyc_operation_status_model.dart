@@ -1,4 +1,4 @@
-enum KycOperationStatus {
+enum KycStatus {
   kycRequired,
   kycInProgress,
   allowed,
@@ -6,17 +6,17 @@ enum KycOperationStatus {
   blocked
 }
 
-int kycOperationStatus(KycOperationStatus status) {
+int kycOperationStatus(KycStatus status) {
   switch (status) {
-    case KycOperationStatus.kycRequired:
+    case KycStatus.kycRequired:
       return 0;
-    case KycOperationStatus.kycInProgress:
+    case KycStatus.kycInProgress:
       return 1;
-    case KycOperationStatus.allowed:
+    case KycStatus.allowed:
       return 2;
-    case KycOperationStatus.allowedWithKycAlert:
+    case KycStatus.allowedWithKycAlert:
       return 3;
-    case KycOperationStatus.blocked:
+    case KycStatus.blocked:
       return 4;
   }
 }
