@@ -4,6 +4,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
+import '../model/versioning_model.dart';
 import '../remote_config_values.dart';
 
 const _defaultFlavorIndex = 0;
@@ -22,6 +23,7 @@ class RemoteConfigService {
     await _config.fetchAndActivate();
     overrideAppConfigValues();
     overrideApisFrom(_defaultFlavorIndex);
+    overrideVersioningValues();
   }
 
   ConnectionFlavorsModel get connectionFlavors {
@@ -38,6 +40,14 @@ class RemoteConfigService {
     final json = jsonDecode(config) as Map<String, dynamic>;
 
     return AppConfigModel.fromJson(json);
+  }
+
+  VersioningModel get versioning {
+    final values = _config.getString('Versioning');
+
+    final json = jsonDecode(values) as Map<String, dynamic>;
+
+    return VersioningModel.fromJson(json);
   }
 
   /// Each index respresents different flavor (backend environment)
@@ -64,5 +74,10 @@ class RemoteConfigService {
     emailResendCountdown = appConfig.emailResendCountdown;
     withdrawalConfirmResendCountdown = appConfig.withdrawConfirmResendCountdown;
     localPinLength = appConfig.localPinLength;
+  }
+
+  void overrideVersioningValues() {
+    recommendedVersion = versioning.recommendedVersion;
+    minimumVersion = versioning.minimumVersion;
   }
 }
