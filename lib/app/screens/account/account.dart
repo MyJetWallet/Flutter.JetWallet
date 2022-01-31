@@ -62,106 +62,100 @@ class Account extends HookWidget {
                   userEmail: authInfo.email,
                 ),
               ),
-              const SpaceH20(),
-              AccountBannerList(
-                kycPassed: _checkKycPassed(
-                  kycState.depositStatus,
-                  kycState.sellStatus,
-                  kycState.withdrawalStatus,
-                ),
-                verificationInProgress: kycState.inVerificationProgress,
-                twoFaEnabled: userInfo.twoFaEnabled,
-                phoneVerified: userInfo.phoneVerified,
-                onTwoFaBannerTap: () => SmsAuthenticator.push(context),
-                onChatBannerTap: () {},
-                onKycBannerTap: () {
-                  kycAlertHandler.handle(
-                    status: kycState.depositStatus,
-                    kycVerified: kycState,
-                    isProgress: kycState.verificationInProgress,
-                    currentNavigate: () {},
-                  );
-                },
-              ),
-              const SpaceH20(),
-              Column(
-                children: <Widget>[
-                  SimpleAccountCategoryButton(
-                    title: 'Profile details',
-                    icon: const SProfileDetailsIcon(),
-                    isSDivider: true,
-                    onTap: () {
-                      navigatorPush(context, const ProfileDetails());
-                    },
-                  ),
-                  const SpaceH20(),
-                  Column(
-                    children: <Widget>[
-                      SimpleAccountCategoryButton(
-                        title: 'Profile details',
-                        icon: const SProfileDetailsIcon(),
-                        isSDivider: true,
-                        onTap: () {
-                          navigatorPush(context, const ProfileDetails());
-                        },
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    const SpaceH20(),
+                    AccountBannerList(
+                      kycPassed: _checkKycPassed(
+                        kycState.depositStatus,
+                        kycState.sellStatus,
+                        kycState.withdrawalStatus,
                       ),
-                      SimpleAccountCategoryButton(
-                        title: 'Security',
-                        icon: const SSecurityIcon(),
-                        isSDivider: true,
-                        onTap: () {
-                          navigatorPush(context, const AccountSecurity());
-                        },
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'History',
-                        icon: const SIndexHistoryIcon(),
-                        isSDivider: true,
-                        onTap: () => TransactionHistory.push(
-                          context: context,
-                        ),
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'Notifications',
-                        icon: const SNotificationsIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      if (flavor == Flavor.dev)
+                      verificationInProgress: kycState.inVerificationProgress,
+                      twoFaEnabled: userInfo.twoFaEnabled,
+                      phoneVerified: userInfo.phoneVerified,
+                      onTwoFaBannerTap: () => SmsAuthenticator.push(context),
+                      onChatBannerTap: () {},
+                      onKycBannerTap: () {
+                        kycAlertHandler.handle(
+                          status: kycState.depositStatus,
+                          kycVerified: kycState,
+                          isProgress: kycState.verificationInProgress,
+                          currentNavigate: () {},
+                        );
+                      },
+                    ),
+                    const SpaceH20(),
+                    Column(
+                      children: <Widget>[
                         SimpleAccountCategoryButton(
-                          title: 'Support',
-                          icon: const SSupportIcon(),
+                          title: 'Profile details',
+                          icon: const SProfileDetailsIcon(),
                           isSDivider: true,
                           onTap: () {
-                            navigatorPush(context, const Support());
+                            navigatorPush(context, const ProfileDetails());
                           },
                         ),
-                      SimpleAccountCategoryButton(
-                        title: 'FAQ',
-                        icon: const SFaqIcon(),
-                        isSDivider: true,
-                        onTap: () {},
-                      ),
-                      SimpleAccountCategoryButton(
-                        title: 'About us',
-                        icon: const SAboutUsIcon(),
-                        isSDivider: false,
-                        onTap: () {
-                          navigatorPush(context, const AboutUs());
-                        },
-                      ),
-                    ],
-                  ),
-                  const SpaceH20(),
-                  const SDivider(),
-                  const SpaceH20(),
-                  LogOutOption(
-                    name: 'Log out',
-                    onTap: () => logoutN.logout(),
-                  ),
-                  const SpaceH20(),
-                  const SDivider(),
-                ],
+                        SimpleAccountCategoryButton(
+                          title: 'Security',
+                          icon: const SSecurityIcon(),
+                          isSDivider: true,
+                          onTap: () {
+                            navigatorPush(context, const AccountSecurity());
+                          },
+                        ),
+                        SimpleAccountCategoryButton(
+                          title: 'History',
+                          icon: const SIndexHistoryIcon(),
+                          isSDivider: true,
+                          onTap: () => TransactionHistory.push(
+                            context: context,
+                          ),
+                        ),
+                        SimpleAccountCategoryButton(
+                          title: 'Notifications',
+                          icon: const SNotificationsIcon(),
+                          isSDivider: true,
+                          onTap: () {},
+                        ),
+                        if (flavor == Flavor.dev)
+                          SimpleAccountCategoryButton(
+                            title: 'Support',
+                            icon: const SSupportIcon(),
+                            isSDivider: true,
+                            onTap: () {
+                              navigatorPush(context, const Support());
+                            },
+                          ),
+                        SimpleAccountCategoryButton(
+                          title: 'FAQ',
+                          icon: const SFaqIcon(),
+                          isSDivider: true,
+                          onTap: () {},
+                        ),
+                        SimpleAccountCategoryButton(
+                          title: 'About us',
+                          icon: const SAboutUsIcon(),
+                          isSDivider: false,
+                          onTap: () {
+                            navigatorPush(context, const AboutUs());
+                          },
+                        ),
+                      ],
+                    ),
+                    const SpaceH20(),
+                    const SDivider(),
+                    const SpaceH20(),
+                    LogOutOption(
+                      name: 'Log out',
+                      onTap: () => logoutN.logout(),
+                    ),
+                    const SpaceH20(),
+                    const SDivider(),
+                  ],
+                ),
               ),
             ],
           );
@@ -172,10 +166,10 @@ class Account extends HookWidget {
   }
 
   bool _checkKycPassed(
-    int depositStatus,
-    int sellStatus,
-    int withdrawalStatus,
-  ) {
+      int depositStatus,
+      int sellStatus,
+      int withdrawalStatus,
+      ) {
     if (depositStatus == kycOperationStatus(KycOperationStatus.kycRequired) ||
         depositStatus ==
             kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
@@ -189,7 +183,7 @@ class Account extends HookWidget {
     }
 
     if (withdrawalStatus ==
-            kycOperationStatus(KycOperationStatus.kycRequired) ||
+        kycOperationStatus(KycOperationStatus.kycRequired) ||
         withdrawalStatus ==
             kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
       return false;
