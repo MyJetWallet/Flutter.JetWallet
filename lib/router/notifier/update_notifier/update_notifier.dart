@@ -4,6 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:store_redirect/store_redirect.dart';
 
+import '../../../shared/providers/flavor_pod.dart';
 import '../../../shared/providers/package_info_fpod.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../helper/compare_versions.dart';
@@ -76,9 +77,21 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
   }
 
   void _storeRedirect() {
+    final flavor = read(flavorPod);
+
+    late String appId;
+
+    if (flavor == Flavor.prod) {
+      appId = '1603406843';
+    } else if (flavor == Flavor.stage) {
+      appId = '1604368566';
+    } else {
+      appId = '1604368665';
+    }
+
     StoreRedirect.redirect(
       androidAppId: _info.packageName,
-      iOSAppId: '1603406843', // prod
+      iOSAppId: appId,
     );
   }
 }
