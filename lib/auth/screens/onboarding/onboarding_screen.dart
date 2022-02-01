@@ -135,11 +135,31 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                     opacity: _textAnimation,
                     child: Column(
                       children: [
-                        Text(
-                          _slides[_currentIndex],
-                          maxLines: 3,
-                          textAlign: TextAlign.center,
-                          style: sTextH1Style,
+                        deviceSize.when(
+                          small: () {
+                            return Baseline(
+                              baselineType: TextBaseline.alphabetic,
+                              baseline: 38,
+                              child: Text(
+                                _slides[_currentIndex],
+                                maxLines: 3,
+                                textAlign: TextAlign.center,
+                                style: sTextH2Style,
+                              ),
+                            );
+                          },
+                          medium: () {
+                            return Baseline(
+                              baselineType: TextBaseline.alphabetic,
+                              baseline: 38,
+                              child: Text(
+                                _slides[_currentIndex],
+                                maxLines: 3,
+                                textAlign: TextAlign.center,
+                                style: sTextH1Style,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -171,7 +191,7 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                     name: intl.onboarding_signIn,
                     onTap: () => Login.push(context),
                   ),
-                  const SpaceH40(),
+                  const SpaceH24(),
                 ],
               ),
             ),

@@ -7,9 +7,9 @@ import '../../../../../shared/components/result_screens/success_screen/success_s
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../phone_number/view/components/show_country_phone_number_picker.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../notifier/set_phone_number_notipod.dart';
+import 'components/show_country_phone_number_picker.dart';
 
 /// Called in 2 cases:
 /// 1. when we want to change number
