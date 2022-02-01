@@ -7,6 +7,10 @@ const failureAnimationAsset = 'assets/animations/failure.riv';
 const watchlistImageAsset = 'assets/images/watchlist.svg';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
 
+// Portfolio
+const earnImageAsset = 'assets/images/earn.png';
+const earnGroupImageAsset = 'assets/images/earn_group.png';
+
 const walletGreenBackgroundImageAsset =
     'assets/images/green_wallet_gradient.svg';
 const walletRedBackgroundImageAsset = 'assets/images/red_wallet_gradient.svg';

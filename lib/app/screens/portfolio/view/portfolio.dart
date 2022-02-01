@@ -61,11 +61,8 @@ class _PortfolioState extends State<Portfolio>
         currenciesWithBalanceFrom(useProvider(marketFiatsPod));
 
     if (balanceEmpty) {
-      return const SPageFrameWithPadding(
-        header: SSmallHeader(
-          title: 'Balance',
-          showBackButton: false,
-        ),
+      return const SPageFrame(
+        header: PortfolioWithBalanceHeader(),
         child: EmptyPortfolioBody(),
       );
     } else {
