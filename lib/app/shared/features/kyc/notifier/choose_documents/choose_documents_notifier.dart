@@ -1,11 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../kyc_countries/kyc_countries_notipod.dart';
 
 import 'choose_documents_state.dart';
 
 class ChooseDocumentsNotifier extends StateNotifier<ChooseDocumentsState> {
   ChooseDocumentsNotifier({
     required this.read,
-    required this.documents,
   }) : super(
           const ChooseDocumentsState(),
         ) {
@@ -13,13 +13,25 @@ class ChooseDocumentsNotifier extends StateNotifier<ChooseDocumentsState> {
   }
 
   final Reader read;
-  final List<DocumentsModel> documents;
 
   void _init() {
-    if (state.documents.isNotEmpty) {
-      _setActiveDocumentIfExist();
+    final countries = read(kycCountriesNotipod);
+
+    final modifyDocuments = <DocumentsModel>[];
+    for (var i = 0;
+        i < countries.activeCountry!.acceptedDocuments.length;
+        i++) {
+      modifyDocuments.add(
+        DocumentsModel(
+          document: countries.activeCountry!.acceptedDocuments[i],
+        ),
+      );
     }
-    state = state.copyWith(documents: documents);
+
+    if (state.documents.isNotEmpty) {
+      _setActiveDocumentIfExist(modifyDocuments);
+    }
+    state = state.copyWith(documents: modifyDocuments);
   }
 
   void activeDocument(DocumentsModel document) {
@@ -50,7 +62,7 @@ class ChooseDocumentsNotifier extends StateNotifier<ChooseDocumentsState> {
     return document.isNotEmpty;
   }
 
-  void _setActiveDocumentIfExist() {
+  void _setActiveDocumentIfExist(List<DocumentsModel> documents) {
     final activeDocument = <DocumentsModel>[];
 
     for (final element in state.documents) {
