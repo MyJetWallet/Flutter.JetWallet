@@ -29,10 +29,17 @@ class AssetDayChange extends HookWidget {
     final periodChangeColor =
         periodChange.contains('-') ? colors.red : colors.green;
 
-    return Text(
-      periodChange,
-      style: sSubtitle3Style.copyWith(
-        color: periodChangeColor,
+    return SizedBox(
+      height: 24,
+      child: Baseline(
+        baseline: 24,
+        baselineType: TextBaseline.alphabetic,
+        child: Text(
+          periodChange,
+          style: sSubtitle3Style.copyWith(
+            color: periodChangeColor,
+          ),
+        ),
       ),
     );
   }

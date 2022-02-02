@@ -1,14 +1,17 @@
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
+import '../../../../../shared/features/chart/notifier/chart_union.dart';
 import '../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../shared/features/market_details/helper/period_change.dart';
 import '../../../../../shared/features/market_details/view/market_details.dart';
@@ -69,281 +72,150 @@ class PortfolioWithBalanceBody extends HookWidget {
         periodChange.contains('-') ? colors.red : colors.green;
 
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          SizedBox(
-            height: 104,
-            child: PaddingL24(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _price(
-                      chart,
-                      itemsWithBalance,
-                      baseCurrency,
-                    ),
-                    style: sTextH1Style,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        periodChange,
-                        style: sSubtitle3Style.copyWith(
-                          color: periodChangeColor,
-                        ),
-                      ),
-                      const SpaceW10(),
-                      Text(
-                        'Today',
-                        style: sBodyText2Style.copyWith(
-                          color: colors.grey3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+          if (chart.union != const ChartUnion.loading())
+            Padding(
+              padding: const EdgeInsets.only(top: 100),
+              child: SizedBox(
+                width: double.infinity,
+                height: 465,
+                child: SvgPicture.asset(
+                  periodChange.contains('-')
+                      ? redPortfolioImageAsset
+                      : greenPortfolioImageAsset,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
-          BalanceChart(
-            onCandleSelected: (ChartInfoModel? chartInfo) {
-              chartN.updateSelectedCandle(chartInfo?.right);
-            },
-            walletCreationDate: clientDetail.walletCreationDate,
-          ),
-          const SpaceH76(),
-          SPaddingH24(
-            child: Row(
-              children: [
-                Text(
-                  'Portfolio',
-                  style: sTextH4Style,
-                ),
-                const Spacer(),
-                InkWell(
-                  onTap: () {
-                    TransactionHistory.push(
-                      context: context,
-                    );
-                  },
-                  child: const SIndexHistoryIcon(),
-                ),
-              ],
+          if (chart.union == const ChartUnion.loading())
+            Container(
+              width: double.infinity,
+              height: 465,
+              color: colors.grey5,
             ),
-          ),
-          const SpaceH15(),
-          SizedBox(
-            height: _walletsListHeight(
-              currentTabIndex: tabController.index,
-              showZeroBalanceWallets: showZeroBalanceWallets.state,
-              itemsWithBalanceLength: itemsWithBalance.length,
-              itemsWithoutBalanceLength: itemsWithoutBalance.length,
-              cryptosWithBalanceLength: cryptosWithBalance.length,
-              cryptosWithoutBalanceLength: cryptosWithoutBalance.length,
-              indicesWithBalanceLength: indicesWithBalance.length,
-              indicesWithoutBalanceLength: indicesWithoutBalance.length,
-              fiatsWithBalanceLength: fiatsWithBalance.length,
-              fiatsWithoutBalanceLength: fiatsWithoutBalance.length,
-            ),
-            child: TabBarView(
-              controller: tabController,
-              children: [
-                ListView(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    for (final item in itemsWithBalance)
-                      SWalletItem(
-                        decline: item.dayPercentChange.isNegative,
-                        icon: SNetworkSvg24(
-                          url: item.iconUrl,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (chart.union != const ChartUnion.loading())
+                SizedBox(
+                  height: 104,
+                  child: PaddingL24(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _price(
+                            chart,
+                            itemsWithBalance,
+                            baseCurrency,
+                          ),
+                          style: sTextH1Style,
                         ),
-                        primaryText: item.description,
-                        amount: formatCurrencyAmount(
-                          prefix: baseCurrency.prefix,
-                          value: item.baseBalance,
-                          symbol: baseCurrency.symbol,
-                          accuracy: baseCurrency.accuracy,
-                        ),
-                        secondaryText: '${item.assetBalance} ${item.symbol}',
-                        onTap: () {
-                          if (item.type == AssetType.indices) {
-                            navigatorPush(
-                              context,
-                              MarketDetails(
-                                marketItem: marketItemFrom(
-                                  marketItems,
-                                  item.symbol,
-                                ),
+                        Row(
+                          children: [
+                            Text(
+                              periodChange,
+                              style: sSubtitle3Style.copyWith(
+                                color: periodChangeColor,
                               ),
-                            );
-                          } else {
-                            navigateToWallet(context, item);
-                          }
-                        },
-                        removeDivider: item == itemsWithBalance.last,
-                      ),
-                    if (showZeroBalanceWallets.state) ...[
-                      const PortfolioDivider(),
-                      for (final item in itemsWithoutBalance)
-                        SWalletItem(
-                          decline: item.dayPercentChange.isNegative,
-                          icon: SNetworkSvg24(
-                            url: item.iconUrl,
-                          ),
-                          primaryText: item.description,
-                          amount: formatCurrencyAmount(
-                            prefix: baseCurrency.prefix,
-                            value: item.baseBalance,
-                            symbol: baseCurrency.symbol,
-                            accuracy: baseCurrency.accuracy,
-                          ),
-                          secondaryText: '${item.assetBalance} ${item.symbol}',
-                          onTap: () {
-                            if (item.type == AssetType.indices) {
-                              navigatorPush(
-                                context,
-                                MarketDetails(
-                                  marketItem: marketItemFrom(
-                                    marketItems,
-                                    item.symbol,
-                                  ),
-                                ),
-                              );
-                            } else {
-                              navigateToWallet(context, item);
-                            }
-                          },
-                          color: colors.black,
-                          removeDivider: item == itemsWithoutBalance.last,
-                        ),
-                    ],
-                    if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 27.5,
-                        ),
-                        child: Center(
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            onTap: () => showZeroBalanceWallets.state =
-                                !showZeroBalanceWallets.state,
-                            child: Text(
-                              showZeroBalanceWallets.state
-                                  ? 'Hide zero wallets'
-                                  : 'Show all wallets',
-                              style: sBodyText2Style,
                             ),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-                if (cryptosWithBalance.isNotEmpty)
-                  ListView(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (final item in cryptosWithBalance)
-                        SWalletItem(
-                          decline: item.dayPercentChange.isNegative,
-                          icon: SNetworkSvg24(
-                            url: item.iconUrl,
-                          ),
-                          primaryText: item.description,
-                          amount: formatCurrencyAmount(
-                            prefix: baseCurrency.prefix,
-                            value: item.baseBalance,
-                            symbol: baseCurrency.symbol,
-                            accuracy: baseCurrency.accuracy,
-                          ),
-                          secondaryText: '${item.assetBalance} ${item.symbol}',
-                          onTap: () => navigateToWallet(context, item),
-                          removeDivider: item == cryptosWithBalance.last,
-                        ),
-                      if (showZeroBalanceWallets.state) ...[
-                        const PortfolioDivider(),
-                        for (final item in cryptosWithoutBalance)
-                          SWalletItem(
-                            decline: item.dayPercentChange.isNegative,
-                            icon: SNetworkSvg24(
-                              url: item.iconUrl,
+                            const SpaceW10(),
+                            Text(
+                              'Today',
+                              style: sBodyText2Style.copyWith(
+                                color: colors.grey3,
+                              ),
                             ),
-                            primaryText: item.description,
-                            amount: formatCurrencyAmount(
-                              prefix: baseCurrency.prefix,
-                              value: item.baseBalance,
-                              symbol: baseCurrency.symbol,
-                              accuracy: baseCurrency.accuracy,
-                            ),
-                            secondaryText:
-                                '${item.assetBalance} ${item.symbol}',
-                            onTap: () => navigateToWallet(context, item),
-                            color: colors.black,
-                            removeDivider: item == itemsWithoutBalance.last,
-                          ),
+                          ],
+                        ),
                       ],
-                      if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 27.5,
-                          ),
-                          child: Center(
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () => showZeroBalanceWallets.state =
-                                  !showZeroBalanceWallets.state,
-                              child: Text(
-                                showZeroBalanceWallets.state
-                                    ? 'Hide zero wallets'
-                                    : 'Show all wallets',
-                                style: sBodyText2Style,
-                              ),
-                            ),
-                          ),
-                        ),
+                    ),
+                  ),
+                ),
+              if (chart.union == const ChartUnion.loading())
+                Container(
+                  height: 104,
+                  width: double.infinity,
+                  color: colors.grey5,
+                  child: PaddingL24(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        SpaceH13(),
+                        SSkeletonTextLoader(height: 24, width: 152),
+                        SpaceH13(),
+                        SSkeletonTextLoader(height: 16, width: 80),
+                        SpaceH38(),
+                      ],
+                    ),
+                  ),
+                ),
+              BalanceChart(
+                onCandleSelected: (ChartInfoModel? chartInfo) {
+                  chartN.updateSelectedCandle(chartInfo?.right);
+                },
+                walletCreationDate: clientDetail.walletCreationDate,
+              ),
+              const SpaceH40(),
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 36,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                  color: colors.white,
+                ),
+                child: SPaddingH24(
+                  child: Row(
+                    children: [
+                      Text(
+                        'Portfolio',
+                        style: sTextH4Style,
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          TransactionHistory.push(
+                            context: context,
+                          );
+                        },
+                        child: const SIndexHistoryIcon(),
+                      ),
                     ],
                   ),
-                if (indicesWithBalance.isNotEmpty)
-                  ListView(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (final item in indicesWithBalance)
-                        SWalletItem(
-                          decline: item.dayPercentChange.isNegative,
-                          icon: SNetworkSvg24(
-                            url: item.iconUrl,
-                          ),
-                          primaryText: item.description,
-                          amount: formatCurrencyAmount(
-                            prefix: baseCurrency.prefix,
-                            value: item.baseBalance,
-                            symbol: baseCurrency.symbol,
-                            accuracy: baseCurrency.accuracy,
-                          ),
-                          secondaryText: '${item.assetBalance} ${item.symbol}',
-                          onTap: () {
-                            navigatorPush(
-                              context,
-                              MarketDetails(
-                                marketItem: marketItemFrom(
-                                  marketItems,
-                                  item.symbol,
-                                ),
-                              ),
-                            );
-                          },
-                          removeDivider: item == indicesWithBalance.last,
-                        ),
-                      if (showZeroBalanceWallets.state) ...[
-                        const PortfolioDivider(),
-                        for (final item in indicesWithoutBalance)
+                ),
+              ),
+              Container(
+                color: colors.white,
+                height: 15,
+              ),
+              Container(
+                color: colors.white,
+                height: _walletsListHeight(
+                  currentTabIndex: tabController.index,
+                  showZeroBalanceWallets: showZeroBalanceWallets.state,
+                  itemsWithBalanceLength: itemsWithBalance.length,
+                  itemsWithoutBalanceLength: itemsWithoutBalance.length,
+                  cryptosWithBalanceLength: cryptosWithBalance.length,
+                  cryptosWithoutBalanceLength: cryptosWithoutBalance.length,
+                  indicesWithBalanceLength: indicesWithBalance.length,
+                  indicesWithoutBalanceLength: indicesWithoutBalance.length,
+                  fiatsWithBalanceLength: fiatsWithBalance.length,
+                  fiatsWithoutBalanceLength: fiatsWithoutBalance.length,
+                ),
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    ListView(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        for (final item in itemsWithBalance)
                           SWalletItem(
                             decline: item.dayPercentChange.isNegative,
                             icon: SNetworkSvg24(
@@ -359,110 +231,306 @@ class PortfolioWithBalanceBody extends HookWidget {
                             secondaryText:
                                 '${item.assetBalance} ${item.symbol}',
                             onTap: () {
-                              navigatorPush(
-                                context,
-                                MarketDetails(
-                                  marketItem: marketItemFrom(
-                                    marketItems,
-                                    item.symbol,
+                              if (item.type == AssetType.indices) {
+                                navigatorPush(
+                                  context,
+                                  MarketDetails(
+                                    marketItem: marketItemFrom(
+                                      marketItems,
+                                      item.symbol,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                navigateToWallet(context, item);
+                              }
+                            },
+                            removeDivider: item == itemsWithBalance.last,
+                          ),
+                        if (showZeroBalanceWallets.state) ...[
+                          const PortfolioDivider(),
+                          for (final item in itemsWithoutBalance)
+                            SWalletItem(
+                              decline: item.dayPercentChange.isNegative,
+                              icon: SNetworkSvg24(
+                                url: item.iconUrl,
+                              ),
+                              primaryText: item.description,
+                              amount: formatCurrencyAmount(
+                                prefix: baseCurrency.prefix,
+                                value: item.baseBalance,
+                                symbol: baseCurrency.symbol,
+                                accuracy: baseCurrency.accuracy,
+                              ),
+                              secondaryText:
+                                  '${item.assetBalance} ${item.symbol}',
+                              onTap: () {
+                                if (item.type == AssetType.indices) {
+                                  navigatorPush(
+                                    context,
+                                    MarketDetails(
+                                      marketItem: marketItemFrom(
+                                        marketItems,
+                                        item.symbol,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  navigateToWallet(context, item);
+                                }
+                              },
+                              color: colors.black,
+                              removeDivider: item == itemsWithoutBalance.last,
+                            ),
+                        ],
+                        if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 27.5,
+                            ),
+                            child: Center(
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                onTap: () => showZeroBalanceWallets.state =
+                                    !showZeroBalanceWallets.state,
+                                child: Text(
+                                  showZeroBalanceWallets.state
+                                      ? 'Hide zero wallets'
+                                      : 'Show all wallets',
+                                  style: sBodyText2Style,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    if (cryptosWithBalance.isNotEmpty)
+                      ListView(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          for (final item in cryptosWithBalance)
+                            SWalletItem(
+                              decline: item.dayPercentChange.isNegative,
+                              icon: SNetworkSvg24(
+                                url: item.iconUrl,
+                              ),
+                              primaryText: item.description,
+                              amount: formatCurrencyAmount(
+                                prefix: baseCurrency.prefix,
+                                value: item.baseBalance,
+                                symbol: baseCurrency.symbol,
+                                accuracy: baseCurrency.accuracy,
+                              ),
+                              secondaryText:
+                                  '${item.assetBalance} ${item.symbol}',
+                              onTap: () => navigateToWallet(context, item),
+                              removeDivider: item == cryptosWithBalance.last,
+                            ),
+                          if (showZeroBalanceWallets.state) ...[
+                            const PortfolioDivider(),
+                            for (final item in cryptosWithoutBalance)
+                              SWalletItem(
+                                decline: item.dayPercentChange.isNegative,
+                                icon: SNetworkSvg24(
+                                  url: item.iconUrl,
+                                ),
+                                primaryText: item.description,
+                                amount: formatCurrencyAmount(
+                                  prefix: baseCurrency.prefix,
+                                  value: item.baseBalance,
+                                  symbol: baseCurrency.symbol,
+                                  accuracy: baseCurrency.accuracy,
+                                ),
+                                secondaryText:
+                                    '${item.assetBalance} ${item.symbol}',
+                                onTap: () => navigateToWallet(context, item),
+                                color: colors.black,
+                                removeDivider: item == itemsWithoutBalance.last,
+                              ),
+                          ],
+                          if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 27.5,
+                              ),
+                              child: Center(
+                                child: InkWell(
+                                  splashColor: Colors.transparent,
+                                  onTap: () => showZeroBalanceWallets.state =
+                                      !showZeroBalanceWallets.state,
+                                  child: Text(
+                                    showZeroBalanceWallets.state
+                                        ? 'Hide zero wallets'
+                                        : 'Show all wallets',
+                                    style: sBodyText2Style,
                                   ),
                                 ),
-                              );
-                            },
-                            color: colors.black,
-                            removeDivider: item == indicesWithoutBalance.last,
-                          ),
-                      ],
-                      if (!zeroBalanceWalletsEmpty(indicesWithoutBalance))
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 27.5,
-                          ),
-                          child: Center(
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () => showZeroBalanceWallets.state =
-                                  !showZeroBalanceWallets.state,
-                              child: Text(
-                                showZeroBalanceWallets.state
-                                    ? 'Hide zero wallets'
-                                    : 'Show all wallets',
-                                style: sBodyText2Style,
                               ),
                             ),
-                          ),
-                        ),
-                    ],
-                  ),
-                if (fiatsWithBalance.isNotEmpty)
-                  ListView(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (final item in fiatsWithBalance)
-                        SWalletItem(
-                          decline: item.dayPercentChange.isNegative,
-                          icon: SNetworkSvg24(
-                            url: item.iconUrl,
-                          ),
-                          primaryText: item.description,
-                          amount: formatCurrencyAmount(
-                            prefix: baseCurrency.prefix,
-                            value: item.baseBalance,
-                            symbol: baseCurrency.symbol,
-                            accuracy: baseCurrency.accuracy,
-                          ),
-                          secondaryText: '${item.assetBalance} ${item.symbol}',
-                          onTap: () => navigateToWallet(context, item),
-                          removeDivider: item == fiatsWithBalance.last,
-                        ),
-                      if (showZeroBalanceWallets.state) ...[
-                        const PortfolioDivider(),
-                        for (final item in fiatsWithoutBalance)
-                          SWalletItem(
-                            decline: item.dayPercentChange.isNegative,
-                            icon: SNetworkSvg24(
-                              url: item.iconUrl,
+                        ],
+                      ),
+                    if (indicesWithBalance.isNotEmpty)
+                      ListView(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          for (final item in indicesWithBalance)
+                            SWalletItem(
+                              decline: item.dayPercentChange.isNegative,
+                              icon: SNetworkSvg24(
+                                url: item.iconUrl,
+                              ),
+                              primaryText: item.description,
+                              amount: formatCurrencyAmount(
+                                prefix: baseCurrency.prefix,
+                                value: item.baseBalance,
+                                symbol: baseCurrency.symbol,
+                                accuracy: baseCurrency.accuracy,
+                              ),
+                              secondaryText:
+                                  '${item.assetBalance} ${item.symbol}',
+                              onTap: () {
+                                navigatorPush(
+                                  context,
+                                  MarketDetails(
+                                    marketItem: marketItemFrom(
+                                      marketItems,
+                                      item.symbol,
+                                    ),
+                                  ),
+                                );
+                              },
+                              removeDivider: item == indicesWithBalance.last,
                             ),
-                            primaryText: item.description,
-                            amount: formatCurrencyAmount(
-                              prefix: baseCurrency.prefix,
-                              value: item.baseBalance,
-                              symbol: baseCurrency.symbol,
-                              accuracy: baseCurrency.accuracy,
-                            ),
-                            secondaryText:
-                                '${item.assetBalance} ${item.symbol}',
-                            onTap: () => navigateToWallet(context, item),
-                            color: colors.black,
-                            removeDivider: item == fiatsWithoutBalance.last,
-                          ),
-                      ],
-                      if (!zeroBalanceWalletsEmpty(fiatsWithoutBalance))
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 27.5,
-                          ),
-                          child: Center(
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () => showZeroBalanceWallets.state =
-                                  !showZeroBalanceWallets.state,
-                              child: Text(
-                                showZeroBalanceWallets.state
-                                    ? 'Hide zero wallets'
-                                    : 'Show all wallets',
-                                style: sBodyText2Style,
+                          if (showZeroBalanceWallets.state) ...[
+                            const PortfolioDivider(),
+                            for (final item in indicesWithoutBalance)
+                              SWalletItem(
+                                decline: item.dayPercentChange.isNegative,
+                                icon: SNetworkSvg24(
+                                  url: item.iconUrl,
+                                ),
+                                primaryText: item.description,
+                                amount: formatCurrencyAmount(
+                                  prefix: baseCurrency.prefix,
+                                  value: item.baseBalance,
+                                  symbol: baseCurrency.symbol,
+                                  accuracy: baseCurrency.accuracy,
+                                ),
+                                secondaryText:
+                                    '${item.assetBalance} ${item.symbol}',
+                                onTap: () {
+                                  navigatorPush(
+                                    context,
+                                    MarketDetails(
+                                      marketItem: marketItemFrom(
+                                        marketItems,
+                                        item.symbol,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                color: colors.black,
+                                removeDivider:
+                                    item == indicesWithoutBalance.last,
+                              ),
+                          ],
+                          if (!zeroBalanceWalletsEmpty(indicesWithoutBalance))
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 27.5,
+                              ),
+                              child: Center(
+                                child: InkWell(
+                                  splashColor: Colors.transparent,
+                                  onTap: () => showZeroBalanceWallets.state =
+                                      !showZeroBalanceWallets.state,
+                                  child: Text(
+                                    showZeroBalanceWallets.state
+                                        ? 'Hide zero wallets'
+                                        : 'Show all wallets',
+                                    style: sBodyText2Style,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
+                        ],
+                      ),
+                    if (fiatsWithBalance.isNotEmpty)
+                      ListView(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          for (final item in fiatsWithBalance)
+                            SWalletItem(
+                              decline: item.dayPercentChange.isNegative,
+                              icon: SNetworkSvg24(
+                                url: item.iconUrl,
+                              ),
+                              primaryText: item.description,
+                              amount: formatCurrencyAmount(
+                                prefix: baseCurrency.prefix,
+                                value: item.baseBalance,
+                                symbol: baseCurrency.symbol,
+                                accuracy: baseCurrency.accuracy,
+                              ),
+                              secondaryText:
+                                  '${item.assetBalance} ${item.symbol}',
+                              onTap: () => navigateToWallet(context, item),
+                              removeDivider: item == fiatsWithBalance.last,
+                            ),
+                          if (showZeroBalanceWallets.state) ...[
+                            const PortfolioDivider(),
+                            for (final item in fiatsWithoutBalance)
+                              SWalletItem(
+                                decline: item.dayPercentChange.isNegative,
+                                icon: SNetworkSvg24(
+                                  url: item.iconUrl,
+                                ),
+                                primaryText: item.description,
+                                amount: formatCurrencyAmount(
+                                  prefix: baseCurrency.prefix,
+                                  value: item.baseBalance,
+                                  symbol: baseCurrency.symbol,
+                                  accuracy: baseCurrency.accuracy,
+                                ),
+                                secondaryText:
+                                    '${item.assetBalance} ${item.symbol}',
+                                onTap: () => navigateToWallet(context, item),
+                                color: colors.black,
+                                removeDivider: item == fiatsWithoutBalance.last,
+                              ),
+                          ],
+                          if (!zeroBalanceWalletsEmpty(fiatsWithoutBalance))
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 27.5,
+                              ),
+                              child: Center(
+                                child: InkWell(
+                                  splashColor: Colors.transparent,
+                                  onTap: () => showZeroBalanceWallets.state =
+                                      !showZeroBalanceWallets.state,
+                                  child: Text(
+                                    showZeroBalanceWallets.state
+                                        ? 'Hide zero wallets'
+                                        : 'Show all wallets',
+                                    style: sBodyText2Style,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

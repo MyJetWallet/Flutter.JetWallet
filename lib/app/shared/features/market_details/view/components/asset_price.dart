@@ -29,13 +29,20 @@ class AssetPrice extends HookWidget {
     final chart = useProvider(chartNotipod);
     final baseCurrency = useProvider(baseCurrencyPod);
 
-    return Text(
-      _price(
-        marketItem,
-        chart,
-        baseCurrency,
+    return SizedBox(
+      height: 40,
+      child: Baseline(
+        baseline: 40.5,
+        baselineType: TextBaseline.alphabetic,
+        child: Text(
+          _price(
+            marketItem,
+            chart,
+            baseCurrency,
+          ),
+          style: sTextH2Style,
+        ),
       ),
-      style: sTextH2Style,
     );
   }
 

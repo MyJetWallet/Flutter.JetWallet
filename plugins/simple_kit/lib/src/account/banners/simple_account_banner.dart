@@ -30,7 +30,7 @@ class SimpleAccountBanner extends StatelessWidget {
           left: 20,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.0),
+          borderRadius: BorderRadius.circular(16),
           color: color,
         ),
         child: Row(

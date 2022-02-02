@@ -24,6 +24,7 @@ class MarketReferenceModel with _$MarketReferenceModel {
     required String associateAsset,
     required String associateAssetPair,
     required int weight,
+    required String startMarketTime,
   }) = _MarketReferenceModel;
 
   factory MarketReferenceModel.fromJson(Map<String, dynamic> json) =>

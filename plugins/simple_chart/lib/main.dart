@@ -1,51 +1,53 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import './simple_chart.dart';
 
-void main() => runApp(MyApp());
+bool showAnimation = false;
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
-      home: FutureBuilder(
-        future: _mockCandles(context),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<CandleModel>> snapshot) {
-          if (snapshot.hasData) {
-            return Chart(
-              onResolutionChanged: (resolution) {},
-              onChartTypeChanged: (chartType) {},
-              onCandleSelected: (candleEntity) {},
-              candles: snapshot.data!,
-              candleResolution: Period.day,
-              chartHeight: 0,
-              chartWidgetHeight: 0,
-              isAssetChart: true,
-            );
-          } else {
-            return Container();
-          }
-        },
-      ),
-    );
-  }
-
-  Future<List<CandleModel>> _mockCandles(BuildContext context) async {
-    final data = await DefaultAssetBundle.of(context)
-        .loadString('assets/candles_mock.json');
-    final newCandles = (json.decode(data) as List)
-        .map((e) => CandleModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-    return newCandles;
-  }
-}
+// void main() => runApp(MyApp());
+//
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.grey,
+//       ),
+//       home: FutureBuilder(
+//         future: _mockCandles(context),
+//         builder:
+//             (BuildContext context, AsyncSnapshot<List<CandleModel>> snapshot)
+//             {
+//           if (snapshot.hasData) {
+//             return Chart(
+//               onResolutionChanged: (resolution) {},
+//               onChartTypeChanged: (chartType) {},
+//               onCandleSelected: (candleEntity) {},
+//               candles: snapshot.data!,
+//               candleResolution: Period.day,
+//               chartHeight: 0,
+//               chartWidgetHeight: 0,
+//               isAssetChart: true,
+//               animationController: AnimationController(),
+//             );
+//           } else {
+//             return Container();
+//           }
+//         },
+//       ),
+//     );
+//   }
+//
+//   Future<List<CandleModel>> _mockCandles(BuildContext context) async {
+//     final data = await DefaultAssetBundle.of(context)
+//         .loadString('assets/candles_mock.json');
+//     final newCandles = (json.decode(data) as List)
+//         .map((e) => CandleModel.fromJson(e as Map<String, dynamic>))
+//         .toList();
+//     return newCandles;
+//   }
+// }
 
 class Chart extends StatefulWidget {
   const Chart({
@@ -79,8 +81,33 @@ class Chart extends StatefulWidget {
   _ChartState createState() => _ChartState();
 }
 
-class _ChartState extends State<Chart> {
+class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
+  late final AnimationController animationController = AnimationController(
+    duration: const Duration(seconds: 4),
+    vsync: this,
+  );
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(5.0, 0.0),
+  ).animate(
+    CurvedAnimation(
+      parent: animationController,
+      curve: Curves.linear,
+    ),
+  );
   ChartInfoModel? _chartInfo;
+
+  @override
+  void initState() {
+    animationController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +128,15 @@ class _ChartState extends State<Chart> {
       showYear = true;
     } else {
       final dateDifference = currentDate.difference(localCreationDate).inHours;
-      showWeek = dateDifference > const Duration(days: 1).inHours;
-      showMonth = dateDifference > const Duration(days: 7).inHours;
-      showYear = dateDifference > const Duration(days: 90).inHours;
+      showWeek = dateDifference > const Duration(days: 7).inHours;
+      showMonth = dateDifference > const Duration(days: 30).inHours;
+      showYear = dateDifference > const Duration(days: 365).inHours;
+    }
+
+    if (showAnimation) {
+      animationController.reset();
+      animationController.forward();
+      showAnimation = false;
     }
 
     return SizedBox(
@@ -116,24 +149,36 @@ class _ChartState extends State<Chart> {
             SizedBox(
               height: widget.chartHeight,
               width: screenWidth,
-              child: KChartWidget(
-                widget.candles,
-                candleType: widget.chartType,
-                candleWidth: candleWidth,
-                candleResolution: widget.candleResolution,
-                onCandleSelected: (ChartInfoModel? chartInfo) {
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
-                    _chartInfo = chartInfo;
-                    widget.onCandleSelected(_chartInfo);
+              child: Stack(
+                children: [
+                  KChartWidget(
+                    widget.candles,
+                    candleType: widget.chartType,
+                    candleWidth: candleWidth,
+                    candleResolution: widget.candleResolution,
+                    onCandleSelected: (ChartInfoModel? chartInfo) {
+                      WidgetsBinding.instance!.addPostFrameCallback((_) {
+                        _chartInfo = chartInfo;
+                        widget.onCandleSelected(_chartInfo);
 
-                    setState(() {
-                      _chartInfo = chartInfo;
-                      widget.onCandleSelected(_chartInfo);
-                    });
-                  });
-                },
-                selectedCandlePadding: widget.selectedCandlePadding,
-                isAssetChart: widget.isAssetChart,
+                        setState(() {
+                          _chartInfo = chartInfo;
+                          widget.onCandleSelected(_chartInfo);
+                        });
+                      });
+                    },
+                    selectedCandlePadding: widget.selectedCandlePadding,
+                    isAssetChart: widget.isAssetChart,
+                  ),
+                  SlideTransition(
+                    position: _offsetAnimation,
+                    child: Container(
+                      color: Colors.white,
+                      height: widget.isAssetChart ? 230 : 190,
+                      width: screenWidth,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(
@@ -150,7 +195,6 @@ class _ChartState extends State<Chart> {
                     onTap: widget.candleResolution == Period.day
                         ? null
                         : () {
-                            // setState(() {});
                             widget.onResolutionChanged(Period.day);
                           },
                   ),
@@ -161,7 +205,6 @@ class _ChartState extends State<Chart> {
                       onTap: widget.candleResolution == Period.week
                           ? null
                           : () {
-                              // setState(() {});
                               widget.onResolutionChanged(Period.week);
                             },
                     ),
@@ -172,7 +215,6 @@ class _ChartState extends State<Chart> {
                       onTap: widget.candleResolution == Period.month
                           ? null
                           : () {
-                              // setState(() {});
                               widget.onResolutionChanged(Period.month);
                             },
                     ),
@@ -183,7 +225,6 @@ class _ChartState extends State<Chart> {
                       onTap: widget.candleResolution == Period.year
                           ? null
                           : () {
-                              // setState(() {});
                               widget.onResolutionChanged(Period.year);
                             },
                     ),
@@ -193,7 +234,6 @@ class _ChartState extends State<Chart> {
                     onTap: widget.candleResolution == Period.all
                         ? null
                         : () {
-                            // setState(() {});
                             widget.onResolutionChanged(Period.all);
                           },
                   ),
