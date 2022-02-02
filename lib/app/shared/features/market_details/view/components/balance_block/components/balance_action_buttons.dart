@@ -41,7 +41,7 @@ class BalanceActionButtons extends HookWidget {
               name: _buyButtonText(),
               onTap: () {
                 if (kycState.depositStatus ==
-                    kycOperationStatus(KycOperationStatus.allowed)) {
+                    kycOperationStatus(KycStatus.allowed)) {
                   navigatorPush(
                     context,
                     CurrencyBuy(
@@ -73,7 +73,7 @@ class BalanceActionButtons extends HookWidget {
                 name: 'Sell',
                 onTap: () {
                   if (kycState.sellStatus ==
-                      kycOperationStatus(KycOperationStatus.allowed)) {
+                      kycOperationStatus(KycStatus.allowed)) {
                     navigatorPush(
                       context,
                       CurrencySell(
