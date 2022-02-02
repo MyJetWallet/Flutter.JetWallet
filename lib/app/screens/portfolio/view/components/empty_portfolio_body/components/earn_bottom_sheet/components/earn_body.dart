@@ -3,13 +3,19 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../shared/models/currency_model.dart';
 import '../../../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/earn_advantages.dart';
 import 'components/earn_body_header.dart';
 import 'components/earn_currencys_item.dart';
 
 class EarnBody extends HookWidget {
-  const EarnBody({Key? key}) : super(key: key);
+  const EarnBody({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
+
+  final Function(CurrencyModel) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +54,37 @@ class EarnBody extends HookWidget {
         for (var element in currencies) ...[
           EarnCurrencyItem(
             element: element,
-            onTap: () {
-
-            },
+            onTap: () => onTap(element),
+              // Navigator.pop(context);
+              // sShowMenuActionSheet(
+              //   context: context,
+              //   onBuy: () {},
+              //   onSell: () {},
+              //   onConvert: () {},
+              //   onDeposit: () {},
+              //   onWithdraw: () {},
+              //   onSend: () {},
+              //   onReceive: () {},
+              //   onDissmis: () {},
+              //   whenComplete: () {},
+              //   transitionAnimationController: animationController,
+              //   isNotEmptyBalance: isNotEmptyBalance,
+              // );
+              //           sShowMenuActionSheet(
+              //           context: context,
+              // isNotEmptyBalance: isNotEmptyBalance,
+              // onBuy: () {
+              // if (kycState.depositStatus ==
+              // kycOperationStatus(KycOperationStatus.kycRequired)) {
+              // showBuyAction(context);
+              // } else {
+              // Navigator.of(context).pop();
+              // kycAlertHandler.handle(
+              // status: kycState.depositStatus,
+              // kycVerified: kycState,
+              // isProgress: kycState.verificationInProgress,
+              // currentNavigate: () => showBuyAction(context),
+              // );
           ),
         ],
       ],

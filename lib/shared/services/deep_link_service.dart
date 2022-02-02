@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../app/shared/components/show_start_earn_options.dart';
 import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../app/shared/features/send_by_phone/provider/send_by_phone_dynamic_link_stpod.dart';
+import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
 import '../../auth/screens/login/login.dart';
 import '../../auth/screens/reset_password/view/reset_password.dart';
@@ -131,6 +134,17 @@ class DeepLinkService {
 
   void _depositStartCommand() {
     final context = read(sNavigatorKeyPod).currentContext!;
-    earnBottomSheet(context);
+
+    showStartEarnBottomSheet(
+      context: context,
+      onTap: (CurrencyModel currency) {
+        Navigator.pop(context);
+
+        showStartEarnOptions(
+          currency: currency,
+          read: read,
+        );
+      },
+    );
   }
 }
