@@ -30,7 +30,7 @@ void showStartEarnOptions({
       SActionItem(
         onTap: () {
           if (kycState.depositStatus ==
-              kycOperationStatus(KycOperationStatus.allowed)) {
+              kycOperationStatus(KycStatus.allowed)) {
             navigatorPushReplacement(
               context,
               CurrencyBuy(
