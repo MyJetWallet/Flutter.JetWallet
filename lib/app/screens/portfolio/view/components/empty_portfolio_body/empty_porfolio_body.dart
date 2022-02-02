@@ -8,8 +8,8 @@ import '../../../../../shared/helpers/format_currency_string_amount.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import 'components/earn_bottom_sheet/earn_bottom_sheet.dart';
-import 'components/empty_portfolio_body_header_text.dart';
 import 'components/empty_portfolio_body_image.dart';
+import 'components/empty_portfolio_body_title.dart';
 
 class EmptyPortfolioBody extends HookWidget {
   const EmptyPortfolioBody({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class EmptyPortfolioBody extends HookWidget {
               const SpaceH36(),
               const EmptyPortfolioBodyImage(),
               const SpaceH56(),
-              const EmptyPortfolioBodyHeaderText(),
+              const EmptyPortfolioBodyTitle(),
               const SpaceH17(),
               Text(
                 'Let you crypto work for you!\nEarn, Trade and Withdraw with'

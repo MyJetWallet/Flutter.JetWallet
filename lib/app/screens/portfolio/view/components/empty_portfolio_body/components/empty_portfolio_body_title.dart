@@ -6,8 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../../helper/max_currency_apy.dart';
 
-class EmptyPortfolioBodyHeaderText extends HookWidget {
-  const EmptyPortfolioBodyHeaderText({Key? key}) : super(key: key);
+class EmptyPortfolioBodyTitle extends HookWidget {
+  const EmptyPortfolioBodyTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

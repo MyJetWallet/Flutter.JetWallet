@@ -62,7 +62,9 @@ class _PortfolioState extends State<Portfolio>
 
     if (balanceEmpty) {
       return const SPageFrame(
-        header: PortfolioWithBalanceHeader(),
+        header: PortfolioWithBalanceHeader(
+          emptyBalance: true,
+        ),
         child: EmptyPortfolioBody(),
       );
     } else {
