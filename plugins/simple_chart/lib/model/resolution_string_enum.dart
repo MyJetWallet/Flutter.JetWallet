@@ -7,6 +7,10 @@ class Period {
   static const String all = 'All';
 }
 
+// 0 - minutes
+// 1 - hours
+// 2 - days
+// 3 - months
 class Timeframe {
   static const int hour = 0;
   static const int day = 0;
@@ -19,8 +23,8 @@ class Timeframe {
 class MergeCandlesCount {
   static const int hour = 0;
   static const int day = 15;
-  static const int week = 0;
-  static const int month = 4;
-  static const int year = 7;
+  static const int week = 2;
+  static const int month = 8;
+  static const int year = 4;
   static const int all = 7;
 }

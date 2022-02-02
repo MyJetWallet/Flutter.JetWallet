@@ -9,6 +9,7 @@ import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../chart/notifier/chart_notipod.dart';
+import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
@@ -36,6 +37,7 @@ class MarketDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final marketInfo = useProvider(
       marketInfoFpod(
         marketItem.associateAsset,
@@ -55,22 +57,30 @@ class MarketDetails extends HookWidget {
     );
     final newsInit = useProvider(marketNewsInitFpod(marketItem.id));
     final news = useProvider(marketNewsNotipod);
+    final chart = useProvider(
+      chartNotipod,
+    );
     useProvider(watchlistIdsNotipod);
 
     return SPageFrame(
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '${marketItem.name} (${marketItem.id})',
-          showStarButton: true,
-          isStarSelected:
-              watchlistIdsN.isInWatchlist(marketItem.associateAsset),
-          onStarButtonTap: () {
-            if (watchlistIdsN.isInWatchlist(marketItem.associateAsset)) {
-              watchlistIdsN.removeFromWatchlist(marketItem.associateAsset);
-            } else {
-              watchlistIdsN.addToWatchlist(marketItem.associateAsset);
-            }
-          },
+      header: Material(
+        color: chart.union != const ChartUnion.loading()
+            ? Colors.transparent
+            : colors.grey5,
+        child: SPaddingH24(
+          child: SSmallHeader(
+            title: '${marketItem.name} (${marketItem.id})',
+            showStarButton: true,
+            isStarSelected:
+                watchlistIdsN.isInWatchlist(marketItem.associateAsset),
+            onStarButtonTap: () {
+              if (watchlistIdsN.isInWatchlist(marketItem.associateAsset)) {
+                watchlistIdsN.removeFromWatchlist(marketItem.associateAsset);
+              } else {
+                watchlistIdsN.addToWatchlist(marketItem.associateAsset);
+              }
+            },
+          ),
         ),
       ),
       bottomNavigationBar: BalanceBlock(
@@ -79,22 +89,37 @@ class MarketDetails extends HookWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 104,
-              child: Column(
-                children: [
-                  const SpaceH9(),
-                  AssetPrice(
-                    assetId: marketItem.associateAsset,
-                  ),
-                  AssetDayChange(
-                    assetId: marketItem.associateAsset,
-                  ),
-                ],
+            if (chart.union != const ChartUnion.loading())
+              SizedBox(
+                height: 104,
+                child: Column(
+                  children: [
+                    AssetPrice(
+                      assetId: marketItem.associateAsset,
+                    ),
+                    AssetDayChange(
+                      assetId: marketItem.associateAsset,
+                    ),
+                  ],
+                ),
               ),
-            ),
+            if (chart.union == const ChartUnion.loading())
+              Container(
+                height: 104,
+                width: double.infinity,
+                color: colors.grey5,
+                child: Column(
+                  children: const [
+                    SpaceH17(),
+                    SSkeletonTextLoader(height: 24, width: 152),
+                    SpaceH10(),
+                    SSkeletonTextLoader(height: 16, width: 80),
+                    SpaceH37(),
+                  ],
+                ),
+              ),
             AssetChart(
-              marketItem.associateAssetPair,
+              marketItem,
               (ChartInfoModel? chartInfo) {
                 chartN.updateSelectedCandle(chartInfo?.right);
               },

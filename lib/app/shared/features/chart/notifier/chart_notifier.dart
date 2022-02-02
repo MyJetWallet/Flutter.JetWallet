@@ -1,17 +1,9 @@
+import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
-import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../service/services/chart/model/candles_request_model.dart';
-import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
-import '../../../../../shared/providers/service_providers.dart';
-import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../helper/format_merge_candles_count.dart';
-import '../helper/format_resolution.dart';
-import '../helper/prepare_candles_from.dart';
-import '../helper/time_length_from.dart';
 import 'chart_state.dart';
 import 'chart_union.dart';
 
@@ -20,7 +12,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
     required this.read,
   }) : super(
           const ChartState(
-            candles: [],
+            candles: {},
             type: ChartType.line,
             resolution: Period.day,
           ),
@@ -35,15 +27,16 @@ class ChartNotifier extends StateNotifier<ChartState> {
 
     try {
       _updateResolution(resolution);
-      state = state.copyWith(union: const Loading());
-
-      final model = WalletHistoryRequestModel(
-        targetAsset: read(baseCurrencyPod).symbol,
-        period: timeLengthFrom(resolution),
-      );
-
-      final walletHistory = await read(chartServicePod).walletHistory(model);
-      updateCandles(candlesFrom(walletHistory.graph));
+      showAnimation = true;
+      // state = state.copyWith(union: const Loading());
+      //
+      // final model = WalletHistoryRequestModel(
+      //   targetAsset: read(baseCurrencyPod).symbol,
+      //   period: timeLengthFrom(resolution),
+      // );
+      //
+      // final walletHistory = await read(chartServicePod).walletHistory(model);
+      // updateCandles(candlesFrom(walletHistory.graph));
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
 
@@ -58,23 +51,24 @@ class ChartNotifier extends StateNotifier<ChartState> {
 
     try {
       _updateResolution(resolution);
-      state = state.copyWith(union: const Loading());
-
-      final toDate = DateTime.now().toUtc();
-      final depth = DataFeedUtil.calculateHistoryDepth(resolution);
-      final fromDate = toDate.subtract(depth.intervalBackDuration);
-
-      final model = CandlesRequestModel(
-        candleId: instrumentId,
-        type: timeFrameFrom(resolution),
-        bidOrAsk: 0,
-        fromDate: fromDate.millisecondsSinceEpoch,
-        toDate: toDate.millisecondsSinceEpoch,
-        mergeCandlesCount: mergeCandlesCountFrom(resolution),
-      );
-
-      final candles = await read(chartServicePod).candles(model);
-      updateCandles(candles.candles);
+      showAnimation = true;
+      // state = state.copyWith(union: const Loading());
+      //
+      // final toDate = DateTime.now().toUtc();
+      // final depth = DataFeedUtil.calculateHistoryDepth(resolution);
+      // final fromDate = toDate.subtract(depth.intervalBackDuration);
+      //
+      // final model = CandlesRequestModel(
+      //   candleId: instrumentId,
+      //   type: timeFrameFrom(resolution),
+      //   bidOrAsk: 0,
+      //   fromDate: fromDate.millisecondsSinceEpoch,
+      //   toDate: toDate.millisecondsSinceEpoch,
+      //   mergeCandlesCount: mergeCandlesCountFrom(resolution),
+      // );
+      //
+      // final candles = await read(chartServicePod).candles(model);
+      // updateCandles(candles.candles);
     } catch (e) {
       _logger.log(stateFlow, 'fetchAssetCandles', e);
 
@@ -84,8 +78,12 @@ class ChartNotifier extends StateNotifier<ChartState> {
     }
   }
 
-  void updateCandles(List<CandleModel> candles) {
+  void updateCandles(Map<String, List<CandleModel>> candles) {
     _logger.log(notifier, 'updateCandles');
+
+    showAnimation = true;
+
+    if (!mounted) return;
 
     state = state.copyWith(
       candles: candles,

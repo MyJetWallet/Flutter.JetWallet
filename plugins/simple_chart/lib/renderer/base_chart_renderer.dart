@@ -37,7 +37,9 @@ abstract class BaseChartRenderer<T> {
     ..strokeWidth = 0.5
     ..color = ChartColors.gridColor;
 
-  double getY(double y) => (maxValue - y) * scaleY! + chartRect!.top;
+  double getY(double y) {
+    return (maxValue - y) * scaleY! + chartRect!.top;
+  }
 
   String format(double n) {
     return NumberUtil.format(n);

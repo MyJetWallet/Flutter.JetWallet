@@ -14,6 +14,8 @@ const earnGroupImageAsset = 'assets/images/earn_group.png';
 const walletGreenBackgroundImageAsset =
     'assets/images/green_wallet_gradient.svg';
 const walletRedBackgroundImageAsset = 'assets/images/red_wallet_gradient.svg';
+const greenPortfolioImageAsset = 'assets/images/green_portfolio_gradient.svg';
+const redPortfolioImageAsset = 'assets/images/red_portfolio_gradient_.svg';
 
 // Onboarding images
 const buyCryptoImageAsset = 'assets/images/buy_crypto.png';

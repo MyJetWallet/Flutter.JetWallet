@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
+import '../../../../../shared/features/chart/notifier/chart_union.dart';
 import '../../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
 import '../../../../../shared/features/rewards/view/rewards.dart';
 
@@ -14,9 +16,15 @@ class PortfolioWithBalanceHeader extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final gift = useProvider(referralGiftPod);
+    final chart = useProvider(
+      chartNotipod,
+    );
 
-    return SizedBox(
+    return Container(
       height: 120,
+      color: chart.union != const ChartUnion.loading()
+          ? Colors.transparent
+          : colors.grey5,
       child: Column(
         children: [
           const SpaceH64(),

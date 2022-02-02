@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
 
 import '../../../../../../simple_kit.dart';
 import '../../../../../colors/view/simple_colors_light.dart';
@@ -26,11 +25,7 @@ class LoaderContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              width: 24.0,
-              height: 24.0,
-              child: RiveAnimation.asset(loadingAnimationAsset),
-            ),
+            const LoaderSpinner(),
             Baseline(
               baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
