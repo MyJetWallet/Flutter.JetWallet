@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CopyButton extends StatelessWidget {
   const CopyButton({
@@ -20,9 +19,9 @@ class CopyButton extends StatelessWidget {
           ),
         );
       },
-      child: Icon(
+      child: const Icon(
         Icons.copy,
-        size: 18.r,
+        size: 18.0,
       ),
     );
   }

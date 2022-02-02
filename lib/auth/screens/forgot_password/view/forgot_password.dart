@@ -3,33 +3,49 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../shared/helpers/get_args.dart';
 import '../notifier/forgot_password_notipod.dart';
 import '../notifier/forgot_password_state.dart';
 import '../notifier/forgot_password_union.dart';
 import 'confirm_password_reset.dart';
+
+@immutable
+class ForgotPasswordArgs {
+  const ForgotPasswordArgs({
+    required this.email,
+  });
+
+  final String email;
+}
 
 class ForgotPassword extends HookWidget {
   const ForgotPassword({Key? key}) : super(key: key);
 
   static const routeName = '/forgot_password';
 
-  static Future push(BuildContext context) {
-    return Navigator.pushNamed(context, routeName);
+  static Future push({
+    required BuildContext context,
+    required ForgotPasswordArgs args,
+  }) {
+    return Navigator.pushNamed(context, routeName, arguments: args);
   }
 
   @override
   Widget build(BuildContext context) {
+    final args = getArgs(context) as ForgotPasswordArgs;
+
     final colors = useProvider(sColorPod);
-    final forgot = useProvider(forgotPasswordNotipod);
-    final forgotN = useProvider(forgotPasswordNotipod.notifier);
+    final forgot = useProvider(forgotPasswordNotipod(args));
+    final forgotN = useProvider(forgotPasswordNotipod(args).notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
+
     useListenable(loader.value);
 
     return ProviderListener<ForgotPasswordState>(
-      provider: forgotPasswordNotipod,
+      provider: forgotPasswordNotipod(args),
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
@@ -81,6 +97,7 @@ class ForgotPassword extends HookWidget {
                   child: SStandardField(
                     labelText: 'Email Address',
                     autofocus: true,
+                    initialValue: forgot.email,
                     autofillHints: const [AutofillHints.email],
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {

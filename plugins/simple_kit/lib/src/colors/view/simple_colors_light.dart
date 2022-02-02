@@ -47,4 +47,16 @@ class SColorsLight implements SimpleColors {
 
   @override
   Color yellowLight = const Color(0xFFFAF3E0);
+
+  @override
+  Color brownLight = const Color(0xFFFFEFC2);
+
+  @override
+  Color violetLight = const Color(0xFFCACCFC);
+
+  @override
+  Color greenLight2 = const Color(0xFFB9F0F0);
+
+  @override
+  Color blueLight2 = const Color(0xFFB8D4FF);
 }

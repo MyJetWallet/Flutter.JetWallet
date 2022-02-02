@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../app/shared/features/kyc/helper/kyc_alert_handler.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../service/services/authentication/service/authentication_service.dart';
 import '../../service/services/blockchain/service/blockchain_service.dart';
@@ -11,6 +13,8 @@ import '../../service/services/change_password/service/change_password_service.d
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
+import '../../service/services/kyc/service/kyc_service.dart';
+import '../../service/services/kyc_documents/kyc_documents_service.dart';
 import '../../service/services/market_info/market_info_service.dart';
 import '../../service/services/market_news/market_news_service.dart';
 import '../../service/services/news/news_service.dart';
@@ -26,6 +30,7 @@ import '../../service/services/validation/service/validation_service.dart';
 import '../../service/services/wallet/service/wallet_service.dart';
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
+import '../dio/image_dio.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
@@ -48,6 +53,12 @@ final dioPod = Provider<Dio>((ref) {
 
 final dioWithoutInterceptorsPod = Provider<Dio>((ref) {
   return dioWithoutInterceptors(ref.read);
+});
+
+final imageDioPod = Provider<Dio>((ref) {
+  final authInfo = ref.watch(authInfoNotipod);
+
+  return imageDio(authInfo, ref.read);
 });
 
 final authServicePod = Provider<AuthenticationService>((ref) {
@@ -162,6 +173,25 @@ final profileServicePod = Provider<ProfileService>((ref) {
   final dio = ref.watch(dioPod);
 
   return ProfileService(dio);
+});
+
+final kycAlertHandlerPod =
+    Provider.family<KycAlertHandler, BuildContext>((ref, context) {
+  final colors = ref.read(sColorPod);
+
+  return KycAlertHandler(context: context, colors: colors);
+});
+
+final kycServicePod = Provider<KycService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return KycService(dio);
+});
+
+final kycDocumentsServicePod = Provider<KycDocumentsService>((ref) {
+  final dio = ref.watch(imageDioPod);
+
+  return KycDocumentsService(dio);
 });
 
 final changePasswordSerivcePod = Provider<ChangePasswordService>((ref) {

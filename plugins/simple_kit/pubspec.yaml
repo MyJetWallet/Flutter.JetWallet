@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
     
-  flutter_screenutil: ^5.0.0+2 # responsive support
   flutter_riverpod: ^0.14.0+3 # state management
   flutter_hooks: ^0.18.0 # manages a Widget life-cycles
   flutter_svg: ^0.22.0 # SVG rendering and widget library
@@ -94,6 +93,8 @@ flutter:
     - assets/icons/light/24x24/complete/
     - assets/icons/light/24x24/blue_right_arrow/
     - assets/icons/light/24x24/erase/
+    - assets/icons/light/24x24/kyc/
+    - assets/icons/light/24x24/selfie/
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/
     - assets/icons/light/36x36/keyboard_erase/

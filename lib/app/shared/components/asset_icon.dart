@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AssetIcon extends StatelessWidget {
@@ -18,12 +17,12 @@ class AssetIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SvgPicture.network(
       imageUrl,
-      width: width ?? 30.r,
-      height: height ?? 30.r,
+      width: width ?? 30.0,
+      height: height ?? 30.0,
       placeholderBuilder: (_) {
-        return Icon(
+        return const Icon(
           Icons.error,
-          size: 30.r,
+          size: 30.0,
         );
       },
     );

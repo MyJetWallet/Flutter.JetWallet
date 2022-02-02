@@ -13,7 +13,7 @@ import '../send_by_phone_amount.dart';
 import 'components/send_helper_text.dart';
 import 'components/send_info_text.dart';
 import 'components/show_contact_picker.dart';
-import 'components/show_dial_code_picker.dart';
+import 'components/show_dial_code_picker/show_dial_code_picker.dart';
 
 /// BASE FLOW: Input -> Amount -> Preview
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
