@@ -36,6 +36,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default(0.0) double baseCurrentEarnAmount,
     @Default('') String nextPaymentDate,
     @Default(0.0) double apy,
+    @Default(false) bool earnProgramEnabled,
   }) = _CurrencyModel;
 
   const CurrencyModel._();
