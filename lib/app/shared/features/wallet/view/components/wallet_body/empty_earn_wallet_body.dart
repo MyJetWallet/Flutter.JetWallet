@@ -5,6 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../screens/portfolio/helper/max_currency_apy.dart';
+import '../../../../../../screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../../../../components/show_start_earn_options.dart';
+import '../../../../../models/currency_model.dart';
 import '../../../../../providers/currencies_pod/currencies_pod.dart';
 import 'components/empty_wallet_balance_text.dart';
 
@@ -78,8 +81,23 @@ class EmptyEarnWalletBody extends HookWidget {
               const WidgetSpan(
                 child: SpaceW10(),
               ),
-              const WidgetSpan(
-                child: SInfoIcon(),
+              WidgetSpan(
+                child: InkWell(
+                  onTap: () {
+                    showStartEarnBottomSheet(
+                      context: context,
+                      onTap: (CurrencyModel currency) {
+                        Navigator.pop(context);
+
+                        showStartEarnOptions(
+                          currency: currency,
+                          read: context.read,
+                        );
+                      },
+                    );
+                  },
+                  child: const SInfoIcon(),
+                ),
               ),
             ],
           ),
