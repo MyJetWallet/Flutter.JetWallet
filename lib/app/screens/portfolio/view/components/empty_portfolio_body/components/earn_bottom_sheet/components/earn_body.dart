@@ -55,36 +55,6 @@ class EarnBody extends HookWidget {
           EarnCurrencyItem(
             element: element,
             onTap: () => onTap(element),
-              // Navigator.pop(context);
-              // sShowMenuActionSheet(
-              //   context: context,
-              //   onBuy: () {},
-              //   onSell: () {},
-              //   onConvert: () {},
-              //   onDeposit: () {},
-              //   onWithdraw: () {},
-              //   onSend: () {},
-              //   onReceive: () {},
-              //   onDissmis: () {},
-              //   whenComplete: () {},
-              //   transitionAnimationController: animationController,
-              //   isNotEmptyBalance: isNotEmptyBalance,
-              // );
-              //           sShowMenuActionSheet(
-              //           context: context,
-              // isNotEmptyBalance: isNotEmptyBalance,
-              // onBuy: () {
-              // if (kycState.depositStatus ==
-              // kycOperationStatus(KycOperationStatus.kycRequired)) {
-              // showBuyAction(context);
-              // } else {
-              // Navigator.of(context).pop();
-              // kycAlertHandler.handle(
-              // status: kycState.depositStatus,
-              // kycVerified: kycState,
-              // isProgress: kycState.verificationInProgress,
-              // currentNavigate: () => showBuyAction(context),
-              // );
           ),
         ],
       ],
