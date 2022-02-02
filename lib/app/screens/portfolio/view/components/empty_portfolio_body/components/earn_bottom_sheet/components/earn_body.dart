@@ -16,20 +16,26 @@ class EarnBody extends HookWidget {
     final currencies = useProvider(currenciesPod);
     final colors = useProvider(sColorPod);
 
-    return SPaddingH24(
-      child: Column(
-        children: [
-          const SpaceH33(),
-          EarnBodyHeader(
+    return Column(
+      children: [
+        const SpaceH33(),
+        SPaddingH24(
+          child: EarnBodyHeader(
             currencies: currencies,
             colors: colors,
           ),
-          const SpaceH32(),
-          const EarnAdvantages(),
-          const SpaceH32(),
-          const SDivider(),
-          const SpaceH32(),
-          Row(
+        ),
+        const SpaceH32(),
+        const SPaddingH24(
+          child: EarnAdvantages(),
+        ),
+        const SpaceH32(),
+        const SPaddingH24(
+          child: SDivider(),
+        ),
+        const SpaceH32(),
+        SPaddingH24(
+          child: Row(
             children: [
               Text(
                 'Start earning',
@@ -37,12 +43,17 @@ class EarnBody extends HookWidget {
               ),
             ],
           ),
-          const SpaceH24(),
-          for (var element in currencies) ...[
-            EarnCurrencysItem(element: element),
-          ],
+        ),
+        const SpaceH24(),
+        for (var element in currencies) ...[
+          EarnCurrencyItem(
+            element: element,
+            onTap: () {
+
+            },
+          ),
         ],
-      ),
+      ],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
 import '../../app/shared/features/send_by_phone/provider/send_by_phone_dynamic_link_stpod.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
@@ -30,6 +31,7 @@ const _confirmWithdraw = 'jw_withdrawal_email_confirm';
 const _confirmSendByPhone = 'jw_transfer_email_confirm';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
+const _depositStart = 'DepositStart';
 
 class DeepLinkService {
   DeepLinkService(this.read);
@@ -56,6 +58,8 @@ class DeepLinkService {
       _inviteFriendCommand();
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
+    } else if (command == _depositStart) {
+      _depositStartCommand();
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
@@ -123,5 +127,10 @@ class DeepLinkService {
     final referralCode = parameters[_code];
 
     storage.setString(referralCodeKey, referralCode);
+  }
+
+  void _depositStartCommand() {
+    final context = read(sNavigatorKeyPod).currentContext!;
+    earnBottomSheet(context);
   }
 }
