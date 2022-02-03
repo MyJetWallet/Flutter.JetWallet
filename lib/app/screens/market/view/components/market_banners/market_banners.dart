@@ -14,13 +14,14 @@ class MarketBanners extends StatefulHookWidget {
   State<MarketBanners> createState() => _MarketBannersState();
 }
 
-class _MarketBannersState extends State<MarketBanners> with AutomaticKeepAliveClientMixin{
-
+class _MarketBannersState extends State<MarketBanners>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final state = useProvider(campaignNotipod(true));
     final notifier = useProvider(campaignNotipod(true).notifier);
     final colors = useProvider(sColorPod);
