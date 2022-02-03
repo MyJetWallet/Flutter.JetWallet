@@ -206,7 +206,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
     canvas.drawPath(
       mLinePath,
       mLinePaint
-        ..strokeWidth = 2.0
+        ..strokeWidth = 2
         ..color = chartColor,
     );
     mLinePath.reset();

@@ -33,7 +33,8 @@ dependencies:
   timeago: ^3.1.0 # Date converter
   image_picker: ^0.8.4+4 # For selecting images from the Android and iOS image library
   mime_type: ^1.0.0 # MIME type library for Dart HTTP server applications
-  decimal: ^2.1.0
+  decimal: ^2.1.0 # deal with decimal numbers without losing precision
+  store_redirect: ^2.0.1 # Redirect to AppStore or GooglePlay
 
   # RESPONSIVE UI
   device_preview: ^0.7.4

@@ -40,7 +40,6 @@ class _KChartWidgetState extends State<KChartWidget>
   double _scaleX = 1.0;
   double _scrollX = 0.0;
   double _selectX = 0.0;
-  double _lastScale = 1.0;
   bool isScale = false;
   bool isDrag = false;
   bool isLongPress = false;
@@ -152,16 +151,16 @@ class _KChartWidgetState extends State<KChartWidget>
       // },
       // onHorizontalDragCancel: () => isDrag = false,
       onScaleStart: (_) {
-        isScale = true;
+        // isScale = true;
       },
       onScaleUpdate: (details) {
-        if (isDrag || isLongPress) return;
-        _scaleX = (_lastScale * details.scale).clamp(0.5, 2.2);
-        reRenderView();
+        // if (isDrag || isLongPress) return;
+        // _scaleX = (_lastScale * details.scale).clamp(0.5, 2.2);
+        // reRenderView();
       },
       onScaleEnd: (_) {
-        isScale = false;
-        _lastScale = _scaleX;
+        // isScale = false;
+        // _lastScale = _scaleX;
       },
       onLongPressStart: (details) {
         HapticFeedback.vibrate();
@@ -188,18 +187,17 @@ class _KChartWidgetState extends State<KChartWidget>
       },
       child: Stack(
         children: <Widget>[
-          // TODO(Vova): hide lines on Portfolio Chart
           if (!isLongPress && widget.isAssetChart)
             const DashedDivider(
-              topPadding: 20.0,
+              topPadding: 20,
             ),
           if (!isLongPress && widget.isAssetChart)
             const DashedDivider(
-              topPadding: 120.0,
+              topPadding: 120,
             ),
           if (!isLongPress && widget.isAssetChart)
             const DashedDivider(
-              topPadding: 220.0,
+              topPadding: 219,
             ),
           CustomPaint(
             size: Size.infinite,

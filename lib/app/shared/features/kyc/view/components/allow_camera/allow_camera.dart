@@ -9,14 +9,12 @@ import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../notifier/camera_permission/camera_permission_notipod.dart';
 import '../../../notifier/camera_permission/camera_permission_state.dart';
-import '../../../notifier/choose_documents/choose_documents_state.dart';
 
 class AllowCamera extends StatefulHookWidget {
   const AllowCamera({Key? key}) : super(key: key);
 
   static void push({
     required BuildContext context,
-    required DocumentsModel activeDocument,
   }) {
     navigatorPush(
       context,
@@ -26,7 +24,6 @@ class AllowCamera extends StatefulHookWidget {
 
   static void pushReplacement({
     required BuildContext context,
-    required DocumentsModel activeDocument,
   }) {
     navigatorPushReplacement(
       context,

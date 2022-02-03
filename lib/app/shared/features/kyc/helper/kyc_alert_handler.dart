@@ -30,14 +30,14 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycOperationStatus.kycRequired)) {
+    if (status == kycOperationStatus(KycStatus.kycRequired)) {
       _showKycRequiredAlert(
         kycVerified,
       );
-    } else if (status == kycOperationStatus(KycOperationStatus.kycInProgress)) {
+    } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
       _showVerifyingAlert();
     } else if (status ==
-        kycOperationStatus(KycOperationStatus.allowedWithKycAlert)) {
+        kycOperationStatus(KycStatus.allowedWithKycAlert)) {
       _showAllowedWithAlert(
         kycVerified,
         currentNavigate,

@@ -21,6 +21,7 @@ class MarketItemModel with _$MarketItemModel {
     required double assetBalance,
     required double baseBalance,
     required int accuracy,
+    required String startMarketTime,
     required AssetType type,
   }) = _MarketItemModel;
 

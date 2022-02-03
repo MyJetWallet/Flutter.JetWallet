@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../helpers/check_kyc_status.dart';
 
 import '../../../../providers/client_detail_pod/client_detail_spod.dart';
 import '../../model/kyc_operation_status_model.dart';
@@ -34,7 +35,7 @@ final kycNotipod =
       withdrawalStatus: clientDetailData.withdrawalStatus,
       requiredVerifications: requiredVerified,
       requiredDocuments: documents,
-      verificationInProgress: _kycInProgress(
+      verificationInProgress: kycInProgress(
         clientDetailData.depositStatus,
         clientDetailData.tradeStatus,
         clientDetailData.withdrawalStatus,
@@ -47,23 +48,3 @@ final kycNotipod =
     kycModel: value,
   );
 });
-
-bool _kycInProgress(
-  int depositStatus,
-  int sellStatus,
-  int withdrawalStatus,
-) {
-  if (depositStatus == kycOperationStatus(KycOperationStatus.kycInProgress)) {
-    return true;
-  }
-
-  if (sellStatus == kycOperationStatus(KycOperationStatus.kycInProgress)) {
-    return true;
-  }
-
-  if (withdrawalStatus ==
-      kycOperationStatus(KycOperationStatus.kycInProgress)) {
-    return true;
-  }
-  return false;
-}
