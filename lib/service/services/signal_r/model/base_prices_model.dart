@@ -12,7 +12,7 @@ class BasePricesModel with _$BasePricesModel {
   factory BasePricesModel.fromJson(Map<String, dynamic> json) =>
       _$BasePricesModelFromJson(json);
 
-  /// Takes previous snapshot of basePrices and 
+  /// Takes previous snapshot of basePrices and
   /// applies the new update to them
   factory BasePricesModel.fromNewPrices({
     required Map<String, dynamic> json,

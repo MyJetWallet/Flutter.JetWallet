@@ -14,14 +14,14 @@ final baseCurrencyPod = Provider.autoDispose<BaseCurrencyModel>((ref) {
 
   clientDetail.whenData((clientDetailData) {
     assets.whenData((assetsData) {
-      final asset = assetsData.assets.where((element) {
+      final elements = assetsData.assets.where((element) {
         return element.symbol == clientDetailData.baseAssetSymbol;
-      }).first;
+      });
 
       value = BaseCurrencyModel(
-        prefix: asset.prefixSymbol,
+        prefix: elements.isEmpty ? null : elements.first.prefixSymbol,
         symbol: clientDetailData.baseAssetSymbol,
-        accuracy: asset.accuracy.toInt(),
+        accuracy: elements.isEmpty ? 0 : elements.first.accuracy.toInt(),
       );
     });
   });

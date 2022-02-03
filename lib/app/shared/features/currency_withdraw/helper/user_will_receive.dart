@@ -1,4 +1,4 @@
-import '../../../helpers/input_helpers.dart';
+import '../../../helpers/truncate_zeros_from.dart';
 import '../../../models/currency_model.dart';
 
 /// Calculates amount that user will receive after
@@ -20,7 +20,7 @@ String userWillreceive({
     return '0 ${currency.symbol}';
   } else {
     final result = (value - fee).toStringAsFixed(currency.accuracy);
-    final truncated = truncateZerosFromInput(result);
+    final truncated = truncateZerosFrom(result);
 
     return '$truncated ${currency.symbol}';
   }

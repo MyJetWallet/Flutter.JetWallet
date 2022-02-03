@@ -6,6 +6,7 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
 import '../../../../helpers/input_helpers.dart';
+import '../../../../helpers/truncate_zeros_from.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -120,7 +121,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
       final conversion = amount * price;
 
       _updateTargetConversionValue(
-        truncateZerosFromInput(
+        truncateZerosFrom(
           conversion.toStringAsFixed(accuracy),
         ),
       );
@@ -142,7 +143,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
       );
 
       _updateBaseConversionValue(
-        truncateZerosFromInput(baseValue.toString()),
+        truncateZerosFrom(baseValue.toString()),
       );
     } else {
       _updateBaseConversionValue(zero);

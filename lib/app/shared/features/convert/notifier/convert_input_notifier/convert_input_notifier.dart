@@ -4,6 +4,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../helpers/input_helpers.dart';
+import '../../../../helpers/truncate_zeros_from.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../helper/remove_currency_from_list.dart';
@@ -187,11 +188,11 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   void _truncateZerosOfAssetAmount() {
     if (state.fromAssetEnabled) {
       _updateToAssetAmount(
-        truncateZerosFromInput(state.toAssetAmount),
+        truncateZerosFrom(state.toAssetAmount),
       );
     } else {
       _updateFromAssetAmount(
-        truncateZerosFromInput(state.fromAssetAmount),
+        truncateZerosFrom(state.fromAssetAmount),
       );
     }
   }
