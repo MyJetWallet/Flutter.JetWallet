@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../screens/market/helper/format_day_percentage_change.dart';
-import '../../../helpers/format_currency_amount.dart';
+import '../../../helpers/formatting/formatting.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
 
@@ -29,9 +29,9 @@ void showInterestRate({
               baseline: 28,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                formatCurrencyAmount(
+                volumeFormat(
                   prefix: baseCurrency.prefix,
-                  value: currency.currentPrice,
+                  decimal: currency.currentPrice,
                   accuracy: baseCurrency.accuracy,
                   symbol: baseCurrency.symbol,
                 ),
@@ -73,12 +73,7 @@ void showInterestRate({
             baseline: 46,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              formatCurrencyAmount(
-                prefix: baseCurrency.prefix,
-                value: currency.baseBalance,
-                accuracy: baseCurrency.accuracy,
-                symbol: baseCurrency.symbol,
-              ),
+              currency.volumeBaseBalance(baseCurrency),
               style: sTextH1Style,
             ),
           ),
@@ -91,12 +86,7 @@ void showInterestRate({
             baseline: 20,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              formatCurrencyAmount(
-                symbol: currency.symbol,
-                value: currency.assetBalance,
-                accuracy: currency.accuracy,
-                prefix: currency.prefixSymbol,
-              ),
+              currency.volumeBaseBalance(baseCurrency),
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -128,9 +118,9 @@ void showInterestRate({
               ),
               const Spacer(),
               Text(
-                formatCurrencyAmount(
+                volumeFormat(
                   prefix: baseCurrency.prefix,
-                  value: currency.baseTotalEarnAmount,
+                  decimal: currency.baseTotalEarnAmount,
                   accuracy: baseCurrency.accuracy,
                   symbol: baseCurrency.symbol,
                 ),
@@ -150,9 +140,9 @@ void showInterestRate({
             baseline: 14,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              formatCurrencyAmount(
+              volumeFormat(
                 symbol: currency.symbol,
-                value: currency.assetTotalEarnAmount,
+                decimal: currency.assetTotalEarnAmount,
                 accuracy: currency.accuracy,
                 prefix: currency.prefixSymbol,
               ),
@@ -187,9 +177,9 @@ void showInterestRate({
               child: Text(
                 '${DateFormat('d MMM').format(
                   DateTime.parse(currency.nextPaymentDate).toLocal(),
-                )}, ${formatCurrencyAmount(
+                )}, ${volumeFormat(
                   prefix: baseCurrency.prefix,
-                  value: currency.baseCurrentEarnAmount,
+                  decimal: currency.baseCurrentEarnAmount,
                   accuracy: baseCurrency.accuracy,
                   symbol: baseCurrency.symbol,
                 )}',
@@ -221,7 +211,7 @@ void showInterestRate({
               baseline: 26,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                '${currency.apy.toInt()}%',
+                '${currency.apy.toBigInt()}%',
                 style: sBodyText1Style,
               ),
             ),

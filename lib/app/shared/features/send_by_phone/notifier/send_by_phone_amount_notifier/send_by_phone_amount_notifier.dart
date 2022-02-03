@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -80,7 +81,7 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
       final baseValue = calculateBaseBalanceWithReader(
         read: read,
         assetSymbol: currency.symbol,
-        assetBalance: double.parse(state.amount),
+        assetBalance: Decimal.parse(state.amount),
       );
 
       _updateBaseConversionValue(

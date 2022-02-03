@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../service/services/signal_r/model/base_prices_model.dart';
@@ -10,12 +11,12 @@ import '../providers/signal_r/base_prices_spod.dart';
 /// destroys  the purpose of the function because I still need to reference
 /// dependencies of the function and the function was created
 /// to reduce them, abstract from them
-double calculateBaseBalanceWithReader({
+Decimal calculateBaseBalanceWithReader({
   required Reader read,
   required String assetSymbol,
-  required double assetBalance,
+  required Decimal assetBalance,
 }) {
-  var baseValue = 0.0;
+  var baseValue = Decimal.zero;
 
   read(basePricesSpod).whenData((data) {
     final baseCurrency = read(baseCurrencyPod);
@@ -26,7 +27,6 @@ double calculateBaseBalanceWithReader({
     );
 
     baseValue = calculateBaseBalance(
-      accuracy: baseCurrency.accuracy,
       assetSymbol: assetSymbol,
       assetBalance: assetBalance,
       assetPrice: assetPrice,
@@ -37,10 +37,9 @@ double calculateBaseBalanceWithReader({
   return baseValue;
 }
 
-double calculateBaseBalance({
-  required int accuracy,
+Decimal calculateBaseBalance({
   required String assetSymbol,
-  required double assetBalance,
+  required Decimal assetBalance,
   required BasePriceModel assetPrice,
   required String baseCurrencySymbol,
 }) {
@@ -48,9 +47,7 @@ double calculateBaseBalance({
     return assetBalance;
   }
 
-  final result = assetBalance * assetPrice.currentPrice;
-
-  return double.parse(result.toStringAsFixed(accuracy));
+  return assetBalance * assetPrice.currentPrice;
 }
 
 BasePriceModel basePriceFrom({
@@ -64,6 +61,8 @@ BasePriceModel basePriceFrom({
     orElse: () {
       return BasePriceModel(
         assetSymbol: assetSymbol,
+        currentPrice: Decimal.zero,
+        dayPriceChange: Decimal.zero,
       );
     },
   );

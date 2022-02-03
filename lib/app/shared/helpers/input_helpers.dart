@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/remove_chars_from.dart';
@@ -20,10 +21,10 @@ String valueBasedOnSelectedPercent({
   if (currency.isAssetBalanceEmpty) {
     return zero;
   } else if (selected == SelectedPercent.pct25) {
-    final value = currency.assetBalance * 0.25;
+    final value = currency.assetBalance * Decimal.parse('0.25');
     return '$value';
   } else if (selected == SelectedPercent.pct50) {
-    final value = currency.assetBalance * 0.50;
+    final value = currency.assetBalance * Decimal.parse('0.50');
     return '$value';
   } else if (selected == SelectedPercent.pct100) {
     final value = currency.assetBalance;
@@ -125,7 +126,7 @@ InputError onTradeInputErrorHandler(
   bool addressIsInternal = false,
 }) {
   if (input.isNotEmpty) {
-    final value = double.parse(input);
+    final value = Decimal.parse(input);
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
@@ -141,7 +142,7 @@ InputError onWithdrawInputErrorHandler(
   bool addressIsInternal = false,
 }) {
   if (input.isNotEmpty) {
-    final value = double.parse(input);
+    final value = Decimal.parse(input);
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;

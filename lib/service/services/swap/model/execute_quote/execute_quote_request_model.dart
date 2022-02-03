@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../shared/decimal_serialiser.dart';
 
 part 'execute_quote_request_model.freezed.dart';
 part 'execute_quote_request_model.g.dart';
@@ -8,11 +11,15 @@ class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
   const factory ExecuteQuoteRequestModel({
     @Default(true) bool isFromFixed,
     required String operationId,
-    required double price,
+    @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
-    @JsonKey(name: 'fromAssetVolume') required double fromAssetAmount,
-    @JsonKey(name: 'toAssetVolume') required double toAssetAmount,
+    @DecimalSerialiser()
+    @JsonKey(name: 'fromAssetVolume')
+        required Decimal fromAssetAmount,
+    @DecimalSerialiser()
+    @JsonKey(name: 'toAssetVolume')
+        required Decimal toAssetAmount,
   }) = _ExecuteQuoteRequestModel;
 
   factory ExecuteQuoteRequestModel.fromJson(Map<String, dynamic> json) =>

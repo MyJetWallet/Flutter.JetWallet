@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
+import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../currency_withdraw/helper/minimum_amount.dart';
@@ -39,8 +41,12 @@ class SendByPhoneAmount extends HookWidget {
               value: state.amount,
               symbol: currency.symbol,
             ),
-            helper: '≈ ${state.baseConversionValue} '
-                '${state.baseCurrency!.symbol}',
+            helper: '≈ ${marketFormat(
+              accuracy: state.baseCurrency!.accuracy,
+              prefix: state.baseCurrency!.prefix,
+              decimal: Decimal.parse(state.baseConversionValue),
+              symbol: state.baseCurrency!.symbol,
+            )}',
             error: state.inputError == InputError.enterHigherAmount
                 ? '${state.inputError.value}. ${minimumAmount(currency)}'
                 : state.inputError.value,
@@ -49,7 +55,7 @@ class SendByPhoneAmount extends HookWidget {
           SBaselineChild(
             baseline: 24.0,
             child: Text(
-              'Available: ${currency.formattedAssetBalance}',
+              'Available: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),

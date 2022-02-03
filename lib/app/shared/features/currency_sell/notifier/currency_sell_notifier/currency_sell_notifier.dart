@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -100,7 +101,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     _calculateBaseConversion();
   }
 
-  void updateTargetConversionPrice(double? price) {
+  void updateTargetConversionPrice(Decimal? price) {
     _logger.log(notifier, 'updateTargetConversionPrice');
 
     // needed to calculate conversion while switching between assets
@@ -112,12 +113,13 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     state = state.copyWith(targetConversionValue: value);
   }
 
-  void _calculateTargetConversion([double? newPrice]) {
+  void _calculateTargetConversion([Decimal? newPrice]) {
     if ((state.targetConversionPrice != null || newPrice != null) &&
         state.inputValue.isNotEmpty) {
-      final amount = double.parse(state.inputValue);
+      final amount = Decimal.parse(state.inputValue);
       final price = newPrice ?? state.targetConversionPrice!;
       final accuracy = state.selectedCurrencyAccuracy;
+      
       final conversion = amount * price;
 
       _updateTargetConversionValue(
@@ -139,7 +141,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
       final baseValue = calculateBaseBalanceWithReader(
         read: read,
         assetSymbol: currencyModel.symbol,
-        assetBalance: double.parse(state.inputValue),
+        assetBalance: Decimal.parse(state.inputValue),
       );
 
       _updateBaseConversionValue(

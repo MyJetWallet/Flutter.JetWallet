@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -37,7 +38,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     state = state.copyWith(toAsset: value);
   }
 
-  void _updateConverstionPrice(double? value) {
+  void _updateConverstionPrice(Decimal? value) {
     state = state.copyWith(converstionPrice: value);
   }
 
@@ -50,7 +51,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   /// ConversionPrice can be null if request to API failed
-  void updateConversionPrice(double? price) {
+  void updateConversionPrice(Decimal? price) {
     _logger.log(notifier, 'updateConversionPrice');
 
     _updateConverstionPrice(price);
@@ -233,22 +234,32 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
   }
 
   void _calculateConversionOfToAsset() {
-    final amount = double.parse(state.fromAssetAmount);
+    final amount = Decimal.parse(state.fromAssetAmount);
     final price = state.converstionPrice!;
     final accuracy = state.toAsset.accuracy;
 
+    final result = amount * price;
+
     state = state.copyWith(
-      toAssetAmount: (amount * price).toStringAsFixed(accuracy),
+      toAssetAmount: result.toStringAsFixed(accuracy),
     );
   }
 
   void _calculateConversionOfFromAsset() {
-    final amount = double.parse(state.toAssetAmount);
+    final amount = Decimal.parse(state.toAssetAmount);
     final price = state.converstionPrice!;
     final accuracy = state.fromAsset.accuracy;
 
+    var result = Decimal.zero;
+
+    if (price != Decimal.zero) {
+      result = (amount / price).toDecimal(
+        scaleOnInfinitePrecision: accuracy,
+      );
+    }
+
     state = state.copyWith(
-      fromAssetAmount: (amount / price).toStringAsFixed(accuracy),
+      fromAssetAmount: result.toString(),
     );
   }
 

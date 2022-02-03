@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+
 import '../../../helpers/truncate_zeros_from.dart';
 import '../../../models/currency_model.dart';
 
@@ -8,7 +10,7 @@ String userWillreceive({
   required CurrencyModel currency,
   required bool addressIsInternal,
 }) {
-  final value = double.parse(amount);
+  final value = Decimal.parse(amount);
 
   if (addressIsInternal || currency.isFeeInOtherCurrency) {
     return '$amount ${currency.symbol}';

@@ -1,4 +1,5 @@
 import 'package:charts/simple_chart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,7 +19,7 @@ import '../../../../../shared/features/market_details/view/market_details.dart';
 import '../../../../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../../../../shared/features/wallet/helper/market_item_from.dart';
 import '../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
-import '../../../../../shared/helpers/format_currency_amount.dart';
+import '../../../../../shared/helpers/formatting/formatting.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
@@ -222,12 +223,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               url: item.iconUrl,
                             ),
                             primaryText: item.description,
-                            amount: formatCurrencyAmount(
-                              prefix: baseCurrency.prefix,
-                              value: item.baseBalance,
-                              symbol: baseCurrency.symbol,
-                              accuracy: baseCurrency.accuracy,
-                            ),
+                            amount: item.volumeBaseBalance(baseCurrency),
                             secondaryText:
                                 '${item.assetBalance} ${item.symbol}',
                             onTap: () {
@@ -256,12 +252,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               primaryText: item.description,
-                              amount: formatCurrencyAmount(
-                                prefix: baseCurrency.prefix,
-                                value: item.baseBalance,
-                                symbol: baseCurrency.symbol,
-                                accuracy: baseCurrency.accuracy,
-                              ),
+                              amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText:
                                   '${item.assetBalance} ${item.symbol}',
                               onTap: () {
@@ -317,12 +308,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               primaryText: item.description,
-                              amount: formatCurrencyAmount(
-                                prefix: baseCurrency.prefix,
-                                value: item.baseBalance,
-                                symbol: baseCurrency.symbol,
-                                accuracy: baseCurrency.accuracy,
-                              ),
+                              amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText:
                                   '${item.assetBalance} ${item.symbol}',
                               onTap: () => navigateToWallet(context, item),
@@ -337,12 +323,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   url: item.iconUrl,
                                 ),
                                 primaryText: item.description,
-                                amount: formatCurrencyAmount(
-                                  prefix: baseCurrency.prefix,
-                                  value: item.baseBalance,
-                                  symbol: baseCurrency.symbol,
-                                  accuracy: baseCurrency.accuracy,
-                                ),
+                                amount: item.volumeBaseBalance(baseCurrency),
                                 secondaryText:
                                     '${item.assetBalance} ${item.symbol}',
                                 onTap: () => navigateToWallet(context, item),
@@ -384,12 +365,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               primaryText: item.description,
-                              amount: formatCurrencyAmount(
-                                prefix: baseCurrency.prefix,
-                                value: item.baseBalance,
-                                symbol: baseCurrency.symbol,
-                                accuracy: baseCurrency.accuracy,
-                              ),
+                              amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText:
                                   '${item.assetBalance} ${item.symbol}',
                               onTap: () {
@@ -414,12 +390,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   url: item.iconUrl,
                                 ),
                                 primaryText: item.description,
-                                amount: formatCurrencyAmount(
-                                  prefix: baseCurrency.prefix,
-                                  value: item.baseBalance,
-                                  symbol: baseCurrency.symbol,
-                                  accuracy: baseCurrency.accuracy,
-                                ),
+                                amount: item.volumeBaseBalance(baseCurrency),
                                 secondaryText:
                                     '${item.assetBalance} ${item.symbol}',
                                 onTap: () {
@@ -472,12 +443,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               primaryText: item.description,
-                              amount: formatCurrencyAmount(
-                                prefix: baseCurrency.prefix,
-                                value: item.baseBalance,
-                                symbol: baseCurrency.symbol,
-                                accuracy: baseCurrency.accuracy,
-                              ),
+                              amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText:
                                   '${item.assetBalance} ${item.symbol}',
                               onTap: () => navigateToWallet(context, item),
@@ -492,12 +458,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   url: item.iconUrl,
                                 ),
                                 primaryText: item.description,
-                                amount: formatCurrencyAmount(
-                                  prefix: baseCurrency.prefix,
-                                  value: item.baseBalance,
-                                  symbol: baseCurrency.symbol,
-                                  accuracy: baseCurrency.accuracy,
-                                ),
+                                amount: item.volumeBaseBalance(baseCurrency),
                                 secondaryText:
                                     '${item.assetBalance} ${item.symbol}',
                                 onTap: () => navigateToWallet(context, item),
@@ -541,22 +502,24 @@ class PortfolioWithBalanceBody extends HookWidget {
     List<CurrencyModel> items,
     BaseCurrencyModel baseCurrency,
   ) {
-    var totalBalance = 0.0;
+    var totalBalance = Decimal.zero;
+
     for (final item in items) {
       totalBalance += item.baseBalance;
     }
 
     if (chart.selectedCandle != null) {
-      return formatCurrencyAmount(
+      return marketFormat(
         prefix: baseCurrency.prefix,
-        value: chart.selectedCandle!.close,
+        // TODO add decimals to ChartModel
+        decimal: Decimal.parse(chart.selectedCandle!.close.toString()),
         accuracy: baseCurrency.accuracy,
         symbol: baseCurrency.symbol,
       );
     } else {
-      return formatCurrencyAmount(
+      return marketFormat(
         prefix: baseCurrency.prefix,
-        value: totalBalance,
+        decimal: totalBalance,
         accuracy: baseCurrency.accuracy,
         symbol: baseCurrency.symbol,
       );
