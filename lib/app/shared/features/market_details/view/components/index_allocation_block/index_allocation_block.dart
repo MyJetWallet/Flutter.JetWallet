@@ -49,6 +49,10 @@ class IndexAllocationBlock extends HookWidget {
     );
   }
 
+  // TODO
+  // Bad state: No element
+  // The relevant error-causing widget was
+  // IndexAllocationBlock
   IndexModel _indexDetailsFrom(List<IndexModel> indicesDetails) =>
       indicesDetails.firstWhere((element) => element.symbol == marketItem.id);
 }

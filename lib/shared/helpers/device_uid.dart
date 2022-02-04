@@ -8,7 +8,7 @@ Future<String?> deviceUid() async {
     if (Platform.isAndroid) {
       final build = await deviceInfoPlugin.androidInfo;
       return build.androidId;
-    } else if (Platform.isIOS) {
+    } else {
       final data = await deviceInfoPlugin.iosInfo;
       return data.identifierForVendor;
     }

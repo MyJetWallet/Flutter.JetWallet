@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -9,7 +10,7 @@ part 'convert_input_state.freezed.dart';
 @freezed
 class ConvertInputState with _$ConvertInputState {
   const factory ConvertInputState({
-    double? converstionPrice,
+    Decimal? converstionPrice,
     SKeyboardPreset? selectedPreset,
     @Default('') String fromAssetAmount,
     @Default('') String toAssetAmount,

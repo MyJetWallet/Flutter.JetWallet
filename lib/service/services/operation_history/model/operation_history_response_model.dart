@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'operation_history_response_model.freezed.dart';
 part 'operation_history_response_model.g.dart';
@@ -26,8 +29,8 @@ class OperationHistoryItem with _$OperationHistoryItem {
     required OperationType operationType,
     required String assetId,
     required String timeStamp,
-    required double balanceChange,
-    required double newBalance,
+    @DecimalSerialiser() required Decimal balanceChange,
+    @DecimalSerialiser() required Decimal newBalance,
     required Status status,
   }) = _OperationHistoryItem;
 

@@ -55,10 +55,10 @@ class CurrencyBuy extends HookWidget {
                   url: currency.iconUrl,
                 ),
                 name: currency.description,
-                amount: currency.formatBaseBalance(
+                amount: currency.volumeBaseBalance(
                   state.baseCurrency!,
                 ),
-                description: currency.formattedAssetBalance,
+                description: currency.volumeAssetBalance,
                 onTap: () => Navigator.pop(context, currency),
               )
             else
@@ -71,7 +71,7 @@ class CurrencyBuy extends HookWidget {
                   url: currency.iconUrl,
                 ),
                 name: currency.description,
-                amount: currency.formatBaseBalance(
+                amount: currency.volumeBaseBalance(
                   state.baseCurrency!,
                 ),
                 onTap: () => Navigator.pop(context, currency),
@@ -126,10 +126,10 @@ class CurrencyBuy extends HookWidget {
                     url: state.selectedCurrency!.iconUrl,
                   ),
                   name: state.selectedCurrency!.description,
-                  amount: state.selectedCurrency!.formatBaseBalance(
+                  amount: state.selectedCurrency!.volumeBaseBalance(
                     state.baseCurrency!,
                   ),
-                  description: state.selectedCurrency!.formattedAssetBalance,
+                  description: state.selectedCurrency!.volumeAssetBalance,
                   onTap: () => _showAssetSelector(),
                 )
               else
@@ -138,7 +138,7 @@ class CurrencyBuy extends HookWidget {
                     url: state.selectedCurrency!.iconUrl,
                   ),
                   name: state.selectedCurrency!.description,
-                  amount: state.selectedCurrency!.formatBaseBalance(
+                  amount: state.selectedCurrency!.volumeBaseBalance(
                     state.baseCurrency!,
                   ),
                   onTap: () => _showAssetSelector(),

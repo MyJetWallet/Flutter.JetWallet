@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'base_prices_model.freezed.dart';
 part 'base_prices_model.g.dart';
@@ -12,7 +15,7 @@ class BasePricesModel with _$BasePricesModel {
   factory BasePricesModel.fromJson(Map<String, dynamic> json) =>
       _$BasePricesModelFromJson(json);
 
-  /// Takes previous snapshot of basePrices and 
+  /// Takes previous snapshot of basePrices and
   /// applies the new update to them
   factory BasePricesModel.fromNewPrices({
     required Map<String, dynamic> json,
@@ -47,9 +50,9 @@ class BasePricesModel with _$BasePricesModel {
 class BasePriceModel with _$BasePriceModel {
   const factory BasePriceModel({
     @JsonKey(name: 'T') @Default(0.0) double time,
-    @JsonKey(name: 'P') @Default(0.0) double currentPrice,
-    @JsonKey(name: 'P24a') @Default(0.0) double dayPriceChange,
     @JsonKey(name: 'P24p') @Default(0.0) double dayPercentChange,
+    @DecimalSerialiser() @JsonKey(name: 'P') required Decimal currentPrice,
+    @DecimalSerialiser() @JsonKey(name: 'P24a') required Decimal dayPriceChange,
     @JsonKey(name: 'S') required String assetSymbol,
   }) = _PeriodPriceModel;
 

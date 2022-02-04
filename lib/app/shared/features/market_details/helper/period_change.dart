@@ -1,7 +1,8 @@
 import 'package:charts/simple_chart.dart';
+import 'package:decimal/decimal.dart';
 
 import '../../../../../service/shared/constants.dart';
-import '../../../helpers/format_currency_amount.dart';
+import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
 import '../../chart/notifier/chart_state.dart';
 import 'percent_change.dart';
@@ -24,9 +25,9 @@ String periodChange({
           '(${periodPercentChange.toStringAsFixed(signsAfterComma)}%)';
     }
 
-    return '${formatCurrencyAmount(
+    return '${volumeFormat(
       prefix: baseCurrency.prefix,
-      value: periodPriceChange,
+      decimal: Decimal.parse(periodPriceChange.toString()),
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     )} $periodPercentChangeString';

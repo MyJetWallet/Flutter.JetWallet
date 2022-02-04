@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'asset_model.freezed.dart';
 part 'asset_model.g.dart';
@@ -49,7 +52,7 @@ class AssetFeesModel with _$AssetFeesModel {
 @freezed
 class WithdrawalFeeModel with _$WithdrawalFeeModel {
   const factory WithdrawalFeeModel({
-    required double size,
+    @DecimalSerialiser() required Decimal size,
     @JsonKey(name: 'feeType') required FeeType type,
     @JsonKey(name: 'asset') required String assetSymbol,
   }) = _WithdrawalFeeModel;
