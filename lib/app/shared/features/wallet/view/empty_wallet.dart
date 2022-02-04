@@ -67,12 +67,13 @@ class _EmptyWalletState extends State<EmptyWallet>
           header: SSmallHeader(
             title: '${widget.currency.description} wallet',
           ),
-          child: (widget.currency.earnProgramEnabled)
-              ? EmptyEarnWalletBody(
+          child: (widget.currency.apy == 0)
+              ? EmptyWalletBody(
                   assetName: widget.currency.description,
                 )
-              : EmptyWalletBody(
+              : EmptyEarnWalletBody(
                   assetName: widget.currency.description,
+                  apy: widget.currency.apy,
                 ),
         ),
       ),

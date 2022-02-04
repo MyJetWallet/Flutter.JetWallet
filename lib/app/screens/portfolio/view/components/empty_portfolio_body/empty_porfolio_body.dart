@@ -20,56 +20,63 @@ class EmptyPortfolioBody extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
 
     return SPaddingH24(
-      child: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Text(
-              formatCurrencyStringAmount(
-                value: '0',
-                symbol: baseCurrency.symbol,
-                prefix: baseCurrency.prefix,
-              ),
-              style: sTextH1Style,
-            ),
-          ),
-          Column(
-            children: [
-              const SpaceH36(),
-              const EmptyPortfolioBodyImage(),
-              const SpaceH56(),
-              const EmptyPortfolioBodyTitle(),
-              const SpaceH17(),
-              Text(
-                'Let you crypto work for you!\nEarn, Trade and Withdraw with'
-                ' no limits.',
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                style: sBodyText1Style.copyWith(
-                  color: colors.grey1,
+      child: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  child: Text(
+                    formatCurrencyStringAmount(
+                      value: '0',
+                      symbol: baseCurrency.symbol,
+                      prefix: baseCurrency.prefix,
+                    ),
+                    style: sTextH1Style,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              SPrimaryButton1(
-                active: true,
-                name: 'Start earning',
-                onTap: () {
-                  showStartEarnBottomSheet(
-                    context: context,
-                    onTap: (CurrencyModel currency) {
-                      Navigator.pop(context);
+                Column(
+                  children: [
+                    const SpaceH36(),
+                    const EmptyPortfolioBodyImage(),
+                    const SpaceH56(),
+                    const EmptyPortfolioBodyTitle(),
+                    const SpaceH17(),
+                    Text(
+                      'Let you crypto work for you!\nEarn, Trade and Withdraw with'
+                      ' no limits.',
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
+                      ),
+                    ),
+                    const SpaceH50(),
+                    SPrimaryButton1(
+                      active: true,
+                      name: 'Start earning',
+                      onTap: () {
+                        showStartEarnBottomSheet(
+                          context: context,
+                          onTap: (CurrencyModel currency) {
+                            Navigator.pop(context);
 
-                      showStartEarnOptions(
-                        currency: currency,
-                        read: context.read,
-                      );
-                    },
-                  );
-                },
-              ),
-              const SpaceH24(),
-            ],
+                            showStartEarnOptions(
+                              currency: currency,
+                              read: context.read,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    const SpaceH24(),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
-import '../../../../../../screens/portfolio/helper/max_currency_apy.dart';
 import '../../../../../../screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../../../../components/show_start_earn_options.dart';
 import '../../../../../models/currency_model.dart';
@@ -15,9 +14,11 @@ class EmptyEarnWalletBody extends HookWidget {
   const EmptyEarnWalletBody({
     Key? key,
     required this.assetName,
+    required this.apy,
   }) : super(key: key);
 
   final String assetName;
+  final double apy;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class EmptyEarnWalletBody extends HookWidget {
                 color: colors.green,
               ),
               child: Text(
-                '${maxCurrencyApy(currencies).toStringAsFixed(0)}% APY',
+                '${apy.toStringAsFixed(0)}% APY',
                 style: sSubtitle3Style.copyWith(color: colors.white),
               ),
             ),
@@ -72,7 +73,7 @@ class EmptyEarnWalletBody extends HookWidget {
                 ),
               ),
               TextSpan(
-                text: '${maxCurrencyApy(currencies).toStringAsFixed(0)}%'
+                text: '${apy.toStringAsFixed(0)}%'
                     ' interest',
                 style: sTextH3Style.copyWith(
                   color: colors.green,
