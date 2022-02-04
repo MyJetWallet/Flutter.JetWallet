@@ -29,8 +29,7 @@ void showStartEarnOptions({
       const SpaceH24(),
       SActionItem(
         onTap: () {
-          if (kycState.depositStatus ==
-              kycOperationStatus(KycStatus.allowed)) {
+          if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
             navigatorPushReplacement(
               context,
               CurrencyBuy(
@@ -58,13 +57,29 @@ void showStartEarnOptions({
       ),
       SActionItem(
         onTap: () {
-          navigatorPushReplacement(
-            context,
-            CryptoDeposit(
-              header: 'Receive',
-              currency: currency,
-            ),
-          );
+          if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+            navigatorPushReplacement(
+              context,
+              CryptoDeposit(
+                header: 'Receive',
+                currency: currency,
+              ),
+            );
+          } else {
+            Navigator.of(context).pop();
+            kycAlertHandler.handle(
+              status: kycState.depositStatus,
+              kycVerified: kycState,
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () => navigatorPushReplacement(
+                context,
+                CryptoDeposit(
+                  header: 'Receive',
+                  currency: currency,
+                ),
+              ),
+            );
+          }
         },
         icon: const SActionDepositIcon(),
         name: 'Deposit ${currency.description}',

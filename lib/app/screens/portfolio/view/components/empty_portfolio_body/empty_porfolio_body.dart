@@ -46,8 +46,8 @@ class EmptyPortfolioBody extends HookWidget {
                     const EmptyPortfolioBodyTitle(),
                     const SpaceH17(),
                     Text(
-                      'Let you crypto work for you!\nEarn, Trade and Withdraw with'
-                      ' no limits.',
+                      'Let you crypto work for you!\nEarn, Trade and'
+                      ' Withdraw with no limits.',
                       maxLines: 2,
                       textAlign: TextAlign.center,
                       style: sBodyText1Style.copyWith(

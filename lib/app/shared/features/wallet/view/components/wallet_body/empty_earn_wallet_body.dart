@@ -7,7 +7,6 @@ import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../../../../components/show_start_earn_options.dart';
 import '../../../../../models/currency_model.dart';
-import '../../../../../providers/currencies_pod/currencies_pod.dart';
 import 'components/empty_wallet_balance_text.dart';
 
 class EmptyEarnWalletBody extends HookWidget {
@@ -24,7 +23,6 @@ class EmptyEarnWalletBody extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
-    final currencies = useProvider(currenciesPod);
 
     return Column(
       children: [
