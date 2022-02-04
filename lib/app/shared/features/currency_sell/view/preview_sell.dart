@@ -1,8 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../helpers/convert_prcie_accuracy.dart';
+import '../../../helpers/formatting/formatting.dart';
 import '../model/preview_sell_input.dart';
 import '../notifier/preview_sell_notifier/preview_sell_notipod.dart';
 import '../notifier/preview_sell_notifier/preview_sell_state.dart';
@@ -47,6 +50,15 @@ class _PreviewSell extends State<PreviewSell>
     final notifier = useProvider(previewSellNotipod(widget.input).notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
 
+    final from = widget.input.fromCurrency;
+    final to = widget.input.toCurrency;
+
+    final accuracy = convertPriceAccuracy(
+      context.read,
+      state.fromAssetSymbol!,
+      state.toAssetSymbol!,
+    );
+
     return ProviderListener<PreviewSellState>(
       provider: previewSellNotipod(widget.input),
       onChange: (_, value) {
@@ -79,13 +91,23 @@ class _PreviewSell extends State<PreviewSell>
                   const Spacer(),
                   SActionConfirmText(
                     name: 'You pay',
-                    value: '${state.fromAssetAmount} ${state.fromAssetSymbol}',
+                    value: volumeFormat(
+                      prefix: from.prefixSymbol,
+                      accuracy: from.accuracy,
+                      decimal: state.fromAssetAmount!,
+                      symbol: from.symbol,
+                    ),
                   ),
                   SActionConfirmText(
                     name: 'You get',
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading,
-                    value: '≈ ${state.toAssetAmount} ${state.toAssetSymbol}',
+                    value: '≈ ${volumeFormat(
+                      prefix: to.prefixSymbol,
+                      accuracy: to.accuracy,
+                      decimal: state.toAssetAmount!,
+                      symbol: to.symbol,
+                    )}',
                   ),
                   SActionConfirmText(
                     name: 'Exchange Rate',
@@ -93,8 +115,18 @@ class _PreviewSell extends State<PreviewSell>
                     contentLoading: state.union is QuoteLoading,
                     timerLoading: state.union is QuoteLoading,
                     animation: state.timerAnimation,
-                    value: '1 ${state.fromAssetSymbol} =\n'
-                        '${state.price} ${state.toAssetSymbol}',
+                    value: '${volumeFormat(
+                      prefix: from.prefixSymbol,
+                      accuracy: from.accuracy,
+                      decimal: Decimal.one,
+                      symbol: from.symbol,
+                    )} = \n'
+                        '${volumeFormat(
+                      prefix: to.prefixSymbol,
+                      accuracy: accuracy,
+                      decimal: state.price!,
+                      symbol: to.symbol,
+                    )}',
                   ),
                   const SpaceH36(),
                   if (state.connectingToServer) ...[
