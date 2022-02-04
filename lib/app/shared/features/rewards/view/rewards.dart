@@ -65,9 +65,10 @@ class Rewards extends HookWidget {
               SReferralStats(
                 referralInvited: item.referralState!.referralInvited,
                 referralActivated: item.referralState!.referralActivated,
-                bonusEarned: item.referralState!.bonusEarned,
-                commissionEarned: item.referralState!.commissionEarned,
-                total: item.referralState!.total,
+                bonusEarned: item.referralState!.bonusEarned.toDouble(),
+                commissionEarned:
+                    item.referralState!.commissionEarned.toDouble(),
+                total: item.referralState!.total.toDouble(),
               ),
               const SpaceH20(),
             ],

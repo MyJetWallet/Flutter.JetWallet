@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../helpers/calculate_base_balance.dart';
@@ -33,6 +34,15 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             withdrawalMethods: asset.withdrawalMethods,
             iconUrl: iconUrlFrom(asset.symbol),
             prefixSymbol: asset.prefixSymbol,
+            apy: Decimal.zero,
+            assetBalance: Decimal.zero,
+            assetCurrentEarnAmount: Decimal.zero,
+            assetTotalEarnAmount: Decimal.zero,
+            baseBalance: Decimal.zero,
+            baseCurrentEarnAmount: Decimal.zero,
+            baseTotalEarnAmount: Decimal.zero,
+            currentPrice: Decimal.zero,
+            dayPriceChange: Decimal.zero,
           ),
         );
       }
@@ -74,21 +84,20 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
         );
 
         final baseBalance = calculateBaseBalance(
-          accuracy: baseCurrency.accuracy,
           assetSymbol: currency.symbol,
           assetBalance: currency.assetBalance,
           assetPrice: assetPrice,
           baseCurrencySymbol: baseCurrency.symbol,
         );
+
         final baseTotalEarnAmount = calculateBaseBalance(
-          accuracy: baseCurrency.accuracy,
           assetSymbol: currency.symbol,
           assetBalance: currency.assetTotalEarnAmount,
           assetPrice: assetPrice,
           baseCurrencySymbol: baseCurrency.symbol,
         );
+
         final baseCurrentEarnAmount = calculateBaseBalance(
-          accuracy: baseCurrency.accuracy,
           assetSymbol: currency.symbol,
           assetBalance: currency.assetCurrentEarnAmount,
           assetPrice: assetPrice,
@@ -97,11 +106,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
 
         currencies[index] = currency.copyWith(
           baseBalance: baseBalance,
-          currentPrice: double.parse(
-            assetPrice.currentPrice.toStringAsFixed(
-              baseCurrency.accuracy,
-            ),
-          ),
+          currentPrice: assetPrice.currentPrice,
           dayPriceChange: assetPrice.dayPriceChange,
           dayPercentChange: assetPrice.dayPercentChange,
           baseTotalEarnAmount: baseTotalEarnAmount,

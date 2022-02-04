@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../service/services/signal_r/model/asset_model.dart';
@@ -15,14 +16,14 @@ class MarketItemModel with _$MarketItemModel {
     required String associateAsset,
     required String associateAssetPair,
     required int weight,
-    required double lastPrice,
-    required double dayPriceChange,
     required double dayPercentChange,
-    required double assetBalance,
-    required double baseBalance,
     required int accuracy,
     required String startMarketTime,
     required AssetType type,
+    required Decimal lastPrice,
+    required Decimal dayPriceChange,
+    required Decimal assetBalance,
+    required Decimal baseBalance,
   }) = _MarketItemModel;
 
   factory MarketItemModel.fromJson(Map<String, dynamic> json) =>
@@ -32,5 +33,5 @@ class MarketItemModel with _$MarketItemModel {
 
   bool get isGrowing => dayPercentChange > 0;
 
-  bool get isBalanceEmpty => baseBalance == 0;
+  bool get isBalanceEmpty => baseBalance == Decimal.zero;
 }

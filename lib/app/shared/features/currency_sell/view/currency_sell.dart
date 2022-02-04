@@ -55,10 +55,10 @@ class CurrencySell extends HookWidget {
                   url: currency.iconUrl,
                 ),
                 name: currency.description,
-                amount: currency.formatBaseBalance(
+                amount: currency.volumeBaseBalance(
                   state.baseCurrency!,
                 ),
-                description: currency.formattedAssetBalance,
+                description: currency.volumeAssetBalance,
                 onTap: () => Navigator.pop(context, currency),
               )
             else
@@ -71,7 +71,7 @@ class CurrencySell extends HookWidget {
                   url: currency.iconUrl,
                 ),
                 name: currency.description,
-                amount: currency.formatBaseBalance(
+                amount: currency.volumeBaseBalance(
                   state.baseCurrency!,
                 ),
                 onTap: () => Navigator.pop(context, currency),
@@ -113,7 +113,7 @@ class CurrencySell extends HookWidget {
           SBaselineChild(
             baseline: 24.0,
             child: Text(
-              'Available: ${currency.formattedAssetBalance}',
+              'Available: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),
@@ -133,10 +133,10 @@ class CurrencySell extends HookWidget {
                 url: state.selectedCurrency!.iconUrl,
               ),
               name: state.selectedCurrency!.description,
-              amount: state.selectedCurrency!.formatBaseBalance(
+              amount: state.selectedCurrency!.volumeBaseBalance(
                 state.baseCurrency!,
               ),
-              description: state.selectedCurrency!.formattedAssetBalance,
+              description: state.selectedCurrency!.volumeAssetBalance,
               onTap: () => _showAssetSelector(),
             )
           else
@@ -145,7 +145,7 @@ class CurrencySell extends HookWidget {
                 url: state.selectedCurrency!.iconUrl,
               ),
               name: state.selectedCurrency!.description,
-              amount: state.selectedCurrency!.formatBaseBalance(
+              amount: state.selectedCurrency!.volumeBaseBalance(
                 state.baseCurrency!,
               ),
               onTap: () => _showAssetSelector(),

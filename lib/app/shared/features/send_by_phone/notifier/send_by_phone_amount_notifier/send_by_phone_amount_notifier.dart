@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -5,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/input_helpers.dart';
+import '../../../../helpers/truncate_zeros_from.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -79,11 +81,11 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
       final baseValue = calculateBaseBalanceWithReader(
         read: read,
         assetSymbol: currency.symbol,
-        assetBalance: double.parse(state.amount),
+        assetBalance: Decimal.parse(state.amount),
       );
 
       _updateBaseConversionValue(
-        truncateZerosFromInput(baseValue.toString()),
+        truncateZerosFrom(baseValue.toString()),
       );
     } else {
       _updateBaseConversionValue(zero);

@@ -39,13 +39,13 @@ class MarketStatsBlock extends HookWidget {
                 TableCell(
                   child: MarketStatsItem(
                     name: 'Mark cap',
-                    value: '\$${formatNumber(marketInfo.marketCap)}',
+                    value: '\$${formatNumber(marketInfo.marketCap.toDouble())}',
                   ),
                 ),
                 TableCell(
                   child: MarketStatsItem(
                     name: 'Vol (24h)',
-                    value: '\$${formatNumber(marketInfo.dayVolume)}',
+                    value: '\$${formatNumber(marketInfo.dayVolume.toDouble())}',
                   ),
                 ),
               ],
@@ -55,7 +55,7 @@ class MarketStatsBlock extends HookWidget {
                 TableCell(
                   child: MarketStatsItem(
                     name: 'Circ supply',
-                    value: formatNumber(marketInfo.supply),
+                    value: formatNumber(marketInfo.supply.toDouble()),
                   ),
                 ),
                 const TableCell(

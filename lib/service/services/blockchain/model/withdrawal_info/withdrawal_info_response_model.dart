@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../shared/decimal_serialiser.dart';
 
 part 'withdrawal_info_response_model.freezed.dart';
 part 'withdrawal_info_response_model.g.dart';
@@ -10,8 +13,8 @@ class WithdrawalInfoResponseModel with _$WithdrawalInfoResponseModel {
     // id of the transaction in blockchain
     @JsonKey(name: 'txid') String? blockchainId,
     required String toAddress,
-    required double amount,
-    required double feeAmount,
+    @DecimalSerialiser() required Decimal amount,
+    @DecimalSerialiser() required Decimal feeAmount,
     required String assetSymbol,
     // id of the transaction in the spot platform
     @JsonKey(name: 'id') required String transactionId,

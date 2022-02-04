@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -41,7 +42,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
 
   void _updateFrom(PreviewConvertInput input) {
     state = state.copyWith(
-      fromAssetAmount: double.parse(input.amount),
+      fromAssetAmount: Decimal.parse(input.amount),
       fromAssetSymbol: input.fromCurrency.symbol,
       toAssetSymbol: input.toCurrency.symbol,
     );

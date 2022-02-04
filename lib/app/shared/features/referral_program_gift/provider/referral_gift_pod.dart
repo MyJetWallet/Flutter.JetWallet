@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../referral_stats/provider/referral_stats_pod.dart';
@@ -22,7 +23,8 @@ final referralGiftPod = Provider.autoDispose<ReferralGiftStatus>(
           : ReferralGiftStatus.showGift;
     } else {
       if (referralStats.isNotEmpty &&
-          referralStats[0].total < referralStatsTotal) {
+          referralStats[0].total <
+              Decimal.parse(referralStatsTotal.toString())) {
         return ReferralGiftStatus.showGift;
       }
       return ReferralGiftStatus.hideGift;

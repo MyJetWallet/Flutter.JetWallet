@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
-import '../../../../../helpers/format_currency_amount.dart';
+import '../../../../../helpers/formatting/formatting.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../providers/currencies_pod/currencies_pod.dart';
@@ -47,9 +47,9 @@ class BalanceBlock extends HookWidget {
               url: marketItem.iconUrl,
             ),
             primaryText: '${marketItem.name} wallet',
-            amount: formatCurrencyAmount(
+            amount: marketFormat(
               prefix: baseCurrency.prefix,
-              value: marketItem.baseBalance,
+              decimal: marketItem.baseBalance,
               symbol: baseCurrency.symbol,
               accuracy: baseCurrency.accuracy,
             ),

@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -6,6 +7,7 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
 import '../../../../helpers/input_helpers.dart';
+import '../../../../helpers/truncate_zeros_from.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -99,7 +101,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     _calculateBaseConversion();
   }
 
-  void updateTargetConversionPrice(double? price) {
+  void updateTargetConversionPrice(Decimal? price) {
     _logger.log(notifier, 'updateTargetConversionPrice');
 
     // needed to calculate conversion while switching between assets
@@ -111,16 +113,17 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     state = state.copyWith(targetConversionValue: value);
   }
 
-  void _calculateTargetConversion([double? newPrice]) {
+  void _calculateTargetConversion([Decimal? newPrice]) {
     if ((state.targetConversionPrice != null || newPrice != null) &&
         state.inputValue.isNotEmpty) {
-      final amount = double.parse(state.inputValue);
+      final amount = Decimal.parse(state.inputValue);
       final price = newPrice ?? state.targetConversionPrice!;
       final accuracy = state.selectedCurrencyAccuracy;
+      
       final conversion = amount * price;
 
       _updateTargetConversionValue(
-        truncateZerosFromInput(
+        truncateZerosFrom(
           conversion.toStringAsFixed(accuracy),
         ),
       );
@@ -138,11 +141,11 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
       final baseValue = calculateBaseBalanceWithReader(
         read: read,
         assetSymbol: currencyModel.symbol,
-        assetBalance: double.parse(state.inputValue),
+        assetBalance: Decimal.parse(state.inputValue),
       );
 
       _updateBaseConversionValue(
-        truncateZerosFromInput(baseValue.toString()),
+        truncateZerosFrom(baseValue.toString()),
       );
     } else {
       _updateBaseConversionValue(zero);

@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'campaign_response_model.freezed.dart';
 part 'campaign_response_model.g.dart';
@@ -18,8 +21,8 @@ class CampaignModel with _$CampaignModel {
   const factory CampaignModel({
     List<CampaignConditionModel>? conditions,
     String? imageUrl,
-    @JsonKey(name: 'expirationTime') required String timeToComplete,
     @Default(false) bool showReferrerStats,
+    @JsonKey(name: 'expirationTime') required String timeToComplete,
     required int weight,
     required String title,
     required String description,
@@ -53,15 +56,16 @@ class CampaignConditionParametersModel with _$CampaignConditionParametersModel {
   }) = _CampaignConditionParametersModel;
 
   factory CampaignConditionParametersModel.fromJson(
-      Map<String, dynamic> json,
-      ) => _$CampaignConditionParametersModelFromJson(json);
+    Map<String, dynamic> json,
+  ) =>
+      _$CampaignConditionParametersModelFromJson(json);
 }
 
 @freezed
 class RewardModel with _$RewardModel {
   const factory RewardModel({
     String? asset,
-    required double amount,
+    @DecimalSerialiser() required Decimal amount,
   }) = _RewardModel;
 
   factory RewardModel.fromJson(Map<String, dynamic> json) =>

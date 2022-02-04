@@ -59,7 +59,7 @@ class ConvertRow extends HookWidget {
               ),
               name: item.description,
               description: item.symbol,
-              amount: item.formatBaseBalance(baseCurrency),
+              amount: item.volumeBaseBalance(baseCurrency),
               onTap: () {
                 if (currency == item) {
                   Navigator.pop(context);
@@ -120,7 +120,7 @@ class ConvertRow extends HookWidget {
                       const SpaceW34(),
                       if (inputError == null || inputError == InputError.none)
                         Text(
-                          'Available: ${currency.formattedAssetBalance}',
+                          'Available: ${currency.volumeAssetBalance}',
                           maxLines: 1,
                           style: sBodyText2Style.copyWith(
                             color: colors.grey2,
