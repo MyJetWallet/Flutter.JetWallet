@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/features/market_details/view/market_details.dart';
-import '../../../../../shared/helpers/format_currency_amount.dart';
+import '../../../../../shared/helpers/formatting/base/market_format.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../provider/market_indices_pod.dart';
 import '../fade_on_scroll.dart';
@@ -68,9 +68,9 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
                 url: item.iconUrl,
               ),
               name: item.name,
-              price: formatCurrencyAmount(
+              price: marketFormat(
                 prefix: baseCurrency.prefix,
-                value: item.lastPrice,
+                decimal: item.lastPrice,
                 symbol: baseCurrency.symbol,
                 accuracy: baseCurrency.accuracy,
               ),
