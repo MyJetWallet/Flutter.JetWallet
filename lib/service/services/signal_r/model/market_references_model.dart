@@ -17,13 +17,14 @@ class MarketReferencesModel with _$MarketReferencesModel {
 @freezed
 class MarketReferenceModel with _$MarketReferenceModel {
   const factory MarketReferenceModel({
+    String? iconUrl,
     required String id,
     required String brokerId,
     required String name,
-    required String? iconUrl,
     required String associateAsset,
     required String associateAssetPair,
     required int weight,
+    required int priceAccuracy,
     required String startMarketTime,
   }) = _MarketReferenceModel;
 
