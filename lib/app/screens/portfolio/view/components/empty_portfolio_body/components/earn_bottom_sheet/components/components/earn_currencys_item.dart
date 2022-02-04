@@ -83,8 +83,10 @@ class EarnCurrencyItem extends HookWidget {
               ),
             ),
             const Spacer(),
-            const SDivider(
-              width: double.infinity,
+            const SPaddingH24(
+              child: SDivider(
+                width: double.infinity,
+              ),
             )
           ],
         ),

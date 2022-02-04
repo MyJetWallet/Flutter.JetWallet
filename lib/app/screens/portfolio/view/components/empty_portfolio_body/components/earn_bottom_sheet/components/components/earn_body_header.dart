@@ -26,13 +26,13 @@ class EarnBodyHeader extends HookWidget {
             children: [
               TextSpan(
                 text: 'Up to ${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
-                style: sTextH3Style.copyWith(
+                style: sTextH2Style.copyWith(
                   color: colors.green,
                 ),
               ),
               TextSpan(
                 text: ' interest\non deposited crypto',
-                style: sTextH3Style.copyWith(
+                style: sTextH2Style.copyWith(
                   color: colors.black,
                 ),
               ),
