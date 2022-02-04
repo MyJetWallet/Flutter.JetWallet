@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../screens/market/helper/format_day_percentage_change.dart';
+import '../../../../screens/market/model/market_item_model.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
@@ -13,6 +14,7 @@ void showInterestRate({
   required BuildContext context,
   required CurrencyModel currency,
   required BaseCurrencyModel baseCurrency,
+  required MarketItemModel marketItem,
   required SimpleColors colors,
 }) {
   sShowBasicModalBottomSheet(
@@ -29,10 +31,10 @@ void showInterestRate({
               baseline: 28,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                volumeFormat(
+                marketFormat(
                   prefix: baseCurrency.prefix,
                   decimal: currency.currentPrice,
-                  accuracy: baseCurrency.accuracy,
+                  accuracy: marketItem.priceAccuracy,
                   symbol: baseCurrency.symbol,
                 ),
                 style: sSubtitle3Style,
@@ -86,7 +88,7 @@ void showInterestRate({
             baseline: 20,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              currency.volumeBaseBalance(baseCurrency),
+              currency.volumeAssetBalance,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -177,10 +179,10 @@ void showInterestRate({
               child: Text(
                 '${DateFormat('d MMM').format(
                   DateTime.parse(currency.nextPaymentDate).toLocal(),
-                )}, ${volumeFormat(
+                )}, ${marketFormat(
                   prefix: baseCurrency.prefix,
                   decimal: currency.baseCurrentEarnAmount,
-                  accuracy: baseCurrency.accuracy,
+                  accuracy: marketItem.priceAccuracy,
                   symbol: baseCurrency.symbol,
                 )}',
                 style: sBodyText1Style,
