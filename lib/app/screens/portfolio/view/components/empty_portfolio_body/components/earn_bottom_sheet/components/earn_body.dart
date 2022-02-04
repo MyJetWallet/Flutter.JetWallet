@@ -52,7 +52,7 @@ class EarnBody extends HookWidget {
         ),
         const SpaceH24(),
         for (var element in currencies) ...[
-          if (element.apy > 0)
+          if (element.apy.toDouble() > 0)
             EarnCurrencyItem(
               element: element,
               onTap: () => onTap(element),

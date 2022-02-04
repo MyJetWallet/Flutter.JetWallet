@@ -1,10 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/show_start_earn_options.dart';
-import '../../../../../shared/helpers/format_currency_string_amount.dart';
+import '../../../../../shared/helpers/formatting/base/volume_format.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import 'components/earn_bottom_sheet/earn_bottom_sheet.dart';
@@ -30,8 +31,9 @@ class EmptyPortfolioBody extends HookWidget {
                   left: 0,
                   top: 0,
                   child: Text(
-                    formatCurrencyStringAmount(
-                      value: '0',
+                    volumeFormat(
+                      decimal: Decimal.zero,
+                      accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
                       prefix: baseCurrency.prefix,
                     ),

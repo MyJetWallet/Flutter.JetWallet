@@ -67,7 +67,7 @@ class _EmptyWalletState extends State<EmptyWallet>
           header: SSmallHeader(
             title: '${widget.currency.description} wallet',
           ),
-          child: (widget.currency.apy == 0)
+          child: (widget.currency.apy.toDouble() == 0.0)
               ? EmptyWalletBody(
                   assetName: widget.currency.description,
                 )
