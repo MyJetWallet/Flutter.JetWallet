@@ -35,7 +35,6 @@ class CommonTransactionDetailsBlock extends HookWidget {
         ),
         const SpaceH67(),
         Text(
-          // TODO use convert format price
           volumeFormat(
             prefix: currency.prefixSymbol,
             decimal: transactionListItem.balanceChange,

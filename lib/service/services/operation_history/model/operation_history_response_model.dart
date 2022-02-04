@@ -89,8 +89,8 @@ class WithdrawalInfo with _$WithdrawalInfo {
     String? toAddress,
     String? feeAssetId,
     required String withdrawalAssetId,
-    required double withdrawalAmount,
-    required double feeAmount,
+    @DecimalSerialiser() required Decimal withdrawalAmount,
+    @DecimalSerialiser() required Decimal feeAmount,
     required bool isInternal,
   }) = _WithdrawalInfo;
 
@@ -103,11 +103,11 @@ class SwapInfo with _$SwapInfo {
   const factory SwapInfo({
     required bool isSell,
     required String sellAssetId,
-    required double sellAmount,
     required String buyAssetId,
-    required double buyAmount,
-    required double baseRate,
-    required double quoteRate,
+    @DecimalSerialiser() required Decimal sellAmount,
+    @DecimalSerialiser() required Decimal buyAmount,
+    @DecimalSerialiser() required Decimal baseRate,
+    @DecimalSerialiser() required Decimal quoteRate,
   }) = _SwapInfo;
 
   factory SwapInfo.fromJson(Map<String, dynamic> json) =>
