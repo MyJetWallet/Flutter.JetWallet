@@ -38,7 +38,9 @@ class ReturnRates extends HookWidget {
         ),
         ReturnRateItem(
           header: '3 Months',
-          value: formatDayPercentageChange(returnRates.threeMonthPrice),
+          value: formatDayPercentageChange(
+            returnRates.threeMonthPrice,
+          ),
         ),
       ],
     );

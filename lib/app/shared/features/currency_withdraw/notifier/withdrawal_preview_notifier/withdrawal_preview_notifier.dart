@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -51,7 +52,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawal.currency.symbol,
-        amount: double.parse(state.amount),
+        amount: Decimal.parse(state.amount),
         toAddress: state.address,
       );
 

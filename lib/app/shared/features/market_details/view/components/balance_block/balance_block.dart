@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
-import '../../../../../helpers/format_currency_amount.dart';
+import '../../../../../helpers/formatting/formatting.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../providers/currencies_pod/currencies_pod.dart';
@@ -32,7 +32,7 @@ class BalanceBlock extends HookWidget {
     );
     final transactionHistory = useProvider(
       operationHistoryNotipod(
-        marketItem.id,
+        marketItem.symbol,
       ),
     );
 
@@ -47,13 +47,18 @@ class BalanceBlock extends HookWidget {
               url: marketItem.iconUrl,
             ),
             primaryText: '${marketItem.name} wallet',
-            amount: formatCurrencyAmount(
+            amount: volumeFormat(
               prefix: baseCurrency.prefix,
-              value: marketItem.baseBalance,
+              decimal: marketItem.baseBalance,
               symbol: baseCurrency.symbol,
               accuracy: baseCurrency.accuracy,
             ),
-            secondaryText: '${marketItem.assetBalance} ${marketItem.id}',
+            secondaryText: volumeFormat(
+              prefix: marketItem.prefixSymbol,
+              decimal: marketItem.baseBalance,
+              symbol: marketItem.symbol,
+              accuracy: marketItem.assetAccuracy,
+            ),
             onTap: () {
               onMarketItemTap(
                 context: context,
@@ -98,7 +103,7 @@ class BalanceBlock extends HookWidget {
         TransactionHistory.push(
           context: context,
           assetName: marketItem.name,
-          assetId: marketItem.id,
+          assetId: marketItem.symbol,
         );
       }
     } else {

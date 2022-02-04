@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/features/market_details/view/market_details.dart';
-import '../../../../../../shared/helpers/format_currency_amount.dart';
+import '../../../../../../shared/helpers/formatting/formatting.dart';
 import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../notifier/watchlist/watchlist_notipod.dart';
 import '../../../../provider/market_watchlist_items_pod.dart';
@@ -35,13 +35,13 @@ class MarketReorderableList extends HookWidget {
               url: item.iconUrl,
             ),
             name: item.name,
-            price: formatCurrencyAmount(
+            price: marketFormat(
               prefix: baseCurrency.prefix,
-              value: item.lastPrice,
+              decimal: item.lastPrice,
               symbol: baseCurrency.symbol,
               accuracy: baseCurrency.accuracy,
             ),
-            ticker: item.id,
+            ticker: item.symbol,
             last: item == items.last,
             percent: item.dayPercentChange,
             onTap: () {

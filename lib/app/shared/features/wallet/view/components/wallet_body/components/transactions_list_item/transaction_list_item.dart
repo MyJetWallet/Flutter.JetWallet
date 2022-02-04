@@ -4,6 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../helpers/currency_from.dart';
+import '../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
@@ -22,6 +25,7 @@ class TransactionListItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencies = context.read(currenciesPod);
     final colors = useProvider(sColorPod);
 
     return InkWell(
@@ -42,9 +46,22 @@ class TransactionListItem extends HookWidget {
                   text: operationName(transactionListItem.operationType),
                 ),
                 const Spacer(),
-                TransactionListItemHeaderText(
-                  text: '${transactionListItem.balanceChange} '
-                      '${transactionListItem.assetId}',
+                Builder(
+                  builder: (context) {
+                    final currency = currencyFrom(
+                      currencies,
+                      transactionListItem.assetId,
+                    );
+
+                    return TransactionListItemHeaderText(
+                      text: volumeFormat(
+                        prefix: currency.prefixSymbol,
+                        decimal: transactionListItem.balanceChange,
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -59,17 +76,43 @@ class TransactionListItem extends HookWidget {
                 const Spacer(),
                 if (transactionListItem.operationType ==
                     OperationType.sell) ...[
-                  TransactionListItemText(
-                    text: 'For ${transactionListItem.swapInfo!.buyAmount} '
-                        '${transactionListItem.swapInfo!.buyAssetId}',
-                    color: colors.grey2,
+                  Builder(
+                    builder: (context) {
+                      final currency = currencyFrom(
+                        currencies,
+                        transactionListItem.swapInfo!.buyAssetId,
+                      );
+
+                      return TransactionListItemText(
+                        text: 'For ${volumeFormat(
+                          prefix: currency.prefixSymbol,
+                          decimal: transactionListItem.swapInfo!.buyAmount,
+                          accuracy: currency.accuracy,
+                          symbol: currency.symbol,
+                        )}',
+                        color: colors.grey2,
+                      );
+                    },
                   ),
                 ],
                 if (transactionListItem.operationType == OperationType.buy) ...[
-                  TransactionListItemText(
-                    text: 'With ${transactionListItem.swapInfo!.sellAmount} '
-                        '${transactionListItem.swapInfo!.sellAssetId}',
-                    color: colors.grey2,
+                  Builder(
+                    builder: (context) {
+                      final currency = currencyFrom(
+                        currencies,
+                        transactionListItem.swapInfo!.sellAssetId,
+                      );
+
+                      return TransactionListItemText(
+                        text: 'With ${volumeFormat(
+                          prefix: currency.prefixSymbol,
+                          decimal: transactionListItem.swapInfo!.sellAmount,
+                          accuracy: currency.accuracy,
+                          symbol: currency.symbol,
+                        )}',
+                        color: colors.grey2,
+                      );
+                    },
                   ),
                 ]
               ],

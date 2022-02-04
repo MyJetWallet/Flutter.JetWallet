@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+
 import '../models/currency_model.dart';
 
 /// Used for [BUY] and [SELL] features \
@@ -14,7 +16,7 @@ void sortCurrencies(List<CurrencyModel> currencies) {
 /// Used for [BUY] feature \
 /// Always provide newList to avoid unexpected behaviour
 void removeEmptyCurrenciesFrom(List<CurrencyModel> currencies) {
-  currencies.removeWhere((element) => element.assetBalance == 0);
+  currencies.removeWhere((element) => element.assetBalance == Decimal.zero);
 }
 
 /// Used for [BUY] and [SELL] features \

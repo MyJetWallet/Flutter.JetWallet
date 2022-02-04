@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../../../../../../../../../../service/shared/constants.dart';
+import '../../../../../../../../../helpers/convert_prcie_accuracy.dart';
+import '../../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
+import '../../../../../../../../../models/currency_model.dart';
+import '../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../../../../../market_details/helper/currency_from.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
@@ -18,6 +23,45 @@ class BuySellDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencies = context.read(currenciesPod);
+
+    final buyCurrency = currencyFrom(
+      currencies,
+      transactionListItem.swapInfo!.buyAssetId,
+    );
+
+    final sellCurrency = currencyFrom(
+      currencies,
+      transactionListItem.swapInfo!.sellAssetId,
+    );
+
+    String _rateFor(
+      CurrencyModel currency1,
+      CurrencyModel currency2,
+    ) {
+      final accuracy = convertPriceAccuracy(
+        context.read,
+        currency1.symbol,
+        currency2.symbol,
+      );
+
+      final base = volumeFormat(
+        prefix: currency1.prefixSymbol,
+        decimal: transactionListItem.swapInfo!.baseRate,
+        accuracy: currency1.accuracy,
+        symbol: currency1.symbol,
+      );
+
+      final quote = volumeFormat(
+        prefix: currency2.prefixSymbol,
+        decimal: transactionListItem.swapInfo!.quoteRate,
+        accuracy: accuracy,
+        symbol: currency2.symbol,
+      );
+
+      return '$base = $quote';
+    }
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -48,18 +92,19 @@ class BuySellDetails extends StatelessWidget {
             TransactionDetailsItem(
               text: 'With',
               value: TransactionDetailsValueText(
-                text: '${'${transactionListItem.swapInfo!.sellAmount}'} '
-                    '${transactionListItem.swapInfo!.sellAssetId}',
+                text: volumeFormat(
+                  prefix: sellCurrency.prefixSymbol,
+                  decimal: transactionListItem.swapInfo!.sellAmount,
+                  accuracy: sellCurrency.accuracy,
+                  symbol: sellCurrency.symbol,
+                ),
               ),
             ),
             const SpaceH14(),
             TransactionDetailsItem(
               text: 'Rate',
               value: TransactionDetailsValueText(
-                text: _rateFor(
-                  transactionListItem.swapInfo!.buyAssetId,
-                  transactionListItem.swapInfo!.sellAssetId,
-                ),
+                text: _rateFor(buyCurrency, sellCurrency),
               ),
             ),
           ],
@@ -67,35 +112,24 @@ class BuySellDetails extends StatelessWidget {
             TransactionDetailsItem(
               text: 'For',
               value: TransactionDetailsValueText(
-                text: '${'${transactionListItem.swapInfo!.buyAmount}'} '
-                    '${transactionListItem.swapInfo!.buyAssetId}',
+                text: volumeFormat(
+                  prefix: buyCurrency.prefixSymbol,
+                  decimal: transactionListItem.swapInfo!.buyAmount,
+                  accuracy: buyCurrency.accuracy,
+                  symbol: buyCurrency.symbol,
+                ),
               ),
             ),
             const SpaceH14(),
             TransactionDetailsItem(
               text: 'Rate',
               value: TransactionDetailsValueText(
-                text: _rateFor(
-                  transactionListItem.swapInfo!.sellAssetId,
-                  transactionListItem.swapInfo!.buyAssetId,
-                ),
+                text: _rateFor(sellCurrency, buyCurrency),
               ),
             ),
           ],
         ],
       ),
     );
-  }
-
-  String _rateFor(
-    String firstAssetId,
-    String secondAssetId,
-  ) {
-    final quoteRate = transactionListItem.swapInfo!.quoteRate
-        .toStringAsFixed(signsAfterComma);
-    return '${transactionListItem.swapInfo!.baseRate} '
-        '$firstAssetId = '
-        '$quoteRate '
-        '$secondAssetId';
   }
 }

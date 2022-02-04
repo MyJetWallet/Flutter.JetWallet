@@ -1,37 +1,17 @@
+import 'package:decimal/decimal.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/remove_chars_from.dart';
 import '../models/currency_model.dart';
 import '../models/selected_percent.dart';
 
-// This helper are used in [BUY], [SELL], [CONVERT], [WITHDRAW] flows
+// These helpers are used in [BUY], [SELL], [CONVERT], [WITHDRAW] flows
 // Working with NumberKeyboard in [amount] mode
 
 const specialPointCase = '0.';
 
 bool firstZeroInputCase(String string) {
   return string.length == 1 && string == zero;
-}
-
-/// Removes cases like:
-/// 1) 50.0000 -> 50
-/// 2) 4.3320000 -> 4.332
-String truncateZerosFromInput(String input) {
-  if (input.isNotEmpty) {
-    final number = double.parse(input);
-
-    if (number == 0) {
-      return zero;
-    }
-    // if number is the whole
-    else if (number % 1 == 0) {
-      return number.toInt().toString();
-    } else {
-      return number.toString();
-    }
-  }
-
-  return input;
 }
 
 String valueBasedOnSelectedPercent({
@@ -41,10 +21,10 @@ String valueBasedOnSelectedPercent({
   if (currency.isAssetBalanceEmpty) {
     return zero;
   } else if (selected == SelectedPercent.pct25) {
-    final value = currency.assetBalance * 0.25;
+    final value = currency.assetBalance * Decimal.parse('0.25');
     return '$value';
   } else if (selected == SelectedPercent.pct50) {
-    final value = currency.assetBalance * 0.50;
+    final value = currency.assetBalance * Decimal.parse('0.50');
     return '$value';
   } else if (selected == SelectedPercent.pct100) {
     final value = currency.assetBalance;
@@ -146,7 +126,7 @@ InputError onTradeInputErrorHandler(
   bool addressIsInternal = false,
 }) {
   if (input.isNotEmpty) {
-    final value = double.parse(input);
+    final value = Decimal.parse(input);
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
@@ -162,7 +142,7 @@ InputError onWithdrawInputErrorHandler(
   bool addressIsInternal = false,
 }) {
   if (input.isNotEmpty) {
-    final value = double.parse(input);
+    final value = Decimal.parse(input);
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;

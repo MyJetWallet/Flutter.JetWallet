@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'period_prices_model.freezed.dart';
 part 'period_prices_model.g.dart';
@@ -30,7 +33,7 @@ class PeriodPriceModel with _$PeriodPriceModel {
 @freezed
 class PeriodModel with _$PeriodModel {
   const factory PeriodModel({
-    required double price,
+    @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'recordTime') required String date,
   }) = _PeriodModel;
 

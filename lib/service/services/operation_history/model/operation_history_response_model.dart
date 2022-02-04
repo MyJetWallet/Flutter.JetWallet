@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'operation_history_response_model.freezed.dart';
 part 'operation_history_response_model.g.dart';
@@ -26,8 +29,8 @@ class OperationHistoryItem with _$OperationHistoryItem {
     required OperationType operationType,
     required String assetId,
     required String timeStamp,
-    required double balanceChange,
-    required double newBalance,
+    @DecimalSerialiser() required Decimal balanceChange,
+    @DecimalSerialiser() required Decimal newBalance,
     required Status status,
   }) = _OperationHistoryItem;
 
@@ -86,8 +89,8 @@ class WithdrawalInfo with _$WithdrawalInfo {
     String? toAddress,
     String? feeAssetId,
     required String withdrawalAssetId,
-    required double withdrawalAmount,
-    required double feeAmount,
+    @DecimalSerialiser() required Decimal withdrawalAmount,
+    @DecimalSerialiser() required Decimal feeAmount,
     required bool isInternal,
   }) = _WithdrawalInfo;
 
@@ -100,11 +103,11 @@ class SwapInfo with _$SwapInfo {
   const factory SwapInfo({
     required bool isSell,
     required String sellAssetId,
-    required double sellAmount,
     required String buyAssetId,
-    required double buyAmount,
-    required double baseRate,
-    required double quoteRate,
+    @DecimalSerialiser() required Decimal sellAmount,
+    @DecimalSerialiser() required Decimal buyAmount,
+    @DecimalSerialiser() required Decimal baseRate,
+    @DecimalSerialiser() required Decimal quoteRate,
   }) = _SwapInfo;
 
   factory SwapInfo.fromJson(Map<String, dynamic> json) =>

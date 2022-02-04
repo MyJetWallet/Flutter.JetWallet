@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'instruments_model.freezed.dart';
 part 'instruments_model.g.dart';
@@ -22,9 +25,9 @@ class InstrumentModel with _$InstrumentModel {
     required String baseAsset,
     required String quoteAsset,
     required int accuracy,
-    required double minVolume,
-    required double maxVolume,
-    required double maxOppositeVolume,
+    @DecimalSerialiser() required Decimal minVolume,
+    @DecimalSerialiser() required Decimal maxVolume,
+    @DecimalSerialiser() required Decimal maxOppositeVolume,
   }) = _InstrumentModel;
 
   factory InstrumentModel.fromJson(Map<String, dynamic> json) =>

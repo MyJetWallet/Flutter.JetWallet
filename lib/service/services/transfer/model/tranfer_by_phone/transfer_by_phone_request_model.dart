@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../shared/decimal_serialiser.dart';
 
 part 'transfer_by_phone_request_model.freezed.dart';
 part 'transfer_by_phone_request_model.g.dart';
@@ -8,7 +11,7 @@ class TransferByPhoneRequestModel with _$TransferByPhoneRequestModel {
   const factory TransferByPhoneRequestModel({
     required String requestId,
     required String assetSymbol,
-    required double amount,
+    @DecimalSerialiser() required Decimal amount,
     @JsonKey(name: 'lang') required String locale,
     required String toPhoneCode,
     required String toPhoneBody,
