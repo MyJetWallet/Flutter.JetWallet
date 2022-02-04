@@ -12,15 +12,15 @@ import '../../helper/period_change.dart';
 class AssetDayChange extends HookWidget {
   const AssetDayChange({
     Key? key,
-    required this.assetId,
+    required this.instrumentId,
   }) : super(key: key);
 
-  final String assetId;
+  final String instrumentId;
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final chart = useProvider(chartNotipod);
+    final chart = useProvider(chartNotipod(instrumentId));
     final baseCurrency = useProvider(baseCurrencyPod);
     final periodChange = _periodChange(
       chart,

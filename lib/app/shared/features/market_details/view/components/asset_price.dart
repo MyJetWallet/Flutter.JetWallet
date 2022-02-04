@@ -16,9 +16,11 @@ class AssetPrice extends HookWidget {
   const AssetPrice({
     Key? key,
     required this.assetId,
+    required this.instrumentId,
   }) : super(key: key);
 
   final String assetId;
+  final String instrumentId;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class AssetPrice extends HookWidget {
       useProvider(marketItemsPod),
       assetId,
     );
-    final chart = useProvider(chartNotipod);
+    final chart = useProvider(chartNotipod(instrumentId));
     final baseCurrency = useProvider(baseCurrencyPod);
 
     return SizedBox(

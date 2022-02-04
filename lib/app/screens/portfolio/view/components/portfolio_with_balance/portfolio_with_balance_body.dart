@@ -62,8 +62,8 @@ class PortfolioWithBalanceBody extends HookWidget {
         currenciesWithBalanceFrom(useProvider(marketFiatsPod));
     final fiatsWithoutBalance =
         currenciesWithoutBalanceFrom(useProvider(marketFiatsPod));
-    final chartN = useProvider(chartNotipod.notifier);
-    final chart = useProvider(chartNotipod);
+    final chartN = useProvider(chartNotipod(null).notifier);
+    final chart = useProvider(chartNotipod(null));
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final clientDetail = useProvider(clientDetailPod);
@@ -88,7 +88,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                 ),
               ),
             ),
-          if (chart.union == const ChartUnion.loading())
+          if (chart.union == const ChartUnion.loading() ||
+              chart.candles[chart.resolution] == null ||
+              chart.candles[chart.resolution]!.isEmpty)
             Container(
               width: double.infinity,
               height: 465,

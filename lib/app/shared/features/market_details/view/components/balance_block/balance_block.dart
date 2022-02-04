@@ -67,6 +67,7 @@ class BalanceBlock extends HookWidget {
             leftBlockTopPadding: _leftBlockTopPadding(),
             balanceTopMargin: 16,
             height: 75,
+            rightBlockTopPadding: 15,
             showSecondaryText: !marketItem.isBalanceEmpty,
           ),
           BalanceActionButtons(
