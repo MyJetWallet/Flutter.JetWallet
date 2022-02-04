@@ -32,7 +32,7 @@ class BalanceBlock extends HookWidget {
     );
     final transactionHistory = useProvider(
       operationHistoryNotipod(
-        marketItem.id,
+        marketItem.symbol,
       ),
     );
 
@@ -47,13 +47,18 @@ class BalanceBlock extends HookWidget {
               url: marketItem.iconUrl,
             ),
             primaryText: '${marketItem.name} wallet',
-            amount: marketFormat(
+            amount: volumeFormat(
               prefix: baseCurrency.prefix,
               decimal: marketItem.baseBalance,
               symbol: baseCurrency.symbol,
               accuracy: baseCurrency.accuracy,
             ),
-            secondaryText: '${marketItem.assetBalance} ${marketItem.id}',
+            secondaryText: volumeFormat(
+              prefix: marketItem.prefixSymbol,
+              decimal: marketItem.baseBalance,
+              symbol: marketItem.symbol,
+              accuracy: marketItem.assetAccuracy,
+            ),
             onTap: () {
               onMarketItemTap(
                 context: context,
@@ -97,7 +102,7 @@ class BalanceBlock extends HookWidget {
         TransactionHistory.push(
           context: context,
           assetName: marketItem.name,
-          assetId: marketItem.id,
+          assetId: marketItem.symbol,
         );
       }
     } else {

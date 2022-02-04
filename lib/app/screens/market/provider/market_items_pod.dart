@@ -28,7 +28,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
             weight: marketReference.weight,
             associateAsset: marketReference.associateAsset,
             associateAssetPair: marketReference.associateAssetPair,
-            id: currency.symbol,
+            symbol: currency.symbol,
             name: currency.description,
             dayPriceChange: currency.dayPriceChange,
             dayPercentChange: currency.dayPercentChange,
@@ -36,7 +36,8 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
             assetBalance: currency.assetBalance,
             baseBalance: currency.baseBalance,
             prefixSymbol: currency.prefixSymbol,
-            accuracy: marketReference.priceAccuracy,
+            assetAccuracy: currency.accuracy,
+            priceAccuracy: marketReference.priceAccuracy,
             startMarketTime: marketReference.startMarketTime,
             type: currency.type,
           ),
@@ -57,7 +58,7 @@ List<MarketItemModel> _formattedItems(
   return items
       .where(
         (item) =>
-            item.id.toLowerCase().contains(searchInput) ||
+            item.symbol.toLowerCase().contains(searchInput) ||
             item.name.toLowerCase().contains(searchInput),
       )
       .toList();

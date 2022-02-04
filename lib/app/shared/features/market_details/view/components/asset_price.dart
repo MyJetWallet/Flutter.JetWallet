@@ -55,14 +55,14 @@ class AssetPrice extends HookWidget {
         prefix: baseCurrency.prefix,
         // TODO migrate candles to decimal
         decimal: Decimal.parse(chart.selectedCandle!.close.toString()),
-        accuracy: marketItem.accuracy,
+        accuracy: marketItem.priceAccuracy,
         symbol: baseCurrency.symbol,
       );
     } else {
       return marketFormat(
         prefix: baseCurrency.prefix,
         decimal: marketItem.lastPrice,
-        accuracy: marketItem.accuracy,
+        accuracy: marketItem.priceAccuracy,
         symbol: baseCurrency.symbol,
       );
     }

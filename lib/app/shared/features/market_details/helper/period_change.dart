@@ -32,7 +32,7 @@ String periodChange({
         prefix: baseCurrency.prefix,
         // TODO migrate candles to decimal
         decimal: Decimal.parse(periodPriceChange.toString()),
-        accuracy: marketItem.accuracy,
+        accuracy: marketItem.priceAccuracy,
         symbol: baseCurrency.symbol,
       )} $periodPercentChangeString';
     } else {

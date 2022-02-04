@@ -38,9 +38,9 @@ class MarketList extends HookWidget {
             prefix: baseCurrency.prefix,
             decimal: item.lastPrice,
             symbol: baseCurrency.symbol,
-            accuracy: item.accuracy,
+            accuracy: item.priceAccuracy,
           ),
-          ticker: item.id,
+          ticker: item.symbol,
           last: item == items.last,
           percent: item.dayPercentChange,
           onTap: () {
