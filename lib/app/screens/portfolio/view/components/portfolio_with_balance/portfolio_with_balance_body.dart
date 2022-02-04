@@ -580,7 +580,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                         ? indicesWithoutBalanceLength
                         : 0)) +
             showWalletsButtonHeight;
-      case 3:
+      default:
         return walletItemHeight *
                 (fiatsWithBalanceLength +
                     (showZeroBalanceWallets ? fiatsWithoutBalanceLength : 0)) +
