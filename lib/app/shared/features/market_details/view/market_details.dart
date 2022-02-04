@@ -47,15 +47,15 @@ class MarketDetails extends HookWidget {
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     final initTransactionHistory = useProvider(
       operationHistoryInitFpod(
-        marketItem.id,
+        marketItem.symbol,
       ),
     );
     final transactionHistory = useProvider(
       operationHistoryNotipod(
-        marketItem.id,
+        marketItem.symbol,
       ),
     );
-    final newsInit = useProvider(marketNewsInitFpod(marketItem.id));
+    final newsInit = useProvider(marketNewsInitFpod(marketItem.symbol));
     final news = useProvider(marketNewsNotipod);
     final chart = useProvider(
       chartNotipod,
@@ -69,7 +69,7 @@ class MarketDetails extends HookWidget {
             : colors.grey5,
         child: SPaddingH24(
           child: SSmallHeader(
-            title: '${marketItem.name} (${marketItem.id})',
+            title: '${marketItem.name} (${marketItem.symbol})',
             showStarButton: true,
             isStarSelected:
                 watchlistIdsN.isInWatchlist(marketItem.associateAsset),

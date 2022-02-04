@@ -10,20 +10,21 @@ part 'market_item_model.g.dart';
 class MarketItemModel with _$MarketItemModel {
   const factory MarketItemModel({
     String? prefixSymbol,
-    required String id,
+    required String symbol,
     required String name,
     required String iconUrl,
     required String associateAsset,
     required String associateAssetPair,
     required int weight,
     required double dayPercentChange,
-    required int accuracy,
     required String startMarketTime,
     required AssetType type,
     required Decimal lastPrice,
     required Decimal dayPriceChange,
     required Decimal assetBalance,
     required Decimal baseBalance,
+    required int assetAccuracy,
+    required int priceAccuracy,
   }) = _MarketItemModel;
 
   factory MarketItemModel.fromJson(Map<String, dynamic> json) =>

@@ -44,7 +44,7 @@ class IndexAllocationItem extends HookWidget {
           SBaselineChild(
             baseline: 26,
             child: Text(
-              '${marketItem.name} (${marketItem.id})',
+              '${marketItem.name} (${marketItem.symbol})',
               style: sBodyText1Style.copyWith(color: colors.grey1),
             ),
           ),

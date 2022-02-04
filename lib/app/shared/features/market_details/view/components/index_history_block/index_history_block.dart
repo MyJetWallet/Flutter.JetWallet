@@ -60,7 +60,7 @@ class IndexHistoryBlock extends HookWidget {
                   TransactionHistory.push(
                     context: context,
                     assetName: marketItem.name,
-                    assetId: marketItem.id,
+                    assetId: marketItem.symbol,
                   );
                 },
                 child: const SIndexHistoryIcon(),

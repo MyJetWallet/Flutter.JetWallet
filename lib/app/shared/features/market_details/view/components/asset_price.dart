@@ -23,12 +23,10 @@ class AssetPrice extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final marketItem = marketItemFrom(
-      useProvider(marketItemsPod),
-      assetId,
-    );
     final chart = useProvider(chartNotipod);
+    final marketItems = useProvider(marketItemsPod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final marketItem = marketItemFrom(marketItems, assetId);
 
     return SizedBox(
       height: 40,
@@ -55,15 +53,16 @@ class AssetPrice extends HookWidget {
     if (chart.selectedCandle != null) {
       return marketFormat(
         prefix: baseCurrency.prefix,
+        // TODO migrate candles to decimal
         decimal: Decimal.parse(chart.selectedCandle!.close.toString()),
-        accuracy: baseCurrency.accuracy,
+        accuracy: marketItem.priceAccuracy,
         symbol: baseCurrency.symbol,
       );
     } else {
       return marketFormat(
         prefix: baseCurrency.prefix,
         decimal: marketItem.lastPrice,
-        accuracy: baseCurrency.accuracy,
+        accuracy: marketItem.priceAccuracy,
         symbol: baseCurrency.symbol,
       );
     }

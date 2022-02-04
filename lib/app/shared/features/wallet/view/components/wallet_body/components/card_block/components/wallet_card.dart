@@ -3,10 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../market_details/helper/currency_from.dart';
+import '../../../../../../helper/market_item_from.dart';
 import '../../../../../../helper/show_interest_rate.dart';
 
 class WalletCard extends HookWidget {
@@ -19,12 +21,11 @@ class WalletCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currency = currencyFrom(
-      useProvider(currenciesPod),
-      assetId,
-    );
+    final marketItems = useProvider(marketItemsPod);
+    final currency = currencyFrom(useProvider(currenciesPod), assetId);
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
+    final marketItem = marketItemFrom(marketItems, assetId);
 
     return Container(
       height: 150,
@@ -65,6 +66,7 @@ class WalletCard extends HookWidget {
                   context: context,
                   currency: currency,
                   baseCurrency: baseCurrency,
+                  marketItem: marketItem,
                   colors: colors,
                 );
               },
@@ -138,6 +140,7 @@ class WalletCard extends HookWidget {
                     currency: currency,
                     baseCurrency: baseCurrency,
                     colors: colors,
+                    marketItem: marketItem,
                   );
                 },
                 child: const SInfoIcon(),
