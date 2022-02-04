@@ -28,7 +28,6 @@ class _AllTabBarViewState extends State<AllTabBarView> {
 
     return NestedScrollView(
       controller: _scrollController,
-      physics: const NeverScrollableScrollPhysics(),
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
@@ -61,7 +60,6 @@ class _AllTabBarViewState extends State<AllTabBarView> {
       },
       body: ListView(
         key: const PageStorageKey('all'),
-        shrinkWrap: true,
         padding: EdgeInsets.zero,
         children: [
           const MarketBanners(),

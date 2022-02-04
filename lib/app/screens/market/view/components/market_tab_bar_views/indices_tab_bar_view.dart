@@ -28,7 +28,6 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
 
     return NestedScrollView(
       controller: _scrollController,
-      physics: const NeverScrollableScrollPhysics(),
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
@@ -61,7 +60,6 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
       },
       body: ListView(
         key: const PageStorageKey('indices'),
-        shrinkWrap: true,
         padding: EdgeInsets.zero,
         children: [
           for (final item in indices) ...[
@@ -89,6 +87,7 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
               },
             ),
           ],
+          const SpaceH40(),
         ],
       ),
     );

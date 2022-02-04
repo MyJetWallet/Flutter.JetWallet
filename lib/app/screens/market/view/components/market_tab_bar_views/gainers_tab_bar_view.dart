@@ -20,7 +20,6 @@ class GainersTabBarView extends StatefulHookWidget {
 
 class _GainersTabBarState extends State<GainersTabBarView> {
   final ScrollController _scrollController = ScrollController();
-  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +27,7 @@ class _GainersTabBarState extends State<GainersTabBarView> {
     final baseCurrency = useProvider(baseCurrencyPod);
 
     return NestedScrollView(
+      controller: _scrollController,
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
@@ -58,11 +58,8 @@ class _GainersTabBarState extends State<GainersTabBarView> {
           ),
         ];
       },
-      controller: _scrollController,
       body: ListView(
         key: const PageStorageKey('gainers'),
-        controller: _controller,
-        physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           for (final item in gainers) ...[
@@ -90,6 +87,7 @@ class _GainersTabBarState extends State<GainersTabBarView> {
               },
             ),
           ],
+          const SpaceH40(),
         ],
       ),
     );

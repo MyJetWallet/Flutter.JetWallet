@@ -59,7 +59,6 @@ class _LosersTabBarViewState extends State<LosersTabBarView> {
       },
       body: ListView(
         key: const PageStorageKey('losers'),
-        physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           for (final item in losers) ...[

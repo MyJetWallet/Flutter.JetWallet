@@ -21,7 +21,6 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
   Widget build(BuildContext context) {
     return NestedScrollView(
       controller: _scrollController,
-      physics: const NeverScrollableScrollPhysics(),
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
