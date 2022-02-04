@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 import 'campaign_response_model.dart';
 
 part 'referral_stats_response_model.freezed.dart';
@@ -25,9 +28,9 @@ class ReferralStatsModel with _$ReferralStatsModel {
     required int weight,
     required int referralInvited,
     required int referralActivated,
-    required double bonusEarned,
-    required double commissionEarned,
-    required double total,
+    @DecimalSerialiser() required Decimal bonusEarned,
+    @DecimalSerialiser() required Decimal commissionEarned,
+    @DecimalSerialiser() required Decimal total,
   }) = _ReferralStatsModel;
 
   factory ReferralStatsModel.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../screens/market/provider/market_items_pod.dart';
-import '../../../../helpers/format_currency_amount.dart';
+import '../../../../helpers/formatting/formatting.dart';
 import '../../../../providers/base_currency_pod/base_currency_model.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../chart/notifier/chart_notipod.dart';
@@ -52,16 +53,16 @@ class AssetPrice extends HookWidget {
     BaseCurrencyModel baseCurrency,
   ) {
     if (chart.selectedCandle != null) {
-      return formatCurrencyAmount(
+      return marketFormat(
         prefix: baseCurrency.prefix,
-        value: chart.selectedCandle!.close,
+        decimal: Decimal.parse(chart.selectedCandle!.close.toString()),
         accuracy: baseCurrency.accuracy,
         symbol: baseCurrency.symbol,
       );
     } else {
-      return formatCurrencyAmount(
+      return marketFormat(
         prefix: baseCurrency.prefix,
-        value: marketItem.lastPrice,
+        decimal: marketItem.lastPrice,
         accuracy: baseCurrency.accuracy,
         symbol: baseCurrency.symbol,
       );

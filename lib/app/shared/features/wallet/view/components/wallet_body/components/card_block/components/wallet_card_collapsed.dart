@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../helpers/format_currency_amount.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../market_details/helper/currency_from.dart';
@@ -37,12 +36,7 @@ class WalletCardCollapsed extends HookWidget {
           SBaselineChild(
             baseline: 40,
             child: Text(
-              formatCurrencyAmount(
-                prefix: baseCurrency.prefix,
-                value: currency.baseBalance,
-                accuracy: baseCurrency.accuracy,
-                symbol: baseCurrency.symbol,
-              ),
+              currency.volumeBaseBalance(baseCurrency),
               style: sTextH5Style,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -51,12 +45,7 @@ class WalletCardCollapsed extends HookWidget {
           SBaselineChild(
             baseline: 20,
             child: Text(
-              formatCurrencyAmount(
-                symbol: currency.assetId,
-                value: currency.assetBalance,
-                accuracy: currency.accuracy,
-                prefix: currency.prefixSymbol,
-              ),
+              currency.volumeAssetBalance,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),

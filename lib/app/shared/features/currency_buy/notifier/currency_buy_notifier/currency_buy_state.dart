@@ -1,7 +1,8 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
-import '../../../../helpers/format_currency_string_amount.dart';
 
+import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/base_currency_pod/base_currency_model.dart';
@@ -11,7 +12,7 @@ part 'currency_buy_state.freezed.dart';
 @freezed
 class CurrencyBuyState with _$CurrencyBuyState {
   const factory CurrencyBuyState({
-    double? targetConversionPrice,
+    Decimal? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
@@ -42,23 +43,26 @@ class CurrencyBuyState with _$CurrencyBuyState {
   }
 
   String conversionText(CurrencyModel currency) {
-    final target = '≈ ${formatCurrencyStringAmount(
-      value: targetConversionValue,
+    final target = marketFormat(
+      decimal: Decimal.parse(targetConversionValue),
       symbol: currency.symbol,
       prefix: currency.prefixSymbol,
-    )} ';
-    final base = formatCurrencyStringAmount(
-      prefix: baseCurrency?.prefix,
-      value: baseConversionValue,
+      accuracy: currency.accuracy,
+    );
+
+    final base = marketFormat(
+      accuracy: baseCurrency!.accuracy,
+      prefix: baseCurrency!.prefix,
+      decimal: Decimal.parse(baseConversionValue),
       symbol: baseCurrency!.symbol,
     );
 
     if (selectedCurrency == null) {
-      return target;
+      return '≈ $target';
     } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
-      return target;
+      return '≈ $target';
     } else {
-      return '$target ($base)';
+      return '≈ $target ($base)';
     }
   }
 }

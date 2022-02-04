@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../shared/decimal_serialiser.dart';
 
 part 'conversion_price_model.freezed.dart';
 part 'conversion_price_model.g.dart';
@@ -9,7 +12,7 @@ class ConversionPriceModel with _$ConversionPriceModel {
     String? error,
     required String baseAsset,
     required String quotedAsset,
-    required double price,
+    @DecimalSerialiser() required Decimal price,
     required String updateDate,
   }) = _ConversionPriceModel;
 

@@ -18,3 +18,7 @@ late String defaultAssetIcon;
 late int emailResendCountdown;
 late int withdrawalConfirmResendCountdown;
 late int localPinLength;
+
+// Versioning
+late String recommendedVersion;
+late String minimumVersion;

@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../helpers/format_currency_amount.dart';
+import '../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../market_details/helper/currency_from.dart';
@@ -81,9 +81,9 @@ class WalletCard extends HookWidget {
                 child: SBaselineChild(
                   baseline: 17,
                   child: Text(
-                    '+${formatCurrencyAmount(
+                    '+${volumeFormat(
                       prefix: baseCurrency.prefix,
-                      value: currency.baseTotalEarnAmount,
+                      decimal: currency.baseTotalEarnAmount,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
                     )}',
@@ -102,12 +102,7 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                formatCurrencyAmount(
-                  prefix: baseCurrency.prefix,
-                  value: currency.baseBalance,
-                  accuracy: baseCurrency.accuracy,
-                  symbol: baseCurrency.symbol,
-                ),
+                currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -121,12 +116,7 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 24,
               child: Text(
-                formatCurrencyAmount(
-                  symbol: currency.assetId,
-                  value: currency.assetBalance,
-                  accuracy: currency.accuracy,
-                  prefix: currency.prefixSymbol,
-                ),
+                currency.volumeAssetBalance,
                 style: sBodyText2Style.copyWith(
                   color: colors.grey1,
                 ),

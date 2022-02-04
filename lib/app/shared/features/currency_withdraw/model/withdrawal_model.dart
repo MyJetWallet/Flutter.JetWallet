@@ -6,8 +6,8 @@ import 'withdrawal_dictionary_model.dart';
 @immutable
 class WithdrawalModel {
   const WithdrawalModel({
-    this.currency = const CurrencyModel(),
     this.dictionary = const WithdrawalDictionaryModel.send(),
+    required this.currency,
   });
 
   final CurrencyModel currency;
