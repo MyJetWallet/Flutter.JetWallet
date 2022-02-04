@@ -55,11 +55,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
     final from = widget.input.fromCurrency;
     final to = widget.input.toCurrency;
 
-    final accuracy = convertPriceAccuracy(
-      context.read,
-      state.fromAssetSymbol!,
-      state.toAssetSymbol!,
-    );
+    final accuracy = convertPriceAccuracy(context.read, from.symbol, to.symbol);
 
     return ProviderListener<PreviewBuyWithAssetState>(
       provider: previewBuyWithAssetNotipod(widget.input),
@@ -96,7 +92,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
-                      decimal: state.fromAssetAmount!,
+                      decimal: state.fromAssetAmount ?? Decimal.zero,
                       symbol: from.symbol,
                     ),
                   ),
@@ -107,7 +103,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     value: '≈ ${volumeFormat(
                       prefix: to.prefixSymbol,
                       accuracy: to.accuracy,
-                      decimal: state.toAssetAmount!,
+                      decimal: state.toAssetAmount ?? Decimal.zero,
                       symbol: to.symbol,
                     )}',
                   ),
@@ -126,7 +122,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                         '${volumeFormat(
                       prefix: to.prefixSymbol,
                       accuracy: accuracy,
-                      decimal: state.price!,
+                      decimal: state.price ?? Decimal.zero,
                       symbol: to.symbol,
                     )}',
                   ),
