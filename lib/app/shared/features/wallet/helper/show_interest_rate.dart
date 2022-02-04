@@ -179,10 +179,10 @@ void showInterestRate({
               child: Text(
                 '${DateFormat('d MMM').format(
                   DateTime.parse(currency.nextPaymentDate).toLocal(),
-                )}, ${marketFormat(
+                )}, ${volumeFormat(
                   prefix: baseCurrency.prefix,
                   decimal: currency.baseCurrentEarnAmount,
-                  accuracy: marketItem.priceAccuracy,
+                  accuracy: baseCurrency.accuracy,
                   symbol: baseCurrency.symbol,
                 )}',
                 style: sBodyText1Style,
