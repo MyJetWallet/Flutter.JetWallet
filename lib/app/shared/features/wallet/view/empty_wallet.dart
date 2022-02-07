@@ -7,6 +7,7 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
 import '../provider/current_asset_pod.dart';
 import 'components/action_button/action_button.dart';
+import 'components/wallet_body/empty_earn_wallet_body.dart';
 import 'components/wallet_body/empty_wallet_body.dart';
 
 class EmptyWallet extends StatefulHookWidget {
@@ -66,9 +67,14 @@ class _EmptyWalletState extends State<EmptyWallet>
           header: SSmallHeader(
             title: '${widget.currency.description} wallet',
           ),
-          child: EmptyWalletBody(
-            assetName: widget.currency.description,
-          ),
+          child: (widget.currency.apy.toDouble() == 0.0)
+              ? EmptyWalletBody(
+                  assetName: widget.currency.description,
+                )
+              : EmptyEarnWalletBody(
+                  assetName: widget.currency.description,
+                  apy: widget.currency.apy,
+                ),
         ),
       ),
     );
