@@ -20,6 +20,7 @@ class GainersTabBarView extends StatefulHookWidget {
 
 class _GainersTabBarState extends State<GainersTabBarView> {
   final ScrollController _scrollController = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,7 @@ class _GainersTabBarState extends State<GainersTabBarView> {
       },
       body: ListView(
         key: const PageStorageKey('gainers'),
+        controller: _controller,
         padding: EdgeInsets.zero,
         children: [
           for (final item in gainers) ...[
