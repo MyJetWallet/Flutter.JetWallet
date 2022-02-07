@@ -161,7 +161,7 @@ definitions:
     - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
     - flutter_drive.log    
   
-  dev_triggering_1: &dev_triggering_1
+  dev_triggering: &dev_triggering
     events:
         - pull_request
     branch_patterns:
@@ -169,21 +169,11 @@ definitions:
         include: true
         source: false
     cancel_previous_builds: false  
-  
-  dev_triggering_2: &dev_triggering_2
-    branch_patterns:
-      - pattern: '*'
-        include: false
-        source: false
-    cancel_previous_builds: false  
 
   stage_triggering: &stage_triggering
     events:
         - push
     branch_patterns:
-      - pattern: '*'
-        include: false
-        source: false
       - pattern: develop
         include: true
         source: false
@@ -193,9 +183,6 @@ definitions:
     events:
         - push
     branch_patterns:
-      - pattern: '*'
-        include: false
-        source: false
       - pattern: master
         include: true
         source: false
@@ -218,7 +205,7 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-    triggering: *dev_triggering_1 
+    triggering: *dev_triggering 
 
   flavor_development_target_production:
     name: Flavor (Development) Target (Production)
@@ -236,7 +223,6 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-    triggering: *dev_triggering_2
 
   flavor_staging_target_production:
     name: Flavor (Staging) Target (Production)
