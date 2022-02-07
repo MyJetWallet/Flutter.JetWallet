@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../shared/constants.dart';
+
 void showUsePhonebookAlert({
   required BuildContext context,
   required Function() onUsePhonebook,
@@ -9,12 +11,12 @@ void showUsePhonebookAlert({
   sShowAlertPopup(
     context,
     // TODO placeholder widget (will be changed when design will be ready)
-    image: Container(
-      height: 204.0,
-      color: Colors.grey[200],
+    image: Image.asset(
+      usePhonebookImageAsset,
+      height: 180,
+      width: 180,
     ),
     onWillPop: onPopupQuit,
-    topSpacer: const SpaceH20(),
     primaryText: 'Use Phonebook?',
     primaryButtonName: 'Use Phonebook',
     secondaryButtonName: 'Enter manually',
