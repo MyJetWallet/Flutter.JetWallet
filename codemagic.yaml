@@ -159,7 +159,34 @@ definitions:
     - build/ios/ipa/*.ipa
     - /tmp/xcodebuild_logs/*.log
     - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-    - flutter_drive.log        
+    - flutter_drive.log    
+  
+  dev_triggering: &dev_triggering
+    events:
+      - pull_request
+    branch_patterns:
+      - pattern: develop
+        include: true
+        source: false
+    cancel_previous_builds: false  
+
+  stage_triggering: &stage_triggering
+    events:
+      - push
+    branch_patterns:
+      - pattern: develop
+        include: true
+        source: false
+    cancel_previous_builds: false    
+  
+  prod_triggering: &prod_triggering
+    events:
+      - push
+    branch_patterns:
+      - pattern: master
+        include: true
+        source: false
+    cancel_previous_builds: false  
 
 workflows:
   flavor_development_target_stage:
@@ -178,13 +205,7 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-
-    triggering:
-      branch_patterns:
-        - pattern: '*'
-          include: false
-          source: false
-      cancel_previous_builds: false  
+    triggering: *dev_triggering 
 
   flavor_development_target_production:
     name: Flavor (Development) Target (Production)
@@ -203,13 +224,6 @@ workflows:
     publishing: *publishing
     artifacts: *artifacts
 
-    triggering:
-      branch_patterns:
-        - pattern: '*'
-          include: false
-          source: false
-      cancel_previous_builds: false
-
   flavor_staging_target_production:
     name: Flavor (Staging) Target (Production)
     <<: *build_config
@@ -226,13 +240,7 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-
-    triggering:
-      branch_patterns:
-        - pattern: '*'
-          include: false
-          source: false
-      cancel_previous_builds: false
+    triggering: *stage_triggering
   
   flavor_production_target_production:
     name: Flavor (Production) Target (Production)
@@ -250,10 +258,4 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-
-    triggering:
-      branch_patterns:
-        - pattern: '*'
-          include: false
-          source: false
-      cancel_previous_builds: false
+    triggering: *prod_triggering
