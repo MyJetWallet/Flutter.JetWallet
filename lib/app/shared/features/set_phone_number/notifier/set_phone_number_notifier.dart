@@ -122,4 +122,22 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
       );
     }
   }
+
+  void parsePhoneNumber() {
+    state.phoneNumberController.text =
+        state.phoneNumberController.text.toLowerCase().replaceAll(' ', '');
+    state.phoneNumberController.text =
+        state.phoneNumberController.text.toLowerCase().replaceAll('+', '');
+    state.phoneNumberController.text =
+        state.phoneNumberController.text.toLowerCase().replaceAll('(', '');
+    state.phoneNumberController.text =
+        state.phoneNumberController.text.toLowerCase().replaceAll(')', '');
+
+    if (state.phoneNumberController.text
+        .contains(state.dialCodeController.text)) {
+      final splitNumber =
+          state.phoneNumberController.text.split(state.dialCodeController.text);
+      state.phoneNumberController.text = splitNumber.last;
+    }
+  }
 }
