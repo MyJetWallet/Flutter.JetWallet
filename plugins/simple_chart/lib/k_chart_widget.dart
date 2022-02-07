@@ -205,33 +205,6 @@ class _KChartWidgetState extends State<KChartWidget>
         widget.onCandleSelected(null);
         reRenderView();
       },
-      onLongPressStart: (details) {
-        // HapticFeedback.selectionClick();
-        //
-        // isLongPress = true;
-        // if (_selectX != details.globalPosition.dx) {
-        //   _selectX =
-        //       details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
-        //   reRenderView();
-        // }
-      },
-      onLongPressMoveUpdate: (details) {
-        HapticFeedback.selectionClick();
-
-        if (_selectX != details.globalPosition.dx) {
-          _selectX =
-              details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
-          reRenderView();
-        }
-      },
-      onLongPressEnd: (details) {
-        HapticFeedback.selectionClick();
-
-        isLongPress = false;
-        // _infoWindowStream.sink.add(null);
-        widget.onCandleSelected(null);
-        reRenderView();
-      },
       child: Stack(
         children: <Widget>[
           if (!isLongPress && widget.isAssetChart)
