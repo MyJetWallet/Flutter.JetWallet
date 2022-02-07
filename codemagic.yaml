@@ -166,7 +166,7 @@ definitions:
         - pull_request
     branch_patterns:
       - pattern: develop
-        include: true
+        include: false
         source: false
     cancel_previous_builds: false  
 
