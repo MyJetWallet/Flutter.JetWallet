@@ -75,7 +75,7 @@ class _LosersTabBarViewState extends State<LosersTabBarView> {
                 symbol: baseCurrency.symbol,
                 accuracy: baseCurrency.accuracy,
               ),
-              ticker: item.id,
+              ticker: item.symbol,
               last: item == losers.last,
               percent: item.dayPercentChange,
               onTap: () {

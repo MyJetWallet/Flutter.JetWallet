@@ -76,7 +76,7 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
                 symbol: baseCurrency.symbol,
                 accuracy: baseCurrency.accuracy,
               ),
-              ticker: item.id,
+              ticker: item.symbol,
               last: item == indices.last,
               percent: item.dayPercentChange,
               onTap: () {

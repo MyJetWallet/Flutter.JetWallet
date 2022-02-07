@@ -76,7 +76,7 @@ class _GainersTabBarState extends State<GainersTabBarView> {
                 symbol: baseCurrency.symbol,
                 accuracy: baseCurrency.accuracy,
               ),
-              ticker: item.id,
+              ticker: item.symbol,
               last: item == gainers.last,
               percent: item.dayPercentChange,
               onTap: () {
