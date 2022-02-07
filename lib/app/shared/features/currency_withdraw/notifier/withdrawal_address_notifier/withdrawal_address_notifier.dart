@@ -158,14 +158,38 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   Future _pushQrView(BuildContext context) {
+    final colors = read(sColorPod);
+
     return Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return QRView(
-            key: state.qrKey,
-            onQRViewCreated: (c) => _onQRViewCreated(c, context),
-            overlay: QrScannerOverlayShape(),
+          return Stack(
+            children: [
+              QRView(
+                key: state.qrKey,
+                onQRViewCreated: (c) => _onQRViewCreated(c, context),
+                overlay: QrScannerOverlayShape(),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Positioned(
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      left: 28.0,
+                      top: 68.0,
+                    ),
+                    width: 24,
+                    height: 24,
+                    child: SCloseIcon(
+                      color: colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),
