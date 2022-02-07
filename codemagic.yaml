@@ -163,7 +163,7 @@ definitions:
   
   dev_triggering: &dev_triggering
     events:
-        - pull_request
+      - pull_request
     branch_patterns:
       - pattern: develop
         include: true
@@ -172,7 +172,7 @@ definitions:
 
   stage_triggering: &stage_triggering
     events:
-        - push
+      - push
     branch_patterns:
       - pattern: develop
         include: true
@@ -181,7 +181,7 @@ definitions:
   
   prod_triggering: &prod_triggering
     events:
-        - push
+      - push
     branch_patterns:
       - pattern: master
         include: true
