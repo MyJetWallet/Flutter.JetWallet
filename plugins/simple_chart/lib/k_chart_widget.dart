@@ -150,20 +150,21 @@ class _KChartWidgetState extends State<KChartWidget>
       //   }
       // },
       // onHorizontalDragCancel: () => isDrag = false,
-      onScaleStart: (_) {
-        // isScale = true;
-      },
-      onScaleUpdate: (details) {
-        // if (isDrag || isLongPress) return;
-        // _scaleX = (_lastScale * details.scale).clamp(0.5, 2.2);
-        // reRenderView();
-      },
-      onScaleEnd: (_) {
-        // isScale = false;
-        // _lastScale = _scaleX;
-      },
-      onLongPressStart: (details) {
-        HapticFeedback.vibrate();
+      // onScaleStart: (_) {
+      // isScale = true;
+      // },
+      // onScaleUpdate: (details) {
+      // if (isDrag || isLongPress) return;
+      // _scaleX = (_lastScale * details.scale).clamp(0.5, 2.2);
+      // reRenderView();
+      // },
+      // onScaleEnd: (_) {
+      // isScale = false;
+      // _lastScale = _scaleX;
+      // },
+      onHorizontalDragDown: (details) {
+        HapticFeedback.selectionClick();
+
         isLongPress = true;
         if (_selectX != details.globalPosition.dx) {
           _selectX =
@@ -171,7 +172,52 @@ class _KChartWidgetState extends State<KChartWidget>
           reRenderView();
         }
       },
+      onHorizontalDragUpdate: (details) {
+        HapticFeedback.selectionClick();
+
+        if (_selectX != details.globalPosition.dx) {
+          _selectX =
+              details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
+          reRenderView();
+        }
+      },
+      onHorizontalDragEnd: (details) {
+        HapticFeedback.selectionClick();
+
+        isLongPress = false;
+        // _infoWindowStream.sink.add(null);
+        widget.onCandleSelected(null);
+        reRenderView();
+      },
+      onTapUp: (details) {
+        HapticFeedback.selectionClick();
+
+        isLongPress = false;
+        // _infoWindowStream.sink.add(null);
+        widget.onCandleSelected(null);
+        reRenderView();
+      },
+      onVerticalDragEnd: (details) {
+        HapticFeedback.selectionClick();
+
+        isLongPress = false;
+        // _infoWindowStream.sink.add(null);
+        widget.onCandleSelected(null);
+        reRenderView();
+      },
+      onLongPressStart: (details) {
+        // HapticFeedback.selectionClick();
+        //
+        // isLongPress = true;
+        // if (_selectX != details.globalPosition.dx) {
+        //   _selectX =
+        //       details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
+        //   reRenderView();
+        // }
+      },
       onLongPressMoveUpdate: (details) {
+        HapticFeedback.selectionClick();
+
         if (_selectX != details.globalPosition.dx) {
           _selectX =
               details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
@@ -179,7 +225,8 @@ class _KChartWidgetState extends State<KChartWidget>
         }
       },
       onLongPressEnd: (details) {
-        HapticFeedback.vibrate();
+        HapticFeedback.selectionClick();
+
         isLongPress = false;
         // _infoWindowStream.sink.add(null);
         widget.onCandleSelected(null);
