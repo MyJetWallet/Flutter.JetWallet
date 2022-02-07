@@ -6,8 +6,10 @@ class EmptyWalletBalanceText extends StatelessWidget {
     Key? key,
     required this.height,
     required this.baseline,
+    required this.color,
   }) : super(key: key);
 
+  final Color color;
   final double height;
   final double baseline;
 
@@ -20,7 +22,9 @@ class EmptyWalletBalanceText extends StatelessWidget {
         baselineType: TextBaseline.alphabetic,
         child: Text(
           '\$0',
-          style: sTextH0Style,
+          style: sTextH0Style.copyWith(
+            color: color,
+          ),
         ),
       ),
     );

@@ -41,7 +41,7 @@ class MarketReorderableList extends HookWidget {
               symbol: baseCurrency.symbol,
               accuracy: baseCurrency.accuracy,
             ),
-            ticker: item.id,
+            ticker: item.symbol,
             last: item == items.last,
             percent: item.dayPercentChange,
             onTap: () {

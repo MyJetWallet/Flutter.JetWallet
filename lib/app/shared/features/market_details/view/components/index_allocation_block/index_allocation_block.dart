@@ -54,5 +54,6 @@ class IndexAllocationBlock extends HookWidget {
   // The relevant error-causing widget was
   // IndexAllocationBlock
   IndexModel _indexDetailsFrom(List<IndexModel> indicesDetails) =>
-      indicesDetails.firstWhere((element) => element.symbol == marketItem.id);
+      indicesDetails
+          .firstWhere((element) => element.symbol == marketItem.symbol);
 }

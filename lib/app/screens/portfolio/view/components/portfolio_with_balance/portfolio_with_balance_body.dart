@@ -224,8 +224,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             primaryText: item.description,
                             amount: item.volumeBaseBalance(baseCurrency),
-                            secondaryText:
-                                '${item.assetBalance} ${item.symbol}',
+                            secondaryText: item.volumeAssetBalance,
                             onTap: () {
                               if (item.type == AssetType.indices) {
                                 navigatorPush(
@@ -253,8 +252,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               ),
                               primaryText: item.description,
                               amount: item.volumeBaseBalance(baseCurrency),
-                              secondaryText:
-                                  '${item.assetBalance} ${item.symbol}',
+                              secondaryText: item.volumeAssetBalance,
                               onTap: () {
                                 if (item.type == AssetType.indices) {
                                   navigatorPush(
@@ -309,8 +307,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               ),
                               primaryText: item.description,
                               amount: item.volumeBaseBalance(baseCurrency),
-                              secondaryText:
-                                  '${item.assetBalance} ${item.symbol}',
+                              secondaryText: item.volumeAssetBalance,
                               onTap: () => navigateToWallet(context, item),
                               removeDivider: item == cryptosWithBalance.last,
                             ),
@@ -324,8 +321,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 ),
                                 primaryText: item.description,
                                 amount: item.volumeBaseBalance(baseCurrency),
-                                secondaryText:
-                                    '${item.assetBalance} ${item.symbol}',
+                                secondaryText: item.volumeAssetBalance,
                                 onTap: () => navigateToWallet(context, item),
                                 color: colors.black,
                                 removeDivider: item == itemsWithoutBalance.last,
@@ -391,8 +387,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 ),
                                 primaryText: item.description,
                                 amount: item.volumeBaseBalance(baseCurrency),
-                                secondaryText:
-                                    '${item.assetBalance} ${item.symbol}',
+                                secondaryText: item.volumeAssetBalance,
                                 onTap: () {
                                   navigatorPush(
                                     context,
@@ -444,8 +439,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               ),
                               primaryText: item.description,
                               amount: item.volumeBaseBalance(baseCurrency),
-                              secondaryText:
-                                  '${item.assetBalance} ${item.symbol}',
+                              secondaryText: item.volumeAssetBalance,
                               onTap: () => navigateToWallet(context, item),
                               removeDivider: item == fiatsWithBalance.last,
                             ),
@@ -459,8 +453,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 ),
                                 primaryText: item.description,
                                 amount: item.volumeBaseBalance(baseCurrency),
-                                secondaryText:
-                                    '${item.assetBalance} ${item.symbol}',
+                                secondaryText: item.volumeAssetBalance,
                                 onTap: () => navigateToWallet(context, item),
                                 color: colors.black,
                                 removeDivider: item == fiatsWithoutBalance.last,
