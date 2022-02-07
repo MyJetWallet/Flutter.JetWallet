@@ -165,9 +165,6 @@ definitions:
     events:
         - pull_request
     branch_patterns:
-      - pattern: '*'
-        include: false
-        source: false
       - pattern: develop
         include: true
         source: false
