@@ -17,10 +17,10 @@ const _expandedCardHeight = 270.0;
 class WalletBody extends StatefulHookWidget {
   const WalletBody({
     Key? key,
-    required this.item,
+    required this.currency,
   }) : super(key: key);
 
-  final CurrencyModel item;
+  final CurrencyModel currency;
 
   @override
   State<StatefulWidget> createState() => _WalletBodyState();
@@ -38,7 +38,7 @@ class _WalletBodyState extends State<WalletBody>
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
-    if (!widget.item.isGrowing) {
+    if (!widget.currency.isGrowing) {
       walletBackground = walletRedBackgroundImageAsset;
     }
 
@@ -66,10 +66,10 @@ class _WalletBodyState extends State<WalletBody>
                 scrollController: _scrollController,
                 fullOpacityOffset: 33,
                 fadeInWidget: WalletCardCollapsed(
-                  assetId: widget.item.assetId,
+                  currency: widget.currency,
                 ),
                 fadeOutWidget: WalletCard(
-                  assetId: widget.item.assetId,
+                  currency: widget.currency,
                 ),
                 permanentWidget: Stack(
                   children: [
@@ -81,7 +81,7 @@ class _WalletBodyState extends State<WalletBody>
                     ),
                     SPaddingH24(
                       child: SSmallHeader(
-                        title: '${widget.item.description} wallet',
+                        title: '${widget.currency.description} wallet',
                       ),
                     ),
                   ],
@@ -95,7 +95,7 @@ class _WalletBodyState extends State<WalletBody>
                   children: [
                     const SpaceH36(),
                     Text(
-                      '${widget.item.description} transactions',
+                      '${widget.currency.description} transactions',
                       style: sTextH4Style,
                     ),
                   ],
@@ -105,7 +105,7 @@ class _WalletBodyState extends State<WalletBody>
             TransactionsList(
               scrollController: _scrollController,
               errorBoxPaddingMultiplier: 0.7133,
-              assetId: widget.item.assetId,
+              symbol: widget.currency.symbol,
             ),
           ],
         ),

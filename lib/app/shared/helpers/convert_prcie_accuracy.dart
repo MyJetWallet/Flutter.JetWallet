@@ -11,7 +11,7 @@ int convertPriceAccuracy(Reader read, String from, String to) {
       return element.from == from && element.to == to;
     },
     orElse: () {
-      return const ConvertPriceAccuracy(from: '', to: '', accuracy: 0);
+      return const ConvertPriceAccuracy(from: '', to: '', accuracy: 8);
     },
   );
 
