@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../screens/market/helper/format_day_percentage_change.dart';
-import '../../../helpers/convert_prcie_accuracy.dart';
 import '../../../helpers/formatting/formatting.dart';
+import '../../../helpers/price_accuracy.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';
 
@@ -34,7 +34,7 @@ void showInterestRate({
                 marketFormat(
                   prefix: baseCurrency.prefix,
                   decimal: currency.currentPrice,
-                  accuracy: convertPriceAccuracy(
+                  accuracy: priceAccuracy(
                     context.read,
                     currency.symbol,
                     baseCurrency.symbol,
