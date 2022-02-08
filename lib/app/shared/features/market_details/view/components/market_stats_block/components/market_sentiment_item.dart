@@ -13,7 +13,7 @@ class MarketSentimentItem extends HookWidget {
     return Column(
       children: const [
         SizedBox(
-          height: 80,
+          height: 60,
         ),
         SDivider(),
       ],

@@ -16,7 +16,7 @@ Future<WalletHistoryResponseModel> walletHistoryService(
 
   try {
     final response = await dio.get(
-      '$walletApi/history/wallet-history/history-graph',
+      '$walletApi/portfolio/history-graph',
       queryParameters: model.toJson(),
     );
 
