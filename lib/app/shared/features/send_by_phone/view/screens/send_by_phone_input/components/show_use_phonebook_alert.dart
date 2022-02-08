@@ -10,7 +10,6 @@ void showUsePhonebookAlert({
 }) {
   sShowAlertPopup(
     context,
-    // TODO placeholder widget (will be changed when design will be ready)
     image: Image.asset(
       usePhonebookImageAsset,
       height: 180,
