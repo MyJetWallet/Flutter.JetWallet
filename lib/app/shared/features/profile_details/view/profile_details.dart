@@ -42,30 +42,18 @@ class ProfileDetails extends HookWidget {
               label: 'Change phone number',
               value: userInfo.phone,
               onTap: () {
-                sShowAlertPopup(
-                  context,
-                  primaryText: 'Pay attention',
-                  primaryButtonName: 'Continue',
-                  onPrimaryButtonTap: () {
-                    PhoneVerification.pushReplacement(
-                      context: context,
-                      args: PhoneVerificationArgs(
-                        phoneNumber: userInfo.phone,
-                        showChangeTextAlert: true,
-                        onVerified: () {
-                          SetPhoneNumber.pushReplacement(
-                            context: context,
-                            successText: 'New phone number confirmed',
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  secondaryText: 'Withdrawals will be blocked within 24 hours',
-                  secondaryButtonName: 'Cancel',
-                  onSecondaryButtonTap: () {
-                    Navigator.pop(context);
-                  },
+                PhoneVerification.pushReplacement(
+                  context: context,
+                  args: PhoneVerificationArgs(
+                    phoneNumber: userInfo.phone,
+                    showChangeTextAlert: true,
+                    onVerified: () {
+                      SetPhoneNumber.pushReplacement(
+                        context: context,
+                        successText: 'New phone number confirmed',
+                      );
+                    },
+                  ),
                 );
               },
             ),
