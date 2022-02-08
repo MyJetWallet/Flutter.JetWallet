@@ -160,7 +160,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                 },
                 walletCreationDate: clientDetail.walletCreationDate,
               ),
-              const SpaceH40(),
               Container(
                 padding: const EdgeInsets.only(
                   top: 36,

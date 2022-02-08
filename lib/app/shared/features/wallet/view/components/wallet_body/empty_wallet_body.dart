@@ -23,15 +23,17 @@ class EmptyWalletBody extends HookWidget {
       children: [
         deviceSize.when(
           small: () {
-            return const EmptyWalletBalanceText(
+            return EmptyWalletBalanceText(
               height: 128,
               baseline: 115,
+              color: colors.black,
             );
           },
           medium: () {
-            return const EmptyWalletBalanceText(
+            return EmptyWalletBalanceText(
               height: 184,
               baseline: 171,
+              color: colors.black,
             );
           },
         ),

@@ -10,7 +10,12 @@ import '../../../../../shared/features/referral_program_gift/provider/referral_g
 import '../../../../../shared/features/rewards/view/rewards.dart';
 
 class PortfolioWithBalanceHeader extends HookWidget {
-  const PortfolioWithBalanceHeader({Key? key}) : super(key: key);
+  const PortfolioWithBalanceHeader({
+    Key? key,
+    this.emptyBalance = false,
+  }) : super(key: key);
+
+  final bool emptyBalance;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
 
     return Container(
       height: 120,
-      color: chart.union != const ChartUnion.loading()
+      color: chart.union != const ChartUnion.loading() || emptyBalance
           ? Colors.transparent
           : colors.grey5,
       child: Column(

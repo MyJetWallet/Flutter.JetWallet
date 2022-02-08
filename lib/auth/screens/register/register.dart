@@ -67,7 +67,7 @@ class Register extends HookWidget {
                 child: SPolicyCheckbox(
                   firstText: 'By clicking Agree and Continue, '
                       'I hereby agree and consent to the ',
-                  userAgreementText: 'User Agreement',
+                  userAgreementText: 'Terms and conditions',
                   betweenText: ' and the ',
                   privacyPolicyText: 'Privacy Policy',
                   isChecked: credentials.policyChecked,
