@@ -43,6 +43,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             baseTotalEarnAmount: Decimal.zero,
             currentPrice: Decimal.zero,
             dayPriceChange: Decimal.zero,
+            earnProgramEnabled: asset.earnProgramEnabled,
           ),
         );
       }
