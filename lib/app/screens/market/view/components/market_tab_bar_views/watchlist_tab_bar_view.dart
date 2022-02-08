@@ -15,7 +15,6 @@ class WatchlistTabBarView extends StatefulHookWidget {
 
 class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
   final ScrollController _scrollController = ScrollController();
-  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
