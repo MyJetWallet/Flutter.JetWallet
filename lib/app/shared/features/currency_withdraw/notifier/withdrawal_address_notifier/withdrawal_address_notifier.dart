@@ -171,11 +171,11 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
                 onQRViewCreated: (c) => _onQRViewCreated(c, context),
                 overlay: QrScannerOverlayShape(),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Positioned(
+              Positioned(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   child: Container(
                     margin: const EdgeInsets.only(
                       left: 28.0,
