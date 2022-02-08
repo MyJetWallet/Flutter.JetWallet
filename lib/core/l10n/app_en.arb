@@ -308,7 +308,7 @@
     "@login_policyText1": {
       "description": "Privacy Policy Text (part 1)"
     },
-    "login_policyText2": "User Agreement",
+    "login_policyText2": "Terms and conditions",
     "@login_policyText2": {
       "description": "Privacy Policy Text (part 2)"
     },
