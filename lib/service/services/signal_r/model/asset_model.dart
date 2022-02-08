@@ -22,6 +22,7 @@ class AssetModel with _$AssetModel {
   const factory AssetModel({
     String? iconUrl,
     String? prefixSymbol,
+    @Default(false) bool earnProgramEnabled,
     required bool hideInTerminal,
     required String symbol,
     required String description,

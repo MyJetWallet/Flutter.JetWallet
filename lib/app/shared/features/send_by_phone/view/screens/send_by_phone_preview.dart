@@ -1,10 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../helpers/formatting/formatting.dart';
 import '../../../../models/currency_model.dart';
-import '../../../currency_withdraw/helper/user_will_receive.dart';
 import '../../notifier/send_by_phone_preview_notifier/send_by_phone_preview_notipod.dart';
 import '../../notifier/send_by_phone_preview_notifier/send_by_phone_preview_state.dart';
 
@@ -55,10 +56,11 @@ class SendByPhonePreview extends HookWidget {
                   SActionConfirmText(
                     name: 'Amount to send',
                     baseline: 35.0,
-                    value: userWillreceive(
-                      currency: currency,
-                      amount: state.amount,
-                      addressIsInternal: false,
+                    value: volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      accuracy: currency.accuracy,
+                      decimal: Decimal.parse(state.amount),
+                      symbol: currency.symbol,
                     ),
                   ),
                   const SpaceH35(),
@@ -67,7 +69,12 @@ class SendByPhonePreview extends HookWidget {
                   SActionConfirmText(
                     name: 'Total',
                     baseline: 35.0,
-                    value: '${state.amount} ${currency.symbol}',
+                    value: volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      accuracy: currency.accuracy,
+                      decimal: Decimal.parse(state.amount),
+                      symbol: currency.symbol,
+                    ),
                     valueColor: colors.blue,
                   ),
                   const SpaceH35(),
