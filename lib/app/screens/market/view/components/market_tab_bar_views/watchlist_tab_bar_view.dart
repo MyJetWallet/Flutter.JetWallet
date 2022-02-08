@@ -19,6 +19,7 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
 
   @override
   Widget build(BuildContext context) {
+
     return NestedScrollView(
       controller: _scrollController,
       headerSliverBuilder: (context, _) {
@@ -51,14 +52,7 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
           ),
         ];
       },
-      body: ListView(
-        key: const PageStorageKey('watchlist'),
-        controller: _controller,
-        padding: EdgeInsets.zero,
-        children: const [
-          MarketReorderableList(),
-        ],
-      ),
+      body: const MarketReorderableList(),
     );
   }
 }
