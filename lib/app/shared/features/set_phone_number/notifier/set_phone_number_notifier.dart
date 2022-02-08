@@ -123,21 +123,32 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
     }
   }
 
-  void parsePhoneNumber() {
-    state.phoneNumberController.text =
-        state.phoneNumberController.text.toLowerCase().replaceAll(' ', '');
-    state.phoneNumberController.text =
-        state.phoneNumberController.text.toLowerCase().replaceAll('+', '');
-    state.phoneNumberController.text =
-        state.phoneNumberController.text.toLowerCase().replaceAll('(', '');
-    state.phoneNumberController.text =
-        state.phoneNumberController.text.toLowerCase().replaceAll(')', '');
+  void updatePhoneNumber(String phoneNumber) {
+    final parsablePhoneNumber = _parseUkrainePhoneNumber(phoneNumber);
 
-    if (state.phoneNumberController.text
-        .contains(state.dialCodeController.text)) {
-      final splitNumber =
-          state.phoneNumberController.text.split(state.dialCodeController.text);
-      state.phoneNumberController.text = splitNumber.last;
+    state.phoneNumberController.text = parsablePhoneNumber;
+  }
+
+  String _parseUkrainePhoneNumber(String phoneNumber) {
+    if (state.dialCodeController.text == '+380') {
+      var body = phoneNumber
+          .replaceAll('+', '')
+          .replaceAll(' ', '')
+          .replaceAll('(', '')
+          .replaceAll(')', '')
+          .replaceAll('-', '');
+
+      if (body.isNotEmpty && body[0] == '0') {
+        body = body.replaceRange(0, 1, '');
+      }
+
+      if (body.contains('380')) {
+        body = body.replaceRange(0, 3, '');
+      }
+
+      return body;
+    } else {
+      return phoneNumber;
     }
   }
 }

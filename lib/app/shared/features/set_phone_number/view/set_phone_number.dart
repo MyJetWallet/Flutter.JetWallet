@@ -116,7 +116,7 @@ class SetPhoneNumber extends HookWidget {
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
                       onChanged: (String phone) {
-                        notifier.parsePhoneNumber();
+                        notifier.updatePhoneNumber(phone);
                       },
                       controller: state.phoneNumberController,
                     ),
