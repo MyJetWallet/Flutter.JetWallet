@@ -54,8 +54,10 @@ class _WalletState extends State<Wallet>
       vsync: this,
     );
 
-    final itemsWithBalance = currenciesWithBalanceFrom(
-      context.read(currenciesPod),
+    final itemsWithBalance = nonIndicesWithBalanceFrom(
+      currenciesWithBalanceFrom(
+        context.read(currenciesPod),
+      ),
     );
     final initialPage = itemsWithBalance.indexOf(widget.currency);
     _pageController = PageController(initialPage: initialPage);
