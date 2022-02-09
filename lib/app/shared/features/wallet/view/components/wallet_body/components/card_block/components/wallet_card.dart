@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -20,6 +21,13 @@ class WalletCard extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final interestRateText = '+${volumeFormat(
+      prefix: baseCurrency.prefix,
+      decimal: currency.baseTotalEarnAmount,
+      accuracy: baseCurrency.accuracy,
+      symbol: baseCurrency.symbol,
+    )}';
+    final interestRateTextSize = _textSize(interestRateText, sSubtitle3Style);
 
     return Container(
       height: 150,
@@ -41,8 +49,9 @@ class WalletCard extends HookWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               left: 34,
+              right: interestRateTextSize.width + 20,
             ),
             child: SBaselineChild(
               baseline: 50,
@@ -65,6 +74,7 @@ class WalletCard extends HookWidget {
               },
               child: Container(
                 height: 24,
+                width: interestRateTextSize.width + 20,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
@@ -76,12 +86,7 @@ class WalletCard extends HookWidget {
                 child: SBaselineChild(
                   baseline: 17,
                   child: Text(
-                    '+${volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: currency.baseTotalEarnAmount,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    )}',
+                    interestRateText,
                     style: sSubtitle3Style.copyWith(
                       color: colors.white,
                     ),
@@ -142,5 +147,14 @@ class WalletCard extends HookWidget {
         ],
       ),
     );
+  }
+
+  Size _textSize(String text, TextStyle style) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    )..layout();
+    return textPainter.size;
   }
 }
