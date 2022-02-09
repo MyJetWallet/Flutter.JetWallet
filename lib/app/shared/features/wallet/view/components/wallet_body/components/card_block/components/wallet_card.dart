@@ -56,8 +56,7 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 50,
               child: Text(
-                // currency.description,
-                'asfasfasfasfasfaasfasfasfsfasfas',
+                currency.description,
                 style: sSubtitle2Style,
               ),
             ),
