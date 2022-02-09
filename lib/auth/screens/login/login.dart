@@ -13,9 +13,11 @@ import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../forgot_password/view/forgot_password.dart';
 
 class Login extends HookWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
 
   static const routeName = '/login';
+
+  final TextEditingController _controller = TextEditingController();
 
   static Future push(BuildContext context) {
     return Navigator.pushNamed(context, routeName);
@@ -107,10 +109,21 @@ class Login extends HookWidget {
                       child: SPaddingH24(
                         child: SStandardFieldObscure(
                           autofillHints: const [AutofillHints.password],
-                          onChanged: (value) {
-                            emailError.value.disableError();
-                            passwordError.value.disableError();
-                            credentialsN.updateAndValidatePassword(value);
+                          controller: _controller,
+                          onChanged: (String password) {
+                            if (credentialsN.checkNeedRemovePassword(
+                              passwordError,
+                              password,
+                            )) {
+                              _controller.text = '';
+                              emailError.value.disableError();
+                              passwordError.value.disableError();
+                              credentialsN.updateAndValidatePassword('');
+                            } else {
+                              emailError.value.disableError();
+                              passwordError.value.disableError();
+                              credentialsN.updateAndValidatePassword(password);
+                            }
                           },
                           labelText: intl.login_passwordTextFieldLabel,
                           onErrorIconTap: () {

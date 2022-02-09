@@ -117,7 +117,7 @@ class _App extends HookWidget {
           return const ResetPassword();
         },
         Login.routeName: (_) {
-          return const Login();
+          return Login();
         },
         Register.routeName: (_) {
           return const Register();

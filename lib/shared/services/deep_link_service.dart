@@ -79,7 +79,7 @@ class DeepLinkService {
   void _loginCommand() {
     read(logoutNotipod.notifier).logout();
 
-    navigatorPush(read(sNavigatorKeyPod).currentContext!, const Login());
+    navigatorPush(read(sNavigatorKeyPod).currentContext!, Login());
   }
 
   void _forgotPasswordCommand(Map<String, String> parameters) {
