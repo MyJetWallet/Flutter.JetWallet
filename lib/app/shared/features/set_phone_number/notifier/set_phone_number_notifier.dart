@@ -130,25 +130,36 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
   }
 
   String _parseUkrainePhoneNumber(String phoneNumber) {
-    if (state.dialCodeController.text == '+380') {
-      var body = phoneNumber
-          .replaceAll('+', '')
-          .replaceAll(' ', '')
-          .replaceAll('(', '')
-          .replaceAll(')', '')
-          .replaceAll('-', '');
+    if (phoneNumber.isNotEmpty) {
+      var body = _parseNumber(phoneNumber);
+      final dialCode = _parseNumber(state.dialCodeController.text);
 
-      if (body.isNotEmpty && body[0] == '0') {
-        body = body.replaceRange(0, 1, '');
+      if (phoneNumber.length >= dialCode.length) {
+        final codeFromBody = body.substring(0, dialCode.length);
+
+        if (codeFromBody == dialCode) {
+          body = body.substring(dialCode.length);
+        }
       }
 
-      if (body.contains('380')) {
-        body = body.replaceRange(0, 3, '');
+      if (dialCode == '380') {
+        if (body.isNotEmpty && body[0] == '0') {
+          body = body.substring(1);
+        }
       }
 
       return body;
     } else {
       return phoneNumber;
     }
+  }
+
+  String _parseNumber(String phoneNumber) {
+    return phoneNumber
+        .replaceAll('+', '')
+        .replaceAll(' ', '')
+        .replaceAll('(', '')
+        .replaceAll(')', '')
+        .replaceAll('-', '');
   }
 }
