@@ -42,7 +42,7 @@ class ProfileDetails extends HookWidget {
               label: 'Change phone number',
               value: userInfo.phone,
               onTap: () {
-                PhoneVerification.pushReplacement(
+                PhoneVerification.push(
                   context: context,
                   args: PhoneVerificationArgs(
                     phoneNumber: userInfo.phone,
