@@ -51,7 +51,7 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
           ),
         ];
       },
-      body: MarketReorderableList(),
+      body: const MarketReorderableList(),
     );
   }
 }
