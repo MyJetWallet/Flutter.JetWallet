@@ -43,7 +43,9 @@ class MarketDetails extends HookWidget {
         marketItem.associateAsset,
       ),
     );
-    final chartN = useProvider(chartNotipod.notifier);
+    final chartN = useProvider(
+      chartNotipod(marketItem.associateAssetPair).notifier,
+    );
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     final initTransactionHistory = useProvider(
       operationHistoryInitFpod(
@@ -58,7 +60,7 @@ class MarketDetails extends HookWidget {
     final newsInit = useProvider(marketNewsInitFpod(marketItem.symbol));
     final news = useProvider(marketNewsNotipod);
     final chart = useProvider(
-      chartNotipod,
+      chartNotipod(marketItem.associateAsset),
     );
     useProvider(watchlistIdsNotipod);
 
@@ -96,8 +98,10 @@ class MarketDetails extends HookWidget {
                   children: [
                     AssetPrice(
                       assetId: marketItem.associateAsset,
+                      instrumentId: marketItem.associateAssetPair,
                     ),
                     AssetDayChange(
+                      instrumentId: marketItem.associateAssetPair,
                       assetId: marketItem.associateAsset,
                     ),
                   ],
@@ -111,9 +115,15 @@ class MarketDetails extends HookWidget {
                 child: Column(
                   children: const [
                     SpaceH17(),
-                    SSkeletonTextLoader(height: 24, width: 152),
+                    SSkeletonTextLoader(
+                      height: 24,
+                      width: 152,
+                    ),
                     SpaceH10(),
-                    SSkeletonTextLoader(height: 16, width: 80),
+                    SSkeletonTextLoader(
+                      height: 16,
+                      width: 80,
+                    ),
                     SpaceH37(),
                   ],
                 ),
@@ -128,8 +138,13 @@ class MarketDetails extends HookWidget {
               data: (data) {
                 if (marketItem.type == AssetType.indices &&
                     transactionHistory.operationHistoryItems.isNotEmpty) {
-                  return IndexHistoryBlock(
-                    marketItem: marketItem,
+                  return Column(
+                    children: [
+                      const SpaceH40(),
+                      IndexHistoryBlock(
+                        marketItem: marketItem,
+                      )
+                    ],
                   );
                 } else {
                   return const SizedBox();
@@ -162,6 +177,7 @@ class MarketDetails extends HookWidget {
                         ],
                         AboutBlock(
                           marketInfo: marketInfo,
+                          showDivider: news.news.isNotEmpty,
                         ),
                       ],
                     ],
@@ -171,7 +187,6 @@ class MarketDetails extends HookWidget {
               loading: () => const Loader(),
               error: (_, __) => const SizedBox(),
             ),
-            const SpaceH28(),
             newsInit.when(
               data: (_) {
                 return MarketNewsBlock(
@@ -182,7 +197,6 @@ class MarketDetails extends HookWidget {
               loading: () => const Loader(),
               error: (_, __) => const SizedBox(),
             ),
-            const SpaceH34(),
           ],
         ),
       ),

@@ -16,9 +16,6 @@ class ClickableUnderlinedText extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.only(
-          bottom: 3,
-        ),
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(

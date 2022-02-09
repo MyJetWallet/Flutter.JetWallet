@@ -14,7 +14,8 @@ String periodChange({
   required ChartState chart,
   required BaseCurrencyModel baseCurrency,
 }) {
-  if (chart.candles.isNotEmpty) {
+  if (chart.candles[chart.resolution] != null &&
+      chart.candles[chart.resolution]!.isNotEmpty) {
     final firstPrice = chart.candles[chart.resolution]!.first.close;
     final lastPrice =
         selectedCandle?.close ?? chart.candles[chart.resolution]!.last.close;

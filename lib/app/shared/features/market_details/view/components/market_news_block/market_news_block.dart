@@ -40,13 +40,14 @@ class MarketNewsBlock extends HookWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SpaceH27(),
           SPaddingH24(
             child: Text(
               'News',
               style: sTextH4Style,
             ),
           ),
-          const SpaceH33(),
+          const SpaceH31(),
           ListView.builder(
             itemCount: news.length,
             padding: EdgeInsets.zero,
@@ -83,7 +84,8 @@ class MarketNewsBlock extends HookWidget {
                 },
               ),
             ),
-          ]
+          ],
+          const SpaceH74(),
         ],
       );
     } else {

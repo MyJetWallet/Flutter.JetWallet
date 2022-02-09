@@ -4,8 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../helpers/convert_prcie_accuracy.dart';
 import '../../../helpers/formatting/formatting.dart';
+import '../../../helpers/price_accuracy.dart';
 import '../model/preview_sell_input.dart';
 import '../notifier/preview_sell_notifier/preview_sell_notipod.dart';
 import '../notifier/preview_sell_notifier/preview_sell_state.dart';
@@ -53,8 +53,7 @@ class _PreviewSell extends State<PreviewSell>
     final from = widget.input.fromCurrency;
     final to = widget.input.toCurrency;
 
-    final accuracy = convertPriceAccuracy(context.read, from.symbol, to.symbol);
-
+    final accuracy = priceAccuracy(context.read, from.symbol, to.symbol);
 
     return ProviderListener<PreviewSellState>(
       provider: previewSellNotipod(widget.input),

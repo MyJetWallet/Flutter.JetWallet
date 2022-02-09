@@ -16,6 +16,7 @@ class SWalletItem extends StatelessWidget {
     this.leftBlockTopPadding = 22,
     this.balanceTopMargin = 22,
     this.height = 88,
+    this.rightBlockTopPadding = 22,
     this.showSecondaryText = true,
     required this.icon,
     required this.primaryText,
@@ -33,6 +34,7 @@ class SWalletItem extends StatelessWidget {
   final double leftBlockTopPadding;
   final double balanceTopMargin;
   final double height;
+  final double rightBlockTopPadding;
   final bool showSecondaryText;
 
   @override
@@ -97,7 +99,9 @@ class SWalletItem extends StatelessWidget {
                     const SpaceW10(),
                     Column(
                       children: [
-                        const SpaceH22(),
+                        SizedBox(
+                          height: rightBlockTopPadding,
+                        ),
                         Container(
                           constraints: const BoxConstraints(
                             maxWidth: 157.0,
