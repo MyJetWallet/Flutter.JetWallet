@@ -59,7 +59,6 @@ class _AllTabBarViewState extends State<AllTabBarView> {
         ];
       },
       body: ListView(
-        key: const PageStorageKey('all'),
         padding: EdgeInsets.zero,
         children: [
           const MarketBanners(),

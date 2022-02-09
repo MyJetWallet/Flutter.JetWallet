@@ -12,9 +12,7 @@ import '../../../../provider/market_watchlist_items_pod.dart';
 import 'empty_watchlist.dart';
 
 class MarketReorderableList extends HookWidget {
-  MarketReorderableList({Key? key}) : super(key: key);
-
-  final ScrollController controller = ScrollController();
+  const MarketReorderableList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +22,6 @@ class MarketReorderableList extends HookWidget {
 
     if (items.isNotEmpty) {
       return ReorderableListView.builder(
-        key: const PageStorageKey('ReorderableList'),
-        scrollController: controller,
         itemCount: items.length,
         padding: const EdgeInsets.only(bottom: 66),
         itemBuilder: (context, index) {

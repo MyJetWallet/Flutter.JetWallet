@@ -20,7 +20,6 @@ class IndicesTabBarView extends StatefulHookWidget {
 
 class _IndicesTabBarState extends State<IndicesTabBarView> {
   final ScrollController _scrollController = ScrollController();
-  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +59,6 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
         ];
       },
       body: ListView(
-        key: const PageStorageKey('indices'),
-        controller: _controller,
         padding: EdgeInsets.zero,
         children: [
           for (final item in indices) ...[

@@ -7,21 +7,11 @@ import '../../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/features/rewards/notifier/campaign/campaign_notipod.dart';
 import '../../../../../shared/helpers/random_banner_color.dart';
 
-class MarketBanners extends StatefulHookWidget {
+class MarketBanners extends HookWidget {
   const MarketBanners({Key? key}) : super(key: key);
 
   @override
-  State<MarketBanners> createState() => _MarketBannersState();
-}
-
-class _MarketBannersState extends State<MarketBanners>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     final state = useProvider(campaignNotipod(true));
     final notifier = useProvider(campaignNotipod(true).notifier);
     final colors = useProvider(sColorPod);
