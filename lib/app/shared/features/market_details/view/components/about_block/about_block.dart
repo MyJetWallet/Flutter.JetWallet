@@ -9,29 +9,26 @@ class AboutBlock extends HookWidget {
   const AboutBlock({
     Key? key,
     required this.marketInfo,
+    required this.showDivider,
   }) : super(key: key);
 
   final MarketInfoResponseModel marketInfo;
+  final bool showDivider;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 56,
-          child: Baseline(
-            baseline: 49,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              'About',
-              style: sTextH4Style,
-            ),
-          ),
+        const SpaceH6(),
+        Text(
+          'About',
+          style: sTextH4Style,
         ),
-        const SpaceH24(),
+        const SpaceH20(),
         AboutBlockText(
           marketInfo: marketInfo,
+          showDivider: showDivider,
         ),
       ],
     );

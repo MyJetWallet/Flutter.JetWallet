@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -24,13 +23,13 @@ class AnimatedOnboardingSlide extends HookWidget {
 
     return Flexible(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 1.5.w),
+        padding: const EdgeInsets.symmetric(horizontal: 1.5),
         child: LayoutBuilder(
           builder: (context, constraints) {
             return Stack(
               children: <Widget>[
                 SlideContainer(
-                  width: 24.w,
+                  width: 24.0,
                   color: position < currentIndex
                       ? sColors.black
                       : sColors.black.withOpacity(0.3),
@@ -40,7 +39,7 @@ class AnimatedOnboardingSlide extends HookWidget {
                     animation: animationController,
                     builder: (context, child) {
                       return SlideContainer(
-                        width: 24.w * animationController.value,
+                        width: 24.0 * animationController.value,
                         color: sColors.black,
                       );
                     },

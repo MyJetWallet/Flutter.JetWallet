@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
     
-  flutter_screenutil: ^5.0.0+2 # responsive support
   flutter_riverpod: ^0.14.0+3 # state management
   flutter_hooks: ^0.18.0 # manages a Widget life-cycles
   flutter_svg: ^0.22.0 # SVG rendering and widget library
@@ -28,12 +27,24 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/icons/light/13x14/stats/
     - assets/icons/light/16x16/fee_alert/
     - assets/icons/light/16x16/cross/
     - assets/icons/light/16x16/small_arrow/
     - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
     - assets/icons/light/16x16/minus/
+    - assets/icons/light/18x18/paid_interest_rate/
+    - assets/icons/light/20x20/deposit/
+    - assets/icons/light/20x20/minus/
+    - assets/icons/light/20x20/plus/
+    - assets/icons/light/20x20/receive_by_phone/
+    - assets/icons/light/20x20/reward_payment/
+    - assets/icons/light/20x20/send/
+    - assets/icons/light/20x20/send_by_phone/
+    - assets/icons/light/20x20/swap/
+    - assets/icons/light/20x20/withdrawal_fee/
+    - assets/icons/light/24x24/index_history/
     - assets/icons/light/24x24/action_buy/
     - assets/icons/light/24x24/action_convert/
     - assets/icons/light/24x24/action_deposit/
@@ -82,6 +93,8 @@ flutter:
     - assets/icons/light/24x24/complete/
     - assets/icons/light/24x24/blue_right_arrow/
     - assets/icons/light/24x24/erase/
+    - assets/icons/light/24x24/kyc/
+    - assets/icons/light/24x24/selfie/
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/
     - assets/icons/light/36x36/keyboard_erase/

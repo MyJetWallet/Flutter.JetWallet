@@ -27,7 +27,7 @@ class SimpleFiatItemExample extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    const SpaceH34(),
+                    const SpaceH32(),
                     Row(
                       children: [
                         const SpaceW24(),
@@ -50,20 +50,26 @@ class SimpleFiatItemExample extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('20px'),
                     ),
-                    Container(
-                      width: 150.0,
-                      height: 88.0,
-                      color: Colors.red.withOpacity(0.2),
-                      child: Column(
-                        children: const [
-                          Spacer(),
-                          Text(
-                            '150px',
-                          ),
-                        ],
+                    Expanded(
+                      child: Container(
+                        height: 88.0,
+                        color: Colors.red.withOpacity(0.2),
+                        child: Column(
+                          children: const [
+                            Spacer(),
+                            Text(
+                              'Expanded',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const Spacer(),
+                    Container(
+                      width: 16.0,
+                      height: 88.0,
+                      color: Colors.blue.withOpacity(0.2),
+                      child: const Text('16px'),
+                    ),
                     Container(
                       width: 120.0,
                       height: 88.0,
@@ -81,11 +87,11 @@ class SimpleFiatItemExample extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  height: 34.0,
+                  height: 32.0,
                   color: Colors.blue.withOpacity(0.2),
                   child: const Center(
                     child: Text(
-                      '34px',
+                      '32px',
                     ),
                   ),
                 ),

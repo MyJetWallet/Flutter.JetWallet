@@ -8,12 +8,12 @@ void navigateToWallet(BuildContext context, CurrencyModel currency) {
   if (currency.isAssetBalanceEmpty) {
     EmptyWallet.push(
       context: context,
-      assetName: currency.description,
+      currency: currency,
     );
   } else {
     Wallet.push(
       context: context,
-      assetId: currency.assetId,
+      currency: currency,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../model/preview_convert_input.dart';
@@ -12,12 +13,18 @@ import 'components/convert_row/convert_row.dart';
 import 'preview_convert.dart';
 
 class Convert extends HookWidget {
-  const Convert({Key? key}) : super(key: key);
+  const Convert({
+    Key? key,
+    this.fromCurrency,
+  }) : super(key: key);
+
+  final CurrencyModel? fromCurrency;
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(convertInputNotipod(null));
-    final notifier = useProvider(convertInputNotipod(null).notifier);
+    final colors = useProvider(sColorPod);
+    final state = useProvider(convertInputNotipod(fromCurrency));
+    final notifier = useProvider(convertInputNotipod(fromCurrency).notifier);
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
@@ -37,7 +44,7 @@ class Convert extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SpaceH10(),
+          const Spacer(),
           ConvertRow(
             value: state.fromAssetAmount,
             inputError: state.inputError,
@@ -48,13 +55,15 @@ class Convert extends HookWidget {
             onDropdown: (value) => notifier.updateFromAsset(value!),
             fromAsset: true,
           ),
-          const SpaceH10(),
+          const Spacer(),
           Stack(
             children: [
               Column(
-                children: const [
-                  SpaceH20(),
-                  SDivider(),
+                children: [
+                  const SpaceH20(),
+                  SDivider(
+                    color: colors.grey3,
+                  ),
                 ],
               ),
               Center(
@@ -66,7 +75,7 @@ class Convert extends HookWidget {
               ),
             ],
           ),
-          const SpaceH10(),
+          const Spacer(),
           ConvertRow(
             value: state.toAssetAmount,
             enabled: state.toAssetEnabled,

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../helpers/random_banner_color.dart';
 import '../../market_details/helper/format_news_date.dart';
 import '../helper/create_reward_detail.dart';
@@ -17,13 +18,16 @@ class Rewards extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final state = useProvider(rewardsNotipod);
+    final deepLinkService = useProvider(deepLinkServicePod);
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
         title: 'Rewards',
       ),
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
+          const SpaceH20(),
           for (final item in state) ...[
             if (_displayThreeStepsRewardBanner(item)) ...[
               SThreeStepsRewardBanner(
@@ -49,6 +53,11 @@ class Rewards extends HookWidget {
                 primaryText: item.campaign!.title,
                 secondaryText: item.campaign!.description,
                 imageUrl: item.campaign!.imageUrl,
+                onTap: () {
+                  deepLinkService.handle(
+                    Uri.parse(item.campaign!.deepLink),
+                  );
+                },
               ),
               const SpaceH20(),
             ],
@@ -56,9 +65,10 @@ class Rewards extends HookWidget {
               SReferralStats(
                 referralInvited: item.referralState!.referralInvited,
                 referralActivated: item.referralState!.referralActivated,
-                bonusEarned: item.referralState!.bonusEarned,
-                commissionEarned: item.referralState!.commissionEarned,
-                total: item.referralState!.total,
+                bonusEarned: item.referralState!.bonusEarned.toDouble(),
+                commissionEarned:
+                    item.referralState!.commissionEarned.toDouble(),
+                total: item.referralState!.total.toDouble(),
               ),
               const SpaceH20(),
             ],

@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../helpers/format_currency_amount.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_sell/view/currency_sell.dart';
@@ -39,13 +38,8 @@ class _ActionSell extends HookWidget {
                 url: currency.iconUrl,
               ),
               primaryText: currency.description,
-              amount: formatCurrencyAmount(
-                prefix: baseCurrency.prefix,
-                value: currency.baseBalance,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              secondaryText: '${currency.assetBalance} ${currency.symbol}',
+              amount: currency.volumeBaseBalance(baseCurrency),
+              secondaryText: currency.volumeAssetBalance,
               onTap: () {
                 navigatorPushReplacement(
                   context,

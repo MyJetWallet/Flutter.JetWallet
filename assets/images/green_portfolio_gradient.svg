@@ -1,0 +1,21 @@
+<svg width="375" height="465" viewBox="0 0 375 465" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="paint0_linear_7412_131265" x1="81" y1="465" x2="375" y2="465" gradientUnits="userSpaceOnUse">
+            <stop offset="0.104167" stop-color="#B6E3C3" />
+            <stop offset="0.8125" stop-color="#D8F4A2" />
+        </linearGradient>
+        <linearGradient id="paint1_linear_7412_131265" x1="188" y1="182.786" x2="188" y2="329.417" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint2_linear_7412_131265" x1="2.86685e-06" y1="304.811" x2="375" y2="304.811" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" stop-opacity="0.5" />
+            <stop offset="0.253225" stop-color="white" stop-opacity="0" />
+            <stop offset="0.73961" stop-color="white" stop-opacity="0" />
+            <stop offset="1" stop-color="white" stop-opacity="0.5" />
+        </linearGradient>
+    </defs>
+    <rect width="375" height="465" fill="url(#paint0_linear_7412_131265)" />
+    <rect width="375" height="465" fill="url(#paint1_linear_7412_131265)" />
+    <rect width="375" height="465" fill="url(#paint2_linear_7412_131265)" />
+</svg>

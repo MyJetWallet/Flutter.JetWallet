@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChangeNumberButton extends StatelessWidget {
   const ChangeNumberButton({
@@ -10,22 +9,22 @@ class ChangeNumberButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.pop(context),
-      borderRadius: BorderRadius.circular(20.r),
+      borderRadius: BorderRadius.circular(20.0),
       child: Container(
-        width: 140.w,
-        height: 26.h,
+        width: 140.0,
+        height: 26.0,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey,
-            width: 1.5.w,
+            width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(20.0),
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             'Change number',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 16.0,
               color: Colors.black54,
             ),
           ),

@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'balance_model.freezed.dart';
 part 'balance_model.g.dart';
@@ -17,10 +20,14 @@ class BalancesModel with _$BalancesModel {
 class BalanceModel with _$BalanceModel {
   const factory BalanceModel({
     required String assetId,
-    required double balance,
+    @DecimalSerialiser() required Decimal balance,
     required double reserve,
     required String lastUpdate,
     required double sequenceId,
+    @DecimalSerialiser() required Decimal totalEarnAmount,
+    @DecimalSerialiser() required Decimal currentEarnAmount,
+    required String nextPaymentDate,
+    @DecimalSerialiser() required Decimal apy,
   }) = _BalanceModel;
 
   factory BalanceModel.fromJson(Map<String, dynamic> json) =>

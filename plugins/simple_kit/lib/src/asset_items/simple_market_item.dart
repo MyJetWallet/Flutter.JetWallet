@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
 import '../icons/16x16/public/minus/simple_minus_icon.dart';
+import '../icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
+import '../icons/16x16/public/small_arrow/simple_small_arrow_positive_icon.dart';
+import '../shared/components/simple_divider.dart';
+import '../shared/components/simple_paddings.dart';
+import '../shared/components/simple_spacers.dart';
+import '../texts/simple_text_styles.dart';
 
 class SMarketItem extends StatelessWidget {
   const SMarketItem({
@@ -46,7 +51,7 @@ class SMarketItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Baseline(
-                          baseline: 17.8,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             name,
@@ -54,7 +59,7 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             ticker,
@@ -73,7 +78,7 @@ class SMarketItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Baseline(
-                          baseline: 17.8,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             price,
@@ -81,9 +86,11 @@ class SMarketItem extends StatelessWidget {
                           ),
                         ),
                         Baseline(
-                          baseline: 19.4,
+                          baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
+                            textBaseline: TextBaseline.alphabetic,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               SizedBox(
@@ -96,12 +103,11 @@ class SMarketItem extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              if (percent.compareTo(0) == 0)
-                                const SMinusIcon()
-                              else if (percent.isNegative)
-                                const SSmallArrowNegativeIcon()
-                              else
-                                const SSmallArrowPositiveIcon()
+                              Baseline(
+                                baseline: 20.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: _percentIcon(percent),
+                              ),
                             ],
                           ),
                         ),
@@ -113,13 +119,25 @@ class SMarketItem extends StatelessWidget {
               const Spacer(),
               if (!last)
                 const SDivider(
-                  width: 327,
+                  width: double.infinity,
                 )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _percentIcon(double percent) {
+    if (percent.compareTo(0) == 0) {
+      return const SMinusIcon();
+    } else {
+      if (percent.isNegative) {
+        return const SSmallArrowNegativeIcon();
+      } else {
+        return const SSmallArrowPositiveIcon();
+      }
+    }
   }
 
   String _formatPercent(double percent) {

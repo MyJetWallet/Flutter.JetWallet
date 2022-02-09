@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -34,6 +34,7 @@ class Login extends HookWidget {
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
+    final _controller = useTextEditingController();
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -62,7 +63,12 @@ class Login extends HookWidget {
             title: intl.login_signIn,
             showLink: true,
             linkText: intl.login_forgotPassword,
-            onLinkTap: () => ForgotPassword.push(context),
+            onLinkTap: () => ForgotPassword.push(
+              context: context,
+              args: ForgotPasswordArgs(
+                email: credentials.email,
+              ),
+            ),
           ),
         ),
         child: AutofillGroup(
@@ -101,30 +107,45 @@ class Login extends HookWidget {
                     Material(
                       color: colors.white,
                       child: SPaddingH24(
-                        child: SStandardFieldObscure(
-                          autofillHints: const [AutofillHints.password],
-                          onChanged: (value) {
-                            emailError.value.disableError();
-                            passwordError.value.disableError();
-                            credentialsN.updateAndValidatePassword(value);
+                        child: RawKeyboardListener(
+                          focusNode: FocusNode(),
+                          onKey: (event) {
+                            if (event.logicalKey ==
+                                LogicalKeyboardKey.backspace) {
+                              if (passwordError.value.value) {
+                                _controller.clear();
+                                emailError.value.disableError();
+                                passwordError.value.disableError();
+                                credentialsN.updateAndValidatePassword('');
+                              }
+                            }
                           },
-                          labelText: intl.login_passwordTextFieldLabel,
-                          onErrorIconTap: () {
-                            sShowErrorNotification(
-                              notificationQueueN,
-                              intl.login_credentialsError,
-                            );
-                          },
-                          errorNotifier: passwordError.value,
+                          child: SStandardFieldObscure(
+                            autofillHints: const [AutofillHints.password],
+                            controller: _controller,
+                            onChanged: (String password) {
+                              emailError.value.disableError();
+                              passwordError.value.disableError();
+                              credentialsN.updateAndValidatePassword(password);
+                            },
+                            labelText: intl.login_passwordTextFieldLabel,
+                            onErrorIconTap: () {
+                              sShowErrorNotification(
+                                notificationQueueN,
+                                intl.login_credentialsError,
+                              );
+                            },
+                            errorNotifier: passwordError.value,
+                          ),
                         ),
                       ),
                     ),
                     const Spacer(),
                     SPaddingH24(
                       child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 34.h,
-                          bottom: 17.h,
+                        padding: const EdgeInsets.only(
+                          top: 34.0,
+                          bottom: 17.0,
                         ),
                         child: SPolicyText(
                           firstText: '${intl.login_policyText1} ',

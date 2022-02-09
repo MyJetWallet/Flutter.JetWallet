@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
-import '../constants.dart';
 
 void sShowAlertPopup(
   BuildContext context, {
@@ -12,8 +11,10 @@ void sShowAlertPopup(
   String? secondaryButtonName,
   Widget? image,
   Widget? topSpacer,
+  Widget? child,
   bool willPopScope = true,
   bool barrierDismissible = true,
+  bool activePrimaryButton = true,
   required String primaryText,
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
@@ -61,23 +62,21 @@ void sShowAlertPopup(
                         ),
                       ),
                     ),
+                    const SpaceH7(),
                     if (secondaryText != null)
-                      Baseline(
-                        baseline: 32.0,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          secondaryText,
-                          maxLines: 6,
-                          textAlign: TextAlign.center,
-                          style: sBodyText1Style.copyWith(
-                            color: SColorsLight().grey1,
-                          ),
+                      Text(
+                        secondaryText,
+                        maxLines: 6,
+                        textAlign: TextAlign.center,
+                        style: sBodyText1Style.copyWith(
+                          color: SColorsLight().grey1,
                         ),
                       ),
-                    const SpaceH40(),
+                    const SpaceH36(),
+                    if (child != null) child,
                     SPrimaryButton1(
                       name: primaryButtonName,
-                      active: true,
+                      active: activePrimaryButton,
                       onTap: () => onPrimaryButtonTap(),
                     ),
                     if (onSecondaryButtonTap != null &&
@@ -89,7 +88,7 @@ void sShowAlertPopup(
                         onTap: () => onSecondaryButtonTap(),
                       ),
                     ],
-                    const SpaceH24(),
+                    const SpaceH20(),
                   ],
                 ),
               ),

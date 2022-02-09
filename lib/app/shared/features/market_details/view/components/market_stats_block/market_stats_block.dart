@@ -23,15 +23,16 @@ class MarketStatsBlock extends HookWidget {
         SizedBox(
           height: 56,
           child: Baseline(
-            baseline: 50,
+            baseline: 35,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'Market Stats',
+              'Market stats',
               textAlign: TextAlign.start,
               style: sTextH4Style,
             ),
           ),
         ),
+        const SpaceH6(),
         Table(
           children: [
             TableRow(
@@ -39,13 +40,13 @@ class MarketStatsBlock extends HookWidget {
                 TableCell(
                   child: MarketStatsItem(
                     name: 'Mark cap',
-                    value: '\$${formatNumber(marketInfo.marketCap)}',
+                    value: '\$${formatNumber(marketInfo.marketCap.toDouble())}',
                   ),
                 ),
                 TableCell(
                   child: MarketStatsItem(
                     name: 'Vol (24h)',
-                    value: '\$${formatNumber(marketInfo.dayVolume)}',
+                    value: '\$${formatNumber(marketInfo.dayVolume.toDouble())}',
                   ),
                 ),
               ],
@@ -55,7 +56,7 @@ class MarketStatsBlock extends HookWidget {
                 TableCell(
                   child: MarketStatsItem(
                     name: 'Circ supply',
-                    value: formatNumber(marketInfo.supply),
+                    value: formatNumber(marketInfo.supply.toDouble()),
                   ),
                 ),
                 const TableCell(

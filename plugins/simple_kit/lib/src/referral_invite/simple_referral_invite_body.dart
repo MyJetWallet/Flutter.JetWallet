@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../simple_kit.dart';
-import '../colors/view/simple_colors_light.dart';
-import '../shared/constants.dart';
 import 'components/simple_conditions_referral_invite.dart';
 
 class SReferralInviteBody extends StatelessWidget {
@@ -106,21 +104,7 @@ class SReferralInviteBody extends StatelessWidget {
           value: referralLink,
           header: 'Referral link',
         ),
-        const SDivider(),
-        const SpaceH24(),
-        SPaddingH24(
-          child: SPrimaryButton2(
-            onTap: () {
-              // Todo: navigate to share screen
-            },
-            name: 'Share',
-            active: true,
-            icon: SShareIcon(
-              color: SColorsLight().white,
-            ),
-          ),
-        ),
-        const SpaceH24(),
+        const SpaceH20(),
       ],
     );
   }

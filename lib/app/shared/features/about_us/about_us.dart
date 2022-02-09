@@ -77,7 +77,7 @@ class AboutUs extends HookWidget {
           Row(
             children: [
               SimpleAccountTermButton(
-                name: 'Terms of Use',
+                name: 'Terms and conditions',
                 onTap: () => launchURL(context, userAgreementLink),
               ),
             ],

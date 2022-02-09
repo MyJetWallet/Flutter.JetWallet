@@ -1,3 +1,4 @@
+import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,15 +19,37 @@ import 'chart_union.dart';
 class ChartNotifier extends StateNotifier<ChartState> {
   ChartNotifier({
     required this.read,
+    required this.instrumentId,
   }) : super(
           const ChartState(
-            candles: [],
+            candles: {
+              Period.day: [],
+              Period.week: [],
+              Period.month: [],
+              Period.year: [],
+              Period.all: [],
+            },
             type: ChartType.line,
             resolution: Period.day,
           ),
-        );
+        ) {
+    if (instrumentId != null) {
+      fetchAssetCandles(Period.day, instrumentId!);
+      fetchAssetCandles(Period.week, instrumentId!);
+      fetchAssetCandles(Period.month, instrumentId!);
+      fetchAssetCandles(Period.year, instrumentId!);
+      fetchAssetCandles(Period.all, instrumentId!);
+    } else {
+      fetchBalanceCandles(Period.day);
+      fetchBalanceCandles(Period.week);
+      fetchBalanceCandles(Period.month);
+      fetchBalanceCandles(Period.year);
+      fetchBalanceCandles(Period.all);
+    }
+  }
 
   final Reader read;
+  final String? instrumentId;
 
   static final _logger = Logger('ChartNotifier');
 
@@ -34,7 +57,6 @@ class ChartNotifier extends StateNotifier<ChartState> {
     _logger.log(notifier, 'fetchBalanceCandles');
 
     try {
-      _updateResolution(resolution);
       state = state.copyWith(union: const Loading());
 
       final model = WalletHistoryRequestModel(
@@ -43,13 +65,11 @@ class ChartNotifier extends StateNotifier<ChartState> {
       );
 
       final walletHistory = await read(chartServicePod).walletHistory(model);
-      updateCandles(candlesFrom(walletHistory.graph));
+      updateCandles(candlesFrom(walletHistory.graph), resolution);
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
 
-      state = state.copyWith(
-        union: const Error('Error loading chart'),
-      );
+      updateCandles(null, resolution);
     }
   }
 
@@ -57,7 +77,6 @@ class ChartNotifier extends StateNotifier<ChartState> {
     _logger.log(notifier, 'fetchAssetCandles');
 
     try {
-      _updateResolution(resolution);
       state = state.copyWith(union: const Loading());
 
       final toDate = DateTime.now().toUtc();
@@ -74,21 +93,24 @@ class ChartNotifier extends StateNotifier<ChartState> {
       );
 
       final candles = await read(chartServicePod).candles(model);
-      updateCandles(candles.candles);
+      updateCandles(candles.candles, resolution);
     } catch (e) {
       _logger.log(stateFlow, 'fetchAssetCandles', e);
 
-      state = state.copyWith(
-        union: const Error('Error loading chart'),
-      );
+      updateCandles(null, resolution);
     }
   }
 
-  void updateCandles(List<CandleModel> candles) {
+  void updateCandles(List<CandleModel>? candles, String resolution) {
     _logger.log(notifier, 'updateCandles');
 
+    if (!mounted) return;
+
+    final currentCandles = Map.of(state.candles);
+    currentCandles[resolution] = candles;
+
     state = state.copyWith(
-      candles: candles,
+      candles: currentCandles,
       union: const Candles(),
     );
   }
@@ -105,7 +127,10 @@ class ChartNotifier extends StateNotifier<ChartState> {
     state = state.copyWith(selectedCandle: selectedCandle);
   }
 
-  void _updateResolution(String resolution) {
+  void updateResolution(String resolution) {
+    _logger.log(notifier, 'updateResolution');
+
+    showAnimation = true;
     state = state.copyWith(resolution: resolution);
   }
 }

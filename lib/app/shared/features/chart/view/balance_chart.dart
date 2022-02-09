@@ -3,13 +3,11 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../providers/client_detail_pod/client_detail_pod.dart';
 import '../notifier/chart_notipod.dart';
-import '../provider/balance_chart_init_fpod.dart';
-import 'components/loading_chart_view.dart';
 
-class BalanceChart extends HookWidget {
+class BalanceChart extends StatefulHookWidget {
   const BalanceChart({
     Key? key,
     required this.onCandleSelected,
@@ -20,51 +18,51 @@ class BalanceChart extends HookWidget {
   final String walletCreationDate;
 
   @override
-  Widget build(BuildContext context) {
-    final initChart = useProvider(balanceChartInitFpod);
-    final chartNotifier = useProvider(chartNotipod.notifier);
-    final chartState = useProvider(chartNotipod);
-    final clientDetail = useProvider(clientDetailPod);
+  State<StatefulWidget> createState() => _BalanceChartState();
+}
 
-    return initChart.when(
-      data: (_) {
-        return chartState.union.when(
-          candles: () => Chart(
-            onResolutionChanged: (resolution) {
-              chartNotifier.fetchBalanceCandles(resolution);
-            },
-            onChartTypeChanged: (type) {
-              chartNotifier.updateChartType(type);
-            },
-            chartType: chartState.type,
-            candleResolution: chartState.resolution,
-            walletCreationDate: walletCreationDate,
-            candles: chartState.candles,
-            onCandleSelected: onCandleSelected,
-            chartHeight: 200,
-            chartWidgetHeight: 296,
-            isAssetChart: false,
-          ),
-          loading: () => LoadingChartView(
-            walletCreationDate: clientDetail.walletCreationDate,
-            chartHeight: 200,
-            chartWidgetHeight: 296,
-            isAssetChart: false,
-          ),
-          error: (String error) {
-            return Center(
-              child: Text(error),
-            );
-          },
-        );
-      },
-      loading: () => LoadingChartView(
-        walletCreationDate: clientDetail.walletCreationDate,
+class _BalanceChartState extends State<BalanceChart>
+    with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    final chartNotifier = useProvider(chartNotipod(null).notifier);
+    final chartState = useProvider(chartNotipod(null));
+
+    return chartState.union.when(
+      candles: () => Chart(
+        onResolutionChanged: (resolution) {
+          chartNotifier.updateResolution(
+            resolution,
+          );
+        },
+        onChartTypeChanged: (type) {
+          chartNotifier.updateChartType(type);
+        },
+        chartType: chartState.type,
+        candleResolution: chartState.resolution,
+        walletCreationDate: widget.walletCreationDate,
+        candles: chartState.candles[chartState.resolution],
+        onCandleSelected: widget.onCandleSelected,
         chartHeight: 200,
         chartWidgetHeight: 296,
         isAssetChart: false,
+        loader: const LoaderSpinner(),
       ),
-      error: (_, __) => const Text('Error'),
+      loading: () => LoadingChartView(
+        height: 296,
+        showLoader: true,
+        resolution: chartState.resolution,
+        onResolutionChanged: (resolution) {
+          chartNotifier.updateResolution(resolution);
+        },
+        loader: const LoaderSpinner(),
+        isBalanceChart: true,
+      ),
+      error: (String error) {
+        return Center(
+          child: Text(error),
+        );
+      },
     );
   }
 }

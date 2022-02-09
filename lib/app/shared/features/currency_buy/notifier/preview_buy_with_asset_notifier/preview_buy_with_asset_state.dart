@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,11 +10,11 @@ part 'preview_buy_with_asset_state.freezed.dart';
 class PreviewBuyWithAssetState with _$PreviewBuyWithAssetState {
   const factory PreviewBuyWithAssetState({
     String? operationId,
-    double? price,
+    Decimal? price,
     String? fromAssetSymbol,
     String? toAssetSymbol,
-    double? fromAssetAmount,
-    double? toAssetAmount,
+    Decimal? fromAssetAmount,
+    Decimal? toAssetAmount,
     // Will be initialzied on initState of the parent widget
     AnimationController? timerAnimation,
     // [true] when requestQuote() takes too long

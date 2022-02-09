@@ -31,6 +31,7 @@ class ChartColors {
   static const Color positiveChartColor = Color(0xFF0BCA1E);
   static const Color negativeChartColor = Color(0xFFF50537);
   static const Color dashedLineColor = Color(0xFFE0E5EB);
+  static const Color loadingBackgroundColor = Color(0xFFF1F4F8);
 }
 
 class ChartStyle {
@@ -44,7 +45,6 @@ class ChartStyle {
   static const int gridColumns = 4;
 
   static const double topPadding = 20.0;
-  // TODO(Vova): change to 20.h
   static const double bottomDateHigh = 20.0;
   static const double childPadding = 0.0;
 

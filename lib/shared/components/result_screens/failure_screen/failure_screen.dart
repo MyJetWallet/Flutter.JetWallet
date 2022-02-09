@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -58,7 +57,7 @@ class FailureScreen extends HookWidget {
           const SpaceH86(),
           const FailureAnimation(),
           Baseline(
-            baseline: 92.h,
+            baseline: 92.0,
             baselineType: TextBaseline.alphabetic,
             child: Text(
               primaryText,
@@ -69,7 +68,7 @@ class FailureScreen extends HookWidget {
           ),
           if (secondaryText != null)
             Baseline(
-              baseline: 31.4.h,
+              baseline: 31.4,
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 secondaryText!,

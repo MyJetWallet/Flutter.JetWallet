@@ -1,11 +1,12 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
+import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/short_address_form.dart';
 import '../../helper/minimum_amount.dart';
@@ -44,24 +45,28 @@ class WithdrawalAmount extends HookWidget {
               value: state.amount,
               symbol: currency.symbol,
             ),
-            helper: '≈ ${state.baseConversionValue} '
-                '${state.baseCurrency!.symbol}',
+            helper: '≈ ${marketFormat(
+              accuracy: state.baseCurrency!.accuracy,
+              prefix: state.baseCurrency!.prefix,
+              decimal: Decimal.parse(state.baseConversionValue),
+              symbol: state.baseCurrency!.symbol,
+            )}',
             error: state.inputError == InputError.enterHigherAmount
                 ? '${state.inputError.value}. ${minimumAmount(currency)}'
                 : state.inputError.value,
             isErrorActive: state.inputError.isActive,
           ),
           SBaselineChild(
-            baseline: 24.h,
+            baseline: 24.0,
             child: Text(
-              'Available: ${currency.formattedAssetBalance}',
+              'Available: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),
             ),
           ),
           SBaselineChild(
-            baseline: 36.h,
+            baseline: 36.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

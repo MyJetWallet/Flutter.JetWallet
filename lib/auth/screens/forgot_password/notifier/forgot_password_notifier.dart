@@ -3,26 +3,34 @@ import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../service/services/authentication/model/forgot_password/forgot_password_request_model.dart';
-import '../../../../service/services/authentication/service/authentication_service.dart';
 import '../../../../service/shared/constants.dart';
 import '../../../../shared/helpers/device_type.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/helpers/is_email_valid.dart';
+import '../view/forgot_password.dart';
 import 'forgot_password_state.dart';
 import 'forgot_password_union.dart';
 
 class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
-  ForgotPasswordNotifier({
-    required this.authService,
-  }) : super(const ForgotPasswordState());
+  ForgotPasswordNotifier(
+    this.read,
+    this.args,
+  ) : super(const ForgotPasswordState()) {
+    updateAndValidateEmail(args.email);
+  }
 
-  final AuthenticationService authService;
+  final Reader read;
+  final ForgotPasswordArgs args;
 
   static final _logger = Logger('ForgotPasswordNotifier');
 
-  void updateEmail(String email) {
-    _logger.log(notifier, 'updateEmail');
+  void updateAndValidateEmail(String email) {
+    _logger.log(notifier, 'updateAndValidateEmail');
 
-    state = state.copyWith(email: email);
+    state = state.copyWith(union: const Input());
+
+    _updateEmail(email);
+    validateEmail();
   }
 
   void validateEmail() {
@@ -35,11 +43,8 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
     }
   }
 
-  void updateAndValidateEmail(String email) {
-    state = state.copyWith(union: const Input());
-
-    updateEmail(email);
-    validateEmail();
+  void _updateEmail(String email) {
+    state = state.copyWith(email: email);
   }
 
   Future<void> sendRecoveryLink() async {
@@ -54,7 +59,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
         deviceType: deviceType,
       );
 
-      await authService.forgotPassword(model);
+      await read(authServicePod).forgotPassword(model);
 
       state = state.copyWith(union: const Input());
     } catch (e) {

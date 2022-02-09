@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../shared/decimal_serialiser.dart';
 
 part 'withdraw_request_model.freezed.dart';
 part 'withdraw_request_model.g.dart';
@@ -8,7 +11,7 @@ class WithdrawRequestModel with _$WithdrawRequestModel {
   const factory WithdrawRequestModel({
     required String requestId,
     required String assetSymbol,
-    required double amount,
+    @DecimalSerialiser() required Decimal amount,
     required String toAddress,
   }) = _WithdrawRequestModel;
 

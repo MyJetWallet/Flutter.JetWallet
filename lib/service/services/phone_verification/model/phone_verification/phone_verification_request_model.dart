@@ -6,8 +6,10 @@ part 'phone_verification_request_model.g.dart';
 @freezed
 class PhoneVerificationRequestModel with _$PhoneVerificationRequestModel {
   const factory PhoneVerificationRequestModel({
-    required String language,
-    required String phoneNumber,
+    @JsonKey(name: 'language') required String locale,
+    required String phoneBody,
+    required String phoneCode,
+    required String phoneIso,
   }) = _PhoneVerificationRequestModel;
 
   factory PhoneVerificationRequestModel.fromJson(Map<String, dynamic> json) =>

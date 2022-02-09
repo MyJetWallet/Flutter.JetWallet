@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'asset_model.freezed.dart';
 part 'asset_model.g.dart';
@@ -19,6 +22,8 @@ class AssetModel with _$AssetModel {
   const factory AssetModel({
     String? iconUrl,
     String? prefixSymbol,
+    @Default(false) bool earnProgramEnabled,
+    required bool hideInTerminal,
     required String symbol,
     required String description,
     required double accuracy,
@@ -48,7 +53,7 @@ class AssetFeesModel with _$AssetFeesModel {
 @freezed
 class WithdrawalFeeModel with _$WithdrawalFeeModel {
   const factory WithdrawalFeeModel({
-    required double size,
+    @DecimalSerialiser() required Decimal size,
     @JsonKey(name: 'feeType') required FeeType type,
     @JsonKey(name: 'asset') required String assetSymbol,
   }) = _WithdrawalFeeModel;
@@ -72,7 +77,7 @@ enum AssetType {
   @JsonValue('Crypto')
   crypto,
   @JsonValue('Index')
-  indecies,
+  indices,
 }
 
 enum FeeType {

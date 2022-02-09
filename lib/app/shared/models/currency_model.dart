@@ -1,7 +1,8 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../service/services/signal_r/model/asset_model.dart';
-import '../helpers/format_currency_amount.dart';
+import '../helpers/formatting/formatting.dart';
 import '../providers/base_currency_pod/base_currency_model.dart';
 
 part 'currency_model.freezed.dart';
@@ -20,16 +21,22 @@ class CurrencyModel with _$CurrencyModel {
     @Default(AssetFeesModel()) AssetFeesModel fees,
     @Default([]) List<DepositMethods> depositMethods,
     @Default([]) List<WithdrawalMethods> withdrawalMethods,
-    @Default('unknown') String assetId,
     @Default(0.0) double reserve,
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
-    @Default(0.0) double assetBalance,
-    @Default(0.0) double baseBalance,
     @Default('') String iconUrl,
-    @Default(0.0) double currentPrice,
-    @Default(0.0) double dayPriceChange,
+    @Default('') String nextPaymentDate,
     @Default(0.0) double dayPercentChange,
+    required Decimal assetBalance,
+    required Decimal baseBalance,
+    required Decimal currentPrice,
+    required Decimal dayPriceChange,
+    required Decimal assetTotalEarnAmount,
+    required Decimal baseTotalEarnAmount,
+    required Decimal assetCurrentEarnAmount,
+    required Decimal baseCurrentEarnAmount,
+    required Decimal apy,
+    @Default(false) bool earnProgramEnabled,
   }) = _CurrencyModel;
 
   const CurrencyModel._();
@@ -38,14 +45,16 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isWithdrawalMode => withdrawalMode == 0;
 
-  bool get isAssetBalanceEmpty => assetBalance == 0;
+  bool get isAssetBalanceEmpty => assetBalance == Decimal.zero;
 
-  bool get isAssetBalanceNotEmpty => assetBalance != 0;
+  bool get isAssetBalanceNotEmpty => assetBalance != Decimal.zero;
 
-  double get withdrawalFeeSize => fees.withdrawalFee?.size ?? 0;
+  Decimal get withdrawalFeeSize => fees.withdrawalFee?.size ?? Decimal.zero;
+
+  bool get isGrowing => dayPercentChange > 0;
 
   String get withdrawalFeeWithSymbol {
-    if (withdrawalFeeSize == 0) {
+    if (withdrawalFeeSize == Decimal.zero) {
       return '0 $symbol';
     } else {
       return '$withdrawalFeeSize ${fees.withdrawalFee?.assetSymbol}';
@@ -58,19 +67,17 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get hasTag => tagType != TagType.none;
 
-  String formatBaseBalance(BaseCurrencyModel baseCurrency) {
-    return formatCurrencyAmount(
+  String volumeBaseBalance(BaseCurrencyModel baseCurrency) {
+    return baseBalance.toVolumeFormat(
       prefix: baseCurrency.prefix,
-      value: baseBalance,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     );
   }
 
-  String get formattedAssetBalance {
-    return formatCurrencyAmount(
+  String get volumeAssetBalance {
+    return assetBalance.toVolumeFormat(
       prefix: prefixSymbol,
-      value: assetBalance,
       accuracy: accuracy,
       symbol: symbol,
     );

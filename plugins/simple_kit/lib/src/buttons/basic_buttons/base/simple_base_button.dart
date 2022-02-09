@@ -38,20 +38,24 @@ class SimpleBaseButton extends StatelessWidget {
         child: Baseline(
           baseline: 34.0,
           baselineType: TextBaseline.alphabetic,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (icon != null) ...[
-                icon!,
-                const SpaceW10(),
-              ],
-              Text(
-                name,
-                style: sButtonTextStyle.copyWith(
-                  color: nameColor,
+          child: SPaddingH24(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...[
+                  icon!,
+                  const SpaceW10(),
+                ],
+                Flexible(
+                  child: Text(
+                    name,
+                    style: sButtonTextStyle.copyWith(
+                      color: nameColor,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../simple_kit.dart';
 import '../../banners/rewards_banner/helper/set_circle_background_image.dart';
@@ -23,7 +22,7 @@ class SimpleAccountBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.only(
@@ -31,7 +30,7 @@ class SimpleAccountBanner extends StatelessWidget {
           left: 20,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(16),
           color: color,
         ),
         child: Row(

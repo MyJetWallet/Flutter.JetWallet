@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'market_info_response_model.freezed.dart';
 part 'market_info_response_model.g.dart';
@@ -8,9 +11,9 @@ class MarketInfoResponseModel with _$MarketInfoResponseModel {
   const factory MarketInfoResponseModel({
     String? whitepaperUrl,
     String? officialWebsiteUrl,
-    required double marketCap,
-    required double supply,
-    @JsonKey(name: 'volume24') required double dayVolume,
+    @DecimalSerialiser() required Decimal marketCap,
+    @DecimalSerialiser() required Decimal supply,
+    @DecimalSerialiser() @JsonKey(name: 'volume24') required Decimal dayVolume,
     required String aboutLess,
     required String aboutMore,
     required Fees fees,
@@ -33,8 +36,8 @@ class Fees with _$Fees {
 class WithdrawalFee with _$WithdrawalFee {
   const factory WithdrawalFee({
     required String asset,
-    required double size,
-    required double feeType,
+    @DecimalSerialiser() required Decimal size,
+    required int feeType,
   }) = _WithdrawalFee;
 
   factory WithdrawalFee.fromJson(Map<String, dynamic> json) =>

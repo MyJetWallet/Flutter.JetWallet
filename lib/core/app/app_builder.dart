@@ -13,9 +13,9 @@ class AppBuilder extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = useMemoized(() => MediaQuery.of(context));
-    // reactiveMediaQuery is needed to update viewInsets and 
+    // reactiveMediaQuery is needed to update viewInsets and
     // other stuff when it changes.
-    // In the case above changes are unwanted, so we placed 
+    // In the case above changes are unwanted, so we placed
     // mediaQuery inside useMemorized hook
     final reactiveMediaQuery = MediaQuery.of(context);
 

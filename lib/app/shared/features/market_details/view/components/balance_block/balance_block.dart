@@ -3,11 +3,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
-import '../../../../../helpers/format_currency_amount.dart';
+import '../../../../../helpers/formatting/formatting.dart';
+import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../transaction_history/view/transaction_hisotry.dart';
 import '../../../../wallet/helper/navigate_to_wallet.dart';
+import '../../../../wallet/notifier/operation_history_notipod.dart';
 import '../../../helper/currency_from.dart';
 import 'components/balance_action_buttons.dart';
 
@@ -26,6 +30,11 @@ class BalanceBlock extends HookWidget {
       useProvider(currenciesPod),
       marketItem.associateAsset,
     );
+    final transactionHistory = useProvider(
+      operationHistoryNotipod(
+        marketItem.symbol,
+      ),
+    );
 
     return SizedBox(
       height: 156,
@@ -38,18 +47,32 @@ class BalanceBlock extends HookWidget {
               url: marketItem.iconUrl,
             ),
             primaryText: '${marketItem.name} wallet',
-            amount: formatCurrencyAmount(
+            amount: volumeFormat(
               prefix: baseCurrency.prefix,
-              value: marketItem.baseBalance,
+              decimal: marketItem.baseBalance,
               symbol: baseCurrency.symbol,
               accuracy: baseCurrency.accuracy,
             ),
-            secondaryText: '${marketItem.assetBalance} ${marketItem.id}',
-            onTap: () => navigateToWallet(context, currency),
+            secondaryText: volumeFormat(
+              prefix: marketItem.prefixSymbol,
+              decimal: marketItem.baseBalance,
+              symbol: marketItem.symbol,
+              accuracy: marketItem.assetAccuracy,
+            ),
+            onTap: () {
+              onMarketItemTap(
+                context: context,
+                marketItem: marketItem,
+                currency: currency,
+                isIndexTransactionEmpty:
+                    transactionHistory.operationHistoryItems.isEmpty,
+              );
+            },
             removeDivider: true,
             leftBlockTopPadding: _leftBlockTopPadding(),
             balanceTopMargin: 16,
             height: 75,
+            rightBlockTopPadding: 15,
             showSecondaryText: !marketItem.isBalanceEmpty,
           ),
           BalanceActionButtons(
@@ -66,6 +89,25 @@ class BalanceBlock extends HookWidget {
       return 26;
     } else {
       return 16;
+    }
+  }
+
+  void onMarketItemTap({
+    required BuildContext context,
+    required MarketItemModel marketItem,
+    required CurrencyModel currency,
+    required bool isIndexTransactionEmpty,
+  }) {
+    if (marketItem.type == AssetType.indices) {
+      if (!isIndexTransactionEmpty) {
+        TransactionHistory.push(
+          context: context,
+          assetName: marketItem.name,
+          assetSymbol: marketItem.symbol,
+        );
+      }
+    } else {
+      navigateToWallet(context, currency);
     }
   }
 }

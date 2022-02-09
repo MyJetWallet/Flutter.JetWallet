@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -7,6 +8,7 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
 import '../../../../helpers/input_helpers.dart';
+import '../../../../helpers/truncate_zeros_from.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -128,7 +130,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _calculateBaseConversion();
   }
 
-  void updateTargetConversionPrice(double? price) {
+  void updateTargetConversionPrice(Decimal? price) {
     _logger.log(notifier, 'updateTargetConversionPrice');
 
     state = state.copyWith(targetConversionPrice: price);
@@ -140,18 +142,21 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   void _calculateTargetConversion() {
     if (state.targetConversionPrice != null && state.inputValue.isNotEmpty) {
-      final amount = double.parse(state.inputValue);
+      final amount = Decimal.parse(state.inputValue);
       final price = state.targetConversionPrice!;
       final accuracy = currencyModel.accuracy;
-      var conversion = 0.0;
 
-      if (price != 0) {
-        conversion = amount / price;
+      var conversion = Decimal.zero;
+
+      if (price != Decimal.zero) {
+        conversion = (amount / price).toDecimal(
+          scaleOnInfinitePrecision: accuracy,
+        );
       }
 
       _updateTargetConversionValue(
-        truncateZerosFromInput(
-          conversion.toStringAsFixed(accuracy),
+        truncateZerosFrom(
+          conversion.toString(),
         ),
       );
     } else {
@@ -168,11 +173,11 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       final baseValue = calculateBaseBalanceWithReader(
         read: read,
         assetSymbol: state.selectedCurrencySymbol,
-        assetBalance: double.parse(state.inputValue),
+        assetBalance: Decimal.parse(state.inputValue),
       );
 
       _updateBaseConversionValue(
-        truncateZerosFromInput(baseValue.toString()),
+        truncateZerosFrom(baseValue.toString()),
       );
     } else {
       _updateBaseConversionValue(zero);
@@ -191,7 +196,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     if (state.selectedCurrency == null) {
       _updateInputValid(false);
     } else {
-      final error = inputError(
+      final error = onTradeInputErrorHandler(
         state.inputValue,
         state.selectedCurrency!,
       );

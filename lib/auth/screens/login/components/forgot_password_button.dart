@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForgotPasswordButton extends StatelessWidget {
   const ForgotPasswordButton({
@@ -15,16 +14,16 @@ class ForgotPasswordButton extends StatelessWidget {
       onTap: onTap,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      child: Padding(
+      child: const Padding(
         padding: EdgeInsets.symmetric(
-          vertical: 5.h,
+          vertical: 5.0,
         ),
         child: Text(
           'Forgot password?',
           style: TextStyle(
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
-            fontSize: 12.sp,
+            fontSize: 12.0,
           ),
         ),
       ),

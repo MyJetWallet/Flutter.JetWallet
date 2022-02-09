@@ -17,10 +17,13 @@ import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
+import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
+import '../model/kyc_countries_response_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
+import '../model/price_accuracies.dart';
 import '../model/referral_stats_response_model.dart';
 
 class SignalRService {
@@ -54,6 +57,9 @@ class SignalRService {
   final _campaignsBannersController = StreamController<CampaignResponseModel>();
   final _referralStatsController =
       StreamController<ReferralStatsResponseModel>();
+  final _indicesController = StreamController<IndicesModel>();
+  final _kycCountriesController = StreamController<KycCountriesResponseModel>();
+  final _priceAccuraciesController = StreamController<PriceAccuracies>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -67,6 +73,15 @@ class SignalRService {
     isDisconnecting = false;
 
     _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
+
+    _connection?.on(kycCountriesMessage, (data) {
+      try {
+        final countries = KycCountriesResponseModel.fromJson(_json(data));
+        _kycCountriesController.add(countries);
+      } catch (e) {
+        _logger.log(contract, kycCountriesMessage, e);
+      }
+    });
 
     _connection?.on(campaignsBannersMessage, (data) {
       try {
@@ -176,6 +191,24 @@ class SignalRService {
       }
     });
 
+    _connection?.on(indicesMessage, (data) {
+      try {
+        final indices = IndicesModel.fromJson(_json(data));
+        _indicesController.add(indices);
+      } catch (e) {
+        _logger.log(contract, indicesMessage, e);
+      }
+    });
+
+    _connection?.on(convertPriceSettingsMessage, (data) {
+      try {
+        final settings = PriceAccuracies.fromJson(_json(data));
+        _priceAccuraciesController.add(settings);
+      } catch (e) {
+        _logger.log(contract, convertPriceSettingsMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
     final deviceUid = read(deviceUidPod);
@@ -222,6 +255,14 @@ class SignalRService {
 
   Stream<ReferralStatsResponseModel> referralStats() =>
       _referralStatsController.stream;
+
+  Stream<KycCountriesResponseModel> kycCountries() =>
+      _kycCountriesController.stream;
+
+  Stream<IndicesModel> indices() => _indicesController.stream;
+
+  Stream<PriceAccuracies> priceAccuracies() =>
+      _priceAccuraciesController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

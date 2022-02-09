@@ -52,20 +52,26 @@ class SimpleAssetItemExample extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('20px'),
                     ),
-                    Container(
-                      width: 150.0,
-                      height: 88.0,
-                      color: Colors.red.withOpacity(0.2),
-                      child: Column(
-                        children: const [
-                          Spacer(),
-                          Text(
-                            '150px',
-                          ),
-                        ],
+                    Expanded(
+                      child: Container(
+                        height: 88.0,
+                        color: Colors.red.withOpacity(0.2),
+                        child: Column(
+                          children: const [
+                            Spacer(),
+                            Text(
+                              'Expanded',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const Spacer(),
+                    Container(
+                      width: 16.0,
+                      height: 88.0,
+                      color: Colors.blue.withOpacity(0.2),
+                      child: const Text('16px'),
+                    ),
                     Container(
                       width: 120.0,
                       height: 88.0,
@@ -158,7 +164,7 @@ class SimpleAssetItemExample extends StatelessWidget {
                     icon: const SActionBuyIcon(),
                     isCreditCard: true,
                     name: 'Card Name',
-                    amount: '**** 0000',
+                    amount: '•••• 0000',
                     description: 'Date',
                     helper: 'Limit',
                   ),
@@ -188,20 +194,26 @@ class SimpleAssetItemExample extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.2),
                       child: const Text('20px'),
                     ),
-                    Container(
-                      width: 180.0,
-                      height: 88.0,
-                      color: Colors.red.withOpacity(0.2),
-                      child: Column(
-                        children: const [
-                          Spacer(),
-                          Text(
-                            '180px',
-                          ),
-                        ],
+                    Expanded(
+                      child: Container(
+                        height: 88.0,
+                        color: Colors.red.withOpacity(0.2),
+                        child: Column(
+                          children: const [
+                            Spacer(),
+                            Text(
+                              'Expanded',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const Spacer(),
+                    Container(
+                      width: 16.0,
+                      height: 88.0,
+                      color: Colors.blue.withOpacity(0.2),
+                      child: const Text('16px'),
+                    ),
                     Container(
                       width: 90.0,
                       height: 88.0,
@@ -281,7 +293,7 @@ class SimpleAssetItemExample extends StatelessWidget {
               icon: const SActionBuyIcon(),
               isCreditCard: true,
               name: 'Card Name',
-              amount: '**** 0000',
+              amount: '•••• 0000',
               description: 'Date',
               helper: 'Limit',
             ),

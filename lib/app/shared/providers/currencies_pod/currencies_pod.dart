@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../helpers/calculate_base_balance.dart';
@@ -18,22 +19,34 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
 
   assets.whenData((value) {
     for (final asset in value.assets) {
-      currencies.add(
-        CurrencyModel(
-          symbol: asset.symbol,
-          description: asset.description,
-          accuracy: asset.accuracy.toInt(),
-          depositMode: asset.depositMode,
-          withdrawalMode: asset.withdrawalMode,
-          tagType: asset.tagType,
-          type: asset.type,
-          depositMethods: asset.depositMethods,
-          fees: asset.fees,
-          withdrawalMethods: asset.withdrawalMethods,
-          iconUrl: iconUrlFrom(asset.symbol),
-          prefixSymbol: asset.prefixSymbol,
-        ),
-      );
+      if (!asset.hideInTerminal) {
+        currencies.add(
+          CurrencyModel(
+            symbol: asset.symbol,
+            description: asset.description,
+            accuracy: asset.accuracy.toInt(),
+            depositMode: asset.depositMode,
+            withdrawalMode: asset.withdrawalMode,
+            tagType: asset.tagType,
+            type: asset.type,
+            depositMethods: asset.depositMethods,
+            fees: asset.fees,
+            withdrawalMethods: asset.withdrawalMethods,
+            iconUrl: iconUrlFrom(asset.symbol),
+            prefixSymbol: asset.prefixSymbol,
+            apy: Decimal.zero,
+            assetBalance: Decimal.zero,
+            assetCurrentEarnAmount: Decimal.zero,
+            assetTotalEarnAmount: Decimal.zero,
+            baseBalance: Decimal.zero,
+            baseCurrentEarnAmount: Decimal.zero,
+            baseTotalEarnAmount: Decimal.zero,
+            currentPrice: Decimal.zero,
+            dayPriceChange: Decimal.zero,
+            earnProgramEnabled: asset.earnProgramEnabled,
+          ),
+        );
+      }
     }
   });
 
@@ -45,11 +58,14 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             final index = currencies.indexOf(currency);
 
             currencies[index] = currency.copyWith(
-              assetId: balance.assetId,
               reserve: balance.reserve,
               lastUpdate: balance.lastUpdate,
               sequenceId: balance.sequenceId,
               assetBalance: balance.balance,
+              assetTotalEarnAmount: balance.totalEarnAmount,
+              assetCurrentEarnAmount: balance.currentEarnAmount,
+              nextPaymentDate: balance.nextPaymentDate,
+              apy: balance.apy,
             );
           }
         }
@@ -68,22 +84,33 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
         );
 
         final baseBalance = calculateBaseBalance(
-          accuracy: baseCurrency.accuracy,
           assetSymbol: currency.symbol,
           assetBalance: currency.assetBalance,
           assetPrice: assetPrice,
           baseCurrencySymbol: baseCurrency.symbol,
         );
 
+        final baseTotalEarnAmount = calculateBaseBalance(
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetTotalEarnAmount,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: baseCurrency.symbol,
+        );
+
+        final baseCurrentEarnAmount = calculateBaseBalance(
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetCurrentEarnAmount,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: baseCurrency.symbol,
+        );
+
         currencies[index] = currency.copyWith(
           baseBalance: baseBalance,
-          currentPrice: double.parse(
-            assetPrice.currentPrice.toStringAsFixed(
-              baseCurrency.accuracy,
-            ),
-          ),
+          currentPrice: assetPrice.currentPrice,
           dayPriceChange: assetPrice.dayPriceChange,
           dayPercentChange: assetPrice.dayPercentChange,
+          baseTotalEarnAmount: baseTotalEarnAmount,
+          baseCurrentEarnAmount: baseCurrentEarnAmount,
         );
       }
     }

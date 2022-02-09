@@ -18,22 +18,18 @@ class ReturnRatesBlock extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 56,
-            child: Baseline(
-              baseline: 50,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                'Return Rates',
-                textAlign: TextAlign.start,
-                style: sTextH4Style,
-              ),
+          SBaselineChild(
+            baseline: 56,
+            child: Text(
+              'Return rates',
+              textAlign: TextAlign.start,
+              style: sTextH4Style,
             ),
           ),
           ReturnRates(
             assetSymbol: assetSymbol,
           ),
-          const SpaceH12(),
+          const SpaceH19(),
           const SDivider(),
         ],
       ),

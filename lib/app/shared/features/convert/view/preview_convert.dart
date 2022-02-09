@@ -1,8 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../helpers/formatting/formatting.dart';
+import '../../../helpers/price_accuracy.dart';
 import '../model/preview_convert_input.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_convert_notipod.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_convert_state.dart';
@@ -49,6 +52,11 @@ class _PreviewConvertState extends State<PreviewConvert>
     );
     final loader = useValueNotifier(StackLoaderNotifier());
 
+    final from = widget.input.fromCurrency;
+    final to = widget.input.toCurrency;
+
+    final accuracy = priceAccuracy(context.read, from.symbol, to.symbol);
+
     return ProviderListener<PreviewConvertState>(
       provider: previewConvertNotipod(widget.input),
       onChange: (_, value) {
@@ -63,50 +71,78 @@ class _PreviewConvertState extends State<PreviewConvert>
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
+          crossAxisAlignment: CrossAxisAlignment.center,
           title: notifier.previewHeader,
           onBackButtonTap: () {
             notifier.cancelTimer();
             Navigator.pop(context);
           },
         ),
-        child: Column(
-          children: [
-            const Spacer(),
-            SActionConfirmIconWithAnimation(
-              iconUrl: widget.input.toCurrency.iconUrl,
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  SActionConfirmIconWithAnimation(
+                    iconUrl: widget.input.toCurrency.iconUrl,
+                  ),
+                  const Spacer(),
+                  SActionConfirmText(
+                    name: 'You Pay',
+                    value: volumeFormat(
+                      prefix: from.prefixSymbol,
+                      accuracy: from.accuracy,
+                      decimal: state.fromAssetAmount ?? Decimal.zero,
+                      symbol: from.symbol,
+                    ),
+                  ),
+                  SActionConfirmText(
+                    name: 'You get',
+                    baseline: 35.0,
+                    contentLoading: state.union is QuoteLoading,
+                    value: '≈ ${volumeFormat(
+                      prefix: to.prefixSymbol,
+                      accuracy: to.accuracy,
+                      decimal: state.toAssetAmount ?? Decimal.zero,
+                      symbol: to.symbol,
+                    )}',
+                  ),
+                  SActionConfirmText(
+                    name: 'Exchange Rate',
+                    baseline: 34.0,
+                    contentLoading: state.union is QuoteLoading,
+                    timerLoading: state.union is QuoteLoading,
+                    animation: state.timerAnimation,
+                    value: '${volumeFormat(
+                      prefix: from.prefixSymbol,
+                      accuracy: from.accuracy,
+                      decimal: Decimal.one,
+                      symbol: from.symbol,
+                    )} = \n'
+                        '${volumeFormat(
+                      prefix: to.prefixSymbol,
+                      accuracy: accuracy,
+                      decimal: state.price ?? Decimal.zero,
+                      symbol: to.symbol,
+                    )}',
+                  ),
+                  const SpaceH36(),
+                  if (state.connectingToServer) ...[
+                    const SActionConfirmAlert(),
+                    const SpaceH20(),
+                  ],
+                  SPrimaryButton2(
+                    active: state.union is QuoteSuccess,
+                    name: 'Confirm',
+                    onTap: () {
+                      notifier.executeQuote();
+                    },
+                  ),
+                  const SpaceH24(),
+                ],
+              ),
             ),
-            const Spacer(),
-            SActionConfirmText(
-              name: 'You Pay',
-              value: '${state.fromAssetAmount} '
-                  '${state.fromAssetSymbol}',
-            ),
-            SActionConfirmText(
-              name: 'You get',
-              contentLoading: state.union is QuoteLoading,
-              value: '≈ ${state.toAssetAmount} ${state.toAssetSymbol}',
-            ),
-            SActionConfirmText(
-              name: 'Exchange Rate',
-              contentLoading: state.union is QuoteLoading,
-              timerLoading: state.union is QuoteLoading,
-              animation: state.timerAnimation,
-              value: '1 ${state.fromAssetSymbol} = '
-                  '${state.price} ${state.toAssetSymbol}',
-            ),
-            const SpaceH40(),
-            if (state.connectingToServer) ...[
-              const SActionConfirmAlert(),
-              const SpaceH20(),
-            ],
-            SPrimaryButton2(
-              active: state.union is QuoteSuccess,
-              name: 'Confirm',
-              onTap: () {
-                notifier.executeQuote();
-              },
-            ),
-            const SpaceH24(),
           ],
         ),
       ),
