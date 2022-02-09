@@ -124,12 +124,12 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
   }
 
   void updatePhoneNumber(String phoneNumber) {
-    final parsablePhoneNumber = _parseUkrainePhoneNumber(phoneNumber);
+    final parsablePhoneNumber = _parsePhoneNumber(phoneNumber);
 
     state.phoneNumberController.text = parsablePhoneNumber;
   }
 
-  String _parseUkrainePhoneNumber(String phoneNumber) {
+  String _parsePhoneNumber(String phoneNumber) {
     if (phoneNumber.isNotEmpty) {
       var body = _parseNumber(phoneNumber);
       final dialCode = _parseNumber(state.dialCodeController.text);
