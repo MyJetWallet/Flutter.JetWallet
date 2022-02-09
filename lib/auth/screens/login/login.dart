@@ -14,11 +14,9 @@ import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../forgot_password/view/forgot_password.dart';
 
 class Login extends HookWidget {
-  Login({Key? key}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
   static const routeName = '/login';
-
-  final TextEditingController _controller = TextEditingController();
 
   static Future push(BuildContext context) {
     return Navigator.pushNamed(context, routeName);
@@ -36,6 +34,7 @@ class Login extends HookWidget {
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
+    final _controller = useTextEditingController();
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
