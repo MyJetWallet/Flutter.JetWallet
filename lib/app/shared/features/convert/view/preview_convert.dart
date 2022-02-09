@@ -4,8 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../helpers/convert_prcie_accuracy.dart';
 import '../../../helpers/formatting/formatting.dart';
+import '../../../helpers/price_accuracy.dart';
 import '../model/preview_convert_input.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_convert_notipod.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_convert_state.dart';
@@ -55,7 +55,7 @@ class _PreviewConvertState extends State<PreviewConvert>
     final from = widget.input.fromCurrency;
     final to = widget.input.toCurrency;
 
-    final accuracy = convertPriceAccuracy(context.read, from.symbol, to.symbol);
+    final accuracy = priceAccuracy(context.read, from.symbol, to.symbol);
 
     return ProviderListener<PreviewConvertState>(
       provider: previewConvertNotipod(widget.input),

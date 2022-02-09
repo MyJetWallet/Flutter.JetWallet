@@ -21,29 +21,21 @@ class ReturnRateItem extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 44,
-          child: Baseline(
-            baseline: 41,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              header,
-              style: sBodyText2Style.copyWith(
-                color: colors.grey1,
-              ),
+        SBaselineChild(
+          baseline: 44,
+          child: Text(
+            header,
+            style: sBodyText2Style.copyWith(
+              color: colors.grey1,
             ),
           ),
         ),
-        SizedBox(
-          height: 24,
-          child: Baseline(
-            baseline: 21,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              value,
-              style: sBodyText1Style.copyWith(
-                color: periodChangeColor,
-              ),
+        SBaselineChild(
+          baseline: 24,
+          child: Text(
+            value,
+            style: sBodyText1Style.copyWith(
+              color: periodChangeColor,
             ),
           ),
         ),

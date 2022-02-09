@@ -35,7 +35,8 @@ Widget createRewardDescriptionItem(
             ),
           ),
         ),
-      if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition))
+      if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition) &&
+          condition.reward != null)
         Text(
           '\$${condition.reward!.amount.toStringAsFixed(0)}',
           style: sBodyText1Style.copyWith(
@@ -46,7 +47,8 @@ Widget createRewardDescriptionItem(
             ),
           ),
         ),
-      if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition))
+      if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition) &&
+          condition.reward != null)
         Text(
           '${condition.reward!.amount.toStringAsFixed(0)}'
           ' for account verification',
@@ -58,7 +60,9 @@ Widget createRewardDescriptionItem(
             ),
           ),
         ),
-      if (condition.type == conditionTypeSwitch(ConditionType.depositCondition))
+      if (condition.type ==
+              conditionTypeSwitch(ConditionType.depositCondition) &&
+          condition.reward != null)
         Text(
           '${condition.reward!.amount.toStringAsFixed(0)}'
           ' after making first deposit',

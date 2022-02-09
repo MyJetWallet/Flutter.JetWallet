@@ -72,6 +72,7 @@ class BalanceBlock extends HookWidget {
             leftBlockTopPadding: _leftBlockTopPadding(),
             balanceTopMargin: 16,
             height: 75,
+            rightBlockTopPadding: 15,
             showSecondaryText: !marketItem.isBalanceEmpty,
           ),
           BalanceActionButtons(
@@ -102,7 +103,7 @@ class BalanceBlock extends HookWidget {
         TransactionHistory.push(
           context: context,
           assetName: marketItem.name,
-          assetId: marketItem.symbol,
+          assetSymbol: marketItem.symbol,
         );
       }
     } else {

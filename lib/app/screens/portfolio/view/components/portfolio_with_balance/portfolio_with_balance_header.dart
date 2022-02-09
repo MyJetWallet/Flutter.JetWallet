@@ -22,7 +22,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
     final colors = useProvider(sColorPod);
     final gift = useProvider(referralGiftPod);
     final chart = useProvider(
-      chartNotipod,
+      chartNotipod(null),
     );
 
     return Container(

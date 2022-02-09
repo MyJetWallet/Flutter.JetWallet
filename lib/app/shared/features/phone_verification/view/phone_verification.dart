@@ -118,6 +118,7 @@ class PhoneVerification extends HookWidget {
             PinCodeField(
               length: 4,
               controller: phone.controller,
+              autoFocus: true,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               onCompleted: (_) => phoneN.verifyCode(),
               pinError: phone.pinFieldError!,
