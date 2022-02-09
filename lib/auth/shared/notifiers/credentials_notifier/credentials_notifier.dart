@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../helpers/is_email_valid.dart';
@@ -68,16 +66,6 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     _logger.log(notifier, 'checkPolicy');
 
     state = state.copyWith(policyChecked: !state.policyChecked);
-  }
-
-  bool checkNeedRemovePassword(
-    ValueNotifier<StandardFieldErrorNotifier> passwordError,
-    String password,
-  ) {
-    if (passwordError.value.value && password.length < state.password.length) {
-      return true;
-    }
-    return false;
   }
 
   void clear() {
