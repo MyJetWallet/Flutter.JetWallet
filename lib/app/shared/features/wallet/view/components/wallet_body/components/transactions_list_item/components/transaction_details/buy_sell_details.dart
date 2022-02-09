@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../../../../../../../../helpers/convert_prcie_accuracy.dart';
 import '../../../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../../../helpers/price_accuracy.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
 import '../../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
@@ -39,7 +39,7 @@ class BuySellDetails extends StatelessWidget {
       CurrencyModel currency1,
       CurrencyModel currency2,
     ) {
-      final accuracy = convertPriceAccuracy(
+      final accuracy = priceAccuracy(
         context.read,
         currency1.symbol,
         currency2.symbol,

@@ -3,29 +3,31 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../../screens/market/provider/market_items_pod.dart';
+import '../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
-import '../../../../../../../market_details/helper/currency_from.dart';
-import '../../../../../../helper/market_item_from.dart';
 import '../../../../../../helper/show_interest_rate.dart';
 
 class WalletCard extends HookWidget {
   const WalletCard({
     Key? key,
-    required this.assetId,
+    required this.currency,
   }) : super(key: key);
 
-  final String assetId;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
-    final marketItems = useProvider(marketItemsPod);
-    final currency = currencyFrom(useProvider(currenciesPod), assetId);
-    final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
-    final marketItem = marketItemFrom(marketItems, assetId);
+    final baseCurrency = useProvider(baseCurrencyPod);
+    final interestRateText = '+${volumeFormat(
+      prefix: baseCurrency.prefix,
+      decimal: currency.baseTotalEarnAmount,
+      accuracy: baseCurrency.accuracy,
+      symbol: baseCurrency.symbol,
+    )}';
+    final interestRateTextSize = _textSize(interestRateText, sSubtitle3Style);
 
     return Container(
       height: 150,
@@ -47,8 +49,9 @@ class WalletCard extends HookWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               left: 34,
+              right: interestRateTextSize.width + 20,
             ),
             child: SBaselineChild(
               baseline: 50,
@@ -66,12 +69,12 @@ class WalletCard extends HookWidget {
                   context: context,
                   currency: currency,
                   baseCurrency: baseCurrency,
-                  marketItem: marketItem,
                   colors: colors,
                 );
               },
               child: Container(
                 height: 24,
+                width: interestRateTextSize.width + 20,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
@@ -83,12 +86,7 @@ class WalletCard extends HookWidget {
                 child: SBaselineChild(
                   baseline: 17,
                   child: Text(
-                    '+${volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: currency.baseTotalEarnAmount,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    )}',
+                    interestRateText,
                     style: sSubtitle3Style.copyWith(
                       color: colors.white,
                     ),
@@ -140,7 +138,6 @@ class WalletCard extends HookWidget {
                     currency: currency,
                     baseCurrency: baseCurrency,
                     colors: colors,
-                    marketItem: marketItem,
                   );
                 },
                 child: const SInfoIcon(),
@@ -150,5 +147,14 @@ class WalletCard extends HookWidget {
         ],
       ),
     );
+  }
+
+  Size _textSize(String text, TextStyle style) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    )..layout();
+    return textPainter.size;
   }
 }
