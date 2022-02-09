@@ -21,7 +21,6 @@ class CurrencyModel with _$CurrencyModel {
     @Default(AssetFeesModel()) AssetFeesModel fees,
     @Default([]) List<DepositMethods> depositMethods,
     @Default([]) List<WithdrawalMethods> withdrawalMethods,
-    @Default('unknown') String assetId,
     @Default(0.0) double reserve,
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,

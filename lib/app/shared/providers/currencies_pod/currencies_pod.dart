@@ -58,7 +58,6 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             final index = currencies.indexOf(currency);
 
             currencies[index] = currency.copyWith(
-              assetId: balance.assetId,
               reserve: balance.reserve,
               lastUpdate: balance.lastUpdate,
               sequenceId: balance.sequenceId,

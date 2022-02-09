@@ -9,24 +9,26 @@ import '../../wallet/view/components/wallet_body/components/transactions_list/tr
 class TransactionHistory extends HookWidget {
   TransactionHistory({
     Key? key,
-    this.assetId,
     this.assetName,
+    this.assetSymbol,
   }) : super(key: key);
 
-  final String? assetId;
   final String? assetName;
+  final String? assetSymbol;
+
+  /// TODO(Vova) reconsider this
   final scrollController = ScrollController();
 
   static void push({
-    String? assetId,
     String? assetName,
+    String? assetSymbol,
     required BuildContext context,
   }) {
     navigatorPush(
       context,
       TransactionHistory(
-        assetId: assetId,
         assetName: assetName,
+        assetSymbol: assetSymbol,
       ),
     );
   }
@@ -55,7 +57,7 @@ class TransactionHistory extends HookWidget {
           TransactionsList(
             scrollController: scrollController,
             errorBoxPaddingMultiplier: 0.313,
-            assetId: assetId,
+            symbol: assetSymbol,
           ),
         ],
       ),
@@ -63,8 +65,8 @@ class TransactionHistory extends HookWidget {
   }
 
   String _title() {
-    if (assetName != null && assetId != null) {
-      return 'History $assetName ($assetId)';
+    if (assetName != null && assetSymbol != null) {
+      return 'History $assetName ($assetSymbol)';
     } else {
       return 'History';
     }
