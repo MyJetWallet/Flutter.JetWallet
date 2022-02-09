@@ -20,7 +20,7 @@ class SimplePrivacyPolicyExample extends HookWidget {
           SPolicyCheckbox(
             firstText: 'By clicking Agree and Continue, '
                 'I hereby agree and consent to the ',
-            userAgreementText: 'User Agreement',
+            userAgreementText: 'Terms and conditions',
             betweenText: ' and the ',
             privacyPolicyText: 'Privacy Policy',
             isChecked: isChecked.value,
@@ -35,7 +35,7 @@ class SimplePrivacyPolicyExample extends HookWidget {
                 child: SPolicyCheckbox(
                   firstText: 'By clicking Agree and Continue, '
                       'I hereby agree and consent to the ',
-                  userAgreementText: 'User Agreement',
+                  userAgreementText: 'Terms and conditions',
                   betweenText: ' and the ',
                   privacyPolicyText: 'Privacy Policy',
                   isChecked: isChecked.value,
@@ -59,7 +59,7 @@ class SimplePrivacyPolicyExample extends HookWidget {
           SPolicyText(
             firstText: 'By logging in and Continue, '
                 'I hereby agree and consent to the ',
-            userAgreementText: 'User Agreement',
+            userAgreementText: 'Terms and conditions',
             betweenText: ' and the ',
             privacyPolicyText: 'Privacy Policy',
             onUserAgreementTap: () => showSnackBar(context),
@@ -72,7 +72,7 @@ class SimplePrivacyPolicyExample extends HookWidget {
                 child: SPolicyText(
                   firstText: 'By logging in and Continue, '
                       'I hereby agree and consent to the ',
-                  userAgreementText: 'User Agreement',
+                  userAgreementText: 'Terms and conditions',
                   betweenText: ' and the ',
                   privacyPolicyText: 'Privacy Policy',
                   onUserAgreementTap: () => showSnackBar(context),

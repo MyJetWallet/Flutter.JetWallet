@@ -54,8 +54,10 @@ class _WalletState extends State<Wallet>
       vsync: this,
     );
 
-    final itemsWithBalance = currenciesWithBalanceFrom(
-      context.read(currenciesPod),
+    final itemsWithBalance = nonIndicesWithBalanceFrom(
+      currenciesWithBalanceFrom(
+        context.read(currenciesPod),
+      ),
     );
     final initialPage = itemsWithBalance.indexOf(widget.currency);
     _pageController = PageController(initialPage: initialPage);
@@ -72,13 +74,12 @@ class _WalletState extends State<Wallet>
     super.build(context);
 
     final colors = useProvider(sColorPod);
-    final itemsWithBalance = nonIndicesWithBalanceFrom(
-      currenciesWithBalanceFrom(
-        useProvider(currenciesPod),
-      ),
+    final currencies = useProvider(currenciesPod);
+    final currenciesWithBalance = nonIndicesWithBalanceFrom(
+      currenciesWithBalanceFrom(currencies),
     );
     final currentAsset = useProvider(
-      currentAssetStpod(widget.currency.assetId),
+      currentAssetStpod(widget.currency.symbol),
     );
     useListenable(_animationController);
 
@@ -96,24 +97,24 @@ class _WalletState extends State<Wallet>
               PageView(
                 controller: _pageController,
                 onPageChanged: (page) {
-                  currentAsset.state = itemsWithBalance[page];
+                  currentAsset.state = currenciesWithBalance[page];
                 },
                 children: [
-                  for (final item in itemsWithBalance)
+                  for (final currency in currenciesWithBalance)
                     WalletBody(
-                      key: Key(item.assetId),
-                      item: item,
+                      key: Key(currency.symbol),
+                      currency: currency,
                     ),
                 ],
               ),
-              if (!containsSingleElement(itemsWithBalance))
+              if (!containsSingleElement(currenciesWithBalance))
                 Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 118),
                     child: SmoothPageIndicator(
                       controller: _pageController,
-                      count: itemsWithBalance.length,
+                      count: currenciesWithBalance.length,
                       effect: ScrollingDotsEffect(
                         spacing: 2,
                         radius: 4,

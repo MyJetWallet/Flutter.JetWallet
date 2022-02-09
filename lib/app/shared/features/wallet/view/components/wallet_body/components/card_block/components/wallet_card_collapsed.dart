@@ -3,26 +3,21 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../../../../../../providers/currencies_pod/currencies_pod.dart';
-import '../../../../../../../market_details/helper/currency_from.dart';
 
 class WalletCardCollapsed extends HookWidget {
   const WalletCardCollapsed({
     Key? key,
-    required this.assetId,
+    required this.currency,
   }) : super(key: key);
 
-  final String assetId;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
-    final currency = currencyFrom(
-      useProvider(currenciesPod),
-      assetId,
-    );
-    final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return Container(
       height: 200,

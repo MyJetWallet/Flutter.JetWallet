@@ -3,11 +3,10 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../screens/market/model/market_item_model.dart';
 import '../notifier/chart_notipod.dart';
-import '../provider/asset_chart_init_fpod.dart';
-import 'components/loading_chart_view.dart';
 
 class AssetChart extends StatefulHookWidget {
   const AssetChart(
@@ -26,61 +25,50 @@ class _AssetChartState extends State<AssetChart>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final initCharts = useProvider(
-      assetChartInitFpod(
-        widget.marketItem.associateAssetPair,
-      ),
-    );
     final chartNotifier = useProvider(
-      chartNotipod.notifier,
+      chartNotipod(widget.marketItem.associateAssetPair).notifier,
     );
     final chartState = useProvider(
-      chartNotipod,
+      chartNotipod(widget.marketItem.associateAssetPair),
     );
 
-    return initCharts.when(
-      data: (_) {
-        return chartState.union.when(
-          candles: () {
-            return Chart(
-              onResolutionChanged: (resolution) {
-                chartNotifier.fetchAssetCandles(
-                  resolution,
-                  widget.marketItem.associateAssetPair,
-                );
-              },
-              onChartTypeChanged: (type) {
-                chartNotifier.updateChartType(type);
-              },
-              chartType: chartState.type,
-              candleResolution: chartState.resolution,
-              candles: chartState.candles[chartState.resolution]!,
-              onCandleSelected: widget.onCandleSelected,
-              chartHeight: 240,
-              chartWidgetHeight: 336,
-              isAssetChart: true,
-              walletCreationDate: widget.marketItem.startMarketTime,
+    return chartState.union.when(
+      candles: () {
+        return Chart(
+          onResolutionChanged: (resolution) {
+            chartNotifier.updateResolution(
+              resolution,
             );
           },
-          loading: () => const LoadingChartView(
-            height: 336,
-            showLoader: false,
-          ),
-          error: (String error) {
-            return Center(
-              child: Text(error),
-            );
+          onChartTypeChanged: (type) {
+            chartNotifier.updateChartType(type);
           },
+          chartType: chartState.type,
+          candleResolution: chartState.resolution,
+          candles: chartState.candles[chartState.resolution],
+          onCandleSelected: widget.onCandleSelected,
+          chartHeight: 240,
+          chartWidgetHeight: 297,
+          isAssetChart: true,
+          walletCreationDate: widget.marketItem.startMarketTime,
+          loader: const LoaderSpinner(),
         );
       },
-      loading: () => const LoadingChartView(
-        height: 336,
+      loading: () => LoadingChartView(
+        height: 297,
         showLoader: true,
+        resolution: chartState.resolution,
+        onResolutionChanged: (resolution) {
+          chartNotifier.updateResolution(resolution);
+        },
+        loader: const LoaderSpinner(),
+        isBalanceChart: false,
       ),
-      error: (_, __) => const LoadingChartView(
-        height: 336,
-        showLoader: false,
-      ),
+      error: (String error) {
+        return Center(
+          child: Text(error),
+        );
+      },
     );
   }
 }

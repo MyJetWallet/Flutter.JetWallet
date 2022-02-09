@@ -51,7 +51,7 @@ class EarnCurrencyItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            element.assetId,
+                            element.symbol,
                             style: sBodyText2Style.copyWith(
                               color: colors.grey2,
                             ),

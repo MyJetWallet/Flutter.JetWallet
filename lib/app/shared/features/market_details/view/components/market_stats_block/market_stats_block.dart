@@ -23,15 +23,16 @@ class MarketStatsBlock extends HookWidget {
         SizedBox(
           height: 56,
           child: Baseline(
-            baseline: 50,
+            baseline: 35,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'Market Stats',
+              'Market stats',
               textAlign: TextAlign.start,
               style: sTextH4Style,
             ),
           ),
         ),
+        const SpaceH6(),
         Table(
           children: [
             TableRow(
