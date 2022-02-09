@@ -65,9 +65,9 @@ class Register extends HookWidget {
               color: colors.grey5,
               child: SPaddingH24(
                 child: SPolicyCheckbox(
-                  firstText: 'By clicking Agree and Continue, '
-                      'I hereby agree and consent to the ',
-                  userAgreementText: 'Terms and conditions',
+                  firstText: 'I hereby confirm that I’m over 18 years old, '
+                      'agree and consent to the ',
+                  userAgreementText: 'Terms & conditions',
                   betweenText: ' and the ',
                   privacyPolicyText: 'Privacy Policy',
                   isChecked: credentials.policyChecked,
