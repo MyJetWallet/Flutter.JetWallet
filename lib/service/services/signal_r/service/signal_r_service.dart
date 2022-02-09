@@ -17,13 +17,13 @@ import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
-import '../model/convert_price_accuracies.dart';
 import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
+import '../model/price_accuracies.dart';
 import '../model/referral_stats_response_model.dart';
 
 class SignalRService {
@@ -59,8 +59,7 @@ class SignalRService {
       StreamController<ReferralStatsResponseModel>();
   final _indicesController = StreamController<IndicesModel>();
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
-  final _convertPriceAccuraciesController =
-      StreamController<ConvertPriceAccuracies>();
+  final _priceAccuraciesController = StreamController<PriceAccuracies>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -203,8 +202,8 @@ class SignalRService {
 
     _connection?.on(convertPriceSettingsMessage, (data) {
       try {
-        final settings = ConvertPriceAccuracies.fromJson(_json(data));
-        _convertPriceAccuraciesController.add(settings);
+        final settings = PriceAccuracies.fromJson(_json(data));
+        _priceAccuraciesController.add(settings);
       } catch (e) {
         _logger.log(contract, convertPriceSettingsMessage, e);
       }
@@ -262,8 +261,8 @@ class SignalRService {
 
   Stream<IndicesModel> indices() => _indicesController.stream;
 
-  Stream<ConvertPriceAccuracies> convertPriceAccuracies() =>
-      _convertPriceAccuraciesController.stream;
+  Stream<PriceAccuracies> priceAccuracies() =>
+      _priceAccuraciesController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

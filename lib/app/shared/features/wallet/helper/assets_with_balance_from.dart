@@ -10,10 +10,10 @@ List<CurrencyModel> sortedCurrenciesWithBalanceFrom(
   final currenciesWithBalance =
       currencies.where((currency) => !currency.isAssetBalanceEmpty).toList();
   final currency = currenciesWithBalance
-      .firstWhere((currency) => currency.assetId == currencyId);
+      .firstWhere((currency) => currency.symbol == currencyId);
 
   currenciesWithBalance
-      .removeWhere((currency) => currency.assetId == currencyId);
+      .removeWhere((currency) => currency.symbol == currencyId);
   currenciesWithBalance.insert(0, currency);
 
   return currenciesWithBalance;
