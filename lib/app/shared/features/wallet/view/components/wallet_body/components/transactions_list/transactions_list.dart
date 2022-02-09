@@ -19,14 +19,14 @@ import '../transactions_list_item/transaction_list_item.dart';
 class TransactionsList extends StatefulHookWidget {
   const TransactionsList({
     Key? key,
-    this.assetId,
+    this.symbol,
     required this.scrollController,
     required this.errorBoxPaddingMultiplier,
   }) : super(key: key);
 
   final ScrollController scrollController;
   final double errorBoxPaddingMultiplier;
-  final String? assetId;
+  final String? symbol;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListState();
@@ -40,7 +40,7 @@ class _TransactionsListState extends State<TransactionsList> {
           widget.scrollController.offset) {
         final transactionHistory = context.read(
           operationHistoryNotipod(
-            widget.assetId,
+            widget.symbol,
           ),
         );
 
@@ -48,11 +48,11 @@ class _TransactionsListState extends State<TransactionsList> {
             !transactionHistory.nothingToLoad) {
           final transactionHistoryN = context.read(
             operationHistoryNotipod(
-              widget.assetId,
+              widget.symbol,
             ).notifier,
           );
 
-          transactionHistoryN.operationHistory(widget.assetId);
+          transactionHistoryN.operationHistory(widget.symbol);
         }
       }
     });
@@ -64,17 +64,17 @@ class _TransactionsListState extends State<TransactionsList> {
     final colors = useProvider(sColorPod);
     final initTransactionHistory = useProvider(
       operationHistoryInitFpod(
-        widget.assetId,
+        widget.symbol,
       ),
     );
     final transactionHistoryN = useProvider(
       operationHistoryNotipod(
-        widget.assetId,
+        widget.symbol,
       ).notifier,
     );
     final transactionHistory = useProvider(
       operationHistoryNotipod(
-        widget.assetId,
+        widget.symbol,
       ),
     );
     final screenHeight = MediaQuery.of(context).size.height;
@@ -370,7 +370,7 @@ class _TransactionsListState extends State<TransactionsList> {
                                   name: 'Retry',
                                   onTap: () {
                                     transactionHistoryN.operationHistory(
-                                      widget.assetId,
+                                      widget.symbol,
                                     );
                                   },
                                 ),

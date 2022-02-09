@@ -51,9 +51,7 @@ class _EmptyWalletState extends State<EmptyWallet>
 
   @override
   Widget build(BuildContext context) {
-    final currentAsset = useProvider(
-      currentAssetStpod(widget.currency.assetId),
-    );
+    final currentAsset = useProvider(currentAssetStpod(widget.currency.symbol));
     useListenable(animationController);
 
     return Scaffold(

@@ -138,8 +138,13 @@ class MarketDetails extends HookWidget {
               data: (data) {
                 if (marketItem.type == AssetType.indices &&
                     transactionHistory.operationHistoryItems.isNotEmpty) {
-                  return IndexHistoryBlock(
-                    marketItem: marketItem,
+                  return Column(
+                    children: [
+                      const SpaceH40(),
+                      IndexHistoryBlock(
+                        marketItem: marketItem,
+                      )
+                    ],
                   );
                 } else {
                   return const SizedBox();
