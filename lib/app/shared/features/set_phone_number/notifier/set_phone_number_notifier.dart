@@ -124,15 +124,15 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
   }
 
   void updatePhoneNumber(String phoneNumber) {
-    final parsablePhoneNumber = _parsePhoneNumber(phoneNumber);
+    final number = _parsePhoneNumber(phoneNumber);
 
-    state.phoneNumberController.text = parsablePhoneNumber;
+    state.phoneNumberController.text = number;
   }
 
   String _parsePhoneNumber(String phoneNumber) {
     if (phoneNumber.isNotEmpty) {
-      var body = _parseNumber(phoneNumber);
-      final dialCode = _parseNumber(state.dialCodeController.text);
+      var body = _formatPhoneNumber(phoneNumber);
+      final dialCode = _formatPhoneNumber(state.dialCodeController.text);
 
       if (phoneNumber.length >= dialCode.length) {
         final codeFromBody = body.substring(0, dialCode.length);
@@ -154,7 +154,7 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
     }
   }
 
-  String _parseNumber(String phoneNumber) {
+  String _formatPhoneNumber(String phoneNumber) {
     return phoneNumber
         .replaceAll('+', '')
         .replaceAll(' ', '')
