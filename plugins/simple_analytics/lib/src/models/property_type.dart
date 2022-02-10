@@ -1,3 +1,4 @@
+/// The data we send together with event
 class PropertyType {
   static const id = 'ID';
   static const email = 'Email';

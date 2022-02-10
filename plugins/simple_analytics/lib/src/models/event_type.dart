@@ -1,6 +1,6 @@
 class EventType {
   /// User visits onboarding screen
-  static const onboarding = 'Onboarding view';
+  static const onboardingView = 'Onboarding view';
 
   /// User visits sign up page
   static const signUpView = 'Sign up view';
@@ -23,4 +23,7 @@ class EventType {
 
   /// User visits Earn program screen (all assets + APY)
   static const earnProgramView = 'Earn program - Portfolio home screen';
+
+  /// Logout action
+  static const logout = 'Logout';
 }
