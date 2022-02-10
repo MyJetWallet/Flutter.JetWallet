@@ -99,9 +99,9 @@ class SimpleAnalytics {
     );
   }
 
-  void portfolioView(Source source) {
+  void earnProgramView(Source source) {
     _analytics.logEvent(
-      EventType.assetView,
+      EventType.earnProgramView,
       eventProperties: {
         PropertyType.sourceScreen: source.name,
       },
