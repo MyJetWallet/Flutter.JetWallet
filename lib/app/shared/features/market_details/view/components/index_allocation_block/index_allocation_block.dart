@@ -21,39 +21,44 @@ class IndexAllocationBlock extends HookWidget {
     final indicesDetails = useProvider(indicesDetailsPod);
     final indexDetails = _indexDetailsFrom(indicesDetails);
 
-    return SPaddingH24(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 56,
-            child: Baseline(
-              baseline: 49,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                'Index allocation',
-                style: sTextH4Style,
+    if (indexDetails != null) {
+      return SPaddingH24(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 56,
+              child: Baseline(
+                baseline: 49,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  'Index allocation',
+                  style: sTextH4Style,
+                ),
               ),
             ),
-          ),
-          const SpaceH24(),
-          for (final basketAsset in indexDetails.basketAssets) ...[
-            IndexAllocationItem(
-              basketAssetModel: basketAsset,
-            ),
+            const SpaceH24(),
+            for (final basketAsset in indexDetails.basketAssets) ...[
+              IndexAllocationItem(
+                basketAssetModel: basketAsset,
+              ),
+            ],
+            const SpaceH32(),
+            const SDivider(),
+            const SpaceH25(),
           ],
-          const SpaceH32(),
-          const SDivider(),
-        ],
-      ),
-    );
+        ),
+      );
+    } else {
+      return const SpaceH5();
+    }
   }
 
-  // TODO
-  // Bad state: No element
-  // The relevant error-causing widget was
-  // IndexAllocationBlock
-  IndexModel _indexDetailsFrom(List<IndexModel> indicesDetails) =>
+  IndexModel? _indexDetailsFrom(List<IndexModel> indicesDetails) {
+    if (indicesDetails.isNotEmpty) {
       indicesDetails
           .firstWhere((element) => element.symbol == marketItem.symbol);
+    }
+    return null;
+  }
 }

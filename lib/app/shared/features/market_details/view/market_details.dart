@@ -160,7 +160,6 @@ class MarketDetails extends HookWidget {
               IndexAllocationBlock(
                 marketItem: marketItem,
               ),
-              const SpaceH25(),
               // const IndexOverviewBlock(),
             ],
             marketInfo.when(
