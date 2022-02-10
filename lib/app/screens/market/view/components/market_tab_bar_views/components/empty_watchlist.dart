@@ -13,27 +13,30 @@ class EmptyWatchlist extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return Column(
-      children: [
-        const SpaceH40(),
-        SvgPicture.asset(
-          watchlistImageAsset,
-          width: 320,
-          height: 320,
-        ),
-        const SpaceH51(),
-        Text(
-          'Create your Watchlist',
-          style: sTextH4Style,
-        ),
-        const SpaceH5(),
-        Text(
-          'Star an asset to add it to your Watchlist',
-          style: sBodyText1Style.copyWith(
-            color: colors.grey1,
+    return Container(
+      color: colors.white,
+      child: Column(
+        children: [
+          const SpaceH40(),
+          SvgPicture.asset(
+            watchlistImageAsset,
+            width: 320,
+            height: 320,
           ),
-        ),
-      ],
+          const SpaceH51(),
+          Text(
+            'Create your Watchlist',
+            style: sTextH4Style,
+          ),
+          const SpaceH5(),
+          Text(
+            'Star an asset to add it to your Watchlist',
+            style: sBodyText1Style.copyWith(
+              color: colors.grey1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
