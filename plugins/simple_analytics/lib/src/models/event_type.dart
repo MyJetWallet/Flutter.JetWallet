@@ -22,7 +22,7 @@ class EventType {
   static const assetView = 'Asset View';
 
   /// User visits Earn program screen (all assets + APY)
-  static const earnProgramView = 'Earn program - Portfolio home screen';
+  static const earnProgramView = 'Earn program view';
 
   /// Logout action
   static const logout = 'Logout';

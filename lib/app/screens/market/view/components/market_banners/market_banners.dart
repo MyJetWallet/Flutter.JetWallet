@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/deep_link_service_pod.dart';
+import '../../../../../../shared/services/deep_link_service.dart';
 import '../../../../../shared/features/rewards/notifier/campaign/campaign_notipod.dart';
 import '../../../../../shared/helpers/random_banner_color.dart';
 
@@ -38,6 +39,7 @@ class MarketBanners extends HookWidget {
                       onTap: () {
                         deepLinkService.handle(
                           Uri.parse(campaign.deepLink),
+                          SourceScreen.bannerOnMarket,
                         );
                       },
                       child: Container(

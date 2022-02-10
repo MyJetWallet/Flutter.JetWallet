@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
@@ -36,6 +37,11 @@ const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 
+enum SourceScreen {
+  bannerOnMarket,
+  bannerOnRewards,
+}
+
 class DeepLinkService {
   DeepLinkService(this.read);
 
@@ -43,7 +49,7 @@ class DeepLinkService {
 
   final _logger = Logger('');
 
-  void handle(Uri link) {
+  void handle(Uri link, [SourceScreen? source]) {
     final parameters = link.queryParameters;
     final command = parameters[_command];
 
@@ -62,7 +68,7 @@ class DeepLinkService {
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
     } else if (command == _depositStart) {
-      _depositStartCommand();
+      _depositStartCommand(source);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
@@ -132,7 +138,7 @@ class DeepLinkService {
     storage.setString(referralCodeKey, referralCode);
   }
 
-  void _depositStartCommand() {
+  void _depositStartCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
 
     showStartEarnBottomSheet(
@@ -146,5 +152,11 @@ class DeepLinkService {
         );
       },
     );
+
+    if (source == SourceScreen.bannerOnMarket) {
+      sAnalytics.earnProgramView(Source.marketBanner);
+    } else if (source == SourceScreen.bannerOnRewards) {
+      sAnalytics.earnProgramView(Source.rewards);
+    }
   }
 }
