@@ -58,6 +58,8 @@ class IndexAllocationBlock extends HookWidget {
     if (indicesDetails.isNotEmpty) {
       indicesDetails
           .firstWhere((element) => element.symbol == marketItem.symbol);
+    } else {
+      return null;
     }
   }
 }
