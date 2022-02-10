@@ -25,6 +25,7 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
   Widget build(BuildContext context) {
     final indices = useProvider(marketIndicesPod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final colors = useProvider(sColorPod);
 
     return NestedScrollView(
       controller: _scrollController,
@@ -58,36 +59,39 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
           ),
         ];
       },
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          for (final item in indices) ...[
-            SMarketItem(
-              icon: SNetworkSvg24(
-                url: item.iconUrl,
+      body: Container(
+        color: colors.white,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            for (final item in indices) ...[
+              SMarketItem(
+                icon: SNetworkSvg24(
+                  url: item.iconUrl,
+                ),
+                name: item.name,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: item.lastPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                ticker: item.symbol,
+                last: item == indices.last,
+                percent: item.dayPercentChange,
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    MarketDetails(
+                      marketItem: item,
+                    ),
+                  );
+                },
               ),
-              name: item.name,
-              price: marketFormat(
-                prefix: baseCurrency.prefix,
-                decimal: item.lastPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              ticker: item.symbol,
-              last: item == indices.last,
-              percent: item.dayPercentChange,
-              onTap: () {
-                navigatorPush(
-                  context,
-                  MarketDetails(
-                    marketItem: item,
-                  ),
-                );
-              },
-            ),
+            ],
+            const SpaceH40(),
           ],
-          const SpaceH40(),
-        ],
+        ),
       ),
     );
   }

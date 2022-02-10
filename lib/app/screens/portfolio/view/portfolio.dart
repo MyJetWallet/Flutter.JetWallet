@@ -78,7 +78,8 @@ class _PortfolioState extends State<Portfolio>
                 fiatsWithBalance.isNotEmpty)
               const BottomTab(text: 'All'),
             if (cryptosWithBalance.isNotEmpty) const BottomTab(text: 'Crypto'),
-            if (indicesWithBalance.isNotEmpty) const BottomTab(text: 'Indices'),
+            if (indicesWithBalance.isNotEmpty)
+              const BottomTab(text: 'Crypto Sets'),
             if (fiatsWithBalance.isNotEmpty) const BottomTab(text: 'Fiat'),
           ],
         ),

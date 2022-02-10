@@ -25,6 +25,7 @@ class _GainersTabBarState extends State<GainersTabBarView> {
   Widget build(BuildContext context) {
     final gainers = useProvider(marketGainersPod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final colors = useProvider(sColorPod);
 
     return NestedScrollView(
       controller: _scrollController,
@@ -58,36 +59,39 @@ class _GainersTabBarState extends State<GainersTabBarView> {
           ),
         ];
       },
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          for (final item in gainers) ...[
-            SMarketItem(
-              icon: SNetworkSvg24(
-                url: item.iconUrl,
+      body: Container(
+        color: colors.white,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            for (final item in gainers) ...[
+              SMarketItem(
+                icon: SNetworkSvg24(
+                  url: item.iconUrl,
+                ),
+                name: item.name,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: item.lastPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                ticker: item.symbol,
+                last: item == gainers.last,
+                percent: item.dayPercentChange,
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    MarketDetails(
+                      marketItem: item,
+                    ),
+                  );
+                },
               ),
-              name: item.name,
-              price: marketFormat(
-                prefix: baseCurrency.prefix,
-                decimal: item.lastPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              ticker: item.symbol,
-              last: item == gainers.last,
-              percent: item.dayPercentChange,
-              onTap: () {
-                navigatorPush(
-                  context,
-                  MarketDetails(
-                    marketItem: item,
-                  ),
-                );
-              },
-            ),
+            ],
+            const SpaceH40(),
           ],
-          const SpaceH40(),
-        ],
+        ),
       ),
     );
   }

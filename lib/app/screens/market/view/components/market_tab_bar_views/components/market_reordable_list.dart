@@ -19,48 +19,52 @@ class MarketReorderableList extends HookWidget {
     final items = useProvider(marketWatchlistItemsPod);
     final notifier = useProvider(watchlistIdsNotipod.notifier);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final colors = useProvider(sColorPod);
 
     if (items.isNotEmpty) {
-      return ReorderableListView.builder(
-        itemCount: items.length,
-        padding: const EdgeInsets.only(bottom: 66),
-        itemBuilder: (context, index) {
-          final item = items[index];
+      return Container(
+        color: colors.white,
+        child: ReorderableListView.builder(
+          itemCount: items.length,
+          padding: const EdgeInsets.only(bottom: 66),
+          itemBuilder: (context, index) {
+            final item = items[index];
 
-          return SMarketItem(
-            key: Key(
-              '${items[index].weight}',
-            ),
-            icon: SNetworkSvg24(
-              url: item.iconUrl,
-            ),
-            name: item.name,
-            price: marketFormat(
-              prefix: baseCurrency.prefix,
-              decimal: item.lastPrice,
-              symbol: baseCurrency.symbol,
-              accuracy: baseCurrency.accuracy,
-            ),
-            ticker: item.symbol,
-            last: item == items.last,
-            percent: item.dayPercentChange,
-            onTap: () {
-              navigatorPush(
-                context,
-                MarketDetails(
-                  marketItem: item,
-                ),
-              );
-            },
-          );
-        },
-        onReorder: (int oldIndex, int newIndex) {
-          if (oldIndex < newIndex) {
-            newIndex -= 1;
-          }
+            return SMarketItem(
+              key: Key(
+                '${items[index].weight}',
+              ),
+              icon: SNetworkSvg24(
+                url: item.iconUrl,
+              ),
+              name: item.name,
+              price: marketFormat(
+                prefix: baseCurrency.prefix,
+                decimal: item.lastPrice,
+                symbol: baseCurrency.symbol,
+                accuracy: baseCurrency.accuracy,
+              ),
+              ticker: item.symbol,
+              last: item == items.last,
+              percent: item.dayPercentChange,
+              onTap: () {
+                navigatorPush(
+                  context,
+                  MarketDetails(
+                    marketItem: item,
+                  ),
+                );
+              },
+            );
+          },
+          onReorder: (int oldIndex, int newIndex) {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
 
-          notifier.changePosition(oldIndex, newIndex);
-        },
+            notifier.changePosition(oldIndex, newIndex);
+          },
+        ),
       );
     } else {
       return const EmptyWatchlist();
