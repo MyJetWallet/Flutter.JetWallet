@@ -60,6 +60,10 @@ class SetPhoneNumber extends HookWidget {
     useListenable(state.dialCodeController);
     useListenable(state.phoneNumberController);
 
+    state.phoneNumberController.selection = TextSelection.fromPosition(
+      TextPosition(offset: state.phoneNumberController.text.length),
+    );
+
     return SPageFrame(
       loading: state.loader,
       color: colors.grey5,
@@ -111,6 +115,9 @@ class SetPhoneNumber extends HookWidget {
                       autofillHints: const [AutofillHints.telephoneNumber],
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
+                      onChanged: (String phone) {
+                        notifier.updatePhoneNumber(phone);
+                      },
                       controller: state.phoneNumberController,
                     ),
                   ),

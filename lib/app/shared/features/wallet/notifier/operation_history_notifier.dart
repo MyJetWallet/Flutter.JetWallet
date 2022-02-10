@@ -35,12 +35,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
         ),
       );
 
-      state = state.copyWith(
-        operationHistoryItems: _filterUnusedOperationTypeItemsFrom(
-          operationHistory.operationHistory,
-        ),
-        union: const Loaded(),
-      );
+      _updateOperationHistory(operationHistory.operationHistory);
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
 
@@ -65,7 +60,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
         ),
       );
 
-      updateOperationHistory(operationHistory.operationHistory);
+      _updateOperationHistory(operationHistory.operationHistory);
     } catch (e) {
       _logger.log(stateFlow, 'operationHistory', e);
 
@@ -82,9 +77,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     }
   }
 
-  void updateOperationHistory(List<OperationHistoryItem> items) {
-    _logger.log(notifier, 'updateOperationHistory');
-
+  void _updateOperationHistory(List<OperationHistoryItem> items) {
     if (items.isEmpty) {
       state = state.copyWith(
         nothingToLoad: true,

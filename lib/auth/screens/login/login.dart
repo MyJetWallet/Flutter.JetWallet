@@ -33,6 +33,7 @@ class Login extends HookWidget {
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
+    final _controller = useTextEditingController();
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -107,10 +108,14 @@ class Login extends HookWidget {
                       child: SPaddingH24(
                         child: SStandardFieldObscure(
                           autofillHints: const [AutofillHints.password],
-                          onChanged: (value) {
-                            emailError.value.disableError();
-                            passwordError.value.disableError();
-                            credentialsN.updateAndValidatePassword(value);
+                          controller: _controller,
+                          onChanged: (String password) {
+                            credentialsN.checkOnUpdateOrRemovePassword(
+                              passwordError,
+                              emailError,
+                              password,
+                              _controller,
+                            );
                           },
                           labelText: intl.login_passwordTextFieldLabel,
                           onErrorIconTap: () {

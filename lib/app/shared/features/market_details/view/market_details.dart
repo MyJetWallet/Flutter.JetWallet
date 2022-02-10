@@ -22,7 +22,6 @@ import 'components/asset_price.dart';
 import 'components/balance_block/balance_block.dart';
 import 'components/index_allocation_block/index_allocation_block.dart';
 import 'components/index_history_block/index_history_block.dart';
-import 'components/index_overview_block/index_overview_block.dart';
 import 'components/market_news_block/market_news_block.dart';
 import 'components/market_stats_block/market_stats_block.dart';
 import 'components/return_rates_block/return_rates_block.dart';
@@ -161,7 +160,8 @@ class MarketDetails extends HookWidget {
               IndexAllocationBlock(
                 marketItem: marketItem,
               ),
-              const IndexOverviewBlock(),
+              const SpaceH25(),
+              // const IndexOverviewBlock(),
             ],
             marketInfo.when(
               data: (marketInfo) {
