@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../router/notifier/startup_notifier/authorized_union.dart'
@@ -43,6 +44,8 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
       read(authorizationStpod).state = const Unauthorized();
       read(userInfoNotipod.notifier).clear();
       read(authInfoNotipod.notifier).resetResendButton();
+
+      await sAnalytics.logout();
 
       state = const Result();
     }
