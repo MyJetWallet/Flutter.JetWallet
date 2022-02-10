@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -107,36 +106,25 @@ class Login extends HookWidget {
                     Material(
                       color: colors.white,
                       child: SPaddingH24(
-                        child: RawKeyboardListener(
-                          focusNode: FocusNode(),
-                          onKey: (event) {
-                            if (event.logicalKey ==
-                                LogicalKeyboardKey.backspace) {
-                              if (passwordError.value.value) {
-                                _controller.clear();
-                                emailError.value.disableError();
-                                passwordError.value.disableError();
-                                credentialsN.updateAndValidatePassword('');
-                              }
-                            }
+                        child: SStandardFieldObscure(
+                          autofillHints: const [AutofillHints.password],
+                          controller: _controller,
+                          onChanged: (String password) {
+                            credentialsN.checkOnUpdateOrRemovePassword(
+                              passwordError,
+                              emailError,
+                              password,
+                              _controller,
+                            );
                           },
-                          child: SStandardFieldObscure(
-                            autofillHints: const [AutofillHints.password],
-                            controller: _controller,
-                            onChanged: (String password) {
-                              emailError.value.disableError();
-                              passwordError.value.disableError();
-                              credentialsN.updateAndValidatePassword(password);
-                            },
-                            labelText: intl.login_passwordTextFieldLabel,
-                            onErrorIconTap: () {
-                              sShowErrorNotification(
-                                notificationQueueN,
-                                intl.login_credentialsError,
-                              );
-                            },
-                            errorNotifier: passwordError.value,
-                          ),
+                          labelText: intl.login_passwordTextFieldLabel,
+                          onErrorIconTap: () {
+                            sShowErrorNotification(
+                              notificationQueueN,
+                              intl.login_credentialsError,
+                            );
+                          },
+                          errorNotifier: passwordError.value,
                         ),
                       ),
                     ),
