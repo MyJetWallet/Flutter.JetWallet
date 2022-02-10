@@ -155,7 +155,6 @@ class MarketDetails extends HookWidget {
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
             ),
-            const SpaceH20(),
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,
@@ -170,6 +169,7 @@ class MarketDetails extends HookWidget {
                     children: [
                       if (marketInfo != null) ...[
                         if (marketItem.type != AssetType.indices) ...[
+                          const SpaceH20(),
                           MarketStatsBlock(
                             marketInfo: marketInfo,
                           ),
