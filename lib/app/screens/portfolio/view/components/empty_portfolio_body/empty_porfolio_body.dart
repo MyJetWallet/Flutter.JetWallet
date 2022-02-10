@@ -42,9 +42,9 @@ class EmptyPortfolioBody extends HookWidget {
                 ),
                 Column(
                   children: [
-                    const SpaceH36(),
+                    const Spacer(),
                     const EmptyPortfolioBodyImage(),
-                    const SpaceH56(),
+                    const Spacer(),
                     const EmptyPortfolioBodyTitle(),
                     const SpaceH17(),
                     Text(
