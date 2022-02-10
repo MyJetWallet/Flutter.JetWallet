@@ -8,7 +8,7 @@ class EventType {
   static const signUpFailure = 'Sign up failed';
 
   /// User visits email verification page
-  static const emailVerificationView = 'Sign up - email verification';
+  static const emailVerificationView = 'Sign up - email verification view';
 
   /// User successfully confirmed email be entering verification code
   static const emailConfirmed = 'Sign up - email confirmed';
