@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -45,7 +47,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
       read(userInfoNotipod.notifier).clear();
       read(authInfoNotipod.notifier).resetResendButton();
 
-      await sAnalytics.logout();
+      unawaited(sAnalytics.logout());
 
       state = const Result();
     }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../shared/helpers/analytics.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
@@ -34,6 +36,8 @@ class Login extends HookWidget {
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
     final _controller = useTextEditingController();
+
+    analytics(() => sAnalytics.loginView());
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,

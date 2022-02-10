@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/components/pin_code_field.dart';
+import '../../../../shared/helpers/analytics.dart';
 import '../../../../shared/helpers/open_email_app.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
@@ -28,6 +30,8 @@ class EmailVerification extends HookWidget {
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
+
+    analytics(() => sAnalytics.emailVerificationView());
 
     return ProviderListener<EmailVerificationState>(
       provider: emailVerificationNotipod,

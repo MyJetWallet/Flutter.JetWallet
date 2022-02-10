@@ -31,12 +31,12 @@ class SimpleAnalytics {
     }
   }
 
-  Future<void> onboardingView() async {
-    await _analytics.logEvent(EventType.onboardingView);
+  void onboardingView() {
+    _analytics.logEvent(EventType.onboardingView);
   }
 
-  Future<void> signUpView() async {
-    await _analytics.logEvent(EventType.signUpView);
+  void signUpView() {
+    _analytics.logEvent(EventType.signUpView);
   }
 
   Future<void> signUpSuccess(String userEmail) async {
@@ -50,8 +50,8 @@ class SimpleAnalytics {
     await _analytics.logEvent(EventType.signUpSuccess);
   }
 
-  Future<void> signUpFailure(String userEmail, String error) async {
-    await _analytics.logEvent(
+  void signUpFailure(String userEmail, String error) {
+    _analytics.logEvent(
       EventType.signUpFailure,
       eventProperties: {
         PropertyType.error: error,
@@ -61,26 +61,25 @@ class SimpleAnalytics {
     );
   }
 
-  Future<void> emailVerificationView() async {
-    await _analytics.logEvent(EventType.emailVerificationView);
+  void emailVerificationView() {
+    _analytics.logEvent(EventType.emailVerificationView);
   }
 
-  Future<void> emailConfirmed() async {
-    await _analytics.logEvent(EventType.emailConfirmed);
+  void emailConfirmed() {
+    _analytics.logEvent(EventType.emailConfirmed);
   }
 
-  Future<void> loginView() async {
-    await _analytics.logEvent(EventType.loginView);
+  void loginView() {
+    _analytics.logEvent(EventType.loginView);
   }
 
   Future<void> loginSuccess(String userEmail) async {
     await _analytics.setUserId(hashString(userEmail));
-
     await _analytics.logEvent(EventType.loginSuccess);
   }
 
-  Future<void> loginFailure(String userEmail, String error) async {
-    await _analytics.logEvent(
+  void loginFailure(String userEmail, String error) {
+    _analytics.logEvent(
       EventType.loginFailure,
       eventProperties: {
         PropertyType.error: error,
@@ -91,8 +90,8 @@ class SimpleAnalytics {
   }
 
   /// Full name must be provided e.g. Bitcoin, and not BTC (ticker)
-  Future<void> assetView(String assetName) async {
-    await _analytics.logEvent(
+  void assetView(String assetName) {
+    _analytics.logEvent(
       EventType.assetView,
       eventProperties: {
         PropertyType.assetName: assetName,
@@ -100,8 +99,8 @@ class SimpleAnalytics {
     );
   }
 
-  Future<void> portfolioView(Source source) async {
-    await _analytics.logEvent(
+  void portfolioView(Source source) {
+    _analytics.logEvent(
       EventType.assetView,
       eventProperties: {
         PropertyType.sourceScreen: source.name,
@@ -110,11 +109,11 @@ class SimpleAnalytics {
   }
 
   /// Call when user makes logout.
-  /// It will clean unique userId and will generate deviceId, 
+  /// It will clean unique userId and will generate deviceId,
   /// so the user will appear as a brand new one.
   Future<void> logout() async {
+    await _analytics.logEvent(EventType.logout);
     await _analytics.setUserId(null);
     await _analytics.regenerateDeviceId();
-    await _analytics.logEvent(EventType.logout);
   }
 }
