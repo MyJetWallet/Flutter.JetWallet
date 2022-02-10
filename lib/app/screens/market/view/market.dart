@@ -51,7 +51,7 @@ class Market extends HookWidget {
                 tabs: [
                   const BottomTab(text: 'All'),
                   const BottomTab(text: 'Watchlist'),
-                  if (indices.isNotEmpty) const BottomTab(text: 'Indices'),
+                  if (indices.isNotEmpty) const BottomTab(text: 'Crypto Sets'),
                   if (gainers.isNotEmpty) const BottomTab(text: 'Gainers'),
                   if (losers.isNotEmpty) const BottomTab(text: 'Losers'),
                 ],
