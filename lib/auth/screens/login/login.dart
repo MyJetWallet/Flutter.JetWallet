@@ -3,9 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/providers/service_providers.dart';
-import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
@@ -129,26 +127,6 @@ class Login extends HookWidget {
                       ),
                     ),
                     const Spacer(),
-                    SPaddingH24(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 34.0,
-                          bottom: 17.0,
-                        ),
-                        child: SPolicyText(
-                          firstText: '${intl.login_policyText1} ',
-                          userAgreementText: intl.login_policyText2,
-                          betweenText: ' ${intl.login_policyText3} ',
-                          privacyPolicyText: intl.login_policyText4,
-                          onUserAgreementTap: () {
-                            launchURL(context, userAgreementLink);
-                          },
-                          onPrivacyPolicyTap: () {
-                            launchURL(context, privacyPolicyLink);
-                          },
-                        ),
-                      ),
-                    ),
                     SPaddingH24(
                       child: SPrimaryButton2(
                         active: credentials.readyToLogin &&
