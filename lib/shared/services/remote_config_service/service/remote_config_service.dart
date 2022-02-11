@@ -4,6 +4,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
+import '../model/support_model.dart';
 import '../model/versioning_model.dart';
 import '../remote_config_values.dart';
 
@@ -50,6 +51,14 @@ class RemoteConfigService {
     return VersioningModel.fromJson(json);
   }
 
+  SupportModel get support {
+    final values = _config.getString('Support');
+
+    final json = jsonDecode(values) as Map<String, dynamic>;
+
+    return SupportModel.fromJson(json);
+  }
+
   /// Each index respresents different flavor (backend environment)
   void overrideApisFrom(int index) {
     final flavor = connectionFlavors.flavors[index];
@@ -79,5 +88,10 @@ class RemoteConfigService {
   void overrideVersioningValues() {
     recommendedVersion = versioning.recommendedVersion;
     minimumVersion = versioning.minimumVersion;
+  }
+
+  void overrideSupportValues() {
+    faqLink = support.faqLink;
+    crispWebsiteId = support.crispWebsiteId;
   }
 }

@@ -11,7 +11,7 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
-import '../../../../shared/helpers/device_uid.dart';
+import '../../../../shared/helpers/device_info.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
 import '../auth_info_notifier/auth_info_notipod.dart';
@@ -49,14 +49,14 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       final publicKey = rsaService.publicKey;
 
-      final id = await deviceUid();
+      final deviceInfoModel = await deviceInfo();
 
       final loginRequest = LoginRequestModel(
         publicKey: publicKey,
         email: email,
         password: password,
         platform: currentPlatform,
-        deviceUid: id,
+        deviceUid: deviceInfoModel?.deviceUid,
       );
 
       final registerRequest = RegisterRequestModel(
@@ -65,7 +65,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         password: password,
         platformType: platformType,
         platform: currentPlatform,
-        deviceUid: id,
+        deviceUid: deviceInfoModel?.deviceUid,
         referralCode: referralCode,
       );
 

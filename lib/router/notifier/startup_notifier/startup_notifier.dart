@@ -46,6 +46,10 @@ class StartupNotifier extends StateNotifier<StartupState> {
             referralLink: profileInfo.referralLink ?? '',
             referralCode: profileInfo.referralCode ?? '',
             countryOfRegistration: profileInfo.countryOfRegistration ?? '',
+            countryOfResidence: profileInfo.countryOfResidence ?? '',
+            countryOfCitizenship: profileInfo.countryOfCitizenship ?? '',
+            firstName: profileInfo.firstName ?? '',
+            lastName: profileInfo.lastName ?? '',
           );
           if (!info.twoFaPassed) {
             _updateAuthorizedUnion(const TwoFaVerification());

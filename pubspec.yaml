@@ -35,6 +35,7 @@ dependencies:
   mime_type: ^1.0.0 # MIME type library for Dart HTTP server applications
   decimal: ^2.1.0 # deal with decimal numbers without losing precision
   store_redirect: ^2.0.1 # Redirect to AppStore or GooglePlay
+  crisp: ^0.3.1 # Library for support chart and knowledge base
 
   # RESPONSIVE UI
   device_preview: ^0.7.4

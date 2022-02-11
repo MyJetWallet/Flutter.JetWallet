@@ -5,22 +5,23 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loaders/loader.dart';
+import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
-import '../../../shared/providers/flavor_pod.dart';
 import '../../../shared/providers/service_providers.dart';
+import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
-import '../../shared/features/support/support.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../shared/helpers/check_kyc_status.dart';
 import 'components/account_banner_list.dart';
+import 'components/crisp.dart';
 import 'components/log_out_option.dart';
 
 class Account extends HookWidget {
@@ -28,7 +29,6 @@ class Account extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flavor = useProvider(flavorPod);
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
@@ -77,7 +77,7 @@ class Account extends HookWidget {
                       twoFaEnabled: userInfo.twoFaEnabled,
                       phoneVerified: userInfo.phoneVerified,
                       onTwoFaBannerTap: () => SmsAuthenticator.push(context),
-                      onChatBannerTap: () {},
+                      onChatBannerTap: () => Crisp.push(context),
                       onKycBannerTap: () {
                         kycAlertHandler.handle(
                           status: kycState.depositStatus,
@@ -120,20 +120,17 @@ class Account extends HookWidget {
                           isSDivider: true,
                           onTap: () {},
                         ),
-                        if (flavor == Flavor.dev)
-                          SimpleAccountCategoryButton(
-                            title: 'Support',
-                            icon: const SSupportIcon(),
-                            isSDivider: true,
-                            onTap: () {
-                              navigatorPush(context, const Support());
-                            },
-                          ),
+                        SimpleAccountCategoryButton(
+                          title: 'Support',
+                          icon: const SSupportIcon(),
+                          isSDivider: true,
+                          onTap: () => Crisp.push(context),
+                        ),
                         SimpleAccountCategoryButton(
                           title: 'FAQ',
                           icon: const SFaqIcon(),
                           isSDivider: true,
-                          onTap: () {},
+                          onTap: () => launchURL(context, faqLink),
                         ),
                         SimpleAccountCategoryButton(
                           title: 'About us',
@@ -153,7 +150,6 @@ class Account extends HookWidget {
                       onTap: () => logoutN.logout(),
                     ),
                     const SpaceH20(),
-                    const SDivider(),
                   ],
                 ),
               ),
