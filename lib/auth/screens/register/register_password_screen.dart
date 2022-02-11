@@ -59,49 +59,46 @@ class RegisterPasswordScreen extends HookWidget {
               title: 'Create a password',
             ),
           ),
-          child: AutofillGroup(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  color: colors.white,
-                  child: SPaddingH24(
-                    child: SStandardFieldObscure(
-                      autofillHints: const [AutofillHints.password],
-                      onChanged: (value) {
-                        credentialsN.updateAndValidatePassword(value);
-                      },
-                      labelText: 'Password',
-                      autofocus: true,
-                    ),
-                  ),
-                ),
-                SPaddingH24(
-                  child: PasswordValidation(
-                    password: credentials.password,
-                  ),
-                ),
-                const Spacer(),
-                SPaddingH24(
-                  child: SPrimaryButton2(
-                    active: credentials.readyToRegister &&
-                        !disableContinue.value &&
-                        !loader.value.value,
-                    name: 'Continue',
-                    onTap: () {
-                      disableContinue.value = true;
-                      loader.value.startLoading();
-                      authenticationN.authenticate(
-                        email: credentials.email,
-                        password: credentials.password,
-                        operation: AuthOperation.register,
-                      );
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: colors.white,
+                child: SPaddingH24(
+                  child: SStandardFieldObscure(
+                    onChanged: (value) {
+                      credentialsN.updateAndValidatePassword(value);
                     },
+                    labelText: 'Password',
+                    autofocus: true,
                   ),
                 ),
-                const SpaceH24(),
-              ],
-            ),
+              ),
+              SPaddingH24(
+                child: PasswordValidation(
+                  password: credentials.password,
+                ),
+              ),
+              const Spacer(),
+              SPaddingH24(
+                child: SPrimaryButton2(
+                  active: credentials.readyToRegister &&
+                      !disableContinue.value &&
+                      !loader.value.value,
+                  name: 'Continue',
+                  onTap: () {
+                    disableContinue.value = true;
+                    loader.value.startLoading();
+                    authenticationN.authenticate(
+                      email: credentials.email,
+                      password: credentials.password,
+                      operation: AuthOperation.register,
+                    );
+                  },
+                ),
+              ),
+              const SpaceH24(),
+            ],
           ),
         ),
       ),
