@@ -125,8 +125,10 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
 
   void updatePhoneNumber(String phoneNumber) {
     final number = _parsePhoneNumber(phoneNumber);
-
+    final currentOffset = state.phoneNumberController.selection.base.offset;
     state.phoneNumberController.text = number;
+    state.phoneNumberController.selection =
+        TextSelection.fromPosition(TextPosition(offset: currentOffset));
   }
 
   String _parsePhoneNumber(String phoneNumber) {
