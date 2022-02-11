@@ -123,6 +123,7 @@ definitions:
       track: alpha
       in_app_update_priority: 0
       submit_as_draft: true
+      changes_not_sent_for_review: true
 
     firebase:
       firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
