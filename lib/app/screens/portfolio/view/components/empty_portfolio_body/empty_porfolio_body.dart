@@ -56,7 +56,7 @@ class EmptyPortfolioBody extends HookWidget {
                         color: colors.grey1,
                       ),
                     ),
-                    const SpaceH50(),
+                    const SpaceH40(),
                     SPrimaryButton1(
                       active: true,
                       name: 'Start earning',
