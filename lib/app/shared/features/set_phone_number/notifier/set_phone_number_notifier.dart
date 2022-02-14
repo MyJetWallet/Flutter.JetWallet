@@ -55,16 +55,13 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
-        e.cause,
-      );
+      read(sNotificationNotipod.notifier).showError(e.cause, id: 1);
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
+        id: 1,
       );
     } finally {
       state.loader!.finishLoading();

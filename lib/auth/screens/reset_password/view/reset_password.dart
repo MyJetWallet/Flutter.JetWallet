@@ -39,21 +39,18 @@ class ResetPassword extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final args = getArgs(context) as ResetPasswordArgs;
-    
+
     final colors = useProvider(sColorPod);
     final reset = useProvider(resetPasswordNotipod);
     final resetN = useProvider(resetPasswordNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
 
     return ProviderListener<ResetPasswordState>(
       provider: resetPasswordNotipod,
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
-            sShowErrorNotification(
-              notificationQueueN,
-              '$error',
-            );
+            notificationN.showError('$error', id: 1);
           },
           orElse: () {},
         );

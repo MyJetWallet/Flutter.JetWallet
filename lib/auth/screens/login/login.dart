@@ -26,7 +26,7 @@ class Login extends HookWidget {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final authenticationN = useProvider(authenticationNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
@@ -43,9 +43,9 @@ class Login extends HookWidget {
               loader.value.finishLoading();
               emailError.value.enableError();
               passwordError.value.enableError();
-              sShowErrorNotification(
-                notificationQueueN,
+              notificationN.showError(
                 intl.login_credentialsError,
+                id: 1,
               );
             }
           },
@@ -91,9 +91,9 @@ class Login extends HookWidget {
                             credentialsN.updateAndValidateEmail(value);
                           },
                           onErrorIconTap: () {
-                            sShowErrorNotification(
-                              notificationQueueN,
+                            notificationN.showError(
                               intl.login_credentialsError,
+                              id: 2,
                             );
                           },
                           errorNotifier: emailError.value,
@@ -117,9 +117,9 @@ class Login extends HookWidget {
                           },
                           labelText: intl.login_passwordTextFieldLabel,
                           onErrorIconTap: () {
-                            sShowErrorNotification(
-                              notificationQueueN,
+                            notificationN.showError(
                               intl.login_credentialsError,
+                              id: 2,
                             );
                           },
                           errorNotifier: passwordError.value,

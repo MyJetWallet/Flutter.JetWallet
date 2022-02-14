@@ -24,7 +24,7 @@ class RegisterPasswordScreen extends HookWidget {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final authenticationN = useProvider(authenticationNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
 
@@ -36,9 +36,9 @@ class RegisterPasswordScreen extends HookWidget {
             if (error != null) {
               disableContinue.value = false;
               loader.value.finishLoading();
-              sShowErrorNotification(
-                notificationQueueN,
+              notificationN.showError(
                 '$error',
+                id: 1,
               );
             }
           },

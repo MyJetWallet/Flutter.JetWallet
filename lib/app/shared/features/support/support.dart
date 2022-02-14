@@ -10,7 +10,7 @@ class Support extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
 
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
@@ -41,17 +41,9 @@ class Support extends HookWidget {
             ),
             TextButton(
               onPressed: () async {
-                notificationQueueN.addToQueue(
-                  SNotification(
-                    duration: 2,
-                    function: (context) {
-                      showSNotification(
-                        context: context,
-                        duration: 2,
-                        text: 'Perhaps you missed “.” or “@” somewhere?”',
-                      );
-                    },
-                  ),
+                notificationN.showError(
+                  'Perhaps you missed “.” or “@” somewhere?”',
+                  id: 1,
                 );
               },
               child: const Text(

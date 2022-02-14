@@ -25,7 +25,7 @@ class EmailVerification extends HookWidget {
     final verificationN = useProvider(emailVerificationNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
     final showResend = useState(authInfo.showResendButton);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
 
@@ -36,9 +36,9 @@ class EmailVerification extends HookWidget {
           error: (Object? error) {
             loader.value.finishLoading();
             pinError.value.enableError();
-            sShowErrorNotification(
-              notificationQueueN,
+            notificationN.showError(
               error.toString(),
+              id: 1,
             );
           },
           orElse: () {},
