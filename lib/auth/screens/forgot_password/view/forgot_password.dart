@@ -67,89 +67,87 @@ class ForgotPassword extends HookWidget {
             title: 'Forgot Password',
           ),
         ),
-        child: AutofillGroup(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: colors.white,
-                child: Column(
-                  children: [
-                    const SpaceH7(),
-                    SPaddingH24(
-                      child: Text(
-                        'Resetting a forgotten password will logout other'
-                        ' devices and will result in a 24-hour hold on'
-                        ' cryptocurrency withdrawals.',
-                        style: sBodyText1Style.copyWith(
-                          color: colors.grey1,
-                        ),
-                        maxLines: 3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: colors.white,
+              child: Column(
+                children: [
+                  const SpaceH7(),
+                  SPaddingH24(
+                    child: Text(
+                      'Resetting a forgotten password will logout other'
+                      ' devices and will result in a 24-hour hold on'
+                      ' cryptocurrency withdrawals.',
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
                       ),
+                      maxLines: 3,
                     ),
-                    const SpaceH16(),
-                  ],
-                ),
-              ),
-              Container(
-                color: colors.white,
-                child: SPaddingH24(
-                  child: SStandardField(
-                    labelText: 'Email Address',
-                    autofocus: true,
-                    initialValue: forgot.email,
-                    autofillHints: const [AutofillHints.email],
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      emailError.value.disableError();
-                      forgotN.updateAndValidateEmail(value);
-                    },
-                    onErrorIconTap: () {
-                      sShowErrorNotification(
-                        notificationQueueN,
-                        'Perhaps you missed "." or "@" somewhere?',
-                      );
-                    },
-                    errorNotifier: emailError.value,
                   ),
-                ),
+                  const SpaceH16(),
+                ],
               ),
-              const Spacer(),
-              SPaddingH24(
-                child: SPrimaryButton2(
-                  active: forgot.email.isNotEmpty &&
-                      !disableContinue.value &&
-                      !loader.value.value,
-                  name: 'Reset password',
-                  onTap: () {
-                    if (forgot.emailValid) {
-                      disableContinue.value = true;
-                      loader.value.startLoading();
-                      forgotN.sendRecoveryLink().then((value) {
-                        if (forgot.union is Input) {
-                          ConfirmPasswordReset.push(
-                            context: context,
-                            args: ConfirmPasswordResetArgs(
-                              email: forgot.email,
-                            ),
-                          );
-                          disableContinue.value = false;
-                          loader.value.finishLoading();
-                        }
-                      });
-                    } else {
-                      emailError.value.enableError();
-                      sShowErrorNotification(
-                        notificationQueueN,
-                        'Perhaps you missed "." or "@" somewhere?',
-                      );
-                    }
+            ),
+            Container(
+              color: colors.white,
+              child: SPaddingH24(
+                child: SStandardField(
+                  labelText: 'Email Address',
+                  autofocus: true,
+                  initialValue: forgot.email,
+                  autofillHints: const [AutofillHints.email],
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    emailError.value.disableError();
+                    forgotN.updateAndValidateEmail(value);
                   },
+                  onErrorIconTap: () {
+                    sShowErrorNotification(
+                      notificationQueueN,
+                      'Perhaps you missed "." or "@" somewhere?',
+                    );
+                  },
+                  errorNotifier: emailError.value,
                 ),
               ),
-              const SpaceH24(),
-            ],
-          ),
+            ),
+            const Spacer(),
+            SPaddingH24(
+              child: SPrimaryButton2(
+                active: forgot.email.isNotEmpty &&
+                    !disableContinue.value &&
+                    !loader.value.value,
+                name: 'Reset password',
+                onTap: () {
+                  if (forgot.emailValid) {
+                    disableContinue.value = true;
+                    loader.value.startLoading();
+                    forgotN.sendRecoveryLink().then((value) {
+                      if (forgot.union is Input) {
+                        ConfirmPasswordReset.push(
+                          context: context,
+                          args: ConfirmPasswordResetArgs(
+                            email: forgot.email,
+                          ),
+                        );
+                        disableContinue.value = false;
+                        loader.value.finishLoading();
+                      }
+                    });
+                  } else {
+                    emailError.value.enableError();
+                    sShowErrorNotification(
+                      notificationQueueN,
+                      'Perhaps you missed "." or "@" somewhere?',
+                    );
+                  }
+                },
+              ),
+            ),
+            const SpaceH24(),
+          ],
         ),
       ),
     );
