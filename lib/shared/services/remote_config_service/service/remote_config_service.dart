@@ -25,6 +25,7 @@ class RemoteConfigService {
     overrideAppConfigValues();
     overrideApisFrom(_defaultFlavorIndex);
     overrideVersioningValues();
+    overrideSupportValues();
   }
 
   ConnectionFlavorsModel get connectionFlavors {
