@@ -1,6 +1,7 @@
 import 'dart:async' show StreamSink;
 import 'dart:ui' as ui;
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -28,6 +29,7 @@ class ChartPainter extends BaseChartPainter {
     this.opacity = 0.0,
     required this.isAssetChart,
     required this.onCandleSelected,
+    required this.formatPrice,
   }) : super(
           datas: datas,
           scaleX: scaleX,
@@ -45,6 +47,12 @@ class ChartPainter extends BaseChartPainter {
   AnimationController? controller;
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
+  final String Function({
+    String? prefix,
+    required Decimal decimal,
+    required int accuracy,
+    required String symbol,
+  }) formatPrice;
   final bool isAssetChart;
   late Color chartColor;
 
@@ -275,13 +283,23 @@ class ChartPainter extends BaseChartPainter {
       if (x < mWidth / 2) {
         //Draw right
         final tp = getTextPainter(
-          format(mMainLowMinValue!),
+          formatPrice(
+            accuracy: 2,
+            decimal: Decimal.parse(mMainLowMinValue.toString()),
+            prefix: '\$',
+            symbol: '',
+          ),
           color: ChartColors.maxMinTextColor,
         );
         tp.paint(canvas, Offset(x, (y - tp.height / 2) + 2));
       } else {
         final tp = getTextPainter(
-          format(mMainLowMinValue!),
+          formatPrice(
+            accuracy: 2,
+            decimal: Decimal.parse(mMainLowMinValue.toString()),
+            prefix: '\$',
+            symbol: '',
+          ),
           color: ChartColors.maxMinTextColor,
         );
         tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));
@@ -290,13 +308,23 @@ class ChartPainter extends BaseChartPainter {
       if (x < mWidth / 2) {
         //Draw right
         final tp = getTextPainter(
-          format(mMainHighMaxValue!),
+          formatPrice(
+            accuracy: 2,
+            decimal: Decimal.parse(mMainHighMaxValue.toString()),
+            prefix: '\$',
+            symbol: '',
+          ),
           color: ChartColors.maxMinTextColor,
         );
         tp.paint(canvas, Offset(x, y - tp.height / 2));
       } else {
         final tp = getTextPainter(
-          format(mMainHighMaxValue!),
+          formatPrice(
+            accuracy: 2,
+            decimal: Decimal.parse(mMainHighMaxValue.toString()),
+            prefix: '\$',
+            symbol: '',
+          ),
           color: ChartColors.maxMinTextColor,
         );
         tp.paint(canvas, Offset(x - tp.width, y - tp.height / 2));

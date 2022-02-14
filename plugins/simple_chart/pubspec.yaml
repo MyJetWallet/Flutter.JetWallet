@@ -14,6 +14,7 @@ dependencies:
 
   cupertino_icons: ^1.0.3
   intl: ^0.17.0
+  decimal: ^2.1.0 # deal with decimal numbers without losing precision
 
 dev_dependencies:
   flutter_test:

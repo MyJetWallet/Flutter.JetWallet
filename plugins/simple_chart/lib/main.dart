@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import './simple_chart.dart';
@@ -55,6 +56,7 @@ class Chart extends StatefulWidget {
     required this.onResolutionChanged,
     required this.onChartTypeChanged,
     required this.onCandleSelected,
+    required this.formatPrice,
     required this.candles,
     required this.candleResolution,
     required this.chartHeight,
@@ -69,6 +71,12 @@ class Chart extends StatefulWidget {
   final void Function(String) onResolutionChanged;
   final void Function(ChartType) onChartTypeChanged;
   final void Function(ChartInfoModel?) onCandleSelected;
+  final String Function({
+    String? prefix,
+    required Decimal decimal,
+    required int accuracy,
+    required String symbol,
+  }) formatPrice;
   final List<CandleModel>? candles;
   final ChartType chartType;
   final String candleResolution;
@@ -185,6 +193,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                           });
                         });
                       },
+                      formatPrice: widget.formatPrice,
                       selectedCandlePadding: widget.selectedCandlePadding,
                       isAssetChart: widget.isAssetChart,
                     ),

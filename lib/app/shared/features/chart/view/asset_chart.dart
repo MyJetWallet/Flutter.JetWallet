@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../screens/market/model/market_item_model.dart';
+import '../../../helpers/formatting/base/market_format.dart';
 import '../notifier/chart_notipod.dart';
 
 class AssetChart extends StatefulHookWidget {
@@ -45,6 +46,7 @@ class _AssetChartState extends State<AssetChart>
           },
           chartType: chartState.type,
           candleResolution: chartState.resolution,
+          formatPrice: marketFormat,
           candles: chartState.candles[chartState.resolution],
           onCandleSelected: widget.onCandleSelected,
           chartHeight: 240,
