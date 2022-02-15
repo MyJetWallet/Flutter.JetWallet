@@ -6,8 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../shared/helpers/get_args.dart';
 import '../notifier/forgot_password_notipod.dart';
 import '../notifier/forgot_password_state.dart';
-import '../notifier/forgot_password_union.dart';
-import 'confirm_password_reset.dart';
 
 @immutable
 class ForgotPasswordArgs {
@@ -125,16 +123,8 @@ class ForgotPassword extends HookWidget {
                     disableContinue.value = true;
                     loader.value.startLoading();
                     forgotN.sendRecoveryLink().then((value) {
-                      if (forgot.union is Input) {
-                        ConfirmPasswordReset.push(
-                          context: context,
-                          args: ConfirmPasswordResetArgs(
-                            email: forgot.email,
-                          ),
-                        );
-                        disableContinue.value = false;
-                        loader.value.finishLoading();
-                      }
+                      disableContinue.value = false;
+                      loader.value.finishLoading();
                     });
                   } else {
                     emailError.value.enableError();
