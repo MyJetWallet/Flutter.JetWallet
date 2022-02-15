@@ -122,7 +122,7 @@ class ForgotPassword extends HookWidget {
                   if (forgot.emailValid) {
                     disableContinue.value = true;
                     loader.value.startLoading();
-                    forgotN.sendRecoveryLink().then((value) {
+                    forgotN.sendRecoveryLink().then((_) {
                       disableContinue.value = false;
                       loader.value.finishLoading();
                     });

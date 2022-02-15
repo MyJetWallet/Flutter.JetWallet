@@ -3,13 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/get_args.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
-import '../../login/login.dart';
 import '../notifier/reset_password_notipod.dart';
 import '../notifier/reset_password_state.dart';
-import '../notifier/reset_password_union.dart';
 
 @immutable
 class ResetPasswordArgs {
@@ -39,17 +36,23 @@ class ResetPassword extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final args = getArgs(context) as ResetPasswordArgs;
-    
+
     final colors = useProvider(sColorPod);
     final reset = useProvider(resetPasswordNotipod);
     final resetN = useProvider(resetPasswordNotipod.notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final loader = useValueNotifier(StackLoaderNotifier());
+    final disableContinue = useState(false);
+
+    useListenable(loader.value);
 
     return ProviderListener<ResetPasswordState>(
       provider: resetPasswordNotipod,
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
+            disableContinue.value = false;
+            loader.value.finishLoading();
             sShowErrorNotification(
               notificationQueueN,
               '$error',
@@ -59,6 +62,7 @@ class ResetPassword extends HookWidget {
         );
       },
       child: SPageFrame(
+        loading: loader.value,
         color: colors.grey5,
         header: const SPaddingH24(
           child: SBigHeader(
@@ -90,19 +94,17 @@ class ResetPassword extends HookWidget {
               const Spacer(),
               SPaddingH24(
                 child: SPrimaryButton2(
-                  active: reset.passwordValid,
+                  active: reset.passwordValid &&
+                      !disableContinue.value &&
+                      !loader.value.value,
                   name: 'Continue',
                   onTap: () {
-                    resetN.resetPassword(args.token);
-
-                    /// todo start loading
-                    if (reset.union is Input) {
-                      SuccessScreen.push(
-                        context: context,
-                        secondaryText: 'Your password has been reset',
-                        then: () => Login.push(context),
-                      );
-                    }
+                    disableContinue.value = true;
+                    loader.value.startLoading();
+                    resetN.resetPassword(args.token).then((_) {
+                      disableContinue.value = false;
+                      loader.value.finishLoading();
+                    });
                   },
                 ),
               ),
