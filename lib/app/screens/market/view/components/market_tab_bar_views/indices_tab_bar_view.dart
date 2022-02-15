@@ -9,17 +9,46 @@ import '../../../../../shared/helpers/formatting/base/market_format.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../provider/market_indices_pod.dart';
 import '../fade_on_scroll.dart';
+import 'helper/reset_market_scroll_position.dart';
 
 class IndicesTabBarView extends StatefulHookWidget {
   const IndicesTabBarView({Key? key}) : super(key: key);
 
   @override
-  State<IndicesTabBarView> createState() =>
-      _IndicesTabBarState();
+  State<IndicesTabBarView> createState() => _IndicesTabBarState();
 }
 
 class _IndicesTabBarState extends State<IndicesTabBarView> {
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    final indices = context.read(marketIndicesPod);
+
+    _scrollController.addListener(() {
+      final resetPosition = resetMarketScrollPosition(
+        context,
+        indices.length,
+      );
+
+      if (resetPosition) {
+        if (_scrollController.offset >= maxScrollOffset) {
+          _scrollController.animateTo(
+            0.0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(() {});
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

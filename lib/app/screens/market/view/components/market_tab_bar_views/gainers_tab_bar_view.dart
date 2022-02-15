@@ -9,6 +9,7 @@ import '../../../../../shared/helpers/formatting/base/market_format.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../provider/market_gainers_pod.dart';
 import '../fade_on_scroll.dart';
+import 'helper/reset_market_scroll_position.dart';
 
 class GainersTabBarView extends StatefulHookWidget {
   const GainersTabBarView({Key? key}) : super(key: key);
@@ -20,6 +21,36 @@ class GainersTabBarView extends StatefulHookWidget {
 
 class _GainersTabBarState extends State<GainersTabBarView> {
   final ScrollController _scrollController = ScrollController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    final gainers = context.read(marketGainersPod);
+
+    _scrollController.addListener(() {
+      final resetPosition = resetMarketScrollPosition(
+        context,
+        gainers.length,
+      );
+
+      if (resetPosition) {
+        if (_scrollController.offset >= maxScrollOffset) {
+          _scrollController.animateTo(
+            0.0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(() {});
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

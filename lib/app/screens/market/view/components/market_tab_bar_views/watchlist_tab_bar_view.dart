@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../provider/market_watchlist_items_pod.dart';
 import '../fade_on_scroll.dart';
 import 'components/market_reordable_list.dart';
+import 'helper/reset_market_scroll_position.dart';
 
 class WatchlistTabBarView extends StatefulHookWidget {
   const WatchlistTabBarView({Key? key}) : super(key: key);
@@ -15,6 +18,35 @@ class WatchlistTabBarView extends StatefulHookWidget {
 
 class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    final watchItems = context.read(marketWatchlistItemsPod);
+
+    _scrollController.addListener(() {
+      final resetPosition = resetMarketScrollPosition(
+        context,
+        watchItems.length,
+      );
+
+      if (resetPosition) {
+        if (_scrollController.offset >= maxScrollOffset) {
+          _scrollController.animateTo(
+            0.0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(() {});
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
