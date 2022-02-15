@@ -1,0 +1,110 @@
+import 'package:flutter/material.dart';
+
+import '../model/resolution_string_enum.dart';
+import 'resolution_button.dart';
+
+class LoadingChartView extends StatelessWidget {
+  const LoadingChartView({
+    Key? key,
+    this.showWeek = true,
+    this.showMonth = true,
+    this.showYear = true,
+    required this.height,
+    required this.showLoader,
+    required this.resolution,
+    required this.loader,
+    required this.onResolutionChanged,
+    required this.isBalanceChart,
+  }) : super(key: key);
+
+  final double height;
+  final bool showLoader;
+  final Widget loader;
+  final String resolution;
+  final void Function(String) onResolutionChanged;
+  final bool showWeek;
+  final bool showMonth;
+  final bool showYear;
+  final bool isBalanceChart;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: double.infinity,
+      color: const Color(0xFFF1F4F8),
+      child: Stack(
+        children: [
+          if (showLoader)
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 80,
+              child: loader,
+            ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: isBalanceChart ? 40 : 0,
+            child: SizedBox(
+              height: 36,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ResolutionButton(
+                    text: Period.day,
+                    showUnderline: resolution == Period.day,
+                    onTap: resolution == Period.day
+                        ? null
+                        : () {
+                            onResolutionChanged(Period.day);
+                          },
+                  ),
+                  if (showWeek)
+                    ResolutionButton(
+                      text: Period.week,
+                      showUnderline: resolution == Period.week,
+                      onTap: resolution == Period.week
+                          ? null
+                          : () {
+                              onResolutionChanged(Period.week);
+                            },
+                    ),
+                  if (showMonth)
+                    ResolutionButton(
+                      text: Period.month,
+                      showUnderline: resolution == Period.month,
+                      onTap: resolution == Period.month
+                          ? null
+                          : () {
+                              onResolutionChanged(Period.month);
+                            },
+                    ),
+                  if (showYear)
+                    ResolutionButton(
+                      text: Period.year,
+                      showUnderline: resolution == Period.year,
+                      onTap: resolution == Period.year
+                          ? null
+                          : () {
+                              onResolutionChanged(Period.year);
+                            },
+                    ),
+                  ResolutionButton(
+                    text: Period.all,
+                    showUnderline: resolution == Period.all,
+                    onTap: resolution == Period.all
+                        ? null
+                        : () {
+                            onResolutionChanged(Period.all);
+                          },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

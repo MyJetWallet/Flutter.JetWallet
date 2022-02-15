@@ -1,3 +1,4 @@
+import 'package:charts/components/loading_chart_view.dart';
 import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
