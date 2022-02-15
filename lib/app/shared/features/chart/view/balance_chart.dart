@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../helpers/formatting/base/market_format.dart';
 import '../notifier/chart_notipod.dart';
 
 class BalanceChart extends StatefulHookWidget {
@@ -43,6 +44,7 @@ class _BalanceChartState extends State<BalanceChart>
         walletCreationDate: widget.walletCreationDate,
         candles: chartState.candles[chartState.resolution],
         onCandleSelected: widget.onCandleSelected,
+        formatPrice: marketFormat,
         chartHeight: 200,
         chartWidgetHeight: 296,
         isAssetChart: false,
