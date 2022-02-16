@@ -108,6 +108,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    //  ↓ fix Amplitude (unable to load android socket classes) ↓
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
 }
 
 apply plugin: 'com.google.gms.google-services'

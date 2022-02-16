@@ -23,6 +23,8 @@ final appInitFpod = FutureProvider<void>(
     final parsedEmail = email ?? '<Email not found>';
 
     if (token == null) {
+      await sAnalytics.init(analyticsApiKey);
+
       router.state = const Unauthorized();
     } else {
       authInfoN.updateRefreshToken(token);
@@ -45,6 +47,8 @@ final appInitFpod = FutureProvider<void>(
           router.state = const Unauthorized();
         }
       } catch (e) {
+        await sAnalytics.init(analyticsApiKey);
+
         router.state = const Unauthorized();
       }
     }
