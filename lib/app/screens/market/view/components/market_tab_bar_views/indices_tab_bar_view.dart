@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +9,7 @@ import '../../../../../shared/features/market_details/view/market_details.dart';
 import '../../../../../shared/helpers/formatting/base/market_format.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../provider/market_indices_pod.dart';
+import '../../../provider/market_info_pod.dart';
 import '../fade_on_scroll.dart';
 
 class IndicesTabBarView extends StatefulHookWidget {
@@ -26,6 +28,7 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
     final indices = useProvider(marketIndicesPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
+    final marketInfo = useProvider(marketInfoPod);
 
     return NestedScrollView(
       controller: _scrollController,
@@ -44,12 +47,13 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
               fadeInWidget: const SDivider(
                 width: double.infinity,
               ),
-              fadeOutWidget: const SPaddingH24(
+              fadeOutWidget: SPaddingH24(
                 child: SMarketHeader(
                   title: 'Market',
-                  percent: 1.73,
-                  isPositive: true,
+                  percent: marketInfo.toString(),
+                  isPositive: marketInfo > Decimal.zero,
                   subtitle: 'Market is up',
+                  showInfo: marketInfo != Decimal.zero,
                 ),
               ),
               permanentWidget: const SMarketHeaderClosed(

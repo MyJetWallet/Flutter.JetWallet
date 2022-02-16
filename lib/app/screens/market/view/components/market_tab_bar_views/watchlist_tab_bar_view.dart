@@ -1,7 +1,10 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../provider/market_info_pod.dart';
 import '../fade_on_scroll.dart';
 import 'components/market_reordable_list.dart';
 
@@ -18,6 +21,7 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
 
   @override
   Widget build(BuildContext context) {
+    final marketInfo = useProvider(marketInfoPod);
 
     return NestedScrollView(
       controller: _scrollController,
@@ -36,12 +40,13 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
               fadeInWidget: const SDivider(
                 width: double.infinity,
               ),
-              fadeOutWidget: const SPaddingH24(
+              fadeOutWidget: SPaddingH24(
                 child: SMarketHeader(
                   title: 'Market',
-                  percent: 1.73,
-                  isPositive: true,
+                  percent: marketInfo.toString(),
+                  isPositive: marketInfo > Decimal.zero,
                   subtitle: 'Market is up',
+                  showInfo: marketInfo != Decimal.zero,
                 ),
               ),
               permanentWidget: const SMarketHeaderClosed(

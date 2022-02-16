@@ -12,7 +12,6 @@ import '../../../../shared/providers/device_uid_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
-import '../../market_info/model/market_info_response_model.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
@@ -22,7 +21,7 @@ import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
-import '../model/market_info_model.dart';
+import '../model/market_info_response_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
@@ -87,17 +86,10 @@ class SignalRService {
     });
 
     _connection?.on(marketInfoMessage, (data) {
-
-
-
       try {
-        print('data||| $data');
-        final marketInfo = MarketInfoModel.fromList(data!);
-
-        print('marketInfoMessage||| $marketInfo');
-        // _kycCountriesController.add(countries);
+        final marketInfo = MarketInfoResponseModel.fromList(data!);
+        _marketInfoController.add(marketInfo);
       } catch (e) {
-        print('CATCH ERROR');
         _logger.log(contract, kycCountriesMessage, e);
       }
     });
@@ -282,6 +274,9 @@ class SignalRService {
 
   Stream<PriceAccuracies> priceAccuracies() =>
       _priceAccuraciesController.stream;
+
+  Stream<MarketInfoResponseModel> marketInfo() =>
+      _marketInfoController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
