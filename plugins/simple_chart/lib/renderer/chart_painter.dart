@@ -28,6 +28,7 @@ class ChartPainter extends BaseChartPainter {
     this.controller,
     this.opacity = 0.0,
     required this.isAssetChart,
+    required this.chartWidth,
     required this.onCandleSelected,
     required this.formatPrice,
   }) : super(
@@ -54,6 +55,7 @@ class ChartPainter extends BaseChartPainter {
     required String symbol,
   }) formatPrice;
   final bool isAssetChart;
+  final double chartWidth;
   late Color chartColor;
 
   @override
@@ -131,6 +133,7 @@ class ChartPainter extends BaseChartPainter {
         curX,
         size,
         canvas,
+        i == datas.length - 1,
       );
     }
 
@@ -378,7 +381,7 @@ class ChartPainter extends BaseChartPainter {
     //     color: ChartColors.rightRealTimeTextColor);
     final y = getMainY(point.close);
     // //The more the max slides to the right, the smaller the value
-    final x = getX(datas.length - 1);
+    final x = chartWidth;
     // if (candleType == ChartType.candle) x += mPointWidth / 2;
     // const dashWidth = 10;
     // const dashSpace = 5;

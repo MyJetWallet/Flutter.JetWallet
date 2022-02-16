@@ -59,6 +59,7 @@ abstract class BaseChartRenderer<T> {
     double curX,
     Size size,
     Canvas canvas,
+    bool isLast,
   );
 
   void drawLine(
