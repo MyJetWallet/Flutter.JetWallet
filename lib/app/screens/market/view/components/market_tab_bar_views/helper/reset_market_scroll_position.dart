@@ -5,12 +5,13 @@ const marketHeaderHeight = 160.0;
 const marketBottomHeight = 152.0;
 const maxScrollOffset = 150.0;
 
-bool resetMarketScrollPosition(
+void resetMarketScrollPosition(
   BuildContext context,
   int itemsLength,
+  ScrollController scrollController,
 ) {
   if (itemsLength == 0) {
-    return true;
+    _resetPosition(scrollController);
   }
   final screenHeight = MediaQuery.of(context).size.height;
 
@@ -18,5 +19,17 @@ bool resetMarketScrollPosition(
       ((screenHeight - marketHeaderHeight) - marketBottomHeight) /
           marketItemHeight;
 
-  return minQuantity > itemsLength;
+  if (minQuantity > itemsLength) {
+    _resetPosition(scrollController);
+  }
+}
+
+void _resetPosition(ScrollController scrollController) {
+  if (scrollController.offset >= maxScrollOffset) {
+    scrollController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+  }
 }

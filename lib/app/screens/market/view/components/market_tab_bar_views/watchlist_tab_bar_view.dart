@@ -12,8 +12,7 @@ class WatchlistTabBarView extends StatefulHookWidget {
   const WatchlistTabBarView({Key? key}) : super(key: key);
 
   @override
-  State<WatchlistTabBarView> createState() =>
-      _WatchlistTabBarViewState();
+  State<WatchlistTabBarView> createState() => _WatchlistTabBarViewState();
 }
 
 class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
@@ -25,20 +24,11 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
     final watchItems = context.read(marketWatchlistItemsPod);
 
     _scrollController.addListener(() {
-      final resetPosition = resetMarketScrollPosition(
+      resetMarketScrollPosition(
         context,
         watchItems.length,
+        _scrollController,
       );
-
-      if (resetPosition) {
-        if (_scrollController.offset >= maxScrollOffset) {
-          _scrollController.animateTo(
-            0.0,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeIn,
-          );
-        }
-      }
     });
   }
 
@@ -50,7 +40,6 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
 
   @override
   Widget build(BuildContext context) {
-
     return NestedScrollView(
       controller: _scrollController,
       headerSliverBuilder: (context, _) {
