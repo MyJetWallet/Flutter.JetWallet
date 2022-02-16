@@ -12,6 +12,7 @@ import '../../../../shared/providers/device_uid_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
+import '../../market_info/model/market_info_response_model.dart';
 import '../model/asset_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
@@ -21,6 +22,7 @@ import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
+import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
@@ -60,6 +62,7 @@ class SignalRService {
   final _indicesController = StreamController<IndicesModel>();
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
   final _priceAccuraciesController = StreamController<PriceAccuracies>();
+  final _marketInfoController = StreamController<MarketInfoResponseModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -79,6 +82,22 @@ class SignalRService {
         final countries = KycCountriesResponseModel.fromJson(_json(data));
         _kycCountriesController.add(countries);
       } catch (e) {
+        _logger.log(contract, kycCountriesMessage, e);
+      }
+    });
+
+    _connection?.on(marketInfoMessage, (data) {
+
+
+
+      try {
+        print('data||| $data');
+        final marketInfo = MarketInfoModel.fromList(data!);
+
+        print('marketInfoMessage||| $marketInfo');
+        // _kycCountriesController.add(countries);
+      } catch (e) {
+        print('CATCH ERROR');
         _logger.log(contract, kycCountriesMessage, e);
       }
     });

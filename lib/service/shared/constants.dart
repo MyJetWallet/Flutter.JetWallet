@@ -16,6 +16,7 @@ const referralStatsMessage = 'referrer-stats';
 const kycCountriesMessage = 'kyc-countries';
 const indicesMessage = 'index-details';
 const convertPriceSettingsMessage = 'convert-price-settings';
+const marketInfoMessage = 'market-info';
 
 // HTTP
 const postRequest = 'POST';
