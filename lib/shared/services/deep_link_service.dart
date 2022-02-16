@@ -25,6 +25,7 @@ const _code = 'jw_code';
 const _token = 'jw_token';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
+const _email = 'jw_email';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -82,7 +83,7 @@ class DeepLinkService {
     navigatorPush(
       read(sNavigatorKeyPod).currentContext!,
       Login(
-        email: parameters['_email'],
+        email: parameters[_email],
       ),
     );
   }
