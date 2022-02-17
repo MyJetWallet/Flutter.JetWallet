@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../provider/market_watchlist_items_pod.dart';
 import '../fade_on_scroll.dart';
+import 'components/empty_watchlist.dart';
 import 'components/market_reordable_list.dart';
 import 'helper/reset_market_scroll_position.dart';
 
@@ -40,39 +41,45 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      controller: _scrollController,
-      headerSliverBuilder: (context, _) {
-        return [
-          SliverAppBar(
-            backgroundColor: Colors.white,
-            pinned: true,
-            elevation: 0,
-            expandedHeight: 160,
-            collapsedHeight: 120,
-            primary: false,
-            flexibleSpace: FadeOnScroll(
-              scrollController: _scrollController,
-              fullOpacityOffset: 50,
-              fadeInWidget: const SDivider(
-                width: double.infinity,
-              ),
-              fadeOutWidget: const SPaddingH24(
-                child: SMarketHeader(
+    final watchItems = useProvider(marketWatchlistItemsPod);
+
+    if (watchItems.isNotEmpty) {
+      return NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (context, _) {
+          return [
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              pinned: true,
+              elevation: 0,
+              expandedHeight: 160,
+              collapsedHeight: 120,
+              primary: false,
+              flexibleSpace: FadeOnScroll(
+                scrollController: _scrollController,
+                fullOpacityOffset: 50,
+                fadeInWidget: const SDivider(
+                  width: double.infinity,
+                ),
+                fadeOutWidget: const SPaddingH24(
+                  child: SMarketHeader(
+                    title: 'Market',
+                    percent: 1.73,
+                    isPositive: true,
+                    subtitle: 'Market is up',
+                  ),
+                ),
+                permanentWidget: const SMarketHeaderClosed(
                   title: 'Market',
-                  percent: 1.73,
-                  isPositive: true,
-                  subtitle: 'Market is up',
                 ),
               ),
-              permanentWidget: const SMarketHeaderClosed(
-                title: 'Market',
-              ),
             ),
-          ),
-        ];
-      },
-      body: const MarketReorderableList(),
-    );
+          ];
+        },
+        body: const MarketReorderableList(),
+      );
+    } else {
+      return const EmptyWatchlist();
+    }
   }
 }
