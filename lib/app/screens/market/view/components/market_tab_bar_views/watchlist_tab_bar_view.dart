@@ -12,8 +12,7 @@ class WatchlistTabBarView extends StatefulHookWidget {
   const WatchlistTabBarView({Key? key}) : super(key: key);
 
   @override
-  State<WatchlistTabBarView> createState() =>
-      _WatchlistTabBarViewState();
+  State<WatchlistTabBarView> createState() => _WatchlistTabBarViewState();
 }
 
 class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
@@ -45,7 +44,11 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
                   title: 'Market',
                   percent: marketInfo.toString(),
                   isPositive: marketInfo > Decimal.zero,
-                  subtitle: 'Market is up',
+                  subtitle:
+                      'Market is ${(marketInfo > Decimal.zero) ?
+                      'up' :
+                      'down'
+                    }',
                   showInfo: marketInfo != Decimal.zero,
                 ),
               ),

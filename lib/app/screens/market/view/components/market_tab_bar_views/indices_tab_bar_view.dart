@@ -52,7 +52,8 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
                   title: 'Market',
                   percent: marketInfo.toString(),
                   isPositive: marketInfo > Decimal.zero,
-                  subtitle: 'Market is up',
+                  subtitle:
+                  'Market is ${(marketInfo > Decimal.zero) ? 'up' : 'down'}',
                   showInfo: marketInfo != Decimal.zero,
                 ),
               ),
