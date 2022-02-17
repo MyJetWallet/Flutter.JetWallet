@@ -55,16 +55,13 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
-        e.cause,
-      );
+      read(sNotificationNotipod.notifier).showError(e.cause, id: 1);
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
+        id: 1,
       );
     } finally {
       state.loader!.finishLoading();
@@ -121,5 +118,47 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
         ),
       );
     }
+  }
+
+  void updatePhoneNumber(String phoneNumber) {
+    final number = _parsePhoneNumber(phoneNumber);
+    final currentOffset = state.phoneNumberController.selection.base.offset;
+    state.phoneNumberController.text = number;
+    state.phoneNumberController.selection =
+        TextSelection.fromPosition(TextPosition(offset: currentOffset));
+  }
+
+  String _parsePhoneNumber(String phoneNumber) {
+    if (phoneNumber.isNotEmpty) {
+      var body = _formatPhoneNumber(phoneNumber);
+      final dialCode = _formatPhoneNumber(state.dialCodeController.text);
+
+      if (phoneNumber.length >= dialCode.length) {
+        final codeFromBody = body.substring(0, dialCode.length);
+
+        if (codeFromBody == dialCode) {
+          body = body.substring(dialCode.length);
+        }
+      }
+
+      if (dialCode == '380') {
+        if (body.isNotEmpty && body[0] == '0') {
+          body = body.substring(1);
+        }
+      }
+
+      return body;
+    } else {
+      return phoneNumber;
+    }
+  }
+
+  String _formatPhoneNumber(String phoneNumber) {
+    return phoneNumber
+        .replaceAll('+', '')
+        .replaceAll(' ', '')
+        .replaceAll('(', '')
+        .replaceAll(')', '')
+        .replaceAll('-', '');
   }
 }

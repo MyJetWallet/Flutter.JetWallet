@@ -2,10 +2,12 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/components/loaders/loader.dart';
+import '../../../../../shared/helpers/analytics.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../chart/notifier/chart_notipod.dart';
@@ -22,7 +24,6 @@ import 'components/asset_price.dart';
 import 'components/balance_block/balance_block.dart';
 import 'components/index_allocation_block/index_allocation_block.dart';
 import 'components/index_history_block/index_history_block.dart';
-import 'components/index_overview_block/index_overview_block.dart';
 import 'components/market_news_block/market_news_block.dart';
 import 'components/market_stats_block/market_stats_block.dart';
 import 'components/return_rates_block/return_rates_block.dart';
@@ -63,6 +64,8 @@ class MarketDetails extends HookWidget {
       chartNotipod(marketItem.associateAsset),
     );
     useProvider(watchlistIdsNotipod);
+
+    analytics(() => sAnalytics.assetView(marketItem.name));
 
     return SPageFrame(
       header: Material(
@@ -156,12 +159,11 @@ class MarketDetails extends HookWidget {
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
             ),
-            const SpaceH20(),
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,
               ),
-              const IndexOverviewBlock(),
+              // const IndexOverviewBlock(),
             ],
             marketInfo.when(
               data: (marketInfo) {
@@ -171,6 +173,7 @@ class MarketDetails extends HookWidget {
                     children: [
                       if (marketInfo != null) ...[
                         if (marketItem.type != AssetType.indices) ...[
+                          const SpaceH20(),
                           MarketStatsBlock(
                             marketInfo: marketInfo,
                           ),

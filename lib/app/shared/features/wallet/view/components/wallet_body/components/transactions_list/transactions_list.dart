@@ -98,12 +98,12 @@ class _TransactionsListState extends State<TransactionsList> {
                   groupBy: (transaction) {
                     return formatDate(transaction.timeStamp);
                   },
+                  sort: false,
                   groupSeparatorBuilder: (String date) {
                     return TransactionMonthSeparator(
                       text: date,
                     );
                   },
-                  groupComparator: (date1, date2) => 0,
                   itemBuilder: (context, transaction) {
                     final index = transactionHistory.operationHistoryItems
                         .indexOf(transaction);
@@ -156,50 +156,62 @@ class _TransactionsListState extends State<TransactionsList> {
               }
             },
             loaded: () {
-              return SliverGroupedListView<OperationHistoryItem, String>(
-                elements: transactionHistory.operationHistoryItems,
-                groupBy: (transaction) {
-                  return formatDate(transaction.timeStamp);
-                },
-                groupSeparatorBuilder: (String date) {
-                  return TransactionMonthSeparator(
-                    text: date,
-                  );
-                },
-                groupComparator: (date1, date2) => 0,
-                itemBuilder: (context, transaction) {
-                  final index = transactionHistory.operationHistoryItems
-                      .indexOf(transaction);
-                  final currentDate = formatDate(transaction.timeStamp);
-                  var nextDate = '';
-                  if (index !=
-                      (transactionHistory.operationHistoryItems.length - 1)) {
-                    nextDate = formatDate(
-                      transactionHistory
-                          .operationHistoryItems[index + 1].timeStamp,
+              if (transactionHistory.operationHistoryItems.isEmpty) {
+                return SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: screenHeight - screenHeight * 0.369,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No transactions yet',
+                          style: sTextH3Style,
+                        ),
+                        Text(
+                          'Your transactions will appear here',
+                          style: sBodyText1Style.copyWith(
+                            color: colors.grey1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return SliverGroupedListView<OperationHistoryItem, String>(
+                  elements: transactionHistory.operationHistoryItems,
+                  groupBy: (transaction) {
+                    return formatDate(transaction.timeStamp);
+                  },
+                  sort: false,
+                  groupSeparatorBuilder: (String date) {
+                    return TransactionMonthSeparator(
+                      text: date,
                     );
-                  }
-                  final removeDividerForLastInGroup = currentDate != nextDate;
+                  },
+                  itemBuilder: (context, transaction) {
+                    final index = transactionHistory.operationHistoryItems
+                        .indexOf(transaction);
+                    final currentDate = formatDate(transaction.timeStamp);
+                    var nextDate = '';
+                    if (index !=
+                        (transactionHistory.operationHistoryItems.length - 1)) {
+                      nextDate = formatDate(
+                        transactionHistory
+                            .operationHistoryItems[index + 1].timeStamp,
+                      );
+                    }
+                    final removeDividerForLastInGroup = currentDate != nextDate;
 
-                  if (transactionHistory.operationHistoryItems
-                          .indexOf(transaction) ==
-                      transactionHistory.operationHistoryItems.length - 1) {
                     return SPaddingH24(
                       child: TransactionListItem(
                         transactionListItem: transaction,
                         removeDivider: removeDividerForLastInGroup,
                       ),
                     );
-                  } else {
-                    return SPaddingH24(
-                      child: TransactionListItem(
-                        transactionListItem: transaction,
-                        removeDivider: removeDividerForLastInGroup,
-                      ),
-                    );
-                  }
-                },
-              );
+                  },
+                );
+              }
             },
             error: () {
               if (transactionHistory.operationHistoryItems.isEmpty) {

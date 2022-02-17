@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,6 +18,7 @@ class KChartWidget extends StatefulWidget {
     required this.candleResolution,
     required this.candleWidth,
     required this.onCandleSelected,
+    required this.formatPrice,
     required this.isAssetChart,
     this.selectedCandlePadding,
   });
@@ -25,6 +27,12 @@ class KChartWidget extends StatefulWidget {
   final ChartType candleType;
 
   final Function(ChartInfoModel?) onCandleSelected;
+  final String Function({
+    String? prefix,
+    required Decimal decimal,
+    required int accuracy,
+    required String symbol,
+  }) formatPrice;
 
   final String candleResolution;
   final double candleWidth;
@@ -234,6 +242,7 @@ class _KChartWidgetState extends State<KChartWidget>
               candleWidth: widget.candleWidth,
               controller: _controller,
               onCandleSelected: widget.onCandleSelected,
+              formatPrice: widget.formatPrice,
               isAssetChart: widget.isAssetChart,
             ),
           ),

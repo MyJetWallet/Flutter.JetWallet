@@ -35,18 +35,13 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
         ),
       );
 
-      state = state.copyWith(
-        operationHistoryItems: _filterUnusedOperationTypeItemsFrom(
-          operationHistory.operationHistory,
-        ),
-        union: const Loaded(),
-      );
+      _updateOperationHistory(operationHistory.operationHistory);
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
+        id: 1,
       );
 
       state = state.copyWith(union: const Error());
@@ -65,26 +60,20 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
         ),
       );
 
-      updateOperationHistory(operationHistory.operationHistory);
+      _updateOperationHistory(operationHistory.operationHistory);
     } catch (e) {
       _logger.log(stateFlow, 'operationHistory', e);
 
-      final notificationQueue = read(sNotificationQueueNotipod.notifier);
-
-      if (!notificationQueue.showingNotifications) {
-        sShowErrorNotification(
-          notificationQueue,
-          'Something went wrong',
-        );
-      }
+      read(sNotificationNotipod.notifier).showError(
+        'Something went wrong',
+        id: 2,
+      );
 
       state = state.copyWith(union: const Error());
     }
   }
 
-  void updateOperationHistory(List<OperationHistoryItem> items) {
-    _logger.log(notifier, 'updateOperationHistory');
-
+  void _updateOperationHistory(List<OperationHistoryItem> items) {
     if (items.isEmpty) {
       state = state.copyWith(
         nothingToLoad: true,

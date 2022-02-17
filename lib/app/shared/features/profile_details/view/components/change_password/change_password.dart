@@ -18,7 +18,7 @@ class ChangePassword extends HookWidget {
   Widget build(BuildContext context) {
     final changePassword = useProvider(changePasswordNotipod);
     final changePasswordN = useProvider(changePasswordNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final oldPasswordError = useValueNotifier(StandardFieldErrorNotifier());
     final colors = useProvider(sColorPod);
 
@@ -72,9 +72,9 @@ class ChangePassword extends HookWidget {
                   autofocus: true,
                   labelText: 'Enter old Password',
                   onErrorIconTap: () {
-                    sShowErrorNotification(
-                      notificationQueueN,
-                      'Try again that’s not your current password!',
+                    notificationN.showError(
+                      "Try again that's not your current password!",
+                      id: 1,
                     );
                   },
                   errorNotifier: oldPasswordError.value,

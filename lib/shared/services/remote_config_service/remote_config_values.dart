@@ -22,3 +22,6 @@ late int localPinLength;
 // Versioning
 late String recommendedVersion;
 late String minimumVersion;
+
+// Analytics
+late String analyticsApiKey;

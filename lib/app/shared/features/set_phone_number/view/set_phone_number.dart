@@ -111,6 +111,9 @@ class SetPhoneNumber extends HookWidget {
                       autofillHints: const [AutofillHints.telephoneNumber],
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
+                      onChanged: (String phone) {
+                        notifier.updatePhoneNumber(phone);
+                      },
                       controller: state.phoneNumberController,
                     ),
                   ),
