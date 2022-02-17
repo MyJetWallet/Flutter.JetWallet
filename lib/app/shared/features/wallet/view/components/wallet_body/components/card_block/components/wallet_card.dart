@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../../helpers/text_size.dart';
 import '../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../helper/show_interest_rate.dart';
@@ -27,7 +28,7 @@ class WalletCard extends HookWidget {
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     )}';
-    final interestRateTextSize = _textSize(interestRateText, sSubtitle3Style);
+    final interestRateTextSize = textSize(interestRateText, sSubtitle3Style);
 
     return Container(
       height: 150,
@@ -147,14 +148,5 @@ class WalletCard extends HookWidget {
         ],
       ),
     );
-  }
-
-  Size _textSize(String text, TextStyle style) {
-    final textPainter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      maxLines: 1,
-      textDirection: TextDirection.ltr,
-    )..layout();
-    return textPainter.size;
   }
 }
