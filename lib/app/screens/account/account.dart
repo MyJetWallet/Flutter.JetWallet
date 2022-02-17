@@ -114,12 +114,6 @@ class Account extends HookWidget {
                             context: context,
                           ),
                         ),
-                        SimpleAccountCategoryButton(
-                          title: 'Notifications',
-                          icon: const SNotificationsIcon(),
-                          isSDivider: true,
-                          onTap: () {},
-                        ),
                         if (flavor == Flavor.dev)
                           SimpleAccountCategoryButton(
                             title: 'Support',
