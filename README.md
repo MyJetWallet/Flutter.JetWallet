@@ -16,19 +16,22 @@ All logging in the app is handled by [logging](https://pub.dev/packages/logging)
 5. **signalR** (used to log signalR events) - Exception or Info
 6. **firebaseNotifications** (used to log Cloud Messaging functionality) - Exception or Info
 
-For more info check package's documentation or source code of the app (lib/shared/logging)
+For more info check package's documentation or source code of the app (`lib/shared/logging`)
 
 ## Git flow
 
-1. We have 2 branches `master` and `develop`
-2. `master` is considered as stable branch
-3. We are merging `develop` into `master` at the end of each sprint (usually every 2 weeks)
-4. While merging `develop` don't use squash because it will affect the history of development
+1. We have 2 main branches `master` and `develop`
+2. `master` is considered as release branch
+3. We are merging `develop` into `master` at the end of each sprint (every 1-2 weeks)
+4. While merging `develop` don't use squash because it will affect the history of development, use rebase
 5. When you want to work on a new feature follow this rules:
-   * Make checkout to the `feature/my-feature`, `bug/my-bug` or techdebt/my-techdebt
-   * After finishing your development make pull request on the one of your teammates.
-   * Name your pull requests like this (e.g. "SPUI-97 - description of the feature" where SPUI-97 is a Jira id)
-   * After reviewing pull-request and aproving it, reviewer need to squash it to the `develop` branch
+   * Make checkout to the `<branch-type>/<branch-name>` (e.g. `feat/name`)
+   * After finishing your development make pull request and ask for review from one of your teammates
+   * Name your pull requests like this `SPUI-97 > description of the feature` where `SPUI-97` is a Jira id)
+   * After reviewing pull request and aproving it, reviewer needs to squash it to the `develop` branch
+6. Main branch types: `feat`, `fix`, `hotfix`, `debt`
+7. You can name branch with ticket id or just name (e.g. feat/spui-135 or feat/some-feature-name)
+8. Before release we are making a release commit (incrementing version in pubspec.yaml) then we are merging it to `master` and start production build. After that, QA starts regression testing. If they found some bug in the release, then we make a `hotfix` branch, fix the bug, and make a pull request directly to `master`. When pr will be squashed it will be pulled to `develop`
 
 ## Rules
 
@@ -36,7 +39,7 @@ For more info check package's documentation or source code of the app (lib/share
 2. All models must be immutable
 3. When creating a model use `@freezed`
 4. To serialize freezed model use `@json_serializable`
-5. Inject all dependecies to your StateNotifiers
+5. Access other providers using `Reader` in the `StateNotifier`
 6. Follow already defined structure of the project/feature
 7. Every new library should be discussed with the team
 8. Don't use `ref.read()` inside the body of Provider, instead use `ref.watch()`
