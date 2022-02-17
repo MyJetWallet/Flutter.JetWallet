@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../shared/helpers/navigate_to_router.dart';
 import '../../../shared/logging/levels.dart';
@@ -91,6 +92,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
   /// Called after successfull email verification
   void emailVerified() {
     _logger.log(notifier, 'emailVerified');
+    sAnalytics.emailConfirmed();
 
     _processStartupState();
   }

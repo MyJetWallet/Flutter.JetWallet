@@ -26,3 +26,6 @@ late String minimumVersion;
 // Support
 late String faqLink;
 late String crispWebsiteId;
+
+// Analytics
+late String analyticsApiKey;

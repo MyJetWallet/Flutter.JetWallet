@@ -26,15 +26,11 @@ class IndexAllocationBlock extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 56,
-              child: Baseline(
-                baseline: 49,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  'Index allocation',
-                  style: sTextH4Style,
-                ),
+            SBaselineChild(
+              baseline: 56,
+              child: Text(
+                'Index allocation',
+                style: sTextH4Style,
               ),
             ),
             const SpaceH24(),
@@ -50,13 +46,13 @@ class IndexAllocationBlock extends HookWidget {
         ),
       );
     } else {
-      return const SpaceH5();
+      return const SpaceH25();
     }
   }
 
   IndexModel? _indexDetailsFrom(List<IndexModel> indicesDetails) {
     if (indicesDetails.isNotEmpty) {
-      indicesDetails
+      return indicesDetails
           .firstWhere((element) => element.symbol == marketItem.symbol);
     }
     return null;

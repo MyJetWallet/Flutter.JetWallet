@@ -21,7 +21,7 @@ class SetNewPassword extends HookWidget {
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final changePasswordN = useProvider(changePasswordNotipod.notifier);
     final colors = useProvider(sColorPod);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final loading = useValueNotifier(StackLoaderNotifier());
 
     return ProviderListener<ChangePasswordState>(
@@ -30,10 +30,7 @@ class SetNewPassword extends HookWidget {
         state.union.when(
           error: (error) {
             loading.value.finishLoading();
-            sShowErrorNotification(
-              notificationQueueN,
-              '$error',
-            );
+            notificationN.showError('$error', id: 1);
             Navigator.pop(context);
           },
           input: () {},

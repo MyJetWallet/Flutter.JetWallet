@@ -102,16 +102,16 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         e.cause,
+        id: 1,
       );
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
+        id: 2,
       );
     }
   }

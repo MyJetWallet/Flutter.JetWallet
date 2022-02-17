@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/constants.dart';
+import '../../../shared/helpers/analytics.dart';
 import '../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
@@ -90,6 +92,8 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
     final size = MediaQuery.of(context).size;
+
+    analytics(() => sAnalytics.onboardingView());
 
     return OnboardingFullScreenGradient(
       backgroundColor: _backgroundColor(_currentIndex, colors),
