@@ -59,9 +59,9 @@ class UploadKycDocumentsNotifier
       _logger.log(stateFlow, 'uploadDocuments', error);
 
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Something went wrong. Please try again',
+        id: 1,
       );
     }
   }
@@ -113,9 +113,9 @@ class UploadKycDocumentsNotifier
       _logger.log(stateFlow, 'uploadDocuments', error);
 
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Something went wrong. Please try again',
+        id: 1,
       );
     }
   }

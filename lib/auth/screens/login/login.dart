@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../shared/helpers/analytics.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
@@ -26,12 +28,14 @@ class Login extends HookWidget {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final authenticationN = useProvider(authenticationNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
     final _controller = useTextEditingController();
+
+    analytics(() => sAnalytics.loginView());
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -43,9 +47,9 @@ class Login extends HookWidget {
               loader.value.finishLoading();
               emailError.value.enableError();
               passwordError.value.enableError();
-              sShowErrorNotification(
-                notificationQueueN,
+              notificationN.showError(
                 intl.login_credentialsError,
+                id: 1,
               );
             }
           },
@@ -91,9 +95,9 @@ class Login extends HookWidget {
                             credentialsN.updateAndValidateEmail(value);
                           },
                           onErrorIconTap: () {
-                            sShowErrorNotification(
-                              notificationQueueN,
+                            notificationN.showError(
                               intl.login_credentialsError,
+                              id: 2,
                             );
                           },
                           errorNotifier: emailError.value,
@@ -117,9 +121,9 @@ class Login extends HookWidget {
                           },
                           labelText: intl.login_passwordTextFieldLabel,
                           onErrorIconTap: () {
-                            sShowErrorNotification(
-                              notificationQueueN,
+                            notificationN.showError(
                               intl.login_credentialsError,
+                              id: 2,
                             );
                           },
                           errorNotifier: passwordError.value,

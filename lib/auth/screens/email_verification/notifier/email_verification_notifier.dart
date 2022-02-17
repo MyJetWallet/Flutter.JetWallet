@@ -60,8 +60,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
       _updateIsResending(false);
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Failed to resend. Try again!',
       );
     }

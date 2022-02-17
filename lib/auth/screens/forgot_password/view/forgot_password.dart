@@ -6,8 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../shared/helpers/get_args.dart';
 import '../notifier/forgot_password_notipod.dart';
 import '../notifier/forgot_password_state.dart';
-import '../notifier/forgot_password_union.dart';
-import 'confirm_password_reset.dart';
 
 @immutable
 class ForgotPasswordArgs {
@@ -37,7 +35,7 @@ class ForgotPassword extends HookWidget {
     final colors = useProvider(sColorPod);
     final forgot = useProvider(forgotPasswordNotipod(args));
     final forgotN = useProvider(forgotPasswordNotipod(args).notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
@@ -51,10 +49,7 @@ class ForgotPassword extends HookWidget {
           error: (error) {
             disableContinue.value = false;
             loader.value.finishLoading();
-            sShowErrorNotification(
-              notificationQueueN,
-              '$error',
-            );
+            notificationN.showError('$error', id: 1);
           },
           orElse: () {},
         );
@@ -104,9 +99,9 @@ class ForgotPassword extends HookWidget {
                     forgotN.updateAndValidateEmail(value);
                   },
                   onErrorIconTap: () {
-                    sShowErrorNotification(
-                      notificationQueueN,
+                    notificationN.showError(
                       'Perhaps you missed "." or "@" somewhere?',
+                      id: 2,
                     );
                   },
                   errorNotifier: emailError.value,
@@ -124,23 +119,15 @@ class ForgotPassword extends HookWidget {
                   if (forgot.emailValid) {
                     disableContinue.value = true;
                     loader.value.startLoading();
-                    forgotN.sendRecoveryLink().then((value) {
-                      if (forgot.union is Input) {
-                        ConfirmPasswordReset.push(
-                          context: context,
-                          args: ConfirmPasswordResetArgs(
-                            email: forgot.email,
-                          ),
-                        );
-                        disableContinue.value = false;
-                        loader.value.finishLoading();
-                      }
+                    forgotN.sendRecoveryLink().then((_) {
+                      disableContinue.value = false;
+                      loader.value.finishLoading();
                     });
                   } else {
                     emailError.value.enableError();
-                    sShowErrorNotification(
-                      notificationQueueN,
+                    notificationN.showError(
                       'Perhaps you missed "." or "@" somewhere?',
+                      id: 2,
                     );
                   }
                 },
