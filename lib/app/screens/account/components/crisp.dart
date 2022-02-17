@@ -71,14 +71,15 @@ class _CrispState extends State<Crisp> {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final brightness = MediaQuery.of(context).platformBrightness;
-    final isDarkMode = brightness == Brightness.dark;
 
     return Container(
-      color: isDarkMode ? colors.black : colors.white,
+      color: colors.white,
       child: SafeArea(
-        child: CrispView(
-          crispMain: crispMain,
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: CrispView(
+            crispMain: crispMain,
+          ),
         ),
       ),
     );
