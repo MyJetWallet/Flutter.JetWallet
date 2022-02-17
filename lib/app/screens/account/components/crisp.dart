@@ -57,11 +57,11 @@ class _CrispState extends State<Crisp> {
 
     crispMain.setSessionData({
       'app_version': '${packageInfo.version} (${packageInfo.buildNumber})',
-      'os_name': deviceInfo?.osName ?? '',
-      'os_version': deviceInfo?.version ?? '',
-      'os_sdk': deviceInfo?.sdk ?? '',
-      'device_manufacturer': deviceInfo?.manufacturer ?? '',
-      'device_model': deviceInfo?.model ?? '',
+      'os_name': deviceInfo.osName,
+      'os_version': deviceInfo.version,
+      'os_sdk': deviceInfo.sdk,
+      'device_manufacturer': deviceInfo.manufacturer,
+      'device_model': deviceInfo.model,
       'country_of_registration': userInfo.countryOfRegistration,
       'country_of_residence': userInfo.countryOfResidence,
       'country_of_citizenship': userInfo.countryOfCitizenship,

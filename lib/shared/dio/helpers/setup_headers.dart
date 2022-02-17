@@ -19,7 +19,7 @@ void setupHeaders(Dio dio, Reader read, [String? token]) {
   dio.options.headers['content-Type'] = 'application/json';
   dio.options.headers['Authorization'] = 'Bearer $token';
   dio.options.headers['Accept-Language'] = locale;
-  dio.options.headers['From'] = deviceInfo?.deviceUid;
+  dio.options.headers['From'] = deviceInfo.deviceUid;
   dio.options.headers['User-Agent'] =
       '$appVersion;$deviceType;$deviceSize;$devicePixelRatio';
 }

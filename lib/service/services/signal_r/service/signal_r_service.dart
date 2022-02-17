@@ -223,7 +223,7 @@ class SignalRService {
     try {
       await _connection?.invoke(
         initMessage,
-        args: [token, localeName, deviceInfo?.deviceUid, deviceType],
+        args: [token, localeName, deviceInfo.deviceUid, deviceType],
       );
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);

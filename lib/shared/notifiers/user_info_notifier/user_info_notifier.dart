@@ -166,6 +166,13 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       kycPassed: false,
       email: '',
       phone: '',
+      countryOfRegistration: '',
+      countryOfResidence: '',
+      countryOfCitizenship: '',
+      referralLink: '',
+      referralCode: '',
+      firstName: '',
+      lastName: '',
     );
   }
 }

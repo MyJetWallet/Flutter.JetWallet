@@ -14,7 +14,7 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
-import '../../../../shared/helpers/device_info.dart';
+import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
 import '../auth_info_notifier/auth_info_notipod.dart';
@@ -41,6 +41,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final authService = read(authServicePod);
     final storageService = read(localStorageServicePod);
     final rsaService = read(rsaServicePod);
+    final deviceInfoModel = read(deviceInfoPod);
 
     try {
       state = const Loading();
@@ -52,14 +53,12 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       final publicKey = rsaService.publicKey;
 
-      final deviceInfoModel = await deviceInfo();
-
       final loginRequest = LoginRequestModel(
         publicKey: publicKey,
         email: email,
         password: password,
         platform: currentPlatform,
-        deviceUid: deviceInfoModel?.deviceUid,
+        deviceUid: deviceInfoModel.deviceUid,
       );
 
       final registerRequest = RegisterRequestModel(
@@ -68,7 +67,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         password: password,
         platformType: platformType,
         platform: currentPlatform,
-        deviceUid: deviceInfoModel?.deviceUid,
+        deviceUid: deviceInfoModel.deviceUid,
         referralCode: referralCode,
       );
 

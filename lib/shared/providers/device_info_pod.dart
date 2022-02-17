@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../helpers/device_info.dart';
 import '../model/device_info/device_info_model.dart';
 
-final _deviceInfoFpod = FutureProvider<DeviceInfoModel?>(
+final _deviceInfoFpod = FutureProvider<DeviceInfoModel>(
   (ref) {
     return deviceInfo();
   },
@@ -11,15 +11,15 @@ final _deviceInfoFpod = FutureProvider<DeviceInfoModel?>(
 );
 
 /// Initialize at the start of the app
-final deviceInfoPod = Provider<DeviceInfoModel?>(
+final deviceInfoPod = Provider<DeviceInfoModel>(
   (ref) {
-    DeviceInfoModel? uid;
+    DeviceInfoModel? info;
 
     ref.watch(_deviceInfoFpod).whenData((value) {
-      uid = value;
+      info = value;
     });
 
-    return uid;
+    return info ?? const DeviceInfoModel();
   },
   name: 'deviceInfoPod',
 );
