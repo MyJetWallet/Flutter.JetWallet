@@ -133,7 +133,7 @@ class ChartPainter extends BaseChartPainter {
         curX,
         size,
         canvas,
-        i == datas.length - 1,
+        isLast: i == datas.length - 1,
       );
     }
 
