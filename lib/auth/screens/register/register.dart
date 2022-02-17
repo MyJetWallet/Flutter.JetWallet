@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../shared/helpers/analytics.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
@@ -25,6 +27,8 @@ class Register extends HookWidget {
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
+
+    analytics(() => sAnalytics.signUpView());
 
     void _showError() {
       sShowErrorNotification(
