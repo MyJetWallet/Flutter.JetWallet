@@ -1,5 +1,4 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/market_info/model/market_info_request_model.dart';
 import '../../../../../service/services/market_info/model/market_info_response_model.dart';
@@ -18,11 +17,6 @@ final marketInfoFpod = FutureProvider.family
       ),
     );
   } catch (_) {
-    sShowErrorNotification(
-      ref.read(sNotificationQueueNotipod.notifier),
-      'Something went wrong',
-    );
+    return Future.value(null);
   }
-
-  return Future.value(null);
 });

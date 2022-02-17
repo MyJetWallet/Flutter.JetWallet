@@ -39,9 +39,9 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
 
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+      read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
+        id: 1,
       );
 
       state = state.copyWith(union: const Error());
@@ -64,14 +64,10 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     } catch (e) {
       _logger.log(stateFlow, 'operationHistory', e);
 
-      final notificationQueue = read(sNotificationQueueNotipod.notifier);
-
-      if (!notificationQueue.showingNotifications) {
-        sShowErrorNotification(
-          notificationQueue,
-          'Something went wrong',
-        );
-      }
+      read(sNotificationNotipod.notifier).showError(
+        'Something went wrong',
+        id: 2,
+      );
 
       state = state.copyWith(union: const Error());
     }

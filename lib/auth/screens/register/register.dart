@@ -25,15 +25,15 @@ class Register extends HookWidget {
     final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
 
     analytics(() => sAnalytics.signUpView());
 
     void _showError() {
-      sShowErrorNotification(
-        notificationQueueN,
+      notificationN.showError(
         'Perhaps you missed "." or "@" somewhere?',
+        id: 1,
       );
     }
 

@@ -73,9 +73,10 @@ class SendByPhoneConfirmNotifier
     } catch (error) {
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);
-      sShowErrorNotification(
-        read(sNotificationQueueNotipod.notifier),
+
+      read(sNotificationNotipod.notifier).showError(
         'Failed to resend. Try again!',
+        id: 1,
       );
     }
   }

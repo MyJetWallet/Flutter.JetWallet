@@ -40,7 +40,7 @@ class ResetPassword extends HookWidget {
     final colors = useProvider(sColorPod);
     final reset = useProvider(resetPasswordNotipod);
     final resetN = useProvider(resetPasswordNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
 
@@ -53,10 +53,7 @@ class ResetPassword extends HookWidget {
           error: (error) {
             disableContinue.value = false;
             loader.value.finishLoading();
-            sShowErrorNotification(
-              notificationQueueN,
-              '$error',
-            );
+            notificationN.showError('$error', id: 1);
           },
           orElse: () {},
         );
