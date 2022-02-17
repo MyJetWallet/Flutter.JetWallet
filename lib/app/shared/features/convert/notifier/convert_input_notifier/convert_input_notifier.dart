@@ -90,6 +90,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     if (state.fromAssetEnabled) {
       _resetAssetsAmount();
     }
+    _validateInput();
   }
 
   void updateToAsset(CurrencyModel value) {
@@ -101,6 +102,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     if (state.toAssetEnabled) {
       _resetAssetsAmount();
     }
+    _validateInput();
   }
 
   void updateFromAssetAmount(String amount) {
