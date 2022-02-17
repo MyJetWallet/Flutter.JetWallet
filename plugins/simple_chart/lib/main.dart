@@ -1,53 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import './simple_chart.dart';
+import 'components/loading_chart_view.dart';
+import 'components/resolution_button.dart';
 
 bool showAnimation = false;
-
-// void main() => runApp(MyApp());
-//
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.grey,
-//       ),
-//       home: FutureBuilder(
-//         future: _mockCandles(context),
-//         builder:
-//             (BuildContext context, AsyncSnapshot<List<CandleModel>> snapshot)
-//             {
-//           if (snapshot.hasData) {
-//             return Chart(
-//               onResolutionChanged: (resolution) {},
-//               onChartTypeChanged: (chartType) {},
-//               onCandleSelected: (candleEntity) {},
-//               candles: snapshot.data!,
-//               candleResolution: Period.day,
-//               chartHeight: 0,
-//               chartWidgetHeight: 0,
-//               isAssetChart: true,
-//               animationController: AnimationController(),
-//             );
-//           } else {
-//             return Container();
-//           }
-//         },
-//       ),
-//     );
-//   }
-//
-//   Future<List<CandleModel>> _mockCandles(BuildContext context) async {
-//     final data = await DefaultAssetBundle.of(context)
-//         .loadString('assets/candles_mock.json');
-//     final newCandles = (json.decode(data) as List)
-//         .map((e) => CandleModel.fromJson(e as Map<String, dynamic>))
-//         .toList();
-//     return newCandles;
-//   }
-// }
 
 class Chart extends StatefulWidget {
   const Chart({
@@ -55,6 +13,7 @@ class Chart extends StatefulWidget {
     required this.onResolutionChanged,
     required this.onChartTypeChanged,
     required this.onCandleSelected,
+    required this.formatPrice,
     required this.candles,
     required this.candleResolution,
     required this.chartHeight,
@@ -69,6 +28,12 @@ class Chart extends StatefulWidget {
   final void Function(String) onResolutionChanged;
   final void Function(ChartType) onChartTypeChanged;
   final void Function(ChartInfoModel?) onCandleSelected;
+  final String Function({
+    String? prefix,
+    required Decimal decimal,
+    required int accuracy,
+    required String symbol,
+  }) formatPrice;
   final List<CandleModel>? candles;
   final ChartType chartType;
   final String candleResolution;
@@ -147,7 +112,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
     if (widget.candles == null || widget.candles!.isEmpty) {
       return LoadingChartView(
         height: widget.chartWidgetHeight,
-        showLoader: widget.candles != null,
+        showLoader: widget.candles == null,
         resolution: widget.candleResolution,
         loader: widget.loader,
         onResolutionChanged: widget.onResolutionChanged,
@@ -185,6 +150,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                           });
                         });
                       },
+                      formatPrice: widget.formatPrice,
                       selectedCandlePadding: widget.selectedCandlePadding,
                       isAssetChart: widget.isAssetChart,
                     ),
@@ -207,7 +173,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _resolutionButton(
+                    ResolutionButton(
                       text: Period.day,
                       showUnderline: widget.candleResolution == Period.day,
                       onTap: widget.candleResolution == Period.day
@@ -217,7 +183,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                             },
                     ),
                     if (showWeek)
-                      _resolutionButton(
+                      ResolutionButton(
                         text: Period.week,
                         showUnderline: widget.candleResolution == Period.week,
                         onTap: widget.candleResolution == Period.week
@@ -227,7 +193,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                               },
                       ),
                     if (showMonth)
-                      _resolutionButton(
+                      ResolutionButton(
                         text: Period.month,
                         showUnderline: widget.candleResolution == Period.month,
                         onTap: widget.candleResolution == Period.month
@@ -237,7 +203,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                               },
                       ),
                     if (showYear)
-                      _resolutionButton(
+                      ResolutionButton(
                         text: Period.year,
                         showUnderline: widget.candleResolution == Period.year,
                         onTap: widget.candleResolution == Period.year
@@ -246,7 +212,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                                 widget.onResolutionChanged(Period.year);
                               },
                       ),
-                    _resolutionButton(
+                    ResolutionButton(
                       text: Period.all,
                       showUnderline: widget.candleResolution == Period.all,
                       onTap: widget.candleResolution == Period.all
@@ -264,167 +230,4 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
       );
     }
   }
-}
-
-class LoadingChartView extends StatelessWidget {
-  const LoadingChartView({
-    Key? key,
-    this.showWeek = true,
-    this.showMonth = true,
-    this.showYear = true,
-    required this.height,
-    required this.showLoader,
-    required this.resolution,
-    required this.loader,
-    required this.onResolutionChanged,
-    required this.isBalanceChart,
-  }) : super(key: key);
-
-  final double height;
-  final bool showLoader;
-  final Widget loader;
-  final String resolution;
-  final void Function(String) onResolutionChanged;
-  final bool showWeek;
-  final bool showMonth;
-  final bool showYear;
-  final bool isBalanceChart;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: double.infinity,
-      color: const Color(0xFFF1F4F8),
-      child: Stack(
-        children: [
-          if (showLoader)
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 80,
-              child: loader,
-            ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: isBalanceChart ? 40 : 0,
-            child: SizedBox(
-              height: 36,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _resolutionButton(
-                    text: Period.day,
-                    showUnderline: resolution == Period.day,
-                    onTap: resolution == Period.day
-                        ? null
-                        : () {
-                            onResolutionChanged(Period.day);
-                          },
-                  ),
-                  if (showWeek)
-                    _resolutionButton(
-                      text: Period.week,
-                      showUnderline: resolution == Period.week,
-                      onTap: resolution == Period.week
-                          ? null
-                          : () {
-                              onResolutionChanged(Period.week);
-                            },
-                    ),
-                  if (showMonth)
-                    _resolutionButton(
-                      text: Period.month,
-                      showUnderline: resolution == Period.month,
-                      onTap: resolution == Period.month
-                          ? null
-                          : () {
-                              onResolutionChanged(Period.month);
-                            },
-                    ),
-                  if (showYear)
-                    _resolutionButton(
-                      text: Period.year,
-                      showUnderline: resolution == Period.year,
-                      onTap: resolution == Period.year
-                          ? null
-                          : () {
-                              onResolutionChanged(Period.year);
-                            },
-                    ),
-                  _resolutionButton(
-                    text: Period.all,
-                    showUnderline: resolution == Period.all,
-                    onTap: resolution == Period.all
-                        ? null
-                        : () {
-                            onResolutionChanged(Period.all);
-                          },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _resolutionButton({
-  void Function()? onTap,
-  required String text,
-  required bool showUnderline,
-}) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const SizedBox(
-        height: 12.5,
-      ),
-      Container(
-        width: 36,
-        margin: const EdgeInsets.symmetric(
-          horizontal: 5,
-        ),
-        child: InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            if (onTap != null) {
-              onTap();
-            }
-          },
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
-      const SizedBox(
-        height: 1.5,
-      ),
-      if (showUnderline)
-        Container(
-          width: 36,
-          height: 3,
-          margin: const EdgeInsets.only(
-            top: 5,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(2),
-            color: Colors.black,
-          ),
-        )
-      else
-        const SizedBox(
-          height: 8,
-        )
-    ],
-  );
 }

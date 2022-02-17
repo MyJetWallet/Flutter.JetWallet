@@ -2,10 +2,12 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/components/loaders/loader.dart';
+import '../../../../../shared/helpers/analytics.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../chart/notifier/chart_notipod.dart';
@@ -62,6 +64,8 @@ class MarketDetails extends HookWidget {
       chartNotipod(marketItem.associateAsset),
     );
     useProvider(watchlistIdsNotipod);
+
+    analytics(() => sAnalytics.assetView(marketItem.name));
 
     return SPageFrame(
       header: Material(

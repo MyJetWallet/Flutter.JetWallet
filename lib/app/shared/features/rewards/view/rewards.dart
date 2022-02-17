@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/deep_link_service_pod.dart';
+import '../../../../../shared/services/deep_link_service.dart';
 import '../../../helpers/random_banner_color.dart';
 import '../../market_details/helper/format_news_date.dart';
 import '../helper/create_reward_detail.dart';
@@ -56,6 +57,7 @@ class Rewards extends HookWidget {
                 onTap: () {
                   deepLinkService.handle(
                     Uri.parse(item.campaign!.deepLink),
+                    SourceScreen.bannerOnRewards,
                   );
                 },
               ),
