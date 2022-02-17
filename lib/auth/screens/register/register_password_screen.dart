@@ -24,7 +24,7 @@ class RegisterPasswordScreen extends HookWidget {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final authenticationN = useProvider(authenticationNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
 
@@ -36,9 +36,9 @@ class RegisterPasswordScreen extends HookWidget {
             if (error != null) {
               disableContinue.value = false;
               loader.value.finishLoading();
-              sShowErrorNotification(
-                notificationQueueN,
+              notificationN.showError(
                 '$error',
+                id: 1,
               );
             }
           },
@@ -59,49 +59,46 @@ class RegisterPasswordScreen extends HookWidget {
               title: 'Create a password',
             ),
           ),
-          child: AutofillGroup(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  color: colors.white,
-                  child: SPaddingH24(
-                    child: SStandardFieldObscure(
-                      autofillHints: const [AutofillHints.password],
-                      onChanged: (value) {
-                        credentialsN.updateAndValidatePassword(value);
-                      },
-                      labelText: 'Password',
-                      autofocus: true,
-                    ),
-                  ),
-                ),
-                SPaddingH24(
-                  child: PasswordValidation(
-                    password: credentials.password,
-                  ),
-                ),
-                const Spacer(),
-                SPaddingH24(
-                  child: SPrimaryButton2(
-                    active: credentials.readyToRegister &&
-                        !disableContinue.value &&
-                        !loader.value.value,
-                    name: 'Continue',
-                    onTap: () {
-                      disableContinue.value = true;
-                      loader.value.startLoading();
-                      authenticationN.authenticate(
-                        email: credentials.email,
-                        password: credentials.password,
-                        operation: AuthOperation.register,
-                      );
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: colors.white,
+                child: SPaddingH24(
+                  child: SStandardFieldObscure(
+                    onChanged: (value) {
+                      credentialsN.updateAndValidatePassword(value);
                     },
+                    labelText: 'Password',
+                    autofocus: true,
                   ),
                 ),
-                const SpaceH24(),
-              ],
-            ),
+              ),
+              SPaddingH24(
+                child: PasswordValidation(
+                  password: credentials.password,
+                ),
+              ),
+              const Spacer(),
+              SPaddingH24(
+                child: SPrimaryButton2(
+                  active: credentials.readyToRegister &&
+                      !disableContinue.value &&
+                      !loader.value.value,
+                  name: 'Continue',
+                  onTap: () {
+                    disableContinue.value = true;
+                    loader.value.startLoading();
+                    authenticationN.authenticate(
+                      email: credentials.email,
+                      password: credentials.password,
+                      operation: AuthOperation.register,
+                    );
+                  },
+                ),
+              ),
+              const SpaceH24(),
+            ],
           ),
         ),
       ),

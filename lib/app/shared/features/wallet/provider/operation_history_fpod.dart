@@ -15,10 +15,10 @@ final operationHistoryInitFpod =
 
       await transactionHistoryN.initOperationHistory();
     } catch (_) {
-      sShowErrorNotification(
-        ref.read(sNotificationQueueNotipod.notifier),
-        'Something went wrong',
-      );
+      ref.read(sNotificationNotipod.notifier).showError(
+            'Something went wrong',
+            id: 2,
+          );
     }
   },
 );

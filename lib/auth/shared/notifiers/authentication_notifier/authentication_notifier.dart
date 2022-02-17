@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../../../service/services/authentication/model/authenticate/login_request_model.dart';
 import '../../../../../service/services/authentication/model/authenticate/register_request_model.dart';
@@ -73,9 +76,11 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       if (operation == AuthOperation.login) {
         authModel = await authService.login(loginRequest);
+        unawaited(sAnalytics.loginSuccess(email));
       } else {
         authModel = await authService.register(registerRequest);
         authInfoN.updateResendButton();
+        unawaited(sAnalytics.signUpSuccess(email));
       }
 
       await storageService.setString(refreshTokenKey, authModel.refreshToken);
@@ -92,6 +97,11 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       read(startupNotipod.notifier).successfullAuthentication();
     } catch (e, st) {
       _logger.log(stateFlow, 'authenticate', e);
+      if (operation == AuthOperation.login) {
+        sAnalytics.loginFailure(email, e.toString());
+      } else {
+        sAnalytics.signUpFailure(email, e.toString());
+      }
 
       if (e is DioError && e.error == 'Http status error [401]') {
         state = Input('Invalid login or password', st);

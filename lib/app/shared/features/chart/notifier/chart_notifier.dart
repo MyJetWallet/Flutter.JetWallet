@@ -23,11 +23,11 @@ class ChartNotifier extends StateNotifier<ChartState> {
   }) : super(
           const ChartState(
             candles: {
-              Period.day: [],
-              Period.week: [],
-              Period.month: [],
-              Period.year: [],
-              Period.all: [],
+              Period.day: null,
+              Period.week: null,
+              Period.month: null,
+              Period.year: null,
+              Period.all: null,
             },
             type: ChartType.line,
             resolution: Period.day,
@@ -109,6 +109,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
     final currentCandles = Map.of(state.candles);
     currentCandles[resolution] = candles;
 
+    showAnimation = true;
     state = state.copyWith(
       candles: currentCandles,
       union: const Candles(),

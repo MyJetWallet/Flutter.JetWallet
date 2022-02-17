@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
+import '../model/analytics_model.dart';
 import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
 import '../model/versioning_model.dart';
@@ -24,6 +25,7 @@ class RemoteConfigService {
     overrideAppConfigValues();
     overrideApisFrom(_defaultFlavorIndex);
     overrideVersioningValues();
+    overrideAnalyticsValues();
   }
 
   ConnectionFlavorsModel get connectionFlavors {
@@ -48,6 +50,14 @@ class RemoteConfigService {
     final json = jsonDecode(values) as Map<String, dynamic>;
 
     return VersioningModel.fromJson(json);
+  }
+
+  AnalyticsModel get analytics {
+    final values = _config.getString('Analytics');
+
+    final json = jsonDecode(values) as Map<String, dynamic>;
+
+    return AnalyticsModel.fromJson(json);
   }
 
   /// Each index respresents different flavor (backend environment)
@@ -79,5 +89,9 @@ class RemoteConfigService {
   void overrideVersioningValues() {
     recommendedVersion = versioning.recommendedVersion;
     minimumVersion = versioning.minimumVersion;
+  }
+
+  void overrideAnalyticsValues() {
+    analyticsApiKey = analytics.apiKey;
   }
 }

@@ -223,10 +223,10 @@ export 'src/kyc/simple_documents_recommendations.dart';
 export 'src/news/simple_news_category.dart';
 
 /// Notifications
-export 'src/notifications/model/simple_notification.dart';
-export 'src/notifications/notifier/simple_notification_queue_notifier.dart';
-export 'src/notifications/notifier/simple_notification_queue_notipod.dart';
-export 'src/notifications/view/show_simple_notification.dart';
+export 'src/notifications/model/notification_model.dart';
+export 'src/notifications/notifier/simple_notification_notifier.dart';
+export 'src/notifications/notifier/simple_notification_notipod.dart';
+export 'src/notifications/view/show_notification.dart';
 export 'src/notifications/view/simple_notification_box.dart';
 export 'src/referral_invite/simple_referral_invite_body.dart';
 export 'src/referral_invite/simple_referral_invite_bottom_pinned.dart';
@@ -257,7 +257,6 @@ export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_profile_details_button.dart';
 export 'src/shared/components/simple_requirement.dart';
 export 'src/shared/components/simple_show_alert_popup.dart';
-export 'src/shared/components/simple_show_errror_notification.dart';
 export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
