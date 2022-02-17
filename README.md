@@ -23,15 +23,15 @@ For more info check package's documentation or source code of the app (`lib/shar
 1. We have 2 main branches `master` and `develop`
 2. `master` is considered as release branch
 3. We are merging `develop` into `master` at the end of each sprint (every 1-2 weeks)
-4. While merging `develop` don't use squash because it will affect the history of development, use rebase
+4. While merging `develop` into `master` don't use squash because it will affect the history of development, use merge
 5. When you want to work on a new feature follow this rules:
    * Make checkout to the `<branch-type>/<branch-name>` (e.g. `feat/name`)
-   * After finishing your development make pull request and ask for review from one of your teammates
-   * Name your pull requests like this `SPUI-97 > description of the feature` where `SPUI-97` is a Jira id)
+   * After you finish development, make a pull request and ask for review from one of your teammates
+   * Name your pull requests like this `SPUI-97 > description of the feature` where `SPUI-97` is a Jira id
    * After reviewing pull request and aproving it, reviewer needs to squash it to the `develop` branch
 6. Main branch types: `feat`, `fix`, `hotfix`, `debt`
 7. You can name branch with ticket id or just name (e.g. feat/spui-135 or feat/some-feature-name)
-8. Before release we are making a release commit (incrementing version in pubspec.yaml) then we are merging it to `master` and start production build. After that, QA starts regression testing. If they found some bug in the release, then we make a `hotfix` branch, fix the bug, and make a pull request directly to `master`. When pr will be squashed it will be pulled to `develop`
+8. Before release we make a release commit by incrementing version in pubspec.yaml in `develop`, then we merge `develop` to `master` and start production build. After that, QA starts regression testing. If they found bugs in the release, then we make a `hotfix` branch, fix the bug, and make a pull request directly to `master`. When all hotfixes are merged to `master`, `develop` must pull changes
 
 ## Rules
 
