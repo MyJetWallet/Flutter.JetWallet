@@ -60,10 +60,6 @@ class SetPhoneNumber extends HookWidget {
     useListenable(state.dialCodeController);
     useListenable(state.phoneNumberController);
 
-    state.phoneNumberController.selection = TextSelection.fromPosition(
-      TextPosition(offset: state.phoneNumberController.text.length),
-    );
-
     return SPageFrame(
       loading: state.loader,
       color: colors.grey5,

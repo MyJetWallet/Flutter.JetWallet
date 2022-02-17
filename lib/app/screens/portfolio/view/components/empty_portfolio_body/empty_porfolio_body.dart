@@ -43,9 +43,9 @@ class EmptyPortfolioBody extends HookWidget {
                 ),
                 Column(
                   children: [
-                    const SpaceH36(),
+                    const Spacer(),
                     const EmptyPortfolioBodyImage(),
-                    const SpaceH56(),
+                    const Spacer(),
                     const EmptyPortfolioBodyTitle(),
                     const SpaceH17(),
                     Text(
@@ -57,7 +57,7 @@ class EmptyPortfolioBody extends HookWidget {
                         color: colors.grey1,
                       ),
                     ),
-                    const SpaceH50(),
+                    const SpaceH40(),
                     SPrimaryButton1(
                       active: true,
                       name: 'Start earning',

@@ -44,64 +44,61 @@ class Register extends HookWidget {
           title: 'Enter your Email',
         ),
       ),
-      child: AutofillGroup(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              color: colors.white,
-              child: SPaddingH24(
-                child: SStandardField(
-                  labelText: 'Email Address',
-                  autofocus: true,
-                  autofillHints: const [AutofillHints.email],
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) {
-                    credentialsN.updateAndValidateEmail(value);
-                  },
-                  onErrorIconTap: () => _showError(),
-                  errorNotifier: emailError.value,
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            color: colors.white,
+            child: SPaddingH24(
+              child: SStandardField(
+                labelText: 'Email Address',
+                autofocus: true,
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) {
+                  credentialsN.updateAndValidateEmail(value);
+                },
+                onErrorIconTap: () => _showError(),
+                errorNotifier: emailError.value,
               ),
             ),
-            const Spacer(),
-            Container(
-              color: colors.grey5,
-              child: SPaddingH24(
-                child: SPolicyCheckbox(
-                  firstText: 'I hereby confirm that I’m over 18 years old, '
-                      'agree and consent to the ',
-                  userAgreementText: 'Terms & conditions',
-                  betweenText: ' and the ',
-                  privacyPolicyText: 'Privacy Policy',
-                  isChecked: credentials.policyChecked,
-                  onCheckboxTap: () => credentialsN.checkPolicy(),
-                  onUserAgreementTap: () {
-                    launchURL(context, userAgreementLink);
-                  },
-                  onPrivacyPolicyTap: () {
-                    launchURL(context, privacyPolicyLink);
-                  },
-                ),
-              ),
-            ),
-            SPaddingH24(
-              child: SPrimaryButton2(
-                active: credentials.emailIsNotEmptyAndPolicyChecked,
-                name: 'Continue',
-                onTap: () {
-                  if (credentials.emailValid) {
-                    RegisterPasswordScreen.push(context);
-                  } else {
-                    emailError.value.enableError();
-                    _showError();
-                  }
+          ),
+          const Spacer(),
+          Container(
+            color: colors.grey5,
+            child: SPaddingH24(
+              child: SPolicyCheckbox(
+                firstText: 'I hereby confirm that I’m over 18 years old, '
+                    'agree and consent to the ',
+                userAgreementText: 'Terms & conditions',
+                betweenText: ' and the ',
+                privacyPolicyText: 'Privacy Policy',
+                isChecked: credentials.policyChecked,
+                onCheckboxTap: () => credentialsN.checkPolicy(),
+                onUserAgreementTap: () {
+                  launchURL(context, userAgreementLink);
+                },
+                onPrivacyPolicyTap: () {
+                  launchURL(context, privacyPolicyLink);
                 },
               ),
             ),
-            const SpaceH24(),
-          ],
-        ),
+          ),
+          SPaddingH24(
+            child: SPrimaryButton2(
+              active: credentials.emailIsNotEmptyAndPolicyChecked,
+              name: 'Continue',
+              onTap: () {
+                if (credentials.emailValid) {
+                  RegisterPasswordScreen.push(context);
+                } else {
+                  emailError.value.enableError();
+                  _showError();
+                }
+              },
+            ),
+          ),
+          const SpaceH24(),
+        ],
       ),
     );
   }

@@ -4,5 +4,11 @@ import '../../../../service/shared/constants.dart';
 String formatDayPercentageChange(double change) {
   final formattedChange = change.toStringAsFixed(signsAfterComma);
 
-  return change > 0 ? '+$formattedChange%' : '$formattedChange%';
+  if (change == 0) {
+    return '0%';
+  } else if (change > 0) {
+    return '+$formattedChange%';
+  } else {
+    return '$formattedChange%';
+  }
 }
