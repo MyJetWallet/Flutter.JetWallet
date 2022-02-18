@@ -11,7 +11,7 @@ import '../../../../model/market_item_model.dart';
 import '../../fade_on_scroll.dart';
 import '../../market_banners/market_banners.dart';
 import '../helper/reset_market_scroll_position.dart';
-
+import 'market_header_stats.dart';
 
 class MarketNestedScrollView extends StatefulHookWidget {
   const MarketNestedScrollView({
@@ -71,14 +71,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
               fadeInWidget: const SDivider(
                 width: double.infinity,
               ),
-              fadeOutWidget: const SPaddingH24(
-                child: SMarketHeader(
-                  title: 'Market',
-                  percent: 1.73,
-                  isPositive: true,
-                  subtitle: 'Market is up',
-                ),
-              ),
+              fadeOutWidget: const MarketHeaderStats(),
               permanentWidget: const SMarketHeaderClosed(
                 title: 'Market',
               ),
@@ -91,8 +84,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            if (widget.showBanners)
-            const MarketBanners(),
+            if (widget.showBanners) const MarketBanners(),
             for (final item in widget.items) ...[
               SMarketItem(
                 icon: SNetworkSvg24(
