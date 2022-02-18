@@ -3,43 +3,70 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/features/market_details/view/market_details.dart';
-import '../../../../../shared/helpers/formatting/base/market_format.dart';
-import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
-import '../../../provider/market_gainers_pod.dart';
-import '../fade_on_scroll.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/features/market_details/view/market_details.dart';
+import '../../../../../../shared/helpers/formatting/base/market_format.dart';
+import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../model/market_item_model.dart';
+import '../../fade_on_scroll.dart';
+import '../../market_banners/market_banners.dart';
+import '../helper/reset_market_scroll_position.dart';
 
-class GainersTabBarView extends StatefulHookWidget {
-  const GainersTabBarView({Key? key}) : super(key: key);
+
+class MarketNestedScrollView extends StatefulHookWidget {
+  const MarketNestedScrollView({
+    Key? key,
+    this.showBanners = false,
+    required this.items,
+  }) : super(key: key);
+
+  final List<MarketItemModel> items;
+  final bool showBanners;
 
   @override
-  State<GainersTabBarView> createState() =>
-      _GainersTabBarState();
+  State<MarketNestedScrollView> createState() => _MarketNestedScrollViewState();
 }
 
-class _GainersTabBarState extends State<GainersTabBarView> {
-  final ScrollController _scrollController = ScrollController();
+class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
+  final ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(() {
+      resetMarketScrollPosition(
+        context,
+        widget.items.length,
+        controller,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(() {});
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final gainers = useProvider(marketGainersPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
 
     return NestedScrollView(
-      controller: _scrollController,
+      controller: controller,
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: colors.white,
             pinned: true,
             elevation: 0,
             expandedHeight: 160,
             collapsedHeight: 120,
             primary: false,
             flexibleSpace: FadeOnScroll(
-              scrollController: _scrollController,
+              scrollController: controller,
               fullOpacityOffset: 50,
               fadeInWidget: const SDivider(
                 width: double.infinity,
@@ -64,7 +91,9 @@ class _GainersTabBarState extends State<GainersTabBarView> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            for (final item in gainers) ...[
+            if (widget.showBanners)
+            const MarketBanners(),
+            for (final item in widget.items) ...[
               SMarketItem(
                 icon: SNetworkSvg24(
                   url: item.iconUrl,
@@ -77,7 +106,7 @@ class _GainersTabBarState extends State<GainersTabBarView> {
                   accuracy: baseCurrency.accuracy,
                 ),
                 ticker: item.symbol,
-                last: item == gainers.last,
+                last: item == widget.items.last,
                 percent: item.dayPercentChange,
                 onTap: () {
                   navigatorPush(
