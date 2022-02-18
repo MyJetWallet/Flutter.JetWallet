@@ -46,17 +46,17 @@ class TransactionListItem extends HookWidget {
               children: [
                 _icon(transactionListItem.operationType),
                 const SpaceW10(),
-                Container(
-                  constraints: const BoxConstraints(
-                    maxWidth: 200,
-                    minWidth: 50,
-                  ),
+                Expanded(
                   child: TransactionListItemHeaderText(
                     text: operationName(transactionListItem.operationType),
                   ),
                 ),
                 const SpaceW16(),
-                Expanded(
+                Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: 220,
+                    minWidth: 100,
+                  ),
                   child: TransactionListItemHeaderText(
                     text: volumeFormat(
                       prefix: currency.prefixSymbol,
