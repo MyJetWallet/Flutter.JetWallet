@@ -1,6 +1,6 @@
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-import '../model/phone_number_model.dart';
+import '../model/phone_number/phone_number_model.dart';
 
 Future<PhoneNumberModel> decomposePhoneNumber(String number) async {
   final info = await PhoneNumber.getRegionInfoFromPhoneNumber(number);

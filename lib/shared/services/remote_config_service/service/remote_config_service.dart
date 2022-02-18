@@ -5,6 +5,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import '../model/analytics_model.dart';
 import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
+import '../model/support_model.dart';
 import '../model/versioning_model.dart';
 import '../remote_config_values.dart';
 
@@ -25,6 +26,7 @@ class RemoteConfigService {
     overrideAppConfigValues();
     overrideApisFrom(_defaultFlavorIndex);
     overrideVersioningValues();
+    overrideSupportValues();
     overrideAnalyticsValues();
   }
 
@@ -50,6 +52,14 @@ class RemoteConfigService {
     final json = jsonDecode(values) as Map<String, dynamic>;
 
     return VersioningModel.fromJson(json);
+  }
+
+  SupportModel get support {
+    final values = _config.getString('Support');
+
+    final json = jsonDecode(values) as Map<String, dynamic>;
+
+    return SupportModel.fromJson(json);
   }
 
   AnalyticsModel get analytics {
@@ -89,6 +99,11 @@ class RemoteConfigService {
   void overrideVersioningValues() {
     recommendedVersion = versioning.recommendedVersion;
     minimumVersion = versioning.minimumVersion;
+  }
+
+  void overrideSupportValues() {
+    faqLink = support.faqLink;
+    crispWebsiteId = support.crispWebsiteId;
   }
 
   void overrideAnalyticsValues() {

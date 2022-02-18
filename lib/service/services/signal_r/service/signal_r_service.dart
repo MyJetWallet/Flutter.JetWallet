@@ -8,7 +8,7 @@ import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.d
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
-import '../../../../shared/providers/device_uid_pod.dart';
+import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
@@ -223,7 +223,7 @@ class SignalRService {
 
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
-    final deviceUid = read(deviceUidPod);
+    final deviceInfo = read(deviceInfoPod);
 
     try {
       await _connection?.start();
@@ -235,7 +235,7 @@ class SignalRService {
     try {
       await _connection?.invoke(
         initMessage,
-        args: [token, localeName, deviceUid, deviceType],
+        args: [token, localeName, deviceInfo.deviceUid, deviceType],
       );
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);
