@@ -5,8 +5,8 @@ import 'package:simple_kit/example/example_screen.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 // Todo: Remove this screen before release
-class Support extends HookWidget {
-  const Support({Key? key}) : super(key: key);
+class DebugInfo extends HookWidget {
+  const DebugInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
