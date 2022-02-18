@@ -118,12 +118,6 @@ class Account extends HookWidget {
                           ),
                         ),
                         SimpleAccountCategoryButton(
-                          title: 'Notifications',
-                          icon: const SNotificationsIcon(),
-                          isSDivider: true,
-                          onTap: () {},
-                        ),
-                        SimpleAccountCategoryButton(
                           title: 'Support',
                           icon: const SSupportIcon(),
                           isSDivider: true,
