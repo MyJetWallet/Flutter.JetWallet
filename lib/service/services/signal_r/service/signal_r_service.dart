@@ -21,6 +21,7 @@ import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
+import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
@@ -60,6 +61,7 @@ class SignalRService {
   final _indicesController = StreamController<IndicesModel>();
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
   final _priceAccuraciesController = StreamController<PriceAccuracies>();
+  final _marketInfoController = StreamController<TotalMarketInfoModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -78,6 +80,16 @@ class SignalRService {
       try {
         final countries = KycCountriesResponseModel.fromJson(_json(data));
         _kycCountriesController.add(countries);
+      } catch (e) {
+        _logger.log(contract, kycCountriesMessage, e);
+      }
+    });
+
+    _connection?.on(marketInfoMessage, (data) {
+      try {
+        final model = MarketInfoModel.fromJson(_json(data));
+        final info = model.totalMarketInfo;
+        _marketInfoController.add(info);
       } catch (e) {
         _logger.log(contract, kycCountriesMessage, e);
       }
@@ -263,6 +275,9 @@ class SignalRService {
 
   Stream<PriceAccuracies> priceAccuracies() =>
       _priceAccuraciesController.stream;
+
+  Stream<TotalMarketInfoModel> marketInfo() =>
+      _marketInfoController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

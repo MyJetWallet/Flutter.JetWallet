@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import 'market_header_stats.dart';
 
 class EmptyWatchlist extends HookWidget {
   const EmptyWatchlist({Key? key}) : super(key: key);
@@ -19,14 +20,7 @@ class EmptyWatchlist extends HookWidget {
       children: [
         Container(
           color: Colors.white,
-          child: const SPaddingH24(
-            child: SMarketHeader(
-              title: 'Market',
-              percent: 1.73,
-              isPositive: true,
-              subtitle: 'Market is up',
-            ),
-          ),
+          child: const MarketHeaderStats(),
         ),
         Expanded(
           child: Container(
