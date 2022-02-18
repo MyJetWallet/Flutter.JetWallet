@@ -12,13 +12,15 @@ class SMarketHeader extends StatelessWidget {
     required this.subtitle,
     required this.percent,
     required this.isPositive,
+    required this.showInfo,
   }) : super(key: key);
 
   final void Function()? onSearchButtonTap;
   final String title;
   final String subtitle;
-  final double percent;
+  final String percent;
   final bool isPositive;
+  final bool showInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -36,40 +38,42 @@ class SMarketHeader extends StatelessWidget {
             title: title,
             onSearchButtonTap: onSearchButtonTap,
           ),
-          Row(
-            textBaseline: TextBaseline.alphabetic,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            children: [
-              Baseline(
-                baseline: 31.4,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  subtitle,
-                  style: sSubtitle2Style.copyWith(
-                    color: SColorsLight().grey1,
+          if (showInfo)
+            Row(
+              textBaseline: TextBaseline.alphabetic,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              children: [
+                Baseline(
+                  baseline: 31.4,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    subtitle,
+                    style: sSubtitle2Style.copyWith(
+                      color: SColorsLight().grey1,
+                    ),
                   ),
                 ),
-              ),
-              Baseline(
-                baseline: 31.4,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  ' ${isPositive ? '+' : '-'} $percent%',
-                  style: sSubtitle2Style.copyWith(
-                    color:
-                        isPositive ? SColorsLight().green : SColorsLight().red,
+                Baseline(
+                  baseline: 31.4,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    ' ${isPositive ? '+' : ''} $percent%',
+                    style: sSubtitle2Style.copyWith(
+                      color: isPositive
+                          ? SColorsLight().green
+                          : SColorsLight().red,
+                    ),
                   ),
                 ),
-              ),
-              Baseline(
-                baseline: 37.4,
-                baselineType: TextBaseline.alphabetic,
-                child: isPositive
-                    ? const SBigArrowPositiveIcon()
-                    : const SBigArrowNegativeIcon(),
-              ),
-            ],
-          ),
+                Baseline(
+                  baseline: 37.4,
+                  baselineType: TextBaseline.alphabetic,
+                  child: isPositive
+                      ? const SBigArrowPositiveIcon()
+                      : const SBigArrowNegativeIcon(),
+                ),
+              ],
+            ),
         ],
       ),
     );

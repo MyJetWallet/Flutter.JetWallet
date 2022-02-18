@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
+import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import 'market_header_stats.dart';
 
 class EmptyWatchlist extends HookWidget {
   const EmptyWatchlist({Key? key}) : super(key: key);
@@ -12,25 +14,56 @@ class EmptyWatchlist extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final deviceSize = useProvider(deviceSizePod);
 
     return Column(
       children: [
-        const SpaceH40(),
-        SvgPicture.asset(
-          watchlistImageAsset,
-          width: 320,
-          height: 320,
+        Container(
+          color: Colors.white,
+          child: const MarketHeaderStats(),
         ),
-        const SpaceH51(),
-        Text(
-          'Create your Watchlist',
-          style: sTextH4Style,
-        ),
-        const SpaceH5(),
-        Text(
-          'Star an asset to add it to your Watchlist',
-          style: sBodyText1Style.copyWith(
-            color: colors.grey1,
+        Expanded(
+          child: Container(
+            color: colors.white,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      deviceSize.when(
+                        small: () {
+                          return SvgPicture.asset(
+                            watchlistImageAsset,
+                            width: 160,
+                          );
+                        },
+                        medium: () {
+                          return SvgPicture.asset(
+                            watchlistImageAsset,
+                            width: 320,
+                          );
+                        },
+                      ),
+                      const Spacer(),
+                      Text(
+                        'Create your Watchlist',
+                        style: sTextH4Style,
+                      ),
+                      const SpaceH5(),
+                      Text(
+                        'Star an asset to add it to your Watchlist',
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

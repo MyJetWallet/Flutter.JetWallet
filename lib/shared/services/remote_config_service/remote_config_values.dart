@@ -22,3 +22,10 @@ late int localPinLength;
 // Versioning
 late String recommendedVersion;
 late String minimumVersion;
+
+// Support
+late String faqLink;
+late String crispWebsiteId;
+
+// Analytics
+late String analyticsApiKey;

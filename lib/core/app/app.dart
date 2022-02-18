@@ -14,7 +14,7 @@ import '../../auth/screens/reset_password/view/reset_password.dart';
 import '../../router/view/router.dart';
 import '../../shared/logging/provider_logger.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
-import '../../shared/providers/device_uid_pod.dart';
+import '../../shared/providers/device_info_pod.dart';
 import '../../shared/providers/package_info_fpod.dart';
 import '../stage/app_router_stage/app_router_stage.dart';
 import '../stage/components/app_init.dart';
@@ -84,7 +84,7 @@ class _App extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useProvider(initializeBackgroundProviders.select((_) {}));
-    useProvider(deviceUidPod);
+    useProvider(deviceInfoPod);
     useProvider(packageInfoFpod);
     final navigatorKey = useProvider(sNavigatorKeyPod);
     final theme = useProvider(sThemePod);

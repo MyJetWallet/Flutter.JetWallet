@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
@@ -25,6 +26,7 @@ const _code = 'jw_code';
 const _token = 'jw_token';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
+const _email = 'jw_email';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -36,6 +38,11 @@ const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 
+enum SourceScreen {
+  bannerOnMarket,
+  bannerOnRewards,
+}
+
 class DeepLinkService {
   DeepLinkService(this.read);
 
@@ -43,14 +50,14 @@ class DeepLinkService {
 
   final _logger = Logger('');
 
-  void handle(Uri link) {
+  void handle(Uri link, [SourceScreen? source]) {
     final parameters = link.queryParameters;
     final command = parameters[_command];
 
     if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _login) {
-      _loginCommand();
+      _loginCommand(parameters);
     } else if (command == _forgotPassword) {
       _forgotPasswordCommand(parameters);
     } else if (command == _confirmWithdraw) {
@@ -62,7 +69,7 @@ class DeepLinkService {
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
     } else if (command == _depositStart) {
-      _depositStartCommand();
+      _depositStartCommand(source);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
@@ -76,10 +83,15 @@ class DeepLinkService {
     }
   }
 
-  void _loginCommand() {
+  void _loginCommand(Map<String, String> parameters) {
     read(logoutNotipod.notifier).logout();
 
-    navigatorPush(read(sNavigatorKeyPod).currentContext!, const Login());
+    navigatorPush(
+      read(sNavigatorKeyPod).currentContext!,
+      Login(
+        email: parameters[_email],
+      ),
+    );
   }
 
   void _forgotPasswordCommand(Map<String, String> parameters) {
@@ -132,7 +144,7 @@ class DeepLinkService {
     storage.setString(referralCodeKey, referralCode);
   }
 
-  void _depositStartCommand() {
+  void _depositStartCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
 
     showStartEarnBottomSheet(
@@ -146,5 +158,11 @@ class DeepLinkService {
         );
       },
     );
+
+    if (source == SourceScreen.bannerOnMarket) {
+      sAnalytics.earnProgramView(Source.marketBanner);
+    } else if (source == SourceScreen.bannerOnRewards) {
+      sAnalytics.earnProgramView(Source.rewards);
+    }
   }
 }

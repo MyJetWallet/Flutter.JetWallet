@@ -52,7 +52,7 @@ class TwoFaPhone extends HookWidget {
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
 
     return ProviderListener<lu.LogoutUnion>(
       provider: logoutNotipod,
@@ -60,10 +60,7 @@ class TwoFaPhone extends HookWidget {
         union.when(
           result: (error, st) {
             if (error != null) {
-              sShowErrorNotification(
-                notificationQueueN,
-                '$error',
-              );
+              notificationN.showError('$error', id: 1);
             }
           },
           loading: () {},

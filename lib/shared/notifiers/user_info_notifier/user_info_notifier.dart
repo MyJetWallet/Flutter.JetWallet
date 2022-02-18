@@ -38,6 +38,10 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     required String referralLink,
     required String referralCode,
     required String countryOfRegistration,
+    required String countryOfResidence,
+    required String countryOfCitizenship,
+    required String firstName,
+    required String lastName,
   }) {
     _logger.log(notifier, 'updateWithValuesFromProfileInfo');
 
@@ -50,6 +54,10 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       referralLink: referralLink,
       referralCode: referralCode,
       countryOfRegistration: countryOfRegistration,
+      countryOfResidence: countryOfResidence,
+      countryOfCitizenship: countryOfCitizenship,
+      firstName: firstName,
+      lastName: lastName,
     );
   }
 
@@ -158,6 +166,13 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       kycPassed: false,
       email: '',
       phone: '',
+      countryOfRegistration: '',
+      countryOfResidence: '',
+      countryOfCitizenship: '',
+      referralLink: '',
+      referralCode: '',
+      firstName: '',
+      lastName: '',
     );
   }
 }

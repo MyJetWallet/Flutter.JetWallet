@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
 
-void showSNotification({
-  required BuildContext context,
-  required int duration,
-  required String text,
-}) {
-  showFlash(
+Future showNotification(
+  BuildContext context,
+  String message, [
+  int duration = 2,
+]) {
+  return showFlash(
     context: context,
     duration: Duration(seconds: duration),
     persistent: true,
@@ -21,7 +21,7 @@ void showSNotification({
         useSafeArea: false,
         child: SPaddingH24(
           child: SNotificationBox(
-            text: text,
+            text: message,
           ),
         ),
       );

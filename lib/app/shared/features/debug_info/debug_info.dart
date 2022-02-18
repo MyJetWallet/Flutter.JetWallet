@@ -5,12 +5,12 @@ import 'package:simple_kit/example/example_screen.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 // Todo: Remove this screen before release
-class Support extends HookWidget {
-  const Support({Key? key}) : super(key: key);
+class DebugInfo extends HookWidget {
+  const DebugInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
 
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
@@ -41,17 +41,9 @@ class Support extends HookWidget {
             ),
             TextButton(
               onPressed: () async {
-                notificationQueueN.addToQueue(
-                  SNotification(
-                    duration: 2,
-                    function: (context) {
-                      showSNotification(
-                        context: context,
-                        duration: 2,
-                        text: 'Perhaps you missed “.” or “@” somewhere?”',
-                      );
-                    },
-                  ),
+                notificationN.showError(
+                  'Perhaps you missed “.” or “@” somewhere?”',
+                  id: 1,
                 );
               },
               child: const Text(

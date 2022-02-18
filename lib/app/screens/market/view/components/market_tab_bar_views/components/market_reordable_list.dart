@@ -9,7 +9,6 @@ import '../../../../../../shared/helpers/formatting/formatting.dart';
 import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../notifier/watchlist/watchlist_notipod.dart';
 import '../../../../provider/market_watchlist_items_pod.dart';
-import 'empty_watchlist.dart';
 
 class MarketReorderableList extends HookWidget {
   const MarketReorderableList({Key? key}) : super(key: key);
@@ -19,9 +18,11 @@ class MarketReorderableList extends HookWidget {
     final items = useProvider(marketWatchlistItemsPod);
     final notifier = useProvider(watchlistIdsNotipod.notifier);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final colors = useProvider(sColorPod);
 
-    if (items.isNotEmpty) {
-      return ReorderableListView.builder(
+    return Container(
+      color: colors.white,
+      child: ReorderableListView.builder(
         itemCount: items.length,
         padding: const EdgeInsets.only(bottom: 66),
         itemBuilder: (context, index) {
@@ -61,9 +62,7 @@ class MarketReorderableList extends HookWidget {
 
           notifier.changePosition(oldIndex, newIndex);
         },
-      );
-    } else {
-      return const EmptyWatchlist();
-    }
+      ),
+    );
   }
 }

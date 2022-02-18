@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../shared/helpers/launch_url.dart';
+import '../../../shared/helpers/analytics.dart';
 import '../../../shared/providers/service_providers.dart';
-import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
@@ -14,9 +13,13 @@ import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../forgot_password/view/forgot_password.dart';
 
 class Login extends HookWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({
+    Key? key,
+    this.email,
+  }) : super(key: key);
 
   static const routeName = '/login';
+  final String? email;
 
   static Future push(BuildContext context) {
     return Navigator.pushNamed(context, routeName);
@@ -29,12 +32,14 @@ class Login extends HookWidget {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final authenticationN = useProvider(authenticationNotipod.notifier);
-    final notificationQueueN = useProvider(sNotificationQueueNotipod.notifier);
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
     final _controller = useTextEditingController();
+
+    analytics(() => sAnalytics.loginView());
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -46,9 +51,9 @@ class Login extends HookWidget {
               loader.value.finishLoading();
               emailError.value.enableError();
               passwordError.value.enableError();
-              sShowErrorNotification(
-                notificationQueueN,
+              notificationN.showError(
                 intl.login_credentialsError,
+                id: 1,
               );
             }
           },
@@ -88,15 +93,16 @@ class Login extends HookWidget {
                           autofillHints: const [AutofillHints.email],
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
+                          initialValue: email ?? '',
                           onChanged: (value) {
                             emailError.value.disableError();
                             passwordError.value.disableError();
                             credentialsN.updateAndValidateEmail(value);
                           },
                           onErrorIconTap: () {
-                            sShowErrorNotification(
-                              notificationQueueN,
+                            notificationN.showError(
                               intl.login_credentialsError,
+                              id: 2,
                             );
                           },
                           errorNotifier: emailError.value,
@@ -107,60 +113,29 @@ class Login extends HookWidget {
                     Material(
                       color: colors.white,
                       child: SPaddingH24(
-                        child: RawKeyboardListener(
-                          focusNode: FocusNode(),
-                          onKey: (event) {
-                            if (event.logicalKey ==
-                                LogicalKeyboardKey.backspace) {
-                              if (passwordError.value.value) {
-                                _controller.clear();
-                                emailError.value.disableError();
-                                passwordError.value.disableError();
-                                credentialsN.updateAndValidatePassword('');
-                              }
-                            }
+                        child: SStandardFieldObscure(
+                          autofillHints: const [AutofillHints.password],
+                          controller: _controller,
+                          onChanged: (String password) {
+                            credentialsN.checkOnUpdateOrRemovePassword(
+                              passwordError,
+                              emailError,
+                              password,
+                              _controller,
+                            );
                           },
-                          child: SStandardFieldObscure(
-                            autofillHints: const [AutofillHints.password],
-                            controller: _controller,
-                            onChanged: (String password) {
-                              emailError.value.disableError();
-                              passwordError.value.disableError();
-                              credentialsN.updateAndValidatePassword(password);
-                            },
-                            labelText: intl.login_passwordTextFieldLabel,
-                            onErrorIconTap: () {
-                              sShowErrorNotification(
-                                notificationQueueN,
-                                intl.login_credentialsError,
-                              );
-                            },
-                            errorNotifier: passwordError.value,
-                          ),
+                          labelText: intl.login_passwordTextFieldLabel,
+                          onErrorIconTap: () {
+                            notificationN.showError(
+                              intl.login_credentialsError,
+                              id: 2,
+                            );
+                          },
+                          errorNotifier: passwordError.value,
                         ),
                       ),
                     ),
                     const Spacer(),
-                    SPaddingH24(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 34.0,
-                          bottom: 17.0,
-                        ),
-                        child: SPolicyText(
-                          firstText: '${intl.login_policyText1} ',
-                          userAgreementText: intl.login_policyText2,
-                          betweenText: ' ${intl.login_policyText3} ',
-                          privacyPolicyText: intl.login_policyText4,
-                          onUserAgreementTap: () {
-                            launchURL(context, userAgreementLink);
-                          },
-                          onPrivacyPolicyTap: () {
-                            launchURL(context, privacyPolicyLink);
-                          },
-                        ),
-                      ),
-                    ),
                     SPaddingH24(
                       child: SPrimaryButton2(
                         active: credentials.readyToLogin &&

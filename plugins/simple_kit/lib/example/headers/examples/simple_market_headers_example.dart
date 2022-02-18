@@ -16,9 +16,10 @@ class SimpleMarketHeadersExample extends StatelessWidget {
           SPaddingH24(
             child: SMarketHeader(
               title: 'Title',
-              percent: 1.73,
+              percent: '1.73',
               isPositive: true,
               subtitle: 'Subtitle',
+              showInfo: true,
               onSearchButtonTap: () => showSnackBar(context),
             ),
           ),
@@ -69,9 +70,10 @@ class SimpleMarketHeadersExample extends StatelessWidget {
                 ),
                 SMarketHeader(
                   title: 'Title',
-                  percent: 1.73,
+                  percent: '1.73',
                   isPositive: true,
                   subtitle: 'Subtitle',
+                  showInfo: true,
                   onSearchButtonTap: () => showSnackBar(context),
                 ),
               ],

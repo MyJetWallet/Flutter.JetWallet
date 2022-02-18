@@ -8,7 +8,7 @@ import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.d
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
-import '../../../../shared/providers/device_uid_pod.dart';
+import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
@@ -21,6 +21,7 @@ import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
+import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
@@ -60,6 +61,7 @@ class SignalRService {
   final _indicesController = StreamController<IndicesModel>();
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
   final _priceAccuraciesController = StreamController<PriceAccuracies>();
+  final _marketInfoController = StreamController<TotalMarketInfoModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -78,6 +80,16 @@ class SignalRService {
       try {
         final countries = KycCountriesResponseModel.fromJson(_json(data));
         _kycCountriesController.add(countries);
+      } catch (e) {
+        _logger.log(contract, kycCountriesMessage, e);
+      }
+    });
+
+    _connection?.on(marketInfoMessage, (data) {
+      try {
+        final model = MarketInfoModel.fromJson(_json(data));
+        final info = model.totalMarketInfo;
+        _marketInfoController.add(info);
       } catch (e) {
         _logger.log(contract, kycCountriesMessage, e);
       }
@@ -211,7 +223,7 @@ class SignalRService {
 
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
-    final deviceUid = read(deviceUidPod);
+    final deviceInfo = read(deviceInfoPod);
 
     try {
       await _connection?.start();
@@ -223,7 +235,7 @@ class SignalRService {
     try {
       await _connection?.invoke(
         initMessage,
-        args: [token, localeName, deviceUid, deviceType],
+        args: [token, localeName, deviceInfo.deviceUid, deviceType],
       );
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);
@@ -263,6 +275,9 @@ class SignalRService {
 
   Stream<PriceAccuracies> priceAccuracies() =>
       _priceAccuraciesController.stream;
+
+  Stream<TotalMarketInfoModel> marketInfo() =>
+      _marketInfoController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

@@ -10,7 +10,7 @@ class SimpleNotificationsExample extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final notificationQueueN = watch(sNotificationQueueNotipod.notifier);
+    final notificationN = watch(sNotificationNotipod.notifier);
 
     return SPageFrameWithPadding(
       child: Column(
@@ -28,17 +28,8 @@ class SimpleNotificationsExample extends ConsumerWidget {
           const SpaceH10(),
           TextButton(
             onPressed: () async {
-              notificationQueueN.addToQueue(
-                SNotification(
-                  duration: 2,
-                  function: (context) {
-                    showSNotification(
-                      context: context,
-                      duration: 2,
-                      text: 'Perhaps you missed “.” or “@” somewhere?”',
-                    );
-                  },
-                ),
+              notificationN.showError(
+                'Perhaps you missed “.” or “@” somewhere?”',
               );
             },
             child: const Text(

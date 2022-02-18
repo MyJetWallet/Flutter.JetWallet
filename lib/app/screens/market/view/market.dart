@@ -8,11 +8,9 @@ import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
 import '../notifier/watchlist/watchlist_notipod.dart';
 import '../provider/market_gainers_pod.dart';
 import '../provider/market_indices_pod.dart';
+import '../provider/market_items_pod.dart';
 import '../provider/market_losers_pod.dart';
-import 'components/market_tab_bar_views/all_tab_bar_view.dart';
-import 'components/market_tab_bar_views/gainers_tab_bar_view.dart';
-import 'components/market_tab_bar_views/indices_tab_bar_view.dart';
-import 'components/market_tab_bar_views/losers_tab_bar_view.dart';
+import 'components/market_tab_bar_views/components/market_nested_scroll_view.dart';
 import 'components/market_tab_bar_views/watchlist_tab_bar_view.dart';
 
 class Market extends HookWidget {
@@ -22,6 +20,7 @@ class Market extends HookWidget {
   Widget build(BuildContext context) {
     useProvider(keyValueNotipod);
     useProvider(watchlistIdsNotipod);
+    final allItems = useProvider(marketItemsPod);
     final indices = useProvider(marketIndicesPod);
     final gainers = useProvider(marketGainersPod);
     final losers = useProvider(marketLosersPod);
@@ -38,11 +37,22 @@ class Market extends HookWidget {
           children: [
             TabBarView(
               children: [
-                const AllTabBarView(),
+                MarketNestedScrollView(
+                  items: allItems,
+                ),
                 const WatchlistTabBarView(),
-                if (indices.isNotEmpty) const IndicesTabBarView(),
-                if (gainers.isNotEmpty) const GainersTabBarView(),
-                if (losers.isNotEmpty) const LosersTabBarView(),
+                if (indices.isNotEmpty)
+                  MarketNestedScrollView(
+                    items: indices,
+                  ),
+                if (gainers.isNotEmpty)
+                  MarketNestedScrollView(
+                    items: gainers,
+                  ),
+                if (losers.isNotEmpty)
+                  MarketNestedScrollView(
+                    items: losers,
+                  ),
               ],
             ),
             Align(
@@ -51,7 +61,7 @@ class Market extends HookWidget {
                 tabs: [
                   const BottomTab(text: 'All'),
                   const BottomTab(text: 'Watchlist'),
-                  if (indices.isNotEmpty) const BottomTab(text: 'Indices'),
+                  if (indices.isNotEmpty) const BottomTab(text: 'Crypto Sets'),
                   if (gainers.isNotEmpty) const BottomTab(text: 'Gainers'),
                   if (losers.isNotEmpty) const BottomTab(text: 'Losers'),
                 ],
