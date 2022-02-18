@@ -4,7 +4,7 @@ import '../../../../service/services/signal_r/model/market_info_response_model.d
 import '../../../../shared/providers/service_providers.dart';
 
 final marketInfoSpod =
-    StreamProvider.autoDispose<MarketInfoResponseModel>((ref) {
+    StreamProvider.autoDispose<TotalMarketInfoModel>((ref) {
   ref.maintainState = true;
 
   final signalRService = ref.watch(signalRServicePod);

@@ -61,7 +61,7 @@ class SignalRService {
   final _indicesController = StreamController<IndicesModel>();
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
   final _priceAccuraciesController = StreamController<PriceAccuracies>();
-  final _marketInfoController = StreamController<MarketInfoResponseModel>();
+  final _marketInfoController = StreamController<TotalMarketInfoModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -87,8 +87,9 @@ class SignalRService {
 
     _connection?.on(marketInfoMessage, (data) {
       try {
-        final marketInfo = MarketInfoResponseModel.fromList(data!);
-        _marketInfoController.add(marketInfo);
+        final model = MarketInfoModel.fromJson(_json(data));
+        final info = model.totalMarketInfo;
+        _marketInfoController.add(info);
       } catch (e) {
         _logger.log(contract, kycCountriesMessage, e);
       }
@@ -275,7 +276,7 @@ class SignalRService {
   Stream<PriceAccuracies> priceAccuracies() =>
       _priceAccuraciesController.stream;
 
-  Stream<MarketInfoResponseModel> marketInfo() =>
+  Stream<TotalMarketInfoModel> marketInfo() =>
       _marketInfoController.stream;
 
   void _startPing() {
