@@ -18,11 +18,9 @@ class MarketNestedScrollView extends StatefulHookWidget {
     Key? key,
     this.showBanners = false,
     required this.items,
-    required this.controller,
   }) : super(key: key);
 
   final List<MarketItemModel> items;
-  final ScrollController controller;
   final bool showBanners;
 
   @override
@@ -30,23 +28,24 @@ class MarketNestedScrollView extends StatefulHookWidget {
 }
 
 class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
+  final ScrollController controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
 
-    widget.controller.addListener(() {
+    controller.addListener(() {
       resetMarketScrollPosition(
         context,
         widget.items.length,
-        widget.controller,
+        controller,
       );
     });
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(() {});
+    controller.removeListener(() {});
     super.dispose();
   }
 
@@ -56,7 +55,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
     final colors = useProvider(sColorPod);
 
     return NestedScrollView(
-      controller: widget.controller,
+      controller: controller,
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
@@ -67,7 +66,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
             collapsedHeight: 120,
             primary: false,
             flexibleSpace: FadeOnScroll(
-              scrollController: widget.controller,
+              scrollController: controller,
               fullOpacityOffset: 50,
               fadeInWidget: const SDivider(
                 width: double.infinity,
