@@ -17,26 +17,6 @@ class _IndicesTabBarState extends State<IndicesTabBarView> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-    final indices = context.read(marketIndicesPod);
-
-    _scrollController.addListener(() {
-      resetMarketScrollPosition(
-        context,
-        indices.length,
-        _scrollController,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(() {});
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final indices = useProvider(marketIndicesPod);
 

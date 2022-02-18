@@ -10,6 +10,7 @@ import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.d
 import '../../../../model/market_item_model.dart';
 import '../../fade_on_scroll.dart';
 import '../../market_banners/market_banners.dart';
+import '../helper/reset_market_scroll_position.dart';
 
 
 class MarketNestedScrollView extends StatefulHookWidget {
@@ -29,6 +30,25 @@ class MarketNestedScrollView extends StatefulHookWidget {
 }
 
 class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    widget.controller.addListener(() {
+      resetMarketScrollPosition(
+        context,
+        widget.items.length,
+        widget.controller,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(() {});
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

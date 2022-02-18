@@ -17,26 +17,6 @@ class _LosersTabBarViewState extends State<LosersTabBarView> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-    final losers = context.read(marketLosersPod);
-
-    _scrollController.addListener(() {
-      resetMarketScrollPosition(
-        context,
-        losers.length,
-        _scrollController,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(() {});
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final losers = useProvider(marketLosersPod);
 
