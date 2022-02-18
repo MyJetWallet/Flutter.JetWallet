@@ -4,21 +4,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../../../../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../../../helpers/currency_from.dart';
 import '../../../../../../../helpers/formatting/formatting.dart';
-import '../../../../../../../helpers/text_size.dart';
 import '../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
 import 'components/transaction_list_item_header_text.dart';
 import 'components/transaction_list_item_text.dart';
-
-const _horizontalPadding = 48;
-const _iconSize = 20;
-const _iconAndTextPadding = 10;
-const _transactionAndVolumePadding = 16;
 
 class TransactionListItem extends HookWidget {
   const TransactionListItem({
@@ -38,23 +31,6 @@ class TransactionListItem extends HookWidget {
       currencies,
       transactionListItem.assetId,
     );
-    final mediaQuery = useProvider(mediaQueryPod);
-    final transactionVolumeText = volumeFormat(
-      prefix: currency.prefixSymbol,
-      decimal: transactionListItem.balanceChange,
-      accuracy: currency.accuracy,
-      symbol: currency.symbol,
-    );
-    final transactionVolumeTextSize = textSize(
-      transactionVolumeText,
-      sSubtitle2Style,
-    );
-    final transactionNameWidth = mediaQuery.size.width -
-        _horizontalPadding -
-        _iconSize -
-        _iconAndTextPadding -
-        _transactionAndVolumePadding -
-        transactionVolumeTextSize.width;
 
     return InkWell(
       onTap: () => showTransactionDetails(
@@ -70,14 +46,26 @@ class TransactionListItem extends HookWidget {
               children: [
                 _icon(transactionListItem.operationType),
                 const SpaceW10(),
-                TransactionListItemHeaderText(
-                  text: operationName(transactionListItem.operationType),
-                  width: transactionNameWidth,
+                Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: 200,
+                    minWidth: 50,
+                  ),
+                  child: TransactionListItemHeaderText(
+                    text: operationName(transactionListItem.operationType),
+                  ),
                 ),
-                const Spacer(),
-                TransactionListItemHeaderText(
-                  text: transactionVolumeText,
-                  width: transactionVolumeTextSize.width,
+                const SpaceW16(),
+                Expanded(
+                  child: TransactionListItemHeaderText(
+                    text: volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      decimal: transactionListItem.balanceChange,
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
                 ),
               ],
             ),
