@@ -70,17 +70,14 @@ class _CrispState extends State<Crisp> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
-
-    return Container(
-      color: colors.white,
-      child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: CrispView(
-            crispMain: crispMain,
-          ),
+    return SPageFrame(
+      header: const SPaddingH24(
+        child: SSmallHeader(
+          title: 'Support',
         ),
+      ),
+      child: CrispView(
+        crispMain: crispMain,
       ),
     );
   }

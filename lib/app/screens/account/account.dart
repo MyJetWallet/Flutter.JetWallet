@@ -138,7 +138,7 @@ class Account extends HookWidget {
                         SimpleAccountCategoryButton(
                           title: 'About us',
                           icon: const SAboutUsIcon(),
-                          isSDivider: false,
+                          isSDivider: flavor == Flavor.dev,
                           onTap: () {
                             navigatorPush(context, const AboutUs());
                           },
@@ -146,8 +146,8 @@ class Account extends HookWidget {
                         if (flavor == Flavor.dev)
                           SimpleAccountCategoryButton(
                             title: 'Debug Info',
-                            icon: const SAboutUsIcon(),
-                            isSDivider: true,
+                            icon: const SInfoIcon(),
+                            isSDivider: false,
                             onTap: () {
                               navigatorPush(context, const DebugInfo());
                             },
