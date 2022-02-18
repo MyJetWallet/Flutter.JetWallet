@@ -29,7 +29,7 @@ class SQrCodeBox extends StatelessWidget {
           package: 'simple_kit',
         ),
         embeddedImageStyle: QrEmbeddedImageStyle(
-          size: const Size(90.0, 90.0),
+          size: const Size(62.0, 62.0),
         ),
         size: 200.0,
       );
