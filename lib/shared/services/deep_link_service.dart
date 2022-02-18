@@ -26,6 +26,7 @@ const _code = 'jw_code';
 const _token = 'jw_token';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
+const _email = 'jw_email';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -56,7 +57,7 @@ class DeepLinkService {
     if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _login) {
-      _loginCommand();
+      _loginCommand(parameters);
     } else if (command == _forgotPassword) {
       _forgotPasswordCommand(parameters);
     } else if (command == _confirmWithdraw) {
@@ -82,10 +83,15 @@ class DeepLinkService {
     }
   }
 
-  void _loginCommand() {
+  void _loginCommand(Map<String, String> parameters) {
     read(logoutNotipod.notifier).logout();
 
-    navigatorPush(read(sNavigatorKeyPod).currentContext!, const Login());
+    navigatorPush(
+      read(sNavigatorKeyPod).currentContext!,
+      Login(
+        email: parameters[_email],
+      ),
+    );
   }
 
   void _forgotPasswordCommand(Map<String, String> parameters) {

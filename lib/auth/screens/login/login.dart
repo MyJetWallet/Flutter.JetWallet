@@ -13,9 +13,13 @@ import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../forgot_password/view/forgot_password.dart';
 
 class Login extends HookWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({
+    Key? key,
+    this.email,
+  }) : super(key: key);
 
   static const routeName = '/login';
+  final String? email;
 
   static Future push(BuildContext context) {
     return Navigator.pushNamed(context, routeName);
@@ -89,6 +93,7 @@ class Login extends HookWidget {
                           autofillHints: const [AutofillHints.email],
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
+                          initialValue: email ?? '',
                           onChanged: (value) {
                             emailError.value.disableError();
                             passwordError.value.disableError();
