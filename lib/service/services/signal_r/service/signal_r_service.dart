@@ -21,7 +21,7 @@ import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
-import '../model/market_info_response_model.dart';
+import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
