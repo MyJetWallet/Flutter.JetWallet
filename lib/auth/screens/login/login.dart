@@ -138,15 +138,19 @@ class Login extends HookWidget {
                     const Spacer(),
                     SPaddingH24(
                       child: SPrimaryButton2(
-                        active: credentials.readyToLogin &&
-                            !disableContinue.value &&
-                            !loader.value.value,
+                        active: (credentials.readyToLogin &&
+                                !disableContinue.value &&
+                                !loader.value.value) ||
+                            (credentials.readyToLogin2 &&
+                                email != null &&
+                                !disableContinue.value &&
+                                !loader.value.value),
                         name: intl.login_continueButton,
                         onTap: () {
                           disableContinue.value = true;
                           loader.value.startLoading();
                           authenticationN.authenticate(
-                            email: credentials.email,
+                            email: email ?? credentials.email,
                             password: credentials.password,
                             operation: AuthOperation.login,
                           );
