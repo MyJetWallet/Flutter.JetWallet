@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../app/screens/account/components/crisp.dart';
 import '../../../shared/helpers/analytics.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
@@ -65,6 +66,8 @@ class Login extends HookWidget {
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
+            showSupportButton: true,
+            onSupportButtonTap: () => Crisp.push(context),
             title: intl.login_signIn,
             showLink: true,
             linkText: intl.login_forgotPassword,
