@@ -5,9 +5,12 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
+import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
 import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
+import '../../app/shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../app/shared/features/send_by_phone/provider/send_by_phone_dynamic_link_stpod.dart';
 import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
@@ -37,6 +40,8 @@ const _confirmSendByPhone = 'jw_transfer_email_confirm';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
+const _kycVerification = 'KycVerification';
+const _tradingStart = 'TradingStart';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -70,9 +75,35 @@ class DeepLinkService {
       _referralRedirectCommand(parameters);
     } else if (command == _depositStart) {
       _depositStartCommand(source);
+    } else if (command == _kycVerification) {
+      _kycVerificationCommand();
+    } else if (command == _tradingStart) {
+      _tradingStartCommand();
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  void _tradingStartCommand() {
+    final ctx = read(sNavigatorKeyPod).currentContext!;
+    final navigation = read(navigationStpod);
+    navigation.state = 0;
+    Navigator.pop(ctx);
+  }
+
+  void _kycVerificationCommand() {
+    final kycState = read(kycNotipod);
+    final ctx = read(sNavigatorKeyPod).currentContext!;
+    final kycAlertHandler = read(
+      kycAlertHandlerPod(ctx),
+    );
+
+    kycAlertHandler.handle(
+      status: kycState.depositStatus,
+      kycVerified: kycState,
+      isProgress: kycState.verificationInProgress,
+      currentNavigate: () => showDepositAction(ctx),
+    );
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {

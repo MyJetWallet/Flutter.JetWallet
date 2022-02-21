@@ -16,8 +16,6 @@ Widget? setRewardIndicatorComplete(
       completeIndicator += 1;
     }
 
-    // conditionTypeSwitch(ConditionType.tradeCondition);
-
     if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition)) {
       isDisplayIndicator = true;
     }
@@ -25,8 +23,8 @@ Widget? setRewardIndicatorComplete(
 
   if (isDisplayIndicator) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const SpaceW20(),
         Stack(
           children: <Widget>[
             Container(
@@ -60,8 +58,11 @@ Widget? setRewardIndicatorComplete(
             ),
           ],
         ),
-        const SpaceW24(),
-        Text('$completeIndicator/${conditions.length}'),
+
+        Container(
+          padding: const EdgeInsets.only(right: 17.0),
+          child: Text('$completeIndicator/${conditions.length}'),
+        ),
       ],
     );
   } else {
