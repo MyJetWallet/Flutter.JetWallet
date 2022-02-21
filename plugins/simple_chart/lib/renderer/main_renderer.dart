@@ -192,9 +192,13 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
       getY(lastPrice),
       (lastX + curX) / 2,
       getY(curPrice),
-      isLast ? 2000 : curX,
+      curX,
       getY(curPrice),
     );
+
+    if (isLast) {
+      mLinePath.lineTo(2000, getY(curPrice));
+    }
 
     final mLineFillPath = Path();
 
