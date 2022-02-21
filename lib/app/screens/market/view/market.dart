@@ -39,6 +39,7 @@ class Market extends HookWidget {
               children: [
                 MarketNestedScrollView(
                   items: allItems,
+                  showBanners: true,
                 ),
                 const WatchlistTabBarView(),
                 if (indices.isNotEmpty)
