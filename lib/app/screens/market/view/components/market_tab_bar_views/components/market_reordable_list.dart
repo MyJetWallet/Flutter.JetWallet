@@ -40,7 +40,7 @@ class MarketReorderableList extends HookWidget {
               prefix: baseCurrency.prefix,
               decimal: item.lastPrice,
               symbol: baseCurrency.symbol,
-              accuracy: baseCurrency.accuracy,
+              accuracy: item.priceAccuracy,
             ),
             ticker: item.symbol,
             last: item == items.last,
