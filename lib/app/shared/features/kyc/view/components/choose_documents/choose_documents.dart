@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
@@ -121,6 +122,11 @@ class ChooseDocuments extends HookWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
+                sAnalytics.identityParametersChoosed(
+                  countries.activeCountry!.countryName,
+                  notifier.getActiveDocument().document.name,
+                );
+
                 final status = await Permission.camera.status;
                 if (status == PermissionStatus.granted) {
                   UploadKycDocuments.push(

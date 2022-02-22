@@ -82,6 +82,7 @@ class MarketDetails extends HookWidget {
               if (watchlistIdsN.isInWatchlist(marketItem.associateAsset)) {
                 watchlistIdsN.removeFromWatchlist(marketItem.associateAsset);
               } else {
+                sAnalytics.addToWatchlist(marketItem.name);
                 watchlistIdsN.addToWatchlist(marketItem.associateAsset);
               }
             },

@@ -26,4 +26,29 @@ class EventType {
 
   /// Logout action
   static const logout = 'Logout';
+
+  /// Places where we call kyc popup
+  static const kycVerifyProfile = 'KYC - Verify your profile';
+
+  /// Change country code, send country name
+  static const changeCountryCode = 'Change country code';
+
+  /// Choose country name and document type in kyc
+  static const identityParametersChoosed = 'Identity parameters choosed';
+
+  /// Market filters
+  static const marketFilters = 'Filters';
+
+  /// Add asset to watchlist
+  static const addToWatchlist = 'Add to watchlist';
+
+  /// Click on market banner, close-open, campaign name
+  static const clickMarketBanner = 'Market banner click';
+
+  /// Rewards screen view
+  static const rewardsScreenView = 'Rewards screen view';
+
+  static const inviteFriendView = 'Invite friend view';
+
+  static const buySellView = 'Buy / Sell view';
 }

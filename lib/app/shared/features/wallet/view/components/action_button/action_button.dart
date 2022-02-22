@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
@@ -153,6 +154,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.depositStatus,
                                   kycVerified: kycState,
@@ -179,6 +185,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -205,6 +216,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -229,6 +245,11 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    KycSource.quickActions,
+                                  );
+
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
@@ -252,6 +273,11 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    KycSource.quickActions,
+                                  );
+
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
@@ -278,6 +304,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -299,6 +330,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -323,6 +359,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -394,6 +435,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -421,6 +467,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -448,6 +499,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -474,6 +530,11 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    KycSource.quickActions,
+                                  );
+
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
@@ -497,6 +558,11 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    KycSource.quickActions,
+                                  );
+
                                   Navigator.of(context).pop();
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
@@ -524,6 +590,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -545,6 +616,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -569,6 +645,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  KycSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -597,7 +678,7 @@ class _ActionButtonState extends State<ActionButton> {
                         updateActionState();
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
