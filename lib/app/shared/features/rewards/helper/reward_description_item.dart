@@ -35,7 +35,7 @@ class RewardsDescriptionItem extends HookWidget {
             conditions,
             colors,
             (String deepLink) {
-              deepLinkService.handle( Uri.parse(deepLink));
+              deepLinkService.handle(Uri.parse(deepLink));
             },
           ),
           setRewardIcon(condition, conditions),

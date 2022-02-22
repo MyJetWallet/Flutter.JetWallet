@@ -43,7 +43,7 @@ Widget createRewardDescriptionItem(
                 conditionTypeSwitch(ConditionType.tradeCondition) &&
             condition.reward != null)
           Text(
-            '\$${condition.reward!.amount.toStringAsFixed(0)}',
+            '\$${condition.reward!.amount.toStringAsFixed(0)} ',
             style: sBodyText1Style.copyWith(
               color: setRewardDescriptionStyle(
                 condition,
@@ -81,7 +81,7 @@ Widget createRewardDescriptionItem(
           ),
         if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition))
           Text(
-            ' after trading \$100 (${condition.parameters!.tradedAmount!.split('.')[0]}/${condition.parameters!.requiredAmount})',
+            'after trading \$100 (${condition.parameters!.tradedAmount!.split('.')[0]}/${condition.parameters!.requiredAmount})',
             style: sBodyText1Style.copyWith(
               color: setRewardDescriptionStyle(
                 condition,
