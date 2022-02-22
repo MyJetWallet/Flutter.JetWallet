@@ -3,3 +3,7 @@ const confirmActionAnimationAsset = 'assets/animations/confirm_action.riv';
 const sQrLogo = 'assets/images/qr_logo.png';
 const ellipsisAsset = 'assets/images/ellipsis.png';
 const referralInviteFriendsAsset = 'assets/images/referral_invite_friends.png';
+const chatWithSupportAsset = 'assets/images/chat_with_support.png';
+const accountProfileAsset = 'assets/images/verify_your_profile.png';
+const lockerAsset = 'assets/images/locker.png';
+const verifyNowAsset = 'assets/images/verifying_now.png';
