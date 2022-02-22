@@ -27,8 +27,4 @@ class CredentialsState with _$CredentialsState {
   bool get readyToLogin {
     return emailValid && isPasswordLengthValid(password);
   }
-
-  bool get readyToLogin2 {
-    return isPasswordLengthValid(password);
-  }
 }
