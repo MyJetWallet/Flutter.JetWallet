@@ -95,7 +95,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
                   prefix: baseCurrency.prefix,
                   decimal: item.lastPrice,
                   symbol: baseCurrency.symbol,
-                  accuracy: baseCurrency.accuracy,
+                  accuracy: item.priceAccuracy,
                 ),
                 ticker: item.symbol,
                 last: item == widget.items.last,
