@@ -34,17 +34,31 @@ class ChartNotifier extends StateNotifier<ChartState> {
           ),
         ) {
     if (instrumentId != null) {
-      fetchAssetCandles(Period.day, instrumentId!);
-      fetchAssetCandles(Period.week, instrumentId!);
-      fetchAssetCandles(Period.month, instrumentId!);
-      fetchAssetCandles(Period.year, instrumentId!);
-      fetchAssetCandles(Period.all, instrumentId!);
+      fetchAssetCandles(Period.day, instrumentId!).then(
+        (_) {
+          final dayCandles = state.candles[Period.day];
+          if (dayCandles != null && dayCandles.isEmpty) {
+            fetchAssetCandles(Period.day, instrumentId!);
+          }
+          fetchAssetCandles(Period.week, instrumentId!);
+          fetchAssetCandles(Period.month, instrumentId!);
+          fetchAssetCandles(Period.year, instrumentId!);
+          fetchAssetCandles(Period.all, instrumentId!);
+        },
+      );
     } else {
-      fetchBalanceCandles(Period.day);
-      fetchBalanceCandles(Period.week);
-      fetchBalanceCandles(Period.month);
-      fetchBalanceCandles(Period.year);
-      fetchBalanceCandles(Period.all);
+      fetchBalanceCandles(Period.day).then(
+        (_) {
+          final dayCandles = state.candles[Period.day];
+          if (dayCandles != null && dayCandles.isEmpty) {
+            fetchBalanceCandles(Period.day);
+          }
+          fetchBalanceCandles(Period.week);
+          fetchBalanceCandles(Period.month);
+          fetchBalanceCandles(Period.year);
+          fetchBalanceCandles(Period.all);
+        },
+      );
     }
   }
 
