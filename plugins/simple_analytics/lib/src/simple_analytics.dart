@@ -108,7 +108,10 @@ class SimpleAnalytics {
     );
   }
 
-  void kycVerifyProfile(KycSource source, KycScope scope) {
+  void kycVerifyProfile(
+    ScreenSource source,
+    KycScope scope,
+  ) {
     _analytics.logEvent(
       EventType.kycVerifyProfile,
       eventProperties: {
@@ -140,12 +143,11 @@ class SimpleAnalytics {
     );
   }
 
-  // Todo: needs to be implemented
-  void marketFilter(String marketFilter) {
+  void marketFilter(FilterMarketTabAction marketFilter) {
     _analytics.logEvent(
       EventType.marketFilters,
       eventProperties: {
-        PropertyType.marketFilter: marketFilter,
+        PropertyType.marketFilter: marketFilter.name,
       },
     );
   }
@@ -190,12 +192,6 @@ class SimpleAnalytics {
     );
   }
 
-  // Todo: needs to be implemented  Invite friend - Comple 3 steps  view
-  void complete3Steps() {
-
-  }
-
-
   void buySellView(Source source, String assetName) {
     _analytics.logEvent(
       EventType.buySellView,
@@ -206,6 +202,14 @@ class SimpleAnalytics {
     );
   }
 
+  void earnDetailsView(String assetName) {
+    _analytics.logEvent(
+      EventType.earnDetailsView,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+      },
+    );
+  }
 
   /// Call when user makes logout.
   /// It will clean unique userId and will generate deviceId,

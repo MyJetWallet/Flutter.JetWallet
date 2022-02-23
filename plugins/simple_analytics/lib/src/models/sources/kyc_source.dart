@@ -1,4 +1,4 @@
-enum KycSource {
+enum ScreenSource {
   assetScreen,
   quickActions,
   accountBanner,
@@ -6,18 +6,18 @@ enum KycSource {
   earnProgram,
 }
 
-extension KycSourceExtension on KycSource {
+extension KycSourceExtension on ScreenSource {
   String get name {
     switch (this) {
-      case KycSource.assetScreen:
+      case ScreenSource.assetScreen:
         return 'Asset screen';
-      case KycSource.quickActions:
+      case ScreenSource.quickActions:
         return 'Quick actions';
-      case KycSource.accountBanner:
+      case ScreenSource.accountBanner:
         return 'Account banner';
-      case KycSource.emptyPortfolioScreen:
+      case ScreenSource.emptyPortfolioScreen:
         return 'Empty portfolio screen';
-      case KycSource.earnProgram:
+      case ScreenSource.earnProgram:
         return 'Earn program';
     }
   }

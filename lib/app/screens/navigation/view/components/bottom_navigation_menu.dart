@@ -67,7 +67,7 @@ class BottomNavigationMenu extends HookWidget {
               } else {
                 defineKycVerificationsScope(
                   kycState.requiredVerifications.length,
-                  KycSource.quickActions,
+                  ScreenSource.quickActions,
                 );
 
                 Navigator.of(context).pop();
@@ -86,7 +86,7 @@ class BottomNavigationMenu extends HookWidget {
               } else {
                 defineKycVerificationsScope(
                   kycState.requiredVerifications.length,
-                  KycSource.quickActions,
+                  ScreenSource.quickActions,
                 );
 
                 Navigator.of(context).pop();
@@ -106,7 +106,7 @@ class BottomNavigationMenu extends HookWidget {
               } else {
                 defineKycVerificationsScope(
                   kycState.requiredVerifications.length,
-                  KycSource.quickActions,
+                  ScreenSource.quickActions,
                 );
 
                 Navigator.of(context).pop();
@@ -127,7 +127,7 @@ class BottomNavigationMenu extends HookWidget {
               } else {
                 defineKycVerificationsScope(
                   kycState.requiredVerifications.length,
-                  KycSource.quickActions,
+                  ScreenSource.quickActions,
                 );
 
                 Navigator.of(context).pop();
@@ -146,7 +146,7 @@ class BottomNavigationMenu extends HookWidget {
               } else {
                 defineKycVerificationsScope(
                   kycState.requiredVerifications.length,
-                  KycSource.quickActions,
+                  ScreenSource.quickActions,
                 );
 
                 Navigator.of(context).pop();
@@ -165,7 +165,7 @@ class BottomNavigationMenu extends HookWidget {
               } else {
                 defineKycVerificationsScope(
                   kycState.requiredVerifications.length,
-                  KycSource.quickActions,
+                  ScreenSource.quickActions,
                 );
 
                 Navigator.of(context).pop();
@@ -184,7 +184,7 @@ class BottomNavigationMenu extends HookWidget {
               } else {
                 defineKycVerificationsScope(
                   kycState.requiredVerifications.length,
-                  KycSource.quickActions,
+                  ScreenSource.quickActions,
                 );
 
                 Navigator.of(context).pop();

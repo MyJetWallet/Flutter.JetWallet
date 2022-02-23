@@ -51,4 +51,6 @@ class EventType {
   static const inviteFriendView = 'Invite friend view';
 
   static const buySellView = 'Buy / Sell view';
+
+  static const earnDetailsView = 'Earn details view';
 }

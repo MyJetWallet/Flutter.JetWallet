@@ -2,10 +2,8 @@ import '../../simple_analytics.dart';
 
 void defineKycVerificationsScope(
   int kycStateLength,
-  KycSource source,
+  ScreenSource source,
 ) {
-  print('SEND ANALYTICS SOURCE ${source.name}');
-
   if (kycStateLength == 2) {
     sAnalytics.kycVerifyProfile(
       source,
