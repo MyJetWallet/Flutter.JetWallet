@@ -192,7 +192,7 @@ class SimpleAnalytics {
     );
   }
 
-  void buySellView(Source source, String assetName) {
+  void buySellView(ScreenSource source, String assetName) {
     _analytics.logEvent(
       EventType.buySellView,
       eventProperties: {
@@ -205,6 +205,15 @@ class SimpleAnalytics {
   void earnDetailsView(String assetName) {
     _analytics.logEvent(
       EventType.earnDetailsView,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+      },
+    );
+  }
+
+  void depositCryptoView(String assetName) {
+    _analytics.logEvent(
+      EventType.depositCryptoView,
       eventProperties: {
         PropertyType.assetName: assetName,
       },

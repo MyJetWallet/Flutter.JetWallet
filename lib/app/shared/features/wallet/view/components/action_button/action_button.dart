@@ -265,6 +265,9 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
+                                  sAnalytics.depositCryptoView(
+                                    widget.currency.description,
+                                  );
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
@@ -282,14 +285,19 @@ class _ActionButtonState extends State<ActionButton> {
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
                                     isProgress: kycState.verificationInProgress,
-                                    currentNavigate: () =>
-                                        navigatorPushReplacement(
-                                      context,
-                                      CryptoDeposit(
-                                        header: 'Deposit',
-                                        currency: widget.currency,
-                                      ),
-                                    ),
+                                    currentNavigate: () {
+                                      sAnalytics.depositCryptoView(
+                                        widget.currency.description,
+                                      );
+
+                                      navigatorPushReplacement(
+                                        context,
+                                        CryptoDeposit(
+                                          header: 'Deposit',
+                                          currency: widget.currency,
+                                        ),
+                                      );
+                                    },
                                   );
                                 }
                               }
@@ -428,6 +436,10 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.buySellView(
+                                  ScreenSource.assetScreen,
+                                  widget.currency.description,
+                                );
                                 navigatorPushReplacement(
                                   context,
                                   CurrencyBuy(
@@ -445,13 +457,19 @@ class _ActionButtonState extends State<ActionButton> {
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () =>
-                                      navigatorPushReplacement(
-                                    context,
-                                    CurrencyBuy(
-                                      currency: widget.currency,
-                                    ),
-                                  ),
+                                  currentNavigate: () {
+                                    sAnalytics.buySellView(
+                                      ScreenSource.assetScreen,
+                                      widget.currency.description,
+                                    );
+
+                                    navigatorPushReplacement(
+                                      context,
+                                      CurrencyBuy(
+                                        currency: widget.currency,
+                                      ),
+                                    );
+                                  },
                                 );
                               }
                             },
@@ -460,6 +478,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.buySellView(
+                                  ScreenSource.assetScreen,
+                                  widget.currency.description,
+                                );
+
                                 navigatorPushReplacement(
                                   context,
                                   CurrencySell(
@@ -477,13 +500,19 @@ class _ActionButtonState extends State<ActionButton> {
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () =>
-                                      navigatorPushReplacement(
-                                    context,
-                                    CurrencySell(
-                                      currency: widget.currency,
-                                    ),
-                                  ),
+                                  currentNavigate: () {
+                                    sAnalytics.buySellView(
+                                      ScreenSource.assetScreen,
+                                      widget.currency.description,
+                                    );
+
+                                    navigatorPushReplacement(
+                                      context,
+                                      CurrencySell(
+                                        currency: widget.currency,
+                                      ),
+                                    );
+                                  },
                                 );
                               }
                             },
@@ -525,6 +554,10 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
+                                  sAnalytics.depositCryptoView(
+                                    widget.currency.description,
+                                  );
+
                                   showDepositOptions(
                                     context,
                                     widget.currency,
@@ -539,10 +572,16 @@ class _ActionButtonState extends State<ActionButton> {
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
                                     isProgress: kycState.verificationInProgress,
-                                    currentNavigate: () => showDepositOptions(
-                                      context,
-                                      widget.currency,
-                                    ),
+                                    currentNavigate: () {
+                                      sAnalytics.depositCryptoView(
+                                        widget.currency.description,
+                                      );
+
+                                      showDepositOptions(
+                                        context,
+                                        widget.currency,
+                                      );
+                                    },
                                   );
                                 }
                               } else {
@@ -550,6 +589,10 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
+                                  sAnalytics.depositCryptoView(
+                                    widget.currency.description,
+                                  );
+
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
@@ -568,14 +611,18 @@ class _ActionButtonState extends State<ActionButton> {
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
                                     isProgress: kycState.verificationInProgress,
-                                    currentNavigate: () =>
-                                        navigatorPushReplacement(
-                                      context,
-                                      CryptoDeposit(
-                                        header: 'Deposit',
-                                        currency: widget.currency,
-                                      ),
-                                    ),
+                                    currentNavigate: () {
+                                      sAnalytics.depositCryptoView(
+                                        widget.currency.description,
+                                      );
+                                      navigatorPushReplacement(
+                                        context,
+                                        CryptoDeposit(
+                                          header: 'Deposit',
+                                          currency: widget.currency,
+                                        ),
+                                      );
+                                    },
                                   );
                                 }
                               }

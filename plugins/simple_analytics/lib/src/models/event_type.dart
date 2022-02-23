@@ -53,4 +53,6 @@ class EventType {
   static const buySellView = 'Buy / Sell view';
 
   static const earnDetailsView = 'Earn details view';
+
+  static const depositCryptoView = 'Deposit crypto view';
 }
