@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../../../../../shared/providers/deep_link_service_pod.dart';
+import '../../../../../shared/services/deep_link_service.dart';
 import 'set_reward_description_item.dart';
 import 'set_reward_icon.dart';
 
@@ -35,7 +36,10 @@ class RewardsDescriptionItem extends HookWidget {
             conditions,
             colors,
             (String deepLink) {
-              deepLinkService.handle(Uri.parse(deepLink));
+              deepLinkService.handle(
+                Uri.parse(deepLink),
+                SourceScreen.bannerOnRewards,
+              );
             },
           ),
           setRewardIcon(condition, conditions),

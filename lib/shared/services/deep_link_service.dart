@@ -8,16 +8,10 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
-import '../../app/shared/features/actions/action_buy/action_buy.dart';
 import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
-import '../../app/shared/features/actions/action_receive/action_receive.dart';
-import '../../app/shared/features/actions/action_sell/action_sell.dart';
-import '../../app/shared/features/actions/action_send/action_send.dart';
-import '../../app/shared/features/actions/action_withdraw/action_withdraw.dart';
-import '../../app/shared/features/convert/view/convert.dart';
 import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
-import '../../app/shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../app/shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../app/shared/features/rewards/view/rewards.dart';
 import '../../app/shared/features/send_by_phone/provider/send_by_phone_dynamic_link_stpod.dart';
 import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
@@ -49,6 +43,7 @@ const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 const _kycVerification = 'KycVerification';
 const _tradingStart = 'TradingStart';
+const _earnLanding = 'EarnLanding';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -80,22 +75,41 @@ class DeepLinkService {
       _inviteFriendCommand();
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
-    } else if (command == _depositStart) {
-      _depositStartCommand(source);
+    } else if (command == _earnLanding) {
+      _earnLandingCommand(source);
     } else if (command == _kycVerification) {
       _kycVerificationCommand();
     } else if (command == _tradingStart) {
-      _tradingStartCommand();
+      _tradingStartCommand(source);
+    } else if (command == _depositStart) {
+      _depositStartCommand(source);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
   }
 
-  void _tradingStartCommand() {
+  Future<void> _depositStartCommand(SourceScreen? source) async {
     final ctx = read(sNavigatorKeyPod).currentContext!;
-    final navigation = read(navigationStpod);
-    navigation.state = 0;
-    Navigator.pop(ctx);
+
+    if (source == SourceScreen.bannerOnMarket) {
+      navigatorPush(ctx, const Rewards());
+    } else if (source == SourceScreen.bannerOnRewards) {
+      // Todo: add logic, open menu in portfolio
+      Navigator.pop(ctx);
+    }
+  }
+
+  void _tradingStartCommand(SourceScreen? source) {
+    final ctx = read(sNavigatorKeyPod).currentContext!;
+
+    if (source == SourceScreen.bannerOnMarket) {
+      navigatorPush(ctx, const Rewards());
+    } else if (source == SourceScreen.bannerOnRewards) {
+      final ctx = read(sNavigatorKeyPod).currentContext!;
+      final navigation = read(navigationStpod);
+      navigation.state = 0;
+      Navigator.pop(ctx);
+    }
   }
 
   void _kycVerificationCommand() {
@@ -182,7 +196,7 @@ class DeepLinkService {
     storage.setString(referralCodeKey, referralCode);
   }
 
-  void _depositStartCommand(SourceScreen? source) {
+  void _earnLandingCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
 
     showStartEarnBottomSheet(
