@@ -6,6 +6,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
+import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
 import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
@@ -90,11 +91,12 @@ class DeepLinkService {
 
   Future<void> _depositStartCommand(SourceScreen? source) async {
     final ctx = read(sNavigatorKeyPod).currentContext!;
+    final openBottomMenu = read(openBottomMenuSpod);
 
     if (source == SourceScreen.bannerOnMarket) {
       navigatorPush(ctx, const Rewards());
     } else if (source == SourceScreen.bannerOnRewards) {
-      // Todo: add logic, open menu in portfolio
+      openBottomMenu.state = true;
       Navigator.pop(ctx);
     }
   }
