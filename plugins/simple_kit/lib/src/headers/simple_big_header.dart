@@ -9,17 +9,21 @@ class SBigHeader extends StatelessWidget {
     this.onLinkTap,
     this.onSearchButtonTap,
     this.onBackButtonTap,
+    this.onSupportButtonTap,
     this.linkText = '',
     this.showLink = false,
     this.showSearchButton = false,
+    this.showSupportButton = false,
     required this.title,
   }) : super(key: key);
 
   final Function()? onLinkTap;
   final Function()? onSearchButtonTap;
+  final Function()? onSupportButtonTap;
   final String linkText;
   final bool showLink;
   final bool showSearchButton;
+  final bool showSupportButton;
   final String title;
   final Function()? onBackButtonTap;
 
@@ -44,6 +48,11 @@ class SBigHeader extends StatelessWidget {
                   onTap: onSearchButtonTap,
                   defaultIcon: const SSearchIcon(),
                   pressedIcon: const SSearchPressedIcon(),
+                ),
+              if (showSupportButton)
+                SIconButton(
+                  onTap: onSupportButtonTap,
+                  defaultIcon: const SFaqIcon(),
                 ),
             ],
           ),

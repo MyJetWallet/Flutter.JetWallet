@@ -64,7 +64,6 @@ abstract class BaseChartPainter extends CustomPainter {
     mDisplayHeight =
         size.height - ChartStyle.topPadding - ChartStyle.bottomDateHigh;
     mWidth = size.width + 10;
-    mMarginRight = 5;
     initRect(size);
     calculateValue();
     initChartRenderer();

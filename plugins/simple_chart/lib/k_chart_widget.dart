@@ -20,6 +20,7 @@ class KChartWidget extends StatefulWidget {
     required this.onCandleSelected,
     required this.formatPrice,
     required this.isAssetChart,
+    required this.chartWidth,
     this.selectedCandlePadding,
   });
 
@@ -38,6 +39,7 @@ class KChartWidget extends StatefulWidget {
   final double candleWidth;
   final double? selectedCandlePadding;
   final bool isAssetChart;
+  final double chartWidth;
 
   @override
   _KChartWidgetState createState() => _KChartWidgetState();
@@ -228,7 +230,7 @@ class _KChartWidgetState extends State<KChartWidget>
               topPadding: 219,
             ),
           CustomPaint(
-            size: Size.infinite,
+            size: Size(widget.chartWidth + 3, double.infinity),
             painter: ChartPainter(
               datas: widget.datas,
               scaleX: _scaleX,
@@ -244,6 +246,7 @@ class _KChartWidgetState extends State<KChartWidget>
               onCandleSelected: widget.onCandleSelected,
               formatPrice: widget.formatPrice,
               isAssetChart: widget.isAssetChart,
+              chartWidth: widget.chartWidth,
             ),
           ),
         ],

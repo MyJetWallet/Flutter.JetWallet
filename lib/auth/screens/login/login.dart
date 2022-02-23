@@ -4,8 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../app/screens/account/components/crisp.dart';
 import '../../../shared/helpers/analytics.dart';
 import '../../../shared/providers/service_providers.dart';
+import '../../shared/helpers/password_validators.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_union.dart';
@@ -41,6 +43,18 @@ class Login extends HookWidget {
 
     analytics(() => sAnalytics.loginView());
 
+    bool isButtonActive() {
+      late bool isInputValid;
+
+      if (email != null) {
+        isInputValid = isPasswordLengthValid(credentials.password);
+      } else {
+        isInputValid = credentials.readyToLogin;
+      }
+
+      return isInputValid && !disableContinue.value && !loader.value.value;
+    }
+
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
       onChange: (context, union) {
@@ -65,6 +79,8 @@ class Login extends HookWidget {
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
+            showSupportButton: true,
+            onSupportButtonTap: () => Crisp.push(context),
             title: intl.login_signIn,
             showLink: true,
             linkText: intl.login_forgotPassword,
@@ -138,15 +154,13 @@ class Login extends HookWidget {
                     const Spacer(),
                     SPaddingH24(
                       child: SPrimaryButton2(
-                        active: credentials.readyToLogin &&
-                            !disableContinue.value &&
-                            !loader.value.value,
+                        active: isButtonActive(),
                         name: intl.login_continueButton,
                         onTap: () {
                           disableContinue.value = true;
                           loader.value.startLoading();
                           authenticationN.authenticate(
-                            email: credentials.email,
+                            email: email ?? credentials.email,
                             password: credentials.password,
                             operation: AuthOperation.login,
                           );
