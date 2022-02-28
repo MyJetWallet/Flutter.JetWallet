@@ -25,8 +25,12 @@ class TransactionListItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = context.read(currenciesPod);
     final colors = useProvider(sColorPod);
+    final currencies = context.read(currenciesPod);
+    final currency = currencyFrom(
+      currencies,
+      transactionListItem.assetId,
+    );
 
     return InkWell(
       onTap: () => showTransactionDetails(
@@ -42,26 +46,26 @@ class TransactionListItem extends HookWidget {
               children: [
                 _icon(transactionListItem.operationType),
                 const SpaceW10(),
-                TransactionListItemHeaderText(
-                  text: operationName(transactionListItem.operationType),
+                Expanded(
+                  child: TransactionListItemHeaderText(
+                    text: operationName(transactionListItem.operationType),
+                  ),
                 ),
-                const Spacer(),
-                Builder(
-                  builder: (context) {
-                    final currency = currencyFrom(
-                      currencies,
-                      transactionListItem.assetId,
-                    );
-
-                    return TransactionListItemHeaderText(
-                      text: volumeFormat(
-                        prefix: currency.prefixSymbol,
-                        decimal: transactionListItem.balanceChange,
-                        accuracy: currency.accuracy,
-                        symbol: currency.symbol,
-                      ),
-                    );
-                  },
+                const SpaceW16(),
+                Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: 220,
+                    minWidth: 100,
+                  ),
+                  child: TransactionListItemHeaderText(
+                    text: volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      decimal: transactionListItem.balanceChange,
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
                 ),
               ],
             ),
@@ -76,43 +80,25 @@ class TransactionListItem extends HookWidget {
                 const Spacer(),
                 if (transactionListItem.operationType ==
                     OperationType.sell) ...[
-                  Builder(
-                    builder: (context) {
-                      final currency = currencyFrom(
-                        currencies,
-                        transactionListItem.swapInfo!.buyAssetId,
-                      );
-
-                      return TransactionListItemText(
-                        text: 'For ${volumeFormat(
-                          prefix: currency.prefixSymbol,
-                          decimal: transactionListItem.swapInfo!.buyAmount,
-                          accuracy: currency.accuracy,
-                          symbol: currency.symbol,
-                        )}',
-                        color: colors.grey2,
-                      );
-                    },
+                  TransactionListItemText(
+                    text: 'For ${volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      decimal: transactionListItem.swapInfo!.buyAmount,
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    )}',
+                    color: colors.grey2,
                   ),
                 ],
                 if (transactionListItem.operationType == OperationType.buy) ...[
-                  Builder(
-                    builder: (context) {
-                      final currency = currencyFrom(
-                        currencies,
-                        transactionListItem.swapInfo!.sellAssetId,
-                      );
-
-                      return TransactionListItemText(
-                        text: 'With ${volumeFormat(
-                          prefix: currency.prefixSymbol,
-                          decimal: transactionListItem.swapInfo!.sellAmount,
-                          accuracy: currency.accuracy,
-                          symbol: currency.symbol,
-                        )}',
-                        color: colors.grey2,
-                      );
-                    },
+                  TransactionListItemText(
+                    text: 'With ${volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      decimal: transactionListItem.swapInfo!.sellAmount,
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    )}',
+                    color: colors.grey2,
                   ),
                 ]
               ],

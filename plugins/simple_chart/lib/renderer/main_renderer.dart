@@ -65,8 +65,9 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
     double lastX,
     double curX,
     Size size,
-    Canvas canvas,
-  ) {
+    Canvas canvas, {
+    required bool isLast,
+  }) {
     switch (candleType) {
       case ChartType.candle:
         drawCandle(curPoint, canvas, curX);
@@ -84,6 +85,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
           canvas,
           lastX,
           curX,
+          isLast: isLast,
         );
         break;
 
@@ -170,8 +172,9 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
     double firstPrice,
     Canvas canvas,
     double lastX,
-    double curX,
-  ) {
+    double curX, {
+    required bool isLast,
+  }) {
     final mLinePaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke;
@@ -192,6 +195,10 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
       curX,
       getY(curPrice),
     );
+
+    if (isLast) {
+      mLinePath.lineTo(2000, getY(curPrice));
+    }
 
     final mLineFillPath = Path();
 

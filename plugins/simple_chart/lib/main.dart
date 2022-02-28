@@ -153,6 +153,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       formatPrice: widget.formatPrice,
                       selectedCandlePadding: widget.selectedCandlePadding,
                       isAssetChart: widget.isAssetChart,
+                      chartWidth: chartWidth,
                     ),
                     SlideTransition(
                       position: _offsetAnimation,

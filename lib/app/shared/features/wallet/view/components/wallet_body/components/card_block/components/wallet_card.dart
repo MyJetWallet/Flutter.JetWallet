@@ -149,6 +149,8 @@ class WalletCard extends HookWidget {
     );
   }
 
+  /// This function calculates size of text in pixels
+// TODO(any): refactor
   Size _textSize(String text, TextStyle style) {
     final textPainter = TextPainter(
       text: TextSpan(text: text, style: style),

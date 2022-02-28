@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../../../simple_kit.dart';
-import '../../banners/rewards_banner/helper/set_circle_background_image.dart';
 import '../../colors/view/simple_colors_light.dart';
 
 class SimpleAccountBanner extends StatelessWidget {
   const SimpleAccountBanner({
     Key? key,
-    this.imageUrl,
+    required this.imageUrl,
     required this.header,
     required this.description,
     required this.color,
     required this.onTap,
   }) : super(key: key);
 
-  final String? imageUrl;
+  final String imageUrl;
   final String header;
   final String description;
   final Color color;
@@ -36,9 +35,17 @@ class SimpleAccountBanner extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: setCircleBackgroundImage(imageUrl),
+            Container(
+              height: 80,
+              width: 80,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    imageUrl,
+                    package: 'simple_kit',
+                  ),
+                ),
+              ),
             ),
             const SpaceW16(),
             Column(

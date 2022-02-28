@@ -24,7 +24,6 @@ class NewsModel with _$NewsModel {
     required String urlAddress,
     required Sentiment sentiment,
     required List<String> associatedAssets,
-    required String description,
   }) = _NewsModel;
 
   factory NewsModel.fromJson(Map<String, dynamic> json) =>
