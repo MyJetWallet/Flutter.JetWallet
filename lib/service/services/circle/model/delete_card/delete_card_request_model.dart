@@ -6,7 +6,7 @@ part 'delete_card_request_model.g.dart';
 @freezed
 class DeleteCardRequestModel with _$DeleteCardRequestModel {
   const factory DeleteCardRequestModel({
-    required String name,
+    required String cardId,
   }) = _DeleteCardRequestModel;
 
   factory DeleteCardRequestModel.fromJson(Map<String, dynamic> json) =>

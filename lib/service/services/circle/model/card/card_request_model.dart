@@ -6,7 +6,7 @@ part 'card_request_model.g.dart';
 @freezed
 class CardRequestModel with _$CardRequestModel {
   const factory CardRequestModel({
-    required String name,
+    required String cardId,
   }) = _CardRequestModel;
 
   factory CardRequestModel.fromJson(Map<String, dynamic> json) =>

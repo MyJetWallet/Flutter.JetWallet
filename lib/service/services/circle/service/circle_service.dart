@@ -2,10 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
 import '../model/add_card/add_card_request_model.dart';
-import '../model/add_card/add_card_response_model.dart';
 import '../model/all_cards/all_cards_response_model.dart';
 import '../model/card/card_request_model.dart';
-import '../model/card/card_response_model.dart';
+import '../model/circle_card.dart';
 import '../model/create_payment/create_payment_request_model.dart';
 import '../model/create_payment/create_payment_response_model.dart';
 import '../model/delete_card/delete_card_request_model.dart';
@@ -27,7 +26,7 @@ class CircleService {
 
   static final logger = Logger('CircleService');
 
-  Future<AddCardResponseModel> addCard(AddCardRequestModel model) {
+  Future<CircleCard> addCard(AddCardRequestModel model) {
     return addCardService(dio, model);
   }
 
@@ -35,7 +34,7 @@ class CircleService {
     return allCardsService(dio);
   }
 
-  Future<CardResponseModel> card(CardRequestModel model) {
+  Future<CircleCard> card(CardRequestModel model) {
     return cardService(dio, model);
   }
 

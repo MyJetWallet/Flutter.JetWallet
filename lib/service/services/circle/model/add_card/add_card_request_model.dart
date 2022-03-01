@@ -6,7 +6,19 @@ part 'add_card_request_model.g.dart';
 @freezed
 class AddCardRequestModel with _$AddCardRequestModel {
   const factory AddCardRequestModel({
-    required String name,
+    required String requestGuid,
+    required String cardName,
+    required String keyId,
+    required String encryptedData,
+    required String billingName,
+    required String billingCity,
+    required String billingCountry,
+    required String billingLine1,
+    required String billingLine2,
+    required String billingDistrict,
+    required String billingPostalCode,
+    required int expMonth,
+    required int expYear,
   }) = _AddCardRequestModel;
 
   factory AddCardRequestModel.fromJson(Map<String, dynamic> json) =>
