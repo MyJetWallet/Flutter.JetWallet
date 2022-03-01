@@ -168,6 +168,18 @@ definitions:
         include: true
         source: false
     cancel_previous_builds: false  
+  
+  devops-test_triggering: &devops-test_triggering
+    events:
+      - tag
+    branch_patterns:
+      - pattern: devops-test
+        include: true
+        source: false
+    tag_patterns:
+      - pattern: "*"
+        include: true
+    cancel_previous_builds: false  
 
   stage_triggering: &stage_triggering
     events:
@@ -188,8 +200,26 @@ definitions:
     cancel_previous_builds: false  
 
 workflows:
-  flavor_development_target_stage:
-    name: Flavor (Development) Target (Stage)
+#  flavor_development_target_stage:
+#    name: Flavor (Development) Target (Stage)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_stage.dart"
+#        <<: *flavor_development_vars
+#
+#      <<: *flavor_development_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+#    triggering: *dev_triggering 
+
+  flavor_devops-test_target_stage:
+    name: Flavor (devops-test) Target (Stage)
     <<: *build_config
 
     environment:
@@ -204,91 +234,91 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-    triggering: *dev_triggering 
+    triggering: *devops-test_triggering
 
-  flavor_development_target_production:
-    name: Flavor (Development) Target (Production)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_production.dart"
-        <<: *flavor_development_vars
-
-      <<: *flavor_development_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-  
-  flavor_stage_target_stage:
-    name: Flavor (Stage) Target (Stage)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_stage.dart"
-        <<: *flavor_staging_vars
-
-      <<: *flavor_staging_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-
-  flavor_stage_target_production:
-    name: Flavor (Stage) Target (Production)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_production.dart"
-        <<: *flavor_staging_vars
-
-      <<: *flavor_staging_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-    triggering: *stage_triggering
-
-  flavor_production_target_stage:
-    name: Flavor (Production) Target (Stage)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_stage.dart"
-        <<: *flavor_production_vars
-
-      <<: *flavor_production_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-  
-  flavor_production_target_production:
-    name: Flavor (Production) Target (Production)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_production.dart"
-        <<: *flavor_production_vars
-
-      <<: *flavor_production_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-    triggering: *prod_triggering
+#  flavor_development_target_production:
+#    name: Flavor (Development) Target (Production)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_production.dart"
+#        <<: *flavor_development_vars
+#
+#      <<: *flavor_development_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+#  
+#  flavor_stage_target_stage:
+#    name: Flavor (Stage) Target (Stage)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_stage.dart"
+#        <<: *flavor_staging_vars
+#
+#      <<: *flavor_staging_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+#
+#  flavor_stage_target_production:
+#    name: Flavor (Stage) Target (Production)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_production.dart"
+#        <<: *flavor_staging_vars
+#
+#      <<: *flavor_staging_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+#    triggering: *stage_triggering
+#
+#  flavor_production_target_stage:
+#    name: Flavor (Production) Target (Stage)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_stage.dart"
+#        <<: *flavor_production_vars
+#
+#      <<: *flavor_production_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+#  
+#  flavor_production_target_production:
+#    name: Flavor (Production) Target (Production)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_production.dart"
+#        <<: *flavor_production_vars
+#
+#      <<: *flavor_production_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+#    triggering: *prod_triggering
