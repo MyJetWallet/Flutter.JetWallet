@@ -98,11 +98,12 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
 
     try {
       final model = ExecuteQuoteRequestModel(
+        isFromFixed: true,
         operationId: state.operationId!,
         price: state.price!,
         fromAssetSymbol: state.fromAssetSymbol!,
         toAssetSymbol: state.toAssetSymbol!,
-        fromAssetAmount: state.fromAssetAmount!,
+        fromAssetAmount: state.fromAssetAmount,
         toAssetAmount: state.toAssetAmount!,
       );
 

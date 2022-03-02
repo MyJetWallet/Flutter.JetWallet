@@ -7,7 +7,8 @@ part 'preview_convert_input.freezed.dart';
 @freezed
 class PreviewConvertInput with _$PreviewConvertInput {
   const factory PreviewConvertInput({
-    required String amount,
+    required String fromAmount,
+    required String toAmount,
     required CurrencyModel fromCurrency,
     required CurrencyModel toCurrency,
   }) = _PreviewConvertInput;

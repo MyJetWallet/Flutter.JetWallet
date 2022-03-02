@@ -42,7 +42,8 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
 
   void _updateFrom(PreviewConvertInput input) {
     state = state.copyWith(
-      fromAssetAmount: Decimal.parse(input.amount),
+      fromAssetAmount: Decimal.parse(input.fromAmount),
+      toAssetAmount: Decimal.parse(input.toAmount),
       fromAssetSymbol: input.fromCurrency.symbol,
       toAssetSymbol: input.toCurrency.symbol,
     );
@@ -54,9 +55,11 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
     state = state.copyWith(union: const QuoteLoading());
 
     final model = GetQuoteRequestModel(
-      fromAssetAmount: state.fromAssetAmount,
+      // fromAssetAmount: state.fromAssetAmount,
       fromAssetSymbol: state.fromAssetSymbol!,
       toAssetSymbol: state.toAssetSymbol!,
+      toAssetAmount: state.toAssetAmount,
+      isFromFixed: false,
     );
 
     try {
@@ -102,8 +105,9 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
         price: state.price!,
         fromAssetSymbol: state.fromAssetSymbol!,
         toAssetSymbol: state.toAssetSymbol!,
-        fromAssetAmount: state.fromAssetAmount!,
+        // fromAssetAmount: state.fromAssetAmount!,
         toAssetAmount: state.toAssetAmount!,
+        isFromFixed: false,
       );
 
       final response = await read(swapServicePod).executeQuote(model);

@@ -9,14 +9,14 @@ part 'execute_quote_request_model.g.dart';
 @freezed
 class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
   const factory ExecuteQuoteRequestModel({
-    @Default(true) bool isFromFixed,
+    required bool isFromFixed,
     required String operationId,
     @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
     @DecimalSerialiser()
     @JsonKey(name: 'fromAssetVolume')
-        required Decimal fromAssetAmount,
+        Decimal? fromAssetAmount,
     @DecimalSerialiser()
     @JsonKey(name: 'toAssetVolume')
         required Decimal toAssetAmount,
