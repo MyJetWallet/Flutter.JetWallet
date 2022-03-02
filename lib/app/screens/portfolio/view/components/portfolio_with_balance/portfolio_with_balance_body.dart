@@ -101,8 +101,11 @@ class PortfolioWithBalanceBody extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (chart.union != const ChartUnion.loading())
-                SizedBox(
+                Container(
                   height: 104,
+                  color: chart.union == const ChartUnion.error('')
+                      ? colors.grey1
+                      : Colors.transparent,
                   child: PaddingL24(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,12 +127,13 @@ class PortfolioWithBalanceBody extends HookWidget {
                               ),
                             ),
                             const SpaceW10(),
-                            Text(
-                              'Today',
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey3,
+                            if (chart.union != const ChartUnion.error(''))
+                              Text(
+                                'Today',
+                                style: sBodyText2Style.copyWith(
+                                  color: colors.grey3,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ],
