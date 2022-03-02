@@ -71,6 +71,9 @@ class PortfolioWithBalanceBody extends HookWidget {
     final periodChange = _periodChange(chart, baseCurrency);
     final periodChangeColor =
         periodChange.contains('-') ? colors.red : colors.green;
+    final currentCandles = chart.candles[chart.resolution];
+    final isCurrentCandlesEmptyOrNull =
+        currentCandles == null || currentCandles.isEmpty;
 
     return SingleChildScrollView(
       child: Stack(
@@ -90,8 +93,7 @@ class PortfolioWithBalanceBody extends HookWidget {
               ),
             ),
           if (chart.union == const ChartUnion.loading() ||
-              chart.candles[chart.resolution] == null ||
-              chart.candles[chart.resolution]!.isEmpty)
+              isCurrentCandlesEmptyOrNull)
             Container(
               width: double.infinity,
               height: 465,
@@ -103,9 +105,7 @@ class PortfolioWithBalanceBody extends HookWidget {
               if (chart.union != const ChartUnion.loading())
                 Container(
                   height: 104,
-                  color: chart.union == const ChartUnion.error('')
-                      ? colors.grey1
-                      : Colors.transparent,
+                  color: colors.white,
                   child: PaddingL24(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +127,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               ),
                             ),
                             const SpaceW10(),
-                            if (chart.union != const ChartUnion.error(''))
+                            if (!isCurrentCandlesEmptyOrNull)
                               Text(
                                 'Today',
                                 style: sBodyText2Style.copyWith(
