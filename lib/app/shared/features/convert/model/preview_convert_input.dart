@@ -11,5 +11,6 @@ class PreviewConvertInput with _$PreviewConvertInput {
     required String toAmount,
     required CurrencyModel fromCurrency,
     required CurrencyModel toCurrency,
+    required bool toAssetEnabled,
   }) = _PreviewConvertInput;
 }

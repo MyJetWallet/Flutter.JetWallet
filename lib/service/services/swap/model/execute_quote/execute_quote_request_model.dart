@@ -9,7 +9,7 @@ part 'execute_quote_request_model.g.dart';
 @freezed
 class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
   const factory ExecuteQuoteRequestModel({
-    required bool isFromFixed,
+    @Default(true) bool isFromFixed,
     required String operationId,
     @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
@@ -19,7 +19,7 @@ class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
         Decimal? fromAssetAmount,
     @DecimalSerialiser()
     @JsonKey(name: 'toAssetVolume')
-        required Decimal toAssetAmount,
+        required Decimal? toAssetAmount,
   }) = _ExecuteQuoteRequestModel;
 
   factory ExecuteQuoteRequestModel.fromJson(Map<String, dynamic> json) =>

@@ -112,6 +112,7 @@ class Convert extends HookWidget {
                     toAmount: state.toAssetAmount,
                     fromCurrency: state.fromAsset,
                     toCurrency: state.toAsset,
+                    toAssetEnabled: state.toAssetEnabled,
                   ),
                 ),
               );
