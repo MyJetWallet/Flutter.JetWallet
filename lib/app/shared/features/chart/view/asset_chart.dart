@@ -8,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../helpers/formatting/base/market_format.dart';
+import '../notifier/asset_chart_input_stpod.dart';
 import '../notifier/chart_notipod.dart';
 
 class AssetChart extends StatefulHookWidget {
@@ -28,10 +29,14 @@ class _AssetChartState extends State<AssetChart>
   @override
   Widget build(BuildContext context) {
     final chartNotifier = useProvider(
-      chartNotipod(widget.marketItem.associateAssetPair).notifier,
+      chartNotipod(
+        useProvider(assetChartInputStpod(widget.marketItem)).state,
+      ).notifier,
     );
     final chartState = useProvider(
-      chartNotipod(widget.marketItem.associateAssetPair),
+      chartNotipod(
+        useProvider(assetChartInputStpod(widget.marketItem)).state,
+      ),
     );
 
     return chartState.union.when(
