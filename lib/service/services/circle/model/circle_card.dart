@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'circle_card.freezed.dart';
+part 'circle_card.g.dart';
 
 @freezed
 class CircleCard with _$CircleCard {

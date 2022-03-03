@@ -81,6 +81,8 @@ dependencies:
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
   fast_rsa: ^3.2.0 # RSA signing
+  # openpgp: 3.2.3 # use OpenPGP
+  # uuid: ^3.0.6 # UUID Generator and Parser 
 
   # OWN LIBS:
   simple_kit:

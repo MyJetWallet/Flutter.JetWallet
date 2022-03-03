@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../notifier/enter_card_details_notipod.dart';
 
 class EnterCardDetails extends HookWidget {
   const EnterCardDetails({Key? key}) : super(key: key);
@@ -15,6 +16,8 @@ class EnterCardDetails extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final state = useProvider(enterCardDetailsNotipod);
+    final notifier = useProvider(enterCardDetailsNotipod.notifier);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -61,6 +64,11 @@ class EnterCardDetails extends HookWidget {
               ),
               const SFieldDividerFrame(
                 child: SStandardField(
+                  labelText: 'Card name',
+                ),
+              ),
+              const SFieldDividerFrame(
+                child: SStandardField(
                   labelText: 'Cardholder name',
                 ),
               ),
@@ -77,6 +85,11 @@ class EnterCardDetails extends HookWidget {
               const SFieldDividerFrame(
                 child: SStandardField(
                   labelText: 'City',
+                ),
+              ),
+              const SFieldDividerFrame(
+                child: SStandardField(
+                  labelText: 'District',
                 ),
               ),
               const SFieldDividerFrame(
@@ -103,7 +116,9 @@ class EnterCardDetails extends HookWidget {
                 child: SPrimaryButton2(
                   active: true,
                   name: 'Continue',
-                  onTap: () {},
+                  onTap: () {
+                    notifier.addCard();
+                  },
                 ),
               ),
             ),
