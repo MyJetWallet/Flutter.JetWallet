@@ -83,7 +83,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
 
-      updateCandles(null, resolution);
+      updateCandles([], resolution);
     }
   }
 
@@ -111,7 +111,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
     } catch (e) {
       _logger.log(stateFlow, 'fetchAssetCandles', e);
 
-      updateCandles(null, resolution);
+      updateCandles([], resolution);
     }
   }
 
