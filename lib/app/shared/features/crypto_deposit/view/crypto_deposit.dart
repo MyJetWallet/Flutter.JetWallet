@@ -44,6 +44,8 @@ class CryptoDeposit extends HookWidget {
         ),
         child: Column(
           children: [
+            for (final depositNetwork in currency.depositBlockchains)
+              Text(depositNetwork),
             if (deposit.tag != null)
               CryptoDepositWithAddressAndTag(
                 currency: currency,
