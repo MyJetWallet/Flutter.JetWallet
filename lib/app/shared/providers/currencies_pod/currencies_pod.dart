@@ -32,6 +32,8 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             depositMethods: asset.depositMethods,
             fees: asset.fees,
             withdrawalMethods: asset.withdrawalMethods,
+            depositBlockchains: asset.depositBlockchains,
+            withdrawalBlockchains: asset.withdrawalBlockchains,
             iconUrl: iconUrlFrom(asset.symbol),
             prefixSymbol: asset.prefixSymbol,
             apy: Decimal.zero,
