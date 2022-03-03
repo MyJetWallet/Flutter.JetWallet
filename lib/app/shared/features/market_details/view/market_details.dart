@@ -10,6 +10,7 @@ import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../../shared/helpers/analytics.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
+import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
@@ -45,7 +46,9 @@ class MarketDetails extends HookWidget {
       ),
     );
     final chartN = useProvider(
-      chartNotipod(marketItem.associateAssetPair).notifier,
+      chartNotipod(
+        useProvider(assetChartInputStpod(marketItem)).state,
+      ).notifier,
     );
     final watchlistIdsN = useProvider(watchlistIdsNotipod.notifier);
     final initTransactionHistory = useProvider(
@@ -61,7 +64,9 @@ class MarketDetails extends HookWidget {
     final newsInit = useProvider(marketNewsInitFpod(marketItem.symbol));
     final news = useProvider(marketNewsNotipod);
     final chart = useProvider(
-      chartNotipod(marketItem.associateAsset),
+      chartNotipod(
+        useProvider(assetChartInputStpod(marketItem)).state,
+      ),
     );
     useProvider(watchlistIdsNotipod);
 
@@ -100,12 +105,10 @@ class MarketDetails extends HookWidget {
                 child: Column(
                   children: [
                     AssetPrice(
-                      assetId: marketItem.associateAsset,
-                      instrumentId: marketItem.associateAssetPair,
+                      marketItem: marketItem,
                     ),
                     AssetDayChange(
-                      instrumentId: marketItem.associateAssetPair,
-                      assetId: marketItem.associateAsset,
+                      marketItem: marketItem,
                     ),
                   ],
                 ),
