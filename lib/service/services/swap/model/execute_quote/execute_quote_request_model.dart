@@ -16,10 +16,10 @@ class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
     @DecimalSerialiser()
     @JsonKey(name: 'fromAssetVolume')
-        required Decimal fromAssetAmount,
+        Decimal? fromAssetAmount,
     @DecimalSerialiser()
     @JsonKey(name: 'toAssetVolume')
-        required Decimal toAssetAmount,
+        required Decimal? toAssetAmount,
   }) = _ExecuteQuoteRequestModel;
 
   factory ExecuteQuoteRequestModel.fromJson(Map<String, dynamic> json) =>
