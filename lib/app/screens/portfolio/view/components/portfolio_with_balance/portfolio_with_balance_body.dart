@@ -10,6 +10,7 @@ import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_state.dart';
 import '../../../../../shared/features/chart/notifier/chart_union.dart';
@@ -63,14 +64,25 @@ class PortfolioWithBalanceBody extends HookWidget {
         currenciesWithBalanceFrom(useProvider(marketFiatsPod));
     final fiatsWithoutBalance =
         currenciesWithoutBalanceFrom(useProvider(marketFiatsPod));
-    final chartN = useProvider(chartNotipod(null).notifier);
-    final chart = useProvider(chartNotipod(null));
+    final clientDetail = useProvider(clientDetailPod);
+    final chartN = useProvider(
+      chartNotipod(
+        useProvider(balanceChartInputStpod).state,
+      ).notifier,
+    );
+    final chart = useProvider(
+      chartNotipod(
+        useProvider(balanceChartInputStpod).state,
+      ),
+    );
     final showZeroBalanceWallets = useProvider(showZeroBalanceWalletsStpod);
     final baseCurrency = useProvider(baseCurrencyPod);
-    final clientDetail = useProvider(clientDetailPod);
     final periodChange = _periodChange(chart, baseCurrency);
     final periodChangeColor =
         periodChange.contains('-') ? colors.red : colors.green;
+    final currentCandles = chart.candles[chart.resolution];
+    final isCurrentCandlesEmptyOrNull =
+        currentCandles == null || currentCandles.isEmpty;
 
     return SingleChildScrollView(
       child: Stack(
@@ -90,8 +102,7 @@ class PortfolioWithBalanceBody extends HookWidget {
               ),
             ),
           if (chart.union == const ChartUnion.loading() ||
-              chart.candles[chart.resolution] == null ||
-              chart.candles[chart.resolution]!.isEmpty)
+              isCurrentCandlesEmptyOrNull)
             Container(
               width: double.infinity,
               height: 465,
@@ -101,8 +112,9 @@ class PortfolioWithBalanceBody extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (chart.union != const ChartUnion.loading())
-                SizedBox(
+                Container(
                   height: 104,
+                  color: colors.white,
                   child: PaddingL24(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,12 +136,13 @@ class PortfolioWithBalanceBody extends HookWidget {
                               ),
                             ),
                             const SpaceW10(),
-                            Text(
-                              'Today',
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey3,
+                            if (!isCurrentCandlesEmptyOrNull)
+                              Text(
+                                'Today',
+                                style: sBodyText2Style.copyWith(
+                                  color: colors.grey3,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ],
