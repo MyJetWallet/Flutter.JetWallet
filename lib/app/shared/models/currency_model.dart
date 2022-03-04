@@ -122,4 +122,6 @@ class CurrencyModel with _$CurrencyModel {
   bool get supportsSWiftWithdrawal {
     return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
   }
+
+  bool get isSingleNetwork => depositBlockchains.length == 1;
 }

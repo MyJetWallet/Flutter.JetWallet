@@ -5,10 +5,13 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../models/currency_model.dart';
+import '../notifier/crypto_deposit_notifier.dart';
 import '../notifier/crypto_deposit_notipod.dart';
 import '../provider/crypto_deposit_disclaimer_fpod.dart';
 import 'components/crypto_deposit_with_address.dart';
 import 'components/crypto_deposit_with_address_and_tag/crypto_deposit_with_address_and_tag.dart';
+import 'components/deposit_info.dart';
+import 'components/network_item.dart';
 import 'components/show_deposit_disclaimer.dart';
 
 class CryptoDeposit extends HookWidget {
@@ -25,14 +28,33 @@ class CryptoDeposit extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     useProvider(cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}));
-    final deposit = useProvider(cryptoDepositNotipod(currency.symbol));
+    final deposit = useProvider(cryptoDepositNotipod(currency));
+    final depositN = useProvider(cryptoDepositNotipod(currency).notifier);
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
       provider: cryptoDepositDisclaimerFpod(currency.symbol),
       onChange: (context, asyncValue) {
         asyncValue.whenData((value) {
           if (value == CryptoDepositDisclaimer.notAccepted) {
-            showDepositDisclaimer(context, currency.symbol);
+            showDepositDisclaimer(
+              context: context,
+              assetSymbol: currency.symbol,
+              onDismiss: currency.isSingleNetwork
+                  ? null
+                  : () => _showNetworkBottomSheet(
+                        context,
+                        deposit.network,
+                        depositN,
+                      ),
+            );
+          } else {
+            if (!currency.isSingleNetwork) {
+              _showNetworkBottomSheet(
+                context,
+                deposit.network,
+                depositN,
+              );
+            }
           }
         });
       },
@@ -44,8 +66,81 @@ class CryptoDeposit extends HookWidget {
         ),
         child: Column(
           children: [
-            for (final depositNetwork in currency.depositBlockchains)
-              Text(depositNetwork),
+            DepositInfo(),
+            Container(
+              height: 88.0,
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 16,
+              ),
+              child: InkWell(
+                highlightColor: colors.grey5,
+                splashColor: Colors.transparent,
+                onTap: currency.isSingleNetwork
+                    ? null
+                    : () => _showNetworkBottomSheet(
+                          context,
+                          deposit.network,
+                          depositN,
+                        ),
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: colors.grey3,
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 5,
+                        ),
+                        child: Text(
+                          'Network',
+                          style: sCaptionTextStyle.copyWith(
+                            color: colors.grey2,
+                          ),
+                        ),
+                      ),
+                      if (deposit.network.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.only(
+                            top: 24,
+                          ),
+                          child: SSkeletonTextLoader(
+                            height: 16,
+                            width: 80,
+                          ),
+                        ),
+                      if (deposit.network.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 17,
+                          ),
+                          child: Text(
+                            deposit.network,
+                            style: sSubtitle2Style,
+                          ),
+                        ),
+                      if (!currency.isSingleNetwork)
+                        const Positioned(
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: SAngleDownIcon(),
+                        )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SDivider(),
             if (deposit.tag != null)
               CryptoDepositWithAddressAndTag(
                 currency: currency,
@@ -73,6 +168,32 @@ class CryptoDeposit extends HookWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showNetworkBottomSheet(
+    BuildContext context,
+    String currentNetwork,
+    CryptoDepositNotifier depositN,
+  ) {
+    sShowBasicModalBottomSheet(
+      context: context,
+      pinned: const SBottomSheetHeader(
+        name: 'Choose Network',
+      ),
+      children: [
+        for (final network in currency.depositBlockchains)
+          NetworkItem(
+            iconUrl: currency.iconUrl,
+            network: network,
+            selected: network == currentNetwork,
+            onTap: () {
+              depositN.setNetwork(network);
+              Navigator.of(context).pop();
+            },
+          ),
+        const SpaceH7(),
+      ],
     );
   }
 }
