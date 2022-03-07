@@ -12,7 +12,11 @@ Widget createRewardDescriptionItem(
   Function(String) onTap,
 ) {
   return GestureDetector(
-    onTap: () => onTap(condition.deepLink),
+    onTap: () {
+      if (condition.parameters!.passed == 'false') {
+        onTap(condition.deepLink);
+      }
+    },
     child: Row(
       children: [
         if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition) ||
