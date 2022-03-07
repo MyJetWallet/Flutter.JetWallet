@@ -55,4 +55,17 @@ class EventType {
   static const earnDetailsView = 'Earn details view';
 
   static const depositCryptoView = 'Deposit crypto view';
+
+  static const walletAssetView  = 'Wallet asset view';
+
+  static const kycCameraAllowed = 'KYC - Camera allowed';
+
+  static const kycCameraNotAllowed = 'KYC - Camera not allowed';
+
+  static const kycIdentityUploaded = 'KYC - Identity Uploaded';
+
+  static const kycIdentityUploadFailed  = 'KYC - Identity upload failed';
+
+  static const kycSelfieUploaded  = 'KYC - Selfie uploaded';
+
 }

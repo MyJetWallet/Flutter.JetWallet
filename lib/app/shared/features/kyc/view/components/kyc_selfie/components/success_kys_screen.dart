@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/components/result_screens/success_screen/components/success_animation.dart';
+import '../../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../provider/kyc_start_fpod.dart';
 
@@ -40,6 +42,8 @@ class SuccessKycScreen extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     useProvider(kycStartFpod);
+
+    analytics(() => sAnalytics.assetView(ScreenSource.kycSuccessPageView.name));
 
     return SPageFrameWithPadding(
       child: Column(

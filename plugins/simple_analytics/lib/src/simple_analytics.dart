@@ -220,6 +220,62 @@ class SimpleAnalytics {
     );
   }
 
+  void walletAssetView(ScreenSource source, String assetName) {
+    _analytics.logEvent(
+      EventType.walletAssetView,
+      eventProperties: {
+        PropertyType.sourceScreen: source.name,
+        PropertyType.assetName: assetName,
+      },
+    );
+  }
+
+  void kycCameraAllowed() {
+    _analytics.logEvent(
+      EventType.kycCameraAllowed,
+      eventProperties: {
+        PropertyType.sourceScreen: KycScope.kycCameraAllowed.name,
+      },
+    );
+  }
+
+  void kycCameraNotAllowed() {
+    _analytics.logEvent(
+      EventType.kycCameraNotAllowed,
+      eventProperties: {
+        PropertyType.sourceScreen: KycScope.kycCameraNotAllowed.name,
+      },
+    );
+  }
+
+  void kycIdentityUploaded() {
+    _analytics.logEvent(
+      EventType.kycIdentityUploaded,
+      eventProperties: {
+        PropertyType.sourceScreen: KycScope.kycIdentityUploaded.name,
+      },
+    );
+  }
+
+  void kycIdentityUploadFailed(String error) {
+    _analytics.logEvent(
+      EventType.kycIdentityUploadFailed,
+      eventProperties: {
+        PropertyType.sourceScreen: KycScope.kycIdentityUploadFailed.name,
+        PropertyType.error: error,
+      },
+    );
+  }
+
+  void kycSelfieUploaded() {
+    _analytics.logEvent(
+      EventType.kycSelfieUploaded,
+      eventProperties: {
+        PropertyType.sourceScreen: KycScope.kycIdentityUploaded.name,
+      },
+    );
+  }
+
   /// Call when user makes logout.
   /// It will clean unique userId and will generate deviceId,
   /// so the user will appear as a brand new one.

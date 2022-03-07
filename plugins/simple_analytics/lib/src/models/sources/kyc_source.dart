@@ -4,6 +4,10 @@ enum ScreenSource {
   accountBanner,
   emptyPortfolioScreen,
   earnProgram,
+  kycAllowCameraView,
+  kycUploadIdentityDocumentView,
+  kycSelfieView,
+  kycSuccessPageView,
 }
 
 extension KycSourceExtension on ScreenSource {
@@ -19,6 +23,14 @@ extension KycSourceExtension on ScreenSource {
         return 'Empty portfolio screen';
       case ScreenSource.earnProgram:
         return 'Earn program';
+      case ScreenSource.kycAllowCameraView:
+        return 'KYC - Allow camera view';
+      case ScreenSource.kycUploadIdentityDocumentView:
+        return 'KYC - Upload identity document view';
+      case ScreenSource.kycSelfieView:
+        return 'KYC - Take a selfie view';
+      case ScreenSource.kycSuccessPageView:
+        return 'KYC - Success page view';
     }
   }
 }
@@ -27,6 +39,11 @@ enum KycScope {
   phone,
   identity,
   phoneIdentity,
+  kycCameraAllowed,
+  kycCameraNotAllowed,
+  kycIdentityUploaded,
+  kycIdentityUploadFailed,
+  kycSelfieUpload,
 }
 
 extension KycScopeExtension on KycScope {
@@ -38,6 +55,16 @@ extension KycScopeExtension on KycScope {
         return 'Identity';
       case KycScope.phoneIdentity:
         return 'Phone + Identity';
+      case KycScope.kycCameraAllowed:
+        return 'KYC - Camera allowed';
+      case KycScope.kycCameraNotAllowed:
+        return 'KYC - Camera not allowed';
+      case KycScope.kycIdentityUploaded:
+        return 'KYC - Identity Uploaded';
+      case KycScope.kycIdentityUploadFailed:
+        return 'KYC - Identity upload failed';
+      case KycScope.kycSelfieUpload:
+        return 'KYC - Selfie uploaded';
     }
   }
 }

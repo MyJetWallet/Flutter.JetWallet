@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -48,8 +49,10 @@ class CameraPermissionNotifier extends StateNotifier<CameraPermissionState> {
 
       if (status == PermissionStatus.granted) {
         if (!mounted) return;
+        sAnalytics.kycCameraAllowed();
         UploadKycDocuments.pushReplacement(context);
       } else {
+        sAnalytics.kycCameraNotAllowed();
         _updateCameraStatus(CameraStatus.denied);
       }
     }
