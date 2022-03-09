@@ -11,6 +11,8 @@ int mergeCandlesCountFrom(String resolution) {
     return MergeCandlesCount.month;
   } else if (resolution == Period.year) {
     return MergeCandlesCount.year;
+  } else if (resolution == Period.all) {
+    return MergeCandlesCount.all;
   }
 
   return MergeCandlesCount.day;

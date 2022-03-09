@@ -21,6 +21,8 @@ class CurrencyModel with _$CurrencyModel {
     @Default(AssetFeesModel()) AssetFeesModel fees,
     @Default([]) List<DepositMethods> depositMethods,
     @Default([]) List<WithdrawalMethods> withdrawalMethods,
+    @Default([]) List<String> depositBlockchains,
+    @Default([]) List<String> withdrawalBlockchains,
     @Default(0.0) double reserve,
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
@@ -120,4 +122,6 @@ class CurrencyModel with _$CurrencyModel {
   bool get supportsSWiftWithdrawal {
     return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
   }
+
+  bool get isSingleNetwork => depositBlockchains.length == 1;
 }

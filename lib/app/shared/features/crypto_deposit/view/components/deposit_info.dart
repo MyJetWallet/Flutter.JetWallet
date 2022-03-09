@@ -3,13 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class DepositWithTagInfo extends HookWidget {
-  const DepositWithTagInfo({
-    required this.currencySymbol,
-  });
-
-  final String currencySymbol;
-
+class DepositInfo extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
@@ -24,7 +18,8 @@ class DepositWithTagInfo extends HookWidget {
             horizontal: 40.0,
           ),
           child: Text(
-            'Tag and Address both are required to receive $currencySymbol.',
+            'Ensure the network you choose to deposit matches the '
+            'withdrawal network',
             maxLines: 3,
             textAlign: TextAlign.center,
             style: sBodyText1Style,

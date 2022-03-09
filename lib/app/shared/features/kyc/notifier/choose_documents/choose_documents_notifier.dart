@@ -80,4 +80,17 @@ class ChooseDocumentsNotifier extends StateNotifier<ChooseDocumentsState> {
       );
     }
   }
+
+  void updateDocuments() {
+    final countries = read(kycCountriesNotipod);
+    final documents = <DocumentsModel>[];
+
+    for (final document in countries.activeCountry!.acceptedDocuments) {
+      documents.add(
+        DocumentsModel(document: document, active: false),
+      );
+    }
+
+    state = state.copyWith(documents: documents);
+  }
 }

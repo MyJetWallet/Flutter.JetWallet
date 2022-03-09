@@ -8,7 +8,7 @@ enum ScreenSource {
   kycUploadIdentityDocumentView,
   kycSelfieView,
   kycSuccessPageView,
-  kycPhoneConfirmationView
+  kycPhoneConfirmationView,
 }
 
 extension KycSourceExtension on ScreenSource {

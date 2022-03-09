@@ -13,13 +13,14 @@ import '../helper/format_merge_candles_count.dart';
 import '../helper/format_resolution.dart';
 import '../helper/prepare_candles_from.dart';
 import '../helper/time_length_from.dart';
+import '../model/chart_input.dart';
 import 'chart_state.dart';
 import 'chart_union.dart';
 
 class ChartNotifier extends StateNotifier<ChartState> {
   ChartNotifier({
     required this.read,
-    required this.instrumentId,
+    required this.chartInput,
   }) : super(
           const ChartState(
             candles: {
@@ -33,23 +34,50 @@ class ChartNotifier extends StateNotifier<ChartState> {
             resolution: Period.day,
           ),
         ) {
-    if (instrumentId != null) {
-      fetchAssetCandles(Period.day, instrumentId!);
-      fetchAssetCandles(Period.week, instrumentId!);
-      fetchAssetCandles(Period.month, instrumentId!);
-      fetchAssetCandles(Period.year, instrumentId!);
-      fetchAssetCandles(Period.all, instrumentId!);
+    final currentDate = DateTime.now().toLocal();
+    final localCreationDate = DateTime.parse(chartInput.creationDate).toLocal();
+    final dateDifference = currentDate.difference(localCreationDate).inHours;
+    final showWeek = dateDifference > const Duration(days: 7).inHours;
+    final showMonth = dateDifference > const Duration(days: 30).inHours;
+    final showYear = dateDifference > const Duration(days: 365).inHours;
+
+    if (chartInput.instrumentId != null) {
+      fetchAssetCandles(Period.day, chartInput.instrumentId!).then(
+        (_) {
+          final dayCandles = state.candles[Period.day];
+          if (dayCandles != null && dayCandles.isEmpty) {
+            fetchAssetCandles(Period.day, chartInput.instrumentId!);
+          }
+          if (showWeek) {
+            fetchAssetCandles(Period.week, chartInput.instrumentId!);
+          }
+          if (showMonth) {
+            fetchAssetCandles(Period.month, chartInput.instrumentId!);
+          }
+          if (showYear) {
+            fetchAssetCandles(Period.year, chartInput.instrumentId!);
+          }
+          fetchAssetCandles(Period.all, chartInput.instrumentId!);
+        },
+      );
     } else {
-      fetchBalanceCandles(Period.day);
-      fetchBalanceCandles(Period.week);
-      fetchBalanceCandles(Period.month);
-      fetchBalanceCandles(Period.year);
-      fetchBalanceCandles(Period.all);
+      fetchBalanceCandles(Period.day).then(
+        (_) {
+          final dayCandles = state.candles[Period.day];
+          if (dayCandles != null && dayCandles.isEmpty) {
+            fetchBalanceCandles(Period.day);
+          }
+          if (showWeek) fetchBalanceCandles(Period.week);
+          if (showMonth) fetchBalanceCandles(Period.month);
+          if (showYear) fetchBalanceCandles(Period.year);
+          fetchBalanceCandles(Period.all);
+        },
+      );
     }
   }
 
   final Reader read;
-  final String? instrumentId;
+  final ChartInput chartInput;
 
   static final _logger = Logger('ChartNotifier');
 
@@ -69,7 +97,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
 
-      updateCandles(null, resolution);
+      updateCandles([], resolution);
     }
   }
 
@@ -97,7 +125,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
     } catch (e) {
       _logger.log(stateFlow, 'fetchAssetCandles', e);
 
-      updateCandles(null, resolution);
+      updateCandles([], resolution);
     }
   }
 
