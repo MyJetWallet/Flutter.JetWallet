@@ -8,12 +8,14 @@ import '../base_currency_pod/base_currency_pod.dart';
 import '../signal_r/assets_spod.dart';
 import '../signal_r/balances_spod.dart';
 import '../signal_r/base_prices_spod.dart';
+import '../signal_r/blockchains_spod.dart';
 
 final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
   final baseCurrency = ref.watch(baseCurrencyPod);
   final basePrices = ref.watch(basePricesSpod);
+  final blockchains = ref.watch(blockchainsSpod);
 
   final currencies = <CurrencyModel>[];
 

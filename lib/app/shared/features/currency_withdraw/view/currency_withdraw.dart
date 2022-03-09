@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../components/show_network_bottom_sheet.dart';
 import '../model/withdrawal_model.dart';
 import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
 import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
@@ -41,6 +42,35 @@ class CurrencyWithdraw extends HookWidget {
               children: [
                 Material(
                   color: colors.white,
+                  child: InkWell(
+                    highlightColor: colors.grey5,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      showNetworkBottomSheet(
+                        context,
+                        state.network,
+                        currency.withdrawalBlockchains,
+                        currency.iconUrl,
+                        notifier.updateNetwork,
+                      );
+                    },
+                    child: SPaddingH24(
+                      child: SStandardField(
+                        controller: state.networkController,
+                        labelText: 'Choose network',
+                        enabled: false,
+                        hideIconsIfNotEmpty: false,
+                        hideClearButton: true,
+                        suffixIcons: const [
+                          SAngleDownIcon(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SDivider(),
+                Material(
+                  color: colors.white,
                   child: SPaddingH24(
                     child: SStandardField(
                       errorNotifier: state.addressErrorNotifier,
@@ -63,6 +93,7 @@ class CurrencyWithdraw extends HookWidget {
                   ),
                 ),
                 if (currency.hasTag) ...[
+                  const SDivider(),
                   Material(
                     color: colors.white,
                     child: SPaddingH24(

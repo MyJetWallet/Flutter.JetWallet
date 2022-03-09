@@ -84,8 +84,8 @@ class SAddressFieldWithCopy extends HookWidget {
           child: InkWell(
             highlightColor: SColorsLight().grey4,
             splashColor: Colors.transparent,
-            onTap: valueLoading ? null : onTap,
-            onLongPress: valueLoading ? null : () => _onCopyAction(),
+            // onTap: valueLoading ? null : onTap,
+            // onLongPress: valueLoading ? null : () => _onCopyAction(),
             child: SPaddingH24(
               child: SizedBox(
                 height: 88.0,

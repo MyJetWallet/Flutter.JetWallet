@@ -24,6 +24,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
           WithdrawalAddressState(
             addressErrorNotifier: StandardFieldErrorNotifier(),
             tagErrorNotifier: StandardFieldErrorNotifier(),
+            networkController: TextEditingController(),
             addressController: TextEditingController(),
             tagController: TextEditingController(),
             addressFocus: FocusNode(),
@@ -46,6 +47,13 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _logger.log(notifier, 'updateQrController');
 
     state = state.copyWith(qrController: controller);
+  }
+
+  void updateNetwork(String network) {
+    _logger.log(notifier, 'updateNetwork');
+
+    state.networkController.text = network;
+    state = state.copyWith(network: network);
   }
 
   void updateAddress(String address) {

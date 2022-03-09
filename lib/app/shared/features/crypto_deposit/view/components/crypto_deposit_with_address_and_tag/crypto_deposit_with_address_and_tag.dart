@@ -23,53 +23,74 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
       cryptoDepositNotipod(currency).notifier,
     );
 
-    return Expanded(
-      child: Column(
-        children: [
-          SAddressFieldWithCopy(
-            header: '${currency.symbol} Wallet address',
-            value: shortAddressForm(deposit.address),
-            realValue: deposit.address,
-            afterCopyText: 'Address copied',
-            valueLoading: deposit.union is Loading,
-            actionIcon: deposit.isAddressOpen
-                ? const SAngleDownIcon()
-                : const SAngleUpIcon(),
-            onTap: () {
-              depositN.switchAddress();
-            },
+    return ExpansionPanelList(
+      elevation: 0,
+      expansionCallback: (int index, bool isExpanded) {
+        depositN.switchAddress();
+      },
+      children: [
+        ExpansionPanel(
+          canTapOnHeader: true,
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return SAddressFieldWithCopy(
+              header: '${currency.symbol} Wallet address',
+              value: shortAddressForm(deposit.address),
+              realValue: deposit.address,
+              afterCopyText: 'Address copied',
+              valueLoading: deposit.union is Loading,
+              actionIcon: deposit.isAddressOpen
+                  ? const SAngleDownIcon()
+                  : const SAngleUpIcon(),
+              onTap: () {
+                depositN.switchAddress();
+              },
+            );
+          },
+          body: Column(
+            children: [
+              // const Spacer(),
+              SQrCodeBox(
+                loading: deposit.union is Loading,
+                data: deposit.address,
+              ),
+              const SpaceH18(),
+              const SDivider(
+                width: double.infinity,
+              ),
+            ],
           ),
-          const SpaceH10(),
-          if (deposit.isAddressOpen)
-            const SDivider(
-              width: double.infinity,
-            ),
-          const Spacer(),
-          SQrCodeBox(
-            loading: deposit.union is Loading,
-            data: deposit.isAddressOpen ? deposit.address : deposit.tag!,
+          isExpanded: deposit.isAddressOpen,
+        ),
+        ExpansionPanel(
+          canTapOnHeader: true,
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return SAddressFieldWithCopy(
+              header: 'Tag',
+              value: deposit.tag!,
+              realValue: deposit.tag,
+              afterCopyText: 'Tag copied',
+              valueLoading: deposit.union is Loading,
+              actionIcon: deposit.isAddressOpen
+                  ? const SAngleUpIcon()
+                  : const SAngleDownIcon(),
+              onTap: () {
+                depositN.switchAddress();
+              },
+            );
+          },
+          body: Column(
+            children: [
+              // const Spacer(),
+              const SpaceH10(),
+              SQrCodeBox(
+                loading: deposit.union is Loading,
+                data: deposit.tag!,
+              ),
+            ],
           ),
-          const Spacer(),
-          if (!deposit.isAddressOpen)
-            const SDivider(
-              width: double.infinity,
-            ),
-          const SpaceH10(),
-          SAddressFieldWithCopy(
-            header: 'Tag',
-            value: deposit.tag!,
-            realValue: deposit.tag,
-            afterCopyText: 'Tag copied',
-            valueLoading: deposit.union is Loading,
-            actionIcon: deposit.isAddressOpen
-                ? const SAngleUpIcon()
-                : const SAngleDownIcon(),
-            onTap: () {
-              depositN.switchAddress();
-            },
-          ),
-        ],
-      ),
+          isExpanded: !deposit.isAddressOpen,
+        )
+      ],
     );
   }
 }
