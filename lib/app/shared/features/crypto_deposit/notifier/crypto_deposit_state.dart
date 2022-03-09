@@ -10,6 +10,7 @@ class CryptoDepositState with _$CryptoDepositState {
     String? tag,
     @Default(true) bool isAddressOpen,
     @Default('') String address,
+    @Default('') String network,
     @Default(Loading()) CryptoDepositUnion union,
   }) = _CryptoDepositState;
 }

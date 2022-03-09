@@ -34,6 +34,8 @@ class AssetModel with _$AssetModel {
     required AssetFeesModel fees,
     required List<DepositMethods> depositMethods,
     required List<WithdrawalMethods> withdrawalMethods,
+    required List<String> depositBlockchains,
+    required List<String> withdrawalBlockchains,
   }) = _AssetModel;
 
   factory AssetModel.fromJson(Map<String, dynamic> json) =>

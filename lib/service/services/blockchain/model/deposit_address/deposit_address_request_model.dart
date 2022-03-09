@@ -7,6 +7,7 @@ part 'deposit_address_request_model.g.dart';
 class DepositAddressRequestModel with _$DepositAddressRequestModel {
   const factory DepositAddressRequestModel({
     required String assetSymbol,
+    required String blockchain,
   }) = _DepositAddressRequestModel;
 
   factory DepositAddressRequestModel.fromJson(Map<String, dynamic> json) =>
