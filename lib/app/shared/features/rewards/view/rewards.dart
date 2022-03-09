@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/services/deep_link_service.dart';
-import '../../../helpers/random_banner_color.dart';
+import '../../../helpers/set_banner_color.dart';
 import '../../market_details/helper/format_news_date.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
@@ -37,7 +37,6 @@ class Rewards extends HookWidget {
                   item.campaign!.timeToComplete,
                 ),
                 imageUrl: item.campaign!.imageUrl,
-                circleAvatarColor: randomBannerColor(colors),
                 rewardDetail: createRewardDetail(
                   item.campaign!.conditions!,
                 ),
@@ -50,7 +49,7 @@ class Rewards extends HookWidget {
             ],
             if (_displayRewardBanner(item)) ...[
               SRewardBanner(
-                color: randomBannerColor(colors),
+                color: setBannerColor().call(),
                 primaryText: item.campaign!.title,
                 secondaryText: item.campaign!.description,
                 imageUrl: item.campaign!.imageUrl,
