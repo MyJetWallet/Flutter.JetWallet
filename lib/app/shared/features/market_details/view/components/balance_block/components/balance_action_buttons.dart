@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/helpers/navigator_push.dart';
@@ -42,6 +43,10 @@ class BalanceActionButtons extends HookWidget {
               onTap: () {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
+                  sAnalytics.buySellView(
+                    ScreenSource.assetScreen,
+                    currency.description,
+                  );
                   navigatorPush(
                     context,
                     CurrencyBuy(
@@ -54,12 +59,18 @@ class BalanceActionButtons extends HookWidget {
                     kycVerified: kycState,
                     isProgress: kycState.verificationInProgress,
                     navigatePop: true,
-                    currentNavigate: () => navigatorPush(
-                      context,
-                      CurrencyBuy(
-                        currency: currency,
-                      ),
-                    ),
+                    currentNavigate: () {
+                      sAnalytics.buySellView(
+                        ScreenSource.assetScreen,
+                        currency.description,
+                      );
+                      navigatorPush(
+                        context,
+                        CurrencyBuy(
+                          currency: currency,
+                        ),
+                      );
+                    },
                   );
                 }
               },
@@ -74,6 +85,10 @@ class BalanceActionButtons extends HookWidget {
                 onTap: () {
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
+                    sAnalytics.buySellView(
+                      ScreenSource.assetScreen,
+                      currency.description,
+                    );
                     navigatorPush(
                       context,
                       CurrencySell(
@@ -85,12 +100,18 @@ class BalanceActionButtons extends HookWidget {
                       status: kycState.sellStatus,
                       kycVerified: kycState,
                       isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => navigatorPush(
-                        context,
-                        CurrencySell(
-                          currency: currency,
-                        ),
-                      ),
+                      currentNavigate: () {
+                        sAnalytics.buySellView(
+                          ScreenSource.assetScreen,
+                          currency.description,
+                        );
+                        navigatorPush(
+                          context,
+                          CurrencySell(
+                            currency: currency,
+                          ),
+                        );
+                      },
                     );
                   }
                 },

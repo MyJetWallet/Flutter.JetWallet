@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
@@ -60,6 +61,11 @@ class BalanceBlock extends HookWidget {
               accuracy: marketItem.assetAccuracy,
             ),
             onTap: () {
+              sAnalytics.walletAssetView(
+                ScreenSource.assetScreen,
+                currency.description,
+              );
+
               onMarketItemTap(
                 context: context,
                 marketItem: marketItem,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
@@ -18,10 +19,12 @@ class MarketNestedScrollView extends StatefulHookWidget {
     Key? key,
     this.showBanners = false,
     required this.items,
+    required this.sourceScreen,
   }) : super(key: key);
 
   final List<MarketItemModel> items;
   final bool showBanners;
+  final FilterMarketTabAction sourceScreen;
 
   @override
   State<MarketNestedScrollView> createState() => _MarketNestedScrollViewState();
@@ -33,6 +36,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
   @override
   void initState() {
     super.initState();
+    sAnalytics.marketFilter(widget.sourceScreen);
 
     controller.addListener(() {
       resetMarketScrollPosition(
