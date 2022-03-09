@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
+import '../../../../screens/account/components/crisp.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
@@ -25,27 +26,30 @@ class KycAlertHandler {
     required KycModel kycVerified,
     required bool isProgress,
   }) {
-    if (isProgress) {
-      _showVerifyingAlert();
-      return;
-    }
 
-    if (status == kycOperationStatus(KycStatus.kycRequired)) {
-      _showKycRequiredAlert(
-        kycVerified,
-      );
-    } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
-      _showVerifyingAlert();
-    } else if (status ==
-        kycOperationStatus(KycStatus.allowedWithKycAlert)) {
-      _showAllowedWithAlert(
-        kycVerified,
-        currentNavigate,
-        navigatePop,
-      );
-    } else {
-      _showBlockedAlert();
-    }
+    _showBlockedAlert();
+
+    // if (isProgress) {
+    //   _showVerifyingAlert();
+    //   return;
+    // }
+    //
+    // if (status == kycOperationStatus(KycStatus.kycRequired)) {
+    //   _showKycRequiredAlert(
+    //     kycVerified,
+    //   );
+    // } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
+    //   _showVerifyingAlert();
+    // } else if (status ==
+    //     kycOperationStatus(KycStatus.allowedWithKycAlert)) {
+    //   _showAllowedWithAlert(
+    //     kycVerified,
+    //     currentNavigate,
+    //     navigatePop,
+    //   );
+    // } else {
+    //   _showBlockedAlert();
+    // }
   }
 
   void _showKycRequiredAlert(
@@ -127,6 +131,7 @@ class KycAlertHandler {
       primaryButtonName: 'Support',
       onPrimaryButtonTap: () {
         Navigator.pop(context);
+        Crisp.push(context);
       },
     );
   }
