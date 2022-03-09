@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../simple_kit.dart';
@@ -26,35 +27,57 @@ class SNewsCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      highlightColor: SColorsLight().grey5,
-      onTap: onTap,
-      child: SPaddingH24(
-        child: Container(
-          padding: padding,
-          height: height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SSmileIcon(
-                    sentiment: sentiment,
-                  ),
-                  const SpaceW10(),
-                  Baseline(
-                    baseline: 13,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      '$newsLabel - $timestamp',
-                      style: sCaptionTextStyle.copyWith(
-                        color: SColorsLight().grey1,
-                      ),
+    return SPaddingH24(
+      child: Container(
+        padding: padding,
+        height: height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SSmileIcon(
+                  sentiment: sentiment,
+                ),
+                const SpaceW10(),
+                Expanded(
+                  child: RichText(
+                    overflow: TextOverflow.visible,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '$newsLabel - $timestamp',
+                          style: sCaptionTextStyle.copyWith(
+                            color: SColorsLight().grey1,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = onTap,
+                        ),
+                        TextSpan(
+                          text: ' / Discuss on ',
+                          style: sCaptionTextStyle.copyWith(
+                            color: SColorsLight().grey1,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = onTap,
+                        ),
+                        TextSpan(
+                          text: 'CryptoPanic',
+                          style: sCaptionTextStyle.copyWith(
+                            color: SColorsLight().grey1,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = onTap,
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              Baseline(
+                ),
+              ],
+            ),
+            InkWell(
+              onTap: onTap,
+              highlightColor: SColorsLight().grey5,
+              child: Baseline(
                 baseline: 30,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
@@ -63,8 +86,8 @@ class SNewsCategory extends StatelessWidget {
                   style: sBodyText1Style,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
