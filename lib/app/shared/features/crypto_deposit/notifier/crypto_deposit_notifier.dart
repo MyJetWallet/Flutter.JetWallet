@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../models/currency_model.dart';
 import 'crypto_deposit_state.dart';
 import 'crypto_deposit_union.dart';
 
@@ -14,13 +15,19 @@ const _retryTime = 5; // in seconds
 class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
   CryptoDepositNotifier({
     required this.read,
-    required this.assetSymbol,
+    required this.currency,
   }) : super(const CryptoDepositState()) {
-    _requestDepositAddress();
+    if (currency.isSingleNetwork) {
+      state = state.copyWith(
+        network: currency.depositBlockchains[0],
+      );
+
+      _requestDepositAddress();
+    }
   }
 
   final Reader read;
-  final String assetSymbol;
+  final CurrencyModel currency;
 
   static final _logger = Logger('CurrencyDepositNotifier');
 
@@ -35,6 +42,16 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
     );
   }
 
+  void setNetwork(String network) {
+    _logger.log(notifier, 'setNetwork');
+
+    state = state.copyWith(
+      network: network,
+    );
+
+    _requestDepositAddress();
+  }
+
   Future<void> _requestDepositAddress() async {
     state = state.copyWith(union: const Loading());
 
@@ -42,7 +59,8 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
       final service = read(blockchainServicePod);
 
       final model = DepositAddressRequestModel(
-        assetSymbol: assetSymbol,
+        assetSymbol: currency.symbol,
+        blockchain: state.network,
       );
 
       final response = await service.depositAddress(model);

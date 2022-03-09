@@ -49,6 +49,7 @@ const _earnLanding = 'EarnLanding';
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
+  accountScreen,
 }
 
 class DeepLinkService {
@@ -73,7 +74,7 @@ class DeepLinkService {
     } else if (command == _confirmSendByPhone) {
       _confirmSendByPhoneCommand(parameters);
     } else if (command == _inviteFriend) {
-      _inviteFriendCommand();
+      _inviteFriendCommand(source);
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
     } else if (command == _earnLanding) {
@@ -165,8 +166,21 @@ class DeepLinkService {
     read(sendByPhoneDynamicLinkStpod(id)).state = true;
   }
 
-  void _inviteFriendCommand() {
+  void _inviteFriendCommand(SourceScreen? source) {
     final userInfo = read(userInfoNotipod);
+
+    sAnalytics.clickMarketBanner(
+      MarketBannerSource.inviteFriend.name,
+      MarketBannerAction.open,
+    );
+
+    if (source == SourceScreen.bannerOnMarket) {
+      sAnalytics.inviteFriendView(Source.marketBanner);
+    } else if (source == SourceScreen.bannerOnRewards) {
+      sAnalytics.inviteFriendView(Source.rewards);
+    } else if (source == SourceScreen.accountScreen) {
+      sAnalytics.inviteFriendView(Source.accountScreen);
+    }
 
     sShowBasicModalBottomSheet(
       context: read(sNavigatorKeyPod).currentContext!,
@@ -201,11 +215,16 @@ class DeepLinkService {
   void _earnLandingCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
 
+    sAnalytics.clickMarketBanner(
+      MarketBannerSource.earn.name,
+      MarketBannerAction.open,
+    );
+
     showStartEarnBottomSheet(
       context: context,
       onTap: (CurrencyModel currency) {
         Navigator.pop(context);
-
+        sAnalytics.earnDetailsView(currency.description);
         showStartEarnOptions(
           currency: currency,
           read: read,

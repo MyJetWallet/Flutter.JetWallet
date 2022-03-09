@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_union.dart';
 import '../../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
@@ -22,7 +24,9 @@ class PortfolioWithBalanceHeader extends HookWidget {
     final colors = useProvider(sColorPod);
     final gift = useProvider(referralGiftPod);
     final chart = useProvider(
-      chartNotipod(null),
+      chartNotipod(
+        useProvider(balanceChartInputStpod).state,
+      ),
     );
 
     return Container(
@@ -43,6 +47,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
               const Spacer(),
               GestureDetector(
                 onTap: () {
+                  sAnalytics.rewardsScreenView(Source.giftIcon);
                   navigatorPush(context, const Rewards());
                 },
                 child: Container(

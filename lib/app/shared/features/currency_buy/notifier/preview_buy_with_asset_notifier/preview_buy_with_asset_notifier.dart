@@ -103,8 +103,8 @@ class PreviewBuyWithAssetNotifier
         price: state.price!,
         fromAssetSymbol: state.fromAssetSymbol!,
         toAssetSymbol: state.toAssetSymbol!,
-        fromAssetAmount: state.fromAssetAmount!,
-        toAssetAmount: state.toAssetAmount!,
+        fromAssetAmount: state.fromAssetAmount,
+        toAssetAmount: state.toAssetAmount,
       );
 
       final response = await read(swapServicePod).executeQuote(model);

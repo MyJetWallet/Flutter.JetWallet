@@ -5,4 +5,11 @@ class PropertyType {
   static const error = 'Error text';
   static const assetName = 'Asset name';
   static const sourceScreen = 'Source screen';
+  static const kysScope = 'KYC scope';
+  static const country = 'Country code';
+  static const countryOfIssue = 'Country of issue';
+  static const documentType = 'Document type';
+  static const marketFilter = 'Filter';
+  static const campaignName = 'Campaign Name';
+  static const action = 'Action';
 }

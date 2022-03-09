@@ -7,7 +7,6 @@ import '../../../../../helpers/short_address_form.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../notifier/crypto_deposit_notipod.dart';
 import '../../../notifier/crypto_deposit_union.dart';
-import 'components/deposit_with_tag_info.dart';
 
 class CryptoDepositWithAddressAndTag extends HookWidget {
   const CryptoDepositWithAddressAndTag({
@@ -19,17 +18,14 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deposit = useProvider(cryptoDepositNotipod(currency.symbol));
+    final deposit = useProvider(cryptoDepositNotipod(currency));
     final depositN = useProvider(
-      cryptoDepositNotipod(currency.symbol).notifier,
+      cryptoDepositNotipod(currency).notifier,
     );
 
     return Expanded(
       child: Column(
         children: [
-          DepositWithTagInfo(
-            currencySymbol: currency.symbol,
-          ),
           SAddressFieldWithCopy(
             header: '${currency.symbol} Wallet address',
             value: shortAddressForm(deposit.address),

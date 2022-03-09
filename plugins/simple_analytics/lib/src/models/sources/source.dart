@@ -4,6 +4,8 @@ enum Source {
   emptyWalletScreen,
   rewards,
   marketBanner,
+  giftIcon,
+  accountScreen,
 }
 
 extension SourceExtension on Source {
@@ -17,6 +19,10 @@ extension SourceExtension on Source {
         return 'Rewards';
       case Source.marketBanner:
         return 'Market banner';
+      case Source.giftIcon:
+        return 'Gift Icon';
+      case Source.accountScreen:
+        return 'Account Screen';
     }
   }
 }

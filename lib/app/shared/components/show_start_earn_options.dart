@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/navigator_push_replacement.dart';
@@ -30,6 +31,10 @@ void showStartEarnOptions({
       SActionItem(
         onTap: () {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+            sAnalytics.buySellView(
+              ScreenSource.earnProgram,
+              currency.description,
+            );
             navigatorPushReplacement(
               context,
               CurrencyBuy(
@@ -42,12 +47,19 @@ void showStartEarnOptions({
               status: kycState.depositStatus,
               kycVerified: kycState,
               isProgress: kycState.verificationInProgress,
-              currentNavigate: () => navigatorPushReplacement(
-                context,
-                CurrencyBuy(
-                  currency: currency,
-                ),
-              ),
+              currentNavigate: () {
+                sAnalytics.buySellView(
+                  ScreenSource.earnProgram,
+                  currency.description,
+                );
+
+                navigatorPushReplacement(
+                  context,
+                  CurrencyBuy(
+                    currency: currency,
+                  ),
+                );
+              },
             );
           }
         },
@@ -58,6 +70,7 @@ void showStartEarnOptions({
       SActionItem(
         onTap: () {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+            sAnalytics.depositCryptoView(currency.description);
             navigatorPushReplacement(
               context,
               CryptoDeposit(

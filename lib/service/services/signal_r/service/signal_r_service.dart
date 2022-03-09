@@ -276,8 +276,7 @@ class SignalRService {
   Stream<PriceAccuracies> priceAccuracies() =>
       _priceAccuraciesController.stream;
 
-  Stream<TotalMarketInfoModel> marketInfo() =>
-      _marketInfoController.stream;
+  Stream<TotalMarketInfoModel> marketInfo() => _marketInfoController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
