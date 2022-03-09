@@ -90,22 +90,22 @@ class DeepLinkService {
   }
 
   Future<void> _depositStartCommand(SourceScreen? source) async {
-    final ctx = read(sNavigatorKeyPod).currentContext!;
+    final context = read(sNavigatorKeyPod).currentContext!;
     final openBottomMenu = read(openBottomMenuSpod);
 
     if (source == SourceScreen.bannerOnMarket) {
-      navigatorPush(ctx, const Rewards());
+      navigatorPush(context, const Rewards());
     } else if (source == SourceScreen.bannerOnRewards) {
       openBottomMenu.state = true;
-      Navigator.pop(ctx);
+      Navigator.pop(context);
     }
   }
 
   void _tradingStartCommand(SourceScreen? source) {
-    final ctx = read(sNavigatorKeyPod).currentContext!;
+    final context = read(sNavigatorKeyPod).currentContext!;
 
     if (source == SourceScreen.bannerOnMarket) {
-      navigatorPush(ctx, const Rewards());
+      navigatorPush(context, const Rewards());
     } else if (source == SourceScreen.bannerOnRewards) {
       final ctx = read(sNavigatorKeyPod).currentContext!;
       final navigation = read(navigationStpod);
@@ -116,16 +116,16 @@ class DeepLinkService {
 
   void _kycVerificationCommand() {
     final kycState = read(kycNotipod);
-    final ctx = read(sNavigatorKeyPod).currentContext!;
+    final context = read(sNavigatorKeyPod).currentContext!;
     final kycAlertHandler = read(
-      kycAlertHandlerPod(ctx),
+      kycAlertHandlerPod(context),
     );
 
     kycAlertHandler.handle(
       status: kycState.depositStatus,
       kycVerified: kycState,
       isProgress: kycState.verificationInProgress,
-      currentNavigate: () => showDepositAction(ctx),
+      currentNavigate: () => showDepositAction(context),
     );
   }
 
