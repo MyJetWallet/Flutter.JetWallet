@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:universal_io/io.dart';
 
@@ -52,6 +53,8 @@ class KycSelfieNotifier extends StateNotifier<KycSelfieState> {
       );
 
       await service.upload(formData, type);
+
+      sAnalytics.kycSelfieUploaded();
 
       state = state.copyWith(union: const KycSelfieUnion.done());
     } catch (error) {

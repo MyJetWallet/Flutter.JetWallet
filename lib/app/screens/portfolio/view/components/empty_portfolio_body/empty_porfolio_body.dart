@@ -66,6 +66,7 @@ class EmptyPortfolioBody extends HookWidget {
                           context: context,
                           onTap: (CurrencyModel currency) {
                             Navigator.pop(context);
+                            sAnalytics.earnDetailsView(currency.description);
 
                             showStartEarnOptions(
                               currency: currency,

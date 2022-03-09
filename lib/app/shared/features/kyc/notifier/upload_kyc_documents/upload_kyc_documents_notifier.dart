@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/logging/levels.dart';
@@ -58,6 +59,7 @@ class UploadKycDocumentsNotifier
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
+      sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong. Please try again',
@@ -77,6 +79,7 @@ class UploadKycDocumentsNotifier
         await _pickFile(true);
       } else {
         loader.value.startLoading();
+        sAnalytics.kycIdentityUploaded();
         await uploadDocuments(
           kycDocumentTypeInt(document),
         );
@@ -86,6 +89,7 @@ class UploadKycDocumentsNotifier
         await _pickFile(false);
       } else {
         loader.value.startLoading();
+        sAnalytics.kycIdentityUploaded();
         await _uploadPassportDocument(
           kycDocumentTypeInt(document),
         );
@@ -112,6 +116,7 @@ class UploadKycDocumentsNotifier
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
+      sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong. Please try again',
