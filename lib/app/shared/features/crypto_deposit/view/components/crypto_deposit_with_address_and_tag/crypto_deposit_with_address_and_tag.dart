@@ -7,6 +7,7 @@ import '../../../../../helpers/short_address_form.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../notifier/crypto_deposit_notipod.dart';
 import '../../../notifier/crypto_deposit_union.dart';
+import 'components/expansion_panel_without_icon.dart';
 
 class CryptoDepositWithAddressAndTag extends HookWidget {
   const CryptoDepositWithAddressAndTag({
@@ -23,13 +24,14 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
       cryptoDepositNotipod(currency).notifier,
     );
 
-    return ExpansionPanelList(
+    return ExpansionPanelListWithoutIcon(
       elevation: 0,
       expansionCallback: (int index, bool isExpanded) {
         depositN.switchAddress();
       },
+      expandedHeaderPadding: EdgeInsets.zero,
       children: [
-        ExpansionPanel(
+        ExpansionPanelWithoutIcon(
           canTapOnHeader: true,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return SAddressFieldWithCopy(
@@ -37,38 +39,6 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
               value: shortAddressForm(deposit.address),
               realValue: deposit.address,
               afterCopyText: 'Address copied',
-              valueLoading: deposit.union is Loading,
-              actionIcon: deposit.isAddressOpen
-                  ? const SAngleDownIcon()
-                  : const SAngleUpIcon(),
-              onTap: () {
-                depositN.switchAddress();
-              },
-            );
-          },
-          body: Column(
-            children: [
-              // const Spacer(),
-              SQrCodeBox(
-                loading: deposit.union is Loading,
-                data: deposit.address,
-              ),
-              const SpaceH18(),
-              const SDivider(
-                width: double.infinity,
-              ),
-            ],
-          ),
-          isExpanded: deposit.isAddressOpen,
-        ),
-        ExpansionPanel(
-          canTapOnHeader: true,
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return SAddressFieldWithCopy(
-              header: 'Tag',
-              value: deposit.tag!,
-              realValue: deposit.tag,
-              afterCopyText: 'Tag copied',
               valueLoading: deposit.union is Loading,
               actionIcon: deposit.isAddressOpen
                   ? const SAngleUpIcon()
@@ -80,8 +50,40 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
           },
           body: Column(
             children: [
-              // const Spacer(),
-              const SpaceH10(),
+              const SpaceH17(),
+              SQrCodeBox(
+                loading: deposit.union is Loading,
+                data: deposit.address,
+              ),
+              const SpaceH17(),
+            ],
+          ),
+          isExpanded: deposit.isAddressOpen,
+        ),
+        ExpansionPanelWithoutIcon(
+          canTapOnHeader: true,
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return Column(
+              children: [
+                SAddressFieldWithCopy(
+                  header: 'Tag',
+                  value: deposit.tag!,
+                  realValue: deposit.tag,
+                  afterCopyText: 'Tag copied',
+                  valueLoading: deposit.union is Loading,
+                  actionIcon: deposit.isAddressOpen
+                      ? const SAngleDownIcon()
+                      : const SAngleUpIcon(),
+                  onTap: () {
+                    depositN.switchAddress();
+                  },
+                ),
+              ],
+            );
+          },
+          body: Column(
+            children: [
+              const SpaceH17(),
               SQrCodeBox(
                 loading: deposit.union is Loading,
                 data: deposit.tag!,
@@ -89,7 +91,7 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
             ],
           ),
           isExpanded: !deposit.isAddressOpen,
-        )
+        ),
       ],
     );
   }

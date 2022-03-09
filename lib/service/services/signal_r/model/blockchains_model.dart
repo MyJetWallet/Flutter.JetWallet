@@ -8,7 +8,6 @@ part 'blockchains_model.g.dart';
 @freezed
 class BlockchainsModel with _$BlockchainsModel {
   const factory BlockchainsModel({
-    required double now,
     required List<BlockchainModel> blockchains,
   }) = _BlockchainsModel;
 
@@ -19,9 +18,9 @@ class BlockchainsModel with _$BlockchainsModel {
 @freezed
 class BlockchainModel with _$BlockchainModel {
   const factory BlockchainModel({
-    required String id,
-    required TagType tagType,
-    required String description,
+    @Default('') String id,
+    @Default(TagType.none) TagType tagType,
+    @Default('') String description,
   }) = _BlockchainModel;
 
   factory BlockchainModel.fromJson(Map<String, dynamic> json) =>

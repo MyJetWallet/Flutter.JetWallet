@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_request_model.dart';
+import '../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../models/currency_model.dart';
@@ -42,7 +43,7 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
     );
   }
 
-  void setNetwork(String network) {
+  void setNetwork(BlockchainModel network) {
     _logger.log(notifier, 'setNetwork');
 
     state = state.copyWith(
@@ -60,7 +61,7 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
 
       final model = DepositAddressRequestModel(
         assetSymbol: currency.symbol,
-        blockchain: state.network,
+        blockchain: state.network.id,
       );
 
       final response = await service.depositAddress(model);

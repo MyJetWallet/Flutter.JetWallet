@@ -3,7 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../components/show_network_bottom_sheet.dart';
+import '../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../model/withdrawal_model.dart';
 import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
 import '../notifier/withdrawal_address_notifier/withdrawal_address_notipod.dart';
@@ -92,7 +93,8 @@ class CurrencyWithdraw extends HookWidget {
                     ),
                   ),
                 ),
-                if (currency.hasTag) ...[
+                if (state.network.tagType == TagType.tag ||
+                    state.network.tagType == TagType.memo) ...[
                   const SDivider(),
                   Material(
                     color: colors.white,

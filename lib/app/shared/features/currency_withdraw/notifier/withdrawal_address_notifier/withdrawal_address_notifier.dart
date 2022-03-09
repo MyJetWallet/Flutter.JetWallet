@@ -6,6 +6,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/blockchain/model/validate_address/validate_address_request_model.dart';
+import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -33,6 +34,9 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
           ),
         ) {
     currency = withdrawal.currency;
+    if (currency.isSingleNetwork) {
+      updateNetwork(currency.withdrawalBlockchains[0]);
+    }
     state = state.copyWith(currency: currency);
   }
 
@@ -49,10 +53,10 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     state = state.copyWith(qrController: controller);
   }
 
-  void updateNetwork(String network) {
+  void updateNetwork(BlockchainModel network) {
     _logger.log(notifier, 'updateNetwork');
 
-    state.networkController.text = network;
+    state.networkController.text = network.description;
     state = state.copyWith(network: network);
   }
 
@@ -226,6 +230,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
         assetSymbol: currency.symbol,
         toAddress: state.address,
         toTag: state.tag,
+        assetNetwork: state.network.id,
       );
 
       final service = read(blockchainServicePod);
@@ -265,6 +270,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
         assetSymbol: currency.symbol,
         toAddress: state.address,
         toTag: state.tag,
+        assetNetwork: state.network.id,
       );
 
       final service = read(blockchainServicePod);

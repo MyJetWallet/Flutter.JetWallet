@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../models/currency_model.dart';
 import 'address_validation_union.dart';
 
@@ -18,7 +19,7 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
     @Default(false) bool addressIsInternal,
     @Default('') String tag,
     @Default('') String address,
-    @Default('') String network,
+    @Default(BlockchainModel()) BlockchainModel network,
     @Default(Hide()) AddressValidationUnion addressValidation,
     @Default(Hide()) AddressValidationUnion tagValidation,
     required TextEditingController networkController,

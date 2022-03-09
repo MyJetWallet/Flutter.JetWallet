@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../features/crypto_deposit/view/components/network_item.dart';
+import '../../../../service/services/signal_r/model/blockchains_model.dart';
+import 'components/network_item.dart';
 
 void showNetworkBottomSheet(
-    BuildContext context,
-    String currentNetwork,
-    List<String> availableNetworks,
-    String iconUrl,
-    void Function(String) setNetwork,
-    ) {
+  BuildContext context,
+  BlockchainModel currentNetwork,
+  List<BlockchainModel> availableNetworks,
+  String iconUrl,
+  void Function(BlockchainModel) setNetwork,
+) {
   sShowBasicModalBottomSheet(
     context: context,
     pinned: const SBottomSheetHeader(
@@ -19,8 +20,8 @@ void showNetworkBottomSheet(
       for (final network in availableNetworks)
         NetworkItem(
           iconUrl: iconUrl,
-          network: network,
-          selected: network == currentNetwork,
+          network: network.description,
+          selected: network.id == currentNetwork.id,
           onTap: () {
             setNetwork(network);
             Navigator.of(context).pop();
