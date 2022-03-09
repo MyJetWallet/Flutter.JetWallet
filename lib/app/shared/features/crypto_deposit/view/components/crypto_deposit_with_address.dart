@@ -18,7 +18,7 @@ class CryptoDepositWithAddress extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deposit = useProvider(cryptoDepositNotipod(currency.symbol));
+    final deposit = useProvider(cryptoDepositNotipod(currency));
 
     return Expanded(
       child: Column(
