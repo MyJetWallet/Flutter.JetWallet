@@ -47,7 +47,7 @@ class KycSelfie extends HookWidget {
     final loaderSuccess = useValueNotifier(StackLoaderNotifier());
     final kycN = useProvider(kycNotipod.notifier);
 
-    analytics(() => sAnalytics.assetView(ScreenSource.kycSelfieView.name));
+    analytics(() => sAnalytics.kycSelfieView());
 
     return ProviderListener<KycSelfieState>(
       provider: kycSelfieNotipod,

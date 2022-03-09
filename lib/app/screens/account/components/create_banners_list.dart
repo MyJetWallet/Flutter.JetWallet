@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../shared/constants.dart';
+
 List<Widget> createBannersList({
   Function()? onChatBannerTap,
   Function()? onTwoFaBannerTap,

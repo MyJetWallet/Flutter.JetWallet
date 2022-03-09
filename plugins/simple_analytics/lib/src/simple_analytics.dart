@@ -276,6 +276,45 @@ class SimpleAnalytics {
     );
   }
 
+  void kycPhoneConfirmationView() {
+    _analytics.logEvent(
+      EventType.kycPhoneConfirmationView,
+      eventProperties: {
+        PropertyType.sourceScreen: ScreenSource.kycPhoneConfirmationView.name,
+      },
+    );
+  }
+
+  void kycPhoneConfirmed() {
+    _analytics.logEvent(
+      EventType.kycPhoneConfirmed,
+    );
+  }
+
+  void kycPhoneConfirmFailed() {
+    _analytics.logEvent(
+      EventType.kycPhoneConfirmFailed,
+    );
+  }
+
+  void kycAllowCameraView() {
+    _analytics.logEvent(
+      EventType.kycAllowCameraView,
+    );
+  }
+
+  void kycSelfieView() {
+    _analytics.logEvent(
+      EventType.kycSelfieView,
+    );
+  }
+
+  void kycSuccessPageView() {
+    _analytics.logEvent(
+      EventType.kycSuccessPageView,
+    );
+  }
+
   /// Call when user makes logout.
   /// It will clean unique userId and will generate deviceId,
   /// so the user will appear as a brand new one.
