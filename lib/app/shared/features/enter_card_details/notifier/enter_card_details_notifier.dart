@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 // import 'package:openpgp/openpgp.dart';
-import 'package:uuid/uuid.dart';
+// import 'package:uuid/uuid.dart';
 
 import '../../../../../service/services/circle/model/add_card/add_card_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
@@ -27,7 +27,7 @@ class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
 
     final model = AddCardRequestModel(
       keyId: response.keyId,
-      requestGuid: const Uuid().v4(),
+      requestGuid: 'const Uuid().v4()',
       encryptedData: 'encryptedData',
       cardName: state.cardNumber,
       billingName: state.cardholderName,
