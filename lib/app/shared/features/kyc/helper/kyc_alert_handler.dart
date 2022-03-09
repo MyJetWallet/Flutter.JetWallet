@@ -26,30 +26,27 @@ class KycAlertHandler {
     required KycModel kycVerified,
     required bool isProgress,
   }) {
+    if (isProgress) {
+      _showVerifyingAlert();
+      return;
+    }
 
-    _showBlockedAlert();
-
-    // if (isProgress) {
-    //   _showVerifyingAlert();
-    //   return;
-    // }
-    //
-    // if (status == kycOperationStatus(KycStatus.kycRequired)) {
-    //   _showKycRequiredAlert(
-    //     kycVerified,
-    //   );
-    // } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
-    //   _showVerifyingAlert();
-    // } else if (status ==
-    //     kycOperationStatus(KycStatus.allowedWithKycAlert)) {
-    //   _showAllowedWithAlert(
-    //     kycVerified,
-    //     currentNavigate,
-    //     navigatePop,
-    //   );
-    // } else {
-    //   _showBlockedAlert();
-    // }
+    if (status == kycOperationStatus(KycStatus.kycRequired)) {
+      _showKycRequiredAlert(
+        kycVerified,
+      );
+    } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
+      _showVerifyingAlert();
+    } else if (status ==
+        kycOperationStatus(KycStatus.allowedWithKycAlert)) {
+      _showAllowedWithAlert(
+        kycVerified,
+        currentNavigate,
+        navigatePop,
+      );
+    } else {
+      _showBlockedAlert();
+    }
   }
 
   void _showKycRequiredAlert(
