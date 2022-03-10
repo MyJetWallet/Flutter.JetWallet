@@ -64,7 +64,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
       // TODO Case 3: If user has at least one saved card
 
-      // Case 4: If user has at least one crypto wallet
+      // TODO Case 4: Payment methods
+
+      // Case 5: If user has at least one crypto wallet
       updateSelectedCurrency(state.currencies.first);
     }
   }

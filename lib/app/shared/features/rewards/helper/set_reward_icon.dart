@@ -15,7 +15,8 @@ Widget setRewardIcon(
     }
   }
 
-  return SizedBox(
+  return Container(
+    margin: const EdgeInsets.only(right: 17.0),
     height: 24.0,
     width: 24.0,
     child: (condition.parameters!.passed == 'true')
