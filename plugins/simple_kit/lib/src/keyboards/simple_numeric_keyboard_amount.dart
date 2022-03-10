@@ -8,8 +8,6 @@ import 'components/numeric_keyboard_row.dart';
 
 enum SKeyboardPreset { preset1, preset2, preset3 }
 
-enum SButtonType { primary1, primary2 }
-
 class SNumericKeyboardAmount extends StatelessWidget {
   const SNumericKeyboardAmount({
     this.buttonType = SButtonType.primary1,

@@ -15,6 +15,7 @@ void sShowAlertPopup(
   bool willPopScope = true,
   bool barrierDismissible = true,
   bool activePrimaryButton = true,
+  SButtonType primaryButtonType = SButtonType.primary1,
   required String primaryText,
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
@@ -74,11 +75,24 @@ void sShowAlertPopup(
                       ),
                     const SpaceH36(),
                     if (child != null) child,
-                    SPrimaryButton1(
-                      name: primaryButtonName,
-                      active: activePrimaryButton,
-                      onTap: () => onPrimaryButtonTap(),
-                    ),
+                    if (primaryButtonType == SButtonType.primary1)
+                      SPrimaryButton1(
+                        name: primaryButtonName,
+                        active: activePrimaryButton,
+                        onTap: () => onPrimaryButtonTap(),
+                      )
+                    else if (primaryButtonType == SButtonType.primary2)
+                      SPrimaryButton2(
+                        name: primaryButtonName,
+                        active: activePrimaryButton,
+                        onTap: () => onPrimaryButtonTap(),
+                      )
+                    else
+                      SPrimaryButton3(
+                        name: primaryButtonName,
+                        active: activePrimaryButton,
+                        onTap: () => onPrimaryButtonTap(),
+                      ),
                     if (onSecondaryButtonTap != null &&
                         secondaryButtonName != null) ...[
                       const SpaceH10(),

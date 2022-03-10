@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../circle_card.dart';
 
 part 'all_cards_response_model.freezed.dart';
-part 'all_cards_response_model.g.dart';
 
 @freezed
 class AllCardsResponseModel with _$AllCardsResponseModel {
@@ -11,6 +10,11 @@ class AllCardsResponseModel with _$AllCardsResponseModel {
     required List<CircleCard> cards,
   }) = _AllCardsResponseModel;
 
-  factory AllCardsResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$AllCardsResponseModelFromJson(json);
+  factory AllCardsResponseModel.fromList(List<dynamic> list) {
+    return AllCardsResponseModel(
+      cards: list
+          .map((e) => CircleCard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }

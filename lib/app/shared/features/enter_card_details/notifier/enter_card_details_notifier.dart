@@ -1,7 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
-// import 'package:openpgp/openpgp.dart';
-// import 'package:uuid/uuid.dart';
+import 'package:openpgp/openpgp.dart';
+import 'package:simple_kit/simple_kit.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../../service/services/circle/model/add_card/add_card_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
@@ -20,15 +21,15 @@ class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
 
     final response = await read(circleServicePod).encryptionKey();
 
-    // final encryptedData = await OpenPGP.encrypt(
-    //   '{"number":"${state.cardNumber}","cvv": "${state.cvv}"}',
-    //   response.encryptionKey,
-    // );
+    final encryptedData = await OpenPGP.encrypt(
+      '[{"number":"${state.cardNumber}","cvv": "${state.cvv}"}]',
+      response.encryptionKey,
+    );
 
     final model = AddCardRequestModel(
       keyId: response.keyId,
-      requestGuid: 'const Uuid().v4()',
-      encryptedData: 'encryptedData',
+      requestGuid: const Uuid().v4(),
+      encryptedData: encryptedData,
       cardName: state.cardNumber,
       billingName: state.cardholderName,
       billingCity: state.city,
@@ -43,12 +44,22 @@ class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
 
     try {
       await read(circleServicePod).addCard(model);
-
-      print('Success');
     } catch (e) {
-      print(e);
+      read(sNotificationNotipod.notifier).showError(
+        'Wrong credentials! Try again',
+        id: 1,
+      );
     }
   }
 
   void updateCardNumber() {}
+  void updateCvv() {}
+  void updateExpiryDate() {}
+  void updateBillingName() {}
+  void updateBillingCity() {}
+  void updateBillingCountry() {}
+  void updateBillingLine1() {}
+  void updateBillingLine2() {}
+  void updateBillingDistrict() {}
+  void updateBillingPostalCode() {}
 }

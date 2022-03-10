@@ -68,6 +68,7 @@ export 'src/bottom_sheets/sheets/show_menu_action_sheet.dart';
 /// Buttons
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_1.dart';
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_2.dart';
+export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_3.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_1.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_2.dart';
 export 'src/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
@@ -273,6 +274,9 @@ export 'src/shared/constants.dart';
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';
 export 'src/shared/helpers/initials_from.dart';
+
+/// Models
+export 'src/shared/models/simple_button_type.dart';
 
 /// Providers
 export 'src/shared/providers/simple_navigator_key_pod.dart';
