@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
@@ -44,6 +46,8 @@ class KycSelfie extends HookWidget {
     final loader = useValueNotifier(StackLoaderNotifier());
     final loaderSuccess = useValueNotifier(StackLoaderNotifier());
     final kycN = useProvider(kycNotipod.notifier);
+
+    analytics(() => sAnalytics.assetView(ScreenSource.kycSelfieView.name));
 
     return ProviderListener<KycSelfieState>(
       provider: kycSelfieNotipod,

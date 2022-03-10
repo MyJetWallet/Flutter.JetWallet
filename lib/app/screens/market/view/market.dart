@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../shared/components/bottom_tabs/bottom_tabs.dart';
 import '../../../shared/components/bottom_tabs/components/bottom_tab.dart';
@@ -40,19 +41,23 @@ class Market extends HookWidget {
                 MarketNestedScrollView(
                   items: allItems,
                   showBanners: true,
+                  sourceScreen: FilterMarketTabAction.all,
                 ),
                 const WatchlistTabBarView(),
                 if (indices.isNotEmpty)
                   MarketNestedScrollView(
                     items: indices,
+                    sourceScreen: FilterMarketTabAction.cryptoSets,
                   ),
                 if (gainers.isNotEmpty)
                   MarketNestedScrollView(
                     items: gainers,
+                    sourceScreen: FilterMarketTabAction.gainers,
                   ),
                 if (losers.isNotEmpty)
                   MarketNestedScrollView(
                     items: losers,
+                    sourceScreen: FilterMarketTabAction.losers,
                   ),
               ],
             ),

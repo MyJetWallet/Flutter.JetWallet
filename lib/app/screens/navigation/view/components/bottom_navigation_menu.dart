@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
@@ -64,6 +65,11 @@ class BottomNavigationMenu extends HookWidget {
                   kycOperationStatus(KycStatus.allowed)) {
                 showBuyAction(context);
               } else {
+                defineKycVerificationsScope(
+                  kycState.requiredVerifications.length,
+                  ScreenSource.quickActions,
+                );
+
                 Navigator.of(context).pop();
                 kycAlertHandler.handle(
                   status: kycState.depositStatus,
@@ -78,6 +84,11 @@ class BottomNavigationMenu extends HookWidget {
                   kycOperationStatus(KycStatus.allowed)) {
                 showSellAction(context);
               } else {
+                defineKycVerificationsScope(
+                  kycState.requiredVerifications.length,
+                  ScreenSource.quickActions,
+                );
+
                 Navigator.of(context).pop();
                 kycAlertHandler.handle(
                   status: kycState.sellStatus,
@@ -93,6 +104,11 @@ class BottomNavigationMenu extends HookWidget {
                 Navigator.pop(context);
                 navigatorPush(context, const Convert());
               } else {
+                defineKycVerificationsScope(
+                  kycState.requiredVerifications.length,
+                  ScreenSource.quickActions,
+                );
+
                 Navigator.of(context).pop();
                 kycAlertHandler.handle(
                   status: kycState.depositStatus,
@@ -109,6 +125,11 @@ class BottomNavigationMenu extends HookWidget {
                   kycOperationStatus(KycStatus.allowed)) {
                 showDepositAction(context);
               } else {
+                defineKycVerificationsScope(
+                  kycState.requiredVerifications.length,
+                  ScreenSource.quickActions,
+                );
+
                 Navigator.of(context).pop();
                 kycAlertHandler.handle(
                   status: kycState.depositStatus,
@@ -123,6 +144,11 @@ class BottomNavigationMenu extends HookWidget {
                   kycOperationStatus(KycStatus.allowed)) {
                 showWithdrawAction(context);
               } else {
+                defineKycVerificationsScope(
+                  kycState.requiredVerifications.length,
+                  ScreenSource.quickActions,
+                );
+
                 Navigator.of(context).pop();
                 kycAlertHandler.handle(
                   status: kycState.withdrawalStatus,
@@ -137,6 +163,11 @@ class BottomNavigationMenu extends HookWidget {
                   kycOperationStatus(KycStatus.allowed)) {
                 showSendAction(context);
               } else {
+                defineKycVerificationsScope(
+                  kycState.requiredVerifications.length,
+                  ScreenSource.quickActions,
+                );
+
                 Navigator.of(context).pop();
                 kycAlertHandler.handle(
                   status: kycState.withdrawalStatus,
@@ -151,6 +182,11 @@ class BottomNavigationMenu extends HookWidget {
                   kycOperationStatus(KycStatus.allowed)) {
                 showReceiveAction(context);
               } else {
+                defineKycVerificationsScope(
+                  kycState.requiredVerifications.length,
+                  ScreenSource.quickActions,
+                );
+
                 Navigator.of(context).pop();
                 kycAlertHandler.handle(
                   status: kycState.withdrawalStatus,
