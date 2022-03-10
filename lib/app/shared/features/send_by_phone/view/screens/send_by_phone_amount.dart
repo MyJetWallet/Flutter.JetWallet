@@ -11,6 +11,7 @@ import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../currency_withdraw/helper/minimum_amount.dart';
 import '../../notifier/send_by_phone_amount_notifier/send_by_phone_amount_notipod.dart';
+import 'send_by_phone_input/send_by_phone_input.dart';
 import 'send_by_phone_preview.dart';
 
 class SendByPhoneAmount extends HookWidget {
@@ -64,13 +65,35 @@ class SendByPhoneAmount extends HookWidget {
           const Spacer(),
           const SpaceH10(),
           if (state.pickedContact!.isContactWithName)
-            SPaymentSelectContact(
-              name: state.pickedContact!.name,
-              phone: state.pickedContact!.phoneNumber,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SendByPhoneInput(currency: currency),
+                  ),
+                      (route) => route.isFirst,
+                );
+              },
+              child: SPaymentSelectContact(
+                name: state.pickedContact!.name,
+                phone: state.pickedContact!.phoneNumber,
+              ),
             )
           else
-            SPaymentSelectContactWithoutName(
-              phone: state.pickedContact!.phoneNumber,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SendByPhoneInput(currency: currency),
+                  ),
+                      (route) => route.isFirst,
+                );
+              },
+              child: SPaymentSelectContactWithoutName(
+                phone: state.pickedContact!.phoneNumber,
+              ),
             ),
           const SpaceH20(),
           SNumericKeyboardAmount(
