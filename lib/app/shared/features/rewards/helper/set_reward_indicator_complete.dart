@@ -77,15 +77,7 @@ double _setIndicatorValue(int completeIndicator, int conditionsLength) {
     return 0.0;
   }
 
-  if (completeIndicator == 1) {
-    return step;
-  }
-
-  if (completeIndicator == 2) {
-    return step * 2;
-  }
-
-  return 240;
+  return step * completeIndicator;
 }
 
 bool _setBorderRadius(completeIndicator, int conditionsLength) {
