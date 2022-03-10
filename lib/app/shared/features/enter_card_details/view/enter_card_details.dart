@@ -5,6 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../notifier/enter_card_details_notipod.dart';
+import 'components/country_selector_button.dart';
+import 'components/show_country_selector.dart';
 
 class EnterCardDetails extends HookWidget {
   const EnterCardDetails({Key? key}) : super(key: key);
@@ -97,10 +99,9 @@ class EnterCardDetails extends HookWidget {
                   labelText: 'Postal code',
                 ),
               ),
-              const SPaddingH24(
-                child: SStandardField(
-                  labelText: 'Country',
-                ),
+              CountrySelectorButton(
+                country: state.selectedCountry!,
+                onTap: () => showCountrySelector(context),
               ),
               const SpaceH136()
             ],

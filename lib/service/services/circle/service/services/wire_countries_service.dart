@@ -11,7 +11,7 @@ Future<WireCountriesResponseModel> wireCountriesService(Dio dio) async {
   const message = 'wireCountriesService';
 
   try {
-    final response = await dio.post(
+    final response = await dio.get(
       '$walletApi/circle/wire-countries',
     );
 

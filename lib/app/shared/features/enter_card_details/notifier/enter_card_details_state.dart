@@ -1,10 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 part 'enter_card_details_state.freezed.dart';
 
 @freezed
 class EnterCardDetailsState with _$EnterCardDetailsState {
   const factory EnterCardDetailsState({
+    SPhoneNumber? selectedCountry,
+    @Default('') String countrySearch,
     @Default('') String cardNumber,
     @Default('') String cvv,
     @Default('') String cardName,
@@ -14,6 +17,6 @@ class EnterCardDetailsState with _$EnterCardDetailsState {
     @Default('') String city,
     @Default('') String district,
     @Default('') String postalCode,
-    @Default('') String country,
+    @Default([]) List<SPhoneNumber> filteredCountries,
   }) = _EnterCardDetailsState;
 }
