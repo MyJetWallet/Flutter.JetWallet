@@ -5,10 +5,15 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../app/screens/navigation/provider/navigation_stpod.dart';
+import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
+import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
 import '../../app/shared/features/currency_withdraw/notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
 import '../../app/shared/features/currency_withdraw/view/screens/withdrawal_confirm.dart';
+import '../../app/shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../app/shared/features/rewards/view/rewards.dart';
 import '../../app/shared/features/send_by_phone/notifier/send_by_phone_confirm_notifier/send_by_phone_confirm_notipod.dart';
 import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confirm.dart';
 import '../../app/shared/models/currency_model.dart';
@@ -39,6 +44,9 @@ const _confirmSendByPhone = 'VerifyTransfer';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
+const _kycVerification = 'KycVerification';
+const _tradingStart = 'TradingStart';
+const _earnLanding = 'EarnLanding';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -71,11 +79,57 @@ class DeepLinkService {
       _inviteFriendCommand(source);
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
+    } else if (command == _earnLanding) {
+      _earnLandingCommand(source);
+    } else if (command == _kycVerification) {
+      _kycVerificationCommand();
+    } else if (command == _tradingStart) {
+      _tradingStartCommand(source);
     } else if (command == _depositStart) {
       _depositStartCommand(source);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  Future<void> _depositStartCommand(SourceScreen? source) async {
+    final context = read(sNavigatorKeyPod).currentContext!;
+    final openBottomMenu = read(openBottomMenuSpod);
+
+    if (source == SourceScreen.bannerOnMarket) {
+      navigatorPush(context, const Rewards());
+    } else if (source == SourceScreen.bannerOnRewards) {
+      openBottomMenu.state = true;
+      Navigator.pop(context);
+    }
+  }
+
+  void _tradingStartCommand(SourceScreen? source) {
+    final context = read(sNavigatorKeyPod).currentContext!;
+
+    if (source == SourceScreen.bannerOnMarket) {
+      navigatorPush(context, const Rewards());
+    } else if (source == SourceScreen.bannerOnRewards) {
+      final ctx = read(sNavigatorKeyPod).currentContext!;
+      final navigation = read(navigationStpod);
+      navigation.state = 0;
+      Navigator.pop(ctx);
+    }
+  }
+
+  void _kycVerificationCommand() {
+    final kycState = read(kycNotipod);
+    final context = read(sNavigatorKeyPod).currentContext!;
+    final kycAlertHandler = read(
+      kycAlertHandlerPod(context),
+    );
+
+    kycAlertHandler.handle(
+      status: kycState.depositStatus,
+      kycVerified: kycState,
+      isProgress: kycState.verificationInProgress,
+      currentNavigate: () => showDepositAction(context),
+    );
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
@@ -167,7 +221,7 @@ class DeepLinkService {
     storage.setString(referralCodeKey, referralCode);
   }
 
-  void _depositStartCommand(SourceScreen? source) {
+  void _earnLandingCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
 
     sAnalytics.clickMarketBanner(

@@ -105,8 +105,10 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                 ),
               ),
               const SDivider(),
-              SizedBox(
+              Container(
+                margin:const EdgeInsets.only(left: 17.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SpaceH32(),
                     ...rewardDetail,

@@ -68,6 +68,7 @@ export 'src/bottom_sheets/sheets/show_menu_action_sheet.dart';
 /// Buttons
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_1.dart';
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_2.dart';
+export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_3.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_1.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_2.dart';
 export 'src/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
@@ -199,6 +200,7 @@ export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_pressed_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_icon.dart';
 export 'src/icons/36x36/public/keyboard_erase/simple_keyboard_erase_pressed_icon.dart';
+export 'src/icons/40x22/public/delete/simple_delete_icon.dart';
 export 'src/icons/40x40/public/convert/simple_convert_icon.dart';
 export 'src/icons/40x40/public/convert/simple_convert_pressed_icon.dart';
 export 'src/icons/56x56/public/action/simple_action_active_highlighted_icon.dart';
@@ -251,6 +253,7 @@ export 'src/shared/components/simple_baseline_child.dart';
 export 'src/shared/components/simple_clickable_link_text.dart';
 export 'src/shared/components/simple_contact_item.dart';
 export 'src/shared/components/simple_divider.dart';
+export 'src/shared/components/simple_field_divider_frame.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
 export 'src/shared/components/simple_paddings.dart';
@@ -271,6 +274,9 @@ export 'src/shared/constants.dart';
 /// Helpers
 export 'src/shared/helpers/biometrics_auth_helpers.dart';
 export 'src/shared/helpers/initials_from.dart';
+
+/// Models
+export 'src/shared/models/simple_button_type.dart';
 
 /// Providers
 export 'src/shared/providers/simple_navigator_key_pod.dart';

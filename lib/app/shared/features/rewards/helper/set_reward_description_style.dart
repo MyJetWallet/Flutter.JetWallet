@@ -10,6 +10,13 @@ Color setRewardDescriptionStyle(
   SimpleColors colors,
 ) {
   if (conditions.length > 1) {
+    final currentIndexCondition = conditions.indexOf(condition);
+    if (currentIndexCondition > 0) {
+      final prevCondition = conditions[currentIndexCondition - 1];
+      if (prevCondition.parameters!.passed == 'false') {
+        return colors.grey1;
+      }
+    }
     if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition)) {
       return (condition.parameters!.passed == 'false')
           ? colors.blue

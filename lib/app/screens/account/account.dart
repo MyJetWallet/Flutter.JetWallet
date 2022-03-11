@@ -115,6 +115,15 @@ class Account extends HookWidget {
                             navigatorPush(context, const AccountSecurity());
                           },
                         ),
+                        // TODO uncomment when Circle will be avavilable
+                        // SimpleAccountCategoryButton(
+                        //   title: 'Payment methods',
+                        //   icon: SActionDepositIcon(
+                        //     color: colors.black,
+                        //   ),
+                        //   isSDivider: true,
+                        //   onTap: () => PaymentMethods.push(context),
+                        // ),
                         SimpleAccountCategoryButton(
                           title: 'History',
                           icon: const SIndexHistoryIcon(),

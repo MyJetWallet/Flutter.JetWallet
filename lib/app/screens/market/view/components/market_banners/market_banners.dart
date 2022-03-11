@@ -7,7 +7,13 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../../shared/services/deep_link_service.dart';
 import '../../../../../shared/features/rewards/notifier/campaign/campaign_notipod.dart';
-import '../../../../../shared/helpers/random_banner_color.dart';
+
+const bannersColor = [
+  Color(0xFFE0E3FA),
+  Color(0xFFE8F9E8),
+  Color(0xFFD5F4F4),
+  Color(0xFFFAF3E0),
+];
 
 class MarketBanners extends HookWidget {
   const MarketBanners({Key? key}) : super(key: key);
@@ -16,7 +22,6 @@ class MarketBanners extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(campaignNotipod(true));
     final notifier = useProvider(campaignNotipod(true).notifier);
-    final colors = useProvider(sColorPod);
     final deepLinkService = useProvider(deepLinkServicePod);
 
     final controller = PageController(viewportFraction: 0.9);
@@ -49,7 +54,7 @@ class MarketBanners extends HookWidget {
                           right: 4,
                         ),
                         child: SMarketBanner(
-                          color: randomBannerColor(colors),
+                          color: bannersColor[index],
                           primaryText: campaign.title,
                           imageUrl: campaign.imageUrl,
                           primaryTextStyle: sTextH5Style,
