@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/kyc_steps/kyc_steps_notipod.dart';
@@ -36,6 +38,8 @@ class KycVerifyYourProfile extends HookWidget {
     final notifier =
         useProvider(kycStepsNotipod(requiredVerifications).notifier);
     final colors = useProvider(sColorPod);
+
+    analytics(() => sAnalytics.kycIdentityScreenView());
 
     return SPageFrame(
       header: const SPaddingH24(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
@@ -50,15 +51,19 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
 
       await read(phoneVerificationServicePod).request(model);
 
+      sAnalytics.kycPhoneConfirmed();
+      sAnalytics.kycChangePhoneNumber();
       if (!mounted) return;
       then();
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
+      sAnalytics.kycPhoneConfirmFailed('sendCode');
       read(sNotificationNotipod.notifier).showError(e.cause, id: 1);
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
+      sAnalytics.kycPhoneConfirmFailed('sendCode');
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
         id: 1,

@@ -279,9 +279,6 @@ class SimpleAnalytics {
   void kycPhoneConfirmationView() {
     _analytics.logEvent(
       EventType.kycPhoneConfirmationView,
-      eventProperties: {
-        PropertyType.sourceScreen: ScreenSource.kycPhoneConfirmationView.name,
-      },
     );
   }
 
@@ -291,9 +288,30 @@ class SimpleAnalytics {
     );
   }
 
-  void kycPhoneConfirmFailed() {
+  void kycChangePhoneNumber() {
+    _analytics.logEvent(
+      EventType.kycChangePhoneNumber,
+    );
+  }
+
+  void kycIdentityScreenView() {
+    _analytics.logEvent(
+      EventType.kycIdentityScreenView,
+    );
+  }
+
+  void kycPhoneConfirmFailed(String error) {
     _analytics.logEvent(
       EventType.kycPhoneConfirmFailed,
+      eventProperties: {
+        PropertyType.kycPhoneConfirmFailed: error,
+      },
+    );
+  }
+
+  void kycEnterPhoneNumber() {
+    _analytics.logEvent(
+      EventType.kycEnterPhoneNumber,
     );
   }
 

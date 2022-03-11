@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/transfer/model/transfer_info/transfer_info_request_model.dart';
@@ -70,12 +69,12 @@ class SendByPhoneConfirmNotifier
 
       if (!mounted) return;
       _updateIsResending(false);
-      sAnalytics.kycPhoneConfirmed();
+      // sAnalytics.kycPhoneConfirmed();
       onSuccess();
     } catch (error) {
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);
-      sAnalytics.kycPhoneConfirmFailed();
+      // sAnalytics.kycPhoneConfirmFailed('transferResend');
       read(sNotificationNotipod.notifier).showError(
         'Failed to resend. Try again!',
         id: 1,

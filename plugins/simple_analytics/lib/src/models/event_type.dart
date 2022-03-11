@@ -79,4 +79,10 @@ class EventType {
   static const kycSelfieView = 'KYC - Selfie view';
 
   static const kycSuccessPageView = 'KYC - Success Page View';
+
+  static const kycChangePhoneNumber = 'KYC - Change Phone Number';
+
+  static const kycIdentityScreenView = 'KYC - Identity screen view';
+
+  static const kycEnterPhoneNumber = 'KYC - Enter phone number';
 }
