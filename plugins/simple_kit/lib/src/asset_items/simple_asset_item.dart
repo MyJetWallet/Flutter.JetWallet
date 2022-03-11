@@ -10,6 +10,7 @@ class SAssetItem extends StatelessWidget {
     this.isSelected = false,
     this.isCreditCard = false,
     this.divider = true,
+    this.removeDivider = false,
     required this.icon,
     required this.name,
     required this.amount,
@@ -21,6 +22,7 @@ class SAssetItem extends StatelessWidget {
   final bool isSelected;
   final bool isCreditCard;
   final bool divider;
+  final bool removeDivider;
   final Widget icon;
   final String name;
   final String amount;
@@ -126,16 +128,17 @@ class SAssetItem extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            if (divider)
-              const SPaddingH24(
-                child: SDivider(
+            if (!removeDivider)
+              if (divider)
+                const SPaddingH24(
+                  child: SDivider(
+                    width: double.infinity,
+                  ),
+                )
+              else
+                const SDivider(
                   width: double.infinity,
                 ),
-              )
-            else
-              const SDivider(
-                width: double.infinity,
-              ),
           ],
         ),
       ),

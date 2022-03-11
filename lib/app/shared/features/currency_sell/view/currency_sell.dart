@@ -38,15 +38,14 @@ class CurrencySell extends HookWidget {
       ),
     );
 
-    final currencyAssetCrypto = <CurrencyModel>[];
-    final currencyFiat = <CurrencyModel>[];
+    final assetWithBalance = <CurrencyModel>[];
+    final assetWithOutBalance = <CurrencyModel>[];
 
     for (final currency in state.currencies) {
-      if (currency.type == AssetType.crypto &&
-          currency.baseBalance != Decimal.zero) {
-        currencyAssetCrypto.add(currency);
+      if (currency.baseBalance != Decimal.zero) {
+        assetWithBalance.add(currency);
       } else {
-        currencyFiat.add(currency);
+        assetWithOutBalance.add(currency);
       }
     }
 
@@ -57,37 +56,48 @@ class CurrencySell extends HookWidget {
           name: 'For',
         ),
         children: [
-          for (final currency in currencyAssetCrypto)
+          for (final currency in assetWithBalance)
             SAssetItem(
               isSelected: currency == state.selectedCurrency,
-              icon: SNetworkSvg24(
-                color: currency == state.selectedCurrency
-                    ? colors.blue
-                    : colors.black,
-                url: currency.iconUrl,
-              ),
+              icon: (currency.type == AssetType.indices)
+                  ? SNetworkSvg24(
+                      url: currency.iconUrl,
+                    )
+                  : SNetworkSvg24(
+                      color: currency == state.selectedCurrency
+                          ? colors.blue
+                          : colors.black,
+                      url: currency.iconUrl,
+                    ),
               name: currency.description,
               amount: currency.volumeBaseBalance(
                 state.baseCurrency!,
               ),
               description: currency.volumeAssetBalance,
               onTap: () => Navigator.pop(context, currency),
-              divider: currency != currencyAssetCrypto.last,
+              divider: currency != assetWithBalance.last,
             ),
-          for (final currency in currencyFiat)
-            SFiatItem(
+          for (final currency in assetWithOutBalance)
+            SAssetItem(
               isSelected: currency == state.selectedCurrency,
-              icon: SNetworkSvg24(
-                color: currency == state.selectedCurrency
-                    ? colors.blue
-                    : colors.black,
-                url: currency.iconUrl,
-              ),
+              icon: (currency.type == AssetType.indices)
+                  ? SNetworkSvg24(
+                      url: currency.iconUrl,
+                    )
+                  : SNetworkSvg24(
+                      color: currency == state.selectedCurrency
+                          ? colors.blue
+                          : colors.black,
+                      url: currency.iconUrl,
+                    ),
               name: currency.description,
               amount: currency.volumeBaseBalance(
                 state.baseCurrency!,
               ),
+              description: currency.volumeAssetBalance,
               onTap: () => Navigator.pop(context, currency),
+              divider: currency != assetWithOutBalance.last,
+              removeDivider: currency == assetWithOutBalance.last,
             ),
           const SpaceH40(),
         ],

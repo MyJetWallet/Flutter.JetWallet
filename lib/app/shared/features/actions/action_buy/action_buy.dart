@@ -33,20 +33,20 @@ class _ActionBuy extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
     final currencies = useProvider(currenciesPod);
 
-    final currencyAssetCrypto = <CurrencyModel>[];
-    final currencyFiat = <CurrencyModel>[];
+    final assetWithBalance = <CurrencyModel>[];
+    final assetWithOutBalance = <CurrencyModel>[];
 
     for (final currency in currencies) {
-      if (currency.type == AssetType.crypto) {
-        currencyAssetCrypto.add(currency);
+      if (currency.baseBalance != Decimal.zero) {
+        assetWithBalance.add(currency);
       } else {
-        currencyFiat.add(currency);
+        assetWithOutBalance.add(currency);
       }
     }
 
     return Column(
       children: [
-        for (final currency in currencyAssetCrypto) ...[
+        for (final currency in assetWithBalance) ...[
           SMarketItem(
             icon: SNetworkSvg24(
               url: currency.iconUrl,
@@ -61,7 +61,7 @@ class _ActionBuy extends HookWidget {
               accuracy: baseCurrency.accuracy,
             ),
             ticker: currency.symbol,
-            last: currency == currencies.last,
+            last: currency == assetWithBalance.last,
             percent: currency.dayPercentChange,
             onTap: () {
               sAnalytics.buySellView(
@@ -79,7 +79,7 @@ class _ActionBuy extends HookWidget {
           ),
         ],
         const SDivider(),
-        for (final currency in currencyFiat) ...[
+        for (final currency in assetWithOutBalance) ...[
             SMarketItem(
               icon: SNetworkSvg24(
                 url: currency.iconUrl,
@@ -94,7 +94,7 @@ class _ActionBuy extends HookWidget {
                 accuracy: baseCurrency.accuracy,
               ),
               ticker: currency.symbol,
-              last: currency == currencies.last,
+              last: currency == assetWithOutBalance.last,
               percent: currency.dayPercentChange,
               onTap: () {
                 sAnalytics.buySellView(
