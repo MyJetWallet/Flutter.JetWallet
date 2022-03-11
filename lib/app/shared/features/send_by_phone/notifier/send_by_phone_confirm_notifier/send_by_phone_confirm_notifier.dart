@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../service/services/transfer/model/transfer_info/transfer_info_request_model.dart';
-import '../../../../../../service/services/transfer/model/transfer_info/transfer_info_response_model.dart';
 import '../../../../../../service/services/transfer/model/transfer_resend_request_model/transfer_resend_request_model.dart';
+import '../../../../../../service/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
+import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
@@ -20,32 +20,23 @@ import '../../view/screens/send_by_phone_amount.dart';
 import '../../view/screens/send_by_phone_notify_recipient.dart';
 import '../send_by_phone_preview_notifier/send_by_phone_preview_notipod.dart';
 import 'send_by_phone_confirm_state.dart';
+import 'send_by_phone_confirm_union.dart';
 
-/// How often we check transfer request status
-const _retryTime = 5; // in seconds
-
-/// Queries transferlInfo every [n] seconds and acts acording to response
-/// 1. If transfer is pending continue querying
-/// 2. If transfer is successful redirects to SuccessScreen
-/// 3. If transfer is failed redirects to FailureScreen
 class SendByPhoneConfirmNotifier
     extends StateNotifier<SendByPhoneConfirmState> {
   SendByPhoneConfirmNotifier(
     this.read,
     this.currency,
-  ) : super(const SendByPhoneConfirmState()) {
+  ) : super(SendByPhoneConfirmState(controller: TextEditingController())) {
     final preview = read(sendByPhonePreviewNotipod(currency));
     _operationId = preview.operationId;
     _receiverIsRegistered = preview.receiverIsRegistered;
     _context = read(sNavigatorKeyPod).currentContext!;
-    requestTransferInfo();
   }
 
   final Reader read;
   final CurrencyModel currency;
 
-  Timer? _timer;
-  late int retryTime;
   late BuildContext _context;
   late String _operationId;
   late bool _receiverIsRegistered;
@@ -53,8 +44,23 @@ class SendByPhoneConfirmNotifier
 
   static final _logger = Logger('SendByPhoneConfirmNotifier');
 
+  void updateCode(String code, String operationId) {
+    _logger.log(notifier, 'updateCode');
+
+    if (operationId == _operationId) {
+      state.controller.text = code;
+    } else {
+      read(sNotificationNotipod.notifier).showError(
+        'Operation id is different!',
+        id: 1,
+      );
+    }
+  }
+
   Future<void> transferResend({required Function() onSuccess}) async {
     _logger.log(notifier, 'transferResend');
+
+    state = state.copyWith(union: const Loading());
 
     _updateIsResending(true);
 
@@ -81,75 +87,47 @@ class SendByPhoneConfirmNotifier
     }
   }
 
-  Future<void> requestTransferInfo() async {
-    _logger.log(notifier, 'requestTransferInfo');
+  Future<void> verifyCode() async {
+    _logger.log(notifier, 'verifyCode');
 
-    if (!state.isRequesting) {
-      await _requestTransferInfo();
-    }
-  }
-
-  Future<void> _requestTransferInfo() async {
-    _updateIsRequesting(true);
+    state = state.copyWith(union: const Loading());
 
     try {
-      final service = read(transferServicePod);
+      final service = read(validationServicePod);
 
-      final model = TransferInfoRequestModel(
+      final model = VerifyWithdrawalVerificationCodeRequestModel(
         operationId: _operationId,
+        code: state.controller.text,
+        brand: 'simple',
       );
 
-      final response = await service.transferInfo(model);
+      await service.verifyTransferVerificationCode(model);
 
-      toPhoneNumber = response.toPhoneNumber;
+      // TODO: fix when backend will be ready
+      toPhoneNumber = '1234';
 
-      if (response.status == TransferStatus.pendingApproval) {
-        _refreshTimer();
-      } else if (response.status == TransferStatus.success) {
-        _showSuccessScreen();
-        _timer?.cancel();
-      } else {
-        _showFailureScreen();
-        _timer?.cancel();
-      }
+      state = state.copyWith(union: const Input());
+
+      if (!mounted) return;
+
+      _showSuccessScreen();
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'verifyCode', error.cause);
+
+      state = state.copyWith(union: Error(error.cause));
     } catch (error) {
-      _logger.log(stateFlow, '_requestTransferInfo', error);
+      _logger.log(stateFlow, 'verifyCode', error);
 
-      _refreshTimer();
+      state = state.copyWith(union: Error(error));
+
+      if (!mounted) return;
+
+      _showFailureScreen();
     }
-
-    _updateIsRequesting(false);
   }
 
   void _updateIsResending(bool value) {
     state = state.copyWith(isResending: value);
-  }
-
-  void _updateIsRequesting(bool value) {
-    state = state.copyWith(isRequesting: value);
-  }
-
-  void _refreshTimer() {
-    _timer?.cancel();
-    retryTime = _retryTime;
-
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        if (retryTime == 0) {
-          timer.cancel();
-          requestTransferInfo();
-        } else {
-          retryTime -= 1;
-        }
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   void _showSuccessScreen() {

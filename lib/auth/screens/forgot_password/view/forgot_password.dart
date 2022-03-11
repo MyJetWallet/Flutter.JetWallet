@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/get_args.dart';
-import '../notifier/forgot_password_notipod.dart';
-import '../notifier/forgot_password_state.dart';
+import '../notifier/forgot_password/forgot_password_notipod.dart';
+import '../notifier/forgot_password/forgot_password_state.dart';
 
 @immutable
 class ForgotPasswordArgs {

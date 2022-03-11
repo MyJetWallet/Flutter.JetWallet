@@ -7,12 +7,15 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
-import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
-import '../../app/shared/features/send_by_phone/provider/send_by_phone_dynamic_link_stpod.dart';
+import '../../app/shared/features/currency_withdraw/notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
+import '../../app/shared/features/currency_withdraw/view/screens/withdrawal_confirm.dart';
+import '../../app/shared/features/send_by_phone/notifier/send_by_phone_confirm_notifier/send_by_phone_confirm_notipod.dart';
+import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confirm.dart';
 import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
+import '../../auth/screens/forgot_password/notifier/confirm_password_reset/confirm_password_reset_notipod.dart';
+import '../../auth/screens/forgot_password/view/confirm_password_reset.dart';
 import '../../auth/screens/login/login.dart';
-import '../../auth/screens/reset_password/view/reset_password.dart';
 import '../../router/notifier/startup_notifier/authorized_union.dart';
 import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../helpers/navigator_push.dart';
@@ -23,7 +26,6 @@ import 'local_storage_service.dart';
 
 /// Parameters
 const _code = 'jw_code';
-const _token = 'jw_token';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
@@ -32,8 +34,8 @@ const _email = 'jw_email';
 const _confirmEmail = 'ConfirmEmail';
 const _login = 'Login';
 const _forgotPassword = 'ForgotPassword';
-const _confirmWithdraw = 'jw_withdrawal_email_confirm';
-const _confirmSendByPhone = 'jw_transfer_email_confirm';
+const _confirmWithdraw = 'VerifyWithdrawal';
+const _confirmSendByPhone = 'VerifyTransfer';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
@@ -96,20 +98,27 @@ class DeepLinkService {
   }
 
   void _forgotPasswordCommand(Map<String, String> parameters) {
-    ResetPassword.push(
-      context: read(sNavigatorKeyPod).currentContext!,
-      args: ResetPasswordArgs(token: parameters[_token]!),
-    );
+    final notifier = useProvider(confirmPasswordResetNotipod(email).notifier);
+
+    notifier.updateCode(parameters[_code]);
   }
 
   void _confirmWithdrawCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
-    read(withdrawDynamicLinkStpod(id)).state = true;
+    final code = parameters[_code]!;
+    final notifier =
+        useProvider(withdrawalConfirmNotipod(withdrawalModel).notifier);
+
+    notifier.updateCode(code, id);
   }
 
   void _confirmSendByPhoneCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
-    read(sendByPhoneDynamicLinkStpod(id)).state = true;
+    final code = parameters[_code]!;
+    final notifier =
+        useProvider(sendByPhoneConfirmNotipod(currencyModel).notifier);
+
+    notifier.updateCode(code, id);
   }
 
   void _inviteFriendCommand(SourceScreen? source) {

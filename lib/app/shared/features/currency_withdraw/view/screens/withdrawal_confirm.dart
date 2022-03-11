@@ -4,14 +4,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../../../../../shared/components/pin_code_field.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
+import '../../notifier/withdrawal_confirm_notifier/withdrawal_confirm_state.dart';
 import '../../notifier/withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
 import '../../provider/withdraw_dynamic_link_stpod.dart';
+
+late WithdrawalModel withdrawalModel;
 
 class WithdrawalConfirm extends HookWidget {
   const WithdrawalConfirm({
@@ -23,6 +27,8 @@ class WithdrawalConfirm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    withdrawalModel = withdrawal;
+
     final colors = useProvider(sColorPod);
     final timer = useProvider(timerNotipod(withdrawalConfirmResendCountdown));
     final timerN = useProvider(
@@ -33,29 +39,34 @@ class WithdrawalConfirm extends HookWidget {
     final confirmN = useProvider(withdrawalConfirmNotipod(withdrawal).notifier);
     final id = useProvider(withdrawalPreviewNotipod(withdrawal)).operationId;
     final dynamicLink = useProvider(withdrawDynamicLinkStpod(id));
+    final notificationN = useProvider(sNotificationNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
+    final pinError = useValueNotifier(StandardFieldErrorNotifier());
 
     final verb = withdrawal.dictionary.verb.toLowerCase();
     final noun = withdrawal.dictionary.noun.toLowerCase();
 
-    return ProviderListener<StateController<bool>>(
-      provider: withdrawDynamicLinkStpod(id),
-      onChange: (_, value) {
-        if (value.state) {
-          loader.value.startLoading();
-          confirmN.requestWithdrawalInfo().then((_) {
+    return ProviderListener<WithdrawalConfirmState>(
+      provider: withdrawalConfirmNotipod(withdrawal),
+      onChange: (_, state) {
+        state.union.maybeWhen(
+          error: (Object? error) {
             loader.value.finishLoading();
-          });
-        } else {
-          loader.value.finishLoading();
-        }
+            pinError.value.enableError();
+            notificationN.showError(
+              error.toString(),
+              id: 1,
+            );
+          },
+          orElse: () {},
+        );
       },
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
           title: 'Confirm $verb request',
           titleAlign: TextAlign.start,
-          onBackButtonTap: () => navigateToRouter(context.read),
+          showBackButton: false,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +93,17 @@ class WithdrawalConfirm extends HookWidget {
               text: 'Open email app',
               onTap: () => openEmailApp(context),
             ),
-            const Spacer(),
+            const SpaceH29(),
+            PinCodeField(
+              controller: confirm.controller,
+              length: emailVerificationCodeLength,
+              onCompleted: (_) {
+                loader.value.startLoading();
+                confirmN.verifyCode();
+              },
+              autoFocus: true,
+              pinError: pinError.value,
+            ),
             SResendButton(
               active: !dynamicLink.state && !confirm.isResending,
               timer: timer,
@@ -91,6 +112,12 @@ class WithdrawalConfirm extends HookWidget {
                   onSuccess: timerN.refreshTimer,
                 );
               },
+            ),
+            const Spacer(),
+            SSecondaryButton1(
+              active: true,
+              name: 'Cancel Request',
+              onTap: () => navigateToRouter(context.read),
             ),
             const SpaceH24(),
           ],

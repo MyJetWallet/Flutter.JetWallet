@@ -8,13 +8,18 @@ import '../../../../shared/components/result_screens/success_screen/success_scre
 import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/helpers/password_validators.dart';
 import '../../login/login.dart';
+import '../view/reset_password.dart';
 import 'reset_password_state.dart';
 import 'reset_password_union.dart';
 
 class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
-  ResetPasswordNotifier(this.read) : super(const ResetPasswordState());
+  ResetPasswordNotifier(
+    this.read,
+    this.args,
+  ) : super(const ResetPasswordState());
 
   final Reader read;
+  final ResetPasswordArgs args;
 
   static final _logger = Logger('ResetPasswordNotifier');
 
@@ -41,15 +46,16 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
     validatePassword();
   }
 
-  Future<void> resetPassword(String token) async {
+  Future<void> resetPassword(String email, String code) async {
     _logger.log(notifier, 'resetPassword');
 
     try {
       state = state.copyWith(union: const Loading());
 
       final model = PasswordRecoveryRequestModel(
+        email: args.email,
         password: state.password,
-        token: token,
+        code: args.code,
       );
 
       await read(authServicePod).recoverPassword(model);

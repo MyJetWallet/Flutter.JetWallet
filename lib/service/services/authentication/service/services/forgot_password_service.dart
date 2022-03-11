@@ -15,7 +15,7 @@ Future<void> forgotPasswordService(
 
   try {
     final response = await dio.post(
-      '$authApi/trader/ForgotPassword',
+      '$authApi/trader/ForgotPasswordCode',
       data: model.toJson(),
     );
 

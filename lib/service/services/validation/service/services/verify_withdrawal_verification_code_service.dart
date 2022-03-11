@@ -3,19 +3,19 @@ import 'package:dio/dio.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
-import '../../model/password_recovery/password_recovery_request_model.dart';
-import '../authentication_service.dart';
+import '../../model/verify_withdrawal_verification_code_request_model.dart';
+import '../validation_service.dart';
 
-Future<void> recoverPasswordService(
+Future<void> verifyWithdrawalVerificationCodeService(
   Dio dio,
-  PasswordRecoveryRequestModel model,
+  VerifyWithdrawalVerificationCodeRequestModel model,
 ) async {
-  final logger = AuthenticationService.logger;
-  const message = 'passwordRecoveryService';
+  final logger = ValidationService.logger;
+  const message = 'verifyWithdrawalVerificationCodeService';
 
   try {
     final response = await dio.post(
-      '$authApi/trader/PasswordRecoveryCode',
+      '$validationApi/withdrawal-verification/verify-code',
       data: model.toJson(),
     );
 
@@ -24,11 +24,11 @@ Future<void> recoverPasswordService(
 
       handleResultResponse(responseData);
     } catch (e) {
-      logger.log(contract, message);
+      logger.log(contract, message, e);
       rethrow;
     }
   } catch (e) {
-    logger.log(transport, message);
+    logger.log(transport, message, e);
     rethrow;
   }
 }
