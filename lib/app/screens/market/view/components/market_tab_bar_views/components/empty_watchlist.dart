@@ -34,13 +34,13 @@ class EmptyWatchlist extends HookWidget {
                       const Spacer(),
                       deviceSize.when(
                         small: () {
-                          return SvgPicture.asset(
-                            watchlistImageAsset,
+                          return Image.asset(
+                              watchlistImageAsset,
                             width: 160,
                           );
                         },
                         medium: () {
-                          return SvgPicture.asset(
+                          return Image.asset(
                             watchlistImageAsset,
                             width: 320,
                           );
