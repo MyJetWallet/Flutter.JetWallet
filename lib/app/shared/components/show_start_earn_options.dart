@@ -35,6 +35,8 @@ void showStartEarnOptions({
               ScreenSource.earnProgram,
               currency.description,
             );
+            sAnalytics.earnDetailsView(currency.description);
+
             navigatorPushReplacement(
               context,
               CurrencyBuy(
@@ -52,7 +54,7 @@ void showStartEarnOptions({
                   ScreenSource.earnProgram,
                   currency.description,
                 );
-
+                sAnalytics.earnDetailsView(currency.description);
                 navigatorPushReplacement(
                   context,
                   CurrencyBuy(
