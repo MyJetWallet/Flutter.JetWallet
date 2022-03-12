@@ -58,12 +58,10 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
-      sAnalytics.kycPhoneConfirmFailed('sendCode');
       read(sNotificationNotipod.notifier).showError(e.cause, id: 1);
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
-      sAnalytics.kycPhoneConfirmFailed('sendCode');
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
         id: 1,
