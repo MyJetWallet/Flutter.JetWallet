@@ -65,33 +65,17 @@ class SendByPhoneAmount extends HookWidget {
           const Spacer(),
           const SpaceH10(),
           if (state.pickedContact!.isContactWithName)
-            GestureDetector(
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => SendByPhoneInput(currency: currency),
-                  ),
-                      (route) => route.isFirst,
-                );
-              },
-              child: SPaymentSelectContact(
+            _navigatePushAndRemoveUntil(
+              context,
+              SPaymentSelectContact(
                 name: state.pickedContact!.name,
                 phone: state.pickedContact!.phoneNumber,
               ),
             )
           else
-            GestureDetector(
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => SendByPhoneInput(currency: currency),
-                  ),
-                      (route) => route.isFirst,
-                );
-              },
-              child: SPaymentSelectContactWithoutName(
+            _navigatePushAndRemoveUntil(
+              context,
+              SPaymentSelectContactWithoutName(
                 phone: state.pickedContact!.phoneNumber,
               ),
             ),
@@ -121,6 +105,24 @@ class SendByPhoneAmount extends HookWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _navigatePushAndRemoveUntil(
+    BuildContext context,
+    Widget child,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SendByPhoneInput(currency: currency),
+          ),
+          (route) => route.isFirst,
+        );
+      },
+      child: child,
     );
   }
 }
