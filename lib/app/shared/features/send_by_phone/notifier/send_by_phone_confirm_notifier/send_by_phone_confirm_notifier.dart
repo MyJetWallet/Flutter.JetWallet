@@ -51,7 +51,7 @@ class SendByPhoneConfirmNotifier
       state.controller.text = code;
     } else {
       read(sNotificationNotipod.notifier).showError(
-        'Operation id is different!',
+        'You have confirmed an incorrect operation',
         id: 1,
       );
     }

@@ -106,6 +106,8 @@ class SendByPhoneConfirm extends HookWidget {
               active: !dynamicLink.state && !confirm.isResending,
               timer: timer,
               onTap: () {
+                confirm.controller.clear();
+
                 confirmN.transferResend(
                   onSuccess: timerN.refreshTimer,
                 );

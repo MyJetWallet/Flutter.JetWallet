@@ -108,6 +108,8 @@ class WithdrawalConfirm extends HookWidget {
               active: !dynamicLink.state && !confirm.isResending,
               timer: timer,
               onTap: () {
+                confirm.controller.clear();
+
                 confirmN.withdrawalResend(
                   onSuccess: timerN.refreshTimer,
                 );

@@ -23,10 +23,6 @@ class Login extends HookWidget {
   static const routeName = '/login';
   final String? email;
 
-  static Future push(BuildContext context) {
-    return Navigator.pushNamed(context, routeName);
-  }
-
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);

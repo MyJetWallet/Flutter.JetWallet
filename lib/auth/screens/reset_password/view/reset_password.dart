@@ -100,7 +100,7 @@ class ResetPassword extends HookWidget {
                   onTap: () {
                     disableContinue.value = true;
                     loader.value.startLoading();
-                    resetN.resetPassword(args.email, args.code).then((_) {
+                    resetN.resetPassword().then((_) {
                       disableContinue.value = false;
                       loader.value.finishLoading();
                     });
