@@ -32,6 +32,7 @@ class SendByPhoneConfirmNotifier
     _operationId = preview.operationId;
     _receiverIsRegistered = preview.receiverIsRegistered;
     _context = read(sNavigatorKeyPod).currentContext!;
+    _toPhoneNumber = preview.pickedContact?.phoneNumber ?? '';
   }
 
   final Reader read;
@@ -40,7 +41,7 @@ class SendByPhoneConfirmNotifier
   late BuildContext _context;
   late String _operationId;
   late bool _receiverIsRegistered;
-  late String toPhoneNumber;
+  late String _toPhoneNumber;
 
   static final _logger = Logger('SendByPhoneConfirmNotifier');
 
@@ -103,9 +104,6 @@ class SendByPhoneConfirmNotifier
 
       await service.verifyTransferVerificationCode(model);
 
-      // TODO: fix when backend will be ready
-      toPhoneNumber = '1234';
-
       state = state.copyWith(union: const Input());
 
       if (!mounted) return;
@@ -140,7 +138,7 @@ class SendByPhoneConfirmNotifier
           navigatorPush(
             _context,
             SendByPhoneNotifyRecipient(
-              toPhoneNumber: toPhoneNumber,
+              toPhoneNumber: _toPhoneNumber,
             ),
           );
         }
