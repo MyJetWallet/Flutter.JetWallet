@@ -91,7 +91,8 @@ class CryptoDeposit extends HookWidget {
             ],
           ),
         ),
-        child: Column(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             DepositInfo(),
             Container(
