@@ -57,6 +57,7 @@ class EmptyWatchlist extends HookWidget {
                           color: colors.grey1,
                         ),
                       ),
+                      const SpaceH40(),
                       const Spacer(),
                     ],
                   ),
