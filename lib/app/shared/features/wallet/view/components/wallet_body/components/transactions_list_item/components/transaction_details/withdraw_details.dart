@@ -98,8 +98,11 @@ class WithdrawDetails extends StatelessWidget {
               text: 'Withdrawal to',
               value: Row(
                 children: [
-                  TransactionDetailsValueText(
-                    text: transactionListItem.withdrawalInfo!.toAddress ?? '',
+                  SizedBox(
+                    width: 150,
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.withdrawalInfo!.toAddress ?? '',
+                    ),
                   ),
                   const SpaceW10(),
                   SIconButton(
