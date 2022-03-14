@@ -37,6 +37,7 @@ class Account extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
+    final colors = useProvider(sColorPod);
 
     final kycState = useProvider(kycNotipod);
     final kycAlertHandler = useProvider(
@@ -58,7 +59,7 @@ class Account extends HookWidget {
       child: logout.when(
         result: (_, __) {
           return Container(
-            color: Colors.white,
+            color: colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
