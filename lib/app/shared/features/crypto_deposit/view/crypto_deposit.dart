@@ -38,6 +38,7 @@ class CryptoDeposit extends HookWidget {
             showDepositDisclaimer(
               context: context,
               assetSymbol: currency.symbol,
+              screenTitle: header,
               onDismiss: currency.isSingleNetwork
                   ? null
                   : () => showNetworkBottomSheet(
