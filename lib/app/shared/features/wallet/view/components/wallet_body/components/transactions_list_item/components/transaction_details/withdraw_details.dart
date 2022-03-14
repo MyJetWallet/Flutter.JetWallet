@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -12,7 +13,7 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class WithdrawDetails extends StatelessWidget {
+class WithdrawDetails extends HookWidget {
   const WithdrawDetails({
     Key? key,
     required this.transactionListItem,
@@ -22,13 +23,23 @@ class WithdrawDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currency = currencyFrom(
+      useProvider(currenciesPod),
+      transactionListItem.assetId,
+    );
+
     return SPaddingH24(
       child: Column(
         children: [
           TransactionDetailsItem(
             text: 'Amount',
             value: TransactionDetailsValueText(
-              text: '${transactionListItem.withdrawalInfo!.withdrawalAmount}',
+              text: volumeFormat(
+                prefix: currency.prefixSymbol,
+                decimal: transactionListItem.withdrawalInfo!.withdrawalAmount,
+                accuracy: currency.accuracy,
+                symbol: currency.symbol,
+              ),
             ),
           ),
           const SpaceH10(),
@@ -75,7 +86,8 @@ class WithdrawDetails extends StatelessWidget {
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortAddressForm(transactionListItem.operationId),
+                  text:
+                      shortAddressOperationId(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 SIconButton(
@@ -98,11 +110,12 @@ class WithdrawDetails extends StatelessWidget {
               text: 'Withdrawal to',
               value: Row(
                 children: [
-                  SizedBox(
-                    width: 150,
-                    child: TransactionDetailsValueText(
-                      text: transactionListItem.withdrawalInfo!.toAddress ?? '',
-                    ),
+                  TransactionDetailsValueText(
+                    text: transactionListItem.withdrawalInfo!.toAddress != null
+                        ? shortAddressForm(
+                            transactionListItem.withdrawalInfo!.toAddress!,
+                          )
+                        : '',
                   ),
                   const SpaceW10(),
                   SIconButton(

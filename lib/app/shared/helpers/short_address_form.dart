@@ -9,3 +9,11 @@ String shortAddressForm(String address) {
 
   return '$part1 •••• $part2';
 }
+
+String shortAddressOperationId(String address) {
+  final length = address.length;
+  if (length <= 8) return address;
+
+  final part1 = address.split('|').first;
+  return part1;
+}
