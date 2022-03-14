@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../helpers/short_address_form.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../notifier/crypto_deposit_notipod.dart';
@@ -19,6 +20,9 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = useProvider(mediaQueryPod);
+    final qrBoxSize = mediaQuery.size.width * 0.6;
+    final logoSize = mediaQuery.size.width * 0.24;
     final deposit = useProvider(cryptoDepositNotipod(currency));
     final depositN = useProvider(
       cryptoDepositNotipod(currency).notifier,
@@ -54,6 +58,8 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
               SQrCodeBox(
                 loading: deposit.union is Loading,
                 data: deposit.address,
+                qrBoxSize: qrBoxSize,
+                logoSize: logoSize,
               ),
               const SpaceH17(),
             ],
@@ -87,6 +93,8 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
               SQrCodeBox(
                 loading: deposit.union is Loading,
                 data: deposit.tag!,
+                qrBoxSize: qrBoxSize,
+                logoSize: logoSize,
               ),
             ],
           ),
