@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../service/services/signal_r/model/asset_model.dart';
+import '../../../service/services/signal_r/model/payment_methods.dart';
 import '../helpers/formatting/formatting.dart';
 import '../providers/base_currency_pod/base_currency_model.dart';
 
@@ -19,6 +20,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default(TagType.none) TagType tagType,
     @Default(AssetType.crypto) AssetType type,
     @Default(AssetFeesModel()) AssetFeesModel fees,
+    @Default([]) List<PaymentMethod> buyMethods,
     @Default([]) List<DepositMethods> depositMethods,
     @Default([]) List<WithdrawalMethods> withdrawalMethods,
     @Default([]) List<String> depositBlockchains,

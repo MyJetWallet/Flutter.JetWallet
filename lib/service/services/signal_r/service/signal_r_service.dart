@@ -23,6 +23,7 @@ import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
 import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
+import '../model/payment_methods.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
 import '../model/referral_stats_response_model.dart';
@@ -62,6 +63,8 @@ class SignalRService {
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
   final _priceAccuraciesController = StreamController<PriceAccuracies>();
   final _marketInfoController = StreamController<TotalMarketInfoModel>();
+  final _assetPaymentMethodsController =
+      StreamController<AssetPaymentMethods>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -221,6 +224,15 @@ class SignalRService {
       }
     });
 
+    _connection?.on(paymentMethodsMessage, (data) {
+      try {
+        final info = AssetPaymentMethods.fromJson(_json(data));
+        _assetPaymentMethodsController.add(info);
+      } catch (e) {
+        _logger.log(contract, paymentMethodsMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
     final deviceInfo = read(deviceInfoPod);
@@ -277,6 +289,9 @@ class SignalRService {
       _priceAccuraciesController.stream;
 
   Stream<TotalMarketInfoModel> marketInfo() => _marketInfoController.stream;
+
+  Stream<AssetPaymentMethods> paymentMethods() =>
+      _assetPaymentMethodsController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
