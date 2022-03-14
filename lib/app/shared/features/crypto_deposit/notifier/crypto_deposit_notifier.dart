@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_request_model.dart';
 import '../../../../../service/services/signal_r/model/blockchains_model.dart';
+import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../models/currency_model.dart';
@@ -75,6 +77,15 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
         tag: response.memo,
         union: const Success(),
       );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, '_requestDepositAddress', error.cause);
+
+      read(sNotificationNotipod.notifier).showError(
+        'There was a problem loading wallet address. Try again in a moment.',
+        id: 1,
+      );
+
+      state = state.copyWith(union: const Loading());
     } catch (error) {
       _logger.log(stateFlow, '_requestDepositAddress', error);
 
