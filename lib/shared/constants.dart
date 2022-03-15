@@ -4,7 +4,7 @@ const splashAnimationAsset = 'assets/animations/splash.riv';
 const failureAnimationAsset = 'assets/animations/failure.riv';
 
 // Other
-const watchlistImageAsset = 'assets/images/watchlist.svg';
+const watchlistImageAsset = 'assets/images/watchlist.png';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
 
 // Portfolio
