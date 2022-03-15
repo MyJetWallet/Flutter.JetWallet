@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -59,6 +61,10 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
           if (_currentIndex + 1 < _slides.length) {
             _currentIndex += 1;
             _restartAnimation();
+          } else {
+            Timer(const Duration(seconds: 5), () {
+              _startAnimation();
+            });
           }
         });
       }
@@ -181,6 +187,14 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
   void dispose() {
     _slidesAnimationController.dispose();
     super.dispose();
+  }
+
+  void _startAnimation() {
+    setState(() {
+      _currentIndex = 0;
+      _restartAnimation();
+    });
+
   }
 
   void _restartAnimation() {
