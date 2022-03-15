@@ -197,7 +197,7 @@ class DeepLinkService {
       ),
       children: [
         SReferralInviteBody(
-          primaryText: 'Invite friends and get \$15',
+          primaryText: 'Invite friends and get \$10',
           qrCodeLink: userInfo.referralLink,
           referralLink: userInfo.referralLink,
         ),
