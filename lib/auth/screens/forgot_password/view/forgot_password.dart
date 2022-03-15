@@ -73,8 +73,8 @@ class ForgotPassword extends HookWidget {
                   SPaddingH24(
                     child: Text(
                       'Resetting a forgotten password will logout other'
-                      ' devices and will result in a 24-hour hold on'
-                      ' cryptocurrency withdrawals.',
+                          ' devices and suspend cryptocurrency withdrawals'
+                          ' for 24 hours.',
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),

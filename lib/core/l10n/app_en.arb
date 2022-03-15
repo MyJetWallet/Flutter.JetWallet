@@ -280,7 +280,7 @@
     "@onboarding_slide4": {
       "description": "Shown on the Onboarding screen where 4 slides displayed"
     },
-    "login_credentialsError": "The email and password you entered did not match our records. Please double-check and try again.",
+    "login_credentialsError": "The email and password you entered did not match our records. Please correct and try again.",
     "@login_credentialsError": {
       "description": "This error shown when user typed wrong login credentials"
     },
