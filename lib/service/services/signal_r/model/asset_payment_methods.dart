@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'payment_methods.freezed.dart';
-part 'payment_methods.g.dart';
+part 'asset_payment_methods.freezed.dart';
+part 'asset_payment_methods.g.dart';
 
 @freezed
 class AssetPaymentMethods with _$AssetPaymentMethods {
@@ -29,7 +29,9 @@ class AssetPaymentInfo with _$AssetPaymentInfo {
 @freezed
 class PaymentMethod with _$PaymentMethod {
   const factory PaymentMethod({
-    required String name,
+    @PaymentTypeSerialiser()
+    @JsonKey(name: 'name')
+        required PaymentMethodType type,
     required double minAmount,
     required double maxAmount,
     required double availableAmount,
@@ -37,4 +39,39 @@ class PaymentMethod with _$PaymentMethod {
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) =>
       _$PaymentMethodFromJson(json);
+}
+
+enum PaymentMethodType {
+  simplex,
+  unsupported,
+}
+
+extension PaymentMethodTypeExtension on PaymentMethodType {
+  String get name {
+    switch (this) {
+      case PaymentMethodType.simplex:
+        return 'Simplex';
+      default:
+        return 'Unsupported';
+    }
+  }
+}
+
+class PaymentTypeSerialiser
+    implements JsonConverter<PaymentMethodType, dynamic> {
+  const PaymentTypeSerialiser();
+
+  @override
+  PaymentMethodType fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'Simplex') {
+      return PaymentMethodType.simplex;
+    } else {
+      return PaymentMethodType.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(PaymentMethodType type) => type.name;
 }

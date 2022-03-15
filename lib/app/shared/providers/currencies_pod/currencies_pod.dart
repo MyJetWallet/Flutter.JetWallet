@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../service/services/signal_r/model/payment_methods.dart';
+import '../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/icon_url_from.dart';
 import '../../models/currency_model.dart';
@@ -61,9 +61,14 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
         for (final currency in currencies) {
           if (currency.symbol == info.symbol) {
             final index = currencies.indexOf(currency);
+            final methods = List<PaymentMethod>.from(info.buyMethods);
+
+            methods.removeWhere((element) {
+              return element.type == PaymentMethodType.unsupported;
+            });
 
             currencies[index] = currency.copyWith(
-              buyMethods: List<PaymentMethod>.from(info.buyMethods),
+              buyMethods: methods,
             );
           }
         }

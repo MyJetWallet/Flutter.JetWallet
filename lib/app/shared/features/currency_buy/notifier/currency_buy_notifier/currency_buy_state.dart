@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
@@ -14,6 +15,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
   const factory CurrencyBuyState({
     Decimal? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
+    PaymentMethod? selectedPaymentMethod,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
     @Default('0') String inputValue,

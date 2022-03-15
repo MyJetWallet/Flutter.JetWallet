@@ -3,8 +3,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../../service/services/signal_r/model/asset_payment_methods.dart';
+import '../../../../../../service/services/simplex/model/simplex_payment_request_model.dart';
+import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/logging/levels.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
 import '../../../../helpers/input_helpers.dart';
@@ -45,35 +48,50 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _initDefaultPaymentMethod() {
-    if (state.currencies.isNotEmpty) {
-      // Case 1: If use has baseCurrency wallet with balance more than zero
-      for (final currency in state.currencies) {
-        if (currency.symbol == state.baseCurrency!.symbol) {
-          updateSelectedCurrency(currency);
-          return;
-        }
-      }
-
-      // Case 2: If user has at least one fiat wallet
-      for (final currency in state.currencies) {
-        if (currency.type == AssetType.fiat) {
-          updateSelectedCurrency(currency);
-          return;
-        }
-      }
-
-      // TODO Case 3: If user has at least one saved card
-
-      // TODO Case 4: Payment methods
-
-      // Case 5: If user has at least one crypto wallet
-      updateSelectedCurrency(state.currencies.first);
+    if (currencyModel.supportsAtLeastOneBuyMethod) {
+      final method = currencyModel.buyMethods.first;
+      updateSelectedPaymentMethod(method);
+      return;
     }
+
+    // TODO when support for crypto will be avavilable
+    // if (state.currencies.isNotEmpty) {
+    //   // Case 1: If use has baseCurrency wallet with balance more than zero
+    //   for (final currency in state.currencies) {
+    //     if (currency.symbol == state.baseCurrency!.symbol) {
+    //       updateSelectedCurrency(currency);
+    //       return;
+    //     }
+    //   }
+
+    //   // Case 2: If user has at least one fiat wallet
+    //   for (final currency in state.currencies) {
+    //     if (currency.type == AssetType.fiat) {
+    //       updateSelectedCurrency(currency);
+    //       return;
+    //     }
+    //   }
+
+    //   // TODO Case 3: If user has at least one saved card
+
+    //   // TODO Case 4: Payment methods
+
+    //   // Case 5: If user has at least one crypto wallet
+    //   updateSelectedCurrency(state.currencies.first);
+    // }
+  }
+
+  void updateSelectedPaymentMethod(PaymentMethod? method) {
+    _logger.log(notifier, 'updateSelectedPaymentMethod');
+
+    state = state.copyWith(selectedCurrency: null);
+    state = state.copyWith(selectedPaymentMethod: method);
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
+    state = state.copyWith(selectedPaymentMethod: null);
     state = state.copyWith(selectedCurrency: currency);
   }
 
@@ -195,6 +213,21 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _validateInput() {
+    if (state.selectedPaymentMethod != null) {
+      if (!isInputValid(state.inputValue)) {
+        _updateInputValid(false);
+        return;
+      }
+
+      final value = double.parse(state.inputValue);
+      final min = state.selectedPaymentMethod!.minAmount;
+      final max = state.selectedPaymentMethod!.maxAmount;
+
+      _updateInputValid(value >= min && value <= max);
+
+      return;
+    }
+
     if (state.selectedCurrency == null) {
       _updateInputValid(false);
     } else {
@@ -222,5 +255,35 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _updateTargetConversionValue(zero);
     _updateBaseConversionValue(zero);
     _updateInputValid(false);
+  }
+
+  Future<String?> makeSimplexRequest() async {
+    final model = SimplexPaymentRequestModel(
+      fromAmount: Decimal.parse(state.inputValue),
+      fromCurrency: state.baseCurrency!.symbol,
+      toAsset: currencyModel.symbol,
+    );
+
+    try {
+      final response = await read(simplexServicePod).payment(model);
+
+      return response.paymentLink;
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'makeSimplexRequest', error.cause);
+
+      read(sNotificationNotipod.notifier).showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (e) {
+      _logger.log(stateFlow, 'makeSimplexRequest', e);
+
+      read(sNotificationNotipod.notifier).showError(
+        'Something went wrong',
+        id: 1,
+      );
+    }
+
+    return null;
   }
 }

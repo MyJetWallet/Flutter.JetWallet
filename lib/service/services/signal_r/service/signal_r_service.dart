@@ -13,6 +13,7 @@ import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
+import '../model/asset_payment_methods.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/campaign_response_model.dart';
@@ -23,7 +24,6 @@ import '../model/key_value_model.dart';
 import '../model/kyc_countries_response_model.dart';
 import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
-import '../model/payment_methods.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
 import '../model/referral_stats_response_model.dart';
@@ -227,6 +227,7 @@ class SignalRService {
     _connection?.on(paymentMethodsMessage, (data) {
       try {
         final info = AssetPaymentMethods.fromJson(_json(data));
+
         _assetPaymentMethodsController.add(info);
       } catch (e) {
         _logger.log(contract, paymentMethodsMessage, e);

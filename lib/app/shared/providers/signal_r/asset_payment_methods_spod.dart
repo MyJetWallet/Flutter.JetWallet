@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../service/services/signal_r/model/payment_methods.dart';
+import '../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../shared/providers/service_providers.dart';
 
 final assetPaymentMethodsSpod =
