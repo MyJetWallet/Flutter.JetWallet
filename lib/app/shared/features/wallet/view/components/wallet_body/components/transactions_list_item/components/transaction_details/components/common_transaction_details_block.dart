@@ -51,6 +51,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
     );
   }
 
+
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw) {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
