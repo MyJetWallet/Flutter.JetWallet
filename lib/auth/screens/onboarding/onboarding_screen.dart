@@ -8,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/constants.dart';
 import '../../../shared/helpers/analytics.dart';
+import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
@@ -171,7 +172,10 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                   STextButton1(
                     active: true,
                     name: intl.onboarding_signIn,
-                    onTap: () => Login.push(context),
+                    onTap: () => navigatorPush(
+                      context,
+                      const Login(),
+                    ),
                   ),
                   const SpaceH24(),
                 ],
