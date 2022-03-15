@@ -37,7 +37,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
         Text(
           volumeFormat(
             prefix: currency.prefixSymbol,
-            decimal: transactionListItem.balanceChange,
+            decimal: transactionListItem.withdrawalInfo!.withdrawalAmount,
             accuracy: currency.accuracy,
             symbol: currency.symbol,
           ),
