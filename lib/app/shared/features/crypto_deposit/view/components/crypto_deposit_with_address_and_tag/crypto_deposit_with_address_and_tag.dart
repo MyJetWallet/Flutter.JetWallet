@@ -69,22 +69,18 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
         ExpansionPanelWithoutIcon(
           canTapOnHeader: true,
           headerBuilder: (BuildContext context, bool isExpanded) {
-            return Column(
-              children: [
-                SAddressFieldWithCopy(
-                  header: 'Tag',
-                  value: deposit.tag!,
-                  realValue: deposit.tag,
-                  afterCopyText: 'Tag copied',
-                  valueLoading: deposit.union is Loading,
-                  actionIcon: deposit.isAddressOpen
-                      ? const SAngleDownIcon()
-                      : const SAngleUpIcon(),
-                  onTap: () {
-                    depositN.switchAddress();
-                  },
-                ),
-              ],
+            return SAddressFieldWithCopy(
+              header: 'Tag',
+              value: deposit.tag!,
+              realValue: deposit.tag,
+              afterCopyText: 'Tag copied',
+              valueLoading: deposit.union is Loading,
+              actionIcon: deposit.isAddressOpen
+                  ? const SAngleDownIcon()
+                  : const SAngleUpIcon(),
+              onTap: () {
+                depositN.switchAddress();
+              },
             );
           },
           body: Column(

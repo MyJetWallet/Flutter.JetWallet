@@ -22,7 +22,10 @@ class CryptoDepositWithAddress extends HookWidget {
     final mediaQuery = useProvider(mediaQueryPod);
     final deposit = useProvider(cryptoDepositNotipod(currency));
 
-    return Expanded(
+    return SizedBox(
+      // Screen height minus Header, ShareButton bar, DepositInfo,
+      // NetworkSelector
+      height: mediaQuery.size.height - 120 - 104 - 88 - 88,
       child: Column(
         children: [
           const Spacer(),
