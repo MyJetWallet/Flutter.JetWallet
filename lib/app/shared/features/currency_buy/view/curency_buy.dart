@@ -7,7 +7,6 @@ import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/format_currency_string_amount.dart';
-import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
@@ -56,7 +55,6 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             icon: const SActionBuyIcon(),
             name: 'Bank Card - Simplex',
             description: 'Visa, Mastercard, Apple Pay',
-            helper: 'Fee 6%',
             onTap: () => Navigator.pop(context),
           ),
           // TODO when support for crypto will be avavilable
@@ -127,8 +125,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   symbol: state.selectedCurrencySymbol,
                 ),
                 helper: state.conversionText(widget.currency),
-                error: state.inputError.value,
-                isErrorActive: state.inputError.isActive,
+                error: state.inputErrorValue,
+                isErrorActive: state.isInputErrorActive,
               ),
               const Spacer(),
               if (state.selectedCurrency == null &&
@@ -141,12 +139,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               else if (state.selectedPaymentMethod!.type ==
                   PaymentMethodType.simplex)
                 SPaymentSelectAsset(
+                  isCreditCard: true,
                   icon: SActionDepositIcon(
                     color: colors.black,
                   ),
                   name: 'Bank Card - Simplex',
+                  helper: '≈ 10-30 min',
                   description: 'Visa, Mastercard, Apple Pay',
-                  helper: 'Fee 3.5%',
                   onTap: () => _showAssetSelector(),
                 )
               else if (state.selectedCurrency!.type == AssetType.crypto)

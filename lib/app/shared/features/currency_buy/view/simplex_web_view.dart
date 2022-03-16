@@ -36,7 +36,7 @@ class SimplexWebViewState extends State<SimplexWebView> {
       context.read(navigationStpod).state = 1; // Portfolio
       SuccessScreen.push(
         context: context,
-        secondaryText: 'Your payment has been processed',
+        secondaryText: 'Your payment will be processed within\n≈ 10-30 minutes',
       );
     }
 

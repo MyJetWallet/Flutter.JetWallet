@@ -18,6 +18,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     PaymentMethod? selectedPaymentMethod,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
+    String? paymentMethodInputError,
     @Default('0') String inputValue,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,
@@ -27,6 +28,26 @@ class CurrencyBuyState with _$CurrencyBuyState {
   }) = _CurrencyBuyState;
 
   const CurrencyBuyState._();
+
+  bool get isInputErrorActive {
+    if (inputError.isActive) {
+      return true;
+    } else {
+      if (paymentMethodInputError != null) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  String get inputErrorValue {
+    if (paymentMethodInputError != null) {
+      return paymentMethodInputError!;
+    } else {
+      return inputError.value;
+    }
+  }
 
   String get selectedCurrencySymbol {
     if (selectedCurrency == null) {

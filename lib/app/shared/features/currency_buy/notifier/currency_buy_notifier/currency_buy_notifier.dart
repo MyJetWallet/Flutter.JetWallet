@@ -10,6 +10,7 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
+import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/truncate_zeros_from.dart';
 import '../../../../models/currency_model.dart';
@@ -161,8 +162,56 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _calculateTargetConversion() {
+    if (state.selectedPaymentMethod != null) {
+      _calculateTargetConversionForSimplex();
+    } else {
+      _calculateTargetConversionForCrypto();
+    }
+  }
+
+  void _calculateTargetConversionForCrypto() {
     if (state.targetConversionPrice != null && state.inputValue.isNotEmpty) {
       final amount = Decimal.parse(state.inputValue);
+      final price = state.targetConversionPrice!;
+      final accuracy = currencyModel.accuracy;
+
+      var conversion = Decimal.zero;
+
+      if (price != Decimal.zero) {
+        conversion = (amount / price).toDecimal(
+          scaleOnInfinitePrecision: accuracy,
+        );
+      }
+
+      _updateTargetConversionValue(
+        truncateZerosFrom(
+          conversion.toString(),
+        ),
+      );
+    } else {
+      _updateTargetConversionValue(zero);
+    }
+  }
+
+  void _calculateTargetConversionForSimplex() {
+    if (state.targetConversionPrice != null && state.inputValue.isNotEmpty) {
+      final value = double.parse(state.inputValue);
+
+      final sixPercent = value * 0.06;
+
+      var recalculated = value;
+
+      if (sixPercent <= 10) {
+        recalculated = recalculated - 10;
+
+        if (recalculated < 0) {
+          recalculated = 0;
+        }
+      } else {
+        recalculated = recalculated - sixPercent;
+      }
+
+      final amount = Decimal.parse(recalculated.toString());
       final price = state.targetConversionPrice!;
       final accuracy = currencyModel.accuracy;
 
@@ -212,6 +261,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     state = state.copyWith(inputError: error);
   }
 
+  void _updatePaymentMethodInputError(String? error) {
+    state = state.copyWith(paymentMethodInputError: error);
+  }
+
   void _validateInput() {
     if (state.selectedPaymentMethod != null) {
       if (!isInputValid(state.inputValue)) {
@@ -225,8 +278,32 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
       _updateInputValid(value >= min && value <= max);
 
+      if (value < min) {
+        _updatePaymentMethodInputError(
+          'Enter a higher amount. Min ${volumeFormat(
+            decimal: Decimal.parse(min.toString()),
+            accuracy: state.baseCurrency!.accuracy,
+            symbol: state.baseCurrency!.symbol,
+            prefix: state.baseCurrency!.prefix,
+          )}',
+        );
+      } else if (value > max) {
+        _updatePaymentMethodInputError(
+          'Enter smaller amount. Max ${volumeFormat(
+            decimal: Decimal.parse(max.toString()),
+            accuracy: state.baseCurrency!.accuracy,
+            symbol: state.baseCurrency!.symbol,
+            prefix: state.baseCurrency!.prefix,
+          )}',
+        );
+      } else {
+        _updatePaymentMethodInputError(null);
+      }
+
       return;
     }
+
+    _updatePaymentMethodInputError(null);
 
     if (state.selectedCurrency == null) {
       _updateInputValid(false);
