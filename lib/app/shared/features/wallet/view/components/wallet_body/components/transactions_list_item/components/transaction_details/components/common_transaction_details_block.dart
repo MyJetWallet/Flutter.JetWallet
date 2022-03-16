@@ -46,7 +46,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
             color: colors.grey2,
           ),
         ),
-        const SpaceH72(),
+        const SpaceH8(),
       ],
     );
   }

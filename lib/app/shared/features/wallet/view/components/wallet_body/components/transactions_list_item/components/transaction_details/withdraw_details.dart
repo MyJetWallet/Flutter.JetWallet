@@ -17,9 +17,11 @@ class WithdrawDetails extends HookWidget {
   const WithdrawDetails({
     Key? key,
     required this.transactionListItem,
+    required this.onCopyAction,
   }) : super(key: key);
 
   final OperationHistoryItem transactionListItem;
+  final Function(String) onCopyAction;
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +99,8 @@ class WithdrawDetails extends HookWidget {
                         text: transactionListItem.operationId,
                       ),
                     );
+
+                    onCopyAction('Transaction ID');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
@@ -126,6 +130,8 @@ class WithdrawDetails extends HookWidget {
                               '',
                         ),
                       );
+
+                      onCopyAction('Withdrawal to');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
