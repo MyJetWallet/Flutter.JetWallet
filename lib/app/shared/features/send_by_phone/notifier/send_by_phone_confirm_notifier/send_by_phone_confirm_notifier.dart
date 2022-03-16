@@ -69,12 +69,11 @@ class SendByPhoneConfirmNotifier
 
       if (!mounted) return;
       _updateIsResending(false);
-      // sAnalytics.kycPhoneConfirmed();
       onSuccess();
     } catch (error) {
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);
-      // sAnalytics.kycPhoneConfirmFailed('transferResend');
+
       read(sNotificationNotipod.notifier).showError(
         'Failed to resend. Try again!',
         id: 1,
