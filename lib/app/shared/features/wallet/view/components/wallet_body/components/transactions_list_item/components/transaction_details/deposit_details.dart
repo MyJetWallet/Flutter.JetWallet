@@ -46,7 +46,7 @@ class DepositDetails extends StatelessWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH16(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
