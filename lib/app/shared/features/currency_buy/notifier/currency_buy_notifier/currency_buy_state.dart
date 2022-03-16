@@ -29,6 +29,30 @@ class CurrencyBuyState with _$CurrencyBuyState {
 
   const CurrencyBuyState._();
 
+  String get preset1Name {
+    if (selectedPaymentMethod != null) {
+      return '\$50';
+    } else {
+      return '25%';
+    }
+  }
+
+  String get preset2Name {
+    if (selectedPaymentMethod != null) {
+      return '\$100';
+    } else {
+      return '50%';
+    }
+  }
+
+  String get preset3Name {
+    if (selectedPaymentMethod != null) {
+      return '\$500';
+    } else {
+      return '100%';
+    }
+  }
+
   bool get isInputErrorActive {
     if (inputError.isActive) {
       return true;

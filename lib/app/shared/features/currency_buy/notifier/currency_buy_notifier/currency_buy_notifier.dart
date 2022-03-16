@@ -96,6 +96,25 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     state = state.copyWith(selectedCurrency: currency);
   }
 
+  void selectFixedSum(SKeyboardPreset preset) {
+    late int value;
+
+    if (preset == SKeyboardPreset.preset1) {
+      value = 50;
+    } else if (preset == SKeyboardPreset.preset2) {
+      value = 100;
+    } else {
+      value = 500;
+    }
+
+    _updateInputValue(
+      valueAccordingToAccuracy(value.toString(), 0),
+    );
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
+  }
+
   void selectPercentFromBalance(SKeyboardPreset preset) {
     if (state.selectedCurrency != null) {
       _logger.log(notifier, 'selectPercentFromBalance');

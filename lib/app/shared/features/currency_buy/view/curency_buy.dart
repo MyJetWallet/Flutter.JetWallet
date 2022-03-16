@@ -173,12 +173,16 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               const SpaceH20(),
               SNumericKeyboardAmount(
-                preset1Name: '25%',
-                preset2Name: '50%',
-                preset3Name: 'MAX',
+                preset1Name: state.preset1Name,
+                preset2Name: state.preset2Name,
+                preset3Name: state.preset3Name,
                 selectedPreset: state.selectedPreset,
                 onPresetChanged: (preset) {
-                  notifier.selectPercentFromBalance(preset);
+                  if (state.selectedPaymentMethod != null) {
+                    notifier.selectFixedSum(preset);
+                  } else {
+                    notifier.selectPercentFromBalance(preset);
+                  }
                 },
                 onKeyPressed: (value) {
                   notifier.updateInputValue(value);
