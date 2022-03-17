@@ -137,8 +137,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             const SpaceW10(),
                             if (!isCurrentCandlesEmptyOrNull)
+
                               Text(
-                                'Today',
+                                _chartResolution(chart.resolution),
                                 style: sBodyText2Style.copyWith(
                                   color: colors.grey3,
                                 ),
@@ -502,6 +503,19 @@ class PortfolioWithBalanceBody extends HookWidget {
         ],
       ),
     );
+  }
+
+  String _chartResolution(String resolution) {
+    if (resolution == Period.week) {
+      return 'Week';
+    }
+    if (resolution == Period.month) {
+      return 'Month';
+    }
+    if (resolution == Period.all) {
+      return 'All';
+    }
+    return 'Today';
   }
 
   String _price(

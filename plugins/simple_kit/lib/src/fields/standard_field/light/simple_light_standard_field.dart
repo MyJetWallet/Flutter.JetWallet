@@ -24,6 +24,7 @@ class SimpleLightStandardField extends HookWidget {
     this.autofocus = false,
     this.readOnly = false,
     this.alignLabelWithHint = false,
+    this.enabled = true,
     required this.labelText,
   })  : assert(
           (controller == null && initialValue != null) ||
@@ -50,6 +51,7 @@ class SimpleLightStandardField extends HookWidget {
   final bool autofocus;
   final bool readOnly;
   final bool alignLabelWithHint;
+  final bool enabled;
   final String labelText;
 
   @override
@@ -73,6 +75,7 @@ class SimpleLightStandardField extends HookWidget {
       autofillHints: autofillHints,
       textInputAction: textInputAction,
       alignLabelWithHint: alignLabelWithHint,
+      enabled: enabled,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,

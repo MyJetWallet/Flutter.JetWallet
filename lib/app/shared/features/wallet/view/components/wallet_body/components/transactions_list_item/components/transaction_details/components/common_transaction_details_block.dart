@@ -46,11 +46,13 @@ class CommonTransactionDetailsBlock extends HookWidget {
             color: colors.grey2,
           ),
         ),
-        const SpaceH72(),
+        if (transactionListItem.operationType != OperationType.paidInterestRate)
+          const SpaceH8()
+        else
+          const SpaceH72(),
       ],
     );
   }
-
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw) {

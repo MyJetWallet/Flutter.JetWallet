@@ -64,16 +64,21 @@ class CurrencyBuy extends HookWidget {
             else
               SFiatItem(
                 isSelected: currency == state.selectedCurrency,
-                icon: SNetworkSvg24(
-                  color: currency == state.selectedCurrency
-                      ? colors.blue
-                      : colors.black,
-                  url: currency.iconUrl,
-                ),
+                icon: (currency.type != AssetType.indices)
+                    ? SNetworkSvg24(
+                        color: currency == state.selectedCurrency
+                            ? colors.blue
+                            : colors.black,
+                        url: currency.iconUrl,
+                      )
+                    : SNetworkSvg24(
+                        url: currency.iconUrl,
+                      ),
                 name: currency.description,
                 amount: currency.volumeBaseBalance(
                   state.baseCurrency!,
                 ),
+                description: currency.volumeAssetBalance,
                 onTap: () => Navigator.pop(context, currency),
               ),
           const SpaceH40(),

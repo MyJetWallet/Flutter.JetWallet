@@ -38,8 +38,7 @@ List<Widget> createBannersList({
         color: colors.greenLight,
         header: 'Verifying now',
         imageUrl: verifyNowAsset,
-        description: 'You’ll be notified after we’ve completed the '
-            'process. '
+        description: "You'll be notified when we complete the process. "
             'Usually within a few hours',
       ),
     );

@@ -52,7 +52,7 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
       _context,
       willPopScope: false,
       image: _errorImage,
-      primaryText: 'Need an Update!',
+      primaryText: "It's time to update!",
       secondaryText: 'To use this app, download the latest version',
       primaryButtonName: 'Update',
       onPrimaryButtonTap: () => _storeRedirect(),
