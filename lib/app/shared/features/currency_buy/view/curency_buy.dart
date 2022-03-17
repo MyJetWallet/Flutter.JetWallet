@@ -48,12 +48,16 @@ class CurrencyBuy extends HookWidget {
             if (currency.type == AssetType.crypto)
               SAssetItem(
                 isSelected: currency == state.selectedCurrency,
-                icon: SNetworkSvg24(
-                  color: currency == state.selectedCurrency
-                      ? colors.blue
-                      : colors.black,
-                  url: currency.iconUrl,
-                ),
+                icon: (currency.type == AssetType.indices)
+                    ? SNetworkSvg24(
+                        url: currency.iconUrl,
+                      )
+                    : SNetworkSvg24(
+                        color: currency == state.selectedCurrency
+                            ? colors.blue
+                            : colors.black,
+                        url: currency.iconUrl,
+                      ),
                 name: currency.description,
                 amount: currency.volumeBaseBalance(
                   state.baseCurrency!,
@@ -64,14 +68,14 @@ class CurrencyBuy extends HookWidget {
             else
               SFiatItem(
                 isSelected: currency == state.selectedCurrency,
-                icon: (currency.type != AssetType.indices)
+                icon: (currency.type == AssetType.indices)
                     ? SNetworkSvg24(
-                        color: currency == state.selectedCurrency
-                            ? colors.blue
-                            : colors.black,
                         url: currency.iconUrl,
                       )
                     : SNetworkSvg24(
+                        color: currency == state.selectedCurrency
+                            ? colors.blue
+                            : colors.black,
                         url: currency.iconUrl,
                       ),
                 name: currency.description,

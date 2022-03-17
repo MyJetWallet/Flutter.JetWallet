@@ -187,5 +187,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
     }
   });
 
+  currencies.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
+
   return currencies;
 });
