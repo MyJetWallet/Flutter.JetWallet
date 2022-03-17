@@ -12,4 +12,5 @@ class PropertyType {
   static const marketFilter = 'Filter';
   static const campaignName = 'Campaign Name';
   static const action = 'Action';
+  static const kycPhoneConfirmFailed = 'Kyc error';
 }

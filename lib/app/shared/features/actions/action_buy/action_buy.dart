@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
+import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
@@ -30,6 +31,17 @@ class _ActionBuy extends HookWidget {
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
     final currencies = useProvider(currenciesPod);
+
+    final assetWithBalance = <CurrencyModel>[];
+    final assetWithOutBalance = <CurrencyModel>[];
+
+    for (final currency in currencies) {
+      if (currency.baseBalance != Decimal.zero) {
+        assetWithBalance.add(currency);
+      } else {
+        assetWithOutBalance.add(currency);
+      }
+    }
 
     return Column(
       children: [

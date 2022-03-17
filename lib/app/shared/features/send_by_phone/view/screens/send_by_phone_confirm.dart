@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../../../shared/components/pin_code_field.dart';
+import '../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
@@ -43,6 +45,8 @@ class SendByPhoneConfirm extends HookWidget {
 
     final colors = useProvider(sColorPod);
     final authInfo = useProvider(authInfoNotipod);
+
+    analytics(() => sAnalytics.kycPhoneConfirmationView());
 
     return ProviderListener<SendByPhoneConfirmState>(
       provider: sendByPhoneConfirmNotipod(currency),

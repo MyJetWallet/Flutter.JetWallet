@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
@@ -99,9 +100,10 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
 
     try {
       await body();
-    } on ServerRejectException catch (e) {
+     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
+      sAnalytics.kycPhoneConfirmFailed(e.cause);
       read(sNotificationNotipod.notifier).showError(
         e.cause,
         id: 1,
@@ -109,6 +111,7 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
+      sAnalytics.kycPhoneConfirmFailed('Something went wrong');
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
         id: 2,

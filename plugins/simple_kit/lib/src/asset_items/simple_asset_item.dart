@@ -9,6 +9,8 @@ class SAssetItem extends StatelessWidget {
     this.helper = '',
     this.isSelected = false,
     this.isCreditCard = false,
+    this.divider = true,
+    this.removeDivider = false,
     required this.icon,
     required this.name,
     required this.amount,
@@ -19,6 +21,8 @@ class SAssetItem extends StatelessWidget {
   final String helper;
   final bool isSelected;
   final bool isCreditCard;
+  final bool divider;
+  final bool removeDivider;
   final Widget icon;
   final String name;
   final String amount;
@@ -33,13 +37,13 @@ class SAssetItem extends StatelessWidget {
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
       onTap: onTap,
-      child: SPaddingH24(
-        child: SizedBox(
-          height: 88.0,
-          child: Column(
-            children: [
-              const SpaceH22(),
-              Row(
+      child: SizedBox(
+        height: 88.0,
+        child: Column(
+          children: [
+            const SpaceH22(),
+            SPaddingH24(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   icon,
@@ -122,12 +126,20 @@ class SAssetItem extends StatelessWidget {
                   ),
                 ],
               ),
-              const Spacer(),
-              const SDivider(
-                width: double.infinity,
-              )
-            ],
-          ),
+            ),
+            const Spacer(),
+            if (!removeDivider)
+              if (divider)
+                const SPaddingH24(
+                  child: SDivider(
+                    width: double.infinity,
+                  ),
+                )
+              else
+                const SDivider(
+                  width: double.infinity,
+                ),
+          ],
         ),
       ),
     );

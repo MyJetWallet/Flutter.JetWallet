@@ -68,4 +68,21 @@ class EventType {
 
   static const kycSelfieUploaded  = 'KYC - Selfie uploaded';
 
+  static const kycPhoneConfirmationView  = 'KYC - Phone confirmation view';
+
+  static const kycPhoneConfirmed  = 'KYC - Phone confirmed';
+
+  static const kycPhoneConfirmFailed = 'KYC - Phone confirm failed';
+
+  static const kycAllowCameraView = 'KYC - Allow camera view';
+
+  static const kycSelfieView = 'KYC - Selfie view';
+
+  static const kycSuccessPageView = 'KYC - Success Page View';
+
+  static const kycChangePhoneNumber = 'KYC - Change Phone Number';
+
+  static const kycIdentityScreenView = 'KYC - Identity screen view';
+
+  static const kycEnterPhoneNumber = 'KYC - Enter phone number';
 }
