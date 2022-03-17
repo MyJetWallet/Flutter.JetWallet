@@ -52,7 +52,7 @@ class WithdrawalAmount extends HookWidget {
               symbol: state.baseCurrency!.symbol,
             )}',
             error: state.inputError == InputError.enterHigherAmount
-                ? '${state.inputError.value}. ${minimumAmount(currency)}'
+                ? '${state.inputError.value}.'
                 : state.inputError.value,
             isErrorActive: state.inputError.isActive,
           ),
