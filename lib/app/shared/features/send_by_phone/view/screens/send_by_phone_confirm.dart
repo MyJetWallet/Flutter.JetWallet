@@ -5,8 +5,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../shared/components/pin_code_field.dart';
+import '../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
