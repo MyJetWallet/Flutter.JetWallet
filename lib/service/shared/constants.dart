@@ -17,6 +17,7 @@ const kycCountriesMessage = 'kyc-countries';
 const indicesMessage = 'index-details';
 const convertPriceSettingsMessage = 'convert-price-settings';
 const marketInfoMessage = 'market-info';
+const blockchainsMessage = 'blockchains';
 
 // HTTP
 const postRequest = 'POST';

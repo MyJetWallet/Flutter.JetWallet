@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_request_model.dart';
-import '../../../../../../service/services/blockchain/model/withdrawal_info/withdrawal_info_response_model.dart';
 import '../../../../../../service/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
+import '../../../../../../service/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
+import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
@@ -18,38 +18,44 @@ import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import '../withdrawal_preview_notifier/withdrawal_preview_notipod.dart';
 import 'withdrawal_confirm_state.dart';
+import 'withdrawal_confirm_union.dart';
 
-/// How often we check withdraw request status
-const _retryTime = 5; // in seconds
-
-/// Queries withdrawalInfo every [n] seconds and acts acording to response
-/// 1. If withdrawal is pending continue querying
-/// 2. If withdrawal is successful redirects to SuccessScreen
-/// 3. If withdrawal is failed redirects to FailureScreen
 class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   WithdrawalConfirmNotifier(
     this.read,
     this.withdrawal,
-  ) : super(const WithdrawalConfirmState()) {
+  ) : super(WithdrawalConfirmState(controller: TextEditingController())) {
     _operationId = read(withdrawalPreviewNotipod(withdrawal)).operationId;
     _context = read(sNavigatorKeyPod).currentContext!;
     _verb = withdrawal.dictionary.verb.toLowerCase();
-    requestWithdrawalInfo();
   }
 
   final Reader read;
   final WithdrawalModel withdrawal;
 
-  Timer? _timer;
-  late int retryTime;
   late BuildContext _context;
   late String _operationId;
   late String _verb;
 
   static final _logger = Logger('WithdrawalConfirmNotifier');
 
+  void updateCode(String code, String operationId) {
+    _logger.log(notifier, 'updateCode');
+
+    if (operationId == _operationId) {
+      state.controller.text = code;
+    } else {
+      read(sNotificationNotipod.notifier).showError(
+        'You have confirmed an incorrect operation',
+        id: 1,
+      );
+    }
+  }
+
   Future<void> withdrawalResend({required Function() onSuccess}) async {
     _logger.log(notifier, 'withdrawalResend');
+
+    state = state.copyWith(union: const Loading());
 
     _updateIsResending(true);
 
@@ -75,73 +81,44 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
     }
   }
 
-  Future<void> requestWithdrawalInfo() async {
-    _logger.log(notifier, 'requestWithdrawalInfo');
+  Future<void> verifyCode() async {
+    _logger.log(notifier, 'verifyCode');
 
-    if (!state.isRequesting) {
-      await _requestWithdrawalInfo();
-    }
-  }
-
-  Future<void> _requestWithdrawalInfo() async {
-    _updateIsRequesting(true);
+    state = state.copyWith(union: const Loading());
 
     try {
-      final service = read(blockchainServicePod);
+      final service = read(validationServicePod);
 
-      final model = WithdrawalInfoRequestModel(
+      final model = VerifyWithdrawalVerificationCodeRequestModel(
         operationId: _operationId,
+        code: state.controller.text,
+        brand: 'simple',
       );
 
-      final response = await service.withdrawalInfo(model);
+      await service.verifyWithdrawalVerificationCode(model);
 
-      if (response.status == WithdrawalStatus.pendingApproval) {
-        _refreshTimer();
-      } else if (response.status == WithdrawalStatus.success) {
-        _showSuccessScreen();
-        _timer?.cancel();
-      } else {
-        _showFailureScreen();
-        _timer?.cancel();
-      }
+      state = state.copyWith(union: const Input());
+
+      if (!mounted) return;
+
+      _showSuccessScreen();
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'verifyCode', error.cause);
+
+      state = state.copyWith(union: Error(error.cause));
     } catch (error) {
-      _logger.log(stateFlow, '_requestWithdrawalInfo', error);
+      _logger.log(stateFlow, 'verifyCode', error);
 
-      _refreshTimer();
+      state = state.copyWith(union: Error(error));
+
+      if (!mounted) return;
+
+      _showFailureScreen();
     }
-
-    _updateIsRequesting(false);
   }
 
   void _updateIsResending(bool value) {
     state = state.copyWith(isResending: value);
-  }
-
-  void _updateIsRequesting(bool value) {
-    state = state.copyWith(isRequesting: value);
-  }
-
-  void _refreshTimer() {
-    _timer?.cancel();
-    retryTime = _retryTime;
-
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        if (retryTime == 0) {
-          timer.cancel();
-          requestWithdrawalInfo();
-        } else {
-          retryTime -= 1;
-        }
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   void _showSuccessScreen() {

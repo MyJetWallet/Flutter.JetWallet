@@ -13,6 +13,7 @@ class WithdrawRequestModel with _$WithdrawRequestModel {
     required String assetSymbol,
     @DecimalSerialiser() required Decimal amount,
     required String toAddress,
+    required String blockchain,
   }) = _WithdrawRequestModel;
 
   factory WithdrawRequestModel.fromJson(Map<String, dynamic> json) =>

@@ -82,6 +82,7 @@ class CurrencyBuy extends HookWidget {
                 amount: currency.volumeBaseBalance(
                   state.baseCurrency!,
                 ),
+                description: currency.volumeAssetBalance,
                 onTap: () => Navigator.pop(context, currency),
               ),
           const SpaceH40(),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/constants.dart';
 import '../../../shared/helpers/analytics.dart';
+import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
@@ -13,7 +16,6 @@ import '../login/login.dart';
 import '../register/register.dart';
 import 'components/animated_slide.dart';
 
-const _textAnimationDuration = Duration(seconds: 2);
 const _slidesAnimationDuration = Duration(seconds: 4);
 
 const onboardingImages = [
@@ -32,26 +34,17 @@ class OnboardingScreen extends StatefulHookWidget {
 
 class _OnBoardingScreenState extends State<OnboardingScreen>
     with TickerProviderStateMixin {
-  late final AnimationController _textAnimationController = AnimationController(
-    vsync: this,
-  );
-  late final Animation<double> _textAnimation = CurvedAnimation(
-    parent: _textAnimationController,
-    curve: Curves.easeIn,
-  );
   late final AnimationController _slidesAnimationController =
       AnimationController(
     vsync: this,
   );
   int _currentIndex = 0;
-  bool _reverse = false;
 
   late List<String> _slides;
 
   @override
   void initState() {
     super.initState();
-    _restartTextAnimation();
     _restartAnimation();
 
     final intl = context.read(intlPod);
@@ -63,23 +56,16 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
       intl.onboarding_slide4,
     ];
 
-    _textAnimationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.dismissed) {
-        if (_currentIndex < _slides.length) {
-          setState(() {
-            _reverse = !_reverse;
-            _restartTextAnimation();
-          });
-        }
-      }
-    });
     _slidesAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
           if (_currentIndex + 1 < _slides.length) {
             _currentIndex += 1;
             _restartAnimation();
+          } else {
+            Timer(const Duration(seconds: 5), () {
+              _startAnimation();
+            });
           }
         });
       }
@@ -135,38 +121,31 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                       return const SpaceH40();
                     },
                   ),
-                  FadeTransition(
-                    opacity: _textAnimation,
-                    child: Column(
-                      children: [
-                        deviceSize.when(
-                          small: () {
-                            return Baseline(
-                              baselineType: TextBaseline.alphabetic,
-                              baseline: 38,
-                              child: Text(
-                                _slides[_currentIndex],
-                                maxLines: 3,
-                                textAlign: TextAlign.center,
-                                style: sTextH2Style,
-                              ),
-                            );
-                          },
-                          medium: () {
-                            return Baseline(
-                              baselineType: TextBaseline.alphabetic,
-                              baseline: 38,
-                              child: Text(
-                                _slides[_currentIndex],
-                                maxLines: 3,
-                                textAlign: TextAlign.center,
-                                style: sTextH1Style,
-                              ),
-                            );
-                          },
+                  deviceSize.when(
+                    small: () {
+                      return Baseline(
+                        baselineType: TextBaseline.alphabetic,
+                        baseline: 38,
+                        child: Text(
+                          _slides[_currentIndex],
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          style: sTextH2Style,
                         ),
-                      ],
-                    ),
+                      );
+                    },
+                    medium: () {
+                      return Baseline(
+                        baselineType: TextBaseline.alphabetic,
+                        baseline: 38,
+                        child: Text(
+                          _slides[_currentIndex],
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          style: sTextH1Style,
+                        ),
+                      );
+                    },
                   ),
                   const Spacer(),
                   deviceSize.when(
@@ -193,7 +172,10 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                   STextButton1(
                     active: true,
                     name: intl.onboarding_signIn,
-                    onTap: () => Login.push(context),
+                    onTap: () => navigatorPush(
+                      context,
+                      const Login(),
+                    ),
                   ),
                   const SpaceH24(),
                 ],
@@ -207,9 +189,16 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
 
   @override
   void dispose() {
-    _textAnimationController.dispose();
     _slidesAnimationController.dispose();
     super.dispose();
+  }
+
+  void _startAnimation() {
+    setState(() {
+      _currentIndex = 0;
+      _restartAnimation();
+    });
+
   }
 
   void _restartAnimation() {
@@ -217,19 +206,6 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
     _slidesAnimationController.reset();
     _slidesAnimationController.duration = _slidesAnimationDuration;
     _slidesAnimationController.forward();
-  }
-
-  void _restartTextAnimation() {
-    if (_reverse) {
-      if (_currentIndex + 1 != _slides.length) {
-        _textAnimationController.reverse();
-      }
-    } else {
-      _textAnimationController.stop();
-      _textAnimationController.reset();
-      _textAnimationController.duration = _textAnimationDuration;
-      _textAnimationController.forward();
-    }
   }
 
   void _onPanEnd(DragEndDetails details) {

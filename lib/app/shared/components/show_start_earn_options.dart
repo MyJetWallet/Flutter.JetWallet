@@ -96,7 +96,7 @@ void showStartEarnOptions({
         },
         icon: const SActionDepositIcon(),
         name: 'Deposit ${currency.description}',
-        description: 'Deposit with fiat',
+        description: 'Deposit with fiat or crypto',
       ),
       const SpaceH40(),
     ],
