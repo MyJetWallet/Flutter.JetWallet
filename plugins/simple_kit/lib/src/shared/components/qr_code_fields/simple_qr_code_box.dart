@@ -3,25 +3,28 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../simple_kit.dart';
 
-enum SQrCodePosition { below, above }
-
 class SQrCodeBox extends StatelessWidget {
   const SQrCodeBox({
     Key? key,
     this.loading = false,
     required this.data,
+    required this.qrBoxSize,
+    required this.logoSize,
   }) : super(key: key);
 
   final bool loading;
   final String data;
+  final double qrBoxSize;
+  final double logoSize;
 
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return const SSkeletonQrCodeLoader();
+      return SSkeletonQrCodeLoader(
+        size: qrBoxSize,
+      );
     } else {
       return QrImage(
-        padding: EdgeInsets.zero,
         data: data,
         errorCorrectionLevel: QrErrorCorrectLevel.H,
         embeddedImage: const AssetImage(
@@ -29,9 +32,9 @@ class SQrCodeBox extends StatelessWidget {
           package: 'simple_kit',
         ),
         embeddedImageStyle: QrEmbeddedImageStyle(
-          size: const Size(62.0, 62.0),
+          size: Size(logoSize, logoSize),
         ),
-        size: 200.0,
+        size: qrBoxSize,
       );
     }
   }

@@ -25,6 +25,7 @@ class SStandardField extends ConsumerWidget {
     this.autofocus = false,
     this.readOnly = false,
     this.alignLabelWithHint = false,
+    this.enabled = true,
     required this.labelText,
   }) : super(key: key);
 
@@ -45,6 +46,7 @@ class SStandardField extends ConsumerWidget {
   final bool autofocus;
   final bool readOnly;
   final bool alignLabelWithHint;
+  final bool enabled;
   final String labelText;
 
   @override
@@ -71,6 +73,7 @@ class SStandardField extends ConsumerWidget {
         hideClearButton: hideClearButton,
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
+        enabled: enabled,
       );
     } else {
       return SimpleLightStandardField(
@@ -92,6 +95,7 @@ class SStandardField extends ConsumerWidget {
         hideClearButton: hideClearButton,
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
+        enabled: enabled,
       );
     }
   }

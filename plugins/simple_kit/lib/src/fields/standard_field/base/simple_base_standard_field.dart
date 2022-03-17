@@ -21,6 +21,7 @@ class SimpleBaseStandardField extends HookWidget {
     this.readOnly = false,
     this.obscureText = false,
     this.alignLabelWithHint = false,
+    this.enabled = true,
     required this.labelText,
   }) : super(key: key);
 
@@ -38,6 +39,7 @@ class SimpleBaseStandardField extends HookWidget {
   final bool readOnly;
   final bool obscureText;
   final bool alignLabelWithHint;
+  final bool enabled;
   final String labelText;
 
   @override
@@ -57,6 +59,7 @@ class SimpleBaseStandardField extends HookWidget {
           readOnly: readOnly,
           textInputAction: textInputAction,
           autofillHints: autofillHints,
+          enabled: enabled,
           onChanged: (value) {
             onChanged?.call(value);
             errorNotifier?.disableError();
