@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../service/services/signal_r/model/blockchains_model.dart';
 import 'crypto_deposit_union.dart';
 
 part 'crypto_deposit_state.freezed.dart';
@@ -10,7 +11,7 @@ class CryptoDepositState with _$CryptoDepositState {
     String? tag,
     @Default(true) bool isAddressOpen,
     @Default('') String address,
-    @Default('') String network,
     @Default(Loading()) CryptoDepositUnion union,
+    @Default(BlockchainModel()) BlockchainModel network,
   }) = _CryptoDepositState;
 }

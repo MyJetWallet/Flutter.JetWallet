@@ -16,6 +16,7 @@ import '../model/asset_model.dart';
 import '../model/asset_payment_methods.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
+import '../model/blockchains_model.dart';
 import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/indices_model.dart';
@@ -65,6 +66,7 @@ class SignalRService {
   final _marketInfoController = StreamController<TotalMarketInfoModel>();
   final _assetPaymentMethodsController =
       StreamController<AssetPaymentMethods>();
+  final _blockchainsController = StreamController<BlockchainsModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -147,6 +149,15 @@ class SignalRService {
         _instrumentsController.add(instruments);
       } catch (e) {
         _logger.log(contract, instrumentsMessage, e);
+      }
+    });
+
+    _connection?.on(blockchainsMessage, (data) {
+      try {
+        final blockchains = BlockchainsModel.fromJson(_json(data));
+        _blockchainsController.add(blockchains);
+      } catch (e) {
+        _logger.log(contract, blockchainsMessage, e);
       }
     });
 
@@ -293,6 +304,7 @@ class SignalRService {
 
   Stream<AssetPaymentMethods> paymentMethods() =>
       _assetPaymentMethodsController.stream;
+  Stream<BlockchainsModel> blockchains() => _blockchainsController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

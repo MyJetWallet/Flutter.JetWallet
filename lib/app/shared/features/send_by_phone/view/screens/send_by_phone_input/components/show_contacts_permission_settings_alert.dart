@@ -16,7 +16,7 @@ void showContactsPermissionSettingsAlert({
     primaryText: 'Give permission to allow to use Phonebook',
     primaryButtonName: 'Go to settings',
     secondaryButtonName: 'Enter manually',
-    secondaryText: 'Inviting friends is simple when choosing them from '
+    secondaryText: "It's easy to invite friends when choosing them from "
         'the address book on your phone. \n\n  '
         "Otherwise, you'll have to type contact info individually.",
     onPrimaryButtonTap: onGoToSettings,

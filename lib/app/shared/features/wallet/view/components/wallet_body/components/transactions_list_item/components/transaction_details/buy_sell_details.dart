@@ -17,9 +17,11 @@ class BuySellDetails extends StatelessWidget {
   const BuySellDetails({
     Key? key,
     required this.transactionListItem,
+    required this.onCopyAction,
   }) : super(key: key);
 
   final OperationHistoryItem transactionListItem;
+  final Function(String) onCopyAction;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +82,8 @@ class BuySellDetails extends StatelessWidget {
                         text: transactionListItem.operationId,
                       ),
                     );
+
+                    onCopyAction('Transaction ID');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),

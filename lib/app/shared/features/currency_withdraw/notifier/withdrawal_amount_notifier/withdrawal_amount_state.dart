@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../providers/base_currency_pod/base_currency_model.dart';
 
@@ -17,6 +18,7 @@ class WithdrawalAmountState with _$WithdrawalAmountState {
     @Default('0') String baseConversionValue,
     @Default(false) bool valid,
     @Default(false) bool addressIsInternal,
+    @Default(BlockchainModel()) BlockchainModel blockchain,
     @Default(InputError.none) InputError inputError,
   }) = _WithdrawalAmountState;
 }

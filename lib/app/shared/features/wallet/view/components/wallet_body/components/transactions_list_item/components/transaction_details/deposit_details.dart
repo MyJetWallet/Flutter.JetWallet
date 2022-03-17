@@ -12,9 +12,11 @@ class DepositDetails extends StatelessWidget {
   const DepositDetails({
     Key? key,
     required this.transactionListItem,
+    required this.onCopyAction,
   }) : super(key: key);
 
   final OperationHistoryItem transactionListItem;
+  final Function(String) onCopyAction;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class DepositDetails extends StatelessWidget {
                         text: transactionListItem.operationId,
                       ),
                     );
+                    onCopyAction('Transaction ID');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
@@ -43,7 +46,7 @@ class DepositDetails extends StatelessWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH16(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
