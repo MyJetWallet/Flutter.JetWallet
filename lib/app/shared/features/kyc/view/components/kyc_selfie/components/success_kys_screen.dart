@@ -43,7 +43,7 @@ class SuccessKycScreen extends HookWidget {
     final colors = useProvider(sColorPod);
     useProvider(kycStartFpod);
 
-    analytics(() => sAnalytics.assetView(ScreenSource.kycSuccessPageView.name));
+    analytics(() => sAnalytics.kycSuccessPageView());
 
     return SPageFrameWithPadding(
       child: Column(
