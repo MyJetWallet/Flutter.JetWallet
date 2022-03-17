@@ -9,6 +9,7 @@ class ValidateAddressRequestModel with _$ValidateAddressRequestModel {
     String? toTag,
     required String assetSymbol,
     required String toAddress,
+    required String assetNetwork,
   }) = _ValidateAddressRequestModel;
 
   factory ValidateAddressRequestModel.fromJson(Map<String, dynamic> json) =>

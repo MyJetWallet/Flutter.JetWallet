@@ -4,14 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../../../models/currency_model.dart';
-import '../notifier/crypto_deposit_notifier.dart';
 import '../notifier/crypto_deposit_notipod.dart';
 import '../provider/crypto_deposit_disclaimer_fpod.dart';
 import 'components/crypto_deposit_with_address.dart';
 import 'components/crypto_deposit_with_address_and_tag/crypto_deposit_with_address_and_tag.dart';
 import 'components/deposit_info.dart';
-import 'components/network_item.dart';
 import 'components/show_deposit_disclaimer.dart';
 
 class CryptoDeposit extends HookWidget {
@@ -39,20 +38,25 @@ class CryptoDeposit extends HookWidget {
             showDepositDisclaimer(
               context: context,
               assetSymbol: currency.symbol,
+              screenTitle: header,
               onDismiss: currency.isSingleNetwork
                   ? null
-                  : () => _showNetworkBottomSheet(
+                  : () => showNetworkBottomSheet(
                         context,
                         deposit.network,
-                        depositN,
+                        currency.depositBlockchains,
+                        currency.iconUrl,
+                        depositN.setNetwork,
                       ),
             );
           } else {
             if (!currency.isSingleNetwork) {
-              _showNetworkBottomSheet(
+              showNetworkBottomSheet(
                 context,
                 deposit.network,
-                depositN,
+                currency.depositBlockchains,
+                currency.iconUrl,
+                depositN.setNetwork,
               );
             }
           }
@@ -64,7 +68,31 @@ class CryptoDeposit extends HookWidget {
             title: '$header ${currency.description}',
           ),
         ),
-        child: Column(
+        bottomNavigationBar: SizedBox(
+          height: 104,
+          child: Column(
+            children: [
+              const SDivider(),
+              const SpaceH23(),
+              SPaddingH24(
+                child: SPrimaryButton2(
+                  icon: SShareIcon(
+                    color: colors.white,
+                  ),
+                  active: true,
+                  name: 'Share',
+                  onTap: () => Share.share(
+                    'My ${currency.symbol} Address: ${deposit.address} '
+                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
+                  ),
+                ),
+              ),
+              const SpaceH24(),
+            ],
+          ),
+        ),
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             DepositInfo(),
             Container(
@@ -79,10 +107,12 @@ class CryptoDeposit extends HookWidget {
                 splashColor: Colors.transparent,
                 onTap: currency.isSingleNetwork
                     ? null
-                    : () => _showNetworkBottomSheet(
+                    : () => showNetworkBottomSheet(
                           context,
                           deposit.network,
-                          depositN,
+                          currency.depositBlockchains,
+                          currency.iconUrl,
+                          depositN.setNetwork,
                         ),
                 borderRadius: BorderRadius.circular(16),
                 child: Container(
@@ -108,7 +138,7 @@ class CryptoDeposit extends HookWidget {
                           ),
                         ),
                       ),
-                      if (deposit.network.isEmpty)
+                      if (deposit.network.description.isEmpty)
                         const Padding(
                           padding: EdgeInsets.only(
                             top: 24,
@@ -118,13 +148,13 @@ class CryptoDeposit extends HookWidget {
                             width: 80,
                           ),
                         ),
-                      if (deposit.network.isNotEmpty)
+                      if (deposit.network.description.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(
                             top: 17,
                           ),
                           child: Text(
-                            deposit.network,
+                            deposit.network.description,
                             style: sSubtitle2Style,
                           ),
                         ),
@@ -149,51 +179,9 @@ class CryptoDeposit extends HookWidget {
               CryptoDepositWithAddress(
                 currency: currency,
               ),
-            const SDivider(),
-            const SpaceH24(),
-            SPaddingH24(
-              child: SPrimaryButton2(
-                icon: SShareIcon(
-                  color: colors.white,
-                ),
-                active: true,
-                name: 'Share',
-                onTap: () => Share.share(
-                  'My ${currency.symbol} Address: ${deposit.address} '
-                  '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
-                ),
-              ),
-            ),
-            const SpaceH24(),
           ],
         ),
       ),
-    );
-  }
-
-  void _showNetworkBottomSheet(
-    BuildContext context,
-    String currentNetwork,
-    CryptoDepositNotifier depositN,
-  ) {
-    sShowBasicModalBottomSheet(
-      context: context,
-      pinned: const SBottomSheetHeader(
-        name: 'Choose Network',
-      ),
-      children: [
-        for (final network in currency.depositBlockchains)
-          NetworkItem(
-            iconUrl: currency.iconUrl,
-            network: network,
-            selected: network == currentNetwork,
-            onTap: () {
-              depositN.setNetwork(network);
-              Navigator.of(context).pop();
-            },
-          ),
-        const SpaceH7(),
-      ],
     );
   }
 }

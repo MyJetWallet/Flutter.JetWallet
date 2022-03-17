@@ -64,10 +64,6 @@ class SReferralInviteBody extends StatelessWidget {
         ),
         const SpaceH16(),
         const SimpleConditionsReferralInvite(
-          conditionText: 'Get \$5 after making first deposit',
-        ),
-        const SpaceH16(),
-        const SimpleConditionsReferralInvite(
           conditionText: 'Get \$5 after trading \$100',
         ),
         const SpaceH16(),

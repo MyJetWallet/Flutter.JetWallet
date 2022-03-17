@@ -4,7 +4,7 @@ const splashAnimationAsset = 'assets/animations/splash.riv';
 const failureAnimationAsset = 'assets/animations/failure.riv';
 
 // Other
-const watchlistImageAsset = 'assets/images/watchlist.svg';
+const watchlistImageAsset = 'assets/images/watchlist.png';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
 
 // Portfolio
@@ -30,7 +30,7 @@ const allowCameraAsset = 'assets/images/allow_camera.png';
 // Send by phone
 const usePhonebookImageAsset = 'assets/images/use_phonebook.png';
 
-// Kyc banners
+// Account banners
 const chatWithSupportAsset = 'assets/images/chat_with_support.png';
 const accountProfileAsset = 'assets/images/verify_your_profile.png';
 const lockerAsset = 'assets/images/locker.png';

@@ -11,10 +11,12 @@ import '../notifier/reset_password_state.dart';
 @immutable
 class ResetPasswordArgs {
   const ResetPasswordArgs({
-    required this.token,
+    required this.email,
+    required this.code,
   });
 
-  final String token;
+  final String email;
+  final String code;
 }
 
 class ResetPassword extends HookWidget {
@@ -38,8 +40,8 @@ class ResetPassword extends HookWidget {
     final args = getArgs(context) as ResetPasswordArgs;
 
     final colors = useProvider(sColorPod);
-    final reset = useProvider(resetPasswordNotipod);
-    final resetN = useProvider(resetPasswordNotipod.notifier);
+    final reset = useProvider(resetPasswordNotipod(args));
+    final resetN = useProvider(resetPasswordNotipod(args).notifier);
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
@@ -47,7 +49,7 @@ class ResetPassword extends HookWidget {
     useListenable(loader.value);
 
     return ProviderListener<ResetPasswordState>(
-      provider: resetPasswordNotipod,
+      provider: resetPasswordNotipod(args),
       onChange: (context, state) {
         state.union.maybeWhen(
           error: (error) {
@@ -98,7 +100,7 @@ class ResetPassword extends HookWidget {
                   onTap: () {
                     disableContinue.value = true;
                     loader.value.startLoading();
-                    resetN.resetPassword(args.token).then((_) {
+                    resetN.resetPassword().then((_) {
                       disableContinue.value = false;
                       loader.value.finishLoading();
                     });

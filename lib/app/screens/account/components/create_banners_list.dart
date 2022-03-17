@@ -22,7 +22,7 @@ List<Widget> createBannersList({
           onKycBannerTap?.call();
         },
         imageUrl: accountProfileAsset,
-        color: colors.violet,
+        color: colors.greenLight,
         header: 'Verify your profile',
         description: 'In accordance with KYC and AML Policy, '
             'you are required to pass the '
@@ -38,8 +38,7 @@ List<Widget> createBannersList({
         color: colors.greenLight,
         header: 'Verifying now',
         imageUrl: verifyNowAsset,
-        description: 'You’ll be notified after we’ve completed the '
-            'process. '
+        description: "You'll be notified when we complete the process. "
             'Usually within a few hours',
       ),
     );
@@ -52,7 +51,7 @@ List<Widget> createBannersList({
           onTwoFaBannerTap?.call();
         },
         imageUrl: lockerAsset,
-        color: colors.redLight,
+        color: colors.blueLight,
         header: 'Enable 2-Factor\nauthentication',
         description: 'To protect your account, it is recommended '
             'to turn on',
@@ -66,7 +65,7 @@ List<Widget> createBannersList({
         onChatBannerTap?.call();
       },
       imageUrl: chatWithSupportAsset,
-      color: colors.yellowLight,
+      color: colors.violet,
       header: 'Chat with support',
       description: 'Have any questions?\nWe here to help 24/7',
     ),

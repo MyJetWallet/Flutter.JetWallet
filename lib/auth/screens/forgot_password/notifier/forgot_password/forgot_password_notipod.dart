@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../view/forgot_password.dart';
+import '../../view/forgot_password.dart';
 import 'forgot_password_notifier.dart';
 import 'forgot_password_state.dart';
 

@@ -37,6 +37,7 @@ class Account extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
+    final colors = useProvider(sColorPod);
 
     final kycState = useProvider(kycNotipod);
     final kycAlertHandler = useProvider(
@@ -57,115 +58,127 @@ class Account extends HookWidget {
       },
       child: logout.when(
         result: (_, __) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SPaddingH24(
-                child: SimpleAccountCategoryHeader(
-                  userEmail: authInfo.email,
+          return Container(
+            color: colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SPaddingH24(
+                  child: SimpleAccountCategoryHeader(
+                    userEmail: authInfo.email,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    const SpaceH20(),
-                    AccountBannerList(
-                      kycPassed: checkKycPassed(
-                        kycState.depositStatus,
-                        kycState.sellStatus,
-                        kycState.withdrawalStatus,
-                      ),
-                      verificationInProgress: kycState.inVerificationProgress,
-                      twoFaEnabled: userInfo.twoFaEnabled,
-                      phoneVerified: userInfo.phoneVerified,
-                      onTwoFaBannerTap: () => SmsAuthenticator.push(context),
-                      onChatBannerTap: () => Crisp.push(context),
-                      onKycBannerTap: () {
-                        defineKycVerificationsScope(
-                          kycState.requiredVerifications.length,
-                          ScreenSource.accountBanner,
-                        );
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      const SpaceH20(),
+                      AccountBannerList(
+                        kycPassed: checkKycPassed(
+                          kycState.depositStatus,
+                          kycState.sellStatus,
+                          kycState.withdrawalStatus,
+                        ),
+                        verificationInProgress: kycState.inVerificationProgress,
+                        twoFaEnabled: userInfo.twoFaEnabled,
+                        phoneVerified: userInfo.phoneVerified,
+                        onTwoFaBannerTap: () => SmsAuthenticator.push(context),
+                        onChatBannerTap: () => Crisp.push(context),
+                        onKycBannerTap: () {
+                          defineKycVerificationsScope(
+                            kycState.requiredVerifications.length,
+                            ScreenSource.accountBanner,
+                          );
 
-                        kycAlertHandler.handle(
-                          status: kycState.depositStatus,
-                          kycVerified: kycState,
-                          isProgress: kycState.verificationInProgress,
-                          currentNavigate: () {},
-                        );
-                      },
-                    ),
-                    const SpaceH20(),
-                    Column(
-                      children: <Widget>[
-                        SimpleAccountCategoryButton(
-                          title: 'Profile details',
-                          icon: const SProfileDetailsIcon(),
-                          isSDivider: true,
-                          onTap: () {
-                            navigatorPush(context, const ProfileDetails());
-                          },
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'Security',
-                          icon: const SSecurityIcon(),
-                          isSDivider: true,
-                          onTap: () {
-                            navigatorPush(context, const AccountSecurity());
-                          },
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'History',
-                          icon: const SIndexHistoryIcon(),
-                          isSDivider: true,
-                          onTap: () => TransactionHistory.push(
-                            context: context,
-                          ),
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'Support',
-                          icon: const SSupportIcon(),
-                          isSDivider: true,
-                          onTap: () => Crisp.push(context),
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'FAQ',
-                          icon: const SFaqIcon(),
-                          isSDivider: true,
-                          onTap: () => launchURL(context, faqLink),
-                        ),
-                        SimpleAccountCategoryButton(
-                          title: 'About us',
-                          icon: const SAboutUsIcon(),
-                          isSDivider: flavor == Flavor.dev,
-                          onTap: () {
-                            navigatorPush(context, const AboutUs());
-                          },
-                        ),
-                        if (flavor == Flavor.dev)
+                          kycAlertHandler.handle(
+                            status: kycState.depositStatus,
+                            kycVerified: kycState,
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () {},
+                          );
+                        },
+                      ),
+                      const SpaceH20(),
+                      Column(
+                        children: <Widget>[
                           SimpleAccountCategoryButton(
-                            title: 'Debug Info',
-                            icon: const SInfoIcon(),
-                            isSDivider: false,
+                            title: 'Profile details',
+                            icon: const SProfileDetailsIcon(),
+                            isSDivider: true,
                             onTap: () {
-                              navigatorPush(context, const DebugInfo());
+                              navigatorPush(context, const ProfileDetails());
                             },
                           ),
-                      ],
-                    ),
-                    const SpaceH20(),
-                    const SDivider(),
-                    const SpaceH20(),
-                    LogOutOption(
-                      name: 'Log out',
-                      onTap: () => logoutN.logout(),
-                    ),
-                    const SpaceH20(),
-                  ],
+                          SimpleAccountCategoryButton(
+                            title: 'Security',
+                            icon: const SSecurityIcon(),
+                            isSDivider: true,
+                            onTap: () {
+                              navigatorPush(context, const AccountSecurity());
+                            },
+                          ),
+                          // TODO uncomment when Circle will be avavilable
+                          // SimpleAccountCategoryButton(
+                          //   title: 'Payment methods',
+                          //   icon: SActionDepositIcon(
+                          //     color: colors.black,
+                          //   ),
+                          //   isSDivider: true,
+                          //   onTap: () => PaymentMethods.push(context),
+                          // ),
+                          SimpleAccountCategoryButton(
+                            title: 'History',
+                            icon: const SIndexHistoryIcon(),
+                            isSDivider: true,
+                            onTap: () => TransactionHistory.push(
+                              context: context,
+                            ),
+                          ),
+                          SimpleAccountCategoryButton(
+                            title: 'Support',
+                            icon: const SSupportIcon(),
+                            isSDivider: true,
+                            onTap: () => Crisp.push(context),
+                          ),
+                          SimpleAccountCategoryButton(
+                            title: 'FAQ',
+                            icon: const SFaqIcon(),
+                            isSDivider: true,
+                            onTap: () => launchURL(context, faqLink),
+                          ),
+                          SimpleAccountCategoryButton(
+                            title: 'About us',
+                            icon: const SAboutUsIcon(),
+                            isSDivider: flavor == Flavor.dev,
+                            onTap: () {
+                              navigatorPush(context, const AboutUs());
+                            },
+                          ),
+                          if (flavor == Flavor.dev)
+                            SimpleAccountCategoryButton(
+                              title: 'Debug Info',
+                              icon: const SInfoIcon(),
+                              isSDivider: false,
+                              onTap: () {
+                                navigatorPush(context, const DebugInfo());
+                              },
+                            ),
+                        ],
+                      ),
+                      const SpaceH20(),
+                      const SDivider(),
+                      const SpaceH20(),
+                      LogOutOption(
+                        name: 'Log out',
+                        onTap: () => logoutN.logout(),
+                      ),
+                      const SpaceH20(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
         loading: () => const Loader(),
