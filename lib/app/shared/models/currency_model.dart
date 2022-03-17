@@ -50,6 +50,10 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isWithdrawalMode => withdrawalMode == 0;
 
+  bool get noPendingDeposit => depositInProcess == Decimal.zero;
+
+  bool get isPendingDeposit => depositInProcess != Decimal.zero;
+
   bool get isAssetBalanceEmpty => assetBalance == Decimal.zero;
 
   bool get isAssetBalanceNotEmpty => assetBalance != Decimal.zero;

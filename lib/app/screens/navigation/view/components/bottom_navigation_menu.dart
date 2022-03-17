@@ -18,8 +18,8 @@ import '../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../../../shared/features/kyc/model/kyc_verified_model.dart';
 import '../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../shared/features/kyc/notifier/kyc_countries/kyc_countries_notipod.dart';
+import '../../../../shared/helpers/are_balances_empty.dart';
 import '../../../../shared/helpers/check_kyc_status.dart';
-import '../../../../shared/helpers/is_balance_empty.dart';
 import '../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../provider/navigation_stpod.dart';
 import '../../provider/open_bottom_menu_spod.dart';
@@ -45,7 +45,7 @@ class BottomNavigationMenu extends HookWidget {
     useProvider(kycCountriesNotipod);
     final openBottomMenu = useProvider(openBottomMenuSpod);
 
-    final isNotEmptyBalance = !isBalanceEmpty(currencies);
+    final isNotEmptyBalance = !areBalancesEmpty(currencies);
 
     void updateActionState() => actionActive.value = !actionActive.value;
 

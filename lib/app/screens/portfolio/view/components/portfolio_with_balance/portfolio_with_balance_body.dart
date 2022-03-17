@@ -261,11 +261,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 navigateToWallet(context, item);
                               }
                             },
-                            removeDivider:
-                                item.depositInProcess != Decimal.zero ||
-                                    item == itemsWithBalance.last,
+                            removeDivider: item.isPendingDeposit ||
+                                item == itemsWithBalance.last,
                           ),
-                          if (item.depositInProcess != Decimal.zero) ...[
+                          if (item.isPendingDeposit) ...[
                             BalanceInProcess(
                               text: 'Deposit ${volumeFormat(
                                 decimal: item.depositInProcess,
@@ -279,7 +278,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                         ],
                         if (showZeroBalanceWallets.state) ...[
                           const PortfolioDivider(),
-                          for (final item in itemsWithoutBalance) ...[
+                          for (final item in itemsWithoutBalance)
                             SWalletItem(
                               decline: item.dayPercentChange.isNegative,
                               icon: SNetworkSvg24(
@@ -304,22 +303,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 }
                               },
                               color: colors.black,
-                              removeDivider:
-                                  item.depositInProcess != Decimal.zero ||
-                                      item == itemsWithoutBalance.last,
+                              removeDivider: item == itemsWithoutBalance.last,
                             ),
-                            if (item.depositInProcess != Decimal.zero) ...[
-                              BalanceInProcess(
-                                text: 'Deposit ${volumeFormat(
-                                  decimal: item.depositInProcess,
-                                  accuracy: item.accuracy,
-                                  symbol: item.symbol,
-                                  prefix: item.prefixSymbol,
-                                )}',
-                                removeDivider: item == itemsWithoutBalance.last,
-                              ),
-                            ]
-                          ]
                         ],
                         if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
                           Padding(
@@ -358,11 +343,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                               amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText: item.volumeAssetBalance,
                               onTap: () => navigateToWallet(context, item),
-                              removeDivider:
-                                  item.depositInProcess != Decimal.zero ||
-                                      item == cryptosWithBalance.last,
+                              removeDivider: item.isPendingDeposit ||
+                                  item == cryptosWithBalance.last,
                             ),
-                            if (item.depositInProcess != Decimal.zero) ...[
+                            if (item.isPendingDeposit) ...[
                               BalanceInProcess(
                                 text: 'Deposit ${volumeFormat(
                                   decimal: item.depositInProcess,
@@ -388,21 +372,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 onTap: () => navigateToWallet(context, item),
                                 color: colors.black,
                                 removeDivider:
-                                    item.depositInProcess != Decimal.zero ||
-                                        item == cryptosWithoutBalance.last,
+                                    item == cryptosWithoutBalance.last,
                               ),
-                              if (item.depositInProcess != Decimal.zero) ...[
-                                BalanceInProcess(
-                                  text: 'Deposit ${volumeFormat(
-                                    decimal: item.depositInProcess,
-                                    accuracy: item.accuracy,
-                                    symbol: item.symbol,
-                                    prefix: item.prefixSymbol,
-                                  )}',
-                                  removeDivider:
-                                      item == cryptosWithoutBalance.last,
-                                ),
-                              ]
                             ],
                           ],
                           if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
@@ -453,11 +424,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   ),
                                 );
                               },
-                              removeDivider:
-                                  item.depositInProcess != Decimal.zero ||
-                                      item == indicesWithBalance.last,
+                              removeDivider: item.isPendingDeposit ||
+                                  item == indicesWithBalance.last,
                             ),
-                            if (item.depositInProcess != Decimal.zero) ...[
+                            if (item.isPendingDeposit) ...[
                               BalanceInProcess(
                                 text: 'Deposit ${volumeFormat(
                                   decimal: item.depositInProcess,
@@ -471,7 +441,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                           ],
                           if (showZeroBalanceWallets.state) ...[
                             const PortfolioDivider(),
-                            for (final item in indicesWithoutBalance) ...[
+                            for (final item in indicesWithoutBalance)
                               SWalletItem(
                                 decline: item.dayPercentChange.isNegative,
                                 icon: SNetworkSvg24(
@@ -493,22 +463,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 },
                                 color: colors.black,
                                 removeDivider:
-                                    item.depositInProcess != Decimal.zero ||
-                                        item == indicesWithoutBalance.last,
+                                    item == indicesWithoutBalance.last,
                               ),
-                              if (item.depositInProcess != Decimal.zero) ...[
-                                BalanceInProcess(
-                                  text: 'Deposit ${volumeFormat(
-                                    decimal: item.depositInProcess,
-                                    accuracy: item.accuracy,
-                                    symbol: item.symbol,
-                                    prefix: item.prefixSymbol,
-                                  )}',
-                                  removeDivider:
-                                      item == indicesWithoutBalance.last,
-                                ),
-                              ]
-                            ]
                           ],
                           if (!zeroBalanceWalletsEmpty(indicesWithoutBalance))
                             Padding(
@@ -547,9 +503,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                               amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText: item.volumeAssetBalance,
                               onTap: () => navigateToWallet(context, item),
-                              removeDivider: item == fiatsWithBalance.last,
+                              removeDivider: item.isPendingDeposit ||
+                                  item == fiatsWithBalance.last,
                             ),
-                            if (item.depositInProcess != Decimal.zero) ...[
+                            if (item.isPendingDeposit) ...[
                               BalanceInProcess(
                                 text: 'Deposit ${volumeFormat(
                                   decimal: item.depositInProcess,
@@ -563,7 +520,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                           ],
                           if (showZeroBalanceWallets.state) ...[
                             const PortfolioDivider(),
-                            for (final item in fiatsWithoutBalance) ...[
+                            for (final item in fiatsWithoutBalance)
                               SWalletItem(
                                 decline: item.dayPercentChange.isNegative,
                                 icon: SNetworkSvg24(
@@ -574,23 +531,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 secondaryText: item.volumeAssetBalance,
                                 onTap: () => navigateToWallet(context, item),
                                 color: colors.black,
-                                removeDivider:
-                                    item.depositInProcess != Decimal.zero ||
-                                        item == fiatsWithoutBalance.last,
+                                removeDivider: item == fiatsWithoutBalance.last,
                               ),
-                              if (item.depositInProcess != Decimal.zero) ...[
-                                BalanceInProcess(
-                                  text: 'Deposit ${volumeFormat(
-                                    decimal: item.depositInProcess,
-                                    accuracy: item.accuracy,
-                                    symbol: item.symbol,
-                                    prefix: item.prefixSymbol,
-                                  )}',
-                                  removeDivider:
-                                      item == fiatsWithoutBalance.last,
-                                ),
-                              ]
-                            ]
                           ],
                           if (!zeroBalanceWalletsEmpty(fiatsWithoutBalance))
                             Padding(
