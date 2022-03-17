@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -35,12 +35,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
         ),
         const SpaceH67(),
         Text(
-          volumeFormat(
-            prefix: currency.prefixSymbol,
-            decimal: transactionListItem.balanceChange,
-            accuracy: currency.accuracy,
-            symbol: currency.symbol,
-          ),
+          '${operationAmount(transactionListItem)} ${currency.symbol}',
           style: sTextH1Style,
         ),
         Text(
@@ -51,8 +46,18 @@ class CommonTransactionDetailsBlock extends HookWidget {
             color: colors.grey2,
           ),
         ),
-        const SpaceH72(),
+        if (transactionListItem.operationType != OperationType.paidInterestRate)
+          const SpaceH8()
+        else
+          const SpaceH72(),
       ],
     );
+  }
+
+  Decimal operationAmount(OperationHistoryItem transactionListItem) {
+    if (transactionListItem.operationType == OperationType.withdraw) {
+      return transactionListItem.withdrawalInfo!.withdrawalAmount;
+    }
+    return transactionListItem.balanceChange;
   }
 }
