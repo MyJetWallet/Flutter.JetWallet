@@ -40,6 +40,7 @@ class CurrencyModel with _$CurrencyModel {
     required Decimal assetCurrentEarnAmount,
     required Decimal baseCurrentEarnAmount,
     required Decimal apy,
+    required Decimal depositInProcess,
     @Default(false) bool earnProgramEnabled,
   }) = _CurrencyModel;
 

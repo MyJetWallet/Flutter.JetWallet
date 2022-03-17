@@ -49,6 +49,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             currentPrice: Decimal.zero,
             dayPriceChange: Decimal.zero,
             earnProgramEnabled: asset.earnProgramEnabled,
+            depositInProcess: Decimal.zero,
           ),
         );
       }
@@ -92,6 +93,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
               assetCurrentEarnAmount: balance.currentEarnAmount,
               nextPaymentDate: balance.nextPaymentDate,
               apy: balance.apy,
+              depositInProcess: balance.depositInProcess,
             );
           }
         }
