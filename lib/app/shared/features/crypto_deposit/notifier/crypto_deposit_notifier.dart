@@ -74,7 +74,7 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
 
       state = state.copyWith(
         address: response.address!,
-        tag: response.memo,
+        tag: 'ASFASFS',
         union: const Success(),
       );
     } on ServerRejectException catch (error) {

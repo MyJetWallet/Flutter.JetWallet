@@ -14,9 +14,11 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
   const CryptoDepositWithAddressAndTag({
     Key? key,
     required this.currency,
+    required this.scrollController,
   }) : super(key: key);
 
   final CurrencyModel currency;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,14 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
                   : const SAngleDownIcon(),
               onTap: () {
                 depositN.switchAddress();
+              },
+              scrollToFullCopyMessage: () {
+                // if (scrollController.position.)
+                scrollController.animateTo(
+                  113,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeIn,
+                );
               },
             );
           },

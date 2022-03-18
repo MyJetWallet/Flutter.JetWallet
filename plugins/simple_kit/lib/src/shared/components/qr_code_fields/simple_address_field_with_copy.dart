@@ -10,6 +10,7 @@ class SAddressFieldWithCopy extends HookWidget {
     Key? key,
     this.realValue,
     this.onTap,
+    this.scrollToFullCopyMessage,
     this.actionIcon,
     this.valueLoading = false,
     required this.header,
@@ -19,6 +20,7 @@ class SAddressFieldWithCopy extends HookWidget {
 
   final String? realValue;
   final Function()? onTap;
+  final Function()? scrollToFullCopyMessage;
   final Widget? actionIcon;
   final bool valueLoading;
   final String header;
@@ -59,6 +61,8 @@ class SAddressFieldWithCopy extends HookWidget {
           await animationController.animateBack(0);
         },
       );
+
+      scrollToFullCopyMessage?.call();
     }
 
     return Stack(
