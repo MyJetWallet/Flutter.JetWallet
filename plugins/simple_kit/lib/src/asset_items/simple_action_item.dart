@@ -7,6 +7,7 @@ class SActionItem extends StatelessWidget {
   const SActionItem({
     Key? key,
     this.helper = '',
+    this.withDivider = false,
     required this.icon,
     required this.name,
     required this.onTap,
@@ -14,6 +15,7 @@ class SActionItem extends StatelessWidget {
   }) : super(key: key);
 
   final String helper;
+  final bool withDivider;
   final Widget icon;
   final String name;
   final Function() onTap;
@@ -82,6 +84,8 @@ class SActionItem extends StatelessWidget {
                   ),
                 ],
               ),
+              const Spacer(),
+              if (withDivider) const SDivider(),
             ],
           ),
         ),
