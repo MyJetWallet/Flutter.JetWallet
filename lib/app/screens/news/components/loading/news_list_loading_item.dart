@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+class NewsListLoadingItem extends HookWidget {
+  const NewsListLoadingItem({
+    Key? key,
+    required this.opacity,
+    this.removeDivider = false,
+  }) : super(key: key);
+
+  final bool removeDivider;
+  final double opacity;
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: opacity,
+      child: SPaddingH24(
+        child: SizedBox(
+          height: 80,
+          child: Column(
+            children: [
+              const SpaceH18(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: const [
+                  SSkeletonTextLoader(
+                    height: 16,
+                    width: 16,
+                  ),
+                  SpaceW12(),
+                  SSkeletonTextLoader(
+                    height: 10,
+                    width: 109,
+                  ),
+                ],
+              ),
+              const SpaceH12(),
+              Row(
+                children: const [
+                  SSkeletonTextLoader(
+                    height: 16,
+                    width: 248,
+                  ),
+                ],
+              ),
+              const SpaceH12(),
+              Row(
+                children: const [
+                  SSkeletonTextLoader(
+                    height: 16,
+                    width: 130,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
