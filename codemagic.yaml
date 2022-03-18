@@ -182,7 +182,7 @@ definitions:
     events:
       - tag
     tag_patterns:
-      - pattern: feat/codemagic-ci-flow
+      - pattern: master
         include: true
     cancel_previous_builds: false  
 
