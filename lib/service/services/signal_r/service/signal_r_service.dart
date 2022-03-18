@@ -13,6 +13,7 @@ import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
+import '../model/asset_payment_methods.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/blockchains_model.dart';
@@ -63,6 +64,8 @@ class SignalRService {
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
   final _priceAccuraciesController = StreamController<PriceAccuracies>();
   final _marketInfoController = StreamController<TotalMarketInfoModel>();
+  final _assetPaymentMethodsController =
+      StreamController<AssetPaymentMethods>();
   final _blockchainsController = StreamController<BlockchainsModel>();
 
   /// This variable is created to track previous snapshot of base prices.
@@ -232,6 +235,16 @@ class SignalRService {
       }
     });
 
+    _connection?.on(paymentMethodsMessage, (data) {
+      try {
+        final info = AssetPaymentMethods.fromJson(_json(data));
+
+        _assetPaymentMethodsController.add(info);
+      } catch (e) {
+        _logger.log(contract, paymentMethodsMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
     final deviceInfo = read(deviceInfoPod);
@@ -289,6 +302,8 @@ class SignalRService {
 
   Stream<TotalMarketInfoModel> marketInfo() => _marketInfoController.stream;
 
+  Stream<AssetPaymentMethods> paymentMethods() =>
+      _assetPaymentMethodsController.stream;
   Stream<BlockchainsModel> blockchains() => _blockchainsController.stream;
 
   void _startPing() {

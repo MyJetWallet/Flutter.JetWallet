@@ -24,6 +24,7 @@ import '../../service/services/operation_history/operation_history_service.dart'
 import '../../service/services/phone_verification/service/phone_verification_service.dart';
 import '../../service/services/profile/service/profile_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
+import '../../service/services/simplex/service/simplex_service.dart';
 import '../../service/services/swap/service/swap_service.dart';
 import '../../service/services/transfer/service/transfer_service.dart';
 import '../../service/services/two_fa/service/two_fa_service.dart';
@@ -208,4 +209,13 @@ final circleServicePod = Provider<CircleService>(
     return CircleService(dio);
   },
   name: 'circleServicePod',
+);
+
+final simplexServicePod = Provider<SimplexService>(
+  (ref) {
+    final dio = ref.watch(dioPod);
+
+    return SimplexService(dio);
+  },
+  name: 'simplexServicePod',
 );
