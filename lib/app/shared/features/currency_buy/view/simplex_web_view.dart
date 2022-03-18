@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../shared/components/result_screens/success_screen/success_screen.dart';
@@ -25,7 +23,7 @@ class SimplexWebViewState extends State<SimplexWebView> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+    //  if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
   @override
