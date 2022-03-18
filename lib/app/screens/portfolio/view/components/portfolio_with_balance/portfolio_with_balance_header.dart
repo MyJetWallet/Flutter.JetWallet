@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +10,8 @@ import '../../../../../shared/features/chart/notifier/balance_chart_input_stpod.
 import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../shared/features/chart/notifier/chart_union.dart';
 import '../../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
+import '../../../../../shared/features/rewards/model/campaign_or_referral_model.dart';
+import '../../../../../shared/features/rewards/notifier/reward/rewards_notipod.dart';
 import '../../../../../shared/features/rewards/view/rewards.dart';
 
 class PortfolioWithBalanceHeader extends HookWidget {
@@ -23,6 +26,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final gift = useProvider(referralGiftPod);
+    final rewards = useProvider(rewardsNotipod);
     final chart = useProvider(
       chartNotipod(
         useProvider(balanceChartInputStpod).state,
@@ -66,7 +70,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
                       if (gift == ReferralGiftStatus.showGift) ...[
                         const SpaceW8(),
                         Text(
-                          '\$15',
+                          _giftBonus(rewards),
                           style: sSubtitle3Style.copyWith(
                             color: colors.white,
                           ),
@@ -82,5 +86,29 @@ class PortfolioWithBalanceHeader extends HookWidget {
         ],
       ),
     );
+  }
+
+  String _giftBonus(List<CampaignOrReferralModel> rewards) {
+    var bonusGift = Decimal.zero;
+    for (final item in rewards) {
+      if (item.campaign != null) {
+        if (item.campaign!.conditions != null &&
+            (item.campaign!.conditions != null &&
+                item.campaign!.conditions!.isNotEmpty)) {
+
+          for(final condition in item.campaign!.conditions!) {
+            if (condition.reward != null) {
+              bonusGift = bonusGift + condition.reward!.amount;
+            }
+          }
+        }
+      }
+    }
+
+    if (bonusGift == Decimal.zero) {
+      return '';
+    } else {
+      return '\$$bonusGift';
+    }
   }
 }
