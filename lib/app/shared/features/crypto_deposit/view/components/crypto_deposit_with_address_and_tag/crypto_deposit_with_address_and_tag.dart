@@ -10,6 +10,8 @@ import '../../../notifier/crypto_deposit_notipod.dart';
 import '../../../notifier/crypto_deposit_union.dart';
 import 'components/expansion_panel_without_icon.dart';
 
+const _copyMessageFullyVisiblePosition = 113.0;
+
 class CryptoDepositWithAddressAndTag extends HookWidget {
   const CryptoDepositWithAddressAndTag({
     Key? key,
@@ -53,12 +55,14 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
                 depositN.switchAddress();
               },
               scrollToFullCopyMessage: () {
-                // if (scrollController.position.)
-                scrollController.animateTo(
-                  113,
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeIn,
-                );
+                if (scrollController.offset >
+                    _copyMessageFullyVisiblePosition) {
+                  scrollController.animateTo(
+                    _copyMessageFullyVisiblePosition,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeIn,
+                  );
+                }
               },
             );
           },

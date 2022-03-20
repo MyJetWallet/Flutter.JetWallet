@@ -197,11 +197,6 @@ class _CryptoDepositState extends State<CryptoDeposit> {
               CryptoDepositWithAddress(
                 currency: widget.currency,
               ),
-            Container(
-              height: 300,
-              width: 100,
-              color: Colors.black,
-            ),
           ],
         ),
       ),
