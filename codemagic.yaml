@@ -175,6 +175,7 @@ definitions:
   stage_triggering: &stage_triggering
     events:
       - push
+      - tag
     branch_patterns:
       - pattern: develop
         include: true
