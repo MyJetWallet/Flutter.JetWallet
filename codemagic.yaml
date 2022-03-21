@@ -96,7 +96,7 @@ definitions:
         rm -f ios/Podfile.lock pubspec.lock
         rm -rf ios/Pods ios/Runner.xcworkspace
         flutter build ipa --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$CM_TAG --build-number=$PROJECT_BUILD_NUMBER \
+        --build-name=$(git describe --tags) --build-number=$PROJECT_BUILD_NUMBER \
         --dart-define=MY_APP_ENV=prod \
         --export-options-plist=/Users/builder/export_options.plist \
 
@@ -106,12 +106,12 @@ definitions:
     - name: Build Android (AAB)
       script: |
         flutter build appbundle --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$CM_TAG --build-number=$PROJECT_BUILD_NUMBER
+        --build-name=$(git describe --tags) --build-number=$PROJECT_BUILD_NUMBER
     
     - name: Build Android (APK)
       script: |
         flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$CM_TAG --build-number=$PROJECT_BUILD_NUMBER
+        --build-name=$(git describe --tags) --build-number=$PROJECT_BUILD_NUMBER
 
   publishing: &publishing
     app_store_connect:             
