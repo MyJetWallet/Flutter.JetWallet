@@ -8,11 +8,14 @@ import '../../../../../../shared/providers/service_providers.dart';
 void showDepositDisclaimer({
   required BuildContext context,
   required String assetSymbol,
+  required String screenTitle,
   required void Function()? onDismiss,
 }) {
+  final action = screenTitle == 'Receive' ? screenTitle : 'Send';
+
   sShowAlertPopup(
     context,
-    primaryText: 'Receive only $assetSymbol to this deposit address. '
+    primaryText: '$action only $assetSymbol to this deposit address. '
         'Receiving any other coin or token to this address '
         'may result in loss of your deposit.',
     primaryButtonName: 'Got it',

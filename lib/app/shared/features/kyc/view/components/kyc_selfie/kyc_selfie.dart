@@ -47,7 +47,7 @@ class KycSelfie extends HookWidget {
     final loaderSuccess = useValueNotifier(StackLoaderNotifier());
     final kycN = useProvider(kycNotipod.notifier);
 
-    analytics(() => sAnalytics.assetView(ScreenSource.kycSelfieView.name));
+    analytics(() => sAnalytics.kycSelfieView());
 
     return ProviderListener<KycSelfieState>(
       provider: kycSelfieNotipod,
@@ -65,7 +65,7 @@ class KycSelfie extends HookWidget {
                 builder: (_) => const SuccessKycScreen(
                   primaryText: 'We’re verifying now',
                   secondaryText:
-                      'You’ll be notified after we’ve completed the process. '
+                      "You'll be notified when we complete the process "
                       'Usually within a few minutes.',
                 ),
               ),

@@ -27,6 +27,7 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
       address: address.address,
       addressIsInternal: address.addressIsInternal,
       baseCurrency: read(baseCurrencyPod),
+      blockchain: address.network,
     );
 
     currency = withdrawal.currency;

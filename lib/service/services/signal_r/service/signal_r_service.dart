@@ -13,8 +13,10 @@ import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
 import '../model/asset_model.dart';
+import '../model/asset_payment_methods.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
+import '../model/blockchains_model.dart';
 import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/indices_model.dart';
@@ -62,6 +64,9 @@ class SignalRService {
   final _kycCountriesController = StreamController<KycCountriesResponseModel>();
   final _priceAccuraciesController = StreamController<PriceAccuracies>();
   final _marketInfoController = StreamController<TotalMarketInfoModel>();
+  final _assetPaymentMethodsController =
+      StreamController<AssetPaymentMethods>();
+  final _blockchainsController = StreamController<BlockchainsModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -147,6 +152,15 @@ class SignalRService {
       }
     });
 
+    _connection?.on(blockchainsMessage, (data) {
+      try {
+        final blockchains = BlockchainsModel.fromJson(_json(data));
+        _blockchainsController.add(blockchains);
+      } catch (e) {
+        _logger.log(contract, blockchainsMessage, e);
+      }
+    });
+
     _connection?.on(pongMessage, (data) {
       _pongTimer?.cancel();
 
@@ -221,6 +235,16 @@ class SignalRService {
       }
     });
 
+    _connection?.on(paymentMethodsMessage, (data) {
+      try {
+        final info = AssetPaymentMethods.fromJson(_json(data));
+
+        _assetPaymentMethodsController.add(info);
+      } catch (e) {
+        _logger.log(contract, paymentMethodsMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
     final deviceInfo = read(deviceInfoPod);
@@ -277,6 +301,10 @@ class SignalRService {
       _priceAccuraciesController.stream;
 
   Stream<TotalMarketInfoModel> marketInfo() => _marketInfoController.stream;
+
+  Stream<AssetPaymentMethods> paymentMethods() =>
+      _assetPaymentMethodsController.stream;
+  Stream<BlockchainsModel> blockchains() => _blockchainsController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

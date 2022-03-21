@@ -137,7 +137,6 @@ class ChartNotifier extends StateNotifier<ChartState> {
     final currentCandles = Map.of(state.candles);
     currentCandles[resolution] = candles;
 
-    showAnimation = true;
     state = state.copyWith(
       candles: currentCandles,
       union: const Candles(),

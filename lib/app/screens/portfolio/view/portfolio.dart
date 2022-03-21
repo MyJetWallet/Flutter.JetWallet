@@ -6,7 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../shared/components/bottom_tabs/bottom_tabs.dart';
 import '../../../shared/components/bottom_tabs/components/bottom_tab.dart';
-import '../../../shared/helpers/is_balance_empty.dart';
+import '../../../shared/helpers/are_balances_empty.dart';
+import '../../../shared/models/currency_model.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../market/provider/market_crypto_pod.dart';
 import '../../market/provider/market_currencies_indices_pod.dart';
@@ -52,15 +53,21 @@ class _PortfolioState extends State<Portfolio>
 
   @override
   Widget build(BuildContext context) {
-    final balanceEmpty = isBalanceEmpty(useProvider(currenciesPod));
-    final cryptosWithBalance =
-        currenciesWithBalanceFrom(useProvider(marketCryptoPod));
-    final indicesWithBalance =
-        currenciesWithBalanceFrom(useProvider(marketCurrenciesIndicesPod));
-    final fiatsWithBalance =
-        currenciesWithBalanceFrom(useProvider(marketFiatsPod));
+    final currencies = useProvider(currenciesPod);
+    final cryptosWithBalance = currenciesWithBalanceFrom(
+      useProvider(marketCryptoPod),
+    );
+    final indicesWithBalance = currenciesWithBalanceFrom(
+      useProvider(marketCurrenciesIndicesPod),
+    );
+    final fiatsWithBalance = currenciesWithBalanceFrom(
+      useProvider(marketFiatsPod),
+    );
 
-    if (balanceEmpty) {
+    final balancesEmpty = areBalancesEmpty(currencies);
+    final noDeposits = _noDepositsInProccess(currencies);
+
+    if (balancesEmpty && noDeposits) {
       return const SPageFrame(
         header: PortfolioWithBalanceHeader(
           emptyBalance: true,
@@ -109,4 +116,14 @@ class _PortfolioState extends State<Portfolio>
 
     return tabsLength;
   }
+}
+
+/// Checks whether user has any assets with the deposit in proccess
+bool _noDepositsInProccess(List<CurrencyModel> currencies) {
+  for (final currency in currencies) {
+    if (currency.isPendingDeposit) {
+      return false;
+    }
+  }
+  return true;
 }

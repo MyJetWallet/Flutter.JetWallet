@@ -8,6 +8,7 @@ enum ScreenSource {
   kycUploadIdentityDocumentView,
   kycSelfieView,
   kycSuccessPageView,
+  kycPhoneConfirmationView,
 }
 
 extension KycSourceExtension on ScreenSource {
@@ -31,6 +32,8 @@ extension KycSourceExtension on ScreenSource {
         return 'KYC - Take a selfie view';
       case ScreenSource.kycSuccessPageView:
         return 'KYC - Success page view';
+      case ScreenSource.kycPhoneConfirmationView:
+        return 'KYC - Phone confirmation view';
     }
   }
 }

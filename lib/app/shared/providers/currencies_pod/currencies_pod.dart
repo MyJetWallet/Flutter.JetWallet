@@ -1,25 +1,50 @@
 import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../service/services/signal_r/model/asset_payment_methods.dart';
+import '../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/icon_url_from.dart';
 import '../../models/currency_model.dart';
 import '../base_currency_pod/base_currency_pod.dart';
+import '../signal_r/asset_payment_methods_spod.dart';
 import '../signal_r/assets_spod.dart';
 import '../signal_r/balances_spod.dart';
 import '../signal_r/base_prices_spod.dart';
+import '../signal_r/blockchains_spod.dart';
 
 final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
   final baseCurrency = ref.watch(baseCurrencyPod);
   final basePrices = ref.watch(basePricesSpod);
+  final paymentMethods = ref.watch(assetPaymentMethodsSpod);
+  final blockchains = ref.watch(blockchainsSpod);
 
   final currencies = <CurrencyModel>[];
 
   assets.whenData((value) {
     for (final asset in value.assets) {
       if (!asset.hideInTerminal) {
+        final depositBlockchains = <BlockchainModel>[];
+        final withdrawalBlockchains = <BlockchainModel>[];
+
+        for (final blockchain in asset.depositBlockchains) {
+          depositBlockchains.add(
+            BlockchainModel(
+              id: blockchain,
+            ),
+          );
+        }
+
+        for (final blockchain in asset.withdrawalBlockchains) {
+          withdrawalBlockchains.add(
+            BlockchainModel(
+              id: blockchain,
+            ),
+          );
+        }
+
         currencies.add(
           CurrencyModel(
             symbol: asset.symbol,
@@ -32,8 +57,8 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             depositMethods: asset.depositMethods,
             fees: asset.fees,
             withdrawalMethods: asset.withdrawalMethods,
-            depositBlockchains: asset.depositBlockchains,
-            withdrawalBlockchains: asset.withdrawalBlockchains,
+            depositBlockchains: depositBlockchains,
+            withdrawalBlockchains: withdrawalBlockchains,
             iconUrl: iconUrlFrom(asset.symbol),
             prefixSymbol: asset.prefixSymbol,
             apy: Decimal.zero,
@@ -46,8 +71,30 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             currentPrice: Decimal.zero,
             dayPriceChange: Decimal.zero,
             earnProgramEnabled: asset.earnProgramEnabled,
+            depositInProcess: Decimal.zero,
           ),
         );
+      }
+    }
+  });
+
+  paymentMethods.whenData((value) {
+    if (currencies.isNotEmpty) {
+      for (final info in value.assets) {
+        for (final currency in currencies) {
+          if (currency.symbol == info.symbol) {
+            final index = currencies.indexOf(currency);
+            final methods = List<PaymentMethod>.from(info.buyMethods);
+
+            methods.removeWhere((element) {
+              return element.type == PaymentMethodType.unsupported;
+            });
+
+            currencies[index] = currency.copyWith(
+              buyMethods: methods,
+            );
+          }
+        }
       }
     }
   });
@@ -68,6 +115,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
               assetCurrentEarnAmount: balance.currentEarnAmount,
               nextPaymentDate: balance.nextPaymentDate,
               apy: balance.apy,
+              depositInProcess: balance.depositInProcess,
             );
           }
         }
@@ -117,6 +165,55 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
       }
     }
   });
+
+  blockchains.whenData((data) {
+    if (currencies.isNotEmpty) {
+      for (final currency in currencies) {
+        final index = currencies.indexOf(currency);
+
+        if (currencies[index].depositBlockchains.isNotEmpty) {
+          for (final depositBlockchain
+              in currencies[index].depositBlockchains) {
+            final blockchainIndex =
+                currencies[index].depositBlockchains.indexOf(depositBlockchain);
+            for (final blockchain in data.blockchains) {
+              if (depositBlockchain.id == blockchain.id) {
+                currencies[index].depositBlockchains[blockchainIndex] =
+                    currencies[index]
+                        .depositBlockchains[blockchainIndex]
+                        .copyWith(
+                          tagType: blockchain.tagType,
+                          description: blockchain.description,
+                        );
+              }
+            }
+          }
+        }
+
+        if (currencies[index].withdrawalBlockchains.isNotEmpty) {
+          for (final withdrawalBlockchain
+              in currencies[index].withdrawalBlockchains) {
+            final blockchainIndex = currencies[index]
+                .withdrawalBlockchains
+                .indexOf(withdrawalBlockchain);
+            for (final blockchain in data.blockchains) {
+              if (withdrawalBlockchain.id == blockchain.id) {
+                currencies[index].withdrawalBlockchains[blockchainIndex] =
+                    currencies[index]
+                        .withdrawalBlockchains[blockchainIndex]
+                        .copyWith(
+                          tagType: blockchain.tagType,
+                          description: blockchain.description,
+                        );
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  currencies.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
 
   return currencies;
 });

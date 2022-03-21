@@ -7,7 +7,6 @@ part 'forgot_password_request_model.g.dart';
 class ForgotPasswordRequestModel with _$ForgotPasswordRequestModel {
   const factory ForgotPasswordRequestModel({
     required String email,
-    required int platformType,
     required String deviceType,
   }) = _ForgotPasswordRequestModel;
 

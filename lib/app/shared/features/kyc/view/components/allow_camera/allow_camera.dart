@@ -69,7 +69,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
     final state = useProvider(cameraPermissionNotipod);
     final notifier = useProvider(cameraPermissionNotipod.notifier);
 
-    analytics(() => sAnalytics.assetView(ScreenSource.kycAllowCameraView.name));
+    analytics(() => sAnalytics.kycAllowCameraView());
 
     return SPageFrameWithPadding(
       header: SMegaHeader(

@@ -5,6 +5,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import '../model/analytics_model.dart';
 import '../model/app_config_model.dart';
 import '../model/connection_flavor_model.dart';
+import '../model/simplex_model.dart';
 import '../model/support_model.dart';
 import '../model/versioning_model.dart';
 import '../remote_config_values.dart';
@@ -28,6 +29,7 @@ class RemoteConfigService {
     overrideVersioningValues();
     overrideSupportValues();
     overrideAnalyticsValues();
+    overrideSimplexValues();
   }
 
   ConnectionFlavorsModel get connectionFlavors {
@@ -70,6 +72,14 @@ class RemoteConfigService {
     return AnalyticsModel.fromJson(json);
   }
 
+  SimplexModel get simplex {
+    final values = _config.getString('Simplex');
+
+    final json = jsonDecode(values) as Map<String, dynamic>;
+
+    return SimplexModel.fromJson(json);
+  }
+
   /// Each index respresents different flavor (backend environment)
   void overrideApisFrom(int index) {
     final flavor = connectionFlavors.flavors[index];
@@ -108,5 +118,9 @@ class RemoteConfigService {
 
   void overrideAnalyticsValues() {
     analyticsApiKey = analytics.apiKey;
+  }
+
+  void overrideSimplexValues() {
+    simplexOrigin = simplex.origin;
   }
 }

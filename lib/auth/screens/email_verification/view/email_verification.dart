@@ -92,6 +92,8 @@ class EmailVerification extends HookWidget {
                     active: !verification.isResending,
                     timer: showResend.value ? 0 : timer,
                     onTap: () {
+                      verification.controller.clear();
+
                       verificationN.resendCode(
                         onSuccess: () {
                           timerN.refreshTimer();

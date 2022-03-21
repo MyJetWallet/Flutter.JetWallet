@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/result_screens/success_screen/success_screen.dart';
+import '../../../../../shared/helpers/analytics.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
@@ -59,6 +61,8 @@ class SetPhoneNumber extends HookWidget {
     final notifier = useProvider(setPhoneNumberNotipod.notifier);
     useListenable(state.dialCodeController);
     useListenable(state.phoneNumberController);
+
+    analytics(() => sAnalytics.kycPhoneConfirmationView());
 
     return SPageFrame(
       loading: state.loader,
@@ -139,6 +143,7 @@ class SetPhoneNumber extends HookWidget {
               active: state.isReadyToContinue,
               name: 'Continue',
               onTap: () {
+                sAnalytics.kycEnterPhoneNumber();
                 notifier.sendCode(
                   then: () {
                     PhoneVerification.push(

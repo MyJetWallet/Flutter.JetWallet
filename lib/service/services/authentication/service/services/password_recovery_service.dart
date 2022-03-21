@@ -15,7 +15,7 @@ Future<void> recoverPasswordService(
 
   try {
     final response = await dio.post(
-      '$authApi/trader/PasswordRecovery',
+      '$authApi/trader/PasswordRecoveryCode',
       data: model.toJson(),
     );
 

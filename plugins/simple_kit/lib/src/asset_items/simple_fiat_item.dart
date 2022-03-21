@@ -7,6 +7,7 @@ class SFiatItem extends StatelessWidget {
   const SFiatItem({
     Key? key,
     this.isSelected = false,
+    this.description = '',
     required this.icon,
     required this.name,
     required this.amount,
@@ -17,6 +18,7 @@ class SFiatItem extends StatelessWidget {
   final Widget icon;
   final String name;
   final String amount;
+  final String description;
   final Function() onTap;
 
   @override
@@ -34,40 +36,67 @@ class SFiatItem extends StatelessWidget {
             children: [
               const SpaceH32(),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   icon,
                   const SpaceW20(),
                   Expanded(
-                    child: Row(
-                      textBaseline: TextBaseline.alphabetic,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Baseline(
-                            baseline: 18.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              name,
-                              style: sSubtitle2Style.copyWith(
-                                color: mainColor,
+                        Row(
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            Expanded(
+                              child: Baseline(
+                                baseline: 18.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: Text(
+                                  name,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: mainColor,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            const SpaceW16(),
+                            Baseline(
+                              baseline: 18.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: SizedBox(
+                                width: 120.0,
+                                child: Text(
+                                  amount,
+                                  textAlign: TextAlign.end,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: mainColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SpaceW16(),
-                        Baseline(
-                          baseline: 18.0,
-                          baselineType: TextBaseline.alphabetic,
-                          child: SizedBox(
-                            width: 120.0,
-                            child: Text(
-                              amount,
-                              textAlign: TextAlign.end,
-                              style: sSubtitle2Style.copyWith(
-                                color: mainColor,
+                        Row(
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                child: Baseline(
+                                  baseline: 14.0,
+                                  baselineType: TextBaseline.alphabetic,
+                                  child: Text(
+                                    description,
+                                    style: sCaptionTextStyle.copyWith(
+                                      color: SColorsLight().grey3,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            const SpaceW16(),
+                          ],
                         ),
                       ],
                     ),

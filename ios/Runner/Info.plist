@@ -43,7 +43,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes</string>
+	<string>To take pictures and detect your face</string>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>Security and fraud prevention reasons</string>
 	<key>NSContactsUsageDescription</key>

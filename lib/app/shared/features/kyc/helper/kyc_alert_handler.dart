@@ -80,9 +80,7 @@ class KycAlertHandler {
       context: context,
       imageAsset: verifyingNowAsset,
       primaryText: 'We’re verifying now',
-      secondaryText: 'You’ll be notified after we’ve\n'
-          'completed the process. Usually within\n'
-          'a few minutes.',
+      secondaryText: 'You’ll be notified when we complete the process',
       primaryButtonName: 'Done',
       onPrimaryButtonTap: () {
         Navigator.pop(context);
