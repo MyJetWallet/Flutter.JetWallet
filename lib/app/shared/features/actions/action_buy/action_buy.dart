@@ -11,15 +11,21 @@ import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
+import '../helper/action_bottom_sheet_header.dart';
+import '../provider/action_buy_filtered_stpod.dart';
 
 void showBuyAction(BuildContext context) {
+  final actionBuyFiltered = context.read(actionBuyFilteredStpod);
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const SBottomSheetHeader(
+    onDissmis: () => actionBuyFiltered.state = '',
+    pinned: const ActionBottomSheetHeader(
       name: 'Choose asset to buy',
     ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
     children: [const _ActionBuy()],
   );
 }
@@ -31,6 +37,7 @@ class _ActionBuy extends HookWidget {
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
     final currencies = useProvider(currenciesPod);
+    final actionBuyFiltered = useProvider(actionBuyFilteredStpod);
 
     final assetWithBalance = <CurrencyModel>[];
     final assetWithOutBalance = <CurrencyModel>[];
@@ -41,6 +48,14 @@ class _ActionBuy extends HookWidget {
       } else {
         assetWithOutBalance.add(currency);
       }
+    }
+
+    if (actionBuyFiltered.state.isNotEmpty) {
+      final search = actionBuyFiltered.state.toLowerCase();
+
+      currencies.removeWhere(
+        (element) => !(element.description.toLowerCase()).contains(search),
+      );
     }
 
     return Column(
@@ -69,6 +84,8 @@ class _ActionBuy extends HookWidget {
                   currency.description,
                 );
 
+                actionBuyFiltered.state = '';
+
                 navigatorPushReplacement(
                   context,
                   CurrencyBuy(
@@ -77,7 +94,7 @@ class _ActionBuy extends HookWidget {
                 );
               },
             ),
-        ]
+        ],
       ],
     );
   }

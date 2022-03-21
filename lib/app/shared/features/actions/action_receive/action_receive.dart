@@ -8,15 +8,21 @@ import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
+import '../helper/action_bottom_sheet_header.dart';
+import '../provider/action_buy_filtered_stpod.dart';
 
 void showReceiveAction(BuildContext context) {
+  final actionBuyFiltered = context.read(actionBuyFilteredStpod);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const SBottomSheetHeader(
+    pinned: const ActionBottomSheetHeader(
       name: 'Choose asset to receive',
     ),
+    horizontalPinnedPadding: 0.0,
+    onDissmis: () => actionBuyFiltered.state = '',
+    removePinnedPadding: true,
     children: [const _ActionReceive()],
   );
 }
@@ -27,6 +33,15 @@ class _ActionReceive extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final currencies = useProvider(currenciesPod);
+    final actionBuyFiltered = useProvider(actionBuyFilteredStpod);
+
+    if (actionBuyFiltered.state.isNotEmpty) {
+      final search = actionBuyFiltered.state.toLowerCase();
+
+      currencies.removeWhere(
+            (element) => !(element.description.toLowerCase()).contains(search),
+      );
+    }
 
     return Column(
       children: [
@@ -41,6 +56,8 @@ class _ActionReceive extends HookWidget {
                 secondaryText: currency.symbol,
                 onTap: () {
                   sAnalytics.depositCryptoView(currency.description);
+
+                  actionBuyFiltered.state = '';
 
                   navigatorPushReplacement(
                     context,

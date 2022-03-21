@@ -8,17 +8,23 @@ import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
+import '../helper/action_bottom_sheet_header.dart';
+import '../provider/action_buy_filtered_stpod.dart';
 import 'components/deposit_category_description.dart';
 import 'components/deposit_options.dart';
 
 void showDepositAction(BuildContext context) {
+  final actionBuyFiltered = context.read(actionBuyFilteredStpod);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const SBottomSheetHeader(
+    pinned: const ActionBottomSheetHeader(
       name: 'Choose asset to deposit',
     ),
+    horizontalPinnedPadding: 0.0,
+    onDissmis: () => actionBuyFiltered.state = '',
+    removePinnedPadding: true,
     children: [const _ActionDeposit()],
   );
 }
@@ -29,6 +35,16 @@ class _ActionDeposit extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final currencies = useProvider(currenciesPod);
+    final actionBuyFiltered = useProvider(actionBuyFilteredStpod);
+
+    if (actionBuyFiltered.state.isNotEmpty) {
+      final search = actionBuyFiltered.state.toLowerCase();
+
+      currencies.removeWhere(
+        (element) => !(element.description.toLowerCase()).contains(search),
+      );
+    }
+
     final fiat = currencies.where(
       (e) => e.type == AssetType.fiat && e.supportsAtLeastOneFiatDepositMethod,
     );
@@ -69,6 +85,8 @@ class _ActionDeposit extends HookWidget {
               secondaryText: currency.symbol,
               onTap: () {
                 sAnalytics.depositCryptoView(currency.description);
+
+                actionBuyFiltered.state = '';
 
                 navigatorPushReplacement(
                   context,
