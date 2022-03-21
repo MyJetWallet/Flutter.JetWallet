@@ -162,12 +162,12 @@ definitions:
   
   dev_triggering: &dev_triggering
     events:
-      - pull_request
+    # - pull_request
       - tag
-    branch_patterns:
-      - pattern: develop
-        include: true
-        source: false
+    # branch_patterns:
+    #   - pattern: develop
+    #     include: true
+    #     source: false
     tag_patterns:
       - pattern: feat/simplex-3
         include: true
