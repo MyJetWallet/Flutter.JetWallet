@@ -41,7 +41,9 @@ class _ActionDeposit extends HookWidget {
       final search = actionBuyFiltered.state.toLowerCase();
 
       currencies.removeWhere(
-        (element) => !(element.description.toLowerCase()).contains(search),
+        (element) =>
+            !(element.description.toLowerCase()).contains(search) &&
+            !(element.symbol.toLowerCase()).contains(search),
       );
     }
 
