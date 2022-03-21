@@ -152,7 +152,7 @@ class DeepLinkService {
   }
 
   void _forgotPasswordCommand(Map<String, String> parameters) {
-    final notifier = useProvider(confirmPasswordResetNotipod(email).notifier);
+    final notifier = read(confirmPasswordResetNotipod(email).notifier);
 
     notifier.updateCode(parameters[_code]);
   }
@@ -160,8 +160,7 @@ class DeepLinkService {
   void _confirmWithdrawCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
     final code = parameters[_code]!;
-    final notifier =
-        useProvider(withdrawalConfirmNotipod(withdrawalModel).notifier);
+    final notifier = read(withdrawalConfirmNotipod(withdrawalModel).notifier);
 
     notifier.updateCode(code, id);
   }
@@ -169,8 +168,7 @@ class DeepLinkService {
   void _confirmSendByPhoneCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
     final code = parameters[_code]!;
-    final notifier =
-        useProvider(sendByPhoneConfirmNotipod(currencyModel).notifier);
+    final notifier = read(sendByPhoneConfirmNotipod(currencyModel).notifier);
 
     notifier.updateCode(code, id);
   }
