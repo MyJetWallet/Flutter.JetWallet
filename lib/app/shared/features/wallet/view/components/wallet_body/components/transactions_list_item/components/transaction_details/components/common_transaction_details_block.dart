@@ -8,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from.dart';
+import '../../../../../../../../helper/operation_history_item_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
 
 class CommonTransactionDetailsBlock extends HookWidget {
@@ -46,10 +47,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
             color: colors.grey2,
           ),
         ),
-        if (transactionListItem.operationType !=
-        OperationType.paidInterestRate &&
-        transactionListItem.operationType != OperationType.rewardPayment &&
-        transactionListItem.operationType != OperationType.receiveByPhone)
+        if (isOperationHistoryItemSupportCopy(transactionListItem))
           const SpaceH8()
         else
           const SpaceH72(),

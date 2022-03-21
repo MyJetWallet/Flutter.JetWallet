@@ -3,13 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/deposit_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/receive_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/transfer_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/withdraw_details.dart';
+import '../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../helper/operation_history_item_support_copy.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/deposit_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/receive_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/transfer_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/withdraw_details.dart';
 
 class TransactionItem extends HookWidget {
   const TransactionItem({
@@ -59,7 +60,7 @@ class TransactionItem extends HookWidget {
           children: [
             Column(
               children: [
-                if (_displayTransformTranslate())
+                if (isOperationHistoryItemSupportCopy(transactionListItem))
                   Transform.translate(
                     offset: translateOffset,
                     child: Container(
@@ -141,12 +142,5 @@ class TransactionItem extends HookWidget {
         const SpaceH40(),
       ],
     );
-  }
-
-  bool _displayTransformTranslate() {
-    return transactionListItem.operationType !=
-            OperationType.paidInterestRate &&
-        transactionListItem.operationType != OperationType.rewardPayment &&
-        transactionListItem.operationType != OperationType.receiveByPhone;
   }
 }
