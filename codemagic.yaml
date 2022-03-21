@@ -180,7 +180,7 @@ definitions:
     events:
       - tag
     tag_patterns:
-      - pattern: feat/simplex-3
+      - pattern: '*'
         include: true
     cancel_previous_builds: false  
 
