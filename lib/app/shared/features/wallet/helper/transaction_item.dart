@@ -119,14 +119,20 @@ class TransactionItem extends HookWidget {
                 ],
                 if (transactionListItem.operationType ==
                     OperationType.transferByPhone) ...[
-                  TransferDetails(
-                    transactionListItem: transactionListItem,
+                  Material(
+                    color: Colors.white,
+                    child: TransferDetails(
+                      transactionListItem: transactionListItem,
+                    ),
                   ),
                 ],
                 if (transactionListItem.operationType ==
                     OperationType.receiveByPhone) ...[
-                  ReceiveDetails(
-                    transactionListItem: transactionListItem,
+                  Material(
+                    color: Colors.white,
+                    child: ReceiveDetails(
+                      transactionListItem: transactionListItem,
+                    ),
                   ),
                 ],
               ],
