@@ -46,7 +46,10 @@ class CommonTransactionDetailsBlock extends HookWidget {
             color: colors.grey2,
           ),
         ),
-        if (transactionListItem.operationType != OperationType.paidInterestRate)
+        if (transactionListItem.operationType !=
+        OperationType.paidInterestRate &&
+        transactionListItem.operationType != OperationType.rewardPayment &&
+        transactionListItem.operationType != OperationType.receiveByPhone)
           const SpaceH8()
         else
           const SpaceH72(),

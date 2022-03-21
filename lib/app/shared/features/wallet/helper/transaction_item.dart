@@ -59,8 +59,7 @@ class TransactionItem extends HookWidget {
           children: [
             Column(
               children: [
-                if (transactionListItem.operationType !=
-                    OperationType.paidInterestRate)
+                if (_displayTransformTranslate())
                   Transform.translate(
                     offset: translateOffset,
                     child: Container(
@@ -142,5 +141,12 @@ class TransactionItem extends HookWidget {
         const SpaceH40(),
       ],
     );
+  }
+
+  bool _displayTransformTranslate() {
+    return transactionListItem.operationType !=
+            OperationType.paidInterestRate &&
+        transactionListItem.operationType != OperationType.rewardPayment &&
+        transactionListItem.operationType != OperationType.receiveByPhone;
   }
 }
