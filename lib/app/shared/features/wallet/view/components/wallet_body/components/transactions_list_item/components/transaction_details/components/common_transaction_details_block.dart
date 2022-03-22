@@ -67,6 +67,10 @@ class CommonTransactionDetailsBlock extends HookWidget {
 
   String convertToUsd(Decimal assetPriceInUsd, Decimal balance) {
     final usd = assetPriceInUsd * balance;
+    if (usd < Decimal.zero) {
+      final plusValue = usd.toString().split('-').last;
+      return '≈ \$${Decimal.parse(plusValue).toStringAsFixed(2)}';
+    }
     return '≈ \$${usd.toStringAsFixed(2)}';
   }
 
