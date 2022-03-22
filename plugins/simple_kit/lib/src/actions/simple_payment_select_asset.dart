@@ -13,6 +13,7 @@ class SPaymentSelectAsset extends StatelessWidget {
     required this.icon,
     required this.name,
     required this.description,
+    this.needOverflowVisible = false,
   }) : super(key: key);
 
   final Function()? onTap;
@@ -22,6 +23,7 @@ class SPaymentSelectAsset extends StatelessWidget {
   final Widget icon;
   final String name;
   final String description;
+  final bool needOverflowVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   name,
+                                  overflow: needOverflowVisible ? TextOverflow.visible : TextOverflow.ellipsis,
                                   style: sSubtitle2Style,
                                 ),
                               ),

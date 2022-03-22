@@ -88,6 +88,7 @@ class WithdrawalAmount extends HookWidget {
             ),
             name: shortAddressForm(state.address),
             description: '${currency.symbol} wallet',
+            needOverflowVisible: true,
           ),
           const SpaceH20(),
           SNumericKeyboardAmount(
