@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../helpers/input_helpers.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -19,7 +20,8 @@ class ConvertRow extends HookWidget {
     required this.onTap,
     required this.enabled,
     required this.currency,
-    required this.currencies,
+    required this.assetListWithBalance,
+    required this.assetListWithEmptyBalance,
     required this.onDropdown,
   }) : super(key: key);
 
@@ -29,7 +31,8 @@ class ConvertRow extends HookWidget {
   final Function() onTap;
   final bool enabled;
   final CurrencyModel currency;
-  final List<CurrencyModel> currencies;
+  final List<CurrencyModel> assetListWithBalance;
+  final List<CurrencyModel> assetListWithEmptyBalance;
   final Function(CurrencyModel?) onDropdown;
 
   @override
@@ -50,16 +53,44 @@ class ConvertRow extends HookWidget {
           name: fromAsset ? 'From' : 'To',
         ),
         children: [
-          for (final item in currencies)
+          for (final item in assetListWithBalance)
             SAssetItem(
               isSelected: currency == item,
-              icon: SNetworkSvg24(
-                url: item.iconUrl,
-                color: currency == item ? colors.blue : colors.black,
-              ),
+              icon: (item.type == AssetType.indices)
+                  ? SNetworkSvg24(
+                      url: item.iconUrl,
+                    )
+                  : SNetworkSvg24(
+                      url: item.iconUrl,
+                      color: currency == item ? colors.blue : colors.black,
+                    ),
               name: item.description,
               description: item.symbol,
               amount: item.volumeBaseBalance(baseCurrency),
+              divider: item != assetListWithBalance.last,
+              onTap: () {
+                if (currency == item) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context, item);
+                }
+              },
+            ),
+          for (final item in assetListWithEmptyBalance)
+            SAssetItem(
+              isSelected: currency == item,
+              icon: (item.type == AssetType.indices)
+                  ? SNetworkSvg24(
+                      url: item.iconUrl,
+                    )
+                  : SNetworkSvg24(
+                      url: item.iconUrl,
+                      color: currency == item ? colors.blue : colors.black,
+                    ),
+              name: item.description,
+              description: item.symbol,
+              amount: item.volumeBaseBalance(baseCurrency),
+              divider: item != assetListWithEmptyBalance.last,
               onTap: () {
                 if (currency == item) {
                   Navigator.pop(context);
@@ -138,7 +169,7 @@ class ConvertRow extends HookWidget {
                       ]
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

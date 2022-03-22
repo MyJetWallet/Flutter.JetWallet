@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -35,6 +36,32 @@ class Convert extends HookWidget {
       ),
     );
 
+    final fromAssetListWithBalance = <CurrencyModel>[];
+    final fromAssetListWithEmptyBalance = <CurrencyModel>[];
+
+    final toAssetListWithBalance = <CurrencyModel>[];
+    final toAssetListWithEmptyBalance = <CurrencyModel>[];
+
+    if (state.fromAssetList.isNotEmpty) {
+      for (final element in state.fromAssetList) {
+        if (element.baseBalance != Decimal.zero) {
+          fromAssetListWithBalance.add(element);
+        } else {
+          fromAssetListWithEmptyBalance.add(element);
+        }
+      }
+    }
+
+    if (state.toAssetList.isNotEmpty) {
+      for (final element in state.fromAssetList) {
+        if (element.baseBalance != Decimal.zero) {
+          toAssetListWithBalance.add(element);
+        } else {
+          toAssetListWithEmptyBalance.add(element);
+        }
+      }
+    }
+
     return SPageFrame(
       header: const SPaddingH24(
         child: SSmallHeader(
@@ -50,7 +77,8 @@ class Convert extends HookWidget {
             inputError: state.inputError,
             enabled: state.fromAssetEnabled,
             currency: state.fromAsset,
-            currencies: state.fromAssetList,
+            assetListWithBalance: fromAssetListWithBalance,
+            assetListWithEmptyBalance: fromAssetListWithEmptyBalance,
             onTap: () => notifier.enableFromAsset(),
             onDropdown: (value) => notifier.updateFromAsset(value!),
             fromAsset: true,
@@ -80,7 +108,8 @@ class Convert extends HookWidget {
             value: state.toAssetAmount,
             enabled: state.toAssetEnabled,
             currency: state.toAsset,
-            currencies: state.toAssetList,
+            assetListWithBalance: toAssetListWithBalance,
+            assetListWithEmptyBalance: toAssetListWithEmptyBalance,
             onTap: () => notifier.enableToAsset(),
             onDropdown: (value) => notifier.updateToAsset(value!),
           ),
