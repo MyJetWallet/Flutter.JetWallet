@@ -123,7 +123,7 @@ class CurrencySell extends HookWidget {
       ),
       child: Column(
         children: [
-          SActionPriceField(
+          SMediumActionPriceField(
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.inputValue,
@@ -145,13 +145,13 @@ class CurrencySell extends HookWidget {
           const Spacer(),
           const SpaceH4(),
           if (state.selectedCurrency == null)
-            SPaymentSelectDefault(
+            SMediumPaymentSelectDefault(
               icon: const SActionWithdrawIcon(),
               name: 'Choose destination',
               onTap: () => _showAssetSelector(),
             )
           else if (state.selectedCurrency!.type == AssetType.crypto)
-            SPaymentSelectAsset(
+            SMediumPaymentSelectAsset(
               icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),
@@ -163,7 +163,7 @@ class CurrencySell extends HookWidget {
               onTap: () => _showAssetSelector(),
             )
           else
-            SPaymentSelectFiat(
+            SMediumPaymentSelectFiat(
               icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),

@@ -8,6 +8,7 @@ class NumericKeyboardFrame extends StatelessWidget {
   const NumericKeyboardFrame({
     Key? key,
     this.paddingBottom,
+    this.isSmall = false,
     required this.paddingTop,
     required this.height,
     required this.lastRow,
@@ -19,6 +20,7 @@ class NumericKeyboardFrame extends StatelessWidget {
   final double height;
   final NumericKeyboardRow lastRow;
   final void Function(String) onKeyPressed;
+  final bool isSmall;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,8 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '3',
             onKeyPressed: onKeyPressed,
           ),
-          const SpaceH10(),
+          if (isSmall) const SpaceH2(),
+          if (!isSmall) const SpaceH10(),
           NumericKeyboardRow(
             frontKey1: '4',
             realValue1: '4',
@@ -52,7 +55,8 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '6',
             onKeyPressed: onKeyPressed,
           ),
-          const SpaceH10(),
+          if (isSmall) const SpaceH2(),
+          if (!isSmall) const SpaceH10(),
           NumericKeyboardRow(
             frontKey1: '7',
             realValue1: '7',
@@ -62,7 +66,8 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '9',
             onKeyPressed: onKeyPressed,
           ),
-          const SpaceH10(),
+          if (isSmall) const SpaceH3(),
+          if (!isSmall) const SpaceH10(),
           lastRow,
         ],
       ),

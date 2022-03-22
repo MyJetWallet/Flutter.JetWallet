@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../simple_kit.dart';
-import '../colors/view/simple_colors_light.dart';
+import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
-class SActionPriceField extends StatelessWidget {
-  const SActionPriceField({
+class SMediumActionPriceField extends StatelessWidget {
+  const SMediumActionPriceField({
     Key? key,
     required this.price,
     required this.helper,

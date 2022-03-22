@@ -38,7 +38,7 @@ class WithdrawalAmount extends HookWidget {
       ),
       child: Column(
         children: [
-          SActionPriceField(
+          SMediumActionPriceField(
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.amount,
@@ -82,7 +82,7 @@ class WithdrawalAmount extends HookWidget {
           ),
           const Spacer(),
           const SpaceH10(),
-          SPaymentSelectAsset(
+          SMediumPaymentSelectAsset(
             icon: SWalletIcon(
               color: colors.black,
             ),

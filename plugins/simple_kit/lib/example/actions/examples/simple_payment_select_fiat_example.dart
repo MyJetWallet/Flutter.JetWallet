@@ -16,7 +16,7 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                SPaymentSelectFiat(
+                SMediumPaymentSelectFiat(
                   icon: const SActionBuyIcon(),
                   name: 'Fiat currency',
                   amount: '\$0.00',
@@ -107,7 +107,7 @@ class SimplePaymentSelectFiatExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            SPaymentSelectFiat(
+            SMediumPaymentSelectFiat(
               icon: const SActionBuyIcon(),
               name: 'Fiat currency',
               amount: '\$0.00',

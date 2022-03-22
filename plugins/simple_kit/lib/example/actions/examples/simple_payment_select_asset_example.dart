@@ -16,7 +16,7 @@ class SimplePaymentSelectAssetExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                SPaymentSelectAsset(
+                SMediumPaymentSelectAsset(
                   icon: const SActionBuyIcon(),
                   name: 'Asset name',
                   amount: '\$0.00',
@@ -123,7 +123,7 @@ class SimplePaymentSelectAssetExample extends StatelessWidget {
             const SpaceH20(),
             Stack(
               children: [
-                SPaymentSelectAsset(
+                SMediumPaymentSelectAsset(
                   icon: const SActionBuyIcon(),
                   name: 'Card name',
                   amount: '•••• 0000',
@@ -229,7 +229,7 @@ class SimplePaymentSelectAssetExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            SPaymentSelectAsset(
+            SMediumPaymentSelectAsset(
               icon: const SActionBuyIcon(),
               name: 'Asset name',
               amount: '\$0.00',
@@ -237,7 +237,7 @@ class SimplePaymentSelectAssetExample extends StatelessWidget {
               onTap: () {},
             ),
             const SpaceH20(),
-            SPaymentSelectAsset(
+            SMediumPaymentSelectAsset(
               icon: const SActionBuyIcon(),
               isCreditCard: true,
               name: 'Card name',

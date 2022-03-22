@@ -36,7 +36,7 @@ class SendByPhoneAmount extends HookWidget {
       ),
       child: Column(
         children: [
-          SActionPriceField(
+          SMediumActionPriceField(
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.amount,

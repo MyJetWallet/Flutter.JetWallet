@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../simple_kit.dart';
-import '../colors/view/simple_colors_light.dart';
+import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
-class SPaymentSelectAsset extends StatelessWidget {
-  const SPaymentSelectAsset({
+class SSmallPaymentSelectAsset extends StatelessWidget {
+  const SSmallPaymentSelectAsset({
     Key? key,
     this.onTap,
     this.helper = '',
@@ -32,7 +32,7 @@ class SPaymentSelectAsset extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: 88.0,
+          height: 64.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
@@ -41,7 +41,7 @@ class SPaymentSelectAsset extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SpaceH23(), // + 1 px border
+              const SpaceH12(), // + 1 px border
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,7 +52,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                     child: Column(
                       children: [
                         Baseline(
-                          baseline: 18.0,
+                          baseline: 17.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

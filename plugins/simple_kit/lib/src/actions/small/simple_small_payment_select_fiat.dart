@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../simple_kit.dart';
-import '../colors/view/simple_colors_light.dart';
+import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
-class SPaymentSelectFiat extends StatelessWidget {
-  const SPaymentSelectFiat({
+class SSmallPaymentSelectFiat extends StatelessWidget {
+  const SSmallPaymentSelectFiat({
     Key? key,
     required this.icon,
     required this.name,
@@ -26,7 +26,7 @@ class SPaymentSelectFiat extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: 88.0,
+          height: 64.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
@@ -35,7 +35,7 @@ class SPaymentSelectFiat extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SpaceH31(), // + 1px border
+              const SpaceH19(), // + 1px border
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

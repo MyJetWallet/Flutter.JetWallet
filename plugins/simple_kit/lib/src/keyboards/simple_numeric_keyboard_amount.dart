@@ -11,6 +11,8 @@ enum SKeyboardPreset { preset1, preset2, preset3 }
 class SNumericKeyboardAmount extends StatelessWidget {
   const SNumericKeyboardAmount({
     this.buttonType = SButtonType.primary1,
+    this.showPresets = true,
+    this.isSmall = false,
     required this.preset1Name,
     required this.preset2Name,
     required this.preset3Name,
@@ -32,44 +34,48 @@ class SNumericKeyboardAmount extends StatelessWidget {
   final bool submitButtonActive;
   final String submitButtonName;
   final void Function() onSubmitPressed;
+  final bool showPresets;
+  final bool isSmall;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 422.0,
+      height: isSmall ? 322.0 : 422,
       child: Material(
         color: SColorsLight().grey5,
         child: Column(
           children: [
-            const SpaceH20(),
-            SPaddingH24(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  NumericKeyboardPreset(
-                    name: preset1Name,
-                    selected: selectedPreset == SKeyboardPreset.preset1,
-                    onTap: () => onPresetChanged(SKeyboardPreset.preset1),
-                  ),
-                  const SpaceW10(),
-                  NumericKeyboardPreset(
-                    name: preset2Name,
-                    selected: selectedPreset == SKeyboardPreset.preset2,
-                    onTap: () => onPresetChanged(SKeyboardPreset.preset2),
-                  ),
-                  const SpaceW10(),
-                  NumericKeyboardPreset(
-                    name: preset3Name,
-                    selected: selectedPreset == SKeyboardPreset.preset3,
-                    onTap: () => onPresetChanged(SKeyboardPreset.preset3),
-                  ),
-                ],
+            if (showPresets) ...[
+              const SpaceH20(),
+              SPaddingH24(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    NumericKeyboardPreset(
+                      name: preset1Name,
+                      selected: selectedPreset == SKeyboardPreset.preset1,
+                      onTap: () => onPresetChanged(SKeyboardPreset.preset1),
+                    ),
+                    const SpaceW10(),
+                    NumericKeyboardPreset(
+                      name: preset2Name,
+                      selected: selectedPreset == SKeyboardPreset.preset2,
+                      onTap: () => onPresetChanged(SKeyboardPreset.preset2),
+                    ),
+                    const SpaceW10(),
+                    NumericKeyboardPreset(
+                      name: preset3Name,
+                      selected: selectedPreset == SKeyboardPreset.preset3,
+                      onTap: () => onPresetChanged(SKeyboardPreset.preset3),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
             NumericKeyboardFrame(
-              height: 274.0,
-              paddingTop: 10.0,
-              paddingBottom: 10.0,
+              height: isSmall ? 242.0 : 274.0,
+              paddingTop: isSmall ? 5.0 : 10.0,
+              paddingBottom: isSmall ? 6.0 : 10.0,
               lastRow: NumericKeyboardRow(
                 frontKey1: period,
                 realValue1: period,

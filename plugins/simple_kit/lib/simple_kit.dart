@@ -24,16 +24,20 @@ export 'src/account/phone_number/simple_phone_numbers.dart';
 export 'src/actions/confirm_action_timer/simple_confirm_action_timer.dart';
 export 'src/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
 export 'src/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
+export 'src/actions/medium/simple_medium_action_price_field.dart';
+export 'src/actions/medium/simple_medium_payment_select_asset.dart';
+export 'src/actions/medium/simple_medium_payment_select_default.dart';
+export 'src/actions/medium/simple_medium_payment_select_fiat.dart';
 export 'src/actions/simple_action_confirm_alert.dart';
 export 'src/actions/simple_action_confirm_description.dart';
 export 'src/actions/simple_action_confirm_icon_with_animation.dart';
 export 'src/actions/simple_action_confirm_text.dart';
-export 'src/actions/simple_action_price_field.dart';
-export 'src/actions/simple_payment_select_asset.dart';
 export 'src/actions/simple_payment_select_contact.dart';
 export 'src/actions/simple_payment_select_contact_without_name.dart';
-export 'src/actions/simple_payment_select_default.dart';
-export 'src/actions/simple_payment_select_fiat.dart';
+export 'src/actions/small/simple_small_action_price_field.dart';
+export 'src/actions/small/simple_small_payment_select_asset.dart';
+export 'src/actions/small/simple_small_payment_select_default.dart';
+export 'src/actions/small/simple_small_payment_select_fiat.dart';
 
 /// Agreements
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';

@@ -16,7 +16,7 @@ class SimpleActionPriceFieldExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                const SActionPriceField(
+                const SMediumActionPriceField(
                   price: '0.1 DASH',
                   helper: '≈ 11.50643382 ALGO (\$22.82)',
                   error: 'Enter a higher amount',
@@ -47,14 +47,14 @@ class SimpleActionPriceFieldExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            const SActionPriceField(
+            const SMediumActionPriceField(
               price: '0.1 DASH',
               helper: '≈ 11.50643382 ALGO (\$22.82)',
               error: 'Enter a higher amount',
               isErrorActive: false,
             ),
             const SpaceH20(),
-            const SActionPriceField(
+            const SMediumActionPriceField(
               price: '0.1 DASH',
               helper: '≈ 11.50643382 ALGO (\$22.82)',
               error: 'Enter a higher amount',
