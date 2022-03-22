@@ -10,31 +10,20 @@ import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/navigation/provider/navigation_stpod.dart';
 
-class SimplexWebView extends StatefulHookWidget {
+class SimplexWebView extends HookWidget {
   const SimplexWebView(this.url);
 
   final String url;
-
-  @override
-  SimplexWebViewState createState() => SimplexWebViewState();
-}
-
-class SimplexWebViewState extends State<SimplexWebView> {
-  @override
-  void initState() {
-    super.initState();
-    //  if (Platform.isAndroid) WebView.platform = AndroidWebView();
-  }
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
     void _showSuccess() {
-      context.read(navigationStpod).state = 1; // Portfolio
       SuccessScreen.push(
         context: context,
         secondaryText: 'Your payment will be processed within\n≈ 10-30 minutes',
+        then: () => context.read(navigationStpod).state = 1,
       );
     }
 
@@ -61,7 +50,7 @@ class SimplexWebViewState extends State<SimplexWebView> {
         ),
         Expanded(
           child: WebView(
-            initialUrl: widget.url,
+            initialUrl: url,
             javascriptMode: JavascriptMode.unrestricted,
             navigationDelegate: (request) {
               final uri = Uri.parse(request.url);

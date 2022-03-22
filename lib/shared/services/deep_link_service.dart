@@ -7,7 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
-import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
 import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
 import '../../app/shared/features/currency_withdraw/notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
