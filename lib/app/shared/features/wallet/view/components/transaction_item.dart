@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../../helper/operation_history_item_support_copy.dart';
+import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/deposit_details.dart';
@@ -60,7 +60,7 @@ class TransactionItem extends HookWidget {
           children: [
             Column(
               children: [
-                if (isOperationHistoryItemSupportCopy(transactionListItem))
+                if (isOperationSupportCopy(transactionListItem))
                   Transform.translate(
                     offset: translateOffset,
                     child: Container(
