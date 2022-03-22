@@ -39,8 +39,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
           '${operationAmount(transactionListItem)} ${currency.symbol}',
           style: sTextH1Style,
         ),
-        if (transactionListItem.operationType != OperationType.sell &&
-            transactionListItem.status == Status.completed)
+        if (transactionListItem.status == Status.completed)
           Text(
             convertToUsd(
               transactionListItem.assetPriceInUsd,
