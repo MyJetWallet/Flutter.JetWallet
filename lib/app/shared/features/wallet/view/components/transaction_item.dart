@@ -80,7 +80,7 @@ class TransactionItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.deposit) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: DepositDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
@@ -93,7 +93,7 @@ class TransactionItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.withdraw) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: WithdrawDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
@@ -107,7 +107,7 @@ class TransactionItem extends HookWidget {
                     transactionListItem.operationType ==
                         OperationType.sell) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: BuySellDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
@@ -120,7 +120,7 @@ class TransactionItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.transferByPhone) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: TransferDetails(
                       transactionListItem: transactionListItem,
                     ),
@@ -129,7 +129,7 @@ class TransactionItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.receiveByPhone) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: ReceiveDetails(
                       transactionListItem: transactionListItem,
                     ),
