@@ -11,6 +11,7 @@ import '../../service/services/authentication/service/authentication_service.dar
 import '../../service/services/blockchain/service/blockchain_service.dart';
 import '../../service/services/change_password/service/change_password_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
+import '../../service/services/circle/service/circle_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/kyc/service/kyc_service.dart';
@@ -23,6 +24,7 @@ import '../../service/services/operation_history/operation_history_service.dart'
 import '../../service/services/phone_verification/service/phone_verification_service.dart';
 import '../../service/services/profile/service/profile_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
+import '../../service/services/simplex/service/simplex_service.dart';
 import '../../service/services/swap/service/swap_service.dart';
 import '../../service/services/transfer/service/transfer_service.dart';
 import '../../service/services/two_fa/service/two_fa_service.dart';
@@ -199,3 +201,21 @@ final changePasswordSerivcePod = Provider<ChangePasswordService>((ref) {
 
   return ChangePasswordService(dio);
 });
+
+final circleServicePod = Provider<CircleService>(
+  (ref) {
+    final dio = ref.watch(dioPod);
+
+    return CircleService(dio);
+  },
+  name: 'circleServicePod',
+);
+
+final simplexServicePod = Provider<SimplexService>(
+  (ref) {
+    final dio = ref.watch(dioPod);
+
+    return SimplexService(dio);
+  },
+  name: 'simplexServicePod',
+);

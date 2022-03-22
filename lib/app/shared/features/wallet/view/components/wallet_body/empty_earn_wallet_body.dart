@@ -6,7 +6,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
-import '../../../../../../screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../../../../../screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../../../../components/show_start_earn_options.dart';
 import '../../../../../models/currency_model.dart';
 import 'components/empty_wallet_balance_text.dart';
@@ -89,7 +89,7 @@ class EmptyEarnWalletBody extends HookWidget {
                       context: context,
                       onTap: (CurrencyModel currency) {
                         Navigator.pop(context);
-
+                        sAnalytics.earnDetailsView(currency.description);
                         showStartEarnOptions(
                           currency: currency,
                           read: context.read,

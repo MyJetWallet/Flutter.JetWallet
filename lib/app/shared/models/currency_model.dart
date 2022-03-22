@@ -2,6 +2,8 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../service/services/signal_r/model/asset_model.dart';
+import '../../../service/services/signal_r/model/asset_payment_methods.dart';
+import '../../../service/services/signal_r/model/blockchains_model.dart';
 import '../helpers/formatting/formatting.dart';
 import '../providers/base_currency_pod/base_currency_model.dart';
 
@@ -19,8 +21,11 @@ class CurrencyModel with _$CurrencyModel {
     @Default(TagType.none) TagType tagType,
     @Default(AssetType.crypto) AssetType type,
     @Default(AssetFeesModel()) AssetFeesModel fees,
+    @Default([]) List<PaymentMethod> buyMethods,
     @Default([]) List<DepositMethods> depositMethods,
     @Default([]) List<WithdrawalMethods> withdrawalMethods,
+    @Default([]) List<BlockchainModel> depositBlockchains,
+    @Default([]) List<BlockchainModel> withdrawalBlockchains,
     @Default(0.0) double reserve,
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
@@ -36,6 +41,7 @@ class CurrencyModel with _$CurrencyModel {
     required Decimal assetCurrentEarnAmount,
     required Decimal baseCurrentEarnAmount,
     required Decimal apy,
+    required Decimal depositInProcess,
     @Default(false) bool earnProgramEnabled,
   }) = _CurrencyModel;
 
@@ -44,6 +50,10 @@ class CurrencyModel with _$CurrencyModel {
   bool get isDepositMode => depositMode == 0;
 
   bool get isWithdrawalMode => withdrawalMode == 0;
+
+  bool get noPendingDeposit => depositInProcess == Decimal.zero;
+
+  bool get isPendingDeposit => depositInProcess != Decimal.zero;
 
   bool get isAssetBalanceEmpty => assetBalance == Decimal.zero;
 
@@ -83,6 +93,10 @@ class CurrencyModel with _$CurrencyModel {
     );
   }
 
+  bool get supportsAtLeastOneBuyMethod {
+    return buyMethods.isNotEmpty;
+  }
+
   bool get supportsAtLeastOneFiatDepositMethod {
     return supportsCardDeposit || supportsSepaDeposit || supportsSwiftDeposit;
   }
@@ -120,4 +134,6 @@ class CurrencyModel with _$CurrencyModel {
   bool get supportsSWiftWithdrawal {
     return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
   }
+
+  bool get isSingleNetwork => depositBlockchains.length == 1;
 }

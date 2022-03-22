@@ -4,6 +4,8 @@ List<CurrencyModel> currenciesWithoutBalanceFrom(
   List<CurrencyModel> currencies,
 ) {
   return currencies
-      .where((currency) => currency.isAssetBalanceEmpty)
+      .where(
+        (currency) => currency.isAssetBalanceEmpty && currency.noPendingDeposit,
+      )
       .toList();
 }

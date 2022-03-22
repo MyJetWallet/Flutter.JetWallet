@@ -16,8 +16,6 @@ Widget? setRewardIndicatorComplete(
       completeIndicator += 1;
     }
 
-    // conditionTypeSwitch(ConditionType.tradeCondition);
-
     if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition)) {
       isDisplayIndicator = true;
     }
@@ -25,8 +23,8 @@ Widget? setRewardIndicatorComplete(
 
   if (isDisplayIndicator) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const SpaceW20(),
         Stack(
           children: <Widget>[
             Container(
@@ -39,7 +37,7 @@ Widget? setRewardIndicatorComplete(
             ),
             Positioned(
               child: Container(
-                width: _setIndicatorValue(completeIndicator),
+                width: _setIndicatorValue(completeIndicator, conditions.length),
                 height: 16.0,
                 decoration: BoxDecoration(
                   color: colors.blue,
@@ -60,8 +58,11 @@ Widget? setRewardIndicatorComplete(
             ),
           ],
         ),
-        const SpaceW24(),
-        Text('$completeIndicator/${conditions.length}'),
+
+        Container(
+          padding: const EdgeInsets.only(right: 17.0),
+          child: Text('$completeIndicator/${conditions.length}'),
+        ),
       ],
     );
   } else {
@@ -69,14 +70,14 @@ Widget? setRewardIndicatorComplete(
   }
 }
 
-double _setIndicatorValue(int completeIndicator) {
-  return (completeIndicator == 0)
-      ? 0.0
-      : (completeIndicator == 1)
-          ? 80.0
-          : (completeIndicator == 2)
-              ? 160.0
-              : 240.0;
+double _setIndicatorValue(int completeIndicator, int conditionsLength) {
+  final step = 240 / conditionsLength;
+
+  if (completeIndicator == 0) {
+    return 0.0;
+  }
+
+  return step * completeIndicator;
 }
 
 bool _setBorderRadius(completeIndicator, int conditionsLength) {

@@ -27,11 +27,22 @@ final _providerTypes = <String>[
   'AutoDisposeStateNotifierProvider<ChartNotifier, ChartState>',
   'AutoDisposeStateNotifierProvider<TimerNotifier, int>',
   'AutoDisposeStateNotifierProvider<ConvertInputNotifier, ConvertInputState>',
+  'AutoDisposeStreamProvider<PriceAccuracies>',
+  'AutoDisposeStreamProvider<AssetsModel>',
+  'AutoDisposeStreamProvider<BalancesModel>',
+  'AutoDisposeStreamProvider<KycCountriesResponseModel>',
+  'AutoDisposeStateNotifierProvider<KycCountriesNotifier, KycCountriesState>',
+  'AutoDisposeStreamProvider<MarketReferencesModel>',
+  'AutoDisposeStreamProvider<CampaignResponseModel>',
+  'AutoDisposeProvider<List<CampaignModel>>',
+  'AutoDisposeStateNotifierProvider<CampaignNotifier, List<CampaignModel>>',
+  'AutoDisposeStateNotifierProvider<CurrencyBuyNotifier, CurrencyBuyState>',
 ];
 
 final _providerNames = <String>[
   'logRecordsNotipod',
   'timerNotipod',
+  'convertPriceAccuraciesPod',
 ];
 
 class App extends HookWidget {

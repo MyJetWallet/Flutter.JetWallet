@@ -4,7 +4,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../colors/view/simple_colors_light.dart';
 
 class SSkeletonQrCodeLoader extends StatefulHookWidget {
-  const SSkeletonQrCodeLoader({Key? key}) : super(key: key);
+  const SSkeletonQrCodeLoader({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final double size;
 
   @override
   _SActionConfirmSkeletonLoaderState createState() =>
@@ -49,8 +54,8 @@ class _SActionConfirmSkeletonLoaderState extends State<SSkeletonQrCodeLoader>
       child: Stack(
         children: [
           Container(
-            width: 200.0,
-            height: 200.0,
+            width: widget.size,
+            height: widget.size,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 stops: const [0.5156, 1],

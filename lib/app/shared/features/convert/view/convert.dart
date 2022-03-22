@@ -108,9 +108,11 @@ class Convert extends HookWidget {
                 context,
                 PreviewConvert(
                   input: PreviewConvertInput(
-                    amount: state.fromAssetAmount,
+                    fromAmount: state.fromAssetAmount,
+                    toAmount: state.toAssetAmount,
                     fromCurrency: state.fromAsset,
                     toCurrency: state.toAsset,
+                    toAssetEnabled: state.toAssetEnabled,
                   ),
                 ),
               );

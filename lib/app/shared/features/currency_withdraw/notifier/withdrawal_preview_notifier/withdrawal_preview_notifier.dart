@@ -31,6 +31,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
       address: amount.address,
       amount: amount.amount,
       addressIsInternal: amount.addressIsInternal,
+      blockchain: amount.blockchain,
     );
 
     _context = read(sNavigatorKeyPod).currentContext!;
@@ -54,6 +55,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
         assetSymbol: withdrawal.currency.symbol,
         amount: Decimal.parse(state.amount),
         toAddress: state.address,
+        blockchain: state.blockchain.id,
       );
 
       final response = await read(blockchainServicePod).withdraw(model);

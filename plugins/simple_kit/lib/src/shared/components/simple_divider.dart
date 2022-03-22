@@ -5,10 +5,12 @@ import '../../colors/view/simple_colors_light.dart';
 class SDivider extends StatelessWidget {
   const SDivider({
     Key? key,
+    this.height,
     this.width,
     this.color,
   }) : super(key: key);
 
+  final double? height;
   final double? width;
   final Color? color;
 
@@ -16,7 +18,7 @@ class SDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 1.0,
+      height: height ?? 1.0,
       color: color ?? SColorsLight().grey4,
     );
   }

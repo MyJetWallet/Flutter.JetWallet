@@ -53,7 +53,7 @@ void sShowMenuActionSheet({
           onTap: onDeposit,
           icon: const SActionDepositIcon(),
           name: 'Deposit',
-          description: 'Deposit with fiat',
+          description: 'Deposit with fiat or crypto',
         ),
       ],
       if (isNotEmptyBalance) ...[

@@ -5,14 +5,22 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../app/screens/portfolio/view/components/empty_portfolio_body/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../app/screens/navigation/provider/navigation_stpod.dart';
+import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
+import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
-import '../../app/shared/features/currency_withdraw/provider/withdraw_dynamic_link_stpod.dart';
-import '../../app/shared/features/send_by_phone/provider/send_by_phone_dynamic_link_stpod.dart';
+import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
+import '../../app/shared/features/currency_withdraw/notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
+import '../../app/shared/features/currency_withdraw/view/screens/withdrawal_confirm.dart';
+import '../../app/shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../app/shared/features/rewards/view/rewards.dart';
+import '../../app/shared/features/send_by_phone/notifier/send_by_phone_confirm_notifier/send_by_phone_confirm_notipod.dart';
+import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confirm.dart';
 import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
+import '../../auth/screens/forgot_password/notifier/confirm_password_reset/confirm_password_reset_notipod.dart';
+import '../../auth/screens/forgot_password/view/confirm_password_reset.dart';
 import '../../auth/screens/login/login.dart';
-import '../../auth/screens/reset_password/view/reset_password.dart';
 import '../../router/notifier/startup_notifier/authorized_union.dart';
 import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../helpers/navigator_push.dart';
@@ -23,7 +31,6 @@ import 'local_storage_service.dart';
 
 /// Parameters
 const _code = 'jw_code';
-const _token = 'jw_token';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
@@ -32,15 +39,19 @@ const _email = 'jw_email';
 const _confirmEmail = 'ConfirmEmail';
 const _login = 'Login';
 const _forgotPassword = 'ForgotPassword';
-const _confirmWithdraw = 'jw_withdrawal_email_confirm';
-const _confirmSendByPhone = 'jw_transfer_email_confirm';
+const _confirmWithdraw = 'VerifyWithdrawal';
+const _confirmSendByPhone = 'VerifyTransfer';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
+const _kycVerification = 'KycVerification';
+const _tradingStart = 'TradingStart';
+const _earnLanding = 'EarnLanding';
 
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
+  accountScreen,
 }
 
 class DeepLinkService {
@@ -65,14 +76,60 @@ class DeepLinkService {
     } else if (command == _confirmSendByPhone) {
       _confirmSendByPhoneCommand(parameters);
     } else if (command == _inviteFriend) {
-      _inviteFriendCommand();
+      _inviteFriendCommand(source);
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
+    } else if (command == _earnLanding) {
+      _earnLandingCommand(source);
+    } else if (command == _kycVerification) {
+      _kycVerificationCommand();
+    } else if (command == _tradingStart) {
+      _tradingStartCommand(source);
     } else if (command == _depositStart) {
       _depositStartCommand(source);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  Future<void> _depositStartCommand(SourceScreen? source) async {
+    final context = read(sNavigatorKeyPod).currentContext!;
+    final openBottomMenu = read(openBottomMenuSpod);
+
+    if (source == SourceScreen.bannerOnMarket) {
+      navigatorPush(context, const Rewards());
+    } else if (source == SourceScreen.bannerOnRewards) {
+      openBottomMenu.state = true;
+      Navigator.pop(context);
+    }
+  }
+
+  void _tradingStartCommand(SourceScreen? source) {
+    final context = read(sNavigatorKeyPod).currentContext!;
+
+    if (source == SourceScreen.bannerOnMarket) {
+      navigatorPush(context, const Rewards());
+    } else if (source == SourceScreen.bannerOnRewards) {
+      final ctx = read(sNavigatorKeyPod).currentContext!;
+      final navigation = read(navigationStpod);
+      navigation.state = 0;
+      Navigator.pop(ctx);
+    }
+  }
+
+  void _kycVerificationCommand() {
+    final kycState = read(kycNotipod);
+    final context = read(sNavigatorKeyPod).currentContext!;
+    final kycAlertHandler = read(
+      kycAlertHandlerPod(context),
+    );
+
+    kycAlertHandler.handle(
+      status: kycState.depositStatus,
+      kycVerified: kycState,
+      isProgress: kycState.verificationInProgress,
+      currentNavigate: () => showDepositAction(context),
+    );
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
@@ -95,24 +152,42 @@ class DeepLinkService {
   }
 
   void _forgotPasswordCommand(Map<String, String> parameters) {
-    ResetPassword.push(
-      context: read(sNavigatorKeyPod).currentContext!,
-      args: ResetPasswordArgs(token: parameters[_token]!),
-    );
+    final notifier = read(confirmPasswordResetNotipod(email).notifier);
+
+    notifier.updateCode(parameters[_code]);
   }
 
   void _confirmWithdrawCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
-    read(withdrawDynamicLinkStpod(id)).state = true;
+    final code = parameters[_code]!;
+    final notifier = read(withdrawalConfirmNotipod(withdrawalModel).notifier);
+
+    notifier.updateCode(code, id);
   }
 
   void _confirmSendByPhoneCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
-    read(sendByPhoneDynamicLinkStpod(id)).state = true;
+    final code = parameters[_code]!;
+    final notifier = read(sendByPhoneConfirmNotipod(currencyModel).notifier);
+
+    notifier.updateCode(code, id);
   }
 
-  void _inviteFriendCommand() {
+  void _inviteFriendCommand(SourceScreen? source) {
     final userInfo = read(userInfoNotipod);
+
+    sAnalytics.clickMarketBanner(
+      MarketBannerSource.inviteFriend.name,
+      MarketBannerAction.open,
+    );
+
+    if (source == SourceScreen.bannerOnMarket) {
+      sAnalytics.inviteFriendView(Source.marketBanner);
+    } else if (source == SourceScreen.bannerOnRewards) {
+      sAnalytics.inviteFriendView(Source.rewards);
+    } else if (source == SourceScreen.accountScreen) {
+      sAnalytics.inviteFriendView(Source.accountScreen);
+    }
 
     sShowBasicModalBottomSheet(
       context: read(sNavigatorKeyPod).currentContext!,
@@ -129,7 +204,7 @@ class DeepLinkService {
       ),
       children: [
         SReferralInviteBody(
-          primaryText: 'Invite friends and get \$15',
+          primaryText: 'Invite friends and get \$10',
           qrCodeLink: userInfo.referralLink,
           referralLink: userInfo.referralLink,
         ),
@@ -144,14 +219,19 @@ class DeepLinkService {
     storage.setString(referralCodeKey, referralCode);
   }
 
-  void _depositStartCommand(SourceScreen? source) {
+  void _earnLandingCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
+
+    sAnalytics.clickMarketBanner(
+      MarketBannerSource.earn.name,
+      MarketBannerAction.open,
+    );
 
     showStartEarnBottomSheet(
       context: context,
       onTap: (CurrencyModel currency) {
         Navigator.pop(context);
-
+        sAnalytics.earnDetailsView(currency.description);
         showStartEarnOptions(
           currency: currency,
           read: read,

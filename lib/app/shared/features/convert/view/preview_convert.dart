@@ -90,6 +90,8 @@ class _PreviewConvertState extends State<PreviewConvert>
                   const Spacer(),
                   SActionConfirmText(
                     name: 'You Pay',
+                    contentLoading: state.union is QuoteLoading &&
+                        widget.input.toAssetEnabled,
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
@@ -100,7 +102,8 @@ class _PreviewConvertState extends State<PreviewConvert>
                   SActionConfirmText(
                     name: 'You get',
                     baseline: 35.0,
-                    contentLoading: state.union is QuoteLoading,
+                    contentLoading: state.union is QuoteLoading &&
+                        !widget.input.toAssetEnabled,
                     value: '≈ ${volumeFormat(
                       prefix: to.prefixSymbol,
                       accuracy: to.accuracy,

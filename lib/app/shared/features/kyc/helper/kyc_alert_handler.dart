@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
+import '../../../../screens/account/components/crisp.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
 import '../model/kyc_verified_model.dart';
@@ -79,9 +80,7 @@ class KycAlertHandler {
       context: context,
       imageAsset: verifyingNowAsset,
       primaryText: 'We’re verifying now',
-      secondaryText: 'You’ll be notified after we’ve\n'
-          'completed the process. Usually within\n'
-          'a few minutes.',
+      secondaryText: 'You’ll be notified when we complete the process',
       primaryButtonName: 'Done',
       onPrimaryButtonTap: () {
         Navigator.pop(context);
@@ -127,6 +126,7 @@ class KycAlertHandler {
       primaryButtonName: 'Support',
       onPrimaryButtonTap: () {
         Navigator.pop(context);
+        Crisp.push(context);
       },
     );
   }

@@ -6,6 +6,7 @@ import '../colors/view/simple_colors_light.dart';
 class SBigHeader extends StatelessWidget {
   const SBigHeader({
     Key? key,
+    this.customIconButton,
     this.onLinkTap,
     this.onSearchButtonTap,
     this.onBackButtonTap,
@@ -17,6 +18,7 @@ class SBigHeader extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
+  final Widget? customIconButton;
   final Function()? onLinkTap;
   final Function()? onSearchButtonTap;
   final Function()? onSupportButtonTap;
@@ -37,11 +39,14 @@ class SBigHeader extends StatelessWidget {
           const SpaceH64(),
           Row(
             children: [
-              SIconButton(
-                onTap: onBackButtonTap ?? () => Navigator.pop(context),
-                defaultIcon: const SBackIcon(),
-                pressedIcon: const SBackPressedIcon(),
-              ),
+              if (customIconButton != null)
+                customIconButton!
+              else
+                SIconButton(
+                  onTap: onBackButtonTap ?? () => Navigator.pop(context),
+                  defaultIcon: const SBackIcon(),
+                  pressedIcon: const SBackPressedIcon(),
+                ),
               const Spacer(),
               if (showSearchButton)
                 SIconButton(
@@ -60,15 +65,16 @@ class SBigHeader extends StatelessWidget {
             textBaseline: TextBaseline.alphabetic,
             crossAxisAlignment: CrossAxisAlignment.baseline,
             children: [
-              Baseline(
-                baseline: 56.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  title,
-                  style: sTextH2Style,
+              Expanded(
+                child: Baseline(
+                  baseline: 56.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    title,
+                    style: sTextH2Style,
+                  ),
                 ),
               ),
-              const Spacer(),
               if (showLink)
                 Baseline(
                   baseline: 56.0,

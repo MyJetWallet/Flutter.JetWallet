@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
@@ -153,6 +154,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.depositStatus,
                                   kycVerified: kycState,
@@ -179,6 +185,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -205,6 +216,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -229,6 +245,11 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    ScreenSource.quickActions,
+                                  );
+
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
@@ -244,6 +265,9 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
+                                  sAnalytics.depositCryptoView(
+                                    widget.currency.description,
+                                  );
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
@@ -252,18 +276,28 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    ScreenSource.quickActions,
+                                  );
+
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
                                     isProgress: kycState.verificationInProgress,
-                                    currentNavigate: () =>
-                                        navigatorPushReplacement(
-                                      context,
-                                      CryptoDeposit(
-                                        header: 'Deposit',
-                                        currency: widget.currency,
-                                      ),
-                                    ),
+                                    currentNavigate: () {
+                                      sAnalytics.depositCryptoView(
+                                        widget.currency.description,
+                                      );
+
+                                      navigatorPushReplacement(
+                                        context,
+                                        CryptoDeposit(
+                                          header: 'Deposit',
+                                          currency: widget.currency,
+                                        ),
+                                      );
+                                    },
                                   );
                                 }
                               }
@@ -278,6 +312,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -299,6 +338,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -323,6 +367,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -387,6 +436,10 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.buySellView(
+                                  ScreenSource.assetScreen,
+                                  widget.currency.description,
+                                );
                                 navigatorPushReplacement(
                                   context,
                                   CurrencyBuy(
@@ -394,18 +447,29 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () =>
-                                      navigatorPushReplacement(
-                                    context,
-                                    CurrencyBuy(
-                                      currency: widget.currency,
-                                    ),
-                                  ),
+                                  currentNavigate: () {
+                                    sAnalytics.buySellView(
+                                      ScreenSource.assetScreen,
+                                      widget.currency.description,
+                                    );
+
+                                    navigatorPushReplacement(
+                                      context,
+                                      CurrencyBuy(
+                                        currency: widget.currency,
+                                      ),
+                                    );
+                                  },
                                 );
                               }
                             },
@@ -414,6 +478,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.buySellView(
+                                  ScreenSource.assetScreen,
+                                  widget.currency.description,
+                                );
+
                                 navigatorPushReplacement(
                                   context,
                                   CurrencySell(
@@ -421,18 +490,29 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () =>
-                                      navigatorPushReplacement(
-                                    context,
-                                    CurrencySell(
-                                      currency: widget.currency,
-                                    ),
-                                  ),
+                                  currentNavigate: () {
+                                    sAnalytics.buySellView(
+                                      ScreenSource.assetScreen,
+                                      widget.currency.description,
+                                    );
+
+                                    navigatorPushReplacement(
+                                      context,
+                                      CurrencySell(
+                                        currency: widget.currency,
+                                      ),
+                                    );
+                                  },
                                 );
                               }
                             },
@@ -448,6 +528,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -469,19 +554,34 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
+                                  sAnalytics.depositCryptoView(
+                                    widget.currency.description,
+                                  );
+
                                   showDepositOptions(
                                     context,
                                     widget.currency,
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    ScreenSource.quickActions,
+                                  );
+
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
                                     isProgress: kycState.verificationInProgress,
-                                    currentNavigate: () => showDepositOptions(
-                                      context,
-                                      widget.currency,
-                                    ),
+                                    currentNavigate: () {
+                                      sAnalytics.depositCryptoView(
+                                        widget.currency.description,
+                                      );
+
+                                      showDepositOptions(
+                                        context,
+                                        widget.currency,
+                                      );
+                                    },
                                   );
                                 }
                               } else {
@@ -489,6 +589,10 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
+                                  sAnalytics.depositCryptoView(
+                                    widget.currency.description,
+                                  );
+
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
@@ -497,19 +601,28 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
+                                  defineKycVerificationsScope(
+                                    kycState.requiredVerifications.length,
+                                    ScreenSource.quickActions,
+                                  );
+
                                   Navigator.of(context).pop();
                                   kycAlertHandler.handle(
                                     status: kycState.sellStatus,
                                     kycVerified: kycState,
                                     isProgress: kycState.verificationInProgress,
-                                    currentNavigate: () =>
-                                        navigatorPushReplacement(
-                                      context,
-                                      CryptoDeposit(
-                                        header: 'Deposit',
-                                        currency: widget.currency,
-                                      ),
-                                    ),
+                                    currentNavigate: () {
+                                      sAnalytics.depositCryptoView(
+                                        widget.currency.description,
+                                      );
+                                      navigatorPushReplacement(
+                                        context,
+                                        CryptoDeposit(
+                                          header: 'Deposit',
+                                          currency: widget.currency,
+                                        ),
+                                      );
+                                    },
                                   );
                                 }
                               }
@@ -524,6 +637,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -545,6 +663,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -569,6 +692,11 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
+                                defineKycVerificationsScope(
+                                  kycState.requiredVerifications.length,
+                                  ScreenSource.quickActions,
+                                );
+
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
@@ -597,7 +725,7 @@ class _ActionButtonState extends State<ActionButton> {
                         updateActionState();
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

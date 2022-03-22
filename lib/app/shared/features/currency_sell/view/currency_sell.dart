@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,6 +38,17 @@ class CurrencySell extends HookWidget {
       ),
     );
 
+    final assetWithBalance = <CurrencyModel>[];
+    final assetWithOutBalance = <CurrencyModel>[];
+
+    for (final currency in state.currencies) {
+      if (currency.baseBalance != Decimal.zero) {
+        assetWithBalance.add(currency);
+      } else {
+        assetWithOutBalance.add(currency);
+      }
+    }
+
     void _showAssetSelector() {
       sShowBasicModalBottomSheet(
         scrollable: true,
@@ -44,38 +56,49 @@ class CurrencySell extends HookWidget {
           name: 'For',
         ),
         children: [
-          for (final currency in state.currencies)
-            if (currency.type == AssetType.crypto)
-              SAssetItem(
-                isSelected: currency == state.selectedCurrency,
-                icon: SNetworkSvg24(
-                  color: currency == state.selectedCurrency
-                      ? colors.blue
-                      : colors.black,
-                  url: currency.iconUrl,
-                ),
-                name: currency.description,
-                amount: currency.volumeBaseBalance(
-                  state.baseCurrency!,
-                ),
-                description: currency.volumeAssetBalance,
-                onTap: () => Navigator.pop(context, currency),
-              )
-            else
-              SFiatItem(
-                isSelected: currency == state.selectedCurrency,
-                icon: SNetworkSvg24(
-                  color: currency == state.selectedCurrency
-                      ? colors.blue
-                      : colors.black,
-                  url: currency.iconUrl,
-                ),
-                name: currency.description,
-                amount: currency.volumeBaseBalance(
-                  state.baseCurrency!,
-                ),
-                onTap: () => Navigator.pop(context, currency),
+          for (final currency in assetWithBalance)
+            SAssetItem(
+              isSelected: currency == state.selectedCurrency,
+              icon: (currency.type == AssetType.indices)
+                  ? SNetworkSvg24(
+                      url: currency.iconUrl,
+                    )
+                  : SNetworkSvg24(
+                      color: currency == state.selectedCurrency
+                          ? colors.blue
+                          : colors.black,
+                      url: currency.iconUrl,
+                    ),
+              name: currency.description,
+              amount: currency.volumeBaseBalance(
+                state.baseCurrency!,
               ),
+              description: currency.volumeAssetBalance,
+              onTap: () => Navigator.pop(context, currency),
+              divider: currency != assetWithBalance.last,
+            ),
+          for (final currency in assetWithOutBalance)
+            SAssetItem(
+              isSelected: currency == state.selectedCurrency,
+              icon: (currency.type == AssetType.indices)
+                  ? SNetworkSvg24(
+                      url: currency.iconUrl,
+                    )
+                  : SNetworkSvg24(
+                      color: currency == state.selectedCurrency
+                          ? colors.blue
+                          : colors.black,
+                      url: currency.iconUrl,
+                    ),
+              name: currency.description,
+              amount: currency.volumeBaseBalance(
+                state.baseCurrency!,
+              ),
+              description: currency.volumeAssetBalance,
+              onTap: () => Navigator.pop(context, currency),
+              divider: currency != assetWithOutBalance.last,
+              removeDivider: currency == assetWithOutBalance.last,
+            ),
           const SpaceH40(),
         ],
         context: context,
