@@ -39,8 +39,8 @@ class _ActionWithdraw extends HookWidget {
 
       currencies.removeWhere(
         (element) =>
-            !(element.description.toLowerCase()).contains(search) &&
-            !(element.symbol.toLowerCase()).contains(search),
+            !(element.description.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search),
       );
     }
 
