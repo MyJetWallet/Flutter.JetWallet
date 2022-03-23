@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.2.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
@@ -82,7 +82,7 @@ dependencies:
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
   fast_rsa: ^3.2.0 # RSA signing
-  openpgp: ^3.2.6 # use OpenPGP
+  openpgp: 3.2.6 # use OpenPGP
   uuid: ^3.0.6 # UUID Generator and Parser 
 
   # OWN LIBS:

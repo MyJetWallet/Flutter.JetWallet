@@ -111,7 +111,7 @@ extension InputErrorValue on InputError {
     if (this == InputError.notEnoughFunds) {
       return 'Not enough funds';
     } else if (this == InputError.enterHigherAmount) {
-      return 'Enter a higher amount';
+      return 'Enter more than 0.00051 btc';
     } else {
       return 'None';
     }
