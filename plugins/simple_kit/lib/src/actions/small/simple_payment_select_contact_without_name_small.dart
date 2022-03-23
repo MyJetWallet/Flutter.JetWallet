@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../simple_kit.dart';
-import '../colors/view/simple_colors_light.dart';
+import '../../../simple_kit.dart';
+import '../../colors/view/simple_colors_light.dart';
 
-class SPaymentSelectContactWithoutName extends StatelessWidget {
-  const SPaymentSelectContactWithoutName({
+class SPaymentSelectContactWithoutNameSmall extends StatelessWidget {
+  const SPaymentSelectContactWithoutNameSmall({
     Key? key,
     required this.phone,
   }) : super(key: key);
@@ -15,7 +15,7 @@ class SPaymentSelectContactWithoutName extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPaddingH24(
       child: Container(
-        height: 88.0,
+        height: 64.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
           border: Border.all(
@@ -24,7 +24,7 @@ class SPaymentSelectContactWithoutName extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const SpaceH31(), // + 1px border
+            const SpaceH19(), // + 1px border
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

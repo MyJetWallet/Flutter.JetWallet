@@ -18,7 +18,7 @@ class SimplePaymentSelectContactWithoutNameExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                const SPaymentSelectContactWithoutName(
+                const SPaymentSelectContactWithoutNameMedium(
                   phone: '+3803919219221',
                 ),
                 Row(
@@ -69,7 +69,7 @@ class SimplePaymentSelectContactWithoutNameExample extends StatelessWidget {
               ],
             ),
             const SpaceH20(),
-            const SPaymentSelectContactWithoutName(
+            const SPaymentSelectContactWithoutNameMedium(
               phone: '+3803919219221',
             ),
           ],
