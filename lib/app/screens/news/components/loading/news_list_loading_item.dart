@@ -18,7 +18,7 @@ class NewsListLoadingItem extends HookWidget {
       opacity: opacity,
       child: SPaddingH24(
         child: SizedBox(
-          height: 80,
+          height: 90,
           child: Column(
             children: [
               const SpaceH18(),

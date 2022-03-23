@@ -22,6 +22,7 @@ class News extends HookWidget {
         slivers: [
           NewsList(
             scrollController: scrollController,
+            errorBoxPaddingMultiplier: 0.313,
           ),
         ],
       ),
