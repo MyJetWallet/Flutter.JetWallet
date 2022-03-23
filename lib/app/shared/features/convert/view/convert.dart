@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../helpers/currencies_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
@@ -50,6 +51,8 @@ class Convert extends HookWidget {
           fromAssetListWithEmptyBalance.add(element);
         }
       }
+
+      sortCurrenciesByWeight(fromAssetListWithEmptyBalance);
     }
 
     if (state.toAssetList.isNotEmpty) {
@@ -60,6 +63,8 @@ class Convert extends HookWidget {
           toAssetListWithEmptyBalance.add(element);
         }
       }
+
+      sortCurrenciesByWeight(toAssetListWithEmptyBalance);
     }
 
     return SPageFrame(

@@ -13,6 +13,14 @@ void sortCurrencies(List<CurrencyModel> currencies) {
   });
 }
 
+void sortCurrenciesByWeight(List<CurrencyModel> currencies) {
+  currencies.sort((a, b) {
+    final compare = b.weight.compareTo(a.weight);
+    if (compare != 0) return compare;
+    return b.weight.compareTo(a.weight);
+  });
+}
+
 /// Used for [BUY] feature \
 /// Always provide newList to avoid unexpected behaviour
 void removeEmptyCurrenciesFrom(List<CurrencyModel> currencies) {
