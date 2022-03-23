@@ -150,18 +150,18 @@ class CurrencySellSmall extends HookWidget {
               name: 'Choose destination',
               onTap: () => _showAssetSelector(),
             )
-          // else if (state.selectedCurrency!.type == AssetType.crypto)
-          //   SSmallPaymentSelectAsset(
-          //     icon: SNetworkSvg24(
-          //       url: state.selectedCurrency!.iconUrl,
-          //     ),
-          //     name: state.selectedCurrency!.description,
-          //     amount: state.selectedCurrency!.volumeBaseBalance(
-          //       state.baseCurrency!,
-          //     ),
-          //     description: state.selectedCurrency!.volumeAssetBalance,
-          //     onTap: () => _showAssetSelector(),
-          //   )
+          else if (state.selectedCurrency!.type == AssetType.crypto)
+            SSmallPaymentSelectAsset(
+              icon: SNetworkSvg24(
+                url: state.selectedCurrency!.iconUrl,
+              ),
+              name: state.selectedCurrency!.description,
+              amount: state.selectedCurrency!.volumeBaseBalance(
+                state.baseCurrency!,
+              ),
+              description: state.selectedCurrency!.volumeAssetBalance,
+              onTap: () => _showAssetSelector(),
+            )
           else
             SSmallPaymentSelectFiat(
               icon: SNetworkSvg24(
