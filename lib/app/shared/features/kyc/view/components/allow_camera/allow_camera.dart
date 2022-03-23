@@ -69,7 +69,9 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
     final colors = useProvider(sColorPod);
     final state = useProvider(cameraPermissionNotipod);
     final notifier = useProvider(cameraPermissionNotipod.notifier);
+
     final deviceSize = useProvider(deviceSizePod);
+    final size = MediaQuery.of(context).size;
 
     analytics(() => sAnalytics.kycAllowCameraView());
 
@@ -77,17 +79,13 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
       header: deviceSize.when(
         small: () {
           return SSmallHeader(
-            title: state.permissionDenied
-                ? 'Give permission to\nallow to use camera'
-                : 'Allow camera access',
+            title: _headerTitle(state.permissionDenied),
           );
         },
         medium: () {
           return SMegaHeader(
             titleAlign: TextAlign.left,
-            title: state.permissionDenied
-                ? 'Give permission to\nallow to use camera'
-                : 'Allow camera access',
+            title: _headerTitle(state.permissionDenied),
           );
         },
       ),
@@ -116,7 +114,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                 const Spacer(),
                 Image.asset(
                   allowCameraAsset,
-                  height: MediaQuery.of(context).size.width * 0.6,
+                  height: size.width * 0.6,
                 ),
                 const Spacer(),
                 if (!state.permissionDenied)
@@ -153,5 +151,11 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
         ],
       ),
     );
+  }
+
+  String _headerTitle(bool status) {
+    return status
+        ? 'Give permission to\nallow to use camera'
+        : 'Allow camera access';
   }
 }
