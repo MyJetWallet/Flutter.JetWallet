@@ -127,7 +127,8 @@ class ChooseDocuments extends HookWidget {
                   notifier.getActiveDocument().document.name,
                 );
 
-                final status = await Permission.camera.status;
+                final status = await Permission.camera.request();
+
                 if (status == PermissionStatus.granted) {
                   UploadKycDocuments.push(
                     context: context,

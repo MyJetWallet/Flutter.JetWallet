@@ -2,40 +2,41 @@ import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_model.dart';
-import '../../../../../../shared/constants.dart';
-import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
-import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
-import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
-import '../../../../../shared/features/chart/notifier/chart_state.dart';
-import '../../../../../shared/features/chart/notifier/chart_union.dart';
-import '../../../../../shared/features/chart/view/balance_chart.dart';
-import '../../../../../shared/features/market_details/helper/period_change.dart';
-import '../../../../../shared/features/market_details/view/market_details.dart';
-import '../../../../../shared/features/transaction_history/view/transaction_hisotry.dart';
-import '../../../../../shared/features/wallet/helper/market_item_from.dart';
-import '../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
-import '../../../../../shared/helpers/formatting/formatting.dart';
-import '../../../../../shared/models/currency_model.dart';
-import '../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
-import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
-import '../../../../../shared/providers/client_detail_pod/client_detail_pod.dart';
-import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
-import '../../../../market/provider/market_crypto_pod.dart';
-import '../../../../market/provider/market_currencies_indices_pod.dart';
-import '../../../../market/provider/market_fiats_pod.dart';
-import '../../../../market/provider/market_items_pod.dart';
-import '../../../helper/currencies_without_balance_from.dart';
-import '../../../helper/zero_balance_wallets_empty.dart';
-import '../../../provider/show_zero_balance_wallets_stpod.dart';
-import 'components/balance_in_process.dart';
-import 'components/padding_l_24.dart';
-import 'components/portfolio_divider.dart';
+import '../../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../../../shared/constants.dart';
+import '../../../../../../../shared/helpers/currencies_with_balance_from.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
+import '../../../../../../shared/features/chart/notifier/chart_notipod.dart';
+import '../../../../../../shared/features/chart/notifier/chart_state.dart';
+import '../../../../../../shared/features/chart/notifier/chart_union.dart';
+import '../../../../../../shared/features/chart/view/balance_chart.dart';
+import '../../../../../../shared/features/market_details/helper/period_change.dart';
+import '../../../../../../shared/features/market_details/view/market_details.dart';
+import '../../../../../../shared/features/transaction_history/view/transaction_hisotry.dart';
+import '../../../../../../shared/features/wallet/helper/market_item_from.dart';
+import '../../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
+import '../../../../../../shared/helpers/formatting/base/market_format.dart';
+import '../../../../../../shared/helpers/formatting/base/volume_format.dart';
+import '../../../../../../shared/models/currency_model.dart';
+import '../../../../../../shared/providers/base_currency_pod/base_currency_model.dart';
+import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../../shared/providers/client_detail_pod/client_detail_pod.dart';
+import '../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../../../../market/provider/market_crypto_pod.dart';
+import '../../../../../market/provider/market_currencies_indices_pod.dart';
+import '../../../../../market/provider/market_fiats_pod.dart';
+import '../../../../../market/provider/market_items_pod.dart';
+import '../../../../helper/currencies_without_balance_from.dart';
+import '../../../../helper/zero_balance_wallets_empty.dart';
+import '../../../../provider/show_zero_balance_wallets_stpod.dart';
+import 'balance_in_process.dart';
+import 'padding_l_24.dart';
+import 'portfolio_divider.dart';
 
 // TODO: refactor
 class PortfolioWithBalanceBody extends HookWidget {
@@ -144,7 +145,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             const SpaceW10(),
                             if (!isCurrentCandlesEmptyOrNull)
-
                               Text(
                                 _chartResolution(chart.resolution),
                                 style: sBodyText2Style.copyWith(
