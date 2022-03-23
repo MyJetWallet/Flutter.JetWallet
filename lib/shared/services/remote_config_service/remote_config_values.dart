@@ -29,3 +29,6 @@ late String crispWebsiteId;
 
 // Analytics
 late String analyticsApiKey;
+
+// Simplex
+late String simplexOrigin;

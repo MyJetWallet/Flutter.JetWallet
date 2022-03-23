@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.1.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
@@ -36,6 +36,7 @@ dependencies:
   decimal: ^2.1.0 # deal with decimal numbers without losing precision
   store_redirect: ^2.0.1 # Redirect to AppStore or GooglePlay
   crisp: ^0.3.1 # Library for support chart and knowledge base
+  flutter_webview_pro: ^1.0.3 # provides a WebView widget on Android and iOS
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
