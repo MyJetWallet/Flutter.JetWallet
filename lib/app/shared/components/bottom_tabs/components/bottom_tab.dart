@@ -15,8 +15,16 @@ class BottomTab extends StatelessWidget {
         right: 10,
       ),
       padding: const EdgeInsets.symmetric(
-        vertical: 6,
+        vertical: 4,
         horizontal: 16,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(24),
+        ),
+        border: Border.all(
+          width: 1,
+        ),
       ),
       child: Text(text),
     );
