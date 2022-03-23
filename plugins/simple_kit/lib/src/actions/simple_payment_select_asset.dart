@@ -62,7 +62,9 @@ class SPaymentSelectAsset extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   name,
-                                  overflow: needOverflowVisible ? TextOverflow.visible : TextOverflow.ellipsis,
+                                  overflow: needOverflowVisible
+                                      ? TextOverflow.visible
+                                      : TextOverflow.ellipsis,
                                   style: sSubtitle2Style,
                                 ),
                               ),
