@@ -104,10 +104,13 @@ class SwapInfo with _$SwapInfo {
     required bool isSell,
     required String sellAssetId,
     required String buyAssetId,
+    required String feeAsset,
     @DecimalSerialiser() required Decimal sellAmount,
     @DecimalSerialiser() required Decimal buyAmount,
     @DecimalSerialiser() required Decimal baseRate,
     @DecimalSerialiser() required Decimal quoteRate,
+    @DecimalSerialiser() required Decimal feeAmount,
+    @DecimalSerialiser() required Decimal feePerc,
   }) = _SwapInfo;
 
   factory SwapInfo.fromJson(Map<String, dynamic> json) =>
