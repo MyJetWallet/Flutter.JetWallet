@@ -73,6 +73,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
               ),
             ],
             NumericKeyboardFrame(
+              isSmall: isSmall,
               height: isSmall ? 242.0 : 274.0,
               paddingTop: isSmall ? 5.0 : 10.0,
               paddingBottom: isSmall ? 6.0 : 10.0,
