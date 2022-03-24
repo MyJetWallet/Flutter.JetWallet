@@ -66,7 +66,7 @@ class WithdrawalAmountSmall extends HookWidget {
             ),
           ),
           Baseline(
-            baseline: -16.0,
+            baseline: -6.0,
             baselineType: TextBaseline.alphabetic,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
