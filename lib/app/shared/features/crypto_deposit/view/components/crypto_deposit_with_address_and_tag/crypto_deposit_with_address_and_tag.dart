@@ -10,13 +10,17 @@ import '../../../notifier/crypto_deposit_notipod.dart';
 import '../../../notifier/crypto_deposit_union.dart';
 import 'components/expansion_panel_without_icon.dart';
 
+const _copyMessageFullyVisiblePosition = 113.0;
+
 class CryptoDepositWithAddressAndTag extends HookWidget {
   const CryptoDepositWithAddressAndTag({
     Key? key,
     required this.currency,
+    required this.scrollController,
   }) : super(key: key);
 
   final CurrencyModel currency;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,16 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
                   : const SAngleDownIcon(),
               onTap: () {
                 depositN.switchAddress();
+              },
+              then: () {
+                if (scrollController.offset >
+                    _copyMessageFullyVisiblePosition) {
+                  scrollController.animateTo(
+                    _copyMessageFullyVisiblePosition,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeIn,
+                  );
+                }
               },
             );
           },

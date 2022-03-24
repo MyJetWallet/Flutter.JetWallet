@@ -39,6 +39,16 @@ class CommonTransactionDetailsBlock extends HookWidget {
           '${operationAmount(transactionListItem)} ${currency.symbol}',
           style: sTextH1Style,
         ),
+        if (transactionListItem.status == Status.completed)
+          Text(
+            convertToUsd(
+              transactionListItem.assetPriceInUsd,
+              operationAmount(transactionListItem),
+            ),
+            style: sBodyText2Style.copyWith(
+              color: colors.grey2,
+            ),
+          ),
         Text(
           DateFormat('EEEE, MMMM d, y').format(
             DateTime.parse('${transactionListItem.timeStamp}Z').toLocal(),
@@ -53,6 +63,15 @@ class CommonTransactionDetailsBlock extends HookWidget {
           const SpaceH72(),
       ],
     );
+  }
+
+  String convertToUsd(Decimal assetPriceInUsd, Decimal balance) {
+    final usd = assetPriceInUsd * balance;
+    if (usd < Decimal.zero) {
+      final plusValue = usd.toString().split('-').last;
+      return '≈ \$${Decimal.parse(plusValue).toStringAsFixed(2)}';
+    }
+    return '≈ \$${usd.toStringAsFixed(2)}';
   }
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
