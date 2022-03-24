@@ -31,6 +31,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     required String timeStamp,
     @DecimalSerialiser() required Decimal balanceChange,
     @DecimalSerialiser() required Decimal newBalance,
+    @DecimalSerialiser() required Decimal assetPriceInUsd,
     required Status status,
   }) = _OperationHistoryItem;
 
