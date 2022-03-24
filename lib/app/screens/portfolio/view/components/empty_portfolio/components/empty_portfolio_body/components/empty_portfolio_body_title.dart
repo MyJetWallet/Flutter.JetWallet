@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
-import '../../../../helper/max_currency_apy.dart';
+import '../../../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../../../../../helper/max_currency_apy.dart';
 
 class EmptyPortfolioBodyTitle extends HookWidget {
   const EmptyPortfolioBodyTitle({Key? key}) : super(key: key);
