@@ -9,7 +9,6 @@ import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/short_address_form.dart';
-import '../../helper/minimum_amount.dart';
 import '../../helper/user_will_receive.dart';
 import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_amount_notifier/withdrawal_amount_notipod.dart';
@@ -52,7 +51,7 @@ class WithdrawalAmount extends HookWidget {
               symbol: state.baseCurrency!.symbol,
             )}',
             error: state.inputError == InputError.enterHigherAmount
-                ? '${state.inputError.value}. ${minimumAmount(currency)}'
+                ? '${state.inputError.value}.'
                 : state.inputError.value,
             isErrorActive: state.inputError.isActive,
           ),

@@ -5,11 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/show_start_earn_options.dart';
-import '../../../../../shared/helpers/formatting/base/volume_format.dart';
-import '../../../../../shared/models/currency_model.dart';
-import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
-import 'components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../../../../../../shared/components/show_start_earn_options.dart';
+import '../../../../../../../shared/helpers/formatting/formatting.dart';
+import '../../../../../../../shared/models/currency_model.dart';
+import '../../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
+import '../earn_bottom_sheet/earn_bottom_sheet.dart';
 import 'components/empty_portfolio_body_image.dart';
 import 'components/empty_portfolio_body_title.dart';
 

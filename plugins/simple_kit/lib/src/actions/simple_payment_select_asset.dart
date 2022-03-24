@@ -64,14 +64,15 @@ class SPaymentSelectAsset extends StatelessWidget {
                                 ),
                               ),
                               const SpaceW16(),
-                              SizedBox(
-                                width: isCreditCard ? 90.0 : 110.0,
-                                child: Text(
-                                  amount,
-                                  textAlign: TextAlign.end,
-                                  style: sSubtitle2Style,
+                              if (amount.isNotEmpty)
+                                SizedBox(
+                                  width: isCreditCard ? 90.0 : 110.0,
+                                  child: Text(
+                                    amount,
+                                    textAlign: TextAlign.end,
+                                    style: sSubtitle2Style,
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),

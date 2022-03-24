@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../wallet/view/components/wallet_body/components/transactions_list/transactions_list.dart';
 
 class TransactionHistory extends HookWidget {
@@ -36,6 +37,7 @@ class TransactionHistory extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final deviceSize = useProvider(deviceSizePod);
 
     return Material(
       color: colors.white,
@@ -44,6 +46,14 @@ class TransactionHistory extends HookWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
+            toolbarHeight: deviceSize.when(
+              small: () {
+                return 80;
+              },
+              medium: () {
+                return 60;
+              },
+            ),
             pinned: true,
             backgroundColor: colors.white,
             automaticallyImplyLeading: false,

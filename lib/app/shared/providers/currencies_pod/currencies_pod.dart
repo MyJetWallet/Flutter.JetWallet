@@ -1,11 +1,13 @@
 import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/icon_url_from.dart';
 import '../../models/currency_model.dart';
 import '../base_currency_pod/base_currency_pod.dart';
+import '../signal_r/asset_payment_methods_spod.dart';
 import '../signal_r/assets_spod.dart';
 import '../signal_r/balances_spod.dart';
 import '../signal_r/base_prices_spod.dart';
@@ -16,6 +18,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final balances = ref.watch(balancesSpod);
   final baseCurrency = ref.watch(baseCurrencyPod);
   final basePrices = ref.watch(basePricesSpod);
+  final paymentMethods = ref.watch(assetPaymentMethodsSpod);
   final blockchains = ref.watch(blockchainsSpod);
 
   final currencies = <CurrencyModel>[];
@@ -68,8 +71,30 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             currentPrice: Decimal.zero,
             dayPriceChange: Decimal.zero,
             earnProgramEnabled: asset.earnProgramEnabled,
+            depositInProcess: Decimal.zero,
           ),
         );
+      }
+    }
+  });
+
+  paymentMethods.whenData((value) {
+    if (currencies.isNotEmpty) {
+      for (final info in value.assets) {
+        for (final currency in currencies) {
+          if (currency.symbol == info.symbol) {
+            final index = currencies.indexOf(currency);
+            final methods = List<PaymentMethod>.from(info.buyMethods);
+
+            methods.removeWhere((element) {
+              return element.type == PaymentMethodType.unsupported;
+            });
+
+            currencies[index] = currency.copyWith(
+              buyMethods: methods,
+            );
+          }
+        }
       }
     }
   });
@@ -90,6 +115,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
               assetCurrentEarnAmount: balance.currentEarnAmount,
               nextPaymentDate: balance.nextPaymentDate,
               apy: balance.apy,
+              depositInProcess: balance.depositInProcess,
             );
           }
         }
