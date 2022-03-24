@@ -54,7 +54,7 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
               onTap: () {
                 depositN.switchAddress();
               },
-              scrollToFullCopyMessage: () {
+              then: () {
                 if (scrollController.offset >
                     _copyMessageFullyVisiblePosition) {
                   scrollController.animateTo(

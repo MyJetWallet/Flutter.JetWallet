@@ -13,7 +13,7 @@ import 'components/crypto_deposit_with_address_and_tag/crypto_deposit_with_addre
 import 'components/deposit_info.dart';
 import 'components/show_deposit_disclaimer.dart';
 
-class CryptoDeposit extends StatefulHookWidget {
+class CryptoDeposit extends HookWidget {
   const CryptoDeposit({
     Key? key,
     required this.header,
@@ -24,54 +24,42 @@ class CryptoDeposit extends StatefulHookWidget {
   final CurrencyModel currency;
 
   @override
-  _CryptoDepositState createState() => _CryptoDepositState();
-}
-
-class _CryptoDepositState extends State<CryptoDeposit> {
-  late ScrollController _scrollController;
-
-  @override
-  void initState() {
-    _scrollController = ScrollController();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
     final colors = useProvider(sColorPod);
     useProvider(
-      cryptoDepositDisclaimerFpod(widget.currency.symbol).select((_) {}),
+      cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}),
     );
-    final deposit = useProvider(cryptoDepositNotipod(widget.currency));
+    final deposit = useProvider(cryptoDepositNotipod(currency));
     final depositN =
-        useProvider(cryptoDepositNotipod(widget.currency).notifier);
+    useProvider(cryptoDepositNotipod(currency).notifier);
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
-      provider: cryptoDepositDisclaimerFpod(widget.currency.symbol),
+      provider: cryptoDepositDisclaimerFpod(currency.symbol),
       onChange: (context, asyncValue) {
         asyncValue.whenData((value) {
           if (value == CryptoDepositDisclaimer.notAccepted) {
             showDepositDisclaimer(
               context: context,
-              assetSymbol: widget.currency.symbol,
-              screenTitle: widget.header,
-              onDismiss: widget.currency.isSingleNetwork
+              assetSymbol: currency.symbol,
+              screenTitle: header,
+              onDismiss: currency.isSingleNetwork
                   ? null
                   : () => showNetworkBottomSheet(
-                        context,
-                        deposit.network,
-                        widget.currency.depositBlockchains,
-                        widget.currency.iconUrl,
-                        depositN.setNetwork,
-                      ),
+                context,
+                deposit.network,
+                currency.depositBlockchains,
+                currency.iconUrl,
+                depositN.setNetwork,
+              ),
             );
           } else {
-            if (!widget.currency.isSingleNetwork) {
+            if (!currency.isSingleNetwork) {
               showNetworkBottomSheet(
                 context,
                 deposit.network,
-                widget.currency.depositBlockchains,
-                widget.currency.iconUrl,
+                currency.depositBlockchains,
+                currency.iconUrl,
                 depositN.setNetwork,
               );
             }
@@ -81,7 +69,7 @@ class _CryptoDepositState extends State<CryptoDeposit> {
       child: SPageFrame(
         header: SPaddingH24(
           child: SSmallHeader(
-            title: '${widget.header} ${widget.currency.description}',
+            title: '${header} ${currency.description}',
           ),
         ),
         bottomNavigationBar: SizedBox(
@@ -98,8 +86,8 @@ class _CryptoDepositState extends State<CryptoDeposit> {
                   active: true,
                   name: 'Share',
                   onTap: () => Share.share(
-                    'My ${widget.currency.symbol} Address: ${deposit.address} '
-                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
+                    'My ${currency.symbol} Address: ${deposit.address} '
+                        '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
                   ),
                 ),
               ),
@@ -108,7 +96,7 @@ class _CryptoDepositState extends State<CryptoDeposit> {
           ),
         ),
         child: ListView(
-          controller: _scrollController,
+          controller: controller,
           padding: EdgeInsets.zero,
           children: [
             DepositInfo(),
@@ -122,15 +110,15 @@ class _CryptoDepositState extends State<CryptoDeposit> {
               child: InkWell(
                 highlightColor: colors.grey5,
                 splashColor: Colors.transparent,
-                onTap: widget.currency.isSingleNetwork
+                onTap: currency.isSingleNetwork
                     ? null
                     : () => showNetworkBottomSheet(
-                          context,
-                          deposit.network,
-                          widget.currency.depositBlockchains,
-                          widget.currency.iconUrl,
-                          depositN.setNetwork,
-                        ),
+                  context,
+                  deposit.network,
+                  currency.depositBlockchains,
+                  currency.iconUrl,
+                  depositN.setNetwork,
+                ),
                 borderRadius: BorderRadius.circular(16),
                 child: Container(
                   decoration: BoxDecoration(
@@ -175,7 +163,7 @@ class _CryptoDepositState extends State<CryptoDeposit> {
                             style: sSubtitle2Style,
                           ),
                         ),
-                      if (!widget.currency.isSingleNetwork)
+                      if (!currency.isSingleNetwork)
                         const Positioned(
                           right: 0,
                           top: 0,
@@ -190,12 +178,12 @@ class _CryptoDepositState extends State<CryptoDeposit> {
             const SDivider(),
             if (deposit.tag != null)
               CryptoDepositWithAddressAndTag(
-                currency: widget.currency,
-                scrollController: _scrollController,
+                currency: currency,
+                scrollController: controller,
               )
             else
               CryptoDepositWithAddress(
-                currency: widget.currency,
+                currency: currency,
               ),
           ],
         ),
