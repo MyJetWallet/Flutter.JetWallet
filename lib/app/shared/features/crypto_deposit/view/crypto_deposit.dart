@@ -31,8 +31,7 @@ class CryptoDeposit extends HookWidget {
       cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}),
     );
     final deposit = useProvider(cryptoDepositNotipod(currency));
-    final depositN =
-    useProvider(cryptoDepositNotipod(currency).notifier);
+    final depositN = useProvider(cryptoDepositNotipod(currency).notifier);
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
       provider: cryptoDepositDisclaimerFpod(currency.symbol),
@@ -46,12 +45,12 @@ class CryptoDeposit extends HookWidget {
               onDismiss: currency.isSingleNetwork
                   ? null
                   : () => showNetworkBottomSheet(
-                context,
-                deposit.network,
-                currency.depositBlockchains,
-                currency.iconUrl,
-                depositN.setNetwork,
-              ),
+                        context,
+                        deposit.network,
+                        currency.depositBlockchains,
+                        currency.iconUrl,
+                        depositN.setNetwork,
+                      ),
             );
           } else {
             if (!currency.isSingleNetwork) {
@@ -69,7 +68,7 @@ class CryptoDeposit extends HookWidget {
       child: SPageFrame(
         header: SPaddingH24(
           child: SSmallHeader(
-            title: '${header} ${currency.description}',
+            title: '$header ${currency.description}',
           ),
         ),
         bottomNavigationBar: SizedBox(
@@ -87,7 +86,7 @@ class CryptoDeposit extends HookWidget {
                   name: 'Share',
                   onTap: () => Share.share(
                     'My ${currency.symbol} Address: ${deposit.address} '
-                        '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
+                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
                   ),
                 ),
               ),
@@ -113,12 +112,12 @@ class CryptoDeposit extends HookWidget {
                 onTap: currency.isSingleNetwork
                     ? null
                     : () => showNetworkBottomSheet(
-                  context,
-                  deposit.network,
-                  currency.depositBlockchains,
-                  currency.iconUrl,
-                  depositN.setNetwork,
-                ),
+                          context,
+                          deposit.network,
+                          currency.depositBlockchains,
+                          currency.iconUrl,
+                          depositN.setNetwork,
+                        ),
                 borderRadius: BorderRadius.circular(16),
                 child: Container(
                   decoration: BoxDecoration(
