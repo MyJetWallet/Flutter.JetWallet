@@ -26,7 +26,6 @@ class BottomTab extends StatelessWidget {
           Radius.circular(24),
         ),
         border: Border.all(
-          width: 1,
           color: Colors.black26,
         ),
       ),
