@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../helpers/short_address_form.dart';
 import '../../helper/user_will_receive.dart';
 import '../../model/withdrawal_model.dart';
@@ -22,6 +23,7 @@ class WithdrawalPreview extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalPreviewNotipod(withdrawal));
     final notifier = useProvider(withdrawalPreviewNotipod(withdrawal).notifier);
+    final deviceSize = useProvider(deviceSizePod);
     final loader = useValueNotifier(StackLoaderNotifier());
 
     final currency = withdrawal.currency;
@@ -38,8 +40,17 @@ class WithdrawalPreview extends HookWidget {
       },
       child: SPageFrameWithPadding(
         loading: loader.value,
-        header: SMegaHeader(
-          title: 'Confirm $verb ${currency.description}',
+        header: deviceSize.when(
+          small: () {
+            return SSmallHeader(
+              title: 'Confirm $verb ${currency.description}',
+            );
+          },
+          medium: () {
+            return SMegaHeader(
+              title: 'Confirm $verb ${currency.description}',
+            );
+          },
         ),
         child: CustomScrollView(
           slivers: [
