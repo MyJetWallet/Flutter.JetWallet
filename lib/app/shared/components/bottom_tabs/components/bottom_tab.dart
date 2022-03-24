@@ -27,7 +27,7 @@ class BottomTab extends StatelessWidget {
         ),
         border: Border.all(
           width: 1,
-          color: Colors.grey,
+          color: Colors.black26,
         ),
       ),
       child: Text(text),
