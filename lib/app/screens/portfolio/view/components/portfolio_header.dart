@@ -6,16 +6,16 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
-import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
-import '../../../../../shared/features/chart/notifier/chart_union.dart';
-import '../../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
-import '../../../../../shared/features/rewards/model/campaign_or_referral_model.dart';
-import '../../../../../shared/features/rewards/notifier/reward/rewards_notipod.dart';
-import '../../../../../shared/features/rewards/view/rewards.dart';
+import '../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
+import '../../../../shared/features/chart/notifier/chart_notipod.dart';
+import '../../../../shared/features/chart/notifier/chart_union.dart';
+import '../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
+import '../../../../shared/features/rewards/model/campaign_or_referral_model.dart';
+import '../../../../shared/features/rewards/notifier/reward/rewards_notipod.dart';
+import '../../../../shared/features/rewards/view/rewards.dart';
 
-class PortfolioWithBalanceHeader extends HookWidget {
-  const PortfolioWithBalanceHeader({
+class PortfolioHeader extends HookWidget {
+  const PortfolioHeader({
     Key? key,
     this.emptyBalance = false,
   }) : super(key: key);
