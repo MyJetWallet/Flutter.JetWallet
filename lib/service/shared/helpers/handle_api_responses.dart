@@ -1,4 +1,5 @@
 import '../models/server_reject_exception.dart';
+import 'error_codes_description.dart';
 
 /// Handles common response with [result] and [data] from the API
 /// If data is a primitive type then pass [T] as primitive type
@@ -26,6 +27,6 @@ void handleResultResponse(Map<String, dynamic> json) {
 
 void _validateResultResponse(String result) {
   if (result != 'OK') {
-    throw ServerRejectException(result);
+    throw ServerRejectException(errorCodesDescription[result] ?? result);
   }
 }
