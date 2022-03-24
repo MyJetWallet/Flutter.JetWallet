@@ -277,6 +277,7 @@ export 'src/shared/helpers/initials_from.dart';
 
 /// Models
 export 'src/shared/models/simple_button_type.dart';
+export 'src/shared/models/simple_widget_type.dart';
 
 /// Providers
 export 'src/shared/providers/simple_navigator_key_pod.dart';

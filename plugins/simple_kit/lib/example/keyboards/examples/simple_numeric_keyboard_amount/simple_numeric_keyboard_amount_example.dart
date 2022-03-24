@@ -31,7 +31,7 @@ class SimpleNumericKeyboardAmountExample extends HookWidget {
           ),
           const Spacer(),
           SNumericKeyboardAmount(
-            keyboardSize: SKeyboardSize.medium,
+            widgetType: SWidgetType.medium,
             preset1Name: '\$50',
             preset2Name: '\$100',
             preset3Name: '\$500',

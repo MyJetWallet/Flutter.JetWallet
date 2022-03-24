@@ -1,0 +1,4 @@
+enum SWidgetType {
+  small,
+  medium,
+}

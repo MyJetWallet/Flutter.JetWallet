@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'components/simple_medium_action_price_field.dart';
-import 'components/simple_small_action_price_field.dart';
+import '../../simple_kit.dart';
+import '../colors/view/simple_colors_light.dart';
 
 class SActionPriceField extends StatelessWidget {
   const SActionPriceField({
@@ -10,31 +10,50 @@ class SActionPriceField extends StatelessWidget {
     required this.helper,
     required this.error,
     required this.isErrorActive,
-    required this.isSmall,
+    required this.widgetType,
   }) : super(key: key);
 
   final String price;
   final String helper;
   final String error;
   final bool isErrorActive;
-  final bool isSmall;
+  final SWidgetType widgetType;
 
   @override
   Widget build(BuildContext context) {
-    if (isSmall) {
-      return SSmallActionPriceField(
-        price: price,
-        error: error,
-        helper: helper,
-        isErrorActive: isErrorActive,
-      );
-    } else {
-      return SMediumActionPriceField(
-        price: price,
-        error: error,
-        helper: helper,
-        isErrorActive: isErrorActive,
-      );
-    }
+    return SizedBox(
+      height: widgetType == SWidgetType.small ? 116 : 152,
+      child: Column(
+        children: [
+          Baseline(
+            baseline: widgetType == SWidgetType.small ? 32 : 60,
+            baselineType: TextBaseline.alphabetic,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                price,
+                maxLines: 1,
+                style: sTextH1Style.copyWith(
+                  color:
+                      isErrorActive ? SColorsLight().red : SColorsLight().black,
+                ),
+              ),
+            ),
+          ),
+          Baseline(
+            baseline: 13,
+            baselineType: TextBaseline.alphabetic,
+            child: Text(
+              isErrorActive ? error : helper,
+              maxLines: 1,
+              style: sSubtitle3Style.copyWith(
+                color:
+                    isErrorActive ? SColorsLight().red : SColorsLight().black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

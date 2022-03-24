@@ -86,7 +86,7 @@ class Convert extends HookWidget {
           ),
           const Spacer(),
           SNumericKeyboardAmount(
-            keyboardSize: SKeyboardSize.medium,
+            widgetType: SWidgetType.medium,
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',

@@ -13,7 +13,7 @@ class SPaymentSelectAsset extends StatelessWidget {
     required this.icon,
     required this.name,
     required this.description,
-    required this.isSmall,
+    required this.widgetType,
   }) : super(key: key);
 
   final Function()? onTap;
@@ -23,7 +23,7 @@ class SPaymentSelectAsset extends StatelessWidget {
   final Widget icon;
   final String name;
   final String description;
-  final bool isSmall;
+  final SWidgetType widgetType;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class SPaymentSelectAsset extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: isSmall ? 64.0 : 88.0,
+          height: widgetType == SWidgetType.small ? 64.0 : 88.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
@@ -43,8 +43,10 @@ class SPaymentSelectAsset extends StatelessWidget {
           ),
           child: Column(
             children: [
-              if (isSmall) const SpaceH12(), // + 1 px border
-              if (!isSmall) const SpaceH23(),
+              // + 1 px border
+              if (widgetType == SWidgetType.small) const SpaceH12(),
+              // + 1 px border
+              if (widgetType == SWidgetType.medium) const SpaceH23(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -55,7 +57,8 @@ class SPaymentSelectAsset extends StatelessWidget {
                     child: Column(
                       children: [
                         Baseline(
-                          baseline: isSmall ? 17.0 : 18.0,
+                          baseline:
+                              widgetType == SWidgetType.small ? 17.0 : 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

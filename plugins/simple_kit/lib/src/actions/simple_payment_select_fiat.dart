@@ -9,14 +9,14 @@ class SPaymentSelectFiat extends StatelessWidget {
     required this.icon,
     required this.name,
     required this.amount,
-    required this.isSmall,
+    required this.widgetType,
     required this.onTap,
   }) : super(key: key);
 
   final Widget icon;
   final String name;
   final String amount;
-  final bool isSmall;
+  final SWidgetType widgetType;
   final Function() onTap;
 
   @override
@@ -28,7 +28,7 @@ class SPaymentSelectFiat extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: isSmall ? 64.0 : 88.0,
+          height: widgetType == SWidgetType.small ? 64.0 : 88.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
@@ -37,9 +37,9 @@ class SPaymentSelectFiat extends StatelessWidget {
           ),
           child: Column(
             children: [
-              if (isSmall)
+              if (widgetType == SWidgetType.small)
               const SpaceH19(), // + 1px border
-              if (!isSmall)
+              if (widgetType == SWidgetType.medium)
                 const SpaceH31(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

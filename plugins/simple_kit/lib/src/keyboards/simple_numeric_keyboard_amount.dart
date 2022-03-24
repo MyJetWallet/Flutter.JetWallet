@@ -7,7 +7,6 @@ import 'components/numeric_keyboard_preset.dart';
 import 'components/numeric_keyboard_row.dart';
 
 enum SKeyboardPreset { preset1, preset2, preset3 }
-enum SKeyboardSize { small, medium }
 
 class SNumericKeyboardAmount extends StatelessWidget {
   const SNumericKeyboardAmount({
@@ -15,7 +14,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
     this.preset2Name,
     this.preset3Name,
     this.buttonType = SButtonType.primary1,
-    required this.keyboardSize,
+    required this.widgetType,
     required this.selectedPreset,
     required this.onPresetChanged,
     required this.onKeyPressed,
@@ -25,7 +24,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
   });
 
   final SButtonType buttonType;
-  final SKeyboardSize keyboardSize;
+  final SWidgetType widgetType;
   final String? preset1Name;
   final String? preset2Name;
   final String? preset3Name;
@@ -42,7 +41,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
         preset1Name != null && preset2Name != null && preset3Name != null;
 
     return SizedBox(
-      height: keyboardSize == SKeyboardSize.medium ? 422 : 322,
+      height: widgetType == SWidgetType.medium ? 422 : 322,
       child: Material(
         color: SColorsLight().grey5,
         child: Column(
@@ -75,12 +74,12 @@ class SNumericKeyboardAmount extends StatelessWidget {
               ),
             ],
             NumericKeyboardFrame(
-              paddingBetweenRows: keyboardSize == SKeyboardSize.medium
+              paddingBetweenRows: widgetType == SWidgetType.medium
                   ? const SpaceH10()
                   : const SpaceH2(),
-              height: keyboardSize == SKeyboardSize.medium ? 274 : 242,
-              paddingTop: keyboardSize == SKeyboardSize.medium ? 10 : 5,
-              paddingBottom: keyboardSize == SKeyboardSize.medium ? 10 : 6,
+              height: widgetType == SWidgetType.medium ? 274 : 242,
+              paddingTop: widgetType == SWidgetType.medium ? 10 : 5,
+              paddingBottom: widgetType == SWidgetType.medium ? 10 : 6,
               lastRow: NumericKeyboardRow(
                 frontKey1: period,
                 realValue1: period,
