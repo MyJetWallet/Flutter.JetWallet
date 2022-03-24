@@ -13,10 +13,13 @@ class BottomTab extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(
         right: 10,
+        top: 1,
       ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 16,
+      padding: const EdgeInsets.only(
+        top: 3,
+        bottom: 7,
+        right: 15,
+        left: 15,
       ),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
@@ -24,6 +27,7 @@ class BottomTab extends StatelessWidget {
         ),
         border: Border.all(
           width: 1,
+          color: Colors.grey,
         ),
       ),
       child: Text(text),
