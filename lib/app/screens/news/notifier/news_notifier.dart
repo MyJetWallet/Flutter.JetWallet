@@ -26,7 +26,6 @@ class NewsNotifier extends StateNotifier<NewsState> {
 
   Future<void> initNews() async {
     _logger.log(notifier, 'initNews');
-    print('RETRY2|| ');
 
     try {
       final news = await _requestNews(
@@ -36,8 +35,6 @@ class NewsNotifier extends StateNotifier<NewsState> {
           language: read(intlPod).localeName,
         ),
       );
-
-      print('RETRY2|| $news');
 
       _updateNews(news.news);
     } catch (e) {
@@ -65,13 +62,9 @@ class NewsNotifier extends StateNotifier<NewsState> {
         ),
       );
 
-      print('COMES NEWS|| ${news}');
-
       _updateNews(news.news);
     } catch (e) {
       _logger.log(stateFlow, 'news', e);
-
-      print('ERRROROR|| ${news}');
 
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
@@ -83,26 +76,16 @@ class NewsNotifier extends StateNotifier<NewsState> {
   }
 
   void _updateNews(List<NewsModel> items) {
-
-    print('_updateNews|| ${items}');
-
     if (items.isEmpty) {
       state = state.copyWith(
         nothingToLoad: true,
         union: const Loaded(),
       );
     } else {
-
-      print('Before set state ||| $items');
-
       state = state.copyWith(
-        newsItems: items,
+        newsItems: state.newsItems + items,
         union: const Loaded(),
       );
-
-
-      print('state set ||| ${state.newsItems}');
-
     }
   }
 

@@ -115,7 +115,6 @@ class _NewsListState extends State<NewsList> {
                                 context,
                                 news.newsItems[index].urlAddress,
                               ),
-                              padding: EdgeInsets.zero,
                             ),
                             const SpaceH24(),
                             Container(
@@ -145,7 +144,6 @@ class _NewsListState extends State<NewsList> {
                             context,
                             news.newsItems[index].urlAddress,
                           ),
-                          padding: EdgeInsets.zero,
                         );
                       }
                     },
@@ -193,7 +191,6 @@ class _NewsListState extends State<NewsList> {
                           context,
                           news.newsItems[index].urlAddress,
                         ),
-                        padding: EdgeInsets.zero,
                       );
                     },
                     childCount: news.newsItems.length,
@@ -293,7 +290,6 @@ class _NewsListState extends State<NewsList> {
                                 context,
                                 news.newsItems[index].urlAddress,
                               ),
-                              padding: EdgeInsets.zero,
                             ),
                             Container(
                               width: double.infinity,
@@ -379,7 +375,6 @@ class _NewsListState extends State<NewsList> {
                             context,
                             news.newsItems[index].urlAddress,
                           ),
-                          padding: EdgeInsets.zero,
                         );
                       }
                     },
