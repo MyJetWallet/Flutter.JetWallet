@@ -51,49 +51,54 @@ class FailureScreen extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return SPageFrameWithPadding(
-      child: Column(
-        children: [
-          const SpaceH86(),
-          const FailureAnimation(),
-          Baseline(
-            baseline: 92.0,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              primaryText,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: sTextH2Style,
-            ),
-          ),
-          if (secondaryText != null)
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: SPageFrameWithPadding(
+        child: Column(
+          children: [
+            const SpaceH86(),
+            const FailureAnimation(),
             Baseline(
-              baseline: 31.4,
+              baseline: 92.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                secondaryText!,
-                maxLines: 3,
+                primaryText,
+                maxLines: 2,
                 textAlign: TextAlign.center,
-                style: sBodyText1Style.copyWith(
-                  color: colors.grey1,
-                ),
+                style: sTextH2Style,
               ),
             ),
-          const Spacer(),
-          SPrimaryButton1(
-            active: true,
-            name: primaryButtonName,
-            onTap: onPrimaryButtonTap,
-          ),
-          const SpaceH10(),
-          if (secondaryButtonName != null && onSecondaryButtonTap != null)
-            STextButton1(
+            if (secondaryText != null)
+              Baseline(
+                baseline: 31.4,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  secondaryText!,
+                  maxLines: 3,
+                  textAlign: TextAlign.center,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
+              ),
+            const Spacer(),
+            SPrimaryButton1(
               active: true,
-              name: secondaryButtonName!,
-              onTap: onSecondaryButtonTap!,
+              name: primaryButtonName,
+              onTap: onPrimaryButtonTap,
             ),
-          const SpaceH24(),
-        ],
+            const SpaceH10(),
+            if (secondaryButtonName != null && onSecondaryButtonTap != null)
+              STextButton1(
+                active: true,
+                name: secondaryButtonName!,
+                onTap: onSecondaryButtonTap!,
+              ),
+            const SpaceH24(),
+          ],
+        ),
       ),
     );
   }

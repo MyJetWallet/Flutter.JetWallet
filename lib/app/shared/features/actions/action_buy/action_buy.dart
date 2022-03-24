@@ -45,40 +45,8 @@ class _ActionBuy extends HookWidget {
 
     return Column(
       children: [
-        for (final currency in assetWithBalance) ...[
-          SMarketItem(
-            icon: SNetworkSvg24(
-              url: currency.iconUrl,
-            ),
-            name: currency.description,
-            price: marketFormat(
-              prefix: baseCurrency.prefix,
-              decimal: baseCurrency.symbol == currency.symbol
-                  ? Decimal.one
-                  : currency.currentPrice,
-              symbol: baseCurrency.symbol,
-              accuracy: baseCurrency.accuracy,
-            ),
-            ticker: currency.symbol,
-            last: currency == assetWithBalance.last,
-            percent: currency.dayPercentChange,
-            onTap: () {
-              sAnalytics.buySellView(
-                ScreenSource.quickActions,
-                currency.description,
-              );
-
-              navigatorPushReplacement(
-                context,
-                CurrencyBuy(
-                  currency: currency,
-                ),
-              );
-            },
-          ),
-        ],
-        const SDivider(),
-        for (final currency in assetWithOutBalance) ...[
+        for (final currency in currencies) ...[
+          if (currency.supportsAtLeastOneBuyMethod)
             SMarketItem(
               icon: SNetworkSvg24(
                 url: currency.iconUrl,
@@ -93,7 +61,7 @@ class _ActionBuy extends HookWidget {
                 accuracy: baseCurrency.accuracy,
               ),
               ticker: currency.symbol,
-              last: currency == assetWithOutBalance.last,
+              last: currency == currencies.last,
               percent: currency.dayPercentChange,
               onTap: () {
                 sAnalytics.buySellView(
@@ -109,7 +77,7 @@ class _ActionBuy extends HookWidget {
                 );
               },
             ),
-        ],
+        ]
       ],
     );
   }

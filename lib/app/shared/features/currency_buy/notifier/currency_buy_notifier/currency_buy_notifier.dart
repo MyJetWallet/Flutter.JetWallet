@@ -3,10 +3,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../../service/services/signal_r/model/asset_payment_methods.dart';
+import '../../../../../../service/services/simplex/model/simplex_payment_request_model.dart';
+import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/logging/levels.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
+import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../helpers/truncate_zeros_from.dart';
 import '../../../../models/currency_model.dart';
@@ -45,36 +49,70 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _initDefaultPaymentMethod() {
-    if (state.currencies.isNotEmpty) {
-      // Case 1: If use has baseCurrency wallet with balance more than zero
-      for (final currency in state.currencies) {
-        if (currency.symbol == state.baseCurrency!.symbol) {
-          updateSelectedCurrency(currency);
-          return;
-        }
-      }
-
-      // Case 2: If user has at least one fiat wallet
-      for (final currency in state.currencies) {
-        if (currency.type == AssetType.fiat) {
-          updateSelectedCurrency(currency);
-          return;
-        }
-      }
-
-      // TODO Case 3: If user has at least one saved card
-
-      // TODO Case 4: Payment methods
-
-      // Case 5: If user has at least one crypto wallet
-      updateSelectedCurrency(state.currencies.first);
+    if (currencyModel.supportsAtLeastOneBuyMethod) {
+      final method = currencyModel.buyMethods.first;
+      updateSelectedPaymentMethod(method);
+      return;
     }
+
+    // TODO when support for crypto will be avavilable
+    // if (state.currencies.isNotEmpty) {
+    //   // Case 1: If use has baseCurrency wallet with balance more than zero
+    //   for (final currency in state.currencies) {
+    //     if (currency.symbol == state.baseCurrency!.symbol) {
+    //       updateSelectedCurrency(currency);
+    //       return;
+    //     }
+    //   }
+
+    //   // Case 2: If user has at least one fiat wallet
+    //   for (final currency in state.currencies) {
+    //     if (currency.type == AssetType.fiat) {
+    //       updateSelectedCurrency(currency);
+    //       return;
+    //     }
+    //   }
+
+    //   // TODO Case 3: If user has at least one saved card
+
+    //   // TODO Case 4: Payment methods
+
+    //   // Case 5: If user has at least one crypto wallet
+    //   updateSelectedCurrency(state.currencies.first);
+    // }
+  }
+
+  void updateSelectedPaymentMethod(PaymentMethod? method) {
+    _logger.log(notifier, 'updateSelectedPaymentMethod');
+
+    state = state.copyWith(selectedCurrency: null);
+    state = state.copyWith(selectedPaymentMethod: method);
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
+    state = state.copyWith(selectedPaymentMethod: null);
     state = state.copyWith(selectedCurrency: currency);
+  }
+
+  void selectFixedSum(SKeyboardPreset preset) {
+    late int value;
+
+    if (preset == SKeyboardPreset.preset1) {
+      value = 50;
+    } else if (preset == SKeyboardPreset.preset2) {
+      value = 100;
+    } else {
+      value = 500;
+    }
+
+    _updateInputValue(
+      valueAccordingToAccuracy(value.toString(), 0),
+    );
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
   }
 
   void selectPercentFromBalance(SKeyboardPreset preset) {
@@ -143,8 +181,56 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _calculateTargetConversion() {
+    if (state.selectedPaymentMethod != null) {
+      _calculateTargetConversionForSimplex();
+    } else {
+      _calculateTargetConversionForCrypto();
+    }
+  }
+
+  void _calculateTargetConversionForCrypto() {
     if (state.targetConversionPrice != null && state.inputValue.isNotEmpty) {
       final amount = Decimal.parse(state.inputValue);
+      final price = state.targetConversionPrice!;
+      final accuracy = currencyModel.accuracy;
+
+      var conversion = Decimal.zero;
+
+      if (price != Decimal.zero) {
+        conversion = (amount / price).toDecimal(
+          scaleOnInfinitePrecision: accuracy,
+        );
+      }
+
+      _updateTargetConversionValue(
+        truncateZerosFrom(
+          conversion.toString(),
+        ),
+      );
+    } else {
+      _updateTargetConversionValue(zero);
+    }
+  }
+
+  void _calculateTargetConversionForSimplex() {
+    if (state.targetConversionPrice != null && state.inputValue.isNotEmpty) {
+      final value = double.parse(state.inputValue);
+
+      final sixPercent = value * 0.06;
+
+      var recalculated = value;
+
+      if (sixPercent <= 10) {
+        recalculated = recalculated - 10;
+
+        if (recalculated < 0) {
+          recalculated = 0;
+        }
+      } else {
+        recalculated = recalculated - sixPercent;
+      }
+
+      final amount = Decimal.parse(recalculated.toString());
       final price = state.targetConversionPrice!;
       final accuracy = currencyModel.accuracy;
 
@@ -194,7 +280,50 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     state = state.copyWith(inputError: error);
   }
 
+  void _updatePaymentMethodInputError(String? error) {
+    state = state.copyWith(paymentMethodInputError: error);
+  }
+
   void _validateInput() {
+    if (state.selectedPaymentMethod != null) {
+      if (!isInputValid(state.inputValue)) {
+        _updateInputValid(false);
+        return;
+      }
+
+      final value = double.parse(state.inputValue);
+      final min = state.selectedPaymentMethod!.minAmount;
+      final max = state.selectedPaymentMethod!.maxAmount;
+
+      _updateInputValid(value >= min && value <= max);
+
+      if (value < min) {
+        _updatePaymentMethodInputError(
+          'Enter a higher amount. Min ${volumeFormat(
+            decimal: Decimal.parse(min.toString()),
+            accuracy: state.baseCurrency!.accuracy,
+            symbol: state.baseCurrency!.symbol,
+            prefix: state.baseCurrency!.prefix,
+          )}',
+        );
+      } else if (value > max) {
+        _updatePaymentMethodInputError(
+          'Enter smaller amount. Max ${volumeFormat(
+            decimal: Decimal.parse(max.toString()),
+            accuracy: state.baseCurrency!.accuracy,
+            symbol: state.baseCurrency!.symbol,
+            prefix: state.baseCurrency!.prefix,
+          )}',
+        );
+      } else {
+        _updatePaymentMethodInputError(null);
+      }
+
+      return;
+    }
+
+    _updatePaymentMethodInputError(null);
+
     if (state.selectedCurrency == null) {
       _updateInputValid(false);
     } else {
@@ -222,5 +351,35 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _updateTargetConversionValue(zero);
     _updateBaseConversionValue(zero);
     _updateInputValid(false);
+  }
+
+  Future<String?> makeSimplexRequest() async {
+    final model = SimplexPaymentRequestModel(
+      fromAmount: Decimal.parse(state.inputValue),
+      fromCurrency: state.baseCurrency!.symbol,
+      toAsset: currencyModel.symbol,
+    );
+
+    try {
+      final response = await read(simplexServicePod).payment(model);
+
+      return response.paymentLink;
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'makeSimplexRequest', error.cause);
+
+      read(sNotificationNotipod.notifier).showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (e) {
+      _logger.log(stateFlow, 'makeSimplexRequest', e);
+
+      read(sNotificationNotipod.notifier).showError(
+        'Something went wrong',
+        id: 1,
+      );
+    }
+
+    return null;
   }
 }

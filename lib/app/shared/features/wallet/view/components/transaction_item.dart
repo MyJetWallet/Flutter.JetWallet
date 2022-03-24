@@ -3,13 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/operation_history/model/operation_history_response_model.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/deposit_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/receive_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/transfer_details.dart';
-import '../view/components/wallet_body/components/transactions_list_item/components/transaction_details/withdraw_details.dart';
+import '../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../helper/is_operation_support_copy.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/deposit_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/receive_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/transfer_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/withdraw_details.dart';
 
 class TransactionItem extends HookWidget {
   const TransactionItem({
@@ -59,8 +60,7 @@ class TransactionItem extends HookWidget {
           children: [
             Column(
               children: [
-                if (transactionListItem.operationType !=
-                    OperationType.paidInterestRate)
+                if (isOperationSupportCopy(transactionListItem))
                   Transform.translate(
                     offset: translateOffset,
                     child: Container(
@@ -80,7 +80,7 @@ class TransactionItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.deposit) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: DepositDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
@@ -93,7 +93,7 @@ class TransactionItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.withdraw) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: WithdrawDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
@@ -107,7 +107,7 @@ class TransactionItem extends HookWidget {
                     transactionListItem.operationType ==
                         OperationType.sell) ...[
                   Material(
-                    color: Colors.white,
+                    color: colors.white,
                     child: BuySellDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
@@ -119,14 +119,20 @@ class TransactionItem extends HookWidget {
                 ],
                 if (transactionListItem.operationType ==
                     OperationType.transferByPhone) ...[
-                  TransferDetails(
-                    transactionListItem: transactionListItem,
+                  Material(
+                    color: colors.white,
+                    child: TransferDetails(
+                      transactionListItem: transactionListItem,
+                    ),
                   ),
                 ],
                 if (transactionListItem.operationType ==
                     OperationType.receiveByPhone) ...[
-                  ReceiveDetails(
-                    transactionListItem: transactionListItem,
+                  Material(
+                    color: colors.white,
+                    child: ReceiveDetails(
+                      transactionListItem: transactionListItem,
+                    ),
                   ),
                 ],
               ],

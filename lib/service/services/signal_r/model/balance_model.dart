@@ -28,6 +28,7 @@ class BalanceModel with _$BalanceModel {
     @DecimalSerialiser() required Decimal currentEarnAmount,
     required String nextPaymentDate,
     @DecimalSerialiser() required Decimal apy,
+    @DecimalSerialiser() required Decimal depositInProcess,
   }) = _BalanceModel;
 
   factory BalanceModel.fromJson(Map<String, dynamic> json) =>
