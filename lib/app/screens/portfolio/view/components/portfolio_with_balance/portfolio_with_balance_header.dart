@@ -68,11 +68,15 @@ class PortfolioWithBalanceHeader extends HookWidget {
                     children: [
                       const SGiftPortfolioIcon(),
                       if (gift == ReferralGiftStatus.showGift) ...[
-                        const SpaceW8(),
-                        Text(
-                          _giftBonus(rewards),
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
+                        Container(
+                          margin: (_giftBonus(rewards) != '')
+                              ? const EdgeInsets.only(right: 8)
+                              : EdgeInsets.zero,
+                          child: Text(
+                            _giftBonus(rewards),
+                            style: sSubtitle3Style.copyWith(
+                              color: colors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -90,13 +94,11 @@ class PortfolioWithBalanceHeader extends HookWidget {
 
   String _giftBonus(List<CampaignOrReferralModel> rewards) {
     var bonusGift = Decimal.zero;
+
     for (final item in rewards) {
       if (item.campaign != null) {
-        if (item.campaign!.conditions != null &&
-            (item.campaign!.conditions != null &&
-                item.campaign!.conditions!.isNotEmpty)) {
-
-          for(final condition in item.campaign!.conditions!) {
+        if (item.campaign?.conditions?.isNotEmpty ?? false) {
+          for (final condition in item.campaign!.conditions!) {
             if (condition.reward != null) {
               bonusGift = bonusGift + condition.reward!.amount;
             }
