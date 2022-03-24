@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
 import 'numeric_keyboard_row.dart';
 
@@ -8,12 +7,14 @@ class NumericKeyboardFrame extends StatelessWidget {
   const NumericKeyboardFrame({
     Key? key,
     this.paddingBottom,
+    required this.paddingBetweenRows,
     required this.paddingTop,
     required this.height,
     required this.lastRow,
     required this.onKeyPressed,
   }) : super(key: key);
 
+  final Widget paddingBetweenRows;
   final double? paddingBottom;
   final double paddingTop;
   final double height;
@@ -42,7 +43,7 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '3',
             onKeyPressed: onKeyPressed,
           ),
-          const SpaceH10(),
+          paddingBetweenRows,
           NumericKeyboardRow(
             frontKey1: '4',
             realValue1: '4',
@@ -52,7 +53,7 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '6',
             onKeyPressed: onKeyPressed,
           ),
-          const SpaceH10(),
+          paddingBetweenRows,
           NumericKeyboardRow(
             frontKey1: '7',
             realValue1: '7',
@@ -62,7 +63,7 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '9',
             onKeyPressed: onKeyPressed,
           ),
-          const SpaceH10(),
+          paddingBetweenRows,
           lastRow,
         ],
       ),

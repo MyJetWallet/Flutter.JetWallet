@@ -39,6 +39,7 @@ class WithdrawalAmount extends HookWidget {
       child: Column(
         children: [
           SActionPriceField(
+            isSmall: false,
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.amount,
@@ -83,6 +84,7 @@ class WithdrawalAmount extends HookWidget {
           const Spacer(),
           const SpaceH10(),
           SPaymentSelectAsset(
+            isSmall: false,
             icon: SWalletIcon(
               color: colors.black,
             ),
@@ -91,6 +93,7 @@ class WithdrawalAmount extends HookWidget {
           ),
           const SpaceH20(),
           SNumericKeyboardAmount(
+            keyboardSize: SKeyboardSize.medium,
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',

@@ -119,6 +119,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
           Column(
             children: [
               SActionPriceField(
+                isSmall: false,
                 price: formatCurrencyStringAmount(
                   prefix: state.selectedCurrency?.prefixSymbol,
                   value: state.inputValue,
@@ -132,6 +133,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               if (state.selectedCurrency == null &&
                   state.selectedPaymentMethod == null)
                 SPaymentSelectDefault(
+                  isSmall: false,
                   icon: const SActionBuyIcon(),
                   name: 'Choose payment method',
                   onTap: () => _showAssetSelector(),
@@ -139,6 +141,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               else if (state.selectedPaymentMethod!.type ==
                   PaymentMethodType.simplex)
                 SPaymentSelectAsset(
+                  isSmall: false,
                   isCreditCard: true,
                   icon: SActionDepositIcon(
                     color: colors.black,
@@ -150,6 +153,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 )
               else if (state.selectedCurrency!.type == AssetType.crypto)
                 SPaymentSelectAsset(
+                  isSmall: false,
                   icon: SNetworkSvg24(
                     url: state.selectedCurrency!.iconUrl,
                   ),
@@ -162,6 +166,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 )
               else
                 SPaymentSelectFiat(
+                  isSmall: false,
                   icon: SNetworkSvg24(
                     url: state.selectedCurrency!.iconUrl,
                   ),
@@ -173,9 +178,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               const SpaceH20(),
               SNumericKeyboardAmount(
-                preset1Name: state.preset1Name,
-                preset2Name: state.preset2Name,
-                preset3Name: state.preset3Name,
+                keyboardSize: SKeyboardSize.small,
+                // preset1Name: state.preset1Name,
+                // preset2Name: state.preset2Name,
+                // preset3Name: state.preset3Name,
                 selectedPreset: state.selectedPreset,
                 onPresetChanged: (preset) {
                   if (state.selectedPaymentMethod != null) {

@@ -9,12 +9,14 @@ class SPaymentSelectFiat extends StatelessWidget {
     required this.icon,
     required this.name,
     required this.amount,
+    required this.isSmall,
     required this.onTap,
   }) : super(key: key);
 
   final Widget icon;
   final String name;
   final String amount;
+  final bool isSmall;
   final Function() onTap;
 
   @override
@@ -26,7 +28,7 @@ class SPaymentSelectFiat extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: 88.0,
+          height: isSmall ? 64.0 : 88.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
@@ -35,7 +37,10 @@ class SPaymentSelectFiat extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SpaceH31(), // + 1px border
+              if (isSmall)
+              const SpaceH19(), // + 1px border
+              if (!isSmall)
+                const SpaceH31(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

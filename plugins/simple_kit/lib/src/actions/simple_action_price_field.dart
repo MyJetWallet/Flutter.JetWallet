@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../simple_kit.dart';
-import '../colors/view/simple_colors_light.dart';
+import 'components/simple_medium_action_price_field.dart';
+import 'components/simple_small_action_price_field.dart';
 
 class SActionPriceField extends StatelessWidget {
   const SActionPriceField({
@@ -10,42 +10,31 @@ class SActionPriceField extends StatelessWidget {
     required this.helper,
     required this.error,
     required this.isErrorActive,
+    required this.isSmall,
   }) : super(key: key);
 
   final String price;
   final String helper;
   final String error;
   final bool isErrorActive;
+  final bool isSmall;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SBaselineChild(
-          baseline: 60.0,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              price,
-              maxLines: 1,
-              style: sTextH1Style.copyWith(
-                color:
-                    isErrorActive ? SColorsLight().red : SColorsLight().black,
-              ),
-            ),
-          ),
-        ),
-        SBaselineChild(
-          baseline: 24.0,
-          child: Text(
-            isErrorActive ? error : helper,
-            maxLines: 1,
-            style: sSubtitle3Style.copyWith(
-              color: isErrorActive ? SColorsLight().red : SColorsLight().black,
-            ),
-          ),
-        ),
-      ],
-    );
+    if (isSmall) {
+      return SSmallActionPriceField(
+        price: price,
+        error: error,
+        helper: helper,
+        isErrorActive: isErrorActive,
+      );
+    } else {
+      return SMediumActionPriceField(
+        price: price,
+        error: error,
+        helper: helper,
+        isErrorActive: isErrorActive,
+      );
+    }
   }
 }
