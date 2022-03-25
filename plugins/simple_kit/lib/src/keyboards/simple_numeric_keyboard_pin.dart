@@ -51,6 +51,7 @@ class SNumericKeyboardPin extends ConsumerWidget {
     return NumericKeyboardFrame(
       height: 354.0,
       paddingTop: 40.0,
+      heightBetweenRows: 10,
       lastRow: NumericKeyboardRow(
         icon1: biometricIcon,
         iconPressed1: biometricPressedIcon,

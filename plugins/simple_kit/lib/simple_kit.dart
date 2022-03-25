@@ -254,6 +254,7 @@ export 'src/shared/components/simple_clickable_link_text.dart';
 export 'src/shared/components/simple_contact_item.dart';
 export 'src/shared/components/simple_divider.dart';
 export 'src/shared/components/simple_field_divider_frame.dart';
+export 'src/shared/components/simple_get_widget_size.dart';
 export 'src/shared/components/simple_icon_button.dart';
 export 'src/shared/components/simple_network_svg.dart';
 export 'src/shared/components/simple_paddings.dart';
@@ -264,7 +265,6 @@ export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_bottom_size.dart';
-export 'src/shared/components/simple_widget_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 export 'src/shared/components/stack_loader/view/components/loader_spinner.dart';
 
@@ -277,6 +277,7 @@ export 'src/shared/helpers/initials_from.dart';
 
 /// Models
 export 'src/shared/models/simple_button_type.dart';
+export 'src/shared/models/simple_widget_size.dart';
 
 /// Providers
 export 'src/shared/providers/simple_navigator_key_pod.dart';
