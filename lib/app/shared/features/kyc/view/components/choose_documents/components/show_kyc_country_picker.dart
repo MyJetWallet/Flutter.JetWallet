@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../../../../notifier/kyc_countries/kyc_countries_notipod.dart';
+import '../../empty_state/empty_state.dart';
 import 'country_item/country_item.dart';
 
 void showKycCountryPicker(BuildContext context) {
@@ -46,6 +47,7 @@ class _SearchPinned extends HookWidget {
             notifier.updateCountryNameSearch(value);
           },
         ),
+        const SDivider(),
       ],
     );
   }
@@ -73,6 +75,7 @@ class _Countries extends HookWidget {
             countryCode: country.countryCode,
             countryName: country.countryName,
           ),
+        if (state.sortedCountries.isEmpty) const EmptyState(),
       ],
     );
   }
