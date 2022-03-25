@@ -37,6 +37,7 @@ class Account extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
+
     final colors = useProvider(sColorPod);
 
     final kycState = useProvider(kycNotipod);
