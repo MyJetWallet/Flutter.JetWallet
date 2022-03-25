@@ -69,7 +69,7 @@ class PortfolioHeader extends HookWidget {
                       const SGiftPortfolioIcon(),
                       if (gift == ReferralGiftStatus.showGift) ...[
                         Container(
-                          margin: (_giftBonus(rewards) != '')
+                          margin: (_giftBonus(rewards).isNotEmpty)
                               ? const EdgeInsets.only(right: 8)
                               : EdgeInsets.zero,
                           child: Text(
@@ -96,12 +96,10 @@ class PortfolioHeader extends HookWidget {
     var bonusGift = Decimal.zero;
 
     for (final item in rewards) {
-      if (item.campaign != null) {
-        if (item.campaign?.conditions?.isNotEmpty ?? false) {
-          for (final condition in item.campaign!.conditions!) {
-            if (condition.reward != null) {
-              bonusGift = bonusGift + condition.reward!.amount;
-            }
+      if (item.campaign?.conditions?.isNotEmpty ?? false) {
+        for (final condition in item.campaign!.conditions!) {
+          if (condition.reward != null) {
+            bonusGift = bonusGift + condition.reward!.amount;
           }
         }
       }
