@@ -87,8 +87,14 @@ void sShowAlertPopup(
                         active: activePrimaryButton,
                         onTap: () => onPrimaryButtonTap(),
                       )
-                    else
+                    else if (primaryButtonType == SButtonType.primary3)
                       SPrimaryButton3(
+                        name: primaryButtonName,
+                        active: activePrimaryButton,
+                        onTap: () => onPrimaryButtonTap(),
+                      )
+                    else
+                      SPrimaryButton4(
                         name: primaryButtonName,
                         active: activePrimaryButton,
                         onTap: () => onPrimaryButtonTap(),

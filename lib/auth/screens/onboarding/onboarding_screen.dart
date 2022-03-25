@@ -176,7 +176,7 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                     onTap: () => Register.push(context),
                   ),
                   const SpaceH10(),
-                  STextButton1(
+                  SPrimaryButton4(
                     active: true,
                     name: intl.onboarding_signIn,
                     onTap: () => navigatorPush(
