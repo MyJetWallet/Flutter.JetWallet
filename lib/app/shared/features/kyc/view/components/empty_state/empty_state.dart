@@ -16,25 +16,23 @@ class EmptyState extends HookWidget {
     final state = useProvider(kycCountriesNotipod);
     final colors = useProvider(sColorPod);
 
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SpaceH60(),
-          Text(
-            'No results for',
-            style: sBodyText1Style.copyWith(
-              color: colors.grey1,
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const SpaceH60(),
+        Text(
+          'No results for',
+          style: sBodyText1Style.copyWith(
+            color: colors.grey1,
           ),
-          Text(
-            state.countryNameSearch,
-            style: sTextH4Style.copyWith(
-              color: colors.black,
-            ),
-          )
-        ],
-      ),
+        ),
+        Text(
+          state.countryNameSearch,
+          style: sTextH4Style.copyWith(
+            color: colors.black,
+          ),
+        )
+      ],
     );
   }
 }
