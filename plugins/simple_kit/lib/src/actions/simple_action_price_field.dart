@@ -22,11 +22,11 @@ class SActionPriceField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widgetSize == SWidgetSize.small ? 116 : 152,
+      height: widgetSize == SWidgetSize.small ? 116 : null,
       child: Column(
         children: [
           Baseline(
-            baseline: widgetSize == SWidgetSize.small ? 32 : 60,
+            baseline: widgetSize == SWidgetSize.small ? 32 : 22,
             baselineType: TextBaseline.alphabetic,
             child: FittedBox(
               fit: BoxFit.scaleDown,
