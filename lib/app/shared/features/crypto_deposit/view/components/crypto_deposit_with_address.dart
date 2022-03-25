@@ -9,6 +9,10 @@ import '../../../../models/currency_model.dart';
 import '../../notifier/crypto_deposit_notipod.dart';
 import '../../notifier/crypto_deposit_union.dart';
 
+// Header, ShareButton bar, DepositInfo, NetworkSelector
+const screenWidgets = 120 + 104 + 88 + 88;
+const sAddressFieldWithCopyHeight = 88;
+
 class CryptoDepositWithAddress extends HookWidget {
   const CryptoDepositWithAddress({
     Key? key,
@@ -19,21 +23,27 @@ class CryptoDepositWithAddress extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = useProvider(mediaQueryPod);
     final deposit = useProvider(cryptoDepositNotipod(currency));
+    final mediaQuery = useProvider(mediaQueryPod);
+    final screenHeight = mediaQuery.size.height;
+    final screenWidth = mediaQuery.size.width;
+    final qrCodeSize = screenWidth * 0.6;
+    final extraScrollArea =
+        screenHeight - qrCodeSize - screenWidgets - sAddressFieldWithCopyHeight;
+    final widgetHeight = extraScrollArea.isNegative
+        ? screenHeight - screenWidgets + extraScrollArea.abs()
+        : screenHeight - screenWidgets;
 
     return SizedBox(
-      // Screen height minus Header, ShareButton bar, DepositInfo,
-      // NetworkSelector
-      height: mediaQuery.size.height - 120 - 104 - 88 - 88,
+      height: widgetHeight,
       child: Column(
         children: [
           const Spacer(),
           SQrCodeBox(
             loading: deposit.union is Loading,
             data: deposit.address,
-            qrBoxSize: mediaQuery.size.width * 0.6,
-            logoSize: mediaQuery.size.width * 0.24,
+            qrBoxSize: qrCodeSize,
+            logoSize: screenWidth * 0.24,
           ),
           const Spacer(),
           SAddressFieldWithCopy(

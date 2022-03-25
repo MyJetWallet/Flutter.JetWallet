@@ -10,10 +10,11 @@ enum SKeyboardPreset { preset1, preset2, preset3 }
 
 class SNumericKeyboardAmount extends StatelessWidget {
   const SNumericKeyboardAmount({
+    this.preset1Name,
+    this.preset2Name,
+    this.preset3Name,
     this.buttonType = SButtonType.primary1,
-    required this.preset1Name,
-    required this.preset2Name,
-    required this.preset3Name,
+    required this.widgetSize,
     required this.selectedPreset,
     required this.onPresetChanged,
     required this.onKeyPressed,
@@ -23,9 +24,10 @@ class SNumericKeyboardAmount extends StatelessWidget {
   });
 
   final SButtonType buttonType;
-  final String preset1Name;
-  final String preset2Name;
-  final String preset3Name;
+  final SWidgetSize widgetSize;
+  final String? preset1Name;
+  final String? preset2Name;
+  final String? preset3Name;
   final SKeyboardPreset? selectedPreset;
   final void Function(SKeyboardPreset) onPresetChanged;
   final void Function(String) onKeyPressed;
@@ -35,41 +37,47 @@ class SNumericKeyboardAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showPresets =
+        preset1Name != null && preset2Name != null && preset3Name != null;
+
     return SizedBox(
-      height: 422.0,
+      height: widgetSize == SWidgetSize.medium ? 422 : 322,
       child: Material(
         color: SColorsLight().grey5,
         child: Column(
           children: [
-            const SpaceH20(),
-            SPaddingH24(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  NumericKeyboardPreset(
-                    name: preset1Name,
-                    selected: selectedPreset == SKeyboardPreset.preset1,
-                    onTap: () => onPresetChanged(SKeyboardPreset.preset1),
-                  ),
-                  const SpaceW10(),
-                  NumericKeyboardPreset(
-                    name: preset2Name,
-                    selected: selectedPreset == SKeyboardPreset.preset2,
-                    onTap: () => onPresetChanged(SKeyboardPreset.preset2),
-                  ),
-                  const SpaceW10(),
-                  NumericKeyboardPreset(
-                    name: preset3Name,
-                    selected: selectedPreset == SKeyboardPreset.preset3,
-                    onTap: () => onPresetChanged(SKeyboardPreset.preset3),
-                  ),
-                ],
+            if (showPresets) ...[
+              const SpaceH20(),
+              SPaddingH24(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    NumericKeyboardPreset(
+                      name: preset1Name!,
+                      selected: selectedPreset == SKeyboardPreset.preset1,
+                      onTap: () => onPresetChanged(SKeyboardPreset.preset1),
+                    ),
+                    const SpaceW10(),
+                    NumericKeyboardPreset(
+                      name: preset2Name!,
+                      selected: selectedPreset == SKeyboardPreset.preset2,
+                      onTap: () => onPresetChanged(SKeyboardPreset.preset2),
+                    ),
+                    const SpaceW10(),
+                    NumericKeyboardPreset(
+                      name: preset3Name!,
+                      selected: selectedPreset == SKeyboardPreset.preset3,
+                      onTap: () => onPresetChanged(SKeyboardPreset.preset3),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
             NumericKeyboardFrame(
-              height: 274.0,
-              paddingTop: 10.0,
-              paddingBottom: 10.0,
+              heightBetweenRows: widgetSize == SWidgetSize.medium ? 10 : 2,
+              height: widgetSize == SWidgetSize.medium ? 274 : 242,
+              paddingTop: widgetSize == SWidgetSize.medium ? 10 : 5,
+              paddingBottom: widgetSize == SWidgetSize.medium ? 10 : 6,
               lastRow: NumericKeyboardRow(
                 frontKey1: period,
                 realValue1: period,

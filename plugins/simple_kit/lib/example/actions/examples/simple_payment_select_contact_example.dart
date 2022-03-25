@@ -17,6 +17,7 @@ class SimplePaymentSelectContactExample extends StatelessWidget {
             Stack(
               children: [
                 const SPaymentSelectContact(
+                  widgetSize: SWidgetSize.medium,
                   name: 'Dimas from Moscow',
                   phone: '+3803919219221',
                 ),
@@ -86,6 +87,7 @@ class SimplePaymentSelectContactExample extends StatelessWidget {
             ),
             const SpaceH20(),
             const SPaymentSelectContact(
+              widgetSize: SWidgetSize.medium,
               name: 'Dimas from Moscow',
               phone: '+3803919219221',
             ),

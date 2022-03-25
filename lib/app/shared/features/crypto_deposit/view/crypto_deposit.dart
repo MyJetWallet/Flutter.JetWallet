@@ -25,8 +25,11 @@ class CryptoDeposit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
     final colors = useProvider(sColorPod);
-    useProvider(cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}));
+    useProvider(
+      cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}),
+    );
     final deposit = useProvider(cryptoDepositNotipod(currency));
     final depositN = useProvider(cryptoDepositNotipod(currency).notifier);
 
@@ -92,6 +95,7 @@ class CryptoDeposit extends HookWidget {
           ),
         ),
         child: ListView(
+          controller: controller,
           padding: EdgeInsets.zero,
           children: [
             DepositInfo(),
@@ -174,6 +178,7 @@ class CryptoDeposit extends HookWidget {
             if (deposit.tag != null)
               CryptoDepositWithAddressAndTag(
                 currency: currency,
+                scrollController: controller,
               )
             else
               CryptoDepositWithAddress(

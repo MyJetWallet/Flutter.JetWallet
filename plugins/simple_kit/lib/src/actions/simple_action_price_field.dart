@@ -10,42 +10,50 @@ class SActionPriceField extends StatelessWidget {
     required this.helper,
     required this.error,
     required this.isErrorActive,
+    required this.widgetSize,
   }) : super(key: key);
 
   final String price;
   final String helper;
   final String error;
   final bool isErrorActive;
+  final SWidgetSize widgetSize;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SBaselineChild(
-          baseline: 60.0,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
+    return SizedBox(
+      height: widgetSize == SWidgetSize.small ? 116 : 152,
+      child: Column(
+        children: [
+          Baseline(
+            baseline: widgetSize == SWidgetSize.small ? 32 : 60,
+            baselineType: TextBaseline.alphabetic,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                price,
+                maxLines: 1,
+                style: sTextH1Style.copyWith(
+                  color:
+                      isErrorActive ? SColorsLight().red : SColorsLight().black,
+                ),
+              ),
+            ),
+          ),
+          Baseline(
+            baseline: 13,
+            baselineType: TextBaseline.alphabetic,
             child: Text(
-              price,
+              isErrorActive ? error : helper,
               maxLines: 1,
-              style: sTextH1Style.copyWith(
+              style: sSubtitle3Style.copyWith(
                 color:
                     isErrorActive ? SColorsLight().red : SColorsLight().black,
               ),
             ),
           ),
-        ),
-        SBaselineChild(
-          baseline: 24.0,
-          child: Text(
-            isErrorActive ? error : helper,
-            maxLines: 1,
-            style: sSubtitle3Style.copyWith(
-              color: isErrorActive ? SColorsLight().red : SColorsLight().black,
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
