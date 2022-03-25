@@ -1,4 +1,4 @@
-enum SWidgetType {
+enum SWidgetSize {
   small,
   medium,
 }

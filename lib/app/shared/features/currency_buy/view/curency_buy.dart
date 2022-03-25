@@ -120,7 +120,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             children: [
               const Spacer(),
               SActionPriceField(
-                widgetType: SWidgetType.medium,
+                widgetSize: SWidgetSize.medium,
                 price: formatCurrencyStringAmount(
                   prefix: state.selectedCurrency?.prefixSymbol,
                   value: state.inputValue,
@@ -134,7 +134,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               if (state.selectedCurrency == null &&
                   state.selectedPaymentMethod == null)
                 SPaymentSelectDefault(
-                  widgetType: SWidgetType.medium,
+                  widgetSize: SWidgetSize.medium,
                   icon: const SActionBuyIcon(),
                   name: 'Choose payment method',
                   onTap: () => _showAssetSelector(),
@@ -142,7 +142,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               else if (state.selectedPaymentMethod!.type ==
                   PaymentMethodType.simplex)
                 SPaymentSelectAsset(
-                  widgetType: SWidgetType.medium,
+                  widgetSize: SWidgetSize.medium,
                   isCreditCard: true,
                   icon: SActionDepositIcon(
                     color: colors.black,
@@ -154,7 +154,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 )
               else if (state.selectedCurrency!.type == AssetType.crypto)
                 SPaymentSelectAsset(
-                  widgetType: SWidgetType.medium,
+                  widgetSize: SWidgetSize.medium,
                   icon: SNetworkSvg24(
                     url: state.selectedCurrency!.iconUrl,
                   ),
@@ -167,7 +167,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 )
               else
                 SPaymentSelectFiat(
-                  widgetType: SWidgetType.medium,
+                  widgetSize: SWidgetSize.medium,
                   icon: SNetworkSvg24(
                     url: state.selectedCurrency!.iconUrl,
                   ),
@@ -179,7 +179,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               const SpaceH20(),
               SNumericKeyboardAmount(
-                widgetType: SWidgetType.medium,
+                widgetSize: SWidgetSize.medium,
                 preset1Name: state.preset1Name,
                 preset2Name: state.preset2Name,
                 preset3Name: state.preset3Name,

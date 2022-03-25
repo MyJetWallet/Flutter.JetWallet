@@ -37,7 +37,7 @@ class SendByPhoneAmount extends HookWidget {
       child: Column(
         children: [
           SActionPriceField(
-            widgetType: SWidgetType.medium,
+            widgetSize: SWidgetSize.medium,
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.amount,
@@ -69,7 +69,7 @@ class SendByPhoneAmount extends HookWidget {
             _navigatePushAndRemoveUntil(
               context,
               SPaymentSelectContact(
-                widgetType: SWidgetType.medium,
+                widgetSize: SWidgetSize.medium,
                 name: state.pickedContact!.name,
                 phone: state.pickedContact!.phoneNumber,
               ),
@@ -78,13 +78,13 @@ class SendByPhoneAmount extends HookWidget {
             _navigatePushAndRemoveUntil(
               context,
               SPaymentSelectContactWithoutName(
-                widgetType: SWidgetType.medium,
+                widgetSize: SWidgetSize.medium,
                 phone: state.pickedContact!.phoneNumber,
               ),
             ),
           const SpaceH20(),
           SNumericKeyboardAmount(
-            widgetType: SWidgetType.medium,
+            widgetSize: SWidgetSize.medium,
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',

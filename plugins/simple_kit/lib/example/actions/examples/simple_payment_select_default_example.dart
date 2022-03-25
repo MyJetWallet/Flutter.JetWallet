@@ -17,7 +17,7 @@ class SimplePaymentSelectDefaultExample extends StatelessWidget {
             Stack(
               children: [
                 SPaymentSelectDefault(
-                  widgetType: SWidgetType.medium,
+                  widgetSize: SWidgetSize.medium,
                   icon: const SActionBuyIcon(),
                   name: 'Choose payment method',
                   onTap: () {},
@@ -70,7 +70,7 @@ class SimplePaymentSelectDefaultExample extends StatelessWidget {
             ),
             const SpaceH20(),
             SPaymentSelectDefault(
-              widgetType: SWidgetType.medium,
+              widgetSize: SWidgetSize.medium,
               icon: const SActionBuyIcon(),
               name: 'Choose payment method',
               onTap: () {},

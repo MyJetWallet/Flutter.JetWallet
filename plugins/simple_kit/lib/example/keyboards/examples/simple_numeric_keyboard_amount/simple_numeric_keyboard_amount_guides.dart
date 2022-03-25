@@ -17,7 +17,7 @@ class SimpleNumericKeyboardAmountGuides extends StatelessWidget {
           Stack(
             children: [
               SNumericKeyboardAmount(
-                widgetType: SWidgetType.medium,
+                widgetSize: SWidgetSize.medium,
                 preset1Name: '\$50',
                 preset2Name: '\$100',
                 preset3Name: '\$500',

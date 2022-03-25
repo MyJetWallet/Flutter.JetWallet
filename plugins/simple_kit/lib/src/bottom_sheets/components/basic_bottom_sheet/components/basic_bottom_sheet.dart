@@ -117,7 +117,7 @@ class BasicBottomSheet extends HookWidget {
                             ],
                             if (!removeBarPadding) const SpaceH24(),
                             if (pinned != null) ...[
-                              SWidgetSize(
+                              SGetWidgetSize(
                                 child: pinned!,
                                 onChange: (size) {
                                   pinnedSize.value = size;

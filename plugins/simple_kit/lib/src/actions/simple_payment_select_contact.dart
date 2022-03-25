@@ -8,18 +8,18 @@ class SPaymentSelectContact extends StatelessWidget {
     Key? key,
     required this.name,
     required this.phone,
-    required this.widgetType,
+    required this.widgetSize,
   }) : super(key: key);
 
   final String name;
   final String phone;
-  final SWidgetType widgetType;
+  final SWidgetSize widgetSize;
 
   @override
   Widget build(BuildContext context) {
     return SPaddingH24(
       child: Container(
-        height: widgetType == SWidgetType.small ? 64.0 : 88.0,
+        height: widgetSize == SWidgetSize.small ? 64.0 : 88.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
           border: Border.all(
@@ -29,9 +29,9 @@ class SPaymentSelectContact extends StatelessWidget {
         child: Column(
           children: [
             // + 1px border
-            if (widgetType == SWidgetType.small) const SpaceH12(),
+            if (widgetSize == SWidgetSize.small) const SpaceH12(),
             // + 1px border
-            if (widgetType == SWidgetType.medium) const SpaceH23(),
+            if (widgetSize == SWidgetSize.medium) const SpaceH23(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

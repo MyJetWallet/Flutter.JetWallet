@@ -10,23 +10,23 @@ class SActionPriceField extends StatelessWidget {
     required this.helper,
     required this.error,
     required this.isErrorActive,
-    required this.widgetType,
+    required this.widgetSize,
   }) : super(key: key);
 
   final String price;
   final String helper;
   final String error;
   final bool isErrorActive;
-  final SWidgetType widgetType;
+  final SWidgetSize widgetSize;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widgetType == SWidgetType.small ? 116 : 152,
+      height: widgetSize == SWidgetSize.small ? 116 : 152,
       child: Column(
         children: [
           Baseline(
-            baseline: widgetType == SWidgetType.small ? 32 : 60,
+            baseline: widgetSize == SWidgetSize.small ? 32 : 60,
             baselineType: TextBaseline.alphabetic,
             child: FittedBox(
               fit: BoxFit.scaleDown,

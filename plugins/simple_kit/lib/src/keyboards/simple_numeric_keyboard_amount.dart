@@ -14,7 +14,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
     this.preset2Name,
     this.preset3Name,
     this.buttonType = SButtonType.primary1,
-    required this.widgetType,
+    required this.widgetSize,
     required this.selectedPreset,
     required this.onPresetChanged,
     required this.onKeyPressed,
@@ -24,7 +24,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
   });
 
   final SButtonType buttonType;
-  final SWidgetType widgetType;
+  final SWidgetSize widgetSize;
   final String? preset1Name;
   final String? preset2Name;
   final String? preset3Name;
@@ -41,7 +41,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
         preset1Name != null && preset2Name != null && preset3Name != null;
 
     return SizedBox(
-      height: widgetType == SWidgetType.medium ? 422 : 322,
+      height: widgetSize == SWidgetSize.medium ? 422 : 322,
       child: Material(
         color: SColorsLight().grey5,
         child: Column(
@@ -74,12 +74,10 @@ class SNumericKeyboardAmount extends StatelessWidget {
               ),
             ],
             NumericKeyboardFrame(
-              paddingBetweenRows: widgetType == SWidgetType.medium
-                  ? const SpaceH10()
-                  : const SpaceH2(),
-              height: widgetType == SWidgetType.medium ? 274 : 242,
-              paddingTop: widgetType == SWidgetType.medium ? 10 : 5,
-              paddingBottom: widgetType == SWidgetType.medium ? 10 : 6,
+              heightBetweenRows: widgetSize == SWidgetSize.medium ? 10 : 2,
+              height: widgetSize == SWidgetSize.medium ? 274 : 242,
+              paddingTop: widgetSize == SWidgetSize.medium ? 10 : 5,
+              paddingBottom: widgetSize == SWidgetSize.medium ? 10 : 6,
               lastRow: NumericKeyboardRow(
                 frontKey1: period,
                 realValue1: period,
