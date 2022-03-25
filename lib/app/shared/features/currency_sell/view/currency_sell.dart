@@ -124,6 +124,7 @@ class CurrencySell extends HookWidget {
       child: Column(
         children: [
           SActionPriceField(
+            widgetSize: SWidgetSize.medium,
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.inputValue,
@@ -146,12 +147,14 @@ class CurrencySell extends HookWidget {
           const SpaceH4(),
           if (state.selectedCurrency == null)
             SPaymentSelectDefault(
+              widgetSize: SWidgetSize.medium,
               icon: const SActionWithdrawIcon(),
               name: 'Choose destination',
               onTap: () => _showAssetSelector(),
             )
           else if (state.selectedCurrency!.type == AssetType.crypto)
             SPaymentSelectAsset(
+              widgetSize: SWidgetSize.medium,
               icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),
@@ -164,6 +167,7 @@ class CurrencySell extends HookWidget {
             )
           else
             SPaymentSelectFiat(
+              widgetSize: SWidgetSize.medium,
               icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),
@@ -175,6 +179,7 @@ class CurrencySell extends HookWidget {
             ),
           const SpaceH20(),
           SNumericKeyboardAmount(
+            widgetSize: SWidgetSize.medium,
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',
