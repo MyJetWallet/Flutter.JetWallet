@@ -13,6 +13,8 @@ void sortCurrencies(List<CurrencyModel> currencies) {
   });
 }
 
+/// Used for [AssetWithoutBalance Convert-asset] feature
+/// Always provide a copy of List to avoid unexpected behaviour
 void sortCurrenciesByWeight(List<CurrencyModel> currencies) {
   currencies.sort((a, b) {
     final compare = b.weight.compareTo(a.weight);

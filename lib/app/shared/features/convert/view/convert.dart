@@ -37,35 +37,15 @@ class Convert extends HookWidget {
       ),
     );
 
-    final fromAssetListWithBalance = <CurrencyModel>[];
-    final fromAssetListWithEmptyBalance = <CurrencyModel>[];
+    final fromAssetWithBalance = _currenciesWithBalance(state.fromAssetList);
+    final fromAssetWithoutBalance =
+        _currenciesWithoutBalance(state.fromAssetList);
 
-    final toAssetListWithBalance = <CurrencyModel>[];
-    final toAssetListWithEmptyBalance = <CurrencyModel>[];
+    final toAssetWithBalance = _currenciesWithBalance(state.toAssetList);
+    final toAssetWithoutBalance = _currenciesWithoutBalance(state.toAssetList);
 
-    if (state.fromAssetList.isNotEmpty) {
-      for (final element in state.fromAssetList) {
-        if (element.baseBalance != Decimal.zero) {
-          fromAssetListWithBalance.add(element);
-        } else {
-          fromAssetListWithEmptyBalance.add(element);
-        }
-      }
-
-      sortCurrenciesByWeight(fromAssetListWithEmptyBalance);
-    }
-
-    if (state.toAssetList.isNotEmpty) {
-      for (final element in state.fromAssetList) {
-        if (element.baseBalance != Decimal.zero) {
-          toAssetListWithBalance.add(element);
-        } else {
-          toAssetListWithEmptyBalance.add(element);
-        }
-      }
-
-      sortCurrenciesByWeight(toAssetListWithEmptyBalance);
-    }
+    sortCurrenciesByWeight(fromAssetWithoutBalance);
+    sortCurrenciesByWeight(toAssetWithoutBalance);
 
     return SPageFrame(
       header: const SPaddingH24(
@@ -82,8 +62,8 @@ class Convert extends HookWidget {
             inputError: state.inputError,
             enabled: state.fromAssetEnabled,
             currency: state.fromAsset,
-            assetListWithBalance: fromAssetListWithBalance,
-            assetListWithEmptyBalance: fromAssetListWithEmptyBalance,
+            assetWithBalance: fromAssetWithBalance,
+            assetWithoutBalance: fromAssetWithoutBalance,
             onTap: () => notifier.enableFromAsset(),
             onDropdown: (value) => notifier.updateFromAsset(value!),
             fromAsset: true,
@@ -113,8 +93,8 @@ class Convert extends HookWidget {
             value: state.toAssetAmount,
             enabled: state.toAssetEnabled,
             currency: state.toAsset,
-            assetListWithBalance: toAssetListWithBalance,
-            assetListWithEmptyBalance: toAssetListWithEmptyBalance,
+            assetWithBalance: toAssetWithBalance,
+            assetWithoutBalance: toAssetWithoutBalance,
             onTap: () => notifier.enableToAsset(),
             onDropdown: (value) => notifier.updateToAsset(value!),
           ),
@@ -156,5 +136,33 @@ class Convert extends HookWidget {
         ],
       ),
     );
+  }
+
+  List<CurrencyModel> _currenciesWithBalance(
+      List<CurrencyModel> fromAssetList) {
+    final list = <CurrencyModel>[];
+    if (fromAssetList.isNotEmpty) {
+      for (final element in fromAssetList) {
+        if (element.baseBalance != Decimal.zero) {
+          list.add(element);
+        }
+      }
+    }
+
+    return list;
+  }
+
+  List<CurrencyModel> _currenciesWithoutBalance(
+      List<CurrencyModel> fromAssetList) {
+    final list = <CurrencyModel>[];
+    if (fromAssetList.isNotEmpty) {
+      for (final element in fromAssetList) {
+        if (element.baseBalance == Decimal.zero) {
+          list.add(element);
+        }
+      }
+    }
+
+    return list;
   }
 }
