@@ -13,7 +13,7 @@ void sortCurrencies(List<CurrencyModel> currencies) {
   });
 }
 
-/// Used for [AssetWithoutBalance Convert-asset] feature
+/// Used for [Convert] feature
 /// Always provide a copy of List to avoid unexpected behaviour
 void sortCurrenciesByWeight(List<CurrencyModel> currencies) {
   currencies.sort((a, b) {
@@ -21,6 +21,38 @@ void sortCurrenciesByWeight(List<CurrencyModel> currencies) {
     if (compare != 0) return compare;
     return b.weight.compareTo(a.weight);
   });
+}
+
+List<CurrencyModel> currenciesWithBalance(
+  List<CurrencyModel> currencies,
+) {
+  final list = <CurrencyModel>[];
+
+  if (currencies.isNotEmpty) {
+    for (final element in currencies) {
+      if (element.baseBalance != Decimal.zero) {
+        list.add(element);
+      }
+    }
+  }
+
+  return list;
+}
+
+List<CurrencyModel> currenciesWithoutBalance(
+  List<CurrencyModel> fromAssetList,
+) {
+  final list = <CurrencyModel>[];
+
+  if (fromAssetList.isNotEmpty) {
+    for (final element in fromAssetList) {
+      if (element.baseBalance == Decimal.zero) {
+        list.add(element);
+      }
+    }
+  }
+
+  return list;
 }
 
 /// Used for [BUY] feature \

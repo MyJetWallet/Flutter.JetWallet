@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,12 +36,12 @@ class Convert extends HookWidget {
       ),
     );
 
-    final fromAssetWithBalance = _currenciesWithBalance(state.fromAssetList);
+    final fromAssetWithBalance = currenciesWithBalance(state.fromAssetList);
     final fromAssetWithoutBalance =
-        _currenciesWithoutBalance(state.fromAssetList);
+        currenciesWithoutBalance(state.fromAssetList);
 
-    final toAssetWithBalance = _currenciesWithBalance(state.toAssetList);
-    final toAssetWithoutBalance = _currenciesWithoutBalance(state.toAssetList);
+    final toAssetWithBalance = currenciesWithBalance(state.toAssetList);
+    final toAssetWithoutBalance = currenciesWithoutBalance(state.toAssetList);
 
     sortCurrenciesByWeight(fromAssetWithoutBalance);
     sortCurrenciesByWeight(toAssetWithoutBalance);
@@ -136,33 +135,5 @@ class Convert extends HookWidget {
         ],
       ),
     );
-  }
-
-  List<CurrencyModel> _currenciesWithBalance(
-      List<CurrencyModel> fromAssetList) {
-    final list = <CurrencyModel>[];
-    if (fromAssetList.isNotEmpty) {
-      for (final element in fromAssetList) {
-        if (element.baseBalance != Decimal.zero) {
-          list.add(element);
-        }
-      }
-    }
-
-    return list;
-  }
-
-  List<CurrencyModel> _currenciesWithoutBalance(
-      List<CurrencyModel> fromAssetList) {
-    final list = <CurrencyModel>[];
-    if (fromAssetList.isNotEmpty) {
-      for (final element in fromAssetList) {
-        if (element.baseBalance == Decimal.zero) {
-          list.add(element);
-        }
-      }
-    }
-
-    return list;
   }
 }
