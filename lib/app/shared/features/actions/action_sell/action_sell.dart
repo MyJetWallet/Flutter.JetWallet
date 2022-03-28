@@ -8,13 +8,11 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_sell/view/currency_sell.dart';
 import '../helper/action_bottom_sheet_header.dart';
-import '../provider/action_buy_filtered_stpod.dart';
+import '../notifier/currencies_notipod.dart';
 
 void showSellAction(BuildContext context) {
-  final actionBuyFiltered = context.read(actionBuyFilteredStpod);
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
@@ -23,7 +21,6 @@ void showSellAction(BuildContext context) {
       name: 'Choose asset to sell',
     ),
     horizontalPinnedPadding: 0.0,
-    onDissmis: () => actionBuyFiltered.state = '',
     removePinnedPadding: true,
     children: [const _ActionSell()],
   );
@@ -35,23 +32,11 @@ class _ActionSell extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    final currencies = useProvider(currenciesPod);
-
-    final actionBuyFiltered = useProvider(actionBuyFilteredStpod);
-
-    if (actionBuyFiltered.state.isNotEmpty) {
-      final search = actionBuyFiltered.state.toLowerCase();
-
-      currencies.removeWhere(
-        (element) =>
-            !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search),
-      );
-    }
+    final state = useProvider(currenciesNotipod);
 
     final assetWithBalance = <CurrencyModel>[];
 
-    for (final currency in currencies) {
+    for (final currency in state) {
       if (currency.baseBalance != Decimal.zero) {
         assetWithBalance.add(currency);
       }
@@ -75,8 +60,6 @@ class _ActionSell extends HookWidget {
                   ScreenSource.quickActions,
                   currency.description,
                 );
-
-                actionBuyFiltered.state = '';
 
                 navigatorPushReplacement(
                   context,

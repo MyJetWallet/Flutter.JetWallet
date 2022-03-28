@@ -9,18 +9,15 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../helper/action_bottom_sheet_header.dart';
-import '../provider/action_buy_filtered_stpod.dart';
+import '../notifier/currencies_notipod.dart';
 
 void showBuyAction(BuildContext context) {
-  final actionBuyFiltered = context.read(actionBuyFilteredStpod);
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    onDissmis: () => actionBuyFiltered.state = '',
     pinned: const ActionBottomSheetHeader(
       name: 'Choose asset to buy',
     ),
@@ -36,13 +33,12 @@ class _ActionBuy extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    final currencies = useProvider(currenciesPod);
-    final actionBuyFiltered = useProvider(actionBuyFilteredStpod);
+    final state = useProvider(currenciesNotipod);
 
     final assetWithBalance = <CurrencyModel>[];
     final assetWithOutBalance = <CurrencyModel>[];
 
-    for (final currency in currencies) {
+    for (final currency in state) {
       if (currency.baseBalance != Decimal.zero) {
         assetWithBalance.add(currency);
       } else {
@@ -50,19 +46,9 @@ class _ActionBuy extends HookWidget {
       }
     }
 
-    if (actionBuyFiltered.state.isNotEmpty) {
-      final search = actionBuyFiltered.state.toLowerCase();
-
-      currencies.removeWhere(
-        (element) =>
-            !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search),
-      );
-    }
-
     return Column(
       children: [
-        for (final currency in currencies) ...[
+        for (final currency in state) ...[
           if (currency.supportsAtLeastOneBuyMethod)
             SMarketItem(
               icon: SNetworkSvg24(
@@ -78,15 +64,13 @@ class _ActionBuy extends HookWidget {
                 accuracy: baseCurrency.accuracy,
               ),
               ticker: currency.symbol,
-              last: currency == currencies.last,
+              last: currency == state.last,
               percent: currency.dayPercentChange,
               onTap: () {
                 sAnalytics.buySellView(
                   ScreenSource.quickActions,
                   currency.description,
                 );
-
-                actionBuyFiltered.state = '';
 
                 navigatorPushReplacement(
                   context,

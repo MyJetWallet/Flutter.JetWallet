@@ -6,13 +6,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
 import '../helper/action_bottom_sheet_header.dart';
-import '../provider/action_buy_filtered_stpod.dart';
+import '../notifier/currencies_notipod.dart';
 
 void showReceiveAction(BuildContext context) {
-  final actionBuyFiltered = context.read(actionBuyFilteredStpod);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
@@ -21,7 +19,6 @@ void showReceiveAction(BuildContext context) {
       name: 'Choose asset to receive',
     ),
     horizontalPinnedPadding: 0.0,
-    onDissmis: () => actionBuyFiltered.state = '',
     removePinnedPadding: true,
     children: [const _ActionReceive()],
   );
@@ -32,22 +29,11 @@ class _ActionReceive extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = useProvider(currenciesPod);
-    final actionBuyFiltered = useProvider(actionBuyFilteredStpod);
-
-    if (actionBuyFiltered.state.isNotEmpty) {
-      final search = actionBuyFiltered.state.toLowerCase();
-
-      currencies.removeWhere(
-        (element) =>
-            !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search),
-      );
-    }
+    final state = useProvider(currenciesNotipod);
 
     return Column(
       children: [
-        for (final currency in currencies)
+        for (final currency in state)
           if (currency.type == AssetType.crypto)
             if (currency.supportsCryptoDeposit)
               SWalletItem(
@@ -58,8 +44,6 @@ class _ActionReceive extends HookWidget {
                 secondaryText: currency.symbol,
                 onTap: () {
                   sAnalytics.depositCryptoView(currency.description);
-
-                  actionBuyFiltered.state = '';
 
                   navigatorPushReplacement(
                     context,
