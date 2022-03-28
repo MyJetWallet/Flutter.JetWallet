@@ -76,7 +76,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
         connectingToServer: false,
         feeAsset: response.feeAsset,
         feeAmount: response.feeAmount,
-        feePercentage: response.feePercent,
+        feePercent: response.feePercent,
       );
 
       _refreshTimerAnimation(response.expirationTime);
