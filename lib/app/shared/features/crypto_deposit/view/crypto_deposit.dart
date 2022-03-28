@@ -62,7 +62,9 @@ class _CryptoDepositState extends State<CryptoDeposit>
       cryptoDepositDisclaimerFpod(widget.currency.symbol).select((_) {}),
     );
     final deposit = useProvider(cryptoDepositNotipod(widget.currency));
-    final depositN = useProvider(cryptoDepositNotipod(widget.currency).notifier);
+    final depositN = useProvider(
+        cryptoDepositNotipod(widget.currency).notifier,
+    );
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
       provider: cryptoDepositDisclaimerFpod(widget.currency.symbol),
@@ -124,8 +126,8 @@ class _CryptoDepositState extends State<CryptoDeposit>
                         canTapShare = true;
                       }),);
                       Share.share(
-                        'My ${widget.currency.symbol} Address: ${deposit.address} '
-                        '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
+                    'My ${widget.currency.symbol} Address: ${deposit.address} '
+                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
                       );
                     }
                   },

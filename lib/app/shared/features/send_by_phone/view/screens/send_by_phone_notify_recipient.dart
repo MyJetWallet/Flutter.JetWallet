@@ -15,7 +15,8 @@ class SendByPhoneNotifyRecipient extends StatefulHookWidget {
   final String toPhoneNumber;
 
   @override
-  State<SendByPhoneNotifyRecipient> createState() => _SendByPhoneNotifyRecipientState();
+  State<SendByPhoneNotifyRecipient> createState() =>
+    _SendByPhoneNotifyRecipientState();
 }
 
 class _SendByPhoneNotifyRecipientState extends State<SendByPhoneNotifyRecipient>

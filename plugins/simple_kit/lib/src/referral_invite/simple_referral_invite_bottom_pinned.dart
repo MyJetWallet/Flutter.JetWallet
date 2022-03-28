@@ -14,10 +14,10 @@ class SReferralInviteBottomPinned extends StatefulHookWidget {
   final Function() onShare;
 
   @override
-  State<SReferralInviteBottomPinned> createState() => _SReferralInviteBottomPinnedState();
+  State<SReferralInviteBottomPinned> createState() => _SRefInviteBtmPinState();
 }
 
-class _SReferralInviteBottomPinnedState extends State<SReferralInviteBottomPinned>
+class _SRefInviteBtmPinState extends State<SReferralInviteBottomPinned>
   with WidgetsBindingObserver {
   bool canTapShare = true;
 
