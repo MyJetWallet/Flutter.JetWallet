@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -42,7 +45,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
     }
   }
 
-  Future<void> news(String? assetId) async {
+  Future<void> news(String? assetId, ScrollController? scrollController) async {
     _logger.log(notifier, 'news');
 
     try {
@@ -63,7 +66,11 @@ class NewsNotifier extends StateNotifier<NewsState> {
         'Something went wrong',
         id: 2,
       );
-
+      if (scrollController != null) {
+        Timer(Duration.zero, () {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        });
+      }
       state = state.copyWith(union: const Error());
     }
   }

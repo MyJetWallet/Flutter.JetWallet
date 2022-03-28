@@ -38,7 +38,7 @@ class _NewsListState extends State<NewsList> {
         if (news.union == const NewsUnion.loaded() && !news.nothingToLoad) {
           final newsN = context.read(newsNotipod.notifier);
 
-          newsN.news('');
+          newsN.news('', widget.scrollController,);
         }
       }
     });
@@ -333,9 +333,11 @@ class _NewsListState extends State<NewsList> {
                                     onTap: () {
                                       newsN.news(
                                         '',
+                                        widget.scrollController,
                                       );
                                     },
                                   ),
+
                                 ],
                               ),
                             ),
