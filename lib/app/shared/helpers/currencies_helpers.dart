@@ -23,9 +23,7 @@ void sortCurrenciesByWeight(List<CurrencyModel> currencies) {
   });
 }
 
-List<CurrencyModel> currenciesWithBalance(
-  List<CurrencyModel> currencies,
-) {
+List<CurrencyModel> currenciesWithBalance(List<CurrencyModel> currencies) {
   final list = <CurrencyModel>[];
 
   if (currencies.isNotEmpty) {
@@ -39,13 +37,11 @@ List<CurrencyModel> currenciesWithBalance(
   return list;
 }
 
-List<CurrencyModel> currenciesWithoutBalance(
-  List<CurrencyModel> fromAssetList,
-) {
+List<CurrencyModel> currenciesWithoutBalance(List<CurrencyModel> currencies) {
   final list = <CurrencyModel>[];
 
-  if (fromAssetList.isNotEmpty) {
-    for (final element in fromAssetList) {
+  if (currencies.isNotEmpty) {
+    for (final element in currencies) {
       if (element.baseBalance == Decimal.zero) {
         list.add(element);
       }
