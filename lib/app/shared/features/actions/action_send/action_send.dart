@@ -4,13 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../helper/action_bottom_sheet_header.dart';
 import '../notifier/action_search_notipod.dart';
 import 'components/send_options.dart';
 
 void showSendAction(BuildContext context) {
-  final notifier = context.read(actionSearchNotipod.notifier);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
@@ -18,7 +16,7 @@ void showSendAction(BuildContext context) {
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to send',
       onChange: (String value) {
-        notifier.search(value);
+        context.read(actionSearchNotipod.notifier).search(value);
       },
     ),
     horizontalPinnedPadding: 0.0,
@@ -33,7 +31,6 @@ class _ActionSend extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    useProvider(currenciesPod);
     final state = useProvider(actionSearchNotipod);
 
     return Column(

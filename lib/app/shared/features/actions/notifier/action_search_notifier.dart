@@ -15,6 +15,7 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
 
   void _init() {
     final currencies = read(currenciesPod);
+
     state = state.copyWith(
       currencies: currencies,
       filteredCurrencies: currencies,
@@ -22,20 +23,15 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
   }
 
   void search(String value) {
-    _filter(value);
-  }
-
-  void _filter(String value) {
     if (value.isNotEmpty && state.filteredCurrencies.isNotEmpty) {
       final search = value.toLowerCase();
 
       final currencies = List<CurrencyModel>.from(state.currencies);
 
-      currencies.removeWhere(
-        (element) =>
-            !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search),
-      );
+      currencies.removeWhere((element) {
+        return !(element.description.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search);
+      });
 
       state = state.copyWith(filteredCurrencies: currencies);
     } else {

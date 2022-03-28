@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
 import '../helper/action_bottom_sheet_header.dart';
 import '../notifier/action_search_notipod.dart';
@@ -14,7 +13,6 @@ import 'components/deposit_category_description.dart';
 import 'components/deposit_options.dart';
 
 void showDepositAction(BuildContext context) {
-  final notifier = context.read(actionSearchNotipod.notifier);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
@@ -22,7 +20,7 @@ void showDepositAction(BuildContext context) {
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to deposit',
       onChange: (String value) {
-        notifier.search(value);
+        context.read(actionSearchNotipod.notifier).search(value);
       },
     ),
     horizontalPinnedPadding: 0.0,
@@ -36,7 +34,6 @@ class _ActionDeposit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useProvider(currenciesPod);
     final state = useProvider(actionSearchNotipod);
 
     final fiat = state.filteredCurrencies.where(

@@ -8,13 +8,11 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../helper/action_bottom_sheet_header.dart';
 import '../notifier/action_search_notipod.dart';
 
 void showBuyAction(BuildContext context) {
-  final notifier = context.read(actionSearchNotipod.notifier);
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
@@ -22,7 +20,7 @@ void showBuyAction(BuildContext context) {
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to buy',
       onChange: (String value) {
-        notifier.search(value);
+        context.read(actionSearchNotipod.notifier).search(value);
       },
     ),
     horizontalPinnedPadding: 0.0,
@@ -37,7 +35,6 @@ class _ActionBuy extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    useProvider(currenciesPod);
     final state = useProvider(actionSearchNotipod);
 
     return Column(
