@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 /// Widget that gets size of the child and returns it on the onChange callback
-class SWidgetSize extends StatefulWidget {
-  const SWidgetSize({
+class SGetWidgetSize extends StatefulWidget {
+  const SGetWidgetSize({
     Key? key,
     required this.child,
     required this.onChange,
@@ -13,10 +13,10 @@ class SWidgetSize extends StatefulWidget {
   final Function(Size?) onChange;
 
   @override
-  _SWidgetSizeState createState() => _SWidgetSizeState();
+  _SGetWidgetSizeState createState() => _SGetWidgetSizeState();
 }
 
-class _SWidgetSizeState extends State<SWidgetSize> {
+class _SGetWidgetSizeState extends State<SGetWidgetSize> {
   final widgetKey = GlobalKey();
   Size? oldSize;
 

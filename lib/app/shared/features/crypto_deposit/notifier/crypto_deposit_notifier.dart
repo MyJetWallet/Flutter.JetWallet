@@ -81,7 +81,7 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
       _logger.log(stateFlow, '_requestDepositAddress', error.cause);
 
       read(sNotificationNotipod.notifier).showError(
-        'There was a problem loading wallet address. Try again in a moment.',
+        error.cause,
         id: 1,
       );
 

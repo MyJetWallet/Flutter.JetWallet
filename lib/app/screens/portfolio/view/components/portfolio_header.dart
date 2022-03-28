@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,14 +6,16 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
-import '../../../../../shared/features/chart/notifier/chart_notipod.dart';
-import '../../../../../shared/features/chart/notifier/chart_union.dart';
-import '../../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
-import '../../../../../shared/features/rewards/view/rewards.dart';
+import '../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
+import '../../../../shared/features/chart/notifier/chart_notipod.dart';
+import '../../../../shared/features/chart/notifier/chart_union.dart';
+import '../../../../shared/features/referral_program_gift/provider/referral_gift_pod.dart';
+import '../../../../shared/features/rewards/model/campaign_or_referral_model.dart';
+import '../../../../shared/features/rewards/notifier/reward/rewards_notipod.dart';
+import '../../../../shared/features/rewards/view/rewards.dart';
 
-class PortfolioWithBalanceHeader extends HookWidget {
-  const PortfolioWithBalanceHeader({
+class PortfolioHeader extends HookWidget {
+  const PortfolioHeader({
     Key? key,
     this.emptyBalance = false,
   }) : super(key: key);
@@ -23,6 +26,7 @@ class PortfolioWithBalanceHeader extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final gift = useProvider(referralGiftPod);
+    final rewards = useProvider(rewardsNotipod);
     final chart = useProvider(
       chartNotipod(
         useProvider(balanceChartInputStpod).state,
@@ -64,11 +68,15 @@ class PortfolioWithBalanceHeader extends HookWidget {
                     children: [
                       const SGiftPortfolioIcon(),
                       if (gift == ReferralGiftStatus.showGift) ...[
-                        const SpaceW8(),
-                        Text(
-                          '\$15',
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
+                        Container(
+                          margin: (_giftBonus(rewards).isNotEmpty)
+                              ? const EdgeInsets.only(right: 8)
+                              : EdgeInsets.zero,
+                          child: Text(
+                            _giftBonus(rewards),
+                            style: sSubtitle3Style.copyWith(
+                              color: colors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -82,5 +90,25 @@ class PortfolioWithBalanceHeader extends HookWidget {
         ],
       ),
     );
+  }
+
+  String _giftBonus(List<CampaignOrReferralModel> rewards) {
+    var bonusGift = Decimal.zero;
+
+    for (final item in rewards) {
+      if (item.campaign?.conditions?.isNotEmpty ?? false) {
+        for (final condition in item.campaign!.conditions!) {
+          if (condition.reward != null) {
+            bonusGift = bonusGift + condition.reward!.amount;
+          }
+        }
+      }
+    }
+
+    if (bonusGift == Decimal.zero) {
+      return '';
+    } else {
+      return '\$$bonusGift';
+    }
   }
 }

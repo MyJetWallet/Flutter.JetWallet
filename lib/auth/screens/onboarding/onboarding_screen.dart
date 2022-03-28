@@ -73,6 +73,13 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _precacheImages();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
@@ -198,7 +205,6 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
       _currentIndex = 0;
       _restartAnimation();
     });
-
   }
 
   void _restartAnimation() {
@@ -257,6 +263,15 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
       return colors.brownLight;
     } else {
       return colors.violetLight;
+    }
+  }
+
+  void _precacheImages() {
+    for (var i = 1; i < onboardingImages.length; i++) {
+      precacheImage(
+        Image.asset(onboardingImages[i]).image,
+        context,
+      );
     }
   }
 }

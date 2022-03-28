@@ -8,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from.dart';
+import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
 
 class CommonTransactionDetailsBlock extends HookWidget {
@@ -38,6 +39,16 @@ class CommonTransactionDetailsBlock extends HookWidget {
           '${operationAmount(transactionListItem)} ${currency.symbol}',
           style: sTextH1Style,
         ),
+        if (transactionListItem.status == Status.completed)
+          Text(
+            convertToUsd(
+              transactionListItem.assetPriceInUsd,
+              operationAmount(transactionListItem),
+            ),
+            style: sBodyText2Style.copyWith(
+              color: colors.grey2,
+            ),
+          ),
         Text(
           DateFormat('EEEE, MMMM d, y').format(
             DateTime.parse('${transactionListItem.timeStamp}Z').toLocal(),
@@ -46,12 +57,21 @@ class CommonTransactionDetailsBlock extends HookWidget {
             color: colors.grey2,
           ),
         ),
-        if (transactionListItem.operationType != OperationType.paidInterestRate)
+        if (isOperationSupportCopy(transactionListItem))
           const SpaceH8()
         else
           const SpaceH72(),
       ],
     );
+  }
+
+  String convertToUsd(Decimal assetPriceInUsd, Decimal balance) {
+    final usd = assetPriceInUsd * balance;
+    if (usd < Decimal.zero) {
+      final plusValue = usd.toString().split('-').last;
+      return '≈ \$${Decimal.parse(plusValue).toStringAsFixed(2)}';
+    }
+    return '≈ \$${usd.toStringAsFixed(2)}';
   }
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
