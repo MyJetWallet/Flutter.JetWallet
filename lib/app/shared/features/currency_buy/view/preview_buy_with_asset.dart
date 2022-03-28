@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/price_accuracy.dart';
 import '../model/preview_buy_with_asset_input.dart';
@@ -46,6 +47,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final state = useProvider(previewBuyWithAssetNotipod(widget.input));
     final notifier = useProvider(
       previewBuyWithAssetNotipod(widget.input).notifier,
@@ -70,11 +72,24 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
       },
       child: SPageFrameWithPadding(
         loading: loader.value,
-        header: SMegaHeader(
-          title: notifier.previewHeader,
-          onBackButtonTap: () {
-            notifier.cancelTimer();
-            Navigator.pop(context);
+        header: deviceSize.when(
+          small: () {
+            return SSmallHeader(
+              title: notifier.previewHeader,
+              onBackButtonTap: () {
+                notifier.cancelTimer();
+                Navigator.pop(context);
+              },
+            );
+          },
+          medium: () {
+            return SMegaHeader(
+              title: notifier.previewHeader,
+              onBackButtonTap: () {
+                notifier.cancelTimer();
+                Navigator.pop(context);
+              },
+            );
           },
         ),
         child: CustomScrollView(
