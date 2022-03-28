@@ -74,6 +74,9 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
         toAssetAmount: response.toAssetAmount,
         union: const QuoteSuccess(),
         connectingToServer: false,
+        feeAsset: response.feeAsset,
+        feeAmount: response.feeAmount,
+        feePercent: response.feePercent,
       );
 
       _refreshTimerAnimation(response.expirationTime);

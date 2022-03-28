@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../helpers/currencies_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
@@ -35,6 +36,16 @@ class Convert extends HookWidget {
       ),
     );
 
+    final fromAssetWithBalance = currenciesWithBalance(state.fromAssetList);
+    final fromAssetWithoutBalance =
+        currenciesWithoutBalance(state.fromAssetList);
+
+    final toAssetWithBalance = currenciesWithBalance(state.toAssetList);
+    final toAssetWithoutBalance = currenciesWithoutBalance(state.toAssetList);
+
+    sortCurrenciesByWeight(fromAssetWithoutBalance);
+    sortCurrenciesByWeight(toAssetWithoutBalance);
+
     return SPageFrame(
       header: const SPaddingH24(
         child: SSmallHeader(
@@ -50,7 +61,8 @@ class Convert extends HookWidget {
             inputError: state.inputError,
             enabled: state.fromAssetEnabled,
             currency: state.fromAsset,
-            currencies: state.fromAssetList,
+            assetWithBalance: fromAssetWithBalance,
+            assetWithoutBalance: fromAssetWithoutBalance,
             onTap: () => notifier.enableFromAsset(),
             onDropdown: (value) => notifier.updateFromAsset(value!),
             fromAsset: true,
@@ -80,7 +92,8 @@ class Convert extends HookWidget {
             value: state.toAssetAmount,
             enabled: state.toAssetEnabled,
             currency: state.toAsset,
-            currencies: state.toAssetList,
+            assetWithBalance: toAssetWithBalance,
+            assetWithoutBalance: toAssetWithoutBalance,
             onTap: () => notifier.enableToAsset(),
             onDropdown: (value) => notifier.updateToAsset(value!),
           ),

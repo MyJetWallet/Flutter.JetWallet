@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -106,6 +107,13 @@ class BuySellDetails extends StatelessWidget {
             ),
             const SpaceH14(),
             TransactionDetailsItem(
+              text: 'Fee',
+              value: TransactionDetailsValueText(
+                text: _feeValue(transactionListItem),
+              ),
+            ),
+            const SpaceH14(),
+            TransactionDetailsItem(
               text: 'Rate',
               value: TransactionDetailsValueText(
                 text: _rateFor(buyCurrency, sellCurrency),
@@ -126,6 +134,13 @@ class BuySellDetails extends StatelessWidget {
             ),
             const SpaceH14(),
             TransactionDetailsItem(
+              text: 'Fee',
+              value: TransactionDetailsValueText(
+                text: _feeValue(transactionListItem),
+              ),
+            ),
+            const SpaceH14(),
+            TransactionDetailsItem(
               text: 'Rate',
               value: TransactionDetailsValueText(
                 text: _rateFor(sellCurrency, buyCurrency),
@@ -135,5 +150,18 @@ class BuySellDetails extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _feeValue(OperationHistoryItem transactionListItem) {
+    if (transactionListItem.swapInfo != null) {
+      if (transactionListItem.swapInfo!.feeAmount > Decimal.zero) {
+        return '${transactionListItem.swapInfo!.feeAmount}'
+            ' ${transactionListItem.swapInfo!.feeAsset}';
+      } else {
+        return '0 ${transactionListItem.swapInfo!.feeAsset}';
+      }
+    } else {
+      return '0';
+    }
   }
 }
