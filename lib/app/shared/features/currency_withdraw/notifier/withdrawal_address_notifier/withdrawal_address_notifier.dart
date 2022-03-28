@@ -10,7 +10,9 @@ import '../../../../../../service/services/signal_r/model/blockchains_model.dart
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../shared/services/local_storage_service.dart';
 import '../../../../models/currency_model.dart';
+import '../../../kyc/view/components/allow_camera/allow_camera.dart';
 import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import 'address_validation_union.dart';
@@ -127,34 +129,57 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   Future<void> scanAddressQr(BuildContext context) async {
     _logger.log(notifier, 'scanAddressQr');
 
-    final result = await _pushQrView(context);
-
-    if (result is Barcode) {
-      state.addressController.text = result.code ?? '';
-      _moveCursorAtTheEnd(state.addressController);
-      state.addressFocus.requestFocus();
-      updateAddress(result.code ?? '');
-      await _validateAddressOrTag(
-        _updateAddressValidation,
-        _triggerErrorOfAddressField,
+    if (await _checkCameraPermissionStatus()) {
+      final result = await _pushQrView(
+        context: context,
       );
+
+      if (result is Barcode) {
+        state.addressController.text = result.code ?? '';
+        _moveCursorAtTheEnd(state.addressController);
+        state.addressFocus.requestFocus();
+        updateAddress(result.code ?? '');
+        await _validateAddressOrTag(
+          _updateAddressValidation,
+          _triggerErrorOfAddressField,
+        );
+      }
+    } else {
+      _pushAllowCamera(context);
     }
   }
 
   Future<void> scanTagQr(BuildContext context) async {
     _logger.log(notifier, 'scanTagQr');
 
-    final result = await _pushQrView(context);
-
-    if (result is Barcode) {
-      state.tagController.text = result.code ?? '';
-      _moveCursorAtTheEnd(state.tagController);
-      state.tagFocus.requestFocus();
-      updateTag(result.code ?? '');
-      await _validateAddressOrTag(
-        _updateTagValidation,
-        _triggerErrorOfTagField,
+    if (await _checkCameraPermissionStatus()) {
+      final result = await _pushQrView(
+        context: context,
       );
+
+      if (result is Barcode) {
+        state.tagController.text = result.code ?? '';
+        _moveCursorAtTheEnd(state.tagController);
+        state.tagFocus.requestFocus();
+        updateTag(result.code ?? '');
+        await _validateAddressOrTag(
+          _updateTagValidation,
+          _triggerErrorOfTagField,
+        );
+      }
+    } else {
+      _pushAllowCamera(context);
+    }
+  }
+
+  Future<bool> _checkCameraPermissionStatus() async {
+    final storage = read(localStorageServicePod);
+    final status = await storage.getString(cameraStatusKey);
+
+    if (status == null) {
+      return Future.value(true);
+    } else {
+      return Future.value(false);
     }
   }
 
@@ -169,43 +194,48 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     );
   }
 
-  Future _pushQrView(BuildContext context) {
+  Future _pushQrView({
+    bool fromSettings = false,
+    required BuildContext context,
+  }) {
     final colors = read(sColorPod);
-
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return Stack(
-            children: [
-              QRView(
-                key: state.qrKey,
-                onQRViewCreated: (c) => _onQRViewCreated(c, context),
-                overlay: QrScannerOverlayShape(),
-              ),
-              Positioned(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      left: 28.0,
-                      top: 68.0,
-                    ),
-                    width: 24,
-                    height: 24,
-                    child: SCloseIcon(
-                      color: colors.white,
-                    ),
+    final qrPageRoute = MaterialPageRoute(
+      builder: (context) {
+        return Stack(
+          children: [
+            QRView(
+              key: state.qrKey,
+              onQRViewCreated: (c) => _onQRViewCreated(c, context),
+              overlay: QrScannerOverlayShape(),
+            ),
+            Positioned(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: 28.0,
+                    top: 68.0,
+                  ),
+                  width: 24,
+                  height: 24,
+                  child: SCloseIcon(
+                    color: colors.white,
                   ),
                 ),
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
+
+    if (fromSettings) {
+      return Navigator.pushReplacement(context, qrPageRoute);
+    } else {
+      return Navigator.push(context, qrPageRoute);
+    }
   }
 
   void _onQRViewCreated(QRViewController controller, BuildContext context) {
@@ -335,6 +365,17 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   void _pushWithdrawalAmount(BuildContext context) {
     navigatorPush(context, WithdrawalAmount(withdrawal: withdrawal));
+  }
+
+  void _pushAllowCamera(BuildContext context) {
+    AllowCamera.push(
+      context: context,
+      permissionDescription:
+          'To scan the QR Code, give Simple permission to access your camera',
+      then: () {
+        _pushQrView(context: context, fromSettings: true);
+      },
+    );
   }
 
   @override
