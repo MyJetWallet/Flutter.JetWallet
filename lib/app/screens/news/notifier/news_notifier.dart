@@ -12,25 +12,18 @@ import 'news_union.dart';
 class NewsNotifier extends StateNotifier<NewsState> {
   NewsNotifier({
     required this.read,
-    required this.assetId,
-  }) : super(
-    const NewsState(
-      newsItems: [],
-    ),
-  );
+  }) : super(const NewsState()) {
+    init();
+  }
 
   final Reader read;
-  final String? assetId;
 
   static final _logger = Logger('NewsNotifier');
 
-  Future<void> initNews() async {
-    _logger.log(notifier, 'initNews');
-
+  Future<void> init() async {
     try {
       final news = await _requestNews(
         NewsRequestModel(
-          assetId: assetId,
           batchSize: 20,
           language: read(intlPod).localeName,
         ),
@@ -38,7 +31,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
 
       _updateNews(news.news);
     } catch (e) {
-      _logger.log(stateFlow, 'initNews', e);
+      _logger.log(stateFlow, 'init', e);
 
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong',
@@ -50,7 +43,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
   }
 
   Future<void> news(String? assetId) async {
-    _logger.log(notifier, 'operationHistory');
+    _logger.log(notifier, 'news');
 
     try {
       final news = await _requestNews(
@@ -90,12 +83,10 @@ class NewsNotifier extends StateNotifier<NewsState> {
   }
 
   Future<NewsResponseModel> _requestNews(
-      NewsRequestModel model,
-      ) {
+    NewsRequestModel model,
+  ) {
     state = state.copyWith(union: const Loading());
 
-    return read(newsServicePod).news(
-      model,
-    );
+    return read(newsServicePod).news(model);
   }
 }

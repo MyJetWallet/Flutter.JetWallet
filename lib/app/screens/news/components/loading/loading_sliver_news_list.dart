@@ -6,39 +6,14 @@ class LoadingSliverNewsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SliverList(
+    return SliverList(
       delegate: SliverChildListDelegate.fixed([
-        NewsListLoadingItem(
-          opacity: 1,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.9,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.8,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.7,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.6,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.4,
-          removeDivider: true,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.3,
-          removeDivider: true,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.2,
-          removeDivider: true,
-        ),
-        NewsListLoadingItem(
-          opacity: 0.1,
-          removeDivider: true,
-        ),
+        for (var i = 10; i >= 1; i--) ...[
+          NewsListLoadingItem(
+            opacity: i / 10,
+            removeDivider: true,
+          ),
+        ]
       ]),
     );
   }

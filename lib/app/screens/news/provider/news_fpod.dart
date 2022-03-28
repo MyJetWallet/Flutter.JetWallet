@@ -3,16 +3,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../notifier/news_notipod.dart';
 
-final newsInitFpod = FutureProvider.family.autoDispose<void, String?>(
-  (ref, assetId) async {
+final newsInitFpod = FutureProvider.autoDispose<void>(
+  (ref) async {
     try {
-      final newsN = ref.read(
-        newsNotipod(
-          assetId,
-        ).notifier,
-      );
+      final newsN = ref.read(newsNotipod.notifier);
 
-      await newsN.initNews();
+      await newsN.init();
     } catch (_) {
       ref.read(sNotificationNotipod.notifier).showError(
             'Something went wrong',

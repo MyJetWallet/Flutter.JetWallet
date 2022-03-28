@@ -4,11 +4,10 @@ import 'news_notifier.dart';
 import 'news_state.dart';
 
 final newsNotipod =
-    StateNotifierProvider.autoDispose.family<NewsNotifier, NewsState, String?>(
-  (ref, assetId) {
+    StateNotifierProvider.autoDispose<NewsNotifier, NewsState>(
+  (ref) {
     return NewsNotifier(
       read: ref.read,
-      assetId: assetId,
     );
   },
 );

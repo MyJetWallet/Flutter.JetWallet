@@ -8,8 +8,8 @@ part 'news_state.freezed.dart';
 @freezed
 class NewsState with _$NewsState {
   const factory NewsState({
-    required List<NewsModel> newsItems,
     @Default(Loading()) NewsUnion union,
     @Default(false) bool nothingToLoad,
+    @Default([]) List<NewsModel> newsItems,
   }) = _NewsState;
 }

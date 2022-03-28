@@ -33,18 +33,10 @@ class _NewsListState extends State<NewsList> {
     widget.scrollController.addListener(() {
       if (widget.scrollController.position.maxScrollExtent ==
           widget.scrollController.offset) {
-        final news = context.read(
-          newsNotipod(
-            '',
-          ),
-        );
+        final news = context.read(newsNotipod);
 
         if (news.union == const NewsUnion.loaded() && !news.nothingToLoad) {
-          final newsN = context.read(
-            newsNotipod(
-              '',
-            ).notifier,
-          );
+          final newsN = context.read(newsNotipod.notifier);
 
           newsN.news('');
         }
@@ -56,21 +48,9 @@ class _NewsListState extends State<NewsList> {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final initNews = useProvider(
-      newsInitFpod(
-        '',
-      ),
-    );
-    final newsN = useProvider(
-      newsNotipod(
-        '',
-      ).notifier,
-    );
-    final news = useProvider(
-      newsNotipod(
-        '',
-      ),
-    );
+    final init = useProvider(newsInitFpod);
+    final newsN = useProvider(newsNotipod.notifier);
+    final news = useProvider(newsNotipod);
     final screenHeight = MediaQuery.of(context).size.height;
 
     Color _newsColor(Sentiment sentiment) {
@@ -89,7 +69,7 @@ class _NewsListState extends State<NewsList> {
         top: news.union != const NewsUnion.error() ? 15 : 0,
         bottom: _addBottomPadding(news) ? 72 : 0,
       ),
-      sliver: initNews.when(
+      sliver: init.when(
         data: (_) {
           return news.union.when(
             loading: () {
@@ -261,7 +241,7 @@ class _NewsListState extends State<NewsList> {
                               active: true,
                               name: 'Retry',
                               onTap: () {
-                                newsN.initNews();
+                                newsN.init();
                               },
                             ),
                           ],
@@ -448,7 +428,7 @@ class _NewsListState extends State<NewsList> {
                         active: true,
                         name: 'Retry',
                         onTap: () {
-                          newsN.initNews();
+                          newsN.init();
                         },
                       ),
                     ],
