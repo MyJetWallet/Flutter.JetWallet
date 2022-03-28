@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,7 +15,7 @@ import 'components/crypto_deposit_with_address_and_tag/crypto_deposit_with_addre
 import 'components/deposit_info.dart';
 import 'components/show_deposit_disclaimer.dart';
 
-class CryptoDeposit extends HookWidget {
+class CryptoDeposit extends StatefulHookWidget {
   const CryptoDeposit({
     Key? key,
     required this.header,
@@ -24,41 +26,70 @@ class CryptoDeposit extends HookWidget {
   final CurrencyModel currency;
 
   @override
+  State<CryptoDeposit> createState() => _CryptoDepositState();
+}
+
+class _CryptoDepositState extends State<CryptoDeposit>
+    with WidgetsBindingObserver {
+  bool canTapShare = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      setState(() {
+        canTapShare = true;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
     final colors = useProvider(sColorPod);
     useProvider(
-      cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}),
+      cryptoDepositDisclaimerFpod(widget.currency.symbol).select((_) {}),
     );
-    final deposit = useProvider(cryptoDepositNotipod(currency));
-    final depositN = useProvider(cryptoDepositNotipod(currency).notifier);
+    final deposit = useProvider(cryptoDepositNotipod(widget.currency));
+    final depositN = useProvider(cryptoDepositNotipod(widget.currency).notifier);
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
-      provider: cryptoDepositDisclaimerFpod(currency.symbol),
+      provider: cryptoDepositDisclaimerFpod(widget.currency.symbol),
       onChange: (context, asyncValue) {
         asyncValue.whenData((value) {
           if (value == CryptoDepositDisclaimer.notAccepted) {
             showDepositDisclaimer(
               context: context,
-              assetSymbol: currency.symbol,
-              screenTitle: header,
-              onDismiss: currency.isSingleNetwork
+              assetSymbol: widget.currency.symbol,
+              screenTitle: widget.header,
+              onDismiss: widget.currency.isSingleNetwork
                   ? null
                   : () => showNetworkBottomSheet(
                         context,
                         deposit.network,
-                        currency.depositBlockchains,
-                        currency.iconUrl,
+                        widget.currency.depositBlockchains,
+                        widget.currency.iconUrl,
                         depositN.setNetwork,
                       ),
             );
           } else {
-            if (!currency.isSingleNetwork) {
+            if (!widget.currency.isSingleNetwork) {
               showNetworkBottomSheet(
                 context,
                 deposit.network,
-                currency.depositBlockchains,
-                currency.iconUrl,
+                widget.currency.depositBlockchains,
+                widget.currency.iconUrl,
                 depositN.setNetwork,
               );
             }
@@ -68,7 +99,7 @@ class CryptoDeposit extends HookWidget {
       child: SPageFrame(
         header: SPaddingH24(
           child: SSmallHeader(
-            title: '$header ${currency.description}',
+            title: '$widget.header ${widget.currency.description}',
           ),
         ),
         bottomNavigationBar: SizedBox(
@@ -84,10 +115,20 @@ class CryptoDeposit extends HookWidget {
                   ),
                   active: true,
                   name: 'Share',
-                  onTap: () => Share.share(
-                    'My ${currency.symbol} Address: ${deposit.address} '
-                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
-                  ),
+                  onTap: () {
+                    if (canTapShare) {
+                      setState(() {
+                        canTapShare = false;
+                      });
+                      Timer(const Duration(seconds: 1), () => setState(() {
+                        canTapShare = true;
+                      }),);
+                      Share.share(
+                        'My ${widget.currency.symbol} Address: ${deposit.address} '
+                        '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
+                      );
+                    }
+                  },
                 ),
               ),
               const SpaceH24(),
@@ -109,13 +150,13 @@ class CryptoDeposit extends HookWidget {
               child: InkWell(
                 highlightColor: colors.grey5,
                 splashColor: Colors.transparent,
-                onTap: currency.isSingleNetwork
+                onTap: widget.currency.isSingleNetwork
                     ? null
                     : () => showNetworkBottomSheet(
                           context,
                           deposit.network,
-                          currency.depositBlockchains,
-                          currency.iconUrl,
+                          widget.currency.depositBlockchains,
+                          widget.currency.iconUrl,
                           depositN.setNetwork,
                         ),
                 borderRadius: BorderRadius.circular(16),
@@ -162,7 +203,7 @@ class CryptoDeposit extends HookWidget {
                             style: sSubtitle2Style,
                           ),
                         ),
-                      if (!currency.isSingleNetwork)
+                      if (!widget.currency.isSingleNetwork)
                         const Positioned(
                           right: 0,
                           top: 0,
@@ -177,12 +218,12 @@ class CryptoDeposit extends HookWidget {
             const SDivider(),
             if (deposit.tag != null)
               CryptoDepositWithAddressAndTag(
-                currency: currency,
+                currency: widget.currency,
                 scrollController: controller,
               )
             else
               CryptoDepositWithAddress(
-                currency: currency,
+                currency: widget.currency,
               ),
           ],
         ),

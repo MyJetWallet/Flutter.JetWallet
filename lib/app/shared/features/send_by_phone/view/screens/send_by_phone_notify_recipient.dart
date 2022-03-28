@@ -1,16 +1,47 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class SendByPhoneNotifyRecipient extends HookWidget {
+class SendByPhoneNotifyRecipient extends StatefulHookWidget {
   const SendByPhoneNotifyRecipient({
     Key? key,
     required this.toPhoneNumber,
   }) : super(key: key);
 
   final String toPhoneNumber;
+
+  @override
+  State<SendByPhoneNotifyRecipient> createState() => _SendByPhoneNotifyRecipientState();
+}
+
+class _SendByPhoneNotifyRecipientState extends State<SendByPhoneNotifyRecipient>
+    with WidgetsBindingObserver {
+  bool canTapShare = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      setState(() {
+        canTapShare = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +57,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
         children: [
           const SpaceH4(),
           Text(
-            toPhoneNumber,
+            widget.toPhoneNumber,
             style: sBodyText1Style,
           ),
           Text(
@@ -49,10 +80,18 @@ class SendByPhoneNotifyRecipient extends HookWidget {
             active: true,
             name: 'Send a message',
             onTap: () {
-              Share.share(
-                'I have sent you some money to $toPhoneNumber. Please '
+              if (canTapShare) {
+                setState(() {
+                  canTapShare = false;
+                });
+                Timer(const Duration(seconds: 1), () => setState(() {
+                  canTapShare = true;
+                }),);
+                Share.share(
+                'I have sent you some money to ${widget.toPhoneNumber}. Please '
                 'install Simple app to get them.',
-              );
+                );
+              }
             },
           ),
           const SpaceH10(),
