@@ -9,8 +9,8 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
-import '../helper/action_bottom_sheet_header.dart';
-import '../notifier/action_search_notipod.dart';
+import '../shared/components/action_bottom_sheet_header.dart';
+import '../shared/notifier/action_search_notipod.dart';
 
 void showBuyAction(BuildContext context) {
   Navigator.pop(context); // close BasicBottomSheet from Menu
@@ -19,7 +19,7 @@ void showBuyAction(BuildContext context) {
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to buy',
-      onChange: (String value) {
+      onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
       },
     ),

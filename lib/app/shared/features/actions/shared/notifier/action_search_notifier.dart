@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../models/currency_model.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../models/currency_model.dart';
+import '../../../../providers/currencies_pod/currencies_pod.dart';
 import 'action_search_state.dart';
 
 class ActionSearchNotifier extends StateNotifier<ActionSearchState> {

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../models/currency_model.dart';
+import '../../../../models/currency_model.dart';
 
 part 'action_search_state.freezed.dart';
 

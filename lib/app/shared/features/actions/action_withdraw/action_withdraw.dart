@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../helper/action_bottom_sheet_header.dart';
-import '../notifier/action_search_notipod.dart';
+import '../shared/components/action_bottom_sheet_header.dart';
+import '../shared/notifier/action_search_notipod.dart';
 import 'components/withdraw_options.dart';
 
 void showWithdrawAction(BuildContext context) {
@@ -15,7 +15,7 @@ void showWithdrawAction(BuildContext context) {
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to withdraw',
-      onChange: (String value) {
+      onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
       },
     ),

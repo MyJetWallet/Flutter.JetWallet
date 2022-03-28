@@ -5,11 +5,11 @@ class ActionBottomSheetHeader extends StatelessWidget {
   const ActionBottomSheetHeader({
     Key? key,
     required this.name,
-    required this.onChange,
+    required this.onChanged,
   }) : super(key: key);
 
   final String name;
-  final Function(String) onChange;
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
           child: SStandardField(
             autofocus: true,
             labelText: 'Search',
-            onChanged: onChange,
+            onChanged: onChanged,
           ),
         ),
         const SDivider(),
