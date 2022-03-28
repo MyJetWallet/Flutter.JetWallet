@@ -6,19 +6,24 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
 import '../helper/action_bottom_sheet_header.dart';
-import '../notifier/currencies_notipod.dart';
+import '../notifier/action_search_notipod.dart';
 import 'components/deposit_category_description.dart';
 import 'components/deposit_options.dart';
 
 void showDepositAction(BuildContext context) {
+  final notifier = context.read(actionSearchNotipod.notifier);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const ActionBottomSheetHeader(
+    pinned: ActionBottomSheetHeader(
       name: 'Choose asset to deposit',
+      onChange: (String value) {
+        notifier.search(value);
+      },
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -31,18 +36,20 @@ class _ActionDeposit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(currenciesNotipod);
+    useProvider(currenciesPod);
+    final state = useProvider(actionSearchNotipod);
 
-    final fiat = state.where(
+    final fiat = state.filteredCurrencies.where(
       (e) => e.type == AssetType.fiat && e.supportsAtLeastOneFiatDepositMethod,
     );
-    final crypto = state.where(
+    final crypto = state.filteredCurrencies.where(
       (e) => e.type == AssetType.crypto && e.supportsCryptoDeposit,
     );
 
     return Column(
       children: [
         if (fiat.isNotEmpty) ...[
+          const SpaceH10(),
           const DepositCategoryDescription(
             text: 'Fiat',
           ),
@@ -60,6 +67,7 @@ class _ActionDeposit extends HookWidget {
             ),
         ],
         if (crypto.isNotEmpty) ...[
+          if (fiat.isEmpty) const SpaceH10(),
           const DepositCategoryDescription(
             text: 'Crypto',
           ),

@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../provider/action_buy_filtered_stpod.dart';
-
-class ActionBottomSheetHeader extends HookWidget {
+class ActionBottomSheetHeader extends StatelessWidget {
   const ActionBottomSheetHeader({
     Key? key,
     required this.name,
+    required this.onChange,
   }) : super(key: key);
 
   final String name;
+  final Function(String) onChange;
 
   @override
   Widget build(BuildContext context) {
-    final actionBuyFiltered = useProvider(actionBuyFilteredStpod);
 
     return Column(
       children: [
@@ -38,9 +35,7 @@ class ActionBottomSheetHeader extends HookWidget {
           child: SStandardField(
             autofocus: true,
             labelText: 'Search',
-            onChanged: (value) {
-              actionBuyFiltered.state = value;
-            },
+            onChanged: onChange,
           ),
         ),
         const SDivider(),

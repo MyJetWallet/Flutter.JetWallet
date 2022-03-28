@@ -7,19 +7,23 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
-import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../helper/action_bottom_sheet_header.dart';
-import '../notifier/currencies_notipod.dart';
+import '../notifier/action_search_notipod.dart';
 
 void showBuyAction(BuildContext context) {
+  final notifier = context.read(actionSearchNotipod.notifier);
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const ActionBottomSheetHeader(
+    pinned: ActionBottomSheetHeader(
       name: 'Choose asset to buy',
+      onChange: (String value) {
+        notifier.search(value);
+      },
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -33,22 +37,12 @@ class _ActionBuy extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    final state = useProvider(currenciesNotipod);
-
-    final assetWithBalance = <CurrencyModel>[];
-    final assetWithOutBalance = <CurrencyModel>[];
-
-    for (final currency in state) {
-      if (currency.baseBalance != Decimal.zero) {
-        assetWithBalance.add(currency);
-      } else {
-        assetWithOutBalance.add(currency);
-      }
-    }
+    useProvider(currenciesPod);
+    final state = useProvider(actionSearchNotipod);
 
     return Column(
       children: [
-        for (final currency in state) ...[
+        for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
             SMarketItem(
               icon: SNetworkSvg24(
@@ -64,7 +58,7 @@ class _ActionBuy extends HookWidget {
                 accuracy: baseCurrency.accuracy,
               ),
               ticker: currency.symbol,
-              last: currency == state.last,
+              last: currency == state.currencies.last,
               percent: currency.dayPercentChange,
               onTap: () {
                 sAnalytics.buySellView(

@@ -6,17 +6,22 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
 import '../helper/action_bottom_sheet_header.dart';
-import '../notifier/currencies_notipod.dart';
+import '../notifier/action_search_notipod.dart';
 
 void showReceiveAction(BuildContext context) {
+  final notifier = context.read(actionSearchNotipod.notifier);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const ActionBottomSheetHeader(
+    pinned: ActionBottomSheetHeader(
       name: 'Choose asset to receive',
+      onChange: (String value) {
+        notifier.search(value);
+      },
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -29,11 +34,12 @@ class _ActionReceive extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(currenciesNotipod);
+    useProvider(currenciesPod);
+    final state = useProvider(actionSearchNotipod);
 
     return Column(
       children: [
-        for (final currency in state)
+        for (final currency in state.filteredCurrencies)
           if (currency.type == AssetType.crypto)
             if (currency.supportsCryptoDeposit)
               SWalletItem(

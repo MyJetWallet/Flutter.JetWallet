@@ -4,17 +4,22 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../helper/action_bottom_sheet_header.dart';
-import '../notifier/currencies_notipod.dart';
+import '../notifier/action_search_notipod.dart';
 import 'components/withdraw_options.dart';
 
 void showWithdrawAction(BuildContext context) {
+  final notifier = context.read(actionSearchNotipod.notifier);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const ActionBottomSheetHeader(
+    pinned: ActionBottomSheetHeader(
       name: 'Choose asset to withdraw',
+      onChange: (String value) {
+        notifier.search(value);
+      },
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -28,11 +33,12 @@ class _ActionWithdraw extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    final state = useProvider(currenciesNotipod);
+    useProvider(currenciesPod);
+    final state = useProvider(actionSearchNotipod);
 
     return Column(
       children: [
-        for (final currency in state)
+        for (final currency in state.filteredCurrencies)
           if (currency.isAssetBalanceNotEmpty)
             if (currency.supportsAtLeastOneWithdrawalMethod)
               SWalletItem(
