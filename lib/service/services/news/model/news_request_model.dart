@@ -6,9 +6,10 @@ part 'news_request_model.g.dart';
 @freezed
 class NewsRequestModel with _$NewsRequestModel {
   const factory NewsRequestModel({
-    required String lastSeen,
+    String? assetId,
+    @JsonKey(name: 'lastSeen') String? lastDate,
+    @JsonKey(name: 'take') int? batchSize,
     @JsonKey(name: 'lang') required String language,
-    @JsonKey(name: 'take') required int amount,
   }) = _NewsRequestModel;
 
   factory NewsRequestModel.fromJson(Map<String, dynamic> json) =>

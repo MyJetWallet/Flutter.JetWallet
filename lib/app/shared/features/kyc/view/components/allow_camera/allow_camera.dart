@@ -136,7 +136,9 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                       baseline: 48,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
-                        'We cannot verify you without using your\ncamera',
+                        state.permissionDenied
+                            ? 'Give permission to allow the use of camera'
+                            : 'We cannot verify you without using your\ncamera',
                         maxLines: 3,
                         style: sBodyText1Style.copyWith(
                           color: colors.grey1,

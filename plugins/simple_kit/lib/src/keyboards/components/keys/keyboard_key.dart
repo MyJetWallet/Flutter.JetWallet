@@ -25,18 +25,26 @@ class KeyboardKey extends HookWidget {
     final highlighted = useState(false);
 
     return KeyboardKeySize(
-      child: KeyboardKeyDetector(
-        onTap: () => onKeyPressed(realValue),
-        onHighlightChanged: (value) {
-          highlighted.value = value;
-        },
-        child: Center(
-          child: Text(
-            frontKey,
-            style: sTextH4Style.copyWith(
-              color: highlighted.value
-                  ? SColorsLight().black.withOpacity(0.8)
-                  : SColorsLight().black,
+      child: Container(
+        decoration: BoxDecoration(
+          color: highlighted.value
+              ? SColorsLight().white
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: KeyboardKeyDetector(
+          onTap: () => onKeyPressed(realValue),
+          onHighlightChanged: (value) {
+            highlighted.value = value;
+          },
+          child: Center(
+            child: Text(
+              frontKey,
+              style: sTextH4Style.copyWith(
+                color: highlighted.value
+                    ? SColorsLight().black.withOpacity(0.8)
+                    : SColorsLight().black,
+              ),
             ),
           ),
         ),

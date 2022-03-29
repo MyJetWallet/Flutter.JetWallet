@@ -5,10 +5,8 @@ import '../interceptors/interceptor_401_403.dart';
 
 void addInterceptors(Dio dio, Reader read) {
   dio.interceptors.add(
-    InterceptorsWrapper(
+    QueuedInterceptorsWrapper(
       onError: (dioError, handler) async {
-        dio.lock();
-
         final code = dioError.response?.statusCode;
 
         if (code == 401 || code == 403) {
@@ -20,8 +18,6 @@ void addInterceptors(Dio dio, Reader read) {
         } else {
           handler.reject(dioError);
         }
-
-        dio.unlock();
       },
     ),
   );

@@ -12,7 +12,7 @@ Future<NewsResponseModel> newsService(
     NewsRequestModel model,
     ) async {
   final logger = WalletService.logger;
-  const message = 'educationNewsService';
+  const message = 'newsService';
 
   try {
     final response = await dio.post(

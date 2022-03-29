@@ -7,6 +7,8 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../shared/components/result_screens/success_screen/components/success_animation.dart';
 import '../../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../provider/kyc_start_fpod.dart';
 
 class SuccessKycScreen extends HookWidget {
@@ -40,6 +42,7 @@ class SuccessKycScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     useProvider(kycStartFpod);
 
@@ -49,7 +52,9 @@ class SuccessKycScreen extends HookWidget {
       child: Column(
         children: [
           const Spacer(),
-          const SuccessAnimation(),
+          SuccessAnimation(
+            widgetSize: widgetSizeFrom(deviceSize),
+          ),
           Baseline(
             baseline: 136.0,
             baselineType: TextBaseline.alphabetic,
