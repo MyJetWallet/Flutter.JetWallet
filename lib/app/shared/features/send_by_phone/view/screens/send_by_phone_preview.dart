@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../models/currency_model.dart';
 import '../../notifier/send_by_phone_preview_notifier/send_by_phone_preview_notipod.dart';
@@ -19,6 +20,7 @@ class SendByPhonePreview extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(sendByPhonePreviewNotipod(currency));
     final notifier = useProvider(sendByPhonePreviewNotipod(currency).notifier);
@@ -35,8 +37,17 @@ class SendByPhonePreview extends HookWidget {
       },
       child: SPageFrameWithPadding(
         loading: loader.value,
-        header: SMegaHeader(
-          title: 'Send ${currency.description} by phone',
+        header: deviceSize.when(
+          small: () {
+            return SSmallHeader(
+              title: 'Send ${currency.description} by phone',
+            );
+          },
+          medium: () {
+            return SMegaHeader(
+              title: 'Send ${currency.description} by phone',
+            );
+          },
         ),
         child: CustomScrollView(
           slivers: [
