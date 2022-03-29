@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
     runs-on: self-hosted
 
     steps:
@@ -25,4 +24,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            to branch <b>develop</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
+            MERGED to branch <b>develop</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
