@@ -1,9 +1,11 @@
 name: Telegram notification
 
 on:
-  push:
-    branches:
-      - develop
+  pull_request:
+    types: [opened]
+     branches:
+       - develop
+
 
 jobs:
   build:
@@ -24,4 +26,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: html
         message: |
-          MERGED to branch <b>${{ steps.extract_branch.outputs.branch }}</b> PR: <b>${{ github.event.commits[0].message }}</b>
+          OPEN PR in Branch: <b>${{ steps.extract_branch.outputs.branch }}</b> PR: <b>${{ github.event.pull_request.head.ref }}</b>
