@@ -23,4 +23,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            "\xE2\x9C\x85" MERGED to branch develop PR: ${{ steps.extract_branch.outputs.branch }}
+            "%E2%9C%85" MERGED to branch develop PR: ${{ steps.extract_branch.outputs.branch }}
