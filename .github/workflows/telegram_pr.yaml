@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      if: github.event.pull_request.merged == 'true'
+        if: github.event.pull_request.merged == 'true'
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
