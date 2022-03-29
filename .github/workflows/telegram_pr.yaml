@@ -1,0 +1,26 @@
+name: Telegram notification
+
+on:
+  push:
+#  pull_request:
+#    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - uses: actions/checkout@v2
+      - name: Telegram Notify
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            Branch ${{ steps.extract_branch.outputs.branch }} a new PR is raised [View all PR's](https://github.com/<user>/<repo>/pulls)
