@@ -16,14 +16,14 @@ class NewsNotifier extends StateNotifier<NewsState> {
   NewsNotifier({
     required this.read,
   }) : super(const NewsState()) {
-    init();
+    init(null);
   }
 
   final Reader read;
 
   static final _logger = Logger('NewsNotifier');
 
-  Future<void> init() async {
+  Future<void> init(ScrollController? scrollController) async {
     try {
       final news = await _requestNews(
         NewsRequestModel(
@@ -40,6 +40,8 @@ class NewsNotifier extends StateNotifier<NewsState> {
         'Something went wrong',
         id: 1,
       );
+
+      _scrollDown(scrollController);
 
       state = state.copyWith(union: const Error());
     }
@@ -66,11 +68,9 @@ class NewsNotifier extends StateNotifier<NewsState> {
         'Something went wrong',
         id: 2,
       );
-      if (scrollController != null) {
-        Timer(Duration.zero, () {
-          scrollController.jumpTo(scrollController.position.maxScrollExtent);
-        });
-      }
+
+      _scrollDown(scrollController);
+
       state = state.copyWith(union: const Error());
     }
   }
@@ -89,11 +89,17 @@ class NewsNotifier extends StateNotifier<NewsState> {
     }
   }
 
-  Future<NewsResponseModel> _requestNews(
-    NewsRequestModel model,
-  ) {
+  Future<NewsResponseModel> _requestNews(NewsRequestModel model) {
     state = state.copyWith(union: const Loading());
 
     return read(newsServicePod).news(model);
+  }
+
+  void _scrollDown(ScrollController? scrollController) {
+    if (scrollController != null) {
+      Timer(Duration.zero, () {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      });
+    }
   }
 }

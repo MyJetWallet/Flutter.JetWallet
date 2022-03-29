@@ -10,7 +10,6 @@ import '../../../shared/features/market_details/helper/format_news_date.dart';
 import '../notifier/news_notipod.dart';
 import '../notifier/news_state.dart';
 import '../notifier/news_union.dart';
-import '../provider/news_fpod.dart';
 import 'loading/loading_sliver_news_list.dart';
 
 class NewsList extends StatefulHookWidget {
@@ -48,7 +47,6 @@ class _NewsListState extends State<NewsList> {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final init = useProvider(newsInitFpod);
     final newsN = useProvider(newsNotipod.notifier);
     final news = useProvider(newsNotipod);
     final screenHeight = MediaQuery.of(context).size.height;
@@ -69,49 +67,18 @@ class _NewsListState extends State<NewsList> {
         top: news.union != const NewsUnion.error() ? 15 : 0,
         bottom: _addBottomPadding(news) ? 72 : 0,
       ),
-      sliver: init.when(
-        data: (_) {
-          return news.union.when(
-            loading: () {
-              if (news.newsItems.isEmpty) {
-                return const LoadingSliverNewsList();
-              } else {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
+      sliver: news.union.when(
+        loading: () {
+          if (news.newsItems.isEmpty) {
+            return const LoadingSliverNewsList();
+          } else {
+            return SliverList(
+              delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      if (news.newsItems[index] == news.newsItems.last) {
-                        return Column(
-                          children: [
-                            SNewsCategory(
-                              newsLabel: news.newsItems[index].source,
-                              newsText: news.newsItems[index].topic,
-                              sentiment: _newsColor(
-                                news.newsItems[index].sentiment,
-                              ),
-                              timestamp: formatNewsDate(
-                                news.newsItems[index].timestamp,
-                              ),
-                              onTap: () => launchURL(
-                                context,
-                                news.newsItems[index].urlAddress,
-                              ),
-                            ),
-                            const SpaceH24(),
-                            Container(
-                              width: 24.0,
-                              height: 24.0,
-                              decoration: BoxDecoration(
-                                color: colors.grey5,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const RiveAnimation.asset(
-                                loadingAnimationAsset,
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return SNewsCategory(
+                  if (news.newsItems[index] == news.newsItems.last) {
+                    return Column(
+                      children: [
+                        SNewsCategory(
                           newsLabel: news.newsItems[index].source,
                           newsText: news.newsItems[index].topic,
                           sentiment: _newsColor(
@@ -124,227 +91,169 @@ class _NewsListState extends State<NewsList> {
                             context,
                             news.newsItems[index].urlAddress,
                           ),
-                        );
-                      }
-                    },
-                    childCount: news.newsItems.length,
-                  ),
-                );
-              }
-            },
-            loaded: () {
-              if (news.newsItems.isEmpty) {
-                return SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: screenHeight - screenHeight * 0.369,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'No news yet',
-                          style: sTextH3Style,
                         ),
-                        Text(
-                          'Your news will appear here',
-                          style: sBodyText1Style.copyWith(
-                            color: colors.grey1,
+                        const SpaceH24(),
+                        Container(
+                          width: 24.0,
+                          height: 24.0,
+                          decoration: BoxDecoration(
+                            color: colors.grey5,
+                            shape: BoxShape.circle,
                           ),
+                          child: const RiveAnimation.asset(
+                            loadingAnimationAsset,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return SNewsCategory(
+                      newsLabel: news.newsItems[index].source,
+                      newsText: news.newsItems[index].topic,
+                      sentiment: _newsColor(
+                        news.newsItems[index].sentiment,
+                      ),
+                      timestamp: formatNewsDate(
+                        news.newsItems[index].timestamp,
+                      ),
+                      onTap: () => launchURL(
+                        context,
+                        news.newsItems[index].urlAddress,
+                      ),
+                    );
+                  }
+                },
+                childCount: news.newsItems.length,
+              ),
+            );
+          }
+        },
+        loaded: () {
+          if (news.newsItems.isEmpty) {
+            return SliverToBoxAdapter(
+              child: SizedBox(
+                height: screenHeight - screenHeight * 0.369,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No news yet',
+                      style: sTextH3Style,
+                    ),
+                    Text(
+                      'Your news will appear here',
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                  return SNewsCategory(
+                    newsLabel: news.newsItems[index].source,
+                    newsText: news.newsItems[index].topic,
+                    sentiment: _newsColor(
+                      news.newsItems[index].sentiment,
+                    ),
+                    timestamp: formatNewsDate(
+                      news.newsItems[index].timestamp,
+                    ),
+                    onTap: () => launchURL(
+                      context,
+                      news.newsItems[index].urlAddress,
+                    ),
+                  );
+                },
+                childCount: news.newsItems.length,
+              ),
+            );
+          }
+        },
+        error: () {
+          if (news.newsItems.isEmpty) {
+            return SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    width: double.infinity,
+                    height: 137,
+                    margin: EdgeInsets.only(
+                      top: screenHeight -
+                          (screenHeight * widget.errorBoxPaddingMultiplier),
+                      left: 24,
+                      right: 24,
+                      bottom: 24,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        width: 2,
+                        color: colors.grey4,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 22,
+                                top: 22,
+                                right: 12,
+                              ),
+                              child: SErrorIcon(
+                                color: colors.red,
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 20,
+                                ),
+                                child: SizedBox(
+                                  height: 77,
+                                  child: Baseline(
+                                    baseline: 38,
+                                    baselineType: TextBaseline.alphabetic,
+                                    child: Text(
+                                      'Something went wrong when '
+                                          'loading your data',
+                                      style: sBodyText1Style,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        STextButton1(
+                          active: true,
+                          name: 'Retry',
+                          onTap: () {
+                            newsN.init(widget.scrollController);
+                          },
                         ),
                       ],
                     ),
                   ),
-                );
-              } else {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
+                ],
+              ),
+            );
+          } else {
+            return SliverList(
+              delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      return SNewsCategory(
-                        newsLabel: news.newsItems[index].source,
-                        newsText: news.newsItems[index].topic,
-                        sentiment: _newsColor(
-                          news.newsItems[index].sentiment,
-                        ),
-                        timestamp: formatNewsDate(
-                          news.newsItems[index].timestamp,
-                        ),
-                        onTap: () => launchURL(
-                          context,
-                          news.newsItems[index].urlAddress,
-                        ),
-                      );
-                    },
-                    childCount: news.newsItems.length,
-                  ),
-                );
-              }
-            },
-            error: () {
-              if (news.newsItems.isEmpty) {
-                return SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Container(
-                        width: double.infinity,
-                        height: 137,
-                        margin: EdgeInsets.only(
-                          top: screenHeight -
-                              (screenHeight * widget.errorBoxPaddingMultiplier),
-                          left: 24,
-                          right: 24,
-                          bottom: 24,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            width: 2,
-                            color: colors.grey4,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 22,
-                                    top: 22,
-                                    right: 12,
-                                  ),
-                                  child: SErrorIcon(
-                                    color: colors.red,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 20,
-                                    ),
-                                    child: SizedBox(
-                                      height: 77,
-                                      child: Baseline(
-                                        baseline: 38,
-                                        baselineType: TextBaseline.alphabetic,
-                                        child: Text(
-                                          'Something went wrong when '
-                                          'loading your data',
-                                          style: sBodyText1Style,
-                                          maxLines: 2,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            STextButton1(
-                              active: true,
-                              name: 'Retry',
-                              onTap: () {
-                                newsN.init();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      if (news.newsItems[index] == news.newsItems.last) {
-                        return Column(
-                          children: [
-                            SNewsCategory(
-                              newsLabel: news.newsItems[index].source,
-                              newsText: news.newsItems[index].topic,
-                              sentiment: _newsColor(
-                                news.newsItems[index].sentiment,
-                              ),
-                              timestamp: formatNewsDate(
-                                news.newsItems[index].timestamp,
-                              ),
-                              onTap: () => launchURL(
-                                context,
-                                news.newsItems[index].urlAddress,
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              height: 137,
-                              margin: const EdgeInsets.only(
-                                left: 24,
-                                right: 24,
-                                bottom: 24,
-                                top: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  width: 2,
-                                  color: colors.grey4,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 22,
-                                          top: 22,
-                                          right: 12,
-                                        ),
-                                        child: SErrorIcon(
-                                          color: colors.red,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 20,
-                                          ),
-                                          child: SizedBox(
-                                            height: 77,
-                                            child: Baseline(
-                                              baseline: 38,
-                                              baselineType:
-                                                  TextBaseline.alphabetic,
-                                              child: Text(
-                                                'Something went wrong '
-                                                'when '
-                                                'loading your data',
-                                                style: sBodyText1Style,
-                                                maxLines: 2,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  STextButton1(
-                                    active: true,
-                                    name: 'Retry',
-                                    onTap: () {
-                                      newsN.news(
-                                        '',
-                                        widget.scrollController,
-                                      );
-                                    },
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return SNewsCategory(
+                  if (news.newsItems[index] == news.newsItems.last) {
+                    return Column(
+                      children: [
+                        SNewsCategory(
                           newsLabel: news.newsItems[index].source,
                           newsText: news.newsItems[index].topic,
                           sentiment: _newsColor(
@@ -357,88 +266,100 @@ class _NewsListState extends State<NewsList> {
                             context,
                             news.newsItems[index].urlAddress,
                           ),
-                        );
-                      }
-                    },
-                    childCount: news.newsItems.length,
-                  ),
-                );
-              }
-            },
-          );
-        },
-        loading: () => const LoadingSliverNewsList(),
-        error: (_, __) {
-          return SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Container(
-                  width: double.infinity,
-                  height: 137,
-                  margin: EdgeInsets.only(
-                    top: screenHeight -
-                        (screenHeight * widget.errorBoxPaddingMultiplier),
-                    left: 24,
-                    right: 24,
-                    bottom: 24,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      width: 2,
-                      color: colors.grey4,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 22,
-                              top: 22,
-                              right: 12,
-                            ),
-                            child: SErrorIcon(
-                              color: colors.red,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 137,
+                          margin: const EdgeInsets.only(
+                            left: 24,
+                            right: 24,
+                            bottom: 24,
+                            top: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              width: 2,
+                              color: colors.grey4,
                             ),
                           ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 20,
-                              ),
-                              child: SizedBox(
-                                height: 77,
-                                child: Baseline(
-                                  baseline: 38,
-                                  baselineType: TextBaseline.alphabetic,
-                                  child: Text(
-                                    'Something went wrong when '
-                                    'loading your data',
-                                    style: sBodyText1Style,
-                                    maxLines: 2,
+                          child: Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 22,
+                                      top: 22,
+                                      right: 12,
+                                    ),
+                                    child: SErrorIcon(
+                                      color: colors.red,
+                                    ),
                                   ),
-                                ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 20,
+                                      ),
+                                      child: SizedBox(
+                                        height: 77,
+                                        child: Baseline(
+                                          baseline: 38,
+                                          baselineType:
+                                          TextBaseline.alphabetic,
+                                          child: Text(
+                                            'Something went wrong '
+                                                'when '
+                                                'loading your data',
+                                            style: sBodyText1Style,
+                                            maxLines: 2,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                              STextButton1(
+                                active: true,
+                                name: 'Retry',
+                                onTap: () {
+                                  newsN.news(
+                                    '',
+                                    widget.scrollController,
+                                  );
+                                },
+                              ),
+
+                            ],
                           ),
-                        ],
+                        ),
+                      ],
+                    );
+                  } else {
+                    return SNewsCategory(
+                      newsLabel: news.newsItems[index].source,
+                      newsText: news.newsItems[index].topic,
+                      sentiment: _newsColor(
+                        news.newsItems[index].sentiment,
                       ),
-                      STextButton1(
-                        active: true,
-                        name: 'Retry',
-                        onTap: () {
-                          newsN.init();
-                        },
+                      timestamp: formatNewsDate(
+                        news.newsItems[index].timestamp,
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
+                      onTap: () => launchURL(
+                        context,
+                        news.newsItems[index].urlAddress,
+                      ),
+                    );
+                  }
+                },
+                childCount: news.newsItems.length,
+              ),
+            );
+          }
         },
       ),
     );
