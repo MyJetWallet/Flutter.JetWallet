@@ -98,7 +98,11 @@ class NewsNotifier extends StateNotifier<NewsState> {
   void _scrollDown(ScrollController? scrollController) {
     if (scrollController != null) {
       Timer(Duration.zero, () {
-        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
+        );
       });
     }
   }
