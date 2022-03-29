@@ -15,6 +15,7 @@ class PreviewBuyWithAssetState with _$PreviewBuyWithAssetState {
     String? toAssetSymbol,
     Decimal? fromAssetAmount,
     Decimal? toAssetAmount,
+    Decimal? feePercent,
     // Will be initialzied on initState of the parent widget
     AnimationController? timerAnimation,
     // [true] when requestQuote() takes too long
