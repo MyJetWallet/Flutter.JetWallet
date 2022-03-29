@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:simple_kit/simple_kit.dart';
+
 import '../../../../service/shared/constants.dart';
 
 // TODO(any): move to shared helper or remove
@@ -10,5 +13,15 @@ String formatDayPercentageChange(double change) {
     return '+$formattedChange%';
   } else {
     return '$formattedChange%';
+  }
+}
+
+Color colorDayPercentage(double change, SimpleColors colors) {
+  if (change == 0) return colors.grey1;
+
+  if (change > 0) {
+    return colors.green;
+  } else  {
+    return colors.red;
   }
 }
