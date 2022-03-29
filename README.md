@@ -1,4 +1,4 @@
-# Flutter.JetWallet
+# Flutter.JetWallet1
 
 ## Links
 [Spot Images](https://github.com/MyJetWallet/spotimages)
