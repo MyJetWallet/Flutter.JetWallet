@@ -14,7 +14,6 @@ class EmptySearchResult extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _key = GlobalKey();
     final colors = useProvider(sColorPod);
 
     return SizedBox(
