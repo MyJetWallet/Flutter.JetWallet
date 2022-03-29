@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../helpers/navigator_push.dart';
+import '../../../helpers/widget_size_from.dart';
+import '../../../providers/device_size/device_size_pod.dart';
 import 'components/failure_animation.dart';
 
 class FailureScreen extends HookWidget {
@@ -49,6 +51,7 @@ class FailureScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
 
     return WillPopScope(
@@ -59,7 +62,9 @@ class FailureScreen extends HookWidget {
         child: Column(
           children: [
             const SpaceH86(),
-            const FailureAnimation(),
+            FailureAnimation(
+              widgetSize: widgetSizeFrom(deviceSize),
+            ),
             Baseline(
               baseline: 92.0,
               baselineType: TextBaseline.alphabetic,
