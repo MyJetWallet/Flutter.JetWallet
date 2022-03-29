@@ -241,7 +241,7 @@ class _NewsListState extends State<NewsList> {
                               active: true,
                               name: 'Retry',
                               onTap: () {
-                                newsN.init();
+                                newsN.init(widget.scrollController);
                               },
                             ),
                           ],
@@ -430,7 +430,7 @@ class _NewsListState extends State<NewsList> {
                         active: true,
                         name: 'Retry',
                         onTap: () {
-                          newsN.init();
+                          newsN.init(widget.scrollController,);
                         },
                       ),
                     ],

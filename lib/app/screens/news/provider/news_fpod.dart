@@ -8,7 +8,7 @@ final newsInitFpod = FutureProvider.autoDispose<void>(
     try {
       final newsN = ref.read(newsNotipod.notifier);
 
-      await newsN.init();
+      await newsN.init(null);
     } catch (_) {
       ref.read(sNotificationNotipod.notifier).showError(
             'Something went wrong',
