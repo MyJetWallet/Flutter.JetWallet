@@ -58,7 +58,7 @@ class ConvertRow extends HookWidget {
               isSelected: currency == item,
               icon: SNetworkSvg24(
                 url: item.iconUrl,
-                color: _iconColor(item),
+                color: _iconColor(item, context),
               ),
               name: item.description,
               description: item.symbol,
@@ -77,7 +77,7 @@ class ConvertRow extends HookWidget {
               isSelected: currency == item,
               icon: SNetworkSvg24(
                 url: item.iconUrl,
-                color: _iconColor(item),
+                color: _iconColor(item, context),
               ),
               name: item.description,
               description: item.symbol,
@@ -170,8 +170,8 @@ class ConvertRow extends HookWidget {
     );
   }
 
-  Color? _iconColor(CurrencyModel item) {
-    final colors = useProvider(sColorPod);
+  Color? _iconColor(CurrencyModel item, BuildContext context) {
+    final colors = context.read(sColorPod);
 
     if (item.type == AssetType.indices) {
       return null;
