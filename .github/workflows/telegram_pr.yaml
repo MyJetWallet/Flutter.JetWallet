@@ -22,4 +22,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            Branch ${{ steps.extract_branch.outputs.branch }} a new PR is raised
+            [develop] Branch ${{ steps.extract_branch.outputs.branch }} a new PR is raised
