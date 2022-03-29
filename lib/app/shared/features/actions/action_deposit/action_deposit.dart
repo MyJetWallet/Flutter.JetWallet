@@ -6,8 +6,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
+import '../shared/components/action_bottom_sheet_header.dart';
+import '../shared/notifier/action_search_notipod.dart';
 import 'components/deposit_category_description.dart';
 import 'components/deposit_options.dart';
 
@@ -16,9 +17,14 @@ void showDepositAction(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const SBottomSheetHeader(
+    pinned: ActionBottomSheetHeader(
       name: 'Choose asset to deposit',
+      onChanged: (String value) {
+        context.read(actionSearchNotipod.notifier).search(value);
+      },
     ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
     children: [const _ActionDeposit()],
   );
 }
@@ -28,17 +34,19 @@ class _ActionDeposit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = useProvider(currenciesPod);
-    final fiat = currencies.where(
+    final state = useProvider(actionSearchNotipod);
+
+    final fiat = state.filteredCurrencies.where(
       (e) => e.type == AssetType.fiat && e.supportsAtLeastOneFiatDepositMethod,
     );
-    final crypto = currencies.where(
+    final crypto = state.filteredCurrencies.where(
       (e) => e.type == AssetType.crypto && e.supportsCryptoDeposit,
     );
 
     return Column(
       children: [
         if (fiat.isNotEmpty) ...[
+          const SpaceH10(),
           const DepositCategoryDescription(
             text: 'Fiat',
           ),
@@ -56,6 +64,7 @@ class _ActionDeposit extends HookWidget {
             ),
         ],
         if (crypto.isNotEmpty) ...[
+          if (fiat.isEmpty) const SpaceH10(),
           const DepositCategoryDescription(
             text: 'Crypto',
           ),
