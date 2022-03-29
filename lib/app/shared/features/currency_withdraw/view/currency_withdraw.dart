@@ -23,6 +23,7 @@ class CurrencyWithdraw extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAddressNotipod(withdrawal));
     final notifier = useProvider(withdrawalAddressNotipod(withdrawal).notifier);
+    final _scrollController = useScrollController();
     useValueListenable(state.addressErrorNotifier!);
     useValueListenable(state.tagErrorNotifier!);
 
@@ -36,9 +37,11 @@ class CurrencyWithdraw extends HookWidget {
           title: '${withdrawal.dictionary.verb} ${currency.description}',
         ),
       ),
-      child: Stack(
-        children: [
-          SingleChildScrollView(
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
             child: Column(
               children: [
                 Material(
@@ -133,39 +136,34 @@ class CurrencyWithdraw extends HookWidget {
                       passed: true,
                     ),
                   ),
+                  const SpaceH10(),
                 ],
+                const SpaceH10(),
                 SPaddingH24(
-                  child: Baseline(
-                    baseline: 32.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      state.withdrawHint,
-                      maxLines: 3,
-                      style: sCaptionTextStyle.copyWith(
-                        color: colors.grey1,
-                      ),
+                  child: Text(
+                    state.withdrawHint,
+                    maxLines: 3,
+                    style: sCaptionTextStyle.copyWith(
+                      color: colors.grey1,
                     ),
                   ),
                 ),
-                const SpaceH100(),
+                const Spacer(),
+                const SpaceH19(),
+                SPaddingH24(
+                  child: Material(
+                    color: colors.grey5,
+                    child: SPrimaryButton2(
+                      active: state.isReadyToContinue,
+                      name: 'Continue',
+                      onTap: () => notifier.validateOnContinue(context),
+                    ),
+                  ),
+                ),
+                const SpaceH24(),
               ],
             ),
           ),
-          Column(
-            children: [
-              const Spacer(),
-              SPaddingH24(
-                child: Material(
-                  child: SPrimaryButton2(
-                    active: state.isReadyToContinue,
-                    name: 'Continue',
-                    onTap: () => notifier.validateOnContinue(context),
-                  ),
-                ),
-              ),
-              const SpaceH24(),
-            ],
-          )
         ],
       ),
     );
