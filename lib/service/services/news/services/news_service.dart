@@ -16,7 +16,7 @@ Future<NewsResponseModel> newsService(
 
   try {
     final response = await dio.post(
-      '$walletApi/market/new',
+      '$walletApi/market/news',
       data: model.toJson(),
     );
 
