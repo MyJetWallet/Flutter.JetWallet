@@ -24,4 +24,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            MERGED to branch <b>test</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
+            MERGED to branch <b>test</b> PR: <b>${{ github.event.pull_request.head.ref }}</b>
