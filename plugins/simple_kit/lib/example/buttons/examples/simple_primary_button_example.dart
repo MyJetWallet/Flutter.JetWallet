@@ -31,12 +31,6 @@ class SimplePrimaryButtonExample extends StatelessWidget {
                 onTap: () {},
               ),
               const SpaceH20(),
-              SPrimaryButton4(
-                active: true,
-                name: 'Primary',
-                onTap: () {},
-              ),
-              const SpaceH20(),
               SPrimaryButton1(
                 active: false,
                 name: 'Primary',
@@ -44,12 +38,6 @@ class SimplePrimaryButtonExample extends StatelessWidget {
               ),
               const SpaceH20(),
               SPrimaryButton2(
-                active: false,
-                name: 'Primary',
-                onTap: () {},
-              ),
-              const SpaceH20(),
-              SPrimaryButton4(
                 active: false,
                 name: 'Primary',
                 onTap: () {},

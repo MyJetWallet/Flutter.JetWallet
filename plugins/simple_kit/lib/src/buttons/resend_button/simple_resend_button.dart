@@ -35,7 +35,7 @@ class SResendButton extends StatelessWidget {
           maintainSize: true,
           maintainAnimation: true,
           maintainState: true,
-          child: SPrimaryButton4(
+          child: STextButton1(
             active: active,
             name: 'Resend',
             onTap: onTap,

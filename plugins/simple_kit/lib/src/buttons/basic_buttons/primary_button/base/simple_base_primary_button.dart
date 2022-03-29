@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../../colors/view/simple_colors_dark.dart';
 import '../../base/simple_base_button.dart';
 
 class SimpleBasePrimaryButton extends HookWidget {
   const SimpleBasePrimaryButton({
     Key? key,
     this.icon,
-    this.isTransparent,
     required this.active,
     required this.name,
     required this.onTap,
@@ -19,7 +17,6 @@ class SimpleBasePrimaryButton extends HookWidget {
   }) : super(key: key);
 
   final Widget? icon;
-  final bool? isTransparent;
   final bool active;
   final String name;
   final Function() onTap;
@@ -37,9 +34,7 @@ class SimpleBasePrimaryButton extends HookWidget {
 
     if (active) {
       if (highlighted.value) {
-        currentColor = isTransparent != null
-            ? SColorsDark().black.withOpacity(0.2)
-            : activeColor.withOpacity(0.8);
+        currentColor = activeColor.withOpacity(0.8);
         currentNameColor = activeNameColor.withOpacity(0.8);
       } else {
         currentColor = activeColor;
