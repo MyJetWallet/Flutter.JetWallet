@@ -14,7 +14,6 @@ class SNewsCategory extends StatelessWidget {
     required this.newsText,
     required this.timestamp,
     required this.onTap,
-    required this.padding,
   }) : super(key: key);
 
   final String newsLabel;
@@ -23,13 +22,12 @@ class SNewsCategory extends StatelessWidget {
   final String timestamp;
   final Function() onTap;
   final double? height;
-  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
     return SPaddingH24(
       child: Container(
-        padding: padding,
+        padding: const EdgeInsets.only(bottom: 24),
         height: height,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

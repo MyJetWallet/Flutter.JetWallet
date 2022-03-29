@@ -9,6 +9,7 @@ import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../notifier/camera_permission/camera_permission_notipod.dart';
 import '../../../notifier/camera_permission/camera_permission_state.dart';
 
@@ -69,14 +70,24 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
     final state = useProvider(cameraPermissionNotipod);
     final notifier = useProvider(cameraPermissionNotipod.notifier);
 
+    final deviceSize = useProvider(deviceSizePod);
+    final size = MediaQuery.of(context).size;
+
     analytics(() => sAnalytics.kycAllowCameraView());
 
     return SPageFrameWithPadding(
-      header: SMegaHeader(
-        titleAlign: TextAlign.left,
-        title: state.permissionDenied
-            ? 'Give permission to\nallow to use camera'
-            : 'Allow camera access',
+      header: deviceSize.when(
+        small: () {
+          return SSmallHeader(
+            title: _headerTitle(state.permissionDenied),
+          );
+        },
+        medium: () {
+          return SMegaHeader(
+            titleAlign: TextAlign.left,
+            title: _headerTitle(state.permissionDenied),
+          );
+        },
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(
@@ -103,6 +114,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                 const Spacer(),
                 Image.asset(
                   allowCameraAsset,
+                  height: size.width * 0.6,
                 ),
                 const Spacer(),
                 if (!state.permissionDenied)
@@ -124,7 +136,9 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                       baseline: 48,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
-                        'We cannot verify you without using your\ncamera',
+                        state.permissionDenied
+                            ? 'Give permission to allow the use of camera'
+                            : 'We cannot verify you without using your\ncamera',
                         maxLines: 3,
                         style: sBodyText1Style.copyWith(
                           color: colors.grey1,
@@ -139,5 +153,13 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
         ],
       ),
     );
+  }
+
+  String _headerTitle(bool status) {
+    if (status) {
+      return 'Give permission to\nallow to use camera';
+    } else {
+      return 'Allow camera access';
+    }
   }
 }

@@ -51,7 +51,7 @@ dependencies:
   device_info_plus: ^3.1.1 # providing detailed information about the device
 
   # NETWORKING:
-  dio: ^4.0.1 # http client
+  dio: ^4.0.5 # http client
   pretty_dio_logger: ^1.1.1 # logger for dio
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
   json_annotation: ^4.3.0 # annotations used by json_serializable
@@ -81,8 +81,8 @@ dependencies:
   freezed_annotation: ^0.14.3 # Annotations for the freezed
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
-  fast_rsa: ^3.2.0 # RSA signing
-  openpgp: ^3.2.6 # use OpenPGP
+  fast_rsa: ^3.2.0 # RSA signing, conflicts with openPGP waiting for fix from dev
+  openpgp: 3.2.6 # use OpenPGP
   uuid: ^3.0.6 # UUID Generator and Parser 
 
   # OWN LIBS:

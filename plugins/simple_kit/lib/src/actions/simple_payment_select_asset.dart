@@ -13,6 +13,7 @@ class SPaymentSelectAsset extends StatelessWidget {
     required this.icon,
     required this.name,
     required this.description,
+    required this.widgetSize,
   }) : super(key: key);
 
   final Function()? onTap;
@@ -22,6 +23,7 @@ class SPaymentSelectAsset extends StatelessWidget {
   final Widget icon;
   final String name;
   final String description;
+  final SWidgetSize widgetSize;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class SPaymentSelectAsset extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
         child: Ink(
-          height: 88.0,
+          height: widgetSize == SWidgetSize.small ? 64.0 : 88.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
@@ -41,7 +43,10 @@ class SPaymentSelectAsset extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SpaceH23(), // + 1 px border
+              // + 1 px border
+              if (widgetSize == SWidgetSize.small) const SpaceH12(),
+              // + 1 px border
+              if (widgetSize == SWidgetSize.medium) const SpaceH23(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,7 +57,8 @@ class SPaymentSelectAsset extends StatelessWidget {
                     child: Column(
                       children: [
                         Baseline(
-                          baseline: 18.0,
+                          baseline:
+                              widgetSize == SWidgetSize.small ? 17.0 : 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -66,9 +66,6 @@ class MarketNewsBlock extends HookWidget {
                 context,
                 news[index].urlAddress,
               ),
-              padding: const EdgeInsets.only(
-                bottom: 24,
-              ),
             ),
           ),
           if (news.length >= newsPortionAmount) ...[

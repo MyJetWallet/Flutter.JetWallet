@@ -3,6 +3,7 @@ name: Telegram notification
 on:
   push:
     branches:
+      - develop
       - master
 
 jobs:
