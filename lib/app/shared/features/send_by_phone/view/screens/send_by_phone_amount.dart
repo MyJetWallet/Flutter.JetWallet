@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
@@ -24,6 +26,7 @@ class SendByPhoneAmount extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(sendByPhoneAmountNotipod(currency));
     final notifier = useProvider(sendByPhoneAmountNotipod(currency).notifier);
@@ -36,8 +39,12 @@ class SendByPhoneAmount extends HookWidget {
       ),
       child: Column(
         children: [
+          deviceSize.when(
+            small: () => const SizedBox(),
+            medium: () => const Spacer(),
+          ),
           SActionPriceField(
-            widgetSize: SWidgetSize.medium,
+            widgetSize: widgetSizeFrom(deviceSize),
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.amount,
@@ -54,8 +61,12 @@ class SendByPhoneAmount extends HookWidget {
                 : state.inputError.value,
             isErrorActive: state.inputError.isActive,
           ),
-          SBaselineChild(
-            baseline: 24.0,
+          Baseline(
+            baseline: deviceSize.when(
+              small: () => -36,
+              medium: () => 19,
+            ),
+            baselineType: TextBaseline.alphabetic,
             child: Text(
               'Available: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
@@ -64,12 +75,11 @@ class SendByPhoneAmount extends HookWidget {
             ),
           ),
           const Spacer(),
-          const SpaceH10(),
           if (state.pickedContact!.isContactWithName)
             _navigatePushAndRemoveUntil(
               context,
               SPaymentSelectContact(
-                widgetSize: SWidgetSize.medium,
+                widgetSize: widgetSizeFrom(deviceSize),
                 name: state.pickedContact!.name,
                 phone: state.pickedContact!.phoneNumber,
               ),
@@ -78,13 +88,16 @@ class SendByPhoneAmount extends HookWidget {
             _navigatePushAndRemoveUntil(
               context,
               SPaymentSelectContactWithoutName(
-                widgetSize: SWidgetSize.medium,
+                widgetSize: widgetSizeFrom(deviceSize),
                 phone: state.pickedContact!.phoneNumber,
               ),
             ),
-          const SpaceH20(),
+          deviceSize.when(
+            small: () => const Spacer(),
+            medium: () => const SpaceH20(),
+          ),
           SNumericKeyboardAmount(
-            widgetSize: SWidgetSize.medium,
+            widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',
