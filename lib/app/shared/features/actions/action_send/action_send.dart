@@ -4,7 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../shared/components/action_bottom_sheet_header.dart';
+import '../shared/notifier/action_search_notipod.dart';
 import 'components/send_options.dart';
 
 void showSendAction(BuildContext context) {
@@ -12,9 +13,14 @@ void showSendAction(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const SBottomSheetHeader(
+    pinned: ActionBottomSheetHeader(
       name: 'Choose asset to send',
+      onChanged: (String value) {
+        context.read(actionSearchNotipod.notifier).search(value);
+      },
     ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
     children: [const _ActionSend()],
   );
 }
@@ -25,11 +31,11 @@ class _ActionSend extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
-    final currencies = useProvider(currenciesPod);
+    final state = useProvider(actionSearchNotipod);
 
     return Column(
       children: [
-        for (final currency in currencies)
+        for (final currency in state.filteredCurrencies)
           if (currency.isAssetBalanceNotEmpty)
             if (currency.supportsCryptoWithdrawal)
               SWalletItem(

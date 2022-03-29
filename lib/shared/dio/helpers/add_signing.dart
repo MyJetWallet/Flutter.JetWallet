@@ -9,10 +9,8 @@ import '../../services/local_storage_service.dart';
 
 void addSigning(Dio dio, Reader read) {
   dio.interceptors.add(
-    InterceptorsWrapper(
+    QueuedInterceptorsWrapper(
       onRequest: (options, handler) async {
-        dio.lock();
-
         if (options.method == postRequest) {
           final requestBody = options.data;
 
@@ -28,8 +26,6 @@ void addSigning(Dio dio, Reader read) {
               : '';
           options.headers[signatureHeader] = signature;
         }
-
-        dio.unlock();
 
         return handler.next(options);
       },
