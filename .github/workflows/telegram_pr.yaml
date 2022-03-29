@@ -23,4 +23,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-           &radic MERGED to branch <b>develop</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
+           MERGED to branch <b>develop</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
