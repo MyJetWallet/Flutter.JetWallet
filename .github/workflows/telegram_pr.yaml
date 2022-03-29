@@ -3,8 +3,8 @@ name: Telegram notification
 on:
   pull_request:
     types: [closed]
-#     branches:
-#       - test
+    branches:
+      - test
 
 jobs:
   build:
