@@ -6,7 +6,7 @@ on:
       - test
 
 #   pull_request:
-#     types: [closed]
+#     types: [opened]
 #     branches:
 #       - test
 #
@@ -30,4 +30,5 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: html
         message: |
-          MERGED to branch <b>${{ steps.extract_branch.outputs.branch }}</b> PR: <b>${{ github.event.pull_request.head.ref }}</b>
+          MERGED to branch <b>${{ steps.extract_branch.outputs.branch }}</b> PR: <b>${{ github.event.head_commit.message }}</b>
+          #${{ github.event.pull_request.head.ref }}
