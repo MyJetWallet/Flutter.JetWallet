@@ -11,17 +11,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - uses: actions/checkout@v2
       - name: Telegram Notify
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: html
+          format: markdown
           message: |
-            MERGED to branch <b>test</b> PR: <b>${{ github.event.pull_request.head.ref }}</b>
+            MERGED to branch *bold \*test* PR: *bold \*${{ github.event.pull_request.head.ref }}*
