@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - develop
+      - test
 
 jobs:
   build:
@@ -25,4 +25,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            to branch <b>develop</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
+            to branch <b>test</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
