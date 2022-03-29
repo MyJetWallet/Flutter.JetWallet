@@ -4,13 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../service/services/news/model/news_response_model.dart';
-import '../../../../shared/helpers/launch_url.dart';
-import '../../../shared/features/market_details/helper/format_news_date.dart';
-import '../notifier/news_notipod.dart';
-import '../notifier/news_state.dart';
-import '../notifier/news_union.dart';
-import 'loading/loading_sliver_news_list.dart';
+import '../../../../../service/services/news/model/news_response_model.dart';
+import '../../../../../shared/helpers/launch_url.dart';
+import '../../../../shared/features/market_details/helper/format_news_date.dart';
+import '../../notifier/news_notipod.dart';
+import '../../notifier/news_state.dart';
+import '../../notifier/news_union.dart';
+import 'news_loading_skeleton/news_loading_skeleton.dart';
 
 class NewsList extends StatefulHookWidget {
   const NewsList({
@@ -37,7 +37,7 @@ class _NewsListState extends State<NewsList> {
         if (news.union == const NewsUnion.loaded() && !news.nothingToLoad) {
           final newsN = context.read(newsNotipod.notifier);
 
-          newsN.news('', widget.scrollController,);
+          newsN.news(widget.scrollController);
         }
       }
     });
@@ -70,11 +70,11 @@ class _NewsListState extends State<NewsList> {
       sliver: news.union.when(
         loading: () {
           if (news.newsItems.isEmpty) {
-            return const LoadingSliverNewsList();
+            return const NewsLoadingSkeleton();
           } else {
             return SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   if (news.newsItems[index] == news.newsItems.last) {
                     return Column(
                       children: [
@@ -153,7 +153,7 @@ class _NewsListState extends State<NewsList> {
           } else {
             return SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   return SNewsCategory(
                     newsLabel: news.newsItems[index].source,
                     newsText: news.newsItems[index].topic,
@@ -223,7 +223,7 @@ class _NewsListState extends State<NewsList> {
                                     baselineType: TextBaseline.alphabetic,
                                     child: Text(
                                       'Something went wrong when '
-                                          'loading your data',
+                                      'loading your data',
                                       style: sBodyText1Style,
                                       maxLines: 2,
                                     ),
@@ -249,7 +249,7 @@ class _NewsListState extends State<NewsList> {
           } else {
             return SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   if (news.newsItems[index] == news.newsItems.last) {
                     return Column(
                       children: [
@@ -286,8 +286,7 @@ class _NewsListState extends State<NewsList> {
                           child: Column(
                             children: [
                               Row(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(
@@ -308,12 +307,11 @@ class _NewsListState extends State<NewsList> {
                                         height: 77,
                                         child: Baseline(
                                           baseline: 38,
-                                          baselineType:
-                                          TextBaseline.alphabetic,
+                                          baselineType: TextBaseline.alphabetic,
                                           child: Text(
                                             'Something went wrong '
-                                                'when '
-                                                'loading your data',
+                                            'when '
+                                            'loading your data',
                                             style: sBodyText1Style,
                                             maxLines: 2,
                                           ),
@@ -327,13 +325,9 @@ class _NewsListState extends State<NewsList> {
                                 active: true,
                                 name: 'Retry',
                                 onTap: () {
-                                  newsN.news(
-                                    '',
-                                    widget.scrollController,
-                                  );
+                                  newsN.news(widget.scrollController);
                                 },
                               ),
-
                             ],
                           ),
                         ),

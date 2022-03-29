@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class NewsListLoadingItem extends HookWidget {
-  const NewsListLoadingItem({
+class NewsLoadingItem extends HookWidget {
+  const NewsLoadingItem({
     Key? key,
-    required this.opacity,
     this.removeDivider = false,
+    required this.opacity,
   }) : super(key: key);
 
   final bool removeDivider;

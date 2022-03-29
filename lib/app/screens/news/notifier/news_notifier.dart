@@ -47,13 +47,12 @@ class NewsNotifier extends StateNotifier<NewsState> {
     }
   }
 
-  Future<void> news(String? assetId, ScrollController? scrollController) async {
+  Future<void> news(ScrollController? scrollController) async {
     _logger.log(notifier, 'news');
 
     try {
       final news = await _requestNews(
         NewsRequestModel(
-          assetId: assetId,
           batchSize: 20,
           lastDate: state.newsItems.last.timestamp,
           language: read(intlPod).localeName,
@@ -97,7 +96,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
 
   void _scrollDown(ScrollController? scrollController) {
     if (scrollController != null) {
-      Timer(Duration.zero, () {
+      Timer(const Duration(milliseconds: 10), () {
         scrollController.animateTo(
           scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 300),
