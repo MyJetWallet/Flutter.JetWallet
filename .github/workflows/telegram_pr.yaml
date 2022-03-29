@@ -1,23 +1,22 @@
 name: Telegram notification
 
 on:
-  pull_request:
-    types: [closed]
-#     branches:
-#       - test
+  push:
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: self-hosted
     steps:
-    
+
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
-      
+
     - uses: actions/checkout@v2
-    
+
     - name: Telegram Notify
       uses: appleboy/telegram-action@master
       with:
@@ -25,4 +24,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: html
         message: |
-          MERGED to branch <b>${{ steps.extract_branch.outputs.branch }}</b> PR: <b>${{ github.event.pull_request.head.ref }}</b>
+          MERGED to branch <b>${{ steps.extract_branch.outputs.branch }}</b> PR: <b>${{ github.event.commits[0].message }}</b>
