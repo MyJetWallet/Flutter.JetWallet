@@ -10,6 +10,7 @@ class SimpleBaseTextButton extends HookWidget {
     required this.name,
     required this.onTap,
     required this.activeColor,
+    required this.activeBackgroundColor,
     required this.inactiveColor,
   }) : super(key: key);
 
@@ -18,21 +19,26 @@ class SimpleBaseTextButton extends HookWidget {
   final Function() onTap;
   final Color activeColor;
   final Color inactiveColor;
+  final Color activeBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final highlighted = useState(false);
 
     late Color currentColor;
+    late Color currentBackgroundColor;
 
     if (active) {
       if (highlighted.value) {
         currentColor = activeColor.withOpacity(0.8);
+        currentBackgroundColor = activeBackgroundColor;
       } else {
         currentColor = activeColor;
+        currentBackgroundColor = Colors.transparent;
       }
     } else {
       currentColor = inactiveColor;
+      currentBackgroundColor = Colors.transparent;
     }
 
     return SimpleBaseButton(
@@ -42,7 +48,9 @@ class SimpleBaseTextButton extends HookWidget {
         highlighted.value = value;
       },
       nameColor: currentColor,
-      decoration: const BoxDecoration(),
+      decoration: BoxDecoration(
+          color: currentBackgroundColor,
+      ),
     );
   }
 }

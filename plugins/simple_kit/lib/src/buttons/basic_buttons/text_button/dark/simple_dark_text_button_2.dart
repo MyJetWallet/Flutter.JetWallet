@@ -24,6 +24,7 @@ class SimpleDarkTextButton2 extends StatelessWidget {
       onTap: onTap,
       activeColor: SColorsDark().blue,
       inactiveColor: SColorsDark().grey4,
+      activeBackgroundColor: SColorsDark().blueLight.withOpacity(0.5),
     );
   }
 }
