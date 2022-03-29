@@ -7,6 +7,8 @@ import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
@@ -31,6 +33,7 @@ class CurrencyBuy extends StatefulHookWidget {
 class _CurrencyBuyState extends State<CurrencyBuy> {
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
@@ -127,23 +130,33 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
         children: [
           Column(
             children: [
-              const Spacer(),
-              SActionPriceField(
-                widgetSize: SWidgetSize.medium,
-                price: formatCurrencyStringAmount(
-                  prefix: state.selectedCurrency?.prefixSymbol,
-                  value: state.inputValue,
-                  symbol: state.selectedCurrencySymbol,
+              deviceSize.when(
+                small: () => const SizedBox(),
+                medium: () => const Spacer(),
+              ),
+              Baseline(
+                baseline: deviceSize.when(
+                  small: () => 32,
+                  medium: () => -4,
                 ),
-                helper: state.conversionText(widget.currency),
-                error: state.inputErrorValue,
-                isErrorActive: state.isInputErrorActive,
+                baselineType: TextBaseline.alphabetic,
+                child: SActionPriceField(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  price: formatCurrencyStringAmount(
+                    prefix: state.selectedCurrency?.prefixSymbol,
+                    value: state.inputValue,
+                    symbol: state.selectedCurrencySymbol,
+                  ),
+                  helper: state.conversionText(widget.currency),
+                  error: state.inputErrorValue,
+                  isErrorActive: state.isInputErrorActive,
+                ),
               ),
               const Spacer(),
               if (state.selectedCurrency == null &&
                   state.selectedPaymentMethod == null)
                 SPaymentSelectDefault(
-                  widgetSize: SWidgetSize.medium,
+                  widgetSize: widgetSizeFrom(deviceSize),
                   icon: const SActionBuyIcon(),
                   name: 'Choose payment method',
                   onTap: () => _showAssetSelector(),
@@ -151,7 +164,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               else if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)
                 SPaymentSelectAsset(
-                  widgetSize: SWidgetSize.medium,
+                  widgetSize: widgetSizeFrom(deviceSize),
                   isCreditCard: true,
                   icon: SActionDepositIcon(
                     color: colors.black,
@@ -163,7 +176,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 )
               else if (state.selectedCurrency?.type == AssetType.crypto)
                 SPaymentSelectAsset(
-                  widgetSize: SWidgetSize.medium,
+                  widgetSize: widgetSizeFrom(deviceSize),
                   icon: SNetworkSvg24(
                     url: state.selectedCurrency!.iconUrl,
                   ),
@@ -176,7 +189,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 )
               else
                 SPaymentSelectFiat(
-                  widgetSize: SWidgetSize.medium,
+                  widgetSize: widgetSizeFrom(deviceSize),
                   icon: SNetworkSvg24(
                     url: state.selectedCurrency!.iconUrl,
                   ),
@@ -186,9 +199,12 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   ),
                   onTap: () => _showAssetSelector(),
                 ),
-              const SpaceH20(),
+              deviceSize.when(
+                small: () => const Spacer(),
+                medium: () => const SpaceH20(),
+              ),
               SNumericKeyboardAmount(
-                widgetSize: SWidgetSize.medium,
+                widgetSize: widgetSizeFrom(deviceSize),
                 preset1Name: state.preset1Name,
                 preset2Name: state.preset2Name,
                 preset3Name: state.preset3Name,

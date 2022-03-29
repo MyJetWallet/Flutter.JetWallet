@@ -6,6 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
@@ -25,6 +27,7 @@ class CurrencySell extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(currencySellNotipod(currency));
     final notifier = useProvider(currencySellNotipod(currency).notifier);
@@ -123,8 +126,12 @@ class CurrencySell extends HookWidget {
       ),
       child: Column(
         children: [
+          deviceSize.when(
+            small: () => const SizedBox(),
+            medium: () => const Spacer(),
+          ),
           SActionPriceField(
-            widgetSize: SWidgetSize.medium,
+            widgetSize: widgetSizeFrom(deviceSize),
             price: formatCurrencyStringAmount(
               prefix: currency.prefixSymbol,
               value: state.inputValue,
@@ -134,8 +141,12 @@ class CurrencySell extends HookWidget {
             error: state.inputError.value,
             isErrorActive: state.inputError.isActive,
           ),
-          SBaselineChild(
-            baseline: 24.0,
+          Baseline(
+            baseline: deviceSize.when(
+              small: () => -36,
+              medium: () => 19,
+            ),
+            baselineType: TextBaseline.alphabetic,
             child: Text(
               'Available: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
@@ -144,17 +155,16 @@ class CurrencySell extends HookWidget {
             ),
           ),
           const Spacer(),
-          const SpaceH4(),
           if (state.selectedCurrency == null)
             SPaymentSelectDefault(
-              widgetSize: SWidgetSize.medium,
+              widgetSize: widgetSizeFrom(deviceSize),
               icon: const SActionWithdrawIcon(),
               name: 'Choose destination',
               onTap: () => _showAssetSelector(),
             )
           else if (state.selectedCurrency!.type == AssetType.crypto)
             SPaymentSelectAsset(
-              widgetSize: SWidgetSize.medium,
+              widgetSize: widgetSizeFrom(deviceSize),
               icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),
@@ -167,7 +177,7 @@ class CurrencySell extends HookWidget {
             )
           else
             SPaymentSelectFiat(
-              widgetSize: SWidgetSize.medium,
+              widgetSize: widgetSizeFrom(deviceSize),
               icon: SNetworkSvg24(
                 url: state.selectedCurrency!.iconUrl,
               ),
@@ -177,9 +187,12 @@ class CurrencySell extends HookWidget {
               ),
               onTap: () => _showAssetSelector(),
             ),
-          const SpaceH20(),
+          deviceSize.when(
+            small: () => const Spacer(),
+            medium: () => const SpaceH20(),
+          ),
           SNumericKeyboardAmount(
-            widgetSize: SWidgetSize.medium,
+            widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',
