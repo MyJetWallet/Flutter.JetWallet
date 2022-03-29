@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../shared/decimal_serialiser.dart';
 
 part 'operation_history_response_model.freezed.dart';
+
 part 'operation_history_response_model.g.dart';
 
 @freezed
@@ -105,10 +106,13 @@ class SwapInfo with _$SwapInfo {
     required bool isSell,
     required String sellAssetId,
     required String buyAssetId,
+    required String feeAsset,
     @DecimalSerialiser() required Decimal sellAmount,
     @DecimalSerialiser() required Decimal buyAmount,
     @DecimalSerialiser() required Decimal baseRate,
     @DecimalSerialiser() required Decimal quoteRate,
+    @DecimalSerialiser() required Decimal feeAmount,
+    @DecimalSerialiser() @JsonKey(name: 'feePerc') required Decimal feePercent,
   }) = _SwapInfo;
 
   factory SwapInfo.fromJson(Map<String, dynamic> json) =>

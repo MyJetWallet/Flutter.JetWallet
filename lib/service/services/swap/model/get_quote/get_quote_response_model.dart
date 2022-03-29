@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../shared/decimal_serialiser.dart';
 
 part 'get_quote_response_model.freezed.dart';
+
 part 'get_quote_response_model.g.dart';
 
 @freezed
@@ -11,6 +12,7 @@ class GetQuoteResponseModel with _$GetQuoteResponseModel {
   const factory GetQuoteResponseModel({
     required bool isFromFixed,
     required String operationId,
+    required String feeAsset,
     @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
@@ -21,6 +23,10 @@ class GetQuoteResponseModel with _$GetQuoteResponseModel {
     @JsonKey(name: 'toAssetVolume')
         required Decimal toAssetAmount,
     @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
+    @DecimalSerialiser() required Decimal feeAmount,
+    @DecimalSerialiser()
+    @JsonKey(name: 'feePercentage')
+        required Decimal feePercent,
   }) = _GetQuoteResponseModel;
 
   factory GetQuoteResponseModel.fromJson(Map<String, dynamic> json) =>
