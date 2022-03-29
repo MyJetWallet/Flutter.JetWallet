@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-class BottomTab extends StatelessWidget {
+class BottomTab extends HookWidget {
   const BottomTab({
     Key? key,
     required this.text,
@@ -10,6 +13,8 @@ class BottomTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
     return Container(
       margin: const EdgeInsets.only(
         right: 10,
@@ -26,7 +31,7 @@ class BottomTab extends StatelessWidget {
           Radius.circular(24),
         ),
         border: Border.all(
-          color: Colors.black26,
+          color: colors.black.withOpacity(0.3),
         ),
       ),
       child: Text(text),
