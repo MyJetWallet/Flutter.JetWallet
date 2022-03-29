@@ -72,7 +72,7 @@ class WithdrawalAmount extends HookWidget {
                       symbol: state.baseCurrency!.symbol,
                     )}',
                     error: state.inputError == InputError.enterHigherAmount
-                        ? '${state.inputError.value}.'
+                        ? 'Enter more than ${currency.withdrawalFeeWithSymbol}'
                         : state.inputError.value,
                     isErrorActive: state.inputError.isActive,
                   ),
