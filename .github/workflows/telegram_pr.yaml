@@ -2,6 +2,7 @@ name: Telegram notification
 
 on:
   pull_request:
+    types: [closed]
     branches: [ develop ]
 
 jobs:
@@ -9,6 +10,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      if: github.event.pull_request.merged == 'true'
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -22,4 +24,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-           MERGED to branch <b>develop</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
+            to branch <b>develop</b> PR: <b>${{ steps.extract_branch.outputs.branch }}</b>
