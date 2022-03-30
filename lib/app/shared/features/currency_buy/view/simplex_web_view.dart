@@ -17,8 +17,6 @@ class SimplexWebView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
-
     void _showSuccess() {
       SuccessScreen.push(
         context: context,
@@ -42,37 +40,41 @@ class SimplexWebView extends HookWidget {
       );
     }
 
-    return Column(
-      children: [
-        Container(
-          height: 48.0,
-          color: colors.white,
+    return SPageFrame(
+      header: const SPaddingH24(
+        child: SSmallHeader(
+          icon: SCloseIcon(),
+          title: 'Simplex',
         ),
-        Expanded(
-          child: WebView(
-            initialUrl: url,
-            javascriptMode: JavascriptMode.unrestricted,
-            navigationDelegate: (request) {
-              final uri = Uri.parse(request.url);
-              final success = uri.queryParameters['success'];
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: WebView(
+              initialUrl: url,
+              javascriptMode: JavascriptMode.unrestricted,
+              navigationDelegate: (request) {
+                final uri = Uri.parse(request.url);
+                final success = uri.queryParameters['success'];
 
-              if (uri.origin == simplexOrigin) {
-                if (success == '1') {
-                  _showSuccess();
-                  return NavigationDecision.prevent;
-                } else if (success == '2') {
-                  _showFailure();
-                  return NavigationDecision.prevent;
+                if (uri.origin == simplexOrigin) {
+                  if (success == '1') {
+                    _showSuccess();
+                    return NavigationDecision.prevent;
+                  } else if (success == '2') {
+                    _showFailure();
+                    return NavigationDecision.prevent;
+                  } else {
+                    return NavigationDecision.navigate;
+                  }
                 } else {
                   return NavigationDecision.navigate;
                 }
-              } else {
-                return NavigationDecision.navigate;
-              }
-            },
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
