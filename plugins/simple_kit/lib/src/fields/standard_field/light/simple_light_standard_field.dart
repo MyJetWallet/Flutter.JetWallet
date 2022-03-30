@@ -18,6 +18,7 @@ class SimpleLightStandardField extends HookWidget {
     this.onChanged,
     this.suffixIcons,
     this.initialValue,
+    this.iconLeftPadding = 0.0,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -45,6 +46,7 @@ class SimpleLightStandardField extends HookWidget {
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
   final String? initialValue;
+  final double iconLeftPadding;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -86,7 +88,10 @@ class SimpleLightStandardField extends HookWidget {
               onChanged?.call('');
               onErase?.call();
             },
-            child: const SEraseIcon(),
+            child: Padding(
+              padding: EdgeInsets.only(left: iconLeftPadding),
+              child: const SEraseIcon(),
+            ),
           )
       ],
     );

@@ -77,6 +77,7 @@ class CurrencyWithdraw extends HookWidget {
                   color: colors.white,
                   child: SPaddingH24(
                     child: SStandardField(
+                      iconLeftPadding: 14.0,
                       errorNotifier: state.addressErrorNotifier,
                       labelText: 'Enter ${currency.symbol} address',
                       focusNode: state.addressFocus,
