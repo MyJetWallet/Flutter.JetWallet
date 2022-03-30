@@ -14,19 +14,22 @@ Future<void> main() async {
   Logger.root.onRecord.listen((record) => debugLogging(record));
 
   runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) {
-        return App(
-          debugShowCheckedModeBanner: false,
-          builder: (context, child) {
-            child = DevicePreview.appBuilder(context, child);
-            child = AppBuilder(child);
-            return child;
-          },
-          locale: DevicePreview.locale(context),
-        );
-      },
+    MaterialApp(
+      restorationScopeId: 'app',
+      home: DevicePreview(
+        enabled: false,
+        builder: (context) {
+          return App(
+            debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              child = DevicePreview.appBuilder(context, child);
+              child = AppBuilder(child);
+              return child;
+            },
+            locale: DevicePreview.locale(context),
+          );
+        },
+      ),
     ),
   );
 }
