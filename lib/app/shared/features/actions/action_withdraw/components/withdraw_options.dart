@@ -73,7 +73,7 @@ class _WithdrawOptions extends HookWidget {
           SActionItem(
             icon: const SWalletIcon(),
             name: 'Crypto Wallet',
-            description: 'BTC Wallet',
+            description: '${currency.symbol} Wallet',
             onTap: () {
               navigatorPushReplacement(
                 context,
