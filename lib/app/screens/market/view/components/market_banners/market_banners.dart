@@ -11,8 +11,8 @@ import '../../../../../shared/features/rewards/notifier/campaign/campaign_notipo
 
 const bannersColor = [
   Color(0xFFE0E3FA),
-  Color(0xFFE8F9E8),
   Color(0xFFD5F4F4),
+  Color(0xFFE8F9E8),
   Color(0xFFFAF3E0),
 ];
 
