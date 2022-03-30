@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../../shared/services/deep_link_service.dart';
@@ -23,6 +24,7 @@ class MarketBanners extends HookWidget {
     final state = useProvider(campaignNotipod(true));
     final notifier = useProvider(campaignNotipod(true).notifier);
     final deepLinkService = useProvider(deepLinkServicePod);
+    final colors = useProvider(sColorPod);
 
     final controller = PageController(viewportFraction: 0.9);
 
@@ -71,6 +73,26 @@ class MarketBanners extends HookWidget {
                   },
                 )
               : const SizedBox(),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: SmoothPageIndicator(
+              controller: controller,
+              count: state.length,
+              effect: ScrollingDotsEffect(
+                spacing: 2,
+                radius: 4,
+                dotWidth: 8,
+                dotHeight: 2,
+                maxVisibleDots: 11,
+                activeDotScale: 1,
+                dotColor: colors.black.withOpacity(0.1),
+                activeDotColor: colors.black,
+              ),
+            ),
+          ),
         ),
         if (state.isNotEmpty) const SpaceH10(),
       ],
