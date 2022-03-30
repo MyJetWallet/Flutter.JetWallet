@@ -74,6 +74,7 @@ class MarketBanners extends HookWidget {
                 )
               : const SizedBox(),
         ),
+        if (state.length > 1)
         Align(
           alignment: Alignment.topCenter,
           child: Padding(
