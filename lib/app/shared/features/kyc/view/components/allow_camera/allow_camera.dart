@@ -101,7 +101,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
           onTap: () async {
             await notifier.handleCameraPermission(context);
           },
-          name: !state.permissionDenied ? 'Go to Settings' : 'Enable camera',
+          name: state.permissionDenied ? 'Go to Settings' : 'Enable camera',
         ),
       ),
       child: CustomScrollView(
@@ -117,7 +117,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                   height: size.width * 0.6,
                 ),
                 const Spacer(),
-                if (state.permissionDenied)
+                if (!state.permissionDenied)
                   Baseline(
                     baseline: 48,
                     baselineType: TextBaseline.alphabetic,
@@ -154,7 +154,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
   }
 
   String _headerTitle(bool status) {
-    if (!status) {
+    if (status) {
       return 'Give permission to\nallow to use of camera';
     } else {
       return 'Allow camera access';
