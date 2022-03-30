@@ -136,9 +136,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                       baseline: 48,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
-                        state.permissionDenied
-                            ? 'Give permission to allow the use of camera'
-                            : 'We cannot verify you without using your\ncamera',
+                        'We cannot verify you without using your\ncamera',
                         maxLines: 3,
                         style: sBodyText1Style.copyWith(
                           color: colors.grey1,
@@ -157,7 +155,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
 
   String _headerTitle(bool status) {
     if (status) {
-      return 'Give permission to\nallow to use camera';
+      return 'Give permission to\nallow to use of camera';
     } else {
       return 'Allow camera access';
     }

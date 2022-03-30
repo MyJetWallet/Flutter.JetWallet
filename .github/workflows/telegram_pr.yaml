@@ -25,4 +25,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: html
         message: |
-          MERGED to branch <b>${{ steps.extract_branch.outputs.branch }}</b> PR: <b>${{ github.event.commits[0].message }}</b>
+          Merged pull request <b>${{ github.event.commits[0].message }}</b> to <b>${{ steps.extract_branch.outputs.branch }}</b>
