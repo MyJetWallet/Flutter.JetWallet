@@ -75,26 +75,26 @@ class MarketBanners extends HookWidget {
               : const SizedBox(),
         ),
         if (state.length > 1)
-        Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: SmoothPageIndicator(
-              controller: controller,
-              count: state.length,
-              effect: ScrollingDotsEffect(
-                spacing: 2,
-                radius: 4,
-                dotWidth: 8,
-                dotHeight: 2,
-                maxVisibleDots: 11,
-                activeDotScale: 1,
-                dotColor: colors.black.withOpacity(0.1),
-                activeDotColor: colors.black,
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: SmoothPageIndicator(
+                controller: controller,
+                count: state.length,
+                effect: ScrollingDotsEffect(
+                  spacing: 2,
+                  radius: 4,
+                  dotWidth: 8,
+                  dotHeight: 2,
+                  maxVisibleDots: 11,
+                  activeDotScale: 1,
+                  dotColor: colors.black.withOpacity(0.1),
+                  activeDotColor: colors.black,
+                ),
               ),
             ),
           ),
-        ),
         if (state.isNotEmpty) const SpaceH10(),
       ],
     );
