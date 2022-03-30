@@ -92,6 +92,7 @@ class _NewsListState extends State<NewsList> {
                             NewsWebView.push(
                               context,
                               news.newsItems[index].urlAddress,
+                              news.newsItems[index].topic,
                             );
                           },
                         ),
@@ -170,12 +171,9 @@ class _NewsListState extends State<NewsList> {
                       NewsWebView.push(
                         context,
                         news.newsItems[index].urlAddress,
+                        news.newsItems[index].topic,
                       );
                     },
-                    // onTap: () => launchURL(
-                    //   context,
-                    //   news.newsItems[index].urlAddress,
-                    // ),
                   );
                 },
                 childCount: news.newsItems.length,
