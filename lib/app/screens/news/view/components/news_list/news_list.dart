@@ -4,13 +4,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/news/model/news_response_model.dart';
-import '../../../../../shared/helpers/launch_url.dart';
-import '../../../../shared/features/market_details/helper/format_news_date.dart';
-import '../../notifier/news_notipod.dart';
-import '../../notifier/news_state.dart';
-import '../../notifier/news_union.dart';
-import 'news_loading_skeleton/news_loading_skeleton.dart';
+import '../../../../../../service/services/news/model/news_response_model.dart';
+import '../../../../../../shared/helpers/launch_url.dart';
+import '../../../../../shared/features/market_details/helper/format_news_date.dart';
+import '../../../notifier/news_notipod.dart';
+import '../../../notifier/news_state.dart';
+import '../../../notifier/news_union.dart';
+import '../news_loading_skeleton/news_loading_skeleton.dart';
+import 'components/news_web_view.dart';
 
 class NewsList extends StatefulHookWidget {
   const NewsList({
@@ -87,10 +88,12 @@ class _NewsListState extends State<NewsList> {
                           timestamp: formatNewsDate(
                             news.newsItems[index].timestamp,
                           ),
-                          onTap: () => launchURL(
-                            context,
-                            news.newsItems[index].urlAddress,
-                          ),
+                          onTap: () {
+                            NewsWebView.push(
+                              context,
+                              news.newsItems[index].urlAddress,
+                            );
+                          },
                         ),
                         const SpaceH24(),
                         Container(
@@ -163,10 +166,16 @@ class _NewsListState extends State<NewsList> {
                     timestamp: formatNewsDate(
                       news.newsItems[index].timestamp,
                     ),
-                    onTap: () => launchURL(
-                      context,
-                      news.newsItems[index].urlAddress,
-                    ),
+                    onTap: () {
+                      NewsWebView.push(
+                        context,
+                        news.newsItems[index].urlAddress,
+                      );
+                    },
+                    // onTap: () => launchURL(
+                    //   context,
+                    //   news.newsItems[index].urlAddress,
+                    // ),
                   );
                 },
                 childCount: news.newsItems.length,

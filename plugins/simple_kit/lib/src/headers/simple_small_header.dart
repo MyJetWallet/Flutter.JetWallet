@@ -5,6 +5,7 @@ import '../../simple_kit.dart';
 class SSmallHeader extends StatelessWidget {
   const SSmallHeader({
     Key? key,
+    this.icon,
     this.onStarButtonTap,
     this.onBackButtonTap,
     this.showBackButton = true,
@@ -13,6 +14,7 @@ class SSmallHeader extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
+  final Widget? icon;
   final Function()? onStarButtonTap;
   final Function()? onBackButtonTap;
   final bool showBackButton;
@@ -34,8 +36,8 @@ class SSmallHeader extends StatelessWidget {
               if (showBackButton)
                 SIconButton(
                   onTap: onBackButtonTap ?? () => Navigator.pop(context),
-                  defaultIcon: const SBackIcon(),
-                  pressedIcon: const SBackPressedIcon(),
+                  defaultIcon: icon != null ? icon! : const SBackIcon(),
+                  pressedIcon: icon != null ? icon! : const SBackPressedIcon(),
                 )
               else
                 const _IconPlaceholder(),
