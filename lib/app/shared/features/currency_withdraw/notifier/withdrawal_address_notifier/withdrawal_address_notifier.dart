@@ -11,12 +11,15 @@ import '../../../../../../service/services/signal_r/model/blockchains_model.dart
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../shared/services/local_storage_service.dart';
 import '../../../../models/currency_model.dart';
 import '../../../kyc/view/components/allow_camera/allow_camera.dart';
 import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import 'address_validation_union.dart';
 import 'withdrawal_address_state.dart';
+
+enum CameraStatus { permanentlyDenied, denied, granted }
 
 /// Responsible for input and validation of withdrawal address and tag
 class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
@@ -129,7 +132,12 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   Future<void> scanAddressQr(BuildContext context) async {
     _logger.log(notifier, 'scanAddressQr');
 
-    if (await _checkCameraPermissionStatus()) {
+    final status = await _checkCameraStatusAction();
+
+    if (status == CameraStatus.permanentlyDenied) {
+      if (!mounted) return;
+      _pushAllowCamera(context);
+    } else if (status == CameraStatus.granted) {
       final result = await _pushQrView(
         context: context,
       );
@@ -144,15 +152,18 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
           _triggerErrorOfAddressField,
         );
       }
-    } else {
-      _pushAllowCamera(context);
     }
   }
 
   Future<void> scanTagQr(BuildContext context) async {
     _logger.log(notifier, 'scanTagQr');
 
-    if (await _checkCameraPermissionStatus()) {
+    final status = await _checkCameraStatusAction();
+
+    if (status == CameraStatus.permanentlyDenied) {
+      if (!mounted) return;
+      _pushAllowCamera(context);
+    } else if (status == CameraStatus.granted) {
       final result = await _pushQrView(
         context: context,
       );
@@ -167,19 +178,29 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
           _triggerErrorOfTagField,
         );
       }
-    } else {
-      _pushAllowCamera(context);
     }
   }
 
-  Future<bool> _checkCameraPermissionStatus() async {
-    final status = await Permission.camera.request();
+  Future<CameraStatus> _checkCameraStatusAction() async {
+    final storage = read(localStorageServicePod);
+    final storageStatus = await storage.getString(cameraStatusKey);
+    final permissionStatus = await Permission.camera.request();
 
-    if (status == PermissionStatus.granted) {
-      return Future.value(true);
-    } else {
-      return Future.value(false);
+    if (permissionStatus == PermissionStatus.denied ||
+        permissionStatus == PermissionStatus.permanentlyDenied) {
+      if (storageStatus != null) {
+        return CameraStatus.permanentlyDenied;
+      }
+    } else if (permissionStatus == PermissionStatus.granted) {
+      return CameraStatus.granted;
     }
+
+    await read(localStorageServicePod).setString(
+      cameraStatusKey,
+      'triggered',
+    );
+
+    return CameraStatus.denied;
   }
 
   Future<String> _copiedText() async {
