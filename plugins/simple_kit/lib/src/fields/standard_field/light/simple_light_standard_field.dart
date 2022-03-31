@@ -18,7 +18,6 @@ class SimpleLightStandardField extends HookWidget {
     this.onChanged,
     this.suffixIcons,
     this.initialValue,
-    this.iconLeftPadding = 0.0,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -46,7 +45,6 @@ class SimpleLightStandardField extends HookWidget {
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
   final String? initialValue;
-  final double iconLeftPadding;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -81,18 +79,17 @@ class SimpleLightStandardField extends HookWidget {
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,
-        if (controller2.text.isNotEmpty && !hideClearButton)
+        if (controller2.text.isNotEmpty && !hideClearButton) ...[
+          const SpaceW16(),
           GestureDetector(
             onTap: () {
               controller2.clear();
               onChanged?.call('');
               onErase?.call();
             },
-            child: Padding(
-              padding: EdgeInsets.only(left: iconLeftPadding),
-              child: const SEraseIcon(),
-            ),
-          )
+            child: const SEraseIcon(),
+          ),
+        ],
       ],
     );
   }

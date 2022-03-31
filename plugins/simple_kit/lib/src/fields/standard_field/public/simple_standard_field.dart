@@ -19,7 +19,6 @@ class SStandardField extends ConsumerWidget {
     this.onErase,
     this.onChanged,
     this.initialValue,
-    this.iconLeftPadding = 0.0,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -41,7 +40,6 @@ class SStandardField extends ConsumerWidget {
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
   final String? initialValue;
-  final double iconLeftPadding;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -76,7 +74,6 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
-        iconLeftPadding: iconLeftPadding,
       );
     } else {
       return SimpleLightStandardField(
@@ -99,7 +96,6 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
-        iconLeftPadding: iconLeftPadding,
       );
     }
   }
