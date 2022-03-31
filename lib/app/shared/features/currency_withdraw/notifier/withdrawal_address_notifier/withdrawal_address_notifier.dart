@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -10,7 +11,6 @@ import '../../../../../../service/services/signal_r/model/blockchains_model.dart
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
-import '../../../../../../shared/services/local_storage_service.dart';
 import '../../../../models/currency_model.dart';
 import '../../../kyc/view/components/allow_camera/allow_camera.dart';
 import '../../model/withdrawal_model.dart';
@@ -173,10 +173,9 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   Future<bool> _checkCameraPermissionStatus() async {
-    final storage = read(localStorageServicePod);
-    final status = await storage.getString(cameraStatusKey);
+    final status = await Permission.camera.request();
 
-    if (status == null) {
+    if (status == PermissionStatus.granted) {
       return Future.value(true);
     } else {
       return Future.value(false);
