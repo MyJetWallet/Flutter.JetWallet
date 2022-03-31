@@ -43,6 +43,7 @@ class SimplexWebView extends HookWidget {
     return SPageFrame(
       header: const SPaddingH24(
         child: SSmallHeader(
+          titleAlign: TextAlign.left,
           icon: SCloseIcon(),
           title: 'Simplex',
         ),

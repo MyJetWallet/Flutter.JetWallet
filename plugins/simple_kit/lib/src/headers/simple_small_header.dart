@@ -8,6 +8,7 @@ class SSmallHeader extends StatelessWidget {
     this.icon,
     this.onStarButtonTap,
     this.onBackButtonTap,
+    this.titleAlign = TextAlign.center,
     this.showBackButton = true,
     this.showStarButton = false,
     this.isStarSelected = false,
@@ -17,6 +18,7 @@ class SSmallHeader extends StatelessWidget {
   final Widget? icon;
   final Function()? onStarButtonTap;
   final Function()? onBackButtonTap;
+  final TextAlign titleAlign;
   final bool showBackButton;
   final bool showStarButton;
   final bool isStarSelected;
@@ -46,7 +48,7 @@ class SSmallHeader extends StatelessWidget {
                 child: Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
+                  textAlign: titleAlign,
                   maxLines: 1,
                   style: sTextH5Style,
                 ),
