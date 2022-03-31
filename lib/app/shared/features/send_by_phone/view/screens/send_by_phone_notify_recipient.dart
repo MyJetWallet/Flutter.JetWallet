@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class SendByPhoneNotifyRecipient extends StatefulHookWidget {
+class SendByPhoneNotifyRecipient extends HookWidget {
   const SendByPhoneNotifyRecipient({
     Key? key,
     required this.toPhoneNumber,
@@ -15,38 +15,9 @@ class SendByPhoneNotifyRecipient extends StatefulHookWidget {
   final String toPhoneNumber;
 
   @override
-  State<SendByPhoneNotifyRecipient> createState() =>
-    _SendByPhoneNotifyRecipientState();
-}
-
-class _SendByPhoneNotifyRecipientState extends State<SendByPhoneNotifyRecipient>
-    with WidgetsBindingObserver {
-  bool canTapShare = true;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance?.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      setState(() {
-        canTapShare = true;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final canTapShare = useState(true);
 
     return SPageFrameWithPadding(
       header: const SMegaHeader(
@@ -58,7 +29,7 @@ class _SendByPhoneNotifyRecipientState extends State<SendByPhoneNotifyRecipient>
         children: [
           const SpaceH4(),
           Text(
-            widget.toPhoneNumber,
+            toPhoneNumber,
             style: sBodyText1Style,
           ),
           Text(
@@ -81,15 +52,13 @@ class _SendByPhoneNotifyRecipientState extends State<SendByPhoneNotifyRecipient>
             active: true,
             name: 'Send a message',
             onTap: () {
-              if (canTapShare) {
-                setState(() {
-                  canTapShare = false;
-                });
-                Timer(const Duration(seconds: 1), () => setState(() {
-                  canTapShare = true;
-                }),);
+              if (canTapShare.value) {
+                canTapShare.value = false;
+                Timer(
+                    const Duration(seconds: 1), () => canTapShare.value = true,
+                );
                 Share.share(
-                'I have sent you some money to ${widget.toPhoneNumber}. Please '
+                'I have sent you some money to $toPhoneNumber. Please '
                 'install Simple app to get them.',
                 );
               }
