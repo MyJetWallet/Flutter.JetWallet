@@ -85,6 +85,10 @@ class EmailVerification extends HookWidget {
                       verificationN.verifyCode();
                     },
                     autoFocus: true,
+                    onChanged: (_) {
+                      pinError.value.disableError();
+                      verificationN.clearCode(pinError.value);
+                    },
                     pinError: pinError.value,
                   ),
                   const Spacer(),

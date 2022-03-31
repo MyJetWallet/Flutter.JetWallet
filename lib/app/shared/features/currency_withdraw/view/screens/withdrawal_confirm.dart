@@ -102,6 +102,10 @@ class WithdrawalConfirm extends HookWidget {
                 confirmN.verifyCode();
               },
               autoFocus: true,
+              onChanged: (_) {
+                pinError.value.disableError();
+                confirmN.cleanCode(pinError.value);
+              },
               pinError: pinError.value,
             ),
             SResendButton(

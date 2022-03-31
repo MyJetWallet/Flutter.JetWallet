@@ -13,6 +13,7 @@ class PinCodeField extends HookWidget {
     required this.controller,
     required this.onCompleted,
     required this.pinError,
+    required this.onChanged,
   }) : super(key: key);
 
   final bool autoFocus;
@@ -21,6 +22,7 @@ class PinCodeField extends HookWidget {
   final TextEditingController controller;
   final Function(String) onCompleted;
   final StandardFieldErrorNotifier pinError;
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class PinCodeField extends HookWidget {
         color: pinError.value ? colors.red : colors.black,
       ),
       onCompleted: onCompleted,
-      onChanged: (_) => pinError.disableError(), // required field
+      onChanged: onChanged, // required field
     );
   }
 }

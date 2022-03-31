@@ -126,6 +126,10 @@ class PhoneVerification extends HookWidget {
               autoFocus: true,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               onCompleted: (_) => phoneN.verifyCode(),
+              onChanged: (_) {
+                phone.pinFieldError!.disableError();
+                phoneN.cleanCode(phone.pinFieldError!);
+              },
               pinError: phone.pinFieldError!,
             ),
             /// TODO update legacy resend

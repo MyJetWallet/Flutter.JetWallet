@@ -111,4 +111,10 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
   void _updateIsResending(bool value) {
     state = state.copyWith(isResending: value);
   }
+
+  void clearCode(ValueNotifier<bool> pinError) {
+    if (!pinError.value && state.controller.text.length == 6) {
+      state.controller.text = '';
+    }
+  }
 }

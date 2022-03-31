@@ -53,6 +53,7 @@ class TwoFaPhone extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final notificationN = useProvider(sNotificationNotipod.notifier);
+    final loader = useValueNotifier(StackLoaderNotifier());
 
     return ProviderListener<lu.LogoutUnion>(
       provider: logoutNotipod,
@@ -71,6 +72,7 @@ class TwoFaPhone extends HookWidget {
         onChange: (context, state) {
           state.union.maybeWhen(
             error: (error) {
+              loader.value.finishLoading();
               pinError.value.enableError();
               twoFaN.resetError();
             },
@@ -80,6 +82,7 @@ class TwoFaPhone extends HookWidget {
         child: logout.when(
           result: (_, __) {
             return SPageFrameWithPadding(
+              loading: loader.value,
               header: SBigHeader(
                 title: 'Phone Confirmation',
                 onBackButtonTap: () => trigger.when(
@@ -101,7 +104,12 @@ class TwoFaPhone extends HookWidget {
                     controller: twoFa.controller,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     onCompleted: (_) async {
+                      loader.value.startLoading();
                       await twoFaN.verifyCode();
+                    },
+                    onChanged: (_) {
+                      pinError.value.disableError();
+                      twoFaN.cleanCode(pinError.value);
                     },
                     pinError: pinError.value,
                   ),

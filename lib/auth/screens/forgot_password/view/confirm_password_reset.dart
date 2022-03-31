@@ -99,10 +99,13 @@ class ConfirmPasswordReset extends HookWidget {
                   code: state.controller.text,
                 ),
               );
-
               state.controller.clear();
             },
             autoFocus: true,
+            onChanged: (_) {
+              pinError.value.disableError();
+              notifier.cleanCode(pinError.value);
+            },
             pinError: pinError.value,
           ),
           SResendButton(
