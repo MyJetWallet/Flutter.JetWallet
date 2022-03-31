@@ -155,7 +155,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
 
   String _headerTitle(bool status) {
     if (status) {
-      return 'Give permission to\nallow to use camera';
+      return 'Give permission to\nallow to use of camera';
     } else {
       return 'Allow camera access';
     }
