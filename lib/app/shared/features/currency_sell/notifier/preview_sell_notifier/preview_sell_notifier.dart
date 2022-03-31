@@ -71,6 +71,7 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
         toAssetAmount: response.toAssetAmount,
         union: const QuoteSuccess(),
         connectingToServer: false,
+        feePercent: response.feePercent,
       );
 
       _refreshTimerAnimation(response.expirationTime);

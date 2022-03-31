@@ -112,6 +112,13 @@ class _PreviewConvertState extends State<PreviewConvert>
                     )}',
                   ),
                   SActionConfirmText(
+                    name: 'Fee',
+                    baseline: 35.0,
+                    contentLoading: state.union is QuoteLoading &&
+                        !widget.input.toAssetEnabled,
+                    value: '${state.feePercent}%',
+                  ),
+                  SActionConfirmText(
                     name: 'Exchange Rate',
                     baseline: 34.0,
                     contentLoading: state.union is QuoteLoading,

@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
@@ -24,6 +26,7 @@ class WithdrawalAmount extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAmountNotipod(withdrawal));
     final notifier = useProvider(withdrawalAmountNotipod(withdrawal).notifier);
@@ -38,62 +41,93 @@ class WithdrawalAmount extends HookWidget {
       ),
       child: Column(
         children: [
-          SActionPriceField(
-            widgetSize: SWidgetSize.medium,
-            price: formatCurrencyStringAmount(
-              prefix: currency.prefixSymbol,
-              value: state.amount,
-              symbol: currency.symbol,
-            ),
-            helper: '≈ ${marketFormat(
-              accuracy: state.baseCurrency!.accuracy,
-              prefix: state.baseCurrency!.prefix,
-              decimal: Decimal.parse(state.baseConversionValue),
-              symbol: state.baseCurrency!.symbol,
-            )}',
-            error: state.inputError == InputError.enterHigherAmount
-                ? '${state.inputError.value}.'
-                : state.inputError.value,
-            isErrorActive: state.inputError.isActive,
+          deviceSize.when(
+            small: () => const SizedBox(),
+            medium: () => const Spacer(),
           ),
-          SBaselineChild(
-            baseline: 24.0,
-            child: Text(
-              'Available: ${currency.volumeAssetBalance}',
-              style: sSubtitle3Style.copyWith(
-                color: colors.grey2,
-              ),
+          SizedBox(
+            height: deviceSize.when(
+              small: () => 116,
+              medium: () => 152,
             ),
-          ),
-          SBaselineChild(
-            baseline: 36.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
               children: [
-                const SFeeAlertIcon(),
-                const SpaceW10(),
-                Text(
-                  _feeDescription(state.addressIsInternal, state.amount),
-                  style: sCaptionTextStyle.copyWith(
-                    color: colors.grey2,
+                Baseline(
+                  baseline: deviceSize.when(
+                    small: () => 32,
+                    medium: () => 60,
+                  ),
+                  baselineType: TextBaseline.alphabetic,
+                  child: SActionPriceField(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    price: formatCurrencyStringAmount(
+                      prefix: currency.prefixSymbol,
+                      value: state.amount,
+                      symbol: currency.symbol,
+                    ),
+                    helper: '≈ ${marketFormat(
+                      accuracy: state.baseCurrency!.accuracy,
+                      prefix: state.baseCurrency!.prefix,
+                      decimal: Decimal.parse(state.baseConversionValue),
+                      symbol: state.baseCurrency!.symbol,
+                    )}',
+                    error: state.inputError == InputError.enterHigherAmount
+                        ? 'Enter more than ${currency.withdrawalFeeWithSymbol}'
+                        : state.inputError.value,
+                    isErrorActive: state.inputError.isActive,
+                  ),
+                ),
+                Baseline(
+                  baseline: deviceSize.when(
+                    small: () => -36,
+                    medium: () => 20,
+                  ),
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    'Available: ${currency.volumeAssetBalance}',
+                    style: sSubtitle3Style.copyWith(
+                      color: colors.grey2,
+                    ),
+                  ),
+                ),
+                Baseline(
+                  baseline: deviceSize.when(
+                    small: () => -6,
+                    medium: () => 30,
+                  ),
+                  baselineType: TextBaseline.alphabetic,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SFeeAlertIcon(),
+                      const SpaceW10(),
+                      Text(
+                        _feeDescription(state.addressIsInternal, state.amount),
+                        style: sCaptionTextStyle.copyWith(
+                          color: colors.grey2,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
           const Spacer(),
-          const SpaceH10(),
           SPaymentSelectAsset(
-            widgetSize: SWidgetSize.medium,
+            widgetSize: widgetSizeFrom(deviceSize),
             icon: SWalletIcon(
               color: colors.black,
             ),
             name: shortAddressForm(state.address),
             description: '${currency.symbol} wallet',
           ),
-          const SpaceH20(),
+          deviceSize.when(
+            small: () => const Spacer(),
+            medium: () => const SpaceH20(),
+          ),
           SNumericKeyboardAmount(
-            widgetSize: SWidgetSize.medium,
+            widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
             preset3Name: 'MAX',

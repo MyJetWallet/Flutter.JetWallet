@@ -7,6 +7,8 @@ import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../helpers/navigate_to_router.dart';
 import '../../../helpers/navigator_push.dart';
 import '../../../helpers/navigator_push_replacement.dart';
+import '../../../helpers/widget_size_from.dart';
+import '../../../providers/device_size/device_size_pod.dart';
 import 'components/success_animation.dart';
 
 class SuccessScreen extends HookWidget {
@@ -68,6 +70,7 @@ class SuccessScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
 
     return WillPopScope(
@@ -90,7 +93,9 @@ class SuccessScreen extends HookWidget {
             children: [
               Row(), // to expand Column in the cross axis
               const SpaceH86(),
-              const SuccessAnimation(),
+              SuccessAnimation(
+                widgetSize: widgetSizeFrom(deviceSize),
+              ),
               Baseline(
                 baseline: 136.0,
                 baselineType: TextBaseline.alphabetic,

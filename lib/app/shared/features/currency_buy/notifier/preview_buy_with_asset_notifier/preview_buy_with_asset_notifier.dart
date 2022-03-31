@@ -72,6 +72,7 @@ class PreviewBuyWithAssetNotifier
         toAssetAmount: response.toAssetAmount,
         union: const QuoteSuccess(),
         connectingToServer: false,
+        feePercent: response.feePercent,
       );
 
       _refreshTimerAnimation(response.expirationTime);
