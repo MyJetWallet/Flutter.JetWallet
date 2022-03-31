@@ -35,7 +35,7 @@ class SReferralInviteBottomPinned extends HookWidget {
             if (canTapShare.value) {
               canTapShare.value = false;
               Timer(
-                  const Duration(seconds: 1), () => canTapShare.value = true
+                  const Duration(seconds: 1), () => canTapShare.value = true,
               );
               onShare();
             }
