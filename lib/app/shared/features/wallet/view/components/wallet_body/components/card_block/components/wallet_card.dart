@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../screens/market/helper/format_day_percentage_change.dart';
 import '../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../models/currency_model.dart';
@@ -70,6 +71,10 @@ class WalletCard extends HookWidget {
                   currency: currency,
                   baseCurrency: baseCurrency,
                   colors: colors,
+                  colorDayPercentage: colorDayPercentage(
+                    currency.dayPercentChange,
+                    colors,
+                  ),
                 );
               },
               child: Container(
@@ -138,6 +143,10 @@ class WalletCard extends HookWidget {
                     currency: currency,
                     baseCurrency: baseCurrency,
                     colors: colors,
+                    colorDayPercentage: colorDayPercentage(
+                      currency.dayPercentChange,
+                      colors,
+                    ),
                   );
                 },
                 child: const SInfoIcon(),
