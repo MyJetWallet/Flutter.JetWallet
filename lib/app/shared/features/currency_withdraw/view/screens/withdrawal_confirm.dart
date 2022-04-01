@@ -42,6 +42,15 @@ class WithdrawalConfirm extends HookWidget {
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus &&
+          confirm.controller.value.text.length == emailVerificationCodeLength &&
+          pinError.value.value) {
+        confirm.controller.clear();
+      }
+    });
 
     final verb = withdrawal.dictionary.verb.toLowerCase();
     final noun = withdrawal.dictionary.noun.toLowerCase();
@@ -95,6 +104,7 @@ class WithdrawalConfirm extends HookWidget {
             ),
             const SpaceH29(),
             PinCodeField(
+              focusNode: focusNode,
               controller: confirm.controller,
               length: emailVerificationCodeLength,
               onCompleted: (_) {
@@ -104,7 +114,6 @@ class WithdrawalConfirm extends HookWidget {
               autoFocus: true,
               onChanged: (_) {
                 pinError.value.disableError();
-                confirmN.cleanCode(pinError.value);
               },
               pinError: pinError.value,
             ),

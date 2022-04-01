@@ -122,10 +122,4 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
   void _updatePhoneNumber(String? number) {
     state = state.copyWith(phoneNumber: number ?? '');
   }
-
-  void cleanCode(ValueNotifier<bool> pinError) {
-    if (!pinError.value && state.controller.text.length == 4) {
-      state.controller.text = '';
-    }
-  }
 }

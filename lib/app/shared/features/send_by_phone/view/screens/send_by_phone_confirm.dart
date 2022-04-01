@@ -46,6 +46,16 @@ class SendByPhoneConfirm extends HookWidget {
     final colors = useProvider(sColorPod);
     final authInfo = useProvider(authInfoNotipod);
 
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus &&
+          confirm.controller.value.text.length == emailVerificationCodeLength &&
+          pinError.value.value) {
+        confirm.controller.clear();
+      }
+    });
+
     analytics(() => sAnalytics.kycPhoneConfirmationView());
 
     return ProviderListener<SendByPhoneConfirmState>(
@@ -97,6 +107,7 @@ class SendByPhoneConfirm extends HookWidget {
             ),
             const SpaceH29(),
             PinCodeField(
+              focusNode: focusNode,
               controller: confirm.controller,
               length: emailVerificationCodeLength,
               onCompleted: (_) {
@@ -106,7 +117,6 @@ class SendByPhoneConfirm extends HookWidget {
               autoFocus: true,
               onChanged: (_) {
                 pinError.value.disableError();
-                confirmN.cleanCode(pinError.value);
               },
               pinError: pinError.value,
             ),

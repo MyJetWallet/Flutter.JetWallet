@@ -15,6 +15,8 @@ import '../../../../../shared/services/remote_config_service/remote_config_value
 import '../../../../screens/account/components/crisp.dart';
 import '../notifier/phone_verification_notipod.dart';
 
+const codeLength = 4;
+
 class PhoneVerificationArgs {
   PhoneVerificationArgs({
     this.showChangeTextAlert = false,
@@ -72,6 +74,16 @@ class PhoneVerification extends HookWidget {
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
     final colors = useProvider(sColorPod);
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus &&
+          phone.controller.value.text.length == codeLength &&
+          phone.pinFieldError!.value) {
+        phone.controller.clear();
+      }
+    });
+
 
     return SPageFrame(
       loading: phone.loader,
@@ -121,14 +133,14 @@ class PhoneVerification extends HookWidget {
               ),
             const SpaceH18(),
             PinCodeField(
-              length: 4,
+              focusNode: focusNode,
+              length: codeLength,
               controller: phone.controller,
               autoFocus: true,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               onCompleted: (_) => phoneN.verifyCode(),
               onChanged: (_) {
                 phone.pinFieldError!.disableError();
-                phoneN.cleanCode(phone.pinFieldError!);
               },
               pinError: phone.pinFieldError!,
             ),

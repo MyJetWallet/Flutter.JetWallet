@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 class PinCodeField extends HookWidget {
   const PinCodeField({
     Key? key,
+    this.focusNode,
     this.autoFocus = false,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     required this.length,
@@ -16,6 +17,7 @@ class PinCodeField extends HookWidget {
     required this.onChanged,
   }) : super(key: key);
 
+  final FocusNode? focusNode;
   final bool autoFocus;
   final MainAxisAlignment mainAxisAlignment;
   final int length;
@@ -29,6 +31,7 @@ class PinCodeField extends HookWidget {
     final colors = useProvider(sColorPod);
 
     return PinCodeTextField(
+      focusNode: focusNode,
       length: length,
       appContext: context,
       controller: controller,

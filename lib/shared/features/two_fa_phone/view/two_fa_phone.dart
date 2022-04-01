@@ -54,6 +54,15 @@ class TwoFaPhone extends HookWidget {
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus &&
+          twoFa.controller.value.text.length == 4 &&
+          pinError.value.value) {
+        twoFa.controller.clear();
+      }
+    });
 
     return ProviderListener<lu.LogoutUnion>(
       provider: logoutNotipod,
@@ -99,6 +108,7 @@ class TwoFaPhone extends HookWidget {
                   ),
                   const SpaceH60(),
                   PinCodeField(
+                    focusNode: focusNode,
                     length: 4,
                     autoFocus: true,
                     controller: twoFa.controller,
@@ -109,7 +119,6 @@ class TwoFaPhone extends HookWidget {
                     },
                     onChanged: (_) {
                       pinError.value.disableError();
-                      twoFaN.cleanCode(pinError.value);
                     },
                     pinError: pinError.value,
                   ),
