@@ -49,7 +49,7 @@ class Rewards extends HookWidget {
             ],
             if (_displayRewardBanner(item)) ...[
               SRewardBanner(
-                color: setBannerColor().call(),
+                color: setBannerColor(item),
                 primaryText: item.campaign!.title,
                 secondaryText: item.campaign!.description,
                 imageUrl: item.campaign!.imageUrl,
