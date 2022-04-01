@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -10,11 +11,15 @@ import '../../../../../../service/services/signal_r/model/blockchains_model.dart
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../shared/services/local_storage_service.dart';
 import '../../../../models/currency_model.dart';
+import '../../../kyc/view/components/allow_camera/allow_camera.dart';
 import '../../model/withdrawal_model.dart';
 import '../../view/screens/withdrawal_amount.dart';
 import 'address_validation_union.dart';
 import 'withdrawal_address_state.dart';
+
+enum CameraStatus { permanentlyDenied, denied, granted }
 
 /// Responsible for input and validation of withdrawal address and tag
 class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
@@ -127,35 +132,75 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   Future<void> scanAddressQr(BuildContext context) async {
     _logger.log(notifier, 'scanAddressQr');
 
-    final result = await _pushQrView(context);
+    final status = await _checkCameraStatusAction();
 
-    if (result is Barcode) {
-      state.addressController.text = result.code ?? '';
-      _moveCursorAtTheEnd(state.addressController);
-      state.addressFocus.requestFocus();
-      updateAddress(result.code ?? '');
-      await _validateAddressOrTag(
-        _updateAddressValidation,
-        _triggerErrorOfAddressField,
+    if (status == CameraStatus.permanentlyDenied) {
+      if (!mounted) return;
+      _pushAllowCamera(context);
+    } else if (status == CameraStatus.granted) {
+      final result = await _pushQrView(
+        context: context,
       );
+
+      if (result is Barcode) {
+        state.addressController.text = result.code ?? '';
+        _moveCursorAtTheEnd(state.addressController);
+        state.addressFocus.requestFocus();
+        updateAddress(result.code ?? '');
+        await _validateAddressOrTag(
+          _updateAddressValidation,
+          _triggerErrorOfAddressField,
+        );
+      }
     }
   }
 
   Future<void> scanTagQr(BuildContext context) async {
     _logger.log(notifier, 'scanTagQr');
 
-    final result = await _pushQrView(context);
+    final status = await _checkCameraStatusAction();
 
-    if (result is Barcode) {
-      state.tagController.text = result.code ?? '';
-      _moveCursorAtTheEnd(state.tagController);
-      state.tagFocus.requestFocus();
-      updateTag(result.code ?? '');
-      await _validateAddressOrTag(
-        _updateTagValidation,
-        _triggerErrorOfTagField,
+    if (status == CameraStatus.permanentlyDenied) {
+      if (!mounted) return;
+      _pushAllowCamera(context);
+    } else if (status == CameraStatus.granted) {
+      final result = await _pushQrView(
+        context: context,
       );
+
+      if (result is Barcode) {
+        state.tagController.text = result.code ?? '';
+        _moveCursorAtTheEnd(state.tagController);
+        state.tagFocus.requestFocus();
+        updateTag(result.code ?? '');
+        await _validateAddressOrTag(
+          _updateTagValidation,
+          _triggerErrorOfTagField,
+        );
+      }
     }
+  }
+
+  Future<CameraStatus> _checkCameraStatusAction() async {
+    final storage = read(localStorageServicePod);
+    final storageStatus = await storage.getString(cameraStatusKey);
+    final permissionStatus = await Permission.camera.request();
+
+    if (permissionStatus == PermissionStatus.denied ||
+        permissionStatus == PermissionStatus.permanentlyDenied) {
+      if (storageStatus != null) {
+        return CameraStatus.permanentlyDenied;
+      }
+    } else if (permissionStatus == PermissionStatus.granted) {
+      return CameraStatus.granted;
+    }
+
+    await read(localStorageServicePod).setString(
+      cameraStatusKey,
+      'triggered',
+    );
+
+    return CameraStatus.denied;
   }
 
   Future<String> _copiedText() async {
@@ -169,43 +214,48 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     );
   }
 
-  Future _pushQrView(BuildContext context) {
+  Future _pushQrView({
+    bool fromSettings = false,
+    required BuildContext context,
+  }) {
     final colors = read(sColorPod);
-
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return Stack(
-            children: [
-              QRView(
-                key: state.qrKey,
-                onQRViewCreated: (c) => _onQRViewCreated(c, context),
-                overlay: QrScannerOverlayShape(),
-              ),
-              Positioned(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      left: 28.0,
-                      top: 68.0,
-                    ),
-                    width: 24,
-                    height: 24,
-                    child: SCloseIcon(
-                      color: colors.white,
-                    ),
+    final qrPageRoute = MaterialPageRoute(
+      builder: (context) {
+        return Stack(
+          children: [
+            QRView(
+              key: state.qrKey,
+              onQRViewCreated: (c) => _onQRViewCreated(c, context),
+              overlay: QrScannerOverlayShape(),
+            ),
+            Positioned(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: 28.0,
+                    top: 68.0,
+                  ),
+                  width: 24,
+                  height: 24,
+                  child: SCloseIcon(
+                    color: colors.white,
                   ),
                 ),
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
+
+    if (fromSettings) {
+      return Navigator.pushReplacement(context, qrPageRoute);
+    } else {
+      return Navigator.push(context, qrPageRoute);
+    }
   }
 
   void _onQRViewCreated(QRViewController controller, BuildContext context) {
@@ -335,6 +385,17 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   void _pushWithdrawalAmount(BuildContext context) {
     navigatorPush(context, WithdrawalAmount(withdrawal: withdrawal));
+  }
+
+  void _pushAllowCamera(BuildContext context) {
+    AllowCamera.push(
+      context: context,
+      permissionDescription:
+          'To scan the QR Code, give Simple permission to access your camera',
+      then: () {
+        _pushQrView(context: context, fromSettings: true);
+      },
+    );
   }
 
   @override

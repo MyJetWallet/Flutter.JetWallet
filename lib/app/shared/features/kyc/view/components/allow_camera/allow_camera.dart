@@ -8,29 +8,31 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../notifier/camera_permission/camera_permission_notipod.dart';
 import '../../../notifier/camera_permission/camera_permission_state.dart';
 
 class AllowCamera extends StatefulHookWidget {
-  const AllowCamera({Key? key}) : super(key: key);
+  const AllowCamera({
+    Key? key,
+    required this.permissionDescription,
+    required this.then,
+  }) : super(key: key);
+
+  final String permissionDescription;
+  final void Function() then;
 
   static void push({
     required BuildContext context,
+    required String permissionDescription,
+    required void Function() then,
   }) {
     navigatorPush(
       context,
-      const AllowCamera(),
-    );
-  }
-
-  static void pushReplacement({
-    required BuildContext context,
-  }) {
-    navigatorPushReplacement(
-      context,
-      const AllowCamera(),
+      AllowCamera(
+        permissionDescription: permissionDescription,
+        then: then,
+      ),
     );
   }
 
@@ -59,7 +61,10 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
 
       // If returned from Settings check whether user enabled permission or not
       if (state.userLocation == UserLocation.settings) {
-        notifier.handleCameraPermissionAfterSettingsChange(context);
+        notifier.handleCameraPermissionAfterSettingsChange(
+          context,
+          widget.then,
+        );
       }
     }
   }
@@ -130,22 +135,18 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
-                Row(
-                  children: [
-                    Baseline(
-                      baseline: 48,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        state.permissionDenied
-                            ? 'Give permission to allow the use of camera'
-                            : 'We cannot verify you without using your\ncamera',
-                        maxLines: 3,
-                        style: sBodyText1Style.copyWith(
-                          color: colors.grey1,
-                        ),
+                Expanded(
+                  child: Baseline(
+                    baseline: 48,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      widget.permissionDescription,
+                      maxLines: 3,
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
@@ -157,7 +158,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
 
   String _headerTitle(bool status) {
     if (status) {
-      return 'Give permission to\nallow to use camera';
+      return 'Give permission to\nallow the use of camera';
     } else {
       return 'Allow camera access';
     }

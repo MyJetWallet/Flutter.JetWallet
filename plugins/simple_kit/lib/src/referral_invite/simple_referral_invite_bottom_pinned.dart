@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
 
-class SReferralInviteBottomPinned extends StatelessWidget {
+class SReferralInviteBottomPinned extends HookWidget {
   const SReferralInviteBottomPinned({
     Key? key,
     required this.onShare,
@@ -12,6 +15,8 @@ class SReferralInviteBottomPinned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canTapShare = useState(true);
+
     return Container(
       padding: const EdgeInsets.only(
         bottom: 24,
@@ -26,7 +31,15 @@ class SReferralInviteBottomPinned extends StatelessWidget {
       ),
       child: SPaddingH24(
         child: SPrimaryButton2(
-          onTap: onShare,
+          onTap: () {
+            if (canTapShare.value) {
+              canTapShare.value = false;
+              Timer(
+                  const Duration(seconds: 1), () => canTapShare.value = true,
+              );
+              onShare();
+            }
+          },
           name: 'Share',
           active: true,
           icon: SShareIcon(

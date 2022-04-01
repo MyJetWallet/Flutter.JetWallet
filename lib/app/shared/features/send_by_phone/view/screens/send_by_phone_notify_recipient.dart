@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,6 +20,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final userInfo = useProvider(userInfoNotipod);
+    final canTapShare = useState(true);
 
     return SPageFrameWithPadding(
       header: const SMegaHeader(
@@ -52,10 +55,17 @@ class SendByPhoneNotifyRecipient extends HookWidget {
             active: true,
             name: 'Send a message',
             onTap: () {
-              Share.share(
-                'I have sent you some money to $toPhoneNumber. Please '
-                'install Simple app to get them.\n ${userInfo.referralLink}',
-              );
+              if (canTapShare.value) {
+                canTapShare.value = false;
+                Timer(
+                  const Duration(seconds: 1),
+                  () => canTapShare.value = true,
+                );
+                Share.share(
+                  'I have sent you some money to $toPhoneNumber. Please '
+                  'install Simple app to get them.\n ${userInfo.referralLink}',
+                );
+              }
             },
           ),
           const SpaceH10(),
