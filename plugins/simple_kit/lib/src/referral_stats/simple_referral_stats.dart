@@ -12,6 +12,7 @@ class SReferralStats extends StatelessWidget {
     required this.bonusEarned,
     required this.commissionEarned,
     required this.total,
+    required this.onTap,
   }) : super(key: key);
 
   final int referralInvited;
@@ -19,6 +20,7 @@ class SReferralStats extends StatelessWidget {
   final double bonusEarned;
   final double commissionEarned;
   final double total;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,10 @@ class SReferralStats extends StatelessWidget {
                     style: sTextH4Style,
                   ),
                 ),
-                const SInfoPressedIcon(),
+                InkWell(
+                  onTap: onTap,
+                  child: const SInfoPressedIcon(),
+                ),
               ],
             ),
           ),
