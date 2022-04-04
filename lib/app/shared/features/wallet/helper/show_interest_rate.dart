@@ -108,10 +108,10 @@ void showInterestRate({
       ),
       const SpaceH90(),
       SizedBox(
-        height: 24,
+        height: 44,
         child: Baseline(
           baselineType: TextBaseline.alphabetic,
-          baseline: 20,
+          baseline: 40,
           child: Row(
             children: [
               Text(
@@ -128,7 +128,10 @@ void showInterestRate({
                       title: 'Interest earned',
                     ),);
                   },
-                  child: const SInfoIcon(),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: const SInfoIcon(),
+                  ),
                 ),
               ),
               const Spacer(),

@@ -62,7 +62,10 @@ class SReferralStats extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: onTap,
-                  child: const SInfoPressedIcon(),
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: const SInfoPressedIcon(),
+                  ),
                 ),
               ],
             ),
