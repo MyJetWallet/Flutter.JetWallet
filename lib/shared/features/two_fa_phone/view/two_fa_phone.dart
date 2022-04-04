@@ -106,7 +106,7 @@ class TwoFaPhone extends HookWidget {
                     pinError: pinError.value,
                   ),
                   const SpaceH7(),
-                  if (timer != 0 && !twoFa.showResend)
+                  if (timer > 0 && !twoFa.showResend)
                     ResendInText(
                       text: 'You can resend in $timer seconds',
                     )

@@ -129,7 +129,7 @@ class PhoneVerification extends HookWidget {
               pinError: phone.pinFieldError!,
             ),
             /// TODO update legacy resend
-            if (timer != 0 && !phone.showResend)
+            if (timer > 0 && !phone.showResend)
               ResendInText(text: 'You can resend in $timer seconds')
             else ...[
               ResendRichText(
