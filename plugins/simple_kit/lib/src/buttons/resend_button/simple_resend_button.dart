@@ -50,7 +50,7 @@ class _SResendButton extends State<SResendButton>
       children: [
         Center(
           child: Text(
-            _timer.value != 0
+            _timer.value > 0
                 ? 'You can resend in ${_timer.value} seconds'
                 : "Didn't receive the code?",
             style: sCaptionTextStyle.copyWith(
@@ -60,7 +60,7 @@ class _SResendButton extends State<SResendButton>
         ),
         const SpaceH10(),
         Visibility(
-          visible: _timer.value == 0,
+          visible: _timer.value <= 0,
           maintainSize: true,
           maintainAnimation: true,
           maintainState: true,
