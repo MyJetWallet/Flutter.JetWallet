@@ -9,16 +9,19 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_sell/view/currency_sell.dart';
+import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
 void showSellAction(BuildContext context) {
+  final showSearch = showSellCurrencySearch(context);
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to sell',
+      showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
       },
