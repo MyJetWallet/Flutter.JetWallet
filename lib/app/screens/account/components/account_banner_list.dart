@@ -59,26 +59,27 @@ class AccountBannerList extends HookWidget {
             },
           ),
         ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: SmoothPageIndicator(
-              controller: controller,
-              count: banners.length,
-              effect: ScrollingDotsEffect(
-                spacing: 2,
-                radius: 4,
-                dotWidth: 8,
-                dotHeight: 2,
-                maxVisibleDots: 11,
-                activeDotScale: 1,
-                dotColor: colors.black.withOpacity(0.1),
-                activeDotColor: colors.black,
+        if (banners.length > 1)
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: SmoothPageIndicator(
+                controller: controller,
+                count: banners.length,
+                effect: ScrollingDotsEffect(
+                  spacing: 2,
+                  radius: 4,
+                  dotWidth: 8,
+                  dotHeight: 2,
+                  maxVisibleDots: 11,
+                  activeDotScale: 1,
+                  dotColor: colors.black.withOpacity(0.1),
+                  activeDotColor: colors.black,
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
