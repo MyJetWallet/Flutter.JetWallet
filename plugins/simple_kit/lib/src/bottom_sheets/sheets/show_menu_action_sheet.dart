@@ -32,14 +32,14 @@ void sShowMenuActionSheet({
         onTap: onBuy,
         icon: const SActionBuyIcon(),
         name: 'Buy',
-        description: 'Buy crypto with your local currency',
+        description: 'Buy any crypto available on the platform',
       ),
       if (isNotEmptyBalance) ...[
         SActionItem(
           onTap: onSell,
           icon: const SActionSellIcon(),
           name: 'Sell',
-          description: 'Sell crypto to your local currency',
+          description: 'Sell crypto from your portfolio',
         ),
         SActionItem(
           onTap: onConvert,
@@ -62,7 +62,7 @@ void sShowMenuActionSheet({
             onTap: onWithdraw,
             icon: const SActionWithdrawIcon(),
             name: 'Withdraw',
-            description: 'Withdraw crypto to your credit card',
+            description: 'Withdraw crypto to an external account',
           ),
         ],
         if (isSendAvailable) ...[
