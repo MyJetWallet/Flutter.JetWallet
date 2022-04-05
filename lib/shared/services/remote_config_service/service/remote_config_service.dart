@@ -23,6 +23,12 @@ class RemoteConfigService {
   final _config = RemoteConfig.instance;
 
   Future<void> fetchAndActivate() async {
+    await _config.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(seconds: 60),
+        minimumFetchInterval: const Duration(minutes: 10),
+      ),
+    );
     await _config.fetchAndActivate();
     overrideAppConfigValues();
     overrideApisFrom(_defaultFlavorIndex);
