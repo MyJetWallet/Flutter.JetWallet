@@ -60,11 +60,11 @@ class SReferralInviteBody extends StatelessWidget {
         ),
         const SpaceH40(),
         const SimpleConditionsReferralInvite(
-          conditionText: 'Get \$5 for account verification',
+          conditionText: 'Complete account verification',
         ),
         const SpaceH16(),
         const SimpleConditionsReferralInvite(
-          conditionText: 'Get \$5 after trading \$100',
+          conditionText: 'Trade 100 USD equivalent',
         ),
         const SpaceH16(),
         const SimpleConditionsReferralInvite(
