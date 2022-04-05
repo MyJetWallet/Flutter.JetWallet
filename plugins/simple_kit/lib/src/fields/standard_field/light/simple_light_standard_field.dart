@@ -79,7 +79,8 @@ class SimpleLightStandardField extends HookWidget {
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,
-        if (controller2.text.isNotEmpty && !hideClearButton)
+        if (controller2.text.isNotEmpty && !hideClearButton) ...[
+          const SpaceW16(),
           GestureDetector(
             onTap: () {
               controller2.clear();
@@ -87,7 +88,8 @@ class SimpleLightStandardField extends HookWidget {
               onErase?.call();
             },
             child: const SEraseIcon(),
-          )
+          ),
+        ],
       ],
     );
   }
