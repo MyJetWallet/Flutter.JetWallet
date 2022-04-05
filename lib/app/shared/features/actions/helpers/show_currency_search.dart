@@ -6,7 +6,7 @@ import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../models/currency_model.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
-const minCurrencies = 8;
+const minCurrencies = 7;
 
 bool showBuyCurrencySearch(BuildContext context) {
   final state = context.read(actionSearchNotipod);
