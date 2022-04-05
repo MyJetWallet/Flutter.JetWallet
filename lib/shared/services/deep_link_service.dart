@@ -16,6 +16,7 @@ import '../../app/shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../app/shared/features/rewards/view/rewards.dart';
 import '../../app/shared/features/send_by_phone/notifier/send_by_phone_confirm_notifier/send_by_phone_confirm_notipod.dart';
 import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confirm.dart';
+import '../../app/shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
 import '../../auth/screens/forgot_password/notifier/confirm_password_reset/confirm_password_reset_notipod.dart';
@@ -23,6 +24,8 @@ import '../../auth/screens/forgot_password/view/confirm_password_reset.dart';
 import '../../auth/screens/login/login.dart';
 import '../../router/notifier/startup_notifier/authorized_union.dart';
 import '../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../../router/provider/authorization_stpod/authorization_stpod.dart';
+import '../../router/provider/authorization_stpod/authorization_union.dart';
 import '../helpers/navigator_push.dart';
 import '../notifiers/logout_notifier/logout_notipod.dart';
 import '../notifiers/user_info_notifier/user_info_notipod.dart';
@@ -47,6 +50,8 @@ const _depositStart = 'DepositStart';
 const _kycVerification = 'KycVerification';
 const _tradingStart = 'TradingStart';
 const _earnLanding = 'EarnLanding';
+const _marketsScreen = 'MarketsScreen';
+const _authenticatorSettings = 'AuthenticatorSettings';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -87,9 +92,33 @@ class DeepLinkService {
       _tradingStartCommand(source);
     } else if (command == _depositStart) {
       _depositStartCommand(source);
+    } else if (command == _marketsScreen) {
+      _marketsScreenCommand();
+    } else if (command == _authenticatorSettings) {
+      _authenticatorSettingsCommand();
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  void _marketsScreenCommand() {
+    final auth = read(authorizationStpod);
+
+    if (auth.state == AuthorizationUnion.authorized.call()) {
+      read(navigationStpod).state = 0;
+    } else {
+      navigatorPush(
+        read(sNavigatorKeyPod).currentContext!,
+        const Login(),
+      );
+    }
+  }
+
+  void _authenticatorSettingsCommand() {
+    navigatorPush(
+      read(sNavigatorKeyPod).currentContext!,
+      const SmsAuthenticator(),
+    );
   }
 
   Future<void> _depositStartCommand(SourceScreen? source) async {
@@ -204,7 +233,7 @@ class DeepLinkService {
       ),
       children: [
         SReferralInviteBody(
-          primaryText: 'Invite friends and get \$10 after they',
+          primaryText: 'Invite friends and get \$10',
           qrCodeLink: userInfo.referralLink,
           referralLink: userInfo.referralLink,
         ),
