@@ -4,7 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../screens/market/helper/format_day_percentage_change.dart';
+import '../../../components/info_web_view.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/price_accuracy.dart';
 import '../../../models/currency_model.dart';
@@ -18,6 +20,7 @@ void showInterestRate({
   required SimpleColors colors,
   required Color colorDayPercentage,
 }) {
+  const infoLink = 'https://helpcenter.simple.app/en/category/earn-program-19vbh8x/';
   sShowBasicModalBottomSheet(
     context: context,
     removeBarPadding: true,
@@ -105,10 +108,10 @@ void showInterestRate({
       ),
       const SpaceH90(),
       SizedBox(
-        height: 24,
+        height: 44,
         child: Baseline(
           baselineType: TextBaseline.alphabetic,
-          baseline: 20,
+          baseline: 40,
           child: Row(
             children: [
               Text(
@@ -120,9 +123,15 @@ void showInterestRate({
                 padding: const EdgeInsets.only(top: 5),
                 child: STransparentInkWell(
                   onTap: () {
-                    // TODO(Vova): Open webview on tap
+                    navigatorPush(context, const InfoWebView(
+                      link: infoLink,
+                      title: 'Interest earned',
+                    ),);
                   },
-                  child: const SInfoIcon(),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: const SInfoIcon(),
+                  ),
                 ),
               ),
               const Spacer(),
