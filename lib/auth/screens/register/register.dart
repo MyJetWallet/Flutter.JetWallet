@@ -32,10 +32,17 @@ class Register extends HookWidget {
     analytics(() => sAnalytics.signUpView());
 
     void _showError() {
-      notificationN.showError(
-        'Perhaps you missed "." or "@" somewhere?',
-        id: 1,
-      );
+      if (credentials.email.contains(' ')) {
+        notificationN.showError(
+          'Invalid email, revise correctness and make sure there are no spaces',
+          id: 2,
+        );
+      } else {
+        notificationN.showError(
+          'Perhaps you missed "." or "@" somewhere?',
+          id: 1,
+        );
+      }
     }
 
     if (credentials.policyChecked) {
