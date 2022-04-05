@@ -7,7 +7,7 @@ import 'action_search_state.dart';
 class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
   ActionSearchNotifier({
     required this.read,
-  }) : super(const ActionSearchState(currencies: <CurrencyModel>[])) {
+  }) : super(const ActionSearchState()) {
     _init();
   }
 
@@ -15,10 +15,18 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
 
   void _init() {
     final currencies = read(currenciesPod);
+    final buyFromCardCurrencies = <CurrencyModel>[];
+
+    for (final currency in currencies) {
+      if (currency.supportsAtLeastOneBuyMethod) {
+        buyFromCardCurrencies.add(currency);
+      }
+    }
 
     state = state.copyWith(
       currencies: currencies,
       filteredCurrencies: currencies,
+      buyFromCardCurrencies: buyFromCardCurrencies,
     );
   }
 

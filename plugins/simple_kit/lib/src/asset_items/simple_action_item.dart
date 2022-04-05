@@ -8,6 +8,7 @@ class SActionItem extends StatelessWidget {
     Key? key,
     this.helper = '',
     this.withDivider = false,
+    this.isSelected = false,
     required this.icon,
     required this.name,
     required this.onTap,
@@ -16,6 +17,7 @@ class SActionItem extends StatelessWidget {
 
   final String helper;
   final bool withDivider;
+  final bool isSelected;
   final Widget icon;
   final String name;
   final Function() onTap;
@@ -23,6 +25,8 @@ class SActionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainColor = isSelected ? SColorsLight().blue : SColorsLight().black;
+
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
@@ -52,7 +56,9 @@ class SActionItem extends StatelessWidget {
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
                                   name,
-                                  style: sSubtitle2Style,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: mainColor,
+                                  ),
                                 ),
                               ),
                             ),

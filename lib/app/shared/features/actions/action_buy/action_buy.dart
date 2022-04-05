@@ -12,7 +12,10 @@ import '../../currency_buy/view/curency_buy.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
-void showBuyAction(BuildContext context) {
+void showBuyAction({
+  required BuildContext context,
+  required bool isFromBuyFromCard,
+}) {
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
@@ -25,20 +28,61 @@ void showBuyAction(BuildContext context) {
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
-    children: [const _ActionBuy()],
+    children: [
+      _ActionBuy(
+        isFromBuyFromCard: isFromBuyFromCard,
+      )
+    ],
   );
 }
 
 class _ActionBuy extends HookWidget {
-  const _ActionBuy({Key? key}) : super(key: key);
+  const _ActionBuy({
+    Key? key,
+    required this.isFromBuyFromCard,
+  }) : super(key: key);
+
+  final bool isFromBuyFromCard;
 
   @override
   Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final state = useProvider(actionSearchNotipod);
 
     return Column(
       children: [
+        const SpaceH10(),
+        SizedBox(
+          height: 21,
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                ),
+                child: Baseline(
+                  baseline: 11,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    isFromBuyFromCard
+                        ? 'Buy from card'
+                        : 'Buy with credit card or crypto',
+                    style: sCaptionTextStyle.copyWith(
+                      color: colors.grey3,
+                    ),
+                  ),
+                ),
+              ),
+              const SpaceW10(),
+              Expanded(
+                child: SDivider(
+                  color: colors.grey4,
+                ),
+              ),
+            ],
+          ),
+        ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
             SMarketItem(
@@ -55,7 +99,7 @@ class _ActionBuy extends HookWidget {
                 accuracy: baseCurrency.accuracy,
               ),
               ticker: currency.symbol,
-              last: currency == state.currencies.last,
+              last: currency == state.buyFromCardCurrencies.last,
               percent: currency.dayPercentChange,
               onTap: () {
                 sAnalytics.buySellView(
@@ -67,10 +111,76 @@ class _ActionBuy extends HookWidget {
                   context,
                   CurrencyBuy(
                     currency: currency,
+                    isFromBuyFromCard: isFromBuyFromCard,
                   ),
                 );
               },
             ),
+        ],
+        if (!isFromBuyFromCard) ...[
+          const SpaceH10(),
+          SizedBox(
+            height: 21,
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                    left: 24,
+                  ),
+                  child: Baseline(
+                    baseline: 11,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      'Buy with crypto',
+                      style: sCaptionTextStyle.copyWith(
+                        color: colors.grey3,
+                      ),
+                    ),
+                  ),
+                ),
+                const SpaceW10(),
+                Expanded(
+                  child: SDivider(
+                    color: colors.grey4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          for (final currency in state.filteredCurrencies) ...[
+            if (!currency.supportsAtLeastOneBuyMethod)
+              SMarketItem(
+                icon: SNetworkSvg24(
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: baseCurrency.symbol == currency.symbol
+                      ? Decimal.one
+                      : currency.currentPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                ticker: currency.symbol,
+                last: currency == state.filteredCurrencies.last,
+                percent: currency.dayPercentChange,
+                onTap: () {
+                  sAnalytics.buySellView(
+                    ScreenSource.quickActions,
+                    currency.description,
+                  );
+
+                  navigatorPushReplacement(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                      isFromBuyFromCard: isFromBuyFromCard,
+                    ),
+                  );
+                },
+              ),
+          ],
         ],
       ],
     );

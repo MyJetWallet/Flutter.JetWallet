@@ -9,7 +9,9 @@ import '../features/crypto_deposit/view/crypto_deposit.dart';
 import '../features/currency_buy/view/curency_buy.dart';
 import '../features/kyc/model/kyc_operation_status_model.dart';
 import '../features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../helpers/are_balances_empty.dart';
 import '../models/currency_model.dart';
+import '../providers/currencies_pod/currencies_pod.dart';
 
 void showStartEarnOptions({
   required CurrencyModel currency,
@@ -20,6 +22,7 @@ void showStartEarnOptions({
   final kycAlertHandler = read(
     kycAlertHandlerPod(context),
   );
+  final balancesEmpty = areBalancesEmpty(read(currenciesPod));
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -41,6 +44,7 @@ void showStartEarnOptions({
               context,
               CurrencyBuy(
                 currency: currency,
+                isFromBuyFromCard: balancesEmpty,
               ),
             );
           } else {
@@ -59,6 +63,7 @@ void showStartEarnOptions({
                   context,
                   CurrencyBuy(
                     currency: currency,
+                    isFromBuyFromCard: balancesEmpty,
                   ),
                 );
               },
@@ -97,8 +102,8 @@ void showStartEarnOptions({
           }
         },
         icon: const SActionDepositIcon(),
-        name: 'Deposit ${currency.description}',
-        description: 'Deposit with fiat or crypto',
+        name: 'Receive ${currency.description}',
+        description: 'Deposit crypto from another wallet',
       ),
       const SpaceH40(),
     ],

@@ -8,6 +8,7 @@ part 'action_search_state.freezed.dart';
 class ActionSearchState with _$ActionSearchState {
   const factory ActionSearchState({
     @Default([]) List<CurrencyModel> filteredCurrencies,
-    required List<CurrencyModel> currencies,
+    @Default([]) List<CurrencyModel> currencies,
+    @Default([]) List<CurrencyModel> buyFromCardCurrencies,
   }) = _ActionSearchState;
 }

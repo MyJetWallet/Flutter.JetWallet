@@ -121,7 +121,7 @@ class CurrencyModel with _$CurrencyModel {
   bool get supportsAtLeastOneWithdrawalMethod {
     return supportsCryptoWithdrawal ||
         supportsSepaWithdrawal ||
-        supportsSWiftWithdrawal;
+        supportsSwiftWithdrawal;
   }
 
   bool get supportsCryptoWithdrawal {
@@ -132,7 +132,7 @@ class CurrencyModel with _$CurrencyModel {
     return withdrawalMethods.contains(WithdrawalMethods.sepaWithdrawal);
   }
 
-  bool get supportsSWiftWithdrawal {
+  bool get supportsSwiftWithdrawal {
     return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
   }
 

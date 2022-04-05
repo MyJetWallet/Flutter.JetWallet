@@ -5,9 +5,12 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
+import '../../../../../../helpers/are_balances_empty.dart';
 import '../../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../../crypto_deposit/view/crypto_deposit.dart';
 import '../../../../../currency_buy/view/curency_buy.dart';
 import '../../../../../currency_sell/view/currency_sell.dart';
 import '../../../../../kyc/model/kyc_operation_status_model.dart';
@@ -24,11 +27,12 @@ class BalanceActionButtons extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencies = useProvider(currenciesPod);
     final currency = currencyFrom(
-      useProvider(currenciesPod),
+      currencies,
       marketItem.associateAsset,
     );
-
+    final isBalanceEmpty = areBalancesEmpty(currencies);
     final kycState = useProvider(kycNotipod);
     final kycAlertHandler = useProvider(
       kycAlertHandlerPod(context),
@@ -51,6 +55,7 @@ class BalanceActionButtons extends HookWidget {
                     context,
                     CurrencyBuy(
                       currency: currency,
+                      isFromBuyFromCard: isBalanceEmpty,
                     ),
                   );
                 } else {
@@ -68,6 +73,7 @@ class BalanceActionButtons extends HookWidget {
                         context,
                         CurrencyBuy(
                           currency: currency,
+                          isFromBuyFromCard: isBalanceEmpty,
                         ),
                       );
                     },
@@ -77,6 +83,47 @@ class BalanceActionButtons extends HookWidget {
               active: true,
             ),
           ),
+          if (marketItem.isBalanceEmpty) ...[
+            const SpaceW11(),
+            Expanded(
+              child: SSecondaryButton1(
+                name: 'Receive',
+                onTap: () {
+                  if (kycState.withdrawalStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sAnalytics.depositCryptoView(currency.description);
+
+                    navigatorPushReplacement(
+                      context,
+                      CryptoDeposit(
+                        header: 'Receive',
+                        currency: currency,
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).pop();
+                    kycAlertHandler.handle(
+                      status: kycState.withdrawalStatus,
+                      kycVerified: kycState,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () {
+                        sAnalytics.depositCryptoView(currency.description);
+
+                        navigatorPushReplacement(
+                          context,
+                          CryptoDeposit(
+                            header: 'Receive',
+                            currency: currency,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+                active: true,
+              ),
+            ),
+          ],
           if (!marketItem.isBalanceEmpty) ...[
             const SpaceW11(),
             Expanded(

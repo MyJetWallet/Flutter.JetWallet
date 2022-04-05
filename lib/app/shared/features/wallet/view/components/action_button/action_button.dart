@@ -142,7 +142,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoWithdrawal,
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
-                            onBuy: () {
+                            onBuy: (isFromBuyFromCard) {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -151,6 +151,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   context,
                                   CurrencyBuy(
                                     currency: widget.currency,
+                                    isFromBuyFromCard: isFromBuyFromCard,
                                   ),
                                 );
                               } else {
@@ -168,6 +169,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     context,
                                     CurrencyBuy(
                                       currency: widget.currency,
+                                      isFromBuyFromCard: isFromBuyFromCard,
                                     ),
                                   ),
                                 );
@@ -431,7 +433,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoWithdrawal,
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
-                            onBuy: () {
+                            onBuy: (isFromBuyFromCard) {
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -444,6 +446,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   context,
                                   CurrencyBuy(
                                     currency: widget.currency,
+                                    isFromBuyFromCard: isFromBuyFromCard,
                                   ),
                                 );
                               } else {
@@ -467,6 +470,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       context,
                                       CurrencyBuy(
                                         currency: widget.currency,
+                                        isFromBuyFromCard: isFromBuyFromCard,
                                       ),
                                     );
                                   },
