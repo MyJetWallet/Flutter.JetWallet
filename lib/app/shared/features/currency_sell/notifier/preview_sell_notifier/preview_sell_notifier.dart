@@ -173,7 +173,7 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order filled',
+      secondaryText: 'Order complete',
       then: () {
         read(navigationStpod).state = 1;
       },
