@@ -39,9 +39,9 @@ class CampaignConditionModel with _$CampaignConditionModel {
   const factory CampaignConditionModel({
     @JsonKey(name: 'params') CampaignConditionParametersModel? parameters,
     RewardModel? reward,
-    String? description,
     required String deepLink,
     required int type,
+    required String description,
   }) = _CampaignConditionModel;
 
   factory CampaignConditionModel.fromJson(Map<String, dynamic> json) =>

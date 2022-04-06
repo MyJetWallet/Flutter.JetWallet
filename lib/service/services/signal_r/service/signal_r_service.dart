@@ -106,15 +106,6 @@ class SignalRService {
       try {
         final campaigns = CampaignResponseModel.fromJson(_json(data));
 
-        campaigns.campaigns.forEach((element) {
-          print('________________________${element.conditions?.isEmpty}');
-          if (element.conditions != null && element.conditions!.isNotEmpty) {
-            element.conditions!.forEach((element) {
-              print('____________${element}');
-            });
-          }
-        });
-
         _campaignsBannersController.add(campaigns);
       } catch (e) {
         _logger.log(contract, campaignsBannersMessage, e);
@@ -129,9 +120,9 @@ class SignalRService {
     });
 
     _connection?.on(referralStatsMessage, (data) {
-      print('_________${data}');
       try {
         final referrerStats = ReferralStatsResponseModel.fromList(data!);
+
         _referralStatsController.add(referrerStats);
       } catch (e) {
         _logger.log(contract, referralStatsMessage, e);
@@ -261,8 +252,6 @@ class SignalRService {
     _connection?.on(referralInfoMessage, (data) {
       try {
         final info = ReferralInfoModel.fromJson(_json(data));
-
-        print('_____________${info}');
 
         _referralInfoController.add(info);
       } catch (e) {
