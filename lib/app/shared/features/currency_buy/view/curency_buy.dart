@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../helpers/format_currency_string_amount.dart';
