@@ -8,6 +8,7 @@ import '../../../shared/helpers/analytics.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
+import 'components/mailing_checkbox.dart';
 import 'register_password_screen.dart';
 
 /// FLOW: Register -> RegisterPasswordScreen
@@ -97,6 +98,16 @@ class Register extends HookWidget {
                     ),
                   ),
                 ),
+                Container(
+                  color: colors.grey5,
+                  child: SPaddingH24(
+                    child: MailingCheckbox(
+                      isChecked: credentials.mailingChecked,
+                      onCheckboxTap: () => credentialsN.checkMailing(),
+                    ),
+                  ),
+                ),
+                const SpaceH24(),
                 SPaddingH24(
                   child: SPrimaryButton2(
                     active: credentials.emailIsNotEmptyAndPolicyChecked,

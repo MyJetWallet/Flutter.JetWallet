@@ -12,6 +12,7 @@ class CredentialsState with _$CredentialsState {
     @Default(false) bool emailValid,
     @Default(false) bool passwordValid,
     @Default(false) bool policyChecked,
+    @Default(false) bool mailingChecked,
   }) = _CredentialsState;
 
   const CredentialsState._();

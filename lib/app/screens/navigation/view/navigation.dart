@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/providers/background/push_notification_pods.dart';
+import '../../../../shared/providers/referral_info_pod.dart';
 import '../../../shared/features/key_value/provider/key_value_spod.dart';
 import '../../../shared/providers/client_detail_pod/client_detail_pod.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
@@ -43,6 +44,7 @@ class _NavigationState extends State<Navigation>
     useProvider(clientDetailPod.select((_) {}));
     useProvider(keyValueSpod.select((_) {}));
     useProvider(priceAccuraciesPod.select((_) {}));
+    useProvider(referralInfoPod.select((_) {}));
     useListenable(animationController);
 
     return Scaffold(

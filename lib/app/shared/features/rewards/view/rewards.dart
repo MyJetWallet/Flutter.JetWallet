@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/services/deep_link_service.dart';
 import '../../../helpers/set_banner_color.dart';
@@ -70,6 +71,13 @@ class Rewards extends HookWidget {
                 commissionEarned:
                     item.referralState!.commissionEarned.toDouble(),
                 total: item.referralState!.total.toDouble(),
+                showReadMore: item.referralState!.descriptionLink.isNotEmpty,
+                onInfoTap: () {
+                  launchURL(
+                    context,
+                    item.referralState!.descriptionLink,
+                  );
+                },
               ),
               const SpaceH20(),
             ],
