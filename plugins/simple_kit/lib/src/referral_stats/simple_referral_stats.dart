@@ -12,6 +12,7 @@ class SReferralStats extends StatelessWidget {
     required this.bonusEarned,
     required this.commissionEarned,
     required this.total,
+    required this.showReadMore,
     required this.onInfoTap,
   }) : super(key: key);
 
@@ -20,6 +21,7 @@ class SReferralStats extends StatelessWidget {
   final double bonusEarned;
   final double commissionEarned;
   final double total;
+  final bool showReadMore;
   final void Function() onInfoTap;
 
   @override
@@ -60,12 +62,13 @@ class SReferralStats extends StatelessWidget {
                     style: sTextH4Style,
                   ),
                 ),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: onInfoTap,
-                  child: const SInfoPressedIcon(),
-                ),
+                if (showReadMore)
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: onInfoTap,
+                    child: const SInfoPressedIcon(),
+                  ),
               ],
             ),
           ),

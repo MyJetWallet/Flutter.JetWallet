@@ -209,6 +209,7 @@ class DeepLinkService {
           primaryText: referralInfo.title,
           referralLink: referralInfo.referralLink,
           conditions: referralInfo.referralTerms,
+          showReadMore: referralInfo.descriptionLink.isNotEmpty,
           onReadMoreTap: () {
             launchURL(
               context,

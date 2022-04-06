@@ -9,12 +9,14 @@ class SReferralInviteBody extends StatelessWidget {
     Key? key,
     required this.primaryText,
     required this.onReadMoreTap,
+    required this.showReadMore,
     required this.conditions,
     required this.referralLink,
   }) : super(key: key);
 
   final String primaryText;
   final void Function() onReadMoreTap;
+  final bool showReadMore;
   final List<String> conditions;
   final String referralLink;
 
@@ -39,17 +41,18 @@ class SReferralInviteBody extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                child: Baseline(
-                  baseline: 104,
-                  baselineType: TextBaseline.alphabetic,
-                  child: SimpleAccountTermButton(
-                    name: 'Read more',
-                    onTap: onReadMoreTap,
+              if (showReadMore)
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Baseline(
+                    baseline: 104,
+                    baselineType: TextBaseline.alphabetic,
+                    child: SimpleAccountTermButton(
+                      name: 'Read more',
+                      onTap: onReadMoreTap,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

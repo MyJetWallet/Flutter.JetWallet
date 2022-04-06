@@ -71,6 +71,7 @@ class Rewards extends HookWidget {
                 commissionEarned:
                     item.referralState!.commissionEarned.toDouble(),
                 total: item.referralState!.total.toDouble(),
+                showReadMore: item.referralState!.descriptionLink.isNotEmpty,
                 onInfoTap: () {
                   launchURL(
                     context,
