@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -32,10 +33,17 @@ class Register extends HookWidget {
     analytics(() => sAnalytics.signUpView());
 
     void _showError() {
-      notificationN.showError(
-        'Perhaps you missed "." or "@" somewhere?',
-        id: 1,
-      );
+      if (credentials.email.contains(' ')) {
+        notificationN.showError(
+          'Invalid email, revise correctness and make sure there are no spaces',
+          id: 2,
+        );
+      } else {
+        notificationN.showError(
+          'Perhaps you missed "." or "@" somewhere?',
+          id: 1,
+        );
+      }
     }
 
     if (credentials.policyChecked) {
@@ -68,6 +76,9 @@ class Register extends HookWidget {
                       labelText: 'Email Address',
                       autofocus: true,
                       keyboardType: TextInputType.emailAddress,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                      ],
                       onChanged: (value) {
                         credentialsN.updateAndValidateEmail(value);
                       },

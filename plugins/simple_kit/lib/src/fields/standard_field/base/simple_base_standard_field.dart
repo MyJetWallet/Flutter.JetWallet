@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
@@ -16,6 +17,7 @@ class SimpleBaseStandardField extends HookWidget {
     this.onErrorIconTap,
     this.onChanged,
     this.suffixIcons,
+    this.inputFormatters,
     this.hideIconsIfError = true,
     this.autofocus = false,
     this.readOnly = false,
@@ -34,6 +36,7 @@ class SimpleBaseStandardField extends HookWidget {
   final Iterable<String>? autofillHints;
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
+  final List<FilteringTextInputFormatter>? inputFormatters;
   final bool hideIconsIfError;
   final bool autofocus;
   final bool readOnly;
@@ -58,6 +61,7 @@ class SimpleBaseStandardField extends HookWidget {
           autofocus: autofocus,
           readOnly: readOnly,
           textInputAction: textInputAction,
+          inputFormatters: inputFormatters,
           autofillHints: autofillHints,
           enabled: enabled,
           onChanged: (value) {

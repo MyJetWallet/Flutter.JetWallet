@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -122,6 +123,9 @@ class Login extends HookWidget {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         initialValue: email ?? '',
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                        ],
                         onChanged: (value) {
                           emailError.value.disableError();
                           passwordError.value.disableError();
@@ -169,7 +173,7 @@ class Login extends HookWidget {
                     child: SPolicyText(
                       firstText:
                           'By logging in and Continue, I hereby agree and'
-                              ' consent to the',
+                          ' consent to the',
                       userAgreementText: ' User Agreement ',
                       betweenText: 'and the ',
                       privacyPolicyText: 'Privacy Policy',
