@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
@@ -17,6 +19,14 @@ class SimplexWebView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    useEffect(
+      () {
+        if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+        return null;
+      },
+      [],
+    );
+
     void _showSuccess() {
       SuccessScreen.push(
         context: context,
