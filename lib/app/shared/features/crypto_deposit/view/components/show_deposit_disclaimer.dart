@@ -17,7 +17,7 @@ void showDepositDisclaimer({
     context,
     primaryText: '$action only $assetSymbol to this deposit address. '
         'Receiving any other coin or token to this address '
-        'may result in loss of your deposit.',
+        'may result in loss of the transfer amount.',
     primaryButtonName: 'Got it',
     barrierDismissible: false,
     willPopScope: false,
