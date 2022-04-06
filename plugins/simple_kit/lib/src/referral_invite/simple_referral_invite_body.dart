@@ -61,7 +61,7 @@ class SReferralInviteBody extends StatelessWidget {
           ),
           const SpaceH16(),
         ],
-        const SpaceH40(),
+        const SpaceH24(),
         const SPaddingH24(
           child: SDivider(),
         ),
