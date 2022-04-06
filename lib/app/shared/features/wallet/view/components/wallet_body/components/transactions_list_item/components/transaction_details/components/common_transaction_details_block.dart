@@ -29,11 +29,19 @@ class CommonTransactionDetailsBlock extends HookWidget {
 
     return Column(
       children: [
-        Text(
-          '${operationName(transactionListItem.operationType)} '
-          '${currency.description}',
-          style: sTextH5Style,
-        ),
+        if (transactionListItem.operationType != OperationType.simplexBuy)
+          Text(
+            '${operationName(transactionListItem.operationType)} '
+            '${currency.description}',
+            style: sTextH5Style,
+          )
+        else
+          Text(
+            '${operationName(OperationType.buy)} '
+            '${currency.description} - '
+            '${operationName(transactionListItem.operationType)}',
+            style: sTextH5Style,
+          ),
         const SpaceH67(),
         Text(
           '${operationAmount(transactionListItem)} ${currency.symbol}',

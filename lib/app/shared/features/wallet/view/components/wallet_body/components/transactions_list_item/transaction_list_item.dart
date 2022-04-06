@@ -48,10 +48,9 @@ class TransactionListItem extends HookWidget {
                 const SpaceW10(),
                 Expanded(
                   child: TransactionListItemHeaderText(
-                    text: operationName(transactionListItem.operationType),
+                    text: _transactionItemTitle(transactionListItem),
                   ),
                 ),
-                const SpaceW16(),
                 Container(
                   constraints: const BoxConstraints(
                     maxWidth: 220,
@@ -111,6 +110,16 @@ class TransactionListItem extends HookWidget {
     );
   }
 
+  String _transactionItemTitle(OperationHistoryItem transactionListItem) {
+    if (transactionListItem.operationType != OperationType.simplexBuy) {
+      return operationName(transactionListItem.operationType);
+    } else {
+      return '${operationName(OperationType.buy)}'
+          ' ${transactionListItem.assetId} - '
+          '${operationName(transactionListItem.operationType)}';
+    }
+  }
+
   Widget _icon(OperationType type) {
     switch (type) {
       case OperationType.deposit:
@@ -137,6 +146,8 @@ class TransactionListItem extends HookWidget {
         return const SRewardPaymentIcon();
       case OperationType.unknown:
         return const SizedBox();
+      case OperationType.simplexBuy:
+        return const SDepositIcon();
     }
   }
 }

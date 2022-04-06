@@ -23,6 +23,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     DepositInfo? depositInfo,
     WithdrawalInfo? withdrawalInfo,
     SwapInfo? swapInfo,
+    BuyInfo? buyInfo,
     WithdrawalFeeInfo? withdrawalFeeInfo,
     TransferByPhoneInfo? transferByPhoneInfo,
     ReceiveByPhoneInfo? receiveByPhoneInfo,
@@ -59,6 +60,8 @@ enum OperationType {
   feeSharePayment,
   @JsonValue(11)
   rewardPayment,
+  @JsonValue(12)
+  simplexBuy,
   unknown,
   buy,
   sell,
@@ -98,6 +101,22 @@ class WithdrawalInfo with _$WithdrawalInfo {
 
   factory WithdrawalInfo.fromJson(Map<String, dynamic> json) =>
       _$WithdrawalInfoFromJson(json);
+}
+
+@freezed
+class BuyInfo with _$BuyInfo {
+  const factory BuyInfo({
+    String? txId,
+    String? feeAssetId,
+    required String sellAssetId,
+    required String buyAssetId,
+    @DecimalSerialiser() required Decimal sellAmount,
+    @DecimalSerialiser() required Decimal buyAmount,
+    @DecimalSerialiser() required Decimal feeAmount,
+  }) = _BuyInfo;
+
+  factory BuyInfo.fromJson(Map<String, dynamic> json) =>
+      _$BuyInfoFromJson(json);
 }
 
 @freezed
