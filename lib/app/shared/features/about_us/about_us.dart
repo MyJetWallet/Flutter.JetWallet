@@ -77,7 +77,7 @@ class AboutUs extends HookWidget {
           Row(
             children: [
               SimpleAccountTermButton(
-                name: 'Terms and conditions',
+                name: 'General Terms and Conditions',
                 onTap: () => launchURL(context, userAgreementLink),
               ),
             ],
@@ -88,6 +88,15 @@ class AboutUs extends HookWidget {
               SimpleAccountTermButton(
                 name: 'Privacy Policy',
                 onTap: () => launchURL(context, privacyPolicyLink),
+              ),
+            ],
+          ),
+          const SpaceH20(),
+          Row(
+            children: [
+              SimpleAccountTermButton(
+                name: 'Referral Policy',
+                onTap: () => launchURL(context, referralPolicyLink),
               ),
             ],
           ),

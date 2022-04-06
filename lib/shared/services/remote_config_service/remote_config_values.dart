@@ -11,6 +11,7 @@ late int emailVerificationCodeLength;
 late int phoneVerificationCodeLength;
 late String userAgreementLink;
 late String privacyPolicyLink;
+late String referralPolicyLink;
 late int minAmountOfCharsInPassword;
 late int maxAmountOfCharsInPassword;
 late int quoteRetryInterval;

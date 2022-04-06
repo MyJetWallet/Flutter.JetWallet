@@ -103,6 +103,7 @@ class RemoteConfigService {
     phoneVerificationCodeLength = appConfig.phoneVerificationCodeLength;
     userAgreementLink = appConfig.userAgreementLink;
     privacyPolicyLink = appConfig.privacyPolicyLink;
+    referralPolicyLink = appConfig.referralPolicyLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;
