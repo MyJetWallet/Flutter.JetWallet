@@ -234,7 +234,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
 
                     if (response != null) {
                       if (!mounted) return;
-                      navigatorPushReplacement(
+                      navigatorPush(
                         context,
                         SimplexWebView(response),
                       );

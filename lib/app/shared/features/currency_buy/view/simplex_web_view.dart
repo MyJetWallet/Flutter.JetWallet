@@ -40,41 +40,50 @@ class SimplexWebView extends HookWidget {
       );
     }
 
-    return SPageFrame(
-      header: const SPaddingH24(
-        child: SSmallHeader(
-          titleAlign: TextAlign.left,
-          icon: SCloseIcon(),
-          title: 'Simplex',
+    return WillPopScope(
+      onWillPop: () {
+        navigateToRouter(context.read);
+        return Future.value(true);
+      },
+      child: SPageFrame(
+        header: SPaddingH24(
+          child: SSmallHeader(
+            titleAlign: TextAlign.left,
+            icon: const SCloseIcon(),
+            title: 'Simplex',
+            onBackButtonTap: () {
+              navigateToRouter(context.read);
+            },
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: WebView(
-              initialUrl: url,
-              javascriptMode: JavascriptMode.unrestricted,
-              navigationDelegate: (request) {
-                final uri = Uri.parse(request.url);
-                final success = uri.queryParameters['success'];
+        child: Column(
+          children: [
+            Expanded(
+              child: WebView(
+                initialUrl: url,
+                javascriptMode: JavascriptMode.unrestricted,
+                navigationDelegate: (request) {
+                  final uri = Uri.parse(request.url);
+                  final success = uri.queryParameters['success'];
 
-                if (uri.origin == simplexOrigin) {
-                  if (success == '1') {
-                    _showSuccess();
-                    return NavigationDecision.prevent;
-                  } else if (success == '2') {
-                    _showFailure();
-                    return NavigationDecision.prevent;
+                  if (uri.origin == simplexOrigin) {
+                    if (success == '1') {
+                      _showSuccess();
+                      return NavigationDecision.prevent;
+                    } else if (success == '2') {
+                      _showFailure();
+                      return NavigationDecision.prevent;
+                    } else {
+                      return NavigationDecision.navigate;
+                    }
                   } else {
                     return NavigationDecision.navigate;
                   }
-                } else {
-                  return NavigationDecision.navigate;
-                }
-              },
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
