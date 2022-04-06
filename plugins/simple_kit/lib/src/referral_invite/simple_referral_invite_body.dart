@@ -49,6 +49,7 @@ class SReferralInviteBody extends StatelessWidget {
                     child: SimpleAccountTermButton(
                       name: 'Read more',
                       onTap: () {
+                        // TODO add link
                         // Todo: navigate to read more screen
                       },
                     ),
@@ -59,6 +60,7 @@ class SReferralInviteBody extends StatelessWidget {
           ),
         ),
         const SpaceH40(),
+        // TODO remove hardcode
         const SimpleConditionsReferralInvite(
           conditionText: 'Get \$5 for account verification',
         ),
@@ -71,6 +73,7 @@ class SReferralInviteBody extends StatelessWidget {
           conditionText: 'Earn 20% trading commission from all\nfriends',
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
+        // TODO remove hardcode
         const SpaceH40(),
         const SPaddingH24(
           child: SDivider(),

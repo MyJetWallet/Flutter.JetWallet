@@ -27,6 +27,7 @@ import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
+import '../model/referral_info_model.dart';
 import '../model/referral_stats_response_model.dart';
 
 class SignalRService {
@@ -67,6 +68,7 @@ class SignalRService {
   final _assetPaymentMethodsController =
       StreamController<AssetPaymentMethods>();
   final _blockchainsController = StreamController<BlockchainsModel>();
+  final _referralInfoController = StreamController<ReferralInfoModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -103,6 +105,16 @@ class SignalRService {
     _connection?.on(campaignsBannersMessage, (data) {
       try {
         final campaigns = CampaignResponseModel.fromJson(_json(data));
+
+        campaigns.campaigns.forEach((element) {
+          print('________________________${element.conditions?.isEmpty}');
+          if (element.conditions != null && element.conditions!.isNotEmpty) {
+            element.conditions!.forEach((element) {
+              print('____________${element}');
+            });
+          }
+        });
+
         _campaignsBannersController.add(campaigns);
       } catch (e) {
         _logger.log(contract, campaignsBannersMessage, e);
@@ -117,6 +129,7 @@ class SignalRService {
     });
 
     _connection?.on(referralStatsMessage, (data) {
+      print('_________${data}');
       try {
         final referrerStats = ReferralStatsResponseModel.fromList(data!);
         _referralStatsController.add(referrerStats);
@@ -245,6 +258,18 @@ class SignalRService {
       }
     });
 
+    _connection?.on(referralInfoMessage, (data) {
+      try {
+        final info = ReferralInfoModel.fromJson(_json(data));
+
+        print('_____________${info}');
+
+        _referralInfoController.add(info);
+      } catch (e) {
+        _logger.log(contract, referralInfoMessage, e);
+      }
+    });
+
     final token = read(authInfoNotipod).token;
     final localeName = read(intlPod).localeName;
     final deviceInfo = read(deviceInfoPod);
@@ -304,7 +329,10 @@ class SignalRService {
 
   Stream<AssetPaymentMethods> paymentMethods() =>
       _assetPaymentMethodsController.stream;
+
   Stream<BlockchainsModel> blockchains() => _blockchainsController.stream;
+
+  Stream<ReferralInfoModel> referralInfo() => _referralInfoController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

@@ -204,6 +204,7 @@ class DeepLinkService {
       ),
       children: [
         SReferralInviteBody(
+          // TODO remove hardcode
           primaryText: 'Invite friends and get \$10',
           qrCodeLink: userInfo.referralLink,
           referralLink: userInfo.referralLink,
