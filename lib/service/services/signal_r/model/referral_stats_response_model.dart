@@ -28,6 +28,7 @@ class ReferralStatsModel with _$ReferralStatsModel {
     required int weight,
     required int referralInvited,
     required int referralActivated,
+    required String descriptionLink,
     @DecimalSerialiser() required Decimal bonusEarned,
     @DecimalSerialiser() required Decimal commissionEarned,
     @DecimalSerialiser() required Decimal total,
