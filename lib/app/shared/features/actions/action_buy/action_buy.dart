@@ -9,6 +9,7 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
+import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
@@ -16,12 +17,14 @@ void showBuyAction({
   required BuildContext context,
   required bool isFromBuyFromCard,
 }) {
+  final showSearch = showBuyCurrencySearch(context);
   Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to buy',
+      showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
       },

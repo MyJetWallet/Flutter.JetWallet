@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../current_theme_stpod.dart';
@@ -19,6 +20,7 @@ class SStandardField extends ConsumerWidget {
     this.onErase,
     this.onChanged,
     this.initialValue,
+    this.inputFormatters,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -40,6 +42,7 @@ class SStandardField extends ConsumerWidget {
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
   final String? initialValue;
+  final List<FilteringTextInputFormatter>? inputFormatters;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -74,6 +77,7 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
+        inputFormatters: inputFormatters,
       );
     } else {
       return SimpleLightStandardField(
@@ -96,6 +100,7 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
+        inputFormatters: inputFormatters,
       );
     }
   }

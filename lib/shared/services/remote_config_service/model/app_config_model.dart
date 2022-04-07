@@ -10,6 +10,7 @@ class AppConfigModel with _$AppConfigModel {
     required int phoneVerificationCodeLength,
     required String userAgreementLink,
     required String privacyPolicyLink,
+    required String referralPolicyLink,
     required int minAmountOfCharsInPassword,
     required int maxAmountOfCharsInPassword,
     required int quoteRetryInterval,

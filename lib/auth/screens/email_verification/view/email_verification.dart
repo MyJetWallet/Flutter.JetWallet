@@ -31,6 +31,17 @@ class EmailVerification extends HookWidget {
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
 
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus &&
+          verification.controller.value.text.length ==
+              emailVerificationCodeLength &&
+          pinError.value.value) {
+        verification.controller.clear();
+      }
+    });
+
     analytics(() => sAnalytics.emailVerificationView());
 
     return ProviderListener<EmailVerificationState>(
@@ -78,6 +89,7 @@ class EmailVerification extends HookWidget {
                   ),
                   const Spacer(),
                   PinCodeField(
+                    focusNode: focusNode,
                     controller: verification.controller,
                     length: emailVerificationCodeLength,
                     onCompleted: (_) {
@@ -85,6 +97,9 @@ class EmailVerification extends HookWidget {
                       verificationN.verifyCode();
                     },
                     autoFocus: true,
+                    onChanged: (_) {
+                      pinError.value.disableError();
+                    },
                     pinError: pinError.value,
                   ),
                   const Spacer(),

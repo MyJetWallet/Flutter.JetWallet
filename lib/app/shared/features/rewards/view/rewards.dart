@@ -3,8 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/launch_url.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/services/deep_link_service.dart';
+import '../../../components/info_web_view.dart';
 import '../../../helpers/set_banner_color.dart';
 import '../../market_details/helper/format_news_date.dart';
 import '../helper/create_reward_detail.dart';
@@ -20,6 +23,8 @@ class Rewards extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(rewardsNotipod);
     final deepLinkService = useProvider(deepLinkServicePod);
+    const infoRewardsLink =
+        'https://helpcenter.simple.app/en/article/when-do-i-receive-my-rewards-1rt8dyu/';
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
@@ -44,6 +49,15 @@ class Rewards extends HookWidget {
                   item.campaign!.conditions!,
                   colors,
                 ),
+                onTap: () {
+                  navigatorPush(
+                    context,
+                    const InfoWebView(
+                      link: infoRewardsLink,
+                      title: 'Rewards',
+                    ),
+                  );
+                },
               ),
               const SpaceH20(),
             ],
@@ -70,6 +84,13 @@ class Rewards extends HookWidget {
                 commissionEarned:
                     item.referralState!.commissionEarned.toDouble(),
                 total: item.referralState!.total.toDouble(),
+                showReadMore: item.referralState!.descriptionLink.isNotEmpty,
+                onInfoTap: () {
+                  launchURL(
+                    context,
+                    item.referralState!.descriptionLink,
+                  );
+                },
               ),
               const SpaceH20(),
             ],

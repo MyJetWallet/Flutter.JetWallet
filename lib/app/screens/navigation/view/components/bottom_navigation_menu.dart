@@ -134,6 +134,7 @@ class BottomNavigationMenu extends HookWidget {
         },
         onConvert: () {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+            Navigator.of(context).pop();
             navigatorPush(context, const Convert());
           } else {
             Navigator.of(context).pop();

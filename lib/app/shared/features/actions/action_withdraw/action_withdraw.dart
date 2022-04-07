@@ -4,17 +4,20 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 import 'components/withdraw_options.dart';
 
 void showWithdrawAction(BuildContext context) {
+  final showSearch = showWithdrawalCurrencySearch(context);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to withdraw',
+      showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
       },

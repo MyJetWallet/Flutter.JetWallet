@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -8,6 +9,7 @@ import '../../../shared/helpers/analytics.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
+import 'components/mailing_checkbox.dart';
 import 'register_password_screen.dart';
 
 /// FLOW: Register -> RegisterPasswordScreen
@@ -32,10 +34,17 @@ class Register extends HookWidget {
     analytics(() => sAnalytics.signUpView());
 
     void _showError() {
-      notificationN.showError(
-        'Perhaps you missed "." or "@" somewhere?',
-        id: 1,
-      );
+      if (credentials.email.contains(' ')) {
+        notificationN.showError(
+          'Invalid email, revise correctness and make sure there are no spaces',
+          id: 2,
+        );
+      } else {
+        notificationN.showError(
+          'Perhaps you missed "." or "@" somewhere?',
+          id: 1,
+        );
+      }
     }
 
     if (credentials.policyChecked) {
@@ -68,6 +77,9 @@ class Register extends HookWidget {
                       labelText: 'Email Address',
                       autofocus: true,
                       keyboardType: TextInputType.emailAddress,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                      ],
                       onChanged: (value) {
                         credentialsN.updateAndValidateEmail(value);
                       },
@@ -97,6 +109,16 @@ class Register extends HookWidget {
                     ),
                   ),
                 ),
+                Container(
+                  color: colors.grey5,
+                  child: SPaddingH24(
+                    child: MailingCheckbox(
+                      isChecked: credentials.mailingChecked,
+                      onCheckboxTap: () => credentialsN.checkMailing(),
+                    ),
+                  ),
+                ),
+                const SpaceH24(),
                 SPaddingH24(
                   child: SPrimaryButton2(
                     active: credentials.emailIsNotEmptyAndPolicyChecked,

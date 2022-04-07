@@ -41,6 +41,7 @@ class CampaignConditionModel with _$CampaignConditionModel {
     RewardModel? reward,
     required String deepLink,
     required int type,
+    required String description,
   }) = _CampaignConditionModel;
 
   factory CampaignConditionModel.fromJson(Map<String, dynamic> json) =>

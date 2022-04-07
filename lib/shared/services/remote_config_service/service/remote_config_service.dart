@@ -10,7 +10,7 @@ import '../model/support_model.dart';
 import '../model/versioning_model.dart';
 import '../remote_config_values.dart';
 
-const _defaultFlavorIndex = 0;
+const _defaultFlavorIndex = 1;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfigService {
@@ -23,6 +23,12 @@ class RemoteConfigService {
   final _config = RemoteConfig.instance;
 
   Future<void> fetchAndActivate() async {
+    await _config.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(seconds: 60),
+        minimumFetchInterval: const Duration(minutes: 10),
+      ),
+    );
     await _config.fetchAndActivate();
     overrideAppConfigValues();
     overrideApisFrom(_defaultFlavorIndex);
@@ -97,6 +103,7 @@ class RemoteConfigService {
     phoneVerificationCodeLength = appConfig.phoneVerificationCodeLength;
     userAgreementLink = appConfig.userAgreementLink;
     privacyPolicyLink = appConfig.privacyPolicyLink;
+    referralPolicyLink = appConfig.referralPolicyLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;

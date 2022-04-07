@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+
 class SendByPhoneNotifyRecipient extends HookWidget {
   const SendByPhoneNotifyRecipient({
     Key? key,
@@ -17,6 +19,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final userInfo = useProvider(userInfoNotipod);
     final canTapShare = useState(true);
 
     return SPageFrameWithPadding(
@@ -55,11 +58,12 @@ class SendByPhoneNotifyRecipient extends HookWidget {
               if (canTapShare.value) {
                 canTapShare.value = false;
                 Timer(
-                    const Duration(seconds: 1), () => canTapShare.value = true,
+                  const Duration(seconds: 1),
+                  () => canTapShare.value = true,
                 );
                 Share.share(
-                'I have sent you some money to $toPhoneNumber. Please '
-                'install Simple app to get them.',
+                  'I have sent you some money to $toPhoneNumber. Please '
+                  'install Simple app to get them.\n ${userInfo.referralLink}',
                 );
               }
             },
