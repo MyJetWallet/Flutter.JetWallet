@@ -57,14 +57,11 @@ class SActionItem extends StatelessWidget {
                               ),
                             ),
                             const SpaceW16(),
-                            SizedBox(
-                              width: 90.0,
-                              child: Text(
-                                helper,
-                                textAlign: TextAlign.end,
-                                style: sCaptionTextStyle.copyWith(
-                                  color: SColorsLight().grey3,
-                                ),
+                            Text(
+                              helper,
+                              textAlign: TextAlign.end,
+                              style: sCaptionTextStyle.copyWith(
+                                color: SColorsLight().grey3,
                               ),
                             ),
                           ],
