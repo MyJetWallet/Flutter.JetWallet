@@ -59,6 +59,8 @@ enum OperationType {
   feeSharePayment,
   @JsonValue(11)
   rewardPayment,
+  @JsonValue(12)
+  simplexBuy,
   unknown,
   buy,
   sell,

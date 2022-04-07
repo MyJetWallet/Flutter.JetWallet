@@ -18,6 +18,7 @@ class SWalletItem extends StatelessWidget {
     this.height = 88,
     this.rightBlockTopPadding = 22,
     this.showSecondaryText = true,
+    this.isPendingDeposit = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -36,6 +37,7 @@ class SWalletItem extends StatelessWidget {
   final double height;
   final double rightBlockTopPadding;
   final bool showSecondaryText;
+  final bool isPendingDeposit;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,7 @@ class SWalletItem extends StatelessWidget {
                               style: sSubtitle2Style,
                             ),
                           ),
-                          if (showSecondaryText)
+                          if (showSecondaryText && !isPendingDeposit)
                             Baseline(
                               baseline: 16.0,
                               baselineType: TextBaseline.alphabetic,
@@ -95,7 +97,7 @@ class SWalletItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (amount != null) ...[
+                  if (amount != null && !isPendingDeposit) ...[
                     const SpaceW10(),
                     Column(
                       children: [

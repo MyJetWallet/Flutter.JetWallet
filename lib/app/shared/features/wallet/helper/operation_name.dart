@@ -26,5 +26,7 @@ String operationName(OperationType type) {
       return 'Referral program bonus';
     case OperationType.unknown:
       return 'Unknown';
+    case OperationType.simplexBuy:
+      return 'Deposit';
   }
 }

@@ -44,11 +44,21 @@ class TransactionListItem extends HookWidget {
             const SpaceH12(),
             Row(
               children: [
-                _icon(transactionListItem.operationType),
+                _icon(
+                  transactionListItem.operationType,
+                  transactionListItem.status == Status.declined
+                    ? colors.red
+                    : transactionListItem.status == Status.inProgress
+                      ? colors.grey3
+                      : colors.green,
+                ),
                 const SpaceW10(),
                 Expanded(
                   child: TransactionListItemHeaderText(
                     text: operationName(transactionListItem.operationType),
+                    color: transactionListItem.status == Status.declined
+                        ? colors.red
+                        : colors.black,
                   ),
                 ),
                 const SpaceW16(),
@@ -72,11 +82,17 @@ class TransactionListItem extends HookWidget {
             Row(
               children: [
                 const SpaceW30(),
-                TransactionListItemText(
-                  text: '${formatDateToDMY(transactionListItem.timeStamp)} '
-                      '- ${formatDateToHm(transactionListItem.timeStamp)}',
-                  color: colors.grey2,
-                ),
+                if (transactionListItem.status != Status.inProgress)
+                  TransactionListItemText(
+                    text: '${formatDateToDMY(transactionListItem.timeStamp)} '
+                        '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                    color: colors.grey2,
+                  ),
+                if (transactionListItem.status == Status.inProgress)
+                  TransactionListItemText(
+                    text: 'In progress...',
+                    color: colors.grey2,
+                  ),
                 const Spacer(),
                 if (transactionListItem.operationType ==
                     OperationType.sell) ...[
@@ -111,7 +127,7 @@ class TransactionListItem extends HookWidget {
     );
   }
 
-  Widget _icon(OperationType type) {
+  Widget _icon(OperationType type, Color? color) {
     switch (type) {
       case OperationType.deposit:
         return const SDepositIcon();
@@ -137,6 +153,8 @@ class TransactionListItem extends HookWidget {
         return const SRewardPaymentIcon();
       case OperationType.unknown:
         return const SizedBox();
+      case OperationType.simplexBuy:
+        return SPlusIcon(color: color);
     }
   }
 }

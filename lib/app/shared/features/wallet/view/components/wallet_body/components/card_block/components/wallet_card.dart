@@ -63,7 +63,11 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          if (currency.apy != Decimal.zero)
+          if (
+            currency.apy != Decimal.zero &&
+            !(currency.assetBalance == Decimal.zero &&
+            currency.isPendingDeposit)
+          )
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
@@ -109,13 +113,20 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                currency.volumeBaseBalance(baseCurrency),
+                (currency.assetBalance == Decimal.zero &&
+                currency.isPendingDeposit)
+                    ? 'In progress...'
+                    : currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
+          if (
+            !(currency.assetBalance == Decimal.zero &&
+            currency.isPendingDeposit)
+          )
           Padding(
             padding: const EdgeInsets.only(
               top: 98,
@@ -132,6 +143,10 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
+          if (
+            !(currency.assetBalance == Decimal.zero &&
+            currency.isPendingDeposit)
+          )
           Padding(
             padding: const EdgeInsets.only(
               bottom: 20,

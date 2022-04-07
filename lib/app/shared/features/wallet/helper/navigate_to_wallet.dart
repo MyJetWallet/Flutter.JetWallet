@@ -5,7 +5,7 @@ import '../view/empty_wallet.dart';
 import '../view/wallet.dart';
 
 void navigateToWallet(BuildContext context, CurrencyModel currency) {
-  if (currency.isAssetBalanceEmpty) {
+  if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
     EmptyWallet.push(
       context: context,
       currency: currency,
