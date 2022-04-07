@@ -8,12 +8,16 @@ class SReferralInviteBody extends StatelessWidget {
   const SReferralInviteBody({
     Key? key,
     required this.primaryText,
-    required this.qrCodeLink,
+    required this.onReadMoreTap,
+    required this.showReadMore,
+    required this.conditions,
     required this.referralLink,
   }) : super(key: key);
 
   final String primaryText;
-  final String qrCodeLink;
+  final void Function() onReadMoreTap;
+  final bool showReadMore;
+  final List<String> conditions;
   final String referralLink;
 
   @override
@@ -37,41 +41,30 @@ class SReferralInviteBody extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  // Todo: navigate to read more screen
-                },
-                child: Container(
+              if (showReadMore)
+                Container(
                   alignment: Alignment.bottomCenter,
                   child: Baseline(
                     baseline: 104,
                     baselineType: TextBaseline.alphabetic,
                     child: SimpleAccountTermButton(
                       name: 'Read more',
-                      onTap: () {
-                        // Todo: navigate to read more screen
-                      },
+                      onTap: onReadMoreTap,
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
         const SpaceH40(),
-        const SimpleConditionsReferralInvite(
-          conditionText: 'Complete account verification',
-        ),
-        const SpaceH16(),
-        const SimpleConditionsReferralInvite(
-          conditionText: 'Trade 100 USD equivalent',
-        ),
-        const SpaceH16(),
-        const SimpleConditionsReferralInvite(
-          conditionText: 'Earn 20% trading commission from all\nfriends',
-          crossAxisAlignment: CrossAxisAlignment.start,
-        ),
-        const SpaceH40(),
+        for (final condition in conditions) ...[
+          SimpleConditionsReferralInvite(
+            conditionText: condition,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          const SpaceH16(),
+        ],
+        const SpaceH24(),
         const SPaddingH24(
           child: SDivider(),
         ),
@@ -81,7 +74,7 @@ class SReferralInviteBody extends StatelessWidget {
           children: [
             QrImage(
               padding: EdgeInsets.zero,
-              data: qrCodeLink,
+              data: referralLink,
               errorCorrectionLevel: QrErrorCorrectLevel.H,
               embeddedImage: const AssetImage(
                 sQrLogo,

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/services/deep_link_service.dart';
@@ -22,8 +23,8 @@ class Rewards extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(rewardsNotipod);
     final deepLinkService = useProvider(deepLinkServicePod);
-    const infoLink = 'https://helpcenter.simple.app/en/article/how-much-can-i-earn-per-referral-1ymrlpi/';
-    const infoRewardsLink = 'https://helpcenter.simple.app/en/article/when-do-i-receive-my-rewards-1rt8dyu/';
+    const infoRewardsLink =
+        'https://helpcenter.simple.app/en/article/when-do-i-receive-my-rewards-1rt8dyu/';
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
@@ -49,10 +50,13 @@ class Rewards extends HookWidget {
                   colors,
                 ),
                 onTap: () {
-                  navigatorPush(context, const InfoWebView(
-                    link: infoRewardsLink,
-                    title: 'Rewards',
-                  ),);
+                  navigatorPush(
+                    context,
+                    const InfoWebView(
+                      link: infoRewardsLink,
+                      title: 'Rewards',
+                    ),
+                  );
                 },
               ),
               const SpaceH20(),
@@ -80,11 +84,12 @@ class Rewards extends HookWidget {
                 commissionEarned:
                     item.referralState!.commissionEarned.toDouble(),
                 total: item.referralState!.total.toDouble(),
-                onTap: () {
-                  navigatorPush(context, const InfoWebView(
-                    link: infoLink,
-                    title: 'Referral Stats',
-                  ),);
+                showReadMore: item.referralState!.descriptionLink.isNotEmpty,
+                onInfoTap: () {
+                  launchURL(
+                    context,
+                    item.referralState!.descriptionLink,
+                  );
                 },
               ),
               const SpaceH20(),

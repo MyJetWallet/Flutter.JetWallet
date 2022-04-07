@@ -70,12 +70,18 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     state = state.copyWith(policyChecked: !state.policyChecked);
   }
 
+  void checkMailing() {
+    _logger.log(notifier, 'checkMailing');
+
+    state = state.copyWith(mailingChecked: !state.mailingChecked);
+  }
+
   void checkOnUpdateOrRemovePassword(
-      ValueNotifier<StandardFieldErrorNotifier> passwordError,
-      ValueNotifier<StandardFieldErrorNotifier> emailError,
-      String password,
-      TextEditingController controller,
-      ) {
+    ValueNotifier<StandardFieldErrorNotifier> passwordError,
+    ValueNotifier<StandardFieldErrorNotifier> emailError,
+    String password,
+    TextEditingController controller,
+  ) {
     if (passwordError.value.value && password.length < state.password.length) {
       controller.text = '';
       _disableFieldsError(passwordError, emailError);
@@ -87,9 +93,9 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
   }
 
   void _disableFieldsError(
-      ValueNotifier<StandardFieldErrorNotifier> passwordError,
-      ValueNotifier<StandardFieldErrorNotifier> emailError,
-      ) {
+    ValueNotifier<StandardFieldErrorNotifier> passwordError,
+    ValueNotifier<StandardFieldErrorNotifier> emailError,
+  ) {
     emailError.value.disableError();
     passwordError.value.disableError();
   }

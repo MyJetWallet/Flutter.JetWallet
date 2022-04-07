@@ -10,7 +10,7 @@ import '../model/support_model.dart';
 import '../model/versioning_model.dart';
 import '../remote_config_values.dart';
 
-const _defaultFlavorIndex = 0;
+const _defaultFlavorIndex = 1;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfigService {
@@ -103,6 +103,7 @@ class RemoteConfigService {
     phoneVerificationCodeLength = appConfig.phoneVerificationCodeLength;
     userAgreementLink = appConfig.userAgreementLink;
     privacyPolicyLink = appConfig.privacyPolicyLink;
+    referralPolicyLink = appConfig.referralPolicyLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;

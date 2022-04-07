@@ -30,6 +30,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
   static final _logger = Logger('AuthenticationNotifier');
 
   Future<void> authenticate({
+    bool? marketingEmailsAllowed,
     required String email,
     required String password,
     required AuthOperation operation,
@@ -69,6 +70,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
         referralCode: referralCode,
+        marketingEmailsAllowed: marketingEmailsAllowed,
       );
 
       AuthenticationResponseModel authModel;
