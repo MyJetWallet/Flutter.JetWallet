@@ -5,12 +5,12 @@ class ActionBottomSheetHeader extends StatelessWidget {
   const ActionBottomSheetHeader({
     Key? key,
     this.showSearch = false,
+    this.onChanged,
     required this.name,
-    required this.onChanged,
   }) : super(key: key);
 
   final String name;
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
   final bool showSearch;
 
   @override
