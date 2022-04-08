@@ -10,6 +10,7 @@ import '../../../../../../../../../helpers/short_address_form.dart';
 import '../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../../market_details/helper/currency_from.dart';
 import 'components/transaction_details_item.dart';
+import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
 class BuySimplexDetails extends StatelessWidget {
@@ -84,6 +85,8 @@ class BuySimplexDetails extends StatelessWidget {
               text: _feeValue(transactionListItem),
             ),
           ),
+          const SpaceH16(),
+          TransactionDetailsStatus(status: transactionListItem.status),
         ],
       ),
     );
