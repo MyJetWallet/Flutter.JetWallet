@@ -27,9 +27,9 @@ class BuySimplexDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final currencies = context.read(currenciesPod);
 
-    final simplexCurrency = currencyFrom(
+    final sellSimplexCurrency = currencyFrom(
       currencies,
-      transactionListItem.buyInfo!.buyAssetId,
+      transactionListItem.buyInfo!.sellAssetId,
     );
 
     return SPaddingH24(
@@ -64,10 +64,10 @@ class BuySimplexDetails extends StatelessWidget {
             text: 'With',
             value: TransactionDetailsValueText(
               text: volumeFormat(
-                prefix: simplexCurrency.prefixSymbol,
+                prefix: sellSimplexCurrency.prefixSymbol,
                 decimal: transactionListItem.buyInfo!.sellAmount,
-                accuracy: simplexCurrency.accuracy,
-                symbol: simplexCurrency.symbol,
+                accuracy: sellSimplexCurrency.accuracy,
+                symbol: sellSimplexCurrency.symbol,
               ),
             ),
           ),
