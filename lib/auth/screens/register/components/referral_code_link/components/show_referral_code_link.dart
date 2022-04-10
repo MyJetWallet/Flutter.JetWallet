@@ -4,6 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../app/shared/features/actions/shared/components/action_bottom_sheet_header.dart';
+import '../../../notifier/referral_code_link_notipod.dart';
+import 'invalid_referral_code.dart';
+import 'loading_referral_code.dart';
+import 'valid_referral_code.dart';
 
 void showReferralCodeLink(BuildContext context) {
   sShowBasicModalBottomSheet(
@@ -25,6 +29,9 @@ class _ReferralCodeLinkBody extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final state = useProvider(referralCodeLinkNotipod);
+    final notifier = useProvider(referralCodeLinkNotipod.notifier);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -33,14 +40,14 @@ class _ReferralCodeLinkBody extends HookWidget {
             SPaddingH24(
               child: Material(
                 color: colors.white,
-                child: const SStandardField(
+                child: SStandardField(
                   // errorNotifier: state.addressErrorNotifier,
                   labelText: 'Referral code/link',
                   // focusNode: state.addressFocus,
-                  // controller: state.addressController,
-                  // onChanged: (value) => notifier.updateAddress(value),
+                  controller: state.referralCodeController,
+                  onChanged: (value) => notifier.updateReferralCode(value),
                   // onErase: () => notifier.eraseAddress(),
-                  suffixIcons: [
+                  suffixIcons: const [
                     SIconButton(
                       // onTap: () => notifier.pasteAddress(),
                       defaultIcon: SPasteIcon(),
@@ -50,6 +57,43 @@ class _ReferralCodeLinkBody extends HookWidget {
                       defaultIcon: SQrCodeIcon(),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Material(
+              color: colors.grey5,
+              child: SPaddingH24(
+                child: state.bottomSheetReferralCodeValidation.maybeWhen(
+                  loading: () {
+                    return Column(
+                      children: const [
+                        SpaceH24(),
+                        LoadingReferralCode(),
+                        SpaceH10(),
+                      ],
+                    );
+                  },
+                  valid: () {
+                    return Column(
+                      children: const [
+                        SpaceH24(),
+                        ValidReferralCode(),
+                        SpaceH10(),
+                      ],
+                    );
+                  },
+                  invalid: () {
+                    return Column(
+                      children: const [
+                        SpaceH24(),
+                        InvalidReferralCode(),
+                        SpaceH10(),
+                      ],
+                    );
+                  },
+                  orElse: () {
+                    return const SizedBox();
+                  },
                 ),
               ),
             ),
@@ -72,9 +116,11 @@ class _ReferralCodeLinkBody extends HookWidget {
           color: colors.grey5,
           child: SPaddingH24(
             child: SPrimaryButton2(
-              active: true,
+              active: state.activeReferralCodeButton,
               name: 'Continue',
-              onTap: () {},
+              onTap: () {
+                notifier.validateReferralCode(state.bottomSheetReferralCode!);
+              },
             ),
           ),
         ),

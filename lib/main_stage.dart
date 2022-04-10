@@ -5,9 +5,12 @@ import 'package:logging/logging.dart';
 
 import 'core/app/app.dart';
 import 'core/app/app_initialization.dart';
+import 'shared/logging/debug_logging.dart';
 
 Future<void> main() async {
   await appInitialization();
+
+  Logger.root.onRecord.listen((record) => debugLogging(record));
 
   runZonedGuarded(() {
     runApp(

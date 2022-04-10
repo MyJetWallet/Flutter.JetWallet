@@ -44,5 +44,6 @@ class LocalStorageService {
     await _storage.delete(key: pinDisabledKey);
     await _storage.delete(key: bannersIdsKey);
     await _storage.delete(key: phonebookStatusKey);
+    await _storage.delete(key: referralCodeKey);
   }
 }
