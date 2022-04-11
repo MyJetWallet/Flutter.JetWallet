@@ -9,7 +9,7 @@ import 'invalid_referral_code.dart';
 import 'loading_referral_code.dart';
 import 'valid_referral_code.dart';
 
-void showReferralCodeLink(BuildContext context) {
+void showReferralCode(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -17,10 +17,40 @@ void showReferralCodeLink(BuildContext context) {
     pinned: const ActionBottomSheetHeader(
       name: 'Enter referral code/link',
     ),
+    pinnedBottom: const _ReferralCodeBottom(),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [const _ReferralCodeLinkBody()],
   );
+}
+
+class _ReferralCodeBottom extends HookWidget {
+  const _ReferralCodeBottom({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+    final state = useProvider(referralCodeLinkNotipod);
+    final notifier = useProvider(referralCodeLinkNotipod.notifier);
+
+    return Material(
+      color: colors.grey5,
+      child: Column(
+        children: [
+          SPaddingH24(
+            child: SPrimaryButton2(
+              active: true,
+              name: 'Continue',
+              onTap: () {
+                notifier.validateReferralCode(state.bottomSheetReferralCode!);
+              },
+            ),
+          ),
+          const SpaceH24(),
+        ],
+      ),
+    );
+  }
 }
 
 class _ReferralCodeLinkBody extends HookWidget {
@@ -105,18 +135,6 @@ class _ReferralCodeLinkBody extends HookWidget {
               ),
             ),
           ],
-        ),
-        Material(
-          color: colors.grey5,
-          child: SPaddingH24(
-            child: SPrimaryButton2(
-              active: state.activeReferralCodeButton,
-              name: 'Continue',
-              onTap: () {
-                notifier.validateReferralCode(state.bottomSheetReferralCode!);
-              },
-            ),
-          ),
         ),
       ],
     );

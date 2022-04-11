@@ -22,7 +22,7 @@ class ReferralCode extends HookWidget {
       child: GestureDetector(
         onTap: () {
           notifier.resetBottomSheetReferralCodeValidation();
-          showReferralCodeLink(context);
+          showReferralCode(context);
         },
         child: Column(
           children: [
