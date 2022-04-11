@@ -82,7 +82,10 @@ class SWalletItem extends StatelessWidget {
                               style: sSubtitle2Style,
                             ),
                           ),
-                          if (showSecondaryText && !isPendingDeposit)
+                          if (
+                            showSecondaryText &&
+                            !(isPendingDeposit && formattedAmount == '\$0')
+                          )
                             Baseline(
                               baseline: 16.0,
                               baselineType: TextBaseline.alphabetic,
@@ -97,7 +100,10 @@ class SWalletItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (amount != null && !isPendingDeposit) ...[
+                  if (
+                    amount != null &&
+                    !(isPendingDeposit && formattedAmount == '\$0')
+                  ) ...[
                     const SpaceW10(),
                     Column(
                       children: [
