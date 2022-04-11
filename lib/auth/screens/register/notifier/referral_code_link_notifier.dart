@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../service/services/referral_code_service/model/validate_referral_code_request_model.dart';
 import '../../../../shared/logging/levels.dart';
@@ -18,6 +20,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
   }) : super(
           ReferralCodeLinkState(
             referralCodeController: TextEditingController(),
+            referralCodeErrorNotifier: StandardFieldErrorNotifier(),
           ),
         ) {
     _init();
@@ -72,6 +75,8 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
         referralCodeValidation: const Invalid(),
         bottomSheetReferralCodeValidation: const Invalid(),
       );
+
+      _triggerErrorOfReferralCodeField();
     }
   }
 
@@ -84,6 +89,31 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
       bottomSheetReferralCodeValidation: const Input(),
       bottomSheetReferralCode: null,
       referralCodeController: TextEditingController(),
+      referralCodeErrorNotifier: StandardFieldErrorNotifier(),
+    );
+  }
+
+  Future<void> pasteCodeReferralLink() async {
+    _logger.log(notifier, 'pasteCodeReferralLink');
+
+    final copiedText = await _copiedText();
+    state.referralCodeController.text = copiedText;
+    _moveCursorAtTheEnd(state.referralCodeController);
+    state = state.copyWith(bottomSheetReferralCode: copiedText);
+  }
+
+  Future<String> _copiedText() async {
+    final data = await Clipboard.getData('text/plain');
+    return (data?.text ?? '').replaceAll(' ', '');
+  }
+
+  void _triggerErrorOfReferralCodeField() {
+    state.referralCodeErrorNotifier!.enableError();
+  }
+
+  void _moveCursorAtTheEnd(TextEditingController controller) {
+    controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length),
     );
   }
 }

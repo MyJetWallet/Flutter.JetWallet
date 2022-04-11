@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import 'referral_code_link_union.dart';
 
@@ -10,6 +11,7 @@ class ReferralCodeLinkState with _$ReferralCodeLinkState {
   const factory ReferralCodeLinkState({
     String? referralCode,
     String? bottomSheetReferralCode,
+    StandardFieldErrorNotifier? referralCodeErrorNotifier,
     @Default(Input()) ReferralCodeLinkUnion referralCodeValidation,
     @Default(Input()) ReferralCodeLinkUnion bottomSheetReferralCodeValidation,
     required TextEditingController referralCodeController,
@@ -34,6 +36,14 @@ class ReferralCodeLinkState with _$ReferralCodeLinkState {
       return true;
     } else {
       return false;
+    }
+  }
+
+  bool get hideClearIcon {
+    if (bottomSheetReferralCodeValidation is Invalid) {
+      return false;
+    } else {
+      return true;
     }
   }
 }

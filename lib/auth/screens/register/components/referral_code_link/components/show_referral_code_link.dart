@@ -41,20 +41,14 @@ class _ReferralCodeLinkBody extends HookWidget {
               child: Material(
                 color: colors.white,
                 child: SStandardField(
-                  // errorNotifier: state.addressErrorNotifier,
+                  errorNotifier: state.referralCodeErrorNotifier,
                   labelText: 'Referral code/link',
-                  // focusNode: state.addressFocus,
                   controller: state.referralCodeController,
                   onChanged: (value) => notifier.updateReferralCode(value),
-                  // onErase: () => notifier.eraseAddress(),
-                  suffixIcons: const [
+                  suffixIcons: [
                     SIconButton(
-                      // onTap: () => notifier.pasteAddress(),
-                      defaultIcon: SPasteIcon(),
-                    ),
-                    SIconButton(
-                      // onTap: () => notifier.scanAddressQr(context),
-                      defaultIcon: SQrCodeIcon(),
+                      onTap: () => notifier.pasteCodeReferralLink(),
+                      defaultIcon: const SPasteIcon(),
                     ),
                   ],
                 ),
