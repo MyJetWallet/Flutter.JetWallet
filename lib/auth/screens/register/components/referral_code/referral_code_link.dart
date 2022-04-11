@@ -10,8 +10,8 @@ import 'components/no_referral_code.dart';
 import 'components/show_referral_code_link.dart';
 import 'components/valid_referral_code.dart';
 
-class ReferralCodeLink extends HookWidget {
-  const ReferralCodeLink({Key? key}) : super(key: key);
+class ReferralCode extends HookWidget {
+  const ReferralCode({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

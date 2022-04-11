@@ -10,7 +10,7 @@ import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import 'components/mailing_checkbox/mailing_checkbox.dart';
-import 'components/referral_code_link/referral_code_link.dart';
+import 'components/referral_code/referral_code_link.dart';
 import 'register_password_screen.dart';
 
 /// FLOW: Register -> RegisterPasswordScreen
@@ -90,7 +90,7 @@ class Register extends HookWidget {
                   ),
                 ),
                 const SpaceH20(),
-                const ReferralCodeLink(),
+                const ReferralCode(),
 
                 const Spacer(),
                 Container(
