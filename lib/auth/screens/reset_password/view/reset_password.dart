@@ -28,7 +28,7 @@ class ResetPassword extends HookWidget {
     required BuildContext context,
     required ResetPasswordArgs args,
   }) {
-    return Navigator.pushNamed(
+    return Navigator.pushReplacementNamed(
       context,
       routeName,
       arguments: args,
