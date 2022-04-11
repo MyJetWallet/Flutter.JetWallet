@@ -25,7 +25,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       : super(const CurrencyBuyState()) {
     _initCurrencies();
     _initBaseCurrency();
-    _initDefaultPaymentMethod();
   }
 
   final Reader read;
@@ -49,8 +48,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     );
   }
 
-  void _initDefaultPaymentMethod() {
-    if (currencyModel.supportsAtLeastOneBuyMethod) {
+  void initDefaultPaymentMethod({required bool fromCard}) {
+    if (fromCard && currencyModel.supportsAtLeastOneBuyMethod) {
       final method = currencyModel.buyMethods.first;
       updateSelectedPaymentMethod(method);
       return;
