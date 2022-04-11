@@ -10,5 +10,7 @@ class ActionSearchState with _$ActionSearchState {
     @Default([]) List<CurrencyModel> filteredCurrencies,
     @Default([]) List<CurrencyModel> currencies,
     @Default([]) List<CurrencyModel> buyFromCardCurrencies,
+    @Default([]) List<CurrencyModel> receiveCurrencies,
+    @Default([]) List<CurrencyModel> sendCurrencies,
   }) = _ActionSearchState;
 }

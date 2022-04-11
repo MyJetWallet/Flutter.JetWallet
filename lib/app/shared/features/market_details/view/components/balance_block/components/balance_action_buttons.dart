@@ -55,7 +55,7 @@ class BalanceActionButtons extends HookWidget {
                     context,
                     CurrencyBuy(
                       currency: currency,
-                      isFromBuyFromCard: isBalanceEmpty,
+                      fromCard: isBalanceEmpty,
                     ),
                   );
                 } else {
@@ -73,7 +73,7 @@ class BalanceActionButtons extends HookWidget {
                         context,
                         CurrencyBuy(
                           currency: currency,
-                          isFromBuyFromCard: isBalanceEmpty,
+                          fromCard: isBalanceEmpty,
                         ),
                       );
                     },

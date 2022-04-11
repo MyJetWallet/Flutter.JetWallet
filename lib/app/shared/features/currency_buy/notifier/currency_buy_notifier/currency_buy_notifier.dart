@@ -48,8 +48,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     );
   }
 
-  void initDefaultPaymentMethod({required bool isFromBuyFromCard}) {
-    if (isFromBuyFromCard && currencyModel.supportsAtLeastOneBuyMethod) {
+  void initDefaultPaymentMethod({required bool fromCard}) {
+    if (fromCard && currencyModel.supportsAtLeastOneBuyMethod) {
       final method = currencyModel.buyMethods.first;
       updateSelectedPaymentMethod(method);
       return;

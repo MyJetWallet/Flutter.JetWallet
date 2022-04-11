@@ -15,7 +15,7 @@ import '../shared/notifier/action_search_notipod.dart';
 
 void showBuyAction({
   required BuildContext context,
-  required bool isFromBuyFromCard,
+  required bool fromCard,
 }) {
   final showSearch = showBuyCurrencySearch(context);
   Navigator.pop(context); // close BasicBottomSheet from Menu
@@ -33,7 +33,7 @@ void showBuyAction({
     removePinnedPadding: true,
     children: [
       _ActionBuy(
-        isFromBuyFromCard: isFromBuyFromCard,
+        fromCard: fromCard,
       )
     ],
   );
@@ -42,10 +42,10 @@ void showBuyAction({
 class _ActionBuy extends HookWidget {
   const _ActionBuy({
     Key? key,
-    required this.isFromBuyFromCard,
+    required this.fromCard,
   }) : super(key: key);
 
-  final bool isFromBuyFromCard;
+  final bool fromCard;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class _ActionBuy extends HookWidget {
                   baseline: 11,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    isFromBuyFromCard
+                    fromCard
                         ? 'Buy from card'
                         : 'Buy with credit card or crypto',
                     style: sCaptionTextStyle.copyWith(
@@ -114,13 +114,13 @@ class _ActionBuy extends HookWidget {
                   context,
                   CurrencyBuy(
                     currency: currency,
-                    isFromBuyFromCard: isFromBuyFromCard,
+                    fromCard: fromCard,
                   ),
                 );
               },
             ),
         ],
-        if (!isFromBuyFromCard) ...[
+        if (!fromCard) ...[
           const SpaceH10(),
           SizedBox(
             height: 21,
@@ -178,7 +178,7 @@ class _ActionBuy extends HookWidget {
                     context,
                     CurrencyBuy(
                       currency: currency,
-                      isFromBuyFromCard: isFromBuyFromCard,
+                      fromCard: fromCard,
                     ),
                   );
                 },

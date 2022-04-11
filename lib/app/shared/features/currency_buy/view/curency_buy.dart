@@ -24,12 +24,12 @@ import 'simplex_web_view.dart';
 class CurrencyBuy extends StatefulHookWidget {
   const CurrencyBuy({
     Key? key,
-    this.isFromBuyFromCard = false,
     required this.currency,
+    required this.fromCard,
   }) : super(key: key);
 
   final CurrencyModel currency;
-  final bool isFromBuyFromCard;
+  final bool fromCard;
 
   @override
   State<CurrencyBuy> createState() => _CurrencyBuyState();
@@ -40,7 +40,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
   void initState() {
     final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
     notifier.initDefaultPaymentMethod(
-      isFromBuyFromCard: widget.isFromBuyFromCard,
+      fromCard: widget.fromCard,
     );
     super.initState();
   }
@@ -93,10 +93,15 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               SFiatItem(
                 isSelected: currency == state.selectedCurrency,
                 icon: SNetworkSvg24(
-                  color: currency == state.selectedCurrency
-                      ? colors.blue
-                      : colors.black,
-                  url: currency.iconUrl,
+                  color: currency.type != AssetType.indices
+                      ? currency == state.selectedCurrency
+                          ? colors.blue
+                          : colors.black
+                      : null,
+                  url: currency.type == AssetType.indices &&
+                          currency == state.selectedCurrency
+                      ? currency.selectedIndexIconUrl
+                      : currency.iconUrl,
                 ),
                 name: currency.description,
                 amount: currency.volumeBaseBalance(

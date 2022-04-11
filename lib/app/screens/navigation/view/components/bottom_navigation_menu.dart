@@ -100,11 +100,11 @@ class BottomNavigationMenu extends HookWidget {
       sShowMenuActionSheet(
         context: context,
         isNotEmptyBalance: isNotEmptyBalance,
-        onBuy: (bool isFromBuyFromCard) {
+        onBuy: (bool fromCard) {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
             showBuyAction(
               context: context,
-              isFromBuyFromCard: isFromBuyFromCard,
+              fromCard: fromCard,
             );
           } else {
             Navigator.of(context).pop();
@@ -114,7 +114,7 @@ class BottomNavigationMenu extends HookWidget {
               isProgress: kycState.verificationInProgress,
               currentNavigate: () => showBuyAction(
                 context: context,
-                isFromBuyFromCard: isFromBuyFromCard,
+                fromCard: fromCard,
               ),
             );
           }

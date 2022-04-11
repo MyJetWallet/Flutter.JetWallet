@@ -44,7 +44,7 @@ void showStartEarnOptions({
               context,
               CurrencyBuy(
                 currency: currency,
-                isFromBuyFromCard: balancesEmpty,
+                fromCard: balancesEmpty,
               ),
             );
           } else {
@@ -63,7 +63,7 @@ void showStartEarnOptions({
                   context,
                   CurrencyBuy(
                     currency: currency,
-                    isFromBuyFromCard: balancesEmpty,
+                    fromCard: balancesEmpty,
                   ),
                 );
               },
@@ -72,7 +72,7 @@ void showStartEarnOptions({
         },
         icon: const SActionBuyIcon(),
         name: 'Buy ${currency.description}',
-        description: 'Buy crypto with your local currency',
+        description: 'Buy any crypto available on the platform',
       ),
       SActionItem(
         onTap: () {

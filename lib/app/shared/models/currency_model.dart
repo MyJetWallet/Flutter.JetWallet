@@ -30,6 +30,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
     @Default('') String iconUrl,
+    @Default('') String selectedIndexIconUrl,
     @Default('') String nextPaymentDate,
     @Default(0.0) double dayPercentChange,
     @Default(0) int weight,

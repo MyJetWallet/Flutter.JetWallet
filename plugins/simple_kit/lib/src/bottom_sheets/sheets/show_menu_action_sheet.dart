@@ -8,7 +8,7 @@ void sShowMenuActionSheet({
   bool isSendAvailable = true,
   bool isReceiveAvailable = true,
   required BuildContext context,
-  required void Function(bool isFromBuyFromCard) onBuy,
+  required void Function(bool fromCard) onBuy,
   required void Function() onSell,
   required void Function() onConvert,
   required void Function() onDeposit,
@@ -40,14 +40,14 @@ void sShowMenuActionSheet({
           onTap: () => onBuy(false),
           icon: const SActionBuyIcon(),
           name: 'Buy',
-          description: 'Buy crypto',
+          description: 'Buy any crypto available on the platform',
         ),
       if (isNotEmptyBalance) ...[
         SActionItem(
           onTap: onSell,
           icon: const SActionSellIcon(),
           name: 'Sell',
-          description: 'Sell crypto',
+          description: 'Sell crypto from your portfolio',
         ),
         SActionItem(
           onTap: onConvert,
