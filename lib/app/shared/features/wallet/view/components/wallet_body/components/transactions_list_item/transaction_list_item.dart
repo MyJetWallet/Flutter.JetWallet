@@ -99,7 +99,14 @@ class TransactionListItem extends HookWidget {
                     )}',
                     color: colors.grey2,
                   ),
-                ]
+                ],
+                if (transactionListItem.operationType ==
+                    OperationType.simplexBuy) ...[
+                  TransactionListItemText(
+                    text: 'With \$${transactionListItem.buyInfo!.sellAmount}',
+                    color: colors.grey2,
+                  ),
+                ],
               ],
             ),
             const SpaceH18(),
