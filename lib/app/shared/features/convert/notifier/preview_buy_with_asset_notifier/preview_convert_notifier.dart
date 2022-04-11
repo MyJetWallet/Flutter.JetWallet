@@ -15,7 +15,6 @@ import '../../../../../../shared/components/result_screens/success_screen/succes
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../../components/quote_updated_dialog.dart';
 import '../../model/preview_convert_input.dart';
 import '../../view/convert.dart';
@@ -179,9 +178,9 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order filled',
+      secondaryText: 'Order complete',
       then: () {
-        read(navigationStpod).state = 1;
+        navigateToRouter(read);
       },
     );
   }
@@ -193,7 +192,6 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
       secondaryText: 'Failed to place Order',
       primaryButtonName: 'OK',
       onPrimaryButtonTap: () {
-        read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
       },
     );

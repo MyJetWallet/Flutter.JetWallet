@@ -136,6 +136,9 @@ class ChooseDocuments extends HookWidget {
                 } else {
                   AllowCamera.push(
                     context: context,
+                    permissionDescription:
+                        'We cannot verify you without using your\ncamera',
+                    then: () => UploadKycDocuments.pushReplacement(context),
                   );
                 }
               },

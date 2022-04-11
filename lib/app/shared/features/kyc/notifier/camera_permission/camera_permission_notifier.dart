@@ -60,6 +60,7 @@ class CameraPermissionNotifier extends StateNotifier<CameraPermissionState> {
 
   Future<void> handleCameraPermissionAfterSettingsChange(
     BuildContext context,
+    void Function() then,
   ) async {
     _logger.log(notifier, 'handleCameraPermissionAfterSettingsChange');
 
@@ -67,7 +68,7 @@ class CameraPermissionNotifier extends StateNotifier<CameraPermissionState> {
 
     if (status == PermissionStatus.granted) {
       if (!mounted) return;
-      UploadKycDocuments.pushReplacement(context);
+      then();
     }
 
     _updateUserLocation(UserLocation.app);

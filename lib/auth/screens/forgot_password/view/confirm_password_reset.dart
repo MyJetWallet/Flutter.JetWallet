@@ -52,6 +52,15 @@ class ConfirmPasswordReset extends HookWidget {
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus &&
+          state.controller.value.text.length == 4 &&
+          pinError.value.value) {
+        state.controller.clear();
+      }
+    });
 
     return SPageFrameWithPadding(
       header: const SBigHeader(
@@ -89,6 +98,7 @@ class ConfirmPasswordReset extends HookWidget {
           ),
           const SpaceH29(),
           PinCodeField(
+            focusNode: focusNode,
             controller: state.controller,
             length: emailVerificationCodeLength,
             onCompleted: (_) {
@@ -99,10 +109,12 @@ class ConfirmPasswordReset extends HookWidget {
                   code: state.controller.text,
                 ),
               );
-
               state.controller.clear();
             },
             autoFocus: true,
+            onChanged: (_) {
+              pinError.value.disableError();
+            },
             pinError: pinError.value,
           ),
           SResendButton(

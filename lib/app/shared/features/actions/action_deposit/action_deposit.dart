@@ -7,18 +7,21 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
+import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 import 'components/deposit_category_description.dart';
 import 'components/deposit_options.dart';
 
 void showDepositAction(BuildContext context) {
+  final showSearch = showDepositCurrencySearch(context);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to deposit',
+      showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
       },
@@ -88,7 +91,7 @@ class _ActionDeposit extends HookWidget {
                 );
               },
             ),
-        ]
+        ],
       ],
     );
   }

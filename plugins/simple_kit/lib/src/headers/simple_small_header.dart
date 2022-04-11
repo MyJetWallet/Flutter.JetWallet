@@ -5,16 +5,20 @@ import '../../simple_kit.dart';
 class SSmallHeader extends StatelessWidget {
   const SSmallHeader({
     Key? key,
+    this.icon,
     this.onStarButtonTap,
     this.onBackButtonTap,
+    this.titleAlign = TextAlign.center,
     this.showBackButton = true,
     this.showStarButton = false,
     this.isStarSelected = false,
     required this.title,
   }) : super(key: key);
 
+  final Widget? icon;
   final Function()? onStarButtonTap;
   final Function()? onBackButtonTap;
+  final TextAlign titleAlign;
   final bool showBackButton;
   final bool showStarButton;
   final bool isStarSelected;
@@ -34,8 +38,8 @@ class SSmallHeader extends StatelessWidget {
               if (showBackButton)
                 SIconButton(
                   onTap: onBackButtonTap ?? () => Navigator.pop(context),
-                  defaultIcon: const SBackIcon(),
-                  pressedIcon: const SBackPressedIcon(),
+                  defaultIcon: icon != null ? icon! : const SBackIcon(),
+                  pressedIcon: icon != null ? icon! : const SBackPressedIcon(),
                 )
               else
                 const _IconPlaceholder(),
@@ -44,7 +48,7 @@ class SSmallHeader extends StatelessWidget {
                 child: Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
+                  textAlign: titleAlign,
                   maxLines: 1,
                   style: sTextH5Style,
                 ),

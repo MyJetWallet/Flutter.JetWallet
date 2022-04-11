@@ -13,15 +13,21 @@ class TimerNotifier extends StateNotifier<int> {
   void refreshTimer() {
     _timer?.cancel();
     state = initial;
+    final initialTime = (
+        DateTime.now().millisecondsSinceEpoch / 1000
+    ).round();
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (state == 0) {
+        if (state <= 0) {
           if (!mounted) return;
           timer.cancel();
         } else {
-          state--;
+          final currentTime = (
+              DateTime.now().millisecondsSinceEpoch / 1000
+          ).round();
+          state = initialTime - currentTime + initial;
         }
       },
     );

@@ -117,7 +117,7 @@ class SAddressFieldWithCopy extends HookWidget {
                               baseline: 16.0,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                value,
+                                _shortReferralLink(value),
                                 style: sSubtitle2Style,
                               ),
                             ),
@@ -145,5 +145,9 @@ class SAddressFieldWithCopy extends HookWidget {
         ),
       ],
     );
+  }
+
+  String _shortReferralLink(String referralLink) {
+    return referralLink.split('https://').last;
   }
 }

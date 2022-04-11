@@ -37,7 +37,7 @@ List<CampaignOrReferralModel> _sort(
     final weight1 = a.campaign?.weight ?? a.referralState!.weight;
     final weight2 = b.campaign?.weight ?? b.referralState!.weight;
 
-    return weight1.compareTo(weight2);
+    return weight2.compareTo(weight1);
   });
 
   return combinedArray;

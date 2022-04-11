@@ -53,6 +53,16 @@ class TwoFaPhone extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final notificationN = useProvider(sNotificationNotipod.notifier);
+    final loader = useValueNotifier(StackLoaderNotifier());
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus &&
+          twoFa.controller.value.text.length == 4 &&
+          pinError.value.value) {
+        twoFa.controller.clear();
+      }
+    });
 
     return ProviderListener<lu.LogoutUnion>(
       provider: logoutNotipod,
@@ -71,6 +81,7 @@ class TwoFaPhone extends HookWidget {
         onChange: (context, state) {
           state.union.maybeWhen(
             error: (error) {
+              loader.value.finishLoading();
               pinError.value.enableError();
               twoFaN.resetError();
             },
@@ -80,6 +91,7 @@ class TwoFaPhone extends HookWidget {
         child: logout.when(
           result: (_, __) {
             return SPageFrameWithPadding(
+              loading: loader.value,
               header: SBigHeader(
                 title: 'Phone Confirmation',
                 onBackButtonTap: () => trigger.when(
@@ -96,17 +108,22 @@ class TwoFaPhone extends HookWidget {
                   ),
                   const SpaceH60(),
                   PinCodeField(
+                    focusNode: focusNode,
                     length: 4,
                     autoFocus: true,
                     controller: twoFa.controller,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     onCompleted: (_) async {
+                      loader.value.startLoading();
                       await twoFaN.verifyCode();
+                    },
+                    onChanged: (_) {
+                      pinError.value.disableError();
                     },
                     pinError: pinError.value,
                   ),
                   const SpaceH7(),
-                  if (timer != 0 && !twoFa.showResend)
+                  if (timer > 0 && !twoFa.showResend)
                     ResendInText(
                       text: 'You can resend in $timer seconds',
                     )

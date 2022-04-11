@@ -1,8 +1,10 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../screens/market/helper/format_day_percentage_change.dart';
 import '../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../models/currency_model.dart';
@@ -61,40 +63,45 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: InkWell(
-              onTap: () {
-                showInterestRate(
-                  context: context,
-                  currency: currency,
-                  baseCurrency: baseCurrency,
-                  colors: colors,
-                );
-              },
-              child: Container(
-                height: 24,
-                width: interestRateTextSize.width + 20,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                margin: const EdgeInsets.only(top: 32),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: colors.green,
-                ),
-                child: SBaselineChild(
-                  baseline: 17,
-                  child: Text(
-                    interestRateText,
-                    style: sSubtitle3Style.copyWith(
-                      color: colors.white,
+          if (currency.apy != Decimal.zero)
+            Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: () {
+                  showInterestRate(
+                    context: context,
+                    currency: currency,
+                    baseCurrency: baseCurrency,
+                    colors: colors,
+                    colorDayPercentage: colorDayPercentage(
+                      currency.dayPercentChange,
+                      colors,
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 24,
+                  width: interestRateTextSize.width + 20,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  margin: const EdgeInsets.only(top: 32),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: colors.green,
+                  ),
+                  child: SBaselineChild(
+                    baseline: 17,
+                    child: Text(
+                      interestRateText,
+                      style: sSubtitle3Style.copyWith(
+                        color: colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.only(
               top: 50,
@@ -138,6 +145,10 @@ class WalletCard extends HookWidget {
                     currency: currency,
                     baseCurrency: baseCurrency,
                     colors: colors,
+                    colorDayPercentage: colorDayPercentage(
+                      currency.dayPercentChange,
+                      colors,
+                    ),
                   );
                 },
                 child: const SInfoIcon(),

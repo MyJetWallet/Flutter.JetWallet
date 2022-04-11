@@ -13,6 +13,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
     required this.rewardDetail,
     required this.primaryText,
     required this.timeToComplete,
+    required this.onTap,
   }) : super(key: key);
 
   final String? imageUrl;
@@ -21,6 +22,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
   final String primaryText;
   final String timeToComplete;
   final List<Widget> rewardDetail;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,13 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                                     margin: const EdgeInsets.only(
                                       left: 8,
                                     ),
-                                    child: const SInfoPressedIcon(),
+                                    child: InkWell(
+                                      onTap: onTap,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: const SInfoPressedIcon(),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],

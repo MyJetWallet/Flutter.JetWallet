@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../shared/components/loaders/loader.dart';
-import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
@@ -25,6 +24,7 @@ import '../../shared/features/transaction_history/view/transaction_hisotry.dart'
 import '../../shared/helpers/check_kyc_status.dart';
 import 'components/account_banner_list.dart';
 import 'components/crisp.dart';
+import 'components/faq_web_view.dart';
 import 'components/log_out_option.dart';
 
 class Account extends HookWidget {
@@ -146,7 +146,9 @@ class Account extends HookWidget {
                             title: 'FAQ',
                             icon: const SFaqIcon(),
                             isSDivider: true,
-                            onTap: () => launchURL(context, faqLink),
+                            onTap: () {
+                              navigatorPush(context, FaqWebView(link: faqLink));
+                            },
                           ),
                           SimpleAccountCategoryButton(
                             title: 'About us',
@@ -156,7 +158,7 @@ class Account extends HookWidget {
                               navigatorPush(context, const AboutUs());
                             },
                           ),
-                          if (flavor == Flavor.dev)
+                          if (flavor == Flavor.dev || flavor == Flavor.stage)
                             SimpleAccountCategoryButton(
                               title: 'Debug Info',
                               icon: const SInfoIcon(),

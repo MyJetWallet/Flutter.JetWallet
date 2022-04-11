@@ -4,16 +4,17 @@ import 'package:simple_kit/simple_kit.dart';
 class ActionBottomSheetHeader extends StatelessWidget {
   const ActionBottomSheetHeader({
     Key? key,
+    this.showSearch = false,
     required this.name,
     required this.onChanged,
   }) : super(key: key);
 
   final String name;
   final Function(String) onChanged;
+  final bool showSearch;
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         SPaddingH24(
@@ -31,14 +32,16 @@ class ActionBottomSheetHeader extends StatelessWidget {
             ],
           ),
         ),
-        SPaddingH24(
-          child: SStandardField(
-            autofocus: true,
-            labelText: 'Search',
-            onChanged: onChanged,
+        if (showSearch) ...[
+          SPaddingH24(
+            child: SStandardField(
+              labelText: 'Search',
+              onChanged: onChanged,
+            ),
           ),
-        ),
-        const SDivider(),
+          const SDivider(),
+        ] else
+          const SpaceH24(),
       ],
     );
   }

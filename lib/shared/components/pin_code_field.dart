@@ -7,26 +7,31 @@ import 'package:simple_kit/simple_kit.dart';
 class PinCodeField extends HookWidget {
   const PinCodeField({
     Key? key,
+    this.focusNode,
     this.autoFocus = false,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     required this.length,
     required this.controller,
     required this.onCompleted,
     required this.pinError,
+    required this.onChanged,
   }) : super(key: key);
 
+  final FocusNode? focusNode;
   final bool autoFocus;
   final MainAxisAlignment mainAxisAlignment;
   final int length;
   final TextEditingController controller;
   final Function(String) onCompleted;
   final StandardFieldErrorNotifier pinError;
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
     return PinCodeTextField(
+      focusNode: focusNode,
       length: length,
       appContext: context,
       controller: controller,
@@ -55,7 +60,7 @@ class PinCodeField extends HookWidget {
         color: pinError.value ? colors.red : colors.black,
       ),
       onCompleted: onCompleted,
-      onChanged: (_) => pinError.disableError(), // required field
+      onChanged: onChanged, // required field
     );
   }
 }

@@ -33,6 +33,7 @@ export 'src/actions/simple_payment_select_asset.dart';
 export 'src/actions/simple_payment_select_contact.dart';
 export 'src/actions/simple_payment_select_contact_without_name.dart';
 export 'src/actions/simple_payment_select_default.dart';
+export 'src/actions/simple_payment_select_empty_balance.dart';
 export 'src/actions/simple_payment_select_fiat.dart';
 
 /// Agreements

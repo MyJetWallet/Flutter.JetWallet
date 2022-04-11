@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
@@ -18,6 +19,7 @@ class SimpleLightStandardField extends HookWidget {
     this.onChanged,
     this.suffixIcons,
     this.initialValue,
+    this.inputFormatters,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -45,6 +47,7 @@ class SimpleLightStandardField extends HookWidget {
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
   final String? initialValue;
+  final List<FilteringTextInputFormatter>? inputFormatters;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -76,10 +79,12 @@ class SimpleLightStandardField extends HookWidget {
       textInputAction: textInputAction,
       alignLabelWithHint: alignLabelWithHint,
       enabled: enabled,
+      inputFormatters: inputFormatters,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,
-        if (controller2.text.isNotEmpty && !hideClearButton)
+        if (controller2.text.isNotEmpty && !hideClearButton) ...[
+          const SpaceW16(),
           GestureDetector(
             onTap: () {
               controller2.clear();
@@ -87,7 +92,8 @@ class SimpleLightStandardField extends HookWidget {
               onErase?.call();
             },
             child: const SEraseIcon(),
-          )
+          ),
+        ],
       ],
     );
   }

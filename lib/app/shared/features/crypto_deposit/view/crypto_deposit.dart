@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,11 +29,14 @@ class CryptoDeposit extends HookWidget {
   Widget build(BuildContext context) {
     final controller = useScrollController();
     final colors = useProvider(sColorPod);
+    final canTapShare = useState(true);
     useProvider(
       cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}),
     );
     final deposit = useProvider(cryptoDepositNotipod(currency));
-    final depositN = useProvider(cryptoDepositNotipod(currency).notifier);
+    final depositN = useProvider(
+        cryptoDepositNotipod(currency).notifier,
+    );
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
       provider: cryptoDepositDisclaimerFpod(currency.symbol),
@@ -84,10 +89,20 @@ class CryptoDeposit extends HookWidget {
                   ),
                   active: true,
                   name: 'Share',
-                  onTap: () => Share.share(
+                  onTap: () {
+                    if (canTapShare.value) {
+                        canTapShare.value = false;
+                      Timer(
+                          const Duration(
+                              seconds: 1,
+                          ), () => canTapShare.value = true,
+                      );
+                      Share.share(
                     'My ${currency.symbol} Address: ${deposit.address} '
                     '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
-                  ),
+                      );
+                    }
+                  },
                 ),
               ),
               const SpaceH24(),

@@ -67,7 +67,10 @@ class SReferralStats extends StatelessWidget {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: onInfoTap,
-                    child: const SInfoPressedIcon(),
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: const SInfoPressedIcon(),
+                    ),
                   ),
               ],
             ),

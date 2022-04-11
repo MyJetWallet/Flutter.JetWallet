@@ -99,7 +99,11 @@ class SMarketItem extends StatelessWidget {
                                   _formatPercent(percent),
                                   textAlign: TextAlign.end,
                                   style: sBodyText2Style.copyWith(
-                                    color: SColorsLight().grey3,
+                                    color: percent == 0
+                                        ? SColorsLight().grey3
+                                        : percent > 0
+                                        ? SColorsLight().green
+                                        : SColorsLight().red,
                                   ),
                                 ),
                               ),

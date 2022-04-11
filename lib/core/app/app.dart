@@ -101,6 +101,7 @@ class _App extends HookWidget {
     final theme = useProvider(sThemePod);
 
     return CupertinoApp(
+      restorationScopeId: 'app',
       locale: locale,
       theme: theme,
       navigatorKey: navigatorKey,
