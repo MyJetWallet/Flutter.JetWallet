@@ -10,10 +10,12 @@ import 'loading_referral_code.dart';
 import 'valid_referral_code.dart';
 
 void showReferralCode(BuildContext context) {
+  final colors = context.read(sColorPod);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     expanded: true,
+    color: colors.grey5,
     pinned: const ActionBottomSheetHeader(
       name: 'Enter referral code/link',
     ),
@@ -29,26 +31,22 @@ class _ReferralCodeBottom extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
     final state = useProvider(referralCodeLinkNotipod);
     final notifier = useProvider(referralCodeLinkNotipod.notifier);
 
-    return Material(
-      color: colors.grey5,
-      child: Column(
-        children: [
-          SPaddingH24(
-            child: SPrimaryButton2(
-              active: true,
-              name: 'Continue',
-              onTap: () {
-                notifier.validateReferralCode(state.bottomSheetReferralCode!);
-              },
-            ),
+    return Column(
+      children: [
+        SPaddingH24(
+          child: SPrimaryButton2(
+            active: state.existBottomSheetReferralCode,
+            name: 'Continue',
+            onTap: () {
+              notifier.validateReferralCode(state.bottomSheetReferralCode!);
+            },
           ),
-          const SpaceH24(),
-        ],
-      ),
+        ),
+        const SpaceH24(),
+      ],
     );
   }
 }
@@ -67,18 +65,24 @@ class _ReferralCodeLinkBody extends HookWidget {
       children: [
         Column(
           children: [
-            SPaddingH24(
-              child: Material(
-                color: colors.white,
+            Material(
+              color: colors.white,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: SStandardField(
                   errorNotifier: state.referralCodeErrorNotifier,
                   labelText: 'Referral code/link',
                   controller: state.referralCodeController,
                   onChanged: (value) => notifier.updateReferralCode(value),
+                  onErase: () => notifier.clearBottomSheetReferralCode(),
                   suffixIcons: [
                     SIconButton(
                       onTap: () => notifier.pasteCodeReferralLink(),
                       defaultIcon: const SPasteIcon(),
+                    ),
+                    SIconButton(
+                      onTap: () => notifier.scanAddressQr(context),
+                      defaultIcon: const SQrCodeIcon(),
                     ),
                   ],
                 ),
