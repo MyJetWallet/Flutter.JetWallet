@@ -158,7 +158,7 @@ class Account extends HookWidget {
                               navigatorPush(context, const AboutUs());
                             },
                           ),
-                          if (flavor == Flavor.dev)
+                          if (flavor == Flavor.dev || flavor == Flavor.stage)
                             SimpleAccountCategoryButton(
                               title: 'Debug Info',
                               icon: const SInfoIcon(),

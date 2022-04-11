@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
 
@@ -18,5 +19,6 @@ Future<void> main() async {
     );
   }, (error, stackTrace) {
     Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
   });
 }
