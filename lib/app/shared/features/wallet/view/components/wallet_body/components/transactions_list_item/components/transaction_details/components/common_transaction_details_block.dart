@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
@@ -29,19 +30,10 @@ class CommonTransactionDetailsBlock extends HookWidget {
 
     return Column(
       children: [
-        if (transactionListItem.operationType != OperationType.simplexBuy)
-          Text(
-            '${operationName(transactionListItem.operationType)} '
-            '${currency.description}',
-            style: sTextH5Style,
-          )
-        else
-          Text(
-            '${operationName(OperationType.buy)} '
-            '${currency.description} - '
-            '${operationName(transactionListItem.operationType)}',
-            style: sTextH5Style,
-          ),
+        Text(
+          _transactionHeader(transactionListItem, currency),
+          style: sTextH5Style,
+        ),
         const SpaceH67(),
         Text(
           '${operationAmount(transactionListItem)} ${currency.symbol}',
@@ -70,6 +62,20 @@ class CommonTransactionDetailsBlock extends HookWidget {
           const SpaceH72(),
       ],
     );
+  }
+
+  String _transactionHeader(
+    OperationHistoryItem transactionListItem,
+    CurrencyModel currency,
+  ) {
+    if (transactionListItem.operationType != OperationType.simplexBuy) {
+      return '${operationName(transactionListItem.operationType)} '
+          '${currency.description}';
+    } else {
+      return '${operationName(OperationType.buy)} '
+          '${currency.description} - '
+          '${operationName(transactionListItem.operationType)}';
+    }
   }
 
   String convertToUsd(Decimal assetPriceInUsd, Decimal balance) {

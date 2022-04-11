@@ -151,10 +151,10 @@ class TransactionListItem extends HookWidget {
         return const SSwapIcon();
       case OperationType.rewardPayment:
         return const SRewardPaymentIcon();
-      case OperationType.unknown:
-        return const SizedBox();
       case OperationType.simplexBuy:
         return const SDepositIcon();
+      case OperationType.unknown:
+        return const SizedBox();
     }
   }
 }
