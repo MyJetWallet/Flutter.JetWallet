@@ -69,11 +69,15 @@ class _ReferralCodeLinkBody extends HookWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: SStandardField(
+                  autofocus: true,
                   errorNotifier: state.referralCodeErrorNotifier,
                   labelText: 'Referral code/link',
                   controller: state.referralCodeController,
-                  onChanged: (value) =>
-                      notifier.updateReferralCode(value, null),
+                  onChanged: (value) {
+                    if (value.length > 2) {
+                      notifier.updateReferralCode(value, null);
+                    }
+                  },
                   onErase: () => notifier.clearBottomSheetReferralCode(),
                   suffixIcons: [
                     SIconButton(
