@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,12 +33,12 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
   }
 
   final Reader read;
+  Timer _timer = Timer(Duration.zero, () {});
 
   static final _logger = Logger('ReferralCodeLinkNotifier');
 
   Future<void> _init() async {
     final storage = read(localStorageServicePod);
-    await storage.clearStorage();
     final referralCode = await storage.getString(referralCodeKey);
 
     if (referralCode != null) {
@@ -45,47 +47,36 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
         referralCodeValidation: const Loading(),
       );
 
-      await validateReferralCode(referralCode);
+      await _validateReferralCode(referralCode, null);
     }
   }
 
-  Future<void> validateReferralCode(String code) async {
+  Future<void> updateReferralCode(String code, String? jwCode) async {
+    _timer.cancel();
+
     state = state.copyWith(
-      referralCodeValidation: const Loading(),
-      bottomSheetReferralCodeValidation: const Loading(),
+      bottomSheetReferralCode: code,
+      referralCodeValidation: const Input(),
+      timer: 0,
     );
-    try {
-      final model = ValidateReferralCodeRequestModel(
-        referralCode: code,
-      );
 
-      final service = read(referralCodeServicePod);
-
-      await service.validateReferralCode(model);
-
-      if (!mounted) return;
-
-      state = state.copyWith(
-        referralCodeValidation: const Valid(),
-        bottomSheetReferralCodeValidation: const Valid(),
-        referralCode: code,
-      );
-    } catch (error) {
-      if (!mounted) return;
-
-      _logger.log(stateFlow, 'validateReferralCode', error);
-
-      state = state.copyWith(
-        referralCodeValidation: const Invalid(),
-        bottomSheetReferralCodeValidation: const Invalid(),
-      );
-
-      _triggerErrorOfReferralCodeField();
-    }
-  }
-
-  void updateReferralCode(String code) {
-    state = state.copyWith(bottomSheetReferralCode: code);
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (state.timer == 1 && code.isNotEmpty) {
+          timer.cancel();
+          _validateReferralCode(code, jwCode);
+        } else {
+          if (state.timer == 0) {
+            state = state.copyWith(
+              timer: state.timer + 1,
+            );
+          } else {
+            _timer.cancel();
+          }
+        }
+      },
+    );
   }
 
   void resetBottomSheetReferralCodeValidation() {
@@ -104,6 +95,12 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
     state.referralCodeController.text = copiedText;
     _moveCursorAtTheEnd(state.referralCodeController);
     state = state.copyWith(bottomSheetReferralCode: copiedText);
+
+    if (copiedText.isNotEmpty) {
+      final command = _refCode(copiedText);
+
+      await updateReferralCode(copiedText, command);
+    }
   }
 
   Future<void> scanAddressQr(BuildContext context) async {
@@ -120,17 +117,68 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
       );
 
       if (result is Barcode) {
-        final code = Uri.parse(result.code!);
-        final parameters = code.queryParameters;
-        final command = parameters['code'];
+        final command = _refCode(result.code!);
 
         state.referralCodeController.text = command ?? '';
         _moveCursorAtTheEnd(state.referralCodeController);
         state = state.copyWith(
           bottomSheetReferralCode: state.referralCodeController.text,
         );
+
+        await updateReferralCode(command!, null);
       }
     }
+  }
+
+  Future<void> _validateReferralCode(String code, String? jwCode) async {
+    state = state.copyWith(
+      referralCodeValidation: const Loading(),
+      bottomSheetReferralCodeValidation: const Loading(),
+    );
+    try {
+      final model = ValidateReferralCodeRequestModel(
+        referralCode: code,
+      );
+
+      final service = read(referralCodeServicePod);
+
+      await service.validateReferralCode(model);
+
+      if (!mounted) return;
+
+      state = state.copyWith(
+        referralCodeValidation: const Valid(),
+        bottomSheetReferralCodeValidation: const Valid(),
+        referralCode: jwCode ?? code,
+      );
+
+      if (state.bottomSheetReferralCodeValidation is Valid && jwCode != null) {
+        state.referralCodeController.text = jwCode;
+      }
+    } catch (error) {
+      if (!mounted) return;
+
+      _logger.log(stateFlow, 'validateReferralCode', error);
+
+      state = state.copyWith(
+        referralCodeValidation: const Invalid(),
+        bottomSheetReferralCodeValidation: const Invalid(),
+      );
+
+      _triggerErrorOfReferralCodeField();
+    }
+  }
+
+  String? _refCode(String value) {
+    final code = Uri.parse(value);
+    final parameters = code.queryParameters;
+
+    if (parameters['jw_code'] != null) {
+      return parameters['jw_code'];
+    } else if (parameters['code'] != null) {
+      return parameters['code'];
+    }
+    return null;
   }
 
   void _pushAllowCamera(BuildContext context) {
@@ -244,5 +292,11 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
     controller.selection = TextSelection.fromPosition(
       TextPosition(offset: controller.text.length),
     );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }

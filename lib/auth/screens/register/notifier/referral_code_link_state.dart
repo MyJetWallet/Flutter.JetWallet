@@ -16,37 +16,14 @@ class ReferralCodeLinkState with _$ReferralCodeLinkState {
     StandardFieldErrorNotifier? referralCodeErrorNotifier,
     @Default(Input()) ReferralCodeLinkUnion referralCodeValidation,
     @Default(Input()) ReferralCodeLinkUnion bottomSheetReferralCodeValidation,
+    @Default(0) int timer,
     required TextEditingController referralCodeController,
     required Key qrKey,
   }) = _ReferralCodeLinkState;
 
   const ReferralCodeLinkState._();
 
-  bool get existBottomSheetReferralCode {
-    return bottomSheetReferralCode != null;
-  }
-
-  bool get requirementLoading {
-    if (referralCode != null) {
-      return referralCodeValidation is Loading;
-    } else {
-      return referralCodeValidation is Loading;
-    }
-  }
-
-  bool get activeReferralCodeButton {
-    if (referralCodeController.text.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bool get hideClearIcon {
-    if (bottomSheetReferralCodeValidation is Invalid) {
-      return false;
-    } else {
-      return true;
-    }
+  bool get enableContinueButton {
+    return bottomSheetReferralCodeValidation is Valid;
   }
 }

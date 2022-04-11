@@ -32,16 +32,15 @@ class _ReferralCodeBottom extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final state = useProvider(referralCodeLinkNotipod);
-    final notifier = useProvider(referralCodeLinkNotipod.notifier);
 
     return Column(
       children: [
         SPaddingH24(
           child: SPrimaryButton2(
-            active: state.existBottomSheetReferralCode,
+            active: state.enableContinueButton,
             name: 'Continue',
             onTap: () {
-              notifier.validateReferralCode(state.bottomSheetReferralCode!);
+              Navigator.pop(context);
             },
           ),
         ),
@@ -73,7 +72,8 @@ class _ReferralCodeLinkBody extends HookWidget {
                   errorNotifier: state.referralCodeErrorNotifier,
                   labelText: 'Referral code/link',
                   controller: state.referralCodeController,
-                  onChanged: (value) => notifier.updateReferralCode(value),
+                  onChanged: (value) =>
+                      notifier.updateReferralCode(value, null),
                   onErase: () => notifier.clearBottomSheetReferralCode(),
                   suffixIcons: [
                     SIconButton(
