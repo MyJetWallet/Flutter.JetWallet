@@ -43,7 +43,7 @@ Future<bool> isInternationalPhoneNumberValid(String phoneNumber) async {
 bool validWeakPhoneNumber(String value) {
   final number = value.replaceAll(' ', '');
 
-  const pattern = r'^[+]?[0-9]{1,12}$';
+  const pattern = r'^[+]?[0-9]{1,14}$';
 
   return RegExp(pattern).hasMatch(number);
 }

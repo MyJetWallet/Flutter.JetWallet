@@ -8,7 +8,7 @@ void sShowMenuActionSheet({
   bool isSendAvailable = true,
   bool isReceiveAvailable = true,
   required BuildContext context,
-  required void Function() onBuy,
+  required void Function(bool fromCard) onBuy,
   required void Function() onSell,
   required void Function() onConvert,
   required void Function() onDeposit,
@@ -28,18 +28,26 @@ void sShowMenuActionSheet({
     onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [
-      SActionItem(
-        onTap: onBuy,
-        icon: const SActionBuyIcon(),
-        name: 'Buy',
-        description: 'Buy crypto with your local currency',
-      ),
+      if (!isNotEmptyBalance)
+        SActionItem(
+          onTap: () => onBuy(true),
+          icon: const SActionDepositIcon(),
+          name: 'Buy from card',
+          description: 'Buy crypto with your bank card',
+        ),
+      if (isNotEmptyBalance)
+        SActionItem(
+          onTap: () => onBuy(false),
+          icon: const SActionBuyIcon(),
+          name: 'Buy',
+          description: 'Buy any crypto available on the platform',
+        ),
       if (isNotEmptyBalance) ...[
         SActionItem(
           onTap: onSell,
           icon: const SActionSellIcon(),
           name: 'Sell',
-          description: 'Sell crypto to your local currency',
+          description: 'Sell crypto from your portfolio',
         ),
         SActionItem(
           onTap: onConvert,
@@ -47,32 +55,12 @@ void sShowMenuActionSheet({
           name: 'Convert',
           description: 'Quickly swap one crypto for another',
         ),
-      ],
-      if (isDepositAvailable) ...[
         SActionItem(
-          onTap: onDeposit,
+          onTap: () => onBuy(true),
           icon: const SActionDepositIcon(),
-          name: 'Deposit',
-          description: 'Deposit with fiat or crypto',
+          name: 'Buy from card',
+          description: 'Buy crypto with your bank card',
         ),
-      ],
-      if (isNotEmptyBalance) ...[
-        if (isWithdrawAvailable) ...[
-          SActionItem(
-            onTap: onWithdraw,
-            icon: const SActionWithdrawIcon(),
-            name: 'Withdraw',
-            description: 'Withdraw crypto to your credit card',
-          ),
-        ],
-        if (isSendAvailable) ...[
-          SActionItem(
-            onTap: onSend,
-            icon: const SActionSendIcon(),
-            name: 'Send',
-            description: 'Send crypto to another wallet',
-          ),
-        ],
       ],
       if (isReceiveAvailable) ...[
         SActionItem(
@@ -80,6 +68,14 @@ void sShowMenuActionSheet({
           icon: const SActionReceiveIcon(),
           name: 'Receive',
           description: 'Receive crypto from another wallet',
+        ),
+      ],
+      if (isSendAvailable && isNotEmptyBalance) ...[
+        SActionItem(
+          onTap: onSend,
+          icon: const SActionSendIcon(),
+          name: 'Send',
+          description: 'Send crypto to another wallet or phone',
         ),
       ],
       const SpaceH20(),
