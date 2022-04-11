@@ -77,8 +77,7 @@ class TransactionListItem extends HookWidget {
                   color: colors.grey2,
                 ),
                 const Spacer(),
-                if (transactionListItem.operationType ==
-                    OperationType.sell) ...[
+                if (transactionListItem.operationType == OperationType.sell)
                   TransactionListItemText(
                     text: 'For ${volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -88,8 +87,7 @@ class TransactionListItem extends HookWidget {
                     )}',
                     color: colors.grey2,
                   ),
-                ],
-                if (transactionListItem.operationType == OperationType.buy) ...[
+                if (transactionListItem.operationType == OperationType.buy)
                   TransactionListItemText(
                     text: 'With ${volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -99,14 +97,12 @@ class TransactionListItem extends HookWidget {
                     )}',
                     color: colors.grey2,
                   ),
-                ],
                 if (transactionListItem.operationType ==
-                    OperationType.simplexBuy) ...[
+                    OperationType.simplexBuy)
                   TransactionListItemText(
                     text: 'With \$${transactionListItem.buyInfo!.sellAmount}',
                     color: colors.grey2,
                   ),
-                ],
               ],
             ),
             const SpaceH18(),
