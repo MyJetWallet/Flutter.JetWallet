@@ -69,10 +69,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                                     ),
                                     child: InkWell(
                                       onTap: onTap,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: const SInfoPressedIcon(),
-                                      ),
+                                      child: const SInfoPressedIcon(),
                                     ),
                                   ),
                                 ),
@@ -121,7 +118,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                     const SpaceH32(),
                     ...rewardDetail,
                     if (rewardIndicatorComplete != null) ...[
-                      const SpaceH24(),
+                      const SpaceH20(),
                       rewardIndicatorComplete!,
                       const SpaceH30(),
                     ],

@@ -28,7 +28,7 @@ Widget? setRewardIndicatorComplete(
         Stack(
           children: <Widget>[
             Container(
-              width: 240.0,
+              width: 280.0,
               height: 16.0,
               decoration: BoxDecoration(
                 color: colors.grey4,
@@ -58,7 +58,6 @@ Widget? setRewardIndicatorComplete(
             ),
           ],
         ),
-
         Container(
           padding: const EdgeInsets.only(right: 17.0),
           child: Text('$completeIndicator/${conditions.length}'),

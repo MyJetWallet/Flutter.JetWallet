@@ -28,21 +28,31 @@ class RewardsDescriptionItem extends HookWidget {
       margin: const EdgeInsets.only(
         bottom: 16.0,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          createRewardDescriptionItem(
-            condition,
-            conditions,
-            colors,
-            (String deepLink) {
-              deepLinkService.handle(
-                Uri.parse(deepLink),
-                SourceScreen.bannerOnRewards,
-              );
-            },
+          Container(
+            margin: (condition == conditions.first)
+                ? EdgeInsets.zero
+                : const EdgeInsets.only(top: 2),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                createRewardDescriptionItem(
+                  condition,
+                  conditions,
+                  colors,
+                  (String deepLink) {
+                    deepLinkService.handle(
+                      Uri.parse(deepLink),
+                      SourceScreen.bannerOnRewards,
+                    );
+                  },
+                ),
+                setRewardIcon(condition, conditions),
+              ],
+            ),
           ),
-          setRewardIcon(condition, conditions),
         ],
       ),
     );
