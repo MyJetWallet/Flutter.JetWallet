@@ -7,16 +7,19 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
+import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
 void showReceiveAction(BuildContext context) {
+  final showSearch = showReceiveCurrencySearch(context);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: 'Choose asset to receive',
+      showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
       },
@@ -45,6 +48,7 @@ class _ActionReceive extends HookWidget {
                 ),
                 primaryText: currency.description,
                 secondaryText: currency.symbol,
+                removeDivider: currency == state.receiveCurrencies.last,
                 onTap: () {
                   sAnalytics.depositCryptoView(currency.description);
 

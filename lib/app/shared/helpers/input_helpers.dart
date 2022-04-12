@@ -109,7 +109,7 @@ enum InputError {
 extension InputErrorValue on InputError {
   String get value {
     if (this == InputError.notEnoughFunds) {
-      return 'Not enough funds';
+      return 'Insufficient available balance';
     } else if (this == InputError.enterHigherAmount) {
       return 'Enter a higher amount';
     } else {

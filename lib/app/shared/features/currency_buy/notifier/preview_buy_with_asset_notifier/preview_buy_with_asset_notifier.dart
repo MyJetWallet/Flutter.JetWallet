@@ -17,6 +17,8 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../../components/quote_updated_dialog.dart';
+import '../../../../helpers/are_balances_empty.dart';
+import '../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../model/preview_buy_with_asset_input.dart';
 import '../../view/curency_buy.dart';
 import 'preview_buy_with_asset_state.dart';
@@ -174,7 +176,7 @@ class PreviewBuyWithAssetNotifier
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order filled',
+      secondaryText: 'Order complete',
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -206,6 +208,9 @@ class PreviewBuyWithAssetNotifier
           MaterialPageRoute(
             builder: (_) => CurrencyBuy(
               currency: input.toCurrency,
+              fromCard: areBalancesEmpty(
+                read(currenciesPod),
+              ),
             ),
           ),
           (route) => route.isFirst,

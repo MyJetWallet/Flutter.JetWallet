@@ -19,6 +19,7 @@ const convertPriceSettingsMessage = 'convert-price-settings';
 const marketInfoMessage = 'market-info';
 const paymentMethodsMessage = 'payment-methods';
 const blockchainsMessage = 'blockchains';
+const referralInfoMessage = 'referral-info';
 
 // HTTP
 const postRequest = 'POST';

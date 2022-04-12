@@ -26,9 +26,10 @@ import '../../router/notifier/startup_notifier/authorized_union.dart';
 import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../router/provider/authorization_stpod/authorization_union.dart';
+import '../helpers/launch_url.dart';
 import '../helpers/navigator_push.dart';
 import '../notifiers/logout_notifier/logout_notipod.dart';
-import '../notifiers/user_info_notifier/user_info_notipod.dart';
+import '../providers/referral_info_pod.dart';
 import '../providers/service_providers.dart';
 import 'local_storage_service.dart';
 
@@ -203,7 +204,8 @@ class DeepLinkService {
   }
 
   void _inviteFriendCommand(SourceScreen? source) {
-    final userInfo = read(userInfoNotipod);
+    final context = read(sNavigatorKeyPod).currentContext!;
+    final referralInfo = read(referralInfoPod);
 
     sAnalytics.clickMarketBanner(
       MarketBannerSource.inviteFriend.name,
@@ -228,7 +230,7 @@ class DeepLinkService {
       pinned: const SReferralInvitePinned(),
       pinnedBottom: SReferralInviteBottomPinned(
         onShare: () {
-          Share.share(userInfo.referralLink);
+          Share.share(referralInfo.referralLink);
         },
       ),
       children: [
@@ -236,6 +238,16 @@ class DeepLinkService {
           primaryText: 'Invite friends and get \$10',
           qrCodeLink: userInfo.referralLink,
           referralLink: userInfo.referralLink,
+          primaryText: referralInfo.title,
+          referralLink: referralInfo.referralLink,
+          conditions: referralInfo.referralTerms,
+          showReadMore: referralInfo.descriptionLink.isNotEmpty,
+          onReadMoreTap: () {
+            launchURL(
+              context,
+              referralInfo.descriptionLink,
+            );
+          },
         ),
       ],
     );

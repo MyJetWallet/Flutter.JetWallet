@@ -24,7 +24,7 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
       if (currency.symbol != baseCurrency.symbol) {
         items.add(
           MarketItemModel(
-            iconUrl: iconUrlFrom(currency.symbol),
+            iconUrl: iconUrlFrom(assetSymbol: currency.symbol),
             weight: marketReference.weight,
             associateAsset: marketReference.associateAsset,
             associateAssetPair: marketReference.associateAssetPair,

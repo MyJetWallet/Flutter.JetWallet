@@ -93,6 +93,7 @@ class RegisterPasswordScreen extends HookWidget {
                       email: credentials.email,
                       password: credentials.password,
                       operation: AuthOperation.register,
+                      marketingEmailsAllowed: credentials.mailingChecked,
                     );
                   },
                 ),

@@ -178,7 +178,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order filled',
+      secondaryText: 'Order complete',
       then: () {
         navigateToRouter(read);
       },
