@@ -74,9 +74,7 @@ class _ReferralCodeLinkBody extends HookWidget {
                   labelText: 'Referral code/link',
                   controller: state.referralCodeController,
                   onChanged: (value) {
-                    if (value.length > 2) {
-                      notifier.updateReferralCode(value, null);
-                    }
+                    notifier.updateReferralCode(value, null);
                   },
                   onErase: () => notifier.clearBottomSheetReferralCode(),
                   suffixIcons: [

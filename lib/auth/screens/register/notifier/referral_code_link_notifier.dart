@@ -56,14 +56,13 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
     state = state.copyWith(
       bottomSheetReferralCode: code,
-      referralCodeValidation: const Input(),
       timer: 0,
     );
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (state.timer == 1 && code.isNotEmpty) {
+        if (state.timer == 1 && code.length > 2) {
           timer.cancel();
           _validateReferralCode(code, jwCode);
         } else {
