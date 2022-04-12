@@ -11,7 +11,7 @@ Future<void> validateReferralCodeService(
     ValidateReferralCodeRequestModel model,
     ) async {
   final logger = ReferralCodeService.logger;
-  const message = 'validateAddressService';
+  const message = 'validateReferralCodeService';
 
   try {
     final response = await dio.post(
