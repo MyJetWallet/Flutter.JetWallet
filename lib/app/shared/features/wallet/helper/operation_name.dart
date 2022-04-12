@@ -28,7 +28,5 @@ String operationName(OperationType type) {
       return 'Simplex';
     case OperationType.unknown:
       return 'Unknown';
-    case OperationType.simplexBuy:
-      return 'Deposit';
   }
 }

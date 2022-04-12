@@ -46,11 +46,6 @@ class TransactionListItem extends HookWidget {
               children: [
                 _icon(
                   transactionListItem.operationType,
-                  transactionListItem.status == Status.declined
-                    ? colors.red
-                    : transactionListItem.status == Status.inProgress
-                      ? colors.grey3
-                      : colors.green,
                 ),
                 const SpaceW10(),
                 Expanded(
@@ -139,7 +134,7 @@ class TransactionListItem extends HookWidget {
     }
   }
 
-  Widget _icon(OperationType type, Color? color) {
+  Widget _icon(OperationType type) {
     switch (type) {
       case OperationType.deposit:
         return const SDepositIcon();
@@ -164,7 +159,7 @@ class TransactionListItem extends HookWidget {
       case OperationType.rewardPayment:
         return const SRewardPaymentIcon();
       case OperationType.simplexBuy:
-        return const SDepositIcon(color: color);
+        return const SDepositIcon();
       case OperationType.unknown:
         return const SizedBox();
     }
