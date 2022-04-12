@@ -55,13 +55,12 @@ class TransactionListItem extends HookWidget {
                 const SpaceW10(),
                 Expanded(
                   child: TransactionListItemHeaderText(
-                    text: operationName(transactionListItem.operationType),
+                    text: _transactionItemTitle(transactionListItem),
                     color: transactionListItem.status == Status.declined
                         ? colors.red
                         : colors.black,
                   ),
                 ),
-                const SpaceW16(),
                 Container(
                   constraints: const BoxConstraints(
                     maxWidth: 220,
@@ -94,8 +93,7 @@ class TransactionListItem extends HookWidget {
                     color: colors.grey2,
                   ),
                 const Spacer(),
-                if (transactionListItem.operationType ==
-                    OperationType.sell) ...[
+                if (transactionListItem.operationType == OperationType.sell)
                   TransactionListItemText(
                     text: 'For ${volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -105,8 +103,7 @@ class TransactionListItem extends HookWidget {
                     )}',
                     color: colors.grey2,
                   ),
-                ],
-                if (transactionListItem.operationType == OperationType.buy) ...[
+                if (transactionListItem.operationType == OperationType.buy)
                   TransactionListItemText(
                     text: 'With ${volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -116,7 +113,12 @@ class TransactionListItem extends HookWidget {
                     )}',
                     color: colors.grey2,
                   ),
-                ]
+                if (transactionListItem.operationType ==
+                    OperationType.simplexBuy)
+                  TransactionListItemText(
+                    text: 'With \$${transactionListItem.buyInfo!.sellAmount}',
+                    color: colors.grey2,
+                  ),
               ],
             ),
             const SpaceH18(),
@@ -125,6 +127,16 @@ class TransactionListItem extends HookWidget {
         ),
       ),
     );
+  }
+
+  String _transactionItemTitle(OperationHistoryItem transactionListItem) {
+    if (transactionListItem.operationType != OperationType.simplexBuy) {
+      return operationName(transactionListItem.operationType);
+    } else {
+      return '${operationName(OperationType.buy)}'
+          ' ${transactionListItem.assetId} - '
+          '${operationName(transactionListItem.operationType)}';
+    }
   }
 
   Widget _icon(OperationType type, Color? color) {
@@ -151,10 +163,10 @@ class TransactionListItem extends HookWidget {
         return const SSwapIcon();
       case OperationType.rewardPayment:
         return const SRewardPaymentIcon();
+      case OperationType.simplexBuy:
+        return const SDepositIcon(color: color);
       case OperationType.unknown:
         return const SizedBox();
-      case OperationType.simplexBuy:
-        return SPlusIcon(color: color);
     }
   }
 }

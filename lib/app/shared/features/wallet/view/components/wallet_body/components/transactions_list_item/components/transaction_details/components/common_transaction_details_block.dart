@@ -2,12 +2,13 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from.dart';
+import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
 
@@ -30,8 +31,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
     return Column(
       children: [
         Text(
-          '${operationName(transactionListItem.operationType)} '
-          '${currency.description}',
+          _transactionHeader(transactionListItem, currency),
           style: sTextH5Style,
         ),
         const SpaceH67(),
@@ -50,9 +50,8 @@ class CommonTransactionDetailsBlock extends HookWidget {
             ),
           ),
         Text(
-          DateFormat('EEEE, MMMM d, y').format(
-            DateTime.parse('${transactionListItem.timeStamp}Z').toLocal(),
-          ),
+          '${formatDateToDMY(transactionListItem.timeStamp)} '
+          '- ${formatDateToHm(transactionListItem.timeStamp)}',
           style: sBodyText2Style.copyWith(
             color: colors.grey2,
           ),
@@ -63,6 +62,20 @@ class CommonTransactionDetailsBlock extends HookWidget {
           const SpaceH72(),
       ],
     );
+  }
+
+  String _transactionHeader(
+    OperationHistoryItem transactionListItem,
+    CurrencyModel currency,
+  ) {
+    if (transactionListItem.operationType != OperationType.simplexBuy) {
+      return '${operationName(transactionListItem.operationType)} '
+          '${currency.description}';
+    } else {
+      return '${operationName(OperationType.buy)} '
+          '${currency.description} - '
+          '${operationName(transactionListItem.operationType)}';
+    }
   }
 
   String convertToUsd(Decimal assetPriceInUsd, Decimal balance) {
