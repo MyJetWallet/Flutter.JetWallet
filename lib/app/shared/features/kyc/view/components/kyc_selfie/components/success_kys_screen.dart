@@ -8,6 +8,7 @@ import '../../../../../../../../shared/components/result_screens/success_screen/
 import '../../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../provider/kyc_start_fpod.dart';
 
@@ -48,49 +49,53 @@ class SuccessKycScreen extends HookWidget {
 
     analytics(() => sAnalytics.kycSuccessPageView());
 
-    return SPageFrameWithPadding(
-      child: Column(
-        children: [
-          const Spacer(),
-          SuccessAnimation(
-            widgetSize: widgetSizeFrom(deviceSize),
-          ),
-          Baseline(
-            baseline: 136.0,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              primaryText ?? 'Success',
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: sTextH2Style,
+    return ProviderListener<int>(
+      provider: timerNotipod(3),
+      onChange: (context, value) {},
+      child: SPageFrameWithPadding(
+        child: Column(
+          children: [
+            const Spacer(),
+            SuccessAnimation(
+              widgetSize: widgetSizeFrom(deviceSize),
             ),
-          ),
-          if (secondaryText != null)
             Baseline(
-              baseline: 31.4,
+              baseline: 136.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                secondaryText!,
-                maxLines: 10,
+                primaryText ?? 'Success',
+                maxLines: 2,
                 textAlign: TextAlign.center,
-                style: sBodyText1Style.copyWith(
-                  color: colors.grey1,
-                ),
+                style: sTextH2Style,
               ),
             ),
-          if (specialTextWidget != null) specialTextWidget!,
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 24.0,
-              top: 40.0,
+            if (secondaryText != null)
+              Baseline(
+                baseline: 31.4,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  secondaryText!,
+                  maxLines: 10,
+                  textAlign: TextAlign.center,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
+              ),
+            if (specialTextWidget != null) specialTextWidget!,
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 24.0,
+                top: 40.0,
+              ),
+              child: SPrimaryButton2(
+                active: true,
+                name: 'Done',
+                onTap: () => Navigator.pop(context),
+              ),
             ),
-            child: SPrimaryButton2(
-              active: true,
-              name: 'Done',
-              onTap: () => Navigator.pop(context),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

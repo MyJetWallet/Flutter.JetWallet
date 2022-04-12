@@ -30,6 +30,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
     @Default('') String iconUrl,
+    @Default('') String selectedIndexIconUrl,
     @Default('') String nextPaymentDate,
     @Default(0.0) double dayPercentChange,
     @Default(0) int weight,
@@ -121,7 +122,7 @@ class CurrencyModel with _$CurrencyModel {
   bool get supportsAtLeastOneWithdrawalMethod {
     return supportsCryptoWithdrawal ||
         supportsSepaWithdrawal ||
-        supportsSWiftWithdrawal;
+        supportsSwiftWithdrawal;
   }
 
   bool get supportsCryptoWithdrawal {
@@ -132,7 +133,7 @@ class CurrencyModel with _$CurrencyModel {
     return withdrawalMethods.contains(WithdrawalMethods.sepaWithdrawal);
   }
 
-  bool get supportsSWiftWithdrawal {
+  bool get supportsSwiftWithdrawal {
     return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
   }
 

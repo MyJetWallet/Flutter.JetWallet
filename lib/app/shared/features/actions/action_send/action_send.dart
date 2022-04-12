@@ -47,6 +47,7 @@ class _ActionSend extends HookWidget {
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,
+                removeDivider: currency == state.sendCurrencies.last,
                 amount: currency.volumeBaseBalance(baseCurrency),
                 secondaryText: currency.volumeAssetBalance,
                 onTap: () {

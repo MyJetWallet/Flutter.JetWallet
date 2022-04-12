@@ -6,25 +6,29 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../helpers/are_balances_empty.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'preview_buy_with_asset.dart';
 import 'simplex_web_view.dart';
 
+// TODO make isBuyFromCard not optional
 class CurrencyBuy extends StatefulHookWidget {
   const CurrencyBuy({
     Key? key,
     required this.currency,
+    required this.fromCard,
   }) : super(key: key);
 
   final CurrencyModel currency;
+  final bool fromCard;
 
   @override
   State<CurrencyBuy> createState() => _CurrencyBuyState();
@@ -32,11 +36,21 @@ class CurrencyBuy extends StatefulHookWidget {
 
 class _CurrencyBuyState extends State<CurrencyBuy> {
   @override
+  void initState() {
+    final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
+    notifier.initDefaultPaymentMethod(
+      fromCard: widget.fromCard,
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
+    final emptyBalances = areBalancesEmpty(useProvider(currenciesPod));
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
@@ -78,10 +92,15 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               SFiatItem(
                 isSelected: currency == state.selectedCurrency,
                 icon: SNetworkSvg24(
-                  color: currency == state.selectedCurrency
-                      ? colors.blue
-                      : colors.black,
-                  url: currency.iconUrl,
+                  color: currency.type != AssetType.indices
+                      ? currency == state.selectedCurrency
+                          ? colors.blue
+                          : colors.black
+                      : null,
+                  url: currency.type == AssetType.indices &&
+                          currency == state.selectedCurrency
+                      ? currency.selectedIndexIconUrl
+                      : currency.iconUrl,
                 ),
                 name: currency.description,
                 amount: currency.volumeBaseBalance(
@@ -92,7 +111,12 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
           for (final method in widget.currency.buyMethods)
             if (method.type == PaymentMethodType.simplex)
               SActionItem(
-                icon: const SActionBuyIcon(),
+                isSelected: state.selectedCurrency == null,
+                icon: SActionDepositIcon(
+                  color: state.selectedCurrency == null
+                      ? colors.blue
+                      : colors.black,
+                ),
                 name: 'Bank Card - Simplex',
                 description: 'Visa, Mastercard, Apple Pay',
                 onTap: () => Navigator.pop(context, method),
@@ -153,13 +177,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               ),
               const Spacer(),
-              if (state.selectedCurrency == null &&
-                  state.selectedPaymentMethod == null)
-                SPaymentSelectDefault(
+              if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
+                SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
-                  icon: const SActionBuyIcon(),
-                  name: 'Choose payment method',
-                  onTap: () => _showAssetSelector(),
                 )
               else if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)
@@ -234,7 +254,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
 
                     if (response != null) {
                       if (!mounted) return;
-                      navigatorPushReplacement(
+                      navigatorPush(
                         context,
                         SimplexWebView(response),
                       );

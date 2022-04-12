@@ -24,6 +24,8 @@ String operationName(OperationType type) {
       return 'Withdrawal Fee';
     case OperationType.rewardPayment:
       return 'Referral program bonus';
+    case OperationType.simplexBuy:
+      return 'Simplex';
     case OperationType.unknown:
       return 'Unknown';
   }

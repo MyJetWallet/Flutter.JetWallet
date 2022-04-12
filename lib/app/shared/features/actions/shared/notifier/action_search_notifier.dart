@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import 'action_search_state.dart';
@@ -7,7 +8,7 @@ import 'action_search_state.dart';
 class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
   ActionSearchNotifier({
     required this.read,
-  }) : super(const ActionSearchState(currencies: <CurrencyModel>[])) {
+  }) : super(const ActionSearchState()) {
     _init();
   }
 
@@ -15,10 +16,35 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
 
   void _init() {
     final currencies = read(currenciesPod);
+    final buyFromCardCurrencies = <CurrencyModel>[];
+    final receiveCurrencies = <CurrencyModel>[];
+    final sendCurrencies = <CurrencyModel>[];
+
+    for (final currency in currencies) {
+      if (currency.supportsAtLeastOneBuyMethod) {
+        buyFromCardCurrencies.add(currency);
+      }
+    }
+
+    for (final currency in currencies) {
+      if (currency.type == AssetType.crypto && currency.supportsCryptoDeposit) {
+        receiveCurrencies.add(currency);
+      }
+    }
+
+    for (final currency in currencies) {
+      if (currency.isAssetBalanceNotEmpty &&
+          currency.supportsCryptoWithdrawal) {
+        sendCurrencies.add(currency);
+      }
+    }
 
     state = state.copyWith(
       currencies: currencies,
       filteredCurrencies: currencies,
+      buyFromCardCurrencies: buyFromCardCurrencies,
+      receiveCurrencies: receiveCurrencies,
+      sendCurrencies: sendCurrencies,
     );
   }
 
