@@ -50,6 +50,8 @@
 	<string>This app requires contacts access to function properly.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>We need your face ID</string>
+	<key>NSUserTrackingUsageDescription</key>
+ 	<string>Tracking Usage</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
