@@ -143,7 +143,7 @@ class Account extends HookWidget {
                             onTap: () => Crisp.push(context),
                           ),
                           SimpleAccountCategoryButton(
-                            title: 'FAQ',
+                            title: 'Help Center',
                             icon: const SFaqIcon(),
                             isSDivider: true,
                             onTap: () {
