@@ -14,6 +14,7 @@ import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
+import '../../rewards/notifier/campaign/campaign_notipod.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
 import '../notifier/market_news_notipod.dart';
@@ -69,6 +70,9 @@ class MarketDetails extends HookWidget {
       ),
     );
     useProvider(watchlistIdsNotipod);
+
+    final recurringBuyBanner =
+        useProvider(campaignNotipod(false).notifier).recurringBuyBanner();
 
     analytics(() => sAnalytics.assetView(marketItem.name));
 
@@ -163,6 +167,13 @@ class MarketDetails extends HookWidget {
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
             ),
+            const SpaceH40(),
+            if (recurringBuyBanner != null)
+              SSmallestBanner(
+                color: colors.blueLight,
+                primaryText: recurringBuyBanner.description,
+                imageUrl: recurringBuyBanner.imageUrl,
+              ),
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,
@@ -191,7 +202,12 @@ class MarketDetails extends HookWidget {
                   ),
                 );
               },
-              loading: () => const Loader(),
+              loading: () => Column(
+                children: const [
+                  // SpaceH20(),
+                  Loader(),
+                ],
+              ),
               error: (_, __) => const SizedBox(),
             ),
             newsInit.when(
@@ -208,5 +224,9 @@ class MarketDetails extends HookWidget {
         ),
       ),
     );
+  }
+
+  NetworkImage? setCircleBackgroundImage(String? imageUrl) {
+    return (imageUrl != null) ? NetworkImage(imageUrl) : null;
   }
 }

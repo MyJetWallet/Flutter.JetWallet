@@ -111,4 +111,17 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
       return <String>[];
     }
   }
+
+  CampaignModel? recurringBuyBanner() {
+    final banner = <CampaignModel>[];
+    if (state.isNotEmpty) {
+      for (final element in state) {
+        //Todo: after add banner in admin, change CampaignType on recurring type
+        if (element.campaignType == CampaignType.inviteFriend) {
+          banner.add(element);
+        }
+      }
+    }
+    return (banner.isNotEmpty) ? banner.first : null;
+  }
 }
