@@ -36,7 +36,7 @@ class SPolicyCheckbox extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 62.0,
+      height: 80.0,
       child: Row(
         children: [
           Column(

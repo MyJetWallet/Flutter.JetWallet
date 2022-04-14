@@ -28,6 +28,9 @@ class SColorsLight implements SimpleColors {
   Color grey5 = const Color(0xFFF1F4F8);
 
   @override
+  Color grey6 = const Color(0xFF828282);
+
+  @override
   Color black = const Color(0xFF000000);
 
   @override
