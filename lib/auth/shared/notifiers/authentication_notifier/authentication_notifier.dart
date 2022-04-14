@@ -49,7 +49,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
 
       final referralCode = await storageService.getString(referralCodeKey);
 
-      await rsaService.init();
+      rsaService.init();
       await rsaService.savePrivateKey(storageService);
 
       final publicKey = rsaService.publicKey;
