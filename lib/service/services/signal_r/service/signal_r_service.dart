@@ -90,7 +90,9 @@ class SignalRService {
       if (data != null) {
         final list = data.toList();
         try {
-          final recurringBuys = RecurringBuysResponseModel.fromJson(_json(list));
+          final recurringBuys = RecurringBuysResponseModel.fromJson(
+            _json(list),
+          );
 
           _recurringBuyController.add(recurringBuys);
         } catch (e) {
