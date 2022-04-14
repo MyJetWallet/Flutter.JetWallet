@@ -24,7 +24,6 @@ void showBuyAction({
   );
 
   if (navigatePop) Navigator.pop(context); // close BasicBottomSheet from Menu
-  Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
