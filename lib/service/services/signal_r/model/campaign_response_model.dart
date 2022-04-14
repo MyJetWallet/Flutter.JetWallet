@@ -75,7 +75,12 @@ class RewardModel with _$RewardModel {
       _$RewardModelFromJson(json);
 }
 
+//Todo: Change 'None' when back fixed
 enum CampaignType {
   @JsonValue('ReferAFriendBanner')
   inviteFriend,
+  @JsonValue('EarnProgram')
+  earnProgram,
+  @JsonValue('None')
+  recurringBuyStart,
 }

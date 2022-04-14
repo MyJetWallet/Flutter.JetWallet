@@ -14,11 +14,12 @@ import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
 void showBuyAction({
+  bool navigatePop = true,
   required BuildContext context,
   required bool fromCard,
 }) {
   final showSearch = showBuyCurrencySearch(context);
-  Navigator.pop(context); // close BasicBottomSheet from Menu
+  if (navigatePop) Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,

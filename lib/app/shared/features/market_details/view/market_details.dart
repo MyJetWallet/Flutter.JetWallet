@@ -10,6 +10,9 @@ import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../../shared/helpers/analytics.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
+import '../../../helpers/currency_from.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
@@ -73,6 +76,11 @@ class MarketDetails extends HookWidget {
 
     final recurringBuyBanner =
         useProvider(campaignNotipod(false).notifier).recurringBuyBanner();
+
+    final currency = currencyFrom(
+      useProvider(currenciesPod),
+      marketItem.symbol,
+    );
 
     analytics(() => sAnalytics.assetView(marketItem.name));
 
@@ -171,8 +179,14 @@ class MarketDetails extends HookWidget {
             if (recurringBuyBanner != null)
               SSmallestBanner(
                 color: colors.blueLight,
-                primaryText: recurringBuyBanner.description,
+                primaryText: recurringBuyBanner.title,
                 imageUrl: recurringBuyBanner.imageUrl,
+                onTap: () {
+                  showRecurringBuyAction(
+                    context: context,
+                    currency: currency,
+                  );
+                },
               ),
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
