@@ -37,6 +37,7 @@ dependencies:
   store_redirect: ^2.0.1 # Redirect to AppStore or GooglePlay
   crisp: ^0.3.1 # Library for support chart and knowledge base
   flutter_webview_pro: ^1.0.3 # provides a WebView widget on Android and iOS
+  appsflyer_sdk: ^6.5.2+2  # plugin for AppsFlyer SDK with Android and iOS support
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
@@ -82,9 +83,13 @@ dependencies:
   freezed_annotation: ^0.14.3 # Annotations for the freezed
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
-  fast_rsa: ^3.2.0 # RSA signing, conflicts with openPGP waiting for fix from dev
-  openpgp: 3.2.6 # use OpenPGP
   uuid: ^3.0.6 # UUID Generator and Parser 
+
+  # CRYPTOGRAPHY:
+  rsa_encrypt: 2.0.0 # RSA encryption
+  pointycastle: 3.5.2 # supplementary to rsa_encrypt
+  openpgp: 3.2.7 # OpenPGP encryption
+  crypto: 3.0.1 # Implementations of SHA, MD5, and HMAC
 
   # OWN LIBS:
   simple_kit:

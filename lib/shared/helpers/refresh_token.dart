@@ -32,7 +32,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
     final privateKey = await storageService.getString(privateKeyKey);
     final refreshToken = authInfo.refreshToken;
 
-    final tokenDateTimeSignatureBase64 = await rsaService.sign(
+    final tokenDateTimeSignatureBase64 = rsaService.sign(
       refreshToken + serverTime.time,
       privateKey!,
     );

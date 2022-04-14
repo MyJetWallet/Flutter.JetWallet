@@ -33,3 +33,7 @@ late String analyticsApiKey;
 
 // Simplex
 late String simplexOrigin;
+
+// AppsFlyer
+late String appsFlyerKey;
+late String iosAppId;

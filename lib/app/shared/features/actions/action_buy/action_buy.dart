@@ -18,8 +18,13 @@ void showBuyAction({
   required BuildContext context,
   required bool fromCard,
 }) {
-  final showSearch = showBuyCurrencySearch(context);
+  final showSearch = showBuyCurrencySearch(
+    context,
+    fromCard: fromCard,
+  );
+
   if (navigatePop) Navigator.pop(context); // close BasicBottomSheet from Menu
+  Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
