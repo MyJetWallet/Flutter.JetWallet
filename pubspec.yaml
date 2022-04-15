@@ -83,7 +83,8 @@ dependencies:
   freezed_annotation: ^0.14.3 # Annotations for the freezed
   mocktail: ^0.2.0 # mocking library with null-safety support
   logging: ^1.0.2 # APIs for debugging and error logging
-  uuid: ^3.0.6 # UUID Generator and Parser 
+  uuid: ^3.0.6 # UUID Generator and Parser
+  app_tracking_transparency: ^2.0.2+2
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption

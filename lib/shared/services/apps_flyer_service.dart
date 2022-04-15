@@ -5,13 +5,14 @@ class AppsFlyerService {
     required this.devKey,
     required this.iosAppId,
   }) {
-    final appsFlyerOptions = {
-      'afDevKey': devKey,
-      'afAppId': iosAppId,
-      'disableAdvertisingIdentifier': true
-    };
+    final options = AppsFlyerOptions(
+      afDevKey: devKey,
+      appId: iosAppId,
+      disableAdvertisingIdentifier: true,
+      timeToWaitForATTUserAuthorization: 30,
+    );
 
-    appsflyerSdk = AppsflyerSdk(appsFlyerOptions);
+    appsflyerSdk = AppsflyerSdk(options);
   }
 
   final String devKey;
