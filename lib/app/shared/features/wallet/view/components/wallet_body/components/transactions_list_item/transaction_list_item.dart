@@ -149,6 +149,8 @@ class TransactionListItem extends HookWidget {
         return const SRewardPaymentIcon();
       case OperationType.simplexBuy:
         return const SDepositIcon();
+      case OperationType.recurringBuy:
+        return const SPlusIcon();
       case OperationType.unknown:
         return const SizedBox();
     }

@@ -62,6 +62,8 @@ enum OperationType {
   rewardPayment,
   @JsonValue(12)
   simplexBuy,
+  @JsonValue(13)
+  recurringBuy,
   unknown,
   buy,
   sell,
