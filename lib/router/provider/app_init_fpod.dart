@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -25,6 +26,8 @@ final appInitFpod = FutureProvider<void>(
     final parsedEmail = email ?? '<Email not found>';
 
     try {
+      await AppTrackingTransparency.requestTrackingAuthorization();
+
       final appsFlyerService = AppsFlyerService.create(
         devKey: appsFlyerKey,
         iosAppId: iosAppId,

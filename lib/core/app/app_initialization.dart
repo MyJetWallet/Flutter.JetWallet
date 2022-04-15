@@ -1,4 +1,3 @@
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,8 +23,6 @@ Future<void> appInitialization() async {
 
   await Firebase.initializeApp();
   await PushNotificationService().initialize(); // doesn't work on web
-
-  await AppTrackingTransparency.requestTrackingAuthorization();
 
   Logger.root.level = Level.ALL;
 }
