@@ -17,6 +17,7 @@ import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
+import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../rewards/notifier/campaign/campaign_notipod.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
@@ -81,6 +82,9 @@ class MarketDetails extends HookWidget {
       useProvider(currenciesPod),
       marketItem.symbol,
     );
+
+    final recurringState = useProvider(recurringBuysNotipod);
+    final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
 
     analytics(() => sAnalytics.assetView(marketItem.name));
 
@@ -176,11 +180,12 @@ class MarketDetails extends HookWidget {
               assetSymbol: marketItem.associateAsset,
             ),
             const SpaceH40(),
-            if (recurringBuyBanner != null)
+            if (currency.isRecurring)
               SSmallestBanner(
                 color: colors.blueLight,
-                primaryText: recurringBuyBanner.title,
-                imageUrl: recurringBuyBanner.imageUrl,
+                primaryText: 'Setup recurring ${recurringNotifier.total(
+                  currency.recurringBuy!.toAsset,
+                )}',
                 onTap: () {
                   showRecurringBuyAction(
                     context: context,
@@ -188,6 +193,19 @@ class MarketDetails extends HookWidget {
                   );
                 },
               ),
+
+            if (!currency.isRecurring)
+              SSmallestBanner(
+                color: colors.blueLight,
+                primaryText: 'Setup recurring buy',
+                onTap: () {
+                  showRecurringBuyAction(
+                    context: context,
+                    currency: currency,
+                  );
+                },
+              ),
+
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,

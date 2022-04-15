@@ -7,6 +7,8 @@ import '../../../../../../service/services/signal_r/model/campaign_response_mode
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/local_storage_service.dart';
+import '../../../../helpers/are_balances_empty.dart';
+import '../../../../providers/currencies_pod/currencies_pod.dart';
 
 class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
   CampaignNotifier({
@@ -28,6 +30,23 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
 
   Future<void> updateCampaigns(List<CampaignModel> campaigns) async {
     _logger.log(notifier, 'updateCampaigns');
+
+    final currencies = read(currenciesPod);
+    final isNotEmptyBalance = !areBalancesEmpty(currencies);
+
+    print('|BALANCE| $isNotEmptyBalance');
+
+    if (campaigns.isNotEmpty && isNotEmptyBalance) {
+
+      print('|||SUKA');
+
+      // for (final element in campaigns) {
+      //   if (element.campaignType == CampaignType.recurringBuyBanner) {
+      //     campaigns.remove(element);
+      //   }
+      //
+      // }
+    }
 
     final validCampaigns = <CampaignModel>[
       if (isFilterEnabled)
@@ -116,7 +135,7 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
     final banner = <CampaignModel>[];
     if (state.isNotEmpty) {
       for (final element in state) {
-        if (element.campaignType == CampaignType.recurringBuyStart) {
+        if (element.campaignType == CampaignType.recurringBuyBanner) {
           banner.add(element);
         }
       }
