@@ -10,6 +10,7 @@ class SWalletItem extends StatelessWidget {
     Key? key,
     this.amount,
     this.decline,
+    this.recurringIcon,
     this.removeDivider = false,
     this.color,
     this.onTap,
@@ -18,6 +19,7 @@ class SWalletItem extends StatelessWidget {
     this.height = 88,
     this.rightBlockTopPadding = 22,
     this.showSecondaryText = true,
+    this.isRecurring = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -28,6 +30,7 @@ class SWalletItem extends StatelessWidget {
   final bool removeDivider;
   final Color? color;
   final Function()? onTap;
+  final List<Positioned>? recurringIcon;
   final Widget icon;
   final String primaryText;
   final String secondaryText;
@@ -36,6 +39,7 @@ class SWalletItem extends StatelessWidget {
   final double height;
   final double rightBlockTopPadding;
   final bool showSecondaryText;
+  final bool isRecurring;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,12 @@ class SWalletItem extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: leftBlockTopPadding),
-                    child: icon,
+                    child: Stack(
+                      children: [
+                        icon,
+                        if (isRecurring) ...recurringIcon!,
+                      ],
+                    ),
                   ),
                   const SpaceW10(),
                   Flexible(

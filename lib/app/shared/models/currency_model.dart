@@ -6,6 +6,7 @@ import '../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../service/services/signal_r/model/blockchains_model.dart';
 import '../helpers/formatting/formatting.dart';
 import '../providers/base_currency_pod/base_currency_model.dart';
+import 'recurring_buys_model.dart';
 
 part 'currency_model.freezed.dart';
 
@@ -13,6 +14,8 @@ part 'currency_model.freezed.dart';
 class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
     String? prefixSymbol,
+    RecurringBuysModel? recurringBuy,
+    @Default(false) bool isRecurring,
     @Default('unknown') String symbol,
     @Default('unknown') String description,
     @Default(0) int accuracy,
