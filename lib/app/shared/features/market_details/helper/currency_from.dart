@@ -16,6 +16,7 @@ CurrencyModel currencyFrom(List<CurrencyModel> currencies, String symbol) {
         assetCurrentEarnAmount: Decimal.zero,
         baseCurrentEarnAmount: Decimal.zero,
         apy: Decimal.zero,
+        apr: Decimal.zero,
         depositInProcess: Decimal.zero,
       );
     },
