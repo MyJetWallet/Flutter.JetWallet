@@ -11,6 +11,8 @@ class AppConfigModel with _$AppConfigModel {
     required String userAgreementLink,
     required String privacyPolicyLink,
     required String referralPolicyLink,
+    required String infoRewardsLink,
+    required String infoEarnLink,
     required int minAmountOfCharsInPassword,
     required int maxAmountOfCharsInPassword,
     required int quoteRetryInterval,
