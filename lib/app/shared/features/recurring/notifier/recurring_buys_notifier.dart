@@ -39,6 +39,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
       }
     }
 
+    // Todo: remove $
     return '\$${total.toStringAsFixed(0)}';
   }
 

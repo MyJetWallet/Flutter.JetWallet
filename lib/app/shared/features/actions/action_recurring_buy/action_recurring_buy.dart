@@ -141,16 +141,17 @@ class _ActionRecurringBuy extends HookWidget {
                                   style: sSubtitle2Style,
                                 ),
                               ),
-                              Baseline(
-                                baseline: 18.0,
-                                baselineType: TextBaseline.alphabetic,
-                                child: Text(
-                                  '',
-                                  style: sBodyText2Style.copyWith(
-                                    color: colors.grey3,
-                                  ),
-                                ),
-                              ),
+                              // Todo: add total after back added
+                              // Baseline(
+                              //   baseline: 18.0,
+                              //   baselineType: TextBaseline.alphabetic,
+                              //   child: Text(
+                              //     '',
+                              //     style: sBodyText2Style.copyWith(
+                              //       color: colors.grey3,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ],

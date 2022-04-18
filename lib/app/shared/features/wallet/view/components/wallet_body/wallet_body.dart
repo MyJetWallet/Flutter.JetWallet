@@ -7,6 +7,10 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
 import '../../../../../models/currency_model.dart';
+import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
+import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
+import '../../../../recurring/notifier/recurring_buys_notipod.dart';
+import '../../../../recurring/view/setup_recurring_buy_banner.dart';
 import 'components/card_block/components/wallet_card.dart';
 import 'components/card_block/components/wallet_card_collapsed.dart';
 import 'components/transactions_list/transactions_list.dart';
@@ -35,6 +39,8 @@ class _WalletBodyState extends State<WalletBody>
     super.build(context);
 
     final colors = useProvider(sColorPod);
+
+    final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -87,6 +93,28 @@ class _WalletBodyState extends State<WalletBody>
                   ],
                 ),
               ),
+            ),
+            SetupRecurringBuyBanner(
+              totalRecurringBuy:
+                  recurringNotifier.total(widget.currency.symbol),
+              name: widget.currency.isRecurring
+                  ? 'Recurring buy'
+                  : 'Setup\nRecurring buy',
+              isRecurring: widget.currency.isRecurring,
+              onTap: () {
+                if (widget.currency.isRecurring) {
+                  showRecurringBuyAction(
+                    context: context,
+                    currency: widget.currency,
+                    total: recurringNotifier.total(widget.currency.symbol),
+                  );
+                } else {
+                  showActionWithOutRecurringBuy(
+                    context: context,
+                    currency: widget.currency,
+                  );
+                }
+              },
             ),
             SliverToBoxAdapter(
               child: SPaddingH24(

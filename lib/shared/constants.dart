@@ -38,3 +38,4 @@ const verifyNowAsset = 'assets/images/verifying_now.png';
 
 // Recurring buy
 const recurringBuyAsset = 'assets/images/recurring.svg';
+const recurringBuyImage = 'assets/images/recurring.png';
