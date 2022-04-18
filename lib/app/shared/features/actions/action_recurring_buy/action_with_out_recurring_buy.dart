@@ -84,38 +84,60 @@ class _ActionRecurringBuy extends HookWidget {
             children: [
               ActionRecurringBuyItem(
                 primaryText: recurringBuyName(RecurringBuyType.daily),
-                onTap: () => _navigateToCurrencyBuy(context),
+                onTap: () {
+                  navigatorPushReplacement(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                      fromCard: false,
+                    ),
+                  );
+                },
               ),
               const SDivider(),
               ActionRecurringBuyItem(
                 primaryText: recurringBuyName(RecurringBuyType.weekly),
-                onTap: () => _navigateToCurrencyBuy(context),
+                onTap: () {
+                  navigatorPushReplacement(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                      fromCard: false,
+                    ),
+                  );
+                },
               ),
               const SDivider(),
               ActionRecurringBuyItem(
                 primaryText: recurringBuyName(RecurringBuyType.biWeekly),
-                onTap: () => _navigateToCurrencyBuy(context),
+                onTap: () {
+                  navigatorPushReplacement(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                      fromCard: false,
+                    ),
+                  );
+                },
               ),
               const SDivider(),
               ActionRecurringBuyItem(
                 primaryText: recurringBuyName(RecurringBuyType.monthly),
-                onTap: () => _navigateToCurrencyBuy(context),
+                onTap: () {
+                  navigatorPushReplacement(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                      fromCard: false,
+                    ),
+                  );
+                },
               ),
               const SpaceH24(),
             ],
           ),
         ),
       ],
-    );
-  }
-
-  void _navigateToCurrencyBuy(BuildContext context) {
-    navigatorPushReplacement(
-      context,
-      CurrencyBuy(
-        currency: currency,
-        fromCard: false,
-      ),
     );
   }
 }

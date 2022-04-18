@@ -190,14 +190,21 @@ class _ActionBuy extends HookWidget {
                     ScreenSource.quickActions,
                     currency.description,
                   );
-
-                  navigatorPushReplacement(
-                    context,
-                    CurrencyBuy(
+                  if (showRecurring) {
+                    Navigator.pop(context);
+                    showActionWithOutRecurringBuy(
+                      context: context,
                       currency: currency,
-                      fromCard: fromCard,
-                    ),
-                  );
+                    );
+                  } else {
+                    navigatorPushReplacement(
+                      context,
+                      CurrencyBuy(
+                        currency: currency,
+                        fromCard: fromCard,
+                      ),
+                    );
+                  }
                 },
               ),
           ],
