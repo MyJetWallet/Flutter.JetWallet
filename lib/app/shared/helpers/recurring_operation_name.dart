@@ -1,10 +1,15 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 enum RecurringBuyType {
+  @JsonValue(1)
   daily,
+  @JsonValue(2)
   weekly,
+  @JsonValue(3)
   biWeekly,
+  @JsonValue(4)
   monthly,
 }
-
 
 String recurringBuyName(RecurringBuyType type) {
   switch (type) {

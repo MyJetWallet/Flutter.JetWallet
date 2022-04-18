@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helpers/recurring_operation_name.dart';
+
 part 'recurring_buys_model.freezed.dart';
 part 'recurring_buys_model.g.dart';
 
@@ -12,10 +14,10 @@ class RecurringBuysModel with _$RecurringBuysModel {
     int? scheduledDayOfMonth,
     String? creationTime,
     String? lastExecutionTime,
+    required RecurringBuyType scheduleType,
     required String fromAsset,
     required String toAsset,
     required int status,
-    required int scheduleType,
   }) = _RecurringBuysModel;
 
   factory RecurringBuysModel.fromJson(Map<String, dynamic> json) =>

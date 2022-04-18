@@ -104,6 +104,7 @@ class DeepLinkService {
       context: context,
       fromCard: false,
       navigatePop: false,
+      showRecurring: true,
     );
   }
 

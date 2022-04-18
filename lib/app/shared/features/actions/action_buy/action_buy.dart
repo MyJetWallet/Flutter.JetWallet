@@ -9,12 +9,14 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
+import '../action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
 void showBuyAction({
   bool navigatePop = true,
+  bool showRecurring = false,
   required BuildContext context,
   required bool fromCard,
 }) {
@@ -39,6 +41,7 @@ void showBuyAction({
     children: [
       _ActionBuy(
         fromCard: fromCard,
+        showRecurring: showRecurring,
       )
     ],
   );
@@ -47,10 +50,12 @@ void showBuyAction({
 class _ActionBuy extends HookWidget {
   const _ActionBuy({
     Key? key,
+    this.showRecurring = false,
     required this.fromCard,
   }) : super(key: key);
 
   final bool fromCard;
+  final bool showRecurring;
 
   @override
   Widget build(BuildContext context) {
@@ -114,14 +119,21 @@ class _ActionBuy extends HookWidget {
                   ScreenSource.quickActions,
                   currency.description,
                 );
-
-                navigatorPushReplacement(
-                  context,
-                  CurrencyBuy(
+                if (showRecurring) {
+                  Navigator.pop(context);
+                  showActionWithOutRecurringBuy(
+                    context: context,
                     currency: currency,
-                    fromCard: fromCard,
-                  ),
-                );
+                  );
+                } else {
+                  navigatorPushReplacement(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                      fromCard: fromCard,
+                    ),
+                  );
+                }
               },
             ),
         ],

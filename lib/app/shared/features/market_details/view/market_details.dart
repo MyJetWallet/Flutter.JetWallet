@@ -13,12 +13,12 @@ import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../../helpers/currency_from.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../actions/action_recurring_buy/action_recurring_buy.dart';
+import '../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
-import '../../rewards/notifier/campaign/campaign_notipod.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
 import '../notifier/market_news_notipod.dart';
@@ -75,15 +75,11 @@ class MarketDetails extends HookWidget {
     );
     useProvider(watchlistIdsNotipod);
 
-    final recurringBuyBanner =
-        useProvider(campaignNotipod(false).notifier).recurringBuyBanner();
-
     final currency = currencyFrom(
       useProvider(currenciesPod),
       marketItem.symbol,
     );
 
-    final recurringState = useProvider(recurringBuysNotipod);
     final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
 
     analytics(() => sAnalytics.assetView(marketItem.name));
@@ -180,32 +176,30 @@ class MarketDetails extends HookWidget {
               assetSymbol: marketItem.associateAsset,
             ),
             const SpaceH40(),
-            if (currency.isRecurring)
-              SSmallestBanner(
-                color: colors.blueLight,
-                primaryText: 'Setup recurring ${recurringNotifier.total(
-                  currency.recurringBuy!.toAsset,
-                )}',
-                onTap: () {
+            SSmallestBanner(
+              color: colors.blueLight,
+              primaryText: (currency.isRecurring)
+                  ? 'Recurring buy ${recurringNotifier.total(
+                      currency.recurringBuy!.toAsset,
+                    )}'
+                  : 'Setup recurring buy',
+              onTap: () {
+                if (currency.isRecurring) {
                   showRecurringBuyAction(
                     context: context,
                     currency: currency,
+                    total: recurringNotifier.total(
+                      currency.recurringBuy!.toAsset,
+                    ),
                   );
-                },
-              ),
-
-            if (!currency.isRecurring)
-              SSmallestBanner(
-                color: colors.blueLight,
-                primaryText: 'Setup recurring buy',
-                onTap: () {
-                  showRecurringBuyAction(
+                } else {
+                  showActionWithOutRecurringBuy(
                     context: context,
                     currency: currency,
                   );
-                },
-              ),
-
+                }
+              },
+            ),
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,

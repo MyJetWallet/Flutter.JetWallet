@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../shared/constants.dart';
 import '../../../helpers/recurring_operation_name.dart';
 import '../../../models/currency_model.dart';
-import '../../currency_buy/view/curency_buy.dart';
-import 'components/action_recurring_buy_item.dart';
+import '../../recurring/notifier/recurring_buys_notipod.dart';
 
 void showRecurringBuyAction({
   required BuildContext context,
   required CurrencyModel currency,
+  required String total,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const _RecurringActionBottomSheetHeader(
-      name: 'Setup recurring buy',
+    pinned: _RecurringActionBottomSheetHeader(
+      name: 'Recurring buy $total',
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -55,7 +57,7 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
               const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: const SEraseMarketIcon(),
+                child: const SErasePressedIcon(),
               ),
             ],
           ),
@@ -75,47 +77,95 @@ class _ActionRecurringBuy extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = useProvider(recurringBuysNotipod);
+    final colors = useProvider(sColorPod);
+    final notifier = useProvider(recurringBuysNotipod.notifier);
+
     return Column(
       children: [
-        SPaddingH24(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.daily),
-                onTap: () => _navigateToCurrencyBuy(context),
+        for (final element in state.recurringBuys) ...[
+          if (currency.symbol == element.toAsset)
+            InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {},
+              child: SPaddingH24(
+                child: SizedBox(
+                  height: 88.0,
+                  child: Column(
+                    children: [
+                      const SpaceH22(),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            recurringBuyAsset,
+                          ),
+                          const SpaceW20(),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Baseline(
+                                  baseline: 18.0,
+                                  baselineType: TextBaseline.alphabetic,
+                                  child: Text(
+                                    recurringBuyName(element.scheduleType),
+                                    style: sSubtitle2Style,
+                                  ),
+                                ),
+                                Baseline(
+                                  baseline: 18.0,
+                                  baselineType: TextBaseline.alphabetic,
+                                  child: Text(
+                                    '${element.fromAmount} ${element.toAsset}',
+                                    style: sBodyText2Style.copyWith(
+                                      color: colors.grey3,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SpaceW10(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Baseline(
+                                baseline: 18.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: Text(
+                                  '\$${notifier.convertToUsd(
+                                    element.toAsset,
+                                    element.fromAmount!,
+                                  )}',
+                                  style: sSubtitle2Style,
+                                ),
+                              ),
+                              Baseline(
+                                baseline: 18.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: Text(
+                                  '',
+                                  style: sBodyText2Style.copyWith(
+                                    color: colors.grey3,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      const SDivider(
+                        width: double.infinity,
+                      )
+                    ],
+                  ),
+                ),
               ),
-              const SDivider(),
-              ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.weekly),
-                onTap: () => _navigateToCurrencyBuy(context),
-              ),
-              const SDivider(),
-              ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.biWeekly),
-                onTap: () => _navigateToCurrencyBuy(context),
-              ),
-              const SDivider(),
-              ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.monthly),
-                onTap: () => _navigateToCurrencyBuy(context),
-              ),
-              const SpaceH24(),
-            ],
-          ),
-        ),
+            ),
+        ],
       ],
-    );
-  }
-
-  void _navigateToCurrencyBuy(BuildContext context) {
-    navigatorPushReplacement(
-      context,
-      CurrencyBuy(
-        currency: currency,
-        fromCard: false,
-      ),
     );
   }
 }

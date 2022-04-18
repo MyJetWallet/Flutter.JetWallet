@@ -9,7 +9,5 @@ final recurringBuySpod =
 
   final signalRService = ref.watch(signalRServicePod);
 
-  final response = signalRService.recurringBuy();
-
-  return response;
+  return signalRService.recurringBuy();
 });

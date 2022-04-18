@@ -35,3 +35,6 @@ const chatWithSupportAsset = 'assets/images/chat_with_support.png';
 const accountProfileAsset = 'assets/images/verify_your_profile.png';
 const lockerAsset = 'assets/images/locker.png';
 const verifyNowAsset = 'assets/images/verifying_now.png';
+
+// Recurring buy
+const recurringBuyAsset = 'assets/images/recurring.svg';
