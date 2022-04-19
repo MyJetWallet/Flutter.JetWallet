@@ -16,6 +16,8 @@ class RecurringBuysModel with _$RecurringBuysModel {
     String? creationTime,
     String? lastExecutionTime,
     @Default(RecurringBuysStatus.empty) RecurringBuysStatus status,
+    @Default(0) int totalFromAmount,
+    @Default(0) int totalToAmount,
     required RecurringBuyType scheduleType,
     required String fromAsset,
     required String toAsset,

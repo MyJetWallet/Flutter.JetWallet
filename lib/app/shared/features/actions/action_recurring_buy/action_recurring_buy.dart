@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/constants.dart';
 import '../../../helpers/recurring_operation_name.dart';
 import '../../../models/currency_model.dart';
+import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 
 void showRecurringBuyAction({
@@ -78,8 +79,10 @@ class _ActionRecurringBuy extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final state = useProvider(recurringBuysNotipod);
-    final colors = useProvider(sColorPod);
     final notifier = useProvider(recurringBuysNotipod.notifier);
+    final baseCurrency = useProvider(baseCurrencyPod);
+
+    final colors = useProvider(sColorPod);
 
     return Column(
       children: [
@@ -142,16 +145,21 @@ class _ActionRecurringBuy extends HookWidget {
                                 ),
                               ),
                               // Todo: add total after back added
-                              // Baseline(
-                              //   baseline: 18.0,
-                              //   baselineType: TextBaseline.alphabetic,
-                              //   child: Text(
-                              //     '',
-                              //     style: sBodyText2Style.copyWith(
-                              //       color: colors.grey3,
-                              //     ),
-                              //   ),
-                              // ),
+                              Baseline(
+                                baseline: 18.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: Text(
+                                  'Total ${notifier.price(
+                                    asset: baseCurrency.symbol,
+                                    amount: double.parse(
+                                      '${element.totalToAmount}',
+                                    ),
+                                  )}',
+                                  style: sBodyText2Style.copyWith(
+                                    color: colors.grey3,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ],
