@@ -95,18 +95,18 @@ class _WalletBodyState extends State<WalletBody>
               ),
             ),
             SetupRecurringBuyBanner(
-              totalRecurringBuy:
-                  recurringNotifier.total(widget.currency.symbol),
-              name: widget.currency.isRecurring
-                  ? 'Recurring buy'
-                  : 'Setup\nRecurring buy',
-              isRecurring: widget.currency.isRecurring,
+              totalRecurringBuy: recurringNotifier.total(
+                asset: widget.currency.symbol,
+              ),
+              type: recurringNotifier.type(widget.currency.symbol),
               onTap: () {
                 if (widget.currency.isRecurring) {
                   showRecurringBuyAction(
                     context: context,
                     currency: widget.currency,
-                    total: recurringNotifier.total(widget.currency.symbol),
+                    total: recurringNotifier.total(
+                      asset: widget.currency.symbol,
+                    ),
                   );
                 } else {
                   showActionWithOutRecurringBuy(

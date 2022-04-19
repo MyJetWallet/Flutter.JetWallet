@@ -180,7 +180,7 @@ class MarketDetails extends HookWidget {
               color: colors.blueLight,
               primaryText: (currency.isRecurring)
                   ? 'Recurring buy ${recurringNotifier.total(
-                      currency.recurringBuy!.toAsset,
+                      asset: currency.recurringBuy!.toAsset,
                     )}'
                   : 'Setup recurring buy',
               onTap: () {
@@ -189,7 +189,7 @@ class MarketDetails extends HookWidget {
                     context: context,
                     currency: currency,
                     total: recurringNotifier.total(
-                      currency.recurringBuy!.toAsset,
+                      asset: currency.recurringBuy!.toAsset,
                     ),
                   );
                 } else {

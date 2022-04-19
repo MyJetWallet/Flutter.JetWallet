@@ -134,10 +134,10 @@ class _ActionRecurringBuy extends HookWidget {
                                 baseline: 18.0,
                                 baselineType: TextBaseline.alphabetic,
                                 child: Text(
-                                  '\$${notifier.convertToUsd(
-                                    element.toAsset,
-                                    element.fromAmount!,
-                                  )}',
+                                  notifier.price(
+                                    asset: element.toAsset,
+                                    amount: element.fromAmount!,
+                                  ),
                                   style: sSubtitle2Style,
                                 ),
                               ),

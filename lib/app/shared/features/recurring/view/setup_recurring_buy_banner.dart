@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/constants.dart';
+import '../helper/recurring_buys_image.dart';
+import '../helper/recurring_buys_name.dart';
+import '../helper/recurring_buys_status_name.dart';
 
 class SetupRecurringBuyBanner extends HookWidget {
   const SetupRecurringBuyBanner({
     Key? key,
     this.totalRecurringBuy,
-    required this.name,
-    required this.isRecurring,
+    required this.type,
     required this.onTap,
   }) : super(key: key);
 
   final String? totalRecurringBuy;
-  final String name;
-  final bool isRecurring;
+  final RecurringBuysStatus type;
   final Function() onTap;
 
   @override
@@ -33,10 +32,10 @@ class SetupRecurringBuyBanner extends HookWidget {
             height: 136,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
-              color: isRecurring ? colors.blueLight : colors.white,
+              color: _color(type, colors),
               border: Border.all(
                 width: 3.0,
-                color: isRecurring ? colors.blueLight : colors.grey5,
+                color: _borderColor(type, colors),
               ),
             ),
             child: Column(
@@ -45,24 +44,11 @@ class SetupRecurringBuyBanner extends HookWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Todo:
                     Container(
                       height: 48,
                       width: 48,
-                      padding: isRecurring
-                          ? EdgeInsets.zero
-                          : const EdgeInsets.all(8.0),
-                      child: isRecurring
-                          ? Image.asset(
-                              recurringBuyImage,
-                              height: 24,
-                              width: 24,
-                            )
-                          : SvgPicture.asset(
-                              recurringBuyAsset,
-                              height: 24,
-                              width: 24,
-                            ),
+                      padding: _padding(type),
+                      child: recurringBuysImage(type),
                     ),
                   ],
                 ),
@@ -70,11 +56,13 @@ class SetupRecurringBuyBanner extends HookWidget {
                 Column(
                   children: [
                     Text(
-                      name,
-                      style: sBodyText2Style,
+                      recurringBuysName(type),
+                      style: sBodyText2Style.copyWith(
+                        color: _textColor(type, colors),
+                      ),
                       textAlign: TextAlign.center,
                     ),
-                    if (isRecurring)
+                    if (_isActiveRecurring(type))
                       Text(
                         totalRecurringBuy!,
                         style: sSubtitle2Style,
@@ -87,5 +75,48 @@ class SetupRecurringBuyBanner extends HookWidget {
         ),
       ),
     );
+  }
+
+  Color _color(RecurringBuysStatus type, SimpleColors colors) {
+    if (type == RecurringBuysStatus.active) {
+      return colors.blueLight;
+    }
+
+    if (type == RecurringBuysStatus.paused) {
+      return colors.grey5;
+    }
+
+    return colors.white;
+  }
+
+  Color _borderColor(RecurringBuysStatus type, SimpleColors colors) {
+    if (type == RecurringBuysStatus.active) {
+      return colors.blueLight;
+    }
+
+    return colors.grey5;
+  }
+
+  EdgeInsets _padding(RecurringBuysStatus type) {
+    if (type == RecurringBuysStatus.empty) {
+      return const EdgeInsets.all(8.0);
+    }
+
+    return EdgeInsets.zero;
+  }
+
+  bool _isActiveRecurring(RecurringBuysStatus type) {
+    if (type == RecurringBuysStatus.active) {
+      return true;
+    }
+    return false;
+  }
+
+  Color _textColor(RecurringBuysStatus type, SimpleColors colors) {
+    if (type == RecurringBuysStatus.paused) {
+      return colors.grey2;
+    }
+
+    return colors.black;
   }
 }
