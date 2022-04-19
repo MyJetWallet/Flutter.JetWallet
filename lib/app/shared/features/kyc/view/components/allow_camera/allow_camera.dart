@@ -85,7 +85,6 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
         small: () {
           return SSmallHeader(
             title: _headerTitle(state.permissionDenied),
-            titleAlign: TextAlign.start,
           );
         },
         medium: () {
@@ -157,7 +156,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
 
   String _headerTitle(bool status) {
     if (status) {
-      return 'Give permission to\nallow the use of camera';
+      return 'Give permission to allow the use of camera';
     } else {
       return 'Allow camera access';
     }
