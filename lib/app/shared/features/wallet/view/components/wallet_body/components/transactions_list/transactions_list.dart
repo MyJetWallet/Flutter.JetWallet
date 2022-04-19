@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
@@ -80,7 +78,6 @@ class _TransactionsListState extends State<TransactionsList> {
       ),
     );
     final screenHeight = MediaQuery.of(context).size.height;
-    log('transactionHistory.operationHistoryItems: ${transactionHistory.operationHistoryItems}');
 
     return SliverPadding(
       padding: EdgeInsets.only(

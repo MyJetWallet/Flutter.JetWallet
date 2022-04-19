@@ -30,12 +30,12 @@ class RecurringBuyDetails extends StatelessWidget {
 
     final buyCurrency = currencyFrom(
       currencies,
-      transactionListItem.swapInfo!.buyAssetId,
+      transactionListItem.recurringBuyInfo!.buyAssetId,
     );
 
     final sellCurrency = currencyFrom(
       currencies,
-      transactionListItem.swapInfo!.sellAssetId,
+      transactionListItem.recurringBuyInfo!.sellAssetId,
     );
 
     String _rateFor(
@@ -51,14 +51,14 @@ class RecurringBuyDetails extends StatelessWidget {
 
       final base = volumeFormat(
         prefix: currency1.prefixSymbol,
-        decimal: transactionListItem.swapInfo!.baseRate,
+        decimal: transactionListItem.recurringBuyInfo!.baseRate,
         accuracy: currency1.accuracy,
         symbol: currency1.symbol,
       );
 
       final quote = volumeFormat(
         prefix: currency2.prefixSymbol,
-        decimal: transactionListItem.swapInfo!.quoteRate,
+        decimal: transactionListItem.recurringBuyInfo!.quoteRate,
         accuracy: accuracy,
         symbol: currency2.symbol,
       );
@@ -94,13 +94,12 @@ class RecurringBuyDetails extends StatelessWidget {
             ),
           ),
           const SpaceH14(),
-          if (transactionListItem.operationType == OperationType.buy) ...[
             TransactionDetailsItem(
               text: 'With',
               value: TransactionDetailsValueText(
                 text: volumeFormat(
                   prefix: sellCurrency.prefixSymbol,
-                  decimal: transactionListItem.swapInfo!.sellAmount,
+                  decimal: transactionListItem.recurringBuyInfo!.sellAmount,
                   accuracy: sellCurrency.accuracy,
                   symbol: sellCurrency.symbol,
                 ),
@@ -120,46 +119,18 @@ class RecurringBuyDetails extends StatelessWidget {
                 text: _rateFor(buyCurrency, sellCurrency),
               ),
             ),
-          ],
-          if (transactionListItem.operationType == OperationType.sell) ...[
-            TransactionDetailsItem(
-              text: 'For',
-              value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  prefix: buyCurrency.prefixSymbol,
-                  decimal: transactionListItem.swapInfo!.buyAmount,
-                  accuracy: buyCurrency.accuracy,
-                  symbol: buyCurrency.symbol,
-                ),
-              ),
-            ),
-            const SpaceH14(),
-            TransactionDetailsItem(
-              text: 'Fee',
-              value: TransactionDetailsValueText(
-                text: _feeValue(transactionListItem),
-              ),
-            ),
-            const SpaceH14(),
-            TransactionDetailsItem(
-              text: 'Rate',
-              value: TransactionDetailsValueText(
-                text: _rateFor(sellCurrency, buyCurrency),
-              ),
-            ),
-          ],
         ],
       ),
     );
   }
 
   String _feeValue(OperationHistoryItem transactionListItem) {
-    if (transactionListItem.buyInfo != null) {
-      if (transactionListItem.buyInfo!.feeAmount > Decimal.zero) {
-        return '${transactionListItem.buyInfo!.feeAmount}'
-            ' ${transactionListItem.buyInfo!.feeAssetId}';
+    if (transactionListItem.recurringBuyInfo != null) {
+      if (transactionListItem.recurringBuyInfo!.feeAmount > Decimal.zero) {
+        return '${transactionListItem.recurringBuyInfo!.feeAmount}'
+            ' ${transactionListItem.recurringBuyInfo!.feeAsset}';
       } else {
-        return '0 ${transactionListItem.buyInfo!.feeAmount}';
+        return '0 ${transactionListItem.recurringBuyInfo!.feeAmount}';
       }
     } else {
       return '0';

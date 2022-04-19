@@ -114,12 +114,17 @@ class TransactionListItem extends HookWidget {
   }
 
   String _transactionItemTitle(OperationHistoryItem transactionListItem) {
-    if (transactionListItem.operationType != OperationType.simplexBuy) {
-      return operationName(transactionListItem.operationType);
-    } else {
+    if (transactionListItem.operationType == OperationType.simplexBuy) {
       return '${operationName(OperationType.buy)}'
           ' ${transactionListItem.assetId} - '
           '${operationName(transactionListItem.operationType)}';
+    } else if (
+      transactionListItem.operationType == OperationType.recurringBuy
+    ) {
+      return '${transactionListItem.recurringBuyInfo!.scheduleType} '
+          '${operationName(transactionListItem.operationType)}';
+    } else {
+      return operationName(transactionListItem.operationType);
     }
   }
 

@@ -68,13 +68,16 @@ class CommonTransactionDetailsBlock extends HookWidget {
     OperationHistoryItem transactionListItem,
     CurrencyModel currency,
   ) {
-    if (transactionListItem.operationType != OperationType.simplexBuy) {
-      return '${operationName(transactionListItem.operationType)} '
-          '${currency.description}';
-    } else {
+    if (transactionListItem.operationType == OperationType.simplexBuy) {
       return '${operationName(OperationType.buy)} '
           '${currency.description} - '
           '${operationName(transactionListItem.operationType)}';
+    } else if (transactionListItem.operationType == OperationType.recurringBuy) {
+      return '${transactionListItem.recurringBuyInfo!.scheduleType} '
+          '${operationName(transactionListItem.operationType)}';
+    } else {
+      return '${operationName(transactionListItem.operationType)} '
+          '${currency.description}';
     }
   }
 

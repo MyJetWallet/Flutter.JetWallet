@@ -27,6 +27,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     WithdrawalFeeInfo? withdrawalFeeInfo,
     TransferByPhoneInfo? transferByPhoneInfo,
     ReceiveByPhoneInfo? receiveByPhoneInfo,
+    RecurringBuyInfo? recurringBuyInfo,
     required String operationId,
     required OperationType operationType,
     required String assetId,
@@ -174,4 +175,23 @@ class ReceiveByPhoneInfo with _$ReceiveByPhoneInfo {
 
   factory ReceiveByPhoneInfo.fromJson(Map<String, dynamic> json) =>
       _$ReceiveByPhoneInfoFromJson(json);
+}
+
+@freezed
+class RecurringBuyInfo with _$RecurringBuyInfo {
+  const factory RecurringBuyInfo({
+    required String sellAssetId,
+    required String buyAssetId,
+    required String feeAsset,
+    required String scheduleType,
+    @DecimalSerialiser() required Decimal sellAmount,
+    @DecimalSerialiser() required Decimal buyAmount,
+    @DecimalSerialiser() required Decimal baseRate,
+    @DecimalSerialiser() required Decimal quoteRate,
+    @DecimalSerialiser() required Decimal feeAmount,
+    @DecimalSerialiser() @JsonKey(name: 'feePerc') required Decimal feePercent,
+  }) = _RecurringBuyInfo;
+
+  factory RecurringBuyInfo.fromJson(Map<String, dynamic> json) =>
+      _$RecurringBuyInfoFromJson(json);
 }
