@@ -14,6 +14,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
     required this.primaryText,
     required this.timeToComplete,
     required this.onTap,
+    required this.showInfoIcon,
   }) : super(key: key);
 
   final String? imageUrl;
@@ -23,6 +24,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
   final String timeToComplete;
   final List<Widget> rewardDetail;
   final Function() onTap;
+  final bool showInfoIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                                     color: SColorsLight().black,
                                   ),
                                 ),
+                                if (showInfoIcon)
                                 WidgetSpan(
                                   child: Container(
                                     margin: const EdgeInsets.only(
