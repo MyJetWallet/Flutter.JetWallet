@@ -45,7 +45,7 @@ class SSmallestBanner extends StatelessWidget {
             ),
             const SpaceW20(),
             SizedBox(
-              width: 160,
+              width: 170,
               child: Text(
                 primaryText,
                 maxLines: 2,
