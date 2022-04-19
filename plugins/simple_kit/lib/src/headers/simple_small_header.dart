@@ -49,7 +49,7 @@ class SSmallHeader extends StatelessWidget {
                   title,
                   overflow: TextOverflow.ellipsis,
                   textAlign: titleAlign,
-                  maxLines: 1,
+                  maxLines: 2,
                   style: sTextH5Style,
                 ),
               ),

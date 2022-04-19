@@ -85,6 +85,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
         small: () {
           return SSmallHeader(
             title: _headerTitle(state.permissionDenied),
+            titleAlign: TextAlign.start,
           );
         },
         medium: () {
