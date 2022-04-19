@@ -51,6 +51,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
@@ -65,17 +66,17 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                                   ),
                                 ),
                                 if (showInfoIcon)
-                                WidgetSpan(
-                                  child: Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 8,
-                                    ),
-                                    child: InkWell(
-                                      onTap: onTap,
-                                      child: const SInfoPressedIcon(),
+                                  WidgetSpan(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 8,
+                                      ),
+                                      child: InkWell(
+                                        onTap: onTap,
+                                        child: const SInfoPressedIcon(),
+                                      ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -83,17 +84,16 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                         const SpaceW20(),
                         Container(
                           padding: const EdgeInsets.only(
-                            right: 17,
+                            right: 16,
                           ),
                           child: CircleAvatar(
-                            radius: 32.0,
+                            radius: 40.0,
                             backgroundColor: circleAvatarColor,
                             backgroundImage: setCircleBackgroundImage(imageUrl),
                           ),
                         ),
                       ],
                     ),
-                    const SpaceH10(),
                     Container(
                       alignment: Alignment.center,
                       width: 131.0,

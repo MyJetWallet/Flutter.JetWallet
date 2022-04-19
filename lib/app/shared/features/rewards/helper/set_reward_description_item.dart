@@ -8,6 +8,7 @@ Widget createRewardDescriptionItem(
   CampaignConditionModel condition,
   List<CampaignConditionModel> conditions,
   SimpleColors colors,
+  double width,
   Function(String) onTap,
 ) {
   return GestureDetector(
@@ -17,7 +18,7 @@ Widget createRewardDescriptionItem(
       }
     },
     child: SizedBox(
-      width: 280,
+      width: width,
       child: Text(
         condition.description,
         maxLines: 2,

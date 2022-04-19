@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/deep_link_service_pod.dart';
+import '../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../shared/services/deep_link_service.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../components/info_web_view.dart';
@@ -24,6 +25,7 @@ class Rewards extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(rewardsNotipod);
     final deepLinkService = useProvider(deepLinkServicePod);
+    final mediaQuery = useProvider(mediaQueryPod);
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
@@ -47,6 +49,7 @@ class Rewards extends HookWidget {
                 rewardIndicatorComplete: setRewardIndicatorComplete(
                   item.campaign!.conditions!,
                   colors,
+                  mediaQuery.size.width - 130,
                 ),
                 onTap: () {
                   navigatorPush(
