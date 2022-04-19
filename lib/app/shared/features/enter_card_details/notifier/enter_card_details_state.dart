@@ -6,8 +6,12 @@ part 'enter_card_details_state.freezed.dart';
 @freezed
 class EnterCardDetailsState with _$EnterCardDetailsState {
   const factory EnterCardDetailsState({
+    StackLoaderNotifier? loader,
+    int? month,
+    int? year,
     SPhoneNumber? selectedCountry,
     @Default('') String countrySearch,
+    @Default([]) List<SPhoneNumber> filteredCountries,
     @Default('') String cardNumber,
     @Default('') String cvv,
     @Default('') String cardName,
@@ -17,6 +21,5 @@ class EnterCardDetailsState with _$EnterCardDetailsState {
     @Default('') String city,
     @Default('') String district,
     @Default('') String postalCode,
-    @Default([]) List<SPhoneNumber> filteredCountries,
   }) = _EnterCardDetailsState;
 }
