@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../helper/recurring_buys_operation_name.dart';
-import '../helper/recurring_buys_status_name.dart';
+import '../../../../app/shared/features/recurring/helper/recurring_buys_operation_name.dart';
+import '../../../../app/shared/features/recurring/helper/recurring_buys_status_name.dart';
 
 part 'recurring_buys_model.freezed.dart';
 part 'recurring_buys_model.g.dart';
