@@ -64,7 +64,8 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          if (currency.apr > Decimal.zero)
+          // if (currency.apr > Decimal.zero)
+          if (true)
             Align(
               alignment: Alignment.topRight,
               child: InkWell(

@@ -79,6 +79,18 @@ class _ActionRecurringManage extends HookWidget {
               ),
               const SDivider(),
               ActionRecurringManageItem(
+                icon: const Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 3,
+                    horizontal: 4,
+                  ),
+                  child: SStartIcon(),
+                ),
+                primaryText: 'Start',
+                onTap: () => {},
+              ),
+              const SDivider(),
+              ActionRecurringManageItem(
                 icon: const SDeleteManageIcon(),
                 primaryText: 'Delete',
                 onTap: () => {},

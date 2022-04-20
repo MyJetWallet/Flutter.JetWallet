@@ -25,7 +25,12 @@ class ActionRecurringManageItem extends StatelessWidget {
         height: 64,
         child: Row(
           children: [
-            icon,
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 20,
+              ),
+              child: icon,
+            ),
             Text(
               primaryText,
               style: sSubtitle2Style,
