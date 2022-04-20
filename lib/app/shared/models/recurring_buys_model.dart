@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../features/recurring/helper/recurring_buys_status_name.dart';
-import '../helpers/recurring_operation_name.dart';
+import '../helpers/recurring_buys_operation_name.dart';
 
 part 'recurring_buys_model.freezed.dart';
 part 'recurring_buys_model.g.dart';
@@ -18,7 +18,7 @@ class RecurringBuysModel with _$RecurringBuysModel {
     @Default(RecurringBuysStatus.empty) RecurringBuysStatus status,
     @Default(0) int totalFromAmount,
     @Default(0) int totalToAmount,
-    required RecurringBuyType scheduleType,
+    required RecurringBuysType scheduleType,
     required String fromAsset,
     required String toAsset,
   }) = _RecurringBuysModel;

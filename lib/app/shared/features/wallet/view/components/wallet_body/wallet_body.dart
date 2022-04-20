@@ -10,7 +10,7 @@ import '../../../../../models/currency_model.dart';
 import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../../recurring/notifier/recurring_buys_notipod.dart';
-import '../../../../recurring/view/setup_recurring_buy_banner.dart';
+import '../../../../recurring/view/recurring_buy_banner.dart';
 import 'components/card_block/components/wallet_card.dart';
 import 'components/card_block/components/wallet_card_collapsed.dart';
 import 'components/transactions_list/transactions_list.dart';
@@ -94,7 +94,7 @@ class _WalletBodyState extends State<WalletBody>
                 ),
               ),
             ),
-            SetupRecurringBuyBanner(
+            RecurringBuyBanner(
               totalRecurringBuy: recurringNotifier.total(
                 asset: widget.currency.symbol,
               ),

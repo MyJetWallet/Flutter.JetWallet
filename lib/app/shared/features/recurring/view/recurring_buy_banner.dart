@@ -7,8 +7,8 @@ import '../helper/recurring_buys_image.dart';
 import '../helper/recurring_buys_name.dart';
 import '../helper/recurring_buys_status_name.dart';
 
-class SetupRecurringBuyBanner extends HookWidget {
-  const SetupRecurringBuyBanner({
+class RecurringBuyBanner extends HookWidget {
+  const RecurringBuyBanner({
     Key? key,
     this.totalRecurringBuy,
     required this.type,

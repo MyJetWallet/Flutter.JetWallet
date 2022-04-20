@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../helpers/recurring_operation_name.dart';
+import '../../../helpers/recurring_buys_operation_name.dart';
 import '../../../models/currency_model.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import 'components/action_recurring_buy_item.dart';
@@ -83,7 +83,9 @@ class _ActionRecurringBuy extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.daily),
+                primaryText: recurringBuysOperationName(
+                  RecurringBuysType.daily,
+                ),
                 onTap: () {
                   navigatorPushReplacement(
                     context,
@@ -96,7 +98,8 @@ class _ActionRecurringBuy extends HookWidget {
               ),
               const SDivider(),
               ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.weekly),
+                primaryText:
+                    recurringBuysOperationName(RecurringBuysType.weekly),
                 onTap: () {
                   navigatorPushReplacement(
                     context,
@@ -109,7 +112,8 @@ class _ActionRecurringBuy extends HookWidget {
               ),
               const SDivider(),
               ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.biWeekly),
+                primaryText:
+                    recurringBuysOperationName(RecurringBuysType.biWeekly),
                 onTap: () {
                   navigatorPushReplacement(
                     context,
@@ -122,7 +126,8 @@ class _ActionRecurringBuy extends HookWidget {
               ),
               const SDivider(),
               ActionRecurringBuyItem(
-                primaryText: recurringBuyName(RecurringBuyType.monthly),
+                primaryText:
+                    recurringBuysOperationName(RecurringBuysType.monthly),
                 onTap: () {
                   navigatorPushReplacement(
                     context,

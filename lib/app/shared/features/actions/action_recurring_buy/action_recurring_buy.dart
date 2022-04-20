@@ -5,9 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
-import '../../../helpers/recurring_operation_name.dart';
+import '../../../helpers/recurring_buys_operation_name.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../recurring/helper/recurring_buys_status_name.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 
 void showRecurringBuyAction({
@@ -100,9 +101,12 @@ class _ActionRecurringBuy extends HookWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SvgPicture.asset(
-                            recurringBuyAsset,
-                          ),
+                          if (element.status == RecurringBuysStatus.active)
+                            SvgPicture.asset(
+                              recurringBuyAsset,
+                            ),
+                          if (element.status == RecurringBuysStatus.paused)
+                            const SPausedIcon(),
                           const SpaceW20(),
                           Expanded(
                             child: Column(
@@ -112,8 +116,15 @@ class _ActionRecurringBuy extends HookWidget {
                                   baseline: 18.0,
                                   baselineType: TextBaseline.alphabetic,
                                   child: Text(
-                                    recurringBuyName(element.scheduleType),
-                                    style: sSubtitle2Style,
+                                    recurringBuysOperationName(
+                                      element.scheduleType,
+                                    ),
+                                    style: sSubtitle2Style.copyWith(
+                                      color: element.status ==
+                                              RecurringBuysStatus.active
+                                          ? colors.black
+                                          : colors.grey3,
+                                    ),
                                   ),
                                 ),
                                 Baseline(
@@ -141,7 +152,12 @@ class _ActionRecurringBuy extends HookWidget {
                                     asset: element.toAsset,
                                     amount: element.fromAmount!,
                                   ),
-                                  style: sSubtitle2Style,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: element.status ==
+                                            RecurringBuysStatus.active
+                                        ? colors.black
+                                        : colors.grey3,
+                                  ),
                                 ),
                               ),
                               // Todo: add total after back added
