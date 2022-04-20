@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../service/services/signal_r/model/blockchains_model.dart';
-import '../../../screens/portfolio/provider/recurring_buys_spod.dart';
+import '../../features/recurring/provider/recurring_buys_spod.dart';
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/icon_url_from.dart';
 import '../../models/currency_model.dart';

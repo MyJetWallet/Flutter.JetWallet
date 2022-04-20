@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../helpers/recurring_buys_operation_name.dart';
 import '../../../models/currency_model.dart';
 import '../../currency_buy/view/curency_buy.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
 import 'components/action_recurring_buy_item.dart';
 
 void showActionWithOutRecurringBuy({
@@ -92,6 +92,7 @@ class _ActionRecurringBuy extends HookWidget {
                     CurrencyBuy(
                       currency: currency,
                       fromCard: false,
+                      recurringBuysType: RecurringBuysType.daily,
                     ),
                   );
                 },
@@ -106,6 +107,7 @@ class _ActionRecurringBuy extends HookWidget {
                     CurrencyBuy(
                       currency: currency,
                       fromCard: false,
+                      recurringBuysType: RecurringBuysType.weekly,
                     ),
                   );
                 },
@@ -120,6 +122,7 @@ class _ActionRecurringBuy extends HookWidget {
                     CurrencyBuy(
                       currency: currency,
                       fromCard: false,
+                      recurringBuysType: RecurringBuysType.biWeekly,
                     ),
                   );
                 },
@@ -134,6 +137,7 @@ class _ActionRecurringBuy extends HookWidget {
                     CurrencyBuy(
                       currency: currency,
                       fromCard: false,
+                      recurringBuysType: RecurringBuysType.monthly,
                     ),
                   );
                 },

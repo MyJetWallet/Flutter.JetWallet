@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
-import '../../../helpers/recurring_buys_operation_name.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../recurring/helper/recurring_buys_status_name.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 
@@ -160,7 +160,6 @@ class _ActionRecurringBuy extends HookWidget {
                                   ),
                                 ),
                               ),
-                              // Todo: add total after back added
                               Baseline(
                                 baseline: 18.0,
                                 baselineType: TextBaseline.alphabetic,

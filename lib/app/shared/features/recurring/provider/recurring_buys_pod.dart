@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../screens/portfolio/provider/recurring_buys_spod.dart';
-import '../../../models/recurring_buys_model.dart';
+import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import 'recurring_buys_spod.dart';
 
 
 final recurringBuysPod = Provider.autoDispose<List<RecurringBuysModel>>((ref) {

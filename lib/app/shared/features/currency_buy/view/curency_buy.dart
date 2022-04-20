@@ -14,6 +14,7 @@ import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'preview_buy_with_asset.dart';
@@ -23,10 +24,12 @@ import 'simplex_web_view.dart';
 class CurrencyBuy extends StatefulHookWidget {
   const CurrencyBuy({
     Key? key,
+    this.recurringBuysType,
     required this.currency,
     required this.fromCard,
   }) : super(key: key);
 
+  final RecurringBuysType? recurringBuysType;
   final CurrencyModel currency;
   final bool fromCard;
 

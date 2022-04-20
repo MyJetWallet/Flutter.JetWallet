@@ -1,9 +1,9 @@
 import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
-import '../../../models/recurring_buys_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../helper/recurring_buys_status_name.dart';
