@@ -28,24 +28,6 @@ class EmptyEarnWalletBody extends HookWidget {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              height: 28,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                color: colors.green,
-              ),
-              child: Text(
-                '${apy.toStringAsFixed(0)}% APY',
-                style: sSubtitle3Style.copyWith(color: colors.white),
-              ),
-            ),
-          ],
-        ),
         deviceSize.when(
           small: () {
             return EmptyWalletBalanceText(

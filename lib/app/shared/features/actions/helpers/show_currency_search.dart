@@ -6,14 +6,23 @@ import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../models/currency_model.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
-const minCurrencies = 7;
+const _minCurrencies = 7;
 
-bool showBuyCurrencySearch(BuildContext context) {
+bool showBuyCurrencySearch(
+  BuildContext context, {
+  required bool fromCard,
+}) {
   final state = context.read(actionSearchNotipod);
   final currencies = <CurrencyModel>[];
 
-  for (final currency in state.filteredCurrencies) {
-    if (currency.supportsAtLeastOneBuyMethod) {
+  if (fromCard) {
+    for (final currency in state.filteredCurrencies) {
+      if (currency.supportsAtLeastOneBuyMethod) {
+        currencies.add(currency);
+      }
+    }
+  } else {
+    for (final currency in state.filteredCurrencies) {
       currencies.add(currency);
     }
   }
@@ -90,7 +99,7 @@ bool showWithdrawalCurrencySearch(BuildContext context) {
 }
 
 bool _displaySearch(List<CurrencyModel> currencies) {
-  if (currencies.length > minCurrencies) {
+  if (currencies.length > _minCurrencies) {
     return true;
   } else {
     return false;

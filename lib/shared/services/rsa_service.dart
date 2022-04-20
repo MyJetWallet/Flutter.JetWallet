@@ -1,27 +1,32 @@
-import 'package:fast_rsa/fast_rsa.dart';
+import 'package:pointycastle/pointycastle.dart';
+import 'package:rsa_encrypt/rsa_encrypt.dart';
 
 import 'local_storage_service.dart';
 
 class RsaService {
-  static const int _bits = 2048;
-
   late String publicKey;
   late String privateKey;
 
-  Future<void> init() async {
-    final key = await RSA.generate(_bits);
+  void init() {
+    final rsa = RsaKeyHelper();
+    final keyPair = getRsaKeyPair(rsa.getSecureRandom());
 
-    publicKey = key.publicKey;
-    privateKey = key.privateKey;
+    final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
+    final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
+
+    publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
+    privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
   }
 
-  Future<void> savePrivateKey(
-    LocalStorageService storageService,
-  ) async {
+  String sign(String text, String privateKey) {
+    final rsa = RsaKeyHelper();
+
+    final key = rsa.parsePrivateKeyFromPem(privateKey);
+
+    return rsa.sign(text, key);
+  }
+
+  Future<void> savePrivateKey(LocalStorageService storageService) async {
     await storageService.setString(privateKeyKey, privateKey);
-  }
-
-  Future<String> sign(String text, String privateKey) async {
-    return RSA.signPKCS1v15(text, Hash.SHA256, privateKey);
   }
 }

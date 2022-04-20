@@ -64,7 +64,7 @@ class WalletCard extends HookWidget {
             ),
           ),
           if (
-            currency.apy != Decimal.zero &&
+            currency.apy > Decimal.zero &&
             !(currency.assetBalance == Decimal.zero &&
             currency.isPendingDeposit)
           )
