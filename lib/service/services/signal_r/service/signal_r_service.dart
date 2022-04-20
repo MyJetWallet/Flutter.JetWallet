@@ -27,6 +27,7 @@ import '../model/market_info_model.dart';
 import '../model/market_references_model.dart';
 import '../model/period_prices_model.dart';
 import '../model/price_accuracies.dart';
+import '../model/recurring_buys_response_model.dart';
 import '../model/referral_info_model.dart';
 import '../model/referral_stats_response_model.dart';
 
@@ -69,6 +70,8 @@ class SignalRService {
       StreamController<AssetPaymentMethods>();
   final _blockchainsController = StreamController<BlockchainsModel>();
   final _referralInfoController = StreamController<ReferralInfoModel>();
+  final _recurringBuyController =
+      StreamController<RecurringBuysResponseModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -82,6 +85,21 @@ class SignalRService {
     isDisconnecting = false;
 
     _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
+
+    _connection?.on(recurringBuyMessage, (data) {
+      if (data != null) {
+        final list = data.toList();
+        try {
+          final recurringBuys = RecurringBuysResponseModel.fromJson(
+            _json(list),
+          );
+
+          _recurringBuyController.add(recurringBuys);
+        } catch (e) {
+          _logger.log(contract, recurringBuyMessage, e);
+        }
+      }
+    });
 
     _connection?.on(kycCountriesMessage, (data) {
       try {
@@ -322,6 +340,9 @@ class SignalRService {
   Stream<BlockchainsModel> blockchains() => _blockchainsController.stream;
 
   Stream<ReferralInfoModel> referralInfo() => _referralInfoController.stream;
+
+  Stream<RecurringBuysResponseModel> recurringBuy() =>
+      _recurringBuyController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
