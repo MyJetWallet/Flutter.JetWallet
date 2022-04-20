@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/market/helper/format_day_percentage_change.dart';
 import '../../../components/info_web_view.dart';
 import '../../../helpers/formatting/formatting.dart';
@@ -20,7 +21,6 @@ void showInterestRate({
   required SimpleColors colors,
   required Color colorDayPercentage,
 }) {
-  const infoLink = 'https://helpcenter.simple.app/en/category/earn-program-19vbh8x/';
   sShowBasicModalBottomSheet(
     context: context,
     removeBarPadding: true,
@@ -119,21 +119,22 @@ void showInterestRate({
                 style: sBodyText2Style,
               ),
               const SpaceW10(),
-              Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: STransparentInkWell(
-                  onTap: () {
-                    navigatorPush(context, const InfoWebView(
-                      link: infoLink,
-                      title: 'Interest earned',
-                    ),);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    child: const SInfoIcon(),
+              if (infoEarnLink.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: STransparentInkWell(
+                    onTap: () {
+                      navigatorPush(context, InfoWebView(
+                        link: infoEarnLink,
+                        title: 'Interest earned',
+                      ),);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: const SInfoIcon(),
+                    ),
                   ),
                 ),
-              ),
               const Spacer(),
               Text(
                 volumeFormat(

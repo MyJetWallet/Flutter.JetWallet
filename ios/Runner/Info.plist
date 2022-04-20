@@ -51,7 +51,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>We need your face ID</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>This app requires collecting data for advertisers</string>
+	<string>Your data will be used by our ad partners to improve and personalize your ad experience.</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
