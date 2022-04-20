@@ -35,7 +35,7 @@ class Rewards extends HookWidget {
         padding: EdgeInsets.zero,
         children: [
           const SpaceH20(),
-          for (final item in state) ...[
+          for (final item in state.sortedCampaigns) ...[
             if (_displayThreeStepsRewardBanner(item)) ...[
               SThreeStepsRewardBanner(
                 primaryText: item.campaign!.title,
