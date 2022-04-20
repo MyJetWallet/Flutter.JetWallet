@@ -103,6 +103,17 @@ class TransactionListItem extends HookWidget {
                     text: 'With \$${transactionListItem.buyInfo!.sellAmount}',
                     color: colors.grey2,
                   ),
+                if (transactionListItem.operationType ==
+                    OperationType.recurringBuy)
+                  TransactionListItemText(
+                    text: 'With ${volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      decimal: transactionListItem.recurringBuyInfo!.sellAmount,
+                      accuracy: currency.accuracy,
+                      symbol: transactionListItem.recurringBuyInfo!.sellAssetId,
+                    )}',
+                    color: colors.grey2,
+                  ),
               ],
             ),
             const SpaceH18(),
