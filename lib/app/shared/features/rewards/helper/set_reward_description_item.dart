@@ -8,6 +8,7 @@ Widget createRewardDescriptionItem(
   CampaignConditionModel condition,
   List<CampaignConditionModel> conditions,
   SimpleColors colors,
+  double width,
   Function(String) onTap,
 ) {
   return GestureDetector(
@@ -16,13 +17,18 @@ Widget createRewardDescriptionItem(
         onTap(condition.deepLink);
       }
     },
-    child: Text(
-      condition.description,
-      style: sBodyText1Style.copyWith(
-        color: setRewardDescriptionStyle(
-          condition,
-          conditions,
-          colors,
+    child: SizedBox(
+      width: width,
+      child: Text(
+        condition.description,
+        maxLines: 2,
+        style: sBodyText1Style.copyWith(
+          height: 1.30,
+          color: setRewardDescriptionStyle(
+            condition,
+            conditions,
+            colors,
+          ),
         ),
       ),
     ),
