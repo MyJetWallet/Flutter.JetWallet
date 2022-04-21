@@ -95,7 +95,7 @@ class _WalletBodyState extends State<WalletBody>
               ),
             ),
             RecurringBuyBanner(
-              totalRecurringBuy: recurringNotifier.total(
+              totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
                 asset: widget.currency.symbol,
               ),
               type: recurringNotifier.type(widget.currency.symbol),
@@ -104,7 +104,7 @@ class _WalletBodyState extends State<WalletBody>
                   showRecurringBuyAction(
                     context: context,
                     currency: widget.currency,
-                    total: recurringNotifier.total(
+                    total: recurringNotifier.totalRecurringByAsset(
                       asset: widget.currency.symbol,
                     ),
                   );

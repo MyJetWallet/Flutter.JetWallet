@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class ActionRecurringBuyItem extends StatelessWidget {
-  const ActionRecurringBuyItem({
+class WithOutRecurringBuysItem extends StatelessWidget {
+  const WithOutRecurringBuysItem({
     Key? key,
     required this.primaryText,
     required this.onTap,

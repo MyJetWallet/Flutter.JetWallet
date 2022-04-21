@@ -62,7 +62,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     return list;
   }
 
-  String total({
+  String totalRecurringByAsset({
     required String asset,
   }) {
     final currencies = read(currenciesPod);
@@ -71,6 +71,26 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     var accumulate = Decimal.zero;
     for (final element in state.recurringBuys) {
       if (element.toAsset == asset) {
+        for (final currency in currencies) {
+          if (currency.symbol == element.fromAsset) {
+            accumulate += _convertToUsd(element.toAsset, element.fromAmount!);
+          }
+        }
+      }
+    }
+
+    final total = _priceVolumeFormat(accumulate);
+
+    return '${baseCurrency.prefix}$total';
+  }
+
+  String totalByAllRecurring() {
+    final currencies = read(currenciesPod);
+    final baseCurrency = read(baseCurrencyPod);
+
+    var accumulate = Decimal.zero;
+    for (final element in state.recurringBuys) {
+      if (element.status == RecurringBuysStatus.active) {
         for (final currency in currencies) {
           if (currency.symbol == element.fromAsset) {
             accumulate += _convertToUsd(element.toAsset, element.fromAmount!);

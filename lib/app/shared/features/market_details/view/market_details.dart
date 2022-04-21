@@ -179,7 +179,7 @@ class MarketDetails extends HookWidget {
             SSmallestBanner(
               color: colors.blueLight,
               primaryText: (currency.isRecurring)
-                  ? 'Recurring buy ${recurringNotifier.total(
+                  ? 'Recurring buy ${recurringNotifier.totalRecurringByAsset(
                       asset: currency.recurringBuy!.toAsset,
                     )}'
                   : 'Setup recurring buy',
@@ -188,7 +188,7 @@ class MarketDetails extends HookWidget {
                   showRecurringBuyAction(
                     context: context,
                     currency: currency,
-                    total: recurringNotifier.total(
+                    total: recurringNotifier.totalRecurringByAsset(
                       asset: currency.recurringBuy!.toAsset,
                     ),
                   );

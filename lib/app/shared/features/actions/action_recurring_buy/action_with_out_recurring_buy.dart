@@ -6,7 +6,7 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../models/currency_model.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
-import 'components/action_recurring_buy_item.dart';
+import 'components/with_out_recurring_buys_item.dart';
 
 void showActionWithOutRecurringBuy({
   required BuildContext context,
@@ -82,7 +82,7 @@ class _ActionRecurringBuy extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ActionRecurringBuyItem(
+              WithOutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
                   RecurringBuysType.daily,
                 ),
@@ -98,7 +98,7 @@ class _ActionRecurringBuy extends HookWidget {
                 },
               ),
               const SDivider(),
-              ActionRecurringBuyItem(
+              WithOutRecurringBuysItem(
                 primaryText:
                     recurringBuysOperationName(RecurringBuysType.weekly),
                 onTap: () {
@@ -113,7 +113,7 @@ class _ActionRecurringBuy extends HookWidget {
                 },
               ),
               const SDivider(),
-              ActionRecurringBuyItem(
+              WithOutRecurringBuysItem(
                 primaryText:
                     recurringBuysOperationName(RecurringBuysType.biWeekly),
                 onTap: () {
@@ -128,7 +128,7 @@ class _ActionRecurringBuy extends HookWidget {
                 },
               ),
               const SDivider(),
-              ActionRecurringBuyItem(
+              WithOutRecurringBuysItem(
                 primaryText:
                     recurringBuysOperationName(RecurringBuysType.monthly),
                 onTap: () {
