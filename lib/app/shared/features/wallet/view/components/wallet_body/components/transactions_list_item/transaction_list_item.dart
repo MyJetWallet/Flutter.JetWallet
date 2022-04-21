@@ -129,9 +129,8 @@ class TransactionListItem extends HookWidget {
       return '${operationName(OperationType.buy)}'
           ' ${transactionListItem.assetId} - '
           '${operationName(transactionListItem.operationType)}';
-    } else if (
-      transactionListItem.operationType == OperationType.recurringBuy
-    ) {
+    } else if (transactionListItem.operationType ==
+        OperationType.recurringBuy) {
       return '${transactionListItem.recurringBuyInfo!.scheduleType} '
           '${operationName(transactionListItem.operationType)}';
     } else {
