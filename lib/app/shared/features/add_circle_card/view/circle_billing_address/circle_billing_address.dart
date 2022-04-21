@@ -59,76 +59,76 @@ class CircleBillingAddress extends HookWidget {
               color: colors.blue,
             ),
             Expanded(
-              child: Stack(
-                children: [
-                  ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      SFieldDividerFrame(
-                        child: SStandardField(
-                          labelText: 'Street Address',
-                          onChanged: notifier.updateAddress1,
-                        ),
-                      ),
-                      SFieldDividerFrame(
-                        child: SStandardField(
-                          labelText: 'Street Address 2 (optional)',
-                          onChanged: notifier.updateAddress2,
-                        ),
-                      ),
-                      SFieldDividerFrame(
-                        child: SStandardField(
-                          labelText: 'City',
-                          onChanged: notifier.updateCity,
-                        ),
-                      ),
-                      SFieldDividerFrame(
-                        child: SStandardField(
-                          labelText: 'District',
-                          onChanged: notifier.updateDistrict,
-                        ),
-                      ),
-                      SFieldDividerFrame(
-                        child: SStandardField(
-                          labelText: 'Postal code',
-                          onChanged: notifier.updatePostalCode,
-                        ),
-                      ),
-                      CountrySelectorButton(
-                        country: state.selectedCountry!,
-                        onTap: () => showCountrySelector(context),
-                      ),
-                      const SpaceH136()
-                    ],
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: SPrimaryButton2(
-                          active:
-                              navigationAllowed && state.isBillingAddressValid,
-                          name: 'Continue',
-                          onTap: () async {
-                            enableButton.value = false;
-                            await notifier.addCard(
-                              onSuccess: onCardAdded,
-                              onError: () {
-                                Navigator.pop(context);
-                                notifier.clearBillingDetails();
-                                enableButton.value = true;
-                              },
-                            );
-                          },
-                        ),
+              child: Container(
+                color: colors.grey5,
+                child: CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          SFieldDividerFrame(
+                            child: SStandardField(
+                              labelText: 'Street Address',
+                              onChanged: notifier.updateAddress1,
+                            ),
+                          ),
+                          SFieldDividerFrame(
+                            child: SStandardField(
+                              labelText: 'Street Address 2 (optional)',
+                              onChanged: notifier.updateAddress2,
+                            ),
+                          ),
+                          SFieldDividerFrame(
+                            child: SStandardField(
+                              labelText: 'City',
+                              onChanged: notifier.updateCity,
+                            ),
+                          ),
+                          SFieldDividerFrame(
+                            child: SStandardField(
+                              labelText: 'District',
+                              onChanged: notifier.updateDistrict,
+                            ),
+                          ),
+                          SFieldDividerFrame(
+                            child: SStandardField(
+                              labelText: 'Postal code',
+                              onChanged: notifier.updatePostalCode,
+                            ),
+                          ),
+                          CountrySelectorButton(
+                            country: state.selectedCountry!,
+                            onTap: () => showCountrySelector(context),
+                          ),
+                          const Spacer(),
+                          Material(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: SPrimaryButton2(
+                                active: navigationAllowed &&
+                                    state.isBillingAddressValid,
+                                name: 'Continue',
+                                onTap: () async {
+                                  enableButton.value = false;
+                                  await notifier.addCard(
+                                    onSuccess: onCardAdded,
+                                    onError: () {
+                                      Navigator.pop(context);
+                                      notifier.clearBillingDetails();
+                                      enableButton.value = true;
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
             ),
           ],
