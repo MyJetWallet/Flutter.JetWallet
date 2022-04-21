@@ -4,6 +4,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import '../model/analytics_model.dart';
 import '../model/app_config_model.dart';
+import '../model/apps_flyer_model.dart';
 import '../model/connection_flavor_model.dart';
 import '../model/simplex_model.dart';
 import '../model/support_model.dart';
@@ -36,6 +37,7 @@ class RemoteConfigService {
     overrideSupportValues();
     overrideAnalyticsValues();
     overrideSimplexValues();
+    overrideAppsFlyerValues();
   }
 
   ConnectionFlavorsModel get connectionFlavors {
@@ -86,6 +88,14 @@ class RemoteConfigService {
     return SimplexModel.fromJson(json);
   }
 
+  AppsFlyerModel get appsFlyer {
+    final values = _config.getString('AppsFlyer');
+
+    final json = jsonDecode(values) as Map<String, dynamic>;
+
+    return AppsFlyerModel.fromJson(json);
+  }
+
   /// Each index respresents different flavor (backend environment)
   void overrideApisFrom(int index) {
     final flavor = connectionFlavors.flavors[index];
@@ -104,6 +114,8 @@ class RemoteConfigService {
     userAgreementLink = appConfig.userAgreementLink;
     privacyPolicyLink = appConfig.privacyPolicyLink;
     referralPolicyLink = appConfig.referralPolicyLink;
+    infoRewardsLink = appConfig.infoRewardsLink;
+    infoEarnLink = appConfig.infoEarnLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;
@@ -129,5 +141,10 @@ class RemoteConfigService {
 
   void overrideSimplexValues() {
     simplexOrigin = simplex.origin;
+  }
+
+  void overrideAppsFlyerValues() {
+    appsFlyerKey = appsFlyer.devKey;
+    iosAppId = appsFlyer.iosAppId;
   }
 }

@@ -12,6 +12,8 @@ late int phoneVerificationCodeLength;
 late String userAgreementLink;
 late String privacyPolicyLink;
 late String referralPolicyLink;
+late String infoRewardsLink;
+late String infoEarnLink;
 late int minAmountOfCharsInPassword;
 late int maxAmountOfCharsInPassword;
 late int quoteRetryInterval;
@@ -33,3 +35,7 @@ late String analyticsApiKey;
 
 // Simplex
 late String simplexOrigin;
+
+// AppsFlyer
+late String appsFlyerKey;
+late String iosAppId;

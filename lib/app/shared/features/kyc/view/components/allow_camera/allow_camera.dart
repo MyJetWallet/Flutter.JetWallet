@@ -135,16 +135,14 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
-                Expanded(
-                  child: Baseline(
-                    baseline: 48,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      widget.permissionDescription,
-                      maxLines: 3,
-                      style: sBodyText1Style.copyWith(
-                        color: colors.grey1,
-                      ),
+                Baseline(
+                  baseline: 48,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    widget.permissionDescription,
+                    maxLines: 3,
+                    style: sBodyText1Style.copyWith(
+                      color: colors.grey1,
                     ),
                   ),
                 ),
@@ -158,7 +156,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
 
   String _headerTitle(bool status) {
     if (status) {
-      return 'Give permission to\nallow the use of camera';
+      return 'Give permission to allow the use of camera';
     } else {
       return 'Allow camera access';
     }

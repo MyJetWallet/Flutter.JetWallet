@@ -6,7 +6,9 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/deep_link_service_pod.dart';
+import '../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../shared/services/deep_link_service.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../components/info_web_view.dart';
 import '../../../helpers/set_banner_color.dart';
 import '../../market_details/helper/format_news_date.dart';
@@ -23,8 +25,7 @@ class Rewards extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(rewardsNotipod);
     final deepLinkService = useProvider(deepLinkServicePod);
-    const infoRewardsLink =
-        'https://helpcenter.simple.app/en/article/when-do-i-receive-my-rewards-1rt8dyu/';
+    final mediaQuery = useProvider(mediaQueryPod);
 
     return SPageFrameWithPadding(
       header: const SSmallHeader(
@@ -34,7 +35,7 @@ class Rewards extends HookWidget {
         padding: EdgeInsets.zero,
         children: [
           const SpaceH20(),
-          for (final item in state) ...[
+          for (final item in state.sortedCampaigns) ...[
             if (_displayThreeStepsRewardBanner(item)) ...[
               SThreeStepsRewardBanner(
                 primaryText: item.campaign!.title,
@@ -48,16 +49,18 @@ class Rewards extends HookWidget {
                 rewardIndicatorComplete: setRewardIndicatorComplete(
                   item.campaign!.conditions!,
                   colors,
+                  mediaQuery.size.width - 130,
                 ),
                 onTap: () {
                   navigatorPush(
                     context,
-                    const InfoWebView(
+                    InfoWebView(
                       link: infoRewardsLink,
                       title: 'Rewards',
                     ),
                   );
                 },
+                showInfoIcon: infoRewardsLink.isNotEmpty,
               ),
               const SpaceH20(),
             ],

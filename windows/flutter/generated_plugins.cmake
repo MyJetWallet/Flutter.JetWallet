@@ -3,7 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  fast_rsa
   openpgp
   url_launcher_windows
 )
