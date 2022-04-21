@@ -11,7 +11,9 @@ class MaskedTextInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.isNotEmpty) {
       if (newValue.text.length > oldValue.text.length) {
         if (newValue.text.length > mask.length) return oldValue;
