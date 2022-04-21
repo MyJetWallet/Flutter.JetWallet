@@ -30,6 +30,11 @@ class WalletCard extends HookWidget {
       symbol: baseCurrency.symbol,
     )}';
     final interestRateTextSize = _textSize(interestRateText, sSubtitle3Style);
+    final isInterestRateVisible = currency.apy > Decimal.zero &&
+        !(currency.assetBalance == Decimal.zero &&
+            currency.isPendingDeposit);
+    final isInProgress = currency.assetBalance == Decimal.zero &&
+        currency.isPendingDeposit;
 
     return Container(
       height: 150,
@@ -63,11 +68,7 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          if (
-            currency.apy > Decimal.zero &&
-            !(currency.assetBalance == Decimal.zero &&
-            currency.isPendingDeposit)
-          )
+          if (isInterestRateVisible)
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
@@ -113,9 +114,7 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                (currency.assetBalance == Decimal.zero &&
-                currency.isPendingDeposit)
-                    ? 'In progress...'
+                isInProgress ? 'In progress...'
                     : currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,
@@ -123,10 +122,7 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          if (
-            !(currency.assetBalance == Decimal.zero &&
-            currency.isPendingDeposit)
-          )
+          if (!isInProgress)
           Padding(
             padding: const EdgeInsets.only(
               top: 98,
@@ -143,10 +139,7 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          if (
-            !(currency.assetBalance == Decimal.zero &&
-            currency.isPendingDeposit)
-          )
+          if (!isInProgress)
           Padding(
             padding: const EdgeInsets.only(
               bottom: 20,

@@ -44,9 +44,7 @@ class TransactionListItem extends HookWidget {
             const SpaceH12(),
             Row(
               children: [
-                _icon(
-                  transactionListItem.operationType,
-                ),
+                _iconFrom(transactionListItem.operationType),
                 const SpaceW10(),
                 Expanded(
                   child: TransactionListItemHeaderText(
@@ -134,7 +132,7 @@ class TransactionListItem extends HookWidget {
     }
   }
 
-  Widget _icon(OperationType type) {
+  Widget _iconFrom(OperationType type) {
     switch (type) {
       case OperationType.deposit:
         return const SDepositIcon();

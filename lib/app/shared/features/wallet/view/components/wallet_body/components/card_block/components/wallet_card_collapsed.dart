@@ -19,6 +19,8 @@ class WalletCardCollapsed extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final isInProgress = currency.assetBalance == Decimal.zero &&
+        currency.isPendingDeposit;
 
     return Container(
       height: 200,
@@ -32,23 +34,14 @@ class WalletCardCollapsed extends HookWidget {
           SBaselineChild(
             baseline: 40,
             child: Text(
-              (
-                currency.assetBalance == Decimal.zero &&
-                currency.isPendingDeposit
-              )
-                  ? 'In progress...'
+              isInProgress ? 'In progress...'
                   : currency.volumeBaseBalance(baseCurrency),
               style: sTextH5Style,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          if (
-            !(
-              currency.assetBalance == Decimal.zero &&
-              currency.isPendingDeposit
-            )
-          )
+          if (!isInProgress)
             SBaselineChild(
               baseline: 20,
               child: Text(

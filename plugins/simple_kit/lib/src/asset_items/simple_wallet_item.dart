@@ -44,6 +44,10 @@ class SWalletItem extends StatelessWidget {
     var textColor = SColorsLight().green;
     var borderColor = SColorsLight().greenLight;
     final formattedAmount = amount == '\$0.00' ? '\$0' : amount;
+    final isSecondaryTextVisible = showSecondaryText &&
+        !(isPendingDeposit && formattedAmount == '\$0');
+    final isAmountVisible = amount != null &&
+        !(isPendingDeposit && formattedAmount == '\$0');
 
     if (decline ?? false) {
       textColor = SColorsLight().red;
@@ -82,10 +86,7 @@ class SWalletItem extends StatelessWidget {
                               style: sSubtitle2Style,
                             ),
                           ),
-                          if (
-                            showSecondaryText &&
-                            !(isPendingDeposit && formattedAmount == '\$0')
-                          )
+                          if (isSecondaryTextVisible)
                             Baseline(
                               baseline: 16.0,
                               baselineType: TextBaseline.alphabetic,
@@ -100,10 +101,7 @@ class SWalletItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (
-                    amount != null &&
-                    !(isPendingDeposit && formattedAmount == '\$0')
-                  ) ...[
+                  if (isAmountVisible) ...[
                     const SpaceW10(),
                     Column(
                       children: [
