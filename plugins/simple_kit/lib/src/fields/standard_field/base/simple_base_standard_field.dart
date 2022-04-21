@@ -18,6 +18,8 @@ class SimpleBaseStandardField extends HookWidget {
     this.onChanged,
     this.suffixIcons,
     this.inputFormatters,
+    this.disableErrorOnChanged = true,
+    this.enableinteractiveSelection = true,
     this.hideIconsIfError = true,
     this.autofocus = false,
     this.readOnly = false,
@@ -36,7 +38,9 @@ class SimpleBaseStandardField extends HookWidget {
   final Iterable<String>? autofillHints;
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
-  final List<FilteringTextInputFormatter>? inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool disableErrorOnChanged;
+  final bool enableinteractiveSelection;
   final bool hideIconsIfError;
   final bool autofocus;
   final bool readOnly;
@@ -63,10 +67,13 @@ class SimpleBaseStandardField extends HookWidget {
           textInputAction: textInputAction,
           inputFormatters: inputFormatters,
           autofillHints: autofillHints,
+          enableInteractiveSelection: enableinteractiveSelection,
           enabled: enabled,
           onChanged: (value) {
             onChanged?.call(value);
-            errorNotifier?.disableError();
+            if (disableErrorOnChanged) {
+              errorNotifier?.disableError();
+            }
           },
           cursorWidth: 3.0,
           cursorColor: SColorsLight().blue,

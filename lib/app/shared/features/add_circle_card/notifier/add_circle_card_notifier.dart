@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:openpgp/openpgp.dart';
@@ -10,13 +11,21 @@ import '../../../../../service/services/circle/model/add_card/add_card_request_m
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import 'enter_card_details_state.dart';
+import 'add_circle_card_state.dart';
 
-class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
-  EnterCardDetailsNotifier(this.read)
+class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
+  AddCircleCardNotifier(this.read)
       : super(
-          EnterCardDetailsState(
+          AddCircleCardState(
             loader: StackLoaderNotifier(),
+            cardNumberError: StandardFieldErrorNotifier(),
+            expiryDateError: StandardFieldErrorNotifier(),
+            cvvError: StandardFieldErrorNotifier(),
+            streetAddress1Error: StandardFieldErrorNotifier(),
+            streetAddress2Error: StandardFieldErrorNotifier(),
+            cityError: StandardFieldErrorNotifier(),
+            districtError: StandardFieldErrorNotifier(),
+            postalCodeError: StandardFieldErrorNotifier(),
           ),
         ) {
     _initState();
@@ -24,7 +33,7 @@ class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
 
   final Reader read;
 
-  static final _logger = Logger('EnterCardDetailsNotifier');
+  static final _logger = Logger('AddCircleCardNotifier');
 
   Future<void> _initState() async {
     state = state.copyWith(
@@ -63,7 +72,10 @@ class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
     state = state.copyWith(selectedCountry: country);
   }
 
-  Future<void> addCard() async {
+  Future<void> addCard({
+    required VoidCallback onSuccess,
+    required VoidCallback onError,
+  }) async {
     _logger.log(notifier, 'addCard');
 
     state.loader!.startLoading();
@@ -80,11 +92,12 @@ class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
       final utf8Encoded = utf8.encode(encrypted);
       final base64Encoded = base64Encode(utf8Encoded);
 
+      final expDate = state.expiryDate.split('/');
+
       final model = AddCardRequestModel(
         keyId: response.keyId,
         requestGuid: const Uuid().v4(),
         encryptedData: base64Encoded,
-        cardName: state.cardNumber,
         billingName: state.cardholderName,
         billingCity: state.city,
         billingCountry: state.selectedCountry!.isoCode,
@@ -92,68 +105,125 @@ class EnterCardDetailsNotifier extends StateNotifier<EnterCardDetailsState> {
         billingLine2: state.streetAddress2,
         billingDistrict: state.district,
         billingPostalCode: state.postalCode,
-        expMonth: 10,
-        expYear: 2024,
+        expMonth: int.parse(expDate[0]),
+        expYear: int.parse('20${expDate[1]}'),
       );
 
       await read(circleServicePod).addCard(model);
+      state.loader!.finishLoading(onFinish: onSuccess);
     } on ServerRejectException catch (error) {
       read(sNotificationNotipod.notifier).showError(
         error.cause,
+        duration: 4,
         id: 1,
       );
+      state.loader!.finishLoading(onFinish: onError);
     } catch (error) {
       read(sNotificationNotipod.notifier).showError(
         'Something went wrong! Try again',
+        duration: 4,
         id: 1,
       );
-    } finally {
-      state.loader!.finishLoading();
+      state.loader!.finishLoading(onFinish: onError);
     }
   }
 
   void updateCardNumber(String cardNumber) {
+    _logger.log(notifier, 'updateCardNumber');
+
     state = state.copyWith(cardNumber: cardNumber);
+
+    // [xxxx xxxx xxxx xxxx]
+    if (cardNumber.length == 19) {
+      if (state.isCardNumberValid) {
+        state.cardNumberError!.disableError();
+      } else {
+        state.cardNumberError!.enableError();
+      }
+    } else {
+      state.cardNumberError!.disableError();
+    }
   }
 
   void updateCvv(String cvv) {
+    _logger.log(notifier, 'updateCvv');
+
     state = state.copyWith(cvv: cvv);
+
+    // [xxx]
+    if (cvv.length == 3) {
+      if (state.isCvvValid) {
+        state.cvvError!.disableError();
+      } else {
+        state.cvvError!.enableError();
+      }
+    } else {
+      state.cvvError!.disableError();
+    }
   }
 
   void updateExpiryDate(String expiryDate) {
-    // expiryDate = '10/24'
+    _logger.log(notifier, 'updateExpiryDate');
 
-    state = state.copyWith(
-      month: 10,
-      year: 2024,
-    );
-  }
+    state = state.copyWith(expiryDate: expiryDate);
 
-  void updateCardName(String cardName) {
-    state = state.copyWith(cardName: cardName);
+    // [xx/xx]
+    if (expiryDate.length == 5) {
+      if (state.isExpiryDateValid) {
+        state.expiryDateError!.disableError();
+      } else {
+        state.expiryDateError!.enableError();
+      }
+    } else {
+      state.expiryDateError!.disableError();
+    }
   }
 
   void updateCardholderName(String cardholderName) {
-    state = state.copyWith(cardholderName: cardholderName);
+    _logger.log(notifier, 'updateCardholderName');
+
+    state = state.copyWith(cardholderName: cardholderName.trim());
   }
 
   void updateCity(String city) {
-    state = state.copyWith(city: city);
+    _logger.log(notifier, 'updateCity');
+
+    state = state.copyWith(city: city.trim());
   }
 
   void updateAddress1(String address) {
-    state = state.copyWith(streetAddress1: address);
+    _logger.log(notifier, 'updateAddress1');
+
+    state = state.copyWith(streetAddress1: address.trim());
   }
 
   void updateAddress2(String address) {
-    state = state.copyWith(streetAddress2: address);
+    _logger.log(notifier, 'updateAddress2');
+
+    state = state.copyWith(streetAddress2: address.trim());
   }
 
   void updateDistrict(String district) {
-    state = state.copyWith(district: district);
+    _logger.log(notifier, 'updateDistrict');
+
+    state = state.copyWith(district: district.trim());
   }
 
   void updatePostalCode(String postalCode) {
-    state = state.copyWith(postalCode: postalCode);
+    _logger.log(notifier, 'updatePostalCode');
+
+    state = state.copyWith(postalCode: postalCode.trim());
+  }
+
+  void clearBillingDetails() {
+    _logger.log(notifier, 'clearBillingDetails');
+
+    state = state.copyWith(
+      streetAddress1: '',
+      streetAddress2: '',
+      city: '',
+      district: '',
+      postalCode: '',
+    );
   }
 }

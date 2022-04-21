@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../components/flag_item.dart';
-import '../../notifier/enter_card_details_notipod.dart';
+import '../../../../../components/flag_item.dart';
+import '../../../notifier/add_circle_card_notipod.dart';
 
 void showCountrySelector(BuildContext context) {
   sShowBasicModalBottomSheet(
@@ -26,7 +26,7 @@ class _SearchPinned extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = useProvider(enterCardDetailsNotipod.notifier);
+    final notifier = useProvider(addCircleCardNotipod.notifier);
 
     return SStandardField(
       autofocus: true,
@@ -43,8 +43,8 @@ class _Countries extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(enterCardDetailsNotipod);
-    final notifier = useProvider(enterCardDetailsNotipod.notifier);
+    final state = useProvider(addCircleCardNotipod);
+    final notifier = useProvider(addCircleCardNotipod.notifier);
 
     return Column(
       children: [

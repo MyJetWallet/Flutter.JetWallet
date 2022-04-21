@@ -6,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../helpers/is_card_expired.dart';
 import '../../../helpers/last_n_chars.dart';
-import '../../enter_card_details/view/enter_card_details.dart';
+import '../../add_circle_card/view/add_circle_card.dart';
 import '../notifier/payment_methods_notipod.dart';
 import 'components/payment_card_item.dart';
 
@@ -87,9 +87,10 @@ class PaymentMethods extends HookWidget {
                   active: true,
                   name: 'Add bank card',
                   onTap: () {
-                    EnterCardDetails.push(
+                    AddCircleCard.push(
                       context: context,
                       onCardAdded: () {
+                        Navigator.pop(context);
                         Navigator.pop(context);
                         notifier.getCards();
                       },
