@@ -15,13 +15,13 @@ class RecurringBuysItem extends HookWidget {
   const RecurringBuysItem({
     Key? key,
     this.removeDivider = false,
-    required this.element,
+    required this.recurring,
     required this.onTap,
   }) : super(key: key);
 
   final bool removeDivider;
-  final RecurringBuysModel element;
-  final Function() onTap;
+  final RecurringBuysModel recurring;
+  final Function(RecurringBuysModel element) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +41,11 @@ class RecurringBuysItem extends HookWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (element.status == RecurringBuysStatus.active)
+                  if (recurring.status == RecurringBuysStatus.active)
                     SvgPicture.asset(
                       recurringBuyAsset,
                     ),
-                  if (element.status == RecurringBuysStatus.paused)
+                  if (recurring.status == RecurringBuysStatus.paused)
                     const SPausedIcon(),
                   const SpaceW20(),
                   Expanded(
@@ -57,10 +57,10 @@ class RecurringBuysItem extends HookWidget {
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             recurringBuysOperationName(
-                              element.scheduleType,
+                              recurring.scheduleType,
                             ),
                             style: sSubtitle2Style.copyWith(
-                              color: element.status ==
+                              color: recurring.status ==
                                   RecurringBuysStatus.active
                                   ? colors.black
                                   : colors.grey3,
@@ -71,7 +71,7 @@ class RecurringBuysItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            '${element.fromAmount} ${element.toAsset}',
+                            '${recurring.fromAmount} ${recurring.toAsset}',
                             style: sBodyText2Style.copyWith(
                               color: colors.grey3,
                             ),
@@ -89,11 +89,11 @@ class RecurringBuysItem extends HookWidget {
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
                           notifier.price(
-                            asset: element.toAsset,
-                            amount: element.fromAmount!,
+                            asset: recurring.toAsset,
+                            amount: recurring.fromAmount!,
                           ),
                           style: sSubtitle2Style.copyWith(
-                            color: element.status ==
+                            color: recurring.status ==
                                 RecurringBuysStatus.active
                                 ? colors.black
                                 : colors.grey3,
@@ -107,7 +107,7 @@ class RecurringBuysItem extends HookWidget {
                           'Total ${notifier.price(
                             asset: baseCurrency.symbol,
                             amount: double.parse(
-                              '${element.totalToAmount}',
+                              '${recurring.totalToAmount}',
                             ),
                           )}',
                           style: sBodyText2Style.copyWith(

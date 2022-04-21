@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../models/currency_model.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 import 'components/recurring_buys_item.dart';
@@ -82,9 +83,14 @@ class _ActionRecurringBuy extends HookWidget {
         for (final element in state.recurringBuys) ...[
           if (currency.symbol == element.toAsset)
             RecurringBuysItem(
-              element: element,
-              onTap: () {
-                // Todo: add navigate after Anton add Widget
+              recurring: element,
+              onTap: (RecurringBuysModel recurring) {
+                // Todo: un commit after merge
+                // showRecurringInfoAction(
+                //   context: context,
+                //   recurringItem: recurring,
+                //   assetName: currency.description,
+                // );
               },
             ),
         ],

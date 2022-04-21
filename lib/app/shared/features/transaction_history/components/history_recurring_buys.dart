@@ -68,16 +68,16 @@ class HistoryRecurringBuys extends HookWidget {
               }
               final removeDividerForLastInGroup = currentDate != nextDate;
 
-              return Column(
-                children: [
-                  SPaddingH24(
-                    child: RecurringBuysItem(
-                      onTap: () {},
-                      element: recurring,
-                      removeDivider: removeDividerForLastInGroup,
-                    ),
-                  ),
-                ],
+              return RecurringBuysItem(
+                onTap: (RecurringBuysModel recurring) {
+                  // showRecurringInfoAction(
+                  //   context: context,
+                  //   recurringItem: recurring,
+                  //   assetName: recurring.toAsset,
+                  // );
+                },
+                recurring: recurring,
+                removeDivider: removeDividerForLastInGroup,
               );
             },
           ),
