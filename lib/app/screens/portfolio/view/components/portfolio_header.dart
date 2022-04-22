@@ -26,7 +26,7 @@ class PortfolioHeader extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final gift = useProvider(referralGiftPod);
-    final rewards = useProvider(rewardsNotipod);
+    final state = useProvider(rewardsNotipod);
     final chart = useProvider(
       chartNotipod(
         useProvider(balanceChartInputStpod).state,
@@ -69,11 +69,11 @@ class PortfolioHeader extends HookWidget {
                       const SGiftPortfolioIcon(),
                       if (gift == ReferralGiftStatus.showGift) ...[
                         Container(
-                          margin: (_giftBonus(rewards).isNotEmpty)
+                          margin: (_giftBonus(state.sortedCampaigns).isNotEmpty)
                               ? const EdgeInsets.only(right: 8)
                               : EdgeInsets.zero,
                           child: Text(
-                            _giftBonus(rewards),
+                            _giftBonus(state.sortedCampaigns),
                             style: sSubtitle3Style.copyWith(
                               color: colors.white,
                             ),

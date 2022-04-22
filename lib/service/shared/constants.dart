@@ -20,6 +20,7 @@ const marketInfoMessage = 'market-info';
 const paymentMethodsMessage = 'payment-methods';
 const blockchainsMessage = 'blockchains';
 const referralInfoMessage = 'referral-info';
+const recurringBuyMessage = 'recurring-buys';
 
 // HTTP
 const postRequest = 'POST';
