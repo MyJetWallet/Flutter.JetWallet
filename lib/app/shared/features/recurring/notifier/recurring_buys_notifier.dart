@@ -88,6 +88,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   void handleNavigate(BuildContext context) {
     if (typeByAllRecurringBuys() == RecurringBuysStatus.active) {
       navigatorPush(context, const HistoryRecurringBuys());
+      return;
     }
 
     if (typeByAllRecurringBuys() == RecurringBuysStatus.empty) {

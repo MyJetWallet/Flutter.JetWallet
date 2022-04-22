@@ -86,7 +86,8 @@ class _ActionRecurringBuy extends HookWidget {
           if (currency.symbol == element.toAsset)
             RecurringBuysItem(
               recurring: element,
-              onTap: (RecurringBuysModel recurring) {
+              onTap: () {
+                Navigator.pop(context);
                 navigatorPush(
                   context,
                   ShowRecurringInfoAction(

@@ -71,7 +71,7 @@ class HistoryRecurringBuys extends HookWidget {
               final removeDividerForLastInGroup = currentDate != nextDate;
 
               return RecurringBuysItem(
-                onTap: (RecurringBuysModel recurring) {
+                onTap: () {
                   navigatorPush(
                     context,
                     ShowRecurringInfoAction(

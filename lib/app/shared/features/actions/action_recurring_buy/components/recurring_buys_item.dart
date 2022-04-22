@@ -21,7 +21,7 @@ class RecurringBuysItem extends HookWidget {
 
   final bool removeDivider;
   final RecurringBuysModel recurring;
-  final Function(RecurringBuysModel element) onTap;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class RecurringBuysItem extends HookWidget {
 
     return InkWell(
       splashColor: Colors.transparent,
-      onTap: () {},
+      onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
           height: 88.0,
