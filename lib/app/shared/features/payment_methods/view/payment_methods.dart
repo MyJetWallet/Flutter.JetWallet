@@ -57,7 +57,7 @@ class PaymentMethods extends HookWidget {
                   style: sTextH3Style,
                 ),
                 Text(
-                  "You haven't set up any card yet",
+                  'Add a bank card to conveniently purchase crypto',
                   style: sBodyText1Style.copyWith(
                     color: colors.grey1,
                   ),
