@@ -54,27 +54,27 @@ class AddCircleCardState with _$AddCircleCardState {
   }
 
   bool get isStreetAddress1Valid {
-    return streetAddress1.isNotEmpty;
+    return streetAddress1.length >= 2 && streetAddress1.length <= 90;
   }
 
   bool get isStreetAddress2Valid {
     if (streetAddress2.isEmpty) {
       return true;
     } else {
-      return streetAddress2.isNotEmpty;
+      return streetAddress2.length >= 2 && streetAddress2.length <= 90;
     }
   }
 
   bool get isCityValid {
-    return city.isNotEmpty;
+    return city.length >= 2 && city.length <= 90;
   }
 
   bool get isDistrictValid {
-    return district.isNotEmpty;
+    return district.length >= 2 && district.length <= 90;
   }
 
   bool get isPostalCodeValid {
-    return postalCode.isNotEmpty;
+    return postalCode.length >= 3 && postalCode.length <= 10;
   }
 
   bool get isCardDetailsValid {
