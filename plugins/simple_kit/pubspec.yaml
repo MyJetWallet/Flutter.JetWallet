@@ -28,6 +28,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icons/light/13x14/stats/
+    - assets/icons/light/14x16/start/
     - assets/icons/light/16x16/fee_alert/
     - assets/icons/light/16x16/cross/
     - assets/icons/light/16x16/small_arrow/
@@ -81,6 +82,8 @@ flutter:
     - assets/icons/light/24x24/angle_down/
     - assets/icons/light/24x24/angle_up/
     - assets/icons/light/24x24/copy/
+    - assets/icons/light/24x24/delete/
+    - assets/icons/light/24x24/pause/
     - assets/icons/light/24x24/share/
     - assets/icons/light/24x24/complete/
     - assets/icons/light/24x24/blue_right_arrow/

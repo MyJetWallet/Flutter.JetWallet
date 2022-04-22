@@ -9,6 +9,7 @@ import '../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../../../actions/action_recurring_manage/action_recurring_manage.dart';
 import '../../../../../../helper/show_interest_rate.dart';
 
 class WalletCard extends HookWidget {
@@ -63,20 +64,14 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          if (currency.apr > Decimal.zero)
+          // if (currency.apr > Decimal.zero)
+          if (true)
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
-                  showInterestRate(
+                  showRecurringManageAction(
                     context: context,
-                    currency: currency,
-                    baseCurrency: baseCurrency,
-                    colors: colors,
-                    colorDayPercentage: colorDayPercentage(
-                      currency.dayPercentChange,
-                      colors,
-                    ),
                   );
                 },
                 child: Container(

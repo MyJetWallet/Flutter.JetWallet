@@ -105,6 +105,7 @@ export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_pressed_icon.dart';
 export 'src/icons/13x14/public/stats/simple_stats_icon.dart';
+export 'src/icons/14x16/public/start/simple_start_icon.dart';
 export 'src/icons/16x16/public/close/simple_close_icon.dart';
 export 'src/icons/16x16/public/fee_alert/simple_fee_alert_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
@@ -196,6 +197,8 @@ export 'src/icons/24x24/public/support/simple_support_icon.dart';
 export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
 export 'src/icons/24x24/public/wallet/simple_wallet_icon.dart';
 export 'src/icons/24x24/public/wire/simple_wire_icon.dart';
+export 'src/icons/24x24/public/pause/simple_pause_icon.dart';
+export 'src/icons/24x24/public/delete/simple_delete_manage_icon.dart';
 export 'src/icons/24x24/public/paused/simple_paused_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
