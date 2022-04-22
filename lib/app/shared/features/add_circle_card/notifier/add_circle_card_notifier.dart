@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../../service/services/circle/model/add_card/add_card_request_model.dart';
 import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import 'add_circle_card_state.dart';
 
@@ -35,9 +36,17 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
 
   static final _logger = Logger('AddCircleCardNotifier');
 
-  Future<void> _initState() async {
+  void _initState() {
+    final userInfo = read(userInfoNotipod);
+
+    final numbers = sPhoneNumbers.where((element) {
+      return element.isoCode == userInfo.countryOfResidence;
+    });
+
+    final country = numbers.isEmpty ? sPhoneNumbers.first : numbers.first;
+
     state = state.copyWith(
-      selectedCountry: sPhoneNumbers[0],
+      selectedCountry: country,
       filteredCountries: sPhoneNumbers,
     );
   }
