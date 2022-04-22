@@ -41,4 +41,19 @@ class RecurringBuysState with _$RecurringBuysState {
 
     return RecurringBuysStatus.empty;
   }
+
+  bool get recurringPausedNavigateToHistory {
+    if (recurringBuys.isNotEmpty) {
+      final pausedRecurringBuysList = recurringBuys
+          .where((element) => element.status == RecurringBuysStatus.paused);
+
+      if (pausedRecurringBuysList.isNotEmpty &&
+          pausedRecurringBuysList.length == recurringBuys.length &&
+          recurringBuys.length > 1) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

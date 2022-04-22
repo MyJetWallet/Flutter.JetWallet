@@ -1,11 +1,15 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../actions/action_buy/action_buy.dart';
+import '../../transaction_history/components/history_recurring_buys.dart';
 import '../helper/recurring_buys_status_name.dart';
 import 'recurring_buys_state.dart';
 
@@ -51,15 +55,52 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     return RecurringBuysStatus.empty;
   }
 
-  List<RecurringBuysModel> _recurringBuyAssetList(String asset) {
-    final list = <RecurringBuysModel>[];
-    for (final element in state.recurringBuys) {
-      if (element.toAsset == asset) {
-        list.add(element);
+  RecurringBuysStatus typeByAllRecurringBuys() {
+    if (state.recurringBuys.isNotEmpty) {
+      final activeRecurringBuysList = state.recurringBuys
+          .where((element) => element.status == RecurringBuysStatus.active);
+
+      if (activeRecurringBuysList.isNotEmpty) {
+        return RecurringBuysStatus.active;
+      }
+
+      final pausedRecurringBuysList = state.recurringBuys
+          .where((element) => element.status == RecurringBuysStatus.paused);
+
+      if (pausedRecurringBuysList.isNotEmpty &&
+          pausedRecurringBuysList.length == state.recurringBuys.length) {
+        return RecurringBuysStatus.paused;
       }
     }
 
-    return list;
+    return RecurringBuysStatus.empty;
+  }
+
+  void handleNavigate(BuildContext context) {
+    if (typeByAllRecurringBuys() == RecurringBuysStatus.active) {
+      navigatorPush(context, const HistoryRecurringBuys());
+    }
+
+    if (typeByAllRecurringBuys() == RecurringBuysStatus.empty) {
+      showBuyAction(
+        context: context,
+        fromCard: false,
+        navigatePop: false,
+        showRecurring: true,
+      );
+      return;
+    }
+
+    if (typeByAllRecurringBuys() == RecurringBuysStatus.paused &&
+        state.recurringPausedNavigateToHistory) {
+      navigatorPush(context, const HistoryRecurringBuys());
+    } else {
+      // showRecurringInfoAction(
+      //   context: context,
+      //   recurringItem: state.recurringBuys[0],
+      //   assetName: recurring.toAsset,
+      // );
+    }
   }
 
   String totalRecurringByAsset({
@@ -124,6 +165,17 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     );
 
     return priceInUsd;
+  }
+
+  List<RecurringBuysModel> _recurringBuyAssetList(String asset) {
+    final list = <RecurringBuysModel>[];
+    for (final element in state.recurringBuys) {
+      if (element.toAsset == asset) {
+        list.add(element);
+      }
+    }
+
+    return list;
   }
 
   Decimal _convertToUsd(String asset, double amount) {

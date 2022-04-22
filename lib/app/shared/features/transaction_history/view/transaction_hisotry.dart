@@ -5,11 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
-import '../../recurring/helper/recurring_buys_status_name.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../recurring/view/recurring_buy_banner.dart';
 import '../../wallet/view/components/wallet_body/components/transactions_list/transactions_list.dart';
-import '../components/history_recurring_buys.dart';
 
 class TransactionHistory extends HookWidget {
   TransactionHistory({
@@ -42,8 +40,7 @@ class TransactionHistory extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
-    final recurringBuys = useProvider(recurringBuysNotipod);
-    final recurringBuysNotifier = useProvider(recurringBuysNotipod.notifier);
+    final notifier = useProvider(recurringBuysNotipod.notifier);
 
     return Material(
       color: colors.white,
@@ -70,14 +67,13 @@ class TransactionHistory extends HookWidget {
               ),
             ),
           ),
-          if (recurringBuys.typeActiveOrEmpty == RecurringBuysStatus.active)
-            RecurringBuyBanner(
-              type: RecurringBuysStatus.active,
-              totalRecurringBuy: recurringBuysNotifier.totalByAllRecurring(),
-              onTap: () {
-                navigatorPush(context, const HistoryRecurringBuys());
-              },
-            ),
+          RecurringBuyBanner(
+            type: notifier.typeByAllRecurringBuys(),
+            totalRecurringBuy: notifier.totalByAllRecurring(),
+            onTap: () {
+              notifier.handleNavigate(context);
+            },
+          ),
           TransactionsList(
             scrollController: scrollController,
             errorBoxPaddingMultiplier: 0.313,
