@@ -114,7 +114,8 @@ List<OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == OperationType.paidInterestRate ||
         item.operationType == OperationType.feeSharePayment ||
         item.operationType == OperationType.rewardPayment ||
-        item.operationType == OperationType.simplexBuy,
+        item.operationType == OperationType.simplexBuy ||
+        item.operationType == OperationType.recurringBuy,
   )
       .map((item) {
     if (item.operationType == OperationType.swap) {
