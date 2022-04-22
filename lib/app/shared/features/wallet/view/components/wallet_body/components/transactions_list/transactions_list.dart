@@ -82,7 +82,7 @@ class _TransactionsListState extends State<TransactionsList> {
     final screenHeight = MediaQuery.of(context).size.height;
     final listToShow = widget.isRecurring != null
         ? transactionHistory.operationHistoryItems.where(
-            (i) => i.operationType == OperationType.simplexBuy,
+            (i) => i.operationType == OperationType.recurringBuy,
           ).toList()
         : transactionHistory.operationHistoryItems;
 
