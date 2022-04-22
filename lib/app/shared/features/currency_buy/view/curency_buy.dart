@@ -14,6 +14,7 @@ import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'preview_buy_with_asset.dart';
@@ -177,6 +178,49 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               ),
               const Spacer(),
+              Row(
+                children: [
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      showActionWithOutRecurringBuy(
+                        context: context,
+                        currentType: state.recurringBuyType,
+                        onItemTap: (type) {
+                          notifier.updateRecurringBuyType(type);
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 28,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colors.blue,
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            recurringBuysOperationName(state.recurringBuyType),
+                            style: sSubtitle3Style.copyWith(
+                              color: colors.white,
+                            ),
+                          ),
+                          const SpaceW8(),
+                          SAngleDownIcon(
+                            color: colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+              const SpaceH16(),
               if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -243,7 +287,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 submitButtonActive: state.inputValid &&
                     !loader.value.value &&
                     !disableSubmit.value,
-                submitButtonName: 'Preview Buy',
+                submitButtonName:
+                    state.recurringBuyType != RecurringBuysType.oneTimePurchase
+                        ? 'Preview Recurring Buy'
+                        : 'Preview Buy',
                 onSubmitPressed: () async {
                   if (state.selectedPaymentMethod != null) {
                     disableSubmit.value = true;
@@ -267,6 +314,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                           amount: state.inputValue,
                           fromCurrency: state.selectedCurrency!,
                           toCurrency: widget.currency,
+                          recurringType: state.recurringBuyType,
                         ),
                       ),
                     );
@@ -276,6 +324,176 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+void showActionWithOutRecurringBuy({
+  required BuildContext context,
+  required RecurringBuysType currentType,
+  required void Function(RecurringBuysType) onItemTap,
+}) {
+  sShowBasicModalBottomSheet(
+    context: context,
+    scrollable: true,
+    pinned: const _RecurringActionBottomSheetHeader(
+      name: 'Repeat this purchase?',
+    ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
+    children: [
+      _ActionRecurringBuy(
+        currentType: currentType,
+        onItemTap: onItemTap,
+      )
+    ],
+  );
+}
+
+class _RecurringActionBottomSheetHeader extends HookWidget {
+  const _RecurringActionBottomSheetHeader({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SPaddingH24(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Baseline(
+                baseline: 20.0,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  name,
+                  style: sTextH4Style,
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: const SErasePressedIcon(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ActionRecurringBuy extends HookWidget {
+  const _ActionRecurringBuy({
+    Key? key,
+    required this.currentType,
+    required this.onItemTap,
+  }) : super(key: key);
+
+  final RecurringBuysType currentType;
+  final void Function(RecurringBuysType) onItemTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SPaddingH24(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              WithOutRecurringBuysItem(
+                primaryText: recurringBuysOperationName(
+                  RecurringBuysType.oneTimePurchase,
+                ),
+                selected: currentType == RecurringBuysType.oneTimePurchase,
+                onTap: () {
+                  onItemTap(RecurringBuysType.oneTimePurchase);
+                  Navigator.of(context).pop();
+                },
+              ),
+              const SDivider(),
+              WithOutRecurringBuysItem(
+                primaryText: recurringBuysOperationName(
+                  RecurringBuysType.daily,
+                ),
+                selected: currentType == RecurringBuysType.daily,
+                onTap: () {
+                  onItemTap(RecurringBuysType.daily);
+                  Navigator.of(context).pop();
+                },
+              ),
+              const SDivider(),
+              WithOutRecurringBuysItem(
+                primaryText:
+                    recurringBuysOperationName(RecurringBuysType.weekly),
+                selected: currentType == RecurringBuysType.weekly,
+                onTap: () {
+                  onItemTap(RecurringBuysType.weekly);
+                  Navigator.of(context).pop();
+                },
+              ),
+              const SDivider(),
+              WithOutRecurringBuysItem(
+                primaryText:
+                    recurringBuysOperationName(RecurringBuysType.biWeekly),
+                selected: currentType == RecurringBuysType.biWeekly,
+                onTap: () {
+                  onItemTap(RecurringBuysType.biWeekly);
+                  Navigator.of(context).pop();
+                },
+              ),
+              const SDivider(),
+              WithOutRecurringBuysItem(
+                primaryText:
+                    recurringBuysOperationName(RecurringBuysType.monthly),
+                selected: currentType == RecurringBuysType.monthly,
+                onTap: () {
+                  onItemTap(RecurringBuysType.monthly);
+                  Navigator.of(context).pop();
+                },
+              ),
+              const SpaceH24(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class WithOutRecurringBuysItem extends HookWidget {
+  const WithOutRecurringBuysItem({
+    Key? key,
+    this.selected = false,
+    required this.primaryText,
+    required this.onTap,
+  }) : super(key: key);
+
+  final String primaryText;
+  final bool selected;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.centerLeft,
+        height: 64,
+        child: Text(
+          primaryText,
+          style: sSubtitle2Style.copyWith(
+            color: selected ? colors.blue : colors.black,
+          ),
+        ),
       ),
     );
   }

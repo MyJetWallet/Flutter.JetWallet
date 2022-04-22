@@ -18,6 +18,7 @@ import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import 'currency_buy_state.dart';
 
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
@@ -112,6 +113,12 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+  }
+
+  void updateRecurringBuyType(RecurringBuysType type) {
+    _logger.log(notifier, 'updateRecurringBuyType');
+
+    state = state.copyWith(recurringBuyType: type);
   }
 
   void selectPercentFromBalance(SKeyboardPreset preset) {

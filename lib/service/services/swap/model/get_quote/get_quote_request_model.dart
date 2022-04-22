@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../app/shared/features/recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../shared/decimal_serialiser.dart';
 
 part 'get_quote_request_model.freezed.dart';
@@ -13,6 +14,7 @@ class GetQuoteRequestModel with _$GetQuoteRequestModel {
     @DecimalSerialiser()
     @JsonKey(name: 'fromAssetVolume')
         Decimal? fromAssetAmount,
+    RecurringBuyModel? recurringBuy,
     @DecimalSerialiser() @JsonKey(name: 'toAssetVolume') Decimal? toAssetAmount,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
@@ -20,4 +22,14 @@ class GetQuoteRequestModel with _$GetQuoteRequestModel {
 
   factory GetQuoteRequestModel.fromJson(Map<String, dynamic> json) =>
       _$GetQuoteRequestModelFromJson(json);
+}
+
+@freezed
+class RecurringBuyModel with _$RecurringBuyModel {
+  const factory RecurringBuyModel({
+    required RecurringBuysType scheduleType,
+  }) = _RecurringBuyModel;
+
+  factory RecurringBuyModel.fromJson(Map<String, dynamic> json) =>
+      _$RecurringBuyModelFromJson(json);
 }

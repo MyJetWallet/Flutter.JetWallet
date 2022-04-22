@@ -19,6 +19,7 @@ import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../../components/quote_updated_dialog.dart';
 import '../../../../helpers/are_balances_empty.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../model/preview_buy_with_asset_input.dart';
 import '../../view/curency_buy.dart';
 import 'preview_buy_with_asset_state.dart';
@@ -48,6 +49,7 @@ class PreviewBuyWithAssetNotifier
       fromAssetAmount: Decimal.parse(input.amount),
       fromAssetSymbol: input.fromCurrency.symbol,
       toAssetSymbol: input.toCurrency.symbol,
+      recurringType: input.recurringType,
     );
   }
 
@@ -56,10 +58,18 @@ class PreviewBuyWithAssetNotifier
 
     state = state.copyWith(union: const QuoteLoading());
 
+    final recurringBuy =
+        state.recurringType == RecurringBuysType.oneTimePurchase
+            ? null
+            : RecurringBuyModel(
+                scheduleType: state.recurringType,
+              );
+
     final model = GetQuoteRequestModel(
       fromAssetAmount: state.fromAssetAmount,
       fromAssetSymbol: state.fromAssetSymbol!,
       toAssetSymbol: state.toAssetSymbol!,
+      recurringBuy: recurringBuy,
     );
 
     try {
@@ -75,6 +85,7 @@ class PreviewBuyWithAssetNotifier
         union: const QuoteSuccess(),
         connectingToServer: false,
         feePercent: response.feePercent,
+        recurringBuyInfo: response.recurringBuyInfo,
       );
 
       _refreshTimerAnimation(response.expirationTime);
@@ -176,7 +187,7 @@ class PreviewBuyWithAssetNotifier
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order complete',
+      secondaryText: 'Order processing',
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -222,7 +233,11 @@ class PreviewBuyWithAssetNotifier
   }
 
   String get previewHeader {
-    return 'Confirm Buy ${input.toCurrency.description}';
+    if (input.recurringType == RecurringBuysType.oneTimePurchase) {
+      return 'Confirm Buy ${input.toCurrency.description}';
+    } else {
+      return 'Confirm ${input.toCurrency.description} Recurring Buy';
+    }
   }
 
   @override

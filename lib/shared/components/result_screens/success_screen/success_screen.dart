@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../helpers/navigate_to_router.dart';
 import '../../../helpers/navigator_push.dart';
-import '../../../helpers/navigator_push_replacement.dart';
 import '../../../helpers/widget_size_from.dart';
 import '../../../providers/device_size/device_size_pod.dart';
 import 'components/success_animation.dart';
@@ -36,27 +35,6 @@ class SuccessScreen extends HookWidget {
     required BuildContext context,
   }) {
     navigatorPush(
-      context,
-      SuccessScreen(
-        onSuccess: onSuccess,
-        primaryText: primaryText,
-        secondaryText: secondaryText,
-        specialTextWidget: specialTextWidget,
-      ),
-      then,
-    );
-  }
-
-  static void pushReplacement({
-    Key? key,
-    Function()? then,
-    Function(BuildContext)? onSuccess,
-    String? primaryText,
-    String? secondaryText,
-    Widget? specialTextWidget,
-    required BuildContext context,
-  }) {
-    navigatorPushReplacement(
       context,
       SuccessScreen(
         onSuccess: onSuccess,
