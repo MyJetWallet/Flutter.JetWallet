@@ -82,6 +82,10 @@ class _ReferralCodeLinkBody extends HookWidget {
                       onTap: () => notifier.pasteCodeReferralLink(),
                       defaultIcon: const SPasteIcon(),
                     ),
+                    SIconButton(
+                      onTap: () => notifier.scanAddressQr(context),
+                      defaultIcon: const SQrCodeIcon(),
+                    ),
                   ],
                 ),
               ),
