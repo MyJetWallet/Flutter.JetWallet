@@ -85,12 +85,13 @@ class _ActionRecurringBuy extends HookWidget {
             RecurringBuysItem(
               recurring: element,
               onTap: (RecurringBuysModel recurring) {
-                // Todo: un commit after merge
-                // showRecurringInfoAction(
-                //   context: context,
-                //   recurringItem: recurring,
-                //   assetName: currency.description,
-                // );
+                navigatorPush(
+                  context,
+                  ShowRecurringInfoAction(
+                    recurringItem: element,
+                    assetName: currency.description,
+                  ),
+                );
               },
             ),
         ],

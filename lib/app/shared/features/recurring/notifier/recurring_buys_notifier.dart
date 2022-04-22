@@ -1,7 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 
+import '../../../../../service/services/recurring_manage/model/recurring_delete_request_model.dart';
+import '../../../../../service/services/recurring_manage/model/recurring_manage_request_model.dart';
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../helpers/calculate_base_balance.dart';
@@ -12,6 +15,9 @@ import '../../actions/action_buy/action_buy.dart';
 import '../../transaction_history/components/history_recurring_buys.dart';
 import '../helper/recurring_buys_status_name.dart';
 import 'recurring_buys_state.dart';
+import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/providers/service_providers.dart';
+
 
 class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   RecurringBuysNotifier(
@@ -186,5 +192,43 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     );
 
     return assetBasePriceInUsd;
+  }
+
+  Future<void> switchRecurringStatus(
+      bool isEnable,
+      String instructionId,
+      ) async {
+    _logger.log(notifier, 'switchRecurringStatus');
+
+    try {
+      final model = RecurringManageRequestModel(
+        instructionId: instructionId,
+        isEnable: isEnable,
+      );
+
+      await read(recurringManageServicePod).set(model);
+
+    } catch (e) {
+      _logger.log(stateFlow, 'switchRecurringStatus', e);
+
+    }
+  }
+
+  Future<void> removeRecurringBuy(
+      String instructionId,
+      ) async {
+    _logger.log(notifier, 'removeRecurringBuy');
+
+    try {
+      final model = RecurringDeleteRequestModel(
+        instructionId: instructionId,
+      );
+
+      await read(recurringManageServicePod).remove(model);
+
+    } catch (e) {
+      _logger.log(stateFlow, 'removeRecurringBuy', e);
+
+    }
   }
 }
