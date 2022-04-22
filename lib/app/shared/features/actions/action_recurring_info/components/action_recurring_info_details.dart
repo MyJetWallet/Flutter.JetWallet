@@ -42,7 +42,7 @@ class ActionRecurringInfoDetails extends HookWidget {
                 ? 'Paused'
                 : '${recurringBuysOperationName(
               recurringItem.scheduleType,
-            )} - ${formatDateToHmFromDate(recurringItem.creationTime!)}',
+            )} - ${formatDateToHmFromDate(recurringItem.creationTime)}',
           ),
         ),
         if (recurringItem.nextExecutionTime != null) ...[

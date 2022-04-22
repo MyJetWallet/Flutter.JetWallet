@@ -5,8 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../actions/action_recurring_buy/components/recurring_buys_item.dart';
+import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../wallet/helper/format_date.dart';
 import '../../wallet/view/components/wallet_body/components/transaction_month_separator.dart';
@@ -70,11 +72,13 @@ class HistoryRecurringBuys extends HookWidget {
 
               return RecurringBuysItem(
                 onTap: (RecurringBuysModel recurring) {
-                  // showRecurringInfoAction(
-                  //   context: context,
-                  //   recurringItem: recurring,
-                  //   assetName: recurring.toAsset,
-                  // );
+                  navigatorPush(
+                    context,
+                    ShowRecurringInfoAction(
+                      recurringItem: recurring,
+                      assetName: recurring.toAsset,
+                    ),
+                  );
                 },
                 recurring: recurring,
                 removeDivider: removeDividerForLastInGroup,

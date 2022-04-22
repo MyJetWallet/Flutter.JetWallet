@@ -7,16 +7,17 @@ import '../../../../../service/services/recurring_manage/model/recurring_delete_
 import '../../../../../service/services/recurring_manage/model/recurring_manage_request_model.dart';
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../actions/action_buy/action_buy.dart';
+import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../transaction_history/components/history_recurring_buys.dart';
 import '../helper/recurring_buys_status_name.dart';
 import 'recurring_buys_state.dart';
-import '../../../../../shared/logging/levels.dart';
-import '../../../../../shared/providers/service_providers.dart';
 
 
 class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
@@ -33,6 +34,8 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
 
   final Reader read;
   final List<RecurringBuysModel> recurringBuys;
+
+  static final _logger = Logger('RecurringBuysNotifier');
 
   void _init() {
     state = state.copyWith(recurringBuys: [...recurringBuys]);
@@ -101,11 +104,13 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
         state.recurringPausedNavigateToHistory) {
       navigatorPush(context, const HistoryRecurringBuys());
     } else {
-      // showRecurringInfoAction(
-      //   context: context,
-      //   recurringItem: state.recurringBuys[0],
-      //   assetName: recurring.toAsset,
-      // );
+      navigatorPush(
+        context,
+        ShowRecurringInfoAction(
+          recurringItem: state.recurringBuys[0],
+          assetName: state.recurringBuys[0].toAsset,
+        ),
+      );
     }
   }
 

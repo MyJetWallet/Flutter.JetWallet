@@ -110,7 +110,8 @@ class TransactionListItem extends HookWidget {
                       prefix: currency.prefixSymbol,
                       decimal: transactionListItem.recurringBuyInfo!.sellAmount,
                       accuracy: currency.accuracy,
-                      symbol: transactionListItem.recurringBuyInfo!.sellAssetId,
+                      symbol:
+                        transactionListItem.recurringBuyInfo!.sellAssetId!,
                     )}',
                     color: colors.grey2,
                   ),

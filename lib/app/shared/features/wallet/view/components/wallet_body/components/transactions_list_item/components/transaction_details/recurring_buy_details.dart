@@ -30,12 +30,12 @@ class RecurringBuyDetails extends StatelessWidget {
 
     final buyCurrency = currencyFrom(
       currencies,
-      transactionListItem.recurringBuyInfo!.buyAssetId,
+      transactionListItem.recurringBuyInfo!.buyAssetId!,
     );
 
     final sellCurrency = currencyFrom(
       currencies,
-      transactionListItem.recurringBuyInfo!.sellAssetId,
+      transactionListItem.recurringBuyInfo!.sellAssetId!,
     );
 
     String _rateFor(

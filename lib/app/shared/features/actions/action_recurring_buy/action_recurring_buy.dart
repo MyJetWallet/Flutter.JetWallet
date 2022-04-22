@@ -4,8 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
+import '../action_recurring_info/action_recurring_info.dart';
 import 'components/recurring_buys_item.dart';
 
 void showRecurringBuyAction({
