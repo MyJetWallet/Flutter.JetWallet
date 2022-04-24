@@ -88,7 +88,7 @@ class RecurringSuccessScreen extends HookWidget {
                 onTap: () {
                   shouldPop.value = false;
 
-                  showActionWithOutRecurringBuy(
+                  showActionWithOutRecurringBuy1(
                     then: () {
                       if (!shouldPop.value) navigateToRouter(context.read);
                     },

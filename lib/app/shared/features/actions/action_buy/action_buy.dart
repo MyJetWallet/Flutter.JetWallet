@@ -9,6 +9,7 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
+import '../action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';

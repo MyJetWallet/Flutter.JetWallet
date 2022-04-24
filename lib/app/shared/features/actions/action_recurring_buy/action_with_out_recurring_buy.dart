@@ -6,7 +6,6 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../models/currency_model.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
-import 'components/with_out_recurring_buys_item.dart';
 
 void showActionWithOutRecurringBuy({
   required BuildContext context,

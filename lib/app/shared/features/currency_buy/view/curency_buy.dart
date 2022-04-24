@@ -184,7 +184,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
-                      showActionWithOutRecurringBuy(
+                      showActionWithOutRecurringBuy1(
                         context: context,
                         showOneTimePurchase: true,
                         currentType: state.recurringBuyType,
@@ -342,7 +342,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
   }
 }
 
-void showActionWithOutRecurringBuy({
+void showActionWithOutRecurringBuy1({
   bool showOneTimePurchase = false,
   RecurringBuysType? currentType,
   void Function()? then,
