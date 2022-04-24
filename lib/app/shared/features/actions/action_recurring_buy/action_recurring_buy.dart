@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';

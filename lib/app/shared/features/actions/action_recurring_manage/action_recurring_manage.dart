@@ -93,10 +93,13 @@ class _ActionRecurringManage extends HookWidget {
                   primaryText: 'Pause',
                   onTap: () {
                     recurringBuysN.switchRecurringStatus(
-                      false,
-                      recurringItem.id!,
+                      isEnable: false,
+                      instructionId: recurringItem.id!,
                     );
-                    Navigator.of(context)..pop()..pop()..pop();
+                    Navigator.of(context)
+                      ..pop()
+                      ..pop()
+                      ..pop();
                     // recurringItem.status = RecurringBuysStatus.paused;
                   },
                 ),
@@ -112,10 +115,13 @@ class _ActionRecurringManage extends HookWidget {
                   primaryText: 'Start',
                   onTap: () {
                     recurringBuysN.switchRecurringStatus(
-                      true,
-                      recurringItem.id!,
+                      isEnable: true,
+                      instructionId: recurringItem.id!,
                     );
-                    Navigator.of(context)..pop()..pop()..pop();
+                    Navigator.of(context)
+                      ..pop()
+                      ..pop()
+                      ..pop();
                     // recurringItem.status = RecurringBuysStatus.active;
                   },
                 ),
@@ -133,7 +139,11 @@ class _ActionRecurringManage extends HookWidget {
                   primaryButtonName: 'Delete',
                   onPrimaryButtonTap: () {
                     recurringBuysN.removeRecurringBuy(recurringItem.id!);
-                    Navigator.of(context)..pop()..pop()..pop()..pop();
+                    Navigator.of(context)
+                      ..pop()
+                      ..pop()
+                      ..pop()
+                      ..pop();
                   },
                   primaryButtonType: SButtonType.primary3,
                   secondaryButtonName: 'Cancel',

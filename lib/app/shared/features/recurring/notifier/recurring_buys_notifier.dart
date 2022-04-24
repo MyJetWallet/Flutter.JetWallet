@@ -8,6 +8,7 @@ import '../../../../../service/services/recurring_manage/model/recurring_manage_
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -198,10 +199,10 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     return assetBasePriceInUsd;
   }
 
-  Future<void> switchRecurringStatus(
-    bool isEnable,
-    String instructionId,
-  ) async {
+  Future<void> switchRecurringStatus({
+    required bool isEnable,
+    required String instructionId,
+  }) async {
     _logger.log(notifier, 'switchRecurringStatus');
 
     try {
