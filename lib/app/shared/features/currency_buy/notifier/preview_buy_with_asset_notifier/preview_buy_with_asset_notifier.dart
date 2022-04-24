@@ -20,6 +20,7 @@ import '../../../../components/quote_updated_dialog.dart';
 import '../../../../helpers/are_balances_empty.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../recurring/helper/recurring_buys_operation_name.dart';
+import '../../../recurring/view/components/recurring_success_screen.dart';
 import '../../model/preview_buy_with_asset_input.dart';
 import '../../view/curency_buy.dart';
 import 'preview_buy_with_asset_state.dart';
@@ -185,13 +186,20 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showSuccessScreen() {
-    return SuccessScreen.push(
-      context: _context,
-      secondaryText: 'Order processing',
-      then: () {
-        read(navigationStpod).state = 1;
-      },
-    );
+    if (state.recurring) {
+      SuccessScreen.push(
+        context: _context,
+        secondaryText: 'Order processing',
+        then: () {
+          read(navigationStpod).state = 1;
+        },
+      );
+    } else {
+      RecurringSuccessScreen.push(
+        context: _context,
+        input: input,
+      );
+    }
   }
 
   void _showNoResponseScreen() {

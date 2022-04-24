@@ -27,4 +27,8 @@ class PreviewBuyWithAssetState with _$PreviewBuyWithAssetState {
     @Default(0) int timer,
     @Default(RecurringBuysType.oneTimePurchase) RecurringBuysType recurringType,
   }) = _ConvertState;
+
+  const PreviewBuyWithAssetState._();
+
+  bool get recurring => recurringType != RecurringBuysType.oneTimePurchase;
 }

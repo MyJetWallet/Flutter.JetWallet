@@ -7,7 +7,7 @@ import '../../../../../../service/services/signal_r/model/recurring_buys_model.d
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../recurring/helper/recurring_buys_status_name.dart';
-import '../../../recurring/provider/recurring_buys_notipod.dart';
+import '../../../recurring/notifier/recurring_buys_notipod.dart';
 
 class RecurringBuysItem extends HookWidget {
   const RecurringBuysItem({

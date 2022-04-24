@@ -20,14 +20,15 @@ import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'preview_buy_with_asset.dart';
 import 'simplex_web_view.dart';
 
-// TODO make isBuyFromCard not optional
 class CurrencyBuy extends StatefulHookWidget {
   const CurrencyBuy({
     Key? key,
+    this.recurringBuysType,
     required this.currency,
     required this.fromCard,
   }) : super(key: key);
 
+  final RecurringBuysType? recurringBuysType;
   final CurrencyModel currency;
   final bool fromCard;
 
@@ -162,7 +163,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               Baseline(
                 baseline: deviceSize.when(
                   small: () => 32,
-                  medium: () => -4,
+                  medium: () => 31,
                 ),
                 baselineType: TextBaseline.alphabetic,
                 child: SActionPriceField(
@@ -185,9 +186,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     onTap: () {
                       showActionWithOutRecurringBuy(
                         context: context,
+                        showOneTimePurchase: true,
                         currentType: state.recurringBuyType,
-                        onItemTap: (type) {
-                          notifier.updateRecurringBuyType(type);
+                        onItemTap: (recurringType) {
+                          notifier.updateRecurringBuyType(recurringType);
+                          Navigator.of(context).pop();
                         },
                       );
                     },
@@ -203,10 +206,17 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       ),
                       child: Row(
                         children: [
-                          Text(
-                            recurringBuysOperationName(state.recurringBuyType),
-                            style: sSubtitle3Style.copyWith(
-                              color: colors.white,
+                          Baseline(
+                            baseline: 14,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              recurringBuysOperationName(
+                                widget.recurringBuysType ??
+                                    state.recurringBuyType,
+                              ),
+                              style: sSubtitle3Style.copyWith(
+                                color: colors.white,
+                              ),
                             ),
                           ),
                           const SpaceW8(),
@@ -220,7 +230,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   const Spacer(),
                 ],
               ),
-              const SpaceH16(),
+              deviceSize.when(
+                small: () => const SpaceH8(),
+                medium: () => const SpaceH16(),
+              ),
               if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -264,7 +277,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   onTap: () => _showAssetSelector(),
                 ),
               deviceSize.when(
-                small: () => const Spacer(),
+                small: () => const SpaceH9(),
                 medium: () => const SpaceH20(),
               ),
               SNumericKeyboardAmount(
@@ -330,8 +343,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
 }
 
 void showActionWithOutRecurringBuy({
+  bool showOneTimePurchase = false,
+  RecurringBuysType? currentType,
+  void Function()? then,
   required BuildContext context,
-  required RecurringBuysType currentType,
   required void Function(RecurringBuysType) onItemTap,
 }) {
   sShowBasicModalBottomSheet(
@@ -342,10 +357,14 @@ void showActionWithOutRecurringBuy({
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
+    then: (_) {
+      then?.call();
+    },
     children: [
       _ActionRecurringBuy(
         currentType: currentType,
         onItemTap: onItemTap,
+        showOneTimePurchase: showOneTimePurchase,
       )
     ],
   );
@@ -391,11 +410,13 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
 class _ActionRecurringBuy extends HookWidget {
   const _ActionRecurringBuy({
     Key? key,
-    required this.currentType,
+    this.currentType,
+    required this.showOneTimePurchase,
     required this.onItemTap,
   }) : super(key: key);
 
-  final RecurringBuysType currentType;
+  final bool showOneTimePurchase;
+  final RecurringBuysType? currentType;
   final void Function(RecurringBuysType) onItemTap;
 
   @override
@@ -407,17 +428,18 @@ class _ActionRecurringBuy extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              WithOutRecurringBuysItem(
-                primaryText: recurringBuysOperationName(
-                  RecurringBuysType.oneTimePurchase,
+              if (showOneTimePurchase) ...[
+                WithOutRecurringBuysItem(
+                  primaryText: recurringBuysOperationName(
+                    RecurringBuysType.oneTimePurchase,
+                  ),
+                  selected: currentType == RecurringBuysType.oneTimePurchase,
+                  onTap: () {
+                    onItemTap(RecurringBuysType.oneTimePurchase);
+                  },
                 ),
-                selected: currentType == RecurringBuysType.oneTimePurchase,
-                onTap: () {
-                  onItemTap(RecurringBuysType.oneTimePurchase);
-                  Navigator.of(context).pop();
-                },
-              ),
-              const SDivider(),
+                const SDivider(),
+              ],
               WithOutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
                   RecurringBuysType.daily,
@@ -425,7 +447,6 @@ class _ActionRecurringBuy extends HookWidget {
                 selected: currentType == RecurringBuysType.daily,
                 onTap: () {
                   onItemTap(RecurringBuysType.daily);
-                  Navigator.of(context).pop();
                 },
               ),
               const SDivider(),
@@ -435,7 +456,6 @@ class _ActionRecurringBuy extends HookWidget {
                 selected: currentType == RecurringBuysType.weekly,
                 onTap: () {
                   onItemTap(RecurringBuysType.weekly);
-                  Navigator.of(context).pop();
                 },
               ),
               const SDivider(),
@@ -445,7 +465,6 @@ class _ActionRecurringBuy extends HookWidget {
                 selected: currentType == RecurringBuysType.biWeekly,
                 onTap: () {
                   onItemTap(RecurringBuysType.biWeekly);
-                  Navigator.of(context).pop();
                 },
               ),
               const SDivider(),
@@ -455,7 +474,6 @@ class _ActionRecurringBuy extends HookWidget {
                 selected: currentType == RecurringBuysType.monthly,
                 onTap: () {
                   onItemTap(RecurringBuysType.monthly);
-                  Navigator.of(context).pop();
                 },
               ),
               const SpaceH24(),

@@ -7,7 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../actions/action_recurring_buy/components/recurring_buys_item.dart';
-import '../../recurring/provider/recurring_buys_notipod.dart';
+import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../wallet/helper/format_date.dart';
 import '../../wallet/view/components/wallet_body/components/transaction_month_separator.dart';
 
