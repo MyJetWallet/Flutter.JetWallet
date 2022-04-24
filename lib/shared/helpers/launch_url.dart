@@ -4,8 +4,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'show_plain_snackbar.dart';
 
 Future<void> launchURL(BuildContext context, String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
+  final uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
   } else {
     showPlainSnackbar(context, 'Could not launch $url');
   }
