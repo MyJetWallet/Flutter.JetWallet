@@ -8,7 +8,6 @@ import '../../../../../service/services/recurring_manage/model/recurring_manage_
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/logging/levels.dart';
-import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/calculate_base_balance.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -18,7 +17,6 @@ import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../transaction_history/components/history_recurring_buys.dart';
 import '../helper/recurring_buys_status_name.dart';
 import 'recurring_buys_state.dart';
-
 
 class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   RecurringBuysNotifier(
@@ -201,9 +199,9 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   }
 
   Future<void> switchRecurringStatus(
-      bool isEnable,
-      String instructionId,
-      ) async {
+    bool isEnable,
+    String instructionId,
+  ) async {
     _logger.log(notifier, 'switchRecurringStatus');
 
     try {
@@ -213,16 +211,14 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
       );
 
       await read(recurringManageServicePod).set(model);
-
     } catch (e) {
       _logger.log(stateFlow, 'switchRecurringStatus', e);
-
     }
   }
 
   Future<void> removeRecurringBuy(
-      String instructionId,
-      ) async {
+    String instructionId,
+  ) async {
     _logger.log(notifier, 'removeRecurringBuy');
 
     try {
@@ -231,10 +227,8 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
       );
 
       await read(recurringManageServicePod).remove(model);
-
     } catch (e) {
       _logger.log(stateFlow, 'removeRecurringBuy', e);
-
     }
   }
 }

@@ -7,6 +7,8 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/price_accuracy.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
+import '../../wallet/helper/format_date_to_hm.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_notipod.dart';
 import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_state.dart';
@@ -48,6 +50,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final colors = useProvider(sColorPod);
     final state = useProvider(previewBuyWithAssetNotipod(widget.input));
     final notifier = useProvider(
       previewBuyWithAssetNotipod(widget.input).notifier,
@@ -98,8 +101,14 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
               hasScrollBody: false,
               child: Column(
                 children: [
-                  SActionConfirmIconWithAnimation(
-                    iconUrl: widget.input.toCurrency.iconUrl,
+                  deviceSize.when(
+                    small: () => const SpaceH8(),
+                    medium: () => const SpaceH3(),
+                  ),
+                  Center(
+                    child: SActionConfirmIconWithAnimation(
+                      iconUrl: widget.input.toCurrency.iconUrl,
+                    ),
                   ),
                   const Spacer(),
                   SActionConfirmText(
@@ -111,42 +120,77 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                       symbol: from.symbol,
                     ),
                   ),
-                  SActionConfirmText(
-                    name: 'You get',
-                    baseline: 35.0,
-                    contentLoading: state.union is QuoteLoading,
-                    value: '≈ ${volumeFormat(
-                      prefix: to.prefixSymbol,
-                      accuracy: to.accuracy,
-                      decimal: state.toAssetAmount ?? Decimal.zero,
-                      symbol: to.symbol,
-                    )}',
-                  ),
+                  if (!state.recurring)
+                    SActionConfirmText(
+                      name: 'You get',
+                      baseline: 35.0,
+                      contentLoading: state.union is QuoteLoading,
+                      value: '≈ ${volumeFormat(
+                        prefix: to.prefixSymbol,
+                        accuracy: to.accuracy,
+                        decimal: state.toAssetAmount ?? Decimal.zero,
+                        symbol: to.symbol,
+                      )}',
+                    ),
                   SActionConfirmText(
                     name: 'Fee',
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading,
                     value: '${state.feePercent}%',
                   ),
-                  SActionConfirmText(
-                    name: 'Exchange Rate',
-                    baseline: 34.0,
-                    contentLoading: state.union is QuoteLoading,
-                    timerLoading: state.union is QuoteLoading,
-                    animation: state.timerAnimation,
-                    value: '${volumeFormat(
-                      prefix: from.prefixSymbol,
-                      accuracy: from.accuracy,
-                      decimal: Decimal.one,
-                      symbol: from.symbol,
-                    )} = \n'
-                        '${volumeFormat(
-                      prefix: to.prefixSymbol,
-                      accuracy: accuracy,
-                      decimal: state.price ?? Decimal.zero,
-                      symbol: to.symbol,
-                    )}',
-                  ),
+                  if (!state.recurring)
+                    SActionConfirmText(
+                      name: 'Exchange Rate',
+                      baseline: 34.0,
+                      contentLoading: state.union is QuoteLoading,
+                      timerLoading: state.union is QuoteLoading,
+                      animation: state.timerAnimation,
+                      value: '${volumeFormat(
+                        prefix: from.prefixSymbol,
+                        accuracy: from.accuracy,
+                        decimal: Decimal.one,
+                        symbol: from.symbol,
+                      )} = \n'
+                          '${volumeFormat(
+                        prefix: to.prefixSymbol,
+                        accuracy: accuracy,
+                        decimal: state.price ?? Decimal.zero,
+                        symbol: to.symbol,
+                      )}',
+                    ),
+                  if (state.recurring) ...[
+                    SActionConfirmText(
+                      name: 'Recurring buy',
+                      baseline: 35.0,
+                      contentLoading: state.union is QuoteLoading,
+                      value: '${recurringBuysOperationName(
+                        state.recurringType,
+                      )} - ${formatDateToHm(
+                        state.recurringBuyInfo?.nextExecutionTime,
+                      )}',
+                    ),
+                    const SpaceH20(),
+                    Text(
+                      'The amount of ${state.toAssetSymbol} purchased will'
+                      ' depend on the market price at the Recurring Buy'
+                      ' execution time.',
+                      style: sCaptionTextStyle.copyWith(color: colors.grey3),
+                      maxLines: 4,
+                    ),
+                    const SpaceH34(),
+                    const SDivider(),
+                    const SpaceH5(),
+                    SActionConfirmText(
+                      name: 'Next Payment',
+                      baseline: 35.0,
+                      contentLoading: state.union is QuoteLoading,
+                      value: '${convertDateToTomorrowOrDate(
+                        state.recurringBuyInfo?.nextExecutionTime,
+                      )} - ${formatDateToHm(
+                        state.recurringBuyInfo?.nextExecutionTime,
+                      )}',
+                    ),
+                  ],
                   const SpaceH36(),
                   if (state.connectingToServer) ...[
                     const SActionConfirmAlert(),

@@ -51,7 +51,7 @@ class HistoryRecurringBuys extends HookWidget {
           SliverGroupedListView<RecurringBuysModel, String>(
             elements: state.recurringBuys,
             groupBy: (recurring) {
-              return formatDate(_removeZ(recurring.creationTime));
+              return formatDate(_removeZ(recurring.creationTime!));
             },
             sort: false,
             groupSeparatorBuilder: (String date) {
@@ -61,11 +61,11 @@ class HistoryRecurringBuys extends HookWidget {
             },
             itemBuilder: (context, recurring) {
               final index = state.recurringBuys.indexOf(recurring);
-              final currentDate = formatDate(_removeZ(recurring.creationTime));
+              final currentDate = formatDate(_removeZ(recurring.creationTime!));
               var nextDate = '';
               if (index != (state.recurringBuys.length - 1)) {
                 nextDate = formatDate(
-                  _removeZ(state.recurringBuys[index + 1].creationTime),
+                  _removeZ(state.recurringBuys[index + 1].creationTime!),
                 );
               }
               final removeDividerForLastInGroup = currentDate != nextDate;

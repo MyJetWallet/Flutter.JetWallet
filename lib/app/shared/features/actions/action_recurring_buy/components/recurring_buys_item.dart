@@ -60,10 +60,10 @@ class RecurringBuysItem extends HookWidget {
                               recurring.scheduleType,
                             ),
                             style: sSubtitle2Style.copyWith(
-                              color: recurring.status ==
-                                  RecurringBuysStatus.active
-                                  ? colors.black
-                                  : colors.grey3,
+                              color:
+                                  recurring.status == RecurringBuysStatus.active
+                                      ? colors.black
+                                      : colors.grey3,
                             ),
                           ),
                         ),
@@ -93,10 +93,10 @@ class RecurringBuysItem extends HookWidget {
                             amount: recurring.fromAmount!,
                           ),
                           style: sSubtitle2Style.copyWith(
-                            color: recurring.status ==
-                                RecurringBuysStatus.active
-                                ? colors.black
-                                : colors.grey3,
+                            color:
+                                recurring.status == RecurringBuysStatus.active
+                                    ? colors.black
+                                    : colors.grey3,
                           ),
                         ),
                       ),
@@ -121,9 +121,9 @@ class RecurringBuysItem extends HookWidget {
               ),
               const Spacer(),
               if (!removeDivider)
-              const SDivider(
-                width: double.infinity,
-              )
+                const SDivider(
+                  width: double.infinity,
+                )
             ],
           ),
         ),
