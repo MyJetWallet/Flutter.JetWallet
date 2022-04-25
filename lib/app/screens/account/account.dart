@@ -17,6 +17,7 @@ import '../../../shared/services/remote_config_service/remote_config_values.dart
 import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/debug_info/debug_info.dart';
+import '../../shared/features/disclaimer/notifier/disclaimer_notipod.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
@@ -44,6 +45,8 @@ class Account extends HookWidget {
     final kycAlertHandler = useProvider(
       kycAlertHandlerPod(context),
     );
+
+    final disclaimer = useProvider(disclaimerNotipod);
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
