@@ -120,6 +120,7 @@ class PreviewBuyWithAssetNotifier
         toAssetSymbol: state.toAssetSymbol!,
         fromAssetAmount: state.fromAssetAmount,
         toAssetAmount: state.toAssetAmount,
+        recurringBuyInfo: state.recurringBuyInfo,
       );
 
       final response = await read(swapServicePod).executeQuote(model);

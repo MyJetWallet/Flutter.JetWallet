@@ -54,7 +54,7 @@ class ShowRecurringInfoAction extends HookWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverAppBar(
-              toolbarHeight: 368,
+              toolbarHeight: 406,
               pinned: true,
               backgroundColor: colors.white,
               automaticallyImplyLeading: false,

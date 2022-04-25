@@ -45,15 +45,15 @@ class ActionRecurringInfoDetails extends HookWidget {
             )} - ${formatDateToHmFromDate(recurringItem.creationTime)}',
           ),
         ),
-        if (recurringItem.nextExecutionTime != null) ...[
+        if (recurringItem.nextExecution != null) ...[
           const SpaceH14(),
           TransactionDetailsItem(
             text: 'Next payment',
             value: TransactionDetailsValueText(
               text: '${
-                  formatDateToDMYFromDate(recurringItem.nextExecutionTime!)
+                  formatDateToDMYFromDate(recurringItem.nextExecution!)
               } - '
-                  '${formatDateToHmFromDate(recurringItem.nextExecutionTime!)}',
+                  '${formatDateToHmFromDate(recurringItem.nextExecution!)}',
             ),
           ),
         ],
@@ -61,7 +61,7 @@ class ActionRecurringInfoDetails extends HookWidget {
         TransactionDetailsItem(
           text: 'Average',
           value: TransactionDetailsValueText(
-            text: '${recurringItem.avg}',
+            text: '${recurringItem.avgPrice}',
           ),
         ),
         const SpaceH34(),
