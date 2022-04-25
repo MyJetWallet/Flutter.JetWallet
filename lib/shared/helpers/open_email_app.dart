@@ -23,7 +23,7 @@ void openEmailApp(BuildContext context) {
     }
   } else if (Platform.isIOS) {
     try {
-      launch('message://');
+      launchUrl(Uri.parse('message://'));
     } catch (e) {
       showPlainSnackbar(context, '$e');
     }
