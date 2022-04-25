@@ -36,14 +36,18 @@ class SimpleBaseButton extends StatelessWidget {
           borderRadius: _baseButtonRadius,
         ),
         child: Baseline(
-          baseline: 34.0,
+          baseline: 32.0,
           baselineType: TextBaseline.alphabetic,
           child: SPaddingH24(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (icon != null) ...[
-                  icon!,
+                  Baseline(
+                    baselineType: TextBaseline.alphabetic,
+                    baseline: 27.0,
+                    child: icon,
+                  ),
                   const SpaceW10(),
                 ],
                 Flexible(

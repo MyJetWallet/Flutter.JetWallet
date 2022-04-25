@@ -20,6 +20,7 @@ class SimpleLightStandardField extends HookWidget {
     this.suffixIcons,
     this.initialValue,
     this.inputFormatters,
+    this.textCapitalization,
     this.disableErrorOnChanged = true,
     this.enableinteractiveSelection = true,
     this.hideClearButton = false,
@@ -50,6 +51,7 @@ class SimpleLightStandardField extends HookWidget {
   final List<Widget>? suffixIcons;
   final String? initialValue;
   final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization? textCapitalization;
   final bool disableErrorOnChanged;
   final bool enableinteractiveSelection;
   final bool hideClearButton;
@@ -81,6 +83,7 @@ class SimpleLightStandardField extends HookWidget {
       readOnly: readOnly,
       autofillHints: autofillHints,
       textInputAction: textInputAction,
+      textCapitalization: textCapitalization,
       alignLabelWithHint: alignLabelWithHint,
       enabled: enabled,
       disableErrorOnChanged: disableErrorOnChanged,

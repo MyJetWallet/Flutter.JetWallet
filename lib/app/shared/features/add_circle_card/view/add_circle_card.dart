@@ -90,7 +90,7 @@ class AddCircleCard extends HookWidget {
                             Expanded(
                               child: SFieldDividerFrame(
                                 child: SStandardField(
-                                  labelText: 'Expiry Date',
+                                  labelText: 'Expiry date',
                                   keyboardType: TextInputType.number,
                                   errorNotifier: state.expiryDateError,
                                   enableinteractiveSelection: false,
@@ -135,6 +135,7 @@ class AddCircleCard extends HookWidget {
                           child: SPaddingH24(
                             child: SStandardField(
                               labelText: 'Cardholder name',
+                              textCapitalization: TextCapitalization.sentences,
                               onChanged: notifier.updateCardholderName,
                             ),
                           ),

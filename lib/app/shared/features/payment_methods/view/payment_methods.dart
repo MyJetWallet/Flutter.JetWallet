@@ -102,6 +102,7 @@ class PaymentMethods extends HookWidget {
                             loader.value.finishLoading();
                           },
                         ),
+                        removeDivider: card.id == state.cards.last.id,
                       ),
                   ],
                 ),

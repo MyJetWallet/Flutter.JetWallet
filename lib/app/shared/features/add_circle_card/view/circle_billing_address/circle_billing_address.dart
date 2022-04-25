@@ -71,24 +71,28 @@ class CircleBillingAddress extends HookWidget {
                           SFieldDividerFrame(
                             child: SStandardField(
                               labelText: 'Street Address',
+                              textCapitalization: TextCapitalization.sentences,
                               onChanged: notifier.updateAddress1,
                             ),
                           ),
                           SFieldDividerFrame(
                             child: SStandardField(
                               labelText: 'Street Address 2 (optional)',
+                              textCapitalization: TextCapitalization.sentences,
                               onChanged: notifier.updateAddress2,
                             ),
                           ),
                           SFieldDividerFrame(
                             child: SStandardField(
                               labelText: 'City',
+                              textCapitalization: TextCapitalization.sentences,
                               onChanged: notifier.updateCity,
                             ),
                           ),
                           SFieldDividerFrame(
                             child: SStandardField(
                               labelText: 'District',
+                              textCapitalization: TextCapitalization.sentences,
                               onChanged: notifier.updateDistrict,
                             ),
                           ),
