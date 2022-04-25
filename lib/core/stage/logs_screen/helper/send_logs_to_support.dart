@@ -12,5 +12,5 @@ void sendLogsToSupport(String logs) {
     }),
   );
 
-  launch(_emailLaunchUri.toString());
+  launchUrl(_emailLaunchUri);
 }
