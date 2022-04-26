@@ -288,6 +288,3 @@ export 'src/texts/simple_text_styles.dart';
 
 /// Theme
 export 'src/theme/provider/simple_theme_pod.dart';
-
-/// Disclaimer
-export 'src/disclaimer/simple_disclaimer_checkbox.dart';

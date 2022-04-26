@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../simple_kit.dart';
-import 'components/simple_disclaimer_rich_text.dart';
+import '../../notifier/disclaimer_notipod.dart';
 
-class SDisclaimerCheckbox extends StatelessWidget {
-  const SDisclaimerCheckbox({
+class DisclaimerCheckbox extends HookWidget {
+  const DisclaimerCheckbox({
     Key? key,
+    this.indexCheckBox,
     required this.firstText,
-    required this.isChecked,
     required this.onCheckboxTap,
-    required this.onUserAgreementTap,
-    required this.onPrivacyPolicyTap,
   }) : super(key: key);
 
+  final int? indexCheckBox;
   final String firstText;
-  final bool isChecked;
   final Function() onCheckboxTap;
-  final Function() onUserAgreementTap;
-  final Function() onPrivacyPolicyTap;
 
   @override
   Widget build(BuildContext context) {
     late Widget icon;
 
-    if (isChecked) {
-      icon = const SCheckboxSelectedIcon();
-    } else {
-      icon = const SCheckboxIcon();
+    final state = useProvider(disclaimerNotipod);
+    final colors = useProvider(sColorPod);
+
+    if (indexCheckBox != null) {
+      if (state.questions[indexCheckBox!].defaultState) {
+        icon = const SCheckboxSelectedIcon();
+      } else {
+        icon = const SCheckboxIcon();
+      }
     }
 
     return SizedBox(
@@ -49,10 +52,14 @@ class SDisclaimerCheckbox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SpaceH6(),
-                SimpleDisclaimerRichText(
-                  firstText: firstText,
-                  onUserAgreementTap: onUserAgreementTap,
-                  onPrivacyPolicyTap: onPrivacyPolicyTap,
+                RichText(
+                  text: TextSpan(
+                    text: firstText,
+                    style: sCaptionTextStyle.copyWith(
+                      fontFamily: 'Gilroy',
+                      color: colors.black,
+                    ),
+                  ),
                 ),
               ],
             ),
