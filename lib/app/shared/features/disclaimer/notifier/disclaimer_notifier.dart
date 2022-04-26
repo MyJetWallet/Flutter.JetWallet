@@ -167,20 +167,18 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     print('}}}STATE Before UPDATER{{{{ ${state}');
 
     final newList = List<DisclaimerModel>.from(state.disclaimers!);
-
-
+    final questionsList = List<DisclaimerQuestionsModel>.from(state.disclaimers![disclaimerIndex].questions);
 
     print('|newList| $newList');
 
     // final element = newList[disclaimerIndex].questions
     //     .firstWhere((element) => element == question, orElse: () => null);
 
-    final element = newList[disclaimerIndex]
-        .questions
+    final element = questionsList
         .firstWhere((element) => element.questionId == question.questionId);
 
-    if (newList[disclaimerIndex].questions.contains(question)) {
-      final index = newList[disclaimerIndex].questions.indexOf(question);
+    if (newList[disclaimerIndex].questions.contains(element)) {
+      final index = questionsList.indexOf(question);
 
       // print('|||element|||| $element');
 
@@ -188,6 +186,10 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
       //
       // print(
       //     '|||state|||| ${state.disclaimers![disclaimerIndex].questions[index]}');
+
+      print('|questionsList[index]|||| ${questionsList[index]}');
+
+      // questionsList[index].defaultState = !newList[disclaimerIndex].questions[index].defaultState;
 
       try {
         // print('||BOX VALUE| ${!newList[disclaimerIndex].questions[index].defaultState}');
