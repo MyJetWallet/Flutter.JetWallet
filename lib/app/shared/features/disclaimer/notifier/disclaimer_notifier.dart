@@ -7,6 +7,7 @@ import '../../../../../service/services/disclaimer/model/disclaimers_request_mod
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../model/disclaimer_model.dart';
+import '../view/components/disclaimer_checkbox.dart';
 import '../view/disclaimer.dart';
 import 'disclaimer_state.dart';
 
@@ -14,7 +15,13 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
   DisclaimerNotifier({
     required this.read,
   }) : super(
-          const DisclaimerState(disclaimers: <DisclaimerModel>[]),
+          const DisclaimerState(
+            disclaimers: <DisclaimerModel>[],
+            disclaimerId: '',
+            title: '',
+            description: '',
+            questions: <DisclaimerQuestionsModel>[],
+          ),
         ) {
     _init();
   }
@@ -41,18 +48,16 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
               imageUrl: element.imageUrl,
             ),
           );
-
-          // disclaimers.add(
-          //   DisclaimerModel(
-          //     description: 'AAAA',
-          //     title: 'BBBB',
-          //     disclaimerId: element.disclaimerId,
-          //     questions: element.questions,
-          //     imageUrl: element.imageUrl,
-          //   ),
-          // );
         }
-        state = state.copyWith(disclaimers: [...disclaimers]);
+
+        state = state.copyWith(
+          disclaimers: [...disclaimers],
+          disclaimerId: disclaimers[0].disclaimerId,
+          description: disclaimers[0].description,
+          title: disclaimers[0].title,
+          imageUrl: disclaimers[0].imageUrl,
+          questions: disclaimers[0].questions,
+        );
       }
 
       if (state.disclaimers != null) {
@@ -62,7 +67,9 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
           );
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      _logger.log(stateFlow, 'Failed to fetch disclaimers', e);
+    }
   }
 
   void _displayDisclaimers({
@@ -72,35 +79,29 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
 
     showsDisclaimer(
       context: context,
-      primaryText: state.disclaimers![disclaimerIndex].title,
-      secondaryText: state.disclaimers![disclaimerIndex].description,
-      questions: state.disclaimers![disclaimerIndex].questions,
+      imageAsset: state.imageUrl,
+      primaryText: state.title,
+      secondaryText: state.description,
+      questions: state.questions,
       primaryButtonName: 'Continue',
-      activePrimaryButton: _activeDisclaimerButton(disclaimerIndex),
-      // activePrimaryButton: true,
+      activePrimaryButton: state.activeButton,
       child: Column(
         children: [
-          for (final question
-              in state.disclaimers![disclaimerIndex].questions) ...[
-            SDisclaimerCheckbox(
+          for (final question in state.questions) ...[
+            DisclaimerCheckbox(
               firstText: question.text,
-              isChecked: question.defaultState,
-              onCheckboxTap: () => checkedQuestion(question, disclaimerIndex),
-              onUserAgreementTap: () {},
-              onPrivacyPolicyTap: () {},
+              indexCheckBox: _findQuestionIndex(question),
+              onCheckboxTap: () => _onCheckboxTap(
+                _findQuestionIndex(question),
+              ),
             ),
           ],
         ],
       ),
-      // child: _questions(
-      //   questions: state.disclaimers![disclaimerIndex].questions,
-      //   disclaimerIndex: disclaimerIndex,
-      //
-      // ),
       onPrimaryButtonTap: () async {
         final answers = <DisclaimerAnswersModel>[];
 
-        for (final element in state.disclaimers![disclaimerIndex].questions) {
+        for (final element in state.questions) {
           answers.add(
             DisclaimerAnswersModel(
               questionId: element.questionId,
@@ -110,7 +111,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
         }
 
         final model = DisclaimersRequestModel(
-          disclaimerId: state.disclaimers![disclaimerIndex].disclaimerId,
+          disclaimerId: state.disclaimerId,
           answers: answers,
         );
 
@@ -122,132 +123,60 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
           Navigator.pop(context);
 
           final index = disclaimerIndex + 1;
+
+          _updateDisclaimer(index);
+
           _displayDisclaimers(disclaimerIndex: index);
         }
       },
     );
   }
 
-  bool _activeDisclaimerButton(int disclaimerIndex) {
-    for (final element in state.disclaimers![disclaimerIndex].questions) {
-      if (element.required && !element.defaultState) {
-        return false;
-      }
-    }
-
-    return true;
+  void _updateDisclaimer(int index) {
+    state = state.copyWith(
+      activeButton: false,
+      imageUrl: state.disclaimers![index].imageUrl,
+      title: state.disclaimers![index].title,
+      description: state.disclaimers![index].description,
+      disclaimerId: state.disclaimers![index].disclaimerId,
+      questions: state.disclaimers![index].questions,
+    );
   }
 
-  // Column _questions({
-  //   required List<DisclaimerQuestionsModel> questions,
-  //   required int disclaimerIndex,
-  // }) {
-  //   return Column(
-  //     children: [
-  //       for (final question
-  //           in state.disclaimers![disclaimerIndex].questions) ...[
-  //         SDisclaimerCheckbox(
-  //           firstText: question.text,
-  //           isChecked: question.defaultState,
-  //           onCheckboxTap: () => _checkedQuestion(question, disclaimerIndex),
-  //           onUserAgreementTap: () {},
-  //           onPrivacyPolicyTap: () {},
-  //         ),
-  //       ],
-  //     ],
-  //   );
-  // }
-
-  void checkedQuestion(
-    DisclaimerQuestionsModel question,
-    int disclaimerIndex,
-  ) {
-    print('CHECK TAp $disclaimerIndex');
-
-    print('}}}STATE Before UPDATER{{{{ ${state}');
-
-    final newList = List<DisclaimerModel>.from(state.disclaimers!);
-    final questionsList = List<DisclaimerQuestionsModel>.from(state.disclaimers![disclaimerIndex].questions);
-
-    print('|newList| $newList');
-
-    // final element = newList[disclaimerIndex].questions
-    //     .firstWhere((element) => element == question, orElse: () => null);
-
-    final element = questionsList
-        .firstWhere((element) => element.questionId == question.questionId);
-
-    if (newList[disclaimerIndex].questions.contains(element)) {
-      final index = questionsList.indexOf(question);
-
-      // print('|||element|||| $element');
-
-      // print('|||index|||| $index');
-      //
-      // print(
-      //     '|||state|||| ${state.disclaimers![disclaimerIndex].questions[index]}');
-
-      print('|questionsList[index]|||| ${questionsList[index]}');
-
-      // questionsList[index].defaultState = !newList[disclaimerIndex].questions[index].defaultState;
-
-      try {
-        // print('||BOX VALUE| ${!newList[disclaimerIndex].questions[index].defaultState}');
-
-        newList[disclaimerIndex].questions[index] = DisclaimerQuestionsModel(
-          questionId: newList[disclaimerIndex].questions[index].questionId,
-          text: newList[disclaimerIndex].questions[index].text,
-          required: newList[disclaimerIndex].questions[index].required,
-          defaultState: !newList[disclaimerIndex].questions[index].defaultState,
-        );
-
-        print('||BOX VALUE| ${newList}');
-
-        state = state.copyWith(disclaimers: newList);
-
-        print('}}}STATE AFTER UPDATER{{{{ ${state}');
-        // state.disclaimers![disclaimerIndex].questions[index] =
-        //     state.disclaimers![disclaimerIndex].questions[index].copyWith(
-        //   defaultState:
-        //       !state.disclaimers![disclaimerIndex].questions[index].defaultState,
-        // );
-
-        // state = state.copyWith(
-        //   disclaimers: [
-        //     const DisclaimerModel(
-        //       description: 'element.description',
-        //       title: 'element.title',
-        //       disclaimerId: 'element.disclaimerId',
-        //       questions: [
-        //         DisclaimerQuestionsModel(
-        //           questionId: 'f241fe942cb74536ac05ac1e5e57dd8a',
-        //           text: 'Placeholder for test-test: ',
-        //           required: false,
-        //           defaultState: true,
-        //         ),
-        //       ],
-        //       imageUrl: 'element.imageUrl',
-        //     )
-        //   ],
-        // );
-
-        // state.disclaimers![disclaimerIndex].questions[index].copyWith(defaultState: true);
-        //     DisclaimerQuestionsModel(
-        //   questionId:
-        //       state.disclaimers![disclaimerIndex].questions[index].questionId,
-        //   text: state.disclaimers![disclaimerIndex].questions[index].text,
-        //   required: state.disclaimers![disclaimerIndex].questions[index].required,
-        //   defaultState:
-        //       !state.disclaimers![disclaimerIndex].questions[index].defaultState,
-        // );
-
-        print(
-            '|||AFTER|||| ${state.disclaimers![disclaimerIndex].questions[index]}');
-
-        print('|||AFTER11|||| $state');
-      } catch (e) {
-        print('|ERROR| $e');
+  int _findQuestionIndex(DisclaimerQuestionsModel question) {
+    for (final element in state.questions) {
+      if (element.questionId == question.questionId) {
+        return state.questions.indexOf(element);
       }
     }
+    return 0;
+  }
+
+  void _onCheckboxTap(int index) {
+    final questionsNewList = List<DisclaimerQuestionsModel>.from(
+      state.questions,
+    );
+
+    questionsNewList[index] = DisclaimerQuestionsModel(
+      questionId: questionsNewList[index].questionId,
+      defaultState: !questionsNewList[index].defaultState,
+      text: questionsNewList[index].text,
+      required: questionsNewList[index].required,
+    );
+
+    state = state.copyWith(questions: questionsNewList, activeButton: true);
+
+    // _checkActiveButtonStatus();
+  }
+
+  void _checkActiveButtonStatus() {
+    for (final element in state.questions) {
+      if (element.required && !element.defaultState) {
+        state = state.copyWith(activeButton: false);
+        return;
+      }
+    }
+
+    state = state.copyWith(activeButton: true);
   }
 }

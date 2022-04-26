@@ -31,6 +31,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
         read(userInfoNotipod.notifier).updateWithValuesFromSessionInfo(
           twoFaEnabled: info.twoFaEnabled,
           phoneVerified: info.phoneVerified,
+          hasDisclaimers: info.hasDisclaimers,
         );
 
         _initSignalRSynchronously();

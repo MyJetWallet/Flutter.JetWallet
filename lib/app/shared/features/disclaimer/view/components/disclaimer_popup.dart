@@ -13,7 +13,6 @@ void sShowDisclaimerPopup(
   Widget? topSpacer,
   Widget? child,
   bool willPopScope = true,
-  bool barrierDismissible = true,
   bool activePrimaryButton = true,
   SButtonType primaryButtonType = SButtonType.primary1,
   required List<DisclaimerQuestionsModel> questions,
@@ -26,12 +25,11 @@ void sShowDisclaimerPopup(
 
   showDialog(
     context: context,
-    barrierDismissible: barrierDismissible,
+    barrierDismissible: false,
     builder: (context) {
       return WillPopScope(
         onWillPop: () {
-          onWillPop?.call();
-          return Future.value(willPopScope);
+          return Future.value(false);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -77,7 +75,7 @@ void sShowDisclaimerPopup(
                     if (child != null) child,
                     SPrimaryButton1(
                       name: primaryButtonName,
-                      active: activePrimaryButton,
+                      active: true,
                       onTap: () => onPrimaryButtonTap(),
                     ),
                     const SpaceH20(),

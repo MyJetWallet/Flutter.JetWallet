@@ -39,25 +39,22 @@ Future<void> postDisclaimersService(
   DisclaimersRequestModel model,
 ) async {
   final logger = DisclaimersService.logger;
-  const message = 'profileInfoService';
-
-  print('http||| $walletApi/profile/disclaimers');
-  print('model||| $model');
+  const message = 'postDisclaimersService';
 
   try {
-    // final response = await dio.post(
-    //   '$walletApi/profile/disclaimers',
-    //   data: model.toJson(),
-    // );
+    final response = await dio.post(
+      '$walletApi/profile/disclaimers',
+      data: model.toJson(),
+    );
 
-    // try {
-    //   final responseData = response.data as Map<String, dynamic>;
-    //
-    //   handleResultResponse(responseData);
-    // } catch (e) {
-    //   logger.log(contract, message, e);
-    //   rethrow;
-    // }
+    try {
+      final responseData = response.data as Map<String, dynamic>;
+
+      handleResultResponse(responseData);
+    } catch (e) {
+      logger.log(contract, message, e);
+      rethrow;
+    }
   } catch (e) {
     logger.log(transport, message);
     rethrow;

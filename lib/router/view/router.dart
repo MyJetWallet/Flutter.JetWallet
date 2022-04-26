@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../app/screens/navigation/view/navigation.dart';
+import '../../app/shared/features/disclaimer/notifier/disclaimer_notipod.dart';
 import '../../auth/screens/email_verification/view/email_verification.dart';
 import '../../auth/screens/onboarding/onboarding_screen.dart';
 import '../../auth/screens/splash/splash_screen.dart';
@@ -10,6 +11,7 @@ import '../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import '../../shared/features/two_fa_phone/view/two_fa_phone.dart';
+import '../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/providers/service_providers.dart';
 import '../provider/router_pod/router_pod.dart';
 
@@ -25,31 +27,48 @@ class AppRouter extends HookWidget {
     final router = useProvider(routerPod);
     useProvider(intlPod.select((_) {}));
 
+    final userInfo = useProvider(userInfoNotipod);
+
     return router.when(
       loading: () {
         return const SplashScreen();
       },
       emailVerification: () {
+        if (userInfo.hasDisclaimers) {
+          useProvider(disclaimerNotipod);
+        }
         return const EmailVerification();
       },
       twoFaVerification: () {
+        if (userInfo.hasDisclaimers) {
+          useProvider(disclaimerNotipod);
+        }
         return const TwoFaPhone(
           trigger: TwoFaPhoneTriggerUnion.startup(),
         );
       },
       pinSetup: () {
+        if (userInfo.hasDisclaimers) {
+          useProvider(disclaimerNotipod);
+        }
         return const PinScreen(
           union: Setup(),
           cannotLeave: true,
         );
       },
       pinVerification: () {
+        if (userInfo.hasDisclaimers) {
+          useProvider(disclaimerNotipod);
+        }
         return const PinScreen(
           union: Verification(),
           cannotLeave: true,
         );
       },
       home: () {
+        if (userInfo.hasDisclaimers) {
+          useProvider(disclaimerNotipod);
+        }
         return Navigation();
       },
       unauthorized: () {

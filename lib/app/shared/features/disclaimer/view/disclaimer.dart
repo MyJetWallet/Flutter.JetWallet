@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/constants.dart';
 import '../model/disclaimer_model.dart';
+import '../notifier/disclaimer_notipod.dart';
 import 'components/disclaimer_popup.dart';
 
 void showsDisclaimer({
@@ -17,11 +19,17 @@ void showsDisclaimer({
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
 }) {
+  final state = context.read(disclaimerNotipod);
+
   sShowDisclaimerPopup(
     context,
     image: imageAsset != null
-        ? Image.network(
-            imageAsset,
+        ? SizedBox(
+            height: 80,
+            width: 80,
+            child: Image.network(
+              imageAsset,
+            ),
           )
         : SizedBox(
             height: 80,
@@ -37,7 +45,7 @@ void showsDisclaimer({
     secondaryButtonName: secondaryButtonName,
     onPrimaryButtonTap: onPrimaryButtonTap,
     onSecondaryButtonTap: onSecondaryButtonTap,
-    activePrimaryButton: activePrimaryButton,
+    activePrimaryButton: state.activeButton,
     questions: questions,
   );
 }
