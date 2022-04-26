@@ -17,7 +17,6 @@ void showStartEarnBottomSheet({
     removeBarPadding: true,
     horizontalPinnedPadding: 0,
     scrollable: true,
-    pinnedOnScroll: const EarnPinnedSmall(),
     children: [
       const EarnPinned(),
       EarnBody(
