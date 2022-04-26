@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../simple_kit.dart';
-import '../../colors/view/simple_colors_light.dart';
+import '../../model/disclaimer_model.dart';
 
 void sShowDisclaimerPopup(
   BuildContext context, {
@@ -15,11 +16,14 @@ void sShowDisclaimerPopup(
   bool barrierDismissible = true,
   bool activePrimaryButton = true,
   SButtonType primaryButtonType = SButtonType.primary1,
+  required List<DisclaimerQuestionsModel> questions,
   required Widget image,
   required String primaryText,
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
 }) {
+  final colors = context.read(sColorPod);
+
   showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
@@ -64,40 +68,18 @@ void sShowDisclaimerPopup(
                         maxLines: 6,
                         textAlign: TextAlign.center,
                         style: sBodyText1Style.copyWith(
-                          color: SColorsLight().grey1,
+                          color: colors.grey1,
                         ),
                       ),
                     const SpaceH36(),
                     const SDivider(),
                     const SpaceH25(),
                     if (child != null) child,
-                    if (primaryButtonType == SButtonType.primary1)
-                      SPrimaryButton1(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      )
-                    else if (primaryButtonType == SButtonType.primary2)
-                      SPrimaryButton2(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      )
-                    else
-                      SPrimaryButton3(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      ),
-                    if (onSecondaryButtonTap != null &&
-                        secondaryButtonName != null) ...[
-                      const SpaceH10(),
-                      STextButton1(
-                        name: secondaryButtonName,
-                        active: true,
-                        onTap: () => onSecondaryButtonTap(),
-                      ),
-                    ],
+                    SPrimaryButton1(
+                      name: primaryButtonName,
+                      active: activePrimaryButton,
+                      onTap: () => onPrimaryButtonTap(),
+                    ),
                     const SpaceH20(),
                   ],
                 ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
+import '../model/disclaimer_model.dart';
+import 'components/disclaimer_popup.dart';
 
 void showsDisclaimer({
   String? imageAsset,
@@ -9,6 +10,7 @@ void showsDisclaimer({
   Function()? onSecondaryButtonTap,
   Widget? child,
   bool activePrimaryButton = true,
+  required List<DisclaimerQuestionsModel> questions,
   required BuildContext context,
   required String primaryText,
   required String secondaryText,
@@ -36,5 +38,6 @@ void showsDisclaimer({
     onPrimaryButtonTap: onPrimaryButtonTap,
     onSecondaryButtonTap: onSecondaryButtonTap,
     activePrimaryButton: activePrimaryButton,
+    questions: questions,
   );
 }

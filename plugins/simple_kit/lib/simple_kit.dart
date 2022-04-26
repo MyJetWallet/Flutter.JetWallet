@@ -262,7 +262,6 @@ export 'src/shared/components/simple_paddings.dart';
 export 'src/shared/components/simple_profile_details_button.dart';
 export 'src/shared/components/simple_requirement.dart';
 export 'src/shared/components/simple_show_alert_popup.dart';
-export 'src/shared/components/simple_disclaimer_popup.dart';
 export 'src/shared/components/simple_skeleton_text_loader.dart';
 export 'src/shared/components/simple_spacers.dart';
 export 'src/shared/components/simple_transparent_ink_well.dart';
@@ -289,3 +288,6 @@ export 'src/texts/simple_text_styles.dart';
 
 /// Theme
 export 'src/theme/provider/simple_theme_pod.dart';
+
+/// Disclaimer
+export 'src/disclaimer/simple_disclaimer_checkbox.dart';
