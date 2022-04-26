@@ -13,6 +13,7 @@ void showKycPopup({
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
 
+
 }) {
   sShowAlertPopup(
     context,
