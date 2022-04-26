@@ -4,6 +4,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../shared/models/currency_model.dart';
 import 'components/earn_body.dart';
 import 'components/earn_pinned.dart';
+import 'components/earn_pinned_small.dart';
 
 void showStartEarnBottomSheet({
   required BuildContext context,
@@ -16,6 +17,7 @@ void showStartEarnBottomSheet({
     removeBarPadding: true,
     horizontalPinnedPadding: 0,
     scrollable: true,
+    pinnedOnScroll: const EarnPinnedSmall(),
     children: [
       const EarnPinned(),
       EarnBody(

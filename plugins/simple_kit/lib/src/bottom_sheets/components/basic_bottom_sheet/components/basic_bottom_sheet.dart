@@ -9,6 +9,7 @@ class BasicBottomSheet extends HookWidget {
     Key? key,
     this.transitionAnimationController,
     this.pinned,
+    this.pinnedOnScroll,
     this.onDissmis,
     this.minHeight,
     this.horizontalPadding,
@@ -29,6 +30,7 @@ class BasicBottomSheet extends HookWidget {
   // to listen for isAnimating parameter
   final AnimationController? transitionAnimationController;
   final Widget? pinned;
+  final Widget? pinnedOnScroll;
   final Widget? pinnedBottom;
   final Function()? onDissmis;
   final double? minHeight;
@@ -54,6 +56,7 @@ class BasicBottomSheet extends HookWidget {
 
     /// Needed to get the size of the pinned Widget
     final pinnedSize = useState<Size?>(Size.zero);
+    final pinnedOnScrollSize = useState<Size?>(Size.zero);
     final pinnedBottomSize = useState<Size?>(Size.zero);
 
     /// To avoid additional taps on barrier of bottom sheet when
@@ -87,6 +90,7 @@ class BasicBottomSheet extends HookWidget {
               removeBarPadding: removeBarPadding,
               removePinnedPadding: removePinnedPadding,
               pinnedBottom: pinnedBottom,
+              pinnedOnScrollSize: pinnedOnScrollSize.value,
             );
 
             return Column(
@@ -124,6 +128,14 @@ class BasicBottomSheet extends HookWidget {
                                 },
                               ),
                               if (!removePinnedPadding) const SpaceH24()
+                            ],
+                            if (pinnedOnScroll != null) ...[
+                              SGetWidgetSize(
+                                child: pinnedOnScroll!,
+                                onChange: (size) {
+                                  pinnedOnScrollSize.value = size;
+                                },
+                              ),
                             ],
                           ],
                         ),
@@ -170,6 +182,7 @@ double _listViewMaxHeight({
   required bool removeBarPadding,
   required bool removePinnedPadding,
   required Size? pinnedSize,
+  required Size? pinnedOnScrollSize,
   required Size? pinnedBottomSize,
   required Widget? pinnedBottom,
 }) {
@@ -189,6 +202,10 @@ double _listViewMaxHeight({
     if (!removePinnedPadding) {
       max = max - 24;
     }
+  }
+
+  if (pinnedOnScrollSize != null) {
+    max = max - pinnedOnScrollSize.height;
   }
 
   if (pinnedBottomSize != null) {

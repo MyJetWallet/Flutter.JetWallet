@@ -5,6 +5,7 @@ import 'components/basic_bottom_sheet.dart';
 
 void sShowBasicModalBottomSheet({
   Widget? pinned,
+  Widget? pinnedOnScroll,
   Function(dynamic)? then,
   Function()? onDissmis,
   double? minHeight,
@@ -31,6 +32,7 @@ void sShowBasicModalBottomSheet({
         color: color ?? SColorsLight().white,
         transitionAnimationController: transitionAnimationController,
         pinned: pinned,
+        pinnedOnScroll: pinnedOnScroll,
         horizontalPinnedPadding: horizontalPinnedPadding,
         onWillPop: onWillPop,
         onDissmis: onDissmis,
