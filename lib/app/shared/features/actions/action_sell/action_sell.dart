@@ -62,8 +62,8 @@ class _ActionSell extends HookWidget {
               secondaryText: currency.volumeAssetBalance,
               removeDivider: currency == assetWithBalance.last,
               onTap: () {
-                sAnalytics.buySellView(
-                  ScreenSource.quickActions,
+                sAnalytics.sellView(
+                  Source.quickActions,
                   currency.description,
                 );
 

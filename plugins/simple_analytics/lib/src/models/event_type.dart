@@ -45,44 +45,50 @@ class EventType {
   /// Click on market banner, close-open, campaign name
   static const clickMarketBanner = 'Market banner click';
 
-  /// Rewards screen view
   static const rewardsScreenView = 'Rewards screen view';
 
   static const inviteFriendView = 'Invite friend view';
 
-  static const buySellView = 'Buy / Sell view';
-
   static const earnDetailsView = 'Earn details view';
 
-  static const depositCryptoView = 'Deposit crypto view';
+  static const walletAssetView = 'Wallet asset view';
 
-  static const walletAssetView  = 'Wallet asset view';
+  /// Quick actions screens
+  static const buyView = 'Buy view';
+  static const sellView = 'Sell view';
+  static const convertView = 'Convert view';
+  static const depositView = 'Deposit view';
+  static const receiveView = 'Receive view';
+  static const sendView = 'Send view';
+  static const buyFromCardView = 'Buy from card view';
 
+  /// Quick actions bottom sheet
+  static const buySheetView = 'Buy sheet view';
+  static const sellSheetView = 'Sell sheet view';
+  static const convertSheetView = 'Convert sheet view';
+  static const depositSheetView = 'Deposit sheet view';
+  static const receiveSheetView = 'Receive sheet view';
+  static const sendSheetView = 'Send sheet view';
+  static const buyFromCardSheetView = 'Buy from card sheet view';
+
+  /// KYC related events
   static const kycCameraAllowed = 'KYC - Camera allowed';
-
   static const kycCameraNotAllowed = 'KYC - Camera not allowed';
-
   static const kycIdentityUploaded = 'KYC - Identity Uploaded';
-
-  static const kycIdentityUploadFailed  = 'KYC - Identity upload failed';
-
-  static const kycSelfieUploaded  = 'KYC - Selfie uploaded';
-
-  static const kycPhoneConfirmationView  = 'KYC - Phone confirmation view';
-
-  static const kycPhoneConfirmed  = 'KYC - Phone confirmed';
-
+  static const kycIdentityUploadFailed = 'KYC - Identity upload failed';
+  static const kycSelfieUploaded = 'KYC - Selfie uploaded';
+  static const kycPhoneConfirmationView = 'KYC - Phone confirmation view';
+  static const kycPhoneConfirmed = 'KYC - Phone confirmed';
   static const kycPhoneConfirmFailed = 'KYC - Phone confirm failed';
-
   static const kycAllowCameraView = 'KYC - Allow camera view';
-
   static const kycSelfieView = 'KYC - Selfie view';
-
   static const kycSuccessPageView = 'KYC - Success Page View';
-
   static const kycChangePhoneNumber = 'KYC - Change Phone Number';
-
   static const kycIdentityScreenView = 'KYC - Identity screen view';
-
   static const kycEnterPhoneNumber = 'KYC - Enter phone number';
+
+  static const quickActionAssetView = 'Choose asset to buy';
+
+  /// Buy Action
+  static const previewBuy = 'Preview buy';
 }

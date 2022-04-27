@@ -157,7 +157,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -189,7 +189,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -220,7 +220,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -249,7 +249,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   kycAlertHandler.handle(
@@ -280,7 +280,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   kycAlertHandler.handle(
@@ -316,7 +316,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -342,7 +342,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -371,7 +371,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -438,8 +438,8 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.buySellView(
-                                  ScreenSource.assetScreen,
+                                sAnalytics.buyView(
+                                  Source.assetScreen,
                                   widget.currency.description,
                                 );
                                 navigatorPushReplacement(
@@ -452,7 +452,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 Navigator.of(context).pop();
@@ -461,8 +461,8 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
-                                    sAnalytics.buySellView(
-                                      ScreenSource.assetScreen,
+                                    sAnalytics.buyView(
+                                      Source.assetScreen,
                                       widget.currency.description,
                                     );
 
@@ -482,8 +482,8 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.buySellView(
-                                  ScreenSource.assetScreen,
+                                sAnalytics.sellView(
+                                  Source.assetScreen,
                                   widget.currency.description,
                                 );
 
@@ -496,7 +496,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 Navigator.of(context).pop();
@@ -505,8 +505,8 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
-                                    sAnalytics.buySellView(
-                                      ScreenSource.assetScreen,
+                                    sAnalytics.sellView(
+                                      Source.assetScreen,
                                       widget.currency.description,
                                     );
 
@@ -534,7 +534,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 Navigator.of(context).pop();
@@ -569,7 +569,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   kycAlertHandler.handle(
@@ -607,7 +607,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   Navigator.of(context).pop();
@@ -643,7 +643,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -669,7 +669,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -698,7 +698,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
