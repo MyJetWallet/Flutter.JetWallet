@@ -51,7 +51,7 @@ class DisclaimerCheckbox extends HookWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SpaceH6(),
+                const SpaceH4(),
                 RichText(
                   text: TextSpan(
                     text: firstText,
