@@ -5,6 +5,7 @@ import 'show_plain_snackbar.dart';
 
 Future<void> launchURL(BuildContext context, String url) async {
   final uri = Uri.parse(url);
+
   if (await canLaunchUrl(uri)) {
     await launchUrl(uri);
   } else {
