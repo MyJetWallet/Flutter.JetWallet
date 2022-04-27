@@ -97,18 +97,27 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
 
           return Column(
             children: [
-              for (final question in state.questions) ...[
-                DisclaimerCheckbox(
-                  firstText: question.text,
-                  indexCheckBox: _findQuestionIndex(question),
-                  onCheckboxTap: () => setState(() {
-                    _onCheckboxTap(
-                      _findQuestionIndex(question),
-                      disclaimerIndex,
-                    );
-                  }),
+              SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    const SpaceH20(),
+                    for (final question in state.questions) ...[
+                      DisclaimerCheckbox(
+                        firstText: question.text,
+                        indexCheckBox: _findQuestionIndex(question),
+                        onCheckboxTap: () => setState(() {
+                          _onCheckboxTap(
+                            _findQuestionIndex(question),
+                            disclaimerIndex,
+                          );
+                        }),
+                      ),
+                    ],
+                  ],
                 ),
-              ],
+              ),
+
               SPrimaryButton1(
                 name: 'Continue',
                 active: state.activeButton,

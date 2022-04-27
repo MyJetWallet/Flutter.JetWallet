@@ -70,7 +70,7 @@ void sShowDisclaimerPopup(
                       ),
                     const SpaceH36(),
                     const SDivider(),
-                    const SpaceH25(),
+                    // const SpaceH20(),
                     if (child != null) child,
                     const SpaceH20(),
                   ],
