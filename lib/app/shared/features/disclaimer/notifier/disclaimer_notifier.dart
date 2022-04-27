@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -64,9 +66,11 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
 
       if (state.disclaimers != null) {
         if (state.disclaimers!.isNotEmpty) {
-          _displayDisclaimers(
-            disclaimerIndex: 0,
-          );
+          Timer(Duration.zero, () {
+            _displayDisclaimers(
+              disclaimerIndex: 0,
+            );
+          });
         }
       }
     } catch (e) {
