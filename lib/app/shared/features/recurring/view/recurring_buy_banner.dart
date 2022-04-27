@@ -29,7 +29,7 @@ class RecurringBuyBanner extends HookWidget {
           onTap: onTap,
           child: Container(
             margin: const EdgeInsets.only(top: 24.0),
-            height: 136,
+            height: 68,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
               color: _color(type, colors),
@@ -38,43 +38,44 @@ class RecurringBuyBanner extends HookWidget {
                 color: _borderColor(type, colors),
               ),
             ),
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SpaceH13(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 48,
-                      width: 48,
-                      padding: _padding(type),
-                      child: recurringBuysImage(type),
-                    ),
-                  ],
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24.0),
+                    color: colors.grey5,
+                  ),
+                  padding: _padding(type),
+                  child: recurringBuysImage(type),
                 ),
-                const SpaceH10(),
-                Column(
-                  children: [
-                    Text(
-                      recurringBuysName(type),
-                      style: sBodyText2Style.copyWith(
-                        color: _textColor(type, colors),
-                      ),
-                      textAlign: TextAlign.center,
+                const SpaceW20(),
+                SizedBox(
+                  child: Text(
+                    recurringBuysName(type),
+                    maxLines: 2,
+                    style: sSubtitle3Style.copyWith(
+                      color: _textColor(type, colors),
                     ),
-                    if (_isActiveRecurring(type))
-                      Text(
-                        totalRecurringBuy!,
-                        style: sSubtitle2Style,
-                      ),
-                  ],
+                  ),
                 ),
+                if (_isActiveRecurring(type))
+                  Text(
+                    totalRecurringBuy!,
+                    style: sSubtitle2Style,
+                  ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  NetworkImage? setCircleBackgroundImage(String? imageUrl) {
+    return (imageUrl != null) ? NetworkImage(imageUrl) : null;
   }
 
   Color _color(RecurringBuysStatus type, SimpleColors colors) {
