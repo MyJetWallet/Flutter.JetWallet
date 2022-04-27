@@ -96,7 +96,7 @@ class SimpleBaseStandardField extends HookWidget {
                       if (icon != suffixIcons!.last) const SpaceW20(),
                     ],
                 if (errorValue) ...[
-                  const SpaceW20(),
+                  const SpaceW40(),
                   GestureDetector(
                     onTap: onErrorIconTap,
                     child: const SErrorIcon(),
