@@ -20,6 +20,7 @@ import '../../../../../../shared/features/market_details/view/market_details.dar
 import '../../../../../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../../../../../shared/features/wallet/helper/market_item_from.dart';
 import '../../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
+import '../../../../../../shared/helpers/are_balances_empty.dart';
 import '../../../../../../shared/helpers/formatting/base/market_format.dart';
 import '../../../../../../shared/helpers/formatting/base/volume_format.dart';
 import '../../../../../../shared/models/currency_model.dart';
@@ -91,6 +92,7 @@ class PortfolioWithBalanceBody extends HookWidget {
     final currentCandles = chart.candles[chart.resolution];
     final isCurrentCandlesEmptyOrNull =
         currentCandles == null || currentCandles.isEmpty;
+    final balancesEmpty = areBalancesEmpty(currencies);
 
     return SingleChildScrollView(
       child: Stack(
@@ -127,32 +129,46 @@ class PortfolioWithBalanceBody extends HookWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          _price(
-                            chart,
-                            itemsWithBalance,
-                            baseCurrency,
-                          ),
-                          style: sTextH1Style,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              periodChange,
-                              style: sSubtitle3Style.copyWith(
-                                color: periodChangeColor,
-                              ),
+                        if (!balancesEmpty)
+                          Text(
+                            _price(
+                              chart,
+                              itemsWithBalance,
+                              baseCurrency,
                             ),
-                            const SpaceW10(),
-                            if (!isCurrentCandlesEmptyOrNull)
+                            style: sTextH1Style,
+                          ),
+                        if (!balancesEmpty)
+                          Row(
+                            children: [
                               Text(
-                                _chartResolution(chart.resolution),
-                                style: sBodyText2Style.copyWith(
-                                  color: colors.grey3,
+                                periodChange,
+                                style: sSubtitle3Style.copyWith(
+                                  color: periodChangeColor,
                                 ),
                               ),
-                          ],
-                        ),
+                              const SpaceW10(),
+                              if (!isCurrentCandlesEmptyOrNull)
+                                Text(
+                                  _chartResolution(chart.resolution),
+                                  style: sBodyText2Style.copyWith(
+                                    color: colors.grey3,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        if (balancesEmpty)
+                          Row(
+                            children: [
+                              Text(
+                                'In progress...',
+                                style: sTextH1Style.copyWith(
+                                  color: colors.black,
+                                ),
+                              ),
+                              const SpaceH60(),
+                            ],
+                          ),
                       ],
                     ),
                   ),
@@ -175,12 +191,17 @@ class PortfolioWithBalanceBody extends HookWidget {
                     ),
                   ),
                 ),
-              BalanceChart(
-                onCandleSelected: (ChartInfoModel? chartInfo) {
-                  chartN.updateSelectedCandle(chartInfo?.right);
-                },
-                walletCreationDate: clientDetail.walletCreationDate,
-              ),
+              if (!balancesEmpty)
+                BalanceChart(
+                  onCandleSelected: (ChartInfoModel? chartInfo) {
+                    chartN.updateSelectedCandle(chartInfo?.right);
+                  },
+                  walletCreationDate: clientDetail.walletCreationDate,
+                ),
+              if (balancesEmpty)
+                Container(
+                  height: 296,
+                ),
               Container(
                 padding: const EdgeInsets.only(
                   top: 36,
@@ -264,6 +285,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                             },
                             removeDivider: item.isPendingDeposit ||
                                 item == itemsWithBalance.last,
+                            isPendingDeposit: item.isPendingDeposit,
                           ),
                           if (item.isPendingDeposit) ...[
                             BalanceInProcess(
@@ -305,6 +327,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               },
                               color: colors.black,
                               removeDivider: item == itemsWithoutBalance.last,
+                              isPendingDeposit: item.isPendingDeposit,
                             ),
                         ],
                         if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
@@ -346,6 +369,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               onTap: () => navigateToWallet(context, item),
                               removeDivider: item.isPendingDeposit ||
                                   item == cryptosWithBalance.last,
+                              isPendingDeposit: item.isPendingDeposit,
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
@@ -374,6 +398,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 color: colors.black,
                                 removeDivider:
                                     item == cryptosWithoutBalance.last,
+                                isPendingDeposit: item.isPendingDeposit,
                               ),
                             ],
                           ],
@@ -427,6 +452,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               },
                               removeDivider: item.isPendingDeposit ||
                                   item == indicesWithBalance.last,
+                              isPendingDeposit: item.isPendingDeposit,
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
@@ -465,6 +491,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 color: colors.black,
                                 removeDivider:
                                     item == indicesWithoutBalance.last,
+                                isPendingDeposit: item.isPendingDeposit,
                               ),
                           ],
                           if (!zeroBalanceWalletsEmpty(indicesWithoutBalance))
@@ -506,6 +533,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               onTap: () => navigateToWallet(context, item),
                               removeDivider: item.isPendingDeposit ||
                                   item == fiatsWithBalance.last,
+                              isPendingDeposit: item.isPendingDeposit,
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
@@ -533,6 +561,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 onTap: () => navigateToWallet(context, item),
                                 color: colors.black,
                                 removeDivider: item == fiatsWithoutBalance.last,
+                                isPendingDeposit: item.isPendingDeposit,
                               ),
                           ],
                           if (!zeroBalanceWalletsEmpty(fiatsWithoutBalance))

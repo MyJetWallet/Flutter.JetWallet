@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,6 +19,8 @@ class WalletCardCollapsed extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final isInProgress = currency.assetBalance == Decimal.zero &&
+        currency.isPendingDeposit;
 
     return Container(
       height: 200,
@@ -31,23 +34,25 @@ class WalletCardCollapsed extends HookWidget {
           SBaselineChild(
             baseline: 40,
             child: Text(
-              currency.volumeBaseBalance(baseCurrency),
+              isInProgress ? 'In progress...'
+                  : currency.volumeBaseBalance(baseCurrency),
               style: sTextH5Style,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          SBaselineChild(
-            baseline: 20,
-            child: Text(
-              currency.volumeAssetBalance,
-              style: sBodyText2Style.copyWith(
-                color: colors.grey1,
+          if (!isInProgress)
+            SBaselineChild(
+              baseline: 20,
+              child: Text(
+                currency.volumeAssetBalance,
+                style: sBodyText2Style.copyWith(
+                  color: colors.grey1,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
         ],
       ),
     );
