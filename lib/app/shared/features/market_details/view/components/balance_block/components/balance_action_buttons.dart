@@ -101,7 +101,6 @@ class BalanceActionButtons extends HookWidget {
                       ),
                     );
                   } else {
-                    Navigator.of(context).pop();
                     kycAlertHandler.handle(
                       status: kycState.withdrawalStatus,
                       kycVerified: kycState,
