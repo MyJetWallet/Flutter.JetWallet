@@ -17,7 +17,6 @@ void showsDisclaimer({
   required String primaryText,
   required String secondaryText,
   required String primaryButtonName,
-  required Function() onPrimaryButtonTap,
 }) {
   final state = context.read(disclaimerNotipod);
 
@@ -43,7 +42,6 @@ void showsDisclaimer({
     child: child,
     primaryButtonName: primaryButtonName,
     secondaryButtonName: secondaryButtonName,
-    onPrimaryButtonTap: onPrimaryButtonTap,
     onSecondaryButtonTap: onSecondaryButtonTap,
     activePrimaryButton: state.activeButton,
     questions: questions,

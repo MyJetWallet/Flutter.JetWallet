@@ -19,7 +19,6 @@ void sShowDisclaimerPopup(
   required Widget image,
   required String primaryText,
   required String primaryButtonName,
-  required Function() onPrimaryButtonTap,
 }) {
   final colors = context.read(sColorPod);
 
@@ -73,11 +72,6 @@ void sShowDisclaimerPopup(
                     const SDivider(),
                     const SpaceH25(),
                     if (child != null) child,
-                    SPrimaryButton1(
-                      name: primaryButtonName,
-                      active: true,
-                      onTap: () => onPrimaryButtonTap(),
-                    ),
                     const SpaceH20(),
                   ],
                 ),

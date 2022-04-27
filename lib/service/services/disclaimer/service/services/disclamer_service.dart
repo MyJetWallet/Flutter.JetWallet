@@ -16,8 +16,6 @@ Future<DisclaimersResponseModel> getDisclaimersService(Dio dio) async {
       '$walletApi/profile/disclaimers',
     );
 
-    print('|||GET $response');
-
     try {
       final responseData = response.data as Map<String, dynamic>;
 

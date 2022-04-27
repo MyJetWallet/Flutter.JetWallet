@@ -17,8 +17,10 @@ class DisclaimersRequestModel with _$DisclaimersRequestModel {
 @freezed
 class DisclaimerAnswersModel with _$DisclaimerAnswersModel {
   const factory DisclaimerAnswersModel({
+  required String clientId,
+  required String disclaimerId,
   required String questionId,
-  required bool value,
+  required bool result,
 }) = _DisclaimerAnswersModel;
 
 factory DisclaimerAnswersModel.fromJson(Map<String, dynamic> json) =>

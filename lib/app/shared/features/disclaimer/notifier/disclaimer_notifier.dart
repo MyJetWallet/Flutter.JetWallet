@@ -9,6 +9,7 @@ import '../../../../../shared/providers/service_providers.dart';
 import '../model/disclaimer_model.dart';
 import '../view/components/disclaimer_checkbox.dart';
 import '../view/disclaimer.dart';
+import 'disclaimer_notipod.dart';
 import 'disclaimer_state.dart';
 
 class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
@@ -57,7 +58,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
           title: disclaimers[0].title,
           imageUrl: disclaimers[0].imageUrl,
           questions: disclaimers[0].questions,
-          activeButton: _checkActiveButtonStatus2(disclaimers[0]),
+          activeButton: _checkActiveButtonStatus(disclaimers[0].questions),
         );
       }
 
@@ -86,56 +87,90 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
       questions: state.questions,
       primaryButtonName: 'Continue',
       activePrimaryButton: state.activeButton,
-      child: Column(
-        children: [
-          for (final question in state.questions) ...[
-            DisclaimerCheckbox(
-              firstText: question.text,
-              indexCheckBox: _findQuestionIndex(question),
-              onCheckboxTap: () => _onCheckboxTap(
-                _findQuestionIndex(question),
+      child: StatefulBuilder(
+        builder: (context, setState) {
+          final state = context.read(disclaimerNotipod);
+
+          return Column(
+            children: [
+              for (final question in state.questions) ...[
+                DisclaimerCheckbox(
+                  firstText: question.text,
+                  indexCheckBox: _findQuestionIndex(question),
+                  onCheckboxTap: () => setState(() {
+                    _onCheckboxTap(
+                      _findQuestionIndex(question),
+                      disclaimerIndex,
+                    );
+                  }),
+                ),
+              ],
+              SPrimaryButton1(
+                name: 'Continue',
+                active: state.activeButton,
+                onTap: () async {
+                  await _sendAnswers(context, disclaimerIndex);
+                },
               ),
-            ),
-          ],
-        ],
-      ),
-      onPrimaryButtonTap: () async {
-        final answers = <DisclaimerAnswersModel>[];
-
-        for (final element in state.questions) {
-          answers.add(
-            DisclaimerAnswersModel(
-              questionId: element.questionId,
-              value: element.defaultState,
-            ),
+            ],
           );
-        }
-
-        final model = DisclaimersRequestModel(
-          disclaimerId: state.disclaimerId,
-          answers: answers,
-        );
-
-        await read(disclaimerServicePod).saveDisclaimer(model);
-
-        if (disclaimerIndex <= state.disclaimers!.length) {
-          if (!mounted) return;
-
-          Navigator.pop(context);
-
-          final index = disclaimerIndex + 1;
-
-          _updateDisclaimer(index);
-
-          _displayDisclaimers(disclaimerIndex: index);
-        }
-      },
+        },
+      ),
     );
+  }
+
+  Future<void> _sendAnswers(BuildContext context, int disclaimerIndex) async {
+    _logger.log(notifier, '_sendAnswers');
+
+    final answers = _prepareAnswers(state.questions);
+
+    final model = DisclaimersRequestModel(
+      disclaimerId: state.disclaimerId,
+      answers: answers,
+    );
+
+    try {
+      await read(disclaimerServicePod).saveDisclaimer(model);
+
+      if (disclaimerIndex <= state.disclaimers!.length) {
+        if (!mounted) return;
+
+        Navigator.pop(context);
+
+        final index = disclaimerIndex + 1;
+
+        _updateDisclaimer(index);
+
+        _displayDisclaimers(disclaimerIndex: index);
+      }
+    } catch (error) {
+      _logger.log(stateFlow, '_sendAnswers', error);
+    }
+  }
+
+  List<DisclaimerAnswersModel> _prepareAnswers(
+    List<DisclaimerQuestionsModel> questions,
+  ) {
+    final answers = <DisclaimerAnswersModel>[];
+
+    for (final element in questions) {
+      answers.add(
+        DisclaimerAnswersModel(
+          clientId: '',
+          disclaimerId: '',
+          questionId: element.questionId,
+          result: element.defaultState,
+        ),
+      );
+    }
+
+    return answers;
   }
 
   void _updateDisclaimer(int index) {
     state = state.copyWith(
-      activeButton: _checkActiveButtonStatus2(state.disclaimers![index]),
+      activeButton:
+          _checkActiveButtonStatus(state.disclaimers![index].questions),
       imageUrl: state.disclaimers![index].imageUrl,
       title: state.disclaimers![index].title,
       description: state.disclaimers![index].description,
@@ -153,7 +188,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     return 0;
   }
 
-  void _onCheckboxTap(int index) {
+  void _onCheckboxTap(int index, int disclaimerIndex) {
     final questionsNewList = List<DisclaimerQuestionsModel>.from(
       state.questions,
     );
@@ -165,32 +200,18 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
       required: questionsNewList[index].required,
     );
 
-    state = state.copyWith(questions: questionsNewList);
-
-    _checkActiveButtonStatus();
+    state = state.copyWith(
+      questions: questionsNewList,
+      activeButton: _checkActiveButtonStatus(questionsNewList),
+    );
   }
 
-  bool _checkActiveButtonStatus() {
-    for (final element in state.questions) {
+  bool _checkActiveButtonStatus(List<DisclaimerQuestionsModel> questions) {
+    for (final element in questions) {
       if (element.required && !element.defaultState) {
-        state = state.copyWith(activeButton: false);
         return false;
       }
     }
-
-    state = state.copyWith(activeButton: true);
-    return true;
-  }
-
-  bool _checkActiveButtonStatus2(DisclaimerModel disclaimer) {
-    for (final element in disclaimer.questions) {
-      if (element.required && !element.defaultState) {
-        state = state.copyWith(activeButton: false);
-        return false;
-      }
-    }
-
-    state = state.copyWith(activeButton: true);
     return true;
   }
 }
