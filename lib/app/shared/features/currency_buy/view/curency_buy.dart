@@ -40,9 +40,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
   @override
   void initState() {
     final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
-    notifier.initDefaultPaymentMethod(
-      fromCard: widget.fromCard,
-    );
+    notifier
+      ..initDefaultPaymentMethod(
+        fromCard: widget.fromCard,
+      )
+      ..initRecurringBuyType(widget.recurringBuysType);
     super.initState();
   }
 
@@ -211,8 +213,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               recurringBuysOperationName(
-                                widget.recurringBuysType ??
-                                    state.recurringBuyType,
+                                state.recurringBuyType,
                               ),
                               style: sSubtitle3Style.copyWith(
                                 color: colors.white,
