@@ -57,6 +57,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
           title: disclaimers[0].title,
           imageUrl: disclaimers[0].imageUrl,
           questions: disclaimers[0].questions,
+          activeButton: _checkActiveButtonStatus2(disclaimers[0]),
         );
       }
 
@@ -134,7 +135,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
 
   void _updateDisclaimer(int index) {
     state = state.copyWith(
-      activeButton: false,
+      activeButton: _checkActiveButtonStatus2(state.disclaimers![index]),
       imageUrl: state.disclaimers![index].imageUrl,
       title: state.disclaimers![index].title,
       description: state.disclaimers![index].description,
@@ -164,19 +165,32 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
       required: questionsNewList[index].required,
     );
 
-    state = state.copyWith(questions: questionsNewList, activeButton: true);
+    state = state.copyWith(questions: questionsNewList);
 
-    // _checkActiveButtonStatus();
+    _checkActiveButtonStatus();
   }
 
-  void _checkActiveButtonStatus() {
+  bool _checkActiveButtonStatus() {
     for (final element in state.questions) {
       if (element.required && !element.defaultState) {
         state = state.copyWith(activeButton: false);
-        return;
+        return false;
       }
     }
 
     state = state.copyWith(activeButton: true);
+    return true;
+  }
+
+  bool _checkActiveButtonStatus2(DisclaimerModel disclaimer) {
+    for (final element in disclaimer.questions) {
+      if (element.required && !element.defaultState) {
+        state = state.copyWith(activeButton: false);
+        return false;
+      }
+    }
+
+    state = state.copyWith(activeButton: true);
+    return true;
   }
 }
