@@ -501,7 +501,7 @@ class WithOutRecurringBuysItem extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Container(
         alignment: Alignment.centerLeft,
