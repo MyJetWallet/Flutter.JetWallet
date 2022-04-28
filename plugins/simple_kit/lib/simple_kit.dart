@@ -200,6 +200,7 @@ export 'src/icons/24x24/public/wire/simple_wire_icon.dart';
 export 'src/icons/24x24/public/pause/simple_pause_icon.dart';
 export 'src/icons/24x24/public/delete/simple_delete_manage_icon.dart';
 export 'src/icons/24x24/public/paused/simple_paused_icon.dart';
+export 'src/icons/24x24/public/recurring_buys/simple_recurring_buys_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';

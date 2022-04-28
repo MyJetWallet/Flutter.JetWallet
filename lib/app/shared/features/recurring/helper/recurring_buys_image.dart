@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
 import 'recurring_buys_status_name.dart';
@@ -19,16 +19,8 @@ Widget recurringBuysImage(RecurringBuysStatus type) {
         width: 24,
       );
     case RecurringBuysStatus.deleted:
-      return SvgPicture.asset(
-        recurringBuyAsset,
-        height: 24,
-        width: 24,
-      );
+      return const SRecurringBuysIcon();
     case RecurringBuysStatus.empty:
-      return SvgPicture.asset(
-        recurringBuyAsset,
-        height: 24,
-        width: 24,
-      );
+      return const SRecurringBuysIcon();
   }
 }

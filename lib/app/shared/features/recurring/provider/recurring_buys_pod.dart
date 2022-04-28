@@ -14,4 +14,6 @@ final recurringBuysPod = Provider.autoDispose<List<RecurringBuysModel>>((ref) {
   });
 
   return items;
-});
+},
+  name: 'recurringBuysPod',
+);

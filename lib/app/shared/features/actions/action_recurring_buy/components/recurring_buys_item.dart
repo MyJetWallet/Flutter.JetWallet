@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/recurring_buys_model.dart';
-import '../../../../../../shared/constants.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../recurring/helper/recurring_buys_status_name.dart';
@@ -42,9 +40,7 @@ class RecurringBuysItem extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (recurring.status == RecurringBuysStatus.active)
-                    SvgPicture.asset(
-                      recurringBuyAsset,
-                    ),
+                    const SRecurringBuysIcon(),
                   if (recurring.status == RecurringBuysStatus.paused)
                     const SPausedIcon(),
                   const SpaceW20(),

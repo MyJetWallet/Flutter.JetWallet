@@ -5,8 +5,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
-import '../../recurring/notifier/recurring_buys_notipod.dart';
-import '../../recurring/view/recurring_buy_banner.dart';
 import '../../wallet/view/components/wallet_body/components/transactions_list/transactions_list.dart';
 
 class TransactionHistory extends HookWidget {
@@ -40,7 +38,6 @@ class TransactionHistory extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
-    final notifier = useProvider(recurringBuysNotipod.notifier);
 
     return Material(
       color: colors.white,
@@ -65,15 +62,6 @@ class TransactionHistory extends HookWidget {
               child: SSmallHeader(
                 title: _title(),
               ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: RecurringBuyBanner(
-              type: notifier.typeByAllRecurringBuys(),
-              totalRecurringBuy: notifier.totalByAllRecurring(),
-              onTap: () {
-                notifier.handleNavigate(context);
-              },
             ),
           ),
           TransactionsList(

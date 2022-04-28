@@ -22,6 +22,9 @@ class HistoryRecurringBuys extends HookWidget {
     final deviceSize = useProvider(deviceSizePod);
     final scrollController = useScrollController();
     final state = useProvider(recurringBuysNotipod);
+    final notifier = useProvider(recurringBuysNotipod.notifier);
+
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Material(
       color: colors.white,
@@ -48,43 +51,77 @@ class HistoryRecurringBuys extends HookWidget {
               ),
             ),
           ),
-          SliverGroupedListView<RecurringBuysModel, String>(
-            elements: state.recurringBuys,
-            groupBy: (recurring) {
-              return formatDate(_removeZ(recurring.creationTime));
-            },
-            sort: false,
-            groupSeparatorBuilder: (String date) {
-              return TransactionMonthSeparator(
-                text: date,
-              );
-            },
-            itemBuilder: (context, recurring) {
-              final index = state.recurringBuys.indexOf(recurring);
-              final currentDate = formatDate(_removeZ(recurring.creationTime));
-              var nextDate = '';
-              if (index != (state.recurringBuys.length - 1)) {
-                nextDate = formatDate(
-                  _removeZ(state.recurringBuys[index + 1].creationTime),
+          if (state.recurringBuys.isNotEmpty)
+            SliverGroupedListView<RecurringBuysModel, String>(
+              elements: state.recurringBuys,
+              groupBy: (recurring) {
+                return formatDate(_removeZ(recurring.creationTime));
+              },
+              sort: false,
+              groupSeparatorBuilder: (String date) {
+                return TransactionMonthSeparator(
+                  text: date,
                 );
-              }
-              final removeDividerForLastInGroup = currentDate != nextDate;
-
-              return RecurringBuysItem(
-                onTap: () {
-                  navigatorPush(
-                    context,
-                    ShowRecurringInfoAction(
-                      recurringItem: recurring,
-                      assetName: recurring.toAsset,
-                    ),
+              },
+              itemBuilder: (context, recurring) {
+                final index = state.recurringBuys.indexOf(recurring);
+                final currentDate =
+                    formatDate(_removeZ(recurring.creationTime));
+                var nextDate = '';
+                if (index != (state.recurringBuys.length - 1)) {
+                  nextDate = formatDate(
+                    _removeZ(state.recurringBuys[index + 1].creationTime),
                   );
-                },
-                recurring: recurring,
-                removeDivider: removeDividerForLastInGroup,
-              );
-            },
-          ),
+                }
+                final removeDividerForLastInGroup = currentDate != nextDate;
+
+                return RecurringBuysItem(
+                  onTap: () {
+                    navigatorPush(
+                      context,
+                      ShowRecurringInfoAction(
+                        recurringItem: recurring,
+                        assetName: recurring.toAsset,
+                      ),
+                    );
+                  },
+                  recurring: recurring,
+                  removeDivider: removeDividerForLastInGroup,
+                );
+              },
+            )
+          else
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: screenHeight - screenHeight * 0.161,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    Text(
+                      'No transactions yet',
+                      style: sTextH3Style,
+                    ),
+                    Text(
+                      'Your transactions will appear here',
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
+                      ),
+                    ),
+                    const Spacer(),
+                    SPaddingH24(
+                      child: SSecondaryButton1(
+                        active: true,
+                        name: 'Setup recurring buy',
+                        onTap: () {
+                          notifier.handleNavigate(context);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
