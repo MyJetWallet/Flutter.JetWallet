@@ -33,6 +33,14 @@ class EarnPinned extends HookWidget {
                 ),
               ),
             ),
+            Positioned(
+              top: 33.0,
+              right: 26.0,
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: const SEraseMarketIcon(),
+              ),
+            ),
           ],
         ),
         const SpaceH30(),

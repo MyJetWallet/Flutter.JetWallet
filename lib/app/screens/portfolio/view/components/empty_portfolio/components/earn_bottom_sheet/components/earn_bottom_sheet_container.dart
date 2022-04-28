@@ -15,6 +15,7 @@ class EarnBottomSheetContainer extends HookWidget {
     this.expanded = false,
     this.removePinnedPadding = false,
     this.pinnedBottom,
+    required this.expandedHeight,
     required this.pinned,
     required this.pinnedSmall,
     required this.color,
@@ -28,6 +29,7 @@ class EarnBottomSheetContainer extends HookWidget {
   final Function()? onDissmis;
   final double? minHeight;
   final double? horizontalPadding;
+  final double expandedHeight;
   final bool expanded;
   final bool removePinnedPadding;
   final Color color;
@@ -99,7 +101,7 @@ class EarnBottomSheetContainer extends HookWidget {
                                 backgroundColor: Colors.transparent,
                                 pinned: true,
                                 elevation: 0,
-                                expandedHeight: 340,
+                                expandedHeight: expandedHeight,
                                 collapsedHeight: 115,
                                 primary: false,
                                 flexibleSpace: FadeOnScroll(
@@ -129,12 +131,7 @@ class EarnBottomSheetContainer extends HookWidget {
                         ),
                       ),
                       if (pinnedBottom != null) ...[
-                        SWidgetBottomSize(
-                          child: pinnedBottom!,
-                          onChange: (size) {
-                            pinnedBottomSize.value = size;
-                          },
-                        ),
+                        pinnedBottom!
                       ],
                     ],
                   ),
@@ -173,8 +170,8 @@ double _listViewMaxHeight({
     }
   }
 
-  if (pinnedBottomSize != null) {
-    max = max - pinnedBottomSize.height;
+  if (pinnedBottom != null) {
+    max = max - 105;
   }
 
   return max - 60; // required spacing from the top edge of the device;

@@ -12,6 +12,7 @@ class EarnPinnedSmall extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
+
     return Stack(
       children: [
         SizedBox(
@@ -44,7 +45,7 @@ class EarnPinnedSmall extends HookWidget {
           ),
         ),
         Positioned(
-          top: 26.0,
+          top: 33.0,
           right: 26.0,
           child: GestureDetector(
             onTap: () => Navigator.pop(context),

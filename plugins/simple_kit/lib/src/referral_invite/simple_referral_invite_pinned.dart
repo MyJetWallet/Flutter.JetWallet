@@ -12,24 +12,37 @@ class SReferralInvitePinned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        Container(
-          height: 180,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24.0),
-              topRight: Radius.circular(24.0),
-            ),
-            image: DecorationImage(
-              image: AssetImage(
-                referralInviteFriendsAsset,
-                package: 'simple_kit',
+        Stack(
+          children: [
+            Container(
+              height: 180,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.0),
+                  topRight: Radius.circular(24.0),
+                ),
+                image: DecorationImage(
+                  image: AssetImage(
+                    referralInviteFriendsAsset,
+                    package: 'simple_kit',
+                  ),
+                  fit: BoxFit.fill,
+                ),
               ),
-              fit: BoxFit.fill,
             ),
-          ),
+            Positioned(
+              top: 33.0,
+              right: 26.0,
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: const SEraseMarketIcon(),
+              ),
+            ),
+          ],
         ),
+        const SpaceH30(),
         if (child != null) child!,
       ],
     );

@@ -26,6 +26,7 @@ void showStartEarnBottomSheet({
         color: Colors.white,
         pinned: const EarnPinned(),
         pinnedSmall: const EarnPinnedSmall(),
+        expandedHeight: 340,
         children: [
           EarnBody(
             onTap: onTap,
@@ -33,5 +34,6 @@ void showStartEarnBottomSheet({
         ],
       );
     },
+    transitionAnimationController: null,
   );
 }

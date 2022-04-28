@@ -198,10 +198,10 @@ class DeepLinkService {
       backgroundColor: Colors.transparent,
       builder: (context) {
         return EarnBottomSheetContainer(
-          color: Colors.white,
           removePinnedPadding: true,
           horizontalPinnedPadding: 0,
           scrollable: true,
+          color: Colors.white,
           pinned: SReferralInvitePinned(
             child: SPaddingH24(
               child: Row(
@@ -240,30 +240,42 @@ class DeepLinkService {
               ),
             ),
           ),
-          pinnedSmall: SPaddingH24(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 203.0,
-                  child: Baseline(
-                    baseline: 64.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      referralInfo.title,
-                      maxLines: 3,
-                      style: sTextH5Style,
+          pinnedSmall: Stack(
+            children: [
+              SizedBox(
+                height: 115,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: RichText(
+                        text: TextSpan(
+                          text: referralInfo.title,
+                          style: sTextH5Style.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Positioned(
+                top: 33.0,
+                right: 26.0,
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const SErasePressedIcon(),
+                ),
+              ),
+            ],
           ),
           pinnedBottom: SReferralInviteBottomPinned(
             onShare: () {
               Share.share(referralInfo.referralLink);
             },
           ),
+          expandedHeight: 400,
           children: [
             SReferralInviteBody(
               primaryText: referralInfo.title,
