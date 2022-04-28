@@ -178,13 +178,14 @@ class MarketDetails extends HookWidget {
             const SpaceH40(),
             SSmallestBanner(
               color: colors.blueLight,
-              primaryText: (currency.isRecurring)
+              primaryText: (recurringNotifier
+                      .activeOrPausedType(currency.symbol))
                   ? 'Recurring buy ${recurringNotifier.totalRecurringByAsset(
                       asset: currency.recurringBuy!.toAsset,
                     )}'
                   : 'Setup recurring buy',
               onTap: () {
-                if (currency.isRecurring) {
+                if (recurringNotifier.activeOrPausedType(currency.symbol)) {
                   showRecurringBuyAction(
                     context: context,
                     currency: currency,

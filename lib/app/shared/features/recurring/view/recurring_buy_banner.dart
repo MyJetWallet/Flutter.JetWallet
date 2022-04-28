@@ -23,51 +23,49 @@ class RecurringBuyBanner extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
 
-    return SliverToBoxAdapter(
-      child: SPaddingH24(
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            margin: const EdgeInsets.only(top: 24.0),
-            height: 68,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              color: _color(type, colors),
-              border: Border.all(
-                width: 3.0,
-                color: _borderColor(type, colors),
+    return SPaddingH24(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          margin: const EdgeInsets.only(top: 24.0),
+          height: 68,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: _color(type, colors),
+            border: Border.all(
+              width: 3.0,
+              color: _borderColor(type, colors),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24.0),
+                  color: colors.grey5,
+                ),
+                padding: _padding(type),
+                child: recurringBuysImage(type),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 48,
-                  width: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24.0),
-                    color: colors.grey5,
-                  ),
-                  padding: _padding(type),
-                  child: recurringBuysImage(type),
-                ),
-                const SpaceW20(),
-                SizedBox(
-                  child: Text(
-                    recurringBuysName(type),
-                    maxLines: 2,
-                    style: sSubtitle3Style.copyWith(
-                      color: _textColor(type, colors),
-                    ),
+              const SpaceW20(),
+              SizedBox(
+                child: Text(
+                  recurringBuysName(type),
+                  maxLines: 2,
+                  style: sSubtitle3Style.copyWith(
+                    color: _textColor(type, colors),
                   ),
                 ),
-                if (_isActiveRecurring(type))
-                  Text(
-                    totalRecurringBuy!,
-                    style: sSubtitle2Style,
-                  ),
-              ],
-            ),
+              ),
+              if (_isActiveRecurring(type))
+                Text(
+                  totalRecurringBuy!,
+                  style: sSubtitle2Style,
+                ),
+            ],
           ),
         ),
       ),

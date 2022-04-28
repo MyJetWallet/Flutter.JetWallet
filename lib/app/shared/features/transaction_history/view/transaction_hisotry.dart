@@ -67,12 +67,14 @@ class TransactionHistory extends HookWidget {
               ),
             ),
           ),
-          RecurringBuyBanner(
-            type: notifier.typeByAllRecurringBuys(),
-            totalRecurringBuy: notifier.totalByAllRecurring(),
-            onTap: () {
-              notifier.handleNavigate(context);
-            },
+          SliverToBoxAdapter(
+            child: RecurringBuyBanner(
+              type: notifier.typeByAllRecurringBuys(),
+              totalRecurringBuy: notifier.totalByAllRecurring(),
+              onTap: () {
+                notifier.handleNavigate(context);
+              },
+            ),
           ),
           TransactionsList(
             scrollController: scrollController,

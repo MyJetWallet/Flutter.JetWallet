@@ -94,27 +94,30 @@ class _WalletBodyState extends State<WalletBody>
                 ),
               ),
             ),
-            RecurringBuyBanner(
-              totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
-                asset: widget.currency.symbol,
+            SliverToBoxAdapter(
+              child: RecurringBuyBanner(
+                totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
+                  asset: widget.currency.symbol,
+                ),
+                type: recurringNotifier.type(widget.currency.symbol),
+                onTap: () {
+                  if (recurringNotifier
+                      .activeOrPausedType(widget.currency.symbol)) {
+                    showRecurringBuyAction(
+                      context: context,
+                      currency: widget.currency,
+                      total: recurringNotifier.totalRecurringByAsset(
+                        asset: widget.currency.symbol,
+                      ),
+                    );
+                  } else {
+                    showActionWithOutRecurringBuy(
+                      context: context,
+                      currency: widget.currency,
+                    );
+                  }
+                },
               ),
-              type: recurringNotifier.type(widget.currency.symbol),
-              onTap: () {
-                if (widget.currency.isRecurring) {
-                  showRecurringBuyAction(
-                    context: context,
-                    currency: widget.currency,
-                    total: recurringNotifier.totalRecurringByAsset(
-                      asset: widget.currency.symbol,
-                    ),
-                  );
-                } else {
-                  showActionWithOutRecurringBuy(
-                    context: context,
-                    currency: widget.currency,
-                  );
-                }
-              },
             ),
             SliverToBoxAdapter(
               child: SPaddingH24(

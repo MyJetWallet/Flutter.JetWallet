@@ -11,6 +11,7 @@ import '../../../../../helpers/formatting/formatting.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../../../transaction_history/view/transaction_hisotry.dart';
 import '../../../../wallet/helper/navigate_to_wallet.dart';
 import '../../../../wallet/notifier/operation_history_notipod.dart';
@@ -38,6 +39,7 @@ class BalanceBlock extends HookWidget {
         marketItem.symbol,
       ),
     );
+    final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
 
     return SizedBox(
       height: 156,
@@ -50,7 +52,7 @@ class BalanceBlock extends HookWidget {
               url: marketItem.iconUrl,
             ),
             primaryText: '${marketItem.name} wallet',
-            isRecurring: currency.isRecurring,
+            isRecurring: recurringNotifier.activeOrPausedType(currency.symbol),
             recurringIcon: recurringIcon(colors),
             amount: volumeFormat(
               prefix: baseCurrency.prefix,

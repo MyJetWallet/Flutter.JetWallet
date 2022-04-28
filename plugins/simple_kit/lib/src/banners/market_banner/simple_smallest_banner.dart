@@ -22,11 +22,11 @@ class SSmallestBanner extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 24.0),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        width: 327,
         height: 68,
         child: Row(
           children: [
@@ -45,7 +45,6 @@ class SSmallestBanner extends StatelessWidget {
             ),
             const SpaceW20(),
             SizedBox(
-              width: 170,
               child: Text(
                 primaryText,
                 maxLines: 2,

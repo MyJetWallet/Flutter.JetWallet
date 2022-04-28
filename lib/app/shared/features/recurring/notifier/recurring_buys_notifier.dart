@@ -171,7 +171,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   String _priceVolumeFormat(Decimal amount) {
     final priceInUsd = volumeFormat(
       decimal: amount,
-      accuracy: 0,
+      accuracy: 2,
       symbol: '',
     );
 
@@ -231,5 +231,13 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     } catch (e) {
       _logger.log(stateFlow, 'removeRecurringBuy', e);
     }
+  }
+
+  bool activeOrPausedType(String symbol) {
+    if (type(symbol) == RecurringBuysStatus.empty) {
+      return false;
+    }
+
+    return true;
   }
 }
