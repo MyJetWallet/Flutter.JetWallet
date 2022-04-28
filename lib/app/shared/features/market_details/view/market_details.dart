@@ -6,7 +6,6 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
-import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../../shared/helpers/analytics.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
@@ -25,6 +24,7 @@ import 'components/asset_price.dart';
 import 'components/balance_block/balance_block.dart';
 import 'components/index_allocation_block/index_allocation_block.dart';
 import 'components/index_history_block/index_history_block.dart';
+import 'components/market_info_loader_block/market_info_loader_block.dart';
 import 'components/market_news_block/market_news_block.dart';
 import 'components/market_stats_block/market_stats_block.dart';
 import 'components/return_rates_block/return_rates_block.dart';
@@ -157,7 +157,16 @@ class MarketDetails extends HookWidget {
                   return const SizedBox();
                 }
               },
-              loading: () => const Loader(),
+              loading: () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  SpaceH40(),
+                  SSkeletonTextLoader(
+                    height: 16,
+                    width: 133,
+                  ),
+                ],
+              ),
               error: (_, __) => const SizedBox(),
             ),
             ReturnRatesBlock(
@@ -191,7 +200,7 @@ class MarketDetails extends HookWidget {
                   ),
                 );
               },
-              loading: () => const Loader(),
+              loading: () => const MarketInfoLoaderBlock(),
               error: (_, __) => const SizedBox(),
             ),
             newsInit.when(
@@ -201,7 +210,18 @@ class MarketDetails extends HookWidget {
                   assetId: marketItem.associateAsset,
                 );
               },
-              loading: () => const Loader(),
+              loading: () => SPaddingH24(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    SpaceH40(),
+                    SSkeletonTextLoader(
+                      height: 16,
+                      width: 133,
+                    ),
+                  ],
+                ),
+              ),
               error: (_, __) => const SizedBox(),
             ),
           ],
