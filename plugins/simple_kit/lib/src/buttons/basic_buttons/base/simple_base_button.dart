@@ -9,6 +9,7 @@ class SimpleBaseButton extends StatelessWidget {
     Key? key,
     this.icon,
     this.onTap,
+    this.baseline = 33.5,
     required this.onHighlightChanged,
     required this.decoration,
     required this.name,
@@ -17,6 +18,7 @@ class SimpleBaseButton extends StatelessWidget {
 
   final Widget? icon;
   final Function()? onTap;
+  final double baseline;
   final Function(bool) onHighlightChanged;
   final BoxDecoration decoration;
   final String name;
@@ -36,7 +38,7 @@ class SimpleBaseButton extends StatelessWidget {
           borderRadius: _baseButtonRadius,
         ),
         child: Baseline(
-          baseline: 32.0,
+          baseline: baseline,
           baselineType: TextBaseline.alphabetic,
           child: SPaddingH24(
             child: Row(
