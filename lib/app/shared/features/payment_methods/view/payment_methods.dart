@@ -7,8 +7,8 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../helpers/is_card_expired.dart';
 import '../../../helpers/last_n_chars.dart';
 import '../../add_circle_card/view/add_circle_card.dart';
-import '../notifier/payment_methods_notifier.dart';
 import '../notifier/payment_methods_notipod.dart';
+import 'components/add_button.dart';
 import 'components/payment_card_item.dart';
 
 class PaymentMethods extends HookWidget {
@@ -39,6 +39,17 @@ class PaymentMethods extends HookWidget {
       );
     }
 
+    void onAddCardTap() {
+      AddCircleCard.push(
+        context: context,
+        onCardAdded: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          notifier.getCards();
+        },
+      );
+    }
+
     return SPageFrame(
       loading: loader.value,
       header: const SPaddingH24(
@@ -64,8 +75,8 @@ class PaymentMethods extends HookWidget {
                 ),
                 const Spacer(),
                 SPaddingH24(
-                  child: _AddButton(
-                    notifier: notifier,
+                  child: AddButton(
+                    onTap: onAddCardTap,
                   ),
                 ),
                 const SpaceH24(),
@@ -107,7 +118,9 @@ class PaymentMethods extends HookWidget {
                   ],
                 ),
                 SFloatingButtonFrame(
-                  button: _AddButton(notifier: notifier),
+                  button: AddButton(
+                    onTap: onAddCardTap,
+                  ),
                 ),
               ],
             );
@@ -117,38 +130,6 @@ class PaymentMethods extends HookWidget {
           return const LoaderSpinner();
         },
       ),
-    );
-  }
-}
-
-class _AddButton extends HookWidget {
-  const _AddButton({
-    Key? key,
-    required this.notifier,
-  }) : super(key: key);
-
-  final PaymentMethodsNotifier notifier;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
-
-    return SSecondaryButton1(
-      active: true,
-      name: 'Add bank card',
-      icon: SActionBuyIcon(
-        color: colors.black,
-      ),
-      onTap: () {
-        AddCircleCard.push(
-          context: context,
-          onCardAdded: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            notifier.getCards();
-          },
-        );
-      },
     );
   }
 }

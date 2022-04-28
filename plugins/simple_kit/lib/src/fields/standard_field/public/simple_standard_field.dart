@@ -23,7 +23,7 @@ class SStandardField extends ConsumerWidget {
     this.inputFormatters,
     this.textCapitalization,
     this.disableErrorOnChanged = true,
-    this.enableinteractiveSelection = true,
+    this.enableInteractiveSelection = true,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -48,7 +48,7 @@ class SStandardField extends ConsumerWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
   final bool disableErrorOnChanged;
-  final bool enableinteractiveSelection;
+  final bool enableInteractiveSelection;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -85,7 +85,7 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
         disableErrorOnChanged: disableErrorOnChanged,
-        enableinteractiveSelection: enableinteractiveSelection,
+        enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,
       );
     } else {
@@ -111,7 +111,7 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
         disableErrorOnChanged: disableErrorOnChanged,
-        enableinteractiveSelection: enableinteractiveSelection,
+        enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,
       );
     }

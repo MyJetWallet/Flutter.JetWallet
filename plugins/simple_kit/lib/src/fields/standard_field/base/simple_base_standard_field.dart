@@ -20,7 +20,7 @@ class SimpleBaseStandardField extends HookWidget {
     this.inputFormatters,
     this.textCapitalization,
     this.disableErrorOnChanged = true,
-    this.enableinteractiveSelection = true,
+    this.enableInteractiveSelection = true,
     this.hideIconsIfError = true,
     this.autofocus = false,
     this.readOnly = false,
@@ -42,7 +42,7 @@ class SimpleBaseStandardField extends HookWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
   final bool disableErrorOnChanged;
-  final bool enableinteractiveSelection;
+  final bool enableInteractiveSelection;
   final bool hideIconsIfError;
   final bool autofocus;
   final bool readOnly;
@@ -69,7 +69,7 @@ class SimpleBaseStandardField extends HookWidget {
           textInputAction: textInputAction,
           inputFormatters: inputFormatters,
           autofillHints: autofillHints,
-          enableInteractiveSelection: enableinteractiveSelection,
+          enableInteractiveSelection: enableInteractiveSelection,
           textCapitalization: textCapitalization ?? TextCapitalization.none,
           enabled: enabled,
           onChanged: (value) {

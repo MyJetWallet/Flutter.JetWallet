@@ -22,7 +22,7 @@ class SimpleLightStandardField extends HookWidget {
     this.inputFormatters,
     this.textCapitalization,
     this.disableErrorOnChanged = true,
-    this.enableinteractiveSelection = true,
+    this.enableInteractiveSelection = true,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -53,7 +53,7 @@ class SimpleLightStandardField extends HookWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
   final bool disableErrorOnChanged;
-  final bool enableinteractiveSelection;
+  final bool enableInteractiveSelection;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -87,7 +87,7 @@ class SimpleLightStandardField extends HookWidget {
       alignLabelWithHint: alignLabelWithHint,
       enabled: enabled,
       disableErrorOnChanged: disableErrorOnChanged,
-      enableinteractiveSelection: enableinteractiveSelection,
+      enableInteractiveSelection: enableInteractiveSelection,
       inputFormatters: inputFormatters,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)

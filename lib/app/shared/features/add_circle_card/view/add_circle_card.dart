@@ -8,6 +8,9 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../helper/masked_text_input_formatter.dart';
 import '../notifier/add_circle_card_notipod.dart';
 import 'circle_billing_address/circle_billing_address.dart';
+import 'components/circle_progress_indicator.dart';
+import 'components/continue_button_frame.dart';
+import 'components/scrolling_frame.dart';
 
 class AddCircleCard extends HookWidget {
   const AddCircleCard({
@@ -45,124 +48,104 @@ class AddCircleCard extends HookWidget {
       child: Column(
         children: [
           Row(
-            children: [
+            children: const [
               Expanded(
-                child: Container(
-                  height: 4.0,
-                  color: colors.blue,
-                ),
+                child: CircleProgressIndicator(),
               ),
-              const Spacer(),
+              Spacer(),
             ],
           ),
-          Expanded(
-            child: Container(
-              color: colors.grey5,
-              child: CustomScrollView(
-                slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      children: [
-                        SFieldDividerFrame(
-                          child: SStandardField(
-                            labelText: 'Card number',
-                            keyboardType: TextInputType.number,
-                            errorNotifier: state.cardNumberError,
-                            disableErrorOnChanged: false,
-                            // In formatting \u2005 is used instead of \u0020
-                            // to avoid \u0020 input from the user
-                            inputFormatters: [
-                              MaskedTextInputFormatter(
-                                mask:
-                                    'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
-                                separator: '\u{2005}',
-                              ),
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\u2005]'),
-                              ),
-                            ],
-                            onChanged: notifier.updateCardNumber,
+          ScrollingFrame(
+            children: [
+              SFieldDividerFrame(
+                child: SStandardField(
+                  labelText: 'Card number',
+                  keyboardType: TextInputType.number,
+                  errorNotifier: state.cardNumberError,
+                  disableErrorOnChanged: false,
+                  // In formatting \u2005 is used instead of \u0020
+                  // to avoid \u0020 input from the user
+                  inputFormatters: [
+                    MaskedTextInputFormatter(
+                      mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
+                      separator: '\u{2005}',
+                    ),
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'[0-9\u2005]'),
+                    ),
+                  ],
+                  onChanged: notifier.updateCardNumber,
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: SFieldDividerFrame(
+                      child: SStandardField(
+                        labelText: 'Expiry date',
+                        keyboardType: TextInputType.number,
+                        errorNotifier: state.expiryDateError,
+                        enableInteractiveSelection: false,
+                        disableErrorOnChanged: false,
+                        inputFormatters: [
+                          MaskedTextInputFormatter(
+                            mask: 'xx/xx',
+                            separator: '/',
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: SFieldDividerFrame(
-                                child: SStandardField(
-                                  labelText: 'Expiry date',
-                                  keyboardType: TextInputType.number,
-                                  errorNotifier: state.expiryDateError,
-                                  enableinteractiveSelection: false,
-                                  disableErrorOnChanged: false,
-                                  inputFormatters: [
-                                    MaskedTextInputFormatter(
-                                      mask: 'xx/xx',
-                                      separator: '/',
-                                    ),
-                                  ],
-                                  onChanged: notifier.updateExpiryDate,
-                                ),
-                              ),
-                            ),
-                            const SDivider(
-                              width: 1.0,
-                              height: 88.0,
-                            ),
-                            Expanded(
-                              child: SFieldDividerFrame(
-                                child: SStandardField(
-                                  labelText: 'CVV',
-                                  keyboardType: TextInputType.number,
-                                  errorNotifier: state.cvvError,
-                                  enableinteractiveSelection: false,
-                                  disableErrorOnChanged: false,
-                                  inputFormatters: [
-                                    MaskedTextInputFormatter(
-                                      mask: 'xxx',
-                                      separator: '',
-                                    ),
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  onChanged: notifier.updateCvv,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Material(
-                          color: colors.white,
-                          child: SPaddingH24(
-                            child: SStandardField(
-                              labelText: 'Cardholder name',
-                              textCapitalization: TextCapitalization.sentences,
-                              onChanged: notifier.updateCardholderName,
-                            ),
+                        ],
+                        onChanged: notifier.updateExpiryDate,
+                      ),
+                    ),
+                  ),
+                  const SDivider(
+                    width: 1.0,
+                    height: 88.0,
+                  ),
+                  Expanded(
+                    child: SFieldDividerFrame(
+                      child: SStandardField(
+                        labelText: 'CVV',
+                        keyboardType: TextInputType.number,
+                        errorNotifier: state.cvvError,
+                        enableInteractiveSelection: false,
+                        disableErrorOnChanged: false,
+                        inputFormatters: [
+                          MaskedTextInputFormatter(
+                            mask: 'xxx',
+                            separator: '',
                           ),
-                        ),
-                        const Spacer(),
-                        Material(
-                          color: Colors.transparent,
-                          child: Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: SPrimaryButton2(
-                              active: state.isCardDetailsValid,
-                              name: 'Continue',
-                              onTap: () async {
-                                CircleBillingAddress.push(
-                                  context: context,
-                                  onCardAdded: onCardAdded,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onChanged: notifier.updateCvv,
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
+              Material(
+                color: colors.white,
+                child: SPaddingH24(
+                  child: SStandardField(
+                    labelText: 'Cardholder name',
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: notifier.updateCardholderName,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              ContinueButtonFrame(
+                child: SPrimaryButton2(
+                  active: state.isCardDetailsValid,
+                  name: 'Continue',
+                  onTap: () async {
+                    CircleBillingAddress.push(
+                      context: context,
+                      onCardAdded: onCardAdded,
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),

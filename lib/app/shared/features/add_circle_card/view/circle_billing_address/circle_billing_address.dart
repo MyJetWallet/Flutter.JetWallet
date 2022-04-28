@@ -4,8 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../notifier/add_circle_card_notipod.dart';
+import '../components/circle_progress_indicator.dart';
+import '../components/continue_button_frame.dart';
+import '../components/scrolling_frame.dart';
 import 'components/country_selector_button.dart';
 import 'components/show_country_selector.dart';
 
@@ -31,7 +34,6 @@ class CircleBillingAddress extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
     final state = useProvider(addCircleCardNotipod);
     final notifier = useProvider(addCircleCardNotipod.notifier);
     final enableButton = useState(true);
@@ -55,90 +57,70 @@ class CircleBillingAddress extends HookWidget {
         ),
         child: Column(
           children: [
-            Container(
-              height: 4.0,
-              color: colors.blue,
-            ),
-            Expanded(
-              child: Container(
-                color: colors.grey5,
-                child: CustomScrollView(
-                  slivers: [
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Column(
-                        children: [
-                          SFieldDividerFrame(
-                            child: SStandardField(
-                              labelText: 'Street Address',
-                              textCapitalization: TextCapitalization.sentences,
-                              onChanged: notifier.updateAddress1,
-                            ),
-                          ),
-                          SFieldDividerFrame(
-                            child: SStandardField(
-                              labelText: 'Street Address 2 (optional)',
-                              textCapitalization: TextCapitalization.sentences,
-                              onChanged: notifier.updateAddress2,
-                            ),
-                          ),
-                          SFieldDividerFrame(
-                            child: SStandardField(
-                              labelText: 'City',
-                              textCapitalization: TextCapitalization.sentences,
-                              onChanged: notifier.updateCity,
-                            ),
-                          ),
-                          SFieldDividerFrame(
-                            child: SStandardField(
-                              labelText: 'District',
-                              textCapitalization: TextCapitalization.sentences,
-                              onChanged: notifier.updateDistrict,
-                            ),
-                          ),
-                          SFieldDividerFrame(
-                            child: SStandardField(
-                              labelText: 'Postal code',
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              onChanged: notifier.updatePostalCode,
-                            ),
-                          ),
-                          CountrySelectorButton(
-                            country: state.selectedCountry!,
-                            onTap: () => showCountrySelector(context),
-                          ),
-                          const Spacer(),
-                          Material(
-                            color: Colors.transparent,
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
-                              child: SPrimaryButton2(
-                                active: navigationAllowed &&
-                                    state.isBillingAddressValid,
-                                name: 'Continue',
-                                onTap: () async {
-                                  enableButton.value = false;
-                                  await notifier.addCard(
-                                    onSuccess: onCardAdded,
-                                    onError: () {
-                                      Navigator.pop(context);
-                                      notifier.clearBillingDetails();
-                                      enableButton.value = true;
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+            const CircleProgressIndicator(),
+            ScrollingFrame(
+              children: [
+                SFieldDividerFrame(
+                  child: SStandardField(
+                    labelText: 'Street Address',
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: notifier.updateAddress1,
+                  ),
                 ),
-              ),
+                SFieldDividerFrame(
+                  child: SStandardField(
+                    labelText: 'Street Address 2 (optional)',
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: notifier.updateAddress2,
+                  ),
+                ),
+                SFieldDividerFrame(
+                  child: SStandardField(
+                    labelText: 'City',
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: notifier.updateCity,
+                  ),
+                ),
+                SFieldDividerFrame(
+                  child: SStandardField(
+                    labelText: 'District',
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: notifier.updateDistrict,
+                  ),
+                ),
+                SFieldDividerFrame(
+                  child: SStandardField(
+                    labelText: 'Postal code',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    onChanged: notifier.updatePostalCode,
+                  ),
+                ),
+                CountrySelectorButton(
+                  country: state.selectedCountry!,
+                  onTap: () => showCountrySelector(context),
+                ),
+                const Spacer(),
+                ContinueButtonFrame(
+                  child: SPrimaryButton2(
+                    active: navigationAllowed && state.isBillingAddressValid,
+                    name: 'Continue',
+                    onTap: () async {
+                      enableButton.value = false;
+                      await notifier.addCard(
+                        onSuccess: onCardAdded,
+                        onError: () {
+                          Navigator.pop(context);
+                          notifier.clearBillingDetails();
+                          enableButton.value = true;
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),
