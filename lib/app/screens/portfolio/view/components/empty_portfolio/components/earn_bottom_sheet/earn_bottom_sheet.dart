@@ -14,17 +14,24 @@ void showStartEarnBottomSheet({
   required BuildContext context,
   required Function(CurrencyModel) onTap,
 }) {
-  EarnBottomSheetContainer(
-    removePinnedPadding: true,
-    horizontalPinnedPadding: 0,
-    scrollable: true,
-    color: Colors.transparent,
-    pinned: const EarnPinned(),
-    pinnedSmall: const EarnPinnedSmall(),
-    children: [
-      EarnBody(
-        onTap: onTap,
-      ),
-    ],
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return EarnBottomSheetContainer(
+        removePinnedPadding: true,
+        horizontalPinnedPadding: 0,
+        scrollable: true,
+        color: Colors.white,
+        pinned: const EarnPinned(),
+        pinnedSmall: const EarnPinnedSmall(),
+        children: [
+          EarnBody(
+            onTap: onTap,
+          ),
+        ],
+      );
+    },
   );
 }

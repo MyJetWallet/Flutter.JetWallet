@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import '../../simple_kit.dart';
 
 class SReferralInvitePinned extends StatelessWidget {
-  const SReferralInvitePinned({Key? key}) : super(key: key);
+  const SReferralInvitePinned({
+    Key? key,
+    this.child,
+  }) : super(key: key);
+
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +30,7 @@ class SReferralInvitePinned extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 26.0,
-          right: 26.0,
-          child: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const SEraseMarketIcon(),
-          ),
-        ),
+        if (child != null) child!,
       ],
     );
   }

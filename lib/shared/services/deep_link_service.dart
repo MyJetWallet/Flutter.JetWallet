@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
+import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
 import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
 import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
@@ -191,33 +192,94 @@ class DeepLinkService {
       sAnalytics.inviteFriendView(Source.accountScreen);
     }
 
-    sShowBasicModalBottomSheet(
+    showModalBottomSheet(
       context: read(sNavigatorKeyPod).currentContext!,
-      removePinnedPadding: true,
-      removeBottomSheetBar: true,
-      removeBarPadding: true,
-      horizontalPinnedPadding: 0,
-      scrollable: true,
-      pinned: const SReferralInvitePinned(),
-      pinnedBottom: SReferralInviteBottomPinned(
-        onShare: () {
-          Share.share(referralInfo.referralLink);
-        },
-      ),
-      children: [
-        SReferralInviteBody(
-          primaryText: referralInfo.title,
-          referralLink: referralInfo.referralLink,
-          conditions: referralInfo.referralTerms,
-          showReadMore: referralInfo.descriptionLink.isNotEmpty,
-          onReadMoreTap: () {
-            launchURL(
-              context,
-              referralInfo.descriptionLink,
-            );
-          },
-        ),
-      ],
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return EarnBottomSheetContainer(
+          color: Colors.white,
+          removePinnedPadding: true,
+          horizontalPinnedPadding: 0,
+          scrollable: true,
+          pinned: SReferralInvitePinned(
+            child: SPaddingH24(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 203.0,
+                    child: Baseline(
+                      baseline: 64.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        referralInfo.title,
+                        maxLines: 3,
+                        style: sTextH2Style,
+                      ),
+                    ),
+                  ),
+                  if (referralInfo.descriptionLink.isNotEmpty)
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Baseline(
+                        baseline: 104,
+                        baselineType: TextBaseline.alphabetic,
+                        child: SimpleAccountTermButton(
+                          name: 'Read more',
+                          onTap: () {
+                            launchURL(
+                              context,
+                              referralInfo.descriptionLink,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          pinnedSmall: SPaddingH24(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 203.0,
+                  child: Baseline(
+                    baseline: 64.0,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      referralInfo.title,
+                      maxLines: 3,
+                      style: sTextH5Style,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          pinnedBottom: SReferralInviteBottomPinned(
+            onShare: () {
+              Share.share(referralInfo.referralLink);
+            },
+          ),
+          children: [
+            SReferralInviteBody(
+              primaryText: referralInfo.title,
+              referralLink: referralInfo.referralLink,
+              conditions: referralInfo.referralTerms,
+              showReadMore: referralInfo.descriptionLink.isNotEmpty,
+              onReadMoreTap: () {
+                launchURL(
+                  context,
+                  referralInfo.descriptionLink,
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

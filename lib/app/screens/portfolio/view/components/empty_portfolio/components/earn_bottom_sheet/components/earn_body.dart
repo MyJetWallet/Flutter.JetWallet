@@ -20,18 +20,9 @@ class EarnBody extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final currencies = useProvider(currenciesPod);
-    final colors = useProvider(sColorPod);
 
     return Column(
       children: [
-        const SpaceH33(),
-        SPaddingH24(
-          child: EarnBodyHeader(
-            currencies: currencies,
-            colors: colors,
-          ),
-        ),
-        const SpaceH32(),
         const SPaddingH24(
           child: EarnAdvantages(),
         ),

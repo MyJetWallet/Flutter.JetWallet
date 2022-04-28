@@ -25,37 +25,6 @@ class SReferralInviteBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SPaddingH24(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 203.0,
-                child: Baseline(
-                  baseline: 64.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    primaryText,
-                    maxLines: 3,
-                    style: sTextH2Style,
-                  ),
-                ),
-              ),
-              if (showReadMore)
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Baseline(
-                    baseline: 104,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SimpleAccountTermButton(
-                      name: 'Read more',
-                      onTap: onReadMoreTap,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
         const SpaceH40(),
         for (final condition in conditions) ...[
           SimpleConditionsReferralInvite(

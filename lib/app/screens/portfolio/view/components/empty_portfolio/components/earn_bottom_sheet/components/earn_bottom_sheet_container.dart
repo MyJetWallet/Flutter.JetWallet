@@ -3,24 +3,28 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../market/view/components/fade_on_scroll.dart';
+
 class EarnBottomSheetContainer extends HookWidget {
   const EarnBottomSheetContainer({
     Key? key,
-    this.pinned,
-    this.pinnedSmall,
     this.onDissmis,
     this.minHeight,
     this.horizontalPadding,
     this.horizontalPinnedPadding,
     this.expanded = false,
     this.removePinnedPadding = false,
+    this.pinnedBottom,
+    required this.pinned,
+    required this.pinnedSmall,
     required this.color,
     required this.scrollable,
     required this.children,
   }) : super(key: key);
 
-  final Widget? pinned;
-  final Widget? pinnedSmall;
+  final Widget pinned;
+  final Widget pinnedSmall;
+  final Widget? pinnedBottom;
   final Function()? onDissmis;
   final double? minHeight;
   final double? horizontalPadding;
@@ -33,10 +37,12 @@ class EarnBottomSheetContainer extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = ScrollController();
 
     /// Needed to get the size of the pinned Widget
     final pinnedSize = useState<Size?>(Size.zero);
     final pinnedSmallSize = useState<Size?>(Size.zero);
+    final pinnedBottomSize = useState<Size?>(Size.zero);
 
     final isClosing = useState(false);
 
@@ -48,12 +54,7 @@ class EarnBottomSheetContainer extends HookWidget {
       }
     }
 
-    return WillPopScope(
-      onWillPop: () {
-          _onDissmisAction(context);
-          return Future.value(true);
-        },
-      child: Padding(
+    return Padding(
         // Make bottomSheet to follow keyboard
         padding: MediaQuery.of(context).viewInsets,
         child: LayoutBuilder(
@@ -63,6 +64,8 @@ class EarnBottomSheetContainer extends HookWidget {
               pinnedSize: pinnedSize.value,
               pinnedSmallSize: pinnedSmallSize.value,
               removePinnedPadding: removePinnedPadding,
+              pinnedBottom: pinnedBottom,
+              pinnedBottomSize: pinnedBottomSize.value,
             );
 
             return Column(
@@ -81,34 +84,6 @@ class EarnBottomSheetContainer extends HookWidget {
                   child: Column(
                     children: [
                       Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: horizontalPinnedPadding ?? 24.0,
-                        ),
-                        child: Column(
-                          children: [
-                            if (pinned != null) ...[
-                              SGetWidgetSize(
-                                child: pinned!,
-                                onChange: (size) {
-                                  pinnedSize.value = size;
-                                },
-                              ),
-                              if (!removePinnedPadding) const SpaceH24()
-                            ],
-                            if (pinnedSmall != null) ...[
-                              SGetWidgetSize(
-                                child: pinnedSmall!,
-                                onChange: (size) {
-                                  pinnedSmallSize.value = size;
-                                },
-                              ),
-                              if (!removePinnedPadding) const SpaceH24()
-                            ],
-                          ],
-                        ),
-                      ),
-                      Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: horizontalPadding ?? 0,
                         ),
@@ -116,14 +91,51 @@ class EarnBottomSheetContainer extends HookWidget {
                           maxHeight: maxHeight,
                           minHeight: expanded ? maxHeight : minHeight ?? 0,
                         ),
-                        child: ListView(
-                          physics: scrollable
-                              ? null
-                              : const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          children: children,
+                        child: NestedScrollView(
+                          controller: controller,
+                          headerSliverBuilder: (context, _) {
+                            return [
+                              SliverAppBar(
+                                backgroundColor: Colors.transparent,
+                                pinned: true,
+                                elevation: 0,
+                                expandedHeight: 340,
+                                collapsedHeight: 115,
+                                primary: false,
+                                flexibleSpace: FadeOnScroll(
+                                  scrollController: controller,
+                                  fullOpacityOffset: 50,
+                                  fadeInWidget: Material(
+                                    color: Colors.white,
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(24.0),
+                                      topRight: Radius.circular(24.0),
+                                    ),
+                                    child: pinnedSmall,
+                                  ),
+                                  fadeOutWidget: pinned,
+                                  permanentWidget: const SpaceW2(),
+                                ),
+                              ),
+                            ];
+                          },
+                          body: ListView(
+                            physics: scrollable
+                                ? null
+                                : const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: children,
+                          ),
                         ),
                       ),
+                      if (pinnedBottom != null) ...[
+                        SWidgetBottomSize(
+                          child: pinnedBottom!,
+                          onChange: (size) {
+                            pinnedBottomSize.value = size;
+                          },
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -131,8 +143,7 @@ class EarnBottomSheetContainer extends HookWidget {
             );
           },
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -141,6 +152,8 @@ double _listViewMaxHeight({
   required bool removePinnedPadding,
   required Size? pinnedSize,
   required Size? pinnedSmallSize,
+  required Size? pinnedBottomSize,
+  required Widget? pinnedBottom,
 }) {
   var max = maxHeight;
 
@@ -158,6 +171,10 @@ double _listViewMaxHeight({
     if (!removePinnedPadding) {
       max = max - 24;
     }
+  }
+
+  if (pinnedBottomSize != null) {
+    max = max - pinnedBottomSize.height;
   }
 
   return max - 60; // required spacing from the top edge of the device;
