@@ -193,7 +193,7 @@ class DeepLinkService {
     }
 
     showModalBottomSheet(
-      context: read(sNavigatorKeyPod).currentContext!,
+      context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {

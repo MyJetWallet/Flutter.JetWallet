@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../shared/models/currency_model.dart';
 import '../../../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/earn_advantages.dart';
-import 'components/earn_body_header.dart';
 import 'components/earn_currencys_item.dart';
 
 class EarnBody extends HookWidget {
