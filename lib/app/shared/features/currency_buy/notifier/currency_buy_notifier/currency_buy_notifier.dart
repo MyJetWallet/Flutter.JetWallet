@@ -82,6 +82,14 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     }
   }
 
+  void initRecurringBuyType(RecurringBuysType? type) {
+    _logger.log(notifier, 'initRecurringBuyType');
+
+    state = state.copyWith(
+      recurringBuyType: type ?? RecurringBuysType.oneTimePurchase,
+    );
+  }
+
   void updateSelectedPaymentMethod(PaymentMethod? method) {
     _logger.log(notifier, 'updateSelectedPaymentMethod');
 
