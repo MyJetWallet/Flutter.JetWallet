@@ -6,6 +6,8 @@ import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/disclaimer/model/disclaimers_request_model.dart';
+import '../../../../../shared/helpers/launch_url.dart';
+import '../../../../../shared/helpers/link_parser.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../model/disclaimer_model.dart';
@@ -82,6 +84,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     required int disclaimerIndex,
   }) {
     final context = read(sNavigatorKeyPod).currentContext!;
+    final colors = read(sColorPod);
 
     showsDisclaimer(
       context: context,
@@ -98,12 +101,17 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
           return Column(
             children: [
               SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
                     const SpaceH20(),
                     for (final question in state.questions) ...[
                       DisclaimerCheckbox(
+                        testText: parsedTextWidget(
+                          question.text,
+                          context,
+                          colors,
+                        ),
                         firstText: question.text,
                         indexCheckBox: _findQuestionIndex(question),
                         onCheckboxTap: () => setState(() {
@@ -113,11 +121,12 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
                           );
                         }),
                       ),
+                      const SpaceH10(),
                     ],
                   ],
                 ),
               ),
-
+              const SpaceH12(),
               SPrimaryButton1(
                 name: 'Continue',
                 active: state.activeButton,
@@ -130,6 +139,43 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
         },
       ),
     );
+  }
+
+  List<WidgetSpan> parsedTextWidget(
+    String text,
+    BuildContext context,
+    SimpleColors colors,
+  ) {
+    final widgets = <WidgetSpan>[];
+
+    linkParser(text).forEach((key, value) {
+      if (value.isNotEmpty) {
+        widgets.add(
+          WidgetSpan(
+            child: GestureDetector(
+              onTap: () => launchURL(context, key),
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: colors.blue,
+                ),
+              ),
+            ),
+          ),
+        );
+      } else {
+        widgets.add(
+          WidgetSpan(
+            child: Text(
+              key,
+              style: sCaptionTextStyle,
+            ),
+          ),
+        );
+      }
+    });
+
+    return widgets;
   }
 
   Future<void> _sendAnswers(BuildContext context, int disclaimerIndex) async {

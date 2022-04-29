@@ -9,12 +9,14 @@ class DisclaimerCheckbox extends HookWidget {
   const DisclaimerCheckbox({
     Key? key,
     this.indexCheckBox,
+    required this.testText,
     required this.firstText,
     required this.onCheckboxTap,
   }) : super(key: key);
 
   final int? indexCheckBox;
   final String firstText;
+  final List<WidgetSpan> testText;
   final Function() onCheckboxTap;
 
   @override
@@ -22,7 +24,6 @@ class DisclaimerCheckbox extends HookWidget {
     late Widget icon;
 
     final state = useProvider(disclaimerNotipod);
-    final colors = useProvider(sColorPod);
 
     if (indexCheckBox != null) {
       if (state.questions[indexCheckBox!].defaultState) {
@@ -33,12 +34,10 @@ class DisclaimerCheckbox extends HookWidget {
     }
 
     return SizedBox(
-      height: 44.0,
       child: Row(
         children: [
           Column(
             children: [
-              //const SpaceH20(),
               SIconButton(
                 onTap: onCheckboxTap,
                 defaultIcon: icon,
@@ -54,11 +53,7 @@ class DisclaimerCheckbox extends HookWidget {
                 const SpaceH4(),
                 RichText(
                   text: TextSpan(
-                    text: firstText,
-                    style: sCaptionTextStyle.copyWith(
-                      fontFamily: 'Gilroy',
-                      color: colors.black,
-                    ),
+                    children: testText,
                   ),
                 ),
               ],
