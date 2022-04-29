@@ -18,6 +18,7 @@ import '../../../../../../shared/features/chart/notifier/chart_union.dart';
 import '../../../../../../shared/features/chart/view/balance_chart.dart';
 import '../../../../../../shared/features/market_details/helper/period_change.dart';
 import '../../../../../../shared/features/market_details/view/market_details.dart';
+import '../../../../../../shared/features/recurring/notifier/recurring_buys_notipod.dart';
 import '../../../../../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../../../../../shared/features/wallet/helper/market_item_from.dart';
 import '../../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
@@ -92,6 +93,8 @@ class PortfolioWithBalanceBody extends HookWidget {
     final currentCandles = chart.candles[chart.resolution];
     final isCurrentCandlesEmptyOrNull =
         currentCandles == null || currentCandles.isEmpty;
+
+    final notifier = useProvider(recurringBuysNotipod.notifier);
 
     return SingleChildScrollView(
       child: Stack(
@@ -246,7 +249,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                               url: item.iconUrl,
                             ),
                             recurringIcon: recurringIcon(colors),
-                            isRecurring: item.isRecurring,
+                            isRecurring:
+                                notifier.activeOrPausedType(item.symbol),
                             primaryText: item.description,
                             amount: item.volumeBaseBalance(baseCurrency),
                             secondaryText: item.volumeAssetBalance,
@@ -289,7 +293,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               recurringIcon: recurringIcon(colors),
-                              isRecurring: item.isRecurring,
+                              isRecurring:
+                                  notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
                               amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText: item.volumeAssetBalance,
@@ -346,7 +351,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               recurringIcon: recurringIcon(colors),
-                              isRecurring: item.isRecurring,
+                              isRecurring:
+                                  notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
                               amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText: item.volumeAssetBalance,
@@ -418,7 +424,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               recurringIcon: recurringIcon(colors),
-                              isRecurring: item.isRecurring,
+                              isRecurring:
+                                  notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
                               amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText:
@@ -510,7 +517,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 url: item.iconUrl,
                               ),
                               recurringIcon: recurringIcon(colors),
-                              isRecurring: item.isRecurring,
+                              isRecurring:
+                                  notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
                               amount: item.volumeBaseBalance(baseCurrency),
                               secondaryText: item.volumeAssetBalance,
@@ -539,7 +547,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   url: item.iconUrl,
                                 ),
                                 recurringIcon: recurringIcon(colors),
-                                isRecurring: item.isRecurring,
+                                isRecurring:
+                                    notifier.activeOrPausedType(item.symbol),
                                 primaryText: item.description,
                                 amount: item.volumeBaseBalance(baseCurrency),
                                 secondaryText: item.volumeAssetBalance,
