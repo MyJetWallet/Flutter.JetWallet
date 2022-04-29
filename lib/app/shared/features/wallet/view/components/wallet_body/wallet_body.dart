@@ -5,10 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
+import '../../../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../../../recurring/view/recurring_buy_banner.dart';
 import 'components/card_block/components/wallet_card.dart';
@@ -41,6 +43,12 @@ class _WalletBodyState extends State<WalletBody>
     final colors = useProvider(sColorPod);
 
     final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
+
+    final recurringN = useProvider(recurringBuysNotipod);
+
+    final moveToRecurringInfo = recurringN.recurringBuys.where(
+      (element) => element.toAsset == widget.currency.symbol,
+    ).toList().length == 1;
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -103,13 +111,23 @@ class _WalletBodyState extends State<WalletBody>
                 onTap: () {
                   if (recurringNotifier
                       .activeOrPausedType(widget.currency.symbol)) {
-                    showRecurringBuyAction(
-                      context: context,
-                      currency: widget.currency,
-                      total: recurringNotifier.totalRecurringByAsset(
-                        asset: widget.currency.symbol,
-                      ),
-                    );
+                    if (moveToRecurringInfo) {
+                      navigatorPush(
+                        context,
+                        ShowRecurringInfoAction(
+                          recurringItem: recurringN.recurringBuys[0],
+                          assetName: widget.currency.description,
+                        ),
+                      );
+                    } else {
+                      showRecurringBuyAction(
+                        context: context,
+                        currency: widget.currency,
+                        total: recurringNotifier.totalRecurringByAsset(
+                          asset: widget.currency.symbol,
+                        ),
+                      );
+                    }
                   } else {
                     showActionWithOutRecurringBuy(
                       context: context,
