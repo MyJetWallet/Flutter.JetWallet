@@ -15,10 +15,11 @@ class ActionRecurringManageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Container(
         alignment: Alignment.centerLeft,
+        width: double.infinity,
         height: 64,
         child: Row(
           children: [
