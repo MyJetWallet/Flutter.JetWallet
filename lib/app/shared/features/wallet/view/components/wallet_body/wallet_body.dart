@@ -104,7 +104,6 @@ class _WalletBodyState extends State<WalletBody>
             ),
             TransactionsList(
               scrollController: _scrollController,
-              errorBoxPaddingMultiplier: 0.7133,
               symbol: widget.currency.symbol,
             ),
           ],

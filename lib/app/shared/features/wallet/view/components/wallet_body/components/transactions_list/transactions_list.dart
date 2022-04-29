@@ -21,11 +21,9 @@ class TransactionsList extends StatefulHookWidget {
     Key? key,
     this.symbol,
     required this.scrollController,
-    required this.errorBoxPaddingMultiplier,
   }) : super(key: key);
 
   final ScrollController scrollController;
-  final double errorBoxPaddingMultiplier;
   final String? symbol;
 
   @override
@@ -221,13 +219,7 @@ class _TransactionsListState extends State<TransactionsList> {
                       Container(
                         width: double.infinity,
                         height: 137,
-                        margin: EdgeInsets.only(
-                          top: screenHeight -
-                              (screenHeight * widget.errorBoxPaddingMultiplier),
-                          left: 24,
-                          right: 24,
-                          bottom: 24,
-                        ),
+                        margin: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
@@ -413,13 +405,7 @@ class _TransactionsListState extends State<TransactionsList> {
                 Container(
                   width: double.infinity,
                   height: 137,
-                  margin: EdgeInsets.only(
-                    top: screenHeight -
-                        (screenHeight * widget.errorBoxPaddingMultiplier),
-                    left: 24,
-                    right: 24,
-                    bottom: 24,
-                  ),
+                  margin: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
