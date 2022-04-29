@@ -24,7 +24,7 @@ import '../../shared/features/transaction_history/view/transaction_hisotry.dart'
 import '../../shared/helpers/check_kyc_status.dart';
 import 'components/account_banner_list.dart';
 import 'components/crisp.dart';
-import 'components/faq_web_view.dart';
+import 'components/help_center_web_view.dart';
 import 'components/log_out_option.dart';
 
 class Account extends HookWidget {
@@ -148,10 +148,13 @@ class Account extends HookWidget {
                           ),
                           SimpleAccountCategoryButton(
                             title: 'Help Center',
-                            icon: const SFaqIcon(),
+                            icon: const SQuestionIcon(),
                             isSDivider: true,
                             onTap: () {
-                              navigatorPush(context, FaqWebView(link: faqLink));
+                              navigatorPush(
+                                context,
+                                HelpCenterWebView(link: faqLink),
+                              );
                             },
                           ),
                           SimpleAccountCategoryButton(

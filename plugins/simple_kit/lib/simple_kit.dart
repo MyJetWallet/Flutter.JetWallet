@@ -184,6 +184,7 @@ export 'src/icons/24x24/public/photo/simple_white_photo_icon.dart';
 export 'src/icons/24x24/public/profile_details/simple_profile_details_icon.dart';
 export 'src/icons/24x24/public/qr_code/simple_qr_code_icon.dart';
 export 'src/icons/24x24/public/qr_code/simple_qr_code_pressed_icon.dart';
+export 'src/icons/24x24/public/question/simple_question_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_pressed_icon.dart';
 export 'src/icons/24x24/public/security/simple_security_icon.dart';
