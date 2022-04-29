@@ -90,5 +90,12 @@ class EventType {
   static const previewBuyView = 'Preview buy view';
   static const simplexView = 'Simplex view';
   static const simplexSucsessView = 'Simplex success view';
-  static const simplexFailureView =  'Simplex failure view';
+  static const simplexFailureView = 'Simplex failure view';
+
+  /// Quick actions
+  /// User taps on "Buy" in Quick Actions
+  static const tapOnBuy = 'Tap on buy';
+
+  /// User taps on "Buy from card" in Quick Actions
+  static const tapOnBuyFromCard = 'Tap on buy from card';
 }

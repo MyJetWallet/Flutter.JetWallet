@@ -387,4 +387,23 @@ class SimpleAnalytics {
   void simplexFailureView(String url) {
     _analytics.logEvent(EventType.simplexFailureView);
   }
+
+  /// Quick actions
+  void tapOnBuy(Source source) {
+    _analytics.logEvent(
+      EventType.tapOnBuy,
+      eventProperties: {
+        PropertyType.sourceScreen: source.name,
+      },
+    );
+  }
+
+  void tapOnBuyFromCard(Source source) {
+    _analytics.logEvent(
+      EventType.tapOnBuyFromCard,
+      eventProperties: {
+        PropertyType.sourceScreen: source.name,
+      },
+    );
+  }
 }

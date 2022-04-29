@@ -10,6 +10,7 @@ enum Source {
   assetScreen,
   quickActions,
   earnProgram,
+  actionButton,
 }
 
 extension SourceExtension on Source {
@@ -35,6 +36,8 @@ extension SourceExtension on Source {
         return 'Account banner';
       case Source.earnProgram:
         return 'Earn program';
+      case Source.actionButton:
+        return 'Action Button';
     }
   }
 }
