@@ -36,12 +36,12 @@ class SPolicyCheckbox extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 80.0,
+      height: 77.0,
       child: Row(
         children: [
           Column(
             children: [
-              const SpaceH20(),
+              const SpaceH21(),
               SIconButton(
                 onTap: onCheckboxTap,
                 defaultIcon: icon,
@@ -53,7 +53,7 @@ class SPolicyCheckbox extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                const SpaceH26(),
+                const SpaceH25(),
                 SimplePolicyRichText(
                   firstText: firstText,
                   userAgreementText: userAgreementText,
