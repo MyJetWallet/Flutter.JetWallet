@@ -206,6 +206,9 @@ class SimpleAnalytics {
     );
   }
 
+  void buySheetView() => _analytics.logEvent(EventType.buySheetView);
+  void sellSheetView() => _analytics.logEvent(EventType.sellSheetView);
+
   void earnDetailsView(String assetName) {
     _analytics.logEvent(
       EventType.earnDetailsView,
@@ -346,9 +349,42 @@ class SimpleAnalytics {
     await _analytics.regenerateDeviceId();
   }
 
-  void buyFromCardView() {
+  void tapPreviewBuy(String assetName, String paymentMethod, String amount) {
     _analytics.logEvent(
-      EventType.kycSuccessPageView,
+      EventType.tapPreviewBuy,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.amount: amount,
+      },
     );
+  }
+
+  void previewBuyView(String assetName, String paymentMethod, String amount) {
+    _analytics.logEvent(
+      EventType.previewBuyView,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void simplexView(String url) {
+    _analytics.logEvent(
+      EventType.simplexView,
+      eventProperties: {
+        PropertyType.url: url,
+      },
+    );
+  }
+
+  void simplexSucsessView(String url) {
+    _analytics.logEvent(EventType.simplexSucsessView);
+  }
+
+  void simplexFailureView(String url) {
+    _analytics.logEvent(EventType.simplexFailureView);
   }
 }

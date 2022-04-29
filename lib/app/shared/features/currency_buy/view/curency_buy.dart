@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
@@ -245,6 +246,16 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     !disableSubmit.value,
                 submitButtonName: 'Preview Buy',
                 onSubmitPressed: () async {
+                  sAnalytics.tapPreviewBuy(
+                    widget.currency.description,
+                    state.selectedPaymentMethod?.type.name ?? 'Crypto',
+                    formatCurrencyStringAmount(
+                      prefix: state.selectedCurrency?.prefixSymbol,
+                      value: state.inputValue,
+                      symbol: state.selectedCurrencySymbol,
+                    ),
+                  );
+
                   if (state.selectedPaymentMethod != null) {
                     disableSubmit.value = true;
                     loader.value.startLoading();

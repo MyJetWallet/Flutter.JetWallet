@@ -41,6 +41,8 @@ void showBuyAction({
       )
     ],
   );
+
+  sAnalytics.buySheetView();
 }
 
 class _ActionBuy extends HookWidget {

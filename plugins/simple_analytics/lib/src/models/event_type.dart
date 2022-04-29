@@ -60,7 +60,6 @@ class EventType {
   static const depositView = 'Deposit view';
   static const receiveView = 'Receive view';
   static const sendView = 'Send view';
-  static const buyFromCardView = 'Buy from card view';
 
   /// Quick actions bottom sheet
   static const buySheetView = 'Buy sheet view';
@@ -69,7 +68,6 @@ class EventType {
   static const depositSheetView = 'Deposit sheet view';
   static const receiveSheetView = 'Receive sheet view';
   static const sendSheetView = 'Send sheet view';
-  static const buyFromCardSheetView = 'Buy from card sheet view';
 
   /// KYC related events
   static const kycCameraAllowed = 'KYC - Camera allowed';
@@ -87,8 +85,10 @@ class EventType {
   static const kycIdentityScreenView = 'KYC - Identity screen view';
   static const kycEnterPhoneNumber = 'KYC - Enter phone number';
 
-  static const quickActionAssetView = 'Choose asset to buy';
-
-  /// Buy Action
-  static const previewBuy = 'Preview buy';
+  /// Buy screen
+  static const tapPreviewBuy = 'Tap preview buy';
+  static const previewBuyView = 'Preview buy view';
+  static const simplexView = 'Simplex view';
+  static const simplexSucsessView = 'Simplex success view';
+  static const simplexFailureView =  'Simplex failure view';
 }

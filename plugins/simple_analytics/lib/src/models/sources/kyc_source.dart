@@ -1,4 +1,4 @@
-// TODO(Denis Martych): FIX this, it isn't Source, it's property
+// TODO(Denis Martych): FIX this, it isn't Source, it's Event
 enum KycSource {
   kycAllowCameraView,
   kycUploadIdentityDocumentView,

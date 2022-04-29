@@ -30,6 +30,8 @@ void showSellAction(BuildContext context) {
     removePinnedPadding: true,
     children: [const _ActionSell()],
   );
+
+  sAnalytics.sellSheetView();
 }
 
 class _ActionSell extends HookWidget {
