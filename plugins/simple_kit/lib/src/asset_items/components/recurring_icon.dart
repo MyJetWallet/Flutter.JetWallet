@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 
-List<Positioned> recurringIcon(SimpleColors colors) {
+import '../../colors/view/simple_colors_light.dart';
+
+List<Positioned> recurringIcon() {
   return <Positioned>[
     Positioned(
       right: 0,
@@ -11,7 +12,7 @@ List<Positioned> recurringIcon(SimpleColors colors) {
         height: 8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
-          color: colors.white,
+          color: SColorsLight().white,
         ),
       ),
     ),
@@ -23,7 +24,7 @@ List<Positioned> recurringIcon(SimpleColors colors) {
         height: 6,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(3.0),
-          color: colors.blue,
+          color: SColorsLight().blue,
         ),
       ),
     ),

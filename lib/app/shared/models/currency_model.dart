@@ -15,7 +15,6 @@ class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
     String? prefixSymbol,
     RecurringBuysModel? recurringBuy,
-    @Default(false) bool isRecurring,
     @Default('unknown') String symbol,
     @Default('unknown') String description,
     @Default(0) int accuracy,

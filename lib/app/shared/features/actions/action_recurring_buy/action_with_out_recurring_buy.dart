@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/helpers/navigator_push_replacement.dart';
-import '../../../models/currency_model.dart';
-import '../../currency_buy/view/curency_buy.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
+import 'components/without_recurring_buy_item.dart';
 
 void showActionWithOutRecurringBuy({
+  bool showOneTimePurchase = false,
+  RecurringBuysType? currentType,
+  void Function()? then,
   required BuildContext context,
-  required CurrencyModel currency,
+  required void Function(RecurringBuysType) onItemTap,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
@@ -21,7 +22,9 @@ void showActionWithOutRecurringBuy({
     removePinnedPadding: true,
     children: [
       _ActionRecurringBuy(
-        currency: currency,
+        currentType: currentType,
+        onItemTap: onItemTap,
+        showOneTimePurchase: showOneTimePurchase,
       )
     ],
   );
@@ -67,10 +70,14 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
 class _ActionRecurringBuy extends HookWidget {
   const _ActionRecurringBuy({
     Key? key,
-    required this.currency,
+    this.currentType,
+    required this.showOneTimePurchase,
+    required this.onItemTap,
   }) : super(key: key);
 
-  final CurrencyModel currency;
+  final bool showOneTimePurchase;
+  final RecurringBuysType? currentType;
+  final void Function(RecurringBuysType) onItemTap;
 
   @override
   Widget build(BuildContext context) {
@@ -81,64 +88,52 @@ class _ActionRecurringBuy extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (showOneTimePurchase) ...[
+                WithOutRecurringBuysItem(
+                  primaryText: recurringBuysOperationName(
+                    RecurringBuysType.oneTimePurchase,
+                  ),
+                  selected: currentType == RecurringBuysType.oneTimePurchase,
+                  onTap: () {
+                    onItemTap(RecurringBuysType.oneTimePurchase);
+                  },
+                ),
+                const SDivider(),
+              ],
               WithOutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
                   RecurringBuysType.daily,
                 ),
+                selected: currentType == RecurringBuysType.daily,
                 onTap: () {
-                  navigatorPushReplacement(
-                    context,
-                    CurrencyBuy(
-                      currency: currency,
-                      fromCard: false,
-                      recurringBuysType: RecurringBuysType.daily,
-                    ),
-                  );
+                  onItemTap(RecurringBuysType.daily);
                 },
               ),
               const SDivider(),
               WithOutRecurringBuysItem(
                 primaryText:
                     recurringBuysOperationName(RecurringBuysType.weekly),
+                selected: currentType == RecurringBuysType.weekly,
                 onTap: () {
-                  navigatorPushReplacement(
-                    context,
-                    CurrencyBuy(
-                      currency: currency,
-                      fromCard: false,
-                      recurringBuysType: RecurringBuysType.weekly,
-                    ),
-                  );
+                  onItemTap(RecurringBuysType.weekly);
                 },
               ),
               const SDivider(),
               WithOutRecurringBuysItem(
                 primaryText:
                     recurringBuysOperationName(RecurringBuysType.biWeekly),
+                selected: currentType == RecurringBuysType.biWeekly,
                 onTap: () {
-                  navigatorPushReplacement(
-                    context,
-                    CurrencyBuy(
-                      currency: currency,
-                      fromCard: false,
-                      recurringBuysType: RecurringBuysType.biWeekly,
-                    ),
-                  );
+                  onItemTap(RecurringBuysType.biWeekly);
                 },
               ),
               const SDivider(),
               WithOutRecurringBuysItem(
                 primaryText:
                     recurringBuysOperationName(RecurringBuysType.monthly),
+                selected: currentType == RecurringBuysType.monthly,
                 onTap: () {
-                  navigatorPushReplacement(
-                    context,
-                    CurrencyBuy(
-                      currency: currency,
-                      fromCard: false,
-                      recurringBuysType: RecurringBuysType.monthly,
-                    ),
-                  );
+                  onItemTap(RecurringBuysType.monthly);
                 },
               ),
               const SpaceH24(),

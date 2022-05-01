@@ -39,10 +39,9 @@ class RecurringBuyDetails extends StatelessWidget {
     );
 
     String _rateFor(
-        CurrencyModel currency1,
-        CurrencyModel currency2,
-        ) {
-
+      CurrencyModel currency1,
+      CurrencyModel currency2,
+    ) {
       final accuracy = priceAccuracy(
         context.read,
         currency1.symbol,
@@ -64,6 +63,19 @@ class RecurringBuyDetails extends StatelessWidget {
       );
 
       return '$base = $quote';
+    }
+
+    String _feeValue(OperationHistoryItem transactionListItem) {
+      if (transactionListItem.recurringBuyInfo != null) {
+        if (transactionListItem.recurringBuyInfo!.feeAmount > Decimal.zero) {
+          return '${transactionListItem.recurringBuyInfo!.feeAmount}'
+              ' ${transactionListItem.recurringBuyInfo!.feeAsset}';
+        } else {
+          return '0 ${transactionListItem.recurringBuyInfo!.feeAmount}';
+        }
+      } else {
+        return '0';
+      }
     }
 
     return SPaddingH24(
@@ -94,46 +106,33 @@ class RecurringBuyDetails extends StatelessWidget {
             ),
           ),
           const SpaceH14(),
-            TransactionDetailsItem(
-              text: 'With',
-              value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  prefix: sellCurrency.prefixSymbol,
-                  decimal: transactionListItem.recurringBuyInfo!.sellAmount,
-                  accuracy: sellCurrency.accuracy,
-                  symbol: sellCurrency.symbol,
-                ),
+          TransactionDetailsItem(
+            text: 'With',
+            value: TransactionDetailsValueText(
+              text: volumeFormat(
+                prefix: sellCurrency.prefixSymbol,
+                decimal: transactionListItem.recurringBuyInfo!.sellAmount,
+                accuracy: sellCurrency.accuracy,
+                symbol: sellCurrency.symbol,
               ),
             ),
-            const SpaceH14(),
-            TransactionDetailsItem(
-              text: 'Fee',
-              value: TransactionDetailsValueText(
-                text: _feeValue(transactionListItem),
-              ),
+          ),
+          const SpaceH14(),
+          TransactionDetailsItem(
+            text: 'Fee',
+            value: TransactionDetailsValueText(
+              text: _feeValue(transactionListItem),
             ),
-            const SpaceH14(),
-            TransactionDetailsItem(
-              text: 'Rate',
-              value: TransactionDetailsValueText(
-                text: _rateFor(buyCurrency, sellCurrency),
-              ),
+          ),
+          const SpaceH14(),
+          TransactionDetailsItem(
+            text: 'Rate',
+            value: TransactionDetailsValueText(
+              text: _rateFor(buyCurrency, sellCurrency),
             ),
+          ),
         ],
       ),
     );
-  }
-
-  String _feeValue(OperationHistoryItem transactionListItem) {
-    if (transactionListItem.recurringBuyInfo != null) {
-      if (transactionListItem.recurringBuyInfo!.feeAmount > Decimal.zero) {
-        return '${transactionListItem.recurringBuyInfo!.feeAmount}'
-            ' ${transactionListItem.recurringBuyInfo!.feeAsset}';
-      } else {
-        return '0 ${transactionListItem.recurringBuyInfo!.feeAmount}';
-      }
-    } else {
-      return '0';
-    }
   }
 }

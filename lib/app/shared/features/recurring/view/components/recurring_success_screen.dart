@@ -9,8 +9,8 @@ import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../currency_buy/model/preview_buy_with_asset_input.dart';
-import '../../../currency_buy/view/curency_buy.dart';
 import '../../../currency_buy/view/preview_buy_with_asset.dart';
 
 class RecurringSuccessScreen extends HookWidget {
@@ -45,6 +45,7 @@ class RecurringSuccessScreen extends HookWidget {
         return Future.value(false);
       },
       child: ProviderListener<int>(
+        // TODO: Reconsider this approach
         provider: timerNotipod(3.01),
         onChange: (context, value) {
           if (value == 0 && shouldPop.value) {
@@ -88,7 +89,7 @@ class RecurringSuccessScreen extends HookWidget {
                 onTap: () {
                   shouldPop.value = false;
 
-                  showActionWithOutRecurringBuy1(
+                  showActionWithOutRecurringBuy(
                     then: () {
                       if (!shouldPop.value) navigateToRouter(context.read);
                     },

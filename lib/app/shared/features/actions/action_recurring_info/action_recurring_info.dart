@@ -12,7 +12,7 @@ import 'components/action_recurring_info_details.dart';
 import 'components/action_recurring_info_header.dart';
 
 class ShowRecurringInfoAction extends HookWidget {
-  ShowRecurringInfoAction({
+  const ShowRecurringInfoAction({
     Key? key,
     required this.recurringItem,
     required this.assetName,
@@ -21,14 +21,12 @@ class ShowRecurringInfoAction extends HookWidget {
   final RecurringBuysModel recurringItem;
   final String assetName;
 
-  /// TODO(Vova) reconsider this
-  final scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final notifier = useProvider(recurringBuysNotipod.notifier);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final scrollController = useScrollController();
 
     return Scaffold(
       bottomNavigationBar: Padding(

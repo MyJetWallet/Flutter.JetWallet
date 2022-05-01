@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
-import '../../../../../components/recurring_icon.dart';
 import '../../../../../helpers/formatting/formatting.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -53,7 +52,6 @@ class BalanceBlock extends HookWidget {
             ),
             primaryText: '${marketItem.name} wallet',
             isRecurring: recurringNotifier.activeOrPausedType(currency.symbol),
-            recurringIcon: recurringIcon(colors),
             amount: volumeFormat(
               prefix: baseCurrency.prefix,
               decimal: marketItem.baseBalance,

@@ -111,16 +111,4 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
       return <String>[];
     }
   }
-
-  CampaignModel? recurringBuyBanner() {
-    final banner = <CampaignModel>[];
-    if (state.isNotEmpty) {
-      for (final element in state) {
-        if (element.campaignType == CampaignType.recurringBuyBanner) {
-          banner.add(element);
-        }
-      }
-    }
-    return (banner.isNotEmpty) ? banner.first : null;
-  }
 }

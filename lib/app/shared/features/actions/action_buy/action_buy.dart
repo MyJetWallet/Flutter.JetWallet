@@ -9,13 +9,14 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
 void showBuyAction({
-  bool navigatePop = true,
+  bool shouldPop = true,
   bool showRecurring = false,
   required BuildContext context,
   required bool fromCard,
@@ -25,7 +26,7 @@ void showBuyAction({
     fromCard: fromCard,
   );
 
-  if (navigatePop) Navigator.pop(context); // close BasicBottomSheet from Menu
+  if (shouldPop) Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -123,7 +124,16 @@ class _ActionBuy extends HookWidget {
                   Navigator.pop(context);
                   showActionWithOutRecurringBuy(
                     context: context,
-                    currency: currency,
+                    onItemTap: (RecurringBuysType type) {
+                      navigatorPushReplacement(
+                        context,
+                        CurrencyBuy(
+                          currency: currency,
+                          fromCard: false,
+                          recurringBuysType: type,
+                        ),
+                      );
+                    },
                   );
                 } else {
                   navigatorPushReplacement(
@@ -194,7 +204,16 @@ class _ActionBuy extends HookWidget {
                     Navigator.pop(context);
                     showActionWithOutRecurringBuy(
                       context: context,
-                      currency: currency,
+                      onItemTap: (RecurringBuysType type) {
+                        navigatorPushReplacement(
+                          context,
+                          CurrencyBuy(
+                            currency: currency,
+                            fromCard: false,
+                            recurringBuysType: type,
+                          ),
+                        );
+                      },
                     );
                   } else {
                     navigatorPushReplacement(

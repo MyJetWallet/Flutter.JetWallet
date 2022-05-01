@@ -8,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../../shared/helpers/analytics.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../../helpers/currency_from.dart';
@@ -18,6 +19,8 @@ import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
+import '../../currency_buy/view/curency_buy.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
@@ -196,7 +199,16 @@ class MarketDetails extends HookWidget {
                 } else {
                   showActionWithOutRecurringBuy(
                     context: context,
-                    currency: currency,
+                    onItemTap: (RecurringBuysType type) {
+                      navigatorPushReplacement(
+                        context,
+                        CurrencyBuy(
+                          currency: currency,
+                          fromCard: false,
+                          recurringBuysType: type,
+                        ),
+                      );
+                    },
                   );
                 }
               },
@@ -229,12 +241,7 @@ class MarketDetails extends HookWidget {
                   ),
                 );
               },
-              loading: () => Column(
-                children: const [
-                  // SpaceH20(),
-                  Loader(),
-                ],
-              ),
+              loading: () => const Loader(),
               error: (_, __) => const SizedBox(),
             ),
             newsInit.when(
@@ -251,9 +258,5 @@ class MarketDetails extends HookWidget {
         ),
       ),
     );
-  }
-
-  NetworkImage? setCircleBackgroundImage(String? imageUrl) {
-    return (imageUrl != null) ? NetworkImage(imageUrl) : null;
   }
 }

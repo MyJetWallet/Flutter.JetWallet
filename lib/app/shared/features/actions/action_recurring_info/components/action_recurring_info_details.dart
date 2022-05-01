@@ -41,8 +41,8 @@ class ActionRecurringInfoDetails extends HookWidget {
             text: recurringItem.status == RecurringBuysStatus.paused
                 ? 'Paused'
                 : '${recurringBuysOperationName(
-              recurringItem.scheduleType,
-            )} - ${formatDateToHmFromDate(recurringItem.creationTime)}',
+                    recurringItem.scheduleType,
+                  )} - ${formatDateToHmFromDate(recurringItem.creationTime)}',
           ),
         ),
         if (recurringItem.nextExecution != null) ...[
@@ -50,9 +50,8 @@ class ActionRecurringInfoDetails extends HookWidget {
           TransactionDetailsItem(
             text: 'Next payment',
             value: TransactionDetailsValueText(
-              text: '${
-                  formatDateToDMYFromDate(recurringItem.nextExecution!)
-              } - '
+              text:
+                  '${formatDateToDMYFromDate(recurringItem.nextExecution!)} - '
                   '${formatDateToHmFromDate(recurringItem.nextExecution!)}',
             ),
           ),
@@ -61,7 +60,7 @@ class ActionRecurringInfoDetails extends HookWidget {
         TransactionDetailsItem(
           text: 'Average',
           value: TransactionDetailsValueText(
-            text: '${recurringItem.avgPrice}',
+            text: '${recurringItem.averagePrice}',
           ),
         ),
         const SpaceH34(),

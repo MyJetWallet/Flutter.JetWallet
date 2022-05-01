@@ -6,11 +6,14 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../../actions/action_recurring_info/action_recurring_info.dart';
+import '../../../../currency_buy/view/curency_buy.dart';
+import '../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../../../recurring/view/recurring_buy_banner.dart';
 import 'components/card_block/components/wallet_card.dart';
@@ -46,9 +49,13 @@ class _WalletBodyState extends State<WalletBody>
 
     final recurringN = useProvider(recurringBuysNotipod);
 
-    final moveToRecurringInfo = recurringN.recurringBuys.where(
-      (element) => element.toAsset == widget.currency.symbol,
-    ).toList().length == 1;
+    final moveToRecurringInfo = recurringN.recurringBuys
+            .where(
+              (element) => element.toAsset == widget.currency.symbol,
+            )
+            .toList()
+            .length ==
+        1;
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -131,7 +138,16 @@ class _WalletBodyState extends State<WalletBody>
                   } else {
                     showActionWithOutRecurringBuy(
                       context: context,
-                      currency: widget.currency,
+                      onItemTap: (RecurringBuysType type) {
+                        navigatorPushReplacement(
+                          context,
+                          CurrencyBuy(
+                            currency: widget.currency,
+                            fromCard: false,
+                            recurringBuysType: type,
+                          ),
+                        );
+                      },
                     );
                   }
                 },

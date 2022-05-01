@@ -10,7 +10,6 @@ import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../../shared/components/recurring_icon.dart';
 import '../../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
 import '../../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../../shared/features/chart/notifier/chart_state.dart';
@@ -269,7 +268,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                             icon: SNetworkSvg24(
                               url: item.iconUrl,
                             ),
-                            recurringIcon: recurringIcon(colors),
                             isRecurring:
                                 notifier.activeOrPausedType(item.symbol),
                             primaryText: item.description,
@@ -314,7 +312,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                               icon: SNetworkSvg24(
                                 url: item.iconUrl,
                               ),
-                              recurringIcon: recurringIcon(colors),
                               isRecurring:
                                   notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
@@ -373,7 +370,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                               icon: SNetworkSvg24(
                                 url: item.iconUrl,
                               ),
-                              recurringIcon: recurringIcon(colors),
                               isRecurring:
                                   notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
@@ -448,7 +444,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                               icon: SNetworkSvg24(
                                 url: item.iconUrl,
                               ),
-                              recurringIcon: recurringIcon(colors),
                               isRecurring:
                                   notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
@@ -543,7 +538,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                               icon: SNetworkSvg24(
                                 url: item.iconUrl,
                               ),
-                              recurringIcon: recurringIcon(colors),
                               isRecurring:
                                   notifier.activeOrPausedType(item.symbol),
                               primaryText: item.description,
@@ -574,7 +568,6 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 icon: SNetworkSvg24(
                                   url: item.iconUrl,
                                 ),
-                                recurringIcon: recurringIcon(colors),
                                 isRecurring:
                                     notifier.activeOrPausedType(item.symbol),
                                 primaryText: item.description,

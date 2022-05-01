@@ -99,7 +99,6 @@ class _ActionRecurringManage extends HookWidget {
                     Navigator.of(context)
                       ..pop()
                       ..pop();
-                    // recurringItem.status = RecurringBuysStatus.paused;
                   },
                 ),
               if (recurringItem.status == RecurringBuysStatus.paused)
@@ -120,7 +119,6 @@ class _ActionRecurringManage extends HookWidget {
                     Navigator.of(context)
                       ..pop()
                       ..pop();
-                    // recurringItem.status = RecurringBuysStatus.active;
                   },
                 ),
               const SDivider(),

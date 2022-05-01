@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
+import 'components/recurring_icon.dart';
 
 /// TODO remove dependecy on Market details
 /// This arguments are redundant, seperate widget for MarketDetails needed
@@ -10,7 +11,6 @@ class SWalletItem extends StatelessWidget {
     Key? key,
     this.amount,
     this.decline,
-    this.recurringIcon,
     this.removeDivider = false,
     this.color,
     this.onTap,
@@ -31,7 +31,6 @@ class SWalletItem extends StatelessWidget {
   final bool removeDivider;
   final Color? color;
   final Function()? onTap;
-  final List<Positioned>? recurringIcon;
   final Widget icon;
   final String primaryText;
   final String secondaryText;
@@ -75,7 +74,7 @@ class SWalletItem extends StatelessWidget {
                     child: Stack(
                       children: [
                         icon,
-                        if (isRecurring) ...recurringIcon!,
+                        if (isRecurring) ...recurringIcon(),
                       ],
                     ),
                   ),

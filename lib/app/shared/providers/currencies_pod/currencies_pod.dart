@@ -230,11 +230,6 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             if (currency.symbol == element.toAsset) {
               currencies[index] = currency.copyWith(
                 recurringBuy: element,
-                isRecurring: true,
-              );
-            } else {
-              currencies[index] = currency.copyWith(
-                isRecurring: false,
               );
             }
           }

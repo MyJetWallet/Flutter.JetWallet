@@ -94,7 +94,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
       showBuyAction(
         context: context,
         fromCard: false,
-        navigatePop: false,
+        shouldPop: false,
         showRecurring: true,
       );
       return;

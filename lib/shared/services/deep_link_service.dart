@@ -103,7 +103,7 @@ class DeepLinkService {
     showBuyAction(
       context: context,
       fromCard: false,
-      navigatePop: false,
+      shouldPop: false,
       showRecurring: true,
     );
   }

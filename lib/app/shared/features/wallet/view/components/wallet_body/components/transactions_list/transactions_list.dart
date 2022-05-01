@@ -19,7 +19,7 @@ import '../transactions_list_item/transaction_list_item.dart';
 class TransactionsList extends StatefulHookWidget {
   const TransactionsList({
     Key? key,
-    this.isRecurring,
+    this.isRecurring = false,
     this.symbol,
     required this.scrollController,
     required this.errorBoxPaddingMultiplier,
@@ -28,7 +28,7 @@ class TransactionsList extends StatefulHookWidget {
   final ScrollController scrollController;
   final double errorBoxPaddingMultiplier;
   final String? symbol;
-  final bool? isRecurring;
+  final bool isRecurring;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListState();
@@ -80,10 +80,12 @@ class _TransactionsListState extends State<TransactionsList> {
       ),
     );
     final screenHeight = MediaQuery.of(context).size.height;
-    final listToShow = widget.isRecurring != null
-        ? transactionHistory.operationHistoryItems.where(
-            (i) => i.operationType == OperationType.recurringBuy,
-          ).toList()
+    final listToShow = widget.isRecurring
+        ? transactionHistory.operationHistoryItems
+            .where(
+              (i) => i.operationType == OperationType.recurringBuy,
+            )
+            .toList()
         : transactionHistory.operationHistoryItems;
 
     return SliverPadding(
@@ -112,12 +114,10 @@ class _TransactionsListState extends State<TransactionsList> {
                     );
                   },
                   itemBuilder: (context, transaction) {
-                    final index = listToShow
-                        .indexOf(transaction);
+                    final index = listToShow.indexOf(transaction);
                     final currentDate = formatDate(transaction.timeStamp);
                     var nextDate = '';
-                    if (index !=
-                        (listToShow.length - 1)) {
+                    if (index != (listToShow.length - 1)) {
                       nextDate = formatDate(
                         listToShow[index + 1].timeStamp,
                       );
@@ -195,12 +195,10 @@ class _TransactionsListState extends State<TransactionsList> {
                     );
                   },
                   itemBuilder: (context, transaction) {
-                    final index = listToShow
-                        .indexOf(transaction);
+                    final index = listToShow.indexOf(transaction);
                     final currentDate = formatDate(transaction.timeStamp);
                     var nextDate = '';
-                    if (index !=
-                        (listToShow.length - 1)) {
+                    if (index != (listToShow.length - 1)) {
                       nextDate = formatDate(
                         listToShow[index + 1].timeStamp,
                       );
@@ -302,12 +300,10 @@ class _TransactionsListState extends State<TransactionsList> {
                   },
                   groupComparator: (date1, date2) => 0,
                   itemBuilder: (context, transaction) {
-                    final index = listToShow
-                        .indexOf(transaction);
+                    final index = listToShow.indexOf(transaction);
                     final currentDate = formatDate(transaction.timeStamp);
                     var nextDate = '';
-                    if (index !=
-                        (listToShow.length - 1)) {
+                    if (index != (listToShow.length - 1)) {
                       nextDate = formatDate(
                         listToShow[index + 1].timeStamp,
                       );
