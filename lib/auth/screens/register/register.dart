@@ -48,7 +48,7 @@ class Register extends HookWidget {
       }
     }
 
-    if (credentials.policyChecked) {
+    void _scrollToBottom() {
       _controller.animateTo(
         _controller.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
@@ -102,7 +102,10 @@ class Register extends HookWidget {
                       betweenText: ' and the ',
                       privacyPolicyText: 'Privacy Policy',
                       isChecked: credentials.policyChecked,
-                      onCheckboxTap: () => credentialsN.checkPolicy(),
+                      onCheckboxTap: () {
+                        _scrollToBottom();
+                        credentialsN.checkPolicy();
+                      },
                       onUserAgreementTap: () {
                         launchURL(context, userAgreementLink);
                       },
@@ -117,7 +120,10 @@ class Register extends HookWidget {
                   child: SPaddingH24(
                     child: MailingCheckbox(
                       isChecked: credentials.mailingChecked,
-                      onCheckboxTap: () => credentialsN.checkMailing(),
+                      onCheckboxTap: () {
+                        _scrollToBottom();
+                        credentialsN.checkMailing();
+                      },
                     ),
                   ),
                 ),
