@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../simple_kit.dart';
-import '../rewards_banner/helper/set_circle_background_image.dart';
 
 class SSmallestBanner extends StatelessWidget {
   const SSmallestBanner({
@@ -36,11 +35,13 @@ class SSmallestBanner extends StatelessWidget {
                 bottom: 10,
                 left: 53,
               ),
-              child: CircleAvatar(
-                radius: 24.0,
-                backgroundImage: setCircleBackgroundImage(
-                  imageUrl,
+              child: Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24.0),
                 ),
+                child: Image.asset(recurringBuysAsset),
               ),
             ),
             const SpaceW20(),
