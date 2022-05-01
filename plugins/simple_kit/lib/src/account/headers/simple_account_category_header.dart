@@ -7,15 +7,21 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
   const SimpleAccountCategoryHeader({
     Key? key,
     required this.userEmail,
+    required this.userFirstName,
+    required this.userLastName,
+    required this.showUserName,
   }) : super(key: key);
 
   final String userEmail;
+  final String userFirstName;
+  final String userLastName;
+  final bool showUserName;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(
-        top: 52.0,
+        top: 48.0,
         bottom: 20.0,
       ),
       height: 120.0,
@@ -36,6 +42,13 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const SpaceH2(),
+                if (showUserName)
+                Text(
+                  '$userFirstName $userLastName',
+                  style: sTextH5Style.copyWith(
+                    color: SColorsLight().black,
+                  ),
+                ),
                 Text(
                   userEmail,
                   style: sSubtitle3Style.copyWith(

@@ -20,6 +20,7 @@ class SWalletItem extends StatelessWidget {
     this.rightBlockTopPadding = 22,
     this.showSecondaryText = true,
     this.isRecurring = false,
+    this.isPendingDeposit = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -40,12 +41,17 @@ class SWalletItem extends StatelessWidget {
   final double rightBlockTopPadding;
   final bool showSecondaryText;
   final bool isRecurring;
+  final bool isPendingDeposit;
 
   @override
   Widget build(BuildContext context) {
     var textColor = SColorsLight().green;
     var borderColor = SColorsLight().greenLight;
     final formattedAmount = amount == '\$0.00' ? '\$0' : amount;
+    final isSecondaryTextVisible =
+        showSecondaryText && !(isPendingDeposit && formattedAmount == '\$0');
+    final isAmountVisible =
+        amount != null && !(isPendingDeposit && formattedAmount == '\$0');
 
     if (decline ?? false) {
       textColor = SColorsLight().red;
@@ -89,7 +95,7 @@ class SWalletItem extends StatelessWidget {
                               style: sSubtitle2Style,
                             ),
                           ),
-                          if (showSecondaryText)
+                          if (isSecondaryTextVisible)
                             Baseline(
                               baseline: 16.0,
                               baselineType: TextBaseline.alphabetic,
@@ -104,7 +110,7 @@ class SWalletItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (amount != null) ...[
+                  if (isAmountVisible) ...[
                     const SpaceW10(),
                     Column(
                       children: [

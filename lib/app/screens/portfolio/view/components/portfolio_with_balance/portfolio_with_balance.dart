@@ -58,20 +58,26 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
     final fiatsWithBalance = currenciesWithBalanceFrom(
       useProvider(marketFiatsPod),
     );
+    final isCryptoVisible = cryptosWithBalance.isNotEmpty &&
+        (indicesWithBalance.isNotEmpty || fiatsWithBalance.isNotEmpty);
+    final isFiatVisible = fiatsWithBalance.isNotEmpty &&
+        (indicesWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
+    final isIndicesVisible = indicesWithBalance.isNotEmpty &&
+        (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
+    final isAllTabsVisible = isCryptoVisible ||
+        isFiatVisible || isIndicesVisible;
 
     return SPageFrame(
       header: const PortfolioHeader(),
       bottomNavigationBar: BottomTabs(
         tabController: tabController,
         tabs: [
-          if (cryptosWithBalance.isNotEmpty ||
-              indicesWithBalance.isNotEmpty ||
-              fiatsWithBalance.isNotEmpty)
+          if (isAllTabsVisible)
             const BottomTab(text: 'All'),
-          if (cryptosWithBalance.isNotEmpty) const BottomTab(text: 'Crypto'),
-          if (indicesWithBalance.isNotEmpty)
+          if (isCryptoVisible) const BottomTab(text: 'Crypto'),
+          if (isIndicesVisible)
             const BottomTab(text: 'Crypto Sets'),
-          if (fiatsWithBalance.isNotEmpty) const BottomTab(text: 'Fiat'),
+          if (isFiatVisible) const BottomTab(text: 'Fiat'),
         ],
       ),
       child: PortfolioWithBalanceBody(

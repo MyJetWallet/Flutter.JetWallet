@@ -44,11 +44,14 @@ class TransactionListItem extends HookWidget {
             const SpaceH12(),
             Row(
               children: [
-                _icon(transactionListItem.operationType),
+                _iconFrom(transactionListItem.operationType),
                 const SpaceW10(),
                 Expanded(
                   child: TransactionListItemHeaderText(
                     text: _transactionItemTitle(transactionListItem),
+                    color: transactionListItem.status == Status.declined
+                        ? colors.red
+                        : colors.black,
                   ),
                 ),
                 Container(
@@ -71,11 +74,17 @@ class TransactionListItem extends HookWidget {
             Row(
               children: [
                 const SpaceW30(),
-                TransactionListItemText(
-                  text: '${formatDateToDMY(transactionListItem.timeStamp)} '
-                      '- ${formatDateToHm(transactionListItem.timeStamp)}',
-                  color: colors.grey2,
-                ),
+                if (transactionListItem.status != Status.inProgress)
+                  TransactionListItemText(
+                    text: '${formatDateToDMY(transactionListItem.timeStamp)} '
+                        '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                    color: colors.grey2,
+                  ),
+                if (transactionListItem.status == Status.inProgress)
+                  TransactionListItemText(
+                    text: 'In progress...',
+                    color: colors.grey2,
+                  ),
                 const Spacer(),
                 if (transactionListItem.operationType == OperationType.sell)
                   TransactionListItemText(
@@ -139,7 +148,7 @@ class TransactionListItem extends HookWidget {
     }
   }
 
-  Widget _icon(OperationType type) {
+  Widget _iconFrom(OperationType type) {
     switch (type) {
       case OperationType.deposit:
         return const SDepositIcon();

@@ -23,6 +23,9 @@ class SimpleAccountHeadersExample extends StatelessWidget {
               ),
               child: const SimpleAccountCategoryHeader(
                 userEmail: 'email@smplt.net',
+                userFirstName: 'FirstName',
+                userLastName: 'LastName',
+                showUserName: true,
               ),
             ),
           ],

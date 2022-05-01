@@ -69,6 +69,10 @@ class Account extends HookWidget {
                 SPaddingH24(
                   child: SimpleAccountCategoryHeader(
                     userEmail: authInfo.email,
+                    userFirstName: userInfo.firstName,
+                    userLastName: userInfo.lastName,
+                    showUserName: userInfo.firstName.isNotEmpty &&
+                        userInfo.lastName.isNotEmpty,
                   ),
                 ),
                 Expanded(
