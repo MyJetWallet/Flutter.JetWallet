@@ -101,30 +101,33 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
 
           return Column(
             children: [
-              SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    const SpaceH20(),
-                    for (final question in state.questions) ...[
-                      DisclaimerCheckbox(
-                        questions: parsedTextWidget(
-                          question.text,
-                          context,
-                          colors,
+              SizedBox(
+                height: 200,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const SpaceH20(),
+                      for (final question in state.questions) ...[
+                        DisclaimerCheckbox(
+                          questions: parsedTextWidget(
+                            question.text,
+                            context,
+                            colors,
+                          ),
+                          firstText: question.text,
+                          indexCheckBox: _findQuestionIndex(question),
+                          onCheckboxTap: () => setState(() {
+                            _onCheckboxTap(
+                              _findQuestionIndex(question),
+                              disclaimerIndex,
+                            );
+                          }),
                         ),
-                        firstText: question.text,
-                        indexCheckBox: _findQuestionIndex(question),
-                        onCheckboxTap: () => setState(() {
-                          _onCheckboxTap(
-                            _findQuestionIndex(question),
-                            disclaimerIndex,
-                          );
-                        }),
-                      ),
-                      const SpaceH10(),
+                        const SpaceH10(),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
               const SpaceH20(),
