@@ -27,7 +27,6 @@ class BalanceBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final currency = currencyFrom(
       useProvider(currenciesPod),
