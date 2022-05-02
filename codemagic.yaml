@@ -105,12 +105,12 @@ definitions:
     - name: Build Android (AAB)
       script: |
         flutter build appbundle --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$(git describe --tags --abbrev=0) --build-number=$PROJECT_BUILD_NUMBER
+        --build-name=$(git tag | tail -1) --build-number=$PROJECT_BUILD_NUMBER
     
     - name: Build Android (APK)
       script: |
         flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$(git describe --tags --abbrev=0) --build-number=$PROJECT_BUILD_NUMBER
+        --build-name=$(git tag | tail -1) --build-number=$PROJECT_BUILD_NUMBER
   publishing: &publishing
     app_store_connect:             
       apple_id: $APPLE_ID    
