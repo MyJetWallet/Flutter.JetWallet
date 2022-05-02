@@ -122,12 +122,11 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
                           );
                         }),
                       ),
-                      const SpaceH10(),
+                      if (question != state.questions.first) const SpaceH20(),
                     ],
                   ],
                 ),
               ),
-              const SpaceH12(),
               SPrimaryButton1(
                 name: 'Continue',
                 active: state.activeButton,

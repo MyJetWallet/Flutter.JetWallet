@@ -37,14 +37,10 @@ class DisclaimerCheckbox extends HookWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              SIconButton(
-                onTap: onCheckboxTap,
-                defaultIcon: icon,
-                pressedIcon: icon,
-              ),
-            ],
+          SIconButton(
+            onTap: onCheckboxTap,
+            defaultIcon: icon,
+            pressedIcon: icon,
           ),
           const SpaceW10(),
           questions,
