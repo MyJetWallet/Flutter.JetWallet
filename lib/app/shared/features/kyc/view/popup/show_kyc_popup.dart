@@ -18,6 +18,8 @@ void showKycPopup({
     context,
     image: imageAsset != null ? Image.asset(
       imageAsset,
+      height: 80,
+      width: 80,
     ) : null,
     primaryText: primaryText,
     secondaryText: secondaryText,
