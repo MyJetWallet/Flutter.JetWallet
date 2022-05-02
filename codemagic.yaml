@@ -91,7 +91,7 @@ definitions:
       script: flutter test --update-goldens
 
     - name: Check tags
-      script: git tag | tail -1
+      script: git ls-remote --tags origin | tail -1 | cut -d/ -f3
     
     - name: Build IOS with automatic versioning
       script: |
