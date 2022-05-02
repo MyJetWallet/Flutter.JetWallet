@@ -9,14 +9,14 @@ class DisclaimerCheckbox extends HookWidget {
   const DisclaimerCheckbox({
     Key? key,
     this.indexCheckBox,
-    required this.testText,
+    required this.questions,
     required this.firstText,
     required this.onCheckboxTap,
   }) : super(key: key);
 
   final int? indexCheckBox;
   final String firstText;
-  final List<WidgetSpan> testText;
+  final Flexible questions;
   final Function() onCheckboxTap;
 
   @override
@@ -35,6 +35,7 @@ class DisclaimerCheckbox extends HookWidget {
 
     return SizedBox(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             children: [
@@ -46,19 +47,7 @@ class DisclaimerCheckbox extends HookWidget {
             ],
           ),
           const SpaceW10(),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SpaceH4(),
-                RichText(
-                  text: TextSpan(
-                    children: testText,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          questions,
         ],
       ),
     );

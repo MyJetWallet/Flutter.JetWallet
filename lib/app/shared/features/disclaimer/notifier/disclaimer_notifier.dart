@@ -1,13 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/disclaimer/model/disclaimers_request_model.dart';
+import '../../../../../shared/helpers/html_tag_parser.dart';
 import '../../../../../shared/helpers/launch_url.dart';
-import '../../../../../shared/helpers/link_parser.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../model/disclaimer_model.dart';
@@ -107,7 +108,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
                     const SpaceH20(),
                     for (final question in state.questions) ...[
                       DisclaimerCheckbox(
-                        testText: parsedTextWidget(
+                        questions: parsedTextWidget(
                           question.text,
                           context,
                           colors,
@@ -141,41 +142,54 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     );
   }
 
-  List<WidgetSpan> parsedTextWidget(
+  Flexible parsedTextWidget(
     String text,
     BuildContext context,
     SimpleColors colors,
   ) {
-    final widgets = <WidgetSpan>[];
+    final widgets = <TextSpan>[];
 
-    linkParser(text).forEach((key, value) {
+    htmlTagParser(text).forEach((key, value) {
       if (value.isNotEmpty) {
         widgets.add(
-          WidgetSpan(
-            child: GestureDetector(
-              onTap: () => launchURL(context, key),
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: colors.blue,
-                ),
-              ),
+          TextSpan(
+            text: value,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launchURL(
+                  context,
+                  key,
+                );
+              },
+            style: sCaptionTextStyle.copyWith(
+              color: colors.blue,
             ),
           ),
         );
       } else {
         widgets.add(
-          WidgetSpan(
-            child: Text(
-              key,
-              style: sCaptionTextStyle,
+          TextSpan(
+            text: key,
+            style: sCaptionTextStyle.copyWith(
+              color: Colors.black,
             ),
           ),
         );
       }
     });
 
-    return widgets;
+    return Flexible(
+      child: Container(
+        margin: const EdgeInsets.only(
+          top: 5,
+        ),
+        child: RichText(
+          text: TextSpan(
+            children: widgets,
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _sendAnswers(BuildContext context, int disclaimerIndex) async {

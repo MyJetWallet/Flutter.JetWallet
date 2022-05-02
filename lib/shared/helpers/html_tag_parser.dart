@@ -1,4 +1,4 @@
-Map<String, String> linkParser(String textToParse) {
+Map<String, String> htmlTagParser(String textToParse) {
   var stringToParse = textToParse;
   var previousLink = '';
   final parsedData = <String, String>{};
