@@ -21,13 +21,16 @@ class WithOutRecurringBuysItem extends HookWidget {
 
     return InkWell(
       onTap: onTap,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        height: 64,
-        child: Text(
-          primaryText,
-          style: sSubtitle2Style.copyWith(
-            color: selected ? colors.blue : colors.black,
+      highlightColor: colors.grey5,
+      child: SPaddingH24(
+        child: Container(
+          alignment: Alignment.centerLeft,
+          height: 64,
+          child: Text(
+            primaryText,
+            style: sSubtitle2Style.copyWith(
+              color: selected ? colors.blue : colors.black,
+            ),
           ),
         ),
       ),

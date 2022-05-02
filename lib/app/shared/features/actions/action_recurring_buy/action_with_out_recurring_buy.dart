@@ -83,62 +83,67 @@ class _ActionRecurringBuy extends HookWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SPaddingH24(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (showOneTimePurchase) ...[
-                WithOutRecurringBuysItem(
-                  primaryText: recurringBuysOperationName(
-                    RecurringBuysType.oneTimePurchase,
-                  ),
-                  selected: currentType == RecurringBuysType.oneTimePurchase,
-                  onTap: () {
-                    onItemTap(RecurringBuysType.oneTimePurchase);
-                  },
-                ),
-                const SDivider(),
-              ],
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (showOneTimePurchase) ...[
               WithOutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
-                  RecurringBuysType.daily,
+                  RecurringBuysType.oneTimePurchase,
                 ),
-                selected: currentType == RecurringBuysType.daily,
+                selected: currentType == RecurringBuysType.oneTimePurchase,
                 onTap: () {
-                  onItemTap(RecurringBuysType.daily);
+                  onItemTap(RecurringBuysType.oneTimePurchase);
                 },
               ),
-              const SDivider(),
-              WithOutRecurringBuysItem(
-                primaryText:
-                    recurringBuysOperationName(RecurringBuysType.weekly),
-                selected: currentType == RecurringBuysType.weekly,
-                onTap: () {
-                  onItemTap(RecurringBuysType.weekly);
-                },
+              const SPaddingH24(
+                child: SDivider(),
               ),
-              const SDivider(),
-              WithOutRecurringBuysItem(
-                primaryText:
-                    recurringBuysOperationName(RecurringBuysType.biWeekly),
-                selected: currentType == RecurringBuysType.biWeekly,
-                onTap: () {
-                  onItemTap(RecurringBuysType.biWeekly);
-                },
-              ),
-              const SDivider(),
-              WithOutRecurringBuysItem(
-                primaryText:
-                    recurringBuysOperationName(RecurringBuysType.monthly),
-                selected: currentType == RecurringBuysType.monthly,
-                onTap: () {
-                  onItemTap(RecurringBuysType.monthly);
-                },
-              ),
-              const SpaceH24(),
             ],
-          ),
+            WithOutRecurringBuysItem(
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.daily,
+              ),
+              selected: currentType == RecurringBuysType.daily,
+              onTap: () {
+                onItemTap(RecurringBuysType.daily);
+              },
+            ),
+            const SPaddingH24(
+              child: SDivider(),
+            ),
+            WithOutRecurringBuysItem(
+              primaryText: recurringBuysOperationName(RecurringBuysType.weekly),
+              selected: currentType == RecurringBuysType.weekly,
+              onTap: () {
+                onItemTap(RecurringBuysType.weekly);
+              },
+            ),
+            const SPaddingH24(
+              child: SDivider(),
+            ),
+            WithOutRecurringBuysItem(
+              primaryText:
+                  recurringBuysOperationName(RecurringBuysType.biWeekly),
+              selected: currentType == RecurringBuysType.biWeekly,
+              onTap: () {
+                onItemTap(RecurringBuysType.biWeekly);
+              },
+            ),
+            const SPaddingH24(
+              child: SDivider(),
+            ),
+            WithOutRecurringBuysItem(
+              primaryText:
+                  recurringBuysOperationName(RecurringBuysType.monthly),
+              selected: currentType == RecurringBuysType.monthly,
+              onTap: () {
+                onItemTap(RecurringBuysType.monthly);
+              },
+            ),
+            const SpaceH24(),
+          ],
         ),
       ],
     );
