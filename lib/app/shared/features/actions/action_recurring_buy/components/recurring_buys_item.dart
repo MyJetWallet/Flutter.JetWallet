@@ -28,7 +28,7 @@ class RecurringBuysItem extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
 
     return InkWell(
-      splashColor: Colors.transparent,
+      highlightColor: colors.grey5,
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
