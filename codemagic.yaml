@@ -89,9 +89,6 @@ definitions:
 
     - name: Run tests
       script: flutter test --update-goldens
-
-    - name: Check tags
-      script: git ls-remote --tags origin | tail -1 | cut -d/ -f3
     
     - name: Build IOS with automatic versioning
       script: |
