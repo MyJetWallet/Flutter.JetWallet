@@ -4,18 +4,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../helper/recurring_buys_image.dart';
-import '../helper/recurring_buys_name.dart';
 import '../helper/recurring_buys_status_name.dart';
 
 class RecurringBuyBanner extends HookWidget {
   const RecurringBuyBanner({
     Key? key,
-    this.totalRecurringBuy,
     required this.type,
+    required this.title,
     required this.onTap,
   }) : super(key: key);
 
-  final String? totalRecurringBuy;
+  final String title;
   final RecurringBuysStatus type;
   final Function() onTap;
 
@@ -52,31 +51,22 @@ class RecurringBuyBanner extends HookWidget {
               ),
               const SpaceW20(),
               Container(
-                margin: const EdgeInsets.only(bottom: 4.0),
+                margin: const EdgeInsets.only(
+                  bottom: 4.0,
+                  right: 7.0,
+                ),
                 child: Text(
-                  recurringBuysName(type),
+                  title,
                   style: sSubtitle3Style.copyWith(
                     color: _textColor(type, colors),
                   ),
                 ),
               ),
-              if (_isActiveRecurring(type))
-                Container(
-                  margin: const EdgeInsets.only(bottom: 4.0),
-                  child: Text(
-                    totalRecurringBuy!,
-                    style: sSubtitle2Style,
-                  ),
-                ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  NetworkImage? setCircleBackgroundImage(String? imageUrl) {
-    return (imageUrl != null) ? NetworkImage(imageUrl) : null;
   }
 
   Color _color(RecurringBuysStatus type, SimpleColors colors) {
@@ -105,13 +95,6 @@ class RecurringBuyBanner extends HookWidget {
     }
 
     return EdgeInsets.zero;
-  }
-
-  bool _isActiveRecurring(RecurringBuysStatus type) {
-    if (type == RecurringBuysStatus.active) {
-      return true;
-    }
-    return false;
   }
 
   Color _textColor(RecurringBuysStatus type, SimpleColors colors) {

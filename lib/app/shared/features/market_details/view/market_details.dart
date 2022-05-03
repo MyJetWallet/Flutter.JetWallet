@@ -200,7 +200,7 @@ class MarketDetails extends HookWidget {
             ),
             const SpaceH40(),
             RecurringBuyBanner(
-              totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
+              title: recurringNotifier.recurringBannerTitle(
                 asset: currency.symbol,
               ),
               type: recurringNotifier.type(currency.symbol),

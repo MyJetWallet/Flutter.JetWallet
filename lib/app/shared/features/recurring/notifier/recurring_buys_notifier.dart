@@ -16,6 +16,8 @@ import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../actions/action_buy/action_buy.dart';
 import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../transaction_history/components/history_recurring_buys.dart';
+import '../helper/recurring_buys_name.dart';
+import '../helper/recurring_buys_operation_name.dart';
 import '../helper/recurring_buys_status_name.dart';
 import 'recurring_buys_state.dart';
 
@@ -148,6 +150,56 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     final total = _priceVolumeFormat(accumulate);
 
     return '${baseCurrency.prefix}$total';
+  }
+
+  String recurringBannerTitle({
+    required String asset,
+  }) {
+    final currencies = read(currenciesPod);
+
+    final array = <RecurringBuysModel>[];
+
+    for (final element in state.recurringBuys) {
+      if (element.toAsset == asset) {
+        for (final currency in currencies) {
+          if (currency.symbol == element.fromAsset) {
+            array.add(element);
+          }
+        }
+      }
+    }
+
+    if (array.length == 1 && array.first.status == RecurringBuysStatus.active) {
+      return '${recurringBuysOperationName(array.first.scheduleType)} buy'
+          ' ${totalRecurringByAsset(asset: asset)}';
+    }
+
+    if (array.length > 1 && _differentRecurringType(array)) {
+      return 'Recurring buy (${array.length})';
+    } else {
+      if (type(asset) == RecurringBuysStatus.paused) {
+        return recurringBuysName(RecurringBuysStatus.paused);
+      } else if (type(asset) == RecurringBuysStatus.empty) {
+        return recurringBuysName(RecurringBuysStatus.empty);
+      }
+      return 'Recurring buy ${totalRecurringByAsset(asset: asset)}';
+    }
+  }
+
+  bool _differentRecurringType(List<RecurringBuysModel> array) {
+    var prevAsset = '';
+
+    for (final element in state.recurringBuys) {
+      if (prevAsset.isEmpty) {
+        prevAsset = element.toAsset;
+      } else {
+        if (prevAsset != element.toAsset) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   String totalByAllRecurring() {
