@@ -16,10 +16,9 @@ void showActionWithOutRecurringBuy({
     context: context,
     scrollable: true,
     pinned: const _RecurringActionBottomSheetHeader(
-      name: 'Setup recurring buy',
+      name: 'Repeat this purchase?',
     ),
     horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _ActionRecurringBuy(
         currentType: currentType,
@@ -142,7 +141,7 @@ class _ActionRecurringBuy extends HookWidget {
                 onItemTap(RecurringBuysType.monthly);
               },
             ),
-            const SpaceH24(),
+            const SpaceH40(),
           ],
         ),
       ],

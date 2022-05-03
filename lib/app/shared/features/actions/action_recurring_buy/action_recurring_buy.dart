@@ -21,7 +21,6 @@ void showRecurringBuyAction({
       name: 'Recurring buy $total',
     ),
     horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _ActionRecurringBuy(
         currency: currency,
