@@ -16,6 +16,7 @@ final errorCodesDescription = {
   'AmountToLarge': 'Amount to large',
   'NotSupported':
       'There was a problem loading wallet address. Try again in a moment.',
+  'PaymentFailed': 'Payment failed. Please try again later or contact support.',
 
   //Auth
   'InvalidUserNameOrPassword': 'Invalid login or password',
