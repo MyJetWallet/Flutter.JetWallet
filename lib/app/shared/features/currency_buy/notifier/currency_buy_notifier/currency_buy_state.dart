@@ -7,6 +7,7 @@ import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../recurring/helper/recurring_buys_operation_name.dart';
 
 part 'currency_buy_state.freezed.dart';
 
@@ -19,6 +20,8 @@ class CurrencyBuyState with _$CurrencyBuyState {
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
     String? paymentMethodInputError,
+    @Default(RecurringBuysType.oneTimePurchase)
+        RecurringBuysType recurringBuyType,
     @Default('0') String inputValue,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,

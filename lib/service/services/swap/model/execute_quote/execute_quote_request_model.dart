@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../shared/decimal_serialiser.dart';
+import '../get_quote/get_quote_response_model.dart';
 
 part 'execute_quote_request_model.freezed.dart';
 part 'execute_quote_request_model.g.dart';
@@ -20,6 +21,7 @@ class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
     @DecimalSerialiser()
     @JsonKey(name: 'toAssetVolume')
         required Decimal? toAssetAmount,
+    RecurringBuyInfoModel? recurringBuyInfo,
   }) = _ExecuteQuoteRequestModel;
 
   factory ExecuteQuoteRequestModel.fromJson(Map<String, dynamic> json) =>

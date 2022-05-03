@@ -8,7 +8,7 @@ import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../wallet/view/components/wallet_body/components/transactions_list/transactions_list.dart';
 
 class TransactionHistory extends HookWidget {
-  TransactionHistory({
+  const TransactionHistory({
     Key? key,
     this.assetName,
     this.assetSymbol,
@@ -16,9 +16,6 @@ class TransactionHistory extends HookWidget {
 
   final String? assetName;
   final String? assetSymbol;
-
-  /// TODO(Vova) reconsider this
-  final scrollController = ScrollController();
 
   static void push({
     String? assetName,
@@ -38,6 +35,7 @@ class TransactionHistory extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
+    final scrollController = useScrollController();
 
     return Material(
       color: colors.white,
@@ -67,7 +65,6 @@ class TransactionHistory extends HookWidget {
           TransactionsList(
             scrollController: scrollController,
             errorBoxPaddingMultiplier: 0.313,
-            symbol: assetSymbol,
           ),
         ],
       ),

@@ -21,6 +21,7 @@ import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../shared/features/payment_methods/view/payment_methods.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
+import '../../shared/features/transaction_history/components/history_recurring_buys.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../shared/helpers/check_kyc_status.dart';
 import 'components/account_banner_list.dart';
@@ -122,6 +123,17 @@ class Account extends HookWidget {
                             isSDivider: true,
                             onTap: () {
                               navigatorPush(context, const AccountSecurity());
+                            },
+                          ),
+                          SimpleAccountCategoryButton(
+                            title: 'Recurring buy',
+                            icon: const SRecurringBuysIcon(),
+                            isSDivider: true,
+                            onTap: () {
+                              navigatorPush(
+                                context,
+                                const HistoryRecurringBuys(),
+                              );
                             },
                           ),
                           // TODO uncomment when Circle will be avavilable

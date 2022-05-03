@@ -14,19 +14,22 @@ import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
+import 'components/recurring_selector.dart';
 import 'preview_buy_with_asset.dart';
 import 'simplex_web_view.dart';
 
-// TODO make isBuyFromCard not optional
 class CurrencyBuy extends StatefulHookWidget {
   const CurrencyBuy({
     Key? key,
+    this.recurringBuysType,
     required this.currency,
     required this.fromCard,
   }) : super(key: key);
 
+  final RecurringBuysType? recurringBuysType;
   final CurrencyModel currency;
   final bool fromCard;
 
@@ -38,9 +41,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
   @override
   void initState() {
     final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
-    notifier.initDefaultPaymentMethod(
-      fromCard: widget.fromCard,
-    );
+    notifier
+      ..initDefaultPaymentMethod(
+        fromCard: widget.fromCard,
+      )
+      ..initRecurringBuyType(widget.recurringBuysType);
     super.initState();
   }
 
@@ -161,7 +166,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               Baseline(
                 baseline: deviceSize.when(
                   small: () => 32,
-                  medium: () => -4,
+                  medium: () => 31,
                 ),
                 baselineType: TextBaseline.alphabetic,
                 child: SActionPriceField(
@@ -177,6 +182,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               ),
               const Spacer(),
+              RecurringSelector(
+                currency: widget.currency,
+              ),
+              deviceSize.when(
+                small: () => const SpaceH8(),
+                medium: () => const SpaceH16(),
+              ),
               if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -220,7 +232,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   onTap: () => _showAssetSelector(),
                 ),
               deviceSize.when(
-                small: () => const Spacer(),
+                small: () => const SpaceH9(),
                 medium: () => const SpaceH20(),
               ),
               SNumericKeyboardAmount(
@@ -243,7 +255,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 submitButtonActive: state.inputValid &&
                     !loader.value.value &&
                     !disableSubmit.value,
-                submitButtonName: 'Preview Buy',
+                submitButtonName:
+                    state.recurringBuyType != RecurringBuysType.oneTimePurchase
+                        ? 'Preview Recurring Buy'
+                        : 'Preview Buy',
                 onSubmitPressed: () async {
                   if (state.selectedPaymentMethod != null) {
                     disableSubmit.value = true;
@@ -267,6 +282,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                           amount: state.inputValue,
                           fromCurrency: state.selectedCurrency!,
                           toCurrency: widget.currency,
+                          recurringType: state.recurringBuyType,
                         ),
                       ),
                     );

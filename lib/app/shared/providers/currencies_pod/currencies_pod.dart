@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../service/services/signal_r/model/blockchains_model.dart';
+import '../../features/recurring/provider/recurring_buys_spod.dart';
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/icon_url_from.dart';
 import '../../models/currency_model.dart';
@@ -20,6 +21,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final basePrices = ref.watch(basePricesSpod);
   final paymentMethods = ref.watch(assetPaymentMethodsSpod);
   final blockchains = ref.watch(blockchainsSpod);
+  final recurringBuy = ref.watch(recurringBuySpod);
 
   final currencies = <CurrencyModel>[];
 
@@ -212,6 +214,23 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
                           description: blockchain.description,
                         );
               }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  recurringBuy.whenData((data) {
+    if (currencies.isNotEmpty) {
+      if (data.recurringBuys.isNotEmpty) {
+        for (final element in data.recurringBuys) {
+          for (final currency in currencies) {
+            final index = currencies.indexOf(currency);
+            if (currency.symbol == element.toAsset) {
+              currencies[index] = currency.copyWith(
+                recurringBuy: element,
+              );
             }
           }
         }
