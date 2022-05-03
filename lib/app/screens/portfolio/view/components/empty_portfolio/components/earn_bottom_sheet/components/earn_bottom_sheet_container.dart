@@ -5,9 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../market/view/components/fade_on_scroll.dart';
 
-class EarnBottomSheetContainer extends HookWidget {
+class EarnBottomSheetContainer extends StatefulWidget {
   const EarnBottomSheetContainer({
-    Key? key,
     this.onDissmis,
     this.minHeight,
     this.horizontalPadding,
@@ -21,7 +20,7 @@ class EarnBottomSheetContainer extends HookWidget {
     required this.color,
     required this.scrollable,
     required this.children,
-  }) : super(key: key);
+  });
 
   final Widget pinned;
   final Widget pinnedSmall;
@@ -38,6 +37,12 @@ class EarnBottomSheetContainer extends HookWidget {
   final double? horizontalPinnedPadding;
 
   @override
+  _EarnBottomSheetContainer createState() => _EarnBottomSheetContainer();
+}
+
+class _EarnBottomSheetContainer extends State<EarnBottomSheetContainer> {
+
+  @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
 
@@ -51,7 +56,7 @@ class EarnBottomSheetContainer extends HookWidget {
     void _onDissmisAction(BuildContext context) {
       if (!isClosing.value) {
         isClosing.value = true;
-        onDissmis?.call();
+        widget.onDissmis?.call();
         Navigator.pop(context);
       }
     }
@@ -65,8 +70,8 @@ class EarnBottomSheetContainer extends HookWidget {
               maxHeight: constraints.maxHeight,
               pinnedSize: pinnedSize.value,
               pinnedSmallSize: pinnedSmallSize.value,
-              removePinnedPadding: removePinnedPadding,
-              pinnedBottom: pinnedBottom,
+              removePinnedPadding: widget.removePinnedPadding,
+              pinnedBottom: widget.pinnedBottom,
               pinnedBottomSize: pinnedBottomSize.value,
             );
 
@@ -78,7 +83,7 @@ class EarnBottomSheetContainer extends HookWidget {
                   ),
                 ),
                 Material(
-                  color: color,
+                  color: widget.color,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24.0),
                     topRight: Radius.circular(24.0),
@@ -87,11 +92,13 @@ class EarnBottomSheetContainer extends HookWidget {
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: horizontalPadding ?? 0,
+                          horizontal: widget.horizontalPadding ?? 0,
                         ),
                         constraints: BoxConstraints(
                           maxHeight: maxHeight,
-                          minHeight: expanded ? maxHeight : minHeight ?? 0,
+                          minHeight: widget.expanded
+                              ? widget.maxHeight
+                              : widget.minHeight ?? 0,
                         ),
                         child: NestedScrollView(
                           controller: controller,
@@ -99,9 +106,10 @@ class EarnBottomSheetContainer extends HookWidget {
                             return [
                               SliverAppBar(
                                 backgroundColor: Colors.transparent,
-                                pinned: true,
+                                pinned:
+                                  controller.offset > widget.expandedHeight,
                                 elevation: 0,
-                                expandedHeight: expandedHeight,
+                                expandedHeight: widget.expandedHeight,
                                 collapsedHeight: 115,
                                 primary: false,
                                 flexibleSpace: FadeOnScroll(
@@ -113,25 +121,25 @@ class EarnBottomSheetContainer extends HookWidget {
                                       topLeft: Radius.circular(24.0),
                                       topRight: Radius.circular(24.0),
                                     ),
-                                    child: pinnedSmall,
+                                    child: widget.pinnedSmall,
                                   ),
-                                  fadeOutWidget: pinned,
+                                  fadeOutWidget: widget.pinned,
                                   permanentWidget: const SpaceW2(),
                                 ),
                               ),
                             ];
                           },
                           body: ListView(
-                            physics: scrollable
+                            physics: widget.scrollable
                                 ? null
                                 : const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            children: children,
+                            children: widget.children,
                           ),
                         ),
                       ),
-                      if (pinnedBottom != null) ...[
-                        pinnedBottom!
+                      if (widget.pinnedBottom != null) ...[
+                        widget.pinnedBottom!
                       ],
                     ],
                   ),
