@@ -51,19 +51,22 @@ class RecurringBuyBanner extends HookWidget {
                 child: recurringBuysImage(type),
               ),
               const SpaceW20(),
-              SizedBox(
+              Container(
+                margin: const EdgeInsets.only(bottom: 4.0),
                 child: Text(
                   recurringBuysName(type),
-                  maxLines: 2,
                   style: sSubtitle3Style.copyWith(
                     color: _textColor(type, colors),
                   ),
                 ),
               ),
               if (_isActiveRecurring(type))
-                Text(
-                  totalRecurringBuy!,
-                  style: sSubtitle2Style,
+                Container(
+                  margin: const EdgeInsets.only(bottom: 4.0),
+                  child: Text(
+                    totalRecurringBuy!,
+                    style: sSubtitle2Style,
+                  ),
                 ),
             ],
           ),
@@ -98,7 +101,7 @@ class RecurringBuyBanner extends HookWidget {
 
   EdgeInsets _padding(RecurringBuysStatus type) {
     if (type == RecurringBuysStatus.empty) {
-      return const EdgeInsets.all(8.0);
+      return const EdgeInsets.all(10.0);
     }
 
     return EdgeInsets.zero;
