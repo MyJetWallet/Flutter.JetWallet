@@ -73,7 +73,8 @@ class _CustomBottomNavigationBar extends HookWidget {
         if (!actionActive.value) {
           sShowMenuActionSheet(
             context: context,
-            onBuy: (_) {},
+            onBuy: () {},
+            onBuyFromCard: () {},
             onSell: () {},
             onConvert: () {},
             onDeposit: () {},

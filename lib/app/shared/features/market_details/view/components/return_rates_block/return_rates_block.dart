@@ -29,8 +29,6 @@ class ReturnRatesBlock extends HookWidget {
           ReturnRates(
             assetSymbol: assetSymbol,
           ),
-          const SpaceH19(),
-          const SDivider(),
         ],
       ),
     );

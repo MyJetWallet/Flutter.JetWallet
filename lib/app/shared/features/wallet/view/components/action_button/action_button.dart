@@ -80,6 +80,78 @@ class _ActionButtonState extends State<ActionButton> {
       currentNameColor = colors.white;
     }
 
+    void _onBuy1(bool fromCard) {
+      if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+        navigatorPushReplacement(
+          context,
+          CurrencyBuy(
+            currency: widget.currency,
+            fromCard: fromCard,
+          ),
+        );
+      } else {
+        defineKycVerificationsScope(
+          kycState.requiredVerifications.length,
+          Source.quickActions,
+        );
+
+        kycAlertHandler.handle(
+          status: kycState.depositStatus,
+          kycVerified: kycState,
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () => navigatorPushReplacement(
+            context,
+            CurrencyBuy(
+              currency: widget.currency,
+              fromCard: fromCard,
+            ),
+          ),
+        );
+      }
+    }
+
+    void _onBuy2(bool fromCard) {
+      if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+        sAnalytics.buyView(
+          Source.assetScreen,
+          widget.currency.description,
+        );
+        navigatorPushReplacement(
+          context,
+          CurrencyBuy(
+            currency: widget.currency,
+            fromCard: false,
+          ),
+        );
+      } else {
+        defineKycVerificationsScope(
+          kycState.requiredVerifications.length,
+          Source.quickActions,
+        );
+
+        Navigator.of(context).pop();
+        kycAlertHandler.handle(
+          status: kycState.sellStatus,
+          kycVerified: kycState,
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () {
+            sAnalytics.buyView(
+              Source.assetScreen,
+              widget.currency.description,
+            );
+
+            navigatorPushReplacement(
+              context,
+              CurrencyBuy(
+                currency: widget.currency,
+                fromCard: false,
+              ),
+            );
+          },
+        );
+      }
+    }
+
     return Material(
       color: colors.white,
       child: Column(
@@ -142,38 +214,13 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoWithdrawal,
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
-                            onBuy: (fromCard) {
-                              if (kycState.depositStatus ==
-                                  kycOperationStatus(
-                                    KycStatus.allowed,
-                                  )) {
-                                navigatorPushReplacement(
-                                  context,
-                                  CurrencyBuy(
-                                    currency: widget.currency,
-                                    fromCard: fromCard,
-                                  ),
-                                );
-                              } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
-                                );
-
-                                kycAlertHandler.handle(
-                                  status: kycState.depositStatus,
-                                  kycVerified: kycState,
-                                  isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () =>
-                                      navigatorPushReplacement(
-                                    context,
-                                    CurrencyBuy(
-                                      currency: widget.currency,
-                                      fromCard: fromCard,
-                                    ),
-                                  ),
-                                );
-                              }
+                            onBuy: () {
+                              sAnalytics.tapOnBuy(Source.actionButton);
+                              _onBuy1(false);
+                            },
+                            onBuyFromCard: () {
+                              sAnalytics.tapOnBuyFromCard(Source.actionButton);
+                              _onBuy1(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==
@@ -189,7 +236,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -220,7 +267,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -249,7 +296,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   kycAlertHandler.handle(
@@ -280,7 +327,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   kycAlertHandler.handle(
@@ -316,7 +363,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -342,7 +389,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -371,7 +418,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -433,57 +480,21 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoWithdrawal,
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
-                            onBuy: (fromCard) {
-                              if (kycState.depositStatus ==
-                                  kycOperationStatus(
-                                    KycStatus.allowed,
-                                  )) {
-                                sAnalytics.buySellView(
-                                  ScreenSource.assetScreen,
-                                  widget.currency.description,
-                                );
-                                navigatorPushReplacement(
-                                  context,
-                                  CurrencyBuy(
-                                    currency: widget.currency,
-                                    fromCard: fromCard,
-                                  ),
-                                );
-                              } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
-                                );
-
-                                Navigator.of(context).pop();
-                                kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
-                                  kycVerified: kycState,
-                                  isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () {
-                                    sAnalytics.buySellView(
-                                      ScreenSource.assetScreen,
-                                      widget.currency.description,
-                                    );
-
-                                    navigatorPushReplacement(
-                                      context,
-                                      CurrencyBuy(
-                                        currency: widget.currency,
-                                        fromCard: fromCard,
-                                      ),
-                                    );
-                                  },
-                                );
-                              }
+                            onBuy: () {
+                              sAnalytics.tapOnBuy(Source.actionButton);
+                              _onBuy2(false);
+                            },
+                            onBuyFromCard: () {
+                              sAnalytics.tapOnBuyFromCard(Source.actionButton);
+                              _onBuy2(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.buySellView(
-                                  ScreenSource.assetScreen,
+                                sAnalytics.sellView(
+                                  Source.assetScreen,
                                   widget.currency.description,
                                 );
 
@@ -496,7 +507,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 Navigator.of(context).pop();
@@ -505,8 +516,8 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
-                                    sAnalytics.buySellView(
-                                      ScreenSource.assetScreen,
+                                    sAnalytics.sellView(
+                                      Source.assetScreen,
                                       widget.currency.description,
                                     );
 
@@ -534,7 +545,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 Navigator.of(context).pop();
@@ -569,7 +580,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   kycAlertHandler.handle(
@@ -607,7 +618,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 } else {
                                   defineKycVerificationsScope(
                                     kycState.requiredVerifications.length,
-                                    ScreenSource.quickActions,
+                                    Source.quickActions,
                                   );
 
                                   Navigator.of(context).pop();
@@ -643,7 +654,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -669,7 +680,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
@@ -698,7 +709,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 defineKycVerificationsScope(
                                   kycState.requiredVerifications.length,
-                                  ScreenSource.quickActions,
+                                  Source.quickActions,
                                 );
 
                                 kycAlertHandler.handle(
