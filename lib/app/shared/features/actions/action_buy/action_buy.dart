@@ -46,6 +46,8 @@ void showBuyAction({
       )
     ],
   );
+
+  sAnalytics.buySheetView();
 }
 
 class _ActionBuy extends HookWidget {
@@ -116,8 +118,8 @@ class _ActionBuy extends HookWidget {
               last: currency == state.buyFromCardCurrencies.last,
               percent: currency.dayPercentChange,
               onTap: () {
-                sAnalytics.buySellView(
-                  ScreenSource.quickActions,
+                sAnalytics.buyView(
+                  Source.quickActions,
                   currency.description,
                 );
                 if (showRecurring) {
@@ -196,8 +198,8 @@ class _ActionBuy extends HookWidget {
                 last: currency == state.filteredCurrencies.last,
                 percent: currency.dayPercentChange,
                 onTap: () {
-                  sAnalytics.buySellView(
-                    ScreenSource.quickActions,
+                  sAnalytics.buyView(
+                    Source.quickActions,
                     currency.description,
                   );
                   if (showRecurring) {

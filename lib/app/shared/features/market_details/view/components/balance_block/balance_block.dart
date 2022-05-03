@@ -65,7 +65,7 @@ class BalanceBlock extends HookWidget {
             ),
             onTap: () {
               sAnalytics.walletAssetView(
-                ScreenSource.assetScreen,
+                Source.assetScreen,
                 currency.description,
               );
 

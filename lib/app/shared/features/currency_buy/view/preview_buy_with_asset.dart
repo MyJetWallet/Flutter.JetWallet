@@ -2,9 +2,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/price_accuracy.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
@@ -38,6 +40,15 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
       previewBuyWithAssetNotipod(widget.input).notifier,
     );
     notifier.updateTimerAnimation(_animationController);
+    sAnalytics.previewBuyView(
+      widget.input.toCurrency.description,
+      'Crypto',
+      formatCurrencyStringAmount(
+        prefix: widget.input.fromCurrency.prefixSymbol,
+        value: widget.input.amount,
+        symbol: widget.input.fromCurrency.symbol,
+      ),
+    );
     super.initState();
   }
 

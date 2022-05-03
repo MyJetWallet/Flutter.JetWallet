@@ -4,8 +4,13 @@ enum Source {
   emptyWalletScreen,
   rewards,
   marketBanner,
+  accountBanner,
   giftIcon,
   accountScreen,
+  assetScreen,
+  quickActions,
+  earnProgram,
+  actionButton,
 }
 
 extension SourceExtension on Source {
@@ -23,6 +28,16 @@ extension SourceExtension on Source {
         return 'Gift Icon';
       case Source.accountScreen:
         return 'Account Screen';
+      case Source.assetScreen:
+        return 'Asset screen';
+      case Source.quickActions:
+        return 'Quick actions';
+      case Source.accountBanner:
+        return 'Account banner';
+      case Source.earnProgram:
+        return 'Earn program';
+      case Source.actionButton:
+        return 'Action Button';
     }
   }
 }

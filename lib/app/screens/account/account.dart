@@ -95,7 +95,7 @@ class Account extends HookWidget {
                         onKycBannerTap: () {
                           defineKycVerificationsScope(
                             kycState.requiredVerifications.length,
-                            ScreenSource.accountBanner,
+                            Source.accountBanner,
                           );
 
                           kycAlertHandler.handle(
