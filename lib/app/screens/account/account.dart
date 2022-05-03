@@ -151,9 +151,9 @@ class Account extends HookWidget {
                             icon: const SQuestionIcon(),
                             isSDivider: true,
                             onTap: () {
-                              navigatorPush(
-                                context,
-                                HelpCenterWebView(link: faqLink),
+                              HelpCenterWebView.push(
+                                context: context,
+                                link: faqLink,
                               );
                             },
                           ),

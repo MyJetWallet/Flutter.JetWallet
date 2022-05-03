@@ -12,10 +12,10 @@ class HelpCenterWebView extends StatelessWidget {
 
   final String link;
 
-  static void push(
-    BuildContext context,
-    String link,
-  ) {
+  static void push({
+    required BuildContext context,
+    required String link,
+  }) {
     navigatorPush(
       context,
       HelpCenterWebView(link: link),
