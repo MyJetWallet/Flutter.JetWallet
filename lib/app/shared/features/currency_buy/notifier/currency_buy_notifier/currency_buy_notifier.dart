@@ -365,6 +365,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _updateTargetConversionValue(zero);
     _updateBaseConversionValue(zero);
     _updateInputValid(false);
+    _updateInputError(InputError.none);
   }
 
   Future<String?> makeSimplexRequest() async {
