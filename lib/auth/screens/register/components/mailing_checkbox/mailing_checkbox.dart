@@ -27,26 +27,19 @@ class MailingCheckbox extends HookWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          children: [
-            const SpaceH20(),
-            SIconButton(
-              onTap: onCheckboxTap,
-              defaultIcon: icon,
-              pressedIcon: icon,
-            ),
-          ],
+        SIconButton(
+          onTap: onCheckboxTap,
+          defaultIcon: icon,
+          pressedIcon: icon,
         ),
         const SpaceW10(),
         Expanded(
           child: Column(
             children: [
-              const SpaceH26(),
+              const SpaceH4(),
               Text(
-                'I want to subscribe to the marketing communications '
-                '(blog posts, '
-                'newsletter, etc.) upon the new Products, Services and features'
-                ' of Simple.',
+                'I want to subscribe to the marketing communications ' +
+                    'upon the new Products, Services and features of Simple',
                 maxLines: 4,
                 style: sCaptionTextStyle.copyWith(
                   fontFamily: 'Gilroy',
