@@ -1,4 +1,4 @@
-Map<String, String> htmlTagParser(String textToParse) {
+Map<String, String> disclaimerQuestionsParser(String textToParse) {
   var stringToParse = textToParse;
   var previousLink = '';
   final parsedData = <String, String>{};
@@ -24,7 +24,6 @@ Map<String, String> htmlTagParser(String textToParse) {
     } else {
       previousLink = '';
     }
-    stringToParse =
-        stringToParse.substring(divider + 2, stringToParse.length);
+    stringToParse = stringToParse.substring(divider + 2, stringToParse.length);
   } while (true);
 }

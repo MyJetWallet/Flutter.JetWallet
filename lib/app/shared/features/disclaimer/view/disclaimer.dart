@@ -22,21 +22,17 @@ void showsDisclaimer({
 
   sShowDisclaimerPopup(
     context,
-    image: imageAsset != null
-        ? SizedBox(
-            height: 80,
-            width: 80,
-            child: Image.network(
+    image: SizedBox(
+      height: 80,
+      width: 80,
+      child: imageAsset != null
+          ? Image.network(
               imageAsset,
-            ),
-          )
-        : SizedBox(
-            height: 80,
-            width: 80,
-            child: Image.asset(
+            )
+          : Image.asset(
               disclaimerAsset,
             ),
-          ),
+    ),
     primaryText: primaryText,
     secondaryText: secondaryText,
     child: child,

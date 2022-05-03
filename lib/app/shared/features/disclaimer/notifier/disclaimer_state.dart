@@ -7,12 +7,12 @@ part 'disclaimer_state.freezed.dart';
 @freezed
 class DisclaimerState with _$DisclaimerState {
   const factory DisclaimerState({
-    List<DisclaimerModel>? disclaimers,
     String? imageUrl,
+    @Default([]) List<DisclaimerModel> disclaimers,
     @Default(false) bool activeButton,
-    required String disclaimerId,
-    required String title,
-    required String description,
-    required List<DisclaimerQuestionsModel> questions,
+    @Default('') String disclaimerId,
+    @Default('') String title,
+    @Default('') String description,
+    @Default([]) List<DisclaimerQuestionsModel> questions,
   }) = _DisclaimerState;
 }

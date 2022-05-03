@@ -3,7 +3,8 @@ import 'package:logging/logging.dart';
 
 import '../model/disclaimers_request_model.dart';
 import '../model/disclaimers_response_model.dart';
-import 'services/disclamer_service.dart';
+import 'services/get_disclaimer_service.dart';
+import 'services/save_disclaimer_service.dart';
 
 class DisclaimersService {
   DisclaimersService(this.dio);
@@ -17,6 +18,6 @@ class DisclaimersService {
   }
 
   Future<void> saveDisclaimer(DisclaimersRequestModel model) async {
-    await postDisclaimersService(dio, model);
+    await saveDisclaimerService(dio, model);
   }
 }

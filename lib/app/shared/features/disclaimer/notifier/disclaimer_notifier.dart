@@ -7,10 +7,10 @@ import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/disclaimer/model/disclaimers_request_model.dart';
-import '../../../../../shared/helpers/html_tag_parser.dart';
 import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../helpers/disclaimer_questions_parser.dart';
 import '../model/disclaimer_model.dart';
 import '../view/components/disclaimer_checkbox.dart';
 import '../view/disclaimer.dart';
@@ -21,13 +21,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
   DisclaimerNotifier({
     required this.read,
   }) : super(
-          const DisclaimerState(
-            disclaimers: <DisclaimerModel>[],
-            disclaimerId: '',
-            title: '',
-            description: '',
-            questions: <DisclaimerQuestionsModel>[],
-          ),
+          const DisclaimerState(),
         ) {
     _init();
   }
@@ -67,14 +61,12 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
         );
       }
 
-      if (state.disclaimers != null) {
-        if (state.disclaimers!.isNotEmpty) {
-          Timer(Duration.zero, () {
-            _displayDisclaimers(
-              disclaimerIndex: 0,
-            );
-          });
-        }
+      if (state.disclaimers.isNotEmpty) {
+        Timer(Duration.zero, () {
+          _displayDisclaimers(
+            disclaimerIndex: 0,
+          );
+        });
       }
     } catch (e) {
       _logger.log(stateFlow, 'Failed to fetch disclaimers', e);
@@ -152,7 +144,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
   ) {
     final widgets = <TextSpan>[];
 
-    htmlTagParser(text).forEach((key, value) {
+    disclaimerQuestionsParser(text).forEach((key, value) {
       if (value.isNotEmpty) {
         widgets.add(
           TextSpan(
@@ -208,7 +200,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     try {
       await read(disclaimerServicePod).saveDisclaimer(model);
 
-      if (disclaimerIndex <= state.disclaimers!.length) {
+      if (disclaimerIndex <= state.disclaimers.length) {
         if (!mounted) return;
 
         Navigator.pop(context);
@@ -246,12 +238,12 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
   void _updateDisclaimer(int index) {
     state = state.copyWith(
       activeButton:
-          _checkActiveButtonStatus(state.disclaimers![index].questions),
-      imageUrl: state.disclaimers![index].imageUrl,
-      title: state.disclaimers![index].title,
-      description: state.disclaimers![index].description,
-      disclaimerId: state.disclaimers![index].disclaimerId,
-      questions: state.disclaimers![index].questions,
+          _checkActiveButtonStatus(state.disclaimers[index].questions),
+      imageUrl: state.disclaimers[index].imageUrl,
+      title: state.disclaimers[index].title,
+      description: state.disclaimers[index].description,
+      disclaimerId: state.disclaimers[index].disclaimerId,
+      questions: state.disclaimers[index].questions,
     );
   }
 
