@@ -8,7 +8,8 @@ void sShowMenuActionSheet({
   bool isSendAvailable = true,
   bool isReceiveAvailable = true,
   required BuildContext context,
-  required void Function(bool fromCard) onBuy,
+  required void Function() onBuy,
+  required void Function() onBuyFromCard,
   required void Function() onSell,
   required void Function() onConvert,
   required void Function() onDeposit,
@@ -30,14 +31,14 @@ void sShowMenuActionSheet({
     children: [
       if (!isNotEmptyBalance)
         SActionItem(
-          onTap: () => onBuy(true),
+          onTap: () => onBuyFromCard(),
           icon: const SActionDepositIcon(),
           name: 'Buy from card',
           description: 'Buy crypto with your bank card',
         ),
       if (isNotEmptyBalance)
         SActionItem(
-          onTap: () => onBuy(false),
+          onTap: () => onBuy(),
           icon: const SActionBuyIcon(),
           name: 'Buy',
           description: 'Buy any crypto available on the platform',
@@ -56,7 +57,7 @@ void sShowMenuActionSheet({
           description: 'Quickly swap one crypto for another',
         ),
         SActionItem(
-          onTap: () => onBuy(true),
+          onTap: () => onBuyFromCard(),
           icon: const SActionDepositIcon(),
           name: 'Buy from card',
           description: 'Buy crypto with your bank card',

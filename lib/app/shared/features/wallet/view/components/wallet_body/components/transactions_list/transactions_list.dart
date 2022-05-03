@@ -19,12 +19,14 @@ import '../transactions_list_item/transaction_list_item.dart';
 class TransactionsList extends StatefulHookWidget {
   const TransactionsList({
     Key? key,
+    this.isRecurring = false,
     this.symbol,
     required this.scrollController,
   }) : super(key: key);
 
   final ScrollController scrollController;
   final String? symbol;
+  final bool isRecurring;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListState();
@@ -76,6 +78,13 @@ class _TransactionsListState extends State<TransactionsList> {
       ),
     );
     final screenHeight = MediaQuery.of(context).size.height;
+    final listToShow = widget.isRecurring
+        ? transactionHistory.operationHistoryItems
+            .where(
+              (i) => i.operationType == OperationType.recurringBuy,
+            )
+            .toList()
+        : transactionHistory.operationHistoryItems;
 
     return SliverPadding(
       padding: EdgeInsets.only(
@@ -88,11 +97,11 @@ class _TransactionsListState extends State<TransactionsList> {
         data: (_) {
           return transactionHistory.union.when(
             loading: () {
-              if (transactionHistory.operationHistoryItems.isEmpty) {
+              if (listToShow.isEmpty) {
                 return const LoadingSliverList();
               } else {
                 return SliverGroupedListView<OperationHistoryItem, String>(
-                  elements: transactionHistory.operationHistoryItems,
+                  elements: listToShow,
                   groupBy: (transaction) {
                     return formatDate(transaction.timeStamp);
                   },
@@ -103,22 +112,18 @@ class _TransactionsListState extends State<TransactionsList> {
                     );
                   },
                   itemBuilder: (context, transaction) {
-                    final index = transactionHistory.operationHistoryItems
-                        .indexOf(transaction);
+                    final index = listToShow.indexOf(transaction);
                     final currentDate = formatDate(transaction.timeStamp);
                     var nextDate = '';
-                    if (index !=
-                        (transactionHistory.operationHistoryItems.length - 1)) {
+                    if (index != (listToShow.length - 1)) {
                       nextDate = formatDate(
-                        transactionHistory
-                            .operationHistoryItems[index + 1].timeStamp,
+                        listToShow[index + 1].timeStamp,
                       );
                     }
                     final removeDividerForLastInGroup = currentDate != nextDate;
 
-                    if (transactionHistory.operationHistoryItems
-                            .indexOf(transaction) ==
-                        transactionHistory.operationHistoryItems.length - 1) {
+                    if (listToShow.indexOf(transaction) ==
+                        listToShow.length - 1) {
                       return Column(
                         children: [
                           SPaddingH24(
@@ -154,7 +159,7 @@ class _TransactionsListState extends State<TransactionsList> {
               }
             },
             loaded: () {
-              if (transactionHistory.operationHistoryItems.isEmpty) {
+              if (listToShow.isEmpty) {
                 return SliverToBoxAdapter(
                   child: SizedBox(
                     height: screenHeight - screenHeight * 0.369,
@@ -177,7 +182,7 @@ class _TransactionsListState extends State<TransactionsList> {
                 );
               } else {
                 return SliverGroupedListView<OperationHistoryItem, String>(
-                  elements: transactionHistory.operationHistoryItems,
+                  elements: listToShow,
                   groupBy: (transaction) {
                     return formatDate(transaction.timeStamp);
                   },
@@ -188,15 +193,12 @@ class _TransactionsListState extends State<TransactionsList> {
                     );
                   },
                   itemBuilder: (context, transaction) {
-                    final index = transactionHistory.operationHistoryItems
-                        .indexOf(transaction);
+                    final index = listToShow.indexOf(transaction);
                     final currentDate = formatDate(transaction.timeStamp);
                     var nextDate = '';
-                    if (index !=
-                        (transactionHistory.operationHistoryItems.length - 1)) {
+                    if (index != (listToShow.length - 1)) {
                       nextDate = formatDate(
-                        transactionHistory
-                            .operationHistoryItems[index + 1].timeStamp,
+                        listToShow[index + 1].timeStamp,
                       );
                     }
                     final removeDividerForLastInGroup = currentDate != nextDate;
@@ -212,7 +214,7 @@ class _TransactionsListState extends State<TransactionsList> {
               }
             },
             error: () {
-              if (transactionHistory.operationHistoryItems.isEmpty) {
+              if (listToShow.isEmpty) {
                 return SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -279,7 +281,7 @@ class _TransactionsListState extends State<TransactionsList> {
                 );
               } else {
                 return SliverGroupedListView<OperationHistoryItem, String>(
-                  elements: transactionHistory.operationHistoryItems,
+                  elements: listToShow,
                   groupBy: (transaction) {
                     return formatDate(transaction.timeStamp);
                   },
@@ -290,22 +292,18 @@ class _TransactionsListState extends State<TransactionsList> {
                   },
                   groupComparator: (date1, date2) => 0,
                   itemBuilder: (context, transaction) {
-                    final index = transactionHistory.operationHistoryItems
-                        .indexOf(transaction);
+                    final index = listToShow.indexOf(transaction);
                     final currentDate = formatDate(transaction.timeStamp);
                     var nextDate = '';
-                    if (index !=
-                        (transactionHistory.operationHistoryItems.length - 1)) {
+                    if (index != (listToShow.length - 1)) {
                       nextDate = formatDate(
-                        transactionHistory
-                            .operationHistoryItems[index + 1].timeStamp,
+                        listToShow[index + 1].timeStamp,
                       );
                     }
                     final removeDividerForLastInGroup = currentDate != nextDate;
 
-                    if (transactionHistory.operationHistoryItems
-                            .indexOf(transaction) ==
-                        transactionHistory.operationHistoryItems.length - 1) {
+                    if (listToShow.indexOf(transaction) ==
+                        listToShow.length - 1) {
                       return Column(
                         children: [
                           SPaddingH24(

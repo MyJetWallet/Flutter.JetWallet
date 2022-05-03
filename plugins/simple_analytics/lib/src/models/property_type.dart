@@ -13,4 +13,7 @@ class PropertyType {
   static const campaignName = 'Campaign Name';
   static const action = 'Action';
   static const kycPhoneConfirmFailed = 'Kyc error';
+  static const amount = 'Amount';
+  static const paymentMethod = 'Payment method';
+  static const url = 'URL';
 }

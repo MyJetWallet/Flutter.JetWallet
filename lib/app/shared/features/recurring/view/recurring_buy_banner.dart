@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+import '../helper/recurring_buys_image.dart';
+import '../helper/recurring_buys_name.dart';
+import '../helper/recurring_buys_status_name.dart';
+
+class RecurringBuyBanner extends HookWidget {
+  const RecurringBuyBanner({
+    Key? key,
+    this.totalRecurringBuy,
+    required this.type,
+    required this.onTap,
+  }) : super(key: key);
+
+  final String? totalRecurringBuy;
+  final RecurringBuysStatus type;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = useProvider(sColorPod);
+
+    return SPaddingH24(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          margin: const EdgeInsets.only(top: 24.0),
+          height: 68,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: _color(type, colors),
+            border: Border.all(
+              width: 3.0,
+              color: _borderColor(type, colors),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24.0),
+                  color: colors.grey5,
+                ),
+                padding: _padding(type),
+                child: recurringBuysImage(type),
+              ),
+              const SpaceW20(),
+              SizedBox(
+                child: Text(
+                  recurringBuysName(type),
+                  maxLines: 2,
+                  style: sSubtitle3Style.copyWith(
+                    color: _textColor(type, colors),
+                  ),
+                ),
+              ),
+              if (_isActiveRecurring(type))
+                Text(
+                  totalRecurringBuy!,
+                  style: sSubtitle2Style,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  NetworkImage? setCircleBackgroundImage(String? imageUrl) {
+    return (imageUrl != null) ? NetworkImage(imageUrl) : null;
+  }
+
+  Color _color(RecurringBuysStatus type, SimpleColors colors) {
+    if (type == RecurringBuysStatus.active) {
+      return colors.blueLight;
+    }
+
+    if (type == RecurringBuysStatus.paused) {
+      return colors.grey5;
+    }
+
+    return colors.white;
+  }
+
+  Color _borderColor(RecurringBuysStatus type, SimpleColors colors) {
+    if (type == RecurringBuysStatus.active) {
+      return colors.blueLight;
+    }
+
+    return colors.grey5;
+  }
+
+  EdgeInsets _padding(RecurringBuysStatus type) {
+    if (type == RecurringBuysStatus.empty) {
+      return const EdgeInsets.all(8.0);
+    }
+
+    return EdgeInsets.zero;
+  }
+
+  bool _isActiveRecurring(RecurringBuysStatus type) {
+    if (type == RecurringBuysStatus.active) {
+      return true;
+    }
+    return false;
+  }
+
+  Color _textColor(RecurringBuysStatus type, SimpleColors colors) {
+    if (type == RecurringBuysStatus.paused) {
+      return colors.grey2;
+    }
+
+    return colors.black;
+  }
+}

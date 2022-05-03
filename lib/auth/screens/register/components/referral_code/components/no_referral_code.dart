@@ -17,7 +17,7 @@ class NoReferralCode extends HookWidget {
         ),
         const SpaceW12(),
         Text(
-          'I have referral code/link',
+          'I have promo code',
           style: sCaptionTextStyle.copyWith(color: colors.blue),
         ),
       ],
