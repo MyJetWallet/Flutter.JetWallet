@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class MarketInfoLoaderStat extends HookWidget {
+class MarketInfoLoaderStat extends StatelessWidget {
   const MarketInfoLoaderStat({
     Key? key,
   }) : super(key: key);
