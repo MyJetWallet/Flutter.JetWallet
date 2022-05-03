@@ -8,7 +8,6 @@ class AddCardRequestModel with _$AddCardRequestModel {
   const factory AddCardRequestModel({
     String? billingLine2,
     required String requestGuid,
-    required String cardName,
     required String keyId,
     required String encryptedData,
     required String billingName,

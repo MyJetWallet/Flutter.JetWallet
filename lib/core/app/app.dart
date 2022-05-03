@@ -43,6 +43,7 @@ final _providerNames = <String>[
   'logRecordsNotipod',
   'timerNotipod',
   'convertPriceAccuraciesPod',
+  'addCircleCardNotipod',
 ];
 
 class App extends HookWidget {

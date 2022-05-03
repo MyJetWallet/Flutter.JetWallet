@@ -18,6 +18,7 @@ import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/debug_info/debug_info.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../shared/features/payment_methods/view/payment_methods.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
@@ -124,14 +125,14 @@ class Account extends HookWidget {
                             },
                           ),
                           // TODO uncomment when Circle will be avavilable
-                          // SimpleAccountCategoryButton(
-                          //   title: 'Payment methods',
-                          //   icon: SActionDepositIcon(
-                          //     color: colors.black,
-                          //   ),
-                          //   isSDivider: true,
-                          //   onTap: () => PaymentMethods.push(context),
-                          // ),
+                          SimpleAccountCategoryButton(
+                            title: 'Payment methods',
+                            icon: SActionDepositIcon(
+                              color: colors.black,
+                            ),
+                            isSDivider: true,
+                            onTap: () => PaymentMethods.push(context),
+                          ),
                           SimpleAccountCategoryButton(
                             title: 'History',
                             icon: const SIndexHistoryIcon(),

@@ -49,7 +49,7 @@ class SimpleBaseTextButton extends HookWidget {
       },
       nameColor: currentColor,
       decoration: BoxDecoration(
-          color: currentBackgroundColor,
+        color: currentBackgroundColor,
       ),
     );
   }
