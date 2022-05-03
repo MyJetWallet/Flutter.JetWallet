@@ -94,7 +94,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
           return Column(
             children: [
               SizedBox(
-                height: 200,
+                height: 150,
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
@@ -176,7 +176,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     return Flexible(
       child: Container(
         margin: const EdgeInsets.only(
-          top: 5,
+          top: 2,
         ),
         child: RichText(
           text: TextSpan(
