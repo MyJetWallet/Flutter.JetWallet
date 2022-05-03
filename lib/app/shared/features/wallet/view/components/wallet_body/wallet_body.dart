@@ -122,7 +122,10 @@ class _WalletBodyState extends State<WalletBody>
                       navigatorPush(
                         context,
                         ShowRecurringInfoAction(
-                          recurringItem: recurringN.recurringBuys[0],
+                          recurringItem: recurringN.recurringBuys.where(
+                                (element) =>
+                                element.toAsset == widget.currency.symbol,
+                          ).toList()[0],
                           assetName: widget.currency.description,
                         ),
                       );
