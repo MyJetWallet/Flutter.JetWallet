@@ -2,7 +2,7 @@ import '../../simple_analytics.dart';
 
 void defineKycVerificationsScope(
   int kycStateLength,
-  ScreenSource source,
+  Source source,
 ) {
   if (kycStateLength == 2) {
     sAnalytics.kycVerifyProfile(

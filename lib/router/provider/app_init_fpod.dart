@@ -6,8 +6,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../shared/helpers/refresh_token.dart';
 import '../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../shared/providers/apps_flyer_service_pod.dart';
 import '../../shared/providers/service_providers.dart';
-import '../../shared/services/apps_flyer_service.dart';
 import '../../shared/services/local_storage_service.dart';
 import '../../shared/services/remote_config_service/remote_config_values.dart';
 import '../notifier/startup_notifier/startup_notipod.dart';
@@ -20,6 +20,7 @@ final appInitFpod = FutureProvider<void>(
     final authInfoN = ref.watch(authInfoNotipod.notifier);
     final userInfoN = ref.watch(userInfoNotipod.notifier);
     final storageService = ref.watch(localStorageServicePod);
+    final appsFlyerService = ref.watch(appsFlyerServicePod);
 
     final token = await storageService.getString(refreshTokenKey);
     final email = await storageService.getString(userEmailKey);
@@ -27,11 +28,6 @@ final appInitFpod = FutureProvider<void>(
 
     try {
       await AppTrackingTransparency.requestTrackingAuthorization();
-
-      final appsFlyerService = AppsFlyerService.create(
-        devKey: appsFlyerKey,
-        iosAppId: iosAppId,
-      );
 
       await appsFlyerService.init();
     } catch (error, stackTrace) {

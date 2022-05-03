@@ -10,6 +10,7 @@ import 'wallet_body/components/transactions_list_item/components/transaction_det
 import 'wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/deposit_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/receive_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/recurring_buy_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/transfer_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/withdraw_details.dart';
 
@@ -109,6 +110,19 @@ class TransactionItem extends HookWidget {
                   Material(
                     color: colors.white,
                     child: BuySimplexDetails(
+                      transactionListItem: transactionListItem,
+                      onCopyAction: (String text) {
+                        copiedText.value = text;
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (transactionListItem.operationType ==
+                    OperationType.recurringBuy) ...[
+                  Material(
+                    color: colors.white,
+                    child: RecurringBuyDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
                         copiedText.value = text;

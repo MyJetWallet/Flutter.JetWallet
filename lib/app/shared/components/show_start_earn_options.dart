@@ -34,8 +34,8 @@ void showStartEarnOptions({
       SActionItem(
         onTap: () {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-            sAnalytics.buySellView(
-              ScreenSource.earnProgram,
+            sAnalytics.buyView(
+              Source.earnProgram,
               currency.description,
             );
             sAnalytics.earnDetailsView(currency.description);
@@ -54,8 +54,8 @@ void showStartEarnOptions({
               kycVerified: kycState,
               isProgress: kycState.verificationInProgress,
               currentNavigate: () {
-                sAnalytics.buySellView(
-                  ScreenSource.earnProgram,
+                sAnalytics.buyView(
+                  Source.earnProgram,
                   currency.description,
                 );
                 sAnalytics.earnDetailsView(currency.description);

@@ -3,19 +3,17 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TimerNotifier extends StateNotifier<int> {
-  TimerNotifier(this.initial) : super(initial) {
+  TimerNotifier(this.initial) : super(initial.toInt()) {
     refreshTimer();
   }
 
   Timer? _timer;
-  final int initial;
+  final double initial;
 
   void refreshTimer() {
     _timer?.cancel();
-    state = initial;
-    final initialTime = (
-        DateTime.now().millisecondsSinceEpoch / 1000
-    ).round();
+    state = initial.toInt();
+    final initialTime = (DateTime.now().millisecondsSinceEpoch / 1000).round();
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -24,10 +22,9 @@ class TimerNotifier extends StateNotifier<int> {
           if (!mounted) return;
           timer.cancel();
         } else {
-          final currentTime = (
-              DateTime.now().millisecondsSinceEpoch / 1000
-          ).round();
-          state = initialTime - currentTime + initial;
+          final currentTime =
+              (DateTime.now().millisecondsSinceEpoch / 1000).round();
+          state = initialTime - currentTime + initial.toInt();
         }
       },
     );

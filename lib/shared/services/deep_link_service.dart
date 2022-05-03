@@ -9,6 +9,7 @@ import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
 import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
+import '../../app/shared/features/actions/action_buy/action_buy.dart';
 import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
 import '../../app/shared/features/currency_withdraw/notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
 import '../../app/shared/features/currency_withdraw/view/screens/withdrawal_confirm.dart';
@@ -53,6 +54,7 @@ const _tradingStart = 'TradingStart';
 const _earnLanding = 'EarnLanding';
 const _marketsScreen = 'MarketsScreen';
 const _authenticatorSettings = 'AuthenticatorSettings';
+const _recurringBuyStart = 'RecurringBuyStart';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -97,9 +99,22 @@ class DeepLinkService {
       _marketsScreenCommand();
     } else if (command == _authenticatorSettings) {
       _authenticatorSettingsCommand();
+    } else if (command == _recurringBuyStart) {
+      _recurringBuyStartCommand();
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  void _recurringBuyStartCommand() {
+    final context = read(sNavigatorKeyPod).currentContext!;
+
+    showBuyAction(
+      context: context,
+      fromCard: false,
+      shouldPop: false,
+      showRecurring: true,
+    );
   }
 
   Future<void> _depositStartCommand(SourceScreen? source) async {

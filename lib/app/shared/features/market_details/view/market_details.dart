@@ -8,12 +8,20 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/components/loaders/loader.dart';
 import '../../../../../shared/helpers/analytics.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
+import '../../../helpers/currency_from.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../actions/action_recurring_buy/action_recurring_buy.dart';
+import '../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
 import '../../chart/view/asset_chart.dart';
+import '../../currency_buy/view/curency_buy.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
+import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
 import '../notifier/market_news_notipod.dart';
@@ -69,6 +77,13 @@ class MarketDetails extends HookWidget {
       ),
     );
     useProvider(watchlistIdsNotipod);
+
+    final currency = currencyFrom(
+      useProvider(currenciesPod),
+      marketItem.symbol,
+    );
+
+    final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
 
     analytics(() => sAnalytics.assetView(marketItem.name));
 
@@ -162,6 +177,41 @@ class MarketDetails extends HookWidget {
             ),
             ReturnRatesBlock(
               assetSymbol: marketItem.associateAsset,
+            ),
+            const SpaceH40(),
+            SSmallestBanner(
+              color: colors.blueLight,
+              primaryText: (recurringNotifier
+                      .activeOrPausedType(currency.symbol))
+                  ? 'Recurring buy ${recurringNotifier.totalRecurringByAsset(
+                      asset: currency.recurringBuy!.toAsset,
+                    )}'
+                  : 'Setup recurring buy',
+              onTap: () {
+                if (recurringNotifier.activeOrPausedType(currency.symbol)) {
+                  showRecurringBuyAction(
+                    context: context,
+                    currency: currency,
+                    total: recurringNotifier.totalRecurringByAsset(
+                      asset: currency.recurringBuy!.toAsset,
+                    ),
+                  );
+                } else {
+                  showActionWithOutRecurringBuy(
+                    context: context,
+                    onItemTap: (RecurringBuysType type) {
+                      navigatorPushReplacement(
+                        context,
+                        CurrencyBuy(
+                          currency: currency,
+                          fromCard: false,
+                          recurringBuysType: type,
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
             ),
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(

@@ -28,6 +28,7 @@ class CampaignModel with _$CampaignModel {
     required String description,
     required String campaignId,
     required String deepLink,
+    required CampaignType campaignType,
   }) = _CampaignModel;
 
   factory CampaignModel.fromJson(Map<String, dynamic> json) =>
@@ -72,4 +73,13 @@ class RewardModel with _$RewardModel {
 
   factory RewardModel.fromJson(Map<String, dynamic> json) =>
       _$RewardModelFromJson(json);
+}
+
+enum CampaignType {
+  @JsonValue('ReferAFriendBanner')
+  inviteFriend,
+  @JsonValue('EarnProgram')
+  earnProgram,
+  @JsonValue('RecurringBuyBanner')
+  recurringBuyBanner,
 }
