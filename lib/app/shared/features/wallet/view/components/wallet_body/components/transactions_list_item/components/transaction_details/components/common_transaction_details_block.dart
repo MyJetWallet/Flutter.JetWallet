@@ -29,11 +29,39 @@ class CommonTransactionDetailsBlock extends HookWidget {
     );
 
     return Column(
-      children: [
-        Text(
-          _transactionHeader(transactionListItem, currency),
-          style: sTextH5Style,
+      children: [if (transactionListItem.operationType ==
+          OperationType.recurringBuy)
+        SPaddingH24(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SIconButton(
+                onTap: () => Navigator.pop(context),
+                defaultIcon: const SBackIcon(),
+                pressedIcon: const SBackPressedIcon(),
+              ),
+              const SpaceW12(),
+              Expanded(
+                child: Text(
+                  _transactionHeader(transactionListItem, currency),
+                  style: sTextH5Style,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ),
+              ),
+              const SpaceW12(),
+              const _IconPlaceholder(),
+            ],
+          ),
         ),
+        if (transactionListItem.operationType !=
+            OperationType.recurringBuy)
+          Text(
+            _transactionHeader(transactionListItem, currency),
+            style: sTextH5Style,
+          ),
         const SpaceH67(),
         Text(
           '${operationAmount(transactionListItem)} ${currency.symbol}',
@@ -96,5 +124,17 @@ class CommonTransactionDetailsBlock extends HookWidget {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
     }
     return transactionListItem.balanceChange;
+  }
+}
+
+class _IconPlaceholder extends StatelessWidget {
+  const _IconPlaceholder({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 24.0,
+      height: 24.0,
+    );
   }
 }
