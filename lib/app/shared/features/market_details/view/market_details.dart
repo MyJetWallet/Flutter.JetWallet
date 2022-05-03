@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/analytics.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
@@ -14,6 +15,7 @@ import '../../../helpers/currency_from.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
+import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../chart/notifier/asset_chart_input_stpod.dart';
 import '../../chart/notifier/chart_notipod.dart';
 import '../../chart/notifier/chart_union.dart';
@@ -21,6 +23,7 @@ import '../../chart/view/asset_chart.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
+import '../../recurring/view/recurring_buy_banner.dart';
 import '../../wallet/notifier/operation_history_notipod.dart';
 import '../../wallet/provider/operation_history_fpod.dart';
 import '../notifier/market_news_notipod.dart';
@@ -84,6 +87,14 @@ class MarketDetails extends HookWidget {
     );
 
     final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
+
+    final moveToRecurringInfo = recurringNotifier.recurringBuys
+            .where(
+              (element) => element.toAsset == currency.symbol,
+            )
+            .toList()
+            .length ==
+        1;
 
     analytics(() => sAnalytics.assetView(marketItem.name));
 
@@ -188,27 +199,34 @@ class MarketDetails extends HookWidget {
               assetSymbol: marketItem.associateAsset,
             ),
             const SpaceH40(),
-            SSmallestBanner(
-              color: colors.blueLight,
-              primaryText: (recurringNotifier
-                      .activeOrPausedType(currency.symbol))
-                  ? 'Recurring buy ${recurringNotifier.totalRecurringByAsset(
-                      asset: currency.recurringBuy!.toAsset,
-                    )}'
-                  : 'Setup recurring buy',
+            RecurringBuyBanner(
+              totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
+                asset: currency.symbol,
+              ),
+              type: recurringNotifier.type(currency.symbol),
               onTap: () {
                 if (recurringNotifier.activeOrPausedType(currency.symbol)) {
-                  showRecurringBuyAction(
-                    context: context,
-                    currency: currency,
-                    total: recurringNotifier.totalRecurringByAsset(
-                      asset: currency.recurringBuy!.toAsset,
-                    ),
-                  );
+                  if (moveToRecurringInfo) {
+                    navigatorPush(
+                      context,
+                      ShowRecurringInfoAction(
+                        recurringItem: recurringNotifier.recurringBuys[0],
+                        assetName: currency.description,
+                      ),
+                    );
+                  } else {
+                    showRecurringBuyAction(
+                      context: context,
+                      currency: currency,
+                      total: recurringNotifier.totalRecurringByAsset(
+                        asset: currency.symbol,
+                      ),
+                    );
+                  }
                 } else {
                   showActionWithOutRecurringBuy(
-                    context: context,
                     title: 'Setup recurring buy',
+                    context: context,
                     onItemTap: (RecurringBuysType type) {
                       navigatorPushReplacement(
                         context,

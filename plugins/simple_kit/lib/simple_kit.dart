@@ -49,7 +49,6 @@ export 'src/asset_items/simple_wallet_item.dart';
 
 /// Market Banners
 export 'src/banners/market_banner/simple_market_banner.dart';
-export 'src/banners/market_banner/simple_smallest_banner.dart';
 
 /// Rewards Banners
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';

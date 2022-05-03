@@ -25,7 +25,7 @@ void showRecurringBuyAction({
     children: [
       _ActionRecurringBuy(
         currency: currency,
-      )
+      ),
     ],
   );
 }

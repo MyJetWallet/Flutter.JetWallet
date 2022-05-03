@@ -121,6 +121,20 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     final baseCurrency = read(baseCurrencyPod);
 
     var accumulate = Decimal.zero;
+    var calculateTotal = false;
+
+    for (final element in state.recurringBuys) {
+      if (element.toAsset == asset) {
+        if (element.status == RecurringBuysStatus.active) {
+          calculateTotal = true;
+        }
+      }
+    }
+
+    if (!calculateTotal) {
+      return '';
+    }
+
     for (final element in state.recurringBuys) {
       if (element.toAsset == asset) {
         for (final currency in currencies) {
