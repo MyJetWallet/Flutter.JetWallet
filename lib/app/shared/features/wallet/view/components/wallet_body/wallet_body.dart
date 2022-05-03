@@ -137,6 +137,7 @@ class _WalletBodyState extends State<WalletBody>
                     }
                   } else {
                     showActionWithOutRecurringBuy(
+                      title: 'Setup recurring buy',
                       context: context,
                       onItemTap: (RecurringBuysType type) {
                         navigatorPushReplacement(

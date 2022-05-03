@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../models/currency_model.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
@@ -78,12 +79,20 @@ class _ActionRecurringBuy extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(recurringBuysNotipod);
 
+    final recurring = <RecurringBuysModel>[];
+
+    for (final element in state.recurringBuys) {
+      if (currency.symbol == element.toAsset) {
+        recurring.add(element);
+      }
+    }
+
     return Column(
       children: [
-        for (final element in state.recurringBuys) ...[
-          if (currency.symbol == element.toAsset)
+        for (final element in recurring) ...[
             RecurringBuysItem(
               recurring: element,
+              removeDivider: element == recurring.last,
               onTap: () {
                 Navigator.pop(context);
                 navigatorPush(
@@ -96,6 +105,7 @@ class _ActionRecurringBuy extends HookWidget {
               },
             ),
         ],
+        const SpaceH40(),
       ],
     );
   }

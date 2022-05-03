@@ -208,6 +208,7 @@ class MarketDetails extends HookWidget {
                 } else {
                   showActionWithOutRecurringBuy(
                     context: context,
+                    title: 'Setup recurring buy',
                     onItemTap: (RecurringBuysType type) {
                       navigatorPushReplacement(
                         context,

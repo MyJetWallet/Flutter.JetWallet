@@ -10,13 +10,14 @@ void showActionWithOutRecurringBuy({
   RecurringBuysType? currentType,
   void Function()? then,
   required BuildContext context,
+  required String title,
   required void Function(RecurringBuysType) onItemTap,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const _RecurringActionBottomSheetHeader(
-      name: 'Repeat this purchase?',
+    pinned: _RecurringActionBottomSheetHeader(
+      name: title,
     ),
     horizontalPinnedPadding: 0.0,
     children: [
