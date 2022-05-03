@@ -17,9 +17,9 @@ class AppConfigModel with _$AppConfigModel {
     required int maxAmountOfCharsInPassword,
     required int quoteRetryInterval,
     required String defaultAssetIcon,
-    required int emailResendCountdown,
-    required int withdrawConfirmResendCountdown,
-    required int localPinLength,
+    required double emailResendCountdown,
+    required double withdrawConfirmResendCountdown,
+    required double localPinLength,
   }) = _AppConfigModel;
 
   factory AppConfigModel.fromJson(Map<String, dynamic> json) =>

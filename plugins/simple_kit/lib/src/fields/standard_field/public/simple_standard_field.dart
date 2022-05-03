@@ -21,6 +21,9 @@ class SStandardField extends ConsumerWidget {
     this.onChanged,
     this.initialValue,
     this.inputFormatters,
+    this.textCapitalization,
+    this.disableErrorOnChanged = true,
+    this.enableInteractiveSelection = true,
     this.hideClearButton = false,
     this.hideIconsIfNotEmpty = true,
     this.hideIconsIfError = true,
@@ -42,7 +45,10 @@ class SStandardField extends ConsumerWidget {
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
   final String? initialValue;
-  final List<FilteringTextInputFormatter>? inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization? textCapitalization;
+  final bool disableErrorOnChanged;
+  final bool enableInteractiveSelection;
   final bool hideClearButton;
   final bool hideIconsIfNotEmpty;
   final bool hideIconsIfError;
@@ -71,12 +77,15 @@ class SStandardField extends ConsumerWidget {
         initialValue: initialValue,
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
+        textCapitalization: textCapitalization,
         onErase: onErase,
         suffixIcons: suffixIcons,
         hideClearButton: hideClearButton,
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
+        disableErrorOnChanged: disableErrorOnChanged,
+        enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,
       );
     } else {
@@ -94,12 +103,15 @@ class SStandardField extends ConsumerWidget {
         initialValue: initialValue,
         autofillHints: autofillHints,
         alignLabelWithHint: alignLabelWithHint,
+        textCapitalization: textCapitalization,
         onErase: onErase,
         suffixIcons: suffixIcons,
         hideClearButton: hideClearButton,
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
+        disableErrorOnChanged: disableErrorOnChanged,
+        enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,
       );
     }

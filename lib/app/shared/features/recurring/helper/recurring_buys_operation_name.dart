@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum RecurringBuysType {
+  @JsonValue(0)
+  oneTimePurchase,
   @JsonValue(1)
   daily,
   @JsonValue(2)
@@ -13,6 +15,8 @@ enum RecurringBuysType {
 
 String recurringBuysOperationName(RecurringBuysType type) {
   switch (type) {
+    case RecurringBuysType.oneTimePurchase:
+      return 'One-time purchase';
     case RecurringBuysType.daily:
       return 'Daily';
     case RecurringBuysType.weekly:

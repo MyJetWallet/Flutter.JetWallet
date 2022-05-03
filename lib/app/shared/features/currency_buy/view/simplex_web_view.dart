@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
@@ -22,6 +23,7 @@ class SimplexWebView extends HookWidget {
     useEffect(
       () {
         if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+        sAnalytics.simplexView(url);
         return null;
       },
       [],
@@ -33,6 +35,7 @@ class SimplexWebView extends HookWidget {
         secondaryText: 'Your payment will be processed within\n≈ 10-30 minutes',
         then: () => context.read(navigationStpod).state = 1,
       );
+      sAnalytics.simplexSucsessView(url);
     }
 
     void _showFailure() {
@@ -48,6 +51,7 @@ class SimplexWebView extends HookWidget {
         secondaryButtonName: 'Close',
         onSecondaryButtonTap: () => navigateToRouter(context.read),
       );
+      sAnalytics.simplexFailureView(url);
     }
 
     return WillPopScope(

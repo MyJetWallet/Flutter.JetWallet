@@ -57,7 +57,7 @@ class UploadKycDocuments extends HookWidget {
 
     analytics(
       () =>
-          sAnalytics.assetView(ScreenSource.kycUploadIdentityDocumentView.name),
+          sAnalytics.assetView(KycSource.kycUploadIdentityDocumentView.name),
     );
 
     return ProviderListener<UploadKycDocumentsState>(

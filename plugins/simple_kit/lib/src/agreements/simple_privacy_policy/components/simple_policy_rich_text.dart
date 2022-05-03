@@ -43,9 +43,6 @@ class SimplePolicyRichText extends StatelessWidget {
             text: privacyPolicyText,
             onTap: onPrivacyPolicyTap,
           ),
-          const TextSpan(
-            text: '.',
-          ),
         ],
       ),
     );

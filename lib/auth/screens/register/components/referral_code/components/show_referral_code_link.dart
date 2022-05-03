@@ -15,11 +15,10 @@ void showReferralCode(BuildContext context) {
     context: context,
     scrollable: true,
     expanded: true,
-    color: colors.grey5,
+    color: colors.white,
     pinned: const ActionBottomSheetHeader(
       name: 'Enter referral code/link',
     ),
-    pinnedBottom: const _ReferralCodeBottom(),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [const _ReferralCodeLinkBody()],
@@ -59,90 +58,104 @@ class _ReferralCodeLinkBody extends HookWidget {
     final state = useProvider(referralCodeLinkNotipod);
     final notifier = useProvider(referralCodeLinkNotipod.notifier);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height -
+          MediaQuery.of(context).viewInsets.bottom -
+          140,
+      ),
+      child: Container(
+        color: colors.grey5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Material(
-              color: colors.white,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: SStandardField(
-                  autofocus: true,
-                  errorNotifier: state.referralCodeErrorNotifier,
-                  labelText: 'Referral code/link',
-                  controller: state.referralCodeController,
-                  onChanged: (value) {
-                    notifier.updateReferralCode(value, null);
-                  },
-                  onErase: () => notifier.clearBottomSheetReferralCode(),
-                  suffixIcons: [
-                    SIconButton(
-                      onTap: () => notifier.pasteCodeReferralLink(),
-                      defaultIcon: const SPasteIcon(),
+            Column(
+              children: [
+                Material(
+                  color: colors.white,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: SStandardField(
+                      autofocus: true,
+                      errorNotifier: state.referralCodeErrorNotifier,
+                      labelText: 'Referral code/link',
+                      controller: state.referralCodeController,
+                      onChanged: (value) {
+                        notifier.updateReferralCode(value, null);
+                      },
+                      onErase: () => notifier.clearBottomSheetReferralCode(),
+                      suffixIcons: [
+                        SIconButton(
+                          onTap: () => notifier.pasteCodeReferralLink(),
+                          defaultIcon: const SPasteIcon(),
+                        ),
+                        SIconButton(
+                          onTap: () => notifier.scanAddressQr(context),
+                          defaultIcon: const SQrCodeIcon(),
+                        ),
+                      ],
                     ),
-                    SIconButton(
-                      onTap: () => notifier.scanAddressQr(context),
-                      defaultIcon: const SQrCodeIcon(),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                Material(
+                  color: colors.grey5,
+                  child: SPaddingH24(
+                    child: state.bottomSheetReferralCodeValidation.maybeWhen(
+                      loading: () {
+                        return Column(
+                          children: const [
+                            SpaceH24(),
+                            LoadingReferralCode(),
+                            SpaceH10(),
+                          ],
+                        );
+                      },
+                      valid: () {
+                        return Column(
+                          children: const [
+                            SpaceH24(),
+                            ValidReferralCode(),
+                            SpaceH10(),
+                          ],
+                        );
+                      },
+                      invalid: () {
+                        return Column(
+                          children: const [
+                            SpaceH24(),
+                            InvalidReferralCode(),
+                            SpaceH10(),
+                          ],
+                        );
+                      },
+                      orElse: () {
+                        return const SizedBox();
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  color: colors.grey5,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 11.0,
+                  ),
+                  child: Text(
+                    'Paste referral link or code. We recommend to click on '
+                        'the link or scanning a QR code.',
+                    style: sCaptionTextStyle.copyWith(color: colors.grey6),
+                    maxLines: 3,
+                  ),
+                ),
+              ],
             ),
             Material(
               color: colors.grey5,
-              child: SPaddingH24(
-                child: state.bottomSheetReferralCodeValidation.maybeWhen(
-                  loading: () {
-                    return Column(
-                      children: const [
-                        SpaceH24(),
-                        LoadingReferralCode(),
-                        SpaceH10(),
-                      ],
-                    );
-                  },
-                  valid: () {
-                    return Column(
-                      children: const [
-                        SpaceH24(),
-                        ValidReferralCode(),
-                        SpaceH10(),
-                      ],
-                    );
-                  },
-                  invalid: () {
-                    return Column(
-                      children: const [
-                        SpaceH24(),
-                        InvalidReferralCode(),
-                        SpaceH10(),
-                      ],
-                    );
-                  },
-                  orElse: () {
-                    return const SizedBox();
-                  },
-                ),
-              ),
-            ),
-            Container(
-              color: colors.grey5,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 11.0,
-              ),
-              child: Text(
-                'Paste referral link or code. We recommend to click on the link'
-                ' or scanning a QR code.',
-                style: sCaptionTextStyle.copyWith(color: colors.grey6),
-                maxLines: 3,
-              ),
+              child: const _ReferralCodeBottom(),
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }

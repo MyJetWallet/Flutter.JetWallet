@@ -5,8 +5,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
+import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
 import '../../../../../models/currency_model.dart';
+import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
+import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
+import '../../../../actions/action_recurring_info/action_recurring_info.dart';
+import '../../../../currency_buy/view/curency_buy.dart';
+import '../../../../recurring/helper/recurring_buys_operation_name.dart';
+import '../../../../recurring/notifier/recurring_buys_notipod.dart';
+import '../../../../recurring/view/recurring_buy_banner.dart';
 import 'components/card_block/components/wallet_card.dart';
 import 'components/card_block/components/wallet_card_collapsed.dart';
 import 'components/transactions_list/transactions_list.dart';
@@ -35,6 +44,18 @@ class _WalletBodyState extends State<WalletBody>
     super.build(context);
 
     final colors = useProvider(sColorPod);
+
+    final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
+
+    final recurringN = useProvider(recurringBuysNotipod);
+
+    final moveToRecurringInfo = recurringN.recurringBuys
+            .where(
+              (element) => element.toAsset == widget.currency.symbol,
+            )
+            .toList()
+            .length ==
+        1;
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -89,6 +110,50 @@ class _WalletBodyState extends State<WalletBody>
               ),
             ),
             SliverToBoxAdapter(
+              child: RecurringBuyBanner(
+                totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
+                  asset: widget.currency.symbol,
+                ),
+                type: recurringNotifier.type(widget.currency.symbol),
+                onTap: () {
+                  if (recurringNotifier
+                      .activeOrPausedType(widget.currency.symbol)) {
+                    if (moveToRecurringInfo) {
+                      navigatorPush(
+                        context,
+                        ShowRecurringInfoAction(
+                          recurringItem: recurringN.recurringBuys[0],
+                          assetName: widget.currency.description,
+                        ),
+                      );
+                    } else {
+                      showRecurringBuyAction(
+                        context: context,
+                        currency: widget.currency,
+                        total: recurringNotifier.totalRecurringByAsset(
+                          asset: widget.currency.symbol,
+                        ),
+                      );
+                    }
+                  } else {
+                    showActionWithOutRecurringBuy(
+                      context: context,
+                      onItemTap: (RecurringBuysType type) {
+                        navigatorPushReplacement(
+                          context,
+                          CurrencyBuy(
+                            currency: widget.currency,
+                            fromCard: false,
+                            recurringBuysType: type,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
+            SliverToBoxAdapter(
               child: SPaddingH24(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +169,6 @@ class _WalletBodyState extends State<WalletBody>
             ),
             TransactionsList(
               scrollController: _scrollController,
-              errorBoxPaddingMultiplier: 0.7133,
               symbol: widget.currency.symbol,
             ),
           ],

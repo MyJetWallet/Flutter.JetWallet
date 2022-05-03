@@ -48,7 +48,7 @@ class Register extends HookWidget {
       }
     }
 
-    if (credentials.policyChecked) {
+    void _scrollToBottom() {
       _controller.animateTo(
         _controller.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
@@ -89,20 +89,23 @@ class Register extends HookWidget {
                     ),
                   ),
                 ),
-                const SpaceH20(),
+                const SpaceH19(),
                 const ReferralCode(),
                 const Spacer(),
                 Container(
                   color: colors.grey5,
                   child: SPaddingH24(
                     child: SPolicyCheckbox(
-                      firstText: 'I hereby confirm that I’m over 18 years old, '
+                      firstText: 'I hereby confirm that I’m over 18 year old, '
                           'agree and consent to the ',
-                      userAgreementText: 'Terms & conditions',
+                      userAgreementText: 'T&C',
                       betweenText: ' and the ',
                       privacyPolicyText: 'Privacy Policy',
                       isChecked: credentials.policyChecked,
-                      onCheckboxTap: () => credentialsN.checkPolicy(),
+                      onCheckboxTap: () {
+                        _scrollToBottom();
+                        credentialsN.checkPolicy();
+                      },
                       onUserAgreementTap: () {
                         launchURL(context, userAgreementLink);
                       },
@@ -117,11 +120,14 @@ class Register extends HookWidget {
                   child: SPaddingH24(
                     child: MailingCheckbox(
                       isChecked: credentials.mailingChecked,
-                      onCheckboxTap: () => credentialsN.checkMailing(),
+                      onCheckboxTap: () {
+                        _scrollToBottom();
+                        credentialsN.checkMailing();
+                      },
                     ),
                   ),
                 ),
-                const SpaceH24(),
+                const SpaceH16(),
                 SPaddingH24(
                   child: SPrimaryButton2(
                     active: credentials.emailIsNotEmptyAndPolicyChecked,

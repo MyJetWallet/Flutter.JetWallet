@@ -9,11 +9,15 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
+import '../../recurring/helper/recurring_buys_operation_name.dart';
+import '../action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 
 void showBuyAction({
+  bool shouldPop = true,
+  bool showRecurring = false,
   required BuildContext context,
   required bool fromCard,
 }) {
@@ -22,7 +26,7 @@ void showBuyAction({
     fromCard: fromCard,
   );
 
-  Navigator.pop(context); // close BasicBottomSheet from Menu
+  if (shouldPop) Navigator.pop(context); // close BasicBottomSheet from Menu
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -38,18 +42,23 @@ void showBuyAction({
     children: [
       _ActionBuy(
         fromCard: fromCard,
+        showRecurring: showRecurring,
       )
     ],
   );
+
+  sAnalytics.buySheetView();
 }
 
 class _ActionBuy extends HookWidget {
   const _ActionBuy({
     Key? key,
+    this.showRecurring = false,
     required this.fromCard,
   }) : super(key: key);
 
   final bool fromCard;
+  final bool showRecurring;
 
   @override
   Widget build(BuildContext context) {
@@ -109,18 +118,34 @@ class _ActionBuy extends HookWidget {
               last: currency == state.buyFromCardCurrencies.last,
               percent: currency.dayPercentChange,
               onTap: () {
-                sAnalytics.buySellView(
-                  ScreenSource.quickActions,
+                sAnalytics.buyView(
+                  Source.quickActions,
                   currency.description,
                 );
-
-                navigatorPushReplacement(
-                  context,
-                  CurrencyBuy(
-                    currency: currency,
-                    fromCard: fromCard,
-                  ),
-                );
+                if (showRecurring) {
+                  Navigator.pop(context);
+                  showActionWithOutRecurringBuy(
+                    context: context,
+                    onItemTap: (RecurringBuysType type) {
+                      navigatorPushReplacement(
+                        context,
+                        CurrencyBuy(
+                          currency: currency,
+                          fromCard: false,
+                          recurringBuysType: type,
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  navigatorPushReplacement(
+                    context,
+                    CurrencyBuy(
+                      currency: currency,
+                      fromCard: fromCard,
+                    ),
+                  );
+                }
               },
             ),
         ],
@@ -173,18 +198,34 @@ class _ActionBuy extends HookWidget {
                 last: currency == state.filteredCurrencies.last,
                 percent: currency.dayPercentChange,
                 onTap: () {
-                  sAnalytics.buySellView(
-                    ScreenSource.quickActions,
+                  sAnalytics.buyView(
+                    Source.quickActions,
                     currency.description,
                   );
-
-                  navigatorPushReplacement(
-                    context,
-                    CurrencyBuy(
-                      currency: currency,
-                      fromCard: fromCard,
-                    ),
-                  );
+                  if (showRecurring) {
+                    Navigator.pop(context);
+                    showActionWithOutRecurringBuy(
+                      context: context,
+                      onItemTap: (RecurringBuysType type) {
+                        navigatorPushReplacement(
+                          context,
+                          CurrencyBuy(
+                            currency: currency,
+                            fromCard: false,
+                            recurringBuysType: type,
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    navigatorPushReplacement(
+                      context,
+                      CurrencyBuy(
+                        currency: currency,
+                        fromCard: fromCard,
+                      ),
+                    );
+                  }
                 },
               ),
           ],

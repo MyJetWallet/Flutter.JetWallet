@@ -108,10 +108,7 @@ class SimpleAnalytics {
     );
   }
 
-  void kycVerifyProfile(
-    ScreenSource source,
-    KycScope scope,
-  ) {
+  void kycVerifyProfile(Source source, KycScope scope) {
     _analytics.logEvent(
       EventType.kycVerifyProfile,
       eventProperties: {
@@ -161,10 +158,7 @@ class SimpleAnalytics {
     );
   }
 
-  void clickMarketBanner(
-    String campaignName,
-    MarketBannerAction action,
-  ) {
+  void clickMarketBanner(String campaignName, MarketBannerAction action) {
     _analytics.logEvent(
       EventType.clickMarketBanner,
       eventProperties: {
@@ -192,15 +186,28 @@ class SimpleAnalytics {
     );
   }
 
-  void buySellView(ScreenSource source, String assetName) {
+  void buyView(Source source, String assetName) {
     _analytics.logEvent(
-      EventType.buySellView,
+      EventType.buyView,
       eventProperties: {
         PropertyType.sourceScreen: source.name,
         PropertyType.assetName: assetName,
       },
     );
   }
+
+  void sellView(Source source, String assetName) {
+    _analytics.logEvent(
+      EventType.sellView,
+      eventProperties: {
+        PropertyType.sourceScreen: source.name,
+        PropertyType.assetName: assetName,
+      },
+    );
+  }
+
+  void buySheetView() => _analytics.logEvent(EventType.buySheetView);
+  void sellSheetView() => _analytics.logEvent(EventType.sellSheetView);
 
   void earnDetailsView(String assetName) {
     _analytics.logEvent(
@@ -213,14 +220,14 @@ class SimpleAnalytics {
 
   void depositCryptoView(String assetName) {
     _analytics.logEvent(
-      EventType.depositCryptoView,
+      EventType.depositView,
       eventProperties: {
         PropertyType.assetName: assetName,
       },
     );
   }
 
-  void walletAssetView(ScreenSource source, String assetName) {
+  void walletAssetView(Source source, String assetName) {
     _analytics.logEvent(
       EventType.walletAssetView,
       eventProperties: {
@@ -340,5 +347,63 @@ class SimpleAnalytics {
     await _analytics.logEvent(EventType.logout);
     await _analytics.setUserId(null);
     await _analytics.regenerateDeviceId();
+  }
+
+  void tapPreviewBuy(String assetName, String paymentMethod, String amount) {
+    _analytics.logEvent(
+      EventType.tapPreviewBuy,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void previewBuyView(String assetName, String paymentMethod, String amount) {
+    _analytics.logEvent(
+      EventType.previewBuyView,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void simplexView(String url) {
+    _analytics.logEvent(
+      EventType.simplexView,
+      eventProperties: {
+        PropertyType.url: url,
+      },
+    );
+  }
+
+  void simplexSucsessView(String url) {
+    _analytics.logEvent(EventType.simplexSucsessView);
+  }
+
+  void simplexFailureView(String url) {
+    _analytics.logEvent(EventType.simplexFailureView);
+  }
+
+  /// Quick actions
+  void tapOnBuy(Source source) {
+    _analytics.logEvent(
+      EventType.tapOnBuy,
+      eventProperties: {
+        PropertyType.sourceScreen: source.name,
+      },
+    );
+  }
+
+  void tapOnBuyFromCard(Source source) {
+    _analytics.logEvent(
+      EventType.tapOnBuyFromCard,
+      eventProperties: {
+        PropertyType.sourceScreen: source.name,
+      },
+    );
   }
 }
