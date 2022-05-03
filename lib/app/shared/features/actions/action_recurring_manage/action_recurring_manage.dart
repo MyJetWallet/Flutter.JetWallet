@@ -75,10 +75,6 @@ class _ActionRecurringManage extends HookWidget {
   Widget build(BuildContext context) {
     final recurringBuysN = useProvider(recurringBuysNotipod.notifier);
 
-    final _errorImage = Image.asset(
-      ellipsisAsset,
-      package: 'simple_kit',
-    );
     final colors = useProvider(sColorPod);
 
     return Column(
@@ -134,7 +130,6 @@ class _ActionRecurringManage extends HookWidget {
               onTap: () => sShowAlertPopup(
                 context,
                 willPopScope: false,
-                image: _errorImage,
                 primaryText: 'Delete Recurring buy?',
                 secondaryText: 'Are you sure you want to delete '
                     'your Recurring buy?',
