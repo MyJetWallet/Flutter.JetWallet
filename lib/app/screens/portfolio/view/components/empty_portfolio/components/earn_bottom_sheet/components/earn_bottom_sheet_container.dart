@@ -1,12 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../market/view/components/change_on_scroll.dart';
 import '../../../../../../../market/view/components/fade_on_scroll.dart';
 
-class EarnBottomSheetContainer extends StatefulWidget {
+class EarnBottomSheetContainer extends HookWidget {
   const EarnBottomSheetContainer({
+    Key? key,
     this.onDissmis,
     this.minHeight,
     this.horizontalPadding,
@@ -20,7 +24,7 @@ class EarnBottomSheetContainer extends StatefulWidget {
     required this.color,
     required this.scrollable,
     required this.children,
-  });
+  }) : super(key: key);
 
   final Widget pinned;
   final Widget pinnedSmall;
@@ -37,12 +41,6 @@ class EarnBottomSheetContainer extends StatefulWidget {
   final double? horizontalPinnedPadding;
 
   @override
-  _EarnBottomSheetContainer createState() => _EarnBottomSheetContainer();
-}
-
-class _EarnBottomSheetContainer extends State<EarnBottomSheetContainer> {
-
-  @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
 
@@ -56,9 +54,16 @@ class _EarnBottomSheetContainer extends State<EarnBottomSheetContainer> {
     void _onDissmisAction(BuildContext context) {
       if (!isClosing.value) {
         isClosing.value = true;
-        widget.onDissmis?.call();
+        onDissmis?.call();
         Navigator.pop(context);
       }
+    }
+
+    bool _needToHideOutWidget(ScrollController controller) {
+      if (controller.hasClients) {
+        return controller.offset < expandedHeight;
+      }
+      return true;
     }
 
     return Padding(
@@ -70,8 +75,8 @@ class _EarnBottomSheetContainer extends State<EarnBottomSheetContainer> {
               maxHeight: constraints.maxHeight,
               pinnedSize: pinnedSize.value,
               pinnedSmallSize: pinnedSmallSize.value,
-              removePinnedPadding: widget.removePinnedPadding,
-              pinnedBottom: widget.pinnedBottom,
+              removePinnedPadding: removePinnedPadding,
+              pinnedBottom: pinnedBottom,
               pinnedBottomSize: pinnedBottomSize.value,
             );
 
@@ -83,7 +88,7 @@ class _EarnBottomSheetContainer extends State<EarnBottomSheetContainer> {
                   ),
                 ),
                 Material(
-                  color: widget.color,
+                  color: color,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24.0),
                     topRight: Radius.circular(24.0),
@@ -92,13 +97,13 @@ class _EarnBottomSheetContainer extends State<EarnBottomSheetContainer> {
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: widget.horizontalPadding ?? 0,
+                          horizontal: horizontalPadding ?? 0,
                         ),
                         constraints: BoxConstraints(
                           maxHeight: maxHeight,
-                          minHeight: widget.expanded
-                              ? widget.maxHeight
-                              : widget.minHeight ?? 0,
+                          minHeight: expanded
+                              ? maxHeight
+                              : minHeight ?? 0,
                         ),
                         child: NestedScrollView(
                           controller: controller,
@@ -106,40 +111,39 @@ class _EarnBottomSheetContainer extends State<EarnBottomSheetContainer> {
                             return [
                               SliverAppBar(
                                 backgroundColor: Colors.transparent,
-                                pinned:
-                                  controller.offset > widget.expandedHeight,
+                                pinned: _needToHideOutWidget(controller),
                                 elevation: 0,
-                                expandedHeight: widget.expandedHeight,
+                                expandedHeight: expandedHeight,
                                 collapsedHeight: 115,
                                 primary: false,
-                                flexibleSpace: FadeOnScroll(
+                                flexibleSpace: ChangeOnScroll(
                                   scrollController: controller,
-                                  fullOpacityOffset: 50,
-                                  fadeInWidget: Material(
+                                  fullOpacityOffset: expandedHeight,
+                                  changeInWidget: Material(
                                     color: Colors.white,
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(24.0),
                                       topRight: Radius.circular(24.0),
                                     ),
-                                    child: widget.pinnedSmall,
+                                    child: pinnedSmall,
                                   ),
-                                  fadeOutWidget: widget.pinned,
+                                  changeOutWidget: pinned,
                                   permanentWidget: const SpaceW2(),
                                 ),
                               ),
                             ];
                           },
                           body: ListView(
-                            physics: widget.scrollable
+                            physics: scrollable
                                 ? null
                                 : const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            children: widget.children,
+                            children: children,
                           ),
                         ),
                       ),
-                      if (widget.pinnedBottom != null) ...[
-                        widget.pinnedBottom!
+                      if (pinnedBottom != null) ...[
+                        pinnedBottom!
                       ],
                     ],
                   ),
