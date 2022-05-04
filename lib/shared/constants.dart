@@ -39,3 +39,6 @@ const verifyNowAsset = 'assets/images/verifying_now.png';
 // Recurring buy
 const recurringBuyImage = 'assets/images/recurring.png';
 const recurringBuyPausedImage = 'assets/images/recurring_paused.png';
+
+// Disclaimer
+const disclaimerAsset = 'assets/images/disclaimer.png';

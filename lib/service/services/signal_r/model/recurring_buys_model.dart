@@ -11,8 +11,8 @@ class RecurringBuysModel with _$RecurringBuysModel {
   const factory RecurringBuysModel({
     double? fromAmount,
     String? scheduledTime,
-    int? scheduledDayOfWeek,
-    int? scheduledDayOfMonth,
+    double? scheduledDayOfWeek,
+    double? scheduledDayOfMonth,
     String? nextExecution,
     String? lastExecutionTime,
     String? id,
