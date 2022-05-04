@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'asset_model.dart';
-
 part 'market_references_model.freezed.dart';
 part 'market_references_model.g.dart';
 
