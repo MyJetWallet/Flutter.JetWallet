@@ -46,8 +46,6 @@ class _ChangeOnScrollState extends State<ChangeOnScroll> {
   }
 
   bool _needToHideOutWidget() {
-    log('_offset: $_offset');
-    log('fullOpacityOffset: ${widget.fullOpacityOffset}');
     return widget.fullOpacityOffset < _offset;
   }
 
@@ -57,8 +55,6 @@ class _ChangeOnScrollState extends State<ChangeOnScroll> {
       children: [
         if (_needToHideOutWidget())
           widget.changeInWidget,
-        if (!_needToHideOutWidget())
-          widget.changeOutWidget,
       ],
     );
   }

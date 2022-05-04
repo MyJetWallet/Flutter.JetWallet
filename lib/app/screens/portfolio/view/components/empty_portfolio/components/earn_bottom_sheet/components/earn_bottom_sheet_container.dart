@@ -110,10 +110,10 @@ class EarnBottomSheetContainer extends HookWidget {
                           headerSliverBuilder: (context, _) {
                             return [
                               SliverAppBar(
-                                backgroundColor: Colors.transparent,
+                                backgroundColor: Colors.white,
                                 pinned: _needToHideOutWidget(controller),
                                 elevation: 0,
-                                expandedHeight: expandedHeight,
+                                expandedHeight: 0,
                                 collapsedHeight: 115,
                                 primary: false,
                                 flexibleSpace: ChangeOnScroll(
@@ -138,7 +138,10 @@ class EarnBottomSheetContainer extends HookWidget {
                                 ? null
                                 : const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            children: children,
+                            children: [
+                              pinned,
+                              ...children
+                            ],
                           ),
                         ),
                       ),
