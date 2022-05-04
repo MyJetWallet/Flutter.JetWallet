@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'asset_model.dart';
+
 part 'market_references_model.freezed.dart';
 part 'market_references_model.g.dart';
 
@@ -26,8 +28,19 @@ class MarketReferenceModel with _$MarketReferenceModel {
     required int weight,
     required int priceAccuracy,
     required String startMarketTime,
+    required bool isMainNet,
+    required MarketType type,
   }) = _MarketReferenceModel;
 
   factory MarketReferenceModel.fromJson(Map<String, dynamic> json) =>
       _$MarketReferenceModelFromJson(json);
+}
+
+enum MarketType {
+  @JsonValue(0)
+  crypto,
+  @JsonValue(1)
+  indices,
+  @JsonValue(2)
+  fiat,
 }
