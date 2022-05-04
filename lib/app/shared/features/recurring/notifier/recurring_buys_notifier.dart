@@ -140,7 +140,8 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     for (final element in state.recurringBuys) {
       if (element.toAsset == asset) {
         for (final currency in currencies) {
-          if (currency.symbol == element.fromAsset) {
+          if (currency.symbol == element.fromAsset &&
+              element.status == RecurringBuysStatus.active) {
             accumulate += _convertToUsd(element.toAsset, element.fromAmount!);
           }
         }
@@ -189,12 +190,14 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   bool _differentRecurringType(List<RecurringBuysModel> array) {
     var prevAsset = '';
 
-    for (final element in state.recurringBuys) {
-      if (prevAsset.isEmpty) {
-        prevAsset = element.toAsset;
-      } else {
-        if (prevAsset != element.toAsset) {
-          return true;
+    for (final element in array) {
+      if (element.status == RecurringBuysStatus.active) {
+        if (prevAsset.isEmpty) {
+          prevAsset = element.toAsset;
+        } else {
+          if (prevAsset != element.toAsset) {
+            return true;
+          }
         }
       }
     }
