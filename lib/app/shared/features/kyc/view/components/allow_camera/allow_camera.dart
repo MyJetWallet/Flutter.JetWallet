@@ -135,16 +135,23 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
-                Baseline(
-                  baseline: 48,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    widget.permissionDescription,
-                    maxLines: 3,
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Baseline(
+                        baseline: 48,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          widget.permissionDescription,
+                          maxLines: 3,
+                          style: sBodyText1Style.copyWith(
+                            color: colors.grey1,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

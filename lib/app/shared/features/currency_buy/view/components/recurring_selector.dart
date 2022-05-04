@@ -29,6 +29,7 @@ class RecurringSelector extends HookWidget {
           onTap: () {
             showActionWithOutRecurringBuy(
               context: context,
+              title: 'Repeat this purchase?',
               showOneTimePurchase: true,
               currentType: state.recurringBuyType,
               onItemTap: (recurringType) {

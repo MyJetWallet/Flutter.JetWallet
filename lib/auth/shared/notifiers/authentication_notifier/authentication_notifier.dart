@@ -15,6 +15,7 @@ import '../../../../router/provider/authorization_stpod/authorization_stpod.dart
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
 import '../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
@@ -83,6 +84,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         authModel = await authService.register(registerRequest);
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
+        read(appsFlyerServicePod).register(email);
       }
 
       await storageService.setString(refreshTokenKey, authModel.refreshToken);

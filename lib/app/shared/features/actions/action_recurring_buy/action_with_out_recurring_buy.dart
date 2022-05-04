@@ -10,16 +10,16 @@ void showActionWithOutRecurringBuy({
   RecurringBuysType? currentType,
   void Function()? then,
   required BuildContext context,
+  required String title,
   required void Function(RecurringBuysType) onItemTap,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const _RecurringActionBottomSheetHeader(
-      name: 'Setup recurring buy',
+    pinned: _RecurringActionBottomSheetHeader(
+      name: title,
     ),
     horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _ActionRecurringBuy(
         currentType: currentType,
@@ -142,7 +142,7 @@ class _ActionRecurringBuy extends HookWidget {
                 onItemTap(RecurringBuysType.monthly);
               },
             ),
-            const SpaceH24(),
+            const SpaceH40(),
           ],
         ),
       ],

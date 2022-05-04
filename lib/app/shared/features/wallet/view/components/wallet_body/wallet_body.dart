@@ -52,10 +52,12 @@ class _WalletBodyState extends State<WalletBody>
     final moveToRecurringInfo = recurringN.recurringBuys
             .where(
               (element) => element.toAsset == widget.currency.symbol,
-            )
-            .toList()
-            .length ==
-        1;
+            ).toList().length == 1;
+
+    final lastRecurringItem = recurringN.recurringBuys
+        .where(
+            (element) => element.toAsset == widget.currency.symbol,
+        ).toList()[0];
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -111,10 +113,10 @@ class _WalletBodyState extends State<WalletBody>
             ),
             SliverToBoxAdapter(
               child: RecurringBuyBanner(
-                totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
+                type: recurringNotifier.type(widget.currency.symbol),
+                title: recurringNotifier.recurringBannerTitle(
                   asset: widget.currency.symbol,
                 ),
-                type: recurringNotifier.type(widget.currency.symbol),
                 onTap: () {
                   if (recurringNotifier
                       .activeOrPausedType(widget.currency.symbol)) {
@@ -122,7 +124,7 @@ class _WalletBodyState extends State<WalletBody>
                       navigatorPush(
                         context,
                         ShowRecurringInfoAction(
-                          recurringItem: recurringN.recurringBuys[0],
+                          recurringItem: lastRecurringItem,
                           assetName: widget.currency.description,
                         ),
                       );
@@ -137,6 +139,7 @@ class _WalletBodyState extends State<WalletBody>
                     }
                   } else {
                     showActionWithOutRecurringBuy(
+                      title: 'Setup recurring buy',
                       context: context,
                       onItemTap: (RecurringBuysType type) {
                         navigatorPushReplacement(
@@ -169,7 +172,6 @@ class _WalletBodyState extends State<WalletBody>
             ),
             TransactionsList(
               scrollController: _scrollController,
-              errorBoxPaddingMultiplier: 0.7133,
               symbol: widget.currency.symbol,
             ),
           ],

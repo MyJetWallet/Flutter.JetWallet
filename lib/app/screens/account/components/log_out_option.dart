@@ -27,6 +27,7 @@ class LogOutOption extends HookWidget {
       children: [
         InkWell(
           onTap: onTap,
+          highlightColor: colors.grey5,
           child: Container(
             height: 30.0,
             margin: const EdgeInsets.symmetric(

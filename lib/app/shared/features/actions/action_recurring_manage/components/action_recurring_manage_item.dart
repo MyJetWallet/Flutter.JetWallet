@@ -7,33 +7,40 @@ class ActionRecurringManageItem extends StatelessWidget {
     required this.primaryText,
     required this.onTap,
     required this.icon,
+    required this.color,
   }) : super(key: key);
 
   final String primaryText;
   final Function() onTap;
   final Widget icon;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        width: double.infinity,
-        height: 64,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 20,
+      splashColor: Colors.transparent,
+      highlightColor: color,
+      hoverColor: Colors.transparent,
+      child: SPaddingH24(
+        child: Container(
+          alignment: Alignment.centerLeft,
+          width: double.infinity,
+          height: 64,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 20,
+                ),
+                child: icon,
               ),
-              child: icon,
-            ),
-            Text(
-              primaryText,
-              style: sSubtitle2Style,
-            ),
-          ],
+              Text(
+                primaryText,
+                style: sSubtitle2Style,
+              ),
+            ],
+          ),
         ),
       ),
     );

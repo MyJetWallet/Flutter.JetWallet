@@ -64,7 +64,7 @@ class TransactionHistory extends HookWidget {
           ),
           TransactionsList(
             scrollController: scrollController,
-            errorBoxPaddingMultiplier: 0.313,
+            symbol: assetSymbol,
           ),
         ],
       ),
