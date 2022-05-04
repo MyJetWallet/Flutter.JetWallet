@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
@@ -47,12 +44,15 @@ class EarnBottomSheetContainer extends StatefulWidget {
 
 class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
   late double _offset;
+  late bool isAnimatingNow;
+  late bool isClosing;
   final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _offset = 0;
+    isAnimatingNow = false;
     controller.addListener(_setOffset);
   }
 
@@ -64,27 +64,47 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
 
   void _setOffset() {
     if (controller.hasClients) {
+      if (_offset > controller.offset &&
+          !isAnimatingNow &&
+          controller.offset < controller.position.maxScrollExtent
+      ) {
+        setState(() {
+          isAnimatingNow = true;
+        });
+        if (_offset == 0) {
+          widget.onDissmis?.call();
+          Navigator.pop(context);
+        } else if (controller.offset >= 0) {
+          controller.animateTo(
+            0,
+            duration: const Duration(
+              milliseconds: 500,
+            ),
+            curve: Curves.ease,
+          );
+          Future.delayed( const Duration(milliseconds: 500), () {
+            setState(() {
+              isAnimatingNow = false;
+            });
+          });
+        }
+      }
       setState(() {
         _offset = controller.offset;
       });
     }
   }
 
-  bool _needToHideOutWidget(ScrollController controller) {
+  bool _needToHideOutWidget() {
     return (widget.expandedHeight - 115) < _offset;
   }
 
   @override
   Widget build(BuildContext context) {
 
-    // final isClosing = useState(false);
-
     void _onDissmisAction(BuildContext context) {
-      // if (!isClosing.value) {
-      //   isClosing.value = true;
-        widget.onDissmis?.call();
-        Navigator.pop(context);
-      // }
+      widget.onDissmis?.call();
+      Navigator.pop(context);
     }
 
     return WillPopScope(
@@ -133,10 +153,10 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
                               SliverAppBar(
                                 automaticallyImplyLeading: false,
                                 backgroundColor: Colors.transparent,
-                                pinned: _needToHideOutWidget(controller),
+                                pinned: _needToHideOutWidget(),
                                 elevation: 0,
                                 expandedHeight: widget.expandedHeight,
-                                collapsedHeight: 115,
+                                collapsedHeight: widget.expandedHeight,
                                 primary: false,
                                 flexibleSpace: ChangeOnScroll(
                                   scrollController: controller,
