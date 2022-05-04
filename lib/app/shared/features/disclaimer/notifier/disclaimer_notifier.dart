@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -16,7 +15,6 @@ import '../helpers/disclaimer_questions_parser.dart';
 import '../model/disclaimer_model.dart';
 import '../view/components/disclaimer_checkbox.dart';
 import '../view/disclaimer.dart';
-import 'disclaimer_notipod.dart';
 import 'disclaimer_state.dart';
 
 class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
@@ -95,203 +93,119 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.0),
               ),
-              child: StatefulBuilder(builder: (context, setState) {
-
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0,
-                          ),
-                          child: SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            child: Column(
-                              children: [
-                                const SpaceH40(),
-                                SizedBox(
-                                  height: 80,
-                                  width: 80,
-                                  child: state.imageUrl != null
-                                      ? Image.network(
-                                          state.imageUrl!,
-                                        )
-                                      : Image.asset(
-                                          disclaimerAsset,
-                                        ),
-                                ),
-                                Baseline(
-                                  baseline: 40.0,
-                                  baselineType: TextBaseline.alphabetic,
-                                  child: Text(
-                                    state.title,
-                                    maxLines:
-                                        (state.description.isNotEmpty) ? 5 : 12,
-                                    textAlign: TextAlign.center,
-                                    style: sTextH5Style.copyWith(
-                                      overflow: TextOverflow.visible,
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                            ),
+                            child: SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  const SpaceH40(),
+                                  SizedBox(
+                                    height: 80,
+                                    width: 80,
+                                    child: state.imageUrl != null
+                                        ? Image.network(
+                                            state.imageUrl!,
+                                          )
+                                        : Image.asset(
+                                            disclaimerAsset,
+                                          ),
+                                  ),
+                                  Baseline(
+                                    baseline: 40.0,
+                                    baselineType: TextBaseline.alphabetic,
+                                    child: Text(
+                                      state.title,
+                                      maxLines: (state.description.isNotEmpty)
+                                          ? 5
+                                          : 12,
+                                      textAlign: TextAlign.center,
+                                      style: sTextH5Style.copyWith(
+                                        overflow: TextOverflow.visible,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SpaceH7(),
-                                if (state.description.isNotEmpty)
-                                  Text(
-                                    state.description,
-                                    maxLines: 6,
-                                    textAlign: TextAlign.center,
-                                    style: sBodyText1Style.copyWith(
-                                      color: colors.grey1,
+                                  const SpaceH7(),
+                                  if (state.description.isNotEmpty)
+                                    Text(
+                                      state.description,
+                                      maxLines: 6,
+                                      textAlign: TextAlign.center,
+                                      style: sBodyText1Style.copyWith(
+                                        color: colors.grey1,
+                                      ),
                                     ),
-                                  ),
-                                const SpaceH40(),
-                                const SDivider(),
-                                Column(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        const SpaceH20(),
-                                        for (final question
-                                            in state.questions) ...[
-                                          DisclaimerCheckbox(
-                                            questions: parsedTextWidget(
-                                              question.text,
-                                              context,
-                                              colors,
+                                  const SpaceH35(),
+                                  const SDivider(),
+                                  Column(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          const SpaceH18(),
+                                          for (final question
+                                              in state.questions) ...[
+                                            DisclaimerCheckbox(
+                                              questions: parsedTextWidget(
+                                                question.text,
+                                                context,
+                                                colors,
+                                              ),
+                                              firstText: question.text,
+                                              indexCheckBox:
+                                                  _findQuestionIndex(question),
+                                              onCheckboxTap: () => setState(() {
+                                                _onCheckboxTap(
+                                                  _findQuestionIndex(question),
+                                                  disclaimerIndex,
+                                                );
+                                              }),
                                             ),
-                                            firstText: question.text,
-                                            indexCheckBox:
-                                                _findQuestionIndex(question),
-                                            onCheckboxTap: () => setState(() {
-                                              _onCheckboxTap(
-                                                _findQuestionIndex(question),
-                                                disclaimerIndex,
-                                              );
-                                            }),
-                                          ),
-                                          DisclaimerCheckbox(
-                                            questions: parsedTextWidget(
-                                              question.text,
-                                              context,
-                                              colors,
-                                            ),
-                                            firstText: question.text,
-                                            indexCheckBox:
-                                            _findQuestionIndex(question),
-                                            onCheckboxTap: () => setState(() {
-                                              _onCheckboxTap(
-                                                _findQuestionIndex(question),
-                                                disclaimerIndex,
-                                              );
-                                            }),
-                                          ),
-                                          if (question != state.questions.last)
-                                            const SpaceH10()
-                                          else
-                                            const SpaceH100(),
+                                            if (question !=
+                                                state.questions.last)
+                                              const SpaceH18()
+                                            else
+                                              const SpaceH94(),
+                                          ],
                                         ],
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-
-                        SFloatingButtonFrame(
-                          button: SPrimaryButton1(
-                            name: 'Continue',
-                            active: state.activeButton,
-                            onTap: () async {
-                              await _sendAnswers(
-                                context,
-                                disclaimerIndex,
-                              );
-                            },
+                          SFloatingButtonFrame2(
+                            button: SPrimaryButton1(
+                              name: 'Continue',
+                              active: state.activeButton,
+                              onTap: () async {
+                                await _sendAnswers(
+                                  context,
+                                  disclaimerIndex,
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              }),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
     );
-
-
-
-
-
-
-
-
-
-  //   showsDisclaimer(
-  //     context: context,
-  //     imageAsset: state.imageUrl,
-  //     primaryText: state.title,
-  //     secondaryText: state.description,
-  //     questions: state.questions,
-  //     primaryButtonName: 'Continue',
-  //     activePrimaryButton: state.activeButton,
-  //     button: SFloatingButtonFrame(
-  //         button: SPrimaryButton1(
-  //           name: 'Continue',
-  //           active: state.activeButton,
-  //           onTap: () async {
-  //             await _sendAnswers(context, disclaimerIndex);
-  //           },
-  //         ),
-  //       ),
-  //     child: StatefulBuilder(
-  //       builder: (context, setState) {
-  //         final state = context.read(disclaimerNotipod);
-  //
-  //         return Column(
-  //           children: [
-  //             Column(
-  //               children: [
-  //                 const SpaceH20(),
-  //                 for (final question in state.questions) ...[
-  //                   DisclaimerCheckbox(
-  //                     questions: parsedTextWidget(
-  //                       question.text,
-  //                       context,
-  //                       colors,
-  //                     ),
-  //                     firstText: question.text,
-  //                     indexCheckBox: _findQuestionIndex(question),
-  //                     onCheckboxTap: () => setState(() {
-  //                       _onCheckboxTap(
-  //                         _findQuestionIndex(question),
-  //                         disclaimerIndex,
-  //                       );
-  //                     }),
-  //                   ),
-  //                   const SpaceH10(),
-  //                 ],
-  //               ],
-  //             ),
-  //             // const SpaceH20(),
-  //             // SFloatingButtonFrame(
-  //             //   button: SPrimaryButton1(
-  //             //     name: 'Continue',
-  //             //     active: state.activeButton,
-  //             //     onTap: () async {
-  //             //       await _sendAnswers(context, disclaimerIndex);
-  //             //     },
-  //             //   ),
-  //             // ),
-  //           ],
-  //         );
-  //       },
-  //     ),
-  //   );
   }
 
   Flexible parsedTextWidget(
@@ -346,8 +260,6 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
 
   Future<void> _sendAnswers(BuildContext context, int disclaimerIndex) async {
     _logger.log(notifier, '_sendAnswers');
-
-    print('WORKS');
 
     final answers = _prepareAnswers(state.questions);
 
