@@ -43,7 +43,7 @@ class BalanceActionButtons extends HookWidget {
         children: [
           Expanded(
             child: SPrimaryButton1(
-              name: _buyButtonText(),
+              name: 'Buy',
               onTap: () {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
@@ -168,13 +168,5 @@ class BalanceActionButtons extends HookWidget {
         ],
       ),
     );
-  }
-
-  String _buyButtonText() {
-    if (marketItem.isBalanceEmpty) {
-      return 'Buy ${marketItem.name}';
-    } else {
-      return 'Buy';
-    }
   }
 }
