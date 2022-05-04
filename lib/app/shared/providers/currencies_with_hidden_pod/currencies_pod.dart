@@ -14,7 +14,8 @@ import '../signal_r/balances_spod.dart';
 import '../signal_r/base_prices_spod.dart';
 import '../signal_r/blockchains_spod.dart';
 
-final currenciesWithHiddenPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
+final currenciesWithHiddenPod = Provider.autoDispose<List<CurrencyModel>>(
+        (ref) {
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
   final baseCurrency = ref.watch(baseCurrencyPod);
