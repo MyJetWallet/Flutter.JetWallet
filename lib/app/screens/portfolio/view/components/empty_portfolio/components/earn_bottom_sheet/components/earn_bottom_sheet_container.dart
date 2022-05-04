@@ -6,9 +6,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../market/view/components/change_on_scroll.dart';
-import '../../../../../../../market/view/components/fade_on_scroll.dart';
 
-class EarnBottomSheetContainer extends HookWidget {
+class EarnBottomSheetContainer extends StatefulWidget {
   const EarnBottomSheetContainer({
     Key? key,
     this.onDissmis,
@@ -40,135 +39,155 @@ class EarnBottomSheetContainer extends HookWidget {
   final bool scrollable;
   final double? horizontalPinnedPadding;
 
+
+  @override
+  _EarnBottomSheetContainerState createState() =>
+      _EarnBottomSheetContainerState();
+}
+
+class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
+  late double _offset;
+  final controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _offset = 0;
+    controller.addListener(_setOffset);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_setOffset);
+    super.dispose();
+  }
+
+  void _setOffset() {
+    if (controller.hasClients) {
+      setState(() {
+        _offset = controller.offset;
+      });
+    }
+  }
+
+  bool _needToHideOutWidget(ScrollController controller) {
+    return (widget.expandedHeight - 115) < _offset;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller = ScrollController();
 
-    /// Needed to get the size of the pinned Widget
-    final pinnedSize = useState<Size?>(Size.zero);
-    final pinnedSmallSize = useState<Size?>(Size.zero);
-    final pinnedBottomSize = useState<Size?>(Size.zero);
-
-    final isClosing = useState(false);
+    // final isClosing = useState(false);
 
     void _onDissmisAction(BuildContext context) {
-      if (!isClosing.value) {
-        isClosing.value = true;
-        onDissmis?.call();
+      // if (!isClosing.value) {
+      //   isClosing.value = true;
+        widget.onDissmis?.call();
         Navigator.pop(context);
-      }
+      // }
     }
 
-    return Padding(
-        // Make bottomSheet to follow keyboard
-        padding: MediaQuery.of(context).viewInsets,
-        child: LayoutBuilder(
-          builder: (_, constraints) {
-            final maxHeight = _listViewMaxHeight(
-              maxHeight: constraints.maxHeight,
-              pinnedSize: pinnedSize.value,
-              pinnedSmallSize: pinnedSmallSize.value,
-              removePinnedPadding: removePinnedPadding,
-              pinnedBottom: pinnedBottom,
-              pinnedBottomSize: pinnedBottomSize.value,
-            );
+    return WillPopScope(
+        onWillPop: () {
+          _onDissmisAction(context);
+          return Future.value(true);
+        },
+        child: Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: LayoutBuilder(
+            builder: (_, constraints) {
+              final maxHeight = _listViewMaxHeight(
+                maxHeight: constraints.maxHeight,
+                removePinnedPadding: widget.removePinnedPadding,
+                pinnedBottom: widget.pinnedBottom,
+              );
 
-            return Column(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onDissmisAction(context),
+              return Column(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _onDissmisAction(context),
+                    ),
                   ),
-                ),
-                Material(
-                  color: color,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: horizontalPadding ?? 0,
-                        ),
-                        constraints: BoxConstraints(
-                          maxHeight: maxHeight,
-                          minHeight: expanded
-                              ? maxHeight
-                              : minHeight ?? 0,
-                        ),
-                        child: NestedScrollView(
-                          controller: controller,
-                          headerSliverBuilder: (context, _) {
-                            return [
-                              ChangeOnScroll(
-                                scrollController: controller,
-                                fullOpacityOffset: expandedHeight,
-                                changeInWidget: Material(
-                                  color: Colors.white,
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(24.0),
-                                    topRight: Radius.circular(24.0),
+                  Material(
+                    color: widget.color,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: widget.horizontalPadding ?? 0,
+                          ),
+                          constraints: BoxConstraints(
+                            maxHeight: maxHeight,
+                            minHeight: widget.expanded
+                                ? maxHeight
+                                : widget.minHeight ?? 0,
+                          ),
+                          child: CustomScrollView(
+                            controller: controller,
+                            slivers: [
+                              SliverAppBar(
+                                automaticallyImplyLeading: false,
+                                backgroundColor: Colors.transparent,
+                                pinned: _needToHideOutWidget(controller),
+                                elevation: 0,
+                                expandedHeight: widget.expandedHeight,
+                                collapsedHeight: 115,
+                                primary: false,
+                                flexibleSpace: ChangeOnScroll(
+                                  scrollController: controller,
+                                  fullOpacityOffset: widget.expandedHeight -
+                                      115,
+                                  changeInWidget: Material(
+                                    color: Colors.white,
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(24.0),
+                                      topRight: Radius.circular(24.0),
+                                    ),
+                                    child: widget.pinnedSmall,
                                   ),
-                                  child: pinnedSmall,
+                                  changeOutWidget: widget.pinned,
+                                  permanentWidget: const SpaceW2(),
                                 ),
-                                changeOutWidget: pinned,
-                                permanentWidget: const SpaceW2(),
                               ),
-                            ];
-                          },
-                          body: ListView(
-                            physics: scrollable
-                                ? null
-                                : const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            children: [
-                              // pinned,
-                              ...children
+                              SliverToBoxAdapter(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // widget.pinned,
+                                    // const SpaceH30(),
+                                    ...widget.children,
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ),
-                      if (pinnedBottom != null) ...[
-                        pinnedBottom!
+                        if (widget.pinnedBottom != null) ...[
+                          widget.pinnedBottom!
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
-      );
+    );
   }
 }
 
 double _listViewMaxHeight({
   required double maxHeight,
   required bool removePinnedPadding,
-  required Size? pinnedSize,
-  required Size? pinnedSmallSize,
-  required Size? pinnedBottomSize,
   required Widget? pinnedBottom,
 }) {
   var max = maxHeight;
-
-  if (pinnedSize != null) {
-    max = max - pinnedSize.height;
-
-    if (!removePinnedPadding) {
-      max = max - 24;
-    }
-  }
-
-  if (pinnedSmallSize != null) {
-    max = max - pinnedSmallSize.height;
-
-    if (!removePinnedPadding) {
-      max = max - 24;
-    }
-  }
 
   if (pinnedBottom != null) {
     max = max - 105;
