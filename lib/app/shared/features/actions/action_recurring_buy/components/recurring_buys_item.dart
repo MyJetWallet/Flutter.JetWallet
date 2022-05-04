@@ -52,9 +52,9 @@ class RecurringBuysItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            recurringBuysOperationName(
+                            '${recurring.toAsset} ${recurringBuysOperationName(
                               recurring.scheduleType,
-                            ),
+                            )}',
                             style: sSubtitle2Style.copyWith(
                               color:
                                   recurring.status == RecurringBuysStatus.active
@@ -67,7 +67,7 @@ class RecurringBuysItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            '${recurring.fromAmount} ${recurring.toAsset}',
+                            _setTitle(recurring),
                             style: sBodyText2Style.copyWith(
                               color: colors.grey3,
                             ),
@@ -125,5 +125,13 @@ class RecurringBuysItem extends HookWidget {
         ),
       ),
     );
+  }
+
+  String _setTitle(RecurringBuysModel recurring) {
+    if (recurring.status == RecurringBuysStatus.paused) {
+      return 'Paused';
+    } else {
+      return '${recurring.fromAmount} ${recurring.toAsset}';
+    }
   }
 }

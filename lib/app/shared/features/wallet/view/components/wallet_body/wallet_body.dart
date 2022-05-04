@@ -113,10 +113,10 @@ class _WalletBodyState extends State<WalletBody>
             ),
             SliverToBoxAdapter(
               child: RecurringBuyBanner(
-                totalRecurringBuy: recurringNotifier.totalRecurringByAsset(
+                type: recurringNotifier.type(widget.currency.symbol),
+                title: recurringNotifier.recurringBannerTitle(
                   asset: widget.currency.symbol,
                 ),
-                type: recurringNotifier.type(widget.currency.symbol),
                 onTap: () {
                   if (recurringNotifier
                       .activeOrPausedType(widget.currency.symbol)) {
@@ -139,6 +139,7 @@ class _WalletBodyState extends State<WalletBody>
                     }
                   } else {
                     showActionWithOutRecurringBuy(
+                      title: 'Setup recurring buy',
                       context: context,
                       onItemTap: (RecurringBuysType type) {
                         navigatorPushReplacement(

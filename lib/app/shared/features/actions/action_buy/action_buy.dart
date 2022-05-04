@@ -126,6 +126,7 @@ class _ActionBuy extends HookWidget {
                   Navigator.pop(context);
                   showActionWithOutRecurringBuy(
                     context: context,
+                    title: 'Setup recurring buy',
                     onItemTap: (RecurringBuysType type) {
                       navigatorPushReplacement(
                         context,
@@ -206,6 +207,7 @@ class _ActionBuy extends HookWidget {
                     Navigator.pop(context);
                     showActionWithOutRecurringBuy(
                       context: context,
+                      title: 'Setup recurring buy',
                       onItemTap: (RecurringBuysType type) {
                         navigatorPushReplacement(
                           context,

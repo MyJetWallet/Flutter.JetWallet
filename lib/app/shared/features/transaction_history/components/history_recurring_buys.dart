@@ -10,7 +10,6 @@ import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../actions/action_recurring_buy/components/recurring_buys_item.dart';
 import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
-import '../../wallet/helper/format_date.dart';
 import '../../wallet/view/components/wallet_body/components/transaction_month_separator.dart';
 
 class HistoryRecurringBuys extends HookWidget {
@@ -55,25 +54,22 @@ class HistoryRecurringBuys extends HookWidget {
             SliverGroupedListView<RecurringBuysModel, String>(
               elements: state.recurringBuys,
               groupBy: (recurring) {
-                return formatDate(_removeZ(recurring.creationTime));
+                return recurring.toAsset;
               },
               sort: false,
-              groupSeparatorBuilder: (String date) {
+              groupSeparatorBuilder: (String nameAsset) {
                 return TransactionMonthSeparator(
-                  text: date,
+                  text: nameAsset,
                 );
               },
               itemBuilder: (context, recurring) {
                 final index = state.recurringBuys.indexOf(recurring);
-                final currentDate =
-                    formatDate(_removeZ(recurring.creationTime));
-                var nextDate = '';
+                final currentAsset = recurring.toAsset;
+                var nextAsset = '';
                 if (index != (state.recurringBuys.length - 1)) {
-                  nextDate = formatDate(
-                    _removeZ(state.recurringBuys[index + 1].creationTime),
-                  );
+                  nextAsset = state.recurringBuys[index + 1].toAsset;
                 }
-                final removeDividerForLastInGroup = currentDate != nextDate;
+                final removeDividerForLastInGroup = currentAsset != nextAsset;
 
                 return RecurringBuysItem(
                   onTap: () {
@@ -125,9 +121,5 @@ class HistoryRecurringBuys extends HookWidget {
         ],
       ),
     );
-  }
-
-  String _removeZ(String data) {
-    return data.split('Z').first;
   }
 }
