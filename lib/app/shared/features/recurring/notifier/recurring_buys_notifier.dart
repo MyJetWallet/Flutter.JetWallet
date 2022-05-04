@@ -39,6 +39,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   static final _logger = Logger('RecurringBuysNotifier');
 
   void _init() {
+    recurringBuys.sort((a, b) => a.toAsset.compareTo(b.toAsset));
     state = state.copyWith(recurringBuys: [...recurringBuys]);
   }
 
