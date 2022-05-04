@@ -51,11 +51,22 @@ class _ChangeOnScrollState extends State<ChangeOnScroll> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (_needToHideOutWidget())
-          widget.changeInWidget,
-      ],
+    return SliverAppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.transparent,
+      pinned: true,
+      elevation: 0,
+      expandedHeight: 115,
+      collapsedHeight: widget.fullOpacityOffset,
+      primary: false,
+      flexibleSpace: Column(
+        children: [
+          if (_needToHideOutWidget())
+            widget.changeInWidget,
+          if (!_needToHideOutWidget())
+            widget.changeOutWidget,
+        ],
+      ),
     );
   }
 }

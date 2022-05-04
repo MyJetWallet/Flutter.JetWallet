@@ -59,13 +59,6 @@ class EarnBottomSheetContainer extends HookWidget {
       }
     }
 
-    bool _needToHideOutWidget(ScrollController controller) {
-      if (controller.hasClients) {
-        return controller.offset < expandedHeight;
-      }
-      return true;
-    }
-
     return Padding(
         // Make bottomSheet to follow keyboard
         padding: MediaQuery.of(context).viewInsets,
@@ -109,27 +102,19 @@ class EarnBottomSheetContainer extends HookWidget {
                           controller: controller,
                           headerSliverBuilder: (context, _) {
                             return [
-                              SliverAppBar(
-                                backgroundColor: Colors.white,
-                                pinned: _needToHideOutWidget(controller),
-                                elevation: 0,
-                                expandedHeight: 0,
-                                collapsedHeight: 115,
-                                primary: false,
-                                flexibleSpace: ChangeOnScroll(
-                                  scrollController: controller,
-                                  fullOpacityOffset: expandedHeight,
-                                  changeInWidget: Material(
-                                    color: Colors.white,
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(24.0),
-                                      topRight: Radius.circular(24.0),
-                                    ),
-                                    child: pinnedSmall,
+                              ChangeOnScroll(
+                                scrollController: controller,
+                                fullOpacityOffset: expandedHeight,
+                                changeInWidget: Material(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(24.0),
+                                    topRight: Radius.circular(24.0),
                                   ),
-                                  changeOutWidget: pinned,
-                                  permanentWidget: const SpaceW2(),
+                                  child: pinnedSmall,
                                 ),
+                                changeOutWidget: pinned,
+                                permanentWidget: const SpaceW2(),
                               ),
                             ];
                           },
@@ -139,7 +124,7 @@ class EarnBottomSheetContainer extends HookWidget {
                                 : const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             children: [
-                              pinned,
+                              // pinned,
                               ...children
                             ],
                           ),
