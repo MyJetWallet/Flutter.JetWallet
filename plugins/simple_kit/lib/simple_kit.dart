@@ -49,6 +49,7 @@ export 'src/asset_items/simple_wallet_item.dart';
 
 /// Market Banners
 export 'src/banners/market_banner/simple_market_banner.dart';
+export 'src/banners/market_banner/simple_smallest_banner.dart';
 
 /// Rewards Banners
 export 'src/banners/rewards_banner/simple_rewards_banner.dart';
@@ -104,6 +105,7 @@ export 'src/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_icon.dart';
 export 'src/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_pressed_icon.dart';
 export 'src/icons/13x14/public/stats/simple_stats_icon.dart';
+export 'src/icons/14x16/public/start/simple_start_icon.dart';
 export 'src/icons/16x16/public/close/simple_close_icon.dart';
 export 'src/icons/16x16/public/fee_alert/simple_fee_alert_icon.dart';
 export 'src/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
@@ -184,6 +186,7 @@ export 'src/icons/24x24/public/photo/simple_white_photo_icon.dart';
 export 'src/icons/24x24/public/profile_details/simple_profile_details_icon.dart';
 export 'src/icons/24x24/public/qr_code/simple_qr_code_icon.dart';
 export 'src/icons/24x24/public/qr_code/simple_qr_code_pressed_icon.dart';
+export 'src/icons/24x24/public/question/simple_question_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_icon.dart';
 export 'src/icons/24x24/public/search/simple_search_pressed_icon.dart';
 export 'src/icons/24x24/public/security/simple_security_icon.dart';
@@ -195,6 +198,10 @@ export 'src/icons/24x24/public/support/simple_support_icon.dart';
 export 'src/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
 export 'src/icons/24x24/public/wallet/simple_wallet_icon.dart';
 export 'src/icons/24x24/public/wire/simple_wire_icon.dart';
+export 'src/icons/24x24/public/pause/simple_pause_icon.dart';
+export 'src/icons/24x24/public/delete/simple_delete_manage_icon.dart';
+export 'src/icons/24x24/public/paused/simple_paused_icon.dart';
+export 'src/icons/24x24/public/recurring_buys/simple_recurring_buys_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'src/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'src/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';

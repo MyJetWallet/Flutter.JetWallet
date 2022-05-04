@@ -26,6 +26,8 @@ String operationName(OperationType type) {
       return 'Referral program bonus';
     case OperationType.simplexBuy:
       return 'Simplex';
+    case OperationType.recurringBuy:
+      return 'Recurring buy';
     case OperationType.unknown:
       return 'Unknown';
   }

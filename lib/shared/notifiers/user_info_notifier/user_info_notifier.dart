@@ -20,12 +20,14 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
   void updateWithValuesFromSessionInfo({
     required bool twoFaEnabled,
     required bool phoneVerified,
+    required bool hasDisclaimers,
   }) {
     _logger.log(notifier, 'updateWithValuesFromSessionInfo');
 
     state = state.copyWith(
       twoFaEnabled: twoFaEnabled,
       phoneVerified: phoneVerified,
+      hasDisclaimers: hasDisclaimers,
     );
   }
 

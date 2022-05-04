@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
+import 'components/recurring_icon.dart';
 
 /// TODO remove dependecy on Market details
 /// This arguments are redundant, seperate widget for MarketDetails needed
@@ -18,6 +19,7 @@ class SWalletItem extends StatelessWidget {
     this.height = 88,
     this.rightBlockTopPadding = 22,
     this.showSecondaryText = true,
+    this.isRecurring = false,
     this.isPendingDeposit = false,
     required this.icon,
     required this.primaryText,
@@ -37,6 +39,7 @@ class SWalletItem extends StatelessWidget {
   final double height;
   final double rightBlockTopPadding;
   final bool showSecondaryText;
+  final bool isRecurring;
   final bool isPendingDeposit;
 
   @override
@@ -44,10 +47,10 @@ class SWalletItem extends StatelessWidget {
     var textColor = SColorsLight().green;
     var borderColor = SColorsLight().greenLight;
     final formattedAmount = amount == '\$0.00' ? '\$0' : amount;
-    final isSecondaryTextVisible = showSecondaryText &&
-        !(isPendingDeposit && formattedAmount == '\$0');
-    final isAmountVisible = amount != null &&
-        !(isPendingDeposit && formattedAmount == '\$0');
+    final isSecondaryTextVisible =
+        showSecondaryText && !(isPendingDeposit && formattedAmount == '\$0');
+    final isAmountVisible =
+        amount != null && !(isPendingDeposit && formattedAmount == '\$0');
 
     if (decline ?? false) {
       textColor = SColorsLight().red;
@@ -68,7 +71,12 @@ class SWalletItem extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: leftBlockTopPadding),
-                    child: icon,
+                    child: Stack(
+                      children: [
+                        icon,
+                        if (isRecurring) ...recurringIcon(),
+                      ],
+                    ),
                   ),
                   const SpaceW10(),
                   Flexible(

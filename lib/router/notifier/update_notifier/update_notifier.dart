@@ -51,7 +51,6 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
     sShowAlertPopup(
       _context,
       willPopScope: false,
-      image: _errorImage,
       primaryText: "It's time to update!",
       secondaryText: 'To use this app, download the latest version',
       primaryButtonName: 'Update',
@@ -63,7 +62,6 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
     sShowAlertPopup(
       _context,
       willPopScope: false,
-      image: _errorImage,
       primaryText: 'Update Simple?',
       secondaryText: 'We recommend that you update to the latest version',
       primaryButtonName: 'Update',
@@ -95,8 +93,3 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
     );
   }
 }
-
-final _errorImage = Image.asset(
-  ellipsisAsset,
-  package: 'simple_kit',
-);

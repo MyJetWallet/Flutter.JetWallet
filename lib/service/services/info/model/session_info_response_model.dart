@@ -7,6 +7,7 @@ part 'session_info_response_model.g.dart';
 class SessionInfoResponseModel with _$SessionInfoResponseModel {
   const factory SessionInfoResponseModel({
     String? tokenLifetimeRemaining,
+    required bool hasDisclaimers,
     required bool emailVerified,
     // If phone is not verified 2FA requests will fail
     required bool phoneVerified,

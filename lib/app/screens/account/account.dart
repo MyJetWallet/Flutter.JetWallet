@@ -18,13 +18,15 @@ import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/debug_info/debug_info.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../shared/features/payment_methods/view/payment_methods.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
+import '../../shared/features/transaction_history/components/history_recurring_buys.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../shared/helpers/check_kyc_status.dart';
 import 'components/account_banner_list.dart';
 import 'components/crisp.dart';
-import 'components/faq_web_view.dart';
+import 'components/help_center_web_view.dart';
 import 'components/log_out_option.dart';
 
 class Account extends HookWidget {
@@ -93,7 +95,7 @@ class Account extends HookWidget {
                         onKycBannerTap: () {
                           defineKycVerificationsScope(
                             kycState.requiredVerifications.length,
-                            ScreenSource.accountBanner,
+                            Source.accountBanner,
                           );
 
                           kycAlertHandler.handle(
@@ -123,15 +125,26 @@ class Account extends HookWidget {
                               navigatorPush(context, const AccountSecurity());
                             },
                           ),
+                          SimpleAccountCategoryButton(
+                            title: 'Recurring buy',
+                            icon: const SRecurringBuysIcon(),
+                            isSDivider: true,
+                            onTap: () {
+                              navigatorPush(
+                                context,
+                                const HistoryRecurringBuys(),
+                              );
+                            },
+                          ),
                           // TODO uncomment when Circle will be avavilable
-                          // SimpleAccountCategoryButton(
-                          //   title: 'Payment methods',
-                          //   icon: SActionDepositIcon(
-                          //     color: colors.black,
-                          //   ),
-                          //   isSDivider: true,
-                          //   onTap: () => PaymentMethods.push(context),
-                          // ),
+                          SimpleAccountCategoryButton(
+                            title: 'Payment methods',
+                            icon: SActionDepositIcon(
+                              color: colors.black,
+                            ),
+                            isSDivider: true,
+                            onTap: () => PaymentMethods.push(context),
+                          ),
                           SimpleAccountCategoryButton(
                             title: 'History',
                             icon: const SIndexHistoryIcon(),
@@ -148,10 +161,13 @@ class Account extends HookWidget {
                           ),
                           SimpleAccountCategoryButton(
                             title: 'Help Center',
-                            icon: const SFaqIcon(),
+                            icon: const SQuestionIcon(),
                             isSDivider: true,
                             onTap: () {
-                              navigatorPush(context, FaqWebView(link: faqLink));
+                              HelpCenterWebView.push(
+                                context: context,
+                                link: faqLink,
+                              );
                             },
                           ),
                           SimpleAccountCategoryButton(
