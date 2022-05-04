@@ -107,6 +107,10 @@ class CurrencyBuyState with _$CurrencyBuyState {
       symbol: baseCurrency!.symbol,
     );
 
+    if (selectedPaymentMethod?.type == PaymentMethodType.simplex) {
+      return '';
+    }
+
     if (selectedCurrency == null) {
       return '≈ $target';
     } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
