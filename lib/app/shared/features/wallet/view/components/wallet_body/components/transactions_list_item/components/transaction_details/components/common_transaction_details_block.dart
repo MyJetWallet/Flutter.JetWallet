@@ -6,8 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../models/currency_model.dart';
-import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
-import '../../../../../../../../../market_details/helper/currency_from.dart';
+import '../../../../../../../../../../providers/currencies_with_hidden_pod/currencies_with_hidden_pod.dart';
+import '../../../../../../../../../market_details/helper/currency_from_all.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -23,8 +23,8 @@ class CommonTransactionDetailsBlock extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final currency = currencyFrom(
-      useProvider(currenciesPod),
+    final currency = currencyFromAll(
+      useProvider(currenciesWithHiddenPod),
       transactionListItem.assetId,
     );
 
