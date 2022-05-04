@@ -27,7 +27,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
 
   assets.whenData((value) {
     for (final asset in value.assets) {
-      if (!asset.hideInTerminal || asset.symbol == 'ATOM') {
+      if (!asset.hideInTerminal) {
         final depositBlockchains = <BlockchainModel>[];
         final withdrawalBlockchains = <BlockchainModel>[];
 

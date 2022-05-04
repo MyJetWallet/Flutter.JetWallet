@@ -55,8 +55,8 @@ class _ChangeOnScrollState extends State<ChangeOnScroll> {
       children: [
         if (_needToHideOutWidget())
           widget.changeInWidget,
-        // if (!_needToHideOutWidget())
-        //   widget.changeOutWidget,
+        if (!_needToHideOutWidget())
+          widget.changeOutWidget,
       ],
     );
   }
