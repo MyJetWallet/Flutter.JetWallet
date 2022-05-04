@@ -28,12 +28,9 @@ void handleResultResponse(Map<String, dynamic> json) {
 void _validateFullResponse(String result, Map<String, dynamic> json) {
   if (result == 'OperationBlocked') {
     final data = json['data'] as Map<String, dynamic>;
-    final blockerExpired = data['blockerExpired'] as String;
+    final expire = data['blockerExpired'] as String;
 
-    throw ServerRejectException(
-      'Access to your account is temporarily restricted, time remaining - '
-      '${_timeLeft(blockerExpired)}.',
-    );
+    throw ServerRejectException(_blockerMessage(expire));
   } else if (result != 'OK') {
     throw ServerRejectException(errorCodesDescription[result] ?? result);
   }
@@ -45,14 +42,21 @@ void _validateResultResponse(String result) {
   }
 }
 
-String _timeLeft(String blockerExpired) {
-  final split = blockerExpired.split(':');
+String _blockerMessage(String expire) {
+  const phrase1 = 'Access to your account is temporarily restricted';
+  const phrase2 = ', time remaining -';
+
+  final split = expire.split(':');
   var hours = split[0];
   final minutes = split[1];
   var seconds = split[2];
 
   if (hours[0] == '-') {
     hours = hours.substring(1);
+  }
+
+  if (hours.contains('.')) {
+    return '$phrase1.';
   }
 
   seconds = seconds.substring(0, 2);
@@ -66,10 +70,12 @@ String _timeLeft(String blockerExpired) {
   final sEnd = sInt == 1 ? '' : 's';
 
   if (hInt != 0) {
-    return '$hInt hour$hEnd $mInt minute$mEnd';
+    return '$phrase1$phrase2 $hInt hour$hEnd $mInt minute$mEnd.';
   } else if (mInt != 0) {
-    return '$mInt minute$mEnd';
+    return '$phrase1$phrase2 $mInt minute$mEnd.';
+  } else if (sInt != 0) {
+    return '$phrase1$phrase2 $sInt second$sEnd.';
   } else {
-    return '$sInt second$sEnd';
+    return '$phrase1.';
   }
 }
