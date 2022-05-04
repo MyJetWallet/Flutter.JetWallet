@@ -75,81 +75,81 @@ class _ActionRecurringManage extends HookWidget {
   Widget build(BuildContext context) {
     final recurringBuysN = useProvider(recurringBuysNotipod.notifier);
 
-    final _errorImage = Image.asset(
-      ellipsisAsset,
-      package: 'simple_kit',
-    );
+    final colors = useProvider(sColorPod);
 
     return Column(
       children: [
-        SPaddingH24(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (recurringItem.status != RecurringBuysStatus.paused)
-                ActionRecurringManageItem(
-                  icon: const SPauseIcon(),
-                  primaryText: 'Pause',
-                  onTap: () {
-                    recurringBuysN.switchRecurringStatus(
-                      isEnable: false,
-                      instructionId: recurringItem.id!,
-                    );
-                    Navigator.of(context)
-                      ..pop()
-                      ..pop();
-                  },
-                ),
-              if (recurringItem.status == RecurringBuysStatus.paused)
-                ActionRecurringManageItem(
-                  icon: Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 3,
-                      horizontal: 4,
-                    ),
-                    child: const SStartIcon(),
-                  ),
-                  primaryText: 'Start',
-                  onTap: () {
-                    recurringBuysN.switchRecurringStatus(
-                      isEnable: true,
-                      instructionId: recurringItem.id!,
-                    );
-                    Navigator.of(context)
-                      ..pop()
-                      ..pop();
-                  },
-                ),
-              const SDivider(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SpaceH24(),
+            if (recurringItem.status != RecurringBuysStatus.paused)
               ActionRecurringManageItem(
-                icon: const SDeleteManageIcon(),
-                primaryText: 'Delete',
-                onTap: () => sShowAlertPopup(
-                  context,
-                  willPopScope: false,
-                  image: _errorImage,
-                  primaryText: 'Delete Recurring buy?',
-                  secondaryText: 'Are you sure you want to delete '
-                      'your Recurring buy?',
-                  primaryButtonName: 'Delete',
-                  onPrimaryButtonTap: () {
-                    recurringBuysN.removeRecurringBuy(recurringItem.id!);
-                    Navigator.of(context)
-                      ..pop()
-                      ..pop()
-                      ..pop();
-                  },
-                  primaryButtonType: SButtonType.primary3,
-                  secondaryButtonName: 'Cancel',
-                  onSecondaryButtonTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                icon: const SPauseIcon(),
+                primaryText: 'Pause',
+                color: colors.grey5,
+                onTap: () {
+                  recurringBuysN.switchRecurringStatus(
+                    isEnable: false,
+                    instructionId: recurringItem.id!,
+                  );
+                  Navigator.of(context)
+                    ..pop()
+                    ..pop();
+                },
               ),
-              const SpaceH24(),
-            ],
-          ),
+            if (recurringItem.status == RecurringBuysStatus.paused)
+              ActionRecurringManageItem(
+                icon: Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 3,
+                    horizontal: 4,
+                  ),
+                  child: const SStartIcon(),
+                ),
+                primaryText: 'Start',
+                color: colors.grey5,
+                onTap: () {
+                  recurringBuysN.switchRecurringStatus(
+                    isEnable: true,
+                    instructionId: recurringItem.id!,
+                  );
+                  Navigator.of(context)
+                    ..pop()
+                    ..pop();
+                },
+              ),
+            const SPaddingH24(
+                child: SDivider(),
+            ),
+            ActionRecurringManageItem(
+              icon: const SDeleteManageIcon(),
+              primaryText: 'Delete',
+              color: colors.grey5,
+              onTap: () => sShowAlertPopup(
+                context,
+                willPopScope: false,
+                primaryText: 'Delete Recurring buy?',
+                secondaryText: 'Are you sure you want to delete '
+                    'your Recurring buy?',
+                primaryButtonName: 'Delete',
+                onPrimaryButtonTap: () {
+                  recurringBuysN.removeRecurringBuy(recurringItem.id!);
+                  Navigator.of(context)
+                    ..pop()
+                    ..pop()
+                    ..pop();
+                },
+                primaryButtonType: SButtonType.primary3,
+                secondaryButtonName: 'Cancel',
+                onSecondaryButtonTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            const SpaceH24(),
+          ],
         ),
       ],
     );

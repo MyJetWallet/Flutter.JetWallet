@@ -71,7 +71,11 @@ class RecurringBuyDetails extends StatelessWidget {
           return '${transactionListItem.recurringBuyInfo!.feeAmount}'
               ' ${transactionListItem.recurringBuyInfo!.feeAsset}';
         } else {
-          return '0 ${transactionListItem.recurringBuyInfo!.feeAmount}';
+          if (transactionListItem.recurringBuyInfo!.feeAmount == Decimal.zero) {
+            return '0';
+          } else {
+            return '0 ${transactionListItem.recurringBuyInfo!.feeAmount}';
+          }
         }
       } else {
         return '0';

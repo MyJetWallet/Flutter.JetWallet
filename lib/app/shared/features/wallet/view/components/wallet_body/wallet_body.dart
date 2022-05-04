@@ -52,10 +52,12 @@ class _WalletBodyState extends State<WalletBody>
     final moveToRecurringInfo = recurringN.recurringBuys
             .where(
               (element) => element.toAsset == widget.currency.symbol,
-            )
-            .toList()
-            .length ==
-        1;
+            ).toList().length == 1;
+
+    final lastRecurringItem = recurringN.recurringBuys
+        .where(
+            (element) => element.toAsset == widget.currency.symbol,
+        ).toList()[0];
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -122,7 +124,7 @@ class _WalletBodyState extends State<WalletBody>
                       navigatorPush(
                         context,
                         ShowRecurringInfoAction(
-                          recurringItem: recurringN.recurringBuys[0],
+                          recurringItem: lastRecurringItem,
                           assetName: widget.currency.description,
                         ),
                       );
