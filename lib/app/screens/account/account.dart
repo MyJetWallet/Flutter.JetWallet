@@ -61,7 +61,7 @@ class Account extends HookWidget {
       },
       child: logout.when(
         result: (_, __) {
-          return Container(
+          return Material(
             color: colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,6 +126,14 @@ class Account extends HookWidget {
                             },
                           ),
                           SimpleAccountCategoryButton(
+                            title: 'Payment methods',
+                            icon: SActionDepositIcon(
+                              color: colors.black,
+                            ),
+                            isSDivider: true,
+                            onTap: () => PaymentMethods.push(context),
+                          ),
+                          SimpleAccountCategoryButton(
                             title: 'Recurring buy',
                             icon: const SRecurringBuysIcon(),
                             isSDivider: true,
@@ -135,15 +143,6 @@ class Account extends HookWidget {
                                 const HistoryRecurringBuys(),
                               );
                             },
-                          ),
-                          // TODO uncomment when Circle will be avavilable
-                          SimpleAccountCategoryButton(
-                            title: 'Payment methods',
-                            icon: SActionDepositIcon(
-                              color: colors.black,
-                            ),
-                            isSDivider: true,
-                            onTap: () => PaymentMethods.push(context),
                           ),
                           SimpleAccountCategoryButton(
                             title: 'History',
