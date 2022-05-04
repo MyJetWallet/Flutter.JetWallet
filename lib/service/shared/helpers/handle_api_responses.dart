@@ -31,8 +31,8 @@ void _validateFullResponse(String result, Map<String, dynamic> json) {
     final blockerExpired = data['blockerExpired'] as String;
 
     throw ServerRejectException(
-      'Access to account was restricted, '
-      'remaining time is ${_timeLeft(blockerExpired)}.',
+      'Access to your account is temporarily restricted, time remaining - '
+      '${_timeLeft(blockerExpired)}.',
     );
   } else if (result != 'OK') {
     throw ServerRejectException(errorCodesDescription[result] ?? result);
@@ -66,9 +66,9 @@ String _timeLeft(String blockerExpired) {
   final sEnd = sInt == 1 ? '' : 's';
 
   if (hInt != 0) {
-    return '$hInt hour$hEnd $mInt minute$mEnd $sInt second$sEnd';
+    return '$hInt hour$hEnd $mInt minute$mEnd';
   } else if (mInt != 0) {
-    return '$mInt minute$mEnd $sInt second$sEnd';
+    return '$mInt minute$mEnd';
   } else {
     return '$sInt second$sEnd';
   }
