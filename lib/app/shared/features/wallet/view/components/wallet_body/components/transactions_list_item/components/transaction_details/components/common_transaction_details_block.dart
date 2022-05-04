@@ -29,33 +29,34 @@ class CommonTransactionDetailsBlock extends HookWidget {
     );
 
     return Column(
-      children: [if (transactionListItem.operationType ==
-          OperationType.recurringBuy)
-        SPaddingH24(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SIconButton(
-                onTap: () => Navigator.pop(context),
-                defaultIcon: const SBackIcon(),
-                pressedIcon: const SBackPressedIcon(),
-              ),
-              const SpaceW12(),
-              Expanded(
-                child: Text(
-                  _transactionHeader(transactionListItem, currency),
-                  style: sTextH5Style,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
+      children: [
+        if (transactionListItem.operationType ==
+            OperationType.recurringBuy)
+          SPaddingH24(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SIconButton(
+                  onTap: () => Navigator.pop(context),
+                  defaultIcon: const SBackIcon(),
+                  pressedIcon: const SBackPressedIcon(),
                 ),
-              ),
-              const SpaceW12(),
-              const _IconPlaceholder(),
-            ],
+                const SpaceW12(),
+                Expanded(
+                  child: Text(
+                    _transactionHeader(transactionListItem, currency),
+                    style: sTextH5Style,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+                const SpaceW12(),
+                const _IconPlaceholder(),
+              ],
+            ),
           ),
-        ),
         if (transactionListItem.operationType !=
             OperationType.recurringBuy)
           Text(
