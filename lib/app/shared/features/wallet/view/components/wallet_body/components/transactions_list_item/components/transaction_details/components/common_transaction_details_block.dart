@@ -6,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../models/currency_model.dart';
-import '../../../../../../../../../../providers/currencies_with_hidden_pod/currencies_pod.dart';
+import '../../../../../../../../../../providers/currencies_with_hidden_pod/currencies_with_hidden_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from_all.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';

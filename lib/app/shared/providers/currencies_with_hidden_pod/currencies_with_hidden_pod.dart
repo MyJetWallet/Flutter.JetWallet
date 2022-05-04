@@ -25,7 +25,7 @@ final currenciesWithHiddenPod = Provider.autoDispose<List<CurrencyModel>>(
   final recurringBuy = ref.watch(recurringBuySpod);
 
   final currencies = <CurrencyModel>[];
-
+  // TODO refactor this
   assets.whenData((value) {
     for (final asset in value.assets) {
       final depositBlockchains = <BlockchainModel>[];
