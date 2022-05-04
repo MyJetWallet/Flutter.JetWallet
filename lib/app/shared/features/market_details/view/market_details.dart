@@ -96,6 +96,12 @@ class MarketDetails extends HookWidget {
             .length ==
         1;
 
+    final lastRecurringItem = recurringNotifier.recurringBuys
+        .where(
+          (element) => element.toAsset == currency.symbol,
+        )
+        .toList()[0];
+
     analytics(() => sAnalytics.assetView(marketItem.name));
 
     return SPageFrame(
@@ -210,7 +216,7 @@ class MarketDetails extends HookWidget {
                     navigatorPush(
                       context,
                       ShowRecurringInfoAction(
-                        recurringItem: recurringNotifier.recurringBuys[0],
+                        recurringItem: lastRecurringItem,
                         assetName: currency.description,
                       ),
                     );
