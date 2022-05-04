@@ -6,6 +6,7 @@ part 'circle_card.g.dart';
 @freezed
 class CircleCard with _$CircleCard {
   const factory CircleCard({
+    CircleCardVerificationError? errorCode,
     required String id,
     required String cardName,
     required String last4,
@@ -13,7 +14,6 @@ class CircleCard with _$CircleCard {
     required int expMonth,
     required int expYear,
     required CircleCardStatus status,
-    required CircleCardVerificationError error,
     required bool isActive,
     required DateTime createDate,
     required DateTime updateDate,

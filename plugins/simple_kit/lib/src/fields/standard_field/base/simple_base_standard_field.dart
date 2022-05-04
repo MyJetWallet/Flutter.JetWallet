@@ -18,6 +18,9 @@ class SimpleBaseStandardField extends HookWidget {
     this.onChanged,
     this.suffixIcons,
     this.inputFormatters,
+    this.textCapitalization,
+    this.disableErrorOnChanged = true,
+    this.enableInteractiveSelection = true,
     this.hideIconsIfError = true,
     this.autofocus = false,
     this.readOnly = false,
@@ -36,7 +39,10 @@ class SimpleBaseStandardField extends HookWidget {
   final Iterable<String>? autofillHints;
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
-  final List<FilteringTextInputFormatter>? inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization? textCapitalization;
+  final bool disableErrorOnChanged;
+  final bool enableInteractiveSelection;
   final bool hideIconsIfError;
   final bool autofocus;
   final bool readOnly;
@@ -63,10 +69,14 @@ class SimpleBaseStandardField extends HookWidget {
           textInputAction: textInputAction,
           inputFormatters: inputFormatters,
           autofillHints: autofillHints,
+          enableInteractiveSelection: enableInteractiveSelection,
+          textCapitalization: textCapitalization ?? TextCapitalization.none,
           enabled: enabled,
           onChanged: (value) {
             onChanged?.call(value);
-            errorNotifier?.disableError();
+            if (disableErrorOnChanged) {
+              errorNotifier?.disableError();
+            }
           },
           cursorWidth: 3.0,
           cursorColor: SColorsLight().blue,
@@ -96,7 +106,7 @@ class SimpleBaseStandardField extends HookWidget {
                       if (icon != suffixIcons!.last) const SpaceW20(),
                     ],
                 if (errorValue) ...[
-                  const SpaceW20(),
+                  const SpaceW40(),
                   GestureDetector(
                     onTap: onErrorIconTap,
                     child: const SErrorIcon(),

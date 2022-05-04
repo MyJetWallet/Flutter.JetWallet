@@ -44,11 +44,14 @@ class TransactionListItem extends HookWidget {
             const SpaceH12(),
             Row(
               children: [
-                _icon(transactionListItem.operationType),
+                _iconFrom(transactionListItem.operationType),
                 const SpaceW10(),
                 Expanded(
                   child: TransactionListItemHeaderText(
                     text: _transactionItemTitle(transactionListItem),
+                    color: transactionListItem.status == Status.declined
+                        ? colors.red
+                        : colors.black,
                   ),
                 ),
                 Container(
@@ -71,11 +74,17 @@ class TransactionListItem extends HookWidget {
             Row(
               children: [
                 const SpaceW30(),
-                TransactionListItemText(
-                  text: '${formatDateToDMY(transactionListItem.timeStamp)} '
-                      '- ${formatDateToHm(transactionListItem.timeStamp)}',
-                  color: colors.grey2,
-                ),
+                if (transactionListItem.status != Status.inProgress)
+                  TransactionListItemText(
+                    text: '${formatDateToDMY(transactionListItem.timeStamp)} '
+                        '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                    color: colors.grey2,
+                  ),
+                if (transactionListItem.status == Status.inProgress)
+                  TransactionListItemText(
+                    text: 'In progress...',
+                    color: colors.grey2,
+                  ),
                 const Spacer(),
                 if (transactionListItem.operationType == OperationType.sell)
                   TransactionListItemText(
@@ -103,6 +112,18 @@ class TransactionListItem extends HookWidget {
                     text: 'With \$${transactionListItem.buyInfo!.sellAmount}',
                     color: colors.grey2,
                   ),
+                if (transactionListItem.operationType ==
+                    OperationType.recurringBuy)
+                  TransactionListItemText(
+                    text: 'With ${volumeFormat(
+                      prefix: currency.prefixSymbol,
+                      decimal: transactionListItem.recurringBuyInfo!.sellAmount,
+                      accuracy: currency.accuracy,
+                      symbol:
+                        transactionListItem.recurringBuyInfo!.sellAssetId!,
+                    )}',
+                    color: colors.grey2,
+                  ),
               ],
             ),
             const SpaceH18(),
@@ -114,16 +135,20 @@ class TransactionListItem extends HookWidget {
   }
 
   String _transactionItemTitle(OperationHistoryItem transactionListItem) {
-    if (transactionListItem.operationType != OperationType.simplexBuy) {
-      return operationName(transactionListItem.operationType);
-    } else {
+    if (transactionListItem.operationType == OperationType.simplexBuy) {
       return '${operationName(OperationType.buy)}'
           ' ${transactionListItem.assetId} - '
           '${operationName(transactionListItem.operationType)}';
+    } else if (transactionListItem.operationType ==
+        OperationType.recurringBuy) {
+      return '${transactionListItem.recurringBuyInfo!.scheduleType} '
+          '${operationName(transactionListItem.operationType)}';
+    } else {
+      return operationName(transactionListItem.operationType);
     }
   }
 
-  Widget _icon(OperationType type) {
+  Widget _iconFrom(OperationType type) {
     switch (type) {
       case OperationType.deposit:
         return const SDepositIcon();
@@ -149,6 +174,8 @@ class TransactionListItem extends HookWidget {
         return const SRewardPaymentIcon();
       case OperationType.simplexBuy:
         return const SDepositIcon();
+      case OperationType.recurringBuy:
+        return const SPlusIcon();
       case OperationType.unknown:
         return const SizedBox();
     }

@@ -12,13 +12,15 @@ late int phoneVerificationCodeLength;
 late String userAgreementLink;
 late String privacyPolicyLink;
 late String referralPolicyLink;
+late String infoRewardsLink;
+late String infoEarnLink;
 late int minAmountOfCharsInPassword;
 late int maxAmountOfCharsInPassword;
 late int quoteRetryInterval;
 late String defaultAssetIcon;
-late int emailResendCountdown;
-late int withdrawalConfirmResendCountdown;
-late int localPinLength;
+late double emailResendCountdown;
+late double withdrawalConfirmResendCountdown;
+late double localPinLength;
 
 // Versioning
 late String recommendedVersion;

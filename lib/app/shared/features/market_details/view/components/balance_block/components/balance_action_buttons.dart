@@ -43,12 +43,12 @@ class BalanceActionButtons extends HookWidget {
         children: [
           Expanded(
             child: SPrimaryButton1(
-              name: _buyButtonText(),
+              name: 'Buy',
               onTap: () {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
-                  sAnalytics.buySellView(
-                    ScreenSource.assetScreen,
+                  sAnalytics.buyView(
+                    Source.assetScreen,
                     currency.description,
                   );
                   navigatorPush(
@@ -65,8 +65,8 @@ class BalanceActionButtons extends HookWidget {
                     isProgress: kycState.verificationInProgress,
                     navigatePop: true,
                     currentNavigate: () {
-                      sAnalytics.buySellView(
-                        ScreenSource.assetScreen,
+                      sAnalytics.buyView(
+                        Source.assetScreen,
                         currency.description,
                       );
                       navigatorPush(
@@ -101,7 +101,6 @@ class BalanceActionButtons extends HookWidget {
                       ),
                     );
                   } else {
-                    Navigator.of(context).pop();
                     kycAlertHandler.handle(
                       status: kycState.withdrawalStatus,
                       kycVerified: kycState,
@@ -132,8 +131,8 @@ class BalanceActionButtons extends HookWidget {
                 onTap: () {
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
-                    sAnalytics.buySellView(
-                      ScreenSource.assetScreen,
+                    sAnalytics.sellView(
+                      Source.assetScreen,
                       currency.description,
                     );
                     navigatorPush(
@@ -148,8 +147,8 @@ class BalanceActionButtons extends HookWidget {
                       kycVerified: kycState,
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () {
-                        sAnalytics.buySellView(
-                          ScreenSource.assetScreen,
+                        sAnalytics.sellView(
+                          Source.assetScreen,
                           currency.description,
                         );
                         navigatorPush(
@@ -169,13 +168,5 @@ class BalanceActionButtons extends HookWidget {
         ],
       ),
     );
-  }
-
-  String _buyButtonText() {
-    if (marketItem.isBalanceEmpty) {
-      return 'Buy ${marketItem.name}';
-    } else {
-      return 'Buy';
-    }
   }
 }

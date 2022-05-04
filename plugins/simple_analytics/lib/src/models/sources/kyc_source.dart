@@ -1,9 +1,5 @@
-enum ScreenSource {
-  assetScreen,
-  quickActions,
-  accountBanner,
-  emptyPortfolioScreen,
-  earnProgram,
+// TODO(Denis Martych): FIX this, it isn't Source, it's Event
+enum KycSource {
   kycAllowCameraView,
   kycUploadIdentityDocumentView,
   kycSelfieView,
@@ -11,28 +7,18 @@ enum ScreenSource {
   kycPhoneConfirmationView,
 }
 
-extension KycSourceExtension on ScreenSource {
+extension KycSourceExtension on KycSource {
   String get name {
     switch (this) {
-      case ScreenSource.assetScreen:
-        return 'Asset screen';
-      case ScreenSource.quickActions:
-        return 'Quick actions';
-      case ScreenSource.accountBanner:
-        return 'Account banner';
-      case ScreenSource.emptyPortfolioScreen:
-        return 'Empty portfolio screen';
-      case ScreenSource.earnProgram:
-        return 'Earn program';
-      case ScreenSource.kycAllowCameraView:
+      case KycSource.kycAllowCameraView:
         return 'KYC - Allow camera view';
-      case ScreenSource.kycUploadIdentityDocumentView:
+      case KycSource.kycUploadIdentityDocumentView:
         return 'KYC - Upload identity document view';
-      case ScreenSource.kycSelfieView:
+      case KycSource.kycSelfieView:
         return 'KYC - Take a selfie view';
-      case ScreenSource.kycSuccessPageView:
+      case KycSource.kycSuccessPageView:
         return 'KYC - Success page view';
-      case ScreenSource.kycPhoneConfirmationView:
+      case KycSource.kycPhoneConfirmationView:
         return 'KYC - Phone confirmation view';
     }
   }

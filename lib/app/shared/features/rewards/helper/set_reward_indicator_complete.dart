@@ -7,6 +7,7 @@ import '../model/condition_type.dart';
 Widget? setRewardIndicatorComplete(
   List<CampaignConditionModel> conditions,
   SimpleColors colors,
+  double width,
 ) {
   var completeIndicator = 0;
   var isDisplayIndicator = false;
@@ -28,7 +29,7 @@ Widget? setRewardIndicatorComplete(
         Stack(
           children: <Widget>[
             Container(
-              width: 240.0,
+              width: width,
               height: 16.0,
               decoration: BoxDecoration(
                 color: colors.grey4,
@@ -37,7 +38,11 @@ Widget? setRewardIndicatorComplete(
             ),
             Positioned(
               child: Container(
-                width: _setIndicatorValue(completeIndicator, conditions.length),
+                width: _setIndicatorValue(
+                  completeIndicator,
+                  conditions.length,
+                  width,
+                ),
                 height: 16.0,
                 decoration: BoxDecoration(
                   color: colors.blue,
@@ -58,9 +63,11 @@ Widget? setRewardIndicatorComplete(
             ),
           ],
         ),
-
         Container(
-          padding: const EdgeInsets.only(right: 17.0),
+          padding: const EdgeInsets.only(
+            right: 17.0,
+            left: 20.0,
+          ),
           child: Text('$completeIndicator/${conditions.length}'),
         ),
       ],
@@ -70,8 +77,12 @@ Widget? setRewardIndicatorComplete(
   }
 }
 
-double _setIndicatorValue(int completeIndicator, int conditionsLength) {
-  final step = 240 / conditionsLength;
+double _setIndicatorValue(
+  int completeIndicator,
+  int conditionsLength,
+  double width,
+) {
+  final step = width / conditionsLength;
 
   if (completeIndicator == 0) {
     return 0.0;

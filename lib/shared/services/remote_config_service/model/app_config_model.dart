@@ -11,13 +11,15 @@ class AppConfigModel with _$AppConfigModel {
     required String userAgreementLink,
     required String privacyPolicyLink,
     required String referralPolicyLink,
+    required String infoRewardsLink,
+    required String infoEarnLink,
     required int minAmountOfCharsInPassword,
     required int maxAmountOfCharsInPassword,
     required int quoteRetryInterval,
     required String defaultAssetIcon,
-    required int emailResendCountdown,
-    required int withdrawConfirmResendCountdown,
-    required int localPinLength,
+    required double emailResendCountdown,
+    required double withdrawConfirmResendCountdown,
+    required double localPinLength,
   }) = _AppConfigModel;
 
   factory AppConfigModel.fromJson(Map<String, dynamic> json) =>

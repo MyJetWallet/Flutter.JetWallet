@@ -14,6 +14,8 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
+import '../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
@@ -82,6 +84,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         authModel = await authService.register(registerRequest);
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
+        read(appsFlyerServicePod).register(email);
       }
 
       await storageService.setString(refreshTokenKey, authModel.refreshToken);
@@ -96,7 +99,16 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       state = const Input();
 
       read(startupNotipod.notifier).successfullAuthentication();
-    } catch (e, st) {
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'authenticate', error.cause);
+      if (operation == AuthOperation.login) {
+        sAnalytics.loginFailure(email, error.cause);
+      } else {
+        sAnalytics.signUpFailure(email, error.cause);
+      }
+
+      state = Input(error.cause);
+    } catch (e) {
       _logger.log(stateFlow, 'authenticate', e);
       if (operation == AuthOperation.login) {
         sAnalytics.loginFailure(email, e.toString());
@@ -105,9 +117,9 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       }
 
       if (e is DioError && e.error == 'Http status error [401]') {
-        state = Input('Invalid login or password', st);
+        state = const Input('Invalid login or password');
       } else {
-        state = Input(e, st);
+        state = const Input('Something went wrong. Please try again later!');
       }
     }
   }

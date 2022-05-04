@@ -12,6 +12,7 @@ import '../../service/services/blockchain/service/blockchain_service.dart';
 import '../../service/services/change_password/service/change_password_service.dart';
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/circle/service/circle_service.dart';
+import '../../service/services/disclaimer/service/disclaimers_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/kyc/service/kyc_service.dart';
@@ -23,6 +24,7 @@ import '../../service/services/notification/service/notification_service.dart';
 import '../../service/services/operation_history/operation_history_service.dart';
 import '../../service/services/phone_verification/service/phone_verification_service.dart';
 import '../../service/services/profile/service/profile_service.dart';
+import '../../service/services/recurring_manage/recurring_manage_service.dart';
 import '../../service/services/referral_code_service/service/referral_code_service.dart';
 import '../../service/services/signal_r/service/signal_r_service.dart';
 import '../../service/services/simplex/service/simplex_service.dart';
@@ -225,4 +227,16 @@ final referralCodeServicePod = Provider<ReferralCodeService>((ref) {
   final dio = ref.watch(dioPod);
 
   return ReferralCodeService(dio);
+});
+
+final recurringManageServicePod = Provider<RecurringManageService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return RecurringManageService(dio);
+});
+
+final disclaimerServicePod = Provider<DisclaimersService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return DisclaimersService(dio);
 });

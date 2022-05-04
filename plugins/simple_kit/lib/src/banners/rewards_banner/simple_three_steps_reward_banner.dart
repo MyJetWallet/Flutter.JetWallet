@@ -14,6 +14,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
     required this.primaryText,
     required this.timeToComplete,
     required this.onTap,
+    required this.showInfoIcon,
   }) : super(key: key);
 
   final String? imageUrl;
@@ -23,6 +24,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
   final String timeToComplete;
   final List<Widget> rewardDetail;
   final Function() onTap;
+  final bool showInfoIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
@@ -62,20 +65,18 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                                     color: SColorsLight().black,
                                   ),
                                 ),
-                                WidgetSpan(
-                                  child: Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 8,
-                                    ),
-                                    child: InkWell(
-                                      onTap: onTap,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
+                                if (showInfoIcon)
+                                  WidgetSpan(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 8,
+                                      ),
+                                      child: InkWell(
+                                        onTap: onTap,
                                         child: const SInfoPressedIcon(),
                                       ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -83,17 +84,16 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                         const SpaceW20(),
                         Container(
                           padding: const EdgeInsets.only(
-                            right: 17,
+                            right: 16,
                           ),
                           child: CircleAvatar(
-                            radius: 32.0,
+                            radius: 40.0,
                             backgroundColor: circleAvatarColor,
                             backgroundImage: setCircleBackgroundImage(imageUrl),
                           ),
                         ),
                       ],
                     ),
-                    const SpaceH10(),
                     Container(
                       alignment: Alignment.center,
                       width: 131.0,
@@ -121,7 +121,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
                     const SpaceH32(),
                     ...rewardDetail,
                     if (rewardIndicatorComplete != null) ...[
-                      const SpaceH24(),
+                      const SpaceH20(),
                       rewardIndicatorComplete!,
                       const SpaceH30(),
                     ],
