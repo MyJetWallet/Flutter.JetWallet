@@ -204,11 +204,11 @@ class _ActionBuy extends HookWidget {
                     currency.description,
                   );
                   if (showRecurring) {
-                    Navigator.pop(context);
                     showActionWithOutRecurringBuy(
                       context: context,
                       title: 'Setup recurring buy',
                       onItemTap: (RecurringBuysType type) {
+                        Navigator.pop(context);
                         navigatorPushReplacement(
                           context,
                           CurrencyBuy(
