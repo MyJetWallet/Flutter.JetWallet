@@ -19,10 +19,12 @@ import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_union
 class PreviewBuyWithAsset extends StatefulHookWidget {
   const PreviewBuyWithAsset({
     Key? key,
+    this.onBackButtonTap,
     required this.input,
   }) : super(key: key);
 
   final PreviewBuyWithAssetInput input;
+  final void Function()? onBackButtonTap;
 
   @override
   State<PreviewBuyWithAsset> createState() => _PreviewBuyWithAssetState();
@@ -90,19 +92,21 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
           small: () {
             return SSmallHeader(
               title: notifier.previewHeader,
-              onBackButtonTap: () {
-                notifier.cancelTimer();
-                Navigator.pop(context);
-              },
+              onBackButtonTap: widget.onBackButtonTap ??
+                  () {
+                    notifier.cancelTimer();
+                    Navigator.pop(context);
+                  },
             );
           },
           medium: () {
             return SMegaHeader(
               title: notifier.previewHeader,
-              onBackButtonTap: () {
-                notifier.cancelTimer();
-                Navigator.pop(context);
-              },
+              onBackButtonTap: widget.onBackButtonTap ??
+                  () {
+                    notifier.cancelTimer();
+                    Navigator.pop(context);
+                  },
             );
           },
         ),
