@@ -143,7 +143,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
         for (final currency in currencies) {
           if (currency.symbol == element.fromAsset &&
               element.status == RecurringBuysStatus.active) {
-            accumulate += _convertToUsd(element.toAsset, element.fromAmount!);
+            accumulate += _convertToUsd(element.fromAsset, element.fromAmount!);
           }
         }
       }
