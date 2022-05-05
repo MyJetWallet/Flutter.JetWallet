@@ -1,7 +1,7 @@
 import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 
-import '../../../../../service/shared/constants.dart';
+import '../../../../../shared/constants.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_model.dart';

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../../../providers/currencies_with_hidden_pod/currencies_with_hidden_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from_all.dart';
@@ -30,8 +30,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
 
     return Column(
       children: [
-        if (transactionListItem.operationType ==
-            OperationType.recurringBuy)
+        if (transactionListItem.operationType == OperationType.recurringBuy)
           SPaddingH24(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,8 +56,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
               ],
             ),
           ),
-        if (transactionListItem.operationType !=
-            OperationType.recurringBuy)
+        if (transactionListItem.operationType != OperationType.recurringBuy)
           Text(
             _transactionHeader(transactionListItem, currency),
             style: sTextH5Style,

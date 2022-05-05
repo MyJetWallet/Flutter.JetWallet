@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/market_news/model/market_news_response_model.dart';
 
-import '../../../../../../service/services/news/model/news_response_model.dart';
 import '../../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/features/market_details/helper/format_news_date.dart';
 import '../../../notifier/news_notipod.dart';

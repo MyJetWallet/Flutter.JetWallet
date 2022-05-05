@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/blockchain/model/deposit_address/deposit_address_request_model.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../service/services/blockchain/model/deposit_address/deposit_address_request_model.dart';
-import '../../../../../service/services/signal_r/model/blockchains_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../models/currency_model.dart';

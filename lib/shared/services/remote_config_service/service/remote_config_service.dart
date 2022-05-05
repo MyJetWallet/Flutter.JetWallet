@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:simple_networking/shared/api_urls.dart';
 
 import '../model/analytics_model.dart';
 import '../model/app_config_model.dart';

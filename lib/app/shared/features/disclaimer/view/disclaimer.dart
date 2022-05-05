@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/disclaimer/model/disclaimers_response_model.dart';
 
 import '../../../../../shared/constants.dart';
-import '../model/disclaimer_model.dart';
 import '../notifier/disclaimer_notipod.dart';
 import 'components/disclaimer_popup.dart';
 

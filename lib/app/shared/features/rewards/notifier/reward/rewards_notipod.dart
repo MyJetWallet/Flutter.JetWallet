@@ -1,15 +1,15 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
+import 'package:simple_networking/services/signal_r/model/referral_stats_response_model.dart';
 
-import '../../../../../../service/services/signal_r/model/campaign_response_model.dart';
-import '../../../../../../service/services/signal_r/model/referral_stats_response_model.dart';
 import '../../../referral_stats/provider/referral_stats_pod.dart';
 import '../../model/campaign_or_referral_model.dart';
 import '../../provider/rewards_pod.dart';
 import 'rewards_notifier.dart';
 import 'rewards_state.dart';
 
-final rewardsNotipod = StateNotifierProvider.autoDispose<RewardsNotifier,
-    RewardsState>(
+final rewardsNotipod =
+    StateNotifierProvider.autoDispose<RewardsNotifier, RewardsState>(
   (ref) {
     final campaigns = ref.watch(rewardsPod);
     final referralStats = ref.watch(referralStatsPod);
@@ -25,13 +25,12 @@ final rewardsNotipod = StateNotifierProvider.autoDispose<RewardsNotifier,
 );
 
 List<CampaignOrReferralModel> _sort(
-    List<CampaignModel> campaigns,
-    List<ReferralStatsModel> referralStats,
-    ) {
+  List<CampaignModel> campaigns,
+  List<ReferralStatsModel> referralStats,
+) {
   final combinedArray = <CampaignOrReferralModel>[];
   final campaignsArray = List<CampaignModel>.from(campaigns);
-  final referralStatsArray =
-  List<ReferralStatsModel>.from(referralStats);
+  final referralStatsArray = List<ReferralStatsModel>.from(referralStats);
 
   for (final campaign in campaignsArray) {
     combinedArray.add(CampaignOrReferralModel(campaign: campaign));

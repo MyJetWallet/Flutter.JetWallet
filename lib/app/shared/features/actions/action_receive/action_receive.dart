@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
 import '../helpers/show_currency_search.dart';

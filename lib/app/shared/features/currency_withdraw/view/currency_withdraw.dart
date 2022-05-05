@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
-import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../model/withdrawal_model.dart';
 import '../notifier/withdrawal_address_notifier/address_validation_union.dart';

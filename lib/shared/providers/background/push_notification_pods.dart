@@ -5,9 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/notification/model/register_token_request_model.dart';
+import 'package:simple_networking/services/notification/service/notification_service.dart';
 
-import '../../../service/services/notification/model/register_token_request_model.dart';
-import '../../../service/services/notification/service/notification_service.dart';
 import '../../logging/levels.dart';
 import '../service_providers.dart';
 

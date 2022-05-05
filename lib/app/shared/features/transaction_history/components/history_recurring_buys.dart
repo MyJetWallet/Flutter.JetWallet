@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../actions/action_recurring_buy/components/recurring_buys_item.dart';

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/indices_model.dart';
 
-import '../../../../../../../../service/services/signal_r/model/indices_model.dart';
 import '../../../../../../../screens/market/provider/market_items_pod.dart';
 import '../../../../../wallet/helper/market_item_from.dart';
 

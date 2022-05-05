@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../helpers/currency_from.dart';
 import '../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../providers/currencies_pod/currencies_pod.dart';
@@ -120,7 +120,7 @@ class TransactionListItem extends HookWidget {
                       decimal: transactionListItem.recurringBuyInfo!.sellAmount,
                       accuracy: currency.accuracy,
                       symbol:
-                        transactionListItem.recurringBuyInfo!.sellAssetId!,
+                          transactionListItem.recurringBuyInfo!.sellAssetId!,
                     )}',
                     color: colors.grey2,
                   ),

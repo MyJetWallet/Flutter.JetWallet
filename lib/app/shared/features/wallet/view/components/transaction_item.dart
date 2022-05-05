@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_simplex_details.dart';

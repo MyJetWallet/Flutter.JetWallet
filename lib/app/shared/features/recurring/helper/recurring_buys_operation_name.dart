@@ -1,17 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-enum RecurringBuysType {
-  @JsonValue(0)
-  oneTimePurchase,
-  @JsonValue(1)
-  daily,
-  @JsonValue(2)
-  weekly,
-  @JsonValue(3)
-  biWeekly,
-  @JsonValue(4)
-  monthly,
-}
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 String recurringBuysOperationName(RecurringBuysType type) {
   switch (type) {

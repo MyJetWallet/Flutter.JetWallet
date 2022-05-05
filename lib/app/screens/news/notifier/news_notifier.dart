@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/news/model/news_request_model.dart';
+import 'package:simple_networking/services/news/model/news_response_model.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../../../../service/services/news/model/news_request_model.dart';
-import '../../../../service/services/news/model/news_response_model.dart';
 import 'news_state.dart';
 import 'news_union.dart';
 

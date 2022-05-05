@@ -1,4 +1,4 @@
-import '../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
 String operationName(OperationType type) {
   switch (type) {

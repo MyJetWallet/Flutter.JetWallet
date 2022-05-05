@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/delete_card/delete_card_request_model.dart';
 
-import '../../../../../service/services/circle/model/delete_card/delete_card_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import 'payment_methods_state.dart';

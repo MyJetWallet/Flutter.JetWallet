@@ -1,14 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-enum RecurringBuysStatus {
-  @JsonValue(0)
-  active,
-  @JsonValue(1)
-  paused,
-  @JsonValue(2)
-  deleted,
-  empty,
-}
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
 String recurringBuysStatusName(RecurringBuysStatus status) {
   switch (status) {

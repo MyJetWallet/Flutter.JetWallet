@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../../../service/services/market_news/model/market_news_response_model.dart';
+import 'package:simple_networking/services/market_news/model/market_news_response_model.dart';
 
 part 'market_news_state.freezed.dart';
 

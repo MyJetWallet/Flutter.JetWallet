@@ -5,8 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
-import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';

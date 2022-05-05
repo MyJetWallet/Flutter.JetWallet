@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/market_info/model/market_info_response_model.dart';
 
-import '../../../../../../../service/services/market_info/model/market_info_response_model.dart';
 import '../../../helper/format_number.dart';
 import 'components/market_sentiment_item.dart';
 import 'components/market_stats_item.dart';

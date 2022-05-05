@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
@@ -13,7 +14,6 @@ import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../../../currency_buy/view/curency_buy.dart';
-import '../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../../../recurring/view/recurring_buy_banner.dart';
 import 'components/card_block/components/wallet_card.dart';
@@ -52,12 +52,16 @@ class _WalletBodyState extends State<WalletBody>
     final moveToRecurringInfo = recurringN.recurringBuys
             .where(
               (element) => element.toAsset == widget.currency.symbol,
-            ).toList().length == 1;
+            )
+            .toList()
+            .length ==
+        1;
 
     final lastRecurringItem = recurringN.recurringBuys
         .where(
-            (element) => element.toAsset == widget.currency.symbol,
-        ).toList()[0];
+          (element) => element.toAsset == widget.currency.symbol,
+        )
+        .toList()[0];
 
     var walletBackground = walletGreenBackgroundImageAsset;
 

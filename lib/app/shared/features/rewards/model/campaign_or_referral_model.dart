@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
-import '../../../../../service/services/signal_r/model/referral_stats_response_model.dart';
+import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
+import 'package:simple_networking/services/signal_r/model/referral_stats_response_model.dart';
 
 part 'campaign_or_referral_model.freezed.dart';
 part 'campaign_or_referral_model.g.dart';

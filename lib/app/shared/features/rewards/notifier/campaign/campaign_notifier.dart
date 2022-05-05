@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
 
-import '../../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/local_storage_service.dart';

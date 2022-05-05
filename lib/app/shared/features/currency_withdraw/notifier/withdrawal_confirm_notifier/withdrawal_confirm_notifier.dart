@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
+import 'package:simple_networking/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../../service/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
-import '../../../../../../service/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';

@@ -42,3 +42,16 @@ const recurringBuyPausedImage = 'assets/images/recurring_paused.png';
 
 // Disclaimer
 const disclaimerAsset = 'assets/images/disclaimer.png';
+
+//Market Details
+const signsAfterComma = 2;
+
+// Auth
+const platformType = 2;
+
+// KeyValue
+const watchlistKey = 'watchlist';
+
+// HTTP
+const postRequest = 'POST';
+const signatureHeader = 'signature';

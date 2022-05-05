@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
-import '../../../../service/services/signal_r/model/blockchains_model.dart';
 import 'components/network_item.dart';
 
 void showNetworkBottomSheet(

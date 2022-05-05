@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
-import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../providers/base_currency_pod/base_currency_model.dart';
 

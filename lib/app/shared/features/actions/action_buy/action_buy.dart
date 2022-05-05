@@ -4,12 +4,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
-import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
