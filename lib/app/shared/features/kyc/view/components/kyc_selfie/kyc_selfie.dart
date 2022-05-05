@@ -14,7 +14,6 @@ import '../../../notifier/kyc_selfie/kyc_selfie_notipod.dart';
 import '../../../notifier/kyc_selfie/kyc_selfie_state.dart';
 import 'components/empty_selfie_box.dart';
 import 'components/selfie_box.dart';
-import 'components/selfie_icon.dart';
 import 'components/success_kys_screen.dart';
 
 class KycSelfie extends HookWidget {
