@@ -131,7 +131,7 @@ class RecurringBuysItem extends HookWidget {
     if (recurring.status == RecurringBuysStatus.paused) {
       return 'Paused';
     } else {
-      return '${recurring.fromAmount} ${recurring.toAsset}';
+      return '${recurring.lastToAmount} ${recurring.toAsset}';
     }
   }
 }

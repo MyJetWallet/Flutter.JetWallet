@@ -20,6 +20,7 @@ class RecurringBuysModel with _$RecurringBuysModel {
     @Default(0) double totalFromAmount,
     @Default(0) double totalToAmount,
     @Default(0) double averagePrice,
+    @Default(0) double lastToAmount,
     required String creationTime,
     required RecurringBuysType scheduleType,
     required String fromAsset,
