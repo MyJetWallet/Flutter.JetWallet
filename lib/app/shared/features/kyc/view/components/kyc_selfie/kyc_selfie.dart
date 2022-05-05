@@ -201,7 +201,7 @@ class KycSelfie extends HookWidget {
                 active: true,
                 icon: (state.isSelfieNotEmpty)
                     ? const SArrowUpIcon()
-                    : const SelfieIcon(),
+                    : const SSelfieIcon(),
               ),
             ),
           ],
