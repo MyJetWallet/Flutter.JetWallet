@@ -16,6 +16,13 @@ class ProfileDetails extends HookWidget {
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
 
+    final _infoImage = Image.asset(
+      phoneChangeAsset,
+      width: 80,
+      height: 80,
+      package: 'simple_kit',
+    );
+
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
@@ -42,18 +49,33 @@ class ProfileDetails extends HookWidget {
               label: 'Change phone number',
               value: userInfo.phone,
               onTap: () {
-                PhoneVerification.push(
-                  context: context,
-                  args: PhoneVerificationArgs(
-                    phoneNumber: userInfo.phone,
-                    showChangeTextAlert: true,
-                    onVerified: () {
-                      SetPhoneNumber.pushReplacement(
-                        context: context,
-                        successText: 'New phone number confirmed',
-                      );
-                    },
-                  ),
+                sShowAlertPopup(
+                  context,
+                  willPopScope: false,
+                  primaryText: 'Pay attention',
+                  secondaryText: 'When changing the password, the withdrawal '
+                      'of funds will be blocked for 24 hours.',
+                  primaryButtonName: 'Continue',
+                  image: _infoImage,
+                  onPrimaryButtonTap: () {
+                    PhoneVerification.push(
+                      context: context,
+                      args: PhoneVerificationArgs(
+                        phoneNumber: userInfo.phone,
+                        showChangeTextAlert: true,
+                        onVerified: () {
+                          SetPhoneNumber.pushReplacement(
+                            context: context,
+                            successText: 'New phone number confirmed',
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  secondaryButtonName: 'Cancel',
+                  onSecondaryButtonTap: () {
+                    Navigator.pop(context);
+                  },
                 );
               },
             ),
