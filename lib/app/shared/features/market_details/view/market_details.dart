@@ -88,19 +88,16 @@ class MarketDetails extends HookWidget {
 
     final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
 
-    final moveToRecurringInfo = recurringNotifier.recurringBuys
-            .where(
-              (element) => element.toAsset == currency.symbol,
-            )
-            .toList()
-            .length ==
-        1;
-
-    final lastRecurringItem = recurringNotifier.recurringBuys
+    final filteredRecurringBuys = recurringNotifier.recurringBuys
         .where(
           (element) => element.toAsset == currency.symbol,
-    )
-        .toList()[0];
+    ).toList();
+
+    final moveToRecurringInfo = filteredRecurringBuys.length == 1;
+
+    final lastRecurringItem = filteredRecurringBuys.isNotEmpty
+        ? filteredRecurringBuys[0]
+        : null;
 
     analytics(() => sAnalytics.assetView(marketItem.name));
 
@@ -212,7 +209,7 @@ class MarketDetails extends HookWidget {
               type: recurringNotifier.type(currency.symbol),
               onTap: () {
                 if (recurringNotifier.activeOrPausedType(currency.symbol)) {
-                  if (moveToRecurringInfo) {
+                  if (moveToRecurringInfo && lastRecurringItem != null) {
                     navigatorPush(
                       context,
                       ShowRecurringInfoAction(

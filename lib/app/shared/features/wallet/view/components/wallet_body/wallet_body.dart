@@ -49,15 +49,16 @@ class _WalletBodyState extends State<WalletBody>
 
     final recurringN = useProvider(recurringBuysNotipod);
 
-    final moveToRecurringInfo = recurringN.recurringBuys
-            .where(
-              (element) => element.toAsset == widget.currency.symbol,
-            ).toList().length == 1;
-
-    final lastRecurringItem = recurringN.recurringBuys
+    final filteredRecurringBuys = recurringN.recurringBuys
         .where(
-            (element) => element.toAsset == widget.currency.symbol,
-        ).toList()[0];
+          (element) => element.toAsset == widget.currency.symbol,
+    ).toList();
+
+    final moveToRecurringInfo = filteredRecurringBuys.length == 1;
+
+    final lastRecurringItem = filteredRecurringBuys.isNotEmpty
+        ? filteredRecurringBuys[0]
+        : null;
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -120,7 +121,7 @@ class _WalletBodyState extends State<WalletBody>
                 onTap: () {
                   if (recurringNotifier
                       .activeOrPausedType(widget.currency.symbol)) {
-                    if (moveToRecurringInfo) {
+                    if (moveToRecurringInfo && lastRecurringItem != null) {
                       navigatorPush(
                         context,
                         ShowRecurringInfoAction(
