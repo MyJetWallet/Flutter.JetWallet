@@ -27,8 +27,8 @@ class SFloatingButtonFrame2 extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  Colors.white,
-                  Colors.white.withOpacity(0.1),
+                  SColorsLight().white,
+                  SColorsLight().white.withOpacity(0.1),
                 ],
               ),
             ),
