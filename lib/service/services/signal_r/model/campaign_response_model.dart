@@ -82,4 +82,6 @@ enum CampaignType {
   earnProgram,
   @JsonValue('RecurringBuyBanner')
   recurringBuyBanner,
+  @JsonValue('ReferAFriend')
+  referAFriend,
 }
