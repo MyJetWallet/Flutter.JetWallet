@@ -20,7 +20,6 @@ class CampaignResponseModel with _$CampaignResponseModel {
 class CampaignModel with _$CampaignModel {
   const factory CampaignModel({
     List<CampaignConditionModel>? conditions,
-    CampaignType? campaignType,
     String? imageUrl,
     @Default(false) bool showReferrerStats,
     @JsonKey(name: 'expirationTime') required String timeToComplete,
@@ -73,17 +72,4 @@ class RewardModel with _$RewardModel {
 
   factory RewardModel.fromJson(Map<String, dynamic> json) =>
       _$RewardModelFromJson(json);
-}
-
-enum CampaignType {
-  @JsonValue('ReferAFriendBanner')
-  inviteFriend,
-  @JsonValue('EarnProgram')
-  earnProgram,
-  @JsonValue('RecurringBuyBanner')
-  recurringBuyBanner,
-  @JsonValue('ReferAFriend')
-  referAFriend,
-  @JsonValue('None')
-  none,
 }
