@@ -217,6 +217,7 @@ class MarketDetails extends HookWidget {
               ),
               type: recurringNotifier.type(currency.symbol),
               onTap: () {
+                // Todo: need refactor
                 if (kycState.sellStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
                   if (recurringNotifier.activeOrPausedType(currency.symbol)) {

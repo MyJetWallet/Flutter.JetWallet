@@ -128,6 +128,7 @@ class _WalletBodyState extends State<WalletBody>
                   asset: widget.currency.symbol,
                 ),
                 onTap: () {
+                  // Todo: need refactor
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
                     if (recurringNotifier
