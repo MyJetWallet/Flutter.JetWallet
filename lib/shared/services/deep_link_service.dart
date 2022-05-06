@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -36,6 +39,8 @@ const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
+// when parameters come in base16 format
+const _action = 'jw_action';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -65,7 +70,16 @@ class DeepLinkService {
   final _logger = Logger('');
 
   void handle(Uri link, [SourceScreen? source]) {
-    final parameters = link.queryParameters;
+    var parameters = link.queryParameters;
+
+    final action = parameters[_action];
+
+    if (action != null) {
+      final decoded = encrypt.decodeHexString(action);
+      final value = utf8.decode(decoded);
+      parameters = Uri.parse('?$value').queryParameters;
+    }
+
     final command = parameters[_command];
 
     if (command == _confirmEmail) {
