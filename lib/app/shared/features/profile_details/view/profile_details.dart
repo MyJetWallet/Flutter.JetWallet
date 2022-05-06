@@ -53,8 +53,9 @@ class ProfileDetails extends HookWidget {
                   context,
                   willPopScope: false,
                   primaryText: 'Pay attention',
-                  secondaryText: 'When changing the password, the withdrawal '
-                      'of funds will be blocked for 24 hours.',
+                  secondaryText: 'Do you wish to proceed changing your '
+                      'phone number? You will need to enter an SMS code '
+                      'to complete this process.',
                   primaryButtonName: 'Continue',
                   image: _infoImage,
                   onPrimaryButtonTap: () {
