@@ -41,6 +41,7 @@ void showBuyAction({
     removePinnedPadding: true,
     children: [
       _ActionBuy(
+        shouldPop: shouldPop,
         fromCard: fromCard,
         showRecurring: showRecurring,
       )
@@ -55,8 +56,10 @@ class _ActionBuy extends HookWidget {
     Key? key,
     this.showRecurring = false,
     required this.fromCard,
+    required this.shouldPop,
   }) : super(key: key);
 
+  final bool shouldPop;
   final bool fromCard;
   final bool showRecurring;
 
@@ -123,7 +126,7 @@ class _ActionBuy extends HookWidget {
                   currency.description,
                 );
                 if (showRecurring) {
-                  Navigator.pop(context);
+                  if (shouldPop) Navigator.pop(context);
                   showActionWithOutRecurringBuy(
                     context: context,
                     title: 'Setup recurring buy',
