@@ -81,10 +81,14 @@ class ShowRecurringInfoAction extends HookWidget {
                           ActionRecurringInfoHeader(
                             total: '${sellCurrency.prefixSymbol ?? ''}'
                                 '${recurringItem.totalFromAmount} '
-                                '${sellCurrency.prefixSymbol != null ? '' : sellCurrency.symbol}',
+                                '${sellCurrency.prefixSymbol != null
+                                ? ''
+                                : sellCurrency.symbol}',
                             amount: '${buyCurrency.prefixSymbol ?? ''}'
                                 '${recurringItem.totalToAmount} '
-                                '${buyCurrency.prefixSymbol != null ? '' : buyCurrency.symbol}',
+                                '${buyCurrency.prefixSymbol != null
+                                ? ''
+                                : buyCurrency.symbol}',
                           ),
                           ActionRecurringInfoDetails(
                             recurringItem: recurringItem,
