@@ -33,7 +33,8 @@ class DisclaimerCheckbox extends HookWidget {
       }
     }
 
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.only(left: 2.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

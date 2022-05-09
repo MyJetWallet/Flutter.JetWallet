@@ -9,7 +9,7 @@ import 'components/without_recurring_buy_item.dart';
 void showActionWithOutRecurringBuy({
   bool showOneTimePurchase = false,
   RecurringBuysType? currentType,
-  void Function()? then,
+  void Function(dynamic)? then,
   required BuildContext context,
   required String title,
   required void Function(RecurringBuysType) onItemTap,
@@ -20,6 +20,7 @@ void showActionWithOutRecurringBuy({
     pinned: _RecurringActionBottomSheetHeader(
       name: title,
     ),
+    then: then,
     horizontalPinnedPadding: 0.0,
     children: [
       _ActionRecurringBuy(

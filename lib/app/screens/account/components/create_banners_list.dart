@@ -34,7 +34,9 @@ List<Widget> createBannersList({
   if (verificationInProgress) {
     bannersList.add(
       SimpleAccountBanner(
-        onTap: () {},
+        onTap: () {
+          onKycBannerTap?.call();
+        },
         color: colors.greenLight,
         header: 'Verifying now',
         imageUrl: verifyNowAsset,

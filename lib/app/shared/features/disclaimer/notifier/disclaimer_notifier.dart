@@ -8,13 +8,13 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/disclaimer/model/disclaimers_request_model.dart';
 import 'package:simple_networking/services/disclaimer/model/disclaimers_response_model.dart';
 
+import '../../../../../shared/constants.dart';
 import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../helpers/disclaimer_questions_parser.dart';
 import '../view/components/disclaimer_checkbox.dart';
 import '../view/disclaimer.dart';
-import 'disclaimer_notipod.dart';
 import 'disclaimer_state.dart';
 
 class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
@@ -81,58 +81,129 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
 
     showsDisclaimer(
       context: context,
-      imageAsset: state.imageUrl,
-      primaryText: state.title,
-      secondaryText: state.description,
-      questions: state.questions,
-      primaryButtonName: 'Continue',
-      activePrimaryButton: state.activeButton,
-      child: StatefulBuilder(
-        builder: (context, setState) {
-          final state = context.read(disclaimerNotipod);
-
-          return Column(
-            children: [
-              SizedBox(
-                height: 150,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      const SpaceH20(),
-                      for (final question in state.questions) ...[
-                        DisclaimerCheckbox(
-                          questions: parsedTextWidget(
-                            question.text,
-                            context,
-                            colors,
-                          ),
-                          firstText: question.text,
-                          indexCheckBox: _findQuestionIndex(question),
-                          onCheckboxTap: () => setState(() {
-                            _onCheckboxTap(
-                              _findQuestionIndex(question),
-                              disclaimerIndex,
-                            );
-                          }),
-                        ),
-                        const SpaceH10(),
-                      ],
-                    ],
-                  ),
-                ),
+      child: WillPopScope(
+        onWillPop: () {
+          return Future.value(false);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Dialog(
+              insetPadding: const EdgeInsets.all(24.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
               ),
-              const SpaceH20(),
-              SPrimaryButton1(
-                name: 'Continue',
-                active: state.activeButton,
-                onTap: () async {
-                  await _sendAnswers(context, disclaimerIndex);
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                            ),
+                            child: SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  const SpaceH40(),
+                                  SizedBox(
+                                    height: 80,
+                                    width: 80,
+                                    child: state.imageUrl != null
+                                        ? Image.network(
+                                            state.imageUrl!,
+                                          )
+                                        : Image.asset(
+                                            disclaimerAsset,
+                                          ),
+                                  ),
+                                  Baseline(
+                                    baseline: 40.0,
+                                    baselineType: TextBaseline.alphabetic,
+                                    child: Text(
+                                      state.title,
+                                      maxLines: (state.description.isNotEmpty)
+                                          ? 5
+                                          : 12,
+                                      textAlign: TextAlign.center,
+                                      style: sTextH5Style.copyWith(
+                                        overflow: TextOverflow.visible,
+                                      ),
+                                    ),
+                                  ),
+                                  const SpaceH7(),
+                                  if (state.description.isNotEmpty)
+                                    Text(
+                                      state.description,
+                                      maxLines: 6,
+                                      textAlign: TextAlign.center,
+                                      style: sBodyText1Style.copyWith(
+                                        color: colors.grey1,
+                                      ),
+                                    ),
+                                  const SpaceH35(),
+                                  const SDivider(),
+                                  Column(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          const SpaceH18(),
+                                          for (final question
+                                              in state.questions) ...[
+                                            DisclaimerCheckbox(
+                                              questions: parsedTextWidget(
+                                                question.text,
+                                                context,
+                                                colors,
+                                              ),
+                                              firstText: question.text,
+                                              indexCheckBox:
+                                                  _findQuestionIndex(question),
+                                              onCheckboxTap: () => setState(() {
+                                                _onCheckboxTap(
+                                                  _findQuestionIndex(question),
+                                                  disclaimerIndex,
+                                                );
+                                              }),
+                                            ),
+                                            if (question !=
+                                                state.questions.last)
+                                              const SpaceH18()
+                                            else
+                                              const SpaceH94(),
+                                          ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SFloatingButtonFrame2(
+                            button: SPrimaryButton1(
+                              name: 'Continue',
+                              active: state.activeButton,
+                              onTap: () async {
+                                await _sendAnswers(
+                                  context,
+                                  disclaimerIndex,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
                 },
               ),
-            ],
-          );
-        },
+            ),
+          ],
+        ),
       ),
     );
   }
