@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -39,8 +36,8 @@ const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
-// when parameters come in base16 format
-const _action = 'jw_action';
+// when parameters come in "/" format as part of the link
+const _action = 'action';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -70,14 +67,26 @@ class DeepLinkService {
   final _logger = Logger('');
 
   void handle(Uri link, [SourceScreen? source]) {
+    // old version
     var parameters = link.queryParameters;
 
-    final action = parameters[_action];
+    final path = link.path.replaceFirst('/', '').split('/');
 
-    if (action != null) {
-      final decoded = encrypt.decodeHexString(action);
-      final value = utf8.decode(decoded);
-      parameters = Uri.parse('?$value').queryParameters;
+    // new version
+    if (path.length.isEven) {
+      if (path[0] == _action) {
+        final names = <String>[];
+        final values = <String>[];
+
+        for (var i = 0; i < (path.length / 2); i++) {
+          names.add(path[i * 2] == _action ? _command : path[i * 2]);
+          values.add(path[(i * 2) + 1]);
+        }
+
+        parameters = {
+          for (var i = 0; i < names.length; i++) names[i]: values[i]
+        };
+      }
     }
 
     final command = parameters[_command];
