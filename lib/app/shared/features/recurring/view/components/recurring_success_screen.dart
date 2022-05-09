@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/components/result_screens/success_screen/components/success_animation.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
@@ -91,14 +92,15 @@ class RecurringSuccessScreen extends HookWidget {
 
                   showActionWithOutRecurringBuy(
                     title: 'Setup recurring buy',
-                    then: () {
+                    then: (_) {
                       if (!shouldPop.value) navigateToRouter(context.read);
+                      shouldPop.value = false;
                     },
                     context: context,
                     onItemTap: (recurringType) {
                       shouldPop.value = true;
 
-                      navigatorPush(
+                      navigatorPushReplacement(
                         context,
                         PreviewBuyWithAsset(
                           input: PreviewBuyWithAssetInput(
@@ -107,6 +109,9 @@ class RecurringSuccessScreen extends HookWidget {
                             toCurrency: input.toCurrency,
                             recurringType: recurringType,
                           ),
+                          onBackButtonTap: () {
+                            navigateToRouter(context.read);
+                          },
                         ),
                       );
                     },

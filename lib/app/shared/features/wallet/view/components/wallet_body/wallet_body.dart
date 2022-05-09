@@ -7,12 +7,16 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../../actions/action_recurring_info/action_recurring_info.dart';
+import '../../../../actions/action_sell/action_sell.dart';
 import '../../../../currency_buy/view/curency_buy.dart';
+import '../../../../kyc/model/kyc_operation_status_model.dart';
+import '../../../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../../../recurring/view/recurring_buy_banner.dart';
@@ -49,15 +53,21 @@ class _WalletBodyState extends State<WalletBody>
 
     final recurringN = useProvider(recurringBuysNotipod);
 
-    final moveToRecurringInfo = recurringN.recurringBuys
-            .where(
-              (element) => element.toAsset == widget.currency.symbol,
-            ).toList().length == 1;
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
+    );
 
-    final lastRecurringItem = recurringN.recurringBuys
+    final filteredRecurringBuys = recurringN.recurringBuys
         .where(
-            (element) => element.toAsset == widget.currency.symbol,
-        ).toList()[0];
+          (element) => element.toAsset == widget.currency.symbol,
+    ).toList();
+
+    final moveToRecurringInfo = filteredRecurringBuys.length == 1;
+
+    final lastRecurringItem = filteredRecurringBuys.isNotEmpty
+        ? filteredRecurringBuys[0]
+        : null;
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -118,39 +128,50 @@ class _WalletBodyState extends State<WalletBody>
                   asset: widget.currency.symbol,
                 ),
                 onTap: () {
-                  if (recurringNotifier
-                      .activeOrPausedType(widget.currency.symbol)) {
-                    if (moveToRecurringInfo) {
-                      navigatorPush(
-                        context,
-                        ShowRecurringInfoAction(
-                          recurringItem: lastRecurringItem,
-                          assetName: widget.currency.description,
-                        ),
-                      );
+                  // Todo: need refactor
+                  if (kycState.sellStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    if (recurringNotifier
+                        .activeOrPausedType(widget.currency.symbol)) {
+                      if (moveToRecurringInfo && lastRecurringItem != null) {
+                        navigatorPush(
+                          context,
+                          ShowRecurringInfoAction(
+                            recurringItem: lastRecurringItem,
+                            assetName: widget.currency.description,
+                          ),
+                        );
+                      } else {
+                        showRecurringBuyAction(
+                          context: context,
+                          currency: widget.currency,
+                          total: recurringNotifier.totalRecurringByAsset(
+                            asset: widget.currency.symbol,
+                          ),
+                        );
+                      }
                     } else {
-                      showRecurringBuyAction(
+                      showActionWithOutRecurringBuy(
+                        title: 'Setup recurring buy',
                         context: context,
-                        currency: widget.currency,
-                        total: recurringNotifier.totalRecurringByAsset(
-                          asset: widget.currency.symbol,
-                        ),
+                        onItemTap: (RecurringBuysType type) {
+                          navigatorPushReplacement(
+                            context,
+                            CurrencyBuy(
+                              currency: widget.currency,
+                              fromCard: false,
+                              recurringBuysType: type,
+                            ),
+                          );
+                        },
                       );
                     }
                   } else {
-                    showActionWithOutRecurringBuy(
-                      title: 'Setup recurring buy',
-                      context: context,
-                      onItemTap: (RecurringBuysType type) {
-                        navigatorPushReplacement(
-                          context,
-                          CurrencyBuy(
-                            currency: widget.currency,
-                            fromCard: false,
-                            recurringBuysType: type,
-                          ),
-                        );
-                      },
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      kycVerified: kycState,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => showSellAction(context),
                     );
                   }
                 },

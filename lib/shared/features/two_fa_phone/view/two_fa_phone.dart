@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../app/shared/features/phone_verification/view/phone_verification.dart';
 import '../../../components/loaders/loader.dart';
 import '../../../components/pin_code_field.dart';
 import '../../../components/texts/resend_in_text.dart';
@@ -58,7 +59,7 @@ class TwoFaPhone extends HookWidget {
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
-          twoFa.controller.value.text.length == 4 &&
+          twoFa.controller.value.text.length == codeLength &&
           pinError.value.value) {
         twoFa.controller.clear();
       }

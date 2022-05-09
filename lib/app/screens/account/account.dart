@@ -18,7 +18,6 @@ import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/debug_info/debug_info.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
-import '../../shared/features/payment_methods/view/payment_methods.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/transaction_history/components/history_recurring_buys.dart';
@@ -125,14 +124,15 @@ class Account extends HookWidget {
                               navigatorPush(context, const AccountSecurity());
                             },
                           ),
-                          SimpleAccountCategoryButton(
-                            title: 'Payment methods',
-                            icon: SActionDepositIcon(
-                              color: colors.black,
-                            ),
-                            isSDivider: true,
-                            onTap: () => PaymentMethods.push(context),
-                          ),
+                          // TODO uncomment when Circle will be ready
+                          // SimpleAccountCategoryButton(
+                          //   title: 'Payment methods',
+                          //   icon: SActionDepositIcon(
+                          //     color: colors.black,
+                          //   ),
+                          //   isSDivider: true,
+                          //   onTap: () => PaymentMethods.push(context),
+                          // ),
                           SimpleAccountCategoryButton(
                             title: 'Recurring buy',
                             icon: const SRecurringBuysIcon(),

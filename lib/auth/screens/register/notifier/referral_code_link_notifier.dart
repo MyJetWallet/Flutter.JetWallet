@@ -132,6 +132,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
       referralCodeValidation: const Loading(),
       bottomSheetReferralCodeValidation: const Loading(),
     );
+
     try {
       final model = ValidateReferralCodeRequestModel(
         referralCode: code,
@@ -143,15 +144,20 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
       if (!mounted) return;
 
+      final shortCode = _refCode(jwCode ?? code);
+
       state = state.copyWith(
         referralCodeValidation: const Valid(),
         bottomSheetReferralCodeValidation: const Valid(),
-        referralCode: jwCode ?? code,
+        referralCode: shortCode,
       );
 
-      if (state.bottomSheetReferralCodeValidation is Valid && jwCode != null) {
-        state.referralCodeController.text = jwCode;
+      if (state.bottomSheetReferralCodeValidation is Valid &&
+          (jwCode != null || code.isNotEmpty)) {
+        state.referralCodeController.text = shortCode!;
       }
+
+      _moveCursorAtTheEnd(state.referralCodeController);
     } catch (error) {
       if (!mounted) return;
 
@@ -175,7 +181,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
     } else if (parameters['code'] != null) {
       return parameters['code'];
     }
-    return null;
+    return value;
   }
 
   void _pushAllowCamera(BuildContext context) {

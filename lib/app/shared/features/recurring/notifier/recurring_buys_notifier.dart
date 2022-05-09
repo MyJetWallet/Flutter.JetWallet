@@ -143,7 +143,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
         for (final currency in currencies) {
           if (currency.symbol == element.fromAsset &&
               element.status == RecurringBuysStatus.active) {
-            accumulate += _convertToUsd(element.toAsset, element.fromAmount!);
+            accumulate += _convertToUsd(element.fromAsset, element.fromAmount!);
           }
         }
       }
@@ -171,39 +171,33 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
       }
     }
 
-    if (array.length == 1 && array.first.status == RecurringBuysStatus.active) {
-      return '${recurringBuysOperationName(array.first.scheduleType)} buy'
-          ' ${totalRecurringByAsset(asset: asset)}';
+    if (array.isEmpty) {
+      return recurringBuysName(RecurringBuysStatus.empty);
     }
 
-    if (array.length > 1 && _differentRecurringType(array)) {
-      return 'Recurring buy (${array.length})';
+    if (array.length == 1 && type(asset) == RecurringBuysStatus.paused) {
+      return recurringBuysName(RecurringBuysStatus.paused);
+    }
+
+    if (array.length > 1 && _allInPaused(array)) {
+      return recurringBuysName(RecurringBuysStatus.paused);
+    }
+
+    if (array.length == 1 && array.first.status == RecurringBuysStatus.active) {
+      return '${recurringBuysOperationName(array.first.scheduleType)} recurring'
+          ' buy';
     } else {
-      if (type(asset) == RecurringBuysStatus.paused) {
-        return recurringBuysName(RecurringBuysStatus.paused);
-      } else if (type(asset) == RecurringBuysStatus.empty) {
-        return recurringBuysName(RecurringBuysStatus.empty);
-      }
-      return 'Recurring buy ${totalRecurringByAsset(asset: asset)}';
+      return 'Recurring buy (${array.length})';
     }
   }
 
-  bool _differentRecurringType(List<RecurringBuysModel> array) {
-    var prevAsset = '';
-
+  bool _allInPaused(List<RecurringBuysModel> array) {
     for (final element in array) {
-      if (element.status == RecurringBuysStatus.active) {
-        if (prevAsset.isEmpty) {
-          prevAsset = element.toAsset;
-        } else {
-          if (prevAsset != element.toAsset) {
-            return true;
-          }
-        }
+      if (element.status != RecurringBuysStatus.paused) {
+        return false;
       }
     }
-
-    return false;
+    return true;
   }
 
   String totalByAllRecurring() {
