@@ -1,6 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
-import 'package:simple_networking/services/signal_r/model/referral_stats_response_model.dart';
+import 'package:simple_networking/shared/decimal_serialiser.dart';
 
 part 'campaign_or_referral_model.freezed.dart';
 part 'campaign_or_referral_model.g.dart';
@@ -33,4 +34,20 @@ class CampaignModel with _$CampaignModel {
 
   factory CampaignModel.fromJson(Map<String, dynamic> json) =>
       _$CampaignModelFromJson(json);
+}
+
+@freezed
+class ReferralStatsModel with _$ReferralStatsModel {
+  const factory ReferralStatsModel({
+    required int weight,
+    required int referralInvited,
+    required int referralActivated,
+    required String descriptionLink,
+    @DecimalSerialiser() required Decimal bonusEarned,
+    @DecimalSerialiser() required Decimal commissionEarned,
+    @DecimalSerialiser() required Decimal total,
+  }) = _ReferralStatsModel;
+
+  factory ReferralStatsModel.fromJson(Map<String, dynamic> json) =>
+      _$ReferralStatsModelFromJson(json);
 }
