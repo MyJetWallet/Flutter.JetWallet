@@ -9,10 +9,28 @@ part 'campaign_or_referral_model.g.dart';
 @freezed
 class CampaignOrReferralModel with _$CampaignOrReferralModel {
   const factory CampaignOrReferralModel({
-    @JsonSerializable(explicitToJson: true) CampaignModel? campaign,
+    CampaignModel? campaign,
     ReferralStatsModel? referralState,
   }) = _CampaignOrReferralModel;
 
   factory CampaignOrReferralModel.fromJson(Map<String, dynamic> json) =>
       _$CampaignOrReferralModelFromJson(json);
+}
+
+@freezed
+class CampaignModel with _$CampaignModel {
+  const factory CampaignModel({
+    List<CampaignConditionModel>? conditions,
+    String? imageUrl,
+    @Default(false) bool showReferrerStats,
+    @JsonKey(name: 'expirationTime') required String timeToComplete,
+    required int weight,
+    required String title,
+    required String description,
+    required String campaignId,
+    required String deepLink,
+  }) = _CampaignModel;
+
+  factory CampaignModel.fromJson(Map<String, dynamic> json) =>
+      _$CampaignModelFromJson(json);
 }
