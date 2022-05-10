@@ -27,7 +27,7 @@ class RecurringSelector extends HookWidget {
         const Spacer(),
         GestureDetector(
           onTap: () {
-            showActionWithOutRecurringBuy(
+            showActionWithoutRecurringBuy(
               context: context,
               title: 'Repeat this purchase?',
               showOneTimePurchase: true,

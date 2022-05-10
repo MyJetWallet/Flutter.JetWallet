@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 enum RecurringBuysType {
   @JsonValue(0)
@@ -25,5 +26,22 @@ String recurringBuysOperationName(RecurringBuysType type) {
       return 'Bi-weekly';
     case RecurringBuysType.monthly:
       return 'Monthly';
+  }
+}
+
+extension RecurringBuyTypeExtension on RecurringBuysType {
+  RecurringFrequency get toFrequency {
+    switch (this) {
+      case RecurringBuysType.oneTimePurchase:
+        return RecurringFrequency.oneTime;
+      case RecurringBuysType.daily:
+        return RecurringFrequency.daily;
+      case RecurringBuysType.weekly:
+        return RecurringFrequency.weekly;
+      case RecurringBuysType.biWeekly:
+        return RecurringFrequency.biWeekly;
+      case RecurringBuysType.monthly:
+        return RecurringFrequency.monthly;
+    }
   }
 }

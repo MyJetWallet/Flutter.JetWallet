@@ -239,10 +239,21 @@ class MarketDetails extends HookWidget {
                       );
                     }
                   } else {
-                    showActionWithOutRecurringBuy(
+                    sAnalytics.setupRecurringBuyView(
+                      currency.description,
+                      Source.assetScreen,
+                    );
+
+                    showActionWithoutRecurringBuy(
                       title: 'Setup recurring buy',
                       context: context,
                       onItemTap: (RecurringBuysType type) {
+                        sAnalytics.pickRecurringBuyFrequency(
+                          assetName: currency.description,
+                          frequency: type.toFrequency,
+                          source: Source.assetScreen,
+                        );
+
                         navigatorPushReplacement(
                           context,
                           CurrencyBuy(
@@ -252,6 +263,10 @@ class MarketDetails extends HookWidget {
                           ),
                         );
                       },
+                      onDissmis: () => sAnalytics.closeRecurringBuySheet(
+                        currency.description,
+                        Source.assetScreen,
+                      ),
                     );
                   }
                 } else {

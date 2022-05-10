@@ -127,7 +127,7 @@ class _ActionBuy extends HookWidget {
                 );
                 if (showRecurring) {
                   if (shouldPop) Navigator.pop(context);
-                  showActionWithOutRecurringBuy(
+                  showActionWithoutRecurringBuy(
                     context: context,
                     title: 'Setup recurring buy',
                     onItemTap: (RecurringBuysType type) {
@@ -207,7 +207,7 @@ class _ActionBuy extends HookWidget {
                     currency.description,
                   );
                   if (showRecurring) {
-                    showActionWithOutRecurringBuy(
+                    showActionWithoutRecurringBuy(
                       context: context,
                       title: 'Setup recurring buy',
                       onItemTap: (RecurringBuysType type) {

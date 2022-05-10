@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
@@ -61,13 +62,13 @@ class _WalletBodyState extends State<WalletBody>
     final filteredRecurringBuys = recurringN.recurringBuys
         .where(
           (element) => element.toAsset == widget.currency.symbol,
-    ).toList();
+        )
+        .toList();
 
     final moveToRecurringInfo = filteredRecurringBuys.length == 1;
 
-    final lastRecurringItem = filteredRecurringBuys.isNotEmpty
-        ? filteredRecurringBuys[0]
-        : null;
+    final lastRecurringItem =
+        filteredRecurringBuys.isNotEmpty ? filteredRecurringBuys[0] : null;
 
     var walletBackground = walletGreenBackgroundImageAsset;
 
@@ -151,10 +152,21 @@ class _WalletBodyState extends State<WalletBody>
                         );
                       }
                     } else {
-                      showActionWithOutRecurringBuy(
+                      sAnalytics.setupRecurringBuyView(
+                        widget.currency.description,
+                        Source.walletDetails,
+                      );
+
+                      showActionWithoutRecurringBuy(
                         title: 'Setup recurring buy',
                         context: context,
                         onItemTap: (RecurringBuysType type) {
+                          sAnalytics.pickRecurringBuyFrequency(
+                            assetName: widget.currency.description,
+                            frequency: type.toFrequency,
+                            source: Source.walletDetails,
+                          );
+
                           navigatorPushReplacement(
                             context,
                             CurrencyBuy(
@@ -164,6 +176,10 @@ class _WalletBodyState extends State<WalletBody>
                             ),
                           );
                         },
+                        onDissmis: () => sAnalytics.closeRecurringBuySheet(
+                          widget.currency.description,
+                          Source.walletDetails,
+                        ),
                       );
                     }
                   } else {
