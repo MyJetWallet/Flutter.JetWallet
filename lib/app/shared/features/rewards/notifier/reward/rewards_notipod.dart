@@ -13,7 +13,15 @@ final rewardsNotipod =
         .watch(rewardsPod)
         .map(
           (e) => CampaignModel(
-            conditions: e.conditions,
+            conditions: e.conditions
+                ?.map(
+                  (e) => CampaignConditionModel(
+                    deepLink: e.deepLink,
+                    type: e.type,
+                    description: e.description,
+                  ),
+                )
+                .toList(),
             imageUrl: e.imageUrl,
             showReferrerStats: e.showReferrerStats,
             timeToComplete: e.timeToComplete,
@@ -27,15 +35,17 @@ final rewardsNotipod =
         .toList();
     final referralStats = ref
         .watch(referralStatsPod)
-        .map((e) => ReferralStatsModel(
-              weight: e.weight,
-              referralInvited: e.referralInvited,
-              referralActivated: e.referralActivated,
-              descriptionLink: e.descriptionLink,
-              bonusEarned: e.bonusEarned,
-              commissionEarned: e.commissionEarned,
-              total: e.total,
-            ))
+        .map(
+          (e) => ReferralStatsModel(
+            weight: e.weight,
+            referralInvited: e.referralInvited,
+            referralActivated: e.referralActivated,
+            descriptionLink: e.descriptionLink,
+            bonusEarned: e.bonusEarned,
+            commissionEarned: e.commissionEarned,
+            total: e.total,
+          ),
+        )
         .toList();
 
     final sortedCampaigns = _sort(campaigns, referralStats);

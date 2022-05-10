@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
 
+import '../model/campaign_or_referral_model.dart';
 import 'reward_description_item.dart';
 
 List<Widget> createRewardDetail(

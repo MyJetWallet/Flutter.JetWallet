@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
 
+import '../model/campaign_or_referral_model.dart';
 import '../model/condition_type.dart';
 
 Widget? setRewardIndicatorComplete(

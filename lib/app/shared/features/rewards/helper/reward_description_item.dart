@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
 
 import '../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../shared/services/deep_link_service.dart';
+import '../model/campaign_or_referral_model.dart';
 import 'set_reward_description_item.dart';
 import 'set_reward_icon.dart';
 
