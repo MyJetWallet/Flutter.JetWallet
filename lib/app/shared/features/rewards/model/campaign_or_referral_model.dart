@@ -9,7 +9,7 @@ part 'campaign_or_referral_model.g.dart';
 @freezed
 class CampaignOrReferralModel with _$CampaignOrReferralModel {
   const factory CampaignOrReferralModel({
-    CampaignModel? campaign,
+    @JsonSerializable(explicitToJson: true) CampaignModel? campaign,
     ReferralStatsModel? referralState,
   }) = _CampaignOrReferralModel;
 
