@@ -92,6 +92,7 @@ dependencies:
   pointycastle: 3.5.2 # supplementary to rsa_encrypt
   openpgp: 3.2.7 # OpenPGP encryption
   crypto: 3.0.1 # Implementations of SHA, MD5, and HMAC
+  encrypt: 5.0.1 # Encryption and decryption helpers
 
   # OWN LIBS:
   simple_kit:
