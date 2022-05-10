@@ -349,24 +349,36 @@ class SimpleAnalytics {
     await _analytics.regenerateDeviceId();
   }
 
-  void tapPreviewBuy(String assetName, String paymentMethod, String amount) {
+  void tapPreviewBuy({
+    required String assetName,
+    required String paymentMethod,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
     _analytics.logEvent(
       EventType.tapPreviewBuy,
       eventProperties: {
         PropertyType.assetName: assetName,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
+        PropertyType.frequency: frequency.name,
       },
     );
   }
 
-  void previewBuyView(String assetName, String paymentMethod, String amount) {
+  void previewBuyView({
+    required String assetName,
+    required String paymentMethod,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
     _analytics.logEvent(
       EventType.previewBuyView,
       eventProperties: {
         PropertyType.assetName: assetName,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
+        PropertyType.frequency: frequency.name,
       },
     );
   }
