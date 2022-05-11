@@ -21,6 +21,8 @@ const paymentMethodsMessage = 'payment-methods';
 const blockchainsMessage = 'blockchains';
 const referralInfoMessage = 'referral-info';
 const recurringBuyMessage = 'recurring-buys';
+const earnOffersMessage = 'earn-offers';
+const earnProfileMessage = 'earn-profile';
 
 // HTTP
 const postRequest = 'POST';
