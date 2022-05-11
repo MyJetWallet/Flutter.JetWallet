@@ -50,6 +50,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void initDefaultPaymentMethod({required bool fromCard}) {
+    _logger.log(notifier, 'initDefaultPaymentMethod');
+
     if (fromCard && currencyModel.supportsAtLeastOneBuyMethod) {
       final method = currencyModel.buyMethods.first;
       updateSelectedPaymentMethod(method);
@@ -85,9 +87,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void initRecurringBuyType(RecurringBuysType? type) {
     _logger.log(notifier, 'initRecurringBuyType');
 
-    state = state.copyWith(
-      recurringBuyType: type ?? RecurringBuysType.oneTimePurchase,
-    );
+    updateRecurringBuyType(type ?? RecurringBuysType.oneTimePurchase);
   }
 
   void updateSelectedPaymentMethod(PaymentMethod? method) {
@@ -95,6 +95,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
     state = state.copyWith(selectedCurrency: null);
     state = state.copyWith(selectedPaymentMethod: method);
+
+    if (method?.type == PaymentMethodType.simplex) {
+      updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
+    }
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
