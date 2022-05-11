@@ -19,6 +19,8 @@ import '../model/base_prices_model.dart';
 import '../model/blockchains_model.dart';
 import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
+import '../model/earn_offers_model.dart';
+import '../model/earn_profile_model.dart';
 import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
@@ -72,6 +74,10 @@ class SignalRService {
   final _referralInfoController = StreamController<ReferralInfoModel>();
   final _recurringBuyController =
       StreamController<RecurringBuysResponseModel>();
+  final _earnOfferController =
+      StreamController<EarnOffersModel>();
+  final _earnProfileController =
+      StreamController<EarnProfileModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -85,6 +91,30 @@ class SignalRService {
     isDisconnecting = false;
 
     _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
+
+    _connection?.on(earnProfileMessage, (data) {
+      try {
+        final earnProfileInfo = EarnProfileModel.fromJson(_json(data));
+        _earnProfileController.add(earnProfileInfo);
+      } catch (e) {
+        _logger.log(contract, earnProfileMessage, e);
+      }
+    });
+
+    _connection?.on(earnOffersMessage, (data) {
+      if (data != null) {
+        final list = data.toList();
+        try {
+          final earnOffers = EarnOffersModel.fromJson(
+            _json(list),
+          );
+
+          _earnOfferController.add(earnOffers);
+        } catch (e) {
+          _logger.log(contract, earnOffersMessage, e);
+        }
+      }
+    });
 
     _connection?.on(recurringBuyMessage, (data) {
       if (data != null) {
@@ -343,6 +373,12 @@ class SignalRService {
 
   Stream<RecurringBuysResponseModel> recurringBuy() =>
       _recurringBuyController.stream;
+
+  Stream<EarnOffersModel> earnOffers() =>
+      _earnOfferController.stream;
+
+  Stream<EarnProfileModel> earnProfile() =>
+      _earnProfileController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
