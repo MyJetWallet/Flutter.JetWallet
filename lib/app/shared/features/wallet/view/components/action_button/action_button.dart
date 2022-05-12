@@ -120,7 +120,7 @@ class _ActionButtonState extends State<ActionButton> {
           context,
           CurrencyBuy(
             currency: widget.currency,
-            fromCard: false,
+            fromCard: fromCard,
           ),
         );
       } else {
@@ -144,7 +144,7 @@ class _ActionButtonState extends State<ActionButton> {
               context,
               CurrencyBuy(
                 currency: widget.currency,
-                fromCard: false,
+                fromCard: fromCard,
               ),
             );
           },
