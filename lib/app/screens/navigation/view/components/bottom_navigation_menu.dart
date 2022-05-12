@@ -40,9 +40,7 @@ class BottomNavigationMenu extends HookWidget {
     final actionActive = useState(false);
     final userInfo = useProvider(userInfoNotipod);
     final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
     useProvider(kycCountriesNotipod);
     final openBottomMenu = useProvider(openBottomMenuSpod);
 
@@ -112,7 +110,7 @@ class BottomNavigationMenu extends HookWidget {
           sAnalytics.tapOnBuyFromCard(Source.quickActions);
           showBuyAction(
             context: context,
-            fromCard: false,
+            fromCard: true,
           );
         },
         onSell: () {
