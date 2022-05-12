@@ -20,7 +20,11 @@ dependencies:
   pin_code_fields: ^7.3.0 # Generate pin code fields
   qr_flutter: ^4.0.0 # QR code rendering
   grouped_list: ^4.1.0 # List with grouped items
-  qr_code_scanner: ^0.6.1 # Scans QR code with camera
+  # qr_code_scanner: ^0.7.0 # Scans QR code with camera
+  qr_code_scanner:
+    git:
+      url: https://github.com/xeinebiu/qr_code_scanner.git
+      ref: fix_break_changes_platform
   local_auth: ^1.1.8 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   intl_phone_number_input: ^0.7.0+2 # phone number in international format that uses Google's libphonenumber
   flutter_svg: ^0.22.0 # SVG rendering and widget library
@@ -49,7 +53,7 @@ dependencies:
   # Docs: https://plus.fluttercommunity.dev/docs/overview
   android_intent_plus: ^3.0.2 # plugin for launching Android Intents
   package_info_plus: ^1.3.0 # querying information about the application package
-  share_plus: ^3.0.4 # sharing content via the platform share UI
+  share_plus: ^4.0.4 # sharing content via the platform share UI
   device_info_plus: ^3.1.1 # providing detailed information about the device
 
   # NETWORKING:
