@@ -17,6 +17,6 @@ final marketInfoFpod = FutureProvider.family
       ),
     );
   } catch (_) {
-    return Future.value(null);
+    return Future.value();
   }
 });
