@@ -30,7 +30,7 @@ class EarnPageBodyHeader extends HookWidget {
                 ),
               ),
               TextSpan(
-                text: '${intl.earn_sheet_subtitle}',
+                text: intl.earn_sheet_subtitle,
                 style: sTextH2Style.copyWith(
                   color: colors.black,
                 ),

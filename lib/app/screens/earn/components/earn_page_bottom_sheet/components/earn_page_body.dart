@@ -40,13 +40,13 @@ class EarnPageBody extends HookWidget {
             children: [
               SPaddingH24(
                 child: ClickableUnderlinedText(
-                  text: '${intl.earn_learn_more}',
+                  text: intl.earn_learn_more,
                   onTap: () {
                     navigatorPush(
                       context,
                       InfoWebView(
                         link: infoEarnLink,
-                        title: '${intl.earn_program}',
+                        title: intl.earn_program,
                       ),
                     );
                   },

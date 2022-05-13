@@ -46,13 +46,13 @@ class EarnSubscriptionPinned extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${intl.earn_asset}',
+                  intl.earn_asset,
                   style: sCaptionTextStyle.copyWith(
                     color: colors.grey2,
                   ),
                 ),
                 Text(
-                  '${intl.earn_apy}',
+                  intl.earn_apy,
                   style: sCaptionTextStyle.copyWith(
                     color: colors.grey2,
                   ),

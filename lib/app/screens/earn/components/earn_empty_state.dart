@@ -24,14 +24,14 @@ class EarnEmptyState extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${intl.earn_empty}',
+                intl.earn_empty,
                 style: sTextH3Style,
               ),
               const SpaceH13(),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: '${intl.earn_empty_description}',
+                  text: intl.earn_empty_description,
                   style: sBodyText1Style.copyWith(
                     color: colors.grey1,
                   ),

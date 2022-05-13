@@ -54,7 +54,7 @@ class SubscriptionsItem extends HookWidget {
                         Text(
                           isHot ? '${intl.earn_hot} ${String.fromCharCodes(
                               Runes('\u{1F525}'),
-                          )}' : '${intl.earn_flexible}',
+                          )}' : intl.earn_flexible,
                           style: sSubtitle2Style.copyWith(
                             color: colors.black,
                           ),

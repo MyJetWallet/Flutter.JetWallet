@@ -17,20 +17,20 @@ class EarnPageAdvantages extends HookWidget {
     return Column(
       children: [
         EarnAdvantageItem(
-          text: '${intl.earn_advantage1}',
+          text: intl.earn_advantage1,
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: '${intl.earn_advantage2}',
+          text: intl.earn_advantage2,
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: '${intl.earn_advantage3}',
+          text: intl.earn_advantage3,
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: '${intl.earn_advantage4}',
+          text: intl.earn_advantage4,
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
       ],
