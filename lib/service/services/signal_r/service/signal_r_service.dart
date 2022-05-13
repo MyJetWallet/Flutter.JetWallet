@@ -75,7 +75,7 @@ class SignalRService {
   final _recurringBuyController =
       StreamController<RecurringBuysResponseModel>();
   final _earnOfferController =
-      StreamController<EarnOffersModel>();
+      StreamController<List<EarnOfferModel>>();
   final _earnProfileController =
       StreamController<EarnProfileModel>();
 
@@ -105,11 +105,11 @@ class SignalRService {
       if (data != null) {
         final list = data.toList();
         try {
-          final earnOffers = EarnOffersModel.fromJson(
-            _json(list),
-          );
-
-          _earnOfferController.add(earnOffers);
+          final finalData = EarnFullModel.fromJson(_json(list));
+          _earnOfferController.add(finalData.earnOffers);
+          if (finalData.earnProfile != null) {
+            _earnProfileController.add(finalData.earnProfile!);
+          }
         } catch (e) {
           _logger.log(contract, earnOffersMessage, e);
         }
@@ -374,7 +374,7 @@ class SignalRService {
   Stream<RecurringBuysResponseModel> recurringBuy() =>
       _recurringBuyController.stream;
 
-  Stream<EarnOffersModel> earnOffers() =>
+  Stream<List<EarnOfferModel>> earnOffers() =>
       _earnOfferController.stream;
 
   Stream<EarnProfileModel> earnProfile() =>

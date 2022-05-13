@@ -4,7 +4,7 @@ import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../../shared/providers/service_providers.dart';
 
 final earnOffersSpod =
-StreamProvider.autoDispose<EarnOffersModel>((ref) {
+StreamProvider.autoDispose<List<EarnOfferModel>>((ref) {
   ref.maintainState = true;
 
   final signalRService = ref.watch(signalRServicePod);

@@ -319,5 +319,23 @@
     "login_policyText4": "Privacy Policy",
     "@login_policyText4": {
       "description": "Privacy Policy Text (part 4) - last part"
-    }
+    },
+    "earn_title": "Earn",
+    "earn_asset": "Asset",
+    "earn_apy": "Up to APY",
+    "earn_select": "Select",
+    "earn_subscription": "subscription",
+    "earn_hot": "Hot offer",
+    "earn_flexible": "Flexible",
+    "earn_sheet_subtitle": "with higher rates!",
+    "earn_learn_more": "Learn more",
+    "earn_program": "Earn program",
+    "earn_advantage1": "Deposit crypto",
+    "earn_advantage2": "Earn on a daily basis",
+    "earn_advantage3": "Withdraw any amount at any time",
+    "earn_advantage4": "Look out for limited Hot Offers",
+    "earn_for": "For",
+    "earn_day": "day",
+    "earn_empty": "No offers currently available",
+    "earn_empty_description": "Unfortunately, there are no earn programs to chose from at the moment. Please check back later, or subscribe to our news and stay up to date with the latest offers"
 }

@@ -4,11 +4,11 @@ import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import 'earn_offers_spod.dart';
 
 final earnOffersPod = Provider.autoDispose<List<EarnOfferModel>>((ref) {
-  final recurringBuys = ref.watch(earnOffersSpod);
+  final earnOffers = ref.watch(earnOffersSpod);
   final items = <EarnOfferModel>[];
 
-  recurringBuys.whenData((data) {
-    for (final element in data.earnOffers) {
+  earnOffers.whenData((data) {
+    for (final element in data) {
       items.add(element);
     }
   });
