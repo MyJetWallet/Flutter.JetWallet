@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 
 void showContactPicker(BuildContext context) {
@@ -27,12 +28,13 @@ class _SearchPinned extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = context.read(intlPod);
     final state = context.read(sendByPhoneInputNotipod);
     final notifier = useProvider(sendByPhoneInputNotipod.notifier);
 
     return SStandardField(
       autofocus: true,
-      labelText: 'Phone number',
+      labelText: intl.phoneNumber,
       initialValue: state.phoneSearch,
       onChanged: (value) {
         notifier.updatePhoneSearch(value);

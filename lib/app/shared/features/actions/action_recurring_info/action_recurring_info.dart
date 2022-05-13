@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../market_details/helper/currency_from.dart';
 import '../../wallet/view/components/wallet_body/components/transactions_list/transactions_list.dart';
@@ -23,6 +24,7 @@ class ShowRecurringInfoAction extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = context.read(currenciesPod);
     final scrollController = useScrollController();
@@ -45,7 +47,7 @@ class ShowRecurringInfoAction extends HookWidget {
         ),
         child: SSecondaryButton1(
           active: true,
-          name: 'Manage',
+          name: intl.manage,
           onTap: () {
             showRecurringManageAction(
               context: context,
@@ -72,7 +74,7 @@ class ShowRecurringInfoAction extends HookWidget {
                   child: Column(
                     children: [
                       SSmallHeader(
-                        title: '$assetName recurring buy',
+                        title: '$assetName ${intl.recurringBuy}',
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -33,6 +33,7 @@ class Account extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final flavor = useProvider(flavorPod);
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
@@ -109,7 +110,7 @@ class Account extends HookWidget {
                       Column(
                         children: <Widget>[
                           SimpleAccountCategoryButton(
-                            title: 'Profile details',
+                            title: intl.account_profileDetails,
                             icon: const SProfileDetailsIcon(),
                             isSDivider: true,
                             onTap: () {
@@ -117,7 +118,7 @@ class Account extends HookWidget {
                             },
                           ),
                           SimpleAccountCategoryButton(
-                            title: 'Security',
+                            title: intl.account_security,
                             icon: const SSecurityIcon(),
                             isSDivider: true,
                             onTap: () {
@@ -134,7 +135,7 @@ class Account extends HookWidget {
                           //   onTap: () => PaymentMethods.push(context),
                           // ),
                           SimpleAccountCategoryButton(
-                            title: 'Recurring buy',
+                            title: intl.account_recurringBuy,
                             icon: const SRecurringBuysIcon(),
                             isSDivider: true,
                             onTap: () {
@@ -145,7 +146,7 @@ class Account extends HookWidget {
                             },
                           ),
                           SimpleAccountCategoryButton(
-                            title: 'History',
+                            title: intl.history,
                             icon: const SIndexHistoryIcon(),
                             isSDivider: true,
                             onTap: () => TransactionHistory.push(
@@ -153,13 +154,13 @@ class Account extends HookWidget {
                             ),
                           ),
                           SimpleAccountCategoryButton(
-                            title: 'Support',
+                            title: intl.support,
                             icon: const SSupportIcon(),
                             isSDivider: true,
                             onTap: () => Crisp.push(context),
                           ),
                           SimpleAccountCategoryButton(
-                            title: 'Help Center',
+                            title: intl.help_center,
                             icon: const SQuestionIcon(),
                             isSDivider: true,
                             onTap: () {
@@ -170,7 +171,7 @@ class Account extends HookWidget {
                             },
                           ),
                           SimpleAccountCategoryButton(
-                            title: 'About us',
+                            title: intl.account_aboutUs,
                             icon: const SAboutUsIcon(),
                             isSDivider: flavor == Flavor.dev,
                             onTap: () {
@@ -179,7 +180,7 @@ class Account extends HookWidget {
                           ),
                           if (flavor == Flavor.dev || flavor == Flavor.stage)
                             SimpleAccountCategoryButton(
-                              title: 'Debug Info',
+                              title: intl.account_debugInfo,
                               icon: const SInfoIcon(),
                               isSDivider: false,
                               onTap: () {
@@ -192,7 +193,7 @@ class Account extends HookWidget {
                       const SDivider(),
                       const SpaceH20(),
                       LogOutOption(
-                        name: 'Log out',
+                        name: intl.log_out,
                         onTap: () => logoutN.logout(),
                       ),
                       const SpaceH20(),

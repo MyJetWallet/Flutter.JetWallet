@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/get_args.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/components/password_validation/password_validation.dart';
 import '../notifier/reset_password_notipod.dart';
 import '../notifier/reset_password_state.dart';
@@ -39,6 +40,7 @@ class ResetPassword extends HookWidget {
   Widget build(BuildContext context) {
     final args = getArgs(context) as ResetPasswordArgs;
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final reset = useProvider(resetPasswordNotipod(args));
     final resetN = useProvider(resetPasswordNotipod(args).notifier);
@@ -63,9 +65,9 @@ class ResetPassword extends HookWidget {
       child: SPageFrame(
         loading: loader.value,
         color: colors.grey5,
-        header: const SPaddingH24(
+        header: SPaddingH24(
           child: SBigHeader(
-            title: 'Password reset',
+            title: intl.password_reset,
           ),
         ),
         child: AutofillGroup(
@@ -80,7 +82,7 @@ class ResetPassword extends HookWidget {
                     onChanged: (value) {
                       resetN.updateAndValidatePassword(value);
                     },
-                    labelText: 'Password',
+                    labelText: intl.password,
                     autofocus: true,
                   ),
                 ),
@@ -96,7 +98,7 @@ class ResetPassword extends HookWidget {
                   active: reset.passwordValid &&
                       !disableContinue.value &&
                       !loader.value.value,
-                  name: 'Continue',
+                  name: intl.continueText,
                   onTap: () {
                     disableContinue.value = true;
                     loader.value.startLoading();

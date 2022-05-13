@@ -8,6 +8,7 @@ import '../../../helpers/navigate_to_router.dart';
 import '../../../helpers/navigator_push.dart';
 import '../../../helpers/widget_size_from.dart';
 import '../../../providers/device_size/device_size_pod.dart';
+import '../../../providers/service_providers.dart';
 import 'components/success_animation.dart';
 
 class SuccessScreen extends HookWidget {
@@ -50,6 +51,7 @@ class SuccessScreen extends HookWidget {
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
+    final intl = useProvider(intlPod);
 
     return WillPopScope(
       onWillPop: () {
@@ -78,7 +80,7 @@ class SuccessScreen extends HookWidget {
                 baseline: 136.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
-                  primaryText ?? 'Success',
+                  primaryText ?? intl.success,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: sTextH2Style,

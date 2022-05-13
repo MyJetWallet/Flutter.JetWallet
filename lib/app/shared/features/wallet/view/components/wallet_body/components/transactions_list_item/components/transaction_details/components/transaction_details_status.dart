@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../../../../shared/providers/service_providers.dart';
 import 'transaction_details_name_text.dart';
 import 'transaction_details_value_text.dart';
 
@@ -17,30 +18,33 @@ class TransactionDetailsStatus extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Row(
       children: [
-        const TransactionDetailsNameText(
-          text: 'Status',
+        TransactionDetailsNameText(
+          text: intl.status,
         ),
         const Spacer(),
         TransactionDetailsValueText(
-          text: _text(),
+          text: _text(context),
           color: _color(colors),
         ),
       ],
     );
   }
 
-  String _text() {
+  String _text(BuildContext context) {
+    final intl = context.read(intlPod);
+
     switch (status) {
       case Status.completed:
-        return 'Completed';
+        return intl.completed;
       case Status.inProgress:
-        return 'In progress...';
+        return '${intl.balanceInProcess_text1}...';
       case Status.declined:
-        return 'Declined';
+        return intl.declined;
     }
   }
 

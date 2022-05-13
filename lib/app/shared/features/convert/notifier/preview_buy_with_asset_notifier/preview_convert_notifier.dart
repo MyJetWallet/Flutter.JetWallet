@@ -176,9 +176,11 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order processing',
+      secondaryText: intl.orderProcessing,
       then: () {
         navigateToRouter(read);
       },
@@ -186,11 +188,13 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         navigateToRouter(read);
       },
@@ -198,11 +202,13 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -212,7 +218,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

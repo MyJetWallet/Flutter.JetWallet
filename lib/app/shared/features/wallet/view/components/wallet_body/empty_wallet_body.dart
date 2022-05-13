@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import 'components/empty_wallet_balance_text.dart';
 
 class EmptyWalletBody extends HookWidget {
@@ -16,6 +17,7 @@ class EmptyWalletBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
 
@@ -39,14 +41,14 @@ class EmptyWalletBody extends HookWidget {
         ),
         const Spacer(),
         Text(
-          'All $assetName transaction',
+          '${intl.all} $assetName ${intl.transaction}',
           maxLines: 3,
           textAlign: TextAlign.center,
           style: sTextH3Style,
         ),
         const SpaceH13(),
         Text(
-          'Your transactions will appear here',
+          intl.historyRecurringBuy_text1,
           textAlign: TextAlign.center,
           maxLines: 2,
           style: sBodyText1Style.copyWith(

@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/kyc_steps/kyc_steps_notipod.dart';
 import '../../../notifier/kyc_steps/kyc_steps_state.dart';
@@ -37,14 +38,15 @@ class KycVerifyYourProfile extends HookWidget {
     final state = useProvider(kycStepsNotipod(requiredVerifications));
     final notifier =
         useProvider(kycStepsNotipod(requiredVerifications).notifier);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     analytics(() => sAnalytics.kycIdentityScreenView());
 
     return SPageFrame(
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Verify your profile!',
+          title: '${intl.verifyYourProfile}!',
         ),
       ),
       child: Stack(
@@ -156,7 +158,7 @@ class KycVerifyYourProfile extends HookWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               active: true,
-              name: 'Continue',
+              name: intl.continueText,
               onTap: () {
                 ChooseDocuments.pushReplacement(
                   context: context,

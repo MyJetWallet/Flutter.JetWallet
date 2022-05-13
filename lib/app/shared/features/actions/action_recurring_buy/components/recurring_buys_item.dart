@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../market_details/helper/currency_from.dart';
@@ -25,6 +26,7 @@ class RecurringBuysItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final notifier = useProvider(recurringBuysNotipod.notifier);
     final baseCurrency = useProvider(baseCurrencyPod);
@@ -62,6 +64,7 @@ class RecurringBuysItem extends HookWidget {
                           child: Text(
                             '${recurring.toAsset} ${recurringBuysOperationName(
                               recurring.scheduleType,
+                              context,
                             )}',
                             style: sSubtitle2Style.copyWith(
                               color:
@@ -75,7 +78,7 @@ class RecurringBuysItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            _setTitle(recurring),
+                            _setTitle(recurring, context),
                             style: sBodyText2Style.copyWith(
                               color: colors.grey3,
                             ),
@@ -108,7 +111,7 @@ class RecurringBuysItem extends HookWidget {
                         baseline: 18.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
-                          'Total ${notifier.price(
+                          '${intl.total} ${notifier.price(
                             asset: baseCurrency.symbol,
                             amount: double.parse(
                               '${recurring.totalToAmount}',
@@ -135,9 +138,11 @@ class RecurringBuysItem extends HookWidget {
     );
   }
 
-  String _setTitle(RecurringBuysModel recurring) {
+  String _setTitle(RecurringBuysModel recurring, BuildContext context) {
+    final intl = context.read(intlPod);
+
     if (recurring.status == RecurringBuysStatus.paused) {
-      return 'Paused';
+      return intl.paused;
     } else {
       return '${recurring.lastToAmount} ${recurring.toAsset}';
     }

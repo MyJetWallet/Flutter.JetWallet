@@ -92,6 +92,7 @@ class _ActionRecurringBuy extends HookWidget {
               WithOutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
                   RecurringBuysType.oneTimePurchase,
+                  context,
                 ),
                 selected: currentType == RecurringBuysType.oneTimePurchase,
                 onTap: () {
@@ -105,6 +106,7 @@ class _ActionRecurringBuy extends HookWidget {
             WithOutRecurringBuysItem(
               primaryText: recurringBuysOperationName(
                 RecurringBuysType.daily,
+                context,
               ),
               selected: currentType == RecurringBuysType.daily,
               onTap: () {
@@ -115,7 +117,10 @@ class _ActionRecurringBuy extends HookWidget {
               child: SDivider(),
             ),
             WithOutRecurringBuysItem(
-              primaryText: recurringBuysOperationName(RecurringBuysType.weekly),
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.weekly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.weekly,
               onTap: () {
                 onItemTap(RecurringBuysType.weekly);
@@ -125,8 +130,10 @@ class _ActionRecurringBuy extends HookWidget {
               child: SDivider(),
             ),
             WithOutRecurringBuysItem(
-              primaryText:
-                  recurringBuysOperationName(RecurringBuysType.biWeekly),
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.biWeekly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.biWeekly,
               onTap: () {
                 onItemTap(RecurringBuysType.biWeekly);
@@ -136,8 +143,10 @@ class _ActionRecurringBuy extends HookWidget {
               child: SDivider(),
             ),
             WithOutRecurringBuysItem(
-              primaryText:
-                  recurringBuysOperationName(RecurringBuysType.monthly),
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.monthly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.monthly,
               onTap: () {
                 onItemTap(RecurringBuysType.monthly);

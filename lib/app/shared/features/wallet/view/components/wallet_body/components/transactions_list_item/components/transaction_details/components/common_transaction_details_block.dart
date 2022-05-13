@@ -45,7 +45,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
                 const SpaceW12(),
                 Expanded(
                   child: Text(
-                    _transactionHeader(transactionListItem, currency),
+                    _transactionHeader(transactionListItem, currency, context),
                     style: sTextH5Style,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -60,7 +60,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
         if (transactionListItem.operationType !=
             OperationType.recurringBuy)
           Text(
-            _transactionHeader(transactionListItem, currency),
+            _transactionHeader(transactionListItem, currency, context),
             style: sTextH5Style,
           ),
         const SpaceH67(),
@@ -96,17 +96,18 @@ class CommonTransactionDetailsBlock extends HookWidget {
   String _transactionHeader(
     OperationHistoryItem transactionListItem,
     CurrencyModel currency,
+    BuildContext context,
   ) {
     if (transactionListItem.operationType == OperationType.simplexBuy) {
-      return '${operationName(OperationType.buy)} '
+      return '${operationName(OperationType.buy, context)} '
           '${currency.description} - '
-          '${operationName(transactionListItem.operationType)}';
+          '${operationName(transactionListItem.operationType, context)}';
     } else if (transactionListItem.operationType ==
         OperationType.recurringBuy) {
       return '${transactionListItem.recurringBuyInfo!.scheduleType} '
-          '${operationName(transactionListItem.operationType)}';
+          '${operationName(transactionListItem.operationType, context)}';
     } else {
-      return '${operationName(transactionListItem.operationType)} '
+      return '${operationName(transactionListItem.operationType, context)} '
           '${currency.description}';
     }
   }

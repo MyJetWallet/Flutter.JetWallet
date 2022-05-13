@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
+
+import '../../../../../../../../shared/providers/service_providers.dart';
 
 const double _kPanelHeaderCollapsedHeight = kMinInteractiveDimension;
 const EdgeInsets _kPanelHeaderExpandedDefaultPadding = EdgeInsets.symmetric(
@@ -147,7 +151,7 @@ class ExpansionPanelRadio extends ExpansionPanelWithoutIcon {
 ///  * [ExpansionPanelWithoutIcon]
 ///  * [ExpansionPanelList.radio]
 ///  * <https://material.io/design/components/lists.html#types>
-class ExpansionPanelListWithoutIcon extends StatefulWidget {
+class ExpansionPanelListWithoutIcon extends StatefulHookWidget {
   /// Creates an expansion panel list widget. The [expansionCallback] is
   /// triggered when an expansion panel expand/collapse button is pushed.
   ///
@@ -254,7 +258,7 @@ class _ExpansionPanelListWithoutIconState
     if (widget._allowOnlyOnePanelOpen) {
       assert(
         _allIdentifiersUnique(),
-        'All ExpansionPanelRadio identifier values must be unique.',
+        useProvider(intlPod).expensionPanelWithoutIcon_text1,
       );
       if (widget.initialOpenPanelValue != null) {
         _currentOpenPanel = searchPanelByValue(
@@ -272,7 +276,7 @@ class _ExpansionPanelListWithoutIconState
     if (widget._allowOnlyOnePanelOpen) {
       assert(
         _allIdentifiersUnique(),
-        'All ExpansionPanelRadio identifier values must be unique.',
+        useProvider(intlPod).expensionPanelWithoutIcon_text1,
       );
       // If the previous widget was non-radio ExpansionPanelList, initialize the
       // open panel to widget.initialOpenPanelValue
@@ -344,8 +348,7 @@ class _ExpansionPanelListWithoutIconState
   Widget build(BuildContext context) {
     assert(
       kElevationToShadow.containsKey(widget.elevation),
-      'Invalid value for elevation. See the kElevationToShadow constant for'
-      ' possible elevation values.',
+      context.read(intlPod).expensionPanelWithoutIcon_text2,
     );
 
     final items = <MergeableMaterialItem>[];

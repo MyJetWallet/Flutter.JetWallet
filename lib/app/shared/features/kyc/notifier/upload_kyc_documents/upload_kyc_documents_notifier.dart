@@ -51,6 +51,7 @@ class UploadKycDocumentsNotifier
       final formData = await convertKycDocuments(
         state.documentFirstSide,
         state.documentSecondSide,
+        read,
       );
 
       await service.upload(formData, type);
@@ -108,6 +109,7 @@ class UploadKycDocumentsNotifier
       final formData = await convertKycDocuments(
         state.documentFirstSide,
         null,
+        read,
       );
 
       await service.upload(formData, type);
@@ -116,10 +118,12 @@ class UploadKycDocumentsNotifier
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
+      final intl = read(intlPod);
+
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong. Please try again',
+        intl.something_went_wrong2,
         id: 1,
       );
     }

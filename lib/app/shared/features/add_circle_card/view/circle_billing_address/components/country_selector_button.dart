@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../components/flag_item.dart';
 
 class CountrySelectorButton extends HookWidget {
@@ -17,6 +18,7 @@ class CountrySelectorButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Material(
@@ -36,7 +38,7 @@ class CountrySelectorButton extends HookWidget {
                     children: [
                       const SpaceH22(),
                       Text(
-                        'Country',
+                        intl.country,
                         style: sCaptionTextStyle.copyWith(
                           color: colors.grey2,
                         ),

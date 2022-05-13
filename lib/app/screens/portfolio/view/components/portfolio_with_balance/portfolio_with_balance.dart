@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/currencies_with_balance_from.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/components/bottom_tabs/bottom_tabs.dart';
 import '../../../../../shared/components/bottom_tabs/components/bottom_tab.dart';
 import '../../../../market/provider/market_crypto_pod.dart';
@@ -49,6 +50,8 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     final cryptosWithBalance = currenciesWithBalanceFrom(
       useProvider(marketCryptoPod),
     );
@@ -72,12 +75,10 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       bottomNavigationBar: BottomTabs(
         tabController: tabController,
         tabs: [
-          if (isAllTabsVisible)
-            const BottomTab(text: 'All'),
-          if (isCryptoVisible) const BottomTab(text: 'Crypto'),
-          if (isIndicesVisible)
-            const BottomTab(text: 'Crypto Sets'),
-          if (isFiatVisible) const BottomTab(text: 'Fiat'),
+          if (isAllTabsVisible) BottomTab(text: intl.all),
+          if (isCryptoVisible) BottomTab(text: intl.crypto),
+          if (isIndicesVisible) BottomTab(text: intl.market_bottomTabLabel3),
+          if (isFiatVisible) BottomTab(text: intl.fiat),
         ],
       ),
       child: PortfolioWithBalanceBody(

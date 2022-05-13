@@ -6,6 +6,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/price_accuracy.dart';
@@ -41,10 +42,11 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
     final notifier = context.read(
       previewBuyWithAssetNotipod(widget.input).notifier,
     );
+    final intl = context.read(intlPod);
     notifier.updateTimerAnimation(_animationController);
     sAnalytics.previewBuyView(
       widget.input.toCurrency.description,
-      'Crypto',
+      intl.crypto,
       formatCurrencyStringAmount(
         prefix: widget.input.fromCurrency.prefixSymbol,
         value: widget.input.amount,
@@ -63,6 +65,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(previewBuyWithAssetNotipod(widget.input));
     final notifier = useProvider(
@@ -127,7 +130,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'You pay',
+                    name: intl.youPay,
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
@@ -137,7 +140,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   ),
                   if (!state.recurring)
                     SActionConfirmText(
-                      name: 'You get',
+                      name: intl.youGet,
                       baseline: 35.0,
                       contentLoading: state.union is QuoteLoading,
                       value: '≈ ${volumeFormat(
@@ -148,14 +151,14 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                       )}',
                     ),
                   SActionConfirmText(
-                    name: 'Fee',
+                    name: intl.fee,
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading,
                     value: '${state.feePercent}%',
                   ),
                   if (!state.recurring)
                     SActionConfirmText(
-                      name: 'Exchange Rate',
+                      name: intl.exchangeRate,
                       baseline: 34.0,
                       contentLoading: state.union is QuoteLoading,
                       timerLoading: state.union is QuoteLoading,
@@ -175,20 +178,19 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     ),
                   if (state.recurring) ...[
                     SActionConfirmText(
-                      name: 'Recurring buy',
+                      name: intl.account_recurringBuy,
                       baseline: 35.0,
                       contentLoading: state.union is QuoteLoading,
                       value: '${recurringBuysOperationName(
                         state.recurringType,
+                        context,
                       )} - ${formatDateToHm(
                         state.recurringBuyInfo?.nextExecutionTime,
                       )}',
                     ),
                     const SpaceH20(),
                     Text(
-                      'The amount of ${state.toAssetSymbol} purchased will'
-                      ' depend on the market price at the Recurring Buy'
-                      ' execution time.',
+                      '${intl.theAmountOf} ${state.toAssetSymbol} ${intl.previewBuyWith_text1}',
                       style: sCaptionTextStyle.copyWith(color: colors.grey3),
                       maxLines: 4,
                     ),
@@ -196,11 +198,12 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     const SDivider(),
                     const SpaceH5(),
                     SActionConfirmText(
-                      name: 'Next Payment',
+                      name: intl.nextPayment,
                       baseline: 35.0,
                       contentLoading: state.union is QuoteLoading,
                       value: '${convertDateToTomorrowOrDate(
                         state.recurringBuyInfo?.nextExecutionTime,
+                        context,
                       )} - ${formatDateToHm(
                         state.recurringBuyInfo?.nextExecutionTime,
                       )}',
@@ -213,7 +216,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   ],
                   SPrimaryButton2(
                     active: state.union is QuoteSuccess,
-                    name: 'Confirm',
+                    name: intl.confirm,
                     onTap: () {
                       notifier.executeQuote();
                     },

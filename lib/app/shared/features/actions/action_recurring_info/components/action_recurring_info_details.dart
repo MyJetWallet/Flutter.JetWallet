@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../market_details/helper/currency_from.dart';
@@ -24,6 +25,7 @@ class ActionRecurringInfoDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final notifier = useProvider(recurringBuysNotipod.notifier);
     final currencies = context.read(currenciesPod);
     final baseCurrency = useProvider(baseCurrencyPod);
@@ -36,7 +38,7 @@ class ActionRecurringInfoDetails extends HookWidget {
     return Column(
       children: [
         TransactionDetailsItem(
-          text: 'Amount',
+          text: intl.amount,
           value: TransactionDetailsValueText(
             text: '${sellCurrency.prefixSymbol ?? ''}'
                 '${recurringItem.fromAmount} '
@@ -47,19 +49,20 @@ class ActionRecurringInfoDetails extends HookWidget {
         ),
         const SpaceH14(),
         TransactionDetailsItem(
-          text: 'Recurring buy',
+          text: intl.account_recurringBuy,
           value: TransactionDetailsValueText(
             text: recurringItem.status == RecurringBuysStatus.paused
-                ? 'Paused'
+                ? intl.paused
                 : '${recurringBuysOperationName(
                     recurringItem.scheduleType,
+                    context,
                   )} - ${formatDateToHmFromDate(recurringItem.creationTime)}',
           ),
         ),
         if (recurringItem.nextExecution != null) ...[
           const SpaceH14(),
           TransactionDetailsItem(
-            text: 'Next payment',
+            text: intl.nextPayment,
             value: TransactionDetailsValueText(
               text:
                   '${formatDateToDMYFromDate(recurringItem.nextExecution!)} - '
@@ -69,7 +72,7 @@ class ActionRecurringInfoDetails extends HookWidget {
         ],
         const SpaceH14(),
         TransactionDetailsItem(
-          text: 'Average price',
+          text: intl.averagePrice,
           value: TransactionDetailsValueText(
             text: notifier.price(
               asset: baseCurrency.symbol,

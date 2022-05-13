@@ -12,6 +12,7 @@ import '../../../logging/levels.dart';
 import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_state.dart';
+import '../../../providers/service_providers.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
@@ -56,24 +57,25 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   Future<void> _initDefaultScreen() async {
     final bioStatus = await biometricStatus();
     final hideBio = bioStatus == BiometricStatus.none;
+    final intl = read(intlPod);
 
     await flowUnion.when(
       change: () async {
-        await _initFlowThatStartsFromEnterPin('Change PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.change_pin, hideBio);
       },
       disable: () async {
-        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.enter_pin, hideBio);
       },
       enable: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader('Set PIN');
+        _updateScreenHeader(intl.set_pin);
       },
       verification: () async {
-        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.enter_pin, hideBio);
       },
       setup: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader('Set PIN');
+        _updateScreenHeader(intl.set_pin);
       },
     );
   }

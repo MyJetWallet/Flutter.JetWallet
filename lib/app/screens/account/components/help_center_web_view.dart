@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/navigator_push.dart';
+import '../../../../shared/providers/service_providers.dart';
 
 class HelpCenterWebView extends StatelessWidget {
   const HelpCenterWebView({
@@ -24,10 +26,12 @@ class HelpCenterWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return SPageFrame(
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Help Center',
+          title: intl.help_center,
         ),
       ),
       child: Column(

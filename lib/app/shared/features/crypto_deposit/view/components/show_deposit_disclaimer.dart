@@ -12,13 +12,13 @@ void showDepositDisclaimer({
   required void Function()? onDismiss,
 }) {
   final action = screenTitle == 'Receive' ? screenTitle : 'Send';
+  final intl = context.read(intlPod);
 
   sShowAlertPopup(
     context,
-    primaryText: '$action only $assetSymbol to this deposit address. '
-        'Receiving any other coin or token to this address '
-        'may result in loss of the transfer amount.',
-    primaryButtonName: 'Got it',
+    primaryText:
+        '$action ${intl.only} $assetSymbol ${intl.showDepositDisclaimer_primatyText}',
+    primaryButtonName: intl.gotIt,
     barrierDismissible: false,
     willPopScope: false,
     onPrimaryButtonTap: () {

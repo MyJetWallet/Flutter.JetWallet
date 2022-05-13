@@ -11,6 +11,7 @@ import '../../../../../shared/components/texts/verification_description_text.dar
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/account/components/crisp.dart';
 import '../notifier/phone_verification_notipod.dart';
@@ -68,6 +69,7 @@ class PhoneVerification extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final phone = useProvider(phoneVerificationNotipod(args));
     final phoneN = useProvider(phoneVerificationNotipod(args).notifier);
     // TODO add phoneVerificationCountdown
@@ -84,12 +86,11 @@ class PhoneVerification extends HookWidget {
       }
     });
 
-
     return SPageFrame(
       loading: phone.loader,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Phone confirmation',
+          title: intl.phoneConfirmation,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
@@ -99,7 +100,7 @@ class PhoneVerification extends HookWidget {
           children: <Widget>[
             const SpaceH10(),
             VerificationDescriptionText(
-              text: 'Enter the SMS code we have sent to your phone ',
+              text: '${intl.enter_sms_code} ',
               boldText: phone.phoneNumber,
             ),
             const SpaceH18(),
@@ -110,15 +111,15 @@ class PhoneVerification extends HookWidget {
                     color: colors.grey1,
                   ),
                   children: [
-                    const TextSpan(
-                      text: "If you don't have access to this number, "
-                          ' please contact ',
+                    TextSpan(
+                      text: intl.phoneVerification_pleaseContactText1,
                     ),
                     TextSpan(
-                      text: 'support',
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        Crisp.push(context);
-                      },
+                      text: intl.support1,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Crisp.push(context);
+                        },
                       style: sBodyText1Style.copyWith(
                         color: colors.blue,
                       ),
@@ -128,7 +129,7 @@ class PhoneVerification extends HookWidget {
               ),
             ] else
               SClickableLinkText(
-                text: 'Change number',
+                text: intl.changeNumber,
                 onTap: () => Navigator.pop(context),
               ),
             const SpaceH18(),
@@ -144,9 +145,11 @@ class PhoneVerification extends HookWidget {
               },
               pinError: phone.pinFieldError!,
             ),
+
             /// TODO update legacy resend
             if (timer > 0 && !phone.showResend)
-              ResendInText(text: 'You can resend in $timer seconds')
+              ResendInText(
+                  text: '${intl.you_can_resend_in} $timer ${intl.seconds}')
             else ...[
               ResendRichText(
                 onTap: () async {

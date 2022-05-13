@@ -388,10 +388,11 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   void _pushAllowCamera(BuildContext context) {
+    final intl = read(intlPod);
+
     AllowCamera.push(
       context: context,
-      permissionDescription:
-          'To scan the QR Code, give Simple permission to access your camera',
+      permissionDescription: intl.pushAllowCamera,
       then: () {
         _pushQrView(context: context, fromSettings: true);
       },

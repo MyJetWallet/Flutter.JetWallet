@@ -90,11 +90,13 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
@@ -103,11 +105,13 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -117,7 +121,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

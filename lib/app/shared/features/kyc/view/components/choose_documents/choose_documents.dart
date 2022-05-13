@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../../../notifier/kyc_countries/kyc_countries_notipod.dart';
@@ -50,6 +51,7 @@ class ChooseDocuments extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final countries = useProvider(kycCountriesNotipod);
     final state = useProvider(chooseDocumentsNotipod);
     final notifier = useProvider(chooseDocumentsNotipod.notifier);
@@ -83,7 +85,7 @@ class ChooseDocuments extends HookWidget {
                             baseline: 18,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
-                              'Please scan your document',
+                              intl.kycChooseDocuments_scanYourDocument,
                               style: sBodyText1Style,
                             ),
                           ),
@@ -137,12 +139,12 @@ class ChooseDocuments extends HookWidget {
                   AllowCamera.push(
                     context: context,
                     permissionDescription:
-                        'We cannot verify you without using your\ncamera',
+                        intl.chooseDocuments_permissionDescription,
                     then: () => UploadKycDocuments.pushReplacement(context),
                   );
                 }
               },
-              name: 'Choose document',
+              name: intl.chooseDocument,
               active: notifier.activeButton(),
             ),
           ),

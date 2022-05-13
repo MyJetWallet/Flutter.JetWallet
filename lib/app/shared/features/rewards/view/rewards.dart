@@ -7,6 +7,7 @@ import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/deep_link_service_pod.dart';
 import '../../../../../shared/providers/device_size/media_query_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/deep_link_service.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../components/info_web_view.dart';
@@ -22,14 +23,15 @@ class Rewards extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(rewardsNotipod);
     final deepLinkService = useProvider(deepLinkServicePod);
     final mediaQuery = useProvider(mediaQueryPod);
 
     return SPageFrameWithPadding(
-      header: const SSmallHeader(
-        title: 'Rewards',
+      header: SSmallHeader(
+        title: intl.rewards,
       ),
       child: ListView(
         padding: EdgeInsets.zero,
@@ -41,6 +43,7 @@ class Rewards extends HookWidget {
                 primaryText: item.campaign!.title,
                 timeToComplete: formatBannersDate(
                   item.campaign!.timeToComplete,
+                  context,
                 ),
                 imageUrl: item.campaign!.imageUrl,
                 rewardDetail: createRewardDetail(
@@ -56,7 +59,7 @@ class Rewards extends HookWidget {
                     context,
                     InfoWebView(
                       link: infoRewardsLink,
-                      title: 'Rewards',
+                      title: intl.rewards,
                     ),
                   );
                 },

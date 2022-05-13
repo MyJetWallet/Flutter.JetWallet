@@ -3,11 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/providers/service_providers.dart';
+
 class NoReferralCode extends HookWidget {
   const NoReferralCode({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Row(
@@ -17,7 +20,7 @@ class NoReferralCode extends HookWidget {
         ),
         const SpaceW12(),
         Text(
-          'I have promo code',
+          intl.have_promo_code,
           style: sCaptionTextStyle.copyWith(color: colors.blue),
         ),
       ],

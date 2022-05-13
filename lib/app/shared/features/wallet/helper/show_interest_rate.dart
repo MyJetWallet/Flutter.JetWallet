@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/market/helper/format_day_percentage_change.dart';
 import '../../../components/info_web_view.dart';
@@ -21,6 +22,8 @@ void showInterestRate({
   required SimpleColors colors,
   required Color colorDayPercentage,
 }) {
+  final intl = context.read(intlPod);
+
   sShowBasicModalBottomSheet(
     context: context,
     removeBarPadding: true,
@@ -115,7 +118,7 @@ void showInterestRate({
           child: Row(
             children: [
               Text(
-                'Interest earned',
+                intl.interestEarned,
                 style: sBodyText2Style,
               ),
               const SpaceW10(),
@@ -126,7 +129,7 @@ void showInterestRate({
                     onTap: () {
                       navigatorPush(context, InfoWebView(
                         link: infoEarnLink,
-                        title: 'Interest earned',
+                        title: intl.interestEarned,
                       ),);
                     },
                     child: Container(
@@ -180,7 +183,7 @@ void showInterestRate({
               baseline: 26,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Next pay',
+                intl.nextPay,
                 style: sBodyText2Style.copyWith(
                   color: colors.grey1,
                 ),
@@ -216,7 +219,7 @@ void showInterestRate({
               baseline: 26,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'APY',
+                intl.apy,
                 style: sBodyText2Style.copyWith(
                   color: colors.grey1,
                 ),

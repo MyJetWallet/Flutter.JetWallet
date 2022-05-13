@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../models/currency_model.dart';
 import '../provider/current_asset_pod.dart';
 import 'components/action_button/action_button.dart';
@@ -51,6 +52,7 @@ class _EmptyWalletState extends State<EmptyWallet>
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final currentAsset = useProvider(currentAssetStpod(widget.currency.symbol));
     useListenable(animationController);
 
@@ -63,7 +65,7 @@ class _EmptyWalletState extends State<EmptyWallet>
         controller: animationController,
         child: SPageFrameWithPadding(
           header: SSmallHeader(
-            title: '${widget.currency.description} wallet',
+            title: '${widget.currency.description} ${intl.wallet}',
           ),
           child: (widget.currency.apy.toDouble() == 0.0)
               ? EmptyWalletBody(

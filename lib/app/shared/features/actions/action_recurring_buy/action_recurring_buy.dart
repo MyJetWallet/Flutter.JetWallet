@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../models/currency_model.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../action_recurring_info/action_recurring_info.dart';
@@ -15,11 +16,13 @@ void showRecurringBuyAction({
   required CurrencyModel currency,
   required String total,
 }) {
+  final intl = context.read(intlPod);
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: _RecurringActionBottomSheetHeader(
-      name: 'Recurring buy $total',
+      name: '${intl.recurringBuysName_active} $total',
     ),
     horizontalPinnedPadding: 0.0,
     children: [

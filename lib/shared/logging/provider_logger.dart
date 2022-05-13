@@ -71,7 +71,7 @@ class ProviderLogger extends ProviderObserver {
             // We need to wrap the observer lifecycles in a addPostFrameCallback
             // because we're modifying the state on any log but logs
             // can happen during "build"
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
                 null,
@@ -94,7 +94,7 @@ class ProviderLogger extends ProviderObserver {
       if (add) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
                 null,
@@ -117,7 +117,7 @@ class ProviderLogger extends ProviderObserver {
       if (dispose) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
                 null,
@@ -139,7 +139,7 @@ class ProviderLogger extends ProviderObserver {
       if (change) {
         if (!_ignoreProviderByName(provider)) {
           if (!_ignoreProviderByType(provider)) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               _logger.log(
                 providerLevel,
                 null,

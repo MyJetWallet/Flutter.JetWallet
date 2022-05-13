@@ -8,6 +8,7 @@ import '../../../../../../shared/components/pin_code_field.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../model/withdrawal_model.dart';
 import '../../notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
@@ -29,6 +30,7 @@ class WithdrawalConfirm extends HookWidget {
   Widget build(BuildContext context) {
     withdrawalModel = withdrawal;
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final timer = useProvider(timerNotipod(withdrawalConfirmResendCountdown));
     final timerN = useProvider(
@@ -73,7 +75,7 @@ class WithdrawalConfirm extends HookWidget {
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
-          title: 'Confirm $verb request',
+          title: '${intl.confirm} $verb ${intl.request}',
           titleAlign: TextAlign.start,
           showBackButton: false,
         ),
@@ -84,8 +86,7 @@ class WithdrawalConfirm extends HookWidget {
               baseline: 24.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Confirm your $noun request by opening the link in '
-                'the email we sent to:',
+                '${intl.confirmYour} $noun ${intl.withdrawalConfirm_text}:',
                 maxLines: 3,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,
@@ -99,7 +100,7 @@ class WithdrawalConfirm extends HookWidget {
             ),
             const SpaceH24(),
             SClickableLinkText(
-              text: 'Open email app',
+              text: intl.openEmailApp,
               onTap: () => openEmailApp(context),
             ),
             const SpaceH29(),
@@ -131,7 +132,7 @@ class WithdrawalConfirm extends HookWidget {
             const Spacer(),
             SSecondaryButton1(
               active: true,
-              name: 'Cancel Request',
+              name: intl.cancelRequest,
               onTap: () => navigateToRouter(context.read),
             ),
             const SpaceH24(),

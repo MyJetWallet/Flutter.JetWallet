@@ -10,6 +10,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_notipod.dart';
@@ -42,6 +43,7 @@ class UploadKycDocuments extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(uploadKycDocumentsNotipod);
     final notifier = useProvider(uploadKycDocumentsNotipod.notifier);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final loader = useValueNotifier(StackLoaderNotifier());
     final loaderSuccess = useValueNotifier(StackLoaderNotifier());
@@ -81,7 +83,7 @@ class UploadKycDocuments extends HookWidget {
         loadSuccess: loaderSuccess.value,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: 'Upload ${stringKycDocumentType(activeDocument.document)}',
+            title: '${intl.upload} ${stringKycDocumentType(activeDocument.document)}',
           ),
         ),
         child: Stack(
@@ -98,8 +100,8 @@ class UploadKycDocuments extends HookWidget {
                         children: [
                           Text(
                             (state.numberSide == 0)
-                                ? 'Front side'
-                                : 'Back side',
+                                ? intl.frontSide
+                                : intl.backSide,
                             style: sSubtitle2Style,
                           ),
                         ],

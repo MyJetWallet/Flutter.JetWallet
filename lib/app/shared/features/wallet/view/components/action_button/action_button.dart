@@ -48,6 +48,7 @@ class ActionButton extends StatefulHookWidget {
 class _ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final actionActive = useState(true);
     final highlighted = useState(false);
@@ -195,7 +196,7 @@ class _ActionButtonState extends State<ActionButton> {
                       },
                       child: Center(
                         child: Text(
-                          actionActive.value ? 'Action' : '',
+                          actionActive.value ? intl.action : '',
                           style: sButtonTextStyle.copyWith(
                             color: currentNameColor,
                           ),
@@ -320,7 +321,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Deposit',
+                                      header: intl.deposit,
                                       currency: widget.currency,
                                     ),
                                   );
@@ -342,7 +343,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                         context,
                                         CryptoDeposit(
-                                          header: 'Deposit',
+                                          header: intl.deposit,
                                           currency: widget.currency,
                                         ),
                                       );
@@ -411,7 +412,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(
-                                    header: 'Receive',
+                                    header: intl.receive,
                                     currency: widget.currency,
                                   ),
                                 );
@@ -429,7 +430,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Receive',
+                                      header: intl.receive,
                                       currency: widget.currency,
                                     ),
                                   ),
@@ -611,7 +612,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Deposit',
+                                      header: intl.deposit,
                                       currency: widget.currency,
                                     ),
                                   );
@@ -633,7 +634,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                         context,
                                         CryptoDeposit(
-                                          header: 'Deposit',
+                                          header: intl.deposit,
                                           currency: widget.currency,
                                         ),
                                       );
@@ -702,7 +703,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(
-                                    header: 'Receive',
+                                    header: intl.receive,
                                     currency: widget.currency,
                                   ),
                                 );
@@ -720,7 +721,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Receive',
+                                      header: intl.receive,
                                       currency: widget.currency,
                                     ),
                                   ),

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../components/flag_item.dart';
 import '../../../notifier/add_circle_card_notipod.dart';
 
@@ -26,11 +27,12 @@ class _SearchPinned extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final notifier = useProvider(addCircleCardNotipod.notifier);
 
     return SStandardField(
       autofocus: true,
-      labelText: 'Search country',
+      labelText: intl.searchCountry,
       onChanged: (value) {
         notifier.updateCountrySearch(value);
       },

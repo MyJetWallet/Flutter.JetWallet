@@ -110,6 +110,9 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       state = Input(error.cause);
     } catch (e) {
       _logger.log(stateFlow, 'authenticate', e);
+
+      final intl = read(intlPod);
+
       if (operation == AuthOperation.login) {
         sAnalytics.loginFailure(email, e.toString());
       } else {
@@ -117,9 +120,9 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       }
 
       if (e is DioError && e.error == 'Http status error [401]') {
-        state = const Input('Invalid login or password');
+        state = Input(intl.invalid_login_or_password);
       } else {
-        state = const Input('Something went wrong. Please try again later!');
+        state = Input('${intl.something_went_wrong2}!');
       }
     }
   }

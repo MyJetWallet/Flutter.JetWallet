@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../components/empty_search_result.dart';
 import '../../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../../../../notifier/kyc_countries/kyc_countries_notipod.dart';
@@ -30,6 +31,7 @@ class _SearchPinned extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final notifier = useProvider(kycCountriesNotipod.notifier);
 
     return Column(
@@ -37,12 +39,12 @@ class _SearchPinned extends HookWidget {
       children: [
         const SpaceH20(),
         Text(
-          'Country of Issue',
+          intl.kycCountry_countryOfIssue,
           style: sTextH2Style,
         ),
         SStandardField(
           autofocus: true,
-          labelText: 'Search',
+          labelText: intl.search,
           onChanged: (value) {
             notifier.updateCountryNameSearch(value);
           },

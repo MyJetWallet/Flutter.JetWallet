@@ -6,6 +6,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../../../../components/show_start_earn_options.dart';
 import '../../../../../models/currency_model.dart';
@@ -23,6 +24,7 @@ class EmptyEarnWalletBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
 
@@ -49,14 +51,14 @@ class EmptyEarnWalletBody extends HookWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: 'Earn ',
+                text: '${intl.earn} ',
                 style: sTextH3Style.copyWith(
                   color: colors.black,
                 ),
               ),
               TextSpan(
                 text: '${apy.toStringAsFixed(0)}%'
-                    ' interest',
+                    ' ${intl.interest}',
                 style: sTextH3Style.copyWith(
                   color: colors.green,
                 ),
@@ -88,7 +90,7 @@ class EmptyEarnWalletBody extends HookWidget {
         ),
         const SpaceH13(),
         Text(
-          'Invest in Bitcoin and start earning daily',
+          intl.emptyEarnWalletBody_text,
           textAlign: TextAlign.center,
           maxLines: 2,
           style: sBodyText1Style.copyWith(

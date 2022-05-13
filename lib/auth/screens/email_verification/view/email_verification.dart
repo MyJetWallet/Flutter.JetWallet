@@ -9,6 +9,7 @@ import '../../../../shared/helpers/analytics.dart';
 import '../../../../shared/helpers/open_email_app.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
@@ -19,6 +20,7 @@ class EmailVerification extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
@@ -62,7 +64,7 @@ class EmailVerification extends HookWidget {
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SBigHeader(
-          title: 'Email verification',
+          title: intl.email_verification,
           onBackButtonTap: () => logoutN.logout(),
         ),
         child: CustomScrollView(
@@ -73,7 +75,7 @@ class EmailVerification extends HookWidget {
                 children: [
                   const SpaceH7(),
                   Text(
-                    'Enter the code we have sent to your email',
+                    intl.emailVerification_enterCode,
                     style: sBodyText1Style.copyWith(
                       color: colors.grey1,
                     ),
@@ -84,7 +86,7 @@ class EmailVerification extends HookWidget {
                   ),
                   const SpaceH17(),
                   SClickableLinkText(
-                    text: 'Open Email App',
+                    text: intl.emailVerification_openEmail,
                     onTap: () => openEmailApp(context),
                   ),
                   const Spacer(),

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../../shared/models/currency_model.dart';
 
 class EarnCurrencyItem extends HookWidget {
@@ -17,6 +18,7 @@ class EarnCurrencyItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return InkWell(
@@ -70,7 +72,7 @@ class EarnCurrencyItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            '${element.apy.toStringAsFixed(0)}% APY',
+                            '${element.apy.toStringAsFixed(0)}% ${intl.apy}',
                             style: sSubtitle2Style.copyWith(
                               color: colors.green,
                             ),

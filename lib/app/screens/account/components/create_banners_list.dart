@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/constants.dart';
+import '../../../../shared/providers/service_providers.dart';
 
 List<Widget> createBannersList({
   Function()? onChatBannerTap,
@@ -12,7 +14,9 @@ List<Widget> createBannersList({
   required bool phoneVerified,
   required bool verificationInProgress,
   required SimpleColors colors,
+  required BuildContext context,
 }) {
+  final intl = context.read(intlPod);
   final bannersList = <Widget>[];
 
   if (!verificationInProgress && !kycPassed) {
@@ -23,10 +27,8 @@ List<Widget> createBannersList({
         },
         imageUrl: accountProfileAsset,
         color: colors.greenLight,
-        header: 'Verify your profile',
-        description: 'In accordance with KYC and AML Policy, '
-            'you are required to pass the '
-            'verification process.',
+        header: intl.verifyYourProfile,
+        description: intl.createBanners_bannerText1,
       ),
     );
   }
@@ -38,10 +40,9 @@ List<Widget> createBannersList({
           onKycBannerTap?.call();
         },
         color: colors.greenLight,
-        header: 'Verifying now',
+        header: intl.createBanners_header2,
         imageUrl: verifyNowAsset,
-        description: "You'll be notified when we complete the process. "
-            'Usually within a few hours',
+        description: intl.createBanners_bannerText2,
       ),
     );
   }
@@ -54,9 +55,8 @@ List<Widget> createBannersList({
         },
         imageUrl: lockerAsset,
         color: colors.blueLight,
-        header: 'Enable 2-Factor\nauthentication',
-        description: 'To protect your account, it is recommended '
-            'to turn on',
+        header: intl.createBanners_header3,
+        description: intl.createBanners_bannerText3,
       ),
     );
   }
@@ -68,8 +68,8 @@ List<Widget> createBannersList({
       },
       imageUrl: chatWithSupportAsset,
       color: colors.violet,
-      header: 'Chat with support',
-      description: 'Have any questions?\nWe here to help 24/7',
+      header: intl.createBanners_header4,
+      description: intl.createBanners_bannerText4,
     ),
   );
 

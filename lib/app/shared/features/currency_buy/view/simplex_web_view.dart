@@ -10,6 +10,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/navigation/provider/navigation_stpod.dart';
 
@@ -20,6 +21,8 @@ class SimplexWebView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     useEffect(
       () {
         if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
@@ -32,7 +35,8 @@ class SimplexWebView extends HookWidget {
     void _showSuccess() {
       SuccessScreen.push(
         context: context,
-        secondaryText: 'Your payment will be processed within\n≈ 10-30 minutes',
+        secondaryText:
+            '${intl.simplexWebView_successScreenSecondaryText1}\n≈ 10-30 ${intl.minutes}',
         then: () => context.read(navigationStpod).state = 1,
       );
       sAnalytics.simplexSucsessView(url);
@@ -41,14 +45,14 @@ class SimplexWebView extends HookWidget {
     void _showFailure() {
       FailureScreen.push(
         context: context,
-        primaryText: 'Failure',
-        secondaryText: 'Failed to buy',
-        primaryButtonName: 'Edit Order',
+        primaryText: intl.failure,
+        secondaryText: intl.failedToBuy,
+        primaryButtonName: intl.editOrder,
         onPrimaryButtonTap: () {
           Navigator.pop(context);
           Navigator.pop(context);
         },
-        secondaryButtonName: 'Close',
+        secondaryButtonName: intl.close,
         onSecondaryButtonTap: () => navigateToRouter(context.read),
       );
       sAnalytics.simplexFailureView(url);
@@ -64,7 +68,7 @@ class SimplexWebView extends HookWidget {
           child: SSmallHeader(
             titleAlign: TextAlign.left,
             icon: const SCloseIcon(),
-            title: 'Simplex',
+            title: intl.simplex,
             onBackButtonTap: () {
               navigateToRouter(context.read);
             },

@@ -49,6 +49,7 @@ class _WalletBodyState extends State<WalletBody>
   Widget build(BuildContext context) {
     super.build(context);
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final recurring = useProvider(recurringBuysNotipod);
@@ -112,7 +113,7 @@ class _WalletBodyState extends State<WalletBody>
                     ),
                     SPaddingH24(
                       child: SSmallHeader(
-                        title: '${widget.currency.description} wallet',
+                        title: '${widget.currency.description} ${intl.wallet}',
                       ),
                     ),
                   ],
@@ -125,6 +126,7 @@ class _WalletBodyState extends State<WalletBody>
                   type: recurringN.type(widget.currency.symbol),
                   title: recurringN.recurringBannerTitle(
                     asset: widget.currency.symbol,
+                    context: context,
                   ),
                   onTap: () {
                     // Todo: need refactor
@@ -151,7 +153,7 @@ class _WalletBodyState extends State<WalletBody>
                         }
                       } else {
                         showActionWithOutRecurringBuy(
-                          title: 'Setup recurring buy',
+                          title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                           context: context,
                           onItemTap: (RecurringBuysType type) {
                             navigatorPushReplacement(
@@ -183,7 +185,7 @@ class _WalletBodyState extends State<WalletBody>
                   children: [
                     const SpaceH36(),
                     Text(
-                      '${widget.currency.description} transactions',
+                      '${widget.currency.description} ${intl.transactions}',
                       style: sTextH4Style,
                     ),
                   ],

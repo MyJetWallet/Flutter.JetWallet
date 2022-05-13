@@ -13,6 +13,7 @@ import '../../../helpers/navigator_push_replacement.dart';
 import '../../../notifiers/logout_notifier/logout_notipod.dart';
 import '../../../notifiers/logout_notifier/logout_union.dart' as lu;
 import '../../../notifiers/timer_notifier/timer_notipod.dart';
+import '../../../providers/service_providers.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/two_fa_phone_trigger_union.dart';
 import '../notifier/two_fa_phone_notipod.dart';
@@ -45,6 +46,7 @@ class TwoFaPhone extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final twoFa = useProvider(twoFaPhoneNotipod(trigger));
     final twoFaN = useProvider(twoFaPhoneNotipod(trigger).notifier);
     // TODO add twoFaPhoneResendCountdown to remote config
@@ -94,7 +96,7 @@ class TwoFaPhone extends HookWidget {
             return SPageFrameWithPadding(
               loading: loader.value,
               header: SBigHeader(
-                title: 'Phone Confirmation',
+                title: intl.twoFaPhone_phoneConfirmation,
                 onBackButtonTap: () => trigger.when(
                   startup: () => logoutN.logout(),
                   security: (_) => Navigator.pop(context),
@@ -104,7 +106,7 @@ class TwoFaPhone extends HookWidget {
                 children: [
                   const SpaceH10(),
                   VerificationDescriptionText(
-                    text: 'Enter the SMS code we have sent to your phone ',
+                    text: '${intl.enter_sms_code} ',
                     boldText: twoFa.phoneNumber,
                   ),
                   const SpaceH60(),
@@ -126,16 +128,16 @@ class TwoFaPhone extends HookWidget {
                   const SpaceH7(),
                   if (timer > 0 && !twoFa.showResend)
                     ResendInText(
-                      text: 'You can resend in $timer seconds',
+                      text: '${intl.you_can_resend_in} $timer ${intl.seconds}',
                     )
                   else ...[
-                    const ResendInText(
-                      text: "Didn't receive the code?",
+                    ResendInText(
+                      text: '${intl.didnt_receive_the_code}?',
                     ),
                     const SpaceH24(),
                     STextButton1(
                       active: true,
-                      name: 'Resend',
+                      name: intl.resend,
                       onTap: () async {
                         await twoFaN.sendCode();
 

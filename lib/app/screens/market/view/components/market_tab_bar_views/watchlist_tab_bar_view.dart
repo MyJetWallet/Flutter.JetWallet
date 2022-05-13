@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../provider/market_watchlist_items_pod.dart';
 import '../fade_on_scroll.dart';
 import 'components/empty_watchlist.dart';
@@ -46,6 +47,7 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
   @override
   Widget build(BuildContext context) {
     final watchItems = useProvider(marketWatchlistItemsPod);
+    final intl = useProvider(intlPod);
 
     if (watchItems.isNotEmpty) {
       return NestedScrollView(
@@ -66,8 +68,8 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
                   width: double.infinity,
                 ),
                 fadeOutWidget: const MarketHeaderStats(),
-                permanentWidget: const SMarketHeaderClosed(
-                  title: 'Market',
+                permanentWidget: SMarketHeaderClosed(
+                  title: intl.market,
                 ),
               ),
             ),

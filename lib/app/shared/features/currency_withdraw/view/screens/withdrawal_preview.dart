@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/short_address_form.dart';
 import '../../helper/user_will_receive.dart';
 import '../../model/withdrawal_model.dart';
@@ -21,6 +22,7 @@ class WithdrawalPreview extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalPreviewNotipod(withdrawal));
     final notifier = useProvider(withdrawalPreviewNotipod(withdrawal).notifier);
@@ -43,12 +45,12 @@ class WithdrawalPreview extends HookWidget {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title: 'Confirm $verb ${currency.description}',
+              title: '${intl.confirm} $verb ${currency.description}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title: 'Confirm $verb ${currency.description}',
+              title: '${intl.confirm} $verb ${currency.description}',
             );
           },
         ),
@@ -63,11 +65,11 @@ class WithdrawalPreview extends HookWidget {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: '$verb to',
+                    name: '$verb ${intl.to}',
                     value: shortAddressForm(state.address),
                   ),
                   SActionConfirmText(
-                    name: 'You will receive',
+                    name: intl.youWillReceive,
                     baseline: 36.0,
                     value: userWillreceive(
                       currency: currency,
@@ -76,10 +78,10 @@ class WithdrawalPreview extends HookWidget {
                     ),
                   ),
                   SActionConfirmText(
-                    name: 'Fee',
+                    name: intl.fee,
                     baseline: 35.0,
                     value: state.addressIsInternal
-                        ? 'No fee'
+                        ? intl.noFee
                         : currency.withdrawalFeeWithSymbol,
                   ),
                   const SBaselineChild(
@@ -87,14 +89,14 @@ class WithdrawalPreview extends HookWidget {
                     child: SDivider(),
                   ),
                   SActionConfirmText(
-                    name: 'Total',
+                    name: intl.total,
                     value: '${state.amount} ${currency.symbol}',
                     valueColor: colors.blue,
                   ),
                   const SpaceH36(),
                   SPrimaryButton2(
                     active: !state.loading,
-                    name: 'Confirm',
+                    name: intl.confirm,
                     onTap: () => notifier.withdraw(),
                   ),
                   const SpaceH24(),

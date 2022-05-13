@@ -56,6 +56,8 @@ void _showBuyAction({
   required bool fromCard,
   required BuildContext context,
 }) {
+  final intl = context.read(intlPod);
+
   final showSearch = showBuyCurrencySearch(
     context,
     fromCard: fromCard,
@@ -67,7 +69,7 @@ void _showBuyAction({
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
-      name: 'Choose asset to buy',
+      name: intl.actionBuy_bottomSheetHeaderName1,
       showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
@@ -100,6 +102,7 @@ class _ActionBuy extends HookWidget {
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
     final state = useProvider(actionSearchNotipod);
+    final intl = useProvider(intlPod);
 
     void onItemTap(CurrencyModel currency) {
       sAnalytics.buyView(
@@ -109,7 +112,7 @@ class _ActionBuy extends HookWidget {
       if (showRecurring) {
         showActionWithOutRecurringBuy(
           context: context,
-          title: 'Setup recurring buy',
+          title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
           onItemTap: (RecurringBuysType type) {
             Navigator.pop(context);
             navigatorPushReplacement(
@@ -137,7 +140,9 @@ class _ActionBuy extends HookWidget {
       children: [
         const SpaceH10(),
         ActionBuySubheader(
-          text: fromCard ? 'Buy from card' : 'Buy with credit card or crypto',
+          text: fromCard
+              ? intl.actionBuy_bottomSheetItemTitle1
+              : intl.actionBuy_bottomSheetItemTitle2,
         ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
@@ -162,8 +167,8 @@ class _ActionBuy extends HookWidget {
         ],
         if (!fromCard) ...[
           const SpaceH10(),
-          const ActionBuySubheader(
-            text: 'Buy with crypto',
+          ActionBuySubheader(
+            text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
           ),
           for (final currency in state.filteredCurrencies) ...[
             if (!currency.supportsAtLeastOneBuyMethod)

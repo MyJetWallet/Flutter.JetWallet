@@ -156,7 +156,9 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
 
   String recurringBannerTitle({
     required String asset,
+    required BuildContext context,
   }) {
+    final intl = read(intlPod);
     final currencies = read(currenciesPod);
 
     final array = <RecurringBuysModel>[];
@@ -172,22 +174,25 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     }
 
     if (array.isEmpty) {
-      return recurringBuysName(RecurringBuysStatus.empty);
+      return recurringBuysName(RecurringBuysStatus.empty, read);
     }
 
     if (array.length == 1 && type(asset) == RecurringBuysStatus.paused) {
-      return recurringBuysName(RecurringBuysStatus.paused);
+      return recurringBuysName(RecurringBuysStatus.paused, read);
     }
 
     if (array.length > 1 && _allInPaused(array)) {
-      return recurringBuysName(RecurringBuysStatus.paused);
+      return recurringBuysName(RecurringBuysStatus.paused, read);
     }
 
     if (array.length == 1 && array.first.status == RecurringBuysStatus.active) {
-      return '${recurringBuysOperationName(array.first.scheduleType)} recurring'
-          ' buy';
+      return '${recurringBuysOperationName(
+        array.first.scheduleType,
+        context,
+      )} ${intl.recurring}'
+          ' ${intl.buy2}';
     } else {
-      return 'Recurring buy (${array.length})';
+      return '${intl.account_recurringBuy} (${array.length})';
     }
   }
 

@@ -187,10 +187,12 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     if (state.recurring) {
       SuccessScreen.push(
         context: _context,
-        secondaryText: 'Order processing',
+        secondaryText: intl.orderProcessing,
         then: () {
           read(navigationStpod).state = 1;
         },
@@ -204,11 +206,13 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
@@ -217,11 +221,13 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -236,7 +242,7 @@ class PreviewBuyWithAssetNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

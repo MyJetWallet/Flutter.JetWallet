@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/market_info/model/market_info_response_model.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../helper/format_number.dart';
 import 'components/market_sentiment_item.dart';
 import 'components/market_stats_item.dart';
@@ -17,6 +19,8 @@ class MarketStatsBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,7 +30,7 @@ class MarketStatsBlock extends HookWidget {
             baseline: 35,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'Market stats',
+              intl.marketStats,
               textAlign: TextAlign.start,
               style: sTextH4Style,
             ),
@@ -39,7 +43,7 @@ class MarketStatsBlock extends HookWidget {
               children: [
                 TableCell(
                   child: MarketStatsItem(
-                    name: 'Mark cap',
+                    name: intl.markCap,
                     value: '\$${formatNumber(marketInfo.marketCap.toDouble())}',
                   ),
                 ),
@@ -55,7 +59,7 @@ class MarketStatsBlock extends HookWidget {
               children: [
                 TableCell(
                   child: MarketStatsItem(
-                    name: 'Circ supply',
+                    name: intl.circSupply,
                     value: formatNumber(marketInfo.supply.toDouble()),
                   ),
                 ),

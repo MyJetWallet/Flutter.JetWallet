@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/device_size/media_query_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/short_address_form.dart';
 import '../../../../models/currency_model.dart';
 import '../../notifier/crypto_deposit_notipod.dart';
@@ -23,6 +24,7 @@ class CryptoDepositWithAddress extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final deposit = useProvider(cryptoDepositNotipod(currency));
     final mediaQuery = useProvider(mediaQueryPod);
     final screenHeight = mediaQuery.size.height;
@@ -47,10 +49,10 @@ class CryptoDepositWithAddress extends HookWidget {
           ),
           const Spacer(),
           SAddressFieldWithCopy(
-            header: '${currency.symbol} Wallet address',
+            header: '${currency.symbol} ${intl.walletAddress}',
             value: shortAddressForm(deposit.address),
             realValue: deposit.address,
-            afterCopyText: 'Address copied',
+            afterCopyText: intl.addressCopied,
             valueLoading: deposit.union is Loading,
           ),
         ],

@@ -23,6 +23,7 @@ class HistoryRecurringBuys extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
     final scrollController = useScrollController();
@@ -53,9 +54,9 @@ class HistoryRecurringBuys extends HookWidget {
             backgroundColor: colors.white,
             automaticallyImplyLeading: false,
             elevation: 0,
-            flexibleSpace: const SPaddingH24(
+            flexibleSpace: SPaddingH24(
               child: SSmallHeader(
-                title: 'Recurring buy',
+                title: intl.account_recurringBuy,
               ),
             ),
           ),
@@ -104,11 +105,11 @@ class HistoryRecurringBuys extends HookWidget {
                   children: [
                     const Spacer(),
                     Text(
-                      'No transactions yet',
+                      intl.noTransactionsYet,
                       style: sTextH3Style,
                     ),
                     Text(
-                      'Your transactions will appear here',
+                      intl.historyRecurringBuy_text1,
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),
@@ -118,7 +119,7 @@ class HistoryRecurringBuys extends HookWidget {
                       SPaddingH24(
                         child: SSecondaryButton1(
                           active: true,
-                          name: 'Setup recurring buy',
+                          name: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                           onTap: () {
                             if (kycState.sellStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {

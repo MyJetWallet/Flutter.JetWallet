@@ -6,6 +6,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
 import '../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../shared/features/chart/notifier/chart_union.dart';
@@ -24,6 +25,7 @@ class PortfolioHeader extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final gift = useProvider(referralGiftPod);
     final state = useProvider(rewardsNotipod);
@@ -45,7 +47,7 @@ class PortfolioHeader extends HookWidget {
             children: [
               const SpaceW24(),
               Text(
-                'Balance',
+                intl.balance,
                 style: sTextH5Style,
               ),
               const Spacer(),

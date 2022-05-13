@@ -6,6 +6,7 @@ import 'package:store_redirect/store_redirect.dart';
 
 import '../../../shared/providers/flavor_pod.dart';
 import '../../../shared/providers/package_info_fpod.dart';
+import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../helper/compare_versions.dart';
 import 'update_union.dart';
@@ -48,25 +49,29 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
   }
 
   void showForceUpdateAlert() {
+    final intl = read(intlPod);
+
     sShowAlertPopup(
       _context,
       willPopScope: false,
-      primaryText: "It's time to update!",
-      secondaryText: 'To use this app, download the latest version',
-      primaryButtonName: 'Update',
+      primaryText: '${intl.time_to_update}!',
+      secondaryText: intl.download_the_latest_version,
+      primaryButtonName: intl.update,
       onPrimaryButtonTap: () => _storeRedirect(),
     );
   }
 
   void showRecommendedUpdateAlert() {
+    final intl = read(intlPod);
+
     sShowAlertPopup(
       _context,
       willPopScope: false,
-      primaryText: 'Update Simple?',
-      secondaryText: 'We recommend that you update to the latest version',
-      primaryButtonName: 'Update',
+      primaryText: '${intl.update_simple}?',
+      secondaryText: intl.weRecommendUpdateLatestVersion,
+      primaryButtonName: intl.update,
       onPrimaryButtonTap: () => _storeRedirect(),
-      secondaryButtonName: 'Not Now',
+      secondaryButtonName: intl.not_now,
       onSecondaryButtonTap: () {
         Navigator.pop(_context);
         state = const NoUpdates();

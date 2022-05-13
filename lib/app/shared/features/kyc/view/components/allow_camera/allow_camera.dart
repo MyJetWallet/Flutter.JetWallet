@@ -9,6 +9,7 @@ import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../notifier/camera_permission/camera_permission_notipod.dart';
 import '../../../notifier/camera_permission/camera_permission_state.dart';
 
@@ -44,12 +45,12 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -71,6 +72,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(cameraPermissionNotipod);
     final notifier = useProvider(cameraPermissionNotipod.notifier);
@@ -84,13 +86,13 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
       header: deviceSize.when(
         small: () {
           return SSmallHeader(
-            title: _headerTitle(state.permissionDenied),
+            title: _headerTitle(state.permissionDenied, context),
           );
         },
         medium: () {
           return SMegaHeader(
             titleAlign: TextAlign.left,
-            title: _headerTitle(state.permissionDenied),
+            title: _headerTitle(state.permissionDenied, context),
           );
         },
       ),
@@ -106,7 +108,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
           onTap: () async {
             await notifier.handleCameraPermission(context);
           },
-          name: state.permissionDenied ? 'Go to Settings' : 'Enable camera',
+          name: state.permissionDenied ? intl.goToSettings : intl.enableCamera,
         ),
       ),
       child: CustomScrollView(
@@ -127,8 +129,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                     baseline: 48,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      'When prompted, you must enable camera access '
-                      'to continue.',
+                      '${intl.allowCamera_text1}.',
                       maxLines: 3,
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
@@ -161,11 +162,13 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
     );
   }
 
-  String _headerTitle(bool status) {
+  String _headerTitle(bool status, BuildContext context) {
+    final intl = context.read(intlPod);
+
     if (status) {
-      return 'Give permission to allow the use of camera';
+      return intl.allowCamera_headerTitle1;
     } else {
-      return 'Allow camera access';
+      return intl.allowCamera_headerTitle2;
     }
   }
 }

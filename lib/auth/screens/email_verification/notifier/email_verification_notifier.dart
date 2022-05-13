@@ -59,9 +59,11 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       onSuccess();
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+
+      final intl = read(intlPod);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.failedToResend}!',
       );
     }
   }

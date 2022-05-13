@@ -1,33 +1,39 @@
-import '../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-String operationName(OperationType type) {
+import '../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../shared/providers/service_providers.dart';
+
+String operationName(OperationType type, BuildContext context,) {
+  final intl = context.read(intlPod);
+
   switch (type) {
     case OperationType.deposit:
-      return 'Deposit';
+      return intl.deposit;
     case OperationType.withdraw:
-      return 'Withdrawal';
+      return intl.withdrawal;
     case OperationType.transferByPhone:
-      return 'Transfer by Phone';
+      return intl.transferByPhone;
     case OperationType.receiveByPhone:
-      return 'Receive by Phone';
+      return intl.receiveByPhone;
     case OperationType.buy:
-      return 'Buy';
+      return intl.buy;
     case OperationType.sell:
-      return 'Sell';
+      return intl.sell;
     case OperationType.paidInterestRate:
-      return 'Interest Rate';
+      return intl.interestRate;
     case OperationType.feeSharePayment:
-      return 'Referral program fee share';
+      return intl.feeSharePayment;
     case OperationType.swap:
-      return 'Swap';
+      return intl.swap;
     case OperationType.withdrawalFee:
-      return 'Withdrawal Fee';
+      return intl.withdrawalFee;
     case OperationType.rewardPayment:
-      return 'Referral program bonus';
+      return intl.rewardPayment;
     case OperationType.simplexBuy:
-      return 'Simplex';
+      return intl.simplex;
     case OperationType.recurringBuy:
-      return 'Recurring buy';
+      return intl.account_recurringBuy;
     case OperationType.unknown:
       return 'Unknown';
   }

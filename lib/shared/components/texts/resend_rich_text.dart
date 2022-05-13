@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../providers/service_providers.dart';
+
 class ResendRichText extends HookWidget {
   const ResendRichText({
     Key? key,
@@ -13,12 +15,14 @@ class ResendRichText extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
+
     return Center(
       child: Column(
         children: <Widget>[
           Text(
-            "Didn't receive the code",
+            intl.didnt_receive_the_code,
             style: sCaptionTextStyle.copyWith(
               color: colors.grey2,
             ),
@@ -26,7 +30,7 @@ class ResendRichText extends HookWidget {
           const SpaceH10(),
           STextButton1(
             active: true,
-            name: 'Resend',
+            name: intl.resend,
             onTap: onTap,
           ),
         ],

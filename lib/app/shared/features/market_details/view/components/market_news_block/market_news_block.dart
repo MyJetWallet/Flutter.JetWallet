@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/market_news/model/market_news_response_model.dart';
 import '../../../../../../../shared/helpers/launch_url.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../helper/format_news_date.dart';
 import '../../../notifier/market_news_notipod.dart';
 import '../../../provider/market_news_fpod.dart';
@@ -22,6 +23,7 @@ class MarketNewsBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final newsN = useProvider(marketNewsNotipod.notifier);
 
@@ -43,7 +45,7 @@ class MarketNewsBlock extends HookWidget {
           const SpaceH27(),
           SPaddingH24(
             child: Text(
-              'News',
+              intl.news,
               style: sTextH4Style,
             ),
           ),
@@ -71,7 +73,7 @@ class MarketNewsBlock extends HookWidget {
           if (news.length >= newsPortionAmount) ...[
             SPaddingH24(
               child: ClickableUnderlinedText(
-                text: newsN.canLoadMore ? 'Read more' : 'Read Less',
+                text: newsN.canLoadMore ? intl.readMore : intl.readLess,
                 onTap: () {
                   if (newsN.canLoadMore) {
                     newsN.loadMoreNews(assetId);

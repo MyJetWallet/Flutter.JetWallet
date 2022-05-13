@@ -5,6 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 import '../../../notifier/send_by_phone_permission_notifier/send_by_phone_permission_notipod.dart';
@@ -35,12 +36,12 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -60,6 +61,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final input = useProvider(sendByPhoneInputNotipod);
     final permission = useProvider(sendByPhonePermissionNotipod);
@@ -72,7 +74,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
       header: SPaddingH24(
         child: SMegaHeader(
           titleAlign: TextAlign.start,
-          title: 'Send ${widget.currency.description} by phone',
+          title: '${intl.send} ${widget.currency.description} ${intl.byPhone}',
         ),
       ),
       child: Stack(
@@ -93,7 +95,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                           width: 100,
                           child: AbsorbPointer(
                             child: SStandardField(
-                              labelText: 'Code',
+                              labelText: intl.code,
                               readOnly: true,
                               hideClearButton: true,
                               controller: input.dialCodeController,
@@ -108,7 +110,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                           },
                           child: AbsorbPointer(
                             child: SStandardField(
-                              labelText: 'Phone number',
+                              labelText: intl.phoneNumber,
                               readOnly: true,
                               hideClearButton: true,
                               controller: input.phoneNumberController,
@@ -136,7 +138,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
               color: Colors.transparent,
               child: SPrimaryButton2(
                 active: input.isReadyToContinue,
-                name: 'Continue',
+                name: intl.continueText,
                 onTap: () {
                   navigatorPush(
                     context,

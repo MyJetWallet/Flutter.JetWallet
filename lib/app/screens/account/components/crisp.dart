@@ -70,10 +70,12 @@ class _CrispState extends State<Crisp> {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return SPageFrame(
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Support',
+          title: intl.support,
         ),
       ),
       child: CrispView(

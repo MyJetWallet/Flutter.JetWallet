@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../notifier/add_circle_card_notipod.dart';
 import '../components/circle_progress_indicator.dart';
 import '../components/continue_button_frame.dart';
@@ -34,6 +35,7 @@ class CircleBillingAddress extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final state = useProvider(addCircleCardNotipod);
     final notifier = useProvider(addCircleCardNotipod.notifier);
     final enableButton = useState(true);
@@ -52,7 +54,7 @@ class CircleBillingAddress extends HookWidget {
                 Navigator.pop(context);
               }
             },
-            title: 'Billing address',
+            title: intl.billingAddress,
           ),
         ),
         child: Column(
@@ -62,35 +64,35 @@ class CircleBillingAddress extends HookWidget {
               children: [
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: 'Street Address',
+                    labelText: intl.streetAddress,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress1,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: 'Street Address 2 (optional)',
+                    labelText: '${intl.streetAddress} 2 (${intl.optional})',
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress2,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: 'City',
+                    labelText: intl.city,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCity,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: 'District',
+                    labelText: intl.district,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateDistrict,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: 'Postal code',
+                    labelText: intl.postalCode,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -106,7 +108,7 @@ class CircleBillingAddress extends HookWidget {
                 ContinueButtonFrame(
                   child: SPrimaryButton2(
                     active: navigationAllowed && state.isBillingAddressValid,
-                    name: 'Continue',
+                    name: intl.continueText,
                     onTap: () async {
                       enableButton.value = false;
                       await notifier.addCard(

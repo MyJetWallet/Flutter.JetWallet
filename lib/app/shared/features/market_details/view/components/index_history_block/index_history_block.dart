@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../transaction_history/view/transaction_hisotry.dart';
 
@@ -17,6 +18,7 @@ class IndexHistoryBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Container(
@@ -44,7 +46,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 19,
             ),
             child: Text(
-              'My stats',
+              intl.myStats,
               style: sSubtitle3Style,
             ),
           ),
@@ -73,7 +75,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 63,
             ),
             child: Text(
-              'Avg. cost',
+              intl.avgCost,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -85,7 +87,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 93,
             ),
             child: Text(
-              "Today's return",
+              intl.todaysReturn,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -97,7 +99,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 123,
             ),
             child: Text(
-              'Total return',
+              intl.totalReturn,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -111,7 +113,7 @@ class IndexHistoryBlock extends HookWidget {
                 top: 61,
               ),
               child: Text(
-                'Coming soon',
+                intl.comingSoon,
                 style: sBodyText1Style,
               ),
             ),
@@ -124,7 +126,7 @@ class IndexHistoryBlock extends HookWidget {
                 top: 91,
               ),
               child: Text(
-                'Coming soon',
+                intl.comingSoon,
                 style: sBodyText1Style,
               ),
             ),
@@ -137,7 +139,7 @@ class IndexHistoryBlock extends HookWidget {
                 top: 121,
               ),
               child: Text(
-                'Coming soon',
+                intl.comingSoon,
                 style: sBodyText1Style,
               ),
             ),

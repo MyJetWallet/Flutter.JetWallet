@@ -8,6 +8,7 @@ import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/kyc/kyc_notipod.dart';
 import '../../../notifier/kyc_selfie/kyc_selfie_notipod.dart';
@@ -39,6 +40,7 @@ class KycSelfie extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final state = useProvider(kycSelfieNotipod);
     final notifier = useProvider(kycSelfieNotipod.notifier);
     final colors = useProvider(sColorPod);
@@ -61,8 +63,8 @@ class KycSelfie extends HookWidget {
             Navigator.pushAndRemoveUntil(
               context,
               CupertinoPageRoute(
-                builder: (_) => const SuccessKycScreen(
-                  primaryText: 'We’re verifying now',
+                builder: (_) => SuccessKycScreen(
+                  primaryText: intl.kycAlertHandler_showVerifyingAlertPrimaryText,
                   secondaryText:
                       "You'll be notified when we complete the process "
                       'Usually within a few minutes.',
@@ -77,9 +79,9 @@ class KycSelfie extends HookWidget {
       child: SPageFrame(
         loading: loader.value,
         loadSuccess: loaderSuccess.value,
-        header: const SPaddingH24(
+        header: SPaddingH24(
           child: SSmallHeader(
-            title: 'Take a selfie',
+            title: intl.kycDocumentType_selfieImage,
           ),
         ),
         child: Stack(
@@ -103,7 +105,7 @@ class KycSelfie extends HookWidget {
                         child: Row(
                           children: [
                             Text(
-                              'We’ll compare it with your document.',
+                              '${intl.kycSelfie_compareWithYourDocument}.',
                               style: sBodyText1Style,
                             ),
                           ],
@@ -116,7 +118,7 @@ class KycSelfie extends HookWidget {
                               baseline: 48,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                'The selfie should clearly show:',
+                                '${intl.kycSelfie_selfieShouldClearly}:',
                                 style: sBodyText1Style,
                               ),
                             ),
@@ -142,8 +144,7 @@ class KycSelfie extends HookWidget {
                                   baseline: 30,
                                   baselineType: TextBaseline.alphabetic,
                                   child: Text(
-                                    'Face forward and make sure your eyes\n'
-                                    'are clearly visible',
+                                    intl.kycSelfie_faceForwardAndMakeSure,
                                     style: sBodyText1Style.copyWith(
                                       color: colors.grey1,
                                     ),
@@ -166,7 +167,7 @@ class KycSelfie extends HookWidget {
                             SizedBox(
                               height: 30,
                               child: Text(
-                                'Remove your glasses, if necessary',
+                                intl.kycSelfie_removeYourGlasses,
                                 maxLines: 3,
                                 style: sBodyText1Style.copyWith(
                                   color: colors.grey1,
@@ -196,7 +197,7 @@ class KycSelfie extends HookWidget {
                   }
                 },
                 name:
-                    (state.isSelfieNotEmpty) ? 'Upload photo' : 'Take a selfie',
+                    (state.isSelfieNotEmpty) ? intl.uploadPhoto : intl.kycDocumentType_selfieImage,
                 active: true,
                 icon: (state.isSelfieNotEmpty)
                     ? const SArrowUpIcon()

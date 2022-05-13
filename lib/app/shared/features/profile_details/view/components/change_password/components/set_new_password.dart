@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../auth/shared/components/password_validation/password_validation.dart';
 import '../../../../../../../../auth/shared/notifiers/credentials_notifier/credentials_notipod.dart';
 import '../../../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
+import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../notifier/change_password_notifier/change_password_notipod.dart';
 import '../../../../notifier/change_password_notifier/change_password_state.dart';
 
@@ -20,6 +21,7 @@ class SetNewPassword extends HookWidget {
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final changePasswordN = useProvider(changePasswordNotipod.notifier);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final loading = useValueNotifier(StackLoaderNotifier());
@@ -37,7 +39,7 @@ class SetNewPassword extends HookWidget {
           done: () {
             SuccessScreen.push(
               context: context,
-              secondaryText: 'New password set',
+              secondaryText: intl.newPasswordSet,
             );
           },
         );
@@ -46,7 +48,7 @@ class SetNewPassword extends HookWidget {
         color: colors.grey5,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: 'Create a password',
+            title: intl.create_password,
             onBackButtonTap: () => Navigator.of(context).pop(),
           ),
         ),
@@ -62,7 +64,7 @@ class SetNewPassword extends HookWidget {
                     changePasswordN.setNewPassword(password);
                     credentialsN.updateAndValidatePassword(password);
                   },
-                  labelText: 'Create a new Password',
+                  labelText: intl.createANewPassword,
                   autofocus: true,
                 ),
               ),
@@ -76,7 +78,7 @@ class SetNewPassword extends HookWidget {
             SPaddingH24(
               child: SPrimaryButton2(
                 active: changePassword.isNewPasswordButtonActive,
-                name: 'Set new password',
+                name: intl.setNewPassword,
                 onTap: () {
                   loading.value.startLoading();
                   changePasswordN.confirmNewPassword();

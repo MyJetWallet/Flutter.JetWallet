@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../../screens/market/helper/format_day_percentage_change.dart';
 import '../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../helpers/formatting/formatting.dart';
@@ -21,6 +22,7 @@ class WalletCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final interestRateText = '+${volumeFormat(
@@ -114,7 +116,7 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                isInProgress ? 'In progress...'
+                isInProgress ? '${intl.balanceInProcess_text1}...'
                     : currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,

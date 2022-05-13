@@ -50,8 +50,10 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
 
       _deleteCardFromCardsBy(cardId);
     } catch (e) {
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong! Try again',
+        intl.error_somethingWentWrongTryAgain,
         id: 1,
       );
     }

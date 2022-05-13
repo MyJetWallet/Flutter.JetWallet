@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../model/withdrawal_model.dart';
 import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
@@ -20,6 +21,7 @@ class CurrencyWithdraw extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAddressNotipod(withdrawal));
     final notifier = useProvider(withdrawalAddressNotipod(withdrawal).notifier);
@@ -61,7 +63,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         controller: state.networkController,
-                        labelText: 'Choose network',
+                        labelText: intl.showNetwork_header1,
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
@@ -78,7 +80,7 @@ class CurrencyWithdraw extends HookWidget {
                   child: SPaddingH24(
                     child: SStandardField(
                       errorNotifier: state.addressErrorNotifier,
-                      labelText: 'Enter ${currency.symbol} address',
+                      labelText: '${intl.enter} ${currency.symbol} ${intl.address1}',
                       focusNode: state.addressFocus,
                       controller: state.addressController,
                       onChanged: (value) => notifier.updateAddress(value),
@@ -155,7 +157,7 @@ class CurrencyWithdraw extends HookWidget {
                     color: colors.grey5,
                     child: SPrimaryButton2(
                       active: state.isReadyToContinue,
-                      name: 'Continue',
+                      name: intl.continueText,
                       onTap: () => notifier.validateOnContinue(context),
                     ),
                   ),

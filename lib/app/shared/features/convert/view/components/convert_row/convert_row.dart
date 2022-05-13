@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../helpers/input_helpers.dart';
 import '../../../../../models/currency_model.dart';
 import '../../../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -37,6 +38,7 @@ class ConvertRow extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final cursorAnimation = useAnimationController(
@@ -50,7 +52,7 @@ class ConvertRow extends HookWidget {
         context: context,
         scrollable: true,
         pinned: SBottomSheetHeader(
-          name: fromAsset ? 'From' : 'To',
+          name: fromAsset ? intl.from : intl.to1,
         ),
         children: [
           for (final item in assetWithBalance)
@@ -143,7 +145,7 @@ class ConvertRow extends HookWidget {
                       const SpaceW34(),
                       if (inputError == null || inputError == InputError.none)
                         Text(
-                          'Available: ${currency.volumeAssetBalance}',
+                          '${intl.available}: ${currency.volumeAssetBalance}',
                           maxLines: 1,
                           style: sBodyText2Style.copyWith(
                             color: colors.grey2,

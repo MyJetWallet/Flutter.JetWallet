@@ -10,6 +10,7 @@ import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../currency_buy/model/preview_buy_with_asset_input.dart';
 import '../../../currency_buy/view/preview_buy_with_asset.dart';
@@ -38,6 +39,7 @@ class RecurringSuccessScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final shouldPop = useState(true);
 
@@ -65,7 +67,7 @@ class RecurringSuccessScreen extends HookWidget {
                 baseline: 136.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
-                  'Success',
+                  intl.success,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: sTextH2Style,
@@ -75,7 +77,7 @@ class RecurringSuccessScreen extends HookWidget {
                 baseline: 31.4,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
-                  'Order processing',
+                  intl.orderProcessing,
                   maxLines: 10,
                   textAlign: TextAlign.center,
                   style: sBodyText1Style.copyWith(
@@ -86,12 +88,12 @@ class RecurringSuccessScreen extends HookWidget {
               const Spacer(),
               SSecondaryButton1(
                 active: true,
-                name: 'Setup recurring buy',
+                name: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                 onTap: () {
                   shouldPop.value = false;
 
                   showActionWithOutRecurringBuy(
-                    title: 'Setup recurring buy',
+                    title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                     then: (_) {
                       if (!shouldPop.value) navigateToRouter(context.read);
                       shouldPop.value = false;

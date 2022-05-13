@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/currencies_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
@@ -26,6 +27,7 @@ class Convert extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(convertInputNotipod(fromCurrency));
     final notifier = useProvider(convertInputNotipod(fromCurrency).notifier);
@@ -50,9 +52,9 @@ class Convert extends HookWidget {
     sortCurrenciesByWeight(toAssetWithoutBalance);
 
     return SPageFrame(
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Convert',
+          title: intl.convert,
         ),
       ),
       child: Column(
@@ -117,7 +119,7 @@ class Convert extends HookWidget {
             widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
-            preset3Name: 'MAX',
+            preset3Name: intl.max,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
               notifier.selectPercentFromBalance(preset);
@@ -131,7 +133,7 @@ class Convert extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.convertValid,
-            submitButtonName: 'Preview Convert',
+            submitButtonName: intl.previewConvert,
             onSubmitPressed: () {
               navigatorPush(
                 context,
