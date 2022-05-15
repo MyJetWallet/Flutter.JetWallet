@@ -13,6 +13,15 @@ class SColorsLight implements SimpleColors {
   Color green = const Color(0xFF0BCA1E);
 
   @override
+  Color aquaGreen = const Color(0xFF27D0BC);
+
+  @override
+  Color leafGreen = const Color(0xFF15BF8C);
+
+  @override
+  Color seaGreen = const Color(0xFF00DA73);
+
+  @override
   Color grey1 = const Color(0xFF777C85);
 
   @override

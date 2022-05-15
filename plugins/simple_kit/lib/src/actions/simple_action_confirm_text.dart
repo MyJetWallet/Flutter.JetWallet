@@ -12,6 +12,8 @@ class SActionConfirmText extends StatelessWidget {
     this.animation,
     this.timerLoading = false,
     this.contentLoading = false,
+    this.minValueWidth = 100,
+    this.maxValueWidth = 180,
     required this.name,
     required this.value,
   }) : super(key: key);
@@ -29,6 +31,8 @@ class SActionConfirmText extends StatelessWidget {
   final bool contentLoading;
   final String name;
   final String value;
+  final double minValueWidth;
+  final double maxValueWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +69,8 @@ class SActionConfirmText extends StatelessWidget {
           else
             Container(
               constraints: BoxConstraints(
-                maxWidth: animation != null ? 200.0 : 180.0,
-                minWidth: 100.0,
+                maxWidth: animation != null ? 200.0 : maxValueWidth,
+                minWidth: minValueWidth,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,

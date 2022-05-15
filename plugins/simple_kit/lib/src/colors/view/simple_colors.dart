@@ -4,6 +4,9 @@ abstract class SimpleColors {
   abstract Color red;
   abstract Color blue;
   abstract Color green;
+  abstract Color seaGreen;
+  abstract Color leafGreen;
+  abstract Color aquaGreen;
   abstract Color grey1;
   abstract Color grey2;
   abstract Color grey3;
