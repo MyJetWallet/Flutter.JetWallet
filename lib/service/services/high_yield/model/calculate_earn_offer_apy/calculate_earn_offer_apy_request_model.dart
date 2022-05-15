@@ -16,6 +16,7 @@ class CalculateEarnOfferApyRequestModel
   }) = _CalculateEarnOfferApyRequestModel;
 
   factory CalculateEarnOfferApyRequestModel.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$CalculateEarnOfferApyRequestModelFromJson(json);
 }
