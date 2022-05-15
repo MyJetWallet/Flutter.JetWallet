@@ -1,0 +1,249 @@
+import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../../../screens/account/components/help_center_web_view.dart';
+import '../../../helpers/format_currency_string_amount.dart';
+import '../../../helpers/formatting/base/market_format.dart';
+import '../../../helpers/input_helpers.dart';
+import '../../../models/currency_model.dart';
+import '../../../providers/converstion_price_pod/conversion_price_input.dart';
+import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
+import '../../market_details/view/components/about_block/components/clickable_underlined_text.dart';
+import '../model/preview_high_yield_buy_input.dart';
+import '../notifier/high_yield_buy_notipod.dart';
+import 'preview_high_yield_buy.dart';
+
+class HighYieldBuy extends HookWidget {
+  const HighYieldBuy({
+    Key? key,
+    required this.currency,
+  }) : super(key: key);
+
+  final CurrencyModel currency;
+
+  @override
+  Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
+    final colors = useProvider(sColorPod);
+    final state = useProvider(highYieldBuyNotipod(currency));
+    final notifier = useProvider(highYieldBuyNotipod(currency).notifier);
+    useProvider(
+      conversionPriceFpod(
+        ConversionPriceInput(
+          baseAssetSymbol: currency.symbol,
+          quotedAssetSymbol: state.selectedCurrencySymbol,
+          then: notifier.updateTargetConversionPrice,
+        ),
+      ),
+    );
+
+    void _showHowWeCountSheet() {
+      sShowBasicModalBottomSheet(
+        horizontalPadding: 24,
+        children: [
+          const SpaceH4(),
+          Center(
+            child: Text(
+              state.singleTier ? 'Conditions' : 'How we count',
+              // 'Conditions',
+              style: sTextH1Style,
+            ),
+          ),
+          const SpaceH11(),
+          Center(
+            child: Text(
+              'Annual percentage yield',
+              style: sBodyText1Style.copyWith(
+                color: colors.grey1,
+              ),
+            ),
+          ),
+          const SpaceH35(),
+          SimplePercentageIndicator(
+            tiers: state.simpleTiers,
+          ),
+          const SpaceH24(),
+          if (!state.singleTier)
+            for (var i = 0; i < state.simpleTiers.length; i++)
+              SActionConfirmText(
+                name: 'Tier ${i + 1} APY (limit: '
+                    '${marketFormat(
+                  prefix: '\$',
+                  decimal: Decimal.parse(state.simpleTiers[i].fromUsd),
+                  accuracy: 0,
+                  symbol: 'USD',
+                )}-${marketFormat(
+                  prefix: '\$',
+                  decimal: Decimal.parse(state.simpleTiers[i].toUsd),
+                  accuracy: 0,
+                  symbol: 'USD',
+                )})',
+                baseline: 35.0,
+                value: '${state.simpleTiers[i].apy}%',
+                valueColor: i == 0
+                    ? colors.seaGreen
+                    : i == 1
+                        ? colors.leafGreen
+                        : colors.aquaGreen,
+                minValueWidth: 50,
+                maxValueWidth: 50,
+              )
+          else ...[
+            SActionConfirmText(
+              name: 'Limit',
+              baseline: 35.0,
+              value: '\$${state.tiers[0].fromUsd}-${state.tiers[0].toUsd}',
+              minValueWidth: 50,
+              maxValueWidth: 200,
+            ),
+            SActionConfirmText(
+              name: 'APY',
+              baseline: 35.0,
+              value: '${state.tiers[0].apy}%',
+              minValueWidth: 50,
+              maxValueWidth: 50,
+            ),
+          ],
+          const SpaceH35(),
+          const SDivider(),
+          const SpaceH25(),
+          SActionConfirmText(
+            name: 'Your deposit',
+            baseline: 14.0,
+            value: marketFormat(
+              decimal: Decimal.parse(state.inputValue),
+              accuracy: state.selectedCurrencyAccuracy,
+              symbol: state.selectedCurrencySymbol,
+            ),
+            minValueWidth: 200,
+            maxValueWidth: 200,
+          ),
+          SActionConfirmText(
+            name: 'Your APY',
+            baseline: 25.0,
+            value: '${state.apy}%',
+            minValueWidth: 50,
+            maxValueWidth: 50,
+          ),
+          const SpaceH19(),
+          Row(
+            children: [
+              ClickableUnderlinedText(
+                text: 'Learn more',
+                onTap: () {
+                  // TODO: add navigation
+                  HelpCenterWebView.push(
+                    context: context,
+                    link: faqLink,
+                  );
+                },
+              ),
+            ],
+          ),
+          const SpaceH40(),
+        ],
+        context: context,
+      );
+    }
+
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          // TODO: remove hardcode
+          title: 'Flexible',
+          showInfoButton: true,
+          onInfoButtonTap: _showHowWeCountSheet,
+        ),
+      ),
+      child: Column(
+        children: [
+          deviceSize.when(
+            small: () => const SizedBox(),
+            medium: () => const Spacer(),
+          ),
+          Baseline(
+            baseline: deviceSize.when(
+              small: () => 32,
+              medium: () => 9,
+            ),
+            baselineType: TextBaseline.alphabetic,
+            child: SActionPriceField(
+              widgetSize: widgetSizeFrom(deviceSize),
+              price: formatCurrencyStringAmount(
+                prefix: currency.prefixSymbol,
+                value: state.inputValue,
+                symbol: currency.symbol,
+              ),
+              helper: state.conversionText(),
+              error: state.inputError.value,
+              isErrorActive: state.inputError.isActive,
+            ),
+          ),
+          Baseline(
+            baseline: deviceSize.when(
+              small: () => -36,
+              medium: () => 19,
+            ),
+            baselineType: TextBaseline.alphabetic,
+            child: Text(
+              'Available: ${currency.volumeAssetBalance}',
+              style: sSubtitle3Style.copyWith(
+                color: colors.grey2,
+              ),
+            ),
+          ),
+          const Spacer(),
+          SHighYieldPercentageDescription(
+            widgetSize: widgetSizeFrom(deviceSize),
+            apy: state.apy != null ? '${state.apy}%' : '',
+            onTap: _showHowWeCountSheet,
+            tiers: state.simpleTiers,
+          ),
+          deviceSize.when(
+            small: () => const Spacer(),
+            medium: () => const SpaceH20(),
+          ),
+          SNumericKeyboardAmount(
+            widgetSize: widgetSizeFrom(deviceSize),
+            preset1Name: '25%',
+            preset2Name: '50%',
+            preset3Name: 'MAX',
+            selectedPreset: state.selectedPreset,
+            onPresetChanged: (preset) {
+              notifier.selectPercentFromBalance(preset);
+            },
+            onKeyPressed: (value) {
+              notifier.updateInputValue(value);
+            },
+            buttonType: SButtonType.primary2,
+            submitButtonActive: state.inputValid,
+            submitButtonName: 'Preview',
+            onSubmitPressed: () {
+              navigatorPush(
+                context,
+                PreviewHighYieldBuy(
+                  input: PreviewHighYieldBuyInput(
+                    amount: state.inputValue,
+                    fromCurrency: currency,
+                    toCurrency: currency,
+                    apy: state.apy.toString(),
+                    expectedYearlyProfit: state.expectedYearlyProfit.toString(),
+                    expectedYearlyProfitBase:
+                        state.expectedYearlyProfitBaseAsset.toString(),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

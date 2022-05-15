@@ -13,6 +13,7 @@ import '../../service/services/change_password/service/change_password_service.d
 import '../../service/services/chart/service/chart_service.dart';
 import '../../service/services/circle/service/circle_service.dart';
 import '../../service/services/disclaimer/service/disclaimers_service.dart';
+import '../../service/services/high_yield/service/high_yield_service.dart';
 import '../../service/services/info/service/info_service.dart';
 import '../../service/services/key_value/key_value_service.dart';
 import '../../service/services/kyc/service/kyc_service.dart';
@@ -239,4 +240,10 @@ final disclaimerServicePod = Provider<DisclaimersService>((ref) {
   final dio = ref.watch(dioPod);
 
   return DisclaimersService(dio);
+});
+
+final highYieldServicePod = Provider<HighYieldService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return HighYieldService(dio);
 });
