@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
@@ -16,6 +17,7 @@ import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../market_details/view/components/about_block/components/clickable_underlined_text.dart';
+import '../model/high_yield_buy_input.dart';
 import '../model/preview_high_yield_buy_input.dart';
 import '../notifier/high_yield_buy_notipod.dart';
 import 'preview_high_yield_buy.dart';
@@ -24,16 +26,22 @@ class HighYieldBuy extends HookWidget {
   const HighYieldBuy({
     Key? key,
     required this.currency,
+    required this.earnOffer,
   }) : super(key: key);
 
   final CurrencyModel currency;
+  final EarnOfferModel earnOffer;
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
-    final state = useProvider(highYieldBuyNotipod(currency));
-    final notifier = useProvider(highYieldBuyNotipod(currency).notifier);
+    final input = HighYieldBuyInput(
+      currency: currency,
+      earnOffer: earnOffer,
+    );
+    final state = useProvider(highYieldBuyNotipod(input));
+    final notifier = useProvider(highYieldBuyNotipod(input).notifier);
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
@@ -156,8 +164,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          // TODO: remove hardcode
-          title: 'Flexible',
+          title: earnOffer.title,
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
@@ -237,6 +244,7 @@ class HighYieldBuy extends HookWidget {
                     expectedYearlyProfit: state.expectedYearlyProfit.toString(),
                     expectedYearlyProfitBase:
                         state.expectedYearlyProfitBaseAsset.toString(),
+                    earnOffer: earnOffer,
                   ),
                 ),
               );

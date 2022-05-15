@@ -49,7 +49,7 @@ class PreviewHighYieldBuyNotifier
     );
   }
 
-  Future<void> earnOfferDeposit() async {
+  Future<void> earnOfferDeposit(String offerId) async {
     _logger.log(notifier, 'earnOfferDeposit');
 
     state = state.copyWith(union: const ExecuteLoading());
@@ -57,8 +57,7 @@ class PreviewHighYieldBuyNotifier
     try {
       final model = EarnOfferDepositRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-        // TODO: remove hardcode
-        offerId: '9180702d6d1349af83acd8260dcc458c',
+        offerId: offerId,
         assetSymbol: state.fromAssetSymbol ?? '',
         amount: state.fromAssetAmount ?? Decimal.zero,
       );

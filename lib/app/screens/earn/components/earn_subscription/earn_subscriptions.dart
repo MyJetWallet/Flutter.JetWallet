@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
+import '../../../../shared/models/currency_model.dart';
 import 'components/earn_subscription_pinned.dart';
 import 'components/subscriptions_item.dart';
 
 void showSubscriptionBottomSheet({
   required BuildContext context,
   required List<EarnOfferModel> offers,
-  required String assetName,
+  required CurrencyModel currency,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,
     removeBottomSheetBar: true,
     removeBarPadding: true,
-    pinned: EarnSubscriptionPinned(name: assetName),
+    pinned: EarnSubscriptionPinned(name: currency.description),
     horizontalPinnedPadding: 0,
     scrollable: true,
     children: [
@@ -25,14 +26,16 @@ void showSubscriptionBottomSheet({
             const SpaceH15(),
             for (final element in offers) ...[
               SubscriptionsItem(
+                earnOffer: element,
+                currency: currency,
                 apy: element.currentApy,
                 isHot: element.offerTag == 'Hot',
                 days: element.endDate == null
                     ? 0
                     : calcDifference(
-                      firstDate: element.startDate,
-                      lastDate: element.endDate!,
-                ),
+                        firstDate: element.startDate,
+                        lastDate: element.endDate!,
+                      ),
               ),
             ],
             const SpaceH35(),

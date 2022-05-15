@@ -31,10 +31,8 @@ class Earn extends HookWidget {
             primary: false,
             flexibleSpace: const EarnHeader(),
           ),
-          if (earnOffers.isNotEmpty)
-            const EarnItems(),
-          if (earnOffers.isEmpty)
-            const EarnEmptyState(),
+          if (earnOffers.isNotEmpty) const EarnItems(),
+          if (earnOffers.isEmpty) const EarnEmptyState(),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../models/currency_model.dart';
 
 part 'preview_high_yield_buy_input.freezed.dart';
@@ -13,5 +14,6 @@ class PreviewHighYieldBuyInput with _$PreviewHighYieldBuyInput {
     required String expectedYearlyProfitBase,
     required CurrencyModel fromCurrency,
     required CurrencyModel toCurrency,
+    required EarnOfferModel earnOffer,
   }) = _PreviewHighYieldBuyInput;
 }

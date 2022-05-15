@@ -40,7 +40,7 @@ class EarnItem extends HookWidget {
             showSubscriptionBottomSheet(
               context: context,
               offers: currentOffers,
-              assetName: currentCurrency.description,
+              currency: currentCurrency,
             );
           },
           child: Ink(

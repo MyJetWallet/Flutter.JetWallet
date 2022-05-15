@@ -47,7 +47,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
-          title: notifier.previewHeader,
+          title: 'Confirm ${widget.input.earnOffer.title}',
           crossAxisAlignment: CrossAxisAlignment.center,
           onBackButtonTap: () {
             notifier.cancelTimer();
@@ -82,11 +82,10 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     baseline: 35.0,
                     value: '${widget.input.apy}%',
                   ),
-                  const SActionConfirmText(
+                  SActionConfirmText(
                     name: 'Term',
                     baseline: 35.0,
-                    // TODO: remove hardcode
-                    value: 'Flexible',
+                    value: widget.input.earnOffer.title,
                   ),
                   const SpaceH34(),
                   const SDivider(),
@@ -127,7 +126,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     active: true,
                     name: 'Confirm',
                     onTap: () {
-                      notifier.earnOfferDeposit();
+                      notifier.earnOfferDeposit(widget.input.earnOffer.offerId);
                     },
                   ),
                   const SpaceH24(),

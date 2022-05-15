@@ -4,7 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../service/services/signal_r/model/earn_offers_model.dart';
+import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../shared/features/high_yield_buy/view/high_yield_buy.dart';
+import '../../../../../shared/models/currency_model.dart';
 
 class SubscriptionsItem extends HookWidget {
   const SubscriptionsItem({
@@ -12,11 +16,15 @@ class SubscriptionsItem extends HookWidget {
     this.days = 0,
     required this.isHot,
     required this.apy,
+    required this.earnOffer,
+    required this.currency,
   }) : super(key: key);
 
   final bool isHot;
   final Decimal apy;
   final int days;
+  final EarnOfferModel earnOffer;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +37,15 @@ class SubscriptionsItem extends HookWidget {
           highlightColor: colors.grey5,
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
-          onTap: () {},
+          onTap: () {
+            navigatorPushReplacement(
+              context,
+              HighYieldBuy(
+                currency: currency,
+                earnOffer: earnOffer,
+              ),
+            );
+          },
           child: Ink(
             height: 88,
             width: double.infinity,
@@ -52,9 +68,11 @@ class SubscriptionsItem extends HookWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          isHot ? '${intl.earn_hot} ${String.fromCharCodes(
-                              Runes('\u{1F525}'),
-                          )}' : intl.earn_flexible,
+                          isHot
+                              ? '${intl.earn_hot} ${String.fromCharCodes(
+                                  Runes('\u{1F525}'),
+                                )}'
+                              : intl.earn_flexible,
                           style: sSubtitle2Style.copyWith(
                             color: colors.black,
                           ),

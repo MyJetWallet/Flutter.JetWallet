@@ -15,19 +15,20 @@ import '../../../models/currency_model.dart';
 import '../../../models/selected_percent.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../model/high_yield_buy_input.dart';
 import 'high_yield_buy_state.dart';
 
 class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
-  HighYieldBuyNotifier(this.read, this.currencyModel)
+  HighYieldBuyNotifier(this.read, this.input)
       : super(const HighYieldBuyState()) {
     _initCurrencies();
     _initBaseCurrency();
-    updateSelectedCurrency(currencyModel);
+    updateSelectedCurrency(input.currency);
     calculateEarnOfferApy();
   }
 
   final Reader read;
-  final CurrencyModel currencyModel;
+  final HighYieldBuyInput input;
 
   static final _logger = Logger('HighYieldBuyNotifier');
 
@@ -36,7 +37,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
       read(currenciesPod),
     );
     sortCurrencies(currencies);
-    removeCurrencyFrom(currencies, currencyModel);
+    removeCurrencyFrom(currencies, input.currency);
     state = state.copyWith(currencies: currencies);
   }
 
@@ -62,11 +63,11 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
     final value = valueBasedOnSelectedPercent(
       selected: percent,
-      currency: currencyModel,
+      currency: input.currency,
     );
 
     _updateInputValue(
-      valueAccordingToAccuracy(value, currencyModel.accuracy),
+      valueAccordingToAccuracy(value, input.currency.accuracy),
     );
     _validateInput();
     _calculateTargetConversion();
@@ -98,7 +99,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
       responseOnInputAction(
         oldInput: state.inputValue,
         newInput: value,
-        accuracy: currencyModel.accuracy,
+        accuracy: input.currency.accuracy,
       ),
     );
     _validateInput();
@@ -112,8 +113,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     _logger.log(notifier, 'calculateEarnOfferApy');
 
     final model = CalculateEarnOfferApyRequestModel(
-      // TODO: remove hardcode
-      offerId: '9180702d6d1349af83acd8260dcc458c',
+      offerId: input.earnOffer.offerId,
       assetSymbol: state.selectedCurrencySymbol,
       amount: Decimal.parse(state.inputValue),
     );
@@ -191,7 +191,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     if (state.inputValue.isNotEmpty) {
       final baseValue = calculateBaseBalanceWithReader(
         read: read,
-        assetSymbol: currencyModel.symbol,
+        assetSymbol: input.currency.symbol,
         assetBalance: Decimal.parse(state.inputValue),
       );
 
@@ -214,7 +214,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
   void _validateInput() {
     final error = onTradeInputErrorHandler(
       state.inputValue,
-      currencyModel,
+      input.currency,
     );
 
     if (state.selectedCurrency == null) {
