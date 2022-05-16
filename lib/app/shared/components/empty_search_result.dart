@@ -4,6 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../shared/providers/service_providers.dart';
+
 class EmptySearchResult extends HookWidget {
   const EmptySearchResult({
     required this.text,
@@ -14,6 +16,7 @@ class EmptySearchResult extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return SizedBox(
@@ -26,7 +29,7 @@ class EmptySearchResult extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'No results for',
+                intl.emptySearchResult_text1,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,
                 ),

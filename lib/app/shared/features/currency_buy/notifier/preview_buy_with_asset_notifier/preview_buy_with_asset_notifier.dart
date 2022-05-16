@@ -248,10 +248,13 @@ class PreviewBuyWithAssetNotifier
   }
 
   String get previewHeader {
+    final intl = read(intlPod);
+
     if (input.recurringType == RecurringBuysType.oneTimePurchase) {
-      return 'Confirm Buy ${input.toCurrency.description}';
+      return '${intl.confirmBuy} ${input.toCurrency.description}';
     } else {
-      return 'Confirm ${input.toCurrency.description} Recurring Buy';
+      return '${intl.confirm} ${input.toCurrency.description} '
+          '${intl.recurringBuysName_active}';
     }
   }
 

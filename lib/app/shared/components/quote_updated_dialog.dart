@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../shared/providers/service_providers.dart';
 
 /// TODO(ELI) update this dialog
 /// TODO (remove legacy code)
@@ -7,16 +10,18 @@ void showQuoteUpdatedDialog({
   required BuildContext context,
   required Function() onPressed,
 }) {
+  final intl = context.read(intlPod);
+
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (_) {
       return CupertinoAlertDialog(
-        title: const Text(
-          'Alert',
+        title: Text(
+          intl.quoteUpdatedDialog_title,
         ),
-        content: const Text(
-          'Quote has been updated',
+        content: Text(
+          intl.quoteUpdatedDialog_content,
         ),
         actions: <Widget>[
           TextButton(
@@ -24,8 +29,8 @@ void showQuoteUpdatedDialog({
               onPressed();
               Navigator.of(context, rootNavigator: true).pop();
             },
-            child: const Text(
-              'Got it!',
+            child: Text(
+              '${intl.gotIt}!',
             ),
           )
         ],

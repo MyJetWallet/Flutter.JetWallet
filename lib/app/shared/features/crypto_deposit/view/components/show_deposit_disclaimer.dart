@@ -11,8 +11,8 @@ void showDepositDisclaimer({
   required String screenTitle,
   required void Function()? onDismiss,
 }) {
-  final action = screenTitle == 'Receive' ? screenTitle : 'Send';
   final intl = context.read(intlPod);
+  final action = screenTitle == 'Receive' ? screenTitle : intl.send;
 
   sShowAlertPopup(
     context,

@@ -60,10 +60,12 @@ class UploadKycDocumentsNotifier
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
+      final intl = read(intlPod);
+
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong. Please try again',
+        intl.something_went_wrong2,
         id: 1,
       );
     }
@@ -191,22 +193,23 @@ class UploadKycDocumentsNotifier
   String buttonName() {
     final activeDocument =
         read(chooseDocumentsNotipod.notifier).getActiveDocument();
+    final intl = read(intlPod);
 
     if (activeDocument.document != KycDocumentType.passport) {
       if (state.documentFirstSide != null && state.documentSecondSide != null) {
-        return 'Upload photos';
+        return intl.uploadPhotos;
       } else {
         if (state.numberSide == 0) {
-          return 'Front side';
+          return intl.frontSide;
         } else {
-          return 'Back side';
+          return intl.backSide;
         }
       }
     } else {
       if (state.documentFirstSide != null) {
-        return 'Upload photos';
+        return intl.uploadPhotos;
       } else {
-        return 'Front side';
+        return intl.frontSide;
       }
     }
   }

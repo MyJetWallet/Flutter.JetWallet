@@ -224,8 +224,10 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   String get previewHeader {
-    return 'Confirm Convert\n${input.fromCurrency.symbol} '
-        'to ${input.toCurrency.symbol}';
+    final intl = read(intlPod);
+
+    return '${intl.confirmConvert}\n${input.fromCurrency.symbol} '
+        '${intl.to} ${input.toCurrency.symbol}';
   }
 
   @override

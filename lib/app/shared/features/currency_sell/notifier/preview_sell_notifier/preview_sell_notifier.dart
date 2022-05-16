@@ -222,7 +222,9 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   }
 
   String get previewHeader {
-    return 'Confirm Sell ${input.fromCurrency.description}';
+    final intl = read(intlPod);
+
+    return '${intl.confirmSell} ${input.fromCurrency.description}';
   }
 
   @override

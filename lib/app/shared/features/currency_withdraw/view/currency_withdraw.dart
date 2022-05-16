@@ -107,7 +107,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         errorNotifier: state.tagErrorNotifier,
-                        labelText: 'Enter Tag',
+                        labelText: intl.enterTag,
                         focusNode: state.tagFocus,
                         controller: state.tagController,
                         onChanged: (value) => notifier.updateTag(value),
@@ -132,7 +132,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SRequirement(
                       isError: state.isRequirementError,
                       loading: state.requirementLoading,
-                      description: state.validationResult,
+                      description: notifier.validationResult,
                       // error and loading goes first in the RRequirement
                       // condition, if not Error or Loading then
                       // it's always passed
@@ -144,7 +144,7 @@ class CurrencyWithdraw extends HookWidget {
                 const SpaceH10(),
                 SPaddingH24(
                   child: Text(
-                    state.withdrawHint,
+                    notifier.withdrawHint,
                     maxLines: 3,
                     style: sCaptionTextStyle.copyWith(
                       color: colors.grey1,

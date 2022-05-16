@@ -399,6 +399,40 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     );
   }
 
+  String get validationResult {
+    final intl = read(intlPod);
+
+    if (state.addressValidation is Loading || state.tagValidation is Loading) {
+      return '${intl.checking}...';
+    } else if (state.addressValidation is Invalid) {
+      return '${intl.invalid} ${currency.symbol} ${intl.address}';
+    } else if (state.tagValidation is Invalid) {
+      return '${intl.invalid} ${currency.symbol} ${intl.tag}';
+    } else if (state.addressValidation is Invalid &&
+        state.tagValidation is Invalid) {
+      return '${intl.invalid} ${currency.symbol} ${intl.address} & ${intl.tag}';
+    } else if (state.addressValidation is Valid &&
+        state.tagValidation is Valid) {
+      return '${intl.valid} ${currency.symbol} ${intl.address} & ${intl.tag}';
+    } else if (state.addressValidation is Valid) {
+      return '${intl.valid} ${currency.symbol} ${intl.address}';
+    } else if (state.tagValidation is Valid) {
+      return '${intl.valid} ${currency.symbol} ${intl.tag}';
+    } else {
+      return intl.error;
+    }
+  }
+
+  String get withdrawHint {
+    final intl = read(intlPod);
+
+    if (state.isReadyToContinue) {
+      return '${intl.withdrawHint_text1}.';
+    } else {
+      return '${intl.withdrawHint_text2}.';
+    }
+  }
+
   @override
   void dispose() {
     state.addressFocus.dispose();
