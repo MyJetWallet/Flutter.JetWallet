@@ -14,8 +14,33 @@ import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
 
-class EmailVerification extends HookWidget {
+class EmailVerification extends StatefulHookWidget {
   const EmailVerification({Key? key}) : super(key: key);
+
+  @override
+  State<EmailVerification> createState() => _EmailVerificationState();
+}
+
+class _EmailVerificationState extends State<EmailVerification>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      context.read(emailVerificationNotipod.notifier).pasteCode();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +114,8 @@ class EmailVerification extends HookWidget {
                   ),
                   const Spacer(),
                   GestureDetector(
+                    onLongPress: () => verificationN.pasteCode(),
+                    onDoubleTap: () => verificationN.pasteCode(),
                     onTap: () {
                       if (!focusNode.hasFocus) {
                         focusNode.requestFocus();
