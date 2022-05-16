@@ -131,7 +131,8 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
     return SuccessScreen.push(
       context: _context,
       secondaryText:
-          '${intl.your} ${withdrawal.currency.symbol} $_verb ${intl.requestHasBeenSubmitted}',
+          '${intl.your} ${withdrawal.currency.symbol} $_verb '
+              '${intl.requestHasBeenSubmitted}',
       then: () {
         read(navigationStpod).state = 1;
       },

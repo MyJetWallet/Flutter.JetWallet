@@ -80,7 +80,8 @@ class CurrencyWithdraw extends HookWidget {
                   child: SPaddingH24(
                     child: SStandardField(
                       errorNotifier: state.addressErrorNotifier,
-                      labelText: '${intl.enter} ${currency.symbol} ${intl.address1}',
+                      labelText: '${intl.enter} ${currency.symbol} '
+                          '${intl.address1}',
                       focusNode: state.addressFocus,
                       controller: state.addressController,
                       onChanged: (value) => notifier.updateAddress(value),

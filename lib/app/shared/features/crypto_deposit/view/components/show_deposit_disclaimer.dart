@@ -17,7 +17,8 @@ void showDepositDisclaimer({
   sShowAlertPopup(
     context,
     primaryText:
-        '$action ${intl.only} $assetSymbol ${intl.showDepositDisclaimer_primatyText}',
+        '$action ${intl.only} '
+            '$assetSymbol ${intl.showDepositDisclaimer_primatyText}',
     primaryButtonName: intl.gotIt,
     barrierDismissible: false,
     willPopScope: false,

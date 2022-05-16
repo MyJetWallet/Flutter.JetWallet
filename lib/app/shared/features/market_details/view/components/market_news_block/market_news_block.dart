@@ -68,6 +68,8 @@ class MarketNewsBlock extends HookWidget {
                 context,
                 news[index].urlAddress,
               ),
+              text1: intl.discussOn,
+              text2: intl.cryptoPanic,
             ),
           ),
           if (news.length >= newsPortionAmount) ...[

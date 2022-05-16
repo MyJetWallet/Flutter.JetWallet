@@ -20,7 +20,10 @@ class MarketHeaderStats extends HookWidget {
         title: intl.market,
         percent: marketInfo.toString(),
         isPositive: marketInfo > Decimal.zero,
-        subtitle: '${intl.marketIs} ${(marketInfo > Decimal.zero) ? intl.up : intl.down}',
+        subtitle:
+            '${intl.marketIs} ${
+                (marketInfo > Decimal.zero) ? intl.up : intl.down
+            }',
         showInfo: marketInfo != Decimal.zero,
       ),
     );

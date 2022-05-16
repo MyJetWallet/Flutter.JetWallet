@@ -58,8 +58,7 @@ class UploadKycDocuments extends HookWidget {
     );
 
     analytics(
-      () =>
-          sAnalytics.assetView(KycSource.kycUploadIdentityDocumentView.name),
+      () => sAnalytics.assetView(KycSource.kycUploadIdentityDocumentView.name),
     );
 
     return ProviderListener<UploadKycDocumentsState>(
@@ -83,7 +82,10 @@ class UploadKycDocuments extends HookWidget {
         loadSuccess: loaderSuccess.value,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: '${intl.upload} ${stringKycDocumentType(activeDocument.document)}',
+            title: '${intl.upload} ${stringKycDocumentType(
+              activeDocument.document,
+              context,
+            )}',
           ),
         ),
         child: Stack(
@@ -123,8 +125,21 @@ class UploadKycDocuments extends HookWidget {
                       ),
                       const Spacer(),
                       const SpaceH10(),
-                      const SPaddingH24(
-                        child: SDocumentsRecommendations(),
+                      SPaddingH24(
+                        child: SDocumentsRecommendations(
+                          primaryText1:
+                              intl.sDocumentRecommendation_primaryText1,
+                          primaryText2:
+                              intl.sDocumentRecommendation_primaryText2,
+                          primaryText3:
+                              intl.sDocumentRecommendation_primaryText3,
+                          primaryText4:
+                              intl.sDocumentRecommendation_primaryText4,
+                          primaryText5:
+                              intl.sDocumentRecommendation_primaryText5,
+                          primaryText6:
+                              intl.sDocumentRecommendation_primaryText6,
+                        ),
                       ),
                       const SpaceH120(),
                     ],

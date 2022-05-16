@@ -55,7 +55,7 @@ class ProfileDetails extends HookWidget {
                   context,
                   willPopScope: false,
                   primaryText: intl.payAttention,
-                  secondaryText: '${intl.profileDetails_detailsButtonSecondaryText}.',
+                  secondaryText: '${intl.profileDetails_buttonSecondaryText}.',
                   primaryButtonName: intl.continueText,
                   image: _infoImage,
                   onPrimaryButtonTap: () {

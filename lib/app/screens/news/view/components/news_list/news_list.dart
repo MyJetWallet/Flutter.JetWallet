@@ -97,6 +97,8 @@ class _NewsListState extends State<NewsList> {
                               news.newsItems[index].topic,
                             );
                           },
+                          text1: intl.discussOn,
+                          text2: intl.cryptoPanic,
                         ),
                         const SpaceH24(),
                         Container(
@@ -126,6 +128,8 @@ class _NewsListState extends State<NewsList> {
                         context,
                         news.newsItems[index].urlAddress,
                       ),
+                      text1: intl.discussOn,
+                      text2: intl.cryptoPanic,
                     );
                   }
                 },
@@ -176,6 +180,8 @@ class _NewsListState extends State<NewsList> {
                         news.newsItems[index].topic,
                       );
                     },
+                    text1: intl.discussOn,
+                    text2: intl.cryptoPanic,
                   );
                 },
                 childCount: news.newsItems.length,
@@ -274,6 +280,8 @@ class _NewsListState extends State<NewsList> {
                             context,
                             news.newsItems[index].urlAddress,
                           ),
+                          text1: intl.discussOn,
+                          text2: intl.cryptoPanic,
                         ),
                         Container(
                           width: double.infinity,
@@ -353,6 +361,8 @@ class _NewsListState extends State<NewsList> {
                         context,
                         news.newsItems[index].urlAddress,
                       ),
+                      text1: intl.discussOn,
+                      text2: intl.cryptoPanic,
                     );
                   }
                 },

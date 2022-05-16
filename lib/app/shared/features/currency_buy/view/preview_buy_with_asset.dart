@@ -190,7 +190,8 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     ),
                     const SpaceH20(),
                     Text(
-                      '${intl.theAmountOf} ${state.toAssetSymbol} ${intl.previewBuyWith_text1}',
+                      '${intl.theAmountOf} ${state.toAssetSymbol} '
+                          '${intl.previewBuyWith_text1}',
                       style: sCaptionTextStyle.copyWith(color: colors.grey3),
                       maxLines: 4,
                     ),

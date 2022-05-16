@@ -135,7 +135,8 @@ class _ActionRecurringManage extends HookWidget {
                 willPopScope: false,
                 primaryText:
                     '${intl.actionRecurringManage_manageItemPrimaryText}?',
-                secondaryText: '${intl.actionRecurringManage_manageItemSecondaryText}?',
+                secondaryText:
+                    '${intl.actionRecurringManage_manageItemSecondaryText}?',
                 primaryButtonName: intl.delete,
                 onPrimaryButtonTap: () {
                   recurringBuysN.removeRecurringBuy(recurringItem.id!);

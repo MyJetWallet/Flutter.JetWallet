@@ -49,7 +49,7 @@ class BottomNavigationMenu extends HookWidget {
     void updateActionState() => actionActive.value = !actionActive.value;
 
     // Todo: research better approach
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (openBottomMenu.state) {
         _openBottomMenu(
           context,

@@ -40,7 +40,7 @@ class RecurringSelector extends HookWidget {
               showActionWithOutRecurringBuy(
                 context: context,
                 title:
-                    '${intl.recurringSelector_showActionWithOutRecurringBuyTitle}?',
+                    '${intl.recurringSelector_withOutRecurringBuyTitle}?',
                 showOneTimePurchase: true,
                 currentType: currentSelection,
                 onItemTap: onSelect,

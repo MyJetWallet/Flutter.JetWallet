@@ -36,7 +36,8 @@ class SimplexWebView extends HookWidget {
       SuccessScreen.push(
         context: context,
         secondaryText:
-            '${intl.simplexWebView_successScreenSecondaryText1}\n≈ 10-30 ${intl.minutes}',
+            '${intl.simplexWebView_successScreenSecondaryText1}\n≈ 10-30 '
+                '${intl.minutes}',
         then: () => context.read(navigationStpod).state = 1,
       );
       sAnalytics.simplexSucsessView(url);

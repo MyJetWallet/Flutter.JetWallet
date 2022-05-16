@@ -59,7 +59,8 @@ class SendByPhoneAmount extends HookWidget {
               symbol: state.baseCurrency!.symbol,
             )}',
             error: state.inputError == InputError.enterHigherAmount
-                ? '${state.inputError.value}. ${minimumAmount(currency, context)}'
+                ? '${state.inputError.value}. '
+                '${minimumAmount(currency, context)}'
                 : state.inputError.value,
             isErrorActive: state.inputError.isActive,
           ),

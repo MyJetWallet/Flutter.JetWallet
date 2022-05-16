@@ -138,7 +138,8 @@ class SendByPhoneConfirmNotifier
     return SuccessScreen.push(
       context: _context,
       secondaryText:
-          '${intl.your} ${currency.symbol} ${intl.send} ${intl.requestHasBeenSubmitted}',
+          '${intl.your} ${currency.symbol} ${intl.send} '
+              '${intl.requestHasBeenSubmitted}',
       then: () {
         if (!_receiverIsRegistered) {
           navigatorPush(

@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../../../shared/providers/service_providers.dart';
+
 enum KycStatus {
   kycRequired,
   kycInProgress,
@@ -28,16 +33,21 @@ enum RequiredVerified {
   proofOfPhone,
 }
 
-String stringRequiredVerified(RequiredVerified type) {
+String stringRequiredVerified(
+  RequiredVerified type,
+  BuildContext context,
+) {
+  final intl = context.read(intlPod);
+
   switch (type) {
     case RequiredVerified.proofOfIdentity:
-      return 'Verify your identity';
+      return intl.verifyYourIdentity;
     case RequiredVerified.proofOfAddress:
-      return 'Address verification';
+      return intl.addressVerification;
     case RequiredVerified.proofOfFunds:
-      return 'Proof source of funds';
+      return intl.proofSourceOfFunds;
     case RequiredVerified.proofOfPhone:
-      return 'Secure your account';
+      return intl.secureYourAccount;
   }
 }
 
@@ -65,24 +75,29 @@ enum KycDocumentType {
   financialDocument,
 }
 
-String stringKycDocumentType(KycDocumentType type) {
+String stringKycDocumentType(
+  KycDocumentType type,
+  BuildContext context,
+) {
+  final intl = context.read(intlPod);
+
   switch (type) {
     case KycDocumentType.unknown:
       return 'unknown';
     case KycDocumentType.governmentId:
-      return 'ID card';
+      return intl.kycDocumentType_governmentId;
     case KycDocumentType.passport:
-      return 'International passport';
+      return intl.kycDocumentType_passport;
     case KycDocumentType.driverLicense:
-      return 'Driver license';
+      return intl.kycDocumentType_driverLicense;
     case KycDocumentType.residentPermit:
-      return 'Residence permit';
+      return intl.kycDocumentType_residentPermit;
     case KycDocumentType.selfieImage:
-      return 'Take a selfie';
+      return intl.kycDocumentType_selfieImage;
     case KycDocumentType.addressDocument:
-      return 'Address document';
+      return intl.kycDocumentType_addressDocument;
     default:
-      return 'Financial document';
+      return intl.kycDocumentType_financialDocument;
   }
 }
 

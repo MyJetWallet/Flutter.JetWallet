@@ -64,10 +64,10 @@ class KycSelfie extends HookWidget {
               context,
               CupertinoPageRoute(
                 builder: (_) => SuccessKycScreen(
-                  primaryText: intl.kycAlertHandler_showVerifyingAlertPrimaryText,
+                  primaryText:
+                      intl.kycAlertHandler_showVerifyingAlertPrimaryText,
                   secondaryText:
-                      "You'll be notified when we complete the process "
-                      'Usually within a few minutes.',
+                      '${intl.kycSelfie_successKycScreenSecondaryText}.',
                 ),
               ),
               (route) => route.isFirst,
@@ -196,8 +196,9 @@ class KycSelfie extends HookWidget {
                     await notifier.pickedImage();
                   }
                 },
-                name:
-                    (state.isSelfieNotEmpty) ? intl.uploadPhoto : intl.kycDocumentType_selfieImage,
+                name: (state.isSelfieNotEmpty)
+                    ? intl.uploadPhoto
+                    : intl.kycDocumentType_selfieImage,
                 active: true,
                 icon: (state.isSelfieNotEmpty)
                     ? const SArrowUpIcon()

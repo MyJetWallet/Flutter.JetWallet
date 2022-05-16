@@ -29,7 +29,8 @@ class EarnBodyHeader extends HookWidget {
             children: [
               TextSpan(
                 text:
-                    '${intl.upTo} ${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
+                    '${intl.upTo} '
+                        '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
                 style: sTextH2Style.copyWith(
                   color: colors.green,
                 ),

@@ -27,7 +27,8 @@ class EmptyPortfolioBodyTitle extends HookWidget {
             ),
           ),
           TextSpan(
-            text: ' ${intl.upTo1} ${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
+            text: ' ${intl.upTo1} '
+                '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
             style: sTextH3Style.copyWith(
               color: colors.green,
             ),

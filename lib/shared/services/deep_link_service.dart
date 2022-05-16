@@ -215,6 +215,7 @@ class DeepLinkService {
   void _inviteFriendCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
     final referralInfo = read(referralInfoPod);
+    final intl = read(intlPod);
 
     sAnalytics.clickMarketBanner(
       MarketBannerSource.inviteFriend.name,
@@ -241,6 +242,7 @@ class DeepLinkService {
         onShare: () {
           Share.share(referralInfo.referralLink);
         },
+        text: intl.share,
       ),
       children: [
         SReferralInviteBody(
@@ -254,6 +256,9 @@ class DeepLinkService {
               referralInfo.descriptionLink,
             );
           },
+          readMoreText: intl.readMore,
+          copiedText: intl.referralLinkCopied,
+          referralText: intl.referralLink,
         ),
       ],
     );

@@ -64,7 +64,9 @@ class SendByPhoneNotifyRecipient extends HookWidget {
                   () => canTapShare.value = true,
                 );
                 Share.share(
-                  '${intl.sendByPhoneRecipient_text3} $toPhoneNumber. ${intl.sendByPhoneRecipient_text4}.\n ${userInfo.referralLink}',
+                  '${intl.sendByPhoneRecipient_text3} $toPhoneNumber. '
+                      '${intl.sendByPhoneRecipient_text4}.\n '
+                      '${userInfo.referralLink}',
                 );
               }
             },

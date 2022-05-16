@@ -97,6 +97,12 @@ class Rewards extends HookWidget {
                     item.referralState!.descriptionLink,
                   );
                 },
+                referralStatsText: intl.referralStats,
+                referralsInvitedText: intl.referralsInvited,
+                referralsActivatedText: intl.referralActivated,
+                bonusEarnedText: intl.bonusEarned,
+                commissionEarnedText: intl.commissionEarned,
+                totalText: intl.total,
               ),
               const SpaceH20(),
             ],

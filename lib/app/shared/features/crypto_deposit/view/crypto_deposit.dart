@@ -37,7 +37,7 @@ class CryptoDeposit extends HookWidget {
     );
     final deposit = useProvider(cryptoDepositNotipod(currency));
     final depositN = useProvider(
-        cryptoDepositNotipod(currency).notifier,
+      cryptoDepositNotipod(currency).notifier,
     );
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
@@ -93,15 +93,18 @@ class CryptoDeposit extends HookWidget {
                   name: intl.share,
                   onTap: () {
                     if (canTapShare.value) {
-                        canTapShare.value = false;
+                      canTapShare.value = false;
                       Timer(
-                          const Duration(
-                              seconds: 1,
-                          ), () => canTapShare.value = true,
+                        const Duration(
+                          seconds: 1,
+                        ),
+                        () => canTapShare.value = true,
                       );
                       Share.share(
-                    '${intl.my} ${currency.symbol} ${intl.address}: ${deposit.address} '
-                    '${deposit.tag != null ? ', ${intl.tag}: ${deposit.tag}' : ''}',
+                        '${intl.my} ${currency.symbol} ${intl.address}: '
+                        '${deposit.address} '
+                        '${deposit.tag != null ? ', ${intl.tag}: '
+                            '${deposit.tag}' : ''}',
                       );
                     }
                   },

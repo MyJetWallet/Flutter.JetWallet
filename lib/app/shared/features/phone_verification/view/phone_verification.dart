@@ -149,7 +149,8 @@ class PhoneVerification extends HookWidget {
             /// TODO update legacy resend
             if (timer > 0 && !phone.showResend)
               ResendInText(
-                  text: '${intl.you_can_resend_in} $timer ${intl.seconds}')
+                text: '${intl.you_can_resend_in} $timer ${intl.seconds}',
+              )
             else ...[
               ResendRichText(
                 onTap: () async {

@@ -103,6 +103,7 @@ class ChooseDocuments extends HookWidget {
                         SChooseDocument(
                           primaryText: stringKycDocumentType(
                             state.documents[index].document,
+                            context,
                           ),
                           active: state.documents[index].active,
                           onTap: () {
@@ -112,8 +113,15 @@ class ChooseDocuments extends HookWidget {
                       const SpaceH10(),
                     ],
                     const Spacer(),
-                    const SPaddingH24(
-                      child: SDocumentsRecommendations(),
+                    SPaddingH24(
+                      child: SDocumentsRecommendations(
+                        primaryText1: intl.sDocumentRecommendation_primaryText1,
+                        primaryText2: intl.sDocumentRecommendation_primaryText2,
+                        primaryText3: intl.sDocumentRecommendation_primaryText3,
+                        primaryText4: intl.sDocumentRecommendation_primaryText4,
+                        primaryText5: intl.sDocumentRecommendation_primaryText5,
+                        primaryText6: intl.sDocumentRecommendation_primaryText6,
+                      ),
                     ),
                     const SpaceH120(),
                   ],

@@ -73,6 +73,7 @@ class KycVerifyYourProfile extends HookWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfPhone,
+                              context,
                             )}',
                             completeIcon:
                                 state.requiredVerifications[index].verifiedDone,
@@ -93,6 +94,7 @@ class KycVerifyYourProfile extends HookWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfIdentity,
+                              context,
                             )}',
                             completeIcon:
                                 state.requiredVerifications[index].verifiedDone,
@@ -113,6 +115,7 @@ class KycVerifyYourProfile extends HookWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfFunds,
+                              context,
                             )}',
                             completeIcon:
                                 state.requiredVerifications[index].verifiedDone,
@@ -133,6 +136,7 @@ class KycVerifyYourProfile extends HookWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfAddress,
+                              context,
                             )}',
                             completeIcon:
                                 state.requiredVerifications[index].verifiedDone,
@@ -162,7 +166,7 @@ class KycVerifyYourProfile extends HookWidget {
               onTap: () {
                 ChooseDocuments.pushReplacement(
                   context: context,
-                  headerTitle: notifier.chooseDocumentsHeaderTitle(),
+                  headerTitle: notifier.chooseDocumentsHeaderTitle(context),
                 );
               },
             ),

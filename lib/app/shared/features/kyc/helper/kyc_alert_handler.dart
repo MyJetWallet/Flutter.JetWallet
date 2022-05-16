@@ -39,8 +39,7 @@ class KycAlertHandler {
       );
     } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
       _showVerifyingAlert();
-    } else if (status ==
-        kycOperationStatus(KycStatus.allowedWithKycAlert)) {
+    } else if (status == kycOperationStatus(KycStatus.allowedWithKycAlert)) {
       _showAllowedWithAlert(
         kycVerified,
         currentNavigate,
@@ -156,7 +155,10 @@ class KycAlertHandler {
     } else {
       ChooseDocuments.push(
         context: context,
-        headerTitle: stringRequiredVerified(requiredVerifications.first),
+        headerTitle: stringRequiredVerified(
+          requiredVerifications.first,
+          context,
+        ),
         documents: documents,
       );
     }

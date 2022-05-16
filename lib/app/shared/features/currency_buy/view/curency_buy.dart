@@ -201,6 +201,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
+                  text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
                 )
               else if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)

@@ -114,8 +114,8 @@ class TransactionListItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.simplexBuy)
                   TransactionListItemText(
-                    text:
-                        '${intl.withText} \$${transactionListItem.buyInfo!.sellAmount}',
+                    text: '${intl.withText} '
+                        '\$${transactionListItem.buyInfo!.sellAmount}',
                     color: colors.grey2,
                   ),
                 if (transactionListItem.operationType ==

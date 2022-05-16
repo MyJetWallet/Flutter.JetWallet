@@ -42,20 +42,6 @@ class PinScreenState with _$PinScreenState {
 
   const PinScreenState._();
 
-  String get screenDescription {
-    return screenUnion.when(
-      enterPin: () {
-        return 'Enter your PIN';
-      },
-      newPin: () {
-        return 'Set a new PIN';
-      },
-      confirmPin: () {
-        return 'Confirm new PIN';
-      },
-    );
-  }
-
   PinBoxEnum boxState(int boxId) {
     return screenUnion.when(
       enterPin: () => _boxState(enterPin, boxId),

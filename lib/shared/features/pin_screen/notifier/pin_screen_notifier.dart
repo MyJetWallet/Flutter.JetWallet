@@ -313,7 +313,11 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   }
 
   Future<String> _authenticateWithBio() async {
-    final success = await makeAuthWithBiometrics();
+    final intl = read(intlPod);
+
+    final success = await makeAuthWithBiometrics(
+      intl.biometricsAuthHelpers_weNeedYouToConfirmYourIdentity,
+    );
 
     if (success) {
       return _userInfo.pin ?? '';
@@ -350,6 +354,22 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
             lockTime: state.lockTime - 1,
           );
         }
+      },
+    );
+  }
+
+  String screenDescription() {
+    final intl = read(intlPod);
+
+    return state.screenUnion.when(
+      enterPin: () {
+        return intl.pin_enterYourPIN;
+      },
+      newPin: () {
+        return intl.pin_setANewPin;
+      },
+      confirmPin: () {
+        return intl.pin_ConfirmNewPin;
       },
     );
   }

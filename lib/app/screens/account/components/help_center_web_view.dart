@@ -26,7 +26,7 @@ class HelpCenterWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final intl = useProvider(intlPod);
+    final intl = context.read(intlPod);
 
     return SPageFrame(
       header: SPaddingH24(
