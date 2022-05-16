@@ -88,19 +88,28 @@ class EmailVerification extends HookWidget {
                     onTap: () => openEmailApp(context),
                   ),
                   const Spacer(),
-                  PinCodeField(
-                    focusNode: focusNode,
-                    controller: verification.controller,
-                    length: emailVerificationCodeLength,
-                    onCompleted: (_) {
-                      loader.value.startLoading();
-                      verificationN.verifyCode();
+                  GestureDetector(
+                    onTap: () {
+                      if (!focusNode.hasFocus) {
+                        focusNode.requestFocus();
+                      }
                     },
-                    autoFocus: true,
-                    onChanged: (_) {
-                      pinError.value.disableError();
-                    },
-                    pinError: pinError.value,
+                    child: AbsorbPointer(
+                      child: PinCodeField(
+                        focusNode: focusNode,
+                        controller: verification.controller,
+                        length: emailVerificationCodeLength,
+                        onCompleted: (_) {
+                          loader.value.startLoading();
+                          verificationN.verifyCode();
+                        },
+                        autoFocus: true,
+                        onChanged: (_) {
+                          pinError.value.disableError();
+                        },
+                        pinError: pinError.value,
+                      ),
+                    ),
                   ),
                   const Spacer(),
                   SResendButton(
