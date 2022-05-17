@@ -48,7 +48,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
     final data = await Clipboard.getData('text/plain');
     final code = data?.text?.trim() ?? '';
 
-    if (code.length >= 4 && code.length <= 6) {
+    if (code.length == 6) {
       try {
         int.parse(code);
         state.controller.text = code;
