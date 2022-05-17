@@ -98,7 +98,7 @@ class Register extends HookWidget {
                   color: colors.grey5,
                   child: SPaddingH24(
                     child: SPolicyCheckbox(
-                      firstText: intl.register_herebyConfirm,
+                      firstText: '${intl.register_herebyConfirm} ',
                       userAgreementText: intl.register_TAndC,
                       betweenText: ' ${intl.and_the} ',
                       privacyPolicyText: intl.privacy_policy,
