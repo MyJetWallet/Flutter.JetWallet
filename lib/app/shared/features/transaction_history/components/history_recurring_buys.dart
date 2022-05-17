@@ -10,6 +10,8 @@ import '../../../../../shared/helpers/analytics.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../helpers/are_balances_empty.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../actions/action_recurring_buy/components/recurring_buys_item.dart';
 import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../actions/action_sell/action_sell.dart';
@@ -29,9 +31,8 @@ class HistoryRecurringBuys extends HookWidget {
     final state = useProvider(recurringBuysNotipod);
     final notifier = useProvider(recurringBuysNotipod.notifier);
     final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
+    final currencies = useProvider(currenciesPod);
 
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -117,25 +118,26 @@ class HistoryRecurringBuys extends HookWidget {
                       ),
                     ),
                     const Spacer(),
-                    SPaddingH24(
-                      child: SSecondaryButton1(
-                        active: true,
-                        name: 'Setup recurring buy',
-                        onTap: () {
-                          if (kycState.sellStatus ==
-                              kycOperationStatus(KycStatus.allowed)) {
-                            notifier.handleNavigate(context);
-                          } else {
-                            kycAlertHandler.handle(
-                              status: kycState.sellStatus,
-                              kycVerified: kycState,
-                              isProgress: kycState.verificationInProgress,
-                              currentNavigate: () => showSellAction(context),
-                            );
-                          }
-                        },
+                    if (!areBalancesEmpty(currencies))
+                      SPaddingH24(
+                        child: SSecondaryButton1(
+                          active: true,
+                          name: 'Setup recurring buy',
+                          onTap: () {
+                            if (kycState.sellStatus ==
+                                kycOperationStatus(KycStatus.allowed)) {
+                              notifier.handleNavigate(context);
+                            } else {
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                kycVerified: kycState,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => showSellAction(context),
+                              );
+                            }
+                          },
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

@@ -184,7 +184,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
               const Spacer(),
               RecurringSelector(
-                currency: widget.currency,
+                oneTimePurchaseOnly: state.selectedPaymentMethod?.type ==
+                    PaymentMethodType.simplex,
+                currentSelection: state.recurringBuyType,
+                onSelect: (selection) {
+                  notifier.updateRecurringBuyType(selection);
+                  Navigator.pop(context);
+                },
               ),
               deviceSize.when(
                 small: () => const SpaceH8(),

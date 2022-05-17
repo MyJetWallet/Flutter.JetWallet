@@ -13,6 +13,7 @@ import '../../../../../shared/providers/service_providers.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../../screens/market/notifier/watchlist/watchlist_notipod.dart';
 import '../../../helpers/currency_from.dart';
+import '../../../helpers/supports_recurring_buy.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
@@ -55,6 +56,7 @@ class MarketDetails extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final currencies = useProvider(currenciesPod);
     final marketInfo = useProvider(
       marketInfoFpod(
         marketItem.associateAsset,
@@ -84,18 +86,10 @@ class MarketDetails extends HookWidget {
       ),
     );
     useProvider(watchlistIdsNotipod);
-
-    final currency = currencyFrom(
-      useProvider(currenciesPod),
-      marketItem.symbol,
-    );
-
+    final currency = currencyFrom(currencies, marketItem.symbol);
     final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
-
     final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
 
     final filteredRecurringBuys = recurringNotifier.recurringBuys
         .where(
@@ -211,31 +205,48 @@ class MarketDetails extends HookWidget {
               assetSymbol: marketItem.associateAsset,
             ),
             const SpaceH40(),
-            RecurringBuyBanner(
-              title: recurringNotifier.recurringBannerTitle(
-                asset: currency.symbol,
-              ),
-              type: recurringNotifier.type(currency.symbol),
-              onTap: () {
-                // Todo: need refactor
-                if (kycState.sellStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-                  if (recurringNotifier.activeOrPausedType(currency.symbol)) {
-                    if (moveToRecurringInfo && lastRecurringItem != null) {
-                      navigatorPush(
-                        context,
-                        ShowRecurringInfoAction(
-                          recurringItem: lastRecurringItem,
-                          assetName: currency.description,
-                        ),
-                      );
+            if (supportsRecurringBuy(marketItem.symbol, currencies))
+              RecurringBuyBanner(
+                title: recurringNotifier.recurringBannerTitle(
+                  asset: currency.symbol,
+                ),
+                type: recurringNotifier.type(currency.symbol),
+                onTap: () {
+                  // Todo: need refactor
+                  if (kycState.sellStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    if (recurringNotifier.activeOrPausedType(currency.symbol)) {
+                      if (moveToRecurringInfo && lastRecurringItem != null) {
+                        navigatorPush(
+                          context,
+                          ShowRecurringInfoAction(
+                            recurringItem: lastRecurringItem,
+                            assetName: currency.description,
+                          ),
+                        );
+                      } else {
+                        showRecurringBuyAction(
+                          context: context,
+                          currency: currency,
+                          total: recurringNotifier.totalRecurringByAsset(
+                            asset: currency.symbol,
+                          ),
+                        );
+                      }
                     } else {
-                      showRecurringBuyAction(
+                      showActionWithoutRecurringBuy(
+                        title: 'Setup recurring buy',
                         context: context,
-                        currency: currency,
-                        total: recurringNotifier.totalRecurringByAsset(
-                          asset: currency.symbol,
-                        ),
+                        onItemTap: (RecurringBuysType type) {
+                          navigatorPushReplacement(
+                            context,
+                            CurrencyBuy(
+                              currency: currency,
+                              fromCard: false,
+                              recurringBuysType: type,
+                            ),
+                          );
+                        },
                       );
                     }
                   } else {
@@ -244,41 +255,15 @@ class MarketDetails extends HookWidget {
                       Source.assetScreen,
                     );
 
-                    showActionWithoutRecurringBuy(
-                      title: 'Setup recurring buy',
-                      context: context,
-                      onItemTap: (RecurringBuysType type) {
-                        sAnalytics.pickRecurringBuyFrequency(
-                          assetName: currency.description,
-                          frequency: type.toFrequency,
-                          source: Source.assetScreen,
-                        );
-
-                        navigatorPushReplacement(
-                          context,
-                          CurrencyBuy(
-                            currency: currency,
-                            fromCard: false,
-                            recurringBuysType: type,
-                          ),
-                        );
-                      },
-                      onDissmis: () => sAnalytics.closeRecurringBuySheet(
-                        currency.description,
-                        Source.assetScreen,
-                      ),
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      kycVerified: kycState,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => showSellAction(context),
                     );
                   }
-                } else {
-                  kycAlertHandler.handle(
-                    status: kycState.sellStatus,
-                    kycVerified: kycState,
-                    isProgress: kycState.verificationInProgress,
-                    currentNavigate: () => showSellAction(context),
-                  );
-                }
-              },
-            ),
+                },
+              ),
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,

@@ -33,7 +33,7 @@ class _SWidgetBottomSizeState extends State<SWidgetBottomSize> {
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance!.addPostFrameCallback(postFrameCallback);
+    SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return SizedBox(
       key: widgetKey,

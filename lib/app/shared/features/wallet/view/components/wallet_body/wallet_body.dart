@@ -10,7 +10,9 @@ import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
+import '../../../../../helpers/supports_recurring_buy.dart';
 import '../../../../../models/currency_model.dart';
+import '../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../../actions/action_recurring_info/action_recurring_info.dart';
@@ -49,17 +51,13 @@ class _WalletBodyState extends State<WalletBody>
     super.build(context);
 
     final colors = useProvider(sColorPod);
-
-    final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
-
-    final recurringN = useProvider(recurringBuysNotipod);
-
+    final currencies = useProvider(currenciesPod);
+    final recurring = useProvider(recurringBuysNotipod);
+    final recurringN = useProvider(recurringBuysNotipod.notifier);
     final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
 
-    final filteredRecurringBuys = recurringN.recurringBuys
+    final filteredRecurringBuys = recurring.recurringBuys
         .where(
           (element) => element.toAsset == widget.currency.symbol,
         )
@@ -122,33 +120,50 @@ class _WalletBodyState extends State<WalletBody>
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: RecurringBuyBanner(
-                type: recurringNotifier.type(widget.currency.symbol),
-                title: recurringNotifier.recurringBannerTitle(
-                  asset: widget.currency.symbol,
-                ),
-                onTap: () {
-                  // Todo: need refactor
-                  if (kycState.sellStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    if (recurringNotifier
-                        .activeOrPausedType(widget.currency.symbol)) {
-                      if (moveToRecurringInfo && lastRecurringItem != null) {
-                        navigatorPush(
-                          context,
-                          ShowRecurringInfoAction(
-                            recurringItem: lastRecurringItem,
-                            assetName: widget.currency.description,
-                          ),
-                        );
+            if (supportsRecurringBuy(widget.currency.symbol, currencies))
+              SliverToBoxAdapter(
+                child: RecurringBuyBanner(
+                  type: recurringN.type(widget.currency.symbol),
+                  title: recurringN.recurringBannerTitle(
+                    asset: widget.currency.symbol,
+                  ),
+                  onTap: () {
+                    // Todo: need refactor
+                    if (kycState.sellStatus ==
+                        kycOperationStatus(KycStatus.allowed)) {
+                      if (recurringN
+                          .activeOrPausedType(widget.currency.symbol)) {
+                        if (moveToRecurringInfo && lastRecurringItem != null) {
+                          navigatorPush(
+                            context,
+                            ShowRecurringInfoAction(
+                              recurringItem: lastRecurringItem,
+                              assetName: widget.currency.description,
+                            ),
+                          );
+                        } else {
+                          showRecurringBuyAction(
+                            context: context,
+                            currency: widget.currency,
+                            total: recurringN.totalRecurringByAsset(
+                              asset: widget.currency.symbol,
+                            ),
+                          );
+                        }
                       } else {
-                        showRecurringBuyAction(
+                        showActionWithoutRecurringBuy(
+                          title: 'Setup recurring buy',
                           context: context,
-                          currency: widget.currency,
-                          total: recurringNotifier.totalRecurringByAsset(
-                            asset: widget.currency.symbol,
-                          ),
+                          onItemTap: (RecurringBuysType type) {
+                            navigatorPushReplacement(
+                              context,
+                              CurrencyBuy(
+                                currency: widget.currency,
+                                fromCard: false,
+                                recurringBuysType: type,
+                              ),
+                            );
+                          },
                         );
                       }
                     } else {
@@ -157,42 +172,16 @@ class _WalletBodyState extends State<WalletBody>
                         Source.walletDetails,
                       );
 
-                      showActionWithoutRecurringBuy(
-                        title: 'Setup recurring buy',
-                        context: context,
-                        onItemTap: (RecurringBuysType type) {
-                          sAnalytics.pickRecurringBuyFrequency(
-                            assetName: widget.currency.description,
-                            frequency: type.toFrequency,
-                            source: Source.walletDetails,
-                          );
-
-                          navigatorPushReplacement(
-                            context,
-                            CurrencyBuy(
-                              currency: widget.currency,
-                              fromCard: false,
-                              recurringBuysType: type,
-                            ),
-                          );
-                        },
-                        onDissmis: () => sAnalytics.closeRecurringBuySheet(
-                          widget.currency.description,
-                          Source.walletDetails,
-                        ),
+                      kycAlertHandler.handle(
+                        status: kycState.sellStatus,
+                        kycVerified: kycState,
+                        isProgress: kycState.verificationInProgress,
+                        currentNavigate: () => showSellAction(context),
                       );
                     }
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.sellStatus,
-                      kycVerified: kycState,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => showSellAction(context),
-                    );
-                  }
-                },
+                  },
+                ),
               ),
-            ),
             SliverToBoxAdapter(
               child: SPaddingH24(
                 child: Column(
