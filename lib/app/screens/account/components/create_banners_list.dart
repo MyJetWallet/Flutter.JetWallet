@@ -55,7 +55,7 @@ List<Widget> createBannersList({
         },
         imageUrl: lockerAsset,
         color: colors.blueLight,
-        header: '${intl.createBanners_header3}\n${intl.authentication}',
+        header: '${intl.createBanners_enable2Factor}\n${intl.authentication}',
         description: intl.createBanners_bannerText3,
       ),
     );

@@ -24,24 +24,26 @@ class EarnBodyHeader extends HookWidget {
 
     return Row(
       children: [
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${intl.upTo} '
-                    '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
-                style: sTextH2Style.copyWith(
-                  color: colors.green,
+        Flexible(
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: '${intl.upTo} '
+                      '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
+                  style: sTextH2Style.copyWith(
+                    color: colors.green,
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: ' ${intl.earnBodyHeader_text1Part1}\n'
-                    '${intl.earnBodyHeader_text1Part2}',
-                style: sTextH2Style.copyWith(
-                  color: colors.black,
+                TextSpan(
+                  text: ' ${intl.earnBodyHeader_text1Part1}\n'
+                      '${intl.earnBodyHeader_text1Part2}',
+                  style: sTextH2Style.copyWith(
+                    color: colors.black,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

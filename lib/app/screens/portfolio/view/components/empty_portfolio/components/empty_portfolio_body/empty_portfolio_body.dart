@@ -53,7 +53,7 @@ class EmptyPortfolioBody extends HookWidget {
                     Text(
                       '${intl.emptyPortfolioBody_text1Part1}!\n'
                           '${intl.emptyPortfolioBody_text1Part2}.',
-                      maxLines: 2,
+                      maxLines: 3,
                       textAlign: TextAlign.center,
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,

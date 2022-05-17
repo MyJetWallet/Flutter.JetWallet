@@ -16,22 +16,22 @@ class EarnAdvantages extends HookWidget {
     return Column(
       children: [
         EarnAdvantageItem(
-          text: intl.earnAdvantages_text1,
+          text: intl.earnAdvantages_tradeAndWithdrawMoneyWithoutLimits,
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: intl.earnAdvantages_text2,
+          text: intl.earnAdvantages_noMinimumMonthlyBalance,
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: '${intl.earnAdvantages_text3Part1}\n'
-              '${intl.earnAdvantages_text3Part2}',
+          text: '${intl.earnAdvantages_interestCalculatedEveryDay}\n'
+              '${intl.earnAdvantages_paidOnTheFirstDayOfEveryMonth}',
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: '${intl.earnAdvantages_text4Part1}\n'
-              '${intl.earnAdvantages_text4Part2}',
+          text: '${intl.earnAdvantages_pricesMayVaryDependingOn}\n'
+              '${intl.earnAdvantages_theMarketSituation}',
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
       ],
