@@ -58,7 +58,8 @@ class KycAlertHandler {
       context: context,
       imageAsset: verifyYourProfileAsset,
       primaryText: '${intl.verifyYourProfile}!',
-      secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
+      secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
+          '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
       primaryButtonName: intl.continueText,
       secondaryButtonName: intl.later,
       activePrimaryButton: kycVerified.requiredVerifications.isNotEmpty,
@@ -102,7 +103,8 @@ class KycAlertHandler {
       context: context,
       imageAsset: verifyYourProfileAsset,
       primaryText: '${intl.verifyYourProfile}!',
-      secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
+      secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
+          '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
       primaryButtonName: intl.continueText,
       secondaryButtonName: intl.later,
       onPrimaryButtonTap: () {
@@ -128,7 +130,8 @@ class KycAlertHandler {
     showKycPopup(
       context: context,
       primaryText: '${intl.youAreBlocked}!',
-      secondaryText: intl.kycAlertHandler_showBlockedAlertSecondaryText,
+      secondaryText: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1}\n'
+          '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
       primaryButtonName: intl.support,
       onPrimaryButtonTap: () {
         Navigator.pop(context);

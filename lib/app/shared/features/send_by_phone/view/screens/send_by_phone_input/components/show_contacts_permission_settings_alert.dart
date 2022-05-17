@@ -21,7 +21,8 @@ void showContactsPermissionSettingsAlert({
     primaryText: intl.showContactPermission_primaryText,
     primaryButtonName: intl.goToSettings,
     secondaryButtonName: intl.enterManually,
-    secondaryText: '${intl.showContactsPermission_secondaryText}.',
+    secondaryText: '${intl.showContactsPermission_secondaryText1}\n\n'
+        '${intl.showContactsPermission_secondaryText2}.',
     onPrimaryButtonTap: onGoToSettings,
     onSecondaryButtonTap: () {
       Navigator.pop(context);

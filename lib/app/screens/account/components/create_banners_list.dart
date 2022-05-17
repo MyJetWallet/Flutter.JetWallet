@@ -55,7 +55,7 @@ List<Widget> createBannersList({
         },
         imageUrl: lockerAsset,
         color: colors.blueLight,
-        header: intl.createBanners_header3,
+        header: '${intl.createBanners_header3}\n${intl.authentication}',
         description: intl.createBanners_bannerText3,
       ),
     );
@@ -69,7 +69,8 @@ List<Widget> createBannersList({
       imageUrl: chatWithSupportAsset,
       color: colors.violet,
       header: intl.createBanners_header4,
-      description: intl.createBanners_bannerText4,
+      description: '${intl.createBanners_bannerText4Part1}?\n'
+          '${intl.createBanners_bannerText4Part2}',
     ),
   );
 

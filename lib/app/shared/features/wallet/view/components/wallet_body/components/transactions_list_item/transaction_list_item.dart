@@ -8,6 +8,7 @@ import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../helpers/currency_from.dart';
 import '../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
@@ -156,7 +157,10 @@ class TransactionListItem extends HookWidget {
       )}';
     } else if (transactionListItem.operationType ==
         OperationType.recurringBuy) {
-      return '${transactionListItem.recurringBuyInfo!.scheduleType} '
+      return '${recurringBuysOperationByString(
+        transactionListItem.recurringBuyInfo!.scheduleType ?? '',
+        context,
+      )} '
           '${operationName(
         transactionListItem.operationType,
         context,

@@ -24,12 +24,14 @@ class EarnAdvantages extends HookWidget {
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: intl.earnAdvantages_text3,
+          text: '${intl.earnAdvantages_text3Part1}\n'
+              '${intl.earnAdvantages_text3Part2}',
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
         const SpaceH16(),
         EarnAdvantageItem(
-          text: intl.earnAdvantages_text4,
+          text: '${intl.earnAdvantages_text4Part1}\n'
+              '${intl.earnAdvantages_text4Part2}',
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
       ],

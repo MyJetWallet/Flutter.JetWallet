@@ -49,7 +49,7 @@ class MarketStatsBlock extends HookWidget {
                 ),
                 TableCell(
                   child: MarketStatsItem(
-                    name: 'Vol (24h)',
+                    name: '${intl.vol} (24${intl.h})',
                     value: '\$${formatNumber(marketInfo.dayVolume.toDouble())}',
                   ),
                 ),

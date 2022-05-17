@@ -23,7 +23,8 @@ void showUsePhonebookAlert({
     primaryText: '${intl.usePhonebook}?',
     primaryButtonName: intl.usePhonebook,
     secondaryButtonName: intl.enterManually,
-    secondaryText: '${intl.showContactsPermission_secondaryText}.',
+    secondaryText: '${intl.showContactsPermission_secondaryText1}\n\n'
+        '${intl.showContactsPermission_secondaryText2}.',
     onPrimaryButtonTap: onUsePhonebook,
     onSecondaryButtonTap: () {
       onPopupQuit();

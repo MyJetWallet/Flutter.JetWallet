@@ -144,7 +144,8 @@ class KycSelfie extends HookWidget {
                                   baseline: 30,
                                   baselineType: TextBaseline.alphabetic,
                                   child: Text(
-                                    intl.kycSelfie_faceForwardAndMakeSure,
+                                    '${intl.kycSelfie_faceForwardAndMakeSure}\n'
+                                    '${intl.clearlyVisible}',
                                     style: sBodyText1Style.copyWith(
                                       color: colors.grey1,
                                     ),

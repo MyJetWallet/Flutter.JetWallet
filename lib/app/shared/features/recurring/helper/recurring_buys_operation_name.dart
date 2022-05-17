@@ -36,3 +36,25 @@ String recurringBuysOperationName(
       return intl.recurringBuysType_monthly;
   }
 }
+
+String recurringBuysOperationByString(
+    String type,
+    BuildContext context,
+    ) {
+  final intl = context.read(intlPod);
+
+  switch (type) {
+    case 'One time purchase':
+      return intl.recurringBuysType_oneTimePurchase;
+    case 'Daily':
+      return intl.recurringBuysType_daily;
+    case 'Weekly':
+      return intl.recurringBuysType_weekly;
+    case 'Biweekly':
+      return intl.recurringBuysType_biWeekly;
+    case 'Monthly':
+      return intl.recurringBuysType_monthly;
+    default:
+      return '';
+  }
+}

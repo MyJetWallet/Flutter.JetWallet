@@ -96,7 +96,7 @@ class Login extends HookWidget {
             onSupportButtonTap: () => Crisp.push(context),
             title: intl.login_signIn,
             showLink: true,
-            linkText: intl.login_forgotPassword,
+            linkText: '${intl.login_forgotPassword}?',
             onLinkTap: () => ForgotPassword.push(
               context: context,
               args: ForgotPasswordArgs(

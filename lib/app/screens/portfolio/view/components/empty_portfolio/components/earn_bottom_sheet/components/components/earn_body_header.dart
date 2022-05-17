@@ -28,15 +28,15 @@ class EarnBodyHeader extends HookWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text:
-                    '${intl.upTo} '
-                        '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
+                text: '${intl.upTo} '
+                    '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
                 style: sTextH2Style.copyWith(
                   color: colors.green,
                 ),
               ),
               TextSpan(
-                text: ' ${intl.earnBodyHeader_text1}',
+                text: ' ${intl.earnBodyHeader_text1Part1}\n'
+                    '${intl.earnBodyHeader_text1Part2}',
                 style: sTextH2Style.copyWith(
                   color: colors.black,
                 ),
