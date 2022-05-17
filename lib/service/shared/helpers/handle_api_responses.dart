@@ -45,29 +45,24 @@ void _validateResultResponse(String result) {
 
 String _blockerMessage(Duration duration) {
   const phrase1 = 'Due to several failed log in attempts access '
-      'to this account will be suspended';
-  const phrase2 = ' for';
+      'to this account will be suspended for';
 
   final d = duration.inDays;
   final h = duration.inHours;
   final m = duration.inMinutes;
-  final s = duration.inSeconds;
 
   final dEnd = _pluralEnd(d);
   final hEnd = _pluralEnd(h);
   final mEnd = _pluralEnd(m);
-  final sEnd = _pluralEnd(s);
 
   if (d != 0) {
-    return '$phrase1$phrase2 $d day$dEnd $h hour$hEnd.';
+    return '$phrase1 $d day$dEnd $h hour$hEnd.';
   } else if (h != 0) {
-    return '$phrase1$phrase2 $h hour$hEnd $m minute$mEnd.';
+    return '$phrase1 $h hour$hEnd $m minute$mEnd.';
   } else if (m != 0) {
-    return '$phrase1$phrase2 $m minute$mEnd.';
-  } else if (s != 0) {
-    return '$phrase1$phrase2 $s second$sEnd.';
+    return '$phrase1 $m minute$mEnd.';
   } else {
-    return '$phrase1.';
+    return '$phrase1 < 1 minute.';
   }
 }
 
