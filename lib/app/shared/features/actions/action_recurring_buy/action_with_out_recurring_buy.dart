@@ -8,18 +8,19 @@ import 'components/without_recurring_buy_item.dart';
 void showActionWithOutRecurringBuy({
   bool showOneTimePurchase = false,
   RecurringBuysType? currentType,
-  void Function()? then,
+  void Function(dynamic)? then,
   required BuildContext context,
+  required String title,
   required void Function(RecurringBuysType) onItemTap,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const _RecurringActionBottomSheetHeader(
-      name: 'Setup recurring buy',
+    pinned: _RecurringActionBottomSheetHeader(
+      name: title,
     ),
+    then: then,
     horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _ActionRecurringBuy(
         currentType: currentType,
@@ -142,7 +143,7 @@ class _ActionRecurringBuy extends HookWidget {
                 onItemTap(RecurringBuysType.monthly);
               },
             ),
-            const SpaceH24(),
+            const SpaceH40(),
           ],
         ),
       ],

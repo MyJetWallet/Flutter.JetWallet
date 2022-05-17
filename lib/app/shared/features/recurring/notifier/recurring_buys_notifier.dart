@@ -16,6 +16,8 @@ import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../actions/action_buy/action_buy.dart';
 import '../../actions/action_recurring_info/action_recurring_info.dart';
 import '../../transaction_history/components/history_recurring_buys.dart';
+import '../helper/recurring_buys_name.dart';
+import '../helper/recurring_buys_operation_name.dart';
 import '../helper/recurring_buys_status_name.dart';
 import 'recurring_buys_state.dart';
 
@@ -37,6 +39,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
   static final _logger = Logger('RecurringBuysNotifier');
 
   void _init() {
+    recurringBuys.sort((a, b) => a.toAsset.compareTo(b.toAsset));
     state = state.copyWith(recurringBuys: [...recurringBuys]);
   }
 
@@ -121,11 +124,26 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     final baseCurrency = read(baseCurrencyPod);
 
     var accumulate = Decimal.zero;
+    var calculateTotal = false;
+
+    for (final element in state.recurringBuys) {
+      if (element.toAsset == asset) {
+        if (element.status == RecurringBuysStatus.active) {
+          calculateTotal = true;
+        }
+      }
+    }
+
+    if (!calculateTotal) {
+      return '';
+    }
+
     for (final element in state.recurringBuys) {
       if (element.toAsset == asset) {
         for (final currency in currencies) {
-          if (currency.symbol == element.fromAsset) {
-            accumulate += _convertToUsd(element.toAsset, element.fromAmount!);
+          if (currency.symbol == element.fromAsset &&
+              element.status == RecurringBuysStatus.active) {
+            accumulate += _convertToUsd(element.fromAsset, element.fromAmount!);
           }
         }
       }
@@ -134,6 +152,52 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     final total = _priceVolumeFormat(accumulate);
 
     return '${baseCurrency.prefix}$total';
+  }
+
+  String recurringBannerTitle({
+    required String asset,
+  }) {
+    final currencies = read(currenciesPod);
+
+    final array = <RecurringBuysModel>[];
+
+    for (final element in state.recurringBuys) {
+      if (element.toAsset == asset) {
+        for (final currency in currencies) {
+          if (currency.symbol == element.fromAsset) {
+            array.add(element);
+          }
+        }
+      }
+    }
+
+    if (array.isEmpty) {
+      return recurringBuysName(RecurringBuysStatus.empty);
+    }
+
+    if (array.length == 1 && type(asset) == RecurringBuysStatus.paused) {
+      return recurringBuysName(RecurringBuysStatus.paused);
+    }
+
+    if (array.length > 1 && _allInPaused(array)) {
+      return recurringBuysName(RecurringBuysStatus.paused);
+    }
+
+    if (array.length == 1 && array.first.status == RecurringBuysStatus.active) {
+      return '${recurringBuysOperationName(array.first.scheduleType)} recurring'
+          ' buy';
+    } else {
+      return 'Recurring buy (${array.length})';
+    }
+  }
+
+  bool _allInPaused(List<RecurringBuysModel> array) {
+    for (final element in array) {
+      if (element.status != RecurringBuysStatus.paused) {
+        return false;
+      }
+    }
+    return true;
   }
 
   String totalByAllRecurring() {

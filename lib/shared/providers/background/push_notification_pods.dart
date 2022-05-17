@@ -20,10 +20,10 @@ final pushNotificationGetTokenFpod = FutureProvider<String?>(
         return FirebaseMessaging.instance.getToken();
       } catch (e) {
         _logger.log(pushNotifications, 'getToken Failed', e);
-        return Future.value(null);
+        return Future.value();
       }
     } else {
-      return Future.value(null);
+      return Future.value();
     }
   },
   name: 'pushNotificationGetTokenFpod',

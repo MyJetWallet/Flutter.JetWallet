@@ -5,6 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../market_details/helper/currency_from.dart';
 import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../recurring/helper/recurring_buys_status_name.dart';
 import '../../../recurring/notifier/recurring_buys_notipod.dart';
@@ -26,6 +28,12 @@ class RecurringBuysItem extends HookWidget {
     final colors = useProvider(sColorPod);
     final notifier = useProvider(recurringBuysNotipod.notifier);
     final baseCurrency = useProvider(baseCurrencyPod);
+    final currencies = context.read(currenciesPod);
+
+    final sellCurrency = currencyFrom(
+      currencies,
+      recurring.fromAsset,
+    );
 
     return InkWell(
       highlightColor: colors.grey5,
@@ -52,9 +60,9 @@ class RecurringBuysItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            recurringBuysOperationName(
+                            '${recurring.toAsset} ${recurringBuysOperationName(
                               recurring.scheduleType,
-                            ),
+                            )}',
                             style: sSubtitle2Style.copyWith(
                               color:
                                   recurring.status == RecurringBuysStatus.active
@@ -67,7 +75,7 @@ class RecurringBuysItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            '${recurring.fromAmount} ${recurring.toAsset}',
+                            _setTitle(recurring),
                             style: sBodyText2Style.copyWith(
                               color: colors.grey3,
                             ),
@@ -84,10 +92,10 @@ class RecurringBuysItem extends HookWidget {
                         baseline: 18.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
-                          notifier.price(
-                            asset: recurring.toAsset,
-                            amount: recurring.fromAmount!,
-                          ),
+                            '${sellCurrency.prefixSymbol ?? ''}'
+                            '${recurring.fromAmount} '
+                            '${sellCurrency.prefixSymbol != null
+                                ? '' : sellCurrency.symbol}',
                           style: sSubtitle2Style.copyWith(
                             color:
                                 recurring.status == RecurringBuysStatus.active
@@ -125,5 +133,13 @@ class RecurringBuysItem extends HookWidget {
         ),
       ),
     );
+  }
+
+  String _setTitle(RecurringBuysModel recurring) {
+    if (recurring.status == RecurringBuysStatus.paused) {
+      return 'Paused';
+    } else {
+      return '${recurring.lastToAmount} ${recurring.toAsset}';
+    }
   }
 }

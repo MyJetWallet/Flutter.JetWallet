@@ -81,5 +81,7 @@
 		<string>https://mobile.simple-spot.biz</string>
 		<string>https://jetwallet.page.link</string>
 	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

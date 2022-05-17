@@ -39,6 +39,8 @@ const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
+// when parameters come in "/" format as part of the link
+const _action = 'action';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -70,7 +72,28 @@ class DeepLinkService {
   final _logger = Logger('');
 
   void handle(Uri link, [SourceScreen? source]) {
-    final parameters = link.queryParameters;
+    // old version
+    var parameters = link.queryParameters;
+
+    final path = link.path.replaceFirst('/', '').split('/');
+
+    // new version
+    if (path.length.isEven) {
+      if (path[0] == _action) {
+        final names = <String>[];
+        final values = <String>[];
+
+        for (var i = 0; i < (path.length / 2); i++) {
+          names.add(path[i * 2] == _action ? _command : path[i * 2]);
+          values.add(path[(i * 2) + 1]);
+        }
+
+        parameters = {
+          for (var i = 0; i < names.length; i++) names[i]: values[i]
+        };
+      }
+    }
+
     final command = parameters[_command];
 
     if (command == _confirmEmail) {

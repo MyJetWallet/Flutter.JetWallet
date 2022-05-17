@@ -50,6 +50,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void initDefaultPaymentMethod({required bool fromCard}) {
+    _logger.log(notifier, 'initDefaultPaymentMethod');
+
     if (fromCard && currencyModel.supportsAtLeastOneBuyMethod) {
       final method = currencyModel.buyMethods.first;
       updateSelectedPaymentMethod(method);
@@ -85,23 +87,29 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void initRecurringBuyType(RecurringBuysType? type) {
     _logger.log(notifier, 'initRecurringBuyType');
 
-    state = state.copyWith(
-      recurringBuyType: type ?? RecurringBuysType.oneTimePurchase,
-    );
+    updateRecurringBuyType(type ?? RecurringBuysType.oneTimePurchase);
   }
 
   void updateSelectedPaymentMethod(PaymentMethod? method) {
     _logger.log(notifier, 'updateSelectedPaymentMethod');
 
-    state = state.copyWith(selectedCurrency: null);
-    state = state.copyWith(selectedPaymentMethod: method);
+    state = state.copyWith(
+      selectedCurrency: null,
+      selectedPaymentMethod: method,
+    );
+
+    if (method?.type == PaymentMethodType.simplex) {
+      updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
+    }
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
-    state = state.copyWith(selectedPaymentMethod: null);
-    state = state.copyWith(selectedCurrency: currency);
+    state = state.copyWith(
+      selectedCurrency: currency,
+      selectedPaymentMethod: null,
+    );
   }
 
   void selectFixedSum(SKeyboardPreset preset) {
@@ -361,10 +369,14 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void resetValuesToZero() {
     _logger.log(notifier, 'resetValuesToZero');
 
-    _updateInputValue(zero);
-    _updateTargetConversionValue(zero);
-    _updateBaseConversionValue(zero);
-    _updateInputValid(false);
+    state = state.copyWith(
+      inputValue: zero,
+      targetConversionValue: zero,
+      baseConversionValue: zero,
+      inputValid: false,
+      inputError: InputError.none,
+      paymentMethodInputError: null,
+    );
   }
 
   Future<String?> makeSimplexRequest() async {

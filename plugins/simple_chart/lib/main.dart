@@ -140,7 +140,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       candleWidth: candleWidth,
                       candleResolution: widget.candleResolution,
                       onCandleSelected: (ChartInfoModel? chartInfo) {
-                        WidgetsBinding.instance!.addPostFrameCallback((_) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
                           _chartInfo = chartInfo;
                           widget.onCandleSelected(_chartInfo);
 
