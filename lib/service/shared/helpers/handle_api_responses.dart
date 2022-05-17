@@ -43,8 +43,9 @@ void _validateResultResponse(String result) {
 }
 
 String _blockerMessage(String expire) {
-  const phrase1 = 'Access to your account is temporarily restricted';
-  const phrase2 = ', time remaining -';
+  const phrase1 = 'Due to several failed log in attempts access '
+      'to this account will be suspended';
+  const phrase2 = ' for';
 
   final split = expire.split(':');
   var hours = split[0];
@@ -61,15 +62,20 @@ String _blockerMessage(String expire) {
 
   seconds = seconds.substring(0, 2);
 
-  final hInt = int.parse(hours);
+  var hInt = int.parse(hours);
+  final dInt = hInt ~/ 24;
+  hInt = hInt % 24;
   final mInt = int.parse(minutes);
   final sInt = int.parse(seconds);
 
+  final dEnd = dInt == 1 ? '' : 's';
   final hEnd = hInt == 1 ? '' : 's';
   final mEnd = mInt == 1 ? '' : 's';
   final sEnd = sInt == 1 ? '' : 's';
 
-  if (hInt != 0) {
+  if (dInt != 0) {
+    return '$phrase1$phrase2 $dInt day$dEnd $hInt hour$hEnd.';
+  } else if (hInt != 0) {
     return '$phrase1$phrase2 $hInt hour$hEnd $mInt minute$mEnd.';
   } else if (mInt != 0) {
     return '$phrase1$phrase2 $mInt minute$mEnd.';

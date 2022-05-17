@@ -80,6 +80,7 @@ class Login extends HookWidget {
               passwordError.value.enableError();
               notificationN.showError(
                 error.toString(),
+                duration: 4,
                 id: 1,
               );
             }

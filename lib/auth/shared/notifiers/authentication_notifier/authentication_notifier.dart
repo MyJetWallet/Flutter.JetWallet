@@ -14,6 +14,7 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
+import '../../../../service/shared/models/invalid_credentials_blocker_response_model.dart';
 import '../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
@@ -117,10 +118,23 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       }
 
       if (e is DioError && e.error == 'Http status error [401]') {
-        state = const Input('Invalid login or password');
+        try {
+          final json = e.response?.data as Map<String, dynamic>;
+          final data = json['blockerData'] as Map<String, dynamic>;
+          final model = InvalidCredentialsBlockerResponseModel.fromJson(data);
+
+          state = Input(
+            'The email or password you entered is incorrect, '
+            '${model.currentAttempts} attempts remaining.',
+          );
+        } catch (e) {
+          state = const Input(_defaultMessage);
+        }
       } else {
-        state = const Input('Something went wrong. Please try again later!');
+        state = const Input(_defaultMessage);
       }
     }
   }
 }
+
+const _defaultMessage = 'Something went wrong. Please try again later!';
