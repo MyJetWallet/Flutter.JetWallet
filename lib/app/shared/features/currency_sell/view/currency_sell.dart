@@ -144,7 +144,7 @@ class CurrencySell extends HookWidget {
                 symbol: currency.symbol,
               ),
               helper: state.conversionText(),
-              error: state.inputError.value,
+              error: state.inputError.value(),
               isErrorActive: state.inputError.isActive,
             ),
           ),

@@ -74,8 +74,12 @@ class HighYieldBuy extends HookWidget {
             ),
           ),
           const SpaceH35(),
-          SimplePercentageIndicator(
-            tiers: state.simpleTiers,
+          Row(
+            children: [
+              SimplePercentageIndicator(
+                tiers: state.simpleTiers,
+              ),
+            ],
           ),
           const SpaceH24(),
           if (!state.singleTier)
@@ -136,7 +140,7 @@ class HighYieldBuy extends HookWidget {
           SActionConfirmText(
             name: 'Your APY',
             baseline: 25.0,
-            value: '${state.apy}%',
+            value: state.apy != null ? '${state.apy}%' : '',
             minValueWidth: 50,
             maxValueWidth: 50,
           ),
@@ -146,10 +150,9 @@ class HighYieldBuy extends HookWidget {
               ClickableUnderlinedText(
                 text: 'Learn more',
                 onTap: () {
-                  // TODO: add navigation
                   HelpCenterWebView.push(
                     context: context,
-                    link: faqLink,
+                    link: infoEarnLink,
                   );
                 },
               ),
@@ -189,7 +192,13 @@ class HighYieldBuy extends HookWidget {
                 symbol: currency.symbol,
               ),
               helper: state.conversionText(),
-              error: state.inputError.value,
+              error: state.inputError.value(
+                errorInfo: 'Max. ${marketFormat(
+                  decimal: state.maxSubscribeAmount ?? Decimal.zero,
+                  accuracy: 0,
+                  symbol: state.selectedCurrencySymbol,
+                )}',
+              ),
               isErrorActive: state.inputError.isActive,
             ),
           ),
@@ -210,7 +219,7 @@ class HighYieldBuy extends HookWidget {
           SHighYieldPercentageDescription(
             widgetSize: widgetSizeFrom(deviceSize),
             apy: state.apy != null ? '${state.apy}%' : '',
-            onTap: _showHowWeCountSheet,
+            onTap: state.simpleTiers.isNotEmpty ? _showHowWeCountSheet : null,
             tiers: state.simpleTiers,
           ),
           deviceSize.when(

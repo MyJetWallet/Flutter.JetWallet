@@ -13,7 +13,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
   }) : super(key: key);
 
   final SWidgetSize widgetSize;
-  final Function() onTap;
+  final void Function()? onTap;
   final String apy;
   final List<SimpleTierModel> tiers;
 
@@ -42,7 +42,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
           child: Column(
             children: [
               // + 1 px border
-              if (widgetSize == SWidgetSize.small) const SpaceH19(),
+              if (widgetSize == SWidgetSize.small) const SpaceH16(),
               // + 1 px border
               if (widgetSize == SWidgetSize.medium) const SpaceH27(),
               Row(
@@ -68,7 +68,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
                 ],
               ),
               // + 1 px border
-              if (widgetSize == SWidgetSize.small) const SpaceH17(),
+              if (widgetSize == SWidgetSize.small) const SpaceH10(),
             ],
           ),
         ),

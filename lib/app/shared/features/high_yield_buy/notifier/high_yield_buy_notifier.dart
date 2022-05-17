@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -29,6 +31,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
   final Reader read;
   final HighYieldBuyInput input;
+  Timer _timer = Timer(Duration.zero, () {});
 
   static final _logger = Logger('HighYieldBuyNotifier');
 
@@ -56,6 +59,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
   void selectPercentFromBalance(SKeyboardPreset preset) {
     _logger.log(notifier, 'selectPercentFromBalance');
+    _timer.cancel();
 
     _updateSelectedPreset(preset);
 
@@ -72,6 +76,10 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+
+    _timer = Timer(const Duration(milliseconds: 1500), () {
+      calculateEarnOfferApy();
+    });
   }
 
   void _updateSelectedPreset(SKeyboardPreset preset) {
@@ -94,6 +102,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
   void updateInputValue(String value) {
     _logger.log(notifier, 'updateInputValue');
+    _timer.cancel();
 
     _updateInputValue(
       responseOnInputAction(
@@ -106,7 +115,9 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     _calculateTargetConversion();
     _calculateBaseConversion();
 
-    calculateEarnOfferApy();
+    _timer = Timer(const Duration(milliseconds: 1500), () {
+      calculateEarnOfferApy();
+    });
   }
 
   Future<void> calculateEarnOfferApy() async {
@@ -132,23 +143,27 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
         currentBalance: response.currentBalance,
         expectedYearlyProfit: response.expectedYearlyProfit,
         expectedYearlyProfitBaseAsset: response.expectedYearlyProfitBaseAsset,
+        amountTooLarge: response.amountTooLarge,
+        maxSubscribeAmount: response.maxSubscribeAmount,
       );
 
-      // _refreshTimerAnimation(response.expirationTime);
-      // _refreshTimer(response.expirationTime);
+      if (response.amountTooLarge) {
+        _updateInputError(InputError.amountTooLarge);
+      }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'calculateEarnOfferApy', error.cause);
 
-      // _showFailureScreen(error);
+      read(sNotificationNotipod.notifier).showError(
+        error.cause,
+        id: 1,
+      );
     } catch (error) {
       _logger.log(stateFlow, 'calculateEarnOfferApy', error);
 
-      // state = state.copyWith(
-      //   union: const QuoteLoading(),
-      //   connectingToServer: true,
-      // );
-      //
-      // _refreshTimer(quoteRetryInterval);
+      read(sNotificationNotipod.notifier).showError(
+        error.toString(),
+        id: 1,
+      );
     }
   }
 
@@ -230,5 +245,11 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     }
 
     _updateInputError(error);
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }

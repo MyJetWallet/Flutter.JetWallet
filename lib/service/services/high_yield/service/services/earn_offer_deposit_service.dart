@@ -15,7 +15,7 @@ Future<void> earnOfferDepositService(
 
   try {
     final response = await dio.post(
-      '$walletApi/trading/high-yield/earn_offer_deposit',
+      '$walletApi/trading/high-yield/earn-offer-deposit',
       data: model.toJson(),
     );
 

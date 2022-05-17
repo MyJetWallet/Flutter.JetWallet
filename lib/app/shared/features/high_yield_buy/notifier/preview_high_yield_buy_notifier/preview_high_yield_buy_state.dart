@@ -22,5 +22,8 @@ class PreviewHighYieldBuyState with _$PreviewHighYieldBuyState {
     @Default(false) bool connectingToServer,
     @Default(QuoteLoading()) PreviewHighYieldBuyUnion union,
     @Default(0) int timer,
+    Decimal? apy,
+    Decimal? expectedYearlyProfit,
+    Decimal? expectedYearlyProfitBase,
   }) = _PreviewHighYieldBuyState;
 }

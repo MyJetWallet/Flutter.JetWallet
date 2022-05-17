@@ -31,6 +31,8 @@ class HighYieldBuyState with _$HighYieldBuyState {
     Decimal? currentBalance,
     Decimal? expectedYearlyProfit,
     Decimal? expectedYearlyProfitBaseAsset,
+    @Default(false) bool amountTooLarge,
+    Decimal? maxSubscribeAmount,
   }) = _HighYieldBuyState;
 
   const HighYieldBuyState._();
@@ -93,19 +95,6 @@ class HighYieldBuyState with _$HighYieldBuyState {
       symbol: baseCurrency!.symbol,
     );
 
-    if (selectedCurrency == null) {
-      return '≈ $base';
-    } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
-      return '≈ $base';
-    } else {
-      final target = marketFormat(
-        decimal: Decimal.parse(targetConversionValue),
-        symbol: selectedCurrency!.symbol,
-        prefix: selectedCurrency!.prefixSymbol,
-        accuracy: selectedCurrency!.accuracy,
-      );
-
-      return '≈ $target ($base)';
-    }
+    return base;
   }
 }

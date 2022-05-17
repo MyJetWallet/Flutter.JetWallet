@@ -104,14 +104,17 @@ enum InputError {
   none,
   notEnoughFunds,
   enterHigherAmount,
+  amountTooLarge,
 }
 
 extension InputErrorValue on InputError {
-  String get value {
+  String value({String errorInfo = ''}) {
     if (this == InputError.notEnoughFunds) {
       return 'Insufficient available balance';
     } else if (this == InputError.enterHigherAmount) {
       return 'Enter a higher amount';
+    } else if (this == InputError.amountTooLarge) {
+      return 'Enter smaller amount. $errorInfo';
     } else {
       return 'None';
     }
