@@ -4,7 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../helpers/formatting/formatting.dart';
+import '../../wallet/helper/format_date_to_hm.dart';
 import '../model/preview_high_yield_buy_input.dart';
 import '../notifier/preview_high_yield_buy_notifier/preview_high_yield_buy_notipod.dart';
 import '../notifier/preview_high_yield_buy_notifier/preview_high_yield_buy_state.dart';
@@ -25,6 +27,7 @@ class PreviewHighYieldBuy extends StatefulHookWidget {
 class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
   @override
   Widget build(BuildContext context) {
+    final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(previewHighYieldBuyNotipod(widget.input));
     final notifier =
@@ -46,12 +49,17 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
       },
       child: SPageFrameWithPadding(
         loading: loader.value,
-        header: SMegaHeader(
-          title: 'Confirm ${widget.input.earnOffer.title}',
-          crossAxisAlignment: CrossAxisAlignment.center,
-          onBackButtonTap: () {
-            notifier.cancelTimer();
-            Navigator.pop(context);
+        header: deviceSize.when(
+          small: () {
+            return SSmallHeader(
+              title: 'Confirm ${widget.input.earnOffer.title}',
+            );
+          },
+          medium: () {
+            return SMegaHeader(
+              title: 'Confirm ${widget.input.earnOffer.title}',
+              crossAxisAlignment: CrossAxisAlignment.center,
+            );
           },
         ),
         child: CustomScrollView(
@@ -61,7 +69,10 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SpaceH8(),
+                  deviceSize.when(
+                    small: () => const SpaceH24(),
+                    medium: () => const SpaceH8(),
+                  ),
                   Center(
                     child: SActionConfirmIconWithAnimation(
                       iconUrl: widget.input.fromCurrency.iconUrl,
@@ -78,40 +89,71 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     ),
                   ),
                   SActionConfirmText(
+                    contentLoading: state.union is QuoteLoading,
                     name: 'APY',
                     baseline: 35.0,
-                    value: '${widget.input.apy}%',
+                    value: '${state.apy}%',
                   ),
-                  SActionConfirmText(
-                    name: 'Term',
-                    baseline: 35.0,
-                    value: widget.input.earnOffer.title,
+                  if (widget.input.earnOffer.endDate != null)
+                    SActionConfirmText(
+                      name: 'Expiry date',
+                      baseline: 35.0,
+                      value: formatDateToDMonthYFromDate(
+                        widget.input.earnOffer.endDate!,
+                      ),
+                    )
+                  else
+                    SActionConfirmText(
+                      name: 'Term',
+                      baseline: 35.0,
+                      value: widget.input.earnOffer.title,
+                    ),
+                  deviceSize.when(
+                    small: () => const SpaceH6(),
+                    medium: () => const SpaceH34(),
                   ),
-                  const SpaceH34(),
                   const SDivider(),
                   SActionConfirmText(
                     name: 'Expected yearly profit',
-                    baseline: 38.0,
-                    maxValueWidth: 150,
-                    minValueWidth: 150,
-                    value: '${widget.input.expectedYearlyProfit}'
-                        ' ${widget.input.fromCurrency.symbol}',
+                    contentLoading: state.union is QuoteLoading,
+                    baseline: 40,
+                    maxValueWidth: 170,
+                    minValueWidth: 170,
+                    value: marketFormat(
+                      prefix: widget.input.fromCurrency.prefixSymbol,
+                      decimal: state.expectedYearlyProfit ?? Decimal.zero,
+                      accuracy: widget.input.fromCurrency.accuracy,
+                      symbol: widget.input.fromCurrency.symbol,
+                    ),
                   ),
+                  if (state.union is QuoteLoading) const SpaceH6(),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      'approx. ${marketFormat(
-                        prefix: '\$',
-                        decimal: Decimal.parse(
-                          widget.input.expectedYearlyProfitBase,
-                        ),
-                        accuracy: 2,
-                        symbol: 'USD',
-                      )}',
-                      style: sBodyText2Style.copyWith(
-                        color: colors.grey1,
-                      ),
-                    ),
+                    child: state.union is QuoteLoading
+                        ? Container(
+                            padding: const EdgeInsets.only(
+                              top: 2,
+                            ),
+                            margin: const EdgeInsets.only(
+                              bottom: 4,
+                            ),
+                            child: const SSkeletonTextLoader(
+                              height: 8,
+                              width: 100,
+                            ),
+                          )
+                        : Text(
+                            'approx. ${marketFormat(
+                              prefix: '\$',
+                              decimal: state.expectedYearlyProfitBase ??
+                                  Decimal.zero,
+                              accuracy: 2,
+                              symbol: 'USD',
+                            )}',
+                            style: sBodyText2Style.copyWith(
+                              color: colors.grey1,
+                            ),
+                          ),
                   ),
                   const SpaceH12(),
                   Text(
