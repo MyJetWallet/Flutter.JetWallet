@@ -32,8 +32,8 @@ class Earn extends HookWidget {
             backgroundColor: colors.white,
             pinned: true,
             elevation: 0,
-            expandedHeight: isActive ? 120 : 160,
-            collapsedHeight: isActive ? 120 : 160,
+            expandedHeight: isActive || earnOffers.isEmpty ? 120 : 160,
+            collapsedHeight: isActive || earnOffers.isEmpty ? 120 : 160,
             primary: false,
             flexibleSpace: EarnHeader(
               isActive: isActive,
