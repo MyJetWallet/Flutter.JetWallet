@@ -91,16 +91,16 @@ class Register extends HookWidget {
                 ),
                 const SpaceH19(),
                 const ReferralCode(),
-                const Spacer(),
+                const SpaceH36(),
                 Container(
                   color: colors.grey5,
                   child: SPaddingH24(
                     child: SPolicyCheckbox(
-                      firstText: 'I hereby confirm that I’m over 18 year old, '
+                      firstText: 'By clicking Agree and Continue, I hereby '
                           'agree and consent to the ',
-                      userAgreementText: 'T&C',
+                      userAgreementText: 'User Agreement',
                       betweenText: ' and the ',
-                      privacyPolicyText: 'Privacy Policy',
+                      privacyPolicyText: 'Privacy Policy.',
                       isChecked: credentials.policyChecked,
                       onCheckboxTap: () {
                         _scrollToBottom();
@@ -111,18 +111,6 @@ class Register extends HookWidget {
                       },
                       onPrivacyPolicyTap: () {
                         launchURL(context, privacyPolicyLink);
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  color: colors.grey5,
-                  child: SPaddingH24(
-                    child: MailingCheckbox(
-                      isChecked: credentials.mailingChecked,
-                      onCheckboxTap: () {
-                        _scrollToBottom();
-                        credentialsN.checkMailing();
                       },
                     ),
                   ),
