@@ -337,5 +337,11 @@
     "earn_for": "For",
     "earn_day": "day",
     "earn_empty": "No offers currently available",
-    "earn_empty_description": "Unfortunately, there are no earn programs to chose from at the moment. Please check back later, or subscribe to our news and stay up to date with the latest offers"
+    "earn_empty_description": "Unfortunately, there are no earn programs to chose from at the moment. Please check back later, or subscribe to our news and stay up to date with the latest offers",
+    "earn_total_balance": "Total balance",
+    "earn_avg_apy": "Average APY",
+    "earn_day_year_profit": "Daily/Yearly Profit",
+    "earn_total_earned": "Total earned",
+    "earn_active_subscription": "Active subscription",
+    "earn_available_subscription": "Available subscriptions"
 }

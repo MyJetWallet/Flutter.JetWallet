@@ -25,10 +25,12 @@ class EarnItem extends HookWidget {
     final currencies = useProvider(currenciesPod);
     final earnOffers = useProvider(earnOffersPod);
 
+    earnOffers.sort((a, b) => b.currentApy.compareTo(a.currentApy));
+
     final currentCurrency = currencyFrom(currencies, name);
-    final currentOffers = earnOffers;
-    currentOffers.where((element) => element.asset == name);
-    currentOffers.sort((a, b) => b.currentApy.compareTo(a.currentApy));
+    final currentOffers = earnOffers
+        .where((element) => element.asset == name)
+        .toList();
 
     return Column(
       children: [
@@ -67,11 +69,16 @@ class EarnItem extends HookWidget {
                           url: currentCurrency.iconUrl,
                         ),
                         const SpaceW10(),
-                        Text(
-                          currentCurrency.description,
-                          style: sSubtitle2Style.copyWith(
-                            color: colors.black,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 3,
                           ),
+                          child: Text(
+                            currentCurrency.description,
+                            style: sSubtitle2Style.copyWith(
+                              color: colors.black,
+                            ),
+                          ) ,
                         ),
                       ],
                     ),

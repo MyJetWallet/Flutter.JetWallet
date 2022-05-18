@@ -12,7 +12,10 @@ import 'earn_page_bottom_sheet/earn_page_bottom_sheet.dart';
 class EarnHeader extends HookWidget {
   const EarnHeader({
     Key? key,
+    required this.isActive,
   }) : super(key: key);
+
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class EarnHeader extends HookWidget {
             children: [
               Text(
                 intl.earn_title,
-                style: sTextH2Style,
+                style: isActive ? sTextH5Style : sTextH2Style,
               ),
               STransparentInkWell(
                 onTap: () {
@@ -55,7 +58,7 @@ class EarnHeader extends HookWidget {
             ],
           ),
         ),
-        if (earnOffers.isNotEmpty)
+        if (earnOffers.isNotEmpty && !isActive)
           SPaddingH24(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -80,7 +83,8 @@ class EarnHeader extends HookWidget {
               ),
             ),
           ),
-        const SDivider(),
+        if (!isActive)
+          const SDivider(),
       ],
     );
   }
