@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -14,7 +13,6 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
-import '../../../../service/shared/models/invalid_credentials_blocker_response_model.dart';
 import '../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
@@ -117,24 +115,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         sAnalytics.signUpFailure(email, e.toString());
       }
 
-      if (e is DioError && e.error == 'Http status error [401]') {
-        try {
-          final json = e.response?.data as Map<String, dynamic>;
-          final data = json['blockerData'] as Map<String, dynamic>;
-          final model = InvalidCredentialsBlockerResponseModel.fromJson(data);
-
-          state = Input(
-            'The email or password you entered is incorrect, '
-            '${model.currentAttempts} attempts remaining.',
-          );
-        } catch (e) {
-          state = const Input(_defaultMessage);
-        }
-      } else {
-        state = const Input(_defaultMessage);
-      }
+      state = const Input('Something went wrong. Please try again later!');
     }
   }
 }
-
-const _defaultMessage = 'Something went wrong. Please try again later!';

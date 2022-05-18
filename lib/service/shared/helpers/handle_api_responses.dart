@@ -1,4 +1,5 @@
 import '../../../shared/helpers/timespan_to_duration.dart';
+import '../models/invalid_credentials_blocker_response_model.dart';
 import '../models/server_reject_exception.dart';
 import 'error_codes_description.dart';
 
@@ -32,6 +33,14 @@ void _validateFullResponse(String result, Map<String, dynamic> json) {
     final expire = data['blockerExpired'] as String;
 
     throw ServerRejectException(_blockerMessage(timespanToDuration(expire)));
+  } else if (result == 'InvalidUserNameOrPassword') {
+    final data = json['data'] as Map<String, dynamic>;
+    final model = InvalidCredentialsBlockerResponseModel.fromJson(data);
+
+    throw ServerRejectException(
+      'The email or password you entered is incorrect, '
+      '${model.currentAttempts} attempts remaining.',
+    );
   } else if (result != 'OK') {
     throw ServerRejectException(errorCodesDescription[result] ?? result);
   }
