@@ -8,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../shared/components/pin_code_field.dart';
 import '../../../../shared/helpers/get_args.dart';
 import '../../../../shared/helpers/open_email_app.dart';
+import '../../../../shared/notifiers/timer_notifier/timer_family.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../reset_password/view/reset_password.dart';
@@ -47,10 +48,19 @@ class ConfirmPasswordReset extends HookWidget {
 
     final colors = useProvider(sColorPod);
     final state = useProvider(confirmPasswordResetNotipod(args.email));
-    final notifier =
-        useProvider(confirmPasswordResetNotipod(args.email).notifier);
-    final timer = useProvider(timerNotipod(emailResendCountdown));
-    final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
+    final notifier = useProvider(
+      confirmPasswordResetNotipod(args.email).notifier,
+    );
+    final timer = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ),
+    );
+    final timerN = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ).notifier,
+    );
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final focusNode = useFocusNode();
 

@@ -8,6 +8,7 @@ import '../../../../shared/components/pin_code_field.dart';
 import '../../../../shared/helpers/analytics.dart';
 import '../../../../shared/helpers/open_email_app.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
+import '../../../../shared/notifiers/timer_notifier/timer_family.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
@@ -20,8 +21,16 @@ class EmailVerification extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final timer = useProvider(timerNotipod(emailResendCountdown));
-    final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
+    final timer = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ),
+    );
+    final timerN = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ).notifier,
+    );
     final logoutN = useProvider(logoutNotipod.notifier);
     final verification = useProvider(emailVerificationNotipod);
     final verificationN = useProvider(emailVerificationNotipod.notifier);

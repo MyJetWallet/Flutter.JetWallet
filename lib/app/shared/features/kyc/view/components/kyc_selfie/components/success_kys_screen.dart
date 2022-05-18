@@ -8,6 +8,7 @@ import '../../../../../../../../shared/components/result_screens/success_screen/
 import '../../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../../../../shared/notifiers/timer_notifier/timer_family.dart';
 import '../../../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../provider/kyc_start_fpod.dart';
@@ -50,7 +51,7 @@ class SuccessKycScreen extends HookWidget {
     analytics(() => sAnalytics.kycSuccessPageView());
 
     return ProviderListener<int>(
-      provider: timerNotipod(3),
+      provider: timerNotipod(timerFamily(3)),
       onChange: (context, value) {},
       child: SPageFrameWithPadding(
         child: Column(

@@ -7,6 +7,7 @@ import '../../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_not
 import '../../../../../../shared/components/pin_code_field.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
+import '../../../../../../shared/notifiers/timer_notifier/timer_family.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../model/withdrawal_model.dart';
@@ -30,9 +31,15 @@ class WithdrawalConfirm extends HookWidget {
     withdrawalModel = withdrawal;
 
     final colors = useProvider(sColorPod);
-    final timer = useProvider(timerNotipod(withdrawalConfirmResendCountdown));
+    final timer = useProvider(
+      timerNotipod(
+        timerFamily(withdrawalConfirmResendCountdown),
+      ),
+    );
     final timerN = useProvider(
-      timerNotipod(withdrawalConfirmResendCountdown).notifier,
+      timerNotipod(
+        timerFamily(withdrawalConfirmResendCountdown),
+      ).notifier,
     );
     final authInfo = useProvider(authInfoNotipod);
     final confirm = useProvider(withdrawalConfirmNotipod(withdrawal));

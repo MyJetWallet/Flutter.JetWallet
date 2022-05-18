@@ -7,6 +7,7 @@ import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../helpers/navigate_to_router.dart';
 import '../../../helpers/navigator_push.dart';
 import '../../../helpers/widget_size_from.dart';
+import '../../../notifiers/timer_notifier/timer_family.dart';
 import '../../../providers/device_size/device_size_pod.dart';
 import 'components/success_animation.dart';
 
@@ -56,7 +57,7 @@ class SuccessScreen extends HookWidget {
         return Future.value(false);
       },
       child: ProviderListener<int>(
-        provider: timerNotipod(3),
+        provider: timerNotipod(timerFamily(3)),
         onChange: (context, value) {
           if (value == 0) {
             if (onSuccess == null) {

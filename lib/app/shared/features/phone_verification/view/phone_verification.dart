@@ -10,6 +10,7 @@ import '../../../../../shared/components/texts/resend_rich_text.dart';
 import '../../../../../shared/components/texts/verification_description_text.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../shared/notifiers/timer_notifier/timer_family.dart';
 import '../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/account/components/crisp.dart';
@@ -71,8 +72,16 @@ class PhoneVerification extends HookWidget {
     final phone = useProvider(phoneVerificationNotipod(args));
     final phoneN = useProvider(phoneVerificationNotipod(args).notifier);
     // TODO add phoneVerificationCountdown
-    final timer = useProvider(timerNotipod(emailResendCountdown));
-    final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
+    final timer = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ),
+    );
+    final timerN = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ).notifier,
+    );
     final colors = useProvider(sColorPod);
     final focusNode = useFocusNode();
 
@@ -83,7 +92,6 @@ class PhoneVerification extends HookWidget {
         phone.controller.clear();
       }
     });
-
 
     return SPageFrame(
       loading: phone.loader,
@@ -116,9 +124,10 @@ class PhoneVerification extends HookWidget {
                     ),
                     TextSpan(
                       text: 'support',
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        Crisp.push(context);
-                      },
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Crisp.push(context);
+                        },
                       style: sBodyText1Style.copyWith(
                         color: colors.blue,
                       ),
@@ -144,6 +153,7 @@ class PhoneVerification extends HookWidget {
               },
               pinError: phone.pinFieldError!,
             ),
+
             /// TODO update legacy resend
             if (timer > 0 && !phone.showResend)
               ResendInText(text: 'You can resend in $timer seconds')

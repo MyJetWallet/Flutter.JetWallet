@@ -8,6 +8,7 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../../shared/notifiers/timer_notifier/timer_family.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
@@ -46,7 +47,7 @@ class RecurringSuccessScreen extends HookWidget {
         return Future.value(false);
       },
       child: ProviderListener<int>(
-        provider: timerNotipod(3),
+        provider: timerNotipod(timerFamily(3)),
         onChange: (context, value) {
           if (value == 0 && shouldPop.value) {
             navigateToRouter(context.read);

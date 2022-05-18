@@ -12,6 +12,7 @@ import '../../../helpers/navigator_push.dart';
 import '../../../helpers/navigator_push_replacement.dart';
 import '../../../notifiers/logout_notifier/logout_notipod.dart';
 import '../../../notifiers/logout_notifier/logout_union.dart' as lu;
+import '../../../notifiers/timer_notifier/timer_family.dart';
 import '../../../notifiers/timer_notifier/timer_notipod.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/two_fa_phone_trigger_union.dart';
@@ -48,8 +49,16 @@ class TwoFaPhone extends HookWidget {
     final twoFa = useProvider(twoFaPhoneNotipod(trigger));
     final twoFaN = useProvider(twoFaPhoneNotipod(trigger).notifier);
     // TODO add twoFaPhoneResendCountdown to remote config
-    final timer = useProvider(timerNotipod(emailResendCountdown));
-    final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
+    final timer = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ),
+    );
+    final timerN = useProvider(
+      timerNotipod(
+        timerFamily(emailResendCountdown),
+      ).notifier,
+    );
     final logout = useProvider(logoutNotipod);
     final logoutN = useProvider(logoutNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
