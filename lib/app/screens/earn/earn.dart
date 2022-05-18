@@ -39,12 +39,12 @@ class Earn extends HookWidget {
               isActive: isActive,
             ),
           ),
-          if (isActive) const EarnItems(
+          if (!isActive) const EarnItems(
             isActiveEarn: false,
             emptyBalance: true,
           ),
-          // if (earnOffers.isEmpty) const EarnEmptyState(),
-          // if (isActive) const EarnActiveState(),
+          if (earnOffers.isEmpty) const EarnEmptyState(),
+          if (isActive) const EarnActiveState(),
         ],
       ),
     );
