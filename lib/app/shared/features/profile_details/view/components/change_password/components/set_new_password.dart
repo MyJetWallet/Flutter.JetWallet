@@ -53,6 +53,7 @@ class SetNewPassword extends HookWidget {
           ),
         ),
         loading: loading.value,
+        loaderText: intl.pleaseWait,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -46,6 +46,7 @@ class CircleBillingAddress extends HookWidget {
     return WillPopScope(
       onWillPop: () => Future.value(navigationAllowed),
       child: SPageFrame(
+        loaderText: intl.pleaseWait,
         loading: state.loader,
         header: SPaddingH24(
           child: SBigHeader(

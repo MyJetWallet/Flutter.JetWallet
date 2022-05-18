@@ -147,7 +147,7 @@ class ChooseDocuments extends HookWidget {
                   AllowCamera.push(
                     context: context,
                     permissionDescription:
-                        '${intl.chooseDocuments_permissionDescriptionText1}\n'
+                        '${intl.chooseDocuments_permissionDescriptionText1} '
                         '${intl.camera}',
                     then: () => UploadKycDocuments.pushReplacement(context),
                   );

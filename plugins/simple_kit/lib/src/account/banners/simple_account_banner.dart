@@ -56,7 +56,7 @@ class SimpleAccountBanner extends StatelessWidget {
                     top: 14,
                   ),
                   child: SizedBox(
-                    width: 237,
+                    width: 207,
                     child: Baseline(
                       baseline: 20,
                       baselineType: TextBaseline.alphabetic,

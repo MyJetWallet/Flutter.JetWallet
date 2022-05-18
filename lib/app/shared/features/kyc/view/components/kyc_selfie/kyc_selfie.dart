@@ -77,6 +77,9 @@ class KycSelfie extends HookWidget {
         );
       },
       child: SPageFrame(
+        loaderText: (loaderSuccess.value.value)
+            ? intl.done
+            : intl.pleaseWait,
         loading: loader.value,
         loadSuccess: loaderSuccess.value,
         header: SPaddingH24(
@@ -140,14 +143,17 @@ class KycSelfie extends HookWidget {
                             Row(
                               children: [
                                 const SpaceW16(),
-                                Baseline(
-                                  baseline: 30,
-                                  baselineType: TextBaseline.alphabetic,
-                                  child: Text(
-                                    '${intl.kycSelfie_faceForwardAndMakeSure}\n'
-                                    '${intl.clearlyVisible}',
-                                    style: sBodyText1Style.copyWith(
-                                      color: colors.grey1,
+                                Flexible(
+                                  child: Baseline(
+                                    baseline: 30,
+                                    baselineType: TextBaseline.alphabetic,
+                                    child: Text(
+                                      '${intl.kycSelfie_faceForwardAndMakeSure}'
+                                      '${intl.clearlyVisible}',
+                                      maxLines: 2,
+                                      style: sBodyText1Style.copyWith(
+                                        color: colors.grey1,
+                                      ),
                                     ),
                                   ),
                                 ),

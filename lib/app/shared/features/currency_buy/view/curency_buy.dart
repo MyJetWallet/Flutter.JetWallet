@@ -152,6 +152,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     }
 
     return SPageFrame(
+      loaderText: intl.pleaseWait,
       loading: loader.value,
       header: SPaddingH24(
         child: SSmallHeader(

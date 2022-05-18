@@ -52,6 +52,7 @@ class PaymentMethods extends HookWidget {
     }
 
     return SPageFrame(
+      loaderText: intl.pleaseWait,
       loading: loader.value,
       header: SPaddingH24(
         child: SSmallHeader(

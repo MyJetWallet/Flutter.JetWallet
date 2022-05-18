@@ -67,6 +67,7 @@ class SetPhoneNumber extends HookWidget {
     analytics(() => sAnalytics.kycPhoneConfirmationView());
 
     return SPageFrame(
+      loaderText: intl.pleaseWait,
       loading: state.loader,
       color: colors.grey5,
       header: SPaddingH24(

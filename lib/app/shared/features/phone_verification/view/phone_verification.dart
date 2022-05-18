@@ -87,6 +87,7 @@ class PhoneVerification extends HookWidget {
     });
 
     return SPageFrame(
+      loaderText: intl.pleaseWait,
       loading: phone.loader,
       header: SPaddingH24(
         child: SSmallHeader(

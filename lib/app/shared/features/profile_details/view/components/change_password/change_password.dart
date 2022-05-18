@@ -35,6 +35,7 @@ class ChangePassword extends HookWidget {
         );
       },
       child: SPageFrame(
+        loaderText: intl.pleaseWait,
         color: colors.grey5,
         header: SPaddingH24(
           child: SSmallHeader(

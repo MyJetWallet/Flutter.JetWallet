@@ -78,6 +78,9 @@ class UploadKycDocuments extends HookWidget {
         );
       },
       child: SPageFrame(
+        loaderText: (loaderSuccess.value.value)
+            ? intl.done
+            : intl.pleaseWait,
         loading: loader.value,
         loadSuccess: loaderSuccess.value,
         header: SPaddingH24(

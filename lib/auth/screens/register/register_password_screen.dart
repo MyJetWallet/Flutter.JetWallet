@@ -54,6 +54,7 @@ class RegisterPasswordScreen extends HookWidget {
           return Future.value(true);
         },
         child: SPageFrame(
+          loaderText: intl.pleaseWait,
           loading: loader.value,
           color: colors.grey5,
           header: SPaddingH24(

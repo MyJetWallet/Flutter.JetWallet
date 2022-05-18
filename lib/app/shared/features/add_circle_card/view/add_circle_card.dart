@@ -41,6 +41,7 @@ class AddCircleCard extends HookWidget {
     final notifier = useProvider(addCircleCardNotipod.notifier);
 
     return SPageFrame(
+      loaderText: intl.pleaseWait,
       loading: state.loader,
       header: SPaddingH24(
         child: SBigHeader(
