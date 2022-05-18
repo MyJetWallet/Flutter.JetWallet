@@ -51,7 +51,7 @@ class PreviewHighYieldBuyNotifier
 
     final model = CalculateEarnOfferApyRequestModel(
       offerId: input.earnOffer.offerId,
-      assetSymbol: input.fromCurrency.symbol,
+      assetSymbol: 'USD',
       amount: Decimal.parse(input.amount),
     );
 
