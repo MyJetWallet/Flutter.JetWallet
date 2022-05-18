@@ -78,6 +78,7 @@ class HighYieldBuy extends HookWidget {
             children: [
               SimplePercentageIndicator(
                 tiers: state.simpleTiers,
+                expanded: true,
               ),
             ],
           ),
@@ -111,14 +112,15 @@ class HighYieldBuy extends HookWidget {
             SActionConfirmText(
               name: 'Limit',
               baseline: 35.0,
-              value: '\$${state.tiers[0].fromUsd}-${state.tiers[0].toUsd}',
+              value: '\$${state.simpleTiers[0].fromUsd}'
+                  '-${state.simpleTiers[0].toUsd}',
               minValueWidth: 50,
               maxValueWidth: 200,
             ),
             SActionConfirmText(
               name: 'APY',
               baseline: 35.0,
-              value: '${state.tiers[0].apy}%',
+              value: '${state.simpleTiers[0].apy}%',
               minValueWidth: 50,
               maxValueWidth: 50,
             ),

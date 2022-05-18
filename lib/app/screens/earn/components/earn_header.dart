@@ -39,7 +39,7 @@ class EarnHeader extends HookWidget {
                 intl.earn_title,
                 style: isActive ? sTextH5Style : sTextH2Style,
               ),
-              STransparentInkWell(
+              SIconButton(
                 onTap: () {
                   showStartEarnPageBottomSheet(
                     context: context,
@@ -53,7 +53,8 @@ class EarnHeader extends HookWidget {
                     },
                   );
                 },
-                child: const SInfoIcon(),
+                defaultIcon: const SInfoIcon(),
+                pressedIcon: const SInfoPressedIcon(),
               ),
             ],
           ),
@@ -83,8 +84,7 @@ class EarnHeader extends HookWidget {
               ),
             ),
           ),
-        if (!isActive)
-          const SDivider(),
+        if (!isActive) const SDivider(),
       ],
     );
   }
