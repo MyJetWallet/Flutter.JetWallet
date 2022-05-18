@@ -24,7 +24,7 @@ class EarnSubscriptionPinned extends HookWidget {
           padding: const EdgeInsets.only(
             left: 24,
             right: 24,
-            top: 40,
+            top: 18,
             bottom: 20,
           ),
           child: Row(

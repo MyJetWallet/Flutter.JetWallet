@@ -14,7 +14,6 @@ void showSubscriptionBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,
-    removeBottomSheetBar: true,
     removeBarPadding: true,
     pinned: EarnSubscriptionPinned(name: currency.description),
     horizontalPinnedPadding: 0,

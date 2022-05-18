@@ -25,6 +25,25 @@ class EarnPagePinned extends StatelessWidget {
           ),
         ),
         Positioned(
+          width: MediaQuery.of(context).size.width,
+          top: 8,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 35.0,
+                height: 4.0,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(4.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
           top: 26.0,
           right: 26.0,
           child: GestureDetector(
