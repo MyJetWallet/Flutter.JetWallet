@@ -69,10 +69,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  deviceSize.when(
-                    small: () => const SpaceH24(),
-                    medium: () => const SpaceH8(),
-                  ),
+                  const SpaceH8(),
                   Center(
                     child: SActionConfirmIconWithAnimation(
                       iconUrl: widget.input.fromCurrency.iconUrl,
@@ -81,6 +78,10 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   const Spacer(),
                   SActionConfirmText(
                     name: 'Subscription amount',
+                    baseline: deviceSize.when(
+                      small: () => 29,
+                      medium: () => 40,
+                    ),
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
@@ -109,14 +110,17 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                       value: widget.input.earnOffer.title,
                     ),
                   deviceSize.when(
-                    small: () => const SpaceH6(),
+                    small: () => const SpaceH35(),
                     medium: () => const SpaceH34(),
                   ),
                   const SDivider(),
                   SActionConfirmText(
                     name: 'Expected yearly profit',
                     contentLoading: state.union is QuoteLoading,
-                    baseline: 40,
+                    baseline: deviceSize.when(
+                      small: () => 37,
+                      medium: () => 40,
+                    ),
                     maxValueWidth: 170,
                     minValueWidth: 170,
                     value: marketFormat(
@@ -163,7 +167,10 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     style: sCaptionTextStyle.copyWith(color: colors.grey1),
                     maxLines: 4,
                   ),
-                  const SpaceH36(),
+                  deviceSize.when(
+                    small: () => const SpaceH37(),
+                    medium: () => const SpaceH36(),
+                  ),
                   SPrimaryButton2(
                     active: true,
                     name: 'Confirm',

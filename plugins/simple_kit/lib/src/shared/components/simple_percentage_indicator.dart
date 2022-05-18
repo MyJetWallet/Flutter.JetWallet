@@ -6,11 +6,13 @@ import '../../colors/view/simple_colors_light.dart';
 class SimplePercentageIndicator extends StatelessWidget {
   const SimplePercentageIndicator({
     Key? key,
+    this.expanded = false,
     this.isHot = false,
     required this.tiers,
   }) : super(key: key);
 
   final List<SimpleTierModel> tiers;
+  final bool expanded;
   final bool isHot;
 
   @override
@@ -155,7 +157,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      width: 55,
+                      width: expanded ? 71 : 55,
                       height: 32,
                       padding: const EdgeInsets.only(
                         top: 2,
@@ -175,11 +177,11 @@ class SimplePercentageIndicator extends StatelessWidget {
                     ),
                     Container(
                       height: 32,
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         top: 2,
                         bottom: 4,
                         left: 8,
-                        right: 16,
+                        right: expanded ? 32 : 16,
                       ),
                       decoration: BoxDecoration(
                         color: tiers[1].active

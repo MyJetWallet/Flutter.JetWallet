@@ -125,7 +125,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
     final model = CalculateEarnOfferApyRequestModel(
       offerId: input.earnOffer.offerId,
-      assetSymbol: state.selectedCurrencySymbol,
+      assetSymbol: 'USD',
       amount: Decimal.parse(state.inputValue),
     );
 
