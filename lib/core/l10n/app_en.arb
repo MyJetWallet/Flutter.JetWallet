@@ -343,5 +343,14 @@
     "earn_day_year_profit": "Daily/Yearly Profit",
     "earn_total_earned": "Total earned",
     "earn_active_subscription": "Active subscription",
-    "earn_available_subscription": "Available subscriptions"
+    "earn_available_subscription": "Available subscriptions",
+    "earn_details_start": "Start date",
+    "earn_details_term": "Term",
+    "earn_details_apy": "APY",
+    "earn_details_interest": "Interest earned",
+    "earn_manage": "Manage",
+    "earn_top_up": "Top up",
+    "earn_return_to_wallet": "Return to wallet",
+    "earn_expiry_date": "Expiry day",
+    "earn_expected_profit": "Expected profit"
 }

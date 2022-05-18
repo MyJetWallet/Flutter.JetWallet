@@ -8,6 +8,7 @@ import '../../../../../shared/features/earn/provider/earn_offers_pod.dart';
 import '../../../../../shared/features/market_details/helper/currency_from.dart';
 import '../../../../../shared/helpers/formatting/formatting.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../earn_offer_details/earn_offer_details.dart';
 import 'earn_item_progress.dart';
 
 class EarnActiveItem extends HookWidget {
@@ -80,7 +81,12 @@ class EarnActiveItem extends HookWidget {
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
-          onTap: () {},
+          onTap: () {
+            showEarnOfferDetails(
+              context: context,
+              earnOffer: earnOffer,
+            );
+          },
           child: Ink(
             height: 88,
             width: double.infinity,
@@ -155,7 +161,7 @@ class EarnActiveItem extends HookWidget {
                                     style: sBodyText2Style.copyWith(
                                       color: colors.grey1,
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
