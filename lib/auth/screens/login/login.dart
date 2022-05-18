@@ -93,7 +93,10 @@ class Login extends HookWidget {
         header: SPaddingH24(
           child: SBigHeader(
             showSupportButton: true,
-            onSupportButtonTap: () => Crisp.push(context),
+            onSupportButtonTap: () => Crisp.push(
+              context,
+              intl.crispSendMessage_hi,
+            ),
             title: intl.login_signIn,
             showLink: true,
             linkText: '${intl.login_forgotPassword}?',

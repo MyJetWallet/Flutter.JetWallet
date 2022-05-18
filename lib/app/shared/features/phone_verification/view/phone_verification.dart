@@ -118,7 +118,10 @@ class PhoneVerification extends HookWidget {
                       text: ' ${intl.support1}',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Crisp.push(context);
+                          Crisp.push(
+                            context,
+                            intl.crispSendMessage_hi,
+                          );
                         },
                       style: sBodyText1Style.copyWith(
                         color: colors.blue,

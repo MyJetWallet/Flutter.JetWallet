@@ -91,7 +91,10 @@ class Account extends HookWidget {
                         twoFaEnabled: userInfo.twoFaEnabled,
                         phoneVerified: userInfo.phoneVerified,
                         onTwoFaBannerTap: () => SmsAuthenticator.push(context),
-                        onChatBannerTap: () => Crisp.push(context),
+                        onChatBannerTap: () => Crisp.push(
+                          context,
+                          intl.crispSendMessage_hi,
+                        ),
                         onKycBannerTap: () {
                           defineKycVerificationsScope(
                             kycState.requiredVerifications.length,
@@ -157,7 +160,10 @@ class Account extends HookWidget {
                             title: intl.support,
                             icon: const SSupportIcon(),
                             isSDivider: true,
-                            onTap: () => Crisp.push(context),
+                            onTap: () => Crisp.push(
+                              context,
+                              intl.crispSendMessage_hi,
+                            ),
                           ),
                           SimpleAccountCategoryButton(
                             title: intl.help_center,

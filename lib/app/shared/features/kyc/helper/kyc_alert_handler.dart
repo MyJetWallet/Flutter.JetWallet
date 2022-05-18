@@ -135,7 +135,10 @@ class KycAlertHandler {
       primaryButtonName: intl.support,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
-        Crisp.push(context);
+        Crisp.push(
+          context,
+          intl.crispSendMessage_hi,
+        );
       },
     );
   }

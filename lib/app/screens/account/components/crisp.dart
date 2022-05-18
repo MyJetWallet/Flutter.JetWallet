@@ -13,14 +13,24 @@ import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 
 class Crisp extends StatefulHookWidget {
-  const Crisp({Key? key}) : super(key: key);
+  const Crisp({
+    Key? key,
+    required this.welcomeText,
+  }) : super(key: key);
 
-  static void push(BuildContext context) {
+  static void push(
+    BuildContext context,
+    String welcomeText,
+  ) {
     navigatorPush(
       context,
-      const Crisp(),
+      Crisp(
+        welcomeText: welcomeText,
+      ),
     );
   }
+
+  final String welcomeText;
 
   @override
   _CrispState createState() => _CrispState();
@@ -53,7 +63,7 @@ class _CrispState extends State<Crisp> {
       ),
     );
 
-    crispMain.setMessage('Hi!');
+    crispMain.setMessage('${widget.welcomeText}!');
 
     crispMain.setSessionData({
       'app_version': '${packageInfo.version} (${packageInfo.buildNumber})',
