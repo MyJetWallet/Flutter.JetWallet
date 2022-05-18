@@ -46,8 +46,7 @@ class RecurringSuccessScreen extends HookWidget {
         return Future.value(false);
       },
       child: ProviderListener<int>(
-        // TODO: Reconsider this approach
-        provider: timerNotipod(3.01),
+        provider: timerNotipod(3),
         onChange: (context, value) {
           if (value == 0 && shouldPop.value) {
             navigateToRouter(context.read);
