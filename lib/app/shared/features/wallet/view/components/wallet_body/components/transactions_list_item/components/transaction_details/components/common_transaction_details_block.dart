@@ -6,8 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../models/currency_model.dart';
-import '../../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
-import '../../../../../../../../../market_details/helper/currency_from.dart';
+import '../../../../../../../../../../providers/currencies_with_hidden_pod/currencies_with_hidden_pod.dart';
+import '../../../../../../../../../market_details/helper/currency_from_all.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -23,17 +23,46 @@ class CommonTransactionDetailsBlock extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final currency = currencyFrom(
-      useProvider(currenciesPod),
+    final currency = currencyFromAll(
+      useProvider(currenciesWithHiddenPod),
       transactionListItem.assetId,
     );
 
     return Column(
       children: [
-        Text(
-          _transactionHeader(transactionListItem, currency),
-          style: sTextH5Style,
-        ),
+        if (transactionListItem.operationType ==
+            OperationType.recurringBuy)
+          SPaddingH24(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SIconButton(
+                  onTap: () => Navigator.pop(context),
+                  defaultIcon: const SBackIcon(),
+                  pressedIcon: const SBackPressedIcon(),
+                ),
+                const SpaceW12(),
+                Expanded(
+                  child: Text(
+                    _transactionHeader(transactionListItem, currency),
+                    style: sTextH5Style,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+                const SpaceW12(),
+                const _IconPlaceholder(),
+              ],
+            ),
+          ),
+        if (transactionListItem.operationType !=
+            OperationType.recurringBuy)
+          Text(
+            _transactionHeader(transactionListItem, currency),
+            style: sTextH5Style,
+          ),
         const SpaceH67(),
         Text(
           '${operationAmount(transactionListItem)} ${currency.symbol}',
@@ -96,5 +125,17 @@ class CommonTransactionDetailsBlock extends HookWidget {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
     }
     return transactionListItem.balanceChange;
+  }
+}
+
+class _IconPlaceholder extends StatelessWidget {
+  const _IconPlaceholder({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 24.0,
+      height: 24.0,
+    );
   }
 }

@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class WithOutRecurringBuysItem extends HookWidget {
-  const WithOutRecurringBuysItem({
+class WithoutRecurringBuysItem extends HookWidget {
+  const WithoutRecurringBuysItem({
     Key? key,
     this.selected = false,
     required this.primaryText,

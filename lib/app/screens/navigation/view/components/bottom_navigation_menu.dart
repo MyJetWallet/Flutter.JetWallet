@@ -40,9 +40,7 @@ class BottomNavigationMenu extends HookWidget {
     final actionActive = useState(false);
     final userInfo = useProvider(userInfoNotipod);
     final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
     useProvider(kycCountriesNotipod);
     final openBottomMenu = useProvider(openBottomMenuSpod);
 
@@ -51,7 +49,7 @@ class BottomNavigationMenu extends HookWidget {
     void updateActionState() => actionActive.value = !actionActive.value;
 
     // Todo: research better approach
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (openBottomMenu.state) {
         _openBottomMenu(
           context,
@@ -89,31 +87,6 @@ class BottomNavigationMenu extends HookWidget {
     );
   }
 
-  void _onBuy({
-    required BuildContext context,
-    required KycModel kycState,
-    required KycAlertHandler kycAlertHandler,
-    required bool fromCard,
-  }) {
-    if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-      showBuyAction(
-        context: context,
-        fromCard: fromCard,
-      );
-    } else {
-      Navigator.of(context).pop();
-      kycAlertHandler.handle(
-        status: kycState.depositStatus,
-        kycVerified: kycState,
-        isProgress: kycState.verificationInProgress,
-        currentNavigate: () => showBuyAction(
-          context: context,
-          fromCard: fromCard,
-        ),
-      );
-    }
-  }
-
   void _openBottomMenu(
     BuildContext context,
     ValueNotifier<bool> actionActive,
@@ -128,19 +101,15 @@ class BottomNavigationMenu extends HookWidget {
         isNotEmptyBalance: isNotEmptyBalance,
         onBuy: () {
           sAnalytics.tapOnBuy(Source.quickActions);
-          _onBuy(
+          showBuyAction(
             context: context,
-            kycState: kycState,
-            kycAlertHandler: kycAlertHandler,
             fromCard: false,
           );
         },
         onBuyFromCard: () {
           sAnalytics.tapOnBuyFromCard(Source.quickActions);
-          _onBuy(
+          showBuyAction(
             context: context,
-            kycState: kycState,
-            kycAlertHandler: kycAlertHandler,
             fromCard: true,
           );
         },

@@ -184,7 +184,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
               const Spacer(),
               RecurringSelector(
-                currency: widget.currency,
+                oneTimePurchaseOnly: state.selectedPaymentMethod?.type ==
+                    PaymentMethodType.simplex,
+                currentSelection: state.recurringBuyType,
+                onSelect: (selection) {
+                  notifier.updateRecurringBuyType(selection);
+                  Navigator.pop(context);
+                },
               ),
               deviceSize.when(
                 small: () => const SpaceH8(),
@@ -262,13 +268,15 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                         : 'Preview Buy',
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
-                    widget.currency.description,
-                    state.selectedPaymentMethod?.type.name ?? 'Crypto',
-                    formatCurrencyStringAmount(
+                    assetName: widget.currency.description,
+                    paymentMethod:
+                        state.selectedPaymentMethod?.type.name ?? 'Crypto',
+                    amount: formatCurrencyStringAmount(
                       prefix: state.selectedCurrency?.prefixSymbol,
                       value: state.inputValue,
                       symbol: state.selectedCurrencySymbol,
                     ),
+                    frequency: state.recurringBuyType.toFrequency,
                   );
 
                   if (state.selectedPaymentMethod != null) {

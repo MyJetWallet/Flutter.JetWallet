@@ -79,7 +79,7 @@ class Login extends HookWidget {
               emailError.value.enableError();
               passwordError.value.enableError();
               notificationN.showError(
-                intl.login_credentialsError,
+                error.toString(),
                 id: 1,
               );
             }

@@ -20,6 +20,11 @@ class EarnBody extends HookWidget {
   Widget build(BuildContext context) {
     final currencies = useProvider(currenciesPod);
 
+    final sortedByApyCurrencies = currencies;
+    sortedByApyCurrencies.sort((a, b) =>
+        b.apy.compareTo(a.apy),
+    );
+
     return Column(
       children: [
         const SPaddingH24(
@@ -41,7 +46,7 @@ class EarnBody extends HookWidget {
           ),
         ),
         const SpaceH24(),
-        for (var element in currencies) ...[
+        for (var element in sortedByApyCurrencies) ...[
           if (element.apy.toDouble() > 0)
             EarnCurrencyItem(
               element: element,

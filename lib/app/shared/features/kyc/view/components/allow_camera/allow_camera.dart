@@ -44,12 +44,12 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -138,14 +138,16 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Baseline(
-                      baseline: 48,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        widget.permissionDescription,
-                        maxLines: 3,
-                        style: sBodyText1Style.copyWith(
-                          color: colors.grey1,
+                    Flexible(
+                      child: Baseline(
+                        baseline: 48,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          widget.permissionDescription,
+                          maxLines: 3,
+                          style: sBodyText1Style.copyWith(
+                            color: colors.grey1,
+                          ),
                         ),
                       ),
                     ),

@@ -19,10 +19,12 @@ import '../notifier/preview_buy_with_asset_notifier/preview_buy_with_asset_union
 class PreviewBuyWithAsset extends StatefulHookWidget {
   const PreviewBuyWithAsset({
     Key? key,
+    this.onBackButtonTap,
     required this.input,
   }) : super(key: key);
 
   final PreviewBuyWithAssetInput input;
+  final void Function()? onBackButtonTap;
 
   @override
   State<PreviewBuyWithAsset> createState() => _PreviewBuyWithAssetState();
@@ -41,13 +43,14 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
     );
     notifier.updateTimerAnimation(_animationController);
     sAnalytics.previewBuyView(
-      widget.input.toCurrency.description,
-      'Crypto',
-      formatCurrencyStringAmount(
+      assetName: widget.input.toCurrency.description,
+      paymentMethod: 'Crypto',
+      amount: formatCurrencyStringAmount(
         prefix: widget.input.fromCurrency.prefixSymbol,
         value: widget.input.amount,
         symbol: widget.input.fromCurrency.symbol,
       ),
+      frequency: widget.input.recurringType.toFrequency,
     );
     super.initState();
   }
@@ -90,19 +93,21 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
           small: () {
             return SSmallHeader(
               title: notifier.previewHeader,
-              onBackButtonTap: () {
-                notifier.cancelTimer();
-                Navigator.pop(context);
-              },
+              onBackButtonTap: widget.onBackButtonTap ??
+                  () {
+                    notifier.cancelTimer();
+                    Navigator.pop(context);
+                  },
             );
           },
           medium: () {
             return SMegaHeader(
               title: notifier.previewHeader,
-              onBackButtonTap: () {
-                notifier.cancelTimer();
-                Navigator.pop(context);
-              },
+              onBackButtonTap: widget.onBackButtonTap ??
+                  () {
+                    notifier.cancelTimer();
+                    Navigator.pop(context);
+                  },
             );
           },
         ),

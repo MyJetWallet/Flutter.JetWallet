@@ -4,21 +4,21 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/navigator_push.dart';
 
-class FaqWebView extends StatelessWidget {
-  const FaqWebView({
+class HelpCenterWebView extends StatelessWidget {
+  const HelpCenterWebView({
     Key? key,
     required this.link,
   }) : super(key: key);
 
   final String link;
 
-  static void push(
-      BuildContext context,
-      String link,
-      ) {
+  static void push({
+    required BuildContext context,
+    required String link,
+  }) {
     navigatorPush(
       context,
-      FaqWebView(link: link),
+      HelpCenterWebView(link: link),
     );
   }
 
@@ -27,7 +27,7 @@ class FaqWebView extends StatelessWidget {
     return SPageFrame(
       header: const SPaddingH24(
         child: SSmallHeader(
-          title: 'FAQ',
+          title: 'Help Center',
         ),
       ),
       child: Column(

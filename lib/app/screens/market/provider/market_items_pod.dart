@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../shared/helpers/icon_url_from.dart';
+import '../../../shared/models/currency_model.dart';
 import '../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../model/market_item_model.dart';
@@ -17,9 +18,16 @@ final marketItemsPod = Provider.autoDispose<List<MarketItemModel>>((ref) {
 
   references.whenData((value) {
     for (final marketReference in value.references) {
-      final currency = currencies.firstWhere((element) {
-        return element.symbol == marketReference.associateAsset;
-      });
+      late CurrencyModel currency;
+      try {
+        currency = currencies.firstWhere(
+          (element) {
+            return element.symbol == marketReference.associateAsset;
+          },
+        );
+      } catch (_) {
+        continue;
+      }
 
       if (currency.symbol != baseCurrency.symbol) {
         items.add(
