@@ -25,7 +25,7 @@ class EarnItem extends HookWidget {
     final currencies = useProvider(currenciesPod);
     final earnOffers = useProvider(earnOffersPod);
 
-    earnOffers.sort((a, b) => b.currentApy.compareTo(a.currentApy));
+    earnOffers.sort((a, b) => b.tiers[0].apy.compareTo(a.tiers[0].apy));
 
     final currentCurrency = currencyFrom(currencies, name);
     final currentOffers = earnOffers

@@ -352,5 +352,6 @@
     "earn_top_up": "Top up",
     "earn_return_to_wallet": "Return to wallet",
     "earn_expiry_date": "Expiry day",
-    "earn_expected_profit": "Expected profit"
+    "earn_expected_profit": "Expected profit",
+    "earn_aprox": "aprox."
 }

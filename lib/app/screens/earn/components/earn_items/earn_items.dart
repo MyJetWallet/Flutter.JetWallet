@@ -49,10 +49,18 @@ class EarnItems extends HookWidget {
         if (!currenciesByEarn.contains(element.asset)) {
           currenciesByEarn.add(element.asset);
           maxApyForCurrencies.add(element.currentApy);
+          final indexOfElement = currenciesByEarn.indexOf(element.asset);
+          for (final tier in element.tiers) {
+            if (maxApyForCurrencies[indexOfElement] < tier.apy) {
+              maxApyForCurrencies[indexOfElement] = tier.apy;
+            }
+          }
         } else {
           final indexOfElement = currenciesByEarn.indexOf(element.asset);
-          if (maxApyForCurrencies[indexOfElement] < element.currentApy) {
-            maxApyForCurrencies[indexOfElement] = element.currentApy;
+          for (final tier in element.tiers) {
+            if (maxApyForCurrencies[indexOfElement] < tier.apy) {
+              maxApyForCurrencies[indexOfElement] = tier.apy;
+            }
           }
         }
       } else {

@@ -178,12 +178,12 @@ class EarnOfferDetailsBody extends HookWidget {
                     ),
                   ),
                   Text(
-                    isHot ? volumeFormat(
+                    isHot ? '${intl.earn_aprox} ${volumeFormat(
                       prefix: baseCurrency.prefix,
                       decimal: earnOffer.totalEarned,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
-                    ) : volumeFormat(
+                    )}' : volumeFormat(
                       decimal: convertBaseRateToCurrency(),
                       accuracy: currentCurrency.accuracy,
                       symbol: currentCurrency.symbol,
