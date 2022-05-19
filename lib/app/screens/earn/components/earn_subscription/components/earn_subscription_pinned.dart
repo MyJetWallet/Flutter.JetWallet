@@ -19,6 +19,7 @@ class EarnSubscriptionPinned extends HookWidget {
     final intl = useProvider(intlPod);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(
@@ -27,14 +28,13 @@ class EarnSubscriptionPinned extends HookWidget {
             top: 18,
             bottom: 20,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${intl.earn_select} $name ${intl.earn_subscription}',
-                style: sTextH4Style,
+          child: RichText(
+            text: TextSpan(
+              text: '${intl.earn_select} $name ${intl.earn_subscription}',
+              style: sTextH4Style.copyWith(
+                color: colors.black,
               ),
-            ],
+            ),
           ),
         ),
         SPaddingH24(

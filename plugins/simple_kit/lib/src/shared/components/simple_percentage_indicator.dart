@@ -7,16 +7,25 @@ class SimplePercentageIndicator extends StatelessWidget {
   const SimplePercentageIndicator({
     Key? key,
     this.expanded = false,
+    this.isHot = false,
     required this.tiers,
   }) : super(key: key);
 
   final List<SimpleTierModel> tiers;
   final bool expanded;
+  final bool isHot;
 
   @override
   Widget build(BuildContext context) {
     final singleTier = tiers.length == 1;
     final doubleTier = tiers.length == 2;
+    final colorTheme = isHot
+        ? [SColorsLight().orange,
+          SColorsLight().brown,
+          SColorsLight().darkBrown]
+        : [SColorsLight().seaGreen,
+          SColorsLight().leafGreen,
+          SColorsLight().aquaGreen];
 
     if (tiers.isEmpty) {
       return Expanded(
@@ -54,7 +63,7 @@ class SimplePercentageIndicator extends StatelessWidget {
               left: 8,
             ),
             decoration: BoxDecoration(
-              color: SColorsLight().seaGreen,
+              color: colorTheme[0],
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Text(
@@ -70,7 +79,7 @@ class SimplePercentageIndicator extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: tiers[1].active
-                  ? SColorsLight().leafGreen
+                  ? colorTheme[1]
                   : SColorsLight().grey5,
               borderRadius: BorderRadius.circular(16.0),
             ),
@@ -85,7 +94,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                       left: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: SColorsLight().seaGreen,
+                      color: colorTheme[0],
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     child: Text(
@@ -106,7 +115,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: tiers[1].active
-                          ? SColorsLight().leafGreen
+                          ? colorTheme[1]
                           : SColorsLight().grey5,
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -129,7 +138,7 @@ class SimplePercentageIndicator extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: tiers[2].active
-                  ? SColorsLight().aquaGreen
+                  ? colorTheme[2]
                   : SColorsLight().grey5,
               borderRadius: BorderRadius.circular(16.0),
             ),
@@ -140,7 +149,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                   width: 107,
                   decoration: BoxDecoration(
                     color: tiers[1].active
-                        ? SColorsLight().leafGreen
+                        ? colorTheme[1]
                         : SColorsLight().grey5,
                     borderRadius: BorderRadius.circular(16.0),
                   ),
@@ -156,7 +165,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                         left: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: SColorsLight().seaGreen,
+                        color: colorTheme[0],
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Text(
@@ -176,7 +185,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: tiers[1].active
-                            ? SColorsLight().leafGreen
+                            ? colorTheme[1]
                             : SColorsLight().grey5,
                         borderRadius: BorderRadius.circular(16.0),
                       ),
@@ -199,7 +208,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: tiers[2].active
-                              ? SColorsLight().aquaGreen
+                              ? colorTheme[2]
                               : SColorsLight().grey5,
                           borderRadius: BorderRadius.circular(16.0),
                         ),
