@@ -52,12 +52,16 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title: 'Confirm ${widget.input.earnOffer.title}',
+              title: 'Confirm '
+                  '${widget.input.earnOffer.offerTag == 'Hot' ? 'Hot '
+                      'offer' : 'Flexible'}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title: 'Confirm ${widget.input.earnOffer.title}',
+              title: 'Confirm '
+                  '${widget.input.earnOffer.offerTag == 'Hot' ? 'Hot '
+                      'offer' : 'Flexible'}',
               crossAxisAlignment: CrossAxisAlignment.center,
             );
           },

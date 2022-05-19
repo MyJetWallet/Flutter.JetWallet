@@ -200,7 +200,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: earnOffer.title,
+          title: earnOffer.offerTag == 'Hot' ? 'Hot offer' : 'Flexible',
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
