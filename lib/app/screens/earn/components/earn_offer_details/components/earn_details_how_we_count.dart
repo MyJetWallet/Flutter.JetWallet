@@ -43,6 +43,7 @@ void showDetailsHowWeCountSheet({
           SimplePercentageIndicator(
             tiers: tiers,
             isHot: isHot,
+            expanded: true,
           ),
         ],
       ),

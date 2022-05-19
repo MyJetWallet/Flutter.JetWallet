@@ -145,6 +145,7 @@ class EarnOfferDetailsBody extends HookWidget {
               SimplePercentageIndicator(
                 tiers: tiers,
                 isHot: isHot,
+                expanded: true,
               ),
             ],
           ),
