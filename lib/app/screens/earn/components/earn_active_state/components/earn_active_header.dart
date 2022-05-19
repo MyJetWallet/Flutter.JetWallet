@@ -44,7 +44,7 @@ class EarnActiveHeader extends HookWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                marketFormat(
+                                volumeFormat(
                                   prefix: baseCurrency.prefix,
                                   decimal: earnProfile
                                       .earnProfile
@@ -52,7 +52,6 @@ class EarnActiveHeader extends HookWidget {
                                       Decimal.zero,
                                   symbol: baseCurrency.symbol,
                                   accuracy: baseCurrency.accuracy,
-                                  onlyFullPart: true,
                                 ),
                                 style: sTextH1Style.copyWith(
                                   color: colors.black,
@@ -104,7 +103,7 @@ class EarnActiveHeader extends HookWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${marketFormat(
+                                '${volumeFormat(
                                   prefix: baseCurrency.prefix,
                                   decimal: earnProfile
                                       .earnProfile
@@ -135,7 +134,7 @@ class EarnActiveHeader extends HookWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    marketFormat(
+                                    volumeFormat(
                                       prefix: baseCurrency.prefix,
                                       decimal: earnProfile
                                           .earnProfile

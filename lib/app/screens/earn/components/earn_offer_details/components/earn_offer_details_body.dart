@@ -59,7 +59,7 @@ class EarnOfferDetailsBody extends HookWidget {
           Column(
             children: [
               Text(
-                marketFormat(
+                volumeFormat(
                   decimal: earnOffer.amountBaseAsset,
                   accuracy: currentCurrency.accuracy,
                   symbol: currentCurrency.symbol,
@@ -69,7 +69,7 @@ class EarnOfferDetailsBody extends HookWidget {
                 ),
               ),
               Text(
-                marketFormat(
+                volumeFormat(
                   prefix: baseCurrency.prefix,
                   decimal: earnOffer.amount,
                   accuracy: baseCurrency.accuracy,
@@ -163,11 +163,11 @@ class EarnOfferDetailsBody extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    isHot ? marketFormat(
+                    isHot ? volumeFormat(
                       decimal: convertBaseRateToCurrency(),
                       accuracy: currentCurrency.accuracy,
                       symbol: currentCurrency.symbol,
-                    ) : marketFormat(
+                    ) : volumeFormat(
                       prefix: baseCurrency.prefix,
                       decimal: earnOffer.totalEarned,
                       accuracy: baseCurrency.accuracy,
@@ -178,12 +178,12 @@ class EarnOfferDetailsBody extends HookWidget {
                     ),
                   ),
                   Text(
-                    isHot ? marketFormat(
+                    isHot ? volumeFormat(
                       prefix: baseCurrency.prefix,
                       decimal: earnOffer.totalEarned,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
-                    ) : marketFormat(
+                    ) : volumeFormat(
                       decimal: convertBaseRateToCurrency(),
                       accuracy: currentCurrency.accuracy,
                       symbol: currentCurrency.symbol,
