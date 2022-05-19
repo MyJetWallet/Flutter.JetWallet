@@ -35,7 +35,7 @@ class RecurringSelector extends HookWidget {
         else
           GestureDetector(
             onTap: () {
-              showActionWithOutRecurringBuy(
+              showActionWithoutRecurringBuy(
                 context: context,
                 title: 'Repeat this purchase?',
                 showOneTimePurchase: true,

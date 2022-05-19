@@ -234,7 +234,7 @@ class MarketDetails extends HookWidget {
                         );
                       }
                     } else {
-                      showActionWithOutRecurringBuy(
+                      showActionWithoutRecurringBuy(
                         title: 'Setup recurring buy',
                         context: context,
                         onItemTap: (RecurringBuysType type) {
@@ -250,6 +250,11 @@ class MarketDetails extends HookWidget {
                       );
                     }
                   } else {
+                    sAnalytics.setupRecurringBuyView(
+                      currency.description,
+                      Source.assetScreen,
+                    );
+
                     kycAlertHandler.handle(
                       status: kycState.sellStatus,
                       kycVerified: kycState,

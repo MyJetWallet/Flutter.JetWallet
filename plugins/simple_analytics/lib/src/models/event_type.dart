@@ -98,4 +98,22 @@ class EventType {
 
   /// User taps on "Buy from card" in Quick Actions
   static const tapOnBuyFromCard = 'Tap on buy from card';
+
+  // [START] Recurring buy ->
+  static const setupRecurringBuyView = '"Setup recurring buy" sheet view';
+  static const pickRecurringBuyFrequency =
+      'Pick frequency on "Setup recurring buy" sheet';
+  static const closeRecurringBuySheet = 'Close "Setup recurring buy" sheet';
+  // "Reccuring buy" screen displayed after click on the tab
+  // called "Recurring buy" in Account
+  static const recurringBuyView = 'Recurring buy view';
+  // User clicks on the button "Manage" in the recurring buy order
+  static const tapManageButton = 'Tap "Manage" button';
+  static const recurringBuyDeletionSheetView =
+      'Recurring buy deletion sheet view';
+  static const cancelRecurringBuyDeletion = 'Cancel recurring buy deletion';
+  static const deleteRecurringBuy = 'Delete recurring buy';
+  static const pauseRecurringBuy = 'Pause recurring buy';
+  static const startRecurringBuy = 'Start recurring buy';
+  // <- Recurring buy [END]
 }

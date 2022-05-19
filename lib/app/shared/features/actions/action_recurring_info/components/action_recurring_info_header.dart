@@ -20,19 +20,19 @@ class ActionRecurringInfoHeader extends HookWidget {
     return SizedBox(
       width: double.infinity,
       child: Column(
-       children: [
-         const SpaceH34(),
-         Text(
+        children: [
+          const SpaceH34(),
+          Text(
             total,
             style: sTextH1Style,
             textAlign: TextAlign.center,
-         ),
-         Text(
-           amount,
-           style: sBodyText2Style.copyWith(
-             color: colors.grey1,
-           ),
-           textAlign: TextAlign.center,
+          ),
+          Text(
+            amount,
+            style: sBodyText2Style.copyWith(
+              color: colors.grey1,
+            ),
+            textAlign: TextAlign.center,
           ),
           const SpaceH34(),
         ],
