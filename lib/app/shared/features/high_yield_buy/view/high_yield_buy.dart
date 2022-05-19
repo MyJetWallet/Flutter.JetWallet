@@ -101,6 +101,7 @@ class HighYieldBuy extends HookWidget {
               SimplePercentageIndicator(
                 tiers: state.simpleTiers,
                 expanded: true,
+                isHot: earnOffer.offerTag == 'Hot',
               ),
             ],
           ),
@@ -123,10 +124,16 @@ class HighYieldBuy extends HookWidget {
                 baseline: 35.0,
                 value: '${state.simpleTiers[i].apy}%',
                 valueColor: i == 0
-                    ? colors.seaGreen
+                    ? earnOffer.offerTag == 'Hot'
+                        ? colors.orange
+                        : colors.seaGreen
                     : i == 1
-                        ? colors.leafGreen
-                        : colors.aquaGreen,
+                        ? earnOffer.offerTag == 'Hot'
+                            ? colors.brown
+                            : colors.leafGreen
+                        : earnOffer.offerTag == 'Hot'
+                            ? colors.darkBrown
+                            : colors.aquaGreen,
                 minValueWidth: 50,
                 maxValueWidth: 50,
               )
@@ -248,6 +255,7 @@ class HighYieldBuy extends HookWidget {
             apy: state.apy != null ? '${state.apy}%' : '',
             onTap: state.simpleTiers.isNotEmpty ? _showHowWeCountSheet : null,
             tiers: state.simpleTiers,
+            hot: earnOffer.offerTag == 'Hot',
           ),
           deviceSize.when(
             small: () => const Spacer(),

@@ -68,27 +68,6 @@ class HighYieldBuyState with _$HighYieldBuyState {
       )
       .toList();
 
-  // List<SimpleTierModel> get simpleTiers => [
-  //       SimpleTierModel(
-  //         fromUsd: '0',
-  //         toUsd: '1000',
-  //         apy: '30',
-  //         active: true,
-  //       ),
-  //       SimpleTierModel(
-  //         fromUsd: '1000',
-  //         toUsd: '100000',
-  //         apy: '10',
-  //         active: true,
-  //       ),
-  //       SimpleTierModel(
-  //         fromUsd: '100000',
-  //         toUsd: '1000000',
-  //         apy: '5',
-  //         active: false,
-  //       ),
-  //     ];
-
   String conversionText() {
     final base = marketFormat(
       accuracy: baseCurrency!.accuracy,

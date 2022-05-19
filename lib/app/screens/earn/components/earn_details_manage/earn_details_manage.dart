@@ -90,7 +90,16 @@ class _EarnDetailsManage extends HookWidget {
             if (earnOffer.topUpEnabled)
               EarnDetailsManageItem(
                 primaryText: intl.earn_top_up,
-                onTap: () {},
+                onTap: () {
+                  // Navigator.of(context).pop();
+                  // navigatorPushReplacement(
+                  //   context,
+                  //   HighYieldBuy(
+                  //     currency: currency,
+                  //     earnOffer: earnOffer,
+                  //   ),
+                  // );
+                },
                 icon: const STopUpIcon(),
                 color: colors.grey5,
               ),
