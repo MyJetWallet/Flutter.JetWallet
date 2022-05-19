@@ -82,8 +82,10 @@ class EarnActiveAccordion extends HookWidget {
                             color: colors.grey4,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              bottom: 2,
                             ),
                             child: Text(
                               '${isActive

@@ -27,7 +27,6 @@ void showSubscriptionBottomSheet({
               SubscriptionsItem(
                 earnOffer: element,
                 currency: currency,
-                apy: element.currentApy,
                 isHot: element.offerTag == 'Hot',
                 days: element.endDate == null
                     ? 0

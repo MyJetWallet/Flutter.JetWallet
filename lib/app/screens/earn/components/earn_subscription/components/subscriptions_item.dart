@@ -15,13 +15,11 @@ class SubscriptionsItem extends HookWidget {
     Key? key,
     this.days = 0,
     required this.isHot,
-    required this.apy,
     required this.earnOffer,
     required this.currency,
   }) : super(key: key);
 
   final bool isHot;
-  final Decimal apy;
   final int days;
   final EarnOfferModel earnOffer;
   final CurrencyModel currency;
@@ -30,6 +28,13 @@ class SubscriptionsItem extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final intl = useProvider(intlPod);
+    var apy = Decimal.zero;
+
+    for (final element in earnOffer.tiers) {
+      if (element.apy > apy) {
+        apy = element.apy;
+      }
+    }
 
     return Column(
       children: [

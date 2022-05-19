@@ -52,7 +52,7 @@ class EarnActiveItem extends HookWidget {
 
     final isWidthDifferenceSmall = (currentWidth - processWidth) < 16;
 
-        Color getColorByTiers() {
+    Color getColorByTiers() {
       if (earnOffer.offerTag == 'Hot') {
         if (earnOffer.tiers.length == 1 ||
             earnOffer.currentApy >= earnOffer.tiers[0].apy) {
@@ -150,8 +150,12 @@ class EarnActiveItem extends HookWidget {
                               padding: EdgeInsets.zero,
                               child: Row(
                                 children: [
-                                  EarnItemProgress(offer: earnOffer),
-                                  const SpaceW10(),
+                                  if (earnOffer.offerTag == 'Hot') ...[
+                                    EarnItemProgress(offer: earnOffer),
+                                    const SpaceW10(),
+                                  ] else ...[
+                                    const SpaceW34(),
+                                  ],
                                   Text(
                                     volumeFormat(
                                       decimal: earnOffer.amountBaseAsset,
