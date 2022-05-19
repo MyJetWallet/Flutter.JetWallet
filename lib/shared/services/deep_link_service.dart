@@ -316,24 +316,18 @@ class DeepLinkService {
   }
 
   void _authenticatorSettingsCommand() {
-    // final auth = read(authorizationStpod);
+    final auth = read(authorizationStpod);
 
-    // print('|||auth||| $auth');
-    // if (auth.state == AuthorizationUnion.authorized.call()) {
-    //   navigatorPush(
-    //     read(sNavigatorKeyPod).currentContext!,
-    //     const SmsAuthenticator(),
-    //   );
-    // } else {
-    //   navigatorPush(
-    //     read(sNavigatorKeyPod).currentContext!,
-    //     const Login(),
-    //   );
-    // }
-
-    navigatorPush(
-      read(sNavigatorKeyPod).currentContext!,
-      const SmsAuthenticator(),
-    );
+    if (auth.state == AuthorizationUnion.authorized.call()) {
+      navigatorPush(
+        read(sNavigatorKeyPod).currentContext!,
+        const SmsAuthenticator(),
+      );
+    } else {
+      navigatorPush(
+        read(sNavigatorKeyPod).currentContext!,
+        const Login(),
+      );
+    }
   }
 }
