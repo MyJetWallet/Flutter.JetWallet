@@ -73,7 +73,13 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     _updateInputValue(
       valueAccordingToAccuracy(value, input.currency.accuracy),
     );
-    _validateInput();
+    if (state.inputError == InputError.amountTooLarge ||
+        state.inputError == InputError.amountTooLow) {
+      _updateInputValid(false);
+    } else {
+      _validateInput();
+    }
+
     _calculateTargetConversion();
     _calculateBaseConversion();
 
@@ -111,7 +117,12 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
         accuracy: input.currency.accuracy,
       ),
     );
-    _validateInput();
+    if (state.inputError == InputError.amountTooLarge ||
+        state.inputError == InputError.amountTooLow) {
+      _updateInputValid(false);
+    } else {
+      _validateInput();
+    }
     _calculateTargetConversion();
     _calculateBaseConversion();
 
@@ -152,8 +163,10 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
       if (Decimal.parse(state.inputValue) > Decimal.zero) {
         if (response.amountTooLarge) {
           _updateInputError(InputError.amountTooLarge);
+          _updateInputValid(false);
         } else if (response.amountTooLow) {
           _updateInputError(InputError.amountTooLow);
+          _updateInputValid(false);
         }
       }
     } on ServerRejectException catch (error) {
