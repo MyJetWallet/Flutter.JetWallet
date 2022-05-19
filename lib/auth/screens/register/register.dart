@@ -9,7 +9,6 @@ import '../../../shared/helpers/analytics.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
-import 'components/mailing_checkbox/mailing_checkbox.dart';
 import 'components/referral_code/referral_code.dart';
 import 'register_password_screen.dart';
 
