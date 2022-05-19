@@ -166,6 +166,8 @@ export 'src/icons/24x24/public/eye_close/simple_eye_close_pressed_icon.dart';
 export 'src/icons/24x24/public/eye_open/simple_eye_open_icon.dart';
 export 'src/icons/24x24/public/eye_open/simple_eye_open_pressed_icon.dart';
 export 'src/icons/24x24/public/faq/simple_faq_icon.dart';
+export 'src/icons/24x24/public/top_up/simple_top_up_icon.dart';
+export 'src/icons/24x24/public/forward/simple_forward_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_pressed_icon.dart';
 export 'src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';

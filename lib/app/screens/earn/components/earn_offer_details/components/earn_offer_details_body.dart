@@ -14,6 +14,7 @@ import '../../../../../shared/features/wallet/view/components/wallet_body/compon
 import '../../../../../shared/helpers/formatting/formatting.dart';
 import '../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../earn_details_manage/earn_details_manage.dart';
 import 'earn_details_how_we_count.dart';
 
 class EarnOfferDetailsBody extends HookWidget {
@@ -144,6 +145,7 @@ class EarnOfferDetailsBody extends HookWidget {
               SimplePercentageIndicator(
                 tiers: tiers,
                 isHot: isHot,
+                expanded: true,
               ),
             ],
           ),
@@ -195,12 +197,19 @@ class EarnOfferDetailsBody extends HookWidget {
             ],
           ),
           const SpaceH34(),
-          SSecondaryButton1(
-            active: true,
-            name: intl.earn_manage,
-            onTap: () {},
-          ),
-          const SpaceH24(),
+          if (earnOffer.withdrawalEnabled || earnOffer.topUpEnabled) ...[
+            SSecondaryButton1(
+              active: true,
+              name: intl.earn_manage,
+              onTap: () {
+                showEarnDetailsManage(
+                  context: context,
+                  earnOffer: earnOffer,
+                );
+              },
+            ),
+            const SpaceH24(),
+          ],
         ],
       ),
     );
