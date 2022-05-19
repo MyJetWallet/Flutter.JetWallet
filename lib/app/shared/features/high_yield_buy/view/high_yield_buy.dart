@@ -12,6 +12,7 @@ import '../../../../../shared/services/remote_config_service/remote_config_value
 import '../../../../screens/account/components/help_center_web_view.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/formatting/base/market_format.dart';
+import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
@@ -131,7 +132,7 @@ class HighYieldBuy extends HookWidget {
           SActionConfirmText(
             name: 'Your deposit',
             baseline: 14.0,
-            value: marketFormat(
+            value: volumeFormat(
               decimal: Decimal.parse(state.inputValue),
               accuracy: state.selectedCurrencyAccuracy,
               symbol: state.selectedCurrencySymbol,

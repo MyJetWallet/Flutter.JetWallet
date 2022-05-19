@@ -1,8 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
 
-import '../../truncate_zeros_from.dart';
-
 /// Using [decimal] library to fix Floating-point number problem
 ///
 /// `toStringAsFixed(percision)` is not perfect,
@@ -88,5 +86,5 @@ String _formatNumber(Decimal number, int accuracy, bool? onlyFullPart) {
     decimalPart.write('0');
   }
 
-  return truncateZerosFrom('$wholePart3.$decimalPart');
+  return '$wholePart3.$decimalPart';
 }
