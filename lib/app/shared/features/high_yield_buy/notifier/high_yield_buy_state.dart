@@ -32,7 +32,9 @@ class HighYieldBuyState with _$HighYieldBuyState {
     Decimal? expectedYearlyProfit,
     Decimal? expectedYearlyProfitBaseAsset,
     @Default(false) bool amountTooLarge,
+    @Default(false) bool amountTooLow,
     Decimal? maxSubscribeAmount,
+    Decimal? minSubscribeAmount,
   }) = _HighYieldBuyState;
 
   const HighYieldBuyState._();

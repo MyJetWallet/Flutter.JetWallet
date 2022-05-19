@@ -105,6 +105,7 @@ enum InputError {
   notEnoughFunds,
   enterHigherAmount,
   amountTooLarge,
+  amountTooLow,
 }
 
 extension InputErrorValue on InputError {
@@ -115,6 +116,8 @@ extension InputErrorValue on InputError {
       return 'Enter a higher amount';
     } else if (this == InputError.amountTooLarge) {
       return 'Enter smaller amount. $errorInfo';
+    } else if (this == InputError.amountTooLow) {
+      return 'Enter higher amount. $errorInfo';
     } else {
       return 'None';
     }

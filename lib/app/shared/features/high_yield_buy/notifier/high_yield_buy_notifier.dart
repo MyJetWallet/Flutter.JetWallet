@@ -125,7 +125,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
     final model = CalculateEarnOfferApyRequestModel(
       offerId: input.earnOffer.offerId,
-      assetSymbol: 'USD',
+      assetSymbol: state.baseCurrency?.symbol ?? 'USD',
       amount: Decimal.parse(state.inputValue),
     );
 
@@ -145,10 +145,16 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
         expectedYearlyProfitBaseAsset: response.expectedYearlyProfitBaseAsset,
         amountTooLarge: response.amountTooLarge,
         maxSubscribeAmount: response.maxSubscribeAmount,
+        amountTooLow: response.amountTooLow,
+        minSubscribeAmount: response.minSubscribeAmount,
       );
 
-      if (response.amountTooLarge) {
-        _updateInputError(InputError.amountTooLarge);
+      if (Decimal.parse(state.inputValue) > Decimal.zero) {
+        if (response.amountTooLarge) {
+          _updateInputError(InputError.amountTooLarge);
+        } else if (response.amountTooLow) {
+          _updateInputError(InputError.amountTooLow);
+        }
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'calculateEarnOfferApy', error.cause);

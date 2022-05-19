@@ -14,6 +14,7 @@ import '../../../../../../shared/components/result_screens/success_screen/succes
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../model/preview_high_yield_buy_input.dart';
 import 'preview_high_yield_buy_state.dart';
 import 'preview_high_yield_buy_union.dart';
@@ -92,7 +93,8 @@ class PreviewHighYieldBuyNotifier
       final model = EarnOfferDepositRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         offerId: offerId,
-        assetSymbol: state.fromAssetSymbol ?? '',
+        offerAssetSymbol: state.fromAssetSymbol ?? '',
+        baseAssetSymbol: read(baseCurrencyPod).symbol,
         amount: state.fromAssetAmount ?? Decimal.zero,
       );
 

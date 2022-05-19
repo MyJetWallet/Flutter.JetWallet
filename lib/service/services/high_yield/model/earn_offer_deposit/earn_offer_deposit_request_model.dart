@@ -11,7 +11,8 @@ class EarnOfferDepositRequestModel with _$EarnOfferDepositRequestModel {
   const factory EarnOfferDepositRequestModel({
     required String requestId,
     required String offerId,
-    required String assetSymbol,
+    required String offerAssetSymbol,
+    required String baseAssetSymbol,
     @DecimalSerialiser() required Decimal amount,
   }) = _EarnOfferDepositRequestModel;
 

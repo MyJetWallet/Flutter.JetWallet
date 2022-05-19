@@ -53,6 +53,28 @@ class HighYieldBuy extends HookWidget {
       ),
     );
 
+    String _inputError(InputError error) {
+      if (error == InputError.amountTooLarge) {
+        return state.inputError.value(
+          errorInfo: 'Max. ${volumeFormat(
+            decimal: state.maxSubscribeAmount ?? Decimal.zero,
+            accuracy: state.selectedCurrencyAccuracy,
+            symbol: state.selectedCurrencySymbol,
+          )}',
+        );
+      } else if (error == InputError.amountTooLow) {
+        return state.inputError.value(
+          errorInfo: 'Min. ${volumeFormat(
+            decimal: state.minSubscribeAmount ?? Decimal.zero,
+            accuracy: state.selectedCurrencyAccuracy,
+            symbol: state.selectedCurrencySymbol,
+          )}',
+        );
+      } else {
+        return state.inputError.value();
+      }
+    }
+
     void _showHowWeCountSheet() {
       sShowBasicModalBottomSheet(
         horizontalPadding: 24,
@@ -195,13 +217,7 @@ class HighYieldBuy extends HookWidget {
                 symbol: currency.symbol,
               ),
               helper: state.conversionText(),
-              error: state.inputError.value(
-                errorInfo: 'Max. ${marketFormat(
-                  decimal: state.maxSubscribeAmount ?? Decimal.zero,
-                  accuracy: 0,
-                  symbol: state.selectedCurrencySymbol,
-                )}',
-              ),
+              error: _inputError(state.inputError),
               isErrorActive: state.inputError.isActive,
             ),
           ),

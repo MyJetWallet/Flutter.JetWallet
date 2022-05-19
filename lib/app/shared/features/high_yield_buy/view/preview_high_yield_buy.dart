@@ -123,7 +123,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     ),
                     maxValueWidth: 170,
                     minValueWidth: 170,
-                    value: marketFormat(
+                    value: volumeFormat(
                       prefix: widget.input.fromCurrency.prefixSymbol,
                       decimal: state.expectedYearlyProfit ?? Decimal.zero,
                       accuracy: widget.input.fromCurrency.accuracy,
@@ -147,7 +147,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                             ),
                           )
                         : Text(
-                            'approx. ${marketFormat(
+                            'approx. ${volumeFormat(
                               prefix: '\$',
                               decimal: state.expectedYearlyProfitBase ??
                                   Decimal.zero,

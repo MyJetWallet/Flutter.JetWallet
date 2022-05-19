@@ -19,7 +19,9 @@ class CalculateEarnOfferApyResponseModel
     @DecimalSerialiser() required Decimal expectedYearlyProfit,
     @DecimalSerialiser() required Decimal expectedYearlyProfitBaseAsset,
     @DecimalSerialiser() required Decimal maxSubscribeAmount,
+    @DecimalSerialiser() required Decimal minSubscribeAmount,
     required bool amountTooLarge,
+    required bool amountTooLow,
   }) = _CalculateEarnOfferApyResponseModel;
 
   factory CalculateEarnOfferApyResponseModel.fromJson(
