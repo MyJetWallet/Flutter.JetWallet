@@ -153,7 +153,7 @@ class EarnActiveItem extends HookWidget {
                                   EarnItemProgress(offer: earnOffer),
                                   const SpaceW10(),
                                   Text(
-                                    marketFormat(
+                                    volumeFormat(
                                       decimal: earnOffer.amountBaseAsset,
                                       accuracy: currentCurrency.accuracy,
                                       symbol: currentCurrency.symbol,
