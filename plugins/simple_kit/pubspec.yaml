@@ -69,6 +69,8 @@ flutter:
     - assets/icons/light/24x24/photo/
     - assets/icons/light/24x24/search/
     - assets/icons/light/24x24/star/
+    - assets/icons/light/24x24/plus/
+    - assets/icons/light/24x24/forward/
     - assets/icons/light/24x24/profile/about_us/
     - assets/icons/light/24x24/profile/faq/
     - assets/icons/light/24x24/profile/log_out/
