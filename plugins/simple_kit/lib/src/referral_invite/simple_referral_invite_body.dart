@@ -25,7 +25,7 @@ class SReferralInviteBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SpaceH40(),
+        const SpaceH24(),
         for (final condition in conditions) ...[
           SimpleConditionsReferralInvite(
             conditionText: condition,

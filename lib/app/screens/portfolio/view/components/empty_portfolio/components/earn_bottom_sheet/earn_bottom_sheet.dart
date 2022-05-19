@@ -22,7 +22,7 @@ void showStartEarnBottomSheet({
         color: Colors.white,
         pinned: const EarnPinned(),
         pinnedSmall: const EarnPinnedSmall(),
-        expandedHeight: 340,
+        expandedHeight: 320,
         children: [
           EarnBody(
             onTap: onTap,

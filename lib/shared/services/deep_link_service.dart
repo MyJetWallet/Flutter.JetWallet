@@ -248,7 +248,7 @@ class DeepLinkService {
                   SizedBox(
                     width: 203.0,
                     child: Baseline(
-                      baseline: 64.0,
+                      baseline: 34.0,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
                         referralInfo.title,
@@ -261,7 +261,7 @@ class DeepLinkService {
                     Container(
                       alignment: Alignment.bottomCenter,
                       child: Baseline(
-                        baseline: 104,
+                        baseline: 94,
                         baselineType: TextBaseline.alphabetic,
                         child: SimpleAccountTermButton(
                           name: 'Read more',
@@ -313,7 +313,7 @@ class DeepLinkService {
               Share.share(referralInfo.referralLink);
             },
           ),
-          expandedHeight: 400,
+          expandedHeight: 333,
           children: [
             SReferralInviteBody(
               primaryText: referralInfo.title,

@@ -41,9 +41,28 @@ class EarnPinned extends HookWidget {
                 child: const SEraseMarketIcon(),
               ),
             ),
+            Positioned(
+              width: MediaQuery.of(context).size.width,
+              top: 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 35.0,
+                    height: 4.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        const SpaceH30(),
+        const SpaceH33(),
         SPaddingH24(
           child: EarnBodyHeader(
             currencies: currencies,

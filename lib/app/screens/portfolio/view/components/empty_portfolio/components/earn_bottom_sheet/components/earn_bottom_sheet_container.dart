@@ -90,7 +90,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
         }
       }
       setState(() {
-        _offset = controller.offset;
+        _offset = controller.offset > 0 ? controller.offset : 0;
       });
     }
   }
