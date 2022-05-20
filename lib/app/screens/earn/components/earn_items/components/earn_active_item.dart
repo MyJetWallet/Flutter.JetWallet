@@ -57,20 +57,26 @@ class EarnActiveItem extends HookWidget {
     Color getColorByTiers() {
       if (earnOffer.offerTag == 'Hot') {
         if (earnOffer.tiers.length == 1 ||
-            earnOffer.currentApy >= earnOffer.tiers[0].apy) {
+            (earnOffer.tiers[0].active
+                && !earnOffer.tiers[1].active
+                && !earnOffer.tiers[2].active)) {
           return colors.orange;
         } else if (earnOffer.tiers.length == 2 ||
-            earnOffer.currentApy >= earnOffer.tiers[1].apy) {
+            (earnOffer.tiers[1].active
+                && !earnOffer.tiers[2].active)) {
           return colors.brown;
         } else {
           return colors.darkBrown;
         }
       }
       if (earnOffer.tiers.length == 1 ||
-            earnOffer.currentApy >= earnOffer.tiers[0].apy) {
+          (earnOffer.tiers[0].active
+              && !earnOffer.tiers[1].active
+              && !earnOffer.tiers[2].active)) {
         return colors.seaGreen;
       } else if (earnOffer.tiers.length == 2 ||
-        earnOffer.currentApy >= earnOffer.tiers[1].apy) {
+          (earnOffer.tiers[1].active
+              && !earnOffer.tiers[2].active)) {
         return colors.leafGreen;
       } else {
         return colors.aquaGreen;
