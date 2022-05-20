@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/earn_offers_model.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/earn/provider/earn_offers_pod.dart';
 import '../../../../../shared/features/market_details/helper/currency_from.dart';
 import '../../../../../shared/helpers/formatting/formatting.dart';
@@ -24,6 +25,7 @@ class EarnActiveItem extends HookWidget {
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final earnOffers = useProvider(earnOffersPod);
+    final intl = useProvider(intlPod);
 
     earnOffers.sort((a, b) => b.currentApy.compareTo(a.currentApy));
 
@@ -46,7 +48,7 @@ class EarnActiveItem extends HookWidget {
           .toLocal()
           .millisecondsSinceEpoch;
       processWidth = (currentDate - firstDate) /
-          (lastDate - currentDate) *
+          (lastDate - firstDate) *
           currentWidth;
     }
 
@@ -56,12 +58,12 @@ class EarnActiveItem extends HookWidget {
       if (earnOffer.offerTag == 'Hot') {
         if (earnOffer.tiers.length == 1 ||
             earnOffer.currentApy >= earnOffer.tiers[0].apy) {
-          return colors.darkBrown;
+          return colors.orange;
         } else if (earnOffer.tiers.length == 2 ||
             earnOffer.currentApy >= earnOffer.tiers[1].apy) {
           return colors.brown;
         } else {
-          return colors.orange;
+          return colors.darkBrown;
         }
       }
       if (earnOffer.tiers.length == 1 ||
@@ -139,7 +141,9 @@ class EarnActiveItem extends HookWidget {
                                 const SpaceW10(),
                                 Text(
                                   '${currentCurrency.description} '
-                                      '${earnOffer.title}',
+                                      '${earnOffer.offerTag == 'Hot'
+                                          ? intl.earn_hot
+                                          : intl.earn_flexible}',
                                   style: sSubtitle2Style.copyWith(
                                     color: colors.black,
                                   ),

@@ -102,7 +102,7 @@ class EarnOfferDetailsBody extends HookWidget {
             TransactionDetailsItem(
               text: intl.earn_expiry_date,
               value: TransactionDetailsValueText(
-                text: earnOffer.term,
+                text: formatDateToDMonthYFromDate(earnOffer.endDate!),
               ),
             ),
           ],
