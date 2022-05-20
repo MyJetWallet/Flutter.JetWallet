@@ -51,9 +51,9 @@ class ReturnToWallet extends HookWidget {
     );
 
     return SPageFrame(
-      header: SPaddingH24(
+      header: const SPaddingH24(
         child: SSmallHeader(
-          title: earnOffer.title,
+          title: 'Return to wallet',
         ),
       ),
       child: Column(
