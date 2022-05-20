@@ -34,9 +34,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   static final _logger = Logger('CurrencyBuyNotifier');
 
   void _initCurrencies() {
-    final currencies = List<CurrencyModel>.from(
-      read(currenciesPod),
-    );
+    final currencies = List<CurrencyModel>.from(read(currenciesPod));
+
     sortCurrencies(currencies);
     removeEmptyCurrenciesFrom(currencies);
     removeCurrencyFrom(currencies, currencyModel);
@@ -59,7 +58,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     }
 
     if (state.currencies.isNotEmpty) {
-      // Case 1: If use has baseCurrency wallet with balance more than zero
+      // Case 1: If user has baseCurrency wallet with balance more than zero
       for (final currency in state.currencies) {
         if (currency.symbol == state.baseCurrency!.symbol) {
           updateSelectedCurrency(currency);

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../simple_kit.dart';
 
 void sShowMenuActionSheet({
+  bool isBuyAvailable = true,
   bool isDepositAvailable = true,
   bool isWithdrawAvailable = true,
-  bool isSendAvailable = true,
+  bool isBuyFromCardAvailable = true,
   bool isReceiveAvailable = true,
+  bool isSendAvailable = true,
   required BuildContext context,
   required void Function() onBuy,
   required void Function() onBuyFromCard,
@@ -29,14 +31,7 @@ void sShowMenuActionSheet({
     onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [
-      if (!isNotEmptyBalance)
-        SActionItem(
-          onTap: () => onBuyFromCard(),
-          icon: const SActionDepositIcon(),
-          name: 'Buy from card',
-          description: 'Buy crypto with your bank card',
-        ),
-      if (isNotEmptyBalance)
+      if (isNotEmptyBalance && isBuyAvailable)
         SActionItem(
           onTap: () => onBuy(),
           icon: const SActionBuyIcon(),
@@ -56,13 +51,14 @@ void sShowMenuActionSheet({
           name: 'Convert',
           description: 'Quickly swap one crypto for another',
         ),
+      ],
+      if (isBuyFromCardAvailable)
         SActionItem(
           onTap: () => onBuyFromCard(),
           icon: const SActionDepositIcon(),
           name: 'Buy from card',
           description: 'Buy crypto with your bank card',
         ),
-      ],
       if (isReceiveAvailable) ...[
         SActionItem(
           onTap: onReceive,
