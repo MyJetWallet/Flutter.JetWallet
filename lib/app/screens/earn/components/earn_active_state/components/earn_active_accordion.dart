@@ -25,11 +25,18 @@ class EarnActiveAccordion extends HookWidget {
     final colors = useProvider(sColorPod);
     final earnOffers = useProvider(earnOffersPod);
     final filteredActiveOffers = earnOffers.where(
-            (element) => element.amount > Decimal.zero,
+      (element) => element.amount > Decimal.zero,
     ).toList();
     final filteredAvailableOffers = earnOffers.where(
-            (element) => element.amount == Decimal.zero,
+      (element) => element.amount == Decimal.zero,
     ).toList();
+    final listOfAssetsByEarns = <String>[];
+
+    for (final element in filteredAvailableOffers) {
+      if (!listOfAssetsByEarns.contains(element.asset)) {
+        listOfAssetsByEarns.add(element.asset);
+      }
+    }
 
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 200),
@@ -90,7 +97,7 @@ class EarnActiveAccordion extends HookWidget {
                             child: Text(
                               '${isActive
                                   ? filteredActiveOffers.length
-                                  : filteredAvailableOffers.length
+                                  : listOfAssetsByEarns.length
                               }',
                               style: sSubtitle3Style,
                             ),
