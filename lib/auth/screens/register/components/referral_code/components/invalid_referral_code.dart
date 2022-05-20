@@ -17,7 +17,7 @@ class InvalidReferralCode extends HookWidget {
         const SCrossIcon(),
         const SpaceW10(),
         Text(
-          intl.invalid_referral_code_link,
+          intl.invalidReferralCodeLink_invalidReferralCodeLink,
           style: sCaptionTextStyle,
         ),
       ],

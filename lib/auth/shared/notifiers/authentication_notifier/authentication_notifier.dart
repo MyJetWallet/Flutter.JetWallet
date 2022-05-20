@@ -120,9 +120,9 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       }
 
       if (e is DioError && e.error == 'Http status error [401]') {
-        state = Input(intl.invalid_login_or_password);
+        state = Input(intl.authenticationNotifier_invalidLoginOrPassword);
       } else {
-        state = Input('${intl.something_went_wrong2}!');
+        state = Input('${intl.authenticationNotifier_somethingWentWrong2}!');
       }
     }
   }

@@ -60,7 +60,7 @@ class KycAlertHandler {
       primaryText: '${intl.verifyYourProfile}!',
       secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
           '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
-      primaryButtonName: intl.continueText,
+      primaryButtonName: intl.kycAlertHandler_continue,
       secondaryButtonName: intl.later,
       activePrimaryButton: kycVerified.requiredVerifications.isNotEmpty,
       onPrimaryButtonTap: () {
@@ -105,7 +105,7 @@ class KycAlertHandler {
       primaryText: '${intl.verifyYourProfile}!',
       secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
           '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
-      primaryButtonName: intl.continueText,
+      primaryButtonName: intl.kycAlertHandler_continue,
       secondaryButtonName: intl.later,
       onPrimaryButtonTap: () {
         Navigator.pop(context);

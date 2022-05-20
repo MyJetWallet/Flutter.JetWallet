@@ -131,10 +131,10 @@ class SendByPhoneConfirm extends HookWidget {
                   onSuccess: timerN.refreshTimer,
                 );
               },
-              text1: intl.you_can_resend_in,
-              text2: intl.seconds,
-              text3: intl.didnt_receive_the_code,
-              textResend: intl.resend,
+              text1: intl.sendByPhoneConfirm_youCanResendIn,
+              text2: intl.sendByPhoneConfirm_seconds,
+              text3: intl.sendByPhoneConfirm_didntReceiveTheCode,
+              textResend: intl.sendByPhoneConfirm_resend,
             ),
             const Spacer(),
             SSecondaryButton1(

@@ -48,7 +48,7 @@ class SetNewPassword extends HookWidget {
         color: colors.grey5,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: intl.create_password,
+            title: intl.setNewPassword_createPassword,
             onBackButtonTap: () => Navigator.of(context).pop(),
           ),
         ),

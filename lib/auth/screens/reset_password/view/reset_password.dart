@@ -68,7 +68,7 @@ class ResetPassword extends HookWidget {
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
-            title: intl.password_reset,
+            title: intl.passwordReset_passwordReset,
           ),
         ),
         child: AutofillGroup(
@@ -83,7 +83,7 @@ class ResetPassword extends HookWidget {
                     onChanged: (value) {
                       resetN.updateAndValidatePassword(value);
                     },
-                    labelText: intl.password,
+                    labelText: intl.resetPassword_password,
                     autofocus: true,
                   ),
                 ),
@@ -99,7 +99,7 @@ class ResetPassword extends HookWidget {
                   active: reset.passwordValid &&
                       !disableContinue.value &&
                       !loader.value.value,
-                  name: intl.continueText,
+                  name: intl.resetPassword_continue,
                   onTap: () {
                     disableContinue.value = true;
                     loader.value.startLoading();

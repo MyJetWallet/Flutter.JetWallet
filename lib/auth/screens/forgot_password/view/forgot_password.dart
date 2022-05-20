@@ -62,7 +62,7 @@ class ForgotPassword extends HookWidget {
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
-            title: intl.forgot_password,
+            title: intl.forgotPassword_forgotPassword,
           ),
         ),
         child: Column(
@@ -115,7 +115,7 @@ class ForgotPassword extends HookWidget {
                 active: forgot.email.isNotEmpty &&
                     !disableContinue.value &&
                     !loader.value.value,
-                name: intl.reset_password,
+                name: intl.forgotPassword_resetPassword,
                 onTap: () {
                   if (forgot.emailValid) {
                     disableContinue.value = true;

@@ -139,7 +139,7 @@ class AddCircleCard extends HookWidget {
               ContinueButtonFrame(
                 child: SPrimaryButton2(
                   active: state.isCardDetailsValid,
-                  name: intl.continueText,
+                  name: intl.addCircleCard_continue,
                   onTap: () async {
                     CircleBillingAddress.push(
                       context: context,

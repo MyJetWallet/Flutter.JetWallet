@@ -403,7 +403,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     final intl = read(intlPod);
 
     if (state.addressValidation is Loading || state.tagValidation is Loading) {
-      return '${intl.checking}...';
+      return '${intl.withdrawalAddressNotifier_checking}...';
     } else if (state.addressValidation is Invalid) {
       return '${intl.invalid} ${currency.symbol} ${intl.address}';
     } else if (state.tagValidation is Invalid) {

@@ -25,7 +25,7 @@ class ForgotPasswordButton extends HookWidget {
           vertical: 5.0,
         ),
         child: Text(
-          '${intl.forgot_password}?',
+          '${intl.forgotPasswordButton_forgotPassword}?',
           style: const TextStyle(
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,

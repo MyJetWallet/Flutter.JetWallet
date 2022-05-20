@@ -405,7 +405,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       final intl = read(intlPod);
 
       read(sNotificationNotipod.notifier).showError(
-        intl.something_went_wrong,
+        intl.currencyBuyNotifier_somethingWentWrong,
         id: 1,
       );
     }

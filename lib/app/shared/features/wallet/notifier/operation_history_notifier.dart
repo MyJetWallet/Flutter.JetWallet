@@ -41,7 +41,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
 
       final intl = read(intlPod);
       read(sNotificationNotipod.notifier).showError(
-        intl.something_went_wrong,
+        intl.operationHistoryNotifier_somethingWentWrong,
         id: 1,
       );
 
@@ -67,7 +67,7 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
 
       final intl = read(intlPod);
       read(sNotificationNotipod.notifier).showError(
-        intl.something_went_wrong,
+        intl.operationHistoryNotifier_somethingWentWrong,
         id: 2,
       );
 

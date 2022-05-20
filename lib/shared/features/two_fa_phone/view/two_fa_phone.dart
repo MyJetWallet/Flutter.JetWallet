@@ -106,7 +106,7 @@ class TwoFaPhone extends HookWidget {
                 children: [
                   const SpaceH10(),
                   VerificationDescriptionText(
-                    text: '${intl.enter_sms_code} ',
+                    text: '${intl.twoFaPhone_enterSmsCode} ',
                     boldText: twoFa.phoneNumber,
                   ),
                   const SpaceH60(),
@@ -128,16 +128,16 @@ class TwoFaPhone extends HookWidget {
                   const SpaceH7(),
                   if (timer > 0 && !twoFa.showResend)
                     ResendInText(
-                      text: '${intl.you_can_resend_in} $timer ${intl.seconds}',
+                      text: '${intl.twoFaPhone_youCanResendIn} $timer ${intl.twoFaPhone_seconds}',
                     )
                   else ...[
                     ResendInText(
-                      text: '${intl.didnt_receive_the_code}?',
+                      text: '${intl.twoFaPhone_didntReceiveTheCode}?',
                     ),
                     const SpaceH24(),
                     STextButton1(
                       active: true,
-                      name: intl.resend,
+                      name: intl.twoFaPhone_resend,
                       onTap: () async {
                         await twoFaN.sendCode();
 

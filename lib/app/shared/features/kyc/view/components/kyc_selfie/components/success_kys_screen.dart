@@ -65,7 +65,7 @@ class SuccessKycScreen extends HookWidget {
               baseline: 136.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                primaryText ?? intl.success,
+                primaryText ?? intl.successKycScreen_success,
                 maxLines: 2,
                 textAlign: TextAlign.center,
                 style: sTextH2Style,

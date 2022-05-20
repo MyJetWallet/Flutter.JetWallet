@@ -161,7 +161,7 @@ class Login extends HookWidget {
                             _controller,
                           );
                         },
-                        labelText: intl.password,
+                        labelText: intl.login_password,
                         onErrorIconTap: () {
                           notificationN.showError(
                             intl.login_credentialsError,
@@ -177,8 +177,8 @@ class Login extends HookWidget {
                     child: SPolicyText(
                       firstText: intl.login_policyText1,
                       userAgreementText: ' ${intl.login_userAgreementText} ',
-                      betweenText: '${intl.and_the} ',
-                      privacyPolicyText: intl.privacy_policy,
+                      betweenText: '${intl.login_andThe} ',
+                      privacyPolicyText: intl.login_privacyPolicy,
                       onUserAgreementTap: () =>
                           launchURL(context, userAgreementLink),
                       onPrivacyPolicyTap: () =>
@@ -189,7 +189,7 @@ class Login extends HookWidget {
                   SPaddingH24(
                     child: SPrimaryButton2(
                       active: isButtonActive(),
-                      name: intl.continueText,
+                      name: intl.login_continue,
                       onTap: () {
                         disableContinue.value = true;
                         loader.value.startLoading();

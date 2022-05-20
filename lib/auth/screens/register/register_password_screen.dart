@@ -59,7 +59,7 @@ class RegisterPasswordScreen extends HookWidget {
           color: colors.grey5,
           header: SPaddingH24(
             child: SBigHeader(
-              title: intl.create_password,
+              title: intl.registerPasswordScreen_createPassword,
             ),
           ),
           child: Column(
@@ -72,7 +72,7 @@ class RegisterPasswordScreen extends HookWidget {
                     onChanged: (value) {
                       credentialsN.updateAndValidatePassword(value);
                     },
-                    labelText: intl.password,
+                    labelText: intl.registerPasswordScreen_password,
                     autofocus: true,
                   ),
                 ),
@@ -88,7 +88,7 @@ class RegisterPasswordScreen extends HookWidget {
                   active: credentials.readyToRegister &&
                       !disableContinue.value &&
                       !loader.value.value,
-                  name: intl.continueText,
+                  name: intl.registerPassword_continue,
                   onTap: () {
                     disableContinue.value = true;
                     loader.value.startLoading();

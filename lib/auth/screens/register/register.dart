@@ -100,8 +100,8 @@ class Register extends HookWidget {
                     child: SPolicyCheckbox(
                       firstText: '${intl.register_herebyConfirm} ',
                       userAgreementText: intl.register_TAndC,
-                      betweenText: ' ${intl.and_the} ',
-                      privacyPolicyText: intl.privacy_policy,
+                      betweenText: ' ${intl.register_andThe} ',
+                      privacyPolicyText: intl.register_privacyPolicy,
                       isChecked: credentials.policyChecked,
                       onCheckboxTap: () {
                         _scrollToBottom();
@@ -132,7 +132,7 @@ class Register extends HookWidget {
                 SPaddingH24(
                   child: SPrimaryButton2(
                     active: credentials.emailIsNotEmptyAndPolicyChecked,
-                    name: intl.continueText,
+                    name: intl.register_continue,
                     onTap: () {
                       if (credentials.emailValid) {
                         RegisterPasswordScreen.push(context);

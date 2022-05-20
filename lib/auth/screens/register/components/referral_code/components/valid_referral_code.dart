@@ -23,12 +23,12 @@ class ValidReferralCode extends HookWidget {
         const SpaceW10(),
         if (referralCode != null)
           Text(
-            '${intl.your_referral_code} - $referralCode',
+            '${intl.validReferralCode_yourReferralCode} - $referralCode',
             style: sCaptionTextStyle,
           )
         else
           Text(
-            intl.valid_referral_code,
+            intl.validReferralCode_validReferralCode,
             style: sCaptionTextStyle,
           )
       ],

@@ -20,7 +20,7 @@ class NoReferralCode extends HookWidget {
         ),
         const SpaceW12(),
         Text(
-          intl.have_promo_code,
+          intl.noReferralCode_havePromoCode,
           style: sCaptionTextStyle.copyWith(color: colors.blue),
         ),
       ],

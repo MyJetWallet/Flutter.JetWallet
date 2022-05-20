@@ -86,7 +86,7 @@ class ChangePassword extends HookWidget {
             const Spacer(),
             SPaddingH24(
               child: SPrimaryButton2(
-                name: intl.continueText,
+                name: intl.changePassword_continue,
                 onTap: () {
                   navigatorPush(
                     context,

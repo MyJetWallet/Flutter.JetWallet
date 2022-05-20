@@ -28,7 +28,7 @@ class ProfileDetails extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.account_profileDetails,
+          title: intl.profileDetails_profileDetails,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
@@ -56,7 +56,7 @@ class ProfileDetails extends HookWidget {
                   willPopScope: false,
                   primaryText: intl.payAttention,
                   secondaryText: '${intl.profileDetails_buttonSecondaryText}.',
-                  primaryButtonName: intl.continueText,
+                  primaryButtonName: intl.profileDetails_continue,
                   image: _infoImage,
                   onPrimaryButtonTap: () {
                     PhoneVerification.push(

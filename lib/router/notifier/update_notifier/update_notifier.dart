@@ -54,9 +54,9 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
     sShowAlertPopup(
       _context,
       willPopScope: false,
-      primaryText: '${intl.time_to_update}!',
-      secondaryText: intl.download_the_latest_version,
-      primaryButtonName: intl.update,
+      primaryText: '${intl.updateNotifier_timeToUpdate}!',
+      secondaryText: intl.updateNotifier_downloadTheLatestVersion,
+      primaryButtonName: intl.updateNotifier_update,
       onPrimaryButtonTap: () => _storeRedirect(),
     );
   }
@@ -67,11 +67,11 @@ class UpdateNotifier extends StateNotifier<UpdateUnion> {
     sShowAlertPopup(
       _context,
       willPopScope: false,
-      primaryText: '${intl.update_simple}?',
-      secondaryText: intl.weRecommendUpdateLatestVersion,
-      primaryButtonName: intl.update,
+      primaryText: '${intl.updateNotifier_updateSimple}?',
+      secondaryText: intl.updateNotifier_weRecommendUpdateLatestVersion,
+      primaryButtonName: intl.updateNotifier_update,
       onPrimaryButtonTap: () => _storeRedirect(),
-      secondaryButtonName: intl.not_now,
+      secondaryButtonName: intl.updateNotifier_notNow,
       onSecondaryButtonTap: () {
         Navigator.pop(_context);
         state = const NoUpdates();

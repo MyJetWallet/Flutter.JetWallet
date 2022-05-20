@@ -19,7 +19,7 @@ final operationHistoryInitFpod =
       final intl = ref.read(intlPod);
 
       ref.read(sNotificationNotipod.notifier).showError(
-            intl.something_went_wrong,
+            intl.operationHistoryFpod_somethingWentWrong,
             id: 2,
           );
     }

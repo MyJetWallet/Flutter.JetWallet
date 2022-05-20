@@ -158,7 +158,7 @@ class CurrencyWithdraw extends HookWidget {
                     color: colors.grey5,
                     child: SPrimaryButton2(
                       active: state.isReadyToContinue,
-                      name: intl.continueText,
+                      name: intl.currencyWithdraw_continue,
                       onTap: () => notifier.validateOnContinue(context),
                     ),
                   ),

@@ -31,7 +31,7 @@ class ApiSelectorScreen extends HookWidget {
             const Spacer(),
             SPaddingH24(
               child: SStandardField(
-                labelText: intl.provide_proxy,
+                labelText: intl.apiSelectorScreen_provideProxy,
                 onChanged: (value) => dioProxyN.updateProxyName(value),
                 onErase: () => dioProxyN.updateProxyName(''),
               ),

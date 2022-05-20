@@ -12,7 +12,7 @@ void showSmsAuthWarning(BuildContext context) {
   sShowAlertPopup(
     context,
     primaryText: '${intl.showSmsAuthWarning_primaryText}?',
-    primaryButtonName: intl.continueText,
+    primaryButtonName: intl.showSmsAuthWarning_continue,
     onPrimaryButtonTap: () {
       TwoFaPhone.pushReplacement(
         context,

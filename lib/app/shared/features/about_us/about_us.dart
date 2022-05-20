@@ -72,7 +72,7 @@ class AboutUs extends HookWidget {
           Row(
             children: [
               SimpleAccountTermButton(
-                name: intl.privacy_policy,
+                name: intl.aboutUs_privacyPolicy,
                 onTap: () => launchURL(context, privacyPolicyLink),
               ),
             ],

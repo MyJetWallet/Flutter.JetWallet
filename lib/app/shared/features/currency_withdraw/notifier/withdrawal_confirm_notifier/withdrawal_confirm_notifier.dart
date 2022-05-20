@@ -79,7 +79,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
       _logger.log(stateFlow, 'withdrawalResend', error);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        '${intl.failedToResend}!',
+        '${intl.withdrawalConfirmNotifier_failedToResend}!',
         id: 1,
       );
     }

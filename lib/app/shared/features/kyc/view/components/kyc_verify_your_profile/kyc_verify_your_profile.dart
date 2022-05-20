@@ -162,7 +162,7 @@ class KycVerifyYourProfile extends HookWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               active: true,
-              name: intl.continueText,
+              name: intl.kycVerifyYourProfile_continue,
               onTap: () {
                 ChooseDocuments.pushReplacement(
                   context: context,

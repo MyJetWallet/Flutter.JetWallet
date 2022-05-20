@@ -109,7 +109,7 @@ class CircleBillingAddress extends HookWidget {
                 ContinueButtonFrame(
                   child: SPrimaryButton2(
                     active: navigationAllowed && state.isBillingAddressValid,
-                    name: intl.continueText,
+                    name: intl.circleBillingAddress_continue,
                     onTap: () async {
                       enableButton.value = false;
                       await notifier.addCard(

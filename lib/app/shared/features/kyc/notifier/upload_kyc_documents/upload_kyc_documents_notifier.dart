@@ -65,7 +65,7 @@ class UploadKycDocumentsNotifier
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        intl.something_went_wrong2,
+        intl.uploadKycDocumentsNotifier_somethingWentWrong2,
         id: 1,
       );
     }
@@ -125,7 +125,7 @@ class UploadKycDocumentsNotifier
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        intl.something_went_wrong2,
+        intl.uploadKycDocumentsNotifier_somethingWentWrong2,
         id: 1,
       );
     }

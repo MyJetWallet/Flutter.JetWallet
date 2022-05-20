@@ -138,7 +138,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
               color: Colors.transparent,
               child: SPrimaryButton2(
                 active: input.isReadyToContinue,
-                name: intl.continueText,
+                name: intl.sendByPhoneInput_continue,
                 onTap: () {
                   navigatorPush(
                     context,

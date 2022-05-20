@@ -20,7 +20,7 @@ void showReferralCode(BuildContext context) {
     expanded: true,
     color: colors.white,
     pinned: ActionBottomSheetHeader(
-      name: intl.enter_referral_code_link,
+      name: intl.showReferralCodeLink_enterReferralCodeLink,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -41,7 +41,7 @@ class _ReferralCodeBottom extends HookWidget {
         SPaddingH24(
           child: SPrimaryButton2(
             active: state.enableContinueButton,
-            name: intl.continueText,
+            name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
               Navigator.pop(context);
             },
@@ -83,7 +83,7 @@ class _ReferralCodeLinkBody extends HookWidget {
                     child: SStandardField(
                       autofocus: true,
                       errorNotifier: state.referralCodeErrorNotifier,
-                      labelText: intl.referral_code_link,
+                      labelText: intl.showReferralCodeLink_referralCodeLink,
                       controller: state.referralCodeController,
                       onChanged: (value) {
                         notifier.updateReferralCode(value, null);

@@ -22,7 +22,7 @@ class ResendRichText extends HookWidget {
       child: Column(
         children: <Widget>[
           Text(
-            intl.didnt_receive_the_code,
+            intl.resetRichText_didntReceiveTheCode,
             style: sCaptionTextStyle.copyWith(
               color: colors.grey2,
             ),
@@ -30,7 +30,7 @@ class ResendRichText extends HookWidget {
           const SpaceH10(),
           STextButton1(
             active: true,
-            name: intl.resend,
+            name: intl.resetRichText_resend,
             onTap: onTap,
           ),
         ],

@@ -25,7 +25,7 @@ final appInitFpod = FutureProvider<void>(
 
     final token = await storageService.getString(refreshTokenKey);
     final email = await storageService.getString(userEmailKey);
-    final parsedEmail = email ?? '<${intl.email_not_found}>';
+    final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
 
     try {
       await AppTrackingTransparency.requestTrackingAuthorization();

@@ -65,7 +65,7 @@ class KycSelfieNotifier extends StateNotifier<KycSelfieState> {
 
       state = state.copyWith(union: KycSelfieUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        intl.something_went_wrong2,
+        intl.kycSelfieNotifier_somethingWentWrong2,
         id: 1,
       );
     }

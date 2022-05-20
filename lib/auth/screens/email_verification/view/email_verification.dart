@@ -64,7 +64,7 @@ class EmailVerification extends HookWidget {
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SBigHeader(
-          title: intl.email_verification,
+          title: intl.emailVerification_emailVerification,
           onBackButtonTap: () => logoutN.logout(),
         ),
         child: CustomScrollView(
@@ -118,10 +118,10 @@ class EmailVerification extends HookWidget {
                         },
                       );
                     },
-                    text1: intl.you_can_resend_in,
-                    text2: intl.seconds,
-                    text3: intl.didnt_receive_the_code,
-                    textResend: intl.resend,
+                    text1: intl.emailVerification_youCanResendIn,
+                    text2: intl.emailVerification_seconds,
+                    text3: intl.emailVerification_didntReceiveTheCode,
+                    textResend: intl.emailVerification_resend,
                   ),
                   const SpaceH24(),
                 ],

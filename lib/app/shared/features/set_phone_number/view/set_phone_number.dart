@@ -144,7 +144,7 @@ class SetPhoneNumber extends HookWidget {
           SPaddingH24(
             child: SPrimaryButton2(
               active: state.isReadyToContinue,
-              name: intl.continueText,
+              name: intl.setPhoneNumber_continue,
               onTap: () {
                 sAnalytics.kycEnterPhoneNumber();
                 notifier.sendCode(

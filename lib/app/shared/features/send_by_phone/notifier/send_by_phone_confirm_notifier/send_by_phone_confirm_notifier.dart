@@ -86,7 +86,7 @@ class SendByPhoneConfirmNotifier
       final intl = read(intlPod);
 
       read(sNotificationNotipod.notifier).showError(
-        '${intl.failedToResend}!',
+        '${intl.sendByPhoneConfirmNotifier_failedToResend}!',
         id: 1,
       );
     }

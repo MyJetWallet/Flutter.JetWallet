@@ -67,7 +67,7 @@ class RecurringSuccessScreen extends HookWidget {
                 baseline: 136.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
-                  intl.success,
+                  intl.recurringSuccessScreen_success,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: sTextH2Style,

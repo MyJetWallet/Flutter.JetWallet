@@ -101,7 +101,7 @@ class PhoneVerification extends HookWidget {
           children: <Widget>[
             const SpaceH10(),
             VerificationDescriptionText(
-              text: '${intl.enter_sms_code} ',
+              text: '${intl.phoneVerification_enterSmsCode} ',
               boldText: phone.phoneNumber,
             ),
             const SpaceH18(),
@@ -153,7 +153,7 @@ class PhoneVerification extends HookWidget {
             /// TODO update legacy resend
             if (timer > 0 && !phone.showResend)
               ResendInText(
-                text: '${intl.you_can_resend_in} $timer ${intl.seconds}',
+                text: '${intl.phoneVerification_youCanResendIn} $timer ${intl.phoneVerification_seconds}',
               )
             else ...[
               ResendRichText(

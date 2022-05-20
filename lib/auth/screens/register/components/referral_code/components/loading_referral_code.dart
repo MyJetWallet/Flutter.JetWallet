@@ -25,7 +25,7 @@ class LoadingReferralCode extends HookWidget {
         ),
         const SpaceW10(),
         Text(
-          intl.checking,
+          intl.loadingReferralCode_checking,
           style: sCaptionTextStyle,
         ),
       ],
