@@ -29,22 +29,24 @@ void handleResultResponse(Map<String, dynamic> json) {
 void _validateFullResponse(String result, Map<String, dynamic> json) {
   if (result == 'OperationBlocked') {
     final data = json['data'] as Map<String, dynamic>;
-    final expired = data['expired'] as String;
+    final blocker = data['blocker'] as Map<String, dynamic>;
+    final expired = blocker['expired'] as String;
 
     throw ServerRejectException(_blockerMessage(timespanToDuration(expired)));
   } else if (result == 'InvalidUserNameOrPassword') {
-    final data = json['data'] as Map<String, dynamic>?;
+    final data = json['data'] as Map<String, dynamic>;
+    final attempts = data['attempts'] as Map<String, dynamic>?;
 
-    if (data == null) {
+    if (attempts == null) {
       throw const ServerRejectException(
         'The email or password you entered is incorrect.',
       );
     } else {
-      final attempts = data['attempts'] as int;
+      final left = attempts['left'] as int;
 
       throw ServerRejectException(
         'The email or password you entered is incorrect, '
-        '$attempts attempts remaining.',
+        '$left attempts remaining.',
       );
     }
   } else if (result != 'OK') {
