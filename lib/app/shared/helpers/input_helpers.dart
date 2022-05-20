@@ -19,9 +19,7 @@ String valueBasedOnSelectedPercent({
   required SelectedPercent selected,
   required CurrencyModel currency,
 }) {
-  if (currency.isAssetBalanceEmpty) {
-    return zero;
-  } else if (selected == SelectedPercent.pct25) {
+  if (selected == SelectedPercent.pct25) {
     final value =
         (availableBalance ?? currency.assetBalance) * Decimal.parse('0.25');
     return '$value';
