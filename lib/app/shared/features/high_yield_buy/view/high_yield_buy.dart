@@ -11,7 +11,6 @@ import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/account/components/help_center_web_view.dart';
 import '../../../helpers/format_currency_string_amount.dart';
-import '../../../helpers/formatting/base/market_format.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
@@ -102,6 +101,7 @@ class HighYieldBuy extends HookWidget {
               SimplePercentageIndicator(
                 tiers: state.simpleTiers,
                 expanded: true,
+                isHot: earnOffer.offerTag == 'Hot',
               ),
             ],
           ),
@@ -110,12 +110,12 @@ class HighYieldBuy extends HookWidget {
             for (var i = 0; i < state.simpleTiers.length; i++)
               SActionConfirmText(
                 name: 'Tier ${i + 1} APY (limit: '
-                    '${marketFormat(
+                    '${volumeFormat(
                   prefix: '\$',
                   decimal: Decimal.parse(state.simpleTiers[i].fromUsd),
                   accuracy: 0,
                   symbol: 'USD',
-                )}-${marketFormat(
+                )}-${volumeFormat(
                   prefix: '\$',
                   decimal: Decimal.parse(state.simpleTiers[i].toUsd),
                   accuracy: 0,
@@ -124,10 +124,16 @@ class HighYieldBuy extends HookWidget {
                 baseline: 35.0,
                 value: '${state.simpleTiers[i].apy}%',
                 valueColor: i == 0
-                    ? colors.seaGreen
+                    ? earnOffer.offerTag == 'Hot'
+                        ? colors.orange
+                        : colors.seaGreen
                     : i == 1
-                        ? colors.leafGreen
-                        : colors.aquaGreen,
+                        ? earnOffer.offerTag == 'Hot'
+                            ? colors.brown
+                            : colors.leafGreen
+                        : earnOffer.offerTag == 'Hot'
+                            ? colors.darkBrown
+                            : colors.aquaGreen,
                 minValueWidth: 50,
                 maxValueWidth: 50,
               )
@@ -135,8 +141,17 @@ class HighYieldBuy extends HookWidget {
             SActionConfirmText(
               name: 'Limit',
               baseline: 35.0,
-              value: '\$${state.simpleTiers[0].fromUsd}'
-                  '-${state.simpleTiers[0].toUsd}',
+              value: '${volumeFormat(
+                prefix: '\$',
+                decimal: Decimal.parse(state.simpleTiers[0].fromUsd),
+                accuracy: 0,
+                symbol: 'USD',
+              )}-${volumeFormat(
+                prefix: '\$',
+                decimal: Decimal.parse(state.simpleTiers[0].toUsd),
+                accuracy: 0,
+                symbol: 'USD',
+              )}',
               minValueWidth: 50,
               maxValueWidth: 200,
             ),
@@ -192,7 +207,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: earnOffer.title,
+          title: earnOffer.offerTag == 'Hot' ? 'Hot offer' : 'Flexible',
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
@@ -240,6 +255,7 @@ class HighYieldBuy extends HookWidget {
             apy: state.apy != null ? '${state.apy}%' : '',
             onTap: state.simpleTiers.isNotEmpty ? _showHowWeCountSheet : null,
             tiers: state.simpleTiers,
+            hot: earnOffer.offerTag == 'Hot',
           ),
           deviceSize.when(
             small: () => const Spacer(),

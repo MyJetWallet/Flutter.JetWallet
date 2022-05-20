@@ -2,17 +2,17 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_response_model.dart';
-import '../../../helpers/formatting/base/market_format.dart';
-import '../../../helpers/input_helpers.dart';
-import '../../../models/currency_model.dart';
-import '../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_response_model.dart';
+import '../../../../helpers/formatting/base/market_format.dart';
+import '../../../../helpers/input_helpers.dart';
+import '../../../../models/currency_model.dart';
+import '../../../../providers/base_currency_pod/base_currency_model.dart';
 
-part 'high_yield_buy_state.freezed.dart';
+part 'return_to_wallet_state.freezed.dart';
 
 @freezed
-class HighYieldBuyState with _$HighYieldBuyState {
-  const factory HighYieldBuyState({
+class ReturnToWalletState with _$ReturnToWalletState {
+  const factory ReturnToWalletState({
     Decimal? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
@@ -35,9 +35,9 @@ class HighYieldBuyState with _$HighYieldBuyState {
     @Default(false) bool amountTooLow,
     Decimal? maxSubscribeAmount,
     Decimal? minSubscribeAmount,
-  }) = _HighYieldBuyState;
+  }) = _ReturnToWalletState;
 
-  const HighYieldBuyState._();
+  const ReturnToWalletState._();
 
   String get selectedCurrencySymbol {
     if (selectedCurrency == null) {

@@ -7,37 +7,37 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../wallet/helper/format_date_to_hm.dart';
-import '../model/preview_high_yield_buy_input.dart';
-import '../notifier/preview_high_yield_buy_notifier/preview_high_yield_buy_notipod.dart';
-import '../notifier/preview_high_yield_buy_notifier/preview_high_yield_buy_state.dart';
-import '../notifier/preview_high_yield_buy_notifier/preview_high_yield_buy_union.dart';
+import '../model/preview_return_to_wallet_input.dart';
+import '../notifier/preview_return_to_wallet_notifier/preview_return_to_wallet_notipod.dart';
+import '../notifier/preview_return_to_wallet_notifier/preview_return_to_wallet_state.dart';
+import '../notifier/preview_return_to_wallet_notifier/preview_return_to_wallet_union.dart';
 
-class PreviewHighYieldBuy extends StatefulHookWidget {
-  const PreviewHighYieldBuy({
+class PreviewReturnToWallet extends StatefulHookWidget {
+  const PreviewReturnToWallet({
     Key? key,
     required this.input,
   }) : super(key: key);
 
-  final PreviewHighYieldBuyInput input;
+  final PreviewReturnToWalletInput input;
 
   @override
-  State<PreviewHighYieldBuy> createState() => _PreviewHighYieldBuy();
+  State<PreviewReturnToWallet> createState() => _PreviewReturnToWallet();
 }
 
-class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
+class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
-    final state = useProvider(previewHighYieldBuyNotipod(widget.input));
+    final state = useProvider(previewReturnToWalletNotipod(widget.input));
     final notifier =
-        useProvider(previewHighYieldBuyNotipod(widget.input).notifier);
+        useProvider(previewReturnToWalletNotipod(widget.input).notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
 
     final from = widget.input.fromCurrency;
 
-    return ProviderListener<PreviewHighYieldBuyState>(
-      provider: previewHighYieldBuyNotipod(widget.input),
+    return ProviderListener<PreviewReturnToWalletState>(
+      provider: previewReturnToWalletNotipod(widget.input),
       onChange: (_, value) {
         if (value.union is ExecuteLoading) {
           loader.value.startLoading();
@@ -51,17 +51,13 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
         loading: loader.value,
         header: deviceSize.when(
           small: () {
-            return SSmallHeader(
-              title: 'Confirm '
-                  '${widget.input.earnOffer.offerTag == 'Hot' ? 'Hot '
-                      'offer' : 'Flexible'}',
+            return const SSmallHeader(
+              title: 'Return to wallet',
             );
           },
           medium: () {
-            return SMegaHeader(
-              title: 'Confirm '
-                  '${widget.input.earnOffer.offerTag == 'Hot' ? 'Hot '
-                      'offer' : 'Flexible'}',
+            return const SMegaHeader(
+              title: 'Return to wallet',
               crossAxisAlignment: CrossAxisAlignment.center,
             );
           },
@@ -81,7 +77,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'Subscription amount',
+                    name: 'Remaining balance',
                     baseline: deviceSize.when(
                       small: () => 29,
                       medium: () => 40,
@@ -89,15 +85,19 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
-                      decimal: state.fromAssetAmount ?? Decimal.zero,
+                      decimal: Decimal.parse(widget.input.remainingBalance),
                       symbol: from.symbol,
                     ),
                   ),
                   SActionConfirmText(
-                    contentLoading: state.union is QuoteLoading,
-                    name: 'APY',
+                    name: 'Amount to return',
                     baseline: 35.0,
-                    value: '${state.apy}%',
+                    value: volumeFormat(
+                      prefix: from.prefixSymbol,
+                      accuracy: from.accuracy,
+                      decimal: Decimal.parse(widget.input.amount),
+                      symbol: from.symbol,
+                    ),
                   ),
                   if (widget.input.earnOffer.endDate != null)
                     SActionConfirmText(
@@ -123,7 +123,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     contentLoading: state.union is QuoteLoading,
                     baseline: deviceSize.when(
                       small: () => 37,
-                      medium: () => 40,
+                      medium: () => 38,
                     ),
                     maxValueWidth: 170,
                     minValueWidth: 170,
@@ -163,23 +163,22 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                             ),
                           ),
                   ),
-                  const SpaceH12(),
-                  Text(
-                    'You can return funds to your wallet at any time. '
-                    '\nIt normally takes up to 24 hours.',
-                    textAlign: TextAlign.start,
-                    style: sCaptionTextStyle.copyWith(color: colors.grey1),
-                    maxLines: 4,
+                  const SpaceH16(),
+                  const SActionConfirmAlert(
+                    alert: 'The funds will be credited to the wallet during 24 '
+                        'hours',
                   ),
                   deviceSize.when(
                     small: () => const SpaceH37(),
-                    medium: () => const SpaceH36(),
+                    medium: () => const SpaceH16(),
                   ),
                   SPrimaryButton2(
                     active: true,
                     name: 'Confirm',
                     onTap: () {
-                      notifier.earnOfferDeposit(widget.input.earnOffer.offerId);
+                      notifier.earnOfferWithdrawal(
+                        widget.input.earnOffer.offerId,
+                      );
                     },
                   ),
                   const SpaceH24(),

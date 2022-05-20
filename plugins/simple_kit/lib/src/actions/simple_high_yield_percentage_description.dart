@@ -9,6 +9,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
     required this.widgetSize,
     required this.onTap,
     required this.tiers,
+    required this.hot,
     this.apy = '',
   }) : super(key: key);
 
@@ -16,14 +17,26 @@ class SHighYieldPercentageDescription extends StatelessWidget {
   final void Function()? onTap;
   final String apy;
   final List<SimpleTierModel> tiers;
+  final bool hot;
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = hot
+        ? [
+            SColorsLight().orange,
+            SColorsLight().brown,
+            SColorsLight().darkBrown
+          ]
+        : [
+            SColorsLight().seaGreen,
+            SColorsLight().leafGreen,
+            SColorsLight().aquaGreen
+          ];
     final textColor = tiers.length > 1
         ? tiers[1].active
-            ? SColorsLight().leafGreen
-            : SColorsLight().seaGreen
-        : SColorsLight().seaGreen;
+            ? colorTheme[1]
+            : colorTheme[0]
+        : colorTheme[0];
 
     return SPaddingH24(
       child: InkWell(
@@ -52,6 +65,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
                   const SpaceW19(), // + 1 px border
                   SimplePercentageIndicator(
                     tiers: tiers,
+                    isHot: hot,
                   ),
                   const SpaceW20(),
                   Baseline(
