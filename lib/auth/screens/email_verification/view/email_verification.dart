@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:universal_io/io.dart';
 
 import '../../../../shared/components/pin_code_field.dart';
 import '../../../../shared/helpers/analytics.dart';
@@ -14,8 +15,66 @@ import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
 import '../notifier/email_verification_state.dart';
 
-class EmailVerification extends HookWidget {
+class EmailVerification extends StatefulHookWidget {
   const EmailVerification({Key? key}) : super(key: key);
+
+  @override
+  State<EmailVerification> createState() => _EmailVerificationState();
+}
+
+class _EmailVerificationState extends State<EmailVerification>
+    with WidgetsBindingObserver {
+  final focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      context.read(emailVerificationNotipod.notifier).pasteCode();
+
+      if (mounted && Platform.isAndroid) {
+        // Workaround to fix bug related to Flutter framework.
+        // When app goes to background and comes back,
+        // the keyboard is not showing
+        // Reproducible only on Android. But even this fix has it flaws.
+        // When I half-collapse app and coming back keyboard can't be accessed
+        // because this half-collapse doesn't trigger app to go to background,
+        // hence, code below won't be executed
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          final verification = context.read(emailVerificationNotipod);
+          await Future.delayed(const Duration(milliseconds: 200));
+          if (verification.controller.value.text.length !=
+              emailVerificationCodeLength) {
+            if (focusNode.hasFocus) {
+              focusNode.unfocus();
+              Future.delayed(
+                const Duration(microseconds: 1),
+                () => focusNode.requestFocus(),
+              );
+            } else {
+              focusNode.requestFocus();
+            }
+          }
+        });
+      }
+    } else if (state == AppLifecycleState.paused) {
+      if (focusNode.hasFocus) {
+        focusNode.unfocus();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +89,6 @@ class EmailVerification extends HookWidget {
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
-
-    final focusNode = useFocusNode();
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
@@ -88,19 +145,32 @@ class EmailVerification extends HookWidget {
                     onTap: () => openEmailApp(context),
                   ),
                   const Spacer(),
-                  PinCodeField(
-                    focusNode: focusNode,
-                    controller: verification.controller,
-                    length: emailVerificationCodeLength,
-                    onCompleted: (_) {
-                      loader.value.startLoading();
-                      verificationN.verifyCode();
+                  GestureDetector(
+                    onLongPress: () => verificationN.pasteCode(),
+                    onDoubleTap: () => verificationN.pasteCode(),
+                    onTap: () {
+                      if (!focusNode.hasFocus) {
+                        focusNode.requestFocus();
+                      }
                     },
-                    autoFocus: true,
-                    onChanged: (_) {
-                      pinError.value.disableError();
-                    },
-                    pinError: pinError.value,
+                    // AbsorbPointer needed to avoid TextField glitch onTap
+                    // when it's focused
+                    child: AbsorbPointer(
+                      child: PinCodeField(
+                        focusNode: focusNode,
+                        controller: verification.controller,
+                        length: emailVerificationCodeLength,
+                        onCompleted: (_) {
+                          loader.value.startLoading();
+                          verificationN.verifyCode();
+                        },
+                        autoFocus: true,
+                        onChanged: (_) {
+                          pinError.value.disableError();
+                        },
+                        pinError: pinError.value,
+                      ),
+                    ),
                   ),
                   const Spacer(),
                   SResendButton(
