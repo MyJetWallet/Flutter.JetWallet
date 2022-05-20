@@ -58,12 +58,12 @@ class EarnActiveItem extends HookWidget {
       if (earnOffer.offerTag == 'Hot') {
         if (earnOffer.tiers.length == 1 ||
             (earnOffer.tiers[0].active
-                && !earnOffer.tiers[1].active
-                && !earnOffer.tiers[2].active)) {
+              && !earnOffer.tiers[1].active
+              && !(earnOffer.tiers.length > 2 && earnOffer.tiers[2].active))) {
           return colors.orange;
         } else if (earnOffer.tiers.length == 2 ||
             (earnOffer.tiers[1].active
-                && !earnOffer.tiers[2].active)) {
+              && !(earnOffer.tiers.length > 2 && earnOffer.tiers[2].active))) {
           return colors.brown;
         } else {
           return colors.darkBrown;
@@ -71,12 +71,12 @@ class EarnActiveItem extends HookWidget {
       }
       if (earnOffer.tiers.length == 1 ||
           (earnOffer.tiers[0].active
-              && !earnOffer.tiers[1].active
-              && !(earnOffer.tiers.length > 2 && earnOffer.tiers[2].active))) {
+            && !earnOffer.tiers[1].active
+            && !(earnOffer.tiers.length > 2 && earnOffer.tiers[2].active))) {
         return colors.seaGreen;
       } else if (earnOffer.tiers.length == 2 ||
           (earnOffer.tiers[1].active
-              && !(earnOffer.tiers.length > 2 && earnOffer.tiers[2].active))) {
+            && !(earnOffer.tiers.length > 2 && earnOffer.tiers[2].active))) {
         return colors.leafGreen;
       } else {
         return colors.aquaGreen;
