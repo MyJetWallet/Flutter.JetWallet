@@ -329,4 +329,20 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
       return '';
     }
   }
+
+  String screenDescription() {
+    final intl = read(intlPod);
+
+    return state.screenUnion.when(
+      enterPin: () {
+        return intl.pinScreen_enterYourPIN;
+      },
+      newPin: () {
+        return intl.pinScreen_pinSetANewPin;
+      },
+      confirmPin: () {
+        return intl.pinScreen_confirmNewPin;
+      },
+    );
+  }
 }

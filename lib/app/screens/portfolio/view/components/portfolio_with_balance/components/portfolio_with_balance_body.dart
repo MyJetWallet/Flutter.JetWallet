@@ -166,9 +166,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                           Row(
                             children: [
                               Text(
-                                '${
-                                 intl.portfolioWithBalanceBody_balanceInProcess
-                                }...',
+                                '${intl.portfolioWithBalanceBody_balanceInProcess}...',
                                 style: sTextH1Style.copyWith(
                                   color: colors.black,
                                 ),
