@@ -164,7 +164,7 @@ class WithdrawalAmount extends HookWidget {
       addressIsInternal: isInternal,
     );
 
-    final youWillReceive = 'You will receive: $result';
+    final youWillReceive = 'You will send: $result';
 
     if (isInternal) {
       return 'No Fee / $youWillReceive';
