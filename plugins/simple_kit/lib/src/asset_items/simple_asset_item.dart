@@ -38,7 +38,7 @@ class SAssetItem extends StatelessWidget {
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SizedBox(
-        height: (!removeDivider && !divider) ? 98.0 : 88.0,
+        height: (!removeDivider && !divider) ? 108.0 : 88.0,
         child: Column(
           children: [
             const SpaceH22(),
@@ -137,7 +137,8 @@ class SAssetItem extends StatelessWidget {
                 )
               else
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  //padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                   child: SDivider(
                     color: SColorsLight().grey3,
                     width: double.infinity,
