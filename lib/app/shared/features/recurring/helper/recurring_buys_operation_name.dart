@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 enum RecurringBuysType {
   @JsonValue(0)
@@ -56,5 +57,22 @@ String recurringBuysOperationByString(
       return intl.recurringBuysType_monthly;
     default:
       return '';
+  }
+}
+
+extension RecurringBuyTypeExtension on RecurringBuysType {
+  RecurringFrequency get toFrequency {
+    switch (this) {
+      case RecurringBuysType.oneTimePurchase:
+        return RecurringFrequency.oneTime;
+      case RecurringBuysType.daily:
+        return RecurringFrequency.daily;
+      case RecurringBuysType.weekly:
+        return RecurringFrequency.weekly;
+      case RecurringBuysType.biWeekly:
+        return RecurringFrequency.biWeekly;
+      case RecurringBuysType.monthly:
+        return RecurringFrequency.monthly;
+    }
   }
 }

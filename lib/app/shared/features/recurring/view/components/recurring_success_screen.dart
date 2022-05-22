@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/components/result_screens/success_screen/components/success_animation.dart';
@@ -14,6 +15,7 @@ import '../../../../../../shared/providers/service_providers.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../currency_buy/model/preview_buy_with_asset_input.dart';
 import '../../../currency_buy/view/preview_buy_with_asset.dart';
+import '../../helper/recurring_buys_operation_name.dart';
 
 class RecurringSuccessScreen extends HookWidget {
   const RecurringSuccessScreen({
@@ -48,7 +50,6 @@ class RecurringSuccessScreen extends HookWidget {
         return Future.value(false);
       },
       child: ProviderListener<int>(
-        // TODO: Reconsider this approach
         provider: timerNotipod(3.01),
         onChange: (context, value) {
           if (value == 0 && shouldPop.value) {
@@ -92,7 +93,12 @@ class RecurringSuccessScreen extends HookWidget {
                 onTap: () {
                   shouldPop.value = false;
 
-                  showActionWithOutRecurringBuy(
+                  sAnalytics.setupRecurringBuyView(
+                    input.toCurrency.description,
+                    Source.successScreen,
+                  );
+
+                  showActionWithoutRecurringBuy(
                     title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                     then: (_) {
                       if (!shouldPop.value) navigateToRouter(context.read);
@@ -101,6 +107,12 @@ class RecurringSuccessScreen extends HookWidget {
                     context: context,
                     onItemTap: (recurringType) {
                       shouldPop.value = true;
+
+                      sAnalytics.pickRecurringBuyFrequency(
+                        assetName: input.toCurrency.description,
+                        frequency: recurringType.toFrequency,
+                        source: Source.successScreen,
+                      );
 
                       navigatorPushReplacement(
                         context,
@@ -117,6 +129,10 @@ class RecurringSuccessScreen extends HookWidget {
                         ),
                       );
                     },
+                    onDissmis: () => sAnalytics.closeRecurringBuySheet(
+                      input.toCurrency.description,
+                      Source.successScreen,
+                    ),
                   );
                 },
               ),

@@ -38,7 +38,7 @@ class RecurringSelector extends HookWidget {
         else
           GestureDetector(
             onTap: () {
-              showActionWithOutRecurringBuy(
+              showActionWithoutRecurringBuy(
                 context: context,
                 title:
                     '${intl.recurringSelector_withOutRecurringBuyTitle}?',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
@@ -153,7 +154,7 @@ class _WalletBodyState extends State<WalletBody>
                           );
                         }
                       } else {
-                        showActionWithOutRecurringBuy(
+                        showActionWithoutRecurringBuy(
                           title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                           context: context,
                           onItemTap: (RecurringBuysType type) {
@@ -169,6 +170,11 @@ class _WalletBodyState extends State<WalletBody>
                         );
                       }
                     } else {
+                      sAnalytics.setupRecurringBuyView(
+                        widget.currency.description,
+                        Source.walletDetails,
+                      );
+
                       kycAlertHandler.handle(
                         status: kycState.sellStatus,
                         kycVerified: kycState,

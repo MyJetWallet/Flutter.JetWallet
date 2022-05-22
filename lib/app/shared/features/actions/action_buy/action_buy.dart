@@ -110,7 +110,7 @@ class _ActionBuy extends HookWidget {
         currency.description,
       );
       if (showRecurring) {
-        showActionWithOutRecurringBuy(
+        showActionWithoutRecurringBuy(
           context: context,
           title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
           onItemTap: (RecurringBuysType type) {

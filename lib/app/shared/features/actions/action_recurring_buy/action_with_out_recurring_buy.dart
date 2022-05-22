@@ -5,10 +5,11 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import 'components/without_recurring_buy_item.dart';
 
-void showActionWithOutRecurringBuy({
+void showActionWithoutRecurringBuy({
   bool showOneTimePurchase = false,
   RecurringBuysType? currentType,
   void Function(dynamic)? then,
+  VoidCallback? onDissmis,
   required BuildContext context,
   required String title,
   required void Function(RecurringBuysType) onItemTap,
@@ -28,6 +29,7 @@ void showActionWithOutRecurringBuy({
         showOneTimePurchase: showOneTimePurchase,
       )
     ],
+    onDissmis: onDissmis,
   );
 }
 
@@ -89,7 +91,7 @@ class _ActionRecurringBuy extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (showOneTimePurchase) ...[
-              WithOutRecurringBuysItem(
+              WithoutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
                   RecurringBuysType.oneTimePurchase,
                   context,
@@ -103,7 +105,7 @@ class _ActionRecurringBuy extends HookWidget {
                 child: SDivider(),
               ),
             ],
-            WithOutRecurringBuysItem(
+            WithoutRecurringBuysItem(
               primaryText: recurringBuysOperationName(
                 RecurringBuysType.daily,
                 context,
@@ -116,7 +118,7 @@ class _ActionRecurringBuy extends HookWidget {
             const SPaddingH24(
               child: SDivider(),
             ),
-            WithOutRecurringBuysItem(
+            WithoutRecurringBuysItem(
               primaryText: recurringBuysOperationName(
                 RecurringBuysType.weekly,
                 context,
@@ -129,7 +131,7 @@ class _ActionRecurringBuy extends HookWidget {
             const SPaddingH24(
               child: SDivider(),
             ),
-            WithOutRecurringBuysItem(
+            WithoutRecurringBuysItem(
               primaryText: recurringBuysOperationName(
                 RecurringBuysType.biWeekly,
                 context,
@@ -142,7 +144,7 @@ class _ActionRecurringBuy extends HookWidget {
             const SPaddingH24(
               child: SDivider(),
             ),
-            WithOutRecurringBuysItem(
+            WithoutRecurringBuysItem(
               primaryText: recurringBuysOperationName(
                 RecurringBuysType.monthly,
                 context,

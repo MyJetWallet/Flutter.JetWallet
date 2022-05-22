@@ -272,14 +272,15 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                         : intl.curencyBuy_NumericKeyboardButtonName2,
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
-                    widget.currency.description,
-                    state.selectedPaymentMethod?.type.name ??
-                        intl.curencyBuy_crypto,
-                    formatCurrencyStringAmount(
+                    assetName: widget.currency.description,
+                    paymentMethod:
+                        state.selectedPaymentMethod?.type.name ?? intl.curencyBuy_crypto,
+                    amount: formatCurrencyStringAmount(
                       prefix: state.selectedCurrency?.prefixSymbol,
                       value: state.inputValue,
                       symbol: state.selectedCurrencySymbol,
                     ),
+                    frequency: state.recurringBuyType.toFrequency,
                   );
 
                   if (state.selectedPaymentMethod != null) {

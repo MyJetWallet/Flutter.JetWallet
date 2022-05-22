@@ -213,6 +213,7 @@ class MarketDetails extends HookWidget {
                   context: context,
                 ),
                 type: recurringNotifier.type(currency.symbol),
+                topMargin: 0,
                 onTap: () {
                   // Todo: need refactor
                   if (kycState.sellStatus ==
@@ -236,7 +237,7 @@ class MarketDetails extends HookWidget {
                         );
                       }
                     } else {
-                      showActionWithOutRecurringBuy(
+                      showActionWithoutRecurringBuy(
                         title: intl.recurringBuysName_empty,
                         context: context,
                         onItemTap: (RecurringBuysType type) {
@@ -252,6 +253,11 @@ class MarketDetails extends HookWidget {
                       );
                     }
                   } else {
+                    sAnalytics.setupRecurringBuyView(
+                      currency.description,
+                      Source.assetScreen,
+                    );
+
                     kycAlertHandler.handle(
                       status: kycState.sellStatus,
                       kycVerified: kycState,

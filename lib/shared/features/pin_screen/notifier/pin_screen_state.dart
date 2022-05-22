@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../model/pin_box_enum.dart';
-import '../model/pin_lock_enum.dart';
 import '../view/components/shake_widget/shake_widget.dart';
 import 'pin_screen_union.dart';
 
@@ -28,11 +27,6 @@ class PinScreenState with _$PinScreenState {
 
     /// How to animate pinState
     @Default(PinBoxEnum.empty) PinBoxEnum pinState,
-
-    /// After 5 wrong attempts increases stage of lock on entering PIN
-    /// Flow: 0 -> 1 -> 5 -> 30 -> 60 -> 120
-    /// resets only if state is disposed or pin entered successfully
-    @Default(PinLockEnum.none) PinLockEnum pinLock,
 
     /// in seconds. if lockTime > 0; block input
     @Default(0) int lockTime,

@@ -10,7 +10,6 @@ import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
-import 'components/mailing_checkbox/mailing_checkbox.dart';
 import 'components/referral_code/referral_code.dart';
 import 'register_password_screen.dart';
 
@@ -93,7 +92,7 @@ class Register extends HookWidget {
                 ),
                 const SpaceH19(),
                 const ReferralCode(),
-                const Spacer(),
+                const SpaceH36(),
                 Container(
                   color: colors.grey5,
                   child: SPaddingH24(
@@ -112,18 +111,6 @@ class Register extends HookWidget {
                       },
                       onPrivacyPolicyTap: () {
                         launchURL(context, privacyPolicyLink);
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  color: colors.grey5,
-                  child: SPaddingH24(
-                    child: MailingCheckbox(
-                      isChecked: credentials.mailingChecked,
-                      onCheckboxTap: () {
-                        _scrollToBottom();
-                        credentialsN.checkMailing();
                       },
                     ),
                   ),

@@ -1,9 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
@@ -40,11 +42,14 @@ class ActionRecurringInfoDetails extends HookWidget {
         TransactionDetailsItem(
           text: intl.actionReccuringInfoDetails_amount,
           value: TransactionDetailsValueText(
-            text: '${sellCurrency.prefixSymbol ?? ''}'
-                '${recurringItem.fromAmount} '
-                '${sellCurrency.prefixSymbol != null
-                    ? ''
-                    : sellCurrency.symbol}',
+            text: volumeFormat(
+              prefix: sellCurrency.prefixSymbol,
+              decimal: Decimal.parse(
+                recurringItem.fromAmount.toString(),
+              ),
+              accuracy: sellCurrency.accuracy,
+              symbol: sellCurrency.symbol,
+            ),
           ),
         ),
         const SpaceH14(),

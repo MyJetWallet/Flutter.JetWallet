@@ -45,13 +45,14 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
     final intl = context.read(intlPod);
     notifier.updateTimerAnimation(_animationController);
     sAnalytics.previewBuyView(
-      widget.input.toCurrency.description,
-      intl.previewBuyWithAsset_crypto,
-      formatCurrencyStringAmount(
+      assetName: widget.input.toCurrency.description,
+      paymentMethod: intl.previewBuyWithAsset_crypto,
+      amount: formatCurrencyStringAmount(
         prefix: widget.input.fromCurrency.prefixSymbol,
         value: widget.input.amount,
         symbol: widget.input.fromCurrency.symbol,
       ),
+      frequency: widget.input.recurringType.toFrequency,
     );
     super.initState();
   }
