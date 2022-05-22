@@ -32,8 +32,8 @@ class PaymentMethods extends HookWidget {
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
         secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryText}?',
-        primaryButtonName: intl.delete,
-        secondaryButtonName: intl.cancel,
+        primaryButtonName: intl.paymentMethod_delete,
+        secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,
         onPrimaryButtonTap: onDelete,
         onSecondaryButtonTap: () => Navigator.pop(context),
@@ -52,11 +52,11 @@ class PaymentMethods extends HookWidget {
     }
 
     return SPageFrame(
-      loaderText: intl.pleaseWait,
+      loaderText: intl.paymentMethods_pleaseWait,
       loading: loader.value,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.paymentMethods,
+          title: intl.paymentMethods_paymentMethods,
         ),
       ),
       child: state.union.maybeWhen(
@@ -66,7 +66,7 @@ class PaymentMethods extends HookWidget {
               children: [
                 const Spacer(),
                 Text(
-                  intl.noSavedCards,
+                  intl.paymentMethods_noSavedCards,
                   style: sTextH3Style,
                 ),
                 Text(
@@ -94,7 +94,7 @@ class PaymentMethods extends HookWidget {
                   children: [
                     SPaddingH24(
                       child: Text(
-                        intl.savedCards,
+                        intl.paymentMethods_savedCards,
                         style: sSubtitle3Style.copyWith(
                           color: colors.grey1,
                         ),

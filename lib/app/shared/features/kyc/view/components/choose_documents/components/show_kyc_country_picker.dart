@@ -44,7 +44,7 @@ class _SearchPinned extends HookWidget {
         ),
         SStandardField(
           autofocus: true,
-          labelText: intl.search,
+          labelText: intl.showKycCountryPicker_search,
           onChanged: (value) {
             notifier.updateCountryNameSearch(value);
           },

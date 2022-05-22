@@ -73,8 +73,9 @@ void showStartEarnOptions({
           }
         },
         icon: const SActionBuyIcon(),
-        name: '${intl.buy} ${currency.description}',
-        description: intl.showStartEarnOptions_description1,
+        name: '${intl.showStartEarnOptions_buy} ${currency.description}',
+        description:
+            intl.showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform,
       ),
       SActionItem(
         onTap: () {
@@ -83,7 +84,7 @@ void showStartEarnOptions({
             navigatorPushReplacement(
               context,
               CryptoDeposit(
-                header: intl.receive,
+                header: intl.showStartEarnOptions_receive,
                 currency: currency,
               ),
             );
@@ -96,7 +97,7 @@ void showStartEarnOptions({
               currentNavigate: () => navigatorPushReplacement(
                 context,
                 CryptoDeposit(
-                  header: intl.receive,
+                  header: intl.showStartEarnOptions_receive,
                   currency: currency,
                 ),
               ),
@@ -104,8 +105,8 @@ void showStartEarnOptions({
           }
         },
         icon: const SActionDepositIcon(),
-        name: '${intl.receive} ${currency.description}',
-        description: intl.showStartEarnOptions_description2,
+        name: '${intl.showStartEarnOptions_receive} ${currency.description}',
+        description: intl.showStartEarnOptions_depositCryptoFromAnotherWallet,
       ),
       const SpaceH40(),
     ],
@@ -123,7 +124,7 @@ class _EarnStartPinned extends HookWidget {
       children: [
         Expanded(
           child: Text(
-            intl.earnBody_text1,
+            intl.showStartEarnOptions_startEarn,
             style: sTextH4Style,
           ),
         ),

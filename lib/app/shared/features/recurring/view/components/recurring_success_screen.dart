@@ -77,7 +77,7 @@ class RecurringSuccessScreen extends HookWidget {
                 baseline: 31.4,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
-                  intl.orderProcessing,
+                  intl.recurringSuccessScreen_orderProcessing,
                   maxLines: 10,
                   textAlign: TextAlign.center,
                   style: sBodyText1Style.copyWith(

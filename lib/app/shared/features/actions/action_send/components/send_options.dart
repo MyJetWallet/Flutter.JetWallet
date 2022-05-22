@@ -19,7 +19,7 @@ void showSendOptions(
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
-      name: intl.sendTo,
+      name: intl.sendOptions_sendTo,
     ),
     children: [
       _SendOptions(

@@ -36,7 +36,7 @@ class WalletCardCollapsed extends HookWidget {
           SBaselineChild(
             baseline: 40,
             child: Text(
-              isInProgress ? '${intl.balanceInProcess_text1}...'
+              isInProgress ? '${intl.walletCardCollapsed_balanceInProcess}...'
                   : currency.volumeBaseBalance(baseCurrency),
               style: sTextH5Style,
               maxLines: 1,

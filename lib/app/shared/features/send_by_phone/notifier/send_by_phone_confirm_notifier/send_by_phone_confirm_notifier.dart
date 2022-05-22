@@ -138,8 +138,9 @@ class SendByPhoneConfirmNotifier
     return SuccessScreen.push(
       context: _context,
       secondaryText:
-          '${intl.your} ${currency.symbol} ${intl.send} '
-              '${intl.requestHasBeenSubmitted}',
+          '${intl.sendByPhoneConfirmNotifier_your} ${currency.symbol}'
+              ' ${intl.sendByPhoneConfirmNotifier_send} '
+              '${intl.sendByPhoneConfirmNotifier_requestHasBeenSubmitted}',
       then: () {
         if (!_receiverIsRegistered) {
           navigatorPush(
@@ -159,9 +160,10 @@ class SendByPhoneConfirmNotifier
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.failure,
-      secondaryText: '${intl.failedTo} ${intl.send}',
-      primaryButtonName: intl.editOrder,
+      primaryText: intl.sendByPhoneConfirmNotifier_failure,
+      secondaryText: '${intl.sendByPhoneConfirmNotifier_failedTo}'
+          ' ${intl.sendByPhoneConfirmNotifier_send}',
+      primaryButtonName: intl.sendByPhoneConfirmNotifier_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -173,7 +175,7 @@ class SendByPhoneConfirmNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.close,
+      secondaryButtonName: intl.sendByPhoneConfirmNotifier_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

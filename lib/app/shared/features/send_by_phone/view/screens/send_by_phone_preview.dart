@@ -42,12 +42,14 @@ class SendByPhonePreview extends HookWidget {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title: '${intl.send} ${currency.description} ${intl.byPhone}',
+              title: '${intl.sendByPhonePreview_send} ${currency.description}'
+                  ' ${intl.sendByPhonePreview_byPhone}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title: '${intl.send} ${currency.description} ${intl.byPhone}',
+              title: '${intl.sendByPhonePreview_send} ${currency.description}'
+                  ' ${intl.sendByPhonePreview_byPhone}',
             );
           },
         ),
@@ -62,12 +64,12 @@ class SendByPhonePreview extends HookWidget {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: intl.youSendTo,
+                    name: intl.sendByPhonePreview_youSendTo,
                     value: state.pickedContact!.phoneNumber,
                     valueDescription: state.pickedContact!.name,
                   ),
                   SActionConfirmText(
-                    name: intl.amountToSend,
+                    name: intl.sendByPhonePreview_amountToSend,
                     baseline: 35.0,
                     value: volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -80,7 +82,7 @@ class SendByPhonePreview extends HookWidget {
                   const SDivider(),
                   const SpaceH4(),
                   SActionConfirmText(
-                    name: intl.total,
+                    name: intl.sendByPhonePreview_total,
                     baseline: 35.0,
                     value: volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -93,7 +95,7 @@ class SendByPhonePreview extends HookWidget {
                   const SpaceH35(),
                   SPrimaryButton2(
                     active: !state.loading,
-                    name: intl.confirm,
+                    name: intl.sendByPhonePreview_confirm,
                     onTap: () => notifier.send(),
                   ),
                   const SpaceH24(),

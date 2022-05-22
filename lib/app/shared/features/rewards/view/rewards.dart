@@ -31,7 +31,7 @@ class Rewards extends HookWidget {
 
     return SPageFrameWithPadding(
       header: SSmallHeader(
-        title: intl.rewards,
+        title: intl.rewards_rewards,
       ),
       child: ListView(
         padding: EdgeInsets.zero,
@@ -59,7 +59,7 @@ class Rewards extends HookWidget {
                     context,
                     InfoWebView(
                       link: infoRewardsLink,
-                      title: intl.rewards,
+                      title: intl.rewards_rewards,
                     ),
                   );
                 },
@@ -97,12 +97,12 @@ class Rewards extends HookWidget {
                     item.referralState!.descriptionLink,
                   );
                 },
-                referralStatsText: intl.referralStats,
-                referralsInvitedText: intl.referralsInvited,
-                referralsActivatedText: intl.referralActivated,
-                bonusEarnedText: intl.bonusEarned,
-                commissionEarnedText: intl.commissionEarned,
-                totalText: intl.total,
+                referralStatsText: intl.rewards_referralStats,
+                referralsInvitedText: intl.rewards_referralsInvited,
+                referralsActivatedText: intl.rewards_referralActivated,
+                bonusEarnedText: intl.rewards_bonusEarned,
+                commissionEarnedText: intl.rewards_commissionEarned,
+                totalText: intl.rewards_total,
               ),
               const SpaceH20(),
             ],

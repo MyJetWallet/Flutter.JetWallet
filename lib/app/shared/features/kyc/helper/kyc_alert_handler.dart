@@ -57,11 +57,11 @@ class KycAlertHandler {
     showKycPopup(
       context: context,
       imageAsset: verifyYourProfileAsset,
-      primaryText: '${intl.verifyYourProfile}!',
+      primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
       secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
           '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
       primaryButtonName: intl.kycAlertHandler_continue,
-      secondaryButtonName: intl.later,
+      secondaryButtonName: intl.kycAlertHandler_later,
       activePrimaryButton: kycVerified.requiredVerifications.isNotEmpty,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
@@ -85,7 +85,7 @@ class KycAlertHandler {
       imageAsset: verifyingNowAsset,
       primaryText: intl.kycAlertHandler_showVerifyingAlertPrimaryText,
       secondaryText: intl.kycAlertHandler_showVerifyingAlertSecondaryText,
-      primaryButtonName: intl.done,
+      primaryButtonName: intl.kycAlertHandler_done,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
       },
@@ -102,11 +102,11 @@ class KycAlertHandler {
     showKycPopup(
       context: context,
       imageAsset: verifyYourProfileAsset,
-      primaryText: '${intl.verifyYourProfile}!',
+      primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
       secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
           '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
       primaryButtonName: intl.kycAlertHandler_continue,
-      secondaryButtonName: intl.later,
+      secondaryButtonName: intl.kycAlertHandler_later,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
         _navigateVerifiedNavigate(
@@ -129,10 +129,10 @@ class KycAlertHandler {
 
     showKycPopup(
       context: context,
-      primaryText: '${intl.youAreBlocked}!',
+      primaryText: '${intl.kycAlertHandler_youAreBlocked}!',
       secondaryText: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1}\n'
           '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
-      primaryButtonName: intl.support,
+      primaryButtonName: intl.kycAlertHandler_support,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
         Crisp.push(
@@ -152,7 +152,7 @@ class KycAlertHandler {
     if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
       SetPhoneNumber.push(
         context: context,
-        successText: intl.factorVerificationEnabled,
+        successText: intl.kycAlertHandler_factorVerificationEnabled,
         then: () => KycVerifyYourProfile.push(
           context: context,
           requiredVerifications: requiredVerifications,
@@ -225,19 +225,19 @@ class KycAlertHandler {
     for (var i = 0; i < requiredVerifications.length; i++) {
       if (requiredVerifications[i] == RequiredVerified.proofOfIdentity) {
         requiredVerified.add(
-          _documentText(intl.verifyYourIdentity, i),
+          _documentText(intl.kycAlertHandler_verifyYourIdentity, i),
         );
       } else if (requiredVerifications[i] == RequiredVerified.proofOfAddress) {
         requiredVerified.add(
-          _documentText(intl.addressVerification, i),
+          _documentText(intl.kycAlertHandler_addressVerification, i),
         );
       } else if (requiredVerifications[i] == RequiredVerified.proofOfFunds) {
         requiredVerified.add(
-          _documentText(intl.proofSourceOfFunds, i),
+          _documentText(intl.kycAlertHandler_proofSourceOfFunds, i),
         );
       } else if (requiredVerifications[i] == RequiredVerified.proofOfPhone) {
         requiredVerified.add(
-          _documentText(intl.secureYourAccount, i),
+          _documentText(intl.kycAlertHandler_secureYourAccount, i),
         );
       }
     }

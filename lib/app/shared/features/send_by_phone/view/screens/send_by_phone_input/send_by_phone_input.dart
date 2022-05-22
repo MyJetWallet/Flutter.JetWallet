@@ -74,7 +74,9 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
       header: SPaddingH24(
         child: SMegaHeader(
           titleAlign: TextAlign.start,
-          title: '${intl.send} ${widget.currency.description} ${intl.byPhone}',
+          title:
+              '${intl.sendByPhoneInput_send} ${widget.currency.description}'
+                  ' ${intl.sendByPhoneInput_byPhone}',
         ),
       ),
       child: Stack(
@@ -95,7 +97,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                           width: 100,
                           child: AbsorbPointer(
                             child: SStandardField(
-                              labelText: intl.code,
+                              labelText: intl.sendByPhoneInput_code,
                               readOnly: true,
                               hideClearButton: true,
                               controller: input.dialCodeController,
@@ -110,7 +112,7 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                           },
                           child: AbsorbPointer(
                             child: SStandardField(
-                              labelText: intl.phoneNumber,
+                              labelText: intl.sendByPhoneInput_phoneNumber,
                               readOnly: true,
                               hideClearButton: true,
                               controller: input.phoneNumberController,

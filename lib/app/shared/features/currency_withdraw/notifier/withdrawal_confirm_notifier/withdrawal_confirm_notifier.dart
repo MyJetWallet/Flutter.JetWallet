@@ -131,8 +131,9 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
     return SuccessScreen.push(
       context: _context,
       secondaryText:
-          '${intl.your} ${withdrawal.currency.symbol} $_verb '
-              '${intl.requestHasBeenSubmitted}',
+          '${intl.withdrawalConfirmNotifier_your} ${withdrawal.currency.symbol}'
+              ' $_verb '
+              '${intl.withdrawalConfirmNotifier_requestHasBeenSubmitted}',
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -144,9 +145,9 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.failure,
-      secondaryText: '${intl.failedTo} $_verb',
-      primaryButtonName: intl.editOrder,
+      primaryText: intl.withdrawalConfirmNotifier_failure,
+      secondaryText: '${intl.withdrawalConfirmNotifier_failedTo} $_verb',
+      primaryButtonName: intl.withdrawalConfirmNotifier_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -158,7 +159,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.close,
+      secondaryButtonName: intl.withdrawalConfirmNotifier_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

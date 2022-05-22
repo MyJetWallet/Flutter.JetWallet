@@ -29,7 +29,7 @@ class OpenEmailAppButton extends HookWidget {
         ),
         child: Center(
           child: Text(
-            intl.openEmailApp,
+            intl.openEmailAppButton_openEmailApp,
             style: const TextStyle(
               fontSize: 16.0,
               color: Colors.black54,

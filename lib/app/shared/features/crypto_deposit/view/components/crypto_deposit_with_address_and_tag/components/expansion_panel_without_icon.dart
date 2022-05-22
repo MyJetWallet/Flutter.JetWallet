@@ -258,7 +258,7 @@ class _ExpansionPanelListWithoutIconState
     if (widget._allowOnlyOnePanelOpen) {
       assert(
         _allIdentifiersUnique(),
-        useProvider(intlPod).expensionPanelWithoutIcon_text1,
+        useProvider(intlPod).expansionPanelWithoutIcon_text1,
       );
       if (widget.initialOpenPanelValue != null) {
         _currentOpenPanel = searchPanelByValue(
@@ -276,7 +276,7 @@ class _ExpansionPanelListWithoutIconState
     if (widget._allowOnlyOnePanelOpen) {
       assert(
         _allIdentifiersUnique(),
-        useProvider(intlPod).expensionPanelWithoutIcon_text1,
+        useProvider(intlPod).expansionPanelWithoutIcon_text1,
       );
       // If the previous widget was non-radio ExpansionPanelList, initialize the
       // open panel to widget.initialOpenPanelValue
@@ -348,7 +348,7 @@ class _ExpansionPanelListWithoutIconState
   Widget build(BuildContext context) {
     assert(
       kElevationToShadow.containsKey(widget.elevation),
-      context.read(intlPod).expensionPanelWithoutIcon_text2,
+      context.read(intlPod).expansionPanelWithoutIcon_text2,
     );
 
     final items = <MergeableMaterialItem>[];

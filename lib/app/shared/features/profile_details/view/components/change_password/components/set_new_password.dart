@@ -39,7 +39,7 @@ class SetNewPassword extends HookWidget {
           done: () {
             SuccessScreen.push(
               context: context,
-              secondaryText: intl.newPasswordSet,
+              secondaryText: intl.setNewPassword_newPasswordSet,
             );
           },
         );
@@ -53,7 +53,7 @@ class SetNewPassword extends HookWidget {
           ),
         ),
         loading: loading.value,
-        loaderText: intl.pleaseWait,
+        loaderText: intl.setNewPassword_pleaseWait,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -65,7 +65,7 @@ class SetNewPassword extends HookWidget {
                     changePasswordN.setNewPassword(password);
                     credentialsN.updateAndValidatePassword(password);
                   },
-                  labelText: intl.createANewPassword,
+                  labelText: intl.setNewPassword_createANewPassword,
                   autofocus: true,
                 ),
               ),
@@ -79,7 +79,7 @@ class SetNewPassword extends HookWidget {
             SPaddingH24(
               child: SPrimaryButton2(
                 active: changePassword.isNewPasswordButtonActive,
-                name: intl.setNewPassword,
+                name: intl.setNewPassword_setNewPassword,
                 onTap: () {
                   loading.value.startLoading();
                   changePasswordN.confirmNewPassword();

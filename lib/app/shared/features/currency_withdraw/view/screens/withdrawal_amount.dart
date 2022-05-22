@@ -74,7 +74,7 @@ class WithdrawalAmount extends HookWidget {
                       symbol: state.baseCurrency!.symbol,
                     )}',
                     error: state.inputError == InputError.enterHigherAmount
-                        ? '${intl.enterMoreThan} '
+                        ? '${intl.withdrawalAmount_enterMoreThan} '
                         '${currency.withdrawalFeeWithSymbol}'
                         : state.inputError.value,
                     isErrorActive: state.inputError.isActive,
@@ -87,7 +87,8 @@ class WithdrawalAmount extends HookWidget {
                   ),
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    '${intl.available}: ${currency.volumeAssetBalance}',
+                    '${intl.withdrawalAmount_available}:'
+                        ' ${currency.volumeAssetBalance}',
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
                     ),
@@ -127,7 +128,7 @@ class WithdrawalAmount extends HookWidget {
               color: colors.black,
             ),
             name: shortAddressForm(state.address),
-            description: '${currency.symbol} ${intl.wallet}',
+            description: '${currency.symbol} ${intl.withdrawalAmount_wallet}',
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -147,7 +148,8 @@ class WithdrawalAmount extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.valid,
-            submitButtonName: '${intl.preview} ${withdrawal.dictionary.verb}',
+            submitButtonName: '${intl.withdrawalAmount_preview}'
+                ' ${withdrawal.dictionary.verb}',
             onSubmitPressed: () {
               navigatorPush(
                 context,
@@ -176,7 +178,7 @@ class WithdrawalAmount extends HookWidget {
       addressIsInternal: isInternal,
     );
 
-    final youWillReceive = '${intl.youWillReceive}: $result';
+    final youWillReceive = '${intl.withdrawalAmount_youWillReceive}: $result';
 
     if (isInternal) {
       return '${intl.noFee} / $youWillReceive';

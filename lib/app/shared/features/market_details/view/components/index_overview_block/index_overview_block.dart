@@ -25,7 +25,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 49,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                intl.indexOverview,
+                intl.indexOverviewBlock_indexOverview,
                 style: sTextH4Style,
               ),
             ),
@@ -36,7 +36,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 40,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                intl.type,
+                intl.indexOverviewBlock_type,
                 style: sBodyText2Style.copyWith(color: colors.grey1),
               ),
             ),
@@ -47,7 +47,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 19,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                intl.equalWeightedIndex,
+                intl.indexOverviewBlock_equalWeightedIndex,
                 style: sBodyText1Style,
               ),
             ),
@@ -58,7 +58,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 36,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                intl.rebalancing,
+                intl.indexOverviewBlock_rebalancing,
                 style: sBodyText2Style.copyWith(color: colors.grey1),
               ),
             ),
@@ -69,7 +69,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 19,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                intl.quarterlyRebalancing,
+                intl.indexOverviewBlock_quarterlyRebalancing,
                 style: sBodyText1Style,
               ),
             ),

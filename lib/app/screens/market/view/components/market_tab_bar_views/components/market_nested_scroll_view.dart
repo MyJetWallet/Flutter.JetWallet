@@ -79,7 +79,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
               ),
               fadeOutWidget: const MarketHeaderStats(),
               permanentWidget: SMarketHeaderClosed(
-                title: intl.market,
+                title: intl.marketNestedScrollView_market,
               ),
             ),
           ),

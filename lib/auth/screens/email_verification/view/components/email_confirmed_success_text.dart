@@ -25,7 +25,7 @@ class EmailConfirmedSuccessText extends HookWidget {
           baseline: 31.4,
           baselineType: TextBaseline.alphabetic,
           child: Text(
-            intl.yourEmailAddress,
+            intl.emailConfirmedSuccessText_yourEmailAddress,
             style: sBodyText1Style.copyWith(
               color: colors.grey1,
             ),
@@ -38,7 +38,7 @@ class EmailConfirmedSuccessText extends HookWidget {
           ),
         ),
         Text(
-          intl.isConfirmed,
+          intl.emailConfirmedSuccessText_isConfirmed,
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),

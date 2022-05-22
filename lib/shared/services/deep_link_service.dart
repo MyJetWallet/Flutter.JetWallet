@@ -242,7 +242,7 @@ class DeepLinkService {
         onShare: () {
           Share.share(referralInfo.referralLink);
         },
-        text: intl.share,
+        text: intl.deepLinkService_share,
       ),
       children: [
         SReferralInviteBody(
@@ -256,9 +256,9 @@ class DeepLinkService {
               referralInfo.descriptionLink,
             );
           },
-          readMoreText: intl.readMore,
-          copiedText: intl.referralLinkCopied,
-          referralText: intl.referralLink,
+          readMoreText: intl.deepLinkService_readMore,
+          copiedText: intl.deepLinkService_referralLinkCopied,
+          referralText: intl.deepLinkService_referralLink,
         ),
       ],
     );

@@ -12,6 +12,6 @@ Future<void> launchURL(BuildContext context, String url) async {
   if (await canLaunchUrl(uri)) {
     await launchUrl(uri);
   } else {
-    showPlainSnackbar(context, '${intl.could_not_launch} $url');
+    showPlainSnackbar(context, '${intl.launchUrl_couldNotLaunch} $url');
   }
 }

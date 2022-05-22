@@ -38,7 +38,7 @@ class ActionRecurringInfoDetails extends HookWidget {
     return Column(
       children: [
         TransactionDetailsItem(
-          text: intl.amount,
+          text: intl.actionReccuringInfoDetails_amount,
           value: TransactionDetailsValueText(
             text: '${sellCurrency.prefixSymbol ?? ''}'
                 '${recurringItem.fromAmount} '
@@ -52,7 +52,7 @@ class ActionRecurringInfoDetails extends HookWidget {
           text: intl.account_recurringBuy,
           value: TransactionDetailsValueText(
             text: recurringItem.status == RecurringBuysStatus.paused
-                ? intl.paused
+                ? intl.actionRecurringInfoDetails_paused
                 : '${recurringBuysOperationName(
                     recurringItem.scheduleType,
                     context,
@@ -62,7 +62,7 @@ class ActionRecurringInfoDetails extends HookWidget {
         if (recurringItem.nextExecution != null) ...[
           const SpaceH14(),
           TransactionDetailsItem(
-            text: intl.nextPayment,
+            text: intl.actionRecurringInfoDetails_nextPayment,
             value: TransactionDetailsValueText(
               text:
                   '${formatDateToDMYFromDate(recurringItem.nextExecution!)} - '
@@ -72,7 +72,7 @@ class ActionRecurringInfoDetails extends HookWidget {
         ],
         const SpaceH14(),
         TransactionDetailsItem(
-          text: intl.averagePrice,
+          text: intl.actionRecurringInfoDetails_averagePrice,
           value: TransactionDetailsValueText(
             text: notifier.price(
               asset: baseCurrency.symbol,

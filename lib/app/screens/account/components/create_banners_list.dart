@@ -27,7 +27,7 @@ List<Widget> createBannersList({
         },
         imageUrl: accountProfileAsset,
         color: colors.greenLight,
-        header: intl.verifyYourProfile,
+        header: intl.createBannersList_verifyYourProfile,
         description: intl.createBanners_bannerText1,
       ),
     );
@@ -55,7 +55,8 @@ List<Widget> createBannersList({
         },
         imageUrl: lockerAsset,
         color: colors.blueLight,
-        header: '${intl.createBanners_enable2Factor}\n${intl.authentication}',
+        header: '${intl.createBanners_enable2Factor}\n'
+            '${intl.createBanners_authentication}',
         description: intl.createBanners_bannerText3,
       ),
     );

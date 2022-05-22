@@ -51,7 +51,7 @@ class EmptyPortfolioBody extends HookWidget {
                     const EmptyPortfolioBodyTitle(),
                     const SpaceH17(),
                     Text(
-                      '${intl.emptyPortfolioBody_text1Part1}!\n'
+                      '${intl.emptyPortfolioBody_cryptoWorkForYou}!\n'
                           '${intl.emptyPortfolioBody_text1Part2}.',
                       maxLines: 3,
                       textAlign: TextAlign.center,
@@ -62,7 +62,7 @@ class EmptyPortfolioBody extends HookWidget {
                     const SpaceH40(),
                     SPrimaryButton1(
                       active: true,
-                      name: intl.earnBody_text1,
+                      name: intl.emptyPortfolioBody_startEarn,
                       onTap: () {
                         showStartEarnBottomSheet(
                           context: context,

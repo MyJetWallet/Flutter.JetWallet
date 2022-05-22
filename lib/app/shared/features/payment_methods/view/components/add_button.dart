@@ -20,7 +20,7 @@ class AddButton extends HookWidget {
 
     return SSecondaryButton1(
       active: true,
-      name: intl.addBankCard,
+      name: intl.addButton_addBankCard,
       icon: SActionBuyIcon(
         color: colors.black,
       ),

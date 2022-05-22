@@ -192,7 +192,7 @@ class PreviewBuyWithAssetNotifier
     if (state.recurring) {
       SuccessScreen.push(
         context: _context,
-        secondaryText: intl.orderProcessing,
+        secondaryText: intl.previewBuyWithAssetNotifier_orderProcessing,
         then: () {
           read(navigationStpod).state = 1;
         },
@@ -225,9 +225,9 @@ class PreviewBuyWithAssetNotifier
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.failure,
+      primaryText: intl.previewBuyWithAssetNotifier_failure,
       secondaryText: error.cause,
-      primaryButtonName: intl.editOrder,
+      primaryButtonName: intl.previewBuyWithAssetNotifier_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -242,7 +242,7 @@ class PreviewBuyWithAssetNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.close,
+      secondaryButtonName: intl.previewBuyWithAssetNotifier_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
@@ -251,10 +251,11 @@ class PreviewBuyWithAssetNotifier
     final intl = read(intlPod);
 
     if (input.recurringType == RecurringBuysType.oneTimePurchase) {
-      return '${intl.confirmBuy} ${input.toCurrency.description}';
+      return '${intl.previewBuyWithAssetNotifier_confirmBuy}'
+          ' ${input.toCurrency.description}';
     } else {
-      return '${intl.confirm} ${input.toCurrency.description} '
-          '${intl.recurringBuysName_active}';
+      return '${intl.previewBuyWithAssetNotifier_confirm}'
+          ' ${input.toCurrency.description} ${intl.recurringBuysName_active}';
     }
   }
 

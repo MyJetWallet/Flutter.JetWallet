@@ -85,7 +85,7 @@ class _CrispState extends State<Crisp> {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.support,
+          title: intl.crisp_support,
         ),
       ),
       child: CrispView(

@@ -45,12 +45,16 @@ class WithdrawalPreview extends HookWidget {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title: '${intl.confirm} $verb ${currency.description}',
+              title:
+                  '${intl.withdrawalPreview_confirm} $verb'
+                      ' ${currency.description}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title: '${intl.confirm} $verb ${currency.description}',
+              title:
+                  '${intl.withdrawalPreview_confirm} $verb'
+                      ' ${currency.description}',
             );
           },
         ),
@@ -69,7 +73,7 @@ class WithdrawalPreview extends HookWidget {
                     value: shortAddressForm(state.address),
                   ),
                   SActionConfirmText(
-                    name: intl.youWillReceive,
+                    name: intl.withdrawalPreview_youWillReceive,
                     baseline: 36.0,
                     value: userWillreceive(
                       currency: currency,
@@ -89,14 +93,14 @@ class WithdrawalPreview extends HookWidget {
                     child: SDivider(),
                   ),
                   SActionConfirmText(
-                    name: intl.total,
+                    name: intl.withdrawalPreview_total,
                     value: '${state.amount} ${currency.symbol}',
                     valueColor: colors.blue,
                   ),
                   const SpaceH36(),
                   SPrimaryButton2(
                     active: !state.loading,
-                    name: intl.confirm,
+                    name: intl.withdrawalPreview_confirm,
                     onTap: () => notifier.withdraw(),
                   ),
                   const SpaceH24(),

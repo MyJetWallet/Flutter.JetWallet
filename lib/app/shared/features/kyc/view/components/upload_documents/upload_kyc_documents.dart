@@ -79,13 +79,13 @@ class UploadKycDocuments extends HookWidget {
       },
       child: SPageFrame(
         loaderText: (loaderSuccess.value.value)
-            ? intl.done
-            : intl.pleaseWait,
+            ? intl.uploadKycDocuments_done
+            : intl.uploadKycDocuments_pleaseWait,
         loading: loader.value,
         loadSuccess: loaderSuccess.value,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: '${intl.upload} ${stringKycDocumentType(
+            title: '${intl.uploadKycDocuments_upload} ${stringKycDocumentType(
               activeDocument.document,
               context,
             )}',
@@ -105,8 +105,8 @@ class UploadKycDocuments extends HookWidget {
                         children: [
                           Text(
                             (state.numberSide == 0)
-                                ? intl.frontSide
-                                : intl.backSide,
+                                ? intl.uploadKycDocuments_frontSide
+                                : intl.uploadKycDocuments_backSide,
                             style: sSubtitle2Style,
                           ),
                         ],

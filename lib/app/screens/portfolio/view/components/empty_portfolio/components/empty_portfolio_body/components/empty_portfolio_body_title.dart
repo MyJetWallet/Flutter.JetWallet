@@ -21,20 +21,20 @@ class EmptyPortfolioBodyTitle extends HookWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: intl.earn,
+            text: intl.emptyPortfolioBodyTitle_earn,
             style: sTextH3Style.copyWith(
               color: colors.black,
             ),
           ),
           TextSpan(
-            text: ' ${intl.upTo1} '
+            text: ' ${intl.emptyPortfolioBodyTitle_upTo} '
                 '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
             style: sTextH3Style.copyWith(
               color: colors.green,
             ),
           ),
           TextSpan(
-            text: ' ${intl.interest}',
+            text: ' ${intl.emptyPortfolioBodyTitle_interest}',
             style: sTextH3Style.copyWith(
               color: colors.black,
             ),

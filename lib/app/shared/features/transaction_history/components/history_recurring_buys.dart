@@ -105,7 +105,7 @@ class HistoryRecurringBuys extends HookWidget {
                   children: [
                     const Spacer(),
                     Text(
-                      intl.noTransactionsYet,
+                      intl.historyRecurringBuys_noTransactionsYet,
                       style: sTextH3Style,
                     ),
                     Text(

@@ -20,9 +20,9 @@ void showUsePhonebookAlert({
       width: 180,
     ),
     onWillPop: onPopupQuit,
-    primaryText: '${intl.usePhonebook}?',
-    primaryButtonName: intl.usePhonebook,
-    secondaryButtonName: intl.enterManually,
+    primaryText: '${intl.showUsePhonebookAlert_usePhonebook}?',
+    primaryButtonName: intl.showUsePhonebookAlert_usePhonebook,
+    secondaryButtonName: intl.showUsePhonebookAlert_enterManually,
     secondaryText: '${intl.showContactsPermission_secondaryText1}\n\n'
         '${intl.showContactsPermission_secondaryText2}.',
     onPrimaryButtonTap: onUsePhonebook,

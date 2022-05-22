@@ -65,7 +65,7 @@ class _EmptyWalletState extends State<EmptyWallet>
         controller: animationController,
         child: SPageFrameWithPadding(
           header: SSmallHeader(
-            title: '${widget.currency.description} ${intl.wallet}',
+            title: '${widget.currency.description} ${intl.emptyWallet_wallet}',
           ),
           child: (widget.currency.apy.toDouble() == 0.0)
               ? EmptyWalletBody(

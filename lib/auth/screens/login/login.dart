@@ -88,7 +88,7 @@ class Login extends HookWidget {
         );
       },
       child: SPageFrame(
-        loaderText: intl.pleaseWait,
+        loaderText: intl.login_pleaseWait,
         loading: loader.value,
         color: colors.grey5,
         header: SPaddingH24(

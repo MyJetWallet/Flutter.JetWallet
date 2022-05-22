@@ -53,7 +53,7 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
       final intl = read(intlPod);
 
       read(sNotificationNotipod.notifier).showError(
-        intl.error_somethingWentWrongTryAgain,
+        intl.paymentMethodsNotifier_errorSomethingWentWrongTryAgain,
         id: 1,
       );
     }

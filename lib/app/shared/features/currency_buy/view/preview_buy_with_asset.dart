@@ -46,7 +46,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
     notifier.updateTimerAnimation(_animationController);
     sAnalytics.previewBuyView(
       widget.input.toCurrency.description,
-      intl.crypto,
+      intl.previewBuyWithAsset_crypto,
       formatCurrencyStringAmount(
         prefix: widget.input.fromCurrency.prefixSymbol,
         value: widget.input.amount,
@@ -130,7 +130,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: intl.youPay,
+                    name: intl.previewBuyWithAsset_youPay,
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
@@ -140,7 +140,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   ),
                   if (!state.recurring)
                     SActionConfirmText(
-                      name: intl.youGet,
+                      name: intl.previewBuyWithAsset_youGet,
                       baseline: 35.0,
                       contentLoading: state.union is QuoteLoading,
                       value: '≈ ${volumeFormat(
@@ -158,7 +158,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   ),
                   if (!state.recurring)
                     SActionConfirmText(
-                      name: intl.exchangeRate,
+                      name: intl.previewBuyWithAsset_exchangeRate,
                       baseline: 34.0,
                       contentLoading: state.union is QuoteLoading,
                       timerLoading: state.union is QuoteLoading,
@@ -190,7 +190,8 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     ),
                     const SpaceH20(),
                     Text(
-                      '${intl.theAmountOf} ${state.toAssetSymbol} '
+                      '${intl.previewBuyWith_theAmountOf}'
+                          ' ${state.toAssetSymbol} '
                           '${intl.previewBuyWith_text1}',
                       style: sCaptionTextStyle.copyWith(color: colors.grey3),
                       maxLines: 4,
@@ -199,7 +200,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                     const SDivider(),
                     const SpaceH5(),
                     SActionConfirmText(
-                      name: intl.nextPayment,
+                      name: intl.previewBuyWithAsset_nextPayment,
                       baseline: 35.0,
                       contentLoading: state.union is QuoteLoading,
                       value: '${convertDateToTomorrowOrDate(
@@ -217,7 +218,7 @@ class _PreviewBuyWithAssetState extends State<PreviewBuyWithAsset>
                   ],
                   SPrimaryButton2(
                     active: state.union is QuoteSuccess,
-                    name: intl.confirm,
+                    name: intl.previewBuyWithAsset_confirm,
                     onTap: () {
                       notifier.executeQuote();
                     },

@@ -29,7 +29,7 @@ class EmptySearchResult extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                intl.emptySearchResult_text1,
+                intl.emptySearchResult_noResultsFor,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,
                 ),

@@ -30,7 +30,8 @@ class AppVersionBox extends HookWidget {
           alignment: Alignment.center,
           height: 26.0,
           child: Text(
-            '${intl.version}: ${info.version} (${info.buildNumber})',
+            '${intl.appVersionBox_version}: ${info.version}'
+            ' (${info.buildNumber})',
             style: sCaptionTextStyle.copyWith(
               color: colors.grey1,
             ),

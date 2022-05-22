@@ -78,8 +78,8 @@ class KycSelfie extends HookWidget {
       },
       child: SPageFrame(
         loaderText: (loaderSuccess.value.value)
-            ? intl.done
-            : intl.pleaseWait,
+            ? intl.kycSelfie_done
+            : intl.kycSelfie_pleaseWait,
         loading: loader.value,
         loadSuccess: loaderSuccess.value,
         header: SPaddingH24(
@@ -149,7 +149,7 @@ class KycSelfie extends HookWidget {
                                     baselineType: TextBaseline.alphabetic,
                                     child: Text(
                                       '${intl.kycSelfie_faceForwardAndMakeSure}'
-                                      '${intl.clearlyVisible}',
+                                      '${intl.kycSelfie_clearlyVisible}',
                                       maxLines: 2,
                                       style: sBodyText1Style.copyWith(
                                         color: colors.grey1,
@@ -204,7 +204,7 @@ class KycSelfie extends HookWidget {
                   }
                 },
                 name: (state.isSelfieNotEmpty)
-                    ? intl.uploadPhoto
+                    ? intl.kycDocumentType_uploadPhoto
                     : intl.kycDocumentType_selfieImage,
                 active: true,
                 icon: (state.isSelfieNotEmpty)

@@ -113,7 +113,8 @@ class _WalletBodyState extends State<WalletBody>
                     ),
                     SPaddingH24(
                       child: SSmallHeader(
-                        title: '${widget.currency.description} ${intl.wallet}',
+                        title: '${widget.currency.description}'
+                            ' ${intl.walletBody_wallet}',
                       ),
                     ),
                   ],
@@ -185,7 +186,8 @@ class _WalletBodyState extends State<WalletBody>
                   children: [
                     const SpaceH36(),
                     Text(
-                      '${widget.currency.description} ${intl.transactions}',
+                      '${widget.currency.description}'
+                          ' ${intl.walletBody_transactions}',
                       style: sTextH4Style,
                     ),
                   ],

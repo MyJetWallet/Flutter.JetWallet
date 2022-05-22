@@ -46,7 +46,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 19,
             ),
             child: Text(
-              intl.myStats,
+              intl.indexHistoryBlock_myStats,
               style: sSubtitle3Style,
             ),
           ),
@@ -75,7 +75,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 63,
             ),
             child: Text(
-              intl.avgCost,
+              intl.indexHistoryBlock_avgCost,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -87,7 +87,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 93,
             ),
             child: Text(
-              intl.todaysReturn,
+              intl.indexHistoryBlock_todaysReturn,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -99,7 +99,7 @@ class IndexHistoryBlock extends HookWidget {
               top: 123,
             ),
             child: Text(
-              intl.totalReturn,
+              intl.indexHistoryBlock_totalReturn,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
               ),
@@ -113,7 +113,7 @@ class IndexHistoryBlock extends HookWidget {
                 top: 61,
               ),
               child: Text(
-                intl.comingSoon,
+                intl.indexHistoryBlock_comingSoon,
                 style: sBodyText1Style,
               ),
             ),
@@ -126,7 +126,7 @@ class IndexHistoryBlock extends HookWidget {
                 top: 91,
               ),
               child: Text(
-                intl.comingSoon,
+                intl.indexHistoryBlock_comingSoon,
                 style: sBodyText1Style,
               ),
             ),
@@ -139,7 +139,7 @@ class IndexHistoryBlock extends HookWidget {
                 top: 121,
               ),
               child: Text(
-                intl.comingSoon,
+                intl.indexHistoryBlock_comingSoon,
                 style: sBodyText1Style,
               ),
             ),

@@ -128,7 +128,8 @@ class TwoFaPhone extends HookWidget {
                   const SpaceH7(),
                   if (timer > 0 && !twoFa.showResend)
                     ResendInText(
-                      text: '${intl.twoFaPhone_youCanResendIn} $timer ${intl.twoFaPhone_seconds}',
+                      text: '${intl.twoFaPhone_youCanResendIn} $timer'
+                          ' ${intl.twoFaPhone_seconds}',
                     )
                   else ...[
                     ResendInText(

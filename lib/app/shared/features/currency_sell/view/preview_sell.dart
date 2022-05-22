@@ -88,7 +88,7 @@ class _PreviewSell extends State<PreviewSell>
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: intl.youPay,
+                    name: intl.previewSell_youPay,
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
@@ -97,7 +97,7 @@ class _PreviewSell extends State<PreviewSell>
                     ),
                   ),
                   SActionConfirmText(
-                    name: intl.youGet,
+                    name: intl.previewSell_youGet,
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading,
                     value: '≈ ${volumeFormat(
@@ -114,7 +114,7 @@ class _PreviewSell extends State<PreviewSell>
                     value: '${state.feePercent}%',
                   ),
                   SActionConfirmText(
-                    name: intl.exchangeRate,
+                    name: intl.previewSell_exchangeRate,
                     baseline: 34.0,
                     contentLoading: state.union is QuoteLoading,
                     timerLoading: state.union is QuoteLoading,
@@ -139,7 +139,7 @@ class _PreviewSell extends State<PreviewSell>
                   ],
                   SPrimaryButton2(
                     active: state.union is QuoteSuccess,
-                    name: intl.confirm,
+                    name: intl.previewSell_confirm,
                     onTap: () {
                       notifier.executeQuote();
                     },

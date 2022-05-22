@@ -49,10 +49,11 @@ class CryptoDepositWithAddress extends HookWidget {
           ),
           const Spacer(),
           SAddressFieldWithCopy(
-            header: '${currency.symbol} ${intl.walletAddress}',
+            header: '${currency.symbol}'
+                ' ${intl.cryptoDepositWithAddress_walletAddress}',
             value: shortAddressForm(deposit.address),
             realValue: deposit.address,
-            afterCopyText: intl.addressCopied,
+            afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
             valueLoading: deposit.union is Loading,
           ),
         ],

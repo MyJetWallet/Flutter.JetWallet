@@ -67,7 +67,7 @@ class Market extends HookWidget {
               alignment: FractionalOffset.bottomCenter,
               child: BottomTabs(
                 tabs: [
-                  BottomTab(text: intl.all),
+                  BottomTab(text: intl.market_all),
                   BottomTab(text: intl.market_bottomTabLabel2),
                   if (indices.isNotEmpty)
                     BottomTab(

@@ -54,7 +54,7 @@ class _ActionDeposit extends HookWidget {
         if (fiat.isNotEmpty) ...[
           const SpaceH10(),
           DepositCategoryDescription(
-            text: intl.fiat,
+            text: intl.actionDeposit_fiat,
           ),
           for (final currency in fiat)
             SWalletItem(
@@ -72,7 +72,7 @@ class _ActionDeposit extends HookWidget {
         if (crypto.isNotEmpty) ...[
           if (fiat.isEmpty) const SpaceH10(),
           DepositCategoryDescription(
-            text: intl.crypto,
+            text: intl.actionDeposit_crypto,
           ),
           for (final currency in crypto)
             SWalletItem(
@@ -88,7 +88,7 @@ class _ActionDeposit extends HookWidget {
                 navigatorPushReplacement(
                   context,
                   CryptoDeposit(
-                    header: intl.deposit,
+                    header: intl.actionDeposit_deposit,
                     currency: currency,
                   ),
                 );

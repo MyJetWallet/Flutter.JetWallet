@@ -30,7 +30,7 @@ class MarketStatsBlock extends HookWidget {
             baseline: 35,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              intl.marketStats,
+              intl.marketStatsBlock_marketStats,
               textAlign: TextAlign.start,
               style: sTextH4Style,
             ),
@@ -43,7 +43,7 @@ class MarketStatsBlock extends HookWidget {
               children: [
                 TableCell(
                   child: MarketStatsItem(
-                    name: intl.markCap,
+                    name: intl.marketStatsBlock_markCap,
                     value: '\$${formatNumber(marketInfo.marketCap.toDouble())}',
                   ),
                 ),
@@ -59,7 +59,7 @@ class MarketStatsBlock extends HookWidget {
               children: [
                 TableCell(
                   child: MarketStatsItem(
-                    name: intl.circSupply,
+                    name: intl.marketStatsBlock_circSupply,
                     value: formatNumber(marketInfo.supply.toDouble()),
                   ),
                 ),

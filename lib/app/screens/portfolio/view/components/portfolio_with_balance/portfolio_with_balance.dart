@@ -75,10 +75,10 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       bottomNavigationBar: BottomTabs(
         tabController: tabController,
         tabs: [
-          if (isAllTabsVisible) BottomTab(text: intl.all),
-          if (isCryptoVisible) BottomTab(text: intl.crypto),
-          if (isIndicesVisible) BottomTab(text: intl.market_bottomTabLabel3),
-          if (isFiatVisible) BottomTab(text: intl.fiat),
+         if (isAllTabsVisible) BottomTab(text: intl.portfolioWithBalance_all),
+         if (isCryptoVisible) BottomTab(text: intl.portfolioWithBalance_crypto),
+         if (isIndicesVisible) BottomTab(text: intl.market_bottomTabLabel3),
+         if (isFiatVisible) BottomTab(text: intl.portfolioWithBalance_fiat),
         ],
       ),
       child: PortfolioWithBalanceBody(

@@ -91,7 +91,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: intl.youPay,
+                    name: intl.previewConvert_youPay,
                     contentLoading: state.union is QuoteLoading &&
                         widget.input.toAssetEnabled,
                     value: volumeFormat(
@@ -102,7 +102,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                     ),
                   ),
                   SActionConfirmText(
-                    name: intl.youGet,
+                    name: intl.previewConvert_youGet,
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading &&
                         !widget.input.toAssetEnabled,
@@ -121,7 +121,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                     value: '${state.feePercent}%',
                   ),
                   SActionConfirmText(
-                    name: intl.exchangeRate,
+                    name: intl.previewConvert_exchangeRate,
                     baseline: 34.0,
                     contentLoading: state.union is QuoteLoading,
                     timerLoading: state.union is QuoteLoading,
@@ -146,7 +146,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                   ],
                   SPrimaryButton2(
                     active: state.union is QuoteSuccess,
-                    name: intl.confirm,
+                    name: intl.previewConvert_confirm,
                     onTap: () {
                       notifier.executeQuote();
                     },

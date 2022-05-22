@@ -18,10 +18,10 @@ void showQuoteUpdatedDialog({
     builder: (_) {
       return CupertinoAlertDialog(
         title: Text(
-          intl.quoteUpdatedDialog_title,
+          intl.quoteUpdatedDialog_alert,
         ),
         content: Text(
-          intl.quoteUpdatedDialog_content,
+          intl.quoteUpdatedDialog_quoteUpdated,
         ),
         actions: <Widget>[
           TextButton(
@@ -30,7 +30,7 @@ void showQuoteUpdatedDialog({
               Navigator.of(context, rootNavigator: true).pop();
             },
             child: Text(
-              '${intl.gotIt}!',
+              '${intl.quoteUpdatedDialog_gotIt}!',
             ),
           )
         ],

@@ -75,7 +75,8 @@ class WithdrawalConfirm extends HookWidget {
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
-          title: '${intl.confirm} $verb ${intl.request}',
+          title: '${intl.withdrawalConfirm_confirm} $verb'
+              ' ${intl.withdrawalConfirm_request}',
           titleAlign: TextAlign.start,
           showBackButton: false,
         ),
@@ -86,7 +87,8 @@ class WithdrawalConfirm extends HookWidget {
               baseline: 24.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                '${intl.confirmYour} $noun ${intl.withdrawalConfirm_text}:',
+                '${intl.withdrawalConfirm_confirmYour} $noun'
+                    ' ${intl.withdrawalConfirm_text}:',
                 maxLines: 3,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,
@@ -100,7 +102,7 @@ class WithdrawalConfirm extends HookWidget {
             ),
             const SpaceH24(),
             SClickableLinkText(
-              text: intl.openEmailApp,
+              text: intl.withdrawalConfirm_openEmailApp,
               onTap: () => openEmailApp(context),
             ),
             const SpaceH29(),
@@ -136,7 +138,7 @@ class WithdrawalConfirm extends HookWidget {
             const Spacer(),
             SSecondaryButton1(
               active: true,
-              name: intl.cancelRequest,
+              name: intl.withdrawalConfirm_cancelRequest,
               onTap: () => navigateToRouter(context.read),
             ),
             const SpaceH24(),

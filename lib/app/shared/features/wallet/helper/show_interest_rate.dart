@@ -118,7 +118,7 @@ void showInterestRate({
           child: Row(
             children: [
               Text(
-                intl.interestEarned,
+                intl.showInterestRate_interestEarned,
                 style: sBodyText2Style,
               ),
               const SpaceW10(),
@@ -129,7 +129,7 @@ void showInterestRate({
                     onTap: () {
                       navigatorPush(context, InfoWebView(
                         link: infoEarnLink,
-                        title: intl.interestEarned,
+                        title: intl.showInterestRate_interestEarned,
                       ),);
                     },
                     child: Container(
@@ -183,7 +183,7 @@ void showInterestRate({
               baseline: 26,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                intl.nextPay,
+                intl.showInterestRate_nextPay,
                 style: sBodyText2Style.copyWith(
                   color: colors.grey1,
                 ),
@@ -219,7 +219,7 @@ void showInterestRate({
               baseline: 26,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                intl.apy,
+                intl.showInterestRate_apy,
                 style: sBodyText2Style.copyWith(
                   color: colors.grey1,
                 ),

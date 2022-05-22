@@ -87,11 +87,11 @@ class PhoneVerification extends HookWidget {
     });
 
     return SPageFrame(
-      loaderText: intl.pleaseWait,
+      loaderText: intl.phoneVerification_pleaseWait,
       loading: phone.loader,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.phoneConfirmation,
+          title: intl.phoneVerification_phoneConfirmation,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
@@ -116,7 +116,7 @@ class PhoneVerification extends HookWidget {
                       text: intl.phoneVerification_pleaseContactText1,
                     ),
                     TextSpan(
-                      text: ' ${intl.support1}',
+                      text: ' ${intl.phoneVerification_support1}',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Crisp.push(
@@ -133,7 +133,7 @@ class PhoneVerification extends HookWidget {
               ),
             ] else
               SClickableLinkText(
-                text: intl.changeNumber,
+                text: intl.phoneVerification_changeNumber,
                 onTap: () => Navigator.pop(context),
               ),
             const SpaceH18(),
@@ -153,7 +153,8 @@ class PhoneVerification extends HookWidget {
             /// TODO update legacy resend
             if (timer > 0 && !phone.showResend)
               ResendInText(
-                text: '${intl.phoneVerification_youCanResendIn} $timer ${intl.phoneVerification_seconds}',
+                text: '${intl.phoneVerification_youCanResendIn} $timer'
+                    ' ${intl.phoneVerification_seconds}',
               )
             else ...[
               ResendRichText(

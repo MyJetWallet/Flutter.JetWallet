@@ -88,13 +88,13 @@ class TransactionListItem extends HookWidget {
                   ),
                 if (transactionListItem.status == Status.inProgress)
                   TransactionListItemText(
-                    text: '${intl.balanceInProcess_text1}...',
+                    text: '${intl.transactionListItem_balanceInProcess}...',
                     color: colors.grey2,
                   ),
                 const Spacer(),
                 if (transactionListItem.operationType == OperationType.sell)
                   TransactionListItemText(
-                    text: '${intl.forText} ${volumeFormat(
+                    text: '${intl.transactionListItem_forText} ${volumeFormat(
                       prefix: currency.prefixSymbol,
                       decimal: transactionListItem.swapInfo!.buyAmount,
                       accuracy: currency.accuracy,

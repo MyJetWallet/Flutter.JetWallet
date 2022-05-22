@@ -44,7 +44,7 @@ class BalanceActionButtons extends HookWidget {
         children: [
           Expanded(
             child: SPrimaryButton1(
-              name: intl.buy,
+              name: intl.balanceActionButtons_buy,
               onTap: () {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
@@ -88,7 +88,7 @@ class BalanceActionButtons extends HookWidget {
             const SpaceW11(),
             Expanded(
               child: SSecondaryButton1(
-                name: intl.receive,
+                name: intl.balanceActionButtons_receive,
                 onTap: () {
                   if (kycState.withdrawalStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
@@ -97,7 +97,7 @@ class BalanceActionButtons extends HookWidget {
                     navigatorPushReplacement(
                       context,
                       CryptoDeposit(
-                        header: intl.receive,
+                        header: intl.balanceActionButtons_receive,
                         currency: currency,
                       ),
                     );
@@ -112,7 +112,7 @@ class BalanceActionButtons extends HookWidget {
                         navigatorPushReplacement(
                           context,
                           CryptoDeposit(
-                            header: intl.receive,
+                            header: intl.balanceActionButtons_receive,
                             currency: currency,
                           ),
                         );
@@ -128,7 +128,7 @@ class BalanceActionButtons extends HookWidget {
             const SpaceW11(),
             Expanded(
               child: SSecondaryButton1(
-                name: intl.sell,
+                name: intl.balanceActionButtons_sell,
                 onTap: () {
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {

@@ -36,7 +36,7 @@ class TransferDetails extends HookWidget {
           ),
           const SpaceH10(),
           TransactionDetailsItem(
-            text: '${intl.transfer} ${intl.to}',
+            text: '${intl.transferDetails_transfer} ${intl.to}',
             value: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

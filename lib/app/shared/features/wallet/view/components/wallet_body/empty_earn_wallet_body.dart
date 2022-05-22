@@ -51,14 +51,14 @@ class EmptyEarnWalletBody extends HookWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: '${intl.earn} ',
+                text: '${intl.emptyEarnWalletBody_earn} ',
                 style: sTextH3Style.copyWith(
                   color: colors.black,
                 ),
               ),
               TextSpan(
                 text: '${apy.toStringAsFixed(0)}%'
-                    ' ${intl.interest}',
+                    ' ${intl.emptyEarnWalletBody_interest}',
                 style: sTextH3Style.copyWith(
                   color: colors.green,
                 ),

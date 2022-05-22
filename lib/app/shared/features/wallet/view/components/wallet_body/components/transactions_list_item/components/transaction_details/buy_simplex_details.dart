@@ -62,7 +62,7 @@ class BuySimplexDetails extends HookWidget {
           ),
           const SpaceH14(),
           TransactionDetailsItem(
-            text: intl.payFrom,
+            text: intl.buySimplexDetails_payFrom,
             value: TransactionDetailsValueText(
               text: intl.curencyBuy_actionItemName,
             ),

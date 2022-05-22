@@ -51,7 +51,7 @@ class BalanceBlock extends HookWidget {
             icon: SNetworkSvg24(
               url: marketItem.iconUrl,
             ),
-            primaryText: '${marketItem.name} ${intl.wallet}',
+            primaryText: '${marketItem.name} ${intl.balanceBlock_wallet}',
             isRecurring: recurringNotifier.activeOrPausedType(currency.symbol),
             amount: volumeFormat(
               prefix: baseCurrency.prefix,

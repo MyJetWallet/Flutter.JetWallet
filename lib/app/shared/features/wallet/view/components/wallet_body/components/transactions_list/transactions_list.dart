@@ -169,7 +169,7 @@ class _TransactionsListState extends State<TransactionsList> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          intl.noTransactionsYet,
+                          intl.transactionsList_noTransactionsYet,
                           style: sTextH3Style,
                         ),
                         Text(
@@ -269,7 +269,7 @@ class _TransactionsListState extends State<TransactionsList> {
                             ),
                             STextButton1(
                               active: true,
-                              name: intl.retry,
+                              name: intl.transactionsList_retry,
                               onTap: () {
                                 transactionHistoryN.initOperationHistory();
                               },
@@ -368,7 +368,7 @@ class _TransactionsListState extends State<TransactionsList> {
                                 ),
                                 STextButton1(
                                   active: true,
-                                  name: intl.retry,
+                                  name: intl.transactionsList_retry,
                                   onTap: () {
                                     transactionHistoryN.operationHistory(
                                       widget.symbol,
@@ -448,7 +448,7 @@ class _TransactionsListState extends State<TransactionsList> {
                       ),
                       STextButton1(
                         active: true,
-                        name: intl.retry,
+                        name: intl.transactionsList_retry,
                         onTap: () {
                           transactionHistoryN.initOperationHistory();
                         },

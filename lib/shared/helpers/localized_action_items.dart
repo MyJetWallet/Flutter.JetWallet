@@ -12,15 +12,15 @@ List<Map<String, String>> localizedActionItems(BuildContext context) {
       'description': intl.sActionItem_description1,
     },
     {
-      'name': intl.buy,
+      'name': intl.localizedActionItems_buy,
       'description': intl.sActionItem_description2,
     },
     {
-      'name': intl.sell,
+      'name': intl.localizedActionItems_sell,
       'description': intl.sActionItem_description3,
     },
     {
-      'name': intl.convert,
+      'name': intl.localizedActionItems_convert,
       'description': intl.sActionItem_description4,
     },
     {
@@ -28,11 +28,11 @@ List<Map<String, String>> localizedActionItems(BuildContext context) {
       'description': intl.sActionItem_description1,
     },
     {
-      'name': intl.receive,
+      'name': intl.localizedActionItems_receive,
       'description': intl.sActionItem_description5,
     },
     {
-      'name': intl.send,
+      'name': intl.localizedActionItems_send,
       'description': intl.sActionItem_description6,
     },
   ];

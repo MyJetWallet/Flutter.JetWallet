@@ -73,7 +73,7 @@ class TransactionItem extends HookWidget {
                       width: double.infinity,
                       child: Center(
                         child: Text(
-                          '${copiedText.value} ${intl.copied}',
+                          '${copiedText.value} ${intl.transactionItem_copied}',
                           style: sBodyText1Style.copyWith(
                             color: Colors.green,
                           ),

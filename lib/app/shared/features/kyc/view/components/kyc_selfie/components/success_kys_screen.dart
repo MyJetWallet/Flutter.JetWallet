@@ -92,7 +92,7 @@ class SuccessKycScreen extends HookWidget {
               ),
               child: SPrimaryButton2(
                 active: true,
-                name: intl.done,
+                name: intl.successKycScreen_done,
                 onTap: () => Navigator.pop(context),
               ),
             ),

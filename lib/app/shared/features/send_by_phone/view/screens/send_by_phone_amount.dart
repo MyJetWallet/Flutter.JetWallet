@@ -36,7 +36,7 @@ class SendByPhoneAmount extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.send} ${currency.description}',
+          title: '${intl.sendByPhoneAmount_send} ${currency.description}',
         ),
       ),
       child: Column(
@@ -71,7 +71,8 @@ class SendByPhoneAmount extends HookWidget {
             ),
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              '${intl.available}: ${currency.volumeAssetBalance}',
+              '${intl.sendByPhoneAmount_available}:'
+                  ' ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),
@@ -113,7 +114,7 @@ class SendByPhoneAmount extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.valid,
-            submitButtonName: intl.previewSend,
+            submitButtonName: intl.sendByPhoneAmount_previewSend,
             onSubmitPressed: () {
               navigatorPush(
                 context,

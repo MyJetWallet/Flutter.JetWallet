@@ -41,7 +41,7 @@ class EmptyWalletBody extends HookWidget {
         ),
         const Spacer(),
         Text(
-          '${intl.all} $assetName ${intl.transaction}',
+          '${intl.emptyWalletBody_all} $assetName ${intl.transaction}',
           maxLines: 3,
           textAlign: TextAlign.center,
           style: sTextH3Style,

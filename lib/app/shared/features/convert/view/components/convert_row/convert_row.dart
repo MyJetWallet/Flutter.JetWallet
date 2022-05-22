@@ -145,7 +145,8 @@ class ConvertRow extends HookWidget {
                       const SpaceW34(),
                       if (inputError == null || inputError == InputError.none)
                         Text(
-                          '${intl.available}: ${currency.volumeAssetBalance}',
+                          '${intl.convertRow_available}:'
+                              ' ${currency.volumeAssetBalance}',
                           maxLines: 1,
                           style: sBodyText2Style.copyWith(
                             color: colors.grey2,

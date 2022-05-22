@@ -22,7 +22,7 @@ void showSmsAuthWarning(BuildContext context) {
       );
     },
     secondaryText: '${intl.showSmsAuthWarning_secondaryText}.',
-    secondaryButtonName: intl.later,
+    secondaryButtonName: intl.showSmsAuthWarning_later,
     onSecondaryButtonTap: () {
       Navigator.pop(context);
     },

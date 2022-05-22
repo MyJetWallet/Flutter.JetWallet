@@ -47,7 +47,7 @@ class PortfolioHeader extends HookWidget {
             children: [
               const SpaceW24(),
               Text(
-                intl.balance,
+                intl.portfolioHeader_balance,
                 style: sTextH5Style,
               ),
               const Spacer(),

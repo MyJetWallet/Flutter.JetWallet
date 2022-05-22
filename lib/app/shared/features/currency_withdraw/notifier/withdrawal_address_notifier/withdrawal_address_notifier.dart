@@ -392,7 +392,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
     AllowCamera.push(
       context: context,
-      permissionDescription: intl.pushAllowCamera,
+      permissionDescription: intl.withdrawalAddressNotifier_pushAllowCamera,
       then: () {
         _pushQrView(context: context, fromSettings: true);
       },
@@ -405,21 +405,26 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     if (state.addressValidation is Loading || state.tagValidation is Loading) {
       return '${intl.withdrawalAddressNotifier_checking}...';
     } else if (state.addressValidation is Invalid) {
-      return '${intl.invalid} ${currency.symbol} ${intl.address}';
+      return '${intl.withdrawalAddressNotifier_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddressNotifier_address}';
     } else if (state.tagValidation is Invalid) {
-      return '${intl.invalid} ${currency.symbol} ${intl.tag}';
+      return '${intl.withdrawalAddressNotifier_invalid} ${currency.symbol}'
+          ' ${intl.tag}';
     } else if (state.addressValidation is Invalid &&
         state.tagValidation is Invalid) {
-      return '${intl.invalid} ${currency.symbol} ${intl.address} & ${intl.tag}';
+      return '${intl.withdrawalAddressNotifier_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddressNotifier_address} & ${intl.tag}';
     } else if (state.addressValidation is Valid &&
         state.tagValidation is Valid) {
-      return '${intl.valid} ${currency.symbol} ${intl.address} & ${intl.tag}';
+      return '${intl.valid} ${currency.symbol}'
+          ' ${intl.withdrawalAddressNotifier_address} & ${intl.tag}';
     } else if (state.addressValidation is Valid) {
-      return '${intl.valid} ${currency.symbol} ${intl.address}';
+      return '${intl.valid} ${currency.symbol}'
+          ' ${intl.withdrawalAddressNotifier_address}';
     } else if (state.tagValidation is Valid) {
       return '${intl.valid} ${currency.symbol} ${intl.tag}';
     } else {
-      return intl.error;
+      return intl.withdrawalAddressNotifier_error;
     }
   }
 

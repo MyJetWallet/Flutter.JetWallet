@@ -41,7 +41,7 @@ class ActionBottomSheetHeader extends HookWidget {
         if (showSearch) ...[
           SPaddingH24(
             child: SStandardField(
-              labelText: intl.search,
+              labelText: intl.actionBottomSheetHeader_search,
               onChanged: onChanged,
             ),
           ),

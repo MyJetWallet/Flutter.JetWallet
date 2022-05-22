@@ -108,7 +108,9 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
           onTap: () async {
             await notifier.handleCameraPermission(context);
           },
-          name: state.permissionDenied ? intl.goToSettings : intl.enableCamera,
+          name: state.permissionDenied
+              ? intl.allowCamera_goToSettings
+              : intl.allowCamera_enableCamera,
         ),
       ),
       child: CustomScrollView(

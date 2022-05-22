@@ -18,7 +18,7 @@ void showRecurringManageAction({
     context: context,
     scrollable: true,
     pinned: _RecurringManageActionBottomSheetHeader(
-      name: intl.manage,
+      name: intl.actionRecurringManage_manage,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -90,7 +90,7 @@ class _ActionRecurringManage extends HookWidget {
             if (recurringItem.status != RecurringBuysStatus.paused)
               ActionRecurringManageItem(
                 icon: const SPauseIcon(),
-                primaryText: intl.pause,
+                primaryText: intl.actionRecurringManage_pause,
                 color: colors.grey5,
                 onTap: () {
                   recurringBuysN.switchRecurringStatus(
@@ -111,7 +111,7 @@ class _ActionRecurringManage extends HookWidget {
                   ),
                   child: const SStartIcon(),
                 ),
-                primaryText: intl.start,
+                primaryText: intl.actionRecurringManage_start,
                 color: colors.grey5,
                 onTap: () {
                   recurringBuysN.switchRecurringStatus(
@@ -128,7 +128,7 @@ class _ActionRecurringManage extends HookWidget {
             ),
             ActionRecurringManageItem(
               icon: const SDeleteManageIcon(),
-              primaryText: intl.delete,
+              primaryText: intl.actionRecurringManage_delete,
               color: colors.grey5,
               onTap: () => sShowAlertPopup(
                 context,
@@ -137,7 +137,7 @@ class _ActionRecurringManage extends HookWidget {
                     '${intl.actionRecurringManage_manageItemPrimaryText}?',
                 secondaryText:
                     '${intl.actionRecurringManage_manageItemSecondaryText}?',
-                primaryButtonName: intl.delete,
+                primaryButtonName: intl.actionRecurringManage_delete,
                 onPrimaryButtonTap: () {
                   recurringBuysN.removeRecurringBuy(recurringItem.id!);
                   Navigator.of(context)
@@ -146,7 +146,7 @@ class _ActionRecurringManage extends HookWidget {
                     ..pop();
                 },
                 primaryButtonType: SButtonType.primary3,
-                secondaryButtonName: intl.cancel,
+                secondaryButtonName: intl.actionRecurringManage_cancel,
                 onSecondaryButtonTap: () {
                   Navigator.pop(context);
                 },

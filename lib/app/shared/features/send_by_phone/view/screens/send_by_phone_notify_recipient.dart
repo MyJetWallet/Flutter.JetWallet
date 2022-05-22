@@ -55,7 +55,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
           const Spacer(),
           SPrimaryButton2(
             active: true,
-            name: intl.sendAMessage,
+            name: intl.sendByPhoneNotifyRecipient_sendAMessage,
             onTap: () {
               if (canTapShare.value) {
                 canTapShare.value = false;
@@ -74,7 +74,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
           const SpaceH10(),
           STextButton1(
             active: true,
-            name: intl.later,
+            name: intl.sendByPhoneRecipient_later,
             onTap: () => Navigator.pop(context),
           ),
           const SpaceH24()

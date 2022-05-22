@@ -78,7 +78,7 @@ class SendByPhoneConfirm extends HookWidget {
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SMegaHeader(
-          title: intl.confirmSendRequest,
+          title: intl.sendByPhoneConfirm_confirmSendRequest,
           titleAlign: TextAlign.start,
           showBackButton: false,
         ),
@@ -103,7 +103,7 @@ class SendByPhoneConfirm extends HookWidget {
             ),
             const SpaceH16(),
             SClickableLinkText(
-              text: intl.openEmailApp,
+              text: intl.sendByPhoneConfirm_openEmailApp,
               onTap: () => openEmailApp(context),
             ),
             const SpaceH29(),
@@ -139,7 +139,7 @@ class SendByPhoneConfirm extends HookWidget {
             const Spacer(),
             SSecondaryButton1(
               active: true,
-              name: intl.cancelRequest,
+              name: intl.sendByPhoneConfirm_cancelRequest,
               onTap: () => navigateToRouter(context.read),
             ),
             const SpaceH24(),

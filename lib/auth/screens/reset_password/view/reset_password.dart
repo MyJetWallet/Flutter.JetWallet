@@ -63,7 +63,7 @@ class ResetPassword extends HookWidget {
         );
       },
       child: SPageFrame(
-        loaderText: intl.pleaseWait,
+        loaderText: intl.passwordReset_pleaseWait,
         loading: loader.value,
         color: colors.grey5,
         header: SPaddingH24(

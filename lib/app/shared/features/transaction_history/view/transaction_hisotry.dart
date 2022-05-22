@@ -76,9 +76,9 @@ class TransactionHistory extends HookWidget {
     final intl = context.read(intlPod);
 
     if (assetName != null && assetSymbol != null) {
-      return '${intl.history} $assetName ($assetSymbol)';
+      return '${intl.transactionHistory_history} $assetName ($assetSymbol)';
     } else {
-      return intl.history;
+      return intl.transactionHistory_history;
     }
   }
 }

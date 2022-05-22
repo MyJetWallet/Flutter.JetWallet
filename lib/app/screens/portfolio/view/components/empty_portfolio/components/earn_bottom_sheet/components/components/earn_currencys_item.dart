@@ -72,7 +72,8 @@ class EarnCurrencyItem extends HookWidget {
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
-                            '${element.apy.toStringAsFixed(0)}% ${intl.apy}',
+                            '${element.apy.toStringAsFixed(0)}%'
+                                ' ${intl.earnCurrencysItem_apy}',
                             style: sSubtitle2Style.copyWith(
                               color: colors.green,
                             ),

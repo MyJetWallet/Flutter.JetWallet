@@ -68,14 +68,16 @@ class MarketNewsBlock extends HookWidget {
                 context,
                 news[index].urlAddress,
               ),
-              text1: intl.discussOn,
-              text2: intl.cryptoPanic,
+              text1: intl.marketNewsBlock_discussOn,
+              text2: intl.marketNewsBlock_cryptoPanic,
             ),
           ),
           if (news.length >= newsPortionAmount) ...[
             SPaddingH24(
               child: ClickableUnderlinedText(
-                text: newsN.canLoadMore ? intl.readMore : intl.readLess,
+                text: newsN.canLoadMore
+                    ? intl.marketNewsBlock_readMore
+                    : intl.marketNewsBlock_readLess,
                 onTap: () {
                   if (newsN.canLoadMore) {
                     newsN.loadMoreNews(assetId);

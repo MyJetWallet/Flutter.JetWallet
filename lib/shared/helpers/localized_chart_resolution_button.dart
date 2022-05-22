@@ -8,7 +8,13 @@ List<String> localizedChartResolutionButton(
     ) {
   final intl = context.read(intlPod);
 
-  final array = [intl.d, intl.w, intl.m, intl.y, intl.all];
+  final array = [
+    intl.d,
+    intl.w,
+    intl.m,
+    intl.y,
+    intl.localizedChartResolutionButton_all
+  ];
 
   return array;
 }

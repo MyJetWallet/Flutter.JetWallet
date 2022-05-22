@@ -90,7 +90,7 @@ class CryptoDeposit extends HookWidget {
                     color: colors.white,
                   ),
                   active: true,
-                  name: intl.share,
+                  name: intl.cryptoDeposit_share,
                   onTap: () {
                     if (canTapShare.value) {
                       canTapShare.value = false;
@@ -101,7 +101,8 @@ class CryptoDeposit extends HookWidget {
                         () => canTapShare.value = true,
                       );
                       Share.share(
-                        '${intl.my} ${currency.symbol} ${intl.address}: '
+                        '${intl.cryptoDeposit_my} ${currency.symbol}'
+                            ' ${intl.cryptoDeposit_address}: '
                         '${deposit.address} '
                         '${deposit.tag != null ? ', ${intl.tag}: '
                             '${deposit.tag}' : ''}',
@@ -156,7 +157,7 @@ class CryptoDeposit extends HookWidget {
                           top: 5,
                         ),
                         child: Text(
-                          intl.network,
+                          intl.cryptoDeposit_network,
                           style: sCaptionTextStyle.copyWith(
                             color: colors.grey2,
                           ),

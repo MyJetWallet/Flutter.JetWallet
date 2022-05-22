@@ -68,14 +68,14 @@ class _AboutBlockTextState extends State<AboutBlockText>
           if (!expandText.value && widget.marketInfo.aboutLess.isNotEmpty) ...[
             const SpaceH18(),
             ClickableUnderlinedText(
-              text: intl.readMore,
+              text: intl.aboutBlockText_readMore,
               onTap: () => expandText.value = !expandText.value,
             ),
           ],
           if (_urlValid(widget.marketInfo.whitepaperUrl)) ...[
             if (widget.marketInfo.aboutLess.isNotEmpty) const SpaceH13(),
             ClickableUnderlinedText(
-              text: intl.whitepaper,
+              text: intl.aboutBlockText_whitepaper,
               onTap: () {
                 if (canTapOnLink) {
                   setState(() {
@@ -89,7 +89,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
           if (_urlValid(widget.marketInfo.officialWebsiteUrl)) ...[
             const SpaceH13(),
             ClickableUnderlinedText(
-              text: intl.officialWebsite,
+              text: intl.aboutBlockText_officialWebsite,
               onTap: () {
                 if (canTapOnLink) {
                   setState(() {

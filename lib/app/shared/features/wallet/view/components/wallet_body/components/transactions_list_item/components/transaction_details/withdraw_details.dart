@@ -36,7 +36,7 @@ class WithdrawDetails extends HookWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: intl.amount,
+            text: intl.withdrawDetails_amount,
             value: TransactionDetailsValueText(
               text: volumeFormat(
                 prefix: currency.prefixSymbol,
@@ -48,7 +48,7 @@ class WithdrawDetails extends HookWidget {
           ),
           const SpaceH10(),
           TransactionDetailsItem(
-            text: '${intl.transaction} ${intl.fee1}',
+            text: '${intl.transaction} ${intl.withdrawDetails_fee}',
             value: transactionListItem.withdrawalInfo!.isInternal
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -57,7 +57,7 @@ class WithdrawDetails extends HookWidget {
                         text: intl.noFee,
                       ),
                       Text(
-                        intl.internalTransfer,
+                        intl.withdrawDetails_internalTransfer,
                         style: const TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600,
@@ -113,7 +113,7 @@ class WithdrawDetails extends HookWidget {
           const SpaceH10(),
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             TransactionDetailsItem(
-              text: intl.withdrawalTo,
+              text: intl.withdrawDetails_withdrawalTo,
               value: Row(
                 children: [
                   TransactionDetailsValueText(
@@ -133,7 +133,7 @@ class WithdrawDetails extends HookWidget {
                         ),
                       );
 
-                      onCopyAction(intl.withdrawalTo);
+                      onCopyAction(intl.withdrawDetails_withdrawalTo);
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),

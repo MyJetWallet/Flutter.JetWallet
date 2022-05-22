@@ -61,21 +61,23 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
 
     await flowUnion.when(
       change: () async {
-        await _initFlowThatStartsFromEnterPin(intl.change_pin, hideBio);
+        await _initFlowThatStartsFromEnterPin(
+            intl.pinScreen_changePin, hideBio,
+        );
       },
       disable: () async {
-        await _initFlowThatStartsFromEnterPin(intl.enter_pin, hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.pinScreen_enterPin, hideBio);
       },
       enable: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader(intl.set_pin);
+        _updateScreenHeader(intl.pinScreen_setPin);
       },
       verification: () async {
-        await _initFlowThatStartsFromEnterPin(intl.enter_pin, hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.pinScreen_enterPin, hideBio);
       },
       setup: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader(intl.set_pin);
+        _updateScreenHeader(intl.pinScreen_setPin);
       },
     );
   }
@@ -316,7 +318,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     final intl = read(intlPod);
 
     final success = await makeAuthWithBiometrics(
-      intl.biometricsAuthHelpers_weNeedYouToConfirmYourIdentity,
+      intl.pinScreenNotifier_weNeedYouToConfirmYourIdentity,
     );
 
     if (success) {
@@ -363,13 +365,13 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
 
     return state.screenUnion.when(
       enterPin: () {
-        return intl.pin_enterYourPIN;
+        return intl.pinScreen_enterYourPIN;
       },
       newPin: () {
-        return intl.pin_setANewPin;
+        return intl.pinScreen_pinSetANewPin;
       },
       confirmPin: () {
-        return intl.pin_ConfirmNewPin;
+        return intl.pinScreen_confirmNewPin;
       },
     );
   }

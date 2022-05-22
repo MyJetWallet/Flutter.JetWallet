@@ -41,7 +41,7 @@ class AddCircleCard extends HookWidget {
     final notifier = useProvider(addCircleCardNotipod.notifier);
 
     return SPageFrame(
-      loaderText: intl.pleaseWait,
+      loaderText: intl.addCircleCard_pleaseWait,
       loading: state.loader,
       header: SPaddingH24(
         child: SBigHeader(
@@ -62,7 +62,7 @@ class AddCircleCard extends HookWidget {
             children: [
               SFieldDividerFrame(
                 child: SStandardField(
-                  labelText: intl.cardNumber,
+                  labelText: intl.addCircleCard_cardNumber,
                   keyboardType: TextInputType.number,
                   errorNotifier: state.cardNumberError,
                   disableErrorOnChanged: false,
@@ -85,7 +85,7 @@ class AddCircleCard extends HookWidget {
                   Expanded(
                     child: SFieldDividerFrame(
                       child: SStandardField(
-                        labelText: intl.expiryDate,
+                        labelText: intl.addCircleCard_expiryDate,
                         keyboardType: TextInputType.number,
                         errorNotifier: state.expiryDateError,
                         enableInteractiveSelection: false,
@@ -129,7 +129,7 @@ class AddCircleCard extends HookWidget {
                 color: colors.white,
                 child: SPaddingH24(
                   child: SStandardField(
-                    labelText: intl.cardholderName,
+                    labelText: intl.addCircleCard_cardholderName,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCardholderName,
                   ),

@@ -35,12 +35,12 @@ class ProfileDetails extends HookWidget {
       child: Column(
         children: [
           SProfileDetailsButton(
-            label: intl.email,
+            label: intl.profileDetails_email,
             value: userInfo.email,
             onTap: () {},
           ),
           SProfileDetailsButton(
-            label: intl.changePassword,
+            label: intl.profileDetails_changePassword,
             value: '• • • • • • • • • • •',
             onTap: () {
               navigatorPush(context, const ChangePassword());
@@ -48,13 +48,13 @@ class ProfileDetails extends HookWidget {
           ),
           if (userInfo.isPhoneNumberSet)
             SProfileDetailsButton(
-              label: intl.changePhoneNumber,
+              label: intl.profileDetails_changePhoneNumber,
               value: userInfo.phone,
               onTap: () {
                 sShowAlertPopup(
                   context,
                   willPopScope: false,
-                  primaryText: intl.payAttention,
+                  primaryText: intl.profileDetails_payAttention,
                   secondaryText: '${intl.profileDetails_buttonSecondaryText}.',
                   primaryButtonName: intl.profileDetails_continue,
                   image: _infoImage,
@@ -67,13 +67,14 @@ class ProfileDetails extends HookWidget {
                         onVerified: () {
                           SetPhoneNumber.pushReplacement(
                             context: context,
-                            successText: intl.newPhoneNumberConfirmed,
+                            successText:
+                                intl.profileDetails_newPhoneNumberConfirmed,
                           );
                         },
                       ),
                     );
                   },
-                  secondaryButtonName: intl.cancel,
+                  secondaryButtonName: intl.profileDetails_cancel,
                   onSecondaryButtonTap: () {
                     Navigator.pop(context);
                   },

@@ -27,19 +27,19 @@ class ReturnRates extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         ReturnRateItem(
-          header: intl.day,
+          header: intl.returnRates_day,
           value: formatDayPercentageChange(returnRates.dayPrice),
         ),
         ReturnRateItem(
-          header: intl.week,
+          header: intl.returnRateItem_week,
           value: formatDayPercentageChange(returnRates.weekPrice),
         ),
         ReturnRateItem(
-          header: intl.month,
+          header: intl.returnRateItem_month,
           value: formatDayPercentageChange(returnRates.monthPrice),
         ),
         ReturnRateItem(
-          header: '3 ${intl.months}',
+          header: '3 ${intl.returnRates_months}',
           value: formatDayPercentageChange(
             returnRates.threeMonthPrice,
           ),

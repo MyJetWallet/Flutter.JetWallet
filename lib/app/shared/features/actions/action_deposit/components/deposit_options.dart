@@ -15,7 +15,7 @@ void showDepositOptions(
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
-      name: intl.depositOptions_bottomSheetHeaderText1,
+      name: intl.depositOptions_depositWith,
     ),
     children: [
       _DepositOptions(
@@ -42,7 +42,7 @@ class _DepositOptions extends HookWidget {
         if (currency.supportsCardDeposit)
           SActionItem(
             icon: const SActionBuyIcon(),
-            name: intl.addBankCard,
+            name: intl.depositOptions_addBankCard,
             description: intl.depositOptions_actionItemDescription1,
             helper: '${intl.fee} 3.5%',
             onTap: () {
@@ -52,7 +52,7 @@ class _DepositOptions extends HookWidget {
         if (currency.supportsSepaDeposit)
           SActionItem(
             icon: const SActionDepositIcon(),
-            name: intl.wireTransfer,
+            name: intl.depositOptions_wireTransfer,
             description: intl.depositOptions_actionItemDescription2,
             helper: intl.noFee,
             onTap: () {

@@ -31,7 +31,7 @@ class HelpCenterWebView extends StatelessWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.help_center,
+          title: intl.helpCenterWebView_helpCenter,
         ),
       ),
       child: Column(

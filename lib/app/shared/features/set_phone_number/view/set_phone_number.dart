@@ -67,12 +67,12 @@ class SetPhoneNumber extends HookWidget {
     analytics(() => sAnalytics.kycPhoneConfirmationView());
 
     return SPageFrame(
-      loaderText: intl.pleaseWait,
+      loaderText: intl.setPhoneNumber_pleaseWait,
       loading: state.loader,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.enterPhoneNumber,
+          title: intl.setPhoneNumber_enterPhoneNumber,
         ),
       ),
       child: Column(
@@ -101,7 +101,7 @@ class SetPhoneNumber extends HookWidget {
                       width: 76,
                       child: AbsorbPointer(
                         child: SStandardField(
-                          labelText: intl.code,
+                          labelText: intl.setPhoneNumber_code,
                           readOnly: true,
                           hideClearButton: true,
                           controller: state.dialCodeController,
@@ -113,7 +113,7 @@ class SetPhoneNumber extends HookWidget {
                 Expanded(
                   child: SPaddingH24(
                     child: SStandardField(
-                      labelText: intl.phoneNumber,
+                      labelText: intl.setPhoneNumber_phoneNumber,
                       autofocus: true,
                       autofillHints: const [AutofillHints.telephoneNumber],
                       keyboardType: TextInputType.phone,

@@ -18,7 +18,7 @@ void showNetworkBottomSheet(
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
-      name: intl.showNetwork_header1,
+      name: intl.showNetworkBottomSheet_chooseNetwork,
     ),
     children: [
       for (final network in availableNetworks)

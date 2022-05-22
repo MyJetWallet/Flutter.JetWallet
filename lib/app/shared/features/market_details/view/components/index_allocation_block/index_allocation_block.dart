@@ -31,7 +31,7 @@ class IndexAllocationBlock extends HookWidget {
             SBaselineChild(
               baseline: 56,
               child: Text(
-                intl.indexAllocation,
+                intl.indexAllocationBlock_indexAllocation,
                 style: sTextH4Style,
               ),
             ),

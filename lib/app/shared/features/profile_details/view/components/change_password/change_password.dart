@@ -35,11 +35,11 @@ class ChangePassword extends HookWidget {
         );
       },
       child: SPageFrame(
-        loaderText: intl.pleaseWait,
+        loaderText: intl.changePassword_pleaseWait,
         color: colors.grey5,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: intl.changePassword,
+            title: intl.changePassword_changePassword,
             onBackButtonTap: () => Navigator.pop(context),
           ),
         ),
@@ -72,7 +72,7 @@ class ChangePassword extends HookWidget {
                     changePasswordN.setOldPassword(password);
                   },
                   autofocus: true,
-                  labelText: intl.enterOldPassword,
+                  labelText: intl.changePassword_enterOldPassword,
                   onErrorIconTap: () {
                     notificationN.showError(
                       '${intl.changePassword_showErrorText1}!',

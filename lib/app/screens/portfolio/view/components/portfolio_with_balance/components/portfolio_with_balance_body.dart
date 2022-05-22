@@ -166,7 +166,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                           Row(
                             children: [
                               Text(
-                                '${intl.balanceInProcess_text1}...',
+                                '${intl.portfolioWithBalanceBody_balanceInProcess}...',
                                 style: sTextH1Style.copyWith(
                                   color: colors.black,
                                 ),
@@ -222,7 +222,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                   child: Row(
                     children: [
                       Text(
-                        intl.portfolio,
+                        intl.portfolioWithBalanceBody_portfolio,
                         style: sTextH4Style,
                       ),
                       const Spacer(),
@@ -296,7 +296,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                           ),
                           if (item.isPendingDeposit) ...[
                             BalanceInProcess(
-                              text: '${intl.deposit} ${volumeFormat(
+                              text: '${intl.portfolioWithBalanceBody_deposit}'
+                                  ' ${volumeFormat(
                                 decimal: item.depositInProcess,
                                 accuracy: item.accuracy,
                                 symbol: item.symbol,
@@ -351,8 +352,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                                     !showZeroBalanceWallets.state,
                                 child: Text(
                                   showZeroBalanceWallets.state
-                                      ? intl.showZeroBalanceWallets_text1
-                                      : intl.showZeroBalanceWallets_text2,
+                                      ? intl
+                                          .portfolioWithBalanceBody_showZeroBalanceWallets
+                                      : intl
+                                          .portfolioWithBalanceBody_showAllWallets,
                                   style: sBodyText2Style,
                                 ),
                               ),
@@ -384,7 +387,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: '${intl.deposit} ${volumeFormat(
+                                text: '${intl.portfolioWithBalanceBody_deposit}'
+                                    ' ${volumeFormat(
                                   decimal: item.depositInProcess,
                                   accuracy: item.accuracy,
                                   symbol: item.symbol,
@@ -425,8 +429,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                                       !showZeroBalanceWallets.state,
                                   child: Text(
                                     showZeroBalanceWallets.state
-                                        ? intl.showZeroBalanceWallets_text1
-                                        : intl.showZeroBalanceWallets_text2,
+                                        ? intl
+                                            .portfolioWithBalanceBody_showZeroBalanceWallets
+                                        : intl
+                                            .portfolioWithBalanceBody_showAllWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -469,7 +475,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: '${intl.deposit} ${volumeFormat(
+                                text: '${intl.portfolioWithBalanceBody_deposit}'
+                                    ' ${volumeFormat(
                                   decimal: item.depositInProcess,
                                   accuracy: item.accuracy,
                                   symbol: item.symbol,
@@ -519,8 +526,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                                       !showZeroBalanceWallets.state,
                                   child: Text(
                                     showZeroBalanceWallets.state
-                                        ? intl.showZeroBalanceWallets_text1
-                                        : intl.showZeroBalanceWallets_text2,
+                                        ? intl
+                                            .portfolioWithBalanceBody_showZeroBalanceWallets
+                                        : intl
+                                            .portfolioWithBalanceBody_showAllWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -552,7 +561,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: '${intl.deposit} ${volumeFormat(
+                                text: '${intl.portfolioWithBalanceBody_deposit}'
+                                    ' ${volumeFormat(
                                   decimal: item.depositInProcess,
                                   accuracy: item.accuracy,
                                   symbol: item.symbol,
@@ -593,8 +603,10 @@ class PortfolioWithBalanceBody extends HookWidget {
                                       !showZeroBalanceWallets.state,
                                   child: Text(
                                     showZeroBalanceWallets.state
-                                        ? intl.showZeroBalanceWallets_text1
-                                        : intl.showZeroBalanceWallets_text2,
+                                        ? intl
+                                            .portfolioWithBalanceBody_showZeroBalanceWallets
+                                        : intl
+                                            .portfolioWithBalanceBody_showAllWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -612,19 +624,22 @@ class PortfolioWithBalanceBody extends HookWidget {
     );
   }
 
-  String _chartResolution(String resolution, BuildContext context,) {
+  String _chartResolution(
+    String resolution,
+    BuildContext context,
+  ) {
     final intl = context.read(intlPod);
 
     if (resolution == Period.week) {
-      return intl.week;
+      return intl.portfolioWithBalanceBody_week;
     }
     if (resolution == Period.month) {
-      return intl.month;
+      return intl.portfolioWithBalanceBody_month;
     }
     if (resolution == Period.all) {
-      return intl.all;
+      return intl.portfolioWithBalanceBody_all;
     }
-    return intl.today;
+    return intl.portfolioWithBalanceBody_today;
   }
 
   String _price(

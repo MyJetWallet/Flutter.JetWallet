@@ -55,7 +55,7 @@ class SmsAuthenticator extends HookWidget {
                 } else {
                   SetPhoneNumber.push(
                     context: context,
-                    successText: intl.factorVerificationEnabled,
+                    successText: intl.kycAlertHandler_factorVerificationEnabled,
                   );
                 }
               }

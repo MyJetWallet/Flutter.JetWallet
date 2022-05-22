@@ -35,7 +35,7 @@ class _SearchPinned extends HookWidget {
 
     return SStandardField(
       autofocus: true,
-      labelText: intl.searchCountry,
+      labelText: intl.showCountryPhoneNumberPicker_searchCountry,
       onChanged: (value) {
         notifier.updateDialCodeSearch(value);
       },

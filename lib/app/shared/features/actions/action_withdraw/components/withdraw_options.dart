@@ -17,7 +17,7 @@ void showWithdrawOptions(BuildContext context, CurrencyModel currency) {
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
-      name: intl.sendTo,
+      name: intl.withdrawOptions_sendTo,
     ),
     children: [
       _WithdrawOptions(
@@ -68,7 +68,7 @@ class _WithdrawOptions extends HookWidget {
         if (currency.supportsSepaWithdrawal)
           SActionItem(
             icon: const SWireIcon(),
-            name: intl.wireTransfer,
+            name: intl.withdrawOptions_wireTransfer,
             description: intl.withdrawOptions_actionItemDescription1,
             helper: intl.noFee,
             onTap: () {
@@ -79,7 +79,7 @@ class _WithdrawOptions extends HookWidget {
           SActionItem(
             icon: const SWalletIcon(),
             name: intl.withdrawOptions_actionItemName1,
-            description: '${currency.symbol} ${intl.wallet1}',
+            description: '${currency.symbol} ${intl.withdrawOptions_wallet}',
             onTap: () {
               navigatorPushReplacement(
                 context,

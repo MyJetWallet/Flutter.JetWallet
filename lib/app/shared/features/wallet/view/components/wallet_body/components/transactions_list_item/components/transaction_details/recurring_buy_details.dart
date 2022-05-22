@@ -132,7 +132,7 @@ class RecurringBuyDetails extends StatelessWidget {
           ),
           const SpaceH14(),
           TransactionDetailsItem(
-            text: intl.rate,
+            text: intl.recurringBuyDetails_rate,
             value: TransactionDetailsValueText(
               text: _rateFor(buyCurrency, sellCurrency),
             ),

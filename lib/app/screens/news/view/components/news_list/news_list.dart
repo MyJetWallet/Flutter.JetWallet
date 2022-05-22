@@ -97,8 +97,8 @@ class _NewsListState extends State<NewsList> {
                               news.newsItems[index].topic,
                             );
                           },
-                          text1: intl.discussOn,
-                          text2: intl.cryptoPanic,
+                          text1: intl.marketNewsBlock_discussOn,
+                          text2: intl.newsList_cryptoPanic,
                         ),
                         const SpaceH24(),
                         Container(
@@ -128,8 +128,8 @@ class _NewsListState extends State<NewsList> {
                         context,
                         news.newsItems[index].urlAddress,
                       ),
-                      text1: intl.discussOn,
-                      text2: intl.cryptoPanic,
+                      text1: intl.marketNewsBlock_discussOn,
+                      text2: intl.newsList_cryptoPanic,
                     );
                   }
                 },
@@ -180,8 +180,8 @@ class _NewsListState extends State<NewsList> {
                         news.newsItems[index].topic,
                       );
                     },
-                    text1: intl.discussOn,
-                    text2: intl.cryptoPanic,
+                    text1: intl.marketNewsBlock_discussOn,
+                    text2: intl.newsList_cryptoPanic,
                   );
                 },
                 childCount: news.newsItems.length,
@@ -249,7 +249,7 @@ class _NewsListState extends State<NewsList> {
                         ),
                         STextButton1(
                           active: true,
-                          name: intl.retry,
+                          name: intl.news_retry,
                           onTap: () {
                             newsN.init(widget.scrollController);
                           },
@@ -280,8 +280,8 @@ class _NewsListState extends State<NewsList> {
                             context,
                             news.newsItems[index].urlAddress,
                           ),
-                          text1: intl.discussOn,
-                          text2: intl.cryptoPanic,
+                          text1: intl.marketNewsBlock_discussOn,
+                          text2: intl.newsList_cryptoPanic,
                         ),
                         Container(
                           width: double.infinity,
@@ -337,7 +337,7 @@ class _NewsListState extends State<NewsList> {
                               ),
                               STextButton1(
                                 active: true,
-                                name: intl.retry,
+                                name: intl.news_retry,
                                 onTap: () {
                                   newsN.news(widget.scrollController);
                                 },
@@ -361,8 +361,8 @@ class _NewsListState extends State<NewsList> {
                         context,
                         news.newsItems[index].urlAddress,
                       ),
-                      text1: intl.discussOn,
-                      text2: intl.cryptoPanic,
+                      text1: intl.marketNewsBlock_discussOn,
+                      text2: intl.newsList_cryptoPanic,
                     );
                   }
                 },

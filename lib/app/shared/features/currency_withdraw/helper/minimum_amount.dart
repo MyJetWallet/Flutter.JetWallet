@@ -9,7 +9,7 @@ String minimumAmount(CurrencyModel currency, BuildContext context) {
   final intl = context.read(intlPod);
 
   if (currency.isFeeInOtherCurrency) {
-    return intl.noMinimum;
+    return intl.minimumAmount_noMinimum;
   } else {
     return '${intl.min1} ${currency.withdrawalFeeSize} ${currency.symbol}';
   }

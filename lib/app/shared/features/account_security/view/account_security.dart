@@ -47,7 +47,7 @@ class AccountSecurity extends HookWidget {
           ),
           if (userInfo.pinEnabled)
             SimpleAccountCategoryButton(
-              title: intl.change_pin,
+              title: intl.accountSecurity_changePin,
               icon: const SChangePinIcon(),
               isSDivider: true,
               onTap: () => PinScreen.push(context, const Change()),

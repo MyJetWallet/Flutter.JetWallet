@@ -34,7 +34,7 @@ class _SearchPinned extends HookWidget {
 
     return SStandardField(
       autofocus: true,
-      labelText: intl.phoneNumber,
+      labelText: intl.showContactPicker_phoneNumber,
       initialValue: state.phoneSearch,
       onChanged: (value) {
         notifier.updatePhoneSearch(value);

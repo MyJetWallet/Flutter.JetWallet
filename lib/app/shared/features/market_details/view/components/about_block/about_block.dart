@@ -26,7 +26,7 @@ class AboutBlock extends HookWidget {
       children: [
         const SpaceH6(),
         Text(
-          intl.about,
+          intl.aboutBlock_about,
           style: sTextH4Style,
         ),
         const SpaceH20(),

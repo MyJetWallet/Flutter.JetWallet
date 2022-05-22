@@ -12,14 +12,14 @@ void showDepositDisclaimer({
   required void Function()? onDismiss,
 }) {
   final intl = context.read(intlPod);
-  final action = screenTitle == 'Receive' ? screenTitle : intl.send;
+  final action =
+      screenTitle == 'Receive' ? screenTitle : intl.showDepositDisclaimer_send;
 
   sShowAlertPopup(
     context,
-    primaryText:
-        '$action ${intl.only} '
-            '$assetSymbol ${intl.showDepositDisclaimer_primatyText}',
-    primaryButtonName: intl.gotIt,
+    primaryText: '$action ${intl.showDepositDisclaimer_only} '
+        '$assetSymbol ${intl.showDepositDisclaimer_primatyText}',
+    primaryButtonName: intl.showDepositDisclaimer_gotIt,
     barrierDismissible: false,
     willPopScope: false,
     onPrimaryButtonTap: () {

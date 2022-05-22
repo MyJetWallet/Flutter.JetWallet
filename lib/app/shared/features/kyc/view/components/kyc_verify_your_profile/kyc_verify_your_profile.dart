@@ -46,7 +46,7 @@ class KycVerifyYourProfile extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.verifyYourProfile}!',
+          title: '${intl.kycVerifyYourProfile_verifyYourProfile}!',
         ),
       ),
       child: Stack(

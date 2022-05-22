@@ -116,7 +116,7 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                isInProgress ? '${intl.balanceInProcess_text1}...'
+                isInProgress ? '${intl.walletCard_balanceInProcess}...'
                     : currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,

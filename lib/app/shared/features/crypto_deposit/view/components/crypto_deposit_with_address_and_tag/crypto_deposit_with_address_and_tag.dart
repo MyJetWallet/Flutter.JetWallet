@@ -45,10 +45,11 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
           canTapOnHeader: true,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return SAddressFieldWithCopy(
-              header: '${currency.symbol} ${intl.walletAddress}',
+              header: '${currency.symbol}'
+                  ' ${intl.cryptoDepositWithAddressAndTag_walletAddress}',
               value: shortAddressForm(deposit.address),
               realValue: deposit.address,
-              afterCopyText: intl.addressCopied,
+              afterCopyText: intl.cryptoDepositWithAddressAndTag_addressCopied,
               valueLoading: deposit.union is Loading,
               actionIcon: deposit.isAddressOpen
                   ? const SAngleUpIcon()
@@ -89,7 +90,7 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
               header: intl.tag,
               value: deposit.tag!,
               realValue: deposit.tag,
-              afterCopyText: intl.tagCopied,
+              afterCopyText: intl.cryptoDepositWithAddress_tagCopied,
               valueLoading: deposit.union is Loading,
               actionIcon: deposit.isAddressOpen
                   ? const SAngleDownIcon()

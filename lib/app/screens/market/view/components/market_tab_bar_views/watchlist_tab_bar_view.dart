@@ -69,7 +69,7 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
                 ),
                 fadeOutWidget: const MarketHeaderStats(),
                 permanentWidget: SMarketHeaderClosed(
-                  title: intl.market,
+                  title: intl.watchlistTabBarView_market,
                 ),
               ),
             ),

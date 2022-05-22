@@ -25,7 +25,7 @@ class ReturnRatesBlock extends HookWidget {
           SBaselineChild(
             baseline: 56,
             child: Text(
-              intl.returnRates,
+              intl.returnRatesBlock_returnRates,
               textAlign: TextAlign.start,
               style: sTextH4Style,
             ),

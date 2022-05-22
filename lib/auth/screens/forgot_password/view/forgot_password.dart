@@ -57,7 +57,7 @@ class ForgotPassword extends HookWidget {
         );
       },
       child: SPageFrame(
-        loaderText: intl.pleaseWait,
+        loaderText: intl.forgotPassword_pleaseWait,
         loading: loader.value,
         color: colors.grey5,
         header: SPaddingH24(

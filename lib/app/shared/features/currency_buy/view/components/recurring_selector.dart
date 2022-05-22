@@ -29,7 +29,8 @@ class RecurringSelector extends HookWidget {
         const Spacer(),
         if (oneTimePurchaseOnly)
           Text(
-            '${intl.recurringBuysType_oneTimePurchase} ${intl.only}',
+            '${intl.recurringBuysType_oneTimePurchase}'
+                ' ${intl.recurringBuysType_only}',
             style: sSubtitle3Style.copyWith(
               color: colors.grey1,
             ),

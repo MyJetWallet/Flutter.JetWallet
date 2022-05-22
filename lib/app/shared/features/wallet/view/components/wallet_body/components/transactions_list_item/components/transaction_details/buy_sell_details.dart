@@ -117,7 +117,7 @@ class BuySellDetails extends HookWidget {
             ),
             const SpaceH14(),
             TransactionDetailsItem(
-              text: intl.rate,
+              text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(buyCurrency, sellCurrency),
               ),
@@ -125,7 +125,7 @@ class BuySellDetails extends HookWidget {
           ],
           if (transactionListItem.operationType == OperationType.sell) ...[
             TransactionDetailsItem(
-              text: intl.forText,
+              text: intl.buySellDetails_forText,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
                   prefix: buyCurrency.prefixSymbol,
@@ -144,7 +144,7 @@ class BuySellDetails extends HookWidget {
             ),
             const SpaceH14(),
             TransactionDetailsItem(
-              text: intl.rate,
+              text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(sellCurrency, buyCurrency),
               ),

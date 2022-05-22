@@ -56,7 +56,7 @@ class BalanceInProcess extends HookWidget {
                   baseline: 27.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    '${intl.balanceInProcess_text1}...',
+                    '${intl.balanceInProcess_balanceInProcess}...',
                     style: sBodyText2Style.copyWith(
                       color: colors.grey2,
                     ),

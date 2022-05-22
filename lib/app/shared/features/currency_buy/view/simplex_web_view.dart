@@ -37,7 +37,7 @@ class SimplexWebView extends HookWidget {
         context: context,
         secondaryText:
             '${intl.simplexWebView_successScreenSecondaryText1}\n≈ 10-30 '
-                '${intl.minutes}',
+                '${intl.simplexWebView_minutes}',
         then: () => context.read(navigationStpod).state = 1,
       );
       sAnalytics.simplexSucsessView(url);
@@ -46,14 +46,14 @@ class SimplexWebView extends HookWidget {
     void _showFailure() {
       FailureScreen.push(
         context: context,
-        primaryText: intl.failure,
-        secondaryText: intl.failedToBuy,
-        primaryButtonName: intl.editOrder,
+        primaryText: intl.simplexWebView_failure,
+        secondaryText: intl.simplexWebView_failedToBuy,
+        primaryButtonName: intl.simplexWeb_editOrder,
         onPrimaryButtonTap: () {
           Navigator.pop(context);
           Navigator.pop(context);
         },
-        secondaryButtonName: intl.close,
+        secondaryButtonName: intl.simplexWebView_close,
         onSecondaryButtonTap: () => navigateToRouter(context.read),
       );
       sAnalytics.simplexFailureView(url);
@@ -69,7 +69,7 @@ class SimplexWebView extends HookWidget {
           child: SSmallHeader(
             titleAlign: TextAlign.left,
             icon: const SCloseIcon(),
-            title: intl.simplex,
+            title: intl.simplexWebView_simplex,
             onBackButtonTap: () {
               navigateToRouter(context.read);
             },

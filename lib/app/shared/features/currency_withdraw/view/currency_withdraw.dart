@@ -63,7 +63,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         controller: state.networkController,
-                        labelText: intl.showNetwork_header1,
+                        labelText: intl.currencyWithdraw_chooseNetwork,
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
@@ -80,8 +80,9 @@ class CurrencyWithdraw extends HookWidget {
                   child: SPaddingH24(
                     child: SStandardField(
                       errorNotifier: state.addressErrorNotifier,
-                      labelText: '${intl.enter} ${currency.symbol} '
-                          '${intl.address1}',
+                      labelText: '${intl.currencyWithdraw_enter}'
+                          ' ${currency.symbol} '
+                          '${intl.currencyWithdraw_address}',
                       focusNode: state.addressFocus,
                       controller: state.addressController,
                       onChanged: (value) => notifier.updateAddress(value),
@@ -107,7 +108,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         errorNotifier: state.tagErrorNotifier,
-                        labelText: intl.enterTag,
+                        labelText: intl.currencyWithdraw_enterTag,
                         focusNode: state.tagFocus,
                         controller: state.tagController,
                         onChanged: (value) => notifier.updateTag(value),

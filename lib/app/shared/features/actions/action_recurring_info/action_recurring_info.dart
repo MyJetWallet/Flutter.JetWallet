@@ -47,7 +47,7 @@ class ShowRecurringInfoAction extends HookWidget {
         ),
         child: SSecondaryButton1(
           active: true,
-          name: intl.manage,
+          name: intl.actionRecurringInfo_manage,
           onTap: () {
             showRecurringManageAction(
               context: context,
@@ -74,7 +74,8 @@ class ShowRecurringInfoAction extends HookWidget {
                   child: Column(
                     children: [
                       SSmallHeader(
-                        title: '$assetName ${intl.recurringBuy}',
+                        title: '$assetName'
+                            ' ${intl.actionRecurringInfo_recurringBuy}',
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,

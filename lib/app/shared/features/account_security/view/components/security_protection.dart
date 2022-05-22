@@ -26,7 +26,7 @@ class SecurityProtection extends HookWidget {
           alignment: Alignment.bottomLeft,
           height: 40.0,
           child: Text(
-            '${level.name} ${intl.protectionLevel}',
+            '${level.name} ${intl.securityProtection_protectionLevel}',
             style: sSubtitle3Style.copyWith(
               color: colors.grey1,
             ),

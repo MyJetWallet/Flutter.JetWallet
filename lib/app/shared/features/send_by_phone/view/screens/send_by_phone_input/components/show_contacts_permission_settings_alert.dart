@@ -19,8 +19,8 @@ void showContactsPermissionSettingsAlert({
     ),
     topSpacer: const SpaceH20(),
     primaryText: intl.showContactPermission_primaryText,
-    primaryButtonName: intl.goToSettings,
-    secondaryButtonName: intl.enterManually,
+    primaryButtonName: intl.showContactPermission_goToSettings,
+    secondaryButtonName: intl.showContactPermission_enterManually,
     secondaryText: '${intl.showContactsPermission_secondaryText1}\n\n'
         '${intl.showContactsPermission_secondaryText2}.',
     onPrimaryButtonTap: onGoToSettings,

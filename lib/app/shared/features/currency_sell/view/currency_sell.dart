@@ -60,7 +60,7 @@ class CurrencySell extends HookWidget {
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
-          name: intl.forText,
+          name: intl.currencySell_forText,
         ),
         children: [
           for (final currency in assetWithBalance)
@@ -125,7 +125,7 @@ class CurrencySell extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.sell} ${currency.description}',
+          title: '${intl.currencySell_sell} ${currency.description}',
         ),
       ),
       child: Column(
@@ -152,7 +152,7 @@ class CurrencySell extends HookWidget {
             ),
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              '${intl.available}: ${currency.volumeAssetBalance}',
+              '${intl.currencySell_available}: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),
@@ -163,7 +163,7 @@ class CurrencySell extends HookWidget {
             SPaymentSelectDefault(
               widgetSize: widgetSizeFrom(deviceSize),
               icon: const SActionWithdrawIcon(),
-              name: intl.chooseDestination,
+              name: intl.currencySell_chooseDestination,
               onTap: () => _showAssetSelector(context),
             )
           else if (state.selectedCurrency!.type == AssetType.crypto)
@@ -209,7 +209,7 @@ class CurrencySell extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.inputValid,
-            submitButtonName: intl.previewSell,
+            submitButtonName: intl.currencySell_previewSell,
             onSubmitPressed: () {
               navigatorPush(
                 context,

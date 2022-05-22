@@ -54,7 +54,7 @@ class Convert extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.convert,
+          title: intl.convert_convert,
         ),
       ),
       child: Column(
@@ -133,7 +133,7 @@ class Convert extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.convertValid,
-            submitButtonName: intl.previewConvert,
+            submitButtonName: intl.convert_previewConvert,
             onSubmitPressed: () {
               navigatorPush(
                 context,

@@ -41,13 +41,13 @@ String stringRequiredVerified(
 
   switch (type) {
     case RequiredVerified.proofOfIdentity:
-      return intl.verifyYourIdentity;
+      return intl.kycOperationStatus_verifyYourIdentity;
     case RequiredVerified.proofOfAddress:
-      return intl.addressVerification;
+      return intl.kycOperationStatus_addressVerification;
     case RequiredVerified.proofOfFunds:
-      return intl.proofSourceOfFunds;
+      return intl.kycOperationStatus_proofSourceOfFunds;
     case RequiredVerified.proofOfPhone:
-      return intl.secureYourAccount;
+      return intl.kycOperationStatus_secureYourAccount;
   }
 }
 

@@ -46,7 +46,7 @@ class CircleBillingAddress extends HookWidget {
     return WillPopScope(
       onWillPop: () => Future.value(navigationAllowed),
       child: SPageFrame(
-        loaderText: intl.pleaseWait,
+        loaderText: intl.circleBillingAddress_pleaseWait,
         loading: state.loader,
         header: SPaddingH24(
           child: SBigHeader(
@@ -55,7 +55,7 @@ class CircleBillingAddress extends HookWidget {
                 Navigator.pop(context);
               }
             },
-            title: intl.billingAddress,
+            title: intl.circleBillingAddress_billingAddress,
           ),
         ),
         child: Column(
@@ -65,35 +65,36 @@ class CircleBillingAddress extends HookWidget {
               children: [
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: intl.streetAddress,
+                    labelText: intl.circleBillingAddress_streetAddress,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress1,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: '${intl.streetAddress} 2 (${intl.optional})',
+                    labelText: '${intl.circleBillingAddress_streetAddress} 2'
+                        ' (${intl.circleBillingAddress_optional})',
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress2,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: intl.city,
+                    labelText: intl.circleBillingAddress_city,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCity,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: intl.district,
+                    labelText: intl.circleBillingAddress_district,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateDistrict,
                   ),
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
-                    labelText: intl.postalCode,
+                    labelText: intl.circleBillingAddress_postalCode,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,

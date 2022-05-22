@@ -111,7 +111,7 @@ class RecurringBuysItem extends HookWidget {
                         baseline: 18.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
-                          '${intl.total} ${notifier.price(
+                          '${intl.recurringBuysItem_total} ${notifier.price(
                             asset: baseCurrency.symbol,
                             amount: double.parse(
                               '${recurring.totalToAmount}',
@@ -142,7 +142,7 @@ class RecurringBuysItem extends HookWidget {
     final intl = context.read(intlPod);
 
     if (recurring.status == RecurringBuysStatus.paused) {
-      return intl.paused;
+      return intl.recurringBuysItem_paused;
     } else {
       return '${recurring.lastToAmount} ${recurring.toAsset}';
     }

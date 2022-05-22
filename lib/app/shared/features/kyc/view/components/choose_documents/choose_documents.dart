@@ -148,12 +148,12 @@ class ChooseDocuments extends HookWidget {
                     context: context,
                     permissionDescription:
                         '${intl.chooseDocuments_permissionDescriptionText1} '
-                        '${intl.camera}',
+                        '${intl.chooseDocument_camera}',
                     then: () => UploadKycDocuments.pushReplacement(context),
                   );
                 }
               },
-              name: intl.chooseDocument,
+              name: intl.chooseDocument_chooseDocument,
               active: notifier.activeButton(),
             ),
           ),

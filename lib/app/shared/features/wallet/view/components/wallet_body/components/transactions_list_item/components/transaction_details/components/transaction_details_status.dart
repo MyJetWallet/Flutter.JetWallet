@@ -24,7 +24,7 @@ class TransactionDetailsStatus extends HookWidget {
     return Row(
       children: [
         TransactionDetailsNameText(
-          text: intl.status,
+          text: intl.transactionDetailsStatus_status,
         ),
         const Spacer(),
         TransactionDetailsValueText(
@@ -40,11 +40,11 @@ class TransactionDetailsStatus extends HookWidget {
 
     switch (status) {
       case Status.completed:
-        return intl.completed;
+        return intl.transactionDetailsStatus_completed;
       case Status.inProgress:
-        return '${intl.balanceInProcess_text1}...';
+        return '${intl.transactionDetailsStatus_balanceInProcess}...';
       case Status.declined:
-        return intl.declined;
+        return intl.transactionDetailsStatus_declined;
     }
   }
 

@@ -9,29 +9,29 @@ String operationName(OperationType type, BuildContext context,) {
 
   switch (type) {
     case OperationType.deposit:
-      return intl.deposit;
+      return intl.operationName_deposit;
     case OperationType.withdraw:
-      return intl.withdrawal;
+      return intl.operationName_withdrawal;
     case OperationType.transferByPhone:
-      return intl.transferByPhone;
+      return intl.operationName_transferByPhone;
     case OperationType.receiveByPhone:
-      return intl.receiveByPhone;
+      return intl.operationName_receiveByPhone;
     case OperationType.buy:
-      return intl.buy;
+      return intl.operationName_buy;
     case OperationType.sell:
-      return intl.sell;
+      return intl.operationName_sell;
     case OperationType.paidInterestRate:
-      return intl.interestRate;
+      return intl.operationName_interestRate;
     case OperationType.feeSharePayment:
-      return intl.feeSharePayment;
+      return intl.operationName_feeSharePayment;
     case OperationType.swap:
-      return intl.swap;
+      return intl.operationName_swap;
     case OperationType.withdrawalFee:
-      return intl.withdrawalFee;
+      return intl.operationName_withdrawalFee;
     case OperationType.rewardPayment:
-      return intl.rewardPayment;
+      return intl.operationName_rewardPayment;
     case OperationType.simplexBuy:
-      return intl.simplex;
+      return intl.operationName_simplex;
     case OperationType.recurringBuy:
       return intl.account_recurringBuy;
     case OperationType.unknown:

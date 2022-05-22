@@ -197,19 +197,19 @@ class UploadKycDocumentsNotifier
 
     if (activeDocument.document != KycDocumentType.passport) {
       if (state.documentFirstSide != null && state.documentSecondSide != null) {
-        return intl.uploadPhotos;
+        return intl.uploadKycDocumentsNotifier_uploadPhotos;
       } else {
         if (state.numberSide == 0) {
-          return intl.frontSide;
+          return intl.uploadKycDocumentsNotifier_frontSide;
         } else {
-          return intl.backSide;
+          return intl.uploadKycDocumentsNotifier_backSide;
         }
       }
     } else {
       if (state.documentFirstSide != null) {
-        return intl.uploadPhotos;
+        return intl.uploadKycDocumentsNotifier_uploadPhotos;
       } else {
-        return intl.frontSide;
+        return intl.uploadKycDocumentsNotifier_frontSide;
       }
     }
   }

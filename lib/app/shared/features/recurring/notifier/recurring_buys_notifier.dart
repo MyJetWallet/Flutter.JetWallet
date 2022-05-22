@@ -189,8 +189,8 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
       return '${recurringBuysOperationName(
         array.first.scheduleType,
         context,
-      )} ${intl.recurring}'
-          ' ${intl.buy2}';
+      )} ${intl.recurringBuysNotifier_recurring}'
+          ' ${intl.recurringBuysNotifier_buy2}';
     } else {
       return '${intl.account_recurringBuy} (${array.length})';
     }

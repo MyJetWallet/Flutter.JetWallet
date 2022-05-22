@@ -17,13 +17,12 @@ class MarketHeaderStats extends HookWidget {
 
     return SPaddingH24(
       child: SMarketHeader(
-        title: intl.market,
+        title: intl.marketHeaderStats_market,
         percent: marketInfo.toString(),
         isPositive: marketInfo > Decimal.zero,
         subtitle:
-            '${intl.marketIs} ${
-                (marketInfo > Decimal.zero) ? intl.up : intl.down
-            }',
+            '${intl.marketHeaderStats_marketIs} ${(marketInfo > Decimal.zero) ?
+            intl.marketHeaderStats_up : intl.marketHeaderStats_down}',
         showInfo: marketInfo != Decimal.zero,
       ),
     );

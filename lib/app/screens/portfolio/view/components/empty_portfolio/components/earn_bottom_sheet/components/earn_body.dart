@@ -51,7 +51,7 @@ class EarnBody extends HookWidget {
           child: Row(
             children: [
               Text(
-                intl.earnBody_text1,
+                intl.earnBody_startEarn,
                 style: sTextH4Style,
               ),
             ],

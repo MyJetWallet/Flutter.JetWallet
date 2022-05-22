@@ -149,7 +149,7 @@ class Account extends HookWidget {
                             },
                           ),
                           SimpleAccountCategoryButton(
-                            title: intl.history,
+                            title: intl.account_history,
                             icon: const SIndexHistoryIcon(),
                             isSDivider: true,
                             onTap: () => TransactionHistory.push(
@@ -157,7 +157,7 @@ class Account extends HookWidget {
                             ),
                           ),
                           SimpleAccountCategoryButton(
-                            title: intl.support,
+                            title: intl.account_support,
                             icon: const SSupportIcon(),
                             isSDivider: true,
                             onTap: () => Crisp.push(
@@ -166,7 +166,7 @@ class Account extends HookWidget {
                             ),
                           ),
                           SimpleAccountCategoryButton(
-                            title: intl.help_center,
+                            title: intl.account_helpCenter,
                             icon: const SQuestionIcon(),
                             isSDivider: true,
                             onTap: () {

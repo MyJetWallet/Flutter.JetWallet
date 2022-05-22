@@ -100,7 +100,7 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
 
     try {
       await body();
-     } on ServerRejectException catch (e) {
+    } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
       sAnalytics.kycPhoneConfirmFailed(e.cause);
@@ -113,7 +113,9 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
 
       final intl = read(intlPod);
 
-      sAnalytics.kycPhoneConfirmFailed(intl.phoneVerificationNotifier_somethingWentWrong);
+      sAnalytics.kycPhoneConfirmFailed(
+        intl.phoneVerificationNotifier_somethingWentWrong,
+      );
       read(sNotificationNotipod.notifier).showError(
         intl.phoneVerificationNotifier_somethingWentWrong,
         id: 2,

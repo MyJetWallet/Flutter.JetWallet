@@ -76,7 +76,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
-          name: intl.payFrom,
+          name: intl.curencyBuy_payFrom,
         ),
         children: [
           for (final currency in state.currencies)
@@ -152,11 +152,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     }
 
     return SPageFrame(
-      loaderText: intl.pleaseWait,
+      loaderText: intl.curencyBuy_pleaseWait,
       loading: loader.value,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.buy} ${widget.currency.description}',
+          title: '${intl.curencyBuy_buy} ${widget.currency.description}',
         ),
       ),
       child: Stack(
@@ -273,7 +273,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
                     widget.currency.description,
-                    state.selectedPaymentMethod?.type.name ?? intl.crypto,
+                    state.selectedPaymentMethod?.type.name ??
+                        intl.curencyBuy_crypto,
                     formatCurrencyStringAmount(
                       prefix: state.selectedCurrency?.prefixSymbol,
                       value: state.inputValue,

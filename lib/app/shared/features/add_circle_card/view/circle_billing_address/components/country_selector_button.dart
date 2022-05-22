@@ -38,7 +38,7 @@ class CountrySelectorButton extends HookWidget {
                     children: [
                       const SpaceH22(),
                       Text(
-                        intl.country,
+                        intl.countrySelectorButton_country,
                         style: sCaptionTextStyle.copyWith(
                           color: colors.grey2,
                         ),
