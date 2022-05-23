@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
@@ -41,7 +41,22 @@ class ProfileDetails extends HookWidget {
             label: 'Change password',
             value: '• • • • • • • • • • •',
             onTap: () {
-              navigatorPush(context, const ChangePassword());
+              sShowAlertPopup(
+                context,
+                willPopScope: false,
+                primaryText: 'Pay attention',
+                secondaryText: 'When changing the password, the '
+                    'withdrawal of funds will be locked for 24 hours.',
+                primaryButtonName: 'Continue',
+                image: _infoImage,
+                onPrimaryButtonTap: () {
+                  navigatorPushReplacement(context, const ChangePassword());
+                },
+                secondaryButtonName: 'Cancel',
+                onSecondaryButtonTap: () {
+                  Navigator.pop(context);
+                },
+              );
             },
           ),
           if (userInfo.isPhoneNumberSet)
@@ -53,13 +68,12 @@ class ProfileDetails extends HookWidget {
                   context,
                   willPopScope: false,
                   primaryText: 'Pay attention',
-                  secondaryText: 'Do you wish to proceed changing your '
-                      'phone number? You will need to enter an SMS code '
-                      'to complete this process.',
+                  secondaryText: 'When changing the phone number, the '
+                      'withdrawal of funds will be locked for 24 hours.',
                   primaryButtonName: 'Continue',
                   image: _infoImage,
                   onPrimaryButtonTap: () {
-                    PhoneVerification.push(
+                    PhoneVerification.pushReplacement(
                       context: context,
                       args: PhoneVerificationArgs(
                         phoneNumber: userInfo.phone,
