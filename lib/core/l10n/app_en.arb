@@ -406,4 +406,10 @@
     "success_preview_return_to_wallet_message": "Return request has been created",
     "failure_preview_return_to_wallet_message": "Failure",
     "failure_preview_return_to_wallet_close": "Close"
+    "earn_with": "With",
+    "earn_transaction_id": "Transaction ID",
+    "earn_details_subscription": "Subscription",
+    "earn_details_reason": "Reason",
+    "earn_details_subscription_expired": "Subscription expired",
+    "earn_in_progress": "The funds will be credited to the \nwallet during 24 hours"
 }

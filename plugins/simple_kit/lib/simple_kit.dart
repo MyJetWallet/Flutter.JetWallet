@@ -159,6 +159,8 @@ export 'src/icons/24x24/public/delete/simple_delete_manage_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_market_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_pressed_icon.dart';
+export 'src/icons/24x24/public/earn/simple_earn_deposit_icon.dart';
+export 'src/icons/24x24/public/earn/simple_earn_withdrawal_icon.dart';
 export 'src/icons/24x24/public/error/simple_error_icon.dart';
 export 'src/icons/24x24/public/error/simple_error_pressed_icon.dart';
 export 'src/icons/24x24/public/eye_close/simple_eye_close_icon.dart';
