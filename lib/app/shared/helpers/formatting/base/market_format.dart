@@ -31,6 +31,11 @@ String marketFormat({
     );
   }
 
+  if (decimal == Decimal.zero) {
+    // ignore: parameter_assignments
+    accuracy = 0;
+  }
+
   final formatted = _formatNumber(decimal, accuracy);
 
   late String formattedWithSymbol;
