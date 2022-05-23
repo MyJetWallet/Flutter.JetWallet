@@ -278,6 +278,7 @@ class HighYieldBuy extends HookWidget {
             onTap: state.simpleTiers.isNotEmpty ? _showHowWeCountSheet : null,
             tiers: state.simpleTiers,
             hot: earnOffer.offerTag == 'Hot',
+            error: state.error,
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -296,7 +297,7 @@ class HighYieldBuy extends HookWidget {
               notifier.updateInputValue(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: state.inputValid,
+            submitButtonActive: state.inputValid && !state.error,
             submitButtonName: 'Preview',
             onSubmitPressed: () {
               navigatorPush(

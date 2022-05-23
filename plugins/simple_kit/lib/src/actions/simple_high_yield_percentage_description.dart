@@ -10,6 +10,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
     required this.onTap,
     required this.tiers,
     required this.hot,
+    required this.error,
     this.apy = '',
   }) : super(key: key);
 
@@ -18,6 +19,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
   final String apy;
   final List<SimpleTierModel> tiers;
   final bool hot;
+  final bool error;
 
   @override
   Widget build(BuildContext context) {
@@ -67,18 +69,32 @@ class SHighYieldPercentageDescription extends StatelessWidget {
                     tiers: tiers,
                     isHot: hot,
                   ),
-                  const SpaceW20(),
-                  Baseline(
-                    baseline: 27,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      apy,
-                      style: sTextH2Style.copyWith(
-                        color: textColor,
+                  if (error) const SpaceW37() else const SpaceW20(),
+                  if (error)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: SColorsLight().grey5,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const LoaderSpinner(
+                        size: 32,
+                      ),
+                    )
+                  else
+                    Baseline(
+                      baseline: 27,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        apy,
+                        style: sTextH2Style.copyWith(
+                          color: textColor,
+                        ),
                       ),
                     ),
-                  ),
-                  const SpaceW19(), // + 1 px border
+                  if (error)
+                    const SpaceW27() // + 1 px border
+                  else
+                    const SpaceW19(), // + 1 px border
                 ],
               ),
               // + 1 px border
