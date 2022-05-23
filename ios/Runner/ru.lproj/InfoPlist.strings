@@ -1,0 +1,13 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Denis M on 23.05.2022.
+  
+*/
+
+NSCameraUsageDescription = "Чтобы делать снимки и определять свое лицо";
+NSPhotoLibraryUsageDescription = "Причины безопасности и предотвращения мошенничества";
+NSContactsUsageDescription = "Это приложение требует доступа к контактам для правильной работы.";
+NSFaceIDUsageDescription = "Нам нужен ваш идентификатор лица";
+NSUserTrackingUsageDescription = "Ваши данные будут использоваться нашими рекламными партнерами для улучшения и персонализации вашей рекламы.";
