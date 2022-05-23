@@ -353,5 +353,11 @@
     "earn_return_to_wallet": "Return to wallet",
     "earn_expiry_date": "Expiry day",
     "earn_expected_profit": "Expected profit",
-    "earn_aprox": "aprox."
+    "earn_aprox": "aprox.",
+    "earn_with": "With",
+    "earn_transaction_id": "Transaction ID",
+    "earn_details_subscription": "Subscription",
+    "earn_details_reason": "Reason",
+    "earn_details_subscription_expired": "Subscription expired",
+    "earn_in_progress": "The funds will be credited to the \nwallet during 24 hours"
 }

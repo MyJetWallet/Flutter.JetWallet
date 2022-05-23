@@ -1,6 +1,6 @@
 import '../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 
-String operationName(OperationType type) {
+String operationName(OperationType type, { bool? isToppedUp }) {
   switch (type) {
     case OperationType.deposit:
       return 'Deposit';
@@ -28,6 +28,10 @@ String operationName(OperationType type) {
       return 'Simplex';
     case OperationType.recurringBuy:
       return 'Recurring buy';
+    case OperationType.earningDeposit:
+      return isToppedUp != null ? 'Topped up Earn' : 'Subscribed to Earn';
+    case OperationType.earningWithdrawal:
+      return 'Return from Earn';
     case OperationType.unknown:
       return 'Unknown';
   }

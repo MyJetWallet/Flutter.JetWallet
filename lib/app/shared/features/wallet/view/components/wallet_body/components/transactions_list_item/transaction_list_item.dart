@@ -4,8 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../helpers/currency_from.dart';
 import '../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/operation_name.dart';
@@ -31,6 +33,8 @@ class TransactionListItem extends HookWidget {
       currencies,
       transactionListItem.assetId,
     );
+    final baseCurrency = useProvider(baseCurrencyPod);
+    final intl = useProvider(intlPod);
 
     return InkWell(
       onTap: () => showTransactionDetails(
@@ -124,6 +128,20 @@ class TransactionListItem extends HookWidget {
                     )}',
                     color: colors.grey2,
                   ),
+                if (transactionListItem.operationType ==
+                    OperationType.earningDeposit
+                    && transactionListItem.earnInfo?.totalBalance ==
+                        transactionListItem.balanceChange.abs())
+                  TransactionListItemText(
+                    text: '${intl.earn_with} ${volumeFormat(
+                      prefix: baseCurrency.prefix,
+                      decimal: transactionListItem.earnInfo!.totalBalance
+                          * currency.currentPrice,
+                      accuracy: baseCurrency.accuracy,
+                      symbol: baseCurrency.symbol,
+                    )}',
+                    color: colors.grey2,
+                  ),
               ],
             ),
             const SpaceH18(),
@@ -143,6 +161,17 @@ class TransactionListItem extends HookWidget {
         OperationType.recurringBuy) {
       return '${transactionListItem.recurringBuyInfo!.scheduleType} '
           '${operationName(transactionListItem.operationType)}';
+    } else if (transactionListItem.operationType ==
+        OperationType.earningDeposit) {
+      if (transactionListItem.earnInfo?.totalBalance ==
+          transactionListItem.balanceChange) {
+        return operationName(transactionListItem.operationType);
+      } else {
+        return operationName(
+          transactionListItem.operationType,
+          isToppedUp: true,
+        );
+      }
     } else {
       return operationName(transactionListItem.operationType);
     }
@@ -176,6 +205,10 @@ class TransactionListItem extends HookWidget {
         return const SDepositIcon();
       case OperationType.recurringBuy:
         return const SPlusIcon();
+      case OperationType.earningWithdrawal:
+        return const SEarnWithdrawalIcon();
+      case OperationType.earningDeposit:
+        return const SEarnDepositIcon();
       case OperationType.unknown:
         return const SizedBox();
     }
