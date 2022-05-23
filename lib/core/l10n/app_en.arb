@@ -405,7 +405,7 @@
     "preview_return_to_wallet_error": "Some error occurred.",
     "success_preview_return_to_wallet_message": "Return request has been created",
     "failure_preview_return_to_wallet_message": "Failure",
-    "failure_preview_return_to_wallet_close": "Close"
+    "failure_preview_return_to_wallet_close": "Close",
     "earn_with": "With",
     "earn_transaction_id": "Transaction ID",
     "earn_details_subscription": "Subscription",
