@@ -211,6 +211,7 @@ class MarketDetails extends HookWidget {
                   asset: currency.symbol,
                 ),
                 type: recurringNotifier.type(currency.symbol),
+                topMargin: 0,
                 onTap: () {
                   // Todo: need refactor
                   if (kycState.sellStatus ==

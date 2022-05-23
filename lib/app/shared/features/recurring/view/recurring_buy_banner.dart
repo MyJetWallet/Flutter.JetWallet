@@ -12,11 +12,13 @@ class RecurringBuyBanner extends HookWidget {
     required this.type,
     required this.title,
     required this.onTap,
+    this.topMargin = 24.0,
   }) : super(key: key);
 
   final String title;
   final RecurringBuysStatus type;
   final Function() onTap;
+  final double topMargin;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class RecurringBuyBanner extends HookWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: const EdgeInsets.only(top: 24.0),
+          margin: EdgeInsets.only(top: topMargin),
           height: 68,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
