@@ -5,19 +5,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/logging/levels.dart';
-import '../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
-import '../../../../../shared/providers/service_providers.dart';
-import '../../../helpers/calculate_base_balance.dart';
-import '../../../helpers/currencies_helpers.dart';
-import '../../../helpers/input_helpers.dart';
-import '../../../helpers/truncate_zeros_from.dart';
-import '../../../models/currency_model.dart';
-import '../../../models/selected_percent.dart';
-import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
-import '../model/high_yield_buy_input.dart';
+import '../../../../../../../shared/logging/levels.dart';
+import '../../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
+import '../../../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../helpers/calculate_base_balance.dart';
+import '../../../../helpers/currencies_helpers.dart';
+import '../../../../helpers/input_helpers.dart';
+import '../../../../helpers/truncate_zeros_from.dart';
+import '../../../../models/currency_model.dart';
+import '../../../../models/selected_percent.dart';
+import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../model/high_yield_buy_input.dart';
 import 'high_yield_buy_state.dart';
 
 class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {

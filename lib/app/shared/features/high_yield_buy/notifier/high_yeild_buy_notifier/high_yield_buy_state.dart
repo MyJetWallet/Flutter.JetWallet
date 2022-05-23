@@ -2,11 +2,11 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_response_model.dart';
-import '../../../helpers/formatting/base/market_format.dart';
-import '../../../helpers/input_helpers.dart';
-import '../../../models/currency_model.dart';
-import '../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_response_model.dart';
+import '../../../../helpers/formatting/base/market_format.dart';
+import '../../../../helpers/input_helpers.dart';
+import '../../../../models/currency_model.dart';
+import '../../../../providers/base_currency_pod/base_currency_model.dart';
 
 part 'high_yield_buy_state.freezed.dart';
 

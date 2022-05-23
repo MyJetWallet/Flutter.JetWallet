@@ -14,12 +14,10 @@ import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
-import '../../../providers/converstion_price_pod/conversion_price_input.dart';
-import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../market_details/view/components/about_block/components/clickable_underlined_text.dart';
 import '../model/high_yield_buy_input.dart';
 import '../model/preview_high_yield_buy_input.dart';
-import '../notifier/high_yield_buy_notipod.dart';
+import '../notifier/high_yeild_buy_notifier/high_yield_buy_notipod.dart';
 import 'preview_high_yield_buy.dart';
 
 class HighYieldBuy extends HookWidget {
@@ -44,15 +42,6 @@ class HighYieldBuy extends HookWidget {
     );
     final state = useProvider(highYieldBuyNotipod(input));
     final notifier = useProvider(highYieldBuyNotipod(input).notifier);
-    useProvider(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: state.selectedCurrencySymbol,
-          then: notifier.updateTargetConversionPrice,
-        ),
-      ),
-    );
 
     String _inputError(InputError error) {
       if (error == InputError.amountTooLarge) {
