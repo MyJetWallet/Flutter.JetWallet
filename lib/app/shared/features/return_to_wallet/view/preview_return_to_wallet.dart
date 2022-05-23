@@ -28,8 +28,6 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
-    final colors = useProvider(sColorPod);
-    final state = useProvider(previewReturnToWalletNotipod(widget.input));
     final notifier =
         useProvider(previewReturnToWalletNotipod(widget.input).notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
