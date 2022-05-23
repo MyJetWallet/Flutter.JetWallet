@@ -273,8 +273,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
                     assetName: widget.currency.description,
-                    paymentMethod:
-                        state.selectedPaymentMethod?.type.name ?? intl.curencyBuy_crypto,
+                    paymentMethod: state.selectedPaymentMethod?.type.name ??
+                        intl.curencyBuy_crypto,
                     amount: formatCurrencyStringAmount(
                       prefix: state.selectedCurrency?.prefixSymbol,
                       value: state.inputValue,

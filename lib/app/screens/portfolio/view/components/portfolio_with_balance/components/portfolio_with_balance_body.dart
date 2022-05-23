@@ -166,7 +166,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                           Row(
                             children: [
                               Text(
-                                '${intl.portfolioWithBalanceBody_balanceInProcess}...',
+                                '${intl.portfolioWithBalance_balancProcess}...',
                                 style: sTextH1Style.copyWith(
                                   color: colors.black,
                                 ),
@@ -353,9 +353,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 child: Text(
                                   showZeroBalanceWallets.state
                                       ? intl
-                                          .portfolioWithBalanceBody_showZeroBalanceWallets
+                                          .portfolioWithBalance_zeroWallets
                                       : intl
-                                          .portfolioWithBalanceBody_showAllWallets,
+                                          .portfolioWithBalance_showWallets,
                                   style: sBodyText2Style,
                                 ),
                               ),
@@ -430,9 +430,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   child: Text(
                                     showZeroBalanceWallets.state
                                         ? intl
-                                            .portfolioWithBalanceBody_showZeroBalanceWallets
+                                            .portfolioWithBalance_zeroWallets
                                         : intl
-                                            .portfolioWithBalanceBody_showAllWallets,
+                                            .portfolioWithBalance_showWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -527,9 +527,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   child: Text(
                                     showZeroBalanceWallets.state
                                         ? intl
-                                            .portfolioWithBalanceBody_showZeroBalanceWallets
+                                            .portfolioWithBalance_zeroWallets
                                         : intl
-                                            .portfolioWithBalanceBody_showAllWallets,
+                                            .portfolioWithBalance_showWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -604,9 +604,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                                   child: Text(
                                     showZeroBalanceWallets.state
                                         ? intl
-                                            .portfolioWithBalanceBody_showZeroBalanceWallets
+                                            .portfolioWithBalance_zeroWallets
                                         : intl
-                                            .portfolioWithBalanceBody_showAllWallets,
+                                            .portfolioWithBalance_showWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),

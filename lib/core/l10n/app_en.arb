@@ -377,11 +377,11 @@
     "transactionListItem_balanceInProcess": "In progress",
     "transactionListItem_forText": "For",
     "walletCard_balanceInProcess": "In progress",
-    "portfolioWithBalanceBody_balanceInProcess": "In progress",
+    "portfolioWithBalance_balancProcess": "In progress",
     "portfolioWithBalanceBody_all": "All",
     "portfolioWithBalanceBody_deposit": "Deposit",
-    "portfolioWithBalanceBody_showZeroBalanceWallets": "Hide zero wallets",
-    "portfolioWithBalanceBody_showAllWallets": "Show all wallets",
+    "portfolioWithBalance_zeroWallets": "Hide zero wallets",
+    "portfolioWithBalance_showWallets": "Show all wallets",
     "portfolioWithBalanceBody_week": "Week",
     "portfolioWithBalanceBody_month": "Month",
     "portfolioWithBalanceBody_today": "Today",
@@ -788,5 +788,9 @@
     "news": "News",
     "number": "number",
     "days": "days",
-    "hoursLeft": "hours left"
+    "hoursLeft": "hours left",
+    "onboardingScreen_text1": "for your finance",
+    "onboardingScreen_text2": "crypto, earn it",
+    "onboardingScreen_text3": "Top crypto assets",
+    "onboardingScreen_text4": "and earn more"
 }

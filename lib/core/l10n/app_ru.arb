@@ -377,11 +377,11 @@
     "transactionListItem_balanceInProcess": "В ходе выполнения",
     "transactionListItem_forText": "Для",
     "walletCard_balanceInProcess": "В ходе выполнения",
-    "portfolioWithBalanceBody_balanceInProcess": "В ходе выполнения",
+    "portfolioWithBalance_balancProcess": "В ходе выполнения",
     "portfolioWithBalanceBody_all": "Все",
     "portfolioWithBalanceBody_deposit": "Депозит",
-    "portfolioWithBalanceBody_showZeroBalanceWallets": "Скрыть нулевые кошельки",
-    "portfolioWithBalanceBody_showAllWallets": "Показать все кошельки",
+    "portfolioWithBalance_zeroWallets": "Скрыть нулевые кошельки",
+    "portfolioWithBalance_showWallets": "Показать все кошельки",
     "portfolioWithBalanceBody_week": "Неделя",
     "portfolioWithBalanceBody_month": "Месяц",
     "portfolioWithBalanceBody_today": "Сегодня",
@@ -788,5 +788,9 @@
     "news": "Новости",
     "number": "число",
     "days": "дни",
-    "hoursLeft": "часов осталось"
+    "hoursLeft": "часов осталось",
+    "onboardingScreen_text1": "для ваших финансов",
+    "onboardingScreen_text2": "крипто заработать это",
+    "onboardingScreen_text3": "лучшие криптоактивы",
+    "onboardingScreen_text4": "и зарабатывайте больше"
 }

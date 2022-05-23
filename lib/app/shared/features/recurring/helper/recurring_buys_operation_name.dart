@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 
 enum RecurringBuysType {
   @JsonValue(0)
