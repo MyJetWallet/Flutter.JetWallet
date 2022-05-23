@@ -115,6 +115,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void selectFixedSum(SKeyboardPreset preset) {
     late int value;
 
+    _updateSelectedPreset(preset);
+
     if (preset == SKeyboardPreset.preset1) {
       value = 50;
     } else if (preset == SKeyboardPreset.preset2) {
