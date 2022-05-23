@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/get_args.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../notifier/forgot_password/forgot_password_notipod.dart';
 import '../notifier/forgot_password/forgot_password_state.dart';
 
@@ -72,9 +73,9 @@ class ForgotPassword extends HookWidget {
                   const SpaceH7(),
                   SPaddingH24(
                     child: Text(
-                      'Resetting a forgotten password will logout other'
-                          ' devices and suspend cryptocurrency withdrawals'
-                          ' for 24 hours.',
+                      'Resetting a forgotten password will logout other '
+                      'devices and will result in a $forgotPasswordLockHours'
+                      '-hour restriction to all outgoing transfers.',
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),

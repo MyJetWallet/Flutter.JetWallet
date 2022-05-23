@@ -22,6 +22,7 @@ late int emailResendCountdown;
 late int withdrawalConfirmResendCountdown;
 late int localPinLength;
 late int maxPinAttempts;
+late int forgotPasswordLockHours;
 
 // Versioning
 late String recommendedVersion;
