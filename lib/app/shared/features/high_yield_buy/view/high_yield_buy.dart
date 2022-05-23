@@ -25,12 +25,14 @@ import 'preview_high_yield_buy.dart';
 class HighYieldBuy extends HookWidget {
   const HighYieldBuy({
     Key? key,
+    this.topUp = false,
     required this.currency,
     required this.earnOffer,
   }) : super(key: key);
 
   final CurrencyModel currency;
   final EarnOfferModel earnOffer;
+  final bool topUp;
 
   @override
   Widget build(BuildContext context) {
@@ -166,9 +168,29 @@ class HighYieldBuy extends HookWidget {
           const SpaceH35(),
           const SDivider(),
           const SpaceH25(),
+          if (topUp)
+            SActionConfirmText(
+              name: 'Current balance',
+              baseline: 14.0,
+              value: volumeFormat(
+                decimal: state.currentBalance ?? Decimal.zero,
+                accuracy: state.selectedCurrencyAccuracy,
+                symbol: state.selectedCurrencySymbol,
+              ),
+              minValueWidth: 200,
+              maxValueWidth: 200,
+            ),
+          if (topUp)
+            SActionConfirmText(
+              name: 'Current APY',
+              baseline: 34.0,
+              value: state.currentApy != null ? '${state.currentApy}%' : '',
+              minValueWidth: 50,
+              maxValueWidth: 50,
+            ),
           SActionConfirmText(
-            name: 'Your deposit',
-            baseline: 14.0,
+            name: topUp ? 'Top up amount' : 'Your deposit',
+            baseline: topUp ? 34.0 : 14.0,
             value: volumeFormat(
               decimal: Decimal.parse(state.inputValue),
               accuracy: state.selectedCurrencyAccuracy,
@@ -178,8 +200,8 @@ class HighYieldBuy extends HookWidget {
             maxValueWidth: 200,
           ),
           SActionConfirmText(
-            name: 'Your APY',
-            baseline: 25.0,
+            name: topUp ? 'Top up APY' : 'Your APY',
+            baseline: topUp ? 34.0 : 25.0,
             value: state.apy != null ? '${state.apy}%' : '',
             minValueWidth: 50,
             maxValueWidth: 50,
@@ -207,7 +229,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: earnOffer.offerTag == 'Hot' ? 'Hot offer' : 'Flexible',
+          title: (topUp ? 'Top up ' : '') + earnOffer.title,
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
@@ -289,6 +311,7 @@ class HighYieldBuy extends HookWidget {
                     expectedYearlyProfitBase:
                         state.expectedYearlyProfitBaseAsset.toString(),
                     earnOffer: earnOffer,
+                    topUp: topUp,
                   ),
                 ),
               );

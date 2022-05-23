@@ -120,7 +120,9 @@ class PreviewHighYieldBuyNotifier
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'You has been subscribed',
+      secondaryText: input.topUp
+          ? 'Your subscription has been topped up'
+          : 'You has been subscribed',
     );
   }
 
