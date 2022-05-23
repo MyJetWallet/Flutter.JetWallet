@@ -44,24 +44,6 @@ class ChangePassword extends HookWidget {
           children: [
             Container(
               color: colors.white,
-              padding: const EdgeInsets.only(bottom: 14.0),
-              child: SPaddingH24(
-                child: Baseline(
-                  baseline: 24.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    'By changing a password will result in a 24- '
-                    'hour hold on cryptocurrency withdrawals.',
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
-                      overflow: TextOverflow.visible,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              color: colors.white,
               child: SPaddingH24(
                 child: SStandardFieldObscure(
                   autofillHints: const [AutofillHints.password],
@@ -70,7 +52,7 @@ class ChangePassword extends HookWidget {
                     changePasswordN.setOldPassword(password);
                   },
                   autofocus: true,
-                  labelText: 'Enter old Password',
+                  labelText: 'Enter current Password',
                   onErrorIconTap: () {
                     notificationN.showError(
                       "Try again that's not your current password!",
