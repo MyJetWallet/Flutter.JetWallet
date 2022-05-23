@@ -107,23 +107,27 @@ class PreviewReturnToWalletNotifier
     } catch (error) {
       _logger.log(stateFlow, 'earnOfferWithdrawal', error);
 
-      _showFailureScreen(const ServerRejectException('Some error occurred.'));
+      _showFailureScreen(
+        ServerRejectException(
+          read(intlPod).preview_return_to_wallet_error,
+        ),
+      );
     }
   }
 
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Return request has been created',
+      secondaryText: read(intlPod).success_preview_return_to_wallet_message,
     );
   }
 
   void _showFailureScreen(ServerRejectException error) {
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: read(intlPod).failure_preview_return_to_wallet_message,
       secondaryText: error.cause,
-      primaryButtonName: 'Close',
+      primaryButtonName: read(intlPod).failure_preview_return_to_wallet_close,
       onPrimaryButtonTap: () => navigateToRouter(read),
     );
   }

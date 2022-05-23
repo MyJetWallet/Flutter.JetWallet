@@ -8,6 +8,7 @@ import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/formatting/base/market_format.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
@@ -30,6 +31,7 @@ class ReturnToWallet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final input = ReturnToWalletInput(
@@ -40,9 +42,9 @@ class ReturnToWallet extends HookWidget {
     final notifier = useProvider(returnToWalletNotipod(input).notifier);
 
     return SPageFrame(
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Return to wallet',
+          title: intl.return_to_wallet_return_to_wallet,
         ),
       ),
       child: Column(
@@ -66,7 +68,7 @@ class ReturnToWallet extends HookWidget {
               ),
               helper: state.conversionText(),
               error: state.inputError.value(
-                errorInfo: 'Max. ${marketFormat(
+                errorInfo: '${intl.return_to_wallet_max}. ${marketFormat(
                   decimal: state.maxSubscribeAmount ?? Decimal.zero,
                   accuracy: 0,
                   symbol: state.selectedCurrencySymbol,
@@ -82,7 +84,7 @@ class ReturnToWallet extends HookWidget {
             ),
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'Available: ${volumeFormat(
+              '${intl.return_to_wallet_available}: ${volumeFormat(
                 decimal: state.currentBalance ?? Decimal.zero,
                 accuracy: state.selectedCurrencyAccuracy,
                 symbol: state.selectedCurrencySymbol,
@@ -112,7 +114,7 @@ class ReturnToWallet extends HookWidget {
             widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
-            preset3Name: 'MAX',
+            preset3Name: intl.return_to_wallet_max_preset,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
               notifier.selectPercentFromBalance(preset);
@@ -122,7 +124,7 @@ class ReturnToWallet extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.inputValid,
-            submitButtonName: 'Preview',
+            submitButtonName: intl.return_to_wallet_preview,
             onSubmitPressed: () {
               navigatorPush(
                 context,

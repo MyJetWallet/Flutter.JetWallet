@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../wallet/helper/format_date_to_hm.dart';
 import '../model/preview_high_yield_buy_input.dart';
@@ -27,6 +28,7 @@ class PreviewHighYieldBuy extends StatefulHookWidget {
 class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final state = useProvider(previewHighYieldBuyNotipod(widget.input));
@@ -52,14 +54,16 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title: 'Confirm ${widget.input.topUp ? 'Top '
-                  'up' : widget.input.earnOffer.title}',
+              title: '${intl.preview_earn_buy_confirm} '
+                  '${widget.input.topUp ? intl.preview_earn_buy_top_up : widget
+                  .input.earnOffer.title}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title: 'Confirm ${widget.input.topUp ? 'Top '
-                  'up' : widget.input.earnOffer.title}',
+              title:
+                  '${intl.preview_earn_buy_confirm} ${widget.input.topUp ? intl
+                      .preview_earn_buy_top_up : widget.input.earnOffer.title}',
               crossAxisAlignment: CrossAxisAlignment.center,
             );
           },
@@ -79,8 +83,11 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: '${widget.input.topUp ? 'Top '
-                        'up' : 'Subscription'} amount',
+                    name:
+                        '${widget.input.topUp
+                            ? intl.preview_earn_buy_top_up
+                            : intl.preview_earn_buy_subscription} '
+                            '${intl.preview_earn_buy_amount}',
                     baseline: deviceSize.when(
                       small: () => 29,
                       medium: () => 40,
@@ -94,14 +101,16 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   SActionConfirmText(
                     contentLoading: state.union is QuoteLoading,
-                    name: '${widget.input.topUp ? 'Top '
-                        'up ' : ''}APY',
+                    name:
+                        '${widget.input.topUp
+                            ? '${intl.preview_earn_buy_top_up} '
+                            : ''}${intl.preview_earn_buy_apy}',
                     baseline: 35.0,
                     value: '${state.apy}%',
                   ),
                   if (widget.input.earnOffer.endDate != null)
                     SActionConfirmText(
-                      name: 'Expiry date',
+                      name: intl.preview_earn_buy_expiry_date,
                       baseline: 35.0,
                       value: formatDateToDMonthYFromDate(
                         widget.input.earnOffer.endDate!,
@@ -109,7 +118,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     )
                   else
                     SActionConfirmText(
-                      name: 'Term',
+                      name: intl.preview_earn_buy_term,
                       baseline: 35.0,
                       value: widget.input.earnOffer.title,
                     ),
@@ -119,7 +128,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   const SDivider(),
                   SActionConfirmText(
-                    name: 'Expected yearly profit',
+                    name: intl.preview_earn_buy_expected_yearly_profit,
                     contentLoading: state.union is QuoteLoading,
                     baseline: deviceSize.when(
                       small: () => 37,
@@ -151,7 +160,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                             ),
                           )
                         : Text(
-                            'approx. ${volumeFormat(
+                            '${intl.preview_earn_buy_approx}. ${volumeFormat(
                               prefix: '\$',
                               decimal: state.expectedYearlyProfitBase ??
                                   Decimal.zero,
@@ -165,8 +174,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   const SpaceH12(),
                   Text(
-                    'You can return funds to your wallet at any time. '
-                    '\nIt normally takes up to 24 hours.',
+                    intl.preview_earn_buy_return_warning,
                     textAlign: TextAlign.start,
                     style: sCaptionTextStyle.copyWith(color: colors.grey1),
                     maxLines: 4,
@@ -177,7 +185,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   SPrimaryButton2(
                     active: true,
-                    name: 'Confirm',
+                    name: intl.preview_earn_buy_confirm,
                     onTap: () {
                       notifier.earnOfferDeposit(widget.input.earnOffer.offerId);
                     },

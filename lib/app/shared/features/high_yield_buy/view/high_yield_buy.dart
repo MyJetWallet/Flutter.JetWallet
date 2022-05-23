@@ -8,6 +8,7 @@ import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../screens/account/components/help_center_web_view.dart';
 import '../../../helpers/format_currency_string_amount.dart';
@@ -34,6 +35,7 @@ class HighYieldBuy extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final input = HighYieldBuyInput(
@@ -46,7 +48,7 @@ class HighYieldBuy extends HookWidget {
     String _inputError(InputError error) {
       if (error == InputError.amountTooLarge) {
         return state.inputError.value(
-          errorInfo: 'Max. ${volumeFormat(
+          errorInfo: '${intl.earn_buy_max} ${volumeFormat(
             decimal: state.maxSubscribeAmount ?? Decimal.zero,
             accuracy: state.selectedCurrencyAccuracy,
             symbol: state.selectedCurrencySymbol,
@@ -54,7 +56,7 @@ class HighYieldBuy extends HookWidget {
         );
       } else if (error == InputError.amountTooLow) {
         return state.inputError.value(
-          errorInfo: 'Min. ${volumeFormat(
+          errorInfo: '${intl.earn_buy_min} ${volumeFormat(
             decimal: state.minSubscribeAmount ?? Decimal.zero,
             accuracy: state.selectedCurrencyAccuracy,
             symbol: state.selectedCurrencySymbol,
@@ -72,7 +74,9 @@ class HighYieldBuy extends HookWidget {
           const SpaceH4(),
           Center(
             child: Text(
-              state.singleTier ? 'Conditions' : 'How we count',
+              state.singleTier
+                  ? intl.earn_buy_conditions
+                  : intl.earn_buy_how_we_count,
               // 'Conditions',
               style: sTextH1Style,
             ),
@@ -80,7 +84,7 @@ class HighYieldBuy extends HookWidget {
           const SpaceH11(),
           Center(
             child: Text(
-              'Annual percentage yield',
+              intl.earn_buy_annual_percentage_yield,
               style: sBodyText1Style.copyWith(
                 color: colors.grey1,
               ),
@@ -100,17 +104,18 @@ class HighYieldBuy extends HookWidget {
           if (!state.singleTier)
             for (var i = 0; i < state.simpleTiers.length; i++)
               SActionConfirmText(
-                name: 'Tier ${i + 1} APY (limit: '
+                name: '${intl.earn_buy_tier} ${i + 1} ${intl.earn_apy} '
+                    '(${intl.earn_buy_limit}: '
                     '${volumeFormat(
-                  prefix: '\$',
+                  prefix: state.baseCurrency?.prefix ?? '\$',
                   decimal: Decimal.parse(state.simpleTiers[i].fromUsd),
                   accuracy: 0,
-                  symbol: 'USD',
+                  symbol: state.baseCurrency?.symbol ?? 'USD',
                 )}-${volumeFormat(
-                  prefix: '\$',
+                  prefix: state.baseCurrency?.prefix ?? '\$',
                   decimal: Decimal.parse(state.simpleTiers[i].toUsd),
                   accuracy: 0,
-                  symbol: 'USD',
+                  symbol: state.baseCurrency?.symbol ?? 'USD',
                 )})',
                 baseline: 35.0,
                 value: '${state.simpleTiers[i].apy}%',
@@ -130,24 +135,24 @@ class HighYieldBuy extends HookWidget {
               )
           else ...[
             SActionConfirmText(
-              name: 'Limit',
+              name: intl.earn_buy_limit1,
               baseline: 35.0,
               value: '${volumeFormat(
-                prefix: '\$',
+                prefix: state.baseCurrency?.prefix ?? '\$',
                 decimal: Decimal.parse(state.simpleTiers[0].fromUsd),
                 accuracy: 0,
-                symbol: 'USD',
+                symbol: state.baseCurrency?.symbol ?? 'USD',
               )}-${volumeFormat(
-                prefix: '\$',
+                prefix: state.baseCurrency?.prefix ?? '\$',
                 decimal: Decimal.parse(state.simpleTiers[0].toUsd),
                 accuracy: 0,
-                symbol: 'USD',
+                symbol: state.baseCurrency?.symbol ?? 'USD',
               )}',
               minValueWidth: 50,
               maxValueWidth: 200,
             ),
             SActionConfirmText(
-              name: 'APY',
+              name: intl.earn_buy_apy,
               baseline: 35.0,
               value: '${state.simpleTiers[0].apy}%',
               minValueWidth: 50,
@@ -159,7 +164,7 @@ class HighYieldBuy extends HookWidget {
           const SpaceH25(),
           if (topUp)
             SActionConfirmText(
-              name: 'Current balance',
+              name: intl.earn_buy_current_balance,
               baseline: 14.0,
               value: volumeFormat(
                 decimal: state.currentBalance ?? Decimal.zero,
@@ -171,14 +176,16 @@ class HighYieldBuy extends HookWidget {
             ),
           if (topUp)
             SActionConfirmText(
-              name: 'Current APY',
+              name: intl.earn_buy_current_apy,
               baseline: 34.0,
               value: state.currentApy != null ? '${state.currentApy}%' : '',
               minValueWidth: 50,
               maxValueWidth: 50,
             ),
           SActionConfirmText(
-            name: topUp ? 'Top up amount' : 'Your deposit',
+            name: topUp
+                ? intl.earn_buy_top_up_amount
+                : intl.earn_buy_your_deposit,
             baseline: topUp ? 34.0 : 14.0,
             value: volumeFormat(
               decimal: Decimal.parse(state.inputValue),
@@ -189,7 +196,7 @@ class HighYieldBuy extends HookWidget {
             maxValueWidth: 200,
           ),
           SActionConfirmText(
-            name: topUp ? 'Top up APY' : 'Your APY',
+            name: topUp ? intl.earn_buy_top_up_apy : intl.earn_buy_your_apy,
             baseline: topUp ? 34.0 : 25.0,
             value: state.apy != null ? '${state.apy}%' : '',
             minValueWidth: 50,
@@ -199,7 +206,7 @@ class HighYieldBuy extends HookWidget {
           Row(
             children: [
               ClickableUnderlinedText(
-                text: 'Learn more',
+                text: intl.earn_buy_learn_more,
                 onTap: () {
                   HelpCenterWebView.push(
                     context: context,
@@ -218,7 +225,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: (topUp ? 'Top up ' : '') + earnOffer.title,
+          title: (topUp ? intl.earn_buy_top_up : '') + earnOffer.title,
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
@@ -254,7 +261,7 @@ class HighYieldBuy extends HookWidget {
             ),
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'Available: ${currency.volumeAssetBalance}',
+              '${intl.earn_buy_available}: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),
@@ -277,7 +284,7 @@ class HighYieldBuy extends HookWidget {
             widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
-            preset3Name: 'MAX',
+            preset3Name: intl.earn_buy_max_preset,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
               notifier.selectPercentFromBalance(preset);
@@ -287,7 +294,7 @@ class HighYieldBuy extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.inputValid && !state.error,
-            submitButtonName: 'Preview',
+            submitButtonName: intl.earn_buy_preview,
             onSubmitPressed: () {
               navigatorPush(
                 context,

@@ -108,7 +108,9 @@ class PreviewHighYieldBuyNotifier
     } catch (error) {
       _logger.log(stateFlow, 'earnOfferDeposit', error);
 
-      _showFailureScreen(const ServerRejectException('Some error occurred.'));
+      _showFailureScreen(
+        ServerRejectException(read(intlPod).preview_earn_buy_error),
+      );
     }
   }
 
@@ -116,17 +118,17 @@ class PreviewHighYieldBuyNotifier
     return SuccessScreen.push(
       context: _context,
       secondaryText: input.topUp
-          ? 'Your subscription has been topped up'
-          : 'You has been subscribed',
+          ? read(intlPod).success_earn_top_up_message
+          : read(intlPod).success_earn_buy_message,
     );
   }
 
   void _showFailureScreen(ServerRejectException error) {
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: read(intlPod).failure_earn_buy_message,
       secondaryText: error.cause,
-      primaryButtonName: 'Close',
+      primaryButtonName: read(intlPod).failure_earn_buy_close,
       onPrimaryButtonTap: () => navigateToRouter(read),
     );
   }

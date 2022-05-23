@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../wallet/helper/format_date_to_hm.dart';
 import '../model/preview_return_to_wallet_input.dart';
@@ -27,6 +28,7 @@ class PreviewReturnToWallet extends StatefulHookWidget {
 class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final deviceSize = useProvider(deviceSizePod);
     final notifier =
         useProvider(previewReturnToWalletNotipod(widget.input).notifier);
@@ -49,13 +51,13 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
         loading: loader.value,
         header: deviceSize.when(
           small: () {
-            return const SSmallHeader(
-              title: 'Return to wallet',
+            return SSmallHeader(
+              title: intl.preview_return_to_wallet_return_to_wallet,
             );
           },
           medium: () {
-            return const SMegaHeader(
-              title: 'Return to wallet',
+            return SMegaHeader(
+              title: intl.preview_return_to_wallet_return_to_wallet,
               crossAxisAlignment: CrossAxisAlignment.center,
             );
           },
@@ -75,7 +77,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'Amount to return',
+                    name: intl.preview_return_to_wallet_amount_to_return,
                     baseline: deviceSize.when(
                       small: () => 29,
                       medium: () => 40,
@@ -88,7 +90,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                     ),
                   ),
                   SActionConfirmText(
-                    name: 'Remaining balance',
+                    name: intl.preview_return_to_wallet_remaining_balance,
                     baseline: 35.0,
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
@@ -99,7 +101,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                   ),
                   if (widget.input.earnOffer.endDate != null)
                     SActionConfirmText(
-                      name: 'Expiry date',
+                      name: intl.preview_return_to_wallet_expiry_date,
                       baseline: 35.0,
                       value: formatDateToDMonthYFromDate(
                         widget.input.earnOffer.endDate!,
@@ -107,14 +109,13 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                     )
                   else
                     SActionConfirmText(
-                      name: 'Term',
+                      name: intl.preview_return_to_wallet_term,
                       baseline: 35.0,
                       value: widget.input.earnOffer.title,
                     ),
                   const SpaceH36(),
-                  const SActionConfirmAlert(
-                    alert: 'The funds will be credited to the wallet during 24 '
-                        'hours',
+                  SActionConfirmAlert(
+                    alert: intl.preview_return_to_wallet_alert,
                   ),
                   deviceSize.when(
                     small: () => const SpaceH37(),
@@ -122,7 +123,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                   ),
                   SPrimaryButton2(
                     active: true,
-                    name: 'Confirm',
+                    name: intl.preview_return_to_wallet_confirm,
                     onTap: () {
                       notifier.earnOfferWithdrawal(
                         widget.input.earnOffer.offerId,
