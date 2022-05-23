@@ -137,8 +137,7 @@ class SAssetItem extends StatelessWidget {
                 )
               else
                 Padding(
-                  //padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: SDivider(
                     color: SColorsLight().grey3,
                     width: double.infinity,
