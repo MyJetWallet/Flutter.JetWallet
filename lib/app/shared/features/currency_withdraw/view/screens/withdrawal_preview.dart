@@ -67,7 +67,7 @@ class WithdrawalPreview extends HookWidget {
                     value: shortAddressForm(state.address),
                   ),
                   SActionConfirmText(
-                    name: 'You will receive',
+                    name: 'You will send',
                     baseline: 36.0,
                     value: userWillreceive(
                       currency: currency,
