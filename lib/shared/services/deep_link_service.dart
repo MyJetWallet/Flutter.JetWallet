@@ -15,6 +15,7 @@ import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
 import '../../app/shared/features/currency_withdraw/notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
 import '../../app/shared/features/currency_withdraw/view/screens/withdrawal_confirm.dart';
 import '../../app/shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../app/shared/features/market_details/view/components/about_block/components/clickable_underlined_text.dart';
 import '../../app/shared/features/rewards/view/rewards.dart';
 import '../../app/shared/features/send_by_phone/notifier/send_by_phone_confirm_notifier/send_by_phone_confirm_notipod.dart';
 import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confirm.dart';
@@ -263,8 +264,8 @@ class DeepLinkService {
                       child: Baseline(
                         baseline: 94,
                         baselineType: TextBaseline.alphabetic,
-                        child: SimpleAccountTermButton(
-                          name: 'Read more',
+                        child: ClickableUnderlinedText(
+                          text: 'Read more',
                           onTap: () {
                             launchURL(
                               context,

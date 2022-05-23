@@ -71,10 +71,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
         setState(() {
           isAnimatingNow = true;
         });
-        if (_offset == 0) {
-          widget.onDissmis?.call();
-          Navigator.pop(context);
-        } else if (controller.offset >= 0) {
+        if (controller.offset >= 0) {
           controller.animateTo(
             0,
             duration: const Duration(
@@ -96,7 +93,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
   }
 
   bool _needToHideOutWidget() {
-    return (widget.expandedHeight - 115) < _offset;
+    return (widget.expandedHeight - 115) < _offset || _offset <= 0;
   }
 
   @override
@@ -147,41 +144,51 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
                                 ? maxHeight
                                 : widget.minHeight ?? 0,
                           ),
-                          child: CustomScrollView(
-                            controller: controller,
-                            slivers: [
-                              SliverAppBar(
-                                automaticallyImplyLeading: false,
-                                backgroundColor: Colors.transparent,
-                                pinned: _needToHideOutWidget(),
-                                elevation: 0,
-                                expandedHeight: widget.expandedHeight,
-                                collapsedHeight: widget.expandedHeight,
-                                primary: false,
-                                flexibleSpace: ChangeOnScroll(
-                                  scrollController: controller,
-                                  fullOpacityOffset: widget.expandedHeight -
-                                      115,
-                                  changeInWidget: Material(
-                                    color: Colors.white,
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(24.0),
-                                      topRight: Radius.circular(24.0),
+                          child: Stack(
+                            children: [
+                              CustomScrollView(
+                                controller: controller,
+                                slivers: [
+                                  SliverAppBar(
+                                    automaticallyImplyLeading: false,
+                                    backgroundColor: Colors.transparent,
+                                    pinned: _needToHideOutWidget(),
+                                    elevation: 0,
+                                    expandedHeight: widget.expandedHeight,
+                                    collapsedHeight: widget.expandedHeight,
+                                    primary: false,
+                                    flexibleSpace: ChangeOnScroll(
+                                      scrollController: controller,
+                                      fullOpacityOffset: widget.expandedHeight -
+                                          115,
+                                      changeInWidget: Material(
+                                        color: Colors.white,
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(24.0),
+                                          topRight: Radius.circular(24.0),
+                                        ),
+                                        child: widget.pinnedSmall,
+                                      ),
+                                      changeOutWidget: widget.pinned,
+                                      permanentWidget: const SpaceW2(),
                                     ),
-                                    child: widget.pinnedSmall,
                                   ),
-                                  changeOutWidget: widget.pinned,
-                                  permanentWidget: const SpaceW2(),
-                                ),
+                                  SliverToBoxAdapter(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        ...widget.children,
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SliverToBoxAdapter(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // widget.pinned,
-                                    // const SpaceH30(),
-                                    ...widget.children,
-                                  ],
+                              Positioned(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width - 44,
+                                  height: 180,
+                                  color: Colors.transparent,
                                 ),
                               ),
                             ],
