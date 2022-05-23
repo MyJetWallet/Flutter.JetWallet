@@ -29,6 +29,7 @@ class Rewards extends HookWidget {
     final deepLinkService = useProvider(deepLinkServicePod);
     final mediaQuery = useProvider(mediaQueryPod);
 
+
     return SPageFrameWithPadding(
       header: SSmallHeader(
         title: intl.rewards_rewards,
