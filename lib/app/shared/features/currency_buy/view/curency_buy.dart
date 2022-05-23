@@ -115,7 +115,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 onTap: () => Navigator.pop(context, currency),
               ),
           for (final method in widget.currency.buyMethods)
-            if (method.type == PaymentMethodType.simplex)
+            if (method.type == PaymentMethodType.simplex) ...[
+              const SpaceH20(),
               SActionItem(
                 isSelected: state.selectedCurrency == null,
                 icon: SActionDepositIcon(
@@ -126,7 +127,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 name: 'Bank Card - Simplex',
                 description: 'Visa, Mastercard, Apple Pay',
                 onTap: () => Navigator.pop(context, method),
+                helper: '≈10-30 min',
               ),
+            ],
           const SpaceH40(),
         ],
         context: context,
