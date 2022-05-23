@@ -112,15 +112,12 @@ class PreviewHighYieldBuyNotifier
     }
   }
 
-  /// Will be triggered during initState of the parent widget
-  void updateTimerAnimation(AnimationController controller) {
-    state = state.copyWith(timerAnimation: controller);
-  }
-
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'You has been subscribed',
+      secondaryText: input.topUp
+          ? 'Your subscription has been topped up'
+          : 'You has been subscribed',
     );
   }
 

@@ -14,23 +14,23 @@ import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
-import '../../../providers/converstion_price_pod/conversion_price_input.dart';
-import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../market_details/view/components/about_block/components/clickable_underlined_text.dart';
 import '../model/high_yield_buy_input.dart';
 import '../model/preview_high_yield_buy_input.dart';
-import '../notifier/high_yield_buy_notipod.dart';
+import '../notifier/high_yeild_buy_notifier/high_yield_buy_notipod.dart';
 import 'preview_high_yield_buy.dart';
 
 class HighYieldBuy extends HookWidget {
   const HighYieldBuy({
     Key? key,
+    this.topUp = false,
     required this.currency,
     required this.earnOffer,
   }) : super(key: key);
 
   final CurrencyModel currency;
   final EarnOfferModel earnOffer;
+  final bool topUp;
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +42,6 @@ class HighYieldBuy extends HookWidget {
     );
     final state = useProvider(highYieldBuyNotipod(input));
     final notifier = useProvider(highYieldBuyNotipod(input).notifier);
-    useProvider(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: state.selectedCurrencySymbol,
-          then: notifier.updateTargetConversionPrice,
-        ),
-      ),
-    );
 
     String _inputError(InputError error) {
       if (error == InputError.amountTooLarge) {
@@ -166,9 +157,29 @@ class HighYieldBuy extends HookWidget {
           const SpaceH35(),
           const SDivider(),
           const SpaceH25(),
+          if (topUp)
+            SActionConfirmText(
+              name: 'Current balance',
+              baseline: 14.0,
+              value: volumeFormat(
+                decimal: state.currentBalance ?? Decimal.zero,
+                accuracy: state.selectedCurrencyAccuracy,
+                symbol: state.selectedCurrencySymbol,
+              ),
+              minValueWidth: 200,
+              maxValueWidth: 200,
+            ),
+          if (topUp)
+            SActionConfirmText(
+              name: 'Current APY',
+              baseline: 34.0,
+              value: state.currentApy != null ? '${state.currentApy}%' : '',
+              minValueWidth: 50,
+              maxValueWidth: 50,
+            ),
           SActionConfirmText(
-            name: 'Your deposit',
-            baseline: 14.0,
+            name: topUp ? 'Top up amount' : 'Your deposit',
+            baseline: topUp ? 34.0 : 14.0,
             value: volumeFormat(
               decimal: Decimal.parse(state.inputValue),
               accuracy: state.selectedCurrencyAccuracy,
@@ -178,8 +189,8 @@ class HighYieldBuy extends HookWidget {
             maxValueWidth: 200,
           ),
           SActionConfirmText(
-            name: 'Your APY',
-            baseline: 25.0,
+            name: topUp ? 'Top up APY' : 'Your APY',
+            baseline: topUp ? 34.0 : 25.0,
             value: state.apy != null ? '${state.apy}%' : '',
             minValueWidth: 50,
             maxValueWidth: 50,
@@ -207,7 +218,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: earnOffer.offerTag == 'Hot' ? 'Hot offer' : 'Flexible',
+          title: (topUp ? 'Top up ' : '') + earnOffer.title,
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
@@ -256,6 +267,7 @@ class HighYieldBuy extends HookWidget {
             onTap: state.simpleTiers.isNotEmpty ? _showHowWeCountSheet : null,
             tiers: state.simpleTiers,
             hot: earnOffer.offerTag == 'Hot',
+            error: state.error,
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -274,7 +286,7 @@ class HighYieldBuy extends HookWidget {
               notifier.updateInputValue(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: state.inputValid,
+            submitButtonActive: state.inputValid && !state.error,
             submitButtonName: 'Preview',
             onSubmitPressed: () {
               navigatorPush(
@@ -289,6 +301,7 @@ class HighYieldBuy extends HookWidget {
                     expectedYearlyProfitBase:
                         state.expectedYearlyProfitBaseAsset.toString(),
                     earnOffer: earnOffer,
+                    topUp: topUp,
                   ),
                 ),
               );

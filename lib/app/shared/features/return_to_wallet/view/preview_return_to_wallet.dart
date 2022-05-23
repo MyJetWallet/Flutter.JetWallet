@@ -28,8 +28,6 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
-    final colors = useProvider(sColorPod);
-    final state = useProvider(previewReturnToWalletNotipod(widget.input));
     final notifier =
         useProvider(previewReturnToWalletNotipod(widget.input).notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
@@ -77,7 +75,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'Remaining balance',
+                    name: 'Amount to return',
                     baseline: deviceSize.when(
                       small: () => 29,
                       medium: () => 40,
@@ -85,17 +83,17 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
-                      decimal: Decimal.parse(widget.input.remainingBalance),
+                      decimal: Decimal.parse(widget.input.amount),
                       symbol: from.symbol,
                     ),
                   ),
                   SActionConfirmText(
-                    name: 'Amount to return',
+                    name: 'Remaining balance',
                     baseline: 35.0,
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
-                      decimal: Decimal.parse(widget.input.amount),
+                      decimal: Decimal.parse(widget.input.remainingBalance),
                       symbol: from.symbol,
                     ),
                   ),
@@ -113,57 +111,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                       baseline: 35.0,
                       value: widget.input.earnOffer.title,
                     ),
-                  deviceSize.when(
-                    small: () => const SpaceH35(),
-                    medium: () => const SpaceH34(),
-                  ),
-                  const SDivider(),
-                  SActionConfirmText(
-                    name: 'Expected yearly profit',
-                    contentLoading: state.union is QuoteLoading,
-                    baseline: deviceSize.when(
-                      small: () => 37,
-                      medium: () => 38,
-                    ),
-                    maxValueWidth: 170,
-                    minValueWidth: 170,
-                    value: volumeFormat(
-                      prefix: widget.input.fromCurrency.prefixSymbol,
-                      decimal: state.expectedYearlyProfit ?? Decimal.zero,
-                      accuracy: widget.input.fromCurrency.accuracy,
-                      symbol: widget.input.fromCurrency.symbol,
-                    ),
-                  ),
-                  if (state.union is QuoteLoading) const SpaceH6(),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: state.union is QuoteLoading
-                        ? Container(
-                            padding: const EdgeInsets.only(
-                              top: 2,
-                            ),
-                            margin: const EdgeInsets.only(
-                              bottom: 4,
-                            ),
-                            child: const SSkeletonTextLoader(
-                              height: 8,
-                              width: 100,
-                            ),
-                          )
-                        : Text(
-                            'approx. ${volumeFormat(
-                              prefix: '\$',
-                              decimal: state.expectedYearlyProfitBase ??
-                                  Decimal.zero,
-                              accuracy: 2,
-                              symbol: 'USD',
-                            )}',
-                            style: sBodyText2Style.copyWith(
-                              color: colors.grey1,
-                            ),
-                          ),
-                  ),
-                  const SpaceH16(),
+                  const SpaceH36(),
                   const SActionConfirmAlert(
                     alert: 'The funds will be credited to the wallet during 24 '
                         'hours',

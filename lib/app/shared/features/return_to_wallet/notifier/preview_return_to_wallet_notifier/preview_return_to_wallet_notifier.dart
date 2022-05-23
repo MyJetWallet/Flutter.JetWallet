@@ -111,11 +111,6 @@ class PreviewReturnToWalletNotifier
     }
   }
 
-  /// Will be triggered during initState of the parent widget
-  void updateTimerAnimation(AnimationController controller) {
-    state = state.copyWith(timerAnimation: controller);
-  }
-
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,

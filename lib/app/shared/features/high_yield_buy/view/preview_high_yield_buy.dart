@@ -52,16 +52,14 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title: 'Confirm '
-                  '${widget.input.earnOffer.offerTag == 'Hot' ? 'Hot '
-                      'offer' : 'Flexible'}',
+              title: 'Confirm ${widget.input.topUp ? 'Top '
+                  'up' : widget.input.earnOffer.title}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title: 'Confirm '
-                  '${widget.input.earnOffer.offerTag == 'Hot' ? 'Hot '
-                      'offer' : 'Flexible'}',
+              title: 'Confirm ${widget.input.topUp ? 'Top '
+                  'up' : widget.input.earnOffer.title}',
               crossAxisAlignment: CrossAxisAlignment.center,
             );
           },
@@ -81,7 +79,8 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'Subscription amount',
+                    name: '${widget.input.topUp ? 'Top '
+                        'up' : 'Subscription'} amount',
                     baseline: deviceSize.when(
                       small: () => 29,
                       medium: () => 40,
@@ -95,7 +94,8 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                   ),
                   SActionConfirmText(
                     contentLoading: state.union is QuoteLoading,
-                    name: 'APY',
+                    name: '${widget.input.topUp ? 'Top '
+                        'up ' : ''}APY',
                     baseline: 35.0,
                     value: '${state.apy}%',
                   ),

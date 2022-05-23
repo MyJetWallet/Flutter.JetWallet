@@ -5,19 +5,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../shared/logging/levels.dart';
-import '../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
-import '../../../../../shared/providers/service_providers.dart';
-import '../../../helpers/calculate_base_balance.dart';
-import '../../../helpers/currencies_helpers.dart';
-import '../../../helpers/input_helpers.dart';
-import '../../../helpers/truncate_zeros_from.dart';
-import '../../../models/currency_model.dart';
-import '../../../models/selected_percent.dart';
-import '../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
-import '../model/high_yield_buy_input.dart';
+import '../../../../../../../shared/logging/levels.dart';
+import '../../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
+import '../../../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../helpers/calculate_base_balance.dart';
+import '../../../../helpers/currencies_helpers.dart';
+import '../../../../helpers/input_helpers.dart';
+import '../../../../helpers/truncate_zeros_from.dart';
+import '../../../../models/currency_model.dart';
+import '../../../../models/selected_percent.dart';
+import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../model/high_yield_buy_input.dart';
 import 'high_yield_buy_state.dart';
 
 class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
@@ -27,6 +27,15 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     _initBaseCurrency();
     updateSelectedCurrency(input.currency);
     calculateEarnOfferApy();
+
+    _timer = Timer.periodic(const Duration(milliseconds: 1500), (timer) {
+      if (state.updateApy) {
+        state = state.copyWith(
+          updateApy: false,
+        );
+        calculateEarnOfferApy();
+      }
+    });
   }
 
   final Reader read;
@@ -59,7 +68,6 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
   void selectPercentFromBalance(SKeyboardPreset preset) {
     _logger.log(notifier, 'selectPercentFromBalance');
-    _timer.cancel();
 
     _updateSelectedPreset(preset);
 
@@ -82,10 +90,6 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
     _calculateTargetConversion();
     _calculateBaseConversion();
-
-    _timer = Timer(const Duration(milliseconds: 1500), () {
-      calculateEarnOfferApy();
-    });
   }
 
   void _updateSelectedPreset(SKeyboardPreset preset) {
@@ -103,12 +107,14 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
   }
 
   void _updateInputValue(String value) {
-    state = state.copyWith(inputValue: value);
+    state = state.copyWith(
+      inputValue: value,
+      updateApy: true,
+    );
   }
 
   void updateInputValue(String value) {
     _logger.log(notifier, 'updateInputValue');
-    _timer.cancel();
 
     _updateInputValue(
       responseOnInputAction(
@@ -125,10 +131,6 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     }
     _calculateTargetConversion();
     _calculateBaseConversion();
-
-    _timer = Timer(const Duration(milliseconds: 1500), () {
-      calculateEarnOfferApy();
-    });
   }
 
   Future<void> calculateEarnOfferApy() async {
@@ -158,6 +160,8 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
         maxSubscribeAmount: response.maxSubscribeAmount,
         amountTooLow: response.amountTooLow,
         minSubscribeAmount: response.minSubscribeAmount,
+        error: false,
+        updateApy: false,
       );
 
       if (Decimal.parse(state.inputValue) > Decimal.zero) {
@@ -172,16 +176,16 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'calculateEarnOfferApy', error.cause);
 
-      read(sNotificationNotipod.notifier).showError(
-        error.cause,
-        id: 1,
+      state = state.copyWith(
+        error: true,
+        updateApy: true,
       );
     } catch (error) {
       _logger.log(stateFlow, 'calculateEarnOfferApy', error);
 
-      read(sNotificationNotipod.notifier).showError(
-        error.toString(),
-        id: 1,
+      state = state.copyWith(
+        error: true,
+        updateApy: true,
       );
     }
   }

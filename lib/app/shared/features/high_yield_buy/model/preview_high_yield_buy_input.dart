@@ -15,5 +15,6 @@ class PreviewHighYieldBuyInput with _$PreviewHighYieldBuyInput {
     required CurrencyModel fromCurrency,
     required CurrencyModel toCurrency,
     required EarnOfferModel earnOffer,
+    required bool topUp,
   }) = _PreviewHighYieldBuyInput;
 }

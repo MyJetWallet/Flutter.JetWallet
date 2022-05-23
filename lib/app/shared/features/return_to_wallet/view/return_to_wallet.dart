@@ -13,8 +13,6 @@ import '../../../helpers/formatting/base/market_format.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
-import '../../../providers/converstion_price_pod/conversion_price_input.dart';
-import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../model/preview_return_to_wallet_input.dart';
 import '../model/return_to_wallet_input.dart';
 import '../notifier/return_to_wallet_notifier/return_to_wallet_notipod.dart';
@@ -40,15 +38,6 @@ class ReturnToWallet extends HookWidget {
     );
     final state = useProvider(returnToWalletNotipod(input));
     final notifier = useProvider(returnToWalletNotipod(input).notifier);
-    useProvider(
-      conversionPriceFpod(
-        ConversionPriceInput(
-          baseAssetSymbol: currency.symbol,
-          quotedAssetSymbol: state.selectedCurrencySymbol,
-          then: notifier.updateTargetConversionPrice,
-        ),
-      ),
-    );
 
     return SPageFrame(
       header: const SPaddingH24(
