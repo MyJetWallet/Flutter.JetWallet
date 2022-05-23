@@ -38,12 +38,12 @@ class Register extends HookWidget {
     void _showError() {
       if (credentials.email.contains(' ')) {
         notificationN.showError(
-          intl.register_invalidEmailText1,
+          intl.register_invalidEmail,
           id: 2,
         );
       } else {
         notificationN.showError(
-          '${intl.forgotPassword_errorText1}?',
+          '${intl.forgotPassword_error}?',
           id: 1,
         );
       }

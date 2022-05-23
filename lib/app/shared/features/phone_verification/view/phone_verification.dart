@@ -113,10 +113,10 @@ class PhoneVerification extends HookWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: intl.phoneVerification_pleaseContactText1,
+                      text: intl.phoneVerification_pleaseContact,
                     ),
                     TextSpan(
-                      text: ' ${intl.phoneVerification_support1}',
+                      text: ' ${intl.phoneVerification_support}',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Crisp.push(

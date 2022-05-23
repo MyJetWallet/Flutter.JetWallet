@@ -55,7 +55,7 @@ class ConfirmPasswordResetNotifier
       final intl = read(intlPod);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        '${intl.confirmPasswordResetNotifier_failedToResend}!',
+        '${intl.confirmPasswordReset_failedToResend}!',
       );
     }
   }

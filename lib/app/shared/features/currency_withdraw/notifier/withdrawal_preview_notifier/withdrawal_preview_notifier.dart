@@ -109,9 +109,9 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.withdrawalPreviewNotifier_failure,
+      primaryText: intl.withdrawalPreview_failure,
       secondaryText: error.cause,
-      primaryButtonName: intl.withdrawalPreviewNotifier_editOrder,
+      primaryButtonName: intl.withdrawalPreview_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -121,7 +121,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.withdrawalPreviewNotifier_close,
+      secondaryButtonName: intl.withdrawalPreview_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

@@ -39,7 +39,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
       final intl = read(intlPod);
 
       read(sNotificationNotipod.notifier).showError(
-        intl.newsNotifier_somethingWentWrong,
+        intl.something_went_wrong,
         id: 1,
       );
 
@@ -68,7 +68,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
       final intl = read(intlPod);
 
       read(sNotificationNotipod.notifier).showError(
-        intl.newsNotifier_somethingWentWrong,
+        intl.something_went_wrong,
         id: 2,
       );
 

@@ -89,7 +89,7 @@ class SendByPhoneConfirm extends HookWidget {
               baseline: 24.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                '${intl.sendByPhoneConfirm_text1}:',
+                '${intl.sendByPhoneConfirm_description}:',
                 maxLines: 3,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,

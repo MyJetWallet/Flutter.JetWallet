@@ -80,7 +80,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       final intl = read(intlPod);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        '${intl.emailVerificationNotifier_failedToResend}!',
+        '${intl.emailVerification_failedToResend}!',
       );
     }
   }

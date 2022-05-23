@@ -86,7 +86,7 @@ class SendByPhoneConfirmNotifier
       final intl = read(intlPod);
 
       read(sNotificationNotipod.notifier).showError(
-        '${intl.sendByPhoneConfirmNotifier_failedToResend}!',
+        '${intl.sendByPhoneConfirm_failedToResend}!',
         id: 1,
       );
     }
@@ -138,9 +138,9 @@ class SendByPhoneConfirmNotifier
     return SuccessScreen.push(
       context: _context,
       secondaryText:
-          '${intl.sendByPhoneConfirmNotifier_your} ${currency.symbol}'
-              ' ${intl.sendByPhoneConfirmNotifier_send} '
-              '${intl.sendByPhoneConfirmNotifier_requestHasBeenSubmitted}',
+          '${intl.sendByPhoneConfirm_your} ${currency.symbol}'
+              ' ${intl.sendByPhoneConfirm_send} '
+              '${intl.sendByPhoneConfirm_requestHasBeenSubmitted}',
       then: () {
         if (!_receiverIsRegistered) {
           navigatorPush(
@@ -160,10 +160,10 @@ class SendByPhoneConfirmNotifier
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.sendByPhoneConfirmNotifier_failure,
-      secondaryText: '${intl.sendByPhoneConfirmNotifier_failedTo}'
-          ' ${intl.sendByPhoneConfirmNotifier_send}',
-      primaryButtonName: intl.sendByPhoneConfirmNotifier_editOrder,
+      primaryText: intl.sendByPhoneConfirm_failure,
+      secondaryText: '${intl.sendByPhoneConfirm_failedTo}'
+          ' ${intl.sendByPhoneConfirm_send}',
+      primaryButtonName: intl.sendByPhoneConfirm_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -175,7 +175,7 @@ class SendByPhoneConfirmNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.sendByPhoneConfirmNotifier_close,
+      secondaryButtonName: intl.sendByPhoneConfirm_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

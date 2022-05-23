@@ -180,7 +180,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
 
     return SuccessScreen.push(
       context: _context,
-      secondaryText: intl.previewConvertNotifier_orderProcessing,
+      secondaryText: intl.previewConvert_orderProcessing,
       then: () {
         navigateToRouter(read);
       },
@@ -206,9 +206,9 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.previewConvertNotifier_failure,
+      primaryText: intl.previewConvert_failure,
       secondaryText: error.cause,
-      primaryButtonName: intl.previewConvertNotifier_editOrder,
+      primaryButtonName: intl.previewConvert_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -218,7 +218,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.previewConvertNotifier_close,
+      secondaryButtonName: intl.previewConvert_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
@@ -226,7 +226,7 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   String get previewHeader {
     final intl = read(intlPod);
 
-    return '${intl.previewConvertNotifier_confirmConvert}\n'
+    return '${intl.previewConvert_confirmConvert}\n'
         '${input.fromCurrency.symbol} ${intl.to} ${input.toCurrency.symbol}';
   }
 

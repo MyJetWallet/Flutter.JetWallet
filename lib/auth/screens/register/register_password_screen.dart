@@ -54,12 +54,12 @@ class RegisterPasswordScreen extends HookWidget {
           return Future.value(true);
         },
         child: SPageFrame(
-          loaderText: intl.registerPasswordScreen_pleaseWait,
+          loaderText: intl.register_pleaseWait,
           loading: loader.value,
           color: colors.grey5,
           header: SPaddingH24(
             child: SBigHeader(
-              title: intl.registerPasswordScreen_createPassword,
+              title: intl.register_createPassword,
             ),
           ),
           child: Column(
@@ -72,7 +72,7 @@ class RegisterPasswordScreen extends HookWidget {
                     onChanged: (value) {
                       credentialsN.updateAndValidatePassword(value);
                     },
-                    labelText: intl.registerPasswordScreen_password,
+                    labelText: intl.register_password,
                     autofocus: true,
                   ),
                 ),

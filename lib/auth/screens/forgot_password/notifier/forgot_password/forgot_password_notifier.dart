@@ -78,7 +78,7 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
 
       final intl = read(intlPod);
       state = state.copyWith(
-        union: Error(intl.forgotPasswordNotifier_somethingWentWrong),
+        union: Error(intl.something_went_wrong),
       );
     }
   }

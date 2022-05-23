@@ -175,7 +175,7 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
 
     return SuccessScreen.push(
       context: _context,
-      secondaryText: intl.previewSellNotifier_orderProcessing,
+      secondaryText: intl.previewSell_orderProcessing,
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -202,9 +202,9 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.previewSellNotifier_failure,
+      primaryText: intl.previewSell_failure,
       secondaryText: error.cause,
-      primaryButtonName: intl.previewSellNotifier_editOrder,
+      primaryButtonName: intl.previewSell_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -216,7 +216,7 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.previewSellNotifier_close,
+      secondaryButtonName: intl.previewSell_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
@@ -224,7 +224,7 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   String get previewHeader {
     final intl = read(intlPod);
 
-    return '${intl.previewSellNotifier_confirmSell}'
+    return '${intl.previewSell_confirmSell}'
         ' ${input.fromCurrency.description}';
   }
 

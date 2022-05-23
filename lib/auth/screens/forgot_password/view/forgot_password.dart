@@ -75,7 +75,7 @@ class ForgotPassword extends HookWidget {
                   const SpaceH7(),
                   SPaddingH24(
                     child: Text(
-                      intl.forgotPassword_resettingPasswordText1,
+                      intl.forgotPassword_resettingPassword,
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),
@@ -101,7 +101,7 @@ class ForgotPassword extends HookWidget {
                   },
                   onErrorIconTap: () {
                     notificationN.showError(
-                      '${intl.forgotPassword_errorText1}?',
+                      '${intl.forgotPassword_error}?',
                       id: 2,
                     );
                   },
@@ -127,7 +127,7 @@ class ForgotPassword extends HookWidget {
                   } else {
                     emailError.value.enableError();
                     notificationN.showError(
-                      '${intl.forgotPassword_errorText1}?',
+                      '${intl.forgotPassword_error}?',
                       id: 2,
                     );
                   }

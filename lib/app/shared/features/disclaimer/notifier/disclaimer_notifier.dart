@@ -186,7 +186,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
                           ),
                           SFloatingButtonFrame2(
                             button: SPrimaryButton1(
-                              name: intl.disclaimerNotifier_continue,
+                              name: intl.disclaimer_continue,
                               active: state.activeButton,
                               onTap: () async {
                                 await _sendAnswers(

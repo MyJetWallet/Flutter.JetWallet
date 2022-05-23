@@ -59,7 +59,7 @@ class KycAlertHandler {
       imageAsset: verifyYourProfileAsset,
       primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
       secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
-          '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
+          '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
       primaryButtonName: intl.kycAlertHandler_continue,
       secondaryButtonName: intl.kycAlertHandler_later,
       activePrimaryButton: kycVerified.requiredVerifications.isNotEmpty,
@@ -104,7 +104,7 @@ class KycAlertHandler {
       imageAsset: verifyYourProfileAsset,
       primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
       secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
-          '${intl.kycAlertHandler_showKycPopupSecondaryText2}:',
+          '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
       primaryButtonName: intl.kycAlertHandler_continue,
       secondaryButtonName: intl.kycAlertHandler_later,
       onPrimaryButtonTap: () {

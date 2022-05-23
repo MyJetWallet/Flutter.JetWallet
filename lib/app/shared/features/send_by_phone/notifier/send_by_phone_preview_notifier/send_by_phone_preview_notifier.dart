@@ -118,9 +118,9 @@ class SendByPhonePreviewNotifier
 
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.sendByPhonePreviewNotifier_failure,
+      primaryText: intl.sendByPhonePreview_failure,
       secondaryText: error.cause,
-      primaryButtonName: intl.sendByPhonePreviewNotifier_editOrder,
+      primaryButtonName: intl.sendByPhonePreview_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -130,7 +130,7 @@ class SendByPhonePreviewNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: intl.sendByPhonePreviewNotifier_close,
+      secondaryButtonName: intl.sendByPhonePreview_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

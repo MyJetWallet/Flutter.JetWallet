@@ -392,7 +392,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
     AllowCamera.push(
       context: context,
-      permissionDescription: intl.withdrawalAddressNotifier_pushAllowCamera,
+      permissionDescription: intl.withdrawalAddress_pushAllowCamera,
       then: () {
         _pushQrView(context: context, fromSettings: true);
       },
@@ -403,28 +403,28 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     final intl = read(intlPod);
 
     if (state.addressValidation is Loading || state.tagValidation is Loading) {
-      return '${intl.withdrawalAddressNotifier_checking}...';
+      return '${intl.withdrawalAddress_checking}...';
     } else if (state.addressValidation is Invalid) {
-      return '${intl.withdrawalAddressNotifier_invalid} ${currency.symbol}'
-          ' ${intl.withdrawalAddressNotifier_address}';
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address}';
     } else if (state.tagValidation is Invalid) {
-      return '${intl.withdrawalAddressNotifier_invalid} ${currency.symbol}'
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
           ' ${intl.tag}';
     } else if (state.addressValidation is Invalid &&
         state.tagValidation is Invalid) {
-      return '${intl.withdrawalAddressNotifier_invalid} ${currency.symbol}'
-          ' ${intl.withdrawalAddressNotifier_address} & ${intl.tag}';
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
     } else if (state.addressValidation is Valid &&
         state.tagValidation is Valid) {
       return '${intl.valid} ${currency.symbol}'
-          ' ${intl.withdrawalAddressNotifier_address} & ${intl.tag}';
+          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
     } else if (state.addressValidation is Valid) {
       return '${intl.valid} ${currency.symbol}'
-          ' ${intl.withdrawalAddressNotifier_address}';
+          ' ${intl.withdrawalAddress_address}';
     } else if (state.tagValidation is Valid) {
       return '${intl.valid} ${currency.symbol} ${intl.tag}';
     } else {
-      return intl.withdrawalAddressNotifier_error;
+      return intl.withdrawalAddress_error;
     }
   }
 

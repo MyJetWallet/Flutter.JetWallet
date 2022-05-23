@@ -189,7 +189,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
     AllowCamera.push(
       context: context,
-      permissionDescription: intl.referralCodeLinkNotifier_pushAllowCamera,
+      permissionDescription: intl.referralCodeLink_pushAllowCamera,
       then: () {
         _pushQrView(context: context, fromSettings: true);
       },

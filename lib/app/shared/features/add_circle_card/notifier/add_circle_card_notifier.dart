@@ -131,7 +131,7 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
       state.loader!.finishLoading(onFinish: onError);
     } catch (error) {
       read(sNotificationNotipod.notifier).showError(
-        intl.addCircleCardNotifier_errorSomethingWentWrongTryAgain,
+        intl.something_went_wrong_try_again2,
         duration: 4,
         id: 1,
       );

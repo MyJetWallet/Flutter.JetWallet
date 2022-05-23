@@ -114,10 +114,10 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
       final intl = read(intlPod);
 
       sAnalytics.kycPhoneConfirmFailed(
-        intl.phoneVerificationNotifier_somethingWentWrong,
+        intl.something_went_wrong,
       );
       read(sNotificationNotipod.notifier).showError(
-        intl.phoneVerificationNotifier_somethingWentWrong,
+        intl.something_went_wrong,
         id: 2,
       );
     }

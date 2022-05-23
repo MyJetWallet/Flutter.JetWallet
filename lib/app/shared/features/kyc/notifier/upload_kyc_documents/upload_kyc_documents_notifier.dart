@@ -65,7 +65,7 @@ class UploadKycDocumentsNotifier
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        intl.uploadKycDocumentsNotifier_somethingWentWrong2,
+        intl.something_went_wrong_try_again,
         id: 1,
       );
     }
@@ -125,7 +125,7 @@ class UploadKycDocumentsNotifier
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        intl.uploadKycDocumentsNotifier_somethingWentWrong2,
+        intl.something_went_wrong_try_again,
         id: 1,
       );
     }
@@ -197,19 +197,19 @@ class UploadKycDocumentsNotifier
 
     if (activeDocument.document != KycDocumentType.passport) {
       if (state.documentFirstSide != null && state.documentSecondSide != null) {
-        return intl.uploadKycDocumentsNotifier_uploadPhotos;
+        return intl.uploadKycDocuments_uploadPhotos;
       } else {
         if (state.numberSide == 0) {
-          return intl.uploadKycDocumentsNotifier_frontSide;
+          return intl.uploadKycDocuments_frontSide;
         } else {
-          return intl.uploadKycDocumentsNotifier_backSide;
+          return intl.uploadKycDocuments_backSide;
         }
       }
     } else {
       if (state.documentFirstSide != null) {
-        return intl.uploadKycDocumentsNotifier_uploadPhotos;
+        return intl.uploadKycDocuments_uploadPhotos;
       } else {
-        return intl.uploadKycDocumentsNotifier_frontSide;
+        return intl.uploadKycDocuments_frontSide;
       }
     }
   }

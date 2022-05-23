@@ -320,7 +320,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     final intl = read(intlPod);
 
     final success = await makeAuthWithBiometrics(
-      intl.pinScreenNotifier_weNeedYouToConfirmYourIdentity,
+      intl.pinScreen_weNeedYouToConfirmYourIdentity,
     );
 
     if (success) {
@@ -338,7 +338,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         return intl.pinScreen_enterYourPIN;
       },
       newPin: () {
-        return intl.pinScreen_pinSetANewPin;
+        return intl.pinScreen_setNewPin;
       },
       confirmPin: () {
         return intl.pinScreen_confirmNewPin;
