@@ -246,6 +246,7 @@
     "twoFaPhone_phoneConfirmation": "Подтверждение телефона",
     "twoFaPhone_seconds": "секунды",
     "twoFaPhone_enterSmsCode": "Введите SMS-код, который мы отправили на ваш телефон",
+    "twoFaPhone_errorOccured": "Произошла ошибка",
     "twoFaPhone_resend": "Отправить",
     "confirmPasswordReset_didntReceiveTheCode": "Не получил код",
     "confirmPasswordReset_resend": "Отправить",

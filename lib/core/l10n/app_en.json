@@ -246,6 +246,7 @@
   "twoFaPhone_phoneConfirmation": "Phone Confirmation",
   "twoFaPhone_seconds": "seconds",
   "twoFaPhone_enterSmsCode": "Enter the SMS code we have sent to your phone",
+  "twoFaPhone_errorOccured": "Error occured",
   "twoFaPhone_resend": "Resend",
   "confirmPasswordReset_didntReceiveTheCode": "Didn't receive the code",
   "confirmPasswordReset_resend": "Resend",
