@@ -5,10 +5,13 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../../../shared/helpers/localized_action_items.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../shared/providers/service_providers.dart';
+import '../../../../../helpers/is_buy_with_currency_available_for.dart';
 import '../../../../../models/currency_model.dart';
+import '../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../actions/action_deposit/components/deposit_options.dart';
 import '../../../../actions/action_send/components/send_options.dart';
 import '../../../../actions/action_withdraw/components/withdraw_options.dart';
@@ -48,19 +51,25 @@ class ActionButton extends StatefulHookWidget {
 class _ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
+    final currencies = useProvider(currenciesPod);
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
+
     final actionActive = useState(true);
     final highlighted = useState(false);
+
     final isDepositAvailable =
         widget.currency.supportsAtLeastOneFiatDepositMethod ||
             widget.currency.supportsCryptoDeposit;
 
-    final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
-
     void updateActionState() => actionActive.value = !actionActive.value;
+
+    final isBuyAvailable = isBuyWithCurrencyAvailableFor(
+      widget.currency.symbol,
+      currencies,
+    );
 
     final scaleAnimation = Tween(
       begin: 0.0,
@@ -80,7 +89,7 @@ class _ActionButtonState extends State<ActionButton> {
       currentNameColor = colors.white;
     }
 
-    void _onBuy1(bool fromCard) {
+    void _onBuy(bool fromCard) {
       if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
         navigatorPushReplacement(
           context,
@@ -106,48 +115,6 @@ class _ActionButtonState extends State<ActionButton> {
               fromCard: fromCard,
             ),
           ),
-        );
-      }
-    }
-
-    void _onBuy2(bool fromCard) {
-      if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-        sAnalytics.buyView(
-          Source.assetScreen,
-          widget.currency.description,
-        );
-        navigatorPushReplacement(
-          context,
-          CurrencyBuy(
-            currency: widget.currency,
-            fromCard: fromCard,
-          ),
-        );
-      } else {
-        defineKycVerificationsScope(
-          kycState.requiredVerifications.length,
-          Source.quickActions,
-        );
-
-        Navigator.of(context).pop();
-        kycAlertHandler.handle(
-          status: kycState.sellStatus,
-          kycVerified: kycState,
-          isProgress: kycState.verificationInProgress,
-          currentNavigate: () {
-            sAnalytics.buyView(
-              Source.assetScreen,
-              widget.currency.description,
-            );
-
-            navigatorPushReplacement(
-              context,
-              CurrencyBuy(
-                currency: widget.currency,
-                fromCard: fromCard,
-              ),
-            );
-          },
         );
       }
     }
@@ -195,7 +162,7 @@ class _ActionButtonState extends State<ActionButton> {
                       },
                       child: Center(
                         child: Text(
-                          actionActive.value ? 'Action' : '',
+                          actionActive.value ? intl.actionButton_action : '',
                           style: sButtonTextStyle.copyWith(
                             color: currentNameColor,
                           ),
@@ -205,6 +172,10 @@ class _ActionButtonState extends State<ActionButton> {
                         if (actionActive.value) {
                           sShowMenuActionSheet(
                             context: context,
+                            isBuyAvailable: isBuyAvailable,
+                            isBuyFromCardAvailable:
+                                widget.currency.supportsAtLeastOneBuyMethod,
+                            actionItemLocalized: localizedActionItems(context),
                             isNotEmptyBalance:
                                 widget.currency.isAssetBalanceNotEmpty,
                             isDepositAvailable: isDepositAvailable,
@@ -216,11 +187,11 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoDeposit,
                             onBuy: () {
                               sAnalytics.tapOnBuy(Source.actionButton);
-                              _onBuy1(false);
+                              _onBuy(false);
                             },
                             onBuyFromCard: () {
                               sAnalytics.tapOnBuyFromCard(Source.actionButton);
-                              _onBuy1(true);
+                              _onBuy(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==
@@ -320,7 +291,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Deposit',
+                                      header: intl.actionButton_deposit,
                                       currency: widget.currency,
                                     ),
                                   );
@@ -342,7 +313,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                         context,
                                         CryptoDeposit(
-                                          header: 'Deposit',
+                                          header: intl.actionButton_deposit,
                                           currency: widget.currency,
                                         ),
                                       );
@@ -411,7 +382,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(
-                                    header: 'Receive',
+                                    header: intl.actionButton_receive,
                                     currency: widget.currency,
                                   ),
                                 );
@@ -429,7 +400,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Receive',
+                                      header: intl.actionButton_receive,
                                       currency: widget.currency,
                                     ),
                                   ),
@@ -471,6 +442,10 @@ class _ActionButtonState extends State<ActionButton> {
                         if (actionActive.value) {
                           sShowMenuActionSheet(
                             context: context,
+                            isBuyAvailable: isBuyAvailable,
+                            isBuyFromCardAvailable:
+                                widget.currency.supportsAtLeastOneBuyMethod,
+                            actionItemLocalized: localizedActionItems(context),
                             isNotEmptyBalance:
                                 widget.currency.isAssetBalanceNotEmpty,
                             isDepositAvailable: isDepositAvailable,
@@ -482,11 +457,11 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoDeposit,
                             onBuy: () {
                               sAnalytics.tapOnBuy(Source.actionButton);
-                              _onBuy2(false);
+                              _onBuy(false);
                             },
                             onBuyFromCard: () {
                               sAnalytics.tapOnBuyFromCard(Source.actionButton);
-                              _onBuy2(true);
+                              _onBuy(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==
@@ -611,7 +586,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Deposit',
+                                      header: intl.actionButton_deposit,
                                       currency: widget.currency,
                                     ),
                                   );
@@ -633,7 +608,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                         context,
                                         CryptoDeposit(
-                                          header: 'Deposit',
+                                          header: intl.actionButton_deposit,
                                           currency: widget.currency,
                                         ),
                                       );
@@ -702,7 +677,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(
-                                    header: 'Receive',
+                                    header: intl.actionButton_receive,
                                     currency: widget.currency,
                                   ),
                                 );
@@ -720,7 +695,7 @@ class _ActionButtonState extends State<ActionButton> {
                                       navigatorPushReplacement(
                                     context,
                                     CryptoDeposit(
-                                      header: 'Receive',
+                                      header: intl.actionButton_receive,
                                       currency: widget.currency,
                                     ),
                                   ),

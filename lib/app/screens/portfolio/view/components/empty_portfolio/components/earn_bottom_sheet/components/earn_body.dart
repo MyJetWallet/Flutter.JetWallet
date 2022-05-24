@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../shared/models/currency_model.dart';
 import '../../../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/earn_advantages.dart';
@@ -21,6 +22,7 @@ class EarnBody extends HookWidget {
   Widget build(BuildContext context) {
     final currencies = useProvider(currenciesPod);
     final colors = useProvider(sColorPod);
+    final intl = useProvider(intlPod);
 
     final sortedByApyCurrencies = currencies;
     sortedByApyCurrencies.sort((a, b) =>
@@ -49,7 +51,7 @@ class EarnBody extends HookWidget {
           child: Row(
             children: [
               Text(
-                'Start earning',
+                intl.earnBody_startEarn,
                 style: sTextH4Style,
               ),
             ],

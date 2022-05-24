@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import 'market_header_stats.dart';
 
 class EmptyWatchlist extends HookWidget {
@@ -12,6 +13,7 @@ class EmptyWatchlist extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
 
@@ -47,12 +49,12 @@ class EmptyWatchlist extends HookWidget {
                       ),
                       const Spacer(),
                       Text(
-                        'Create your Watchlist',
+                        intl.emptyWatchlist_createYourWatchlist,
                         style: sTextH4Style,
                       ),
                       const SpaceH5(),
                       Text(
-                        'Star an asset to add it to your Watchlist',
+                        intl.emptyWatchlist_starAnAsset,
                         style: sBodyText1Style.copyWith(
                           color: colors.grey1,
                         ),

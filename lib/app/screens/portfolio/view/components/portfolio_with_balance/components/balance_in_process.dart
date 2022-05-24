@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/components/dash_line.dart';
 
 class BalanceInProcess extends HookWidget {
@@ -16,6 +17,7 @@ class BalanceInProcess extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return SPaddingH24(
@@ -54,7 +56,7 @@ class BalanceInProcess extends HookWidget {
                   baseline: 27.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    'In progress...',
+                    '${intl.balanceInProcess_balanceInProcess}...',
                     style: sBodyText2Style.copyWith(
                       color: colors.grey2,
                     ),

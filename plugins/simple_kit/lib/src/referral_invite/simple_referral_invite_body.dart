@@ -12,6 +12,9 @@ class SReferralInviteBody extends StatelessWidget {
     required this.showReadMore,
     required this.conditions,
     required this.referralLink,
+    required this.readMoreText,
+    required this.copiedText,
+    required this.referralText,
   }) : super(key: key);
 
   final String primaryText;
@@ -19,6 +22,9 @@ class SReferralInviteBody extends StatelessWidget {
   final bool showReadMore;
   final List<String> conditions;
   final String referralLink;
+  final String readMoreText;
+  final String copiedText;
+  final String referralText;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,7 @@ class SReferralInviteBody extends StatelessWidget {
                     baseline: 104,
                     baselineType: TextBaseline.alphabetic,
                     child: SimpleAccountTermButton(
-                      name: 'Read more',
+                      name: readMoreText,
                       onTap: onReadMoreTap,
                     ),
                   ),
@@ -89,9 +95,9 @@ class SReferralInviteBody extends StatelessWidget {
         ),
         const SpaceH20(),
         SAddressFieldWithCopy(
-          afterCopyText: 'Referral link copied',
+          afterCopyText: copiedText,
           value: referralLink,
-          header: 'Referral link',
+          header: referralText,
         ),
         const SpaceH20(),
       ],

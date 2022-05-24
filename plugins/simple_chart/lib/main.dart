@@ -20,6 +20,7 @@ class Chart extends StatefulWidget {
     required this.chartWidgetHeight,
     required this.isAssetChart,
     required this.loader,
+    required this.localizedChartResolutionButton,
     this.chartType = ChartType.line,
     this.walletCreationDate,
     this.selectedCandlePadding,
@@ -43,6 +44,7 @@ class Chart extends StatefulWidget {
   final double chartWidgetHeight;
   final bool isAssetChart;
   final Widget loader;
+  final List<String> localizedChartResolutionButton;
 
   @override
   _ChartState createState() => _ChartState();
@@ -114,6 +116,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
         height: widget.chartWidgetHeight,
         showLoader: widget.candles == null,
         resolution: widget.candleResolution,
+        localizedChartResolutionButton: widget.localizedChartResolutionButton,
         loader: widget.loader,
         onResolutionChanged: widget.onResolutionChanged,
         showWeek: showWeek,
@@ -175,7 +178,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ResolutionButton(
-                      text: Period.day,
+                      text: '1${widget.localizedChartResolutionButton[0]}',
                       showUnderline: widget.candleResolution == Period.day,
                       onTap: widget.candleResolution == Period.day
                           ? null
@@ -185,7 +188,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                     ),
                     if (showWeek)
                       ResolutionButton(
-                        text: Period.week,
+                        text: '1${widget.localizedChartResolutionButton[1]}',
                         showUnderline: widget.candleResolution == Period.week,
                         onTap: widget.candleResolution == Period.week
                             ? null
@@ -195,7 +198,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       ),
                     if (showMonth)
                       ResolutionButton(
-                        text: Period.month,
+                        text: '1${widget.localizedChartResolutionButton[2]}',
                         showUnderline: widget.candleResolution == Period.month,
                         onTap: widget.candleResolution == Period.month
                             ? null
@@ -205,7 +208,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       ),
                     if (showYear)
                       ResolutionButton(
-                        text: Period.year,
+                        text: '1${widget.localizedChartResolutionButton[3]}',
                         showUnderline: widget.candleResolution == Period.year,
                         onTap: widget.candleResolution == Period.year
                             ? null
@@ -214,7 +217,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                               },
                       ),
                     ResolutionButton(
-                      text: Period.all,
+                      text: widget.localizedChartResolutionButton[4],
                       showUnderline: widget.candleResolution == Period.all,
                       onTap: widget.candleResolution == Period.all
                           ? null
