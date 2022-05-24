@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -119,11 +118,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         sAnalytics.signUpFailure(email, e.toString());
       }
 
-      if (e is DioError && e.error == 'Http status error [401]') {
-        state = Input(intl.authentication_invalidLoginOrPassword);
-      } else {
-        state = Input('${intl.something_went_wrong_try_again}!');
-      }
+      state = Input(intl.something_went_wrong_try_again);
     }
   }
 }
