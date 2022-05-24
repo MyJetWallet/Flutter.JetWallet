@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../../../market/view/components/change_on_scroll.dart';
 
-class EarnBottomSheetContainer extends StatefulWidget {
+class EarnBottomSheetContainer extends StatefulHookWidget {
   const EarnBottomSheetContainer({
     Key? key,
     this.onDissmis,
@@ -44,6 +47,7 @@ class EarnBottomSheetContainer extends StatefulWidget {
 
 class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
   late double _offset;
+  //TODO Fix isAnimatingNow and ScrollController
   late bool isAnimatingNow;
   late bool isClosing;
   final controller = ScrollController();
@@ -98,6 +102,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = useProvider(mediaQueryPod);
 
     void _onDissmisAction(BuildContext context) {
       widget.onDissmis?.call();
@@ -110,7 +115,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
           return Future.value(true);
         },
         child: Padding(
-          padding: MediaQuery.of(context).viewInsets,
+          padding: mediaQuery.viewInsets,
           child: LayoutBuilder(
             builder: (_, constraints) {
               final maxHeight = _listViewMaxHeight(
@@ -186,7 +191,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
                               ),
                               Positioned(
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width - 44,
+                                  width: mediaQuery.size.width - 44,
                                   height: 180,
                                   color: Colors.transparent,
                                 ),

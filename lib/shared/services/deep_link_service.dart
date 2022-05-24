@@ -303,9 +303,10 @@ class DeepLinkService {
               Positioned(
                 top: 24.0,
                 right: 24.0,
-                child: GestureDetector(
+                child: SIconButton(
                   onTap: () => Navigator.pop(context),
-                  child: const SErasePressedIcon(),
+                  defaultIcon: const SErasePressedIcon(),
+                  pressedIcon: const SEraseMarketIcon(),
                 ),
               ),
             ],

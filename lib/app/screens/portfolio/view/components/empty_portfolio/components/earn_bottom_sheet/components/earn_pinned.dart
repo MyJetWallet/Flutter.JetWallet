@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../../shared/constants.dart';
+import '../../../../../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/earn_body_header.dart';
 
@@ -13,6 +14,7 @@ class EarnPinned extends HookWidget {
   Widget build(BuildContext context) {
     final currencies = useProvider(currenciesPod);
     final colors = useProvider(sColorPod);
+    final mediaQuery = useProvider(mediaQueryPod);
 
     return Column(
       children: [
@@ -36,13 +38,14 @@ class EarnPinned extends HookWidget {
             Positioned(
               top: 24.0,
               right: 24.0,
-              child: GestureDetector(
+              child: SIconButton(
                 onTap: () => Navigator.pop(context),
-                child: const SEraseMarketIcon(),
+                defaultIcon: const SEraseMarketIcon(),
+                pressedIcon: const SErasePressedIcon(),
               ),
             ),
             Positioned(
-              width: MediaQuery.of(context).size.width,
+              width: mediaQuery.size.width,
               top: 8,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

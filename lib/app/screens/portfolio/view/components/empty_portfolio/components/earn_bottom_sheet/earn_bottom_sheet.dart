@@ -30,6 +30,5 @@ void showStartEarnBottomSheet({
         ],
       );
     },
-    transitionAnimationController: null,
   );
 }
