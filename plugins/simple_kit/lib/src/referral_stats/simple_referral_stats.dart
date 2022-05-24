@@ -14,6 +14,12 @@ class SReferralStats extends StatelessWidget {
     required this.total,
     required this.showReadMore,
     required this.onInfoTap,
+    required this.referralStatsText,
+    required this.referralsInvitedText,
+    required this.referralsActivatedText,
+    required this.bonusEarnedText,
+    required this.commissionEarnedText,
+    required this.totalText,
   }) : super(key: key);
 
   final int referralInvited;
@@ -23,6 +29,12 @@ class SReferralStats extends StatelessWidget {
   final double total;
   final bool showReadMore;
   final void Function() onInfoTap;
+  final String referralStatsText;
+  final String referralsInvitedText;
+  final String referralsActivatedText;
+  final String bonusEarnedText;
+  final String commissionEarnedText;
+  final String totalText;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +70,7 @@ class SReferralStats extends StatelessWidget {
                   baseline: 20.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    'Referral Stats',
+                    referralStatsText,
                     style: sTextH4Style,
                   ),
                 ),
@@ -82,26 +94,26 @@ class SReferralStats extends StatelessWidget {
             child: Column(
               children: [
                 SReferralStatsItem(
-                  text: 'Referrals invited',
+                  text: referralsInvitedText,
                   baselineHeight: 46.0,
                   value: '$referralInvited',
                 ),
                 SReferralStatsItem(
-                  text: 'Referral activated',
+                  text: referralsActivatedText,
                   value: '$referralInvited',
                 ),
                 SReferralStatsItem(
-                  text: 'Bonus earned',
+                  text: bonusEarnedText,
                   value: '\$$bonusEarned',
                 ),
                 SReferralStatsItem(
-                  text: 'Commission earned',
+                  text: commissionEarnedText,
                   value: '\$$commissionEarned',
                 ),
                 const SpaceH40(),
                 const SDivider(),
                 SReferralStatsItem(
-                  text: 'Total',
+                  text: totalText,
                   value: '\$$total',
                   valueColor: SColorsLight().green,
                 ),

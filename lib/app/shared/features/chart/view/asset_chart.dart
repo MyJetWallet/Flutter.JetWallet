@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/localized_chart_resolution_button.dart';
 import '../../../../screens/market/model/market_item_model.dart';
 import '../../../helpers/formatting/base/market_format.dart';
 import '../notifier/asset_chart_input_stpod.dart';
@@ -42,6 +43,8 @@ class _AssetChartState extends State<AssetChart>
     return chartState.union.when(
       candles: () {
         return Chart(
+          localizedChartResolutionButton:
+              localizedChartResolutionButton(context),
           onResolutionChanged: (resolution) {
             chartNotifier.updateResolution(
               resolution,
@@ -66,6 +69,7 @@ class _AssetChartState extends State<AssetChart>
         height: 297,
         showLoader: true,
         resolution: chartState.resolution,
+        localizedChartResolutionButton: localizedChartResolutionButton(context),
         onResolutionChanged: (resolution) {
           chartNotifier.updateResolution(resolution);
         },

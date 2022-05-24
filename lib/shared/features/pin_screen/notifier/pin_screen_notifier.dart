@@ -13,6 +13,7 @@ import '../../../notifiers/logout_notifier/logout_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_state.dart';
+import '../../../providers/service_providers.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
@@ -53,24 +54,27 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   Future<void> _initDefaultScreen() async {
     final bioStatus = await biometricStatus();
     final hideBio = bioStatus == BiometricStatus.none;
+    final intl = read(intlPod);
 
     await flowUnion.when(
       change: () async {
-        await _initFlowThatStartsFromEnterPin('Change PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(
+            intl.pinScreen_changePin, hideBio,
+        );
       },
       disable: () async {
-        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.pinScreen_enterPin, hideBio);
       },
       enable: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader('Set PIN');
+        _updateScreenHeader(intl.pinScreen_setPin);
       },
       verification: () async {
-        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.pinScreen_enterPin, hideBio);
       },
       setup: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader('Set PIN');
+        _updateScreenHeader(intl.pinScreen_setPin);
       },
     );
   }
@@ -313,12 +317,32 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   }
 
   Future<String> _authenticateWithBio() async {
-    final success = await makeAuthWithBiometrics();
+    final intl = read(intlPod);
+
+    final success = await makeAuthWithBiometrics(
+      intl.pinScreen_weNeedYouToConfirmYourIdentity,
+    );
 
     if (success) {
       return _userInfo.pin ?? '';
     } else {
       return '';
     }
+  }
+
+  String screenDescription() {
+    final intl = read(intlPod);
+
+    return state.screenUnion.when(
+      enterPin: () {
+        return intl.pinScreen_enterYourPIN;
+      },
+      newPin: () {
+        return intl.pinScreen_setNewPin;
+      },
+      confirmPin: () {
+        return intl.pinScreen_confirmNewPin;
+      },
+    );
   }
 }

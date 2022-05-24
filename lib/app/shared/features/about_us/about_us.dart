@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/launch_url.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 
 class AboutUs extends HookWidget {
@@ -11,9 +13,11 @@ class AboutUs extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return SPageFrameWithPadding(
       header: SSmallHeader(
-        title: 'About us',
+        title: intl.account_aboutUs,
         onBackButtonTap: () => Navigator.pop(context),
       ),
       child: ListView(
@@ -23,7 +27,7 @@ class AboutUs extends HookWidget {
             baseline: 60,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'At Simple, we see investing differently.',
+              intl.aboutUs_text1,
               maxLines: 3,
               style: sTextH2Style,
             ),
@@ -32,11 +36,7 @@ class AboutUs extends HookWidget {
             baselineType: TextBaseline.alphabetic,
             baseline: 48,
             child: Text(
-              'Today’s financial system is complex, '
-              'exclusive and expensive - making it hard to '
-              'gain access, get lower fees and preferential '
-              'treatment. We believe that the financial '
-              'system should work for everyone!',
+              intl.aboutUs_text2,
               maxLines: 6,
               style: sBodyText1Style,
             ),
@@ -45,13 +45,7 @@ class AboutUs extends HookWidget {
             baselineType: TextBaseline.alphabetic,
             baseline: 48,
             child: Text(
-              'We’re building a product that reimagines '
-              'what it means to invest, simplifies the '
-              'access and breaks down these complex '
-              'barriers and fees. Its an easy to use financial '
-              'product that empowers you to see new '
-              'possibilities for your money and puts your '
-              'money in motion!',
+              intl.aboutUs_text3,
               maxLines: 8,
               style: sBodyText1Style,
             ),
@@ -60,15 +54,7 @@ class AboutUs extends HookWidget {
             baseline: 48,
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'We will launch with simple but innovative '
-              'cryptocurrency trading and while you are '
-              'trading, our team will be working hard to put '
-              'the finishing touches on our community '
-              'driven trade-everything platform to offer '
-              'you stocks, commodities, as well as social '
-              'payments. All in one simple to use '
-              'application. Its what we call, finance made '
-              'SIMPLE.',
+              intl.aboutUs_text4,
               maxLines: 10,
               style: sBodyText1Style,
             ),
@@ -77,7 +63,7 @@ class AboutUs extends HookWidget {
           Row(
             children: [
               SimpleAccountTermButton(
-                name: 'General Terms and Conditions',
+                name: intl.aboutUs_termButton1,
                 onTap: () => launchURL(context, userAgreementLink),
               ),
             ],
@@ -86,7 +72,7 @@ class AboutUs extends HookWidget {
           Row(
             children: [
               SimpleAccountTermButton(
-                name: 'Privacy Policy',
+                name: intl.aboutUs_privacyPolicy,
                 onTap: () => launchURL(context, privacyPolicyLink),
               ),
             ],
@@ -95,7 +81,7 @@ class AboutUs extends HookWidget {
           Row(
             children: [
               SimpleAccountTermButton(
-                name: 'Referral Policy',
+                name: intl.aboutUs_termButton3,
                 onTap: () => launchURL(context, referralPolicyLink),
               ),
             ],

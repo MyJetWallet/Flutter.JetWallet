@@ -55,6 +55,7 @@ class MarketDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final marketInfo = useProvider(
@@ -209,6 +210,7 @@ class MarketDetails extends HookWidget {
               RecurringBuyBanner(
                 title: recurringNotifier.recurringBannerTitle(
                   asset: currency.symbol,
+                  context: context,
                 ),
                 type: recurringNotifier.type(currency.symbol),
                 topMargin: 0,
@@ -236,7 +238,7 @@ class MarketDetails extends HookWidget {
                       }
                     } else {
                       showActionWithoutRecurringBuy(
-                        title: 'Setup recurring buy',
+                        title: intl.recurringBuysName_empty,
                         context: context,
                         onItemTap: (RecurringBuysType type) {
                           navigatorPushReplacement(
