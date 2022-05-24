@@ -164,7 +164,7 @@ class TransactionListItem extends HookWidget {
     } else if (transactionListItem.operationType ==
         OperationType.earningDeposit) {
       if (transactionListItem.earnInfo?.totalBalance ==
-          transactionListItem.balanceChange) {
+          transactionListItem.balanceChange.abs()) {
         return operationName(transactionListItem.operationType);
       } else {
         return operationName(

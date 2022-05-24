@@ -108,8 +108,8 @@ class CommonTransactionDetailsBlock extends HookWidget {
     } else if (transactionListItem.operationType ==
         OperationType.earningDeposit || transactionListItem.operationType ==
         OperationType.earningWithdrawal) {
-      if (transactionListItem.earnInfo?.totalBalance ==
-          transactionListItem.balanceChange &&
+      if (transactionListItem.earnInfo?.totalBalance !=
+          transactionListItem.balanceChange.abs() &&
           transactionListItem.operationType == OperationType.earningDeposit) {
         return operationName(
           transactionListItem.operationType,

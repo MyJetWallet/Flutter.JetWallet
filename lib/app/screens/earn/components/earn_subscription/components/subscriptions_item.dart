@@ -8,6 +8,8 @@ import '../../../../../../service/services/signal_r/model/earn_offers_model.dart
 import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/high_yield_buy/view/high_yield_buy.dart';
+import '../../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
+import '../../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../../shared/models/currency_model.dart';
 
 class SubscriptionsItem extends HookWidget {
@@ -28,6 +30,8 @@ class SubscriptionsItem extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final intl = useProvider(intlPod);
+    final kyc = context.read(kycNotipod);
+    final handler = context.read(kycAlertHandlerPod(context));
     var apy = Decimal.zero;
 
     for (final element in earnOffer.tiers) {
@@ -43,13 +47,27 @@ class SubscriptionsItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
-            navigatorPushReplacement(
-              context,
-              HighYieldBuy(
-                currency: currency,
-                earnOffer: earnOffer,
-              ),
-            );
+            if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+              navigatorPushReplacement(
+                context,
+                HighYieldBuy(
+                  currency: currency,
+                  earnOffer: earnOffer,
+                ),
+              );
+            } else {
+              handler.handle(
+                status: kyc.depositStatus,
+                kycVerified: kyc,
+                isProgress: kyc.verificationInProgress,
+                currentNavigate: () => SubscriptionsItem(
+                  days: days,
+                  isHot: isHot,
+                  earnOffer: earnOffer,
+                  currency: currency,
+                ),
+              );
+            }
           },
           child: Ink(
             height: 88,

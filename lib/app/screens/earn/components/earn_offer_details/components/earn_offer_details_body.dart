@@ -60,7 +60,7 @@ class EarnOfferDetailsBody extends HookWidget {
             children: [
               Text(
                 volumeFormat(
-                  decimal: earnOffer.amountBaseAsset,
+                  decimal: earnOffer.amount,
                   accuracy: currentCurrency.accuracy,
                   symbol: currentCurrency.symbol,
                 ),
@@ -71,7 +71,7 @@ class EarnOfferDetailsBody extends HookWidget {
               Text(
                 volumeFormat(
                   prefix: baseCurrency.prefix,
-                  decimal: earnOffer.amount,
+                  decimal: earnOffer.amountBaseAsset,
                   accuracy: baseCurrency.accuracy,
                   symbol: baseCurrency.symbol,
                 ),

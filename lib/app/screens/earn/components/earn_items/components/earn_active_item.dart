@@ -168,7 +168,7 @@ class EarnActiveItem extends HookWidget {
                                   ],
                                   Text(
                                     volumeFormat(
-                                      decimal: earnOffer.amountBaseAsset,
+                                      decimal: earnOffer.amount,
                                       accuracy: currentCurrency.accuracy,
                                       symbol: currentCurrency.symbol,
                                     ),
