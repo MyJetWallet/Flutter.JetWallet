@@ -42,7 +42,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
       refreshToken: refreshToken,
       requestTime: serverTime.time,
       tokenDateTimeSignatureBase64: tokenDateTimeSignatureBase64,
-      lang: intl.localeName
+      lang: intl.localeName,
     );
 
     final response = await authService.refresh(model);
