@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/refresh_token.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/device_info_pod.dart';
+import '../../../../shared/providers/device_size/media_query_pod.dart';
+import '../../../../shared/providers/package_info_fpod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
@@ -32,6 +35,19 @@ import '../model/price_accuracies.dart';
 import '../model/recurring_buys_response_model.dart';
 import '../model/referral_info_model.dart';
 import '../model/referral_stats_response_model.dart';
+
+class _HttpClient extends http.BaseClient {
+  final _httpClient = http.Client();
+  final Map<String, String> defaultHeaders;
+
+  _HttpClient({required this.defaultHeaders});
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) {
+    request.headers.addAll(defaultHeaders);
+    return _httpClient.send(request);
+  }
+}
 
 class SignalRService {
   SignalRService(this.read);
@@ -74,10 +90,8 @@ class SignalRService {
   final _referralInfoController = StreamController<ReferralInfoModel>();
   final _recurringBuyController =
       StreamController<RecurringBuysResponseModel>();
-  final _earnOfferController =
-      StreamController<EarnOffersModel>();
-  final _earnProfileController =
-      StreamController<EarnProfileModel>();
+  final _earnOfferController = StreamController<EarnOffersModel>();
+  final _earnProfileController = StreamController<EarnProfileModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -90,7 +104,20 @@ class SignalRService {
   Future<void> init() async {
     isDisconnecting = false;
 
-    _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
+    final appVersion = read(packageInfoPod).version;
+    final mediaQuery = read(mediaQueryPod);
+    final deviceSize = mediaQuery.size;
+    final devicePixelRatio = mediaQuery.devicePixelRatio;
+
+    final httpClient = _HttpClient(
+      defaultHeaders: {
+        'User-Agent': '$appVersion;$deviceType;$deviceSize;$devicePixelRatio',
+      },
+    );
+
+    _connection = HubConnectionBuilder()
+        .withUrl(walletApiSignalR, HttpConnectionOptions(client: httpClient))
+        .build();
 
     _connection?.on(earnProfileMessage, (data) {
       try {
@@ -374,11 +401,9 @@ class SignalRService {
   Stream<RecurringBuysResponseModel> recurringBuy() =>
       _recurringBuyController.stream;
 
-  Stream<EarnOffersModel> earnOffers() =>
-      _earnOfferController.stream;
+  Stream<EarnOffersModel> earnOffers() => _earnOfferController.stream;
 
-  Stream<EarnProfileModel> earnProfile() =>
-      _earnProfileController.stream;
+  Stream<EarnProfileModel> earnProfile() => _earnProfileController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
