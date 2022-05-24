@@ -53,7 +53,7 @@ class ChangePassword extends HookWidget {
                   baseline: 24.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    '${intl.changePassword_byChangingPasswordText}.',
+                    '${intl.changePassword_enterCurrentPassword}.',
                     style: sBodyText1Style.copyWith(
                       color: colors.grey1,
                       overflow: TextOverflow.visible,
