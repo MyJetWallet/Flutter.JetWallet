@@ -57,7 +57,7 @@ class PinScreen extends HookWidget {
       child: SPageFrame(
         header: SPaddingH24(
           child: SBigHeader(
-            title: pin.screenDescription,
+            title: pinN.screenDescription(),
             onBackButtonTap: onbackButton,
           ),
         ),

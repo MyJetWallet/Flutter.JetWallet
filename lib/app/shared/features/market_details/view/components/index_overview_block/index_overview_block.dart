@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/service_providers.dart';
+
 class IndexOverviewBlock extends HookWidget {
   const IndexOverviewBlock({
     Key? key,
@@ -10,6 +12,7 @@ class IndexOverviewBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return SPaddingH24(
@@ -22,7 +25,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 49,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Index overview',
+                intl.indexOverviewBlock_indexOverview,
                 style: sTextH4Style,
               ),
             ),
@@ -33,7 +36,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 40,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Type',
+                intl.indexOverviewBlock_type,
                 style: sBodyText2Style.copyWith(color: colors.grey1),
               ),
             ),
@@ -44,7 +47,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 19,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Equal-Weighted Index',
+                intl.indexOverviewBlock_equalWeightedIndex,
                 style: sBodyText1Style,
               ),
             ),
@@ -55,7 +58,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 36,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Rebalancing',
+                intl.indexOverviewBlock_rebalancing,
                 style: sBodyText2Style.copyWith(color: colors.grey1),
               ),
             ),
@@ -66,7 +69,7 @@ class IndexOverviewBlock extends HookWidget {
               baseline: 19,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Quarterly rebalancing to equal-weighted',
+                intl.indexOverviewBlock_quarterlyRebalancing,
                 style: sBodyText1Style,
               ),
             ),

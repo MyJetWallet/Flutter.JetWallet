@@ -217,6 +217,7 @@ class DeepLinkService {
   void _inviteFriendCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
     final referralInfo = read(referralInfoPod);
+    final intl = read(intlPod);
 
     sAnalytics.clickMarketBanner(
       MarketBannerSource.inviteFriend.name,

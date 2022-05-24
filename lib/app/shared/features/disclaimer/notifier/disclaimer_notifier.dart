@@ -77,6 +77,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     required int disclaimerIndex,
   }) {
     final context = read(sNavigatorKeyPod).currentContext!;
+    final intl = read(intlPod);
     final colors = read(sColorPod);
 
     showsDisclaimer(
@@ -185,7 +186,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
                           ),
                           SFloatingButtonFrame2(
                             button: SPrimaryButton1(
-                              name: 'Continue',
+                              name: intl.disclaimer_continue,
                               active: state.activeButton,
                               onTap: () async {
                                 await _sendAnswers(

@@ -10,6 +10,7 @@ import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../provider/kyc_start_fpod.dart';
 
 class SuccessKycScreen extends HookWidget {
@@ -44,6 +45,7 @@ class SuccessKycScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     useProvider(kycStartFpod);
 
@@ -63,7 +65,7 @@ class SuccessKycScreen extends HookWidget {
               baseline: 136.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                primaryText ?? 'Success',
+                primaryText ?? intl.successKycScreen_success,
                 maxLines: 2,
                 textAlign: TextAlign.center,
                 style: sTextH2Style,
@@ -90,7 +92,7 @@ class SuccessKycScreen extends HookWidget {
               ),
               child: SPrimaryButton2(
                 active: true,
-                name: 'Done',
+                name: intl.successKycScreen_done,
                 onTap: () => Navigator.pop(context),
               ),
             ),

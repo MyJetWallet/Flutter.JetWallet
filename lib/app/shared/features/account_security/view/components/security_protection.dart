@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../helper/protection_level.dart';
 
 class SecurityProtection extends HookWidget {
@@ -14,7 +15,8 @@ class SecurityProtection extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = useProvider(userInfoNotipod);
-    final level = protectionLevel(userInfo);
+    final level = protectionLevel(userInfo, context);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Column(
@@ -24,7 +26,7 @@ class SecurityProtection extends HookWidget {
           alignment: Alignment.bottomLeft,
           height: 40.0,
           child: Text(
-            '${level.name} protection level',
+            '${level.name} ${intl.securityProtection_protectionLevel}',
             style: sSubtitle3Style.copyWith(
               color: colors.grey1,
             ),
