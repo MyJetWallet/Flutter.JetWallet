@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../../shared/providers/service_providers.dart';
 import 'earn_advantage_item.dart';
 
-class EarnAdvantages extends StatelessWidget {
+class EarnAdvantages extends HookWidget {
   const EarnAdvantages({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return Column(
-      children: const [
+      children: [
         EarnAdvantageItem(
-          text: 'Trade and Withdraw without any limits',
+          text: intl.earnAdvantages_tradeAndWithdrawMoneyWithoutLimits,
         ),
-        SpaceH16(),
+        const SpaceH16(),
         EarnAdvantageItem(
-          text: 'No minimum monthly balance',
+          text: intl.earnAdvantages_noMinimumMonthlyBalance,
         ),
-        SpaceH16(),
+        const SpaceH16(),
         EarnAdvantageItem(
-          text:
-              'Interest calculated every day and\npaid on the first day'
-                  ' of every month',
+          text: '${intl.earnAdvantages_interestCalculatedEveryDay}\n'
+              '${intl.earnAdvantages_paidOnTheFirstDayOfEveryMonth}',
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
-        SpaceH16(),
+        const SpaceH16(),
         EarnAdvantageItem(
-          text: 'Rates are subject to change based on\nthe market situation',
+          text: '${intl.earnAdvantages_pricesMayVaryDependingOn}\n'
+              '${intl.earnAdvantages_theMarketSituation}',
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
       ],

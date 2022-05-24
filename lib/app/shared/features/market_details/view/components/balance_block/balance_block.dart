@@ -5,6 +5,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../helpers/formatting/formatting.dart';
 import '../../../../../models/currency_model.dart';
@@ -27,6 +28,7 @@ class BalanceBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final currency = currencyFrom(
       useProvider(currenciesPod),
@@ -49,7 +51,7 @@ class BalanceBlock extends HookWidget {
             icon: SNetworkSvg24(
               url: marketItem.iconUrl,
             ),
-            primaryText: '${marketItem.name} wallet',
+            primaryText: '${marketItem.name} ${intl.balanceBlock_wallet}',
             isRecurring: recurringNotifier.activeOrPausedType(currency.symbol),
             amount: volumeFormat(
               prefix: baseCurrency.prefix,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/constants.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../../screens/account/components/crisp.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import '../model/kyc_operation_status_model.dart';
@@ -37,8 +39,7 @@ class KycAlertHandler {
       );
     } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
       _showVerifyingAlert();
-    } else if (status ==
-        kycOperationStatus(KycStatus.allowedWithKycAlert)) {
+    } else if (status == kycOperationStatus(KycStatus.allowedWithKycAlert)) {
       _showAllowedWithAlert(
         kycVerified,
         currentNavigate,
@@ -52,14 +53,15 @@ class KycAlertHandler {
   void _showKycRequiredAlert(
     KycModel kycVerified,
   ) {
+    final intl = context.read(intlPod);
     showKycPopup(
       context: context,
       imageAsset: verifyYourProfileAsset,
-      primaryText: 'Verify your profile!',
-      secondaryText: 'To complete profile verification you\n'
-          'need to pass following steps:',
-      primaryButtonName: 'Continue',
-      secondaryButtonName: 'Later',
+      primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
+      secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
+          '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
+      primaryButtonName: intl.kycAlertHandler_continue,
+      secondaryButtonName: intl.kycAlertHandler_later,
       activePrimaryButton: kycVerified.requiredVerifications.isNotEmpty,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
@@ -76,12 +78,14 @@ class KycAlertHandler {
   }
 
   void _showVerifyingAlert() {
+    final intl = context.read(intlPod);
+
     showKycPopup(
       context: context,
       imageAsset: verifyingNowAsset,
-      primaryText: 'We’re verifying now',
-      secondaryText: 'You’ll be notified when we complete the process',
-      primaryButtonName: 'Done',
+      primaryText: intl.kycAlertHandler_showVerifyingAlertPrimaryText,
+      secondaryText: intl.kycAlertHandler_showVerifyingAlertSecondaryText,
+      primaryButtonName: intl.kycAlertHandler_done,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
       },
@@ -93,14 +97,16 @@ class KycAlertHandler {
     Function() currentNavigat,
     bool navigatePop,
   ) {
+    final intl = context.read(intlPod);
+
     showKycPopup(
       context: context,
       imageAsset: verifyYourProfileAsset,
-      primaryText: 'Verify your profile!',
-      secondaryText: 'To complete profile verification you '
-          'need to pass following steps:',
-      primaryButtonName: 'Continue',
-      secondaryButtonName: 'Later',
+      primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
+      secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
+          '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
+      primaryButtonName: intl.kycAlertHandler_continue,
+      secondaryButtonName: intl.kycAlertHandler_later,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
         _navigateVerifiedNavigate(
@@ -119,14 +125,20 @@ class KycAlertHandler {
   }
 
   void _showBlockedAlert() {
+    final intl = context.read(intlPod);
+
     showKycPopup(
       context: context,
-      primaryText: 'You’re blocked!',
-      secondaryText: 'Please contact support to unblock\nyour account',
-      primaryButtonName: 'Support',
+      primaryText: '${intl.kycAlertHandler_youAreBlocked}!',
+      secondaryText: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1}\n'
+          '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
+      primaryButtonName: intl.kycAlertHandler_support,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
-        Crisp.push(context);
+        Crisp.push(
+          context,
+          intl.crispSendMessage_hi,
+        );
       },
     );
   }
@@ -135,10 +147,12 @@ class KycAlertHandler {
     List<RequiredVerified> requiredVerifications,
     List<KycDocumentType> documents,
   ) {
+    final intl = context.read(intlPod);
+
     if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
       SetPhoneNumber.push(
         context: context,
-        successText: '2-Factor verification enabled',
+        successText: intl.kycAlertHandler_factorVerificationEnabled,
         then: () => KycVerifyYourProfile.push(
           context: context,
           requiredVerifications: requiredVerifications,
@@ -147,7 +161,10 @@ class KycAlertHandler {
     } else {
       ChooseDocuments.push(
         context: context,
-        headerTitle: stringRequiredVerified(requiredVerifications.first),
+        headerTitle: stringRequiredVerified(
+          requiredVerifications.first,
+          context,
+        ),
         documents: documents,
       );
     }
@@ -201,24 +218,26 @@ class KycAlertHandler {
   List<Widget> _listRequiredVerification(
     List<RequiredVerified> requiredVerifications,
   ) {
+    final intl = context.read(intlPod);
+
     final requiredVerified = <Widget>[];
 
     for (var i = 0; i < requiredVerifications.length; i++) {
       if (requiredVerifications[i] == RequiredVerified.proofOfIdentity) {
         requiredVerified.add(
-          _documentText('Verify your identity', i),
+          _documentText(intl.kycAlertHandler_verifyYourIdentity, i),
         );
       } else if (requiredVerifications[i] == RequiredVerified.proofOfAddress) {
         requiredVerified.add(
-          _documentText('Address verification', i),
+          _documentText(intl.kycAlertHandler_addressVerification, i),
         );
       } else if (requiredVerifications[i] == RequiredVerified.proofOfFunds) {
         requiredVerified.add(
-          _documentText('Proof source of funds', i),
+          _documentText(intl.kycAlertHandler_proofSourceOfFunds, i),
         );
       } else if (requiredVerifications[i] == RequiredVerified.proofOfPhone) {
         requiredVerified.add(
-          _documentText('Secure your account', i),
+          _documentText(intl.kycAlertHandler_secureYourAccount, i),
         );
       }
     }

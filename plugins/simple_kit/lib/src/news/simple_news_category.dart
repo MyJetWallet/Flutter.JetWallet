@@ -9,6 +9,8 @@ class SNewsCategory extends StatelessWidget {
   const SNewsCategory({
     Key? key,
     this.height,
+    required this.text1,
+    required this.text2,
     required this.sentiment,
     required this.newsLabel,
     required this.newsText,
@@ -16,6 +18,8 @@ class SNewsCategory extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
+  final String text1;
+  final String text2;
   final String newsLabel;
   final String newsText;
   final Color sentiment;
@@ -52,14 +56,14 @@ class SNewsCategory extends StatelessWidget {
                           recognizer: TapGestureRecognizer()..onTap = onTap,
                         ),
                         TextSpan(
-                          text: ' / Discuss on ',
+                          text: ' / $text1 ',
                           style: sCaptionTextStyle.copyWith(
                             color: SColorsLight().grey1,
                           ),
                           recognizer: TapGestureRecognizer()..onTap = onTap,
                         ),
                         TextSpan(
-                          text: 'CryptoPanic',
+                          text: text2,
                           style: sCaptionTextStyle.copyWith(
                             color: SColorsLight().grey1,
                             decoration: TextDecoration.underline,

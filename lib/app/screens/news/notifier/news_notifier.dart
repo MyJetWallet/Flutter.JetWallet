@@ -36,8 +36,10 @@ class NewsNotifier extends StateNotifier<NewsState> {
     } catch (e) {
       _logger.log(stateFlow, 'init', e);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 1,
       );
 
@@ -63,8 +65,10 @@ class NewsNotifier extends StateNotifier<NewsState> {
     } catch (e) {
       _logger.log(stateFlow, 'news', e);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 2,
       );
 

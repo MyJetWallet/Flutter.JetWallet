@@ -12,6 +12,7 @@ class RegisterRequestModel with _$RegisterRequestModel {
     String? referralCode,
     bool? marketingEmailsAllowed,
     @JsonKey(name: 'publicKeyPem') required String publicKey,
+    required String lang,
     required String email,
     required String password,
     required int platformType,

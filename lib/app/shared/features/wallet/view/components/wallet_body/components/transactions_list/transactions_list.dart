@@ -6,6 +6,7 @@ import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../helper/format_date.dart';
 import '../../../../../notifier/operation_history_notipod.dart';
 import '../../../../../notifier/operation_history_state.dart';
@@ -61,6 +62,7 @@ class _TransactionsListState extends State<TransactionsList> {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final initTransactionHistory = useProvider(
       operationHistoryInitFpod(
@@ -167,11 +169,11 @@ class _TransactionsListState extends State<TransactionsList> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'No transactions yet',
+                          intl.transactionsList_noTransactionsYet,
                           style: sTextH3Style,
                         ),
                         Text(
-                          'Your transactions will appear here',
+                          intl.historyRecurringBuy_text1,
                           style: sBodyText1Style.copyWith(
                             color: colors.grey1,
                           ),
@@ -255,8 +257,7 @@ class _TransactionsListState extends State<TransactionsList> {
                                         baseline: 38,
                                         baselineType: TextBaseline.alphabetic,
                                         child: Text(
-                                          'Something went wrong when '
-                                          'loading your data',
+                                          intl.newsList_wentWrongText,
                                           style: sBodyText1Style,
                                           maxLines: 2,
                                         ),
@@ -268,7 +269,7 @@ class _TransactionsListState extends State<TransactionsList> {
                             ),
                             STextButton1(
                               active: true,
-                              name: 'Retry',
+                              name: intl.transactionsList_retry,
                               onTap: () {
                                 transactionHistoryN.initOperationHistory();
                               },
@@ -355,9 +356,7 @@ class _TransactionsListState extends State<TransactionsList> {
                                             baselineType:
                                                 TextBaseline.alphabetic,
                                             child: Text(
-                                              'Something went wrong '
-                                              'when '
-                                              'loading your data',
+                                              intl.newsList_wentWrongText,
                                               style: sBodyText1Style,
                                               maxLines: 2,
                                             ),
@@ -369,7 +368,7 @@ class _TransactionsListState extends State<TransactionsList> {
                                 ),
                                 STextButton1(
                                   active: true,
-                                  name: 'Retry',
+                                  name: intl.transactionsList_retry,
                                   onTap: () {
                                     transactionHistoryN.operationHistory(
                                       widget.symbol,
@@ -437,8 +436,7 @@ class _TransactionsListState extends State<TransactionsList> {
                                   baseline: 38,
                                   baselineType: TextBaseline.alphabetic,
                                   child: Text(
-                                    'Something went wrong when '
-                                    'loading your data',
+                                    intl.newsList_wentWrongText,
                                     style: sBodyText1Style,
                                     maxLines: 2,
                                   ),
@@ -450,7 +448,7 @@ class _TransactionsListState extends State<TransactionsList> {
                       ),
                       STextButton1(
                         active: true,
-                        name: 'Retry',
+                        name: intl.transactionsList_retry,
                         onTap: () {
                           transactionHistoryN.initOperationHistory();
                         },

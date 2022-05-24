@@ -41,6 +41,7 @@ class RecurringBuyBanner extends HookWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SpaceW8(),
               Container(
                 height: 48,
                 width: 48,
@@ -52,15 +53,18 @@ class RecurringBuyBanner extends HookWidget {
                 child: recurringBuysImage(type),
               ),
               const SpaceW20(),
-              Container(
-                margin: const EdgeInsets.only(
-                  bottom: 4.0,
-                  right: 7.0,
-                ),
-                child: Text(
-                  title,
-                  style: sSubtitle3Style.copyWith(
-                    color: _textColor(type, colors),
+              Flexible(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    bottom: 4.0,
+                    right: 7.0,
+                  ),
+                  child: Text(
+                    title,
+                    maxLines: 2,
+                    style: sSubtitle3Style.copyWith(
+                      color: _textColor(type, colors),
+                    ),
                   ),
                 ),
               ),
