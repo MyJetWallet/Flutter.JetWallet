@@ -40,7 +40,8 @@ class TransferDetails extends HookWidget {
               children: [
                 TransactionDetailsValueText(
                   text:
-                      '${transactionListItem.transferByPhoneInfo!.toPhoneNumber}',
+                      '${transactionListItem.transferByPhoneInfo!.toPhoneNumber
+                      }',
                 ),
                 if (receiverName.isNotEmpty) ...[
                   Text(

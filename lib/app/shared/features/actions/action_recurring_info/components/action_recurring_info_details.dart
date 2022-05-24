@@ -39,7 +39,8 @@ class ActionRecurringInfoDetails extends HookWidget {
           value: TransactionDetailsValueText(
             text: '${sellCurrency.prefixSymbol ?? ''}'
                 '${recurringItem.fromAmount} '
-                '${sellCurrency.prefixSymbol != null ? '' : sellCurrency.symbol}',
+                '${sellCurrency.prefixSymbol != null ? '' : sellCurrency.symbol
+            }',
           ),
         ),
         const SpaceH14(),
