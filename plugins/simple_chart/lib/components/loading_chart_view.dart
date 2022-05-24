@@ -15,6 +15,7 @@ class LoadingChartView extends StatelessWidget {
     required this.loader,
     required this.onResolutionChanged,
     required this.isBalanceChart,
+    required this.localizedChartResolutionButton,
   }) : super(key: key);
 
   final double height;
@@ -26,6 +27,7 @@ class LoadingChartView extends StatelessWidget {
   final bool showMonth;
   final bool showYear;
   final bool isBalanceChart;
+  final List<String> localizedChartResolutionButton;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class LoadingChartView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ResolutionButton(
-                    text: Period.day,
+                    text: '1${localizedChartResolutionButton[0]}',
                     showUnderline: resolution == Period.day,
                     onTap: resolution == Period.day
                         ? null
@@ -62,7 +64,7 @@ class LoadingChartView extends StatelessWidget {
                   ),
                   if (showWeek)
                     ResolutionButton(
-                      text: Period.week,
+                      text: '1${localizedChartResolutionButton[1]}',
                       showUnderline: resolution == Period.week,
                       onTap: resolution == Period.week
                           ? null
@@ -72,7 +74,7 @@ class LoadingChartView extends StatelessWidget {
                     ),
                   if (showMonth)
                     ResolutionButton(
-                      text: Period.month,
+                      text: '1${localizedChartResolutionButton[2]}',
                       showUnderline: resolution == Period.month,
                       onTap: resolution == Period.month
                           ? null
@@ -82,7 +84,7 @@ class LoadingChartView extends StatelessWidget {
                     ),
                   if (showYear)
                     ResolutionButton(
-                      text: Period.year,
+                      text: '1${localizedChartResolutionButton[3]}',
                       showUnderline: resolution == Period.year,
                       onTap: resolution == Period.year
                           ? null
@@ -91,7 +93,7 @@ class LoadingChartView extends StatelessWidget {
                             },
                     ),
                   ResolutionButton(
-                    text: Period.all,
+                    text: localizedChartResolutionButton[4],
                     showUnderline: resolution == Period.all,
                     onTap: resolution == Period.all
                         ? null

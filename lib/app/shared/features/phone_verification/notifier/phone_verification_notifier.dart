@@ -111,9 +111,13 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      sAnalytics.kycPhoneConfirmFailed('Something went wrong');
+      final intl = read(intlPod);
+
+      sAnalytics.kycPhoneConfirmFailed(
+        intl.something_went_wrong,
+      );
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 2,
       );
     }

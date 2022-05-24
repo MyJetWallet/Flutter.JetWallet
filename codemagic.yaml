@@ -7,7 +7,7 @@ definitions:
   # and GOOGLE_SERVICE_IOS to IOS_FIREBASE_SECRET
 
   versioning: &versioning
-    flutter: stable
+    flutter: 3.0.0
     xcode: latest
     cocoapods: default
 
@@ -159,8 +159,8 @@ definitions:
     - flutter_drive.log    
   
   dev_triggering: &dev_triggering
-    events:
-      - pull_request
+    # events:
+    #   - pull_request
     branch_patterns:
       - pattern: develop
         include: true
@@ -168,8 +168,8 @@ definitions:
     cancel_previous_builds: false  
 
   stage_triggering: &stage_triggering
-    events:
-      - push
+    # events:
+    #   - push
     branch_patterns:
       - pattern: develop
         include: true

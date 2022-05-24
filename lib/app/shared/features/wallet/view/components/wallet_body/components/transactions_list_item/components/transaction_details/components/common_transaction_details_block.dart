@@ -8,6 +8,7 @@ import 'package:simple_networking/services/operation_history/model/operation_his
 import '../../../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../../../providers/currencies_with_hidden_pod/currencies_with_hidden_pod.dart';
 import '../../../../../../../../../market_details/helper/currency_from_all.dart';
+import '../../../../../../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -44,7 +45,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
                 const SpaceW12(),
                 Expanded(
                   child: Text(
-                    _transactionHeader(transactionListItem, currency),
+                    _transactionHeader(transactionListItem, currency, context),
                     style: sTextH5Style,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -58,7 +59,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
           ),
         if (transactionListItem.operationType != OperationType.recurringBuy)
           Text(
-            _transactionHeader(transactionListItem, currency),
+            _transactionHeader(transactionListItem, currency, context),
             style: sTextH5Style,
           ),
         const SpaceH67(),
@@ -94,17 +95,20 @@ class CommonTransactionDetailsBlock extends HookWidget {
   String _transactionHeader(
     OperationHistoryItem transactionListItem,
     CurrencyModel currency,
+    BuildContext context,
   ) {
     if (transactionListItem.operationType == OperationType.simplexBuy) {
-      return '${operationName(OperationType.buy)} '
+      return '${operationName(OperationType.buy, context)} '
           '${currency.description} - '
-          '${operationName(transactionListItem.operationType)}';
+          '${operationName(transactionListItem.operationType, context)}';
     } else if (transactionListItem.operationType ==
         OperationType.recurringBuy) {
-      return '${transactionListItem.recurringBuyInfo!.scheduleType} '
-          '${operationName(transactionListItem.operationType)}';
+      return '${recurringBuysOperationByString(
+        transactionListItem.recurringBuyInfo!.scheduleType ?? '',
+        context,
+      )} ${operationName(transactionListItem.operationType, context)}';
     } else {
-      return '${operationName(transactionListItem.operationType)} '
+      return '${operationName(transactionListItem.operationType, context)} '
           '${currency.description}';
     }
   }

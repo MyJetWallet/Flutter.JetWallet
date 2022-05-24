@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../currency_withdraw/model/withdrawal_dictionary_model.dart';
 import '../../../currency_withdraw/model/withdrawal_model.dart';
 import '../../../currency_withdraw/view/currency_withdraw.dart';
 
 void showWithdrawOptions(BuildContext context, CurrencyModel currency) {
+  final intl = context.read(intlPod);
+
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
-    pinned: const SBottomSheetHeader(
-      name: 'Send to',
+    pinned: SBottomSheetHeader(
+      name: intl.withdrawOptions_sendTo,
     ),
     children: [
       _WithdrawOptions(
@@ -33,6 +37,8 @@ class _WithdrawOptions extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return Column(
       children: [
         // TODO Add Credit Card feature
@@ -62,9 +68,9 @@ class _WithdrawOptions extends HookWidget {
         if (currency.supportsSepaWithdrawal)
           SActionItem(
             icon: const SWireIcon(),
-            name: 'Wire transfer',
-            description: 'SEPA',
-            helper: 'No fee',
+            name: intl.withdrawOptions_wireTransfer,
+            description: intl.withdrawOptions_actionItemDescription1,
+            helper: intl.noFee,
             onTap: () {
               // TODO Add Sepa feature
             },
@@ -72,8 +78,8 @@ class _WithdrawOptions extends HookWidget {
         if (currency.supportsCryptoWithdrawal)
           SActionItem(
             icon: const SWalletIcon(),
-            name: 'Crypto Wallet',
-            description: '${currency.symbol} Wallet',
+            name: intl.withdrawOptions_actionItemName1,
+            description: '${currency.symbol} ${intl.withdrawOptions_wallet}',
             onTap: () {
               navigatorPushReplacement(
                 context,

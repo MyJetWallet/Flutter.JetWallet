@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../helper/masked_text_input_formatter.dart';
 import '../notifier/add_circle_card_notipod.dart';
 import 'circle_billing_address/circle_billing_address.dart';
@@ -34,15 +35,17 @@ class AddCircleCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = context.read(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(addCircleCardNotipod);
     final notifier = useProvider(addCircleCardNotipod.notifier);
 
     return SPageFrame(
+      loaderText: intl.addCircleCard_pleaseWait,
       loading: state.loader,
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SBigHeader(
-          title: 'Enter card details',
+          title: intl.addCircleCard_bigHeaderTitle,
         ),
       ),
       child: Column(
@@ -59,7 +62,7 @@ class AddCircleCard extends HookWidget {
             children: [
               SFieldDividerFrame(
                 child: SStandardField(
-                  labelText: 'Card number',
+                  labelText: intl.addCircleCard_cardNumber,
                   keyboardType: TextInputType.number,
                   errorNotifier: state.cardNumberError,
                   disableErrorOnChanged: false,
@@ -82,7 +85,7 @@ class AddCircleCard extends HookWidget {
                   Expanded(
                     child: SFieldDividerFrame(
                       child: SStandardField(
-                        labelText: 'Expiry date',
+                        labelText: intl.addCircleCard_expiryDate,
                         keyboardType: TextInputType.number,
                         errorNotifier: state.expiryDateError,
                         enableInteractiveSelection: false,
@@ -126,7 +129,7 @@ class AddCircleCard extends HookWidget {
                 color: colors.white,
                 child: SPaddingH24(
                   child: SStandardField(
-                    labelText: 'Cardholder name',
+                    labelText: intl.addCircleCard_cardholderName,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCardholderName,
                   ),
@@ -136,7 +139,7 @@ class AddCircleCard extends HookWidget {
               ContinueButtonFrame(
                 child: SPrimaryButton2(
                   active: state.isCardDetailsValid,
-                  name: 'Continue',
+                  name: intl.addCircleCard_continue,
                   onTap: () async {
                     CircleBillingAddress.push(
                       context: context,

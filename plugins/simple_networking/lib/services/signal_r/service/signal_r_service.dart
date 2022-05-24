@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
+import '../../../../shared/helpers/device_type.dart';
 import '../../../shared/api_urls.dart';
 import '../../../shared/constants.dart';
 import '../../../shared/helpers/device_type.dart';
@@ -15,6 +18,8 @@ import '../model/base_prices_model.dart';
 import '../model/blockchains_model.dart';
 import '../model/campaign_response_model.dart';
 import '../model/client_detail_model.dart';
+import '../model/earn_offers_model.dart';
+import '../model/earn_profile_model.dart';
 import '../model/indices_model.dart';
 import '../model/instruments_model.dart';
 import '../model/key_value_model.dart';
@@ -27,6 +32,18 @@ import '../model/recurring_buys_response_model.dart';
 import '../model/referral_info_model.dart';
 import '../model/referral_stats_response_model.dart';
 
+class _HttpClient extends http.BaseClient {
+  _HttpClient({required this.defaultHeaders});
+  final _httpClient = http.Client();
+  final Map<String, String> defaultHeaders;
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) {
+    request.headers.addAll(defaultHeaders);
+    return _httpClient.send(request);
+  }
+}
+
 class SignalRService {
   SignalRService(
     this.read,
@@ -34,6 +51,9 @@ class SignalRService {
     this.token,
     this.localeName,
     this.deviceUid,
+    this.appVersion,
+    this.deviceSize,
+    this.devicePixelRatio,
   );
 
   final Reader read;
@@ -41,6 +61,9 @@ class SignalRService {
   final String token;
   final String localeName;
   final String deviceUid;
+  final String appVersion;
+  final Size deviceSize;
+  final double devicePixelRatio;
 
   static final _logger = Logger('SignalRService');
 
@@ -78,6 +101,8 @@ class SignalRService {
   final _referralInfoController = StreamController<ReferralInfoModel>();
   final _recurringBuyController =
       StreamController<RecurringBuysResponseModel>();
+  final _earnOfferController = StreamController<EarnOffersModel>();
+  final _earnProfileController = StreamController<EarnProfileModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -90,7 +115,39 @@ class SignalRService {
   Future<void> init() async {
     isDisconnecting = false;
 
-    _connection = HubConnectionBuilder().withUrl(walletApiSignalR).build();
+    final httpClient = _HttpClient(
+      defaultHeaders: {
+        'User-Agent': '$appVersion;$deviceType;$deviceSize;$devicePixelRatio',
+      },
+    );
+
+    _connection = HubConnectionBuilder()
+        .withUrl(walletApiSignalR, HttpConnectionOptions(client: httpClient))
+        .build();
+
+    _connection?.on(earnProfileMessage, (data) {
+      try {
+        final earnProfileInfo = EarnProfileModel.fromJson(_json(data));
+        _earnProfileController.add(earnProfileInfo);
+      } catch (e) {
+        _logger.log(contract, earnProfileMessage, e);
+      }
+    });
+
+    _connection?.on(earnOffersMessage, (data) {
+      if (data != null) {
+        final list = data.toList();
+        try {
+          final earnOffers = EarnOffersModel.fromJson(
+            _json(list),
+          );
+
+          _earnOfferController.add(earnOffers);
+        } catch (e) {
+          _logger.log(contract, earnOffersMessage, e);
+        }
+      }
+    });
 
     _connection?.on(recurringBuyMessage, (data) {
       if (data != null) {
@@ -345,6 +402,10 @@ class SignalRService {
 
   Stream<RecurringBuysResponseModel> recurringBuy() =>
       _recurringBuyController.stream;
+
+  Stream<EarnOffersModel> earnOffers() => _earnOfferController.stream;
+
+  Stream<EarnProfileModel> earnProfile() => _earnProfileController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

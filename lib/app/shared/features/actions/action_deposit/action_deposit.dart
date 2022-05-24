@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
@@ -14,13 +15,14 @@ import 'components/deposit_category_description.dart';
 import 'components/deposit_options.dart';
 
 void showDepositAction(BuildContext context) {
+  final intl = context.read(intlPod);
   final showSearch = showDepositCurrencySearch(context);
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
-      name: 'Choose asset to deposit',
+      name: intl.actionDeposit_bottomSheetHeaderName1,
       showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
@@ -38,6 +40,7 @@ class _ActionDeposit extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final state = useProvider(actionSearchNotipod);
+    final intl = useProvider(intlPod);
 
     final fiat = state.filteredCurrencies.where(
       (e) => e.type == AssetType.fiat && e.supportsAtLeastOneFiatDepositMethod,
@@ -50,8 +53,8 @@ class _ActionDeposit extends HookWidget {
       children: [
         if (fiat.isNotEmpty) ...[
           const SpaceH10(),
-          const DepositCategoryDescription(
-            text: 'Fiat',
+          DepositCategoryDescription(
+            text: intl.actionDeposit_fiat,
           ),
           for (final currency in fiat)
             SWalletItem(
@@ -68,8 +71,8 @@ class _ActionDeposit extends HookWidget {
         ],
         if (crypto.isNotEmpty) ...[
           if (fiat.isEmpty) const SpaceH10(),
-          const DepositCategoryDescription(
-            text: 'Crypto',
+          DepositCategoryDescription(
+            text: intl.actionDeposit_crypto,
           ),
           for (final currency in crypto)
             SWalletItem(
@@ -85,7 +88,7 @@ class _ActionDeposit extends HookWidget {
                 navigatorPushReplacement(
                   context,
                   CryptoDeposit(
-                    header: 'Deposit',
+                    header: intl.actionDeposit_deposit,
                     currency: currency,
                   ),
                 );

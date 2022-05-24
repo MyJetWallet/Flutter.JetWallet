@@ -12,6 +12,8 @@ class SReferralInviteBody extends StatelessWidget {
     required this.showReadMore,
     required this.conditions,
     required this.referralLink,
+    required this.copiedText,
+    required this.referralText,
   }) : super(key: key);
 
   final String primaryText;
@@ -19,44 +21,15 @@ class SReferralInviteBody extends StatelessWidget {
   final bool showReadMore;
   final List<String> conditions;
   final String referralLink;
+  final String copiedText;
+  final String referralText;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SPaddingH24(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 203.0,
-                child: Baseline(
-                  baseline: 64.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    primaryText,
-                    maxLines: 3,
-                    style: sTextH2Style,
-                  ),
-                ),
-              ),
-              if (showReadMore)
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Baseline(
-                    baseline: 104,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SimpleAccountTermButton(
-                      name: 'Read more',
-                      onTap: onReadMoreTap,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-        const SpaceH40(),
+        const SpaceH24(),
         for (final condition in conditions) ...[
           SimpleConditionsReferralInvite(
             conditionText: condition,
@@ -89,9 +62,9 @@ class SReferralInviteBody extends StatelessWidget {
         ),
         const SpaceH20(),
         SAddressFieldWithCopy(
-          afterCopyText: 'Referral link copied',
+          afterCopyText: copiedText,
           value: referralLink,
-          header: 'Referral link',
+          header: referralText,
         ),
         const SpaceH20(),
       ],

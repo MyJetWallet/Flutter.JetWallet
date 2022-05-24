@@ -1,14 +1,22 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-String recurringBuysName(RecurringBuysStatus type) {
+import '../../../../../shared/providers/service_providers.dart';
+
+String recurringBuysName(
+  RecurringBuysStatus type,
+  Reader read,
+) {
+  final intl = read(intlPod);
+
   switch (type) {
     case RecurringBuysStatus.active:
-      return 'Recurring buy ';
+      return '${intl.account_recurringBuy} ';
     case RecurringBuysStatus.paused:
-      return 'Recurring buy Paused';
+      return intl.recurringBuysName_paused;
     case RecurringBuysStatus.deleted:
-      return 'Recurring buy Deleted';
+      return intl.recurringBuysName_deleted;
     case RecurringBuysStatus.empty:
-      return 'Setup Recurring buy ';
+      return '${intl.recurringBuysName_empty} ';
   }
 }

@@ -259,7 +259,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      _updateError(const Error('Error occured'));
+      final intl = read(intlPod);
+      _updateError(Error(intl.twoFaPhone_errorOccured));
     }
   }
 

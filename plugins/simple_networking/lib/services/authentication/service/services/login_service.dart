@@ -16,7 +16,7 @@ Future<AuthenticationResponseModel> loginService(
 
   try {
     final response = await dio.post(
-      '$authApi/trader/Authenticate',
+      '$authApi/trader/AuthenticateW2',
       data: model.toJson(),
     );
 

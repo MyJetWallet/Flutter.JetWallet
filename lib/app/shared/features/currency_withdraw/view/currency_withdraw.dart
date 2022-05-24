@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../model/withdrawal_model.dart';
 import '../notifier/withdrawal_address_notifier/address_validation_union.dart';
@@ -20,6 +21,7 @@ class CurrencyWithdraw extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAddressNotipod(withdrawal));
     final notifier = useProvider(withdrawalAddressNotipod(withdrawal).notifier);
@@ -61,7 +63,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         controller: state.networkController,
-                        labelText: 'Choose network',
+                        labelText: intl.currencyWithdraw_chooseNetwork,
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
@@ -78,7 +80,9 @@ class CurrencyWithdraw extends HookWidget {
                   child: SPaddingH24(
                     child: SStandardField(
                       errorNotifier: state.addressErrorNotifier,
-                      labelText: 'Enter ${currency.symbol} address',
+                      labelText: '${intl.currencyWithdraw_enter}'
+                          ' ${currency.symbol} '
+                          '${intl.currencyWithdraw_address}',
                       focusNode: state.addressFocus,
                       controller: state.addressController,
                       onChanged: (value) => notifier.updateAddress(value),
@@ -104,7 +108,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         errorNotifier: state.tagErrorNotifier,
-                        labelText: 'Enter Tag',
+                        labelText: intl.currencyWithdraw_enterTag,
                         focusNode: state.tagFocus,
                         controller: state.tagController,
                         onChanged: (value) => notifier.updateTag(value),
@@ -129,7 +133,7 @@ class CurrencyWithdraw extends HookWidget {
                     child: SRequirement(
                       isError: state.isRequirementError,
                       loading: state.requirementLoading,
-                      description: state.validationResult,
+                      description: notifier.validationResult,
                       // error and loading goes first in the RRequirement
                       // condition, if not Error or Loading then
                       // it's always passed
@@ -141,7 +145,7 @@ class CurrencyWithdraw extends HookWidget {
                 const SpaceH10(),
                 SPaddingH24(
                   child: Text(
-                    state.withdrawHint,
+                    notifier.withdrawHint,
                     maxLines: 3,
                     style: sCaptionTextStyle.copyWith(
                       color: colors.grey1,
@@ -155,7 +159,7 @@ class CurrencyWithdraw extends HookWidget {
                     color: colors.grey5,
                     child: SPrimaryButton2(
                       active: state.isReadyToContinue,
-                      name: 'Continue',
+                      name: intl.currencyWithdraw_continue,
                       onTap: () => notifier.validateOnContinue(context),
                     ),
                   ),

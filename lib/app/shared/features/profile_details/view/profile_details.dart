@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import 'components/change_password/change_password.dart';
@@ -14,24 +15,32 @@ class ProfileDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final userInfo = useProvider(userInfoNotipod);
+
+    final _infoImage = Image.asset(
+      phoneChangeAsset,
+      width: 80,
+      height: 80,
+      package: 'simple_kit',
+    );
 
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Profile details',
+          title: intl.profileDetails_profileDetails,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
       child: Column(
         children: [
           SProfileDetailsButton(
-            label: 'Email',
+            label: intl.profileDetails_email,
             value: userInfo.email,
             onTap: () {},
           ),
           SProfileDetailsButton(
-            label: 'Change password',
+            label: intl.profileDetails_changePassword,
             value: '• • • • • • • • • • •',
             onTap: () {
               navigatorPush(context, const ChangePassword());
@@ -39,21 +48,36 @@ class ProfileDetails extends HookWidget {
           ),
           if (userInfo.isPhoneNumberSet)
             SProfileDetailsButton(
-              label: 'Change phone number',
+              label: intl.profileDetails_changePhoneNumber,
               value: userInfo.phone,
               onTap: () {
-                PhoneVerification.push(
-                  context: context,
-                  args: PhoneVerificationArgs(
-                    phoneNumber: userInfo.phone,
-                    showChangeTextAlert: true,
-                    onVerified: () {
-                      SetPhoneNumber.pushReplacement(
-                        context: context,
-                        successText: 'New phone number confirmed',
-                      );
-                    },
-                  ),
+                sShowAlertPopup(
+                  context,
+                  willPopScope: false,
+                  primaryText: intl.profileDetails_payAttention,
+                  secondaryText: '${intl.profileDetails_buttonSecondaryText}.',
+                  primaryButtonName: intl.profileDetails_continue,
+                  image: _infoImage,
+                  onPrimaryButtonTap: () {
+                    PhoneVerification.push(
+                      context: context,
+                      args: PhoneVerificationArgs(
+                        phoneNumber: userInfo.phone,
+                        showChangeTextAlert: true,
+                        onVerified: () {
+                          SetPhoneNumber.pushReplacement(
+                            context: context,
+                            successText:
+                                intl.profileDetails_newPhoneNumberConfirmed,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  secondaryButtonName: intl.profileDetails_cancel,
+                  onSecondaryButtonTap: () {
+                    Navigator.pop(context);
+                  },
                 );
               },
             ),

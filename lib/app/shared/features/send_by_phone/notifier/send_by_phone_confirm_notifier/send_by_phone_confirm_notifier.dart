@@ -48,11 +48,13 @@ class SendByPhoneConfirmNotifier
   void updateCode(String code, String operationId) {
     _logger.log(notifier, 'updateCode');
 
+    final intl = read(intlPod);
+
     if (operationId == _operationId) {
       state.controller.text = code;
     } else {
       read(sNotificationNotipod.notifier).showError(
-        'You have confirmed an incorrect operation',
+        intl.showError_youHaveConfirmed,
         id: 1,
       );
     }
@@ -81,8 +83,10 @@ class SendByPhoneConfirmNotifier
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.sendByPhoneConfirm_failedToResend}!',
         id: 1,
       );
     }
@@ -129,10 +133,14 @@ class SendByPhoneConfirmNotifier
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Your ${currency.symbol} send '
-          'request has been submitted',
+      secondaryText:
+          '${intl.sendByPhoneConfirm_your} ${currency.symbol}'
+              ' ${intl.sendByPhoneConfirm_send} '
+              '${intl.sendByPhoneConfirm_requestHasBeenSubmitted}',
       then: () {
         if (!_receiverIsRegistered) {
           navigatorPush(
@@ -148,11 +156,14 @@ class SendByPhoneConfirmNotifier
   }
 
   void _showFailureScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
-      secondaryText: 'Failed to send',
-      primaryButtonName: 'Edit Order',
+      primaryText: intl.sendByPhoneConfirm_failure,
+      secondaryText: '${intl.sendByPhoneConfirm_failedTo}'
+          ' ${intl.sendByPhoneConfirm_send}',
+      primaryButtonName: intl.sendByPhoneConfirm_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -164,7 +175,7 @@ class SendByPhoneConfirmNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.sendByPhoneConfirm_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

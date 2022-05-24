@@ -186,10 +186,12 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     if (state.recurring) {
       SuccessScreen.push(
         context: _context,
-        secondaryText: 'Order processing',
+        secondaryText: intl.previewBuyWithAsset_orderProcessing,
         then: () {
           read(navigationStpod).state = 1;
         },
@@ -203,11 +205,13 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
@@ -216,11 +220,13 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.previewBuyWithAsset_failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.previewBuyWithAsset_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -235,16 +241,20 @@ class PreviewBuyWithAssetNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.previewBuyWithAsset_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 
   String get previewHeader {
+    final intl = read(intlPod);
+
     if (input.recurringType == RecurringBuysType.oneTimePurchase) {
-      return 'Confirm Buy ${input.toCurrency.description}';
+      return '${intl.previewBuyWithAsset_confirmBuy}'
+          ' ${input.toCurrency.description}';
     } else {
-      return 'Confirm ${input.toCurrency.description} Recurring Buy';
+      return '${intl.previewBuyWithAsset_confirm}'
+          ' ${input.toCurrency.description} ${intl.recurringBuysName_active}';
     }
   }
 

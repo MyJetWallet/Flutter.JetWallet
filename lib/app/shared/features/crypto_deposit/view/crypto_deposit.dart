@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../../../models/currency_model.dart';
 import '../notifier/crypto_deposit_notipod.dart';
@@ -28,6 +29,7 @@ class CryptoDeposit extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final canTapShare = useState(true);
     useProvider(
@@ -35,7 +37,7 @@ class CryptoDeposit extends HookWidget {
     );
     final deposit = useProvider(cryptoDepositNotipod(currency));
     final depositN = useProvider(
-        cryptoDepositNotipod(currency).notifier,
+      cryptoDepositNotipod(currency).notifier,
     );
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
@@ -88,18 +90,22 @@ class CryptoDeposit extends HookWidget {
                     color: colors.white,
                   ),
                   active: true,
-                  name: 'Share',
+                  name: intl.cryptoDeposit_share,
                   onTap: () {
                     if (canTapShare.value) {
-                        canTapShare.value = false;
+                      canTapShare.value = false;
                       Timer(
-                          const Duration(
-                              seconds: 1,
-                          ), () => canTapShare.value = true,
+                        const Duration(
+                          seconds: 1,
+                        ),
+                        () => canTapShare.value = true,
                       );
                       Share.share(
-                    'My ${currency.symbol} Address: ${deposit.address} '
-                    '${deposit.tag != null ? ', Tag: ${deposit.tag}' : ''}',
+                        '${intl.cryptoDeposit_my} ${currency.symbol}'
+                            ' ${intl.cryptoDeposit_address}: '
+                        '${deposit.address} '
+                        '${deposit.tag != null ? ', ${intl.tag}: '
+                            '${deposit.tag}' : ''}',
                       );
                     }
                   },
@@ -151,7 +157,7 @@ class CryptoDeposit extends HookWidget {
                           top: 5,
                         ),
                         child: Text(
-                          'Network',
+                          intl.cryptoDeposit_network,
                           style: sCaptionTextStyle.copyWith(
                             color: colors.grey2,
                           ),

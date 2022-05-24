@@ -9,11 +9,19 @@ class SResendButton extends StatefulWidget {
     this.active = true,
     required this.onTap,
     required this.timer,
+    required this.text1,
+    required this.text2,
+    required this.text3,
+    required this.textResend,
   }) : super(key: key);
 
   final bool active;
   final Function() onTap;
   final int timer;
+  final String text1;
+  final String text2;
+  final String text3;
+  final String textResend;
 
   @override
   _SResendButton createState() => _SResendButton();
@@ -51,8 +59,8 @@ class _SResendButton extends State<SResendButton>
         Center(
           child: Text(
             _timer.value > 0
-                ? 'You can resend in ${_timer.value} seconds'
-                : "Didn't receive the code?",
+                ? '${widget.text1} ${_timer.value} ${widget.text2}'
+                : '${widget.text3}?',
             style: sCaptionTextStyle.copyWith(
               color: SColorsLight().grey2,
             ),
@@ -66,7 +74,7 @@ class _SResendButton extends State<SResendButton>
           maintainState: true,
           child: STextButton1(
             active: widget.active,
-            name: 'Resend',
+            name: widget.textResend,
             onTap: widget.onTap,
           ),
         ),

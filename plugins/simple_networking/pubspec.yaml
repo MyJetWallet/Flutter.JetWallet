@@ -37,6 +37,7 @@ dependencies:
   hooks_riverpod: ^0.14.0+5 # riverpod with hooks from Remi Rousselet
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
   json_annotation: ^4.3.0 # annotations used by json_serializable
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
@@ -50,5 +51,5 @@ dev_dependencies:
   json_serializable: ^6.0.1 # dart build system builders for handling JSON
 
 flutter:
-  generate: true.
+#  generate: true
   uses-material-design: true

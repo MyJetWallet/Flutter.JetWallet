@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/localized_action_items.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -40,9 +41,7 @@ class BottomNavigationMenu extends HookWidget {
     final actionActive = useState(false);
     final userInfo = useProvider(userInfoNotipod);
     final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
     useProvider(kycCountriesNotipod);
     final openBottomMenu = useProvider(openBottomMenuSpod);
 
@@ -89,31 +88,6 @@ class BottomNavigationMenu extends HookWidget {
     );
   }
 
-  void _onBuy({
-    required BuildContext context,
-    required KycModel kycState,
-    required KycAlertHandler kycAlertHandler,
-    required bool fromCard,
-  }) {
-    if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-      showBuyAction(
-        context: context,
-        fromCard: fromCard,
-      );
-    } else {
-      Navigator.of(context).pop();
-      kycAlertHandler.handle(
-        status: kycState.depositStatus,
-        kycVerified: kycState,
-        isProgress: kycState.verificationInProgress,
-        currentNavigate: () => showBuyAction(
-          context: context,
-          fromCard: fromCard,
-        ),
-      );
-    }
-  }
-
   void _openBottomMenu(
     BuildContext context,
     ValueNotifier<bool> actionActive,
@@ -128,19 +102,15 @@ class BottomNavigationMenu extends HookWidget {
         isNotEmptyBalance: isNotEmptyBalance,
         onBuy: () {
           sAnalytics.tapOnBuy(Source.quickActions);
-          _onBuy(
+          showBuyAction(
             context: context,
-            kycState: kycState,
-            kycAlertHandler: kycAlertHandler,
             fromCard: false,
           );
         },
         onBuyFromCard: () {
           sAnalytics.tapOnBuyFromCard(Source.quickActions);
-          _onBuy(
+          showBuyAction(
             context: context,
-            kycState: kycState,
-            kycAlertHandler: kycAlertHandler,
             fromCard: true,
           );
         },
@@ -232,6 +202,7 @@ class BottomNavigationMenu extends HookWidget {
           if (actionActive.value) updateActionState();
         },
         transitionAnimationController: transitionAnimationController,
+        actionItemLocalized: localizedActionItems(context),
       );
     } else {
       Navigator.pop(context);

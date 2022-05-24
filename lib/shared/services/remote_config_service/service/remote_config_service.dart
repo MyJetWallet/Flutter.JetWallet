@@ -124,6 +124,7 @@ class RemoteConfigService {
     emailResendCountdown = appConfig.emailResendCountdown;
     withdrawalConfirmResendCountdown = appConfig.withdrawConfirmResendCountdown;
     localPinLength = appConfig.localPinLength;
+    maxPinAttempts = appConfig.maxPinAttempts;
   }
 
   void overrideVersioningValues() {

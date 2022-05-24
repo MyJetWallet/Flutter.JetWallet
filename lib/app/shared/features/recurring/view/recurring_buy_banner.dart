@@ -12,11 +12,13 @@ class RecurringBuyBanner extends HookWidget {
     required this.type,
     required this.title,
     required this.onTap,
+    this.topMargin = 24.0,
   }) : super(key: key);
 
   final String title;
   final RecurringBuysStatus type;
   final Function() onTap;
+  final double topMargin;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class RecurringBuyBanner extends HookWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: const EdgeInsets.only(top: 24.0),
+          margin: EdgeInsets.only(top: topMargin),
           height: 68,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
@@ -39,6 +41,7 @@ class RecurringBuyBanner extends HookWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SpaceW8(),
               Container(
                 height: 48,
                 width: 48,
@@ -50,15 +53,18 @@ class RecurringBuyBanner extends HookWidget {
                 child: recurringBuysImage(type),
               ),
               const SpaceW20(),
-              Container(
-                margin: const EdgeInsets.only(
-                  bottom: 4.0,
-                  right: 7.0,
-                ),
-                child: Text(
-                  title,
-                  style: sSubtitle3Style.copyWith(
-                    color: _textColor(type, colors),
+              Flexible(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    bottom: 4.0,
+                    right: 7.0,
+                  ),
+                  child: Text(
+                    title,
+                    maxLines: 2,
+                    style: sSubtitle3Style.copyWith(
+                      color: _textColor(type, colors),
+                    ),
                   ),
                 ),
               ),

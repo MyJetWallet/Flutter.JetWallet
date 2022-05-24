@@ -171,9 +171,11 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order processing',
+      secondaryText: intl.previewSell_orderProcessing,
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -181,11 +183,13 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
@@ -194,11 +198,13 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.previewSell_failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.previewSell_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -210,13 +216,16 @@ class PreviewSellNotifier extends StateNotifier<PreviewSellState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.previewSell_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 
   String get previewHeader {
-    return 'Confirm Sell ${input.fromCurrency.description}';
+    final intl = read(intlPod);
+
+    return '${intl.previewSell_confirmSell}'
+        ' ${input.fromCurrency.description}';
   }
 
   @override

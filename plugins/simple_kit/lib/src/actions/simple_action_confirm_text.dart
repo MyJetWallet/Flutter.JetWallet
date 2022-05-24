@@ -73,7 +73,6 @@ class SActionConfirmText extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         value,

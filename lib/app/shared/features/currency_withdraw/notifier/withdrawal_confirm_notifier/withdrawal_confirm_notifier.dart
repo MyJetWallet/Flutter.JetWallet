@@ -42,11 +42,13 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   void updateCode(String code, String operationId) {
     _logger.log(notifier, 'updateCode');
 
+    final intl = read(intlPod);
+
     if (operationId == _operationId) {
       state.controller.text = code;
     } else {
       read(sNotificationNotipod.notifier).showError(
-        'You have confirmed an incorrect operation',
+        intl.showError_youHaveConfirmed,
         id: 1,
       );
     }
@@ -54,6 +56,8 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
 
   Future<void> withdrawalResend({required Function() onSuccess}) async {
     _logger.log(notifier, 'withdrawalResend');
+
+    final intl = read(intlPod);
 
     state = state.copyWith(union: const Loading());
 
@@ -75,7 +79,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
       _logger.log(stateFlow, 'withdrawalResend', error);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.withdrawalConfirm_failedToResend}!',
         id: 1,
       );
     }
@@ -122,10 +126,14 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Your ${withdrawal.currency.symbol} $_verb '
-          'request has been submitted',
+      secondaryText:
+          '${intl.withdrawalConfirm_your} ${withdrawal.currency.symbol}'
+              ' $_verb '
+              '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -133,11 +141,13 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   }
 
   void _showFailureScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
-      secondaryText: 'Failed to $_verb',
-      primaryButtonName: 'Edit Order',
+      primaryText: intl.withdrawalConfirm_failure,
+      secondaryText: '${intl.withdrawalConfirm_failedTo} $_verb',
+      primaryButtonName: intl.withdrawalConfirm_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -149,7 +159,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.withdrawalConfirm_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

@@ -37,17 +37,6 @@ class UploadKycDocumentsState with _$UploadKycDocumentsState {
     }
   }
 
-  String get buttonName {
-    if (numberSide == 0 || numberSide == 1) {
-      if (documentFirstSide == null || documentSecondSide == null) {
-        return 'Scan ${numberSide + 1} side';
-      } else if (documentFirstSide != null && documentSecondSide != null) {
-        return 'Upload photos';
-      }
-    }
-    return '';
-  }
-
   bool get buttonIcon {
     return documentFirstSide != null && documentSecondSide != null;
   }

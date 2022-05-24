@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
@@ -10,7 +11,9 @@ import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../screens/market/view/components/fade_on_scroll.dart';
+import '../../../../../helpers/supports_recurring_buy.dart';
 import '../../../../../models/currency_model.dart';
+import '../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../actions/action_recurring_buy/action_recurring_buy.dart';
 import '../../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../../actions/action_recurring_info/action_recurring_info.dart';
@@ -47,18 +50,15 @@ class _WalletBodyState extends State<WalletBody>
   Widget build(BuildContext context) {
     super.build(context);
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
-
-    final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
-
-    final recurringN = useProvider(recurringBuysNotipod);
-
+    final currencies = useProvider(currenciesPod);
+    final recurring = useProvider(recurringBuysNotipod);
+    final recurringN = useProvider(recurringBuysNotipod.notifier);
     final kycState = useProvider(kycNotipod);
-    final kycAlertHandler = useProvider(
-      kycAlertHandlerPod(context),
-    );
+    final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
 
-    final filteredRecurringBuys = recurringN.recurringBuys
+    final filteredRecurringBuys = recurring.recurringBuys
         .where(
           (element) => element.toAsset == widget.currency.symbol,
         )
@@ -114,69 +114,77 @@ class _WalletBodyState extends State<WalletBody>
                     ),
                     SPaddingH24(
                       child: SSmallHeader(
-                        title: '${widget.currency.description} wallet',
+                        title: '${widget.currency.description}'
+                            ' ${intl.walletBody_wallet}',
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: RecurringBuyBanner(
-                type: recurringNotifier.type(widget.currency.symbol),
-                title: recurringNotifier.recurringBannerTitle(
-                  asset: widget.currency.symbol,
-                ),
-                onTap: () {
-                  // Todo: need refactor
-                  if (kycState.sellStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    if (recurringNotifier
-                        .activeOrPausedType(widget.currency.symbol)) {
-                      if (moveToRecurringInfo && lastRecurringItem != null) {
-                        navigatorPush(
-                          context,
-                          ShowRecurringInfoAction(
-                            recurringItem: lastRecurringItem,
-                            assetName: widget.currency.description,
-                          ),
-                        );
+            if (supportsRecurringBuy(widget.currency.symbol, currencies))
+              SliverToBoxAdapter(
+                child: RecurringBuyBanner(
+                  type: recurringN.type(widget.currency.symbol),
+                  title: recurringN.recurringBannerTitle(
+                    asset: widget.currency.symbol,
+                    context: context,
+                  ),
+                  onTap: () {
+                    // Todo: need refactor
+                    if (kycState.sellStatus ==
+                        kycOperationStatus(KycStatus.allowed)) {
+                      if (recurringN
+                          .activeOrPausedType(widget.currency.symbol)) {
+                        if (moveToRecurringInfo && lastRecurringItem != null) {
+                          navigatorPush(
+                            context,
+                            ShowRecurringInfoAction(
+                              recurringItem: lastRecurringItem,
+                              assetName: widget.currency.description,
+                            ),
+                          );
+                        } else {
+                          showRecurringBuyAction(
+                            context: context,
+                            currency: widget.currency,
+                            total: recurringN.totalRecurringByAsset(
+                              asset: widget.currency.symbol,
+                            ),
+                          );
+                        }
                       } else {
-                        showRecurringBuyAction(
+                        showActionWithoutRecurringBuy(
+                          title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                           context: context,
-                          currency: widget.currency,
-                          total: recurringNotifier.totalRecurringByAsset(
-                            asset: widget.currency.symbol,
-                          ),
+                          onItemTap: (RecurringBuysType type) {
+                            navigatorPushReplacement(
+                              context,
+                              CurrencyBuy(
+                                currency: widget.currency,
+                                fromCard: false,
+                                recurringBuysType: type,
+                              ),
+                            );
+                          },
                         );
                       }
                     } else {
-                      showActionWithOutRecurringBuy(
-                        title: 'Setup recurring buy',
-                        context: context,
-                        onItemTap: (RecurringBuysType type) {
-                          navigatorPushReplacement(
-                            context,
-                            CurrencyBuy(
-                              currency: widget.currency,
-                              fromCard: false,
-                              recurringBuysType: type,
-                            ),
-                          );
-                        },
+                      sAnalytics.setupRecurringBuyView(
+                        widget.currency.description,
+                        Source.walletDetails,
+                      );
+
+                      kycAlertHandler.handle(
+                        status: kycState.sellStatus,
+                        kycVerified: kycState,
+                        isProgress: kycState.verificationInProgress,
+                        currentNavigate: () => showSellAction(context),
                       );
                     }
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.sellStatus,
-                      kycVerified: kycState,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => showSellAction(context),
-                    );
-                  }
-                },
+                  },
+                ),
               ),
-            ),
             SliverToBoxAdapter(
               child: SPaddingH24(
                 child: Column(
@@ -184,7 +192,8 @@ class _WalletBodyState extends State<WalletBody>
                   children: [
                     const SpaceH36(),
                     Text(
-                      '${widget.currency.description} transactions',
+                      '${widget.currency.description}'
+                          ' ${intl.walletBody_transactions}',
                       style: sTextH4Style,
                     ),
                   ],

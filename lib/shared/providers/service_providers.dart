@@ -41,6 +41,8 @@ import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
 import 'device_info_pod.dart';
+import 'device_size/media_query_pod.dart';
+import 'package_info_fpod.dart';
 
 final intlPod = Provider<AppLocalizations>((ref) {
   final key = ref.watch(sNavigatorKeyPod);
@@ -49,12 +51,17 @@ final intlPod = Provider<AppLocalizations>((ref) {
 });
 
 final signalRServicePod = Provider<SignalRService>((ref) {
+  final mediaQuery = ref.read(mediaQueryPod);
+
   return SignalRService(
     ref.read,
     refreshToken,
     ref.read(authInfoNotipod).token,
     ref.read(intlPod).localeName,
     ref.read(deviceInfoPod).deviceUid,
+    ref.read(packageInfoPod).version,
+    mediaQuery.size,
+    mediaQuery.devicePixelRatio,
   );
 });
 

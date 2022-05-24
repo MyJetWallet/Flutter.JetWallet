@@ -22,10 +22,11 @@ final appInitFpod = FutureProvider<void>(
     final userInfoN = ref.watch(userInfoNotipod.notifier);
     final storageService = ref.watch(localStorageServicePod);
     final appsFlyerService = ref.watch(appsFlyerServicePod);
+    final intl = ref.read(intlPod);
 
     final token = await storageService.getString(refreshTokenKey);
     final email = await storageService.getString(userEmailKey);
-    final parsedEmail = email ?? '<Email not found>';
+    final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
 
     try {
       await AppTrackingTransparency.requestTrackingAuthorization();

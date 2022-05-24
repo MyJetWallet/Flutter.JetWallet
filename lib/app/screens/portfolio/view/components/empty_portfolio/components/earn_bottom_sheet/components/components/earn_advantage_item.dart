@@ -18,13 +18,15 @@ class EarnAdvantageItem extends StatelessWidget {
       children: [
         const SCompleteIcon(),
         const SpaceW20(),
-        Baseline(
-          baseline: 16,
-          baselineType: TextBaseline.alphabetic,
-          child: Text(
-            text,
-            maxLines: 2,
-            style: sBodyText1Style,
+        Flexible(
+          child: Baseline(
+            baseline: 16,
+            baselineType: TextBaseline.alphabetic,
+            child: Text(
+              text,
+              maxLines: 2,
+              style: sBodyText1Style,
+            ),
           ),
         )
       ],

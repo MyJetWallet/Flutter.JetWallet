@@ -7,9 +7,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/helpers/analytics.dart';
 import '../../../shared/helpers/launch_url.dart';
+import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
-import 'components/mailing_checkbox/mailing_checkbox.dart';
 import 'components/referral_code/referral_code.dart';
 import 'register_password_screen.dart';
 
@@ -25,6 +25,7 @@ class Register extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
@@ -37,12 +38,12 @@ class Register extends HookWidget {
     void _showError() {
       if (credentials.email.contains(' ')) {
         notificationN.showError(
-          'Invalid email, revise correctness and make sure there are no spaces',
+          intl.register_invalidEmail,
           id: 2,
         );
       } else {
         notificationN.showError(
-          'Perhaps you missed "." or "@" somewhere?',
+          '${intl.forgotPassword_error}?',
           id: 1,
         );
       }
@@ -58,9 +59,9 @@ class Register extends HookWidget {
 
     return SPageFrame(
       color: colors.grey5,
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SBigHeader(
-          title: 'Enter your Email',
+          title: intl.register_enterYourEmail,
         ),
       ),
       child: CustomScrollView(
@@ -75,7 +76,7 @@ class Register extends HookWidget {
                   color: colors.white,
                   child: SPaddingH24(
                     child: SStandardField(
-                      labelText: 'Email Address',
+                      labelText: intl.login_emailTextFieldLabel,
                       autofocus: true,
                       keyboardType: TextInputType.emailAddress,
                       inputFormatters: [
@@ -91,16 +92,15 @@ class Register extends HookWidget {
                 ),
                 const SpaceH19(),
                 const ReferralCode(),
-                const Spacer(),
+                const SpaceH36(),
                 Container(
                   color: colors.grey5,
                   child: SPaddingH24(
                     child: SPolicyCheckbox(
-                      firstText: 'I hereby confirm that I’m over 18 year old, '
-                          'agree and consent to the ',
-                      userAgreementText: 'T&C',
-                      betweenText: ' and the ',
-                      privacyPolicyText: 'Privacy Policy',
+                      firstText: '${intl.register_herebyConfirm} ',
+                      userAgreementText: intl.register_TAndC,
+                      betweenText: ' ${intl.register_andThe} ',
+                      privacyPolicyText: intl.register_privacyPolicy,
                       isChecked: credentials.policyChecked,
                       onCheckboxTap: () {
                         _scrollToBottom();
@@ -115,23 +115,11 @@ class Register extends HookWidget {
                     ),
                   ),
                 ),
-                Container(
-                  color: colors.grey5,
-                  child: SPaddingH24(
-                    child: MailingCheckbox(
-                      isChecked: credentials.mailingChecked,
-                      onCheckboxTap: () {
-                        _scrollToBottom();
-                        credentialsN.checkMailing();
-                      },
-                    ),
-                  ),
-                ),
                 const SpaceH16(),
                 SPaddingH24(
                   child: SPrimaryButton2(
                     active: credentials.emailIsNotEmptyAndPolicyChecked,
-                    name: 'Continue',
+                    name: intl.register_continue,
                     onTap: () {
                       if (credentials.emailValid) {
                         RegisterPasswordScreen.push(context);

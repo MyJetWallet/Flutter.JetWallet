@@ -7,6 +7,7 @@ import '../../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_unio
 import '../../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../set_phone_number/view/set_phone_number.dart';
 
 class SmsAuthenticator extends HookWidget {
@@ -18,19 +19,20 @@ class SmsAuthenticator extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final userInfo = useProvider(userInfoNotipod);
 
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'SMS Authenticator',
+          title: intl.smsAuth_headerTitle,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
       child: Column(
         children: [
           SimpleAccountCategoryButton(
-            title: 'SMS Authenticator',
+            title: intl.smsAuth_headerTitle,
             icon: const SLockIcon(),
             isSDivider: false,
             switchValue: userInfo.twoFaEnabled,
@@ -53,7 +55,7 @@ class SmsAuthenticator extends HookWidget {
                 } else {
                   SetPhoneNumber.push(
                     context: context,
-                    successText: '2-Factor verification enabled',
+                    successText: intl.kycAlertHandler_factorVerificationEnabled,
                   );
                 }
               }

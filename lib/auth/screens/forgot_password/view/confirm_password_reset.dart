@@ -9,6 +9,7 @@ import '../../../../shared/components/pin_code_field.dart';
 import '../../../../shared/helpers/get_args.dart';
 import '../../../../shared/helpers/open_email_app.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../reset_password/view/reset_password.dart';
 import '../notifier/confirm_password_reset/confirm_password_reset_notipod.dart';
@@ -45,6 +46,7 @@ class ConfirmPasswordReset extends HookWidget {
     final args = getArgs(context) as ConfirmPasswordResetArgs;
     email = args.email;
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(confirmPasswordResetNotipod(args.email));
     final notifier =
@@ -63,16 +65,15 @@ class ConfirmPasswordReset extends HookWidget {
     });
 
     return SPageFrameWithPadding(
-      header: const SBigHeader(
-        title: 'Check your Email',
+      header: SBigHeader(
+        title: intl.confirmPassword_checkYourEmail,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SpaceH7(),
           Text(
-            'Recovery email with reset password instruction has been '
-            'sent to',
+            intl.confirmPassword_recoveryEmail,
             style: sBodyText1Style.copyWith(
               color: colors.grey1,
             ),
@@ -84,8 +85,7 @@ class ConfirmPasswordReset extends HookWidget {
             maxLines: 2,
           ),
           Text(
-            "If you don't see the password recovery email in your inbox, "
-            'check your spam folder',
+            intl.confirmPassword_seeThePasswordRecovery,
             style: sBodyText1Style.copyWith(
               color: colors.grey1,
             ),
@@ -93,7 +93,7 @@ class ConfirmPasswordReset extends HookWidget {
           ),
           const SpaceH17(),
           SClickableLinkText(
-            text: 'Open Email App',
+            text: intl.emailVerification_openEmail,
             onTap: () => openEmailApp(context),
           ),
           const SpaceH29(),
@@ -129,6 +129,10 @@ class ConfirmPasswordReset extends HookWidget {
                 },
               );
             },
+            text1: intl.confirmPasswordReset_youCanResendIn,
+            text2: intl.confirmPasswordReset_seconds,
+            text3: intl.confirmPasswordReset_didntReceiveTheCode,
+            textResend: intl.confirmPasswordReset_resend,
           ),
         ],
       ),

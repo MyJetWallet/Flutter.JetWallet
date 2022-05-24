@@ -71,34 +71,4 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
       return addressValidation is Invalid;
     }
   }
-
-  String get validationResult {
-    if (addressValidation is Loading || tagValidation is Loading) {
-      return 'Checking...';
-    } else if (addressValidation is Invalid) {
-      return 'Invalid ${currency!.symbol} Address';
-    } else if (tagValidation is Invalid) {
-      return 'Invalid ${currency!.symbol} Tag';
-    } else if (addressValidation is Invalid && tagValidation is Invalid) {
-      return 'Invalid ${currency!.symbol} Address & Tag';
-    } else if (addressValidation is Valid && tagValidation is Valid) {
-      return 'Valid ${currency!.symbol} Address & Tag';
-    } else if (addressValidation is Valid) {
-      return 'Valid ${currency!.symbol} Address';
-    } else if (tagValidation is Valid) {
-      return 'Valid ${currency!.symbol} Tag';
-    } else {
-      return 'Error';
-    }
-  }
-
-  String get withdrawHint {
-    if (isReadyToContinue) {
-      return 'Please confirm the address is correct. Note that we are '
-          'not responsible for assets mistakenly sent to the wrong address.';
-    } else {
-      return 'Instead of typing in an address and tag, we recommend pasting '
-          'an address or scanning a QR code.';
-    }
-  }
 }

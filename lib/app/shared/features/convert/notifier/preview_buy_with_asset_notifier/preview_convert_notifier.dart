@@ -176,9 +176,11 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order processing',
+      secondaryText: intl.previewConvert_orderProcessing,
       then: () {
         navigateToRouter(read);
       },
@@ -186,11 +188,13 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         navigateToRouter(read);
       },
@@ -198,11 +202,13 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.previewConvert_failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.previewConvert_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -212,14 +218,16 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.previewConvert_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 
   String get previewHeader {
-    return 'Confirm Convert\n${input.fromCurrency.symbol} '
-        'to ${input.toCurrency.symbol}';
+    final intl = read(intlPod);
+
+    return '${intl.previewConvert_confirmConvert}\n'
+        '${input.fromCurrency.symbol} ${intl.to} ${input.toCurrency.symbol}';
   }
 
   @override
