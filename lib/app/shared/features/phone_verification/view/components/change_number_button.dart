@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../../../../shared/providers/service_providers.dart';
 
 class ChangeNumberButton extends StatelessWidget {
   const ChangeNumberButton({
@@ -7,6 +10,8 @@ class ChangeNumberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+
     return InkWell(
       onTap: () => Navigator.pop(context),
       borderRadius: BorderRadius.circular(20.0),
@@ -20,10 +25,10 @@ class ChangeNumberButton extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(20.0),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Change number',
-            style: TextStyle(
+            intl.changeNumberButton_changeNumber,
+            style: const TextStyle(
               fontSize: 16.0,
               color: Colors.black54,
             ),

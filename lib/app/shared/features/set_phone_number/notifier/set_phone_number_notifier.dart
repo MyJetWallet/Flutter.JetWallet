@@ -62,8 +62,10 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 1,
       );
     } finally {

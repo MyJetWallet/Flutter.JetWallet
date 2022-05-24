@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/localized_action_items.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -201,6 +202,7 @@ class BottomNavigationMenu extends HookWidget {
           if (actionActive.value) updateActionState();
         },
         transitionAnimationController: transitionAnimationController,
+        actionItemLocalized: localizedActionItems(context),
       );
     } else {
       Navigator.pop(context);
