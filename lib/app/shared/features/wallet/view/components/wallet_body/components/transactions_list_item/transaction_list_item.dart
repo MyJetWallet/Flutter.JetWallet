@@ -41,6 +41,9 @@ class TransactionListItem extends HookWidget {
         context,
         transactionListItem,
       ),
+      splashColor: Colors.transparent,
+      highlightColor: colors.grey5,
+      hoverColor: Colors.transparent,
       child: SizedBox(
         height: 80,
         child: Column(
