@@ -72,7 +72,7 @@ class ChangePassword extends HookWidget {
                     changePasswordN.setOldPassword(password);
                   },
                   autofocus: true,
-                  labelText: intl.changePassword_enterOldPassword,
+                  labelText: intl.changePassword_enterCurrentPassword,
                   onErrorIconTap: () {
                     notificationN.showError(
                       '${intl.changePassword_showErrorText1}!',
