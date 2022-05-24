@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../shared/components/show_start_earn_options.dart';
 import '../../../../../../../shared/helpers/formatting/formatting.dart';
 import '../../../../../../../shared/models/currency_model.dart';
@@ -18,6 +19,7 @@ class EmptyPortfolioBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
 
@@ -49,9 +51,9 @@ class EmptyPortfolioBody extends HookWidget {
                     const EmptyPortfolioBodyTitle(),
                     const SpaceH17(),
                     Text(
-                      'Let you crypto work for you!\nEarn, Trade and'
-                      ' Withdraw with no limits.',
-                      maxLines: 2,
+                      '${intl.emptyPortfolioBody_cryptoWorkForYou}!\n'
+                          '${intl.emptyPortfolioBody_text1Part2}.',
+                      maxLines: 3,
                       textAlign: TextAlign.center,
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
@@ -60,7 +62,7 @@ class EmptyPortfolioBody extends HookWidget {
                     const SpaceH40(),
                     SPrimaryButton1(
                       active: true,
-                      name: 'Start earning',
+                      name: intl.emptyPortfolioBody_startEarn,
                       onTap: () {
                         showStartEarnBottomSheet(
                           context: context,

@@ -318,9 +318,11 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
       _updateInputValid(value >= min && value <= max);
 
+      final intl = read(intlPod);
+
       if (value < min) {
         _updatePaymentMethodInputError(
-          'Enter a higher amount. Min ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
             accuracy: state.baseCurrency!.accuracy,
             symbol: state.baseCurrency!.symbol,
@@ -329,7 +331,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         );
       } else if (value > max) {
         _updatePaymentMethodInputError(
-          'Enter smaller amount. Max ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
             accuracy: state.baseCurrency!.accuracy,
             symbol: state.baseCurrency!.symbol,
@@ -399,8 +401,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     } catch (e) {
       _logger.log(stateFlow, 'makeSimplexRequest', e);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 1,
       );
     }

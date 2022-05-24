@@ -51,6 +51,7 @@ class UploadKycDocumentsNotifier
       final formData = await convertKycDocuments(
         state.documentFirstSide,
         state.documentSecondSide,
+        read,
       );
 
       await service.upload(formData, type);
@@ -59,10 +60,12 @@ class UploadKycDocumentsNotifier
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
+      final intl = read(intlPod);
+
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong. Please try again',
+        intl.something_went_wrong_try_again,
         id: 1,
       );
     }
@@ -108,6 +111,7 @@ class UploadKycDocumentsNotifier
       final formData = await convertKycDocuments(
         state.documentFirstSide,
         null,
+        read,
       );
 
       await service.upload(formData, type);
@@ -116,10 +120,12 @@ class UploadKycDocumentsNotifier
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
+      final intl = read(intlPod);
+
       sAnalytics.kycIdentityUploadFailed(error.toString());
       state = state.copyWith(union: UploadKycDocumentsUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong. Please try again',
+        intl.something_went_wrong_try_again,
         id: 1,
       );
     }
@@ -187,22 +193,23 @@ class UploadKycDocumentsNotifier
   String buttonName() {
     final activeDocument =
         read(chooseDocumentsNotipod.notifier).getActiveDocument();
+    final intl = read(intlPod);
 
     if (activeDocument.document != KycDocumentType.passport) {
       if (state.documentFirstSide != null && state.documentSecondSide != null) {
-        return 'Upload photos';
+        return intl.uploadKycDocuments_uploadPhotos;
       } else {
         if (state.numberSide == 0) {
-          return 'Front side';
+          return intl.uploadKycDocuments_frontSide;
         } else {
-          return 'Back side';
+          return intl.uploadKycDocuments_backSide;
         }
       }
     } else {
       if (state.documentFirstSide != null) {
-        return 'Upload photos';
+        return intl.uploadKycDocuments_uploadPhotos;
       } else {
-        return 'Front side';
+        return intl.uploadKycDocuments_frontSide;
       }
     }
   }

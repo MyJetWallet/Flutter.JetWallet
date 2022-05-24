@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../../../notifier/kyc_countries/kyc_countries_notipod.dart';
@@ -50,6 +51,7 @@ class ChooseDocuments extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final countries = useProvider(kycCountriesNotipod);
     final state = useProvider(chooseDocumentsNotipod);
     final notifier = useProvider(chooseDocumentsNotipod.notifier);
@@ -83,7 +85,7 @@ class ChooseDocuments extends HookWidget {
                             baseline: 18,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
-                              'Please scan your document',
+                              intl.kycChooseDocuments_scanYourDocument,
                               style: sBodyText1Style,
                             ),
                           ),
@@ -101,6 +103,7 @@ class ChooseDocuments extends HookWidget {
                         SChooseDocument(
                           primaryText: stringKycDocumentType(
                             state.documents[index].document,
+                            context,
                           ),
                           active: state.documents[index].active,
                           onTap: () {
@@ -110,8 +113,15 @@ class ChooseDocuments extends HookWidget {
                       const SpaceH10(),
                     ],
                     const Spacer(),
-                    const SPaddingH24(
-                      child: SDocumentsRecommendations(),
+                    SPaddingH24(
+                      child: SDocumentsRecommendations(
+                        primaryText1: intl.sDocumentRecommendation_primaryText1,
+                        primaryText2: intl.sDocumentRecommendation_primaryText2,
+                        primaryText3: intl.sDocumentRecommendation_primaryText3,
+                        primaryText4: intl.sDocumentRecommendation_primaryText4,
+                        primaryText5: intl.sDocumentRecommendation_primaryText5,
+                        primaryText6: intl.sDocumentRecommendation_primaryText6,
+                      ),
                     ),
                     const SpaceH120(),
                   ],
@@ -137,12 +147,13 @@ class ChooseDocuments extends HookWidget {
                   AllowCamera.push(
                     context: context,
                     permissionDescription:
-                        'We cannot verify you without using your\ncamera',
+                        '${intl.chooseDocuments_permissionDescriptionText1} '
+                        '${intl.chooseDocument_camera}',
                     then: () => UploadKycDocuments.pushReplacement(context),
                   );
                 }
               },
-              name: 'Choose document',
+              name: intl.chooseDocument_chooseDocument,
               active: notifier.activeButton(),
             ),
           ),

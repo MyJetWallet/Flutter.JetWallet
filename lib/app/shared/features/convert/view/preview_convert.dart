@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/price_accuracy.dart';
 import '../model/preview_convert_input.dart';
@@ -46,6 +47,7 @@ class _PreviewConvertState extends State<PreviewConvert>
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final state = useProvider(previewConvertNotipod(widget.input));
     final notifier = useProvider(
       previewConvertNotipod(widget.input).notifier,
@@ -89,7 +91,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'You Pay',
+                    name: intl.previewConvert_youPay,
                     contentLoading: state.union is QuoteLoading &&
                         widget.input.toAssetEnabled,
                     value: volumeFormat(
@@ -100,7 +102,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                     ),
                   ),
                   SActionConfirmText(
-                    name: 'You get',
+                    name: intl.previewConvert_youGet,
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading &&
                         !widget.input.toAssetEnabled,
@@ -112,14 +114,14 @@ class _PreviewConvertState extends State<PreviewConvert>
                     )}',
                   ),
                   SActionConfirmText(
-                    name: 'Fee',
+                    name: intl.fee,
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading &&
                         !widget.input.toAssetEnabled,
                     value: '${state.feePercent}%',
                   ),
                   SActionConfirmText(
-                    name: 'Exchange Rate',
+                    name: intl.previewConvert_exchangeRate,
                     baseline: 34.0,
                     contentLoading: state.union is QuoteLoading,
                     timerLoading: state.union is QuoteLoading,
@@ -144,7 +146,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                   ],
                   SPrimaryButton2(
                     active: state.union is QuoteSuccess,
-                    name: 'Confirm',
+                    name: intl.previewConvert_confirm,
                     onTap: () {
                       notifier.executeQuote();
                     },

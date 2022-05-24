@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/password_validation/password_validation.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notifier.dart';
 import '../../shared/notifiers/authentication_notifier/authentication_notipod.dart';
@@ -20,6 +21,7 @@ class RegisterPasswordScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final credentials = useProvider(credentialsNotipod);
     final credentialsN = useProvider(credentialsNotipod.notifier);
@@ -52,11 +54,12 @@ class RegisterPasswordScreen extends HookWidget {
           return Future.value(true);
         },
         child: SPageFrame(
+          loaderText: intl.register_pleaseWait,
           loading: loader.value,
           color: colors.grey5,
-          header: const SPaddingH24(
+          header: SPaddingH24(
             child: SBigHeader(
-              title: 'Create a password',
+              title: intl.register_createPassword,
             ),
           ),
           child: Column(
@@ -69,7 +72,7 @@ class RegisterPasswordScreen extends HookWidget {
                     onChanged: (value) {
                       credentialsN.updateAndValidatePassword(value);
                     },
-                    labelText: 'Password',
+                    labelText: intl.register_password,
                     autofocus: true,
                   ),
                 ),
@@ -85,7 +88,7 @@ class RegisterPasswordScreen extends HookWidget {
                   active: credentials.readyToRegister &&
                       !disableContinue.value &&
                       !loader.value.value,
-                  name: 'Continue',
+                  name: intl.registerPassword_continue,
                   onTap: () {
                     disableContinue.value = true;
                     loader.value.startLoading();

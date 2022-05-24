@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/helpers/localized_chart_resolution_button.dart';
 import '../../../helpers/formatting/base/market_format.dart';
 import '../notifier/balance_chart_input_stpod.dart';
 import '../notifier/chart_notipod.dart';
@@ -41,6 +42,7 @@ class _BalanceChartState extends State<BalanceChart>
 
     return chartState.union.when(
       candles: () => Chart(
+        localizedChartResolutionButton: localizedChartResolutionButton(context),
         onResolutionChanged: (resolution) {
           chartNotifier.updateResolution(
             resolution,
@@ -64,6 +66,7 @@ class _BalanceChartState extends State<BalanceChart>
         height: 296,
         showLoader: true,
         resolution: chartState.resolution,
+        localizedChartResolutionButton: localizedChartResolutionButton(context),
         onResolutionChanged: (resolution) {
           chartNotifier.updateResolution(resolution);
         },

@@ -4,7 +4,12 @@ import '../../../../../../simple_kit.dart';
 import '../../../../../colors/view/simple_colors_light.dart';
 
 class SimpleLoaderSuccess extends StatelessWidget {
-  const SimpleLoaderSuccess({Key? key}) : super(key: key);
+  const SimpleLoaderSuccess({
+    Key? key,
+    this.loadingText,
+  }) : super(key: key);
+
+  final String? loadingText;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class SimpleLoaderSuccess extends StatelessWidget {
               baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Done!',
+                '${loadingText ?? "Done"}!',
                 style: sBodyText2Style,
               ),
             ),

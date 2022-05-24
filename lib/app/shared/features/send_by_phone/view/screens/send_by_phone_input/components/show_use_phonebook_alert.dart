@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/constants.dart';
+import '../../../../../../../../shared/providers/service_providers.dart';
 
 void showUsePhonebookAlert({
   required BuildContext context,
   required Function() onUsePhonebook,
   required Function() onPopupQuit,
 }) {
+  final intl = context.read(intlPod);
+
   sShowAlertPopup(
     context,
     image: Image.asset(
@@ -16,12 +20,11 @@ void showUsePhonebookAlert({
       width: 180,
     ),
     onWillPop: onPopupQuit,
-    primaryText: 'Use Phonebook?',
-    primaryButtonName: 'Use Phonebook',
-    secondaryButtonName: 'Enter manually',
-    secondaryText: "It's easy to invite friends when choosing them from "
-        'the address book on your phone. \n\n  '
-        "Otherwise, you'll have to type contact info individually.",
+    primaryText: '${intl.showUsePhonebookAlert_usePhonebook}?',
+    primaryButtonName: intl.showUsePhonebookAlert_usePhonebook,
+    secondaryButtonName: intl.showUsePhonebookAlert_enterManually,
+    secondaryText: '${intl.showContactsPermission_secondaryText1}\n\n'
+        '${intl.showContactsPermission_secondaryText2}.',
     onPrimaryButtonTap: onUsePhonebook,
     onSecondaryButtonTap: () {
       onPopupQuit();

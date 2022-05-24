@@ -9,6 +9,7 @@ import '../../../../../service/services/signal_r/model/asset_payment_methods.dar
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/are_balances_empty.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../models/currency_model.dart';
@@ -50,6 +51,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
@@ -70,8 +72,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     void _showAssetSelector() {
       sShowBasicModalBottomSheet(
         scrollable: true,
-        pinned: const SBottomSheetHeader(
-          name: 'Pay from',
+        pinned: SBottomSheetHeader(
+          name: intl.curencyBuy_payFrom,
         ),
         children: [
           for (final currency in state.currencies)
@@ -120,8 +122,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       ? colors.blue
                       : colors.black,
                 ),
-                name: 'Bank Card - Simplex',
-                description: 'Visa, Mastercard, Apple Pay',
+                name: intl.curencyBuy_actionItemName,
+                description: intl.curencyBuy_actionItemDescription,
                 onTap: () => Navigator.pop(context, method),
               ),
           const SpaceH40(),
@@ -147,10 +149,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     }
 
     return SPageFrame(
+      loaderText: intl.curencyBuy_pleaseWait,
       loading: loader.value,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Buy ${widget.currency.description}',
+          title: '${intl.curencyBuy_buy} ${widget.currency.description}',
         ),
       ),
       child: Stack(
@@ -196,6 +199,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
+                  text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
                 )
               else if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)
@@ -205,9 +209,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   icon: SActionDepositIcon(
                     color: colors.black,
                   ),
-                  name: 'Bank Card - Simplex',
-                  helper: '≈ 10-30 min',
-                  description: 'Visa, Mastercard, Apple Pay',
+                  name: intl.curencyBuy_actionItemName,
+                  helper: '≈ 10-30 ${intl.min}',
+                  description: intl.curencyBuy_actionItemDescription,
                   onTap: () => _showAssetSelector(),
                 )
               else if (state.selectedCurrency?.type == AssetType.crypto)
@@ -261,13 +265,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     !disableSubmit.value,
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
-                        ? 'Preview Recurring Buy'
-                        : 'Preview Buy',
+                        ? intl.curencyBuy_NumericKeyboardButtonName1
+                        : intl.curencyBuy_NumericKeyboardButtonName2,
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
                     assetName: widget.currency.description,
-                    paymentMethod:
-                        state.selectedPaymentMethod?.type.name ?? 'Crypto',
+                    paymentMethod: state.selectedPaymentMethod?.type.name ??
+                        intl.curencyBuy_crypto,
                     amount: formatCurrencyStringAmount(
                       prefix: state.selectedCurrency?.prefixSymbol,
                       value: state.inputValue,
