@@ -1,26 +1,34 @@
-import 'package:flutter/cupertino.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../../../../shared/models/currency_model.dart';
 import 'components/earn_body.dart';
+import 'components/earn_bottom_sheet_container.dart';
 import 'components/earn_pinned.dart';
+import 'components/earn_pinned_small.dart';
 
 void showStartEarnBottomSheet({
   required BuildContext context,
   required Function(CurrencyModel) onTap,
 }) {
-  sShowBasicModalBottomSheet(
+  showModalBottomSheet(
     context: context,
-    removePinnedPadding: true,
-    removeBottomSheetBar: true,
-    removeBarPadding: true,
-    horizontalPinnedPadding: 0,
-    scrollable: true,
-    children: [
-      const EarnPinned(),
-      EarnBody(
-        onTap: onTap,
-      ),
-    ],
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return EarnBottomSheetContainer(
+        removePinnedPadding: true,
+        horizontalPinnedPadding: 0,
+        scrollable: true,
+        color: Colors.white,
+        pinned: const EarnPinned(),
+        pinnedSmall: const EarnPinnedSmall(),
+        expandedHeight: 320,
+        children: [
+          EarnBody(
+            onTap: onTap,
+          ),
+        ],
+      );
+    },
   );
 }
