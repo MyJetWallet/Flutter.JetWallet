@@ -26,6 +26,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final authService = read(authServicePod);
   final storageService = read(localStorageServicePod);
   final rsaService = read(rsaServicePod);
+  final intl = read(intlPod);
 
   try {
     final serverTime = await authService.serverTime();
@@ -41,6 +42,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
       refreshToken: refreshToken,
       requestTime: serverTime.time,
       tokenDateTimeSignatureBase64: tokenDateTimeSignatureBase64,
+      lang: intl.localeName
     );
 
     final response = await authService.refresh(model);
