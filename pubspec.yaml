@@ -57,6 +57,7 @@ dependencies:
   device_info_plus: ^3.1.1 # providing detailed information about the device
 
   # NETWORKING:
+  http: ^0.13.4
   dio: ^4.0.5 # http client
   pretty_dio_logger: ^1.1.1 # logger for dio
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
