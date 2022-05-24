@@ -91,7 +91,8 @@
   "profileDetails_newPhoneNumberConfirmed": "Новый номер телефона подтвержден",
   "profileDetails_profileDetails": "Детали профиля",
   "profileDetails_continue": "Продолжить",
-  "profileDetails_buttonSecondaryText": "Вы хотите продолжить изменение номера телефона? Вам нужно будет ввести SMS-код, чтобы завершить этот процесс",
+  "profileDetails_changePasswordAlert": "Когда меняешь пароль, выводы будут заблокированы на",
+  "profileDetails_changePhoneAlert": "Когда меняешь номер телефона, выводы будут заблокированы на",    
   "profileDetails_cancel": "Отмена",
   "profileDetails_payAttention": "Обратите внимание",
   "showBasicModalBottomSheet_continue": "Продолжить",
@@ -777,5 +778,7 @@
   "news": "Новости",
   "number": "число",
   "days": "дни",
+  "hours": "часов",
+  "hour": "час",
   "hoursLeft": "часов осталось"
 }

@@ -47,16 +47,15 @@ class ProfileDetails extends HookWidget {
               sShowAlertPopup(
                 context,
                 willPopScope: false,
-                primaryText: 'Pay attention',
-                secondaryText: 'When changing the password, the '
-                    'withdrawal of funds will be locked for '
-                    '$changePasswordLockHours hours.',
-                primaryButtonName: 'Continue',
+                  primaryText: intl.profileDetails_payAttention,
+                secondaryText: '${intl.profileDetails_changePasswordAlert}'
+                    '$changePasswordLockHours ${intl.hours}.',
+                primaryButtonName: intl.profileDetails_continue,
                 image: _infoImage,
                 onPrimaryButtonTap: () {
                   navigatorPushReplacement(context, const ChangePassword());
                 },
-                secondaryButtonName: 'Cancel',
+                secondaryButtonName: intl.profileDetails_cancel,
                 onSecondaryButtonTap: () {
                   Navigator.pop(context);
                 },
@@ -72,10 +71,8 @@ class ProfileDetails extends HookWidget {
                   context,
                   willPopScope: false,
                   primaryText: intl.profileDetails_payAttention,
-                  secondaryText: 'When changing the phone number, the '
-                      'withdrawal of funds will be locked for '
-                      '$changePhoneLockHours hours.',
-                  // secondaryText: '${intl.profileDetails_buttonSecondaryText}.',
+                  secondaryText: '${intl.profileDetails_changePhoneAlert}'
+                      '$changePhoneLockHours ${intl.hours}.',
                   primaryButtonName: intl.profileDetails_continue,
                   image: _infoImage,
                   onPrimaryButtonTap: () {
