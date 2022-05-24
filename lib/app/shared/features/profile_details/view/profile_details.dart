@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import 'components/change_password/change_password.dart';
@@ -46,7 +47,8 @@ class ProfileDetails extends HookWidget {
                 willPopScope: false,
                 primaryText: 'Pay attention',
                 secondaryText: 'When changing the password, the '
-                    'withdrawal of funds will be locked for 24 hours.',
+                    'withdrawal of funds will be locked for '
+                    '$changePasswordLockHours hours.',
                 primaryButtonName: 'Continue',
                 image: _infoImage,
                 onPrimaryButtonTap: () {
@@ -69,7 +71,8 @@ class ProfileDetails extends HookWidget {
                   willPopScope: false,
                   primaryText: 'Pay attention',
                   secondaryText: 'When changing the phone number, the '
-                      'withdrawal of funds will be locked for 24 hours.',
+                      'withdrawal of funds will be locked for '
+                      '$changePhoneLockHours hours.',
                   primaryButtonName: 'Continue',
                   image: _infoImage,
                   onPrimaryButtonTap: () {
