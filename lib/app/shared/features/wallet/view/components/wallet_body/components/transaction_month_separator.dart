@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../helpers/localized_month.dart';
+
 class TransactionMonthSeparator extends HookWidget {
   const TransactionMonthSeparator({
     Key? key,
@@ -27,7 +29,7 @@ class TransactionMonthSeparator extends HookWidget {
               baseline: 11,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                text,
+                localizedMonth(text, context),
                 style: sCaptionTextStyle.copyWith(
                   color: colors.grey3,
                 ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../shared/providers/service_providers.dart';
 import '../../helpers/password_validators.dart';
 
-class PasswordValidation extends StatelessWidget {
+class PasswordValidation extends HookWidget {
   const PasswordValidation({
     Key? key,
     required this.password,
@@ -13,6 +16,7 @@ class PasswordValidation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final case1 = isPasswordLengthValid(password);
     final case2 = isPasswordHasAtLeastOneLetter(password);
     final case3 = isPasswordHasAtLeastOneNumber(password);
@@ -23,15 +27,15 @@ class PasswordValidation extends StatelessWidget {
         const SpaceH24(),
         SRequirement(
           passed: case1,
-          description: 'be between 8 to 31 characters',
+          description: intl.passwordValidation_text1,
         ),
         SRequirement(
           passed: case2,
-          description: 'сontain at least one letter (a-z)',
+          description: intl.passwordValidation_text2,
         ),
         SRequirement(
           passed: case3,
-          description: 'contain at least one number (0-9)',
+          description: intl.passwordValidation_text3,
         ),
       ],
     );

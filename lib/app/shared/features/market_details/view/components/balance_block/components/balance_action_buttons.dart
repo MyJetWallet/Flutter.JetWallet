@@ -27,6 +27,7 @@ class BalanceActionButtons extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final currencies = useProvider(currenciesPod);
     final currency = currencyFrom(
       currencies,
@@ -43,7 +44,7 @@ class BalanceActionButtons extends HookWidget {
         children: [
           Expanded(
             child: SPrimaryButton1(
-              name: 'Buy',
+              name: intl.balanceActionButtons_buy,
               onTap: () {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
@@ -87,7 +88,7 @@ class BalanceActionButtons extends HookWidget {
             const SpaceW11(),
             Expanded(
               child: SSecondaryButton1(
-                name: 'Receive',
+                name: intl.balanceActionButtons_receive,
                 onTap: () {
                   if (kycState.withdrawalStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
@@ -96,7 +97,7 @@ class BalanceActionButtons extends HookWidget {
                     navigatorPushReplacement(
                       context,
                       CryptoDeposit(
-                        header: 'Receive',
+                        header: intl.balanceActionButtons_receive,
                         currency: currency,
                       ),
                     );
@@ -111,7 +112,7 @@ class BalanceActionButtons extends HookWidget {
                         navigatorPushReplacement(
                           context,
                           CryptoDeposit(
-                            header: 'Receive',
+                            header: intl.balanceActionButtons_receive,
                             currency: currency,
                           ),
                         );
@@ -127,7 +128,7 @@ class BalanceActionButtons extends HookWidget {
             const SpaceW11(),
             Expanded(
               child: SSecondaryButton1(
-                name: 'Sell',
+                name: intl.balanceActionButtons_sell,
                 onTap: () {
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {

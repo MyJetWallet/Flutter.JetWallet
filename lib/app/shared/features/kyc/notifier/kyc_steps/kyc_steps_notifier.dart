@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../model/kyc_operation_status_model.dart';
 import 'kyc_steps_state.dart';
@@ -7,8 +8,8 @@ class KycStepsNotifier extends StateNotifier<KycStepsState> {
     required this.read,
     required this.requiredVerifications,
   }) : super(
-    const KycStepsState(),
-  ) {
+          const KycStepsState(),
+        ) {
     _init(requiredVerifications);
   }
 
@@ -30,10 +31,13 @@ class KycStepsNotifier extends StateNotifier<KycStepsState> {
   }
 
   // TODO fix bug here (Bad state, no element)
-  String chooseDocumentsHeaderTitle() {
+  String chooseDocumentsHeaderTitle(BuildContext context) {
     final element = state.requiredVerifications
         .firstWhere((element) => !element.verifiedDone);
 
-    return stringRequiredVerified(element.requiredVerified!);
+    return stringRequiredVerified(
+      element.requiredVerified!,
+      context,
+    );
   }
 }
