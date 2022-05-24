@@ -119,7 +119,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
           isToppedUp: true,
         );
       }
-      return operationName(transactionListItem.operationType);
+      return operationName(transactionListItem.operationType, context);
     } else {
       return '${operationName(transactionListItem.operationType, context)} '
           '${currency.description}';
