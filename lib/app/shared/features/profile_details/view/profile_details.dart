@@ -48,7 +48,7 @@ class ProfileDetails extends HookWidget {
                 context,
                 willPopScope: false,
                   primaryText: intl.profileDetails_payAttention,
-                secondaryText: '${intl.profileDetails_changePasswordAlert}'
+                secondaryText: '${intl.profileDetails_changePasswordAlert} '
                     '$changePasswordLockHours ${intl.hours}.',
                 primaryButtonName: intl.profileDetails_continue,
                 image: _infoImage,
@@ -71,7 +71,7 @@ class ProfileDetails extends HookWidget {
                   context,
                   willPopScope: false,
                   primaryText: intl.profileDetails_payAttention,
-                  secondaryText: '${intl.profileDetails_changePhoneAlert}'
+                  secondaryText: '${intl.profileDetails_changePhoneAlert} '
                       '$changePhoneLockHours ${intl.hours}.',
                   primaryButtonName: intl.profileDetails_continue,
                   image: _infoImage,
