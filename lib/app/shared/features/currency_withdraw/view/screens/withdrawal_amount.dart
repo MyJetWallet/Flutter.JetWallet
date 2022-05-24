@@ -75,7 +75,7 @@ class WithdrawalAmount extends HookWidget {
                     )}',
                     error: state.inputError == InputError.enterHigherAmount
                         ? '${intl.withdrawalAmount_enterMoreThan} '
-                        '${currency.withdrawalFeeWithSymbol}'
+                            '${currency.withdrawalFeeWithSymbol}'
                         : state.inputError.value,
                     isErrorActive: state.inputError.isActive,
                   ),
@@ -88,7 +88,7 @@ class WithdrawalAmount extends HookWidget {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     '${intl.withdrawalAmount_available}:'
-                        ' ${currency.volumeAssetBalance}',
+                    ' ${currency.volumeAssetBalance}',
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
                     ),
@@ -178,12 +178,12 @@ class WithdrawalAmount extends HookWidget {
       addressIsInternal: isInternal,
     );
 
-    final youWillReceive = '${intl.withdrawalAmount_youWillReceive}: $result';
+    final youWillSend = '${intl.withdrawalAmount_youWillSend}: $result';
 
     if (isInternal) {
-      return '${intl.noFee} / $youWillReceive';
+      return '${intl.noFee} / $youWillSend';
     } else {
-      return '${intl.fee}: ${currency.withdrawalFeeWithSymbol} / $youWillReceive';
+      return '${intl.fee}: ${currency.withdrawalFeeWithSymbol} / $youWillSend';
     }
   }
 }
