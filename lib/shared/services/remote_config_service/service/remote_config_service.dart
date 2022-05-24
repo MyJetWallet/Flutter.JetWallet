@@ -11,7 +11,7 @@ import '../model/support_model.dart';
 import '../model/versioning_model.dart';
 import '../remote_config_values.dart';
 
-const _defaultFlavorIndex = 1;
+const _defaultFlavorIndex = 0;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfigService {
