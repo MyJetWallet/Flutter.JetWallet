@@ -9,9 +9,11 @@ class SReferralInviteBottomPinned extends HookWidget {
   const SReferralInviteBottomPinned({
     Key? key,
     required this.onShare,
+    required this.text,
   }) : super(key: key);
 
   final Function() onShare;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class SReferralInviteBottomPinned extends HookWidget {
               onShare();
             }
           },
-          name: 'Share',
+          name: text,
           active: true,
           icon: SShareIcon(
             color: SColorsLight().white,

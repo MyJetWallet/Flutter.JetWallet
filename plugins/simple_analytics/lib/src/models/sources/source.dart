@@ -11,6 +11,8 @@ enum Source {
   quickActions,
   earnProgram,
   actionButton,
+  walletDetails,
+  successScreen,
 }
 
 extension SourceExtension on Source {
@@ -38,6 +40,10 @@ extension SourceExtension on Source {
         return 'Earn program';
       case Source.actionButton:
         return 'Action Button';
+      case Source.walletDetails:
+       return 'Wallet details';
+      case Source.successScreen:
+        return 'Success screen';
     }
   }
 }

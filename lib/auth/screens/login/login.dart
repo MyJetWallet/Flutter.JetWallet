@@ -89,15 +89,19 @@ class Login extends HookWidget {
         );
       },
       child: SPageFrame(
+        loaderText: intl.login_pleaseWait,
         loading: loader.value,
         color: colors.grey5,
         header: SPaddingH24(
           child: SBigHeader(
             showSupportButton: true,
-            onSupportButtonTap: () => Crisp.push(context),
+            onSupportButtonTap: () => Crisp.push(
+              context,
+              intl.crispSendMessage_hi,
+            ),
             title: intl.login_signIn,
             showLink: true,
-            linkText: intl.login_forgotPassword,
+            linkText: '${intl.login_forgotPassword}?',
             onLinkTap: () => ForgotPassword.push(
               context: context,
               args: ForgotPasswordArgs(
@@ -158,7 +162,7 @@ class Login extends HookWidget {
                             _controller,
                           );
                         },
-                        labelText: intl.login_passwordTextFieldLabel,
+                        labelText: intl.login_password,
                         onErrorIconTap: () {
                           notificationN.showError(
                             intl.login_credentialsError,
@@ -172,12 +176,10 @@ class Login extends HookWidget {
                   const Spacer(),
                   SPaddingH24(
                     child: SPolicyText(
-                      firstText:
-                          'By logging in and Continue, I hereby agree and'
-                          ' consent to the',
-                      userAgreementText: ' User Agreement ',
-                      betweenText: 'and the ',
-                      privacyPolicyText: 'Privacy Policy',
+                      firstText: intl.login_policyText1,
+                      userAgreementText: ' ${intl.login_userAgreementText} ',
+                      betweenText: '${intl.login_andThe} ',
+                      privacyPolicyText: intl.login_privacyPolicy,
                       onUserAgreementTap: () =>
                           launchURL(context, userAgreementLink),
                       onPrivacyPolicyTap: () =>
@@ -188,7 +190,7 @@ class Login extends HookWidget {
                   SPaddingH24(
                     child: SPrimaryButton2(
                       active: isButtonActive(),
-                      name: intl.login_continueButton,
+                      name: intl.login_continue,
                       onTap: () {
                         disableContinue.value = true;
                         loader.value.startLoading();

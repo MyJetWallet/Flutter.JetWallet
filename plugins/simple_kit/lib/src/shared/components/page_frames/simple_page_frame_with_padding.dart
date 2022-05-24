@@ -10,12 +10,14 @@ class SPageFrameWithPadding extends ConsumerWidget {
     this.header,
     this.loading,
     this.bottomNavigationBar,
+    this.loaderText,
     this.color = Colors.transparent,
     this.resizeToAvoidBottomInset = true,
     required this.child,
   }) : super(key: key);
 
   final Widget? header;
+  final String? loaderText;
   final Widget child;
   final Color color;
   final bool resizeToAvoidBottomInset;
@@ -31,6 +33,7 @@ class SPageFrameWithPadding extends ConsumerWidget {
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       bottomNavigationBar: bottomNavigationBar,
       body: StackLoader(
+        loaderText: loaderText,
         loading: loading,
         child: SPaddingH24(
           child: Column(

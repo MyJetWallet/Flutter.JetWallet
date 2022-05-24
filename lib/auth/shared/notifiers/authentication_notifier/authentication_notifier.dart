@@ -109,13 +109,16 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       state = Input(error.cause);
     } catch (e) {
       _logger.log(stateFlow, 'authenticate', e);
+
+      final intl = read(intlPod);
+
       if (operation == AuthOperation.login) {
         sAnalytics.loginFailure(email, e.toString());
       } else {
         sAnalytics.signUpFailure(email, e.toString());
       }
 
-      state = const Input('Something went wrong. Please try again later!');
+      state = Input(intl.something_went_wrong_try_again);
     }
   }
 }

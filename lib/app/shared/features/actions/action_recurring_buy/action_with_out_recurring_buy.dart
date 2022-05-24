@@ -5,10 +5,11 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import 'components/without_recurring_buy_item.dart';
 
-void showActionWithOutRecurringBuy({
+void showActionWithoutRecurringBuy({
   bool showOneTimePurchase = false,
   RecurringBuysType? currentType,
   void Function(dynamic)? then,
+  VoidCallback? onDissmis,
   required BuildContext context,
   required String title,
   required void Function(RecurringBuysType) onItemTap,
@@ -28,6 +29,7 @@ void showActionWithOutRecurringBuy({
         showOneTimePurchase: showOneTimePurchase,
       )
     ],
+    onDissmis: onDissmis,
   );
 }
 
@@ -47,15 +49,17 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Baseline(
-                baseline: 20.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  name,
-                  style: sTextH4Style,
+              Flexible(
+                child: Baseline(
+                  baseline: 20.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    name,
+                    maxLines: 2,
+                    style: sTextH4Style,
+                  ),
                 ),
               ),
-              const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: const SErasePressedIcon(),
@@ -89,9 +93,10 @@ class _ActionRecurringBuy extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (showOneTimePurchase) ...[
-              WithOutRecurringBuysItem(
+              WithoutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
                   RecurringBuysType.oneTimePurchase,
+                  context,
                 ),
                 selected: currentType == RecurringBuysType.oneTimePurchase,
                 onTap: () {
@@ -102,9 +107,10 @@ class _ActionRecurringBuy extends HookWidget {
                 child: SDivider(),
               ),
             ],
-            WithOutRecurringBuysItem(
+            WithoutRecurringBuysItem(
               primaryText: recurringBuysOperationName(
                 RecurringBuysType.daily,
+                context,
               ),
               selected: currentType == RecurringBuysType.daily,
               onTap: () {
@@ -114,8 +120,11 @@ class _ActionRecurringBuy extends HookWidget {
             const SPaddingH24(
               child: SDivider(),
             ),
-            WithOutRecurringBuysItem(
-              primaryText: recurringBuysOperationName(RecurringBuysType.weekly),
+            WithoutRecurringBuysItem(
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.weekly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.weekly,
               onTap: () {
                 onItemTap(RecurringBuysType.weekly);
@@ -124,9 +133,11 @@ class _ActionRecurringBuy extends HookWidget {
             const SPaddingH24(
               child: SDivider(),
             ),
-            WithOutRecurringBuysItem(
-              primaryText:
-                  recurringBuysOperationName(RecurringBuysType.biWeekly),
+            WithoutRecurringBuysItem(
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.biWeekly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.biWeekly,
               onTap: () {
                 onItemTap(RecurringBuysType.biWeekly);
@@ -135,9 +146,11 @@ class _ActionRecurringBuy extends HookWidget {
             const SPaddingH24(
               child: SDivider(),
             ),
-            WithOutRecurringBuysItem(
-              primaryText:
-                  recurringBuysOperationName(RecurringBuysType.monthly),
+            WithoutRecurringBuysItem(
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.monthly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.monthly,
               onTap: () {
                 onItemTap(RecurringBuysType.monthly);

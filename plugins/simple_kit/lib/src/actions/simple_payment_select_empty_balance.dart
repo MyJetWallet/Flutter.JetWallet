@@ -6,9 +6,11 @@ import '../colors/view/simple_colors_light.dart';
 class SPaymentSelectEmptyBalance extends StatelessWidget {
   const SPaymentSelectEmptyBalance({
     Key? key,
+    required this.text,
     required this.widgetSize,
   }) : super(key: key);
 
+  final String text;
   final SWidgetSize widgetSize;
 
   @override
@@ -38,7 +40,7 @@ class SPaymentSelectEmptyBalance extends StatelessWidget {
                   baseline: 18.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    'Buy only  with crypto',
+                    text,
                     style: sSubtitle2Style,
                   ),
                 ),

@@ -43,8 +43,9 @@ class ChangePasswordNotifier extends StateNotifier<ChangePasswordState> {
     } catch (e) {
       _logger.log(stateFlow, 'confirmNewPassword', e);
 
+      final intl = read(intlPod);
       state = state.copyWith(
-        union: const Error('Try again that’s not your current password!'),
+        union: Error('${intl.changePassword_errorCurrentPassword}!'),
       );
     }
   }
