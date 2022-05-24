@@ -37,10 +37,9 @@ import '../model/referral_info_model.dart';
 import '../model/referral_stats_response_model.dart';
 
 class _HttpClient extends http.BaseClient {
+  _HttpClient({required this.defaultHeaders});
   final _httpClient = http.Client();
   final Map<String, String> defaultHeaders;
-
-  _HttpClient({required this.defaultHeaders});
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
