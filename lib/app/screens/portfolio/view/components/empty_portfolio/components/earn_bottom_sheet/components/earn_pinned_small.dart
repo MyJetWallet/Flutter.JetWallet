@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../helper/max_currency_apy.dart';
 
@@ -12,6 +13,7 @@ class EarnPinnedSmall extends HookWidget {
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
+    final intl = useProvider(intlPod);
 
     return Stack(
       children: [
@@ -25,14 +27,15 @@ class EarnPinnedSmall extends HookWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Up to '
+                        text: '${intl.earnBodyHeader_upTo} '
                             '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
                         style: sTextH5Style.copyWith(
                           color: colors.green,
                         ),
                       ),
                       TextSpan(
-                        text: ' interest\non deposited crypto',
+                        text: ' ${intl.earnBodyHeader_text1Part1}'
+                            '\n${intl.earnBodyHeader_text1Part2}',
                         style: sTextH5Style.copyWith(
                           color: colors.black,
                         ),

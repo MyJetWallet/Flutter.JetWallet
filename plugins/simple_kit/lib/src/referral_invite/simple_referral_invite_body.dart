@@ -12,7 +12,6 @@ class SReferralInviteBody extends StatelessWidget {
     required this.showReadMore,
     required this.conditions,
     required this.referralLink,
-    required this.readMoreText,
     required this.copiedText,
     required this.referralText,
   }) : super(key: key);
@@ -22,7 +21,6 @@ class SReferralInviteBody extends StatelessWidget {
   final bool showReadMore;
   final List<String> conditions;
   final String referralLink;
-  final String readMoreText;
   final String copiedText;
   final String referralText;
 

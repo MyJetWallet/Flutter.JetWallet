@@ -266,7 +266,7 @@ class DeepLinkService {
                         baseline: 94,
                         baselineType: TextBaseline.alphabetic,
                         child: ClickableUnderlinedText(
-                          text: 'Read more',
+                          text: intl.deepLinkService_readMore,
                           onTap: () {
                             launchURL(
                               context,
@@ -311,6 +311,7 @@ class DeepLinkService {
             ],
           ),
           pinnedBottom: SReferralInviteBottomPinned(
+            text: intl.deepLinkService_share,
             onShare: () {
               Share.share(referralInfo.referralLink);
             },
@@ -322,6 +323,8 @@ class DeepLinkService {
               referralLink: referralInfo.referralLink,
               conditions: referralInfo.referralTerms,
               showReadMore: referralInfo.descriptionLink.isNotEmpty,
+              copiedText: intl.deepLinkService_referralLinkCopied,
+              referralText: intl.deepLinkService_referralLink,
               onReadMoreTap: () {
                 launchURL(
                   context,
