@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../auth/shared/helpers/password_validators.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../notifier/change_password_notifier/change_password_notipod.dart';
 import '../../../notifier/change_password_notifier/change_password_state.dart';
 import 'components/set_new_password.dart';
@@ -20,6 +21,7 @@ class ChangePassword extends HookWidget {
     final changePasswordN = useProvider(changePasswordNotipod.notifier);
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final oldPasswordError = useValueNotifier(StandardFieldErrorNotifier());
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return ProviderListener<ChangePasswordState>(
@@ -33,15 +35,33 @@ class ChangePassword extends HookWidget {
         );
       },
       child: SPageFrame(
+        loaderText: intl.changePassword_pleaseWait,
         color: colors.grey5,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: 'Change Password',
+            title: intl.changePassword_changePassword,
             onBackButtonTap: () => Navigator.pop(context),
           ),
         ),
         child: Column(
           children: [
+            Container(
+              color: colors.white,
+              padding: const EdgeInsets.only(bottom: 14.0),
+              child: SPaddingH24(
+                child: Baseline(
+                  baseline: 24.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    '${intl.changePassword_byChangingPasswordText}.',
+                    style: sBodyText1Style.copyWith(
+                      color: colors.grey1,
+                      overflow: TextOverflow.visible,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Container(
               color: colors.white,
               child: SPaddingH24(
@@ -52,10 +72,10 @@ class ChangePassword extends HookWidget {
                     changePasswordN.setOldPassword(password);
                   },
                   autofocus: true,
-                  labelText: 'Enter current Password',
+                  labelText: intl.changePassword_enterOldPassword,
                   onErrorIconTap: () {
                     notificationN.showError(
-                      "Try again that's not your current password!",
+                      '${intl.changePassword_showErrorText1}!',
                       id: 1,
                     );
                   },
@@ -66,7 +86,7 @@ class ChangePassword extends HookWidget {
             const Spacer(),
             SPaddingH24(
               child: SPrimaryButton2(
-                name: 'Continue',
+                name: intl.changePassword_continue,
                 onTap: () {
                   navigatorPush(
                     context,

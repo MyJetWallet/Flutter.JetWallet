@@ -9,6 +9,7 @@ import '../../../../../shared/helpers/analytics.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../notifier/set_phone_number_notipod.dart';
 import 'components/show_country_phone_number_picker.dart';
@@ -56,6 +57,7 @@ class SetPhoneNumber extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(setPhoneNumberNotipod);
     final notifier = useProvider(setPhoneNumberNotipod.notifier);
@@ -65,11 +67,12 @@ class SetPhoneNumber extends HookWidget {
     analytics(() => sAnalytics.kycPhoneConfirmationView());
 
     return SPageFrame(
+      loaderText: intl.setPhoneNumber_pleaseWait,
       loading: state.loader,
       color: colors.grey5,
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Enter phone number',
+          title: intl.setPhoneNumber_enterPhoneNumber,
         ),
       ),
       child: Column(
@@ -98,7 +101,7 @@ class SetPhoneNumber extends HookWidget {
                       width: 76,
                       child: AbsorbPointer(
                         child: SStandardField(
-                          labelText: 'Code',
+                          labelText: intl.setPhoneNumber_code,
                           readOnly: true,
                           hideClearButton: true,
                           controller: state.dialCodeController,
@@ -110,7 +113,7 @@ class SetPhoneNumber extends HookWidget {
                 Expanded(
                   child: SPaddingH24(
                     child: SStandardField(
-                      labelText: 'Phone number',
+                      labelText: intl.setPhoneNumber_phoneNumber,
                       autofocus: true,
                       autofillHints: const [AutofillHints.telephoneNumber],
                       keyboardType: TextInputType.phone,
@@ -130,7 +133,7 @@ class SetPhoneNumber extends HookWidget {
               baselineType: TextBaseline.alphabetic,
               baseline: 24,
               child: Text(
-                'This allow you to send and receive crypto by phone',
+                intl.setPhoneNumber_text1,
                 style: sCaptionTextStyle.copyWith(
                   color: colors.grey1,
                 ),
@@ -141,7 +144,7 @@ class SetPhoneNumber extends HookWidget {
           SPaddingH24(
             child: SPrimaryButton2(
               active: state.isReadyToContinue,
-              name: 'Continue',
+              name: intl.setPhoneNumber_continue,
               onTap: () {
                 sAnalytics.kycEnterPhoneNumber();
                 notifier.sendCode(

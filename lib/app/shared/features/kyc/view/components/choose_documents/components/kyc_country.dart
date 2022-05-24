@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../components/flag_item.dart';
 import '../../../../model/kyc_country_model.dart';
 import '../../../../notifier/kyc_countries/kyc_countries_notipod.dart';
@@ -20,6 +21,7 @@ class KycCountry extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final state = useProvider(kycCountriesNotipod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return InkWell(
@@ -35,7 +37,7 @@ class KycCountry extends HookWidget {
               child: Row(
                 children: [
                   Text(
-                    'Country of Issue',
+                    intl.kycCountry_countryOfIssue,
                     style: sCaptionTextStyle.copyWith(
                       color: colors.grey2,
                     ),

@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>Russia</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -45,7 +50,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To take pictures and detect your face</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Security and fraud prevention reasons</string>
+	<string>Security and fraud prevention reasons</string>
 	<key>NSContactsUsageDescription</key>
 	<string>This app requires contacts access to function properly.</string>
 	<key>NSFaceIDUsageDescription</key>

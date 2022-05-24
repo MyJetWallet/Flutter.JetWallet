@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../wallet/view/components/wallet_body/components/transactions_list/transactions_list.dart';
 
 class TransactionHistory extends HookWidget {
@@ -58,7 +59,7 @@ class TransactionHistory extends HookWidget {
             elevation: 0,
             flexibleSpace: SPaddingH24(
               child: SSmallHeader(
-                title: _title(),
+                title: _title(context),
               ),
             ),
           ),
@@ -71,11 +72,13 @@ class TransactionHistory extends HookWidget {
     );
   }
 
-  String _title() {
+  String _title(BuildContext context) {
+    final intl = context.read(intlPod);
+
     if (assetName != null && assetSymbol != null) {
-      return 'History $assetName ($assetSymbol)';
+      return '${intl.transactionHistory_history} $assetName ($assetSymbol)';
     } else {
-      return 'History';
+      return intl.transactionHistory_history;
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../models/currency_model.dart';
 import '../../notifier/send_by_phone_preview_notifier/send_by_phone_preview_notipod.dart';
@@ -21,6 +22,7 @@ class SendByPhonePreview extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(sendByPhonePreviewNotipod(currency));
     final notifier = useProvider(sendByPhonePreviewNotipod(currency).notifier);
@@ -40,12 +42,14 @@ class SendByPhonePreview extends HookWidget {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title: 'Send ${currency.description} by phone',
+              title: '${intl.sendByPhonePreview_send} ${currency.description}'
+                  ' ${intl.sendByPhonePreview_byPhone}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title: 'Send ${currency.description} by phone',
+              title: '${intl.sendByPhonePreview_send} ${currency.description}'
+                  ' ${intl.sendByPhonePreview_byPhone}',
             );
           },
         ),
@@ -60,12 +64,12 @@ class SendByPhonePreview extends HookWidget {
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'You send to',
+                    name: intl.sendByPhonePreview_youSendTo,
                     value: state.pickedContact!.phoneNumber,
                     valueDescription: state.pickedContact!.name,
                   ),
                   SActionConfirmText(
-                    name: 'Amount to send',
+                    name: intl.sendByPhonePreview_amountToSend,
                     baseline: 35.0,
                     value: volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -78,7 +82,7 @@ class SendByPhonePreview extends HookWidget {
                   const SDivider(),
                   const SpaceH4(),
                   SActionConfirmText(
-                    name: 'Total',
+                    name: intl.sendByPhonePreview_total,
                     baseline: 35.0,
                     value: volumeFormat(
                       prefix: currency.prefixSymbol,
@@ -91,7 +95,7 @@ class SendByPhonePreview extends HookWidget {
                   const SpaceH35(),
                   SPrimaryButton2(
                     active: !state.loading,
-                    name: 'Confirm',
+                    name: intl.sendByPhonePreview_confirm,
                     onTap: () => notifier.send(),
                   ),
                   const SpaceH24(),
