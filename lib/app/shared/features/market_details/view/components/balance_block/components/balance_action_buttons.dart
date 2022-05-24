@@ -9,6 +9,7 @@ import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../helpers/are_balances_empty.dart';
+import '../../../../../../helpers/is_buy_with_currency_available_for.dart';
 import '../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../crypto_deposit/view/crypto_deposit.dart';
 import '../../../../../currency_buy/view/curency_buy.dart';
@@ -27,6 +28,7 @@ class BalanceActionButtons extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final currencies = useProvider(currenciesPod);
     final currency = currencyFrom(
       currencies,
@@ -41,53 +43,54 @@ class BalanceActionButtons extends HookWidget {
     return SPaddingH24(
       child: Row(
         children: [
-          Expanded(
-            child: SPrimaryButton1(
-              name: 'Buy',
-              onTap: () {
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-                  sAnalytics.buyView(
-                    Source.assetScreen,
-                    currency.description,
-                  );
-                  navigatorPush(
-                    context,
-                    CurrencyBuy(
-                      currency: currency,
-                      fromCard: isBalanceEmpty,
-                    ),
-                  );
-                } else {
-                  kycAlertHandler.handle(
-                    status: kycState.sellStatus,
-                    kycVerified: kycState,
-                    isProgress: kycState.verificationInProgress,
-                    navigatePop: true,
-                    currentNavigate: () {
-                      sAnalytics.buyView(
-                        Source.assetScreen,
-                        currency.description,
-                      );
-                      navigatorPush(
-                        context,
-                        CurrencyBuy(
-                          currency: currency,
-                          fromCard: isBalanceEmpty,
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-              active: true,
+          if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
+            Expanded(
+              child: SPrimaryButton1(
+                name: 'Buy',
+                onTap: () {
+                  if (kycState.depositStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sAnalytics.buyView(
+                      Source.assetScreen,
+                      currency.description,
+                    );
+                    navigatorPush(
+                      context,
+                      CurrencyBuy(
+                        currency: currency,
+                        fromCard: isBalanceEmpty,
+                      ),
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      kycVerified: kycState,
+                      isProgress: kycState.verificationInProgress,
+                      navigatePop: true,
+                      currentNavigate: () {
+                        sAnalytics.buyView(
+                          Source.assetScreen,
+                          currency.description,
+                        );
+                        navigatorPush(
+                          context,
+                          CurrencyBuy(
+                            currency: currency,
+                            fromCard: isBalanceEmpty,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+                active: true,
+              ),
             ),
-          ),
           if (marketItem.isBalanceEmpty) ...[
             const SpaceW11(),
             Expanded(
               child: SSecondaryButton1(
-                name: 'Receive',
+                name: intl.balanceActionButtons_receive,
                 onTap: () {
                   if (kycState.withdrawalStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
@@ -96,7 +99,7 @@ class BalanceActionButtons extends HookWidget {
                     navigatorPushReplacement(
                       context,
                       CryptoDeposit(
-                        header: 'Receive',
+                        header: intl.balanceActionButtons_receive,
                         currency: currency,
                       ),
                     );
@@ -111,7 +114,7 @@ class BalanceActionButtons extends HookWidget {
                         navigatorPushReplacement(
                           context,
                           CryptoDeposit(
-                            header: 'Receive',
+                            header: intl.balanceActionButtons_receive,
                             currency: currency,
                           ),
                         );
@@ -127,7 +130,7 @@ class BalanceActionButtons extends HookWidget {
             const SpaceW11(),
             Expanded(
               child: SSecondaryButton1(
-                name: 'Sell',
+                name: intl.balanceActionButtons_sell,
                 onTap: () {
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {

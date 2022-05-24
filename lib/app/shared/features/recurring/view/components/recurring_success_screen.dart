@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/components/result_screens/success_screen/components/success_animation.dart';
@@ -10,9 +11,11 @@ import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../currency_buy/model/preview_buy_with_asset_input.dart';
 import '../../../currency_buy/view/preview_buy_with_asset.dart';
+import '../../helper/recurring_buys_operation_name.dart';
 
 class RecurringSuccessScreen extends HookWidget {
   const RecurringSuccessScreen({
@@ -38,6 +41,7 @@ class RecurringSuccessScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final shouldPop = useState(true);
 
@@ -46,7 +50,6 @@ class RecurringSuccessScreen extends HookWidget {
         return Future.value(false);
       },
       child: ProviderListener<int>(
-        // TODO: Reconsider this approach
         provider: timerNotipod(3.01),
         onChange: (context, value) {
           if (value == 0 && shouldPop.value) {
@@ -65,7 +68,7 @@ class RecurringSuccessScreen extends HookWidget {
                 baseline: 136.0,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
-                  'Success',
+                  intl.recurringSuccessScreen_success,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: sTextH2Style,
@@ -75,7 +78,7 @@ class RecurringSuccessScreen extends HookWidget {
                 baseline: 31.4,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
-                  'Order processing',
+                  intl.recurringSuccessScreen_orderProcessing,
                   maxLines: 10,
                   textAlign: TextAlign.center,
                   style: sBodyText1Style.copyWith(
@@ -86,12 +89,17 @@ class RecurringSuccessScreen extends HookWidget {
               const Spacer(),
               SSecondaryButton1(
                 active: true,
-                name: 'Setup recurring buy',
+                name: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                 onTap: () {
                   shouldPop.value = false;
 
-                  showActionWithOutRecurringBuy(
-                    title: 'Setup recurring buy',
+                  sAnalytics.setupRecurringBuyView(
+                    input.toCurrency.description,
+                    Source.successScreen,
+                  );
+
+                  showActionWithoutRecurringBuy(
+                    title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                     then: (_) {
                       if (!shouldPop.value) navigateToRouter(context.read);
                       shouldPop.value = false;
@@ -99,6 +107,12 @@ class RecurringSuccessScreen extends HookWidget {
                     context: context,
                     onItemTap: (recurringType) {
                       shouldPop.value = true;
+
+                      sAnalytics.pickRecurringBuyFrequency(
+                        assetName: input.toCurrency.description,
+                        frequency: recurringType.toFrequency,
+                        source: Source.successScreen,
+                      );
 
                       navigatorPushReplacement(
                         context,
@@ -115,6 +129,10 @@ class RecurringSuccessScreen extends HookWidget {
                         ),
                       );
                     },
+                    onDissmis: () => sAnalytics.closeRecurringBuySheet(
+                      input.toCurrency.description,
+                      Source.successScreen,
+                    ),
                   );
                 },
               ),

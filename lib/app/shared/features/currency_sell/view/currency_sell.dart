@@ -8,6 +8,7 @@ import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../helpers/input_helpers.dart';
 import '../../../models/currency_model.dart';
@@ -28,6 +29,7 @@ class CurrencySell extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(currencySellNotipod(currency));
     final notifier = useProvider(currencySellNotipod(currency).notifier);
@@ -52,11 +54,13 @@ class CurrencySell extends HookWidget {
       }
     }
 
-    void _showAssetSelector() {
+    void _showAssetSelector(BuildContext context) {
+      final intl = context.read(intlPod);
+
       sShowBasicModalBottomSheet(
         scrollable: true,
-        pinned: const SBottomSheetHeader(
-          name: 'For',
+        pinned: SBottomSheetHeader(
+          name: intl.currencySell_forText,
         ),
         children: [
           for (final currency in assetWithBalance)
@@ -121,7 +125,7 @@ class CurrencySell extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Sell ${currency.description}',
+          title: '${intl.currencySell_sell} ${currency.description}',
         ),
       ),
       child: Column(
@@ -155,7 +159,7 @@ class CurrencySell extends HookWidget {
             ),
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'Available: ${currency.volumeAssetBalance}',
+              '${intl.currencySell_available}: ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),
@@ -166,8 +170,8 @@ class CurrencySell extends HookWidget {
             SPaymentSelectDefault(
               widgetSize: widgetSizeFrom(deviceSize),
               icon: const SActionWithdrawIcon(),
-              name: 'Choose destination',
-              onTap: () => _showAssetSelector(),
+              name: intl.currencySell_chooseDestination,
+              onTap: () => _showAssetSelector(context),
             )
           else if (state.selectedCurrency!.type == AssetType.crypto)
             SPaymentSelectAsset(
@@ -180,7 +184,7 @@ class CurrencySell extends HookWidget {
                 state.baseCurrency!,
               ),
               description: state.selectedCurrency!.volumeAssetBalance,
-              onTap: () => _showAssetSelector(),
+              onTap: () => _showAssetSelector(context),
             )
           else
             SPaymentSelectFiat(
@@ -192,7 +196,7 @@ class CurrencySell extends HookWidget {
               amount: state.selectedCurrency!.volumeBaseBalance(
                 state.baseCurrency!,
               ),
-              onTap: () => _showAssetSelector(),
+              onTap: () => _showAssetSelector(context),
             ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -202,7 +206,7 @@ class CurrencySell extends HookWidget {
             widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
-            preset3Name: 'MAX',
+            preset3Name: intl.max,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
               notifier.selectPercentFromBalance(preset);
@@ -212,7 +216,7 @@ class CurrencySell extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.inputValid,
-            submitButtonName: 'Preview Sell',
+            submitButtonName: intl.currencySell_previewSell,
             onSubmitPressed: () {
               navigatorPush(
                 context,

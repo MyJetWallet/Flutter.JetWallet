@@ -10,6 +10,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../model/kyc_operation_status_model.dart';
 import '../../../notifier/choose_documents/choose_documents_notipod.dart';
 import '../../../notifier/upload_kyc_documents/upload_kyc_documents_notipod.dart';
@@ -42,6 +43,7 @@ class UploadKycDocuments extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(uploadKycDocumentsNotipod);
     final notifier = useProvider(uploadKycDocumentsNotipod.notifier);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final loader = useValueNotifier(StackLoaderNotifier());
     final loaderSuccess = useValueNotifier(StackLoaderNotifier());
@@ -56,8 +58,7 @@ class UploadKycDocuments extends HookWidget {
     );
 
     analytics(
-      () =>
-          sAnalytics.assetView(KycSource.kycUploadIdentityDocumentView.name),
+      () => sAnalytics.assetView(KycSource.kycUploadIdentityDocumentView.name),
     );
 
     return ProviderListener<UploadKycDocumentsState>(
@@ -77,11 +78,17 @@ class UploadKycDocuments extends HookWidget {
         );
       },
       child: SPageFrame(
+        loaderText: (loaderSuccess.value.value)
+            ? intl.uploadKycDocuments_done
+            : intl.uploadKycDocuments_pleaseWait,
         loading: loader.value,
         loadSuccess: loaderSuccess.value,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: 'Upload ${stringKycDocumentType(activeDocument.document)}',
+            title: '${intl.uploadKycDocuments_upload} ${stringKycDocumentType(
+              activeDocument.document,
+              context,
+            )}',
           ),
         ),
         child: Stack(
@@ -98,8 +105,8 @@ class UploadKycDocuments extends HookWidget {
                         children: [
                           Text(
                             (state.numberSide == 0)
-                                ? 'Front side'
-                                : 'Back side',
+                                ? intl.uploadKycDocuments_frontSide
+                                : intl.uploadKycDocuments_backSide,
                             style: sSubtitle2Style,
                           ),
                         ],
@@ -121,8 +128,21 @@ class UploadKycDocuments extends HookWidget {
                       ),
                       const Spacer(),
                       const SpaceH10(),
-                      const SPaddingH24(
-                        child: SDocumentsRecommendations(),
+                      SPaddingH24(
+                        child: SDocumentsRecommendations(
+                          primaryText1:
+                              intl.sDocumentRecommendation_primaryText1,
+                          primaryText2:
+                              intl.sDocumentRecommendation_primaryText2,
+                          primaryText3:
+                              intl.sDocumentRecommendation_primaryText3,
+                          primaryText4:
+                              intl.sDocumentRecommendation_primaryText4,
+                          primaryText5:
+                              intl.sDocumentRecommendation_primaryText5,
+                          primaryText6:
+                              intl.sDocumentRecommendation_primaryText6,
+                        ),
                       ),
                       const SpaceH120(),
                     ],

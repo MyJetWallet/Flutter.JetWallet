@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_simplex_details.dart';
@@ -25,6 +26,7 @@ class TransactionItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 200),
@@ -73,7 +75,7 @@ class TransactionItem extends HookWidget {
                       width: double.infinity,
                       child: Center(
                         child: Text(
-                          '${copiedText.value} copied',
+                          '${copiedText.value} ${intl.transactionItem_copied}',
                           style: sBodyText1Style.copyWith(
                             color: Colors.green,
                           ),

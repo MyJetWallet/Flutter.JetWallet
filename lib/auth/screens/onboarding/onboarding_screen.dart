@@ -50,11 +50,12 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
     final intl = context.read(intlPod);
 
     _slides = [
-      intl.onboarding_slide1,
-      intl.onboarding_slide2,
-      intl.onboarding_slide3,
-      intl.onboarding_slide4,
+      '${intl.onboarding_simpleApp}\n${intl.onboarding_forYourFinance}',
+      '${intl.onboarding_dontJustBuy}\n${intl.onboarding_cryptoEarnIt}',
+      '${intl.onboarding_tradeTwenty}\n${intl.onboarding_topCryptoAssets}',
+      '${intl.onboarding_inviteFriends}\n${intl.onboarding_andEarnMore}',
     ];
+
 
     _slidesAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {

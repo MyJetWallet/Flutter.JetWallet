@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/price_accuracy.dart';
 import '../model/preview_sell_input.dart';
@@ -47,6 +48,7 @@ class _PreviewSell extends State<PreviewSell>
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final deviceSize = useProvider(deviceSizePod);
     final state = useProvider(previewSellNotipod(widget.input));
     final notifier = useProvider(previewSellNotipod(widget.input).notifier);
@@ -101,7 +103,7 @@ class _PreviewSell extends State<PreviewSell>
                   ),
                   const Spacer(),
                   SActionConfirmText(
-                    name: 'You pay',
+                    name: intl.previewSell_youPay,
                     value: volumeFormat(
                       prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
@@ -110,7 +112,7 @@ class _PreviewSell extends State<PreviewSell>
                     ),
                   ),
                   SActionConfirmText(
-                    name: 'You get',
+                    name: intl.previewSell_youGet,
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading,
                     value: '≈ ${volumeFormat(
@@ -121,13 +123,13 @@ class _PreviewSell extends State<PreviewSell>
                     )}',
                   ),
                   SActionConfirmText(
-                    name: 'Fee',
+                    name: intl.fee,
                     baseline: 35.0,
                     contentLoading: state.union is QuoteLoading,
                     value: '${state.feePercent}%',
                   ),
                   SActionConfirmText(
-                    name: 'Exchange Rate',
+                    name: intl.previewSell_exchangeRate,
                     baseline: 34.0,
                     contentLoading: state.union is QuoteLoading,
                     timerLoading: state.union is QuoteLoading,
@@ -152,7 +154,7 @@ class _PreviewSell extends State<PreviewSell>
                   ],
                   SPrimaryButton2(
                     active: state.union is QuoteSuccess,
-                    name: 'Confirm',
+                    name: intl.previewSell_confirm,
                     onTap: () {
                       notifier.executeQuote();
                     },

@@ -55,6 +55,7 @@ class MarketDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final marketInfo = useProvider(
@@ -209,8 +210,10 @@ class MarketDetails extends HookWidget {
               RecurringBuyBanner(
                 title: recurringNotifier.recurringBannerTitle(
                   asset: currency.symbol,
+                  context: context,
                 ),
                 type: recurringNotifier.type(currency.symbol),
+                topMargin: 0,
                 onTap: () {
                   // Todo: need refactor
                   if (kycState.sellStatus ==
@@ -234,8 +237,8 @@ class MarketDetails extends HookWidget {
                         );
                       }
                     } else {
-                      showActionWithOutRecurringBuy(
-                        title: 'Setup recurring buy',
+                      showActionWithoutRecurringBuy(
+                        title: intl.recurringBuysName_empty,
                         context: context,
                         onItemTap: (RecurringBuysType type) {
                           navigatorPushReplacement(
@@ -250,6 +253,11 @@ class MarketDetails extends HookWidget {
                       );
                     }
                   } else {
+                    sAnalytics.setupRecurringBuyView(
+                      currency.description,
+                      Source.assetScreen,
+                    );
+
                     kycAlertHandler.handle(
                       status: kycState.sellStatus,
                       kycVerified: kycState,

@@ -9,6 +9,7 @@ import '../../../../../../../helpers/currency_from.dart';
 import '../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
@@ -27,6 +28,7 @@ class TransactionListItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = context.read(currenciesPod);
     final currency = currencyFrom(
@@ -55,7 +57,10 @@ class TransactionListItem extends HookWidget {
                 const SpaceW10(),
                 Expanded(
                   child: TransactionListItemHeaderText(
-                    text: _transactionItemTitle(transactionListItem),
+                    text: _transactionItemTitle(
+                      transactionListItem,
+                      context,
+                    ),
                     color: transactionListItem.status == Status.declined
                         ? colors.red
                         : colors.black,
@@ -89,13 +94,13 @@ class TransactionListItem extends HookWidget {
                   ),
                 if (transactionListItem.status == Status.inProgress)
                   TransactionListItemText(
-                    text: 'In progress...',
+                    text: '${intl.transactionListItem_balanceInProcess}...',
                     color: colors.grey2,
                   ),
                 const Spacer(),
                 if (transactionListItem.operationType == OperationType.sell)
                   TransactionListItemText(
-                    text: 'For ${volumeFormat(
+                    text: '${intl.transactionListItem_forText} ${volumeFormat(
                       prefix: currency.prefixSymbol,
                       decimal: transactionListItem.swapInfo!.buyAmount,
                       accuracy: currency.accuracy,
@@ -105,7 +110,7 @@ class TransactionListItem extends HookWidget {
                   ),
                 if (transactionListItem.operationType == OperationType.buy)
                   TransactionListItemText(
-                    text: 'With ${volumeFormat(
+                    text: '${intl.withText} ${volumeFormat(
                       prefix: currency.prefixSymbol,
                       decimal: transactionListItem.swapInfo!.sellAmount,
                       accuracy: currency.accuracy,
@@ -116,18 +121,19 @@ class TransactionListItem extends HookWidget {
                 if (transactionListItem.operationType ==
                     OperationType.simplexBuy)
                   TransactionListItemText(
-                    text: 'With \$${transactionListItem.buyInfo!.sellAmount}',
+                    text: '${intl.withText} '
+                        '\$${transactionListItem.buyInfo!.sellAmount}',
                     color: colors.grey2,
                   ),
                 if (transactionListItem.operationType ==
                     OperationType.recurringBuy)
                   TransactionListItemText(
-                    text: 'With ${volumeFormat(
+                    text: '${intl.withText} ${volumeFormat(
                       prefix: currency.prefixSymbol,
                       decimal: transactionListItem.recurringBuyInfo!.sellAmount,
                       accuracy: currency.accuracy,
                       symbol:
-                        transactionListItem.recurringBuyInfo!.sellAssetId!,
+                          transactionListItem.recurringBuyInfo!.sellAssetId!,
                     )}',
                     color: colors.grey2,
                   ),
@@ -155,28 +161,47 @@ class TransactionListItem extends HookWidget {
     );
   }
 
-  String _transactionItemTitle(OperationHistoryItem transactionListItem) {
+  String _transactionItemTitle(
+    OperationHistoryItem transactionListItem,
+    BuildContext context,
+  ) {
     if (transactionListItem.operationType == OperationType.simplexBuy) {
-      return '${operationName(OperationType.buy)}'
+      return '${operationName(
+        OperationType.buy,
+        context,
+      )}'
           ' ${transactionListItem.assetId} - '
-          '${operationName(transactionListItem.operationType)}';
+          '${operationName(
+        transactionListItem.operationType,
+        context,
+      )}';
     } else if (transactionListItem.operationType ==
         OperationType.recurringBuy) {
-      return '${transactionListItem.recurringBuyInfo!.scheduleType} '
-          '${operationName(transactionListItem.operationType)}';
+      return '${recurringBuysOperationByString(
+        transactionListItem.recurringBuyInfo!.scheduleType ?? '',
+        context,
+      )} '
+          '${operationName(
+        transactionListItem.operationType,
+        context,
+      )}';
     } else if (transactionListItem.operationType ==
         OperationType.earningDeposit) {
       if (transactionListItem.earnInfo?.totalBalance ==
           transactionListItem.balanceChange.abs()) {
-        return operationName(transactionListItem.operationType);
+        return operationName(transactionListItem.operationType, context);
       } else {
         return operationName(
           transactionListItem.operationType,
+          context,
           isToppedUp: true,
         );
       }
     } else {
-      return operationName(transactionListItem.operationType);
+      return operationName(
+        transactionListItem.operationType,
+        context,
+      );
     }
   }
 
