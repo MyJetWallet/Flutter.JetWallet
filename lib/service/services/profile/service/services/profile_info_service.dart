@@ -6,7 +6,10 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/profile_info_reponse_model.dart';
 import '../profile_service.dart';
 
-Future<ProfileInfoResponseModel> profileInfoService(Dio dio) async {
+Future<ProfileInfoResponseModel> profileInfoService(
+  Dio dio,
+  String localeName,
+) async {
   final logger = ProfileService.logger;
   const message = 'profileInfoService';
 
@@ -18,7 +21,7 @@ Future<ProfileInfoResponseModel> profileInfoService(Dio dio) async {
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return ProfileInfoResponseModel.fromJson(data);
     } catch (e) {

@@ -139,8 +139,9 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
       );
 
       final service = read(referralCodeServicePod);
+      final intl = read(intlPod);
 
-      await service.validateReferralCode(model);
+      await service.validateReferralCode(model, intl.localeName);
 
       if (!mounted) return;
 

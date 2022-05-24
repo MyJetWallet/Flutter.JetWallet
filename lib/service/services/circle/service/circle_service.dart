@@ -26,35 +26,65 @@ class CircleService {
 
   static final logger = Logger('CircleService');
 
-  Future<CircleCard> addCard(AddCardRequestModel model) {
-    return addCardService(dio, model);
+  Future<CircleCard> addCard(
+    AddCardRequestModel model,
+    String localeName,
+  ) {
+    return addCardService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
   Future<AllCardsResponseModel> allCards() {
     return allCardsService(dio);
   }
 
-  Future<CircleCard> card(CardRequestModel model) {
-    return cardService(dio, model);
+  Future<CircleCard> card(
+    CardRequestModel model,
+    String localeName,
+  ) {
+    return cardService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
   Future<CreatePaymentResponseModel> createPayment(
     CreatePaymentRequestModel model,
+    String localeName,
   ) {
-    return createPaymentService(dio, model);
+    return createPaymentService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
   Future<DeleteCardResponseModel> deleteCard(
     DeleteCardRequestModel model,
+    String localeName,
   ) {
-    return deleteCardService(dio, model);
+    return deleteCardService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
-  Future<EncryptionKeyResponseModel> encryptionKey() {
-    return encryptionKeyService(dio);
+  Future<EncryptionKeyResponseModel> encryptionKey(String localeName) {
+    return encryptionKeyService(
+      dio,
+      localeName,
+    );
   }
 
-  Future<WireCountriesResponseModel> wireCountries() {
-    return wireCountriesService(dio);
+  Future<WireCountriesResponseModel> wireCountries(String localeName) {
+    return wireCountriesService(
+      dio,
+      localeName,
+    );
   }
 }

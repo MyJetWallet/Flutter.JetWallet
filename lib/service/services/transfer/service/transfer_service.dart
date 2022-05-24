@@ -19,17 +19,22 @@ class TransferService {
 
   Future<TransferByPhoneResponseModel> transferByPhone(
     TransferByPhoneRequestModel model,
+    String localeName,
   ) {
-    return transferByPhoneService(dio, model);
+    return transferByPhoneService(dio, model, localeName);
   }
 
   Future<TransferInfoResponseModel> transferInfo(
     TransferInfoRequestModel model,
+    String localeName,
   ) {
-    return transferInfoService(dio, model);
+    return transferInfoService(dio, model, localeName);
   }
 
-  Future<void> transferResend(TransferResendRequestModel model) {
-    return transferResendService(dio, model);
+  Future<void> transferResend(
+    TransferResendRequestModel model,
+    String localeName,
+  ) {
+    return transferResendService(dio, model, localeName);
   }
 }

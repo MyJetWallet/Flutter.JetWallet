@@ -9,6 +9,7 @@ Future<void> uploadService(
   Dio dio,
   FormData formData,
   int documentType,
+  String localeName,
 ) async {
   final logger = OperationHistoryService.logger;
   const message = 'uploadService';
@@ -21,7 +22,7 @@ Future<void> uploadService(
 
     try {
       final responseData = response.data as Map<String, dynamic>;
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

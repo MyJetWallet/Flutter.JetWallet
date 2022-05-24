@@ -95,7 +95,12 @@ class NewsNotifier extends StateNotifier<NewsState> {
   Future<NewsResponseModel> _requestNews(NewsRequestModel model) {
     state = state.copyWith(union: const Loading());
 
-    return read(newsServicePod).news(model);
+    final intl = read(intlPod);
+
+    return read(newsServicePod).news(
+      model,
+      intl.localeName,
+    );
   }
 
   void _scrollDown(ScrollController? scrollController) {

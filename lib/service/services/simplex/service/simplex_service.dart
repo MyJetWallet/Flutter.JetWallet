@@ -14,7 +14,8 @@ class SimplexService {
 
   Future<SimplexPaymentResponseModel> payment(
     SimplexPaymentRequestModel model,
+    String localeName,
   ) {
-    return paymentService(dio, model);
+    return paymentService(dio, model, localeName);
   }
 }

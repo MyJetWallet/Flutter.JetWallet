@@ -92,7 +92,8 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
     state.loader!.startLoading();
 
     try {
-      final response = await read(circleServicePod).encryptionKey();
+      final response =
+          await read(circleServicePod).encryptionKey(intl.localeName);
 
       final base64Decoded = base64Decode(response.encryptionKey);
       final utf8Decoded = utf8.decode(base64Decoded);
@@ -120,7 +121,10 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
         expYear: int.parse('20${expDate[1]}'),
       );
 
-      await read(circleServicePod).addCard(model);
+      await read(circleServicePod).addCard(
+        model,
+        intl.localeName,
+      );
       state.loader!.finishLoading(onFinish: onSuccess);
     } on ServerRejectException catch (error) {
       read(sNotificationNotipod.notifier).showError(

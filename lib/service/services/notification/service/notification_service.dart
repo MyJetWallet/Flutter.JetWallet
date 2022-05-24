@@ -11,7 +11,10 @@ class NotificationService {
 
   static final logger = Logger('NotificationService');
 
-  Future<void> registerToken(RegisterTokenRequestModel model) {
-    return registerTokenService(dio, model);
+  Future<void> registerToken(
+    RegisterTokenRequestModel model,
+    String localeName,
+  ) {
+    return registerTokenService(dio, model, localeName);
   }
 }

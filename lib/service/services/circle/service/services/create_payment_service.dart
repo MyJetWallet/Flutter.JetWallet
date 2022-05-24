@@ -10,6 +10,7 @@ import '../circle_service.dart';
 Future<CreatePaymentResponseModel> createPaymentService(
   Dio dio,
   CreatePaymentRequestModel model,
+  String localeName,
 ) async {
   final logger = CircleService.logger;
   const message = 'createPaymentService';
@@ -23,7 +24,10 @@ Future<CreatePaymentResponseModel> createPaymentService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(
+        responseData,
+        localeName,
+      );
 
       return CreatePaymentResponseModel.fromJson(data);
     } catch (e) {

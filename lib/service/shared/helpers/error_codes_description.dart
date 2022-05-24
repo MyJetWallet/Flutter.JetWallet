@@ -1,4 +1,4 @@
-final errorCodesDescription = {
+final errorCodesDescriptionEn = {
   'InternalServerError': 'Something went wrong. Please try again later.',
   'WalletDoNotExist': 'Wallet is not found.',
   'CannotProcessWithdrawal':
@@ -41,3 +41,63 @@ final errorCodesDescription = {
   'CardCvvInvalid': 'Invalid CVV code',
   'CardExpired': 'Card is expired',
 };
+
+final errorCodesDescriptionRu = {
+  'InternalServerError':
+      'Что-то пошло не так. Пожалуйста, повторите попытку позже.',
+  'WalletDoNotExist': 'Кошелек не найден.',
+  'CannotProcessWithdrawal':
+      'Запрос на вывод средств не выполнен. Пожалуйста, повторите попытку'
+          ' позже.',
+  'AddressIsNotValid': 'Неверный адрес.',
+  'AssetDoNotFound': 'Актив не найден.',
+  'AssetIsDisabled':
+      'Торговля этим активом сейчас недоступна. Пожалуйста, повторите попытку'
+          ' позже.',
+  'AmountIsSmall': 'Ваша сумма слишком мала.',
+  'InvalidInstrument': 'Актив не поддерживается.',
+  'KycNotPassed':
+      'Ваш аккаунт не подтвержден. Завершите проверку KYC прямо сейчас.',
+  'AssetDoNotSupported':
+      'Торговля этим активом сейчас недоступна. Пожалуйста, повторите попытку'
+          ' позже.',
+  'AmountToLarge': 'Сумма большая',
+  'NotSupported':
+      'Не удалось загрузить адрес кошелька. Повторите попытку через мгновение.',
+  'PaymentFailed':
+      'Платеж не прошел. Повторите попытку позже или обратитесь в службу'
+          ' поддержки.',
+
+  //Auth
+  'InvalidUserNameOrPassword': 'Неправильный логин или пароль',
+  'UserNotExist': 'Пользователь не найден',
+  'OldPasswordNotMatch': 'Вы ввели неправильный текущий пароль',
+  'Expired': 'Срок действия сеанса истек. Пожалуйста, войдите снова',
+  'CountryIsRestricted': 'Регистрация из вашей страны запрещена',
+  'SocialNetworkNotSupported': 'Социальная сеть недоступна для авторизации',
+  'SocialNetworkNotAvailable': 'Социальная сеть недоступна для авторизации',
+  'BrandNotFound': 'Что-то пошло не так. Пожалуйста, попробуйте еще раз',
+  'InvalidToken': 'Неверный токен. Пожалуйста, войдите снова',
+  'RecaptchaFailed':
+      'Проверка CAPTCHA не удалась. Пожалуйста, попробуйте еще раз',
+
+  //Circle, Cards
+  'InvalidBillingName': 'Неправильное имя',
+  'InvalidBillingCity': 'Неверный город',
+  'InvalidBillingCountry': 'Неверная страна',
+  'InvalidBillingDistrict': 'Неверный район',
+  'InvalidBillingPostalCode': 'Неверный почтовый индекс',
+  'InvalidExpMonth': 'Неверный месяц истечения срока действия',
+  'InvalidExpYear': 'Неверный год истечения срока действия',
+  'CardCvvInvalid': 'Неверный код CVV',
+  'CardExpired': 'Срок действия карты истек',
+};
+
+const emailPasswordIncorrectEn =
+    'The email or password you entered is incorrect';
+
+const emailPasswordIncorrectRu =
+    'Электронная почта или пароль, которые вы ввели, неверны';
+
+const attemptsRemainingEn = 'осталось попыток';
+const attemptsRemainingRu = 'осталось попыток';

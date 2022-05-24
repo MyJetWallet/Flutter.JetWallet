@@ -14,7 +14,8 @@ class NewsService {
 
   Future<NewsResponseModel> news(
     NewsRequestModel model,
+    String localeName,
   ) {
-    return newsService(dio, model);
+    return newsService(dio, model, localeName);
   }
 }
