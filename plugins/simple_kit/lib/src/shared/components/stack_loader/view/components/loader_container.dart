@@ -4,7 +4,12 @@ import '../../../../../../simple_kit.dart';
 import '../../../../../colors/view/simple_colors_light.dart';
 
 class LoaderContainer extends StatelessWidget {
-  const LoaderContainer({Key? key}) : super(key: key);
+  const LoaderContainer({
+    Key? key,
+    this.loadingText,
+  }) : super(key: key);
+
+  final String? loadingText;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class LoaderContainer extends StatelessWidget {
               baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Please wait ...',
+                '${loadingText ?? "Please wait"} ...',
                 style: sBodyText2Style,
               ),
             ),

@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/providers/package_info_fpod.dart';
+import '../../../../shared/providers/service_providers.dart';
 
 class AppVersionBox extends HookWidget {
   const AppVersionBox({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class AppVersionBox extends HookWidget {
   Widget build(BuildContext context) {
     final packageInfo = useProvider(packageInfoFpod);
     final colors = useProvider(sColorPod);
+    final intl = useProvider(intlPod);
 
     return packageInfo.when(
       data: (PackageInfo info) {
@@ -28,7 +30,8 @@ class AppVersionBox extends HookWidget {
           alignment: Alignment.center,
           height: 26.0,
           child: Text(
-            'Version: ${info.version} (${info.buildNumber})',
+            '${intl.appVersionBox_version}: ${info.version}'
+            ' (${info.buildNumber})',
             style: sCaptionTextStyle.copyWith(
               color: colors.grey1,
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../../../colors/view/simple_colors_light.dart';
 
 import 'components/keyboard_key_detector.dart';
 import 'components/keyboard_key_size.dart';
@@ -28,12 +29,20 @@ class KeyboardIcon extends HookWidget {
     return KeyboardKeySize(
       child: hide ?? false
           ? const SizedBox()
-          : KeyboardKeyDetector(
-              onTap: () => onPressed(realValue),
-              onHighlightChanged: (value) {
-                highlighted.value = value;
-              },
-              child: highlighted.value ? pressedIcon : activeIcon,
+          : Container(
+              decoration: BoxDecoration(
+                color: highlighted.value
+                    ? SColorsLight().white
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: KeyboardKeyDetector(
+                onTap: () => onPressed(realValue),
+                onHighlightChanged: (value) {
+                  highlighted.value = value;
+                },
+                child: highlighted.value ? pressedIcon : activeIcon,
+              ),
             ),
     );
   }

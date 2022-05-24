@@ -10,6 +10,7 @@ import '../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/open_email_app.dart';
 import '../../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../models/currency_model.dart';
 import '../../notifier/send_by_phone_confirm_notifier/send_by_phone_confirm_notipod.dart';
@@ -43,6 +44,7 @@ class SendByPhoneConfirm extends HookWidget {
     final loader = useValueNotifier(StackLoaderNotifier());
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final authInfo = useProvider(authInfoNotipod);
 
@@ -75,8 +77,8 @@ class SendByPhoneConfirm extends HookWidget {
       },
       child: SPageFrameWithPadding(
         loading: loader.value,
-        header: const SMegaHeader(
-          title: 'Confirm Send request',
+        header: SMegaHeader(
+          title: intl.sendByPhoneConfirm_confirmSendRequest,
           titleAlign: TextAlign.start,
           showBackButton: false,
         ),
@@ -87,8 +89,7 @@ class SendByPhoneConfirm extends HookWidget {
               baseline: 24.0,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                'Confirm your send request by opening the link in '
-                'the email we sent to:',
+                '${intl.sendByPhoneConfirm_description}:',
                 maxLines: 3,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,
@@ -102,7 +103,7 @@ class SendByPhoneConfirm extends HookWidget {
             ),
             const SpaceH16(),
             SClickableLinkText(
-              text: 'Open email app',
+              text: intl.sendByPhoneConfirm_openEmailApp,
               onTap: () => openEmailApp(context),
             ),
             const SpaceH29(),
@@ -130,11 +131,15 @@ class SendByPhoneConfirm extends HookWidget {
                   onSuccess: timerN.refreshTimer,
                 );
               },
+              text1: intl.sendByPhoneConfirm_youCanResendIn,
+              text2: intl.sendByPhoneConfirm_seconds,
+              text3: intl.sendByPhoneConfirm_didntReceiveTheCode,
+              textResend: intl.sendByPhoneConfirm_resend,
             ),
             const Spacer(),
             SSecondaryButton1(
               active: true,
-              name: 'Cancel Request',
+              name: intl.sendByPhoneConfirm_cancelRequest,
               onTap: () => navigateToRouter(context.read),
             ),
             const SpaceH24(),
