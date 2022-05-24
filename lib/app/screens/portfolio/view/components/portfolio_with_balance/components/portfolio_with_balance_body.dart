@@ -342,8 +342,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                         ],
                         if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 27.5,
+                            padding: EdgeInsets.only(
+                              top: showZeroBalanceWallets.state ? 10 : 27.5,
                             ),
                             child: Center(
                               child: InkWell(
