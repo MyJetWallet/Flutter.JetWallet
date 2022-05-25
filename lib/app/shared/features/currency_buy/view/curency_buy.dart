@@ -126,7 +126,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 name: intl.curencyBuy_actionItemName,
                 description: intl.curencyBuy_actionItemDescription,
                 onTap: () => Navigator.pop(context, method),
-                helper: '≈10-30 min',
+                helper: '≈10-30 ${intl.min}',
               ),
             ],
           const SpaceH40(),
