@@ -55,15 +55,17 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
           small: () {
             return SSmallHeader(
               title: '${intl.preview_earn_buy_confirm} '
-                  '${widget.input.topUp ? intl.preview_earn_buy_top_up : widget
-                  .input.earnOffer.title}',
+                  '${widget.input.topUp
+                  ? intl.preview_earn_buy_top_up
+                  : widget.input.earnOffer.title}',
             );
           },
           medium: () {
             return SMegaHeader(
               title:
-                  '${intl.preview_earn_buy_confirm} ${widget.input.topUp ? intl
-                      .preview_earn_buy_top_up : widget.input.earnOffer.title}',
+                  '${intl.preview_earn_buy_confirm} ${widget.input.topUp
+                      ? intl.preview_earn_buy_top_up
+                      : widget.input.earnOffer.title}',
               crossAxisAlignment: CrossAxisAlignment.center,
             );
           },
@@ -87,7 +89,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                         '${widget.input.topUp
                             ? intl.preview_earn_buy_top_up
                             : intl.preview_earn_buy_subscription} '
-                            '${intl.preview_earn_buy_amount}',
+                        '${intl.preview_earn_buy_amount}',
                     baseline: deviceSize.when(
                       small: () => 29,
                       medium: () => 40,
@@ -184,7 +186,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     medium: () => const SpaceH36(),
                   ),
                   SPrimaryButton2(
-                    active: true,
+                    active: state.union is QuoteSuccess,
                     name: intl.preview_earn_buy_confirm,
                     onTap: () {
                       notifier.earnOfferDeposit(widget.input.earnOffer.offerId);

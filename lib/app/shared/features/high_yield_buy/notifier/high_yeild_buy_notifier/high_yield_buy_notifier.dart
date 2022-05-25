@@ -171,6 +171,9 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
         } else if (response.amountTooLow) {
           _updateInputError(InputError.amountTooLow);
           _updateInputValid(false);
+        } else {
+          _updateInputError(InputError.none);
+          _updateInputValid(true);
         }
       }
     } on ServerRejectException catch (error) {

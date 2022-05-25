@@ -32,6 +32,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
     final deviceSize = useProvider(deviceSizePod);
     final notifier =
         useProvider(previewReturnToWalletNotipod(widget.input).notifier);
+    final state = useProvider(previewReturnToWalletNotipod(widget.input));
     final loader = useValueNotifier(StackLoaderNotifier());
 
     final from = widget.input.fromCurrency;
@@ -122,7 +123,7 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                     medium: () => const SpaceH16(),
                   ),
                   SPrimaryButton2(
-                    active: true,
+                    active: state.union is QuoteSuccess,
                     name: intl.preview_return_to_wallet_confirm,
                     onTap: () {
                       notifier.earnOfferWithdrawal(
