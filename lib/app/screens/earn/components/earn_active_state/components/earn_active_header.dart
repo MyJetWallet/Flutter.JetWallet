@@ -22,6 +22,25 @@ class EarnActiveHeader extends HookWidget {
     final earnProfile = useProvider(earnProfileNotipod);
     final baseCurrency = useProvider(baseCurrencyPod);
 
+    var checkSizeOfText = sTextH1Style;
+    final lengthForCheck = volumeFormat(
+      prefix: baseCurrency.prefix,
+      decimal: earnProfile
+          .earnProfile
+          ?.earnBalance ??
+          Decimal.zero,
+      symbol: baseCurrency.symbol,
+      accuracy: baseCurrency.accuracy,
+    ).length;
+
+    if (lengthForCheck > 15) {
+      checkSizeOfText = sTextH4Style;
+    } else if (lengthForCheck > 12) {
+      checkSizeOfText = sTextH3Style;
+    } else if (lengthForCheck > 9) {
+      checkSizeOfText = sTextH2Style;
+    }
+
     return SizedBox(
       height: 180,
       width: double.infinity,
@@ -36,6 +55,10 @@ class EarnActiveHeader extends HookWidget {
             child: Column(
               children: [
                 Table(
+                  columnWidths: const {
+                    0: FlexColumnWidth(),
+                    1: FixedColumnWidth(140),
+                  },
                   children: [
                     TableRow(
                       children: [
@@ -53,7 +76,7 @@ class EarnActiveHeader extends HookWidget {
                                   symbol: baseCurrency.symbol,
                                   accuracy: baseCurrency.accuracy,
                                 ),
-                                style: sTextH1Style.copyWith(
+                                style: checkSizeOfText.copyWith(
                                   color: colors.black,
                                 ),
                               ),
@@ -78,7 +101,7 @@ class EarnActiveHeader extends HookWidget {
                                     '${earnProfile
                                         .earnProfile
                                         ?.averageApy ?? 0}%',
-                                    style: sTextH1Style.copyWith(
+                                    style: checkSizeOfText.copyWith(
                                       color: colors.black,
                                     ),
                                   ),
@@ -112,7 +135,15 @@ class EarnActiveHeader extends HookWidget {
                                   symbol: baseCurrency.symbol,
                                   accuracy: baseCurrency.accuracy,
                                 )
-                                }/${earnProfile.earnProfile?.yearEarnProfit}',
+                                } (${volumeFormat(
+                                  prefix: baseCurrency.prefix,
+                                  decimal: earnProfile
+                                      .earnProfile
+                                      ?.yearEarnProfit ??
+                                      Decimal.zero,
+                                  symbol: baseCurrency.symbol,
+                                  accuracy: baseCurrency.accuracy,
+                                )})',
                                 style: sSubtitle2Style.copyWith(
                                   color: colors.black,
                                 ),

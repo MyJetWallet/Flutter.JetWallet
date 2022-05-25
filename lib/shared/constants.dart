@@ -45,3 +45,4 @@ const disclaimerAsset = 'assets/images/disclaimer.png';
 
 // Earn
 const earnBackgroundImageAsset = 'assets/images/earn_background.png';
+const earnEmptyStateImage = 'assets/images/earn_empty.png';
