@@ -8,7 +8,10 @@
 		<string>Russia</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<array>
+        <string>en-US</string>
+        <string>ru-RU</string>
+    </array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -52,11 +55,11 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Security and fraud prevention reasons</string>
 	<key>NSContactsUsageDescription</key>
-	<string>This app requires contacts access to function properly.</string>
+	<string>This app requires contacts access to function properly</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>We need your face ID</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>Your data will be used by our ad partners to improve and personalize your ad experience.</string>
+	<string>Your data will be used by our ad partners to improve and personalize your ad experience</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
