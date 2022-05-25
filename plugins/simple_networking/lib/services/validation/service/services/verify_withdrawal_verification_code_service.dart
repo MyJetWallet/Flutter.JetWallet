@@ -9,6 +9,7 @@ import '../validation_service.dart';
 Future<void> verifyWithdrawalVerificationCodeService(
   Dio dio,
   VerifyWithdrawalVerificationCodeRequestModel model,
+  String localeName,
 ) async {
   final logger = ValidationService.logger;
   const message = 'verifyWithdrawalVerificationCodeService';
@@ -22,7 +23,7 @@ Future<void> verifyWithdrawalVerificationCodeService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message, e);
       rethrow;

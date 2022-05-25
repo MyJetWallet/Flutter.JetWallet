@@ -9,6 +9,7 @@ import '../../model/send_email_verification_code_request_model.dart';
 Future<void> sendEmailVerificationCodeService(
   Dio dio,
   SendEmailVerificationCodeRequestModel model,
+  String localeName,
 ) async {
   final logger = AuthenticationService.logger;
   const message = 'emailVerificationService';
@@ -22,7 +23,7 @@ Future<void> sendEmailVerificationCodeService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message, e);
       rethrow;

@@ -14,7 +14,8 @@ class OperationHistoryService {
 
   Future<OperationHistoryResponseModel> operationHistory(
     OperationHistoryRequestModel model,
+    String localeName,
   ) {
-    return operationHistoryService(dio, model);
+    return operationHistoryService(dio, model, localeName);
   }
 }

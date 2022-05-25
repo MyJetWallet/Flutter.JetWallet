@@ -19,27 +19,36 @@ class TwoFaService {
 
   static final logger = Logger('TwoFaService');
 
-  Future<void> requestVerification(TwoFaVerificationRequestModel model) {
-    return twoFaRequestVerificationService(dio, model);
+  Future<void> requestVerification(
+    TwoFaVerificationRequestModel model,
+    String localeName,
+  ) {
+    return twoFaRequestVerificationService(dio, model, localeName);
   }
 
-  Future<void> requestEnable(TwoFaVerificationRequestModel model) {
-    return twoFaRequestEnableService(dio, model);
+  Future<void> requestEnable(
+    TwoFaVerificationRequestModel model,
+    String localeName,
+  ) {
+    return twoFaRequestEnableService(dio, model, localeName);
   }
 
-  Future<void> requestDisable(TwoFaVerificationRequestModel model) {
-    return twoFaRequestDisableService(dio, model);
+  Future<void> requestDisable(
+    TwoFaVerificationRequestModel model,
+    String localeName,
+  ) {
+    return twoFaRequestDisableService(dio, model, localeName);
   }
 
-  Future<void> verify(TwoFaVerifyRequestModel model) {
-    return twoFaVerifyService(dio, model);
+  Future<void> verify(TwoFaVerifyRequestModel model, String localeName) {
+    return twoFaVerifyService(dio, model, localeName);
   }
 
-  Future<void> enable(TwoFaEnableRequestModel model) {
-    return twoFaEnableService(dio, model);
+  Future<void> enable(TwoFaEnableRequestModel model, String localeName) {
+    return twoFaEnableService(dio, model, localeName);
   }
 
-  Future<void> disable(TwoFaDisableRequestModel model) {
-    return twoFaDisableService(dio, model);
+  Future<void> disable(TwoFaDisableRequestModel model, String localeName) {
+    return twoFaDisableService(dio, model, localeName);
   }
 }

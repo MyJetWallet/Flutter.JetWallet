@@ -12,7 +12,10 @@ class MarketInfoService {
 
   static final logger = Logger('MarketInfoService');
 
-  Future<MarketInfoResponseModel> marketInfo(MarketInfoRequestModel model) {
+  Future<MarketInfoResponseModel> marketInfo(
+    MarketInfoRequestModel model,
+    String localeName,
+  ) {
     return marketInfoService(dio, model);
   }
 }

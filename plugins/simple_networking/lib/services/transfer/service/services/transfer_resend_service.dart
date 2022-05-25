@@ -9,6 +9,7 @@ import '../transfer_service.dart';
 Future<void> transferResendService(
   Dio dio,
   TransferResendRequestModel model,
+  String localeName,
 ) async {
   final logger = TransferService.logger;
   const message = 'transferResendService';
@@ -22,7 +23,7 @@ Future<void> transferResendService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

@@ -10,6 +10,7 @@ import '../swap_service.dart';
 Future<GetQuoteResponseModel> getQuoteService(
   Dio dio,
   GetQuoteRequestModel model,
+  String localeName,
 ) async {
   final logger = SwapService.logger;
   const message = 'getQuoteService';
@@ -23,7 +24,7 @@ Future<GetQuoteResponseModel> getQuoteService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return GetQuoteResponseModel.fromJson(data);
     } catch (e) {

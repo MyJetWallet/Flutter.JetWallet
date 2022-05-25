@@ -47,6 +47,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   Future<void> withdraw() async {
     _logger.log(notifier, 'withdraw');
 
+    final intl = read(intlPod);
     state = state.copyWith(loading: true);
 
     try {
@@ -58,7 +59,10 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
         blockchain: state.blockchain.id,
       );
 
-      final response = await read(blockchainServicePod).withdraw(model);
+      final response = await read(blockchainServicePod).withdraw(
+        model,
+        intl.localeName,
+      );
 
       _updateOperationId(response.operationId);
 

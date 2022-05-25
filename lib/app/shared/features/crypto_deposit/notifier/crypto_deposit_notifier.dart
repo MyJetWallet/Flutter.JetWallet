@@ -56,6 +56,8 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
   }
 
   Future<void> _requestDepositAddress() async {
+    final intl = read(intlPod);
+
     state = state.copyWith(union: const Loading());
 
     try {
@@ -66,7 +68,10 @@ class CryptoDepositNotifier extends StateNotifier<CryptoDepositState> {
         blockchain: state.network.id,
       );
 
-      final response = await service.depositAddress(model);
+      final response = await service.depositAddress(
+        model,
+        intl.localeName,
+      );
 
       if (response.address == null) {
         throw 'Address is Null';

@@ -74,7 +74,8 @@ class SendByPhoneConfirmNotifier
         operationId: _operationId,
       );
 
-      await service.transferResend(model);
+      final intl = read(intlPod);
+      await service.transferResend(model, intl.localeName);
 
       if (!mounted) return;
       _updateIsResending(false);
@@ -99,6 +100,7 @@ class SendByPhoneConfirmNotifier
 
     try {
       final service = read(validationServicePod);
+      final intl = read(intlPod);
 
       final model = VerifyWithdrawalVerificationCodeRequestModel(
         operationId: _operationId,
@@ -106,7 +108,7 @@ class SendByPhoneConfirmNotifier
         brand: 'simple',
       );
 
-      await service.verifyTransferVerificationCode(model);
+      await service.verifyTransferVerificationCode(model, intl.localeName);
 
       state = state.copyWith(union: const Input());
 

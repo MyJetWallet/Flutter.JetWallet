@@ -10,6 +10,7 @@ import '../transfer_service.dart';
 Future<TransferInfoResponseModel> transferInfoService(
   Dio dio,
   TransferInfoRequestModel model,
+  String localeName,
 ) async {
   final logger = TransferService.logger;
   const message = 'transferInfoService';
@@ -23,7 +24,7 @@ Future<TransferInfoResponseModel> transferInfoService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return TransferInfoResponseModel.fromJson(data);
     } catch (e) {

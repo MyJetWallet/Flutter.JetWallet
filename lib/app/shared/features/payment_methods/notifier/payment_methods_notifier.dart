@@ -43,10 +43,15 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
   Future<void> deleteCard(String cardId) async {
     _logger.log(notifier, 'deleteCard');
 
+    final intl = read(intlPod);
+
     try {
       final model = DeleteCardRequestModel(cardId: cardId);
 
-      await read(circleServicePod).deleteCard(model);
+      await read(circleServicePod).deleteCard(
+        model,
+        intl.localeName,
+      );
 
       _deleteCardFromCardsBy(cardId);
     } catch (e) {

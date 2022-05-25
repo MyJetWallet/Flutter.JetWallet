@@ -6,7 +6,10 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/session_info_response_model.dart';
 import '../info_service.dart';
 
-Future<SessionInfoResponseModel> sessionInfoService(Dio dio) async {
+Future<SessionInfoResponseModel> sessionInfoService(
+  Dio dio,
+  String localeName,
+) async {
   final logger = InfoService.logger;
   const message = 'sessionInfoService';
 
@@ -18,7 +21,7 @@ Future<SessionInfoResponseModel> sessionInfoService(Dio dio) async {
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return SessionInfoResponseModel.fromJson(data);
     } catch (e) {

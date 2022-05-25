@@ -5,10 +5,13 @@ import 'timespan_to_duration.dart';
 /// Handles common response with [result] and [data] from the API
 /// If data is a primitive type then pass [T] as primitive type
 /// else pass just [Map] in the generic field
-Map<String, dynamic> handleFullResponse<T>(Map<String, dynamic> json) {
+Map<String, dynamic> handleFullResponse<T>(
+  Map<String, dynamic> json,
+  String localName,
+) {
   final result = json['result'] as String;
 
-  _validateFullResponse(result, json);
+  _validateFullResponse(result, json, localName);
 
   final data = json['data'];
 
@@ -20,43 +23,65 @@ Map<String, dynamic> handleFullResponse<T>(Map<String, dynamic> json) {
 }
 
 /// Handles common response with just [result] from the API
-void handleResultResponse(Map<String, dynamic> json) {
+void handleResultResponse(Map<String, dynamic> json, String localName,) {
   final result = json['result'] as String;
 
   _validateResultResponse(result);
 }
 
-void _validateFullResponse(String result, Map<String, dynamic> json) {
+void _validateFullResponse(
+  String result,
+  Map<String, dynamic> json,
+  String localName,
+) {
   if (result == 'OperationBlocked') {
     final data = json['data'] as Map<String, dynamic>;
     final blocker = data['blocker'] as Map<String, dynamic>;
     final expired = blocker['expired'] as String;
 
     throw ServerRejectException(_blockerMessage(timespanToDuration(expired)));
-  } else if (result == 'InvalidUserNameOrPassword') {
+  } else if (result == 'InvalidUserNameOrPassword1') {
     final data = json['data'] as Map<String, dynamic>;
     final attempts = data['attempts'] as Map<String, dynamic>?;
 
     if (attempts == null) {
-      throw const ServerRejectException(
-        'The email or password you entered is incorrect.',
-      );
+      if (localName == 'ru') {
+        throw const ServerRejectException(
+          '$emailPasswordIncorrectRu.',
+        );
+      } else {
+        throw const ServerRejectException(
+          '$emailPasswordIncorrectEn.',
+        );
+      }
+
     } else {
       final left = attempts['left'] as int;
 
-      throw ServerRejectException(
-        'The email or password you entered is incorrect, '
-        '$left attempts remaining.',
-      );
+      if (localName == 'ru') {
+        throw ServerRejectException(
+          '$emailPasswordIncorrectRu, '
+              '$left $attemptsRemainingRu.',
+        );
+      } else {
+        throw ServerRejectException(
+          '$emailPasswordIncorrectEn, '
+              '$left $attemptsRemainingEn.',
+        );
+      }
     }
   } else if (result != 'OK') {
-    throw ServerRejectException(errorCodesDescription[result] ?? result);
+    if (localName == 'ru') {
+      throw ServerRejectException(errorCodesDescriptionRu[result] ?? result);
+    } else {
+      throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
+    }
   }
 }
 
 void _validateResultResponse(String result) {
   if (result != 'OK') {
-    throw ServerRejectException(errorCodesDescription[result] ?? result);
+    throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
 }
 

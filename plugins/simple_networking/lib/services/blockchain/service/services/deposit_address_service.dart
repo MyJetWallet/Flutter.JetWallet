@@ -10,6 +10,7 @@ import '../blockchain_service.dart';
 Future<DepositAddressResponseModel> depositAddressService(
   Dio dio,
   DepositAddressRequestModel model,
+  String localeName,
 ) async {
   final logger = BlockchainService.logger;
   const message = 'depositAddressService';
@@ -23,7 +24,10 @@ Future<DepositAddressResponseModel> depositAddressService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(
+        responseData,
+        localeName,
+      );
 
       return DepositAddressResponseModel.fromJson(data);
     } catch (e) {

@@ -10,6 +10,7 @@ Future<ConversionPriceModel> conversionPriceService(
   Dio dio,
   String baseAssetSymbol,
   String quotedAssetSymbol,
+  String localeName,
 ) async {
   final logger = WalletService.logger;
   const message = 'conversionPriceService';
@@ -22,7 +23,7 @@ Future<ConversionPriceModel> conversionPriceService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return ConversionPriceModel.fromJson(data);
     } catch (e) {

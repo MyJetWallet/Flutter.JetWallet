@@ -45,16 +45,14 @@ class WithdrawalPreview extends HookWidget {
         header: deviceSize.when(
           small: () {
             return SSmallHeader(
-              title:
-                  '${intl.withdrawalPreview_confirm} $verb'
-                      ' ${currency.description}',
+              title: '${intl.withdrawalPreview_confirm} $verb'
+                  ' ${currency.description}',
             );
           },
           medium: () {
             return SMegaHeader(
-              title:
-                  '${intl.withdrawalPreview_confirm} $verb'
-                      ' ${currency.description}',
+              title: '${intl.withdrawalPreview_confirm} $verb'
+                  ' ${currency.description}',
             );
           },
         ),
@@ -73,7 +71,7 @@ class WithdrawalPreview extends HookWidget {
                     value: shortAddressForm(state.address),
                   ),
                   SActionConfirmText(
-                    name: intl.withdrawalPreview_youWillReceive,
+                    name: intl.withdrawalPreview_youWillSend,
                     baseline: 36.0,
                     value: userWillreceive(
                       currency: currency,

@@ -205,7 +205,7 @@ final kycAlertHandlerPod =
 final kycServicePod = Provider<KycService>((ref) {
   final dio = ref.watch(dioPod);
 
-  return KycService(dio);
+  return KycService(dio, 'en');
 });
 
 final kycDocumentsServicePod = Provider<KycDocumentsService>((ref) {

@@ -84,6 +84,8 @@ class ChartNotifier extends StateNotifier<ChartState> {
   Future<void> fetchBalanceCandles(String resolution) async {
     _logger.log(notifier, 'fetchBalanceCandles');
 
+    final intl = read(intlPod);
+
     try {
       state = state.copyWith(union: const Loading());
 
@@ -92,7 +94,10 @@ class ChartNotifier extends StateNotifier<ChartState> {
         period: timeLengthFrom(resolution),
       );
 
-      final walletHistory = await read(chartServicePod).walletHistory(model);
+      final walletHistory = await read(chartServicePod).walletHistory(
+        model,
+        intl.localeName,
+      );
       updateCandles(candlesFrom(walletHistory.graph), resolution);
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);

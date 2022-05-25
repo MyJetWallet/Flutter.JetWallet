@@ -53,7 +53,6 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
     _logger.log(notifier, 'resetPassword');
 
     final context = read(sNavigatorKeyPod).currentContext!;
-    final intl = read(intlPod);
 
     try {
       state = state.copyWith(union: const Loading());
@@ -64,7 +63,8 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
         code: args.code,
       );
 
-      await read(authServicePod).recoverPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).recoverPassword(model, intl.localeName);
 
       SuccessScreen.push(
         context: context,

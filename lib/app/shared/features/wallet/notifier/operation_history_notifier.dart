@@ -94,9 +94,11 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     OperationHistoryRequestModel model,
   ) {
     state = state.copyWith(union: const Loading());
+    final intl = read(intlPod);
 
     return read(operationHistoryServicePod).operationHistory(
       model,
+      intl.localeName,
     );
   }
 }

@@ -10,6 +10,7 @@ import '../chart_service.dart';
 Future<WalletHistoryResponseModel> walletHistoryService(
   Dio dio,
   WalletHistoryRequestModel model,
+  String localeName,
 ) async {
   final logger = ChartService.logger;
   const message = 'walletHistoryService';
@@ -23,7 +24,7 @@ Future<WalletHistoryResponseModel> walletHistoryService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName,);
 
       return WalletHistoryResponseModel.fromJson(data);
     } catch (e) {

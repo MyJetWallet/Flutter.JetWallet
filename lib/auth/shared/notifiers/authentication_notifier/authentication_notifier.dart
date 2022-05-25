@@ -80,10 +80,16 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       AuthenticationResponseModel authModel;
 
       if (operation == AuthOperation.login) {
-        authModel = await authService.login(loginRequest);
+        authModel = await authService.login(
+          loginRequest,
+          intl.localeName,
+        );
         unawaited(sAnalytics.loginSuccess(email));
       } else {
-        authModel = await authService.register(registerRequest);
+        authModel = await authService.register(
+          registerRequest,
+          intl.localeName,
+        );
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
         read(appsFlyerServicePod).register(email);

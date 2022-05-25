@@ -9,6 +9,7 @@ import '../two_fa_service.dart';
 Future<void> twoFaRequestEnableService(
   Dio dio,
   TwoFaVerificationRequestModel model,
+  String localeName,
 ) async {
   final logger = TwoFaService.logger;
   const message = 'twoFaRequestEnableService';
@@ -22,7 +23,7 @@ Future<void> twoFaRequestEnableService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message, e);
       rethrow;

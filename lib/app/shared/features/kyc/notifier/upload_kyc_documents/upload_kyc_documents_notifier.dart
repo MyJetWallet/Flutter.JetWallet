@@ -47,6 +47,7 @@ class UploadKycDocumentsNotifier
 
     try {
       final service = read(kycDocumentsServicePod);
+      final intl = read(intlPod);
 
       final formData = await convertKycDocuments(
         state.documentFirstSide,
@@ -54,7 +55,7 @@ class UploadKycDocumentsNotifier
         read,
       );
 
-      await service.upload(formData, type);
+      await service.upload(formData, type, intl.localeName);
 
       state = state.copyWith(union: const UploadKycDocumentsUnion.done());
     } catch (error) {
@@ -107,6 +108,7 @@ class UploadKycDocumentsNotifier
 
     try {
       final service = read(kycDocumentsServicePod);
+      final intl = read(intlPod);
 
       final formData = await convertKycDocuments(
         state.documentFirstSide,
@@ -114,7 +116,7 @@ class UploadKycDocumentsNotifier
         read,
       );
 
-      await service.upload(formData, type);
+      await service.upload(formData, type, intl.localeName);
 
       state = state.copyWith(union: const UploadKycDocumentsUnion.done());
     } catch (error) {

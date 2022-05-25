@@ -9,6 +9,7 @@ import '../authentication_service.dart';
 Future<void> recoverPasswordService(
   Dio dio,
   PasswordRecoveryRequestModel model,
+  String localeName,
 ) async {
   final logger = AuthenticationService.logger;
   const message = 'passwordRecoveryService';
@@ -22,7 +23,7 @@ Future<void> recoverPasswordService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

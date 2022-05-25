@@ -10,6 +10,7 @@ import '../operation_history_service.dart';
 Future<OperationHistoryResponseModel> operationHistoryService(
   Dio dio,
   OperationHistoryRequestModel model,
+  String localeName,
 ) async {
   final logger = OperationHistoryService.logger;
   const message = 'operationHistoryService';
@@ -23,7 +24,7 @@ Future<OperationHistoryResponseModel> operationHistoryService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<List>(responseData);
+      final data = handleFullResponse<List>(responseData, localeName);
 
       return OperationHistoryResponseModel.fromJson(data);
     } catch (e) {

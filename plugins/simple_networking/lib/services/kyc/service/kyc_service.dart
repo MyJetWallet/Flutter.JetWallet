@@ -5,11 +5,15 @@ import 'services/check_service.dart';
 import 'services/start_service.dart';
 
 class KycService {
-  KycService(this.dio);
+  KycService(
+    this.dio,
+    this.locale,
+  );
   final Dio dio;
+  final String locale;
 
   Future<CheckResponseModel> check() async {
-    return checkService(dio);
+    return checkService(dio, locale);
   }
 
   Future<void> start() async {

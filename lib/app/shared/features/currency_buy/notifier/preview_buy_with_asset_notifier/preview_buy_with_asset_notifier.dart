@@ -73,7 +73,11 @@ class PreviewBuyWithAssetNotifier
     );
 
     try {
-      final response = await read(swapServicePod).getQuote(model);
+      final intl = read(intlPod);
+      final response = await read(swapServicePod).getQuote(
+        model,
+        intl.localeName,
+      );
 
       state = state.copyWith(
         operationId: response.operationId,
@@ -111,6 +115,8 @@ class PreviewBuyWithAssetNotifier
 
     state = state.copyWith(union: const ExecuteLoading());
 
+    final intl = read(intlPod);
+
     try {
       final model = ExecuteQuoteRequestModel(
         operationId: state.operationId!,
@@ -122,7 +128,10 @@ class PreviewBuyWithAssetNotifier
         recurringBuyInfo: state.recurringBuyInfo,
       );
 
-      final response = await read(swapServicePod).executeQuote(model);
+      final response = await read(swapServicePod).executeQuote(
+        model,
+        intl.localeName,
+      );
 
       if (response.isExecuted) {
         _timer.cancel();

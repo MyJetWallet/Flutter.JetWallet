@@ -8,6 +8,7 @@ import '../authentication_service.dart';
 
 Future<ServerTimeResponseModel> serverTimeService(
   Dio dio,
+  String localName,
 ) async {
   final logger = AuthenticationService.logger;
   const message = 'serverTimeService';
@@ -20,7 +21,7 @@ Future<ServerTimeResponseModel> serverTimeService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localName,);
 
       return ServerTimeResponseModel.fromJson(data);
     } catch (e) {

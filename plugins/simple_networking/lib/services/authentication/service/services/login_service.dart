@@ -10,6 +10,7 @@ import '../authentication_service.dart';
 Future<AuthenticationResponseModel> loginService(
   Dio dio,
   LoginRequestModel model,
+  String localName,
 ) async {
   final logger = AuthenticationService.logger;
   const message = 'loginService';
@@ -23,7 +24,7 @@ Future<AuthenticationResponseModel> loginService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localName);
 
       return AuthenticationResponseModel.fromJson(data);
     } catch (e) {

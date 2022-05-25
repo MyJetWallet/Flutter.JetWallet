@@ -23,7 +23,7 @@ Future<MarketInfoResponseModel> marketInfoService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, model.language);
 
       return MarketInfoResponseModel.fromJson(data);
     } catch (e) {

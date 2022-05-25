@@ -9,6 +9,7 @@ import '../blockchain_service.dart';
 Future<void> withdrawalResendService(
   Dio dio,
   WithdrawalResendRequestModel model,
+  String localeName,
 ) async {
   final logger = BlockchainService.logger;
   const message = 'withdrawalResendService';
@@ -22,7 +23,7 @@ Future<void> withdrawalResendService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

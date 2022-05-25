@@ -389,8 +389,13 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       toAsset: currencyModel.symbol,
     );
 
+    final intl = read(intlPod);
+
     try {
-      final response = await read(simplexServicePod).payment(model);
+      final response = await read(simplexServicePod).payment(
+        model,
+        intl.localeName,
+      );
 
       return response.paymentLink;
     } on ServerRejectException catch (error) {

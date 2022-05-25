@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/get_args.dart';
 import '../../../../shared/providers/service_providers.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../notifier/forgot_password/forgot_password_notipod.dart';
 import '../notifier/forgot_password/forgot_password_state.dart';
 
@@ -75,7 +76,9 @@ class ForgotPassword extends HookWidget {
                   const SpaceH7(),
                   SPaddingH24(
                     child: Text(
-                      intl.forgotPassword_resettingPassword,
+                      '${intl.forgotPassword_resettingPassword1} '
+                      '$forgotPasswordLockHours'
+                      '${intl.forgotPassword_resettingPassword2}.',
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),

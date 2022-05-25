@@ -65,12 +65,13 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
 
     try {
       final service = read(blockchainServicePod);
+      final intl = read(intlPod);
 
       final model = WithdrawalResendRequestModel(
         operationId: _operationId,
       );
 
-      await service.withdrawalResend(model);
+      await service.withdrawalResend(model, intl.localeName);
 
       if (!mounted) return;
       _updateIsResending(false);
@@ -92,6 +93,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
 
     try {
       final service = read(validationServicePod);
+      final intl = read(intlPod);
 
       final model = VerifyWithdrawalVerificationCodeRequestModel(
         operationId: _operationId,
@@ -99,7 +101,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
         brand: 'simple',
       );
 
-      await service.verifyWithdrawalVerificationCode(model);
+      await service.verifyWithdrawalVerificationCode(model, intl.localeName);
 
       state = state.copyWith(union: const Input());
 

@@ -10,6 +10,7 @@ import '../swap_service.dart';
 Future<ExecuteQuoteResponseModel> executeQuoteService(
   Dio dio,
   ExecuteQuoteRequestModel model,
+  String localeName,
 ) async {
   final logger = SwapService.logger;
   const message = 'executeQuoteService';
@@ -23,7 +24,7 @@ Future<ExecuteQuoteResponseModel> executeQuoteService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return ExecuteQuoteResponseModel.fromJson(data);
     } catch (e) {

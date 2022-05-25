@@ -6,7 +6,10 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/wire_countries/wire_countries_response_model.dart';
 import '../circle_service.dart';
 
-Future<WireCountriesResponseModel> wireCountriesService(Dio dio) async {
+Future<WireCountriesResponseModel> wireCountriesService(
+  Dio dio,
+  String localeName,
+) async {
   final logger = CircleService.logger;
   const message = 'wireCountriesService';
 
@@ -18,7 +21,10 @@ Future<WireCountriesResponseModel> wireCountriesService(Dio dio) async {
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(
+        responseData,
+        localeName,
+      );
 
       return WireCountriesResponseModel.fromJson(data);
     } catch (e) {

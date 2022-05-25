@@ -10,6 +10,7 @@ import '../blockchain_service.dart';
 Future<WithdrawalInfoResponseModel> withdrawalInfoService(
   Dio dio,
   WithdrawalInfoRequestModel model,
+    String localeName,
 ) async {
   final logger = BlockchainService.logger;
   const message = 'withdrawInfoService';
@@ -23,7 +24,7 @@ Future<WithdrawalInfoResponseModel> withdrawalInfoService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName,);
 
       return WithdrawalInfoResponseModel.fromJson(data);
     } catch (e) {

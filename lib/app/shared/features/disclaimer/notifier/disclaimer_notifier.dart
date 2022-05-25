@@ -33,8 +33,11 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
   Future<void> _init() async {
     _logger.log(notifier, 'init DisclaimerNotifier');
 
+    final intl = read(intlPod);
+
     try {
-      final response = await read(disclaimerServicePod).disclaimers();
+      final response =
+          await read(disclaimerServicePod).disclaimers(intl.localeName);
 
       if (response.disclaimers != null) {
         final disclaimers = <DisclaimerModel>[];
@@ -270,7 +273,8 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     );
 
     try {
-      await read(disclaimerServicePod).saveDisclaimer(model);
+      final intl = read(intlPod);
+      await read(disclaimerServicePod).saveDisclaimer(model, intl.localeName);
 
       if (disclaimerIndex <= state.disclaimers.length) {
         if (!mounted) return;

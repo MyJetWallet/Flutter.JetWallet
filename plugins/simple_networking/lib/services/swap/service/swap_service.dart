@@ -17,11 +17,15 @@ class SwapService {
 
   Future<ExecuteQuoteResponseModel> executeQuote(
     ExecuteQuoteRequestModel model,
+    String localeName,
   ) {
-    return executeQuoteService(dio, model);
+    return executeQuoteService(dio, model, localeName);
   }
 
-  Future<GetQuoteResponseModel> getQuote(GetQuoteRequestModel model) {
-    return getQuoteService(dio, model);
+  Future<GetQuoteResponseModel> getQuote(
+    GetQuoteRequestModel model,
+    String localeName,
+  ) {
+    return getQuoteService(dio, model, localeName);
   }
 }
