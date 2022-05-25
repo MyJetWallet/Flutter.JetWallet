@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
+import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
 import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
 import '../../app/shared/features/actions/action_buy/action_buy.dart';
@@ -14,6 +15,7 @@ import '../../app/shared/features/actions/action_deposit/action_deposit.dart';
 import '../../app/shared/features/currency_withdraw/notifier/withdrawal_confirm_notifier/withdrawal_confirm_notipod.dart';
 import '../../app/shared/features/currency_withdraw/view/screens/withdrawal_confirm.dart';
 import '../../app/shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../app/shared/features/market_details/view/components/about_block/components/clickable_underlined_text.dart';
 import '../../app/shared/features/rewards/view/rewards.dart';
 import '../../app/shared/features/send_by_phone/notifier/send_by_phone_confirm_notifier/send_by_phone_confirm_notipod.dart';
 import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confirm.dart';
@@ -215,6 +217,7 @@ class DeepLinkService {
   void _inviteFriendCommand(SourceScreen? source) {
     final context = read(sNavigatorKeyPod).currentContext!;
     final referralInfo = read(referralInfoPod);
+    final intl = read(intlPod);
 
     sAnalytics.clickMarketBanner(
       MarketBannerSource.inviteFriend.name,
@@ -229,33 +232,110 @@ class DeepLinkService {
       sAnalytics.inviteFriendView(Source.accountScreen);
     }
 
-    sShowBasicModalBottomSheet(
-      context: read(sNavigatorKeyPod).currentContext!,
-      removePinnedPadding: true,
-      removeBottomSheetBar: true,
-      removeBarPadding: true,
-      horizontalPinnedPadding: 0,
-      scrollable: true,
-      pinned: const SReferralInvitePinned(),
-      pinnedBottom: SReferralInviteBottomPinned(
-        onShare: () {
-          Share.share(referralInfo.referralLink);
-        },
-      ),
-      children: [
-        SReferralInviteBody(
-          primaryText: referralInfo.title,
-          referralLink: referralInfo.referralLink,
-          conditions: referralInfo.referralTerms,
-          showReadMore: referralInfo.descriptionLink.isNotEmpty,
-          onReadMoreTap: () {
-            launchURL(
-              context,
-              referralInfo.descriptionLink,
-            );
-          },
-        ),
-      ],
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return EarnBottomSheetContainer(
+          removePinnedPadding: true,
+          horizontalPinnedPadding: 0,
+          scrollable: true,
+          color: Colors.white,
+          pinned: SReferralInvitePinned(
+            child: SPaddingH24(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 203.0,
+                    child: Baseline(
+                      baseline: 34.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        referralInfo.title,
+                        maxLines: 3,
+                        style: sTextH2Style,
+                      ),
+                    ),
+                  ),
+                  if (referralInfo.descriptionLink.isNotEmpty)
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Baseline(
+                        baseline: 94,
+                        baselineType: TextBaseline.alphabetic,
+                        child: ClickableUnderlinedText(
+                          text: intl.deepLinkService_readMore,
+                          onTap: () {
+                            launchURL(
+                              context,
+                              referralInfo.descriptionLink,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          pinnedSmall: Stack(
+            children: [
+              SizedBox(
+                height: 115,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: RichText(
+                        text: TextSpan(
+                          text: referralInfo.title,
+                          style: sTextH5Style.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 24.0,
+                right: 24.0,
+                child: SIconButton(
+                  onTap: () => Navigator.pop(context),
+                  defaultIcon: const SErasePressedIcon(),
+                  pressedIcon: const SEraseMarketIcon(),
+                ),
+              ),
+            ],
+          ),
+          pinnedBottom: SReferralInviteBottomPinned(
+            text: intl.deepLinkService_share,
+            onShare: () {
+              Share.share(referralInfo.referralLink);
+            },
+          ),
+          expandedHeight: 333,
+          children: [
+            SReferralInviteBody(
+              primaryText: referralInfo.title,
+              referralLink: referralInfo.referralLink,
+              conditions: referralInfo.referralTerms,
+              showReadMore: referralInfo.descriptionLink.isNotEmpty,
+              copiedText: intl.deepLinkService_referralLinkCopied,
+              referralText: intl.deepLinkService_referralLink,
+              onReadMoreTap: () {
+                launchURL(
+                  context,
+                  referralInfo.descriptionLink,
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

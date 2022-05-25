@@ -10,6 +10,7 @@ import '../../../../shared/helpers/analytics.dart';
 import '../../../../shared/helpers/open_email_app.dart';
 import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../notifier/email_verification_notipod.dart';
@@ -78,6 +79,7 @@ class _EmailVerificationState extends State<EmailVerification>
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
@@ -119,7 +121,7 @@ class _EmailVerificationState extends State<EmailVerification>
       child: SPageFrameWithPadding(
         loading: loader.value,
         header: SBigHeader(
-          title: 'Email verification',
+          title: intl.emailVerification_emailVerification,
           onBackButtonTap: () => logoutN.logout(),
         ),
         child: CustomScrollView(
@@ -130,7 +132,7 @@ class _EmailVerificationState extends State<EmailVerification>
                 children: [
                   const SpaceH7(),
                   Text(
-                    'Enter the code we have sent to your email',
+                    intl.emailVerification_enterCode,
                     style: sBodyText1Style.copyWith(
                       color: colors.grey1,
                     ),
@@ -141,7 +143,7 @@ class _EmailVerificationState extends State<EmailVerification>
                   ),
                   const SpaceH17(),
                   SClickableLinkText(
-                    text: 'Open Email App',
+                    text: intl.emailVerification_openEmail,
                     onTap: () => openEmailApp(context),
                   ),
                   const Spacer(),
@@ -186,6 +188,10 @@ class _EmailVerificationState extends State<EmailVerification>
                         },
                       );
                     },
+                    text1: intl.emailVerification_youCanResendIn,
+                    text2: intl.emailVerification_seconds,
+                    text3: intl.emailVerification_didntReceiveTheCode,
+                    textResend: intl.emailVerification_resend,
                   ),
                   const SpaceH24(),
                 ],

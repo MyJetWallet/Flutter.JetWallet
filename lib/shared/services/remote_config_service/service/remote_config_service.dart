@@ -125,6 +125,8 @@ class RemoteConfigService {
     localPinLength = appConfig.localPinLength;
     maxPinAttempts = appConfig.maxPinAttempts;
     forgotPasswordLockHours = appConfig.forgotPasswordLockHours;
+    changePasswordLockHours = appConfig.changePasswordLockHours;
+    changePhoneLockHours = appConfig.changePhoneLockHours;
   }
 
   void overrideVersioningValues() {

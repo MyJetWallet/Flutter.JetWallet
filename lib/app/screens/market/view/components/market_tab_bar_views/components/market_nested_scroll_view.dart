@@ -5,6 +5,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/features/market_details/view/market_details.dart';
 import '../../../../../../shared/helpers/formatting/base/market_format.dart';
 import '../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
@@ -57,6 +58,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
   Widget build(BuildContext context) {
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
+    final intl = useProvider(intlPod);
 
     return NestedScrollView(
       controller: controller,
@@ -76,8 +78,8 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
                 width: double.infinity,
               ),
               fadeOutWidget: const MarketHeaderStats(),
-              permanentWidget: const SMarketHeaderClosed(
-                title: 'Market',
+              permanentWidget: SMarketHeaderClosed(
+                title: intl.marketNestedScrollView_market,
               ),
             ),
           ),

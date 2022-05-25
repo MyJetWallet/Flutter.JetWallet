@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/helpers/get_args.dart';
+import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../notifier/forgot_password/forgot_password_notipod.dart';
 import '../notifier/forgot_password/forgot_password_state.dart';
@@ -33,6 +34,7 @@ class ForgotPassword extends HookWidget {
   Widget build(BuildContext context) {
     final args = getArgs(context) as ForgotPasswordArgs;
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final forgot = useProvider(forgotPasswordNotipod(args));
     final forgotN = useProvider(forgotPasswordNotipod(args).notifier);
@@ -56,11 +58,12 @@ class ForgotPassword extends HookWidget {
         );
       },
       child: SPageFrame(
+        loaderText: intl.forgotPassword_pleaseWait,
         loading: loader.value,
         color: colors.grey5,
-        header: const SPaddingH24(
+        header: SPaddingH24(
           child: SBigHeader(
-            title: 'Forgot Password',
+            title: intl.forgotPassword_forgotPassword,
           ),
         ),
         child: Column(
@@ -76,6 +79,7 @@ class ForgotPassword extends HookWidget {
                       'Resetting a forgotten password will logout other '
                       'devices and will result in a $forgotPasswordLockHours'
                       '-hour restriction to all outgoing transfers.',
+                      // intl.forgotPassword_resettingPassword,
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),
@@ -90,7 +94,7 @@ class ForgotPassword extends HookWidget {
               color: colors.white,
               child: SPaddingH24(
                 child: SStandardField(
-                  labelText: 'Email Address',
+                  labelText: intl.login_emailTextFieldLabel,
                   autofocus: true,
                   initialValue: forgot.email,
                   autofillHints: const [AutofillHints.email],
@@ -101,7 +105,7 @@ class ForgotPassword extends HookWidget {
                   },
                   onErrorIconTap: () {
                     notificationN.showError(
-                      'Perhaps you missed "." or "@" somewhere?',
+                      '${intl.forgotPassword_error}?',
                       id: 2,
                     );
                   },
@@ -115,7 +119,7 @@ class ForgotPassword extends HookWidget {
                 active: forgot.email.isNotEmpty &&
                     !disableContinue.value &&
                     !loader.value.value,
-                name: 'Reset password',
+                name: intl.forgotPassword_resetPassword,
                 onTap: () {
                   if (forgot.emailValid) {
                     disableContinue.value = true;
@@ -127,7 +131,7 @@ class ForgotPassword extends HookWidget {
                   } else {
                     emailError.value.enableError();
                     notificationN.showError(
-                      'Perhaps you missed "." or "@" somewhere?',
+                      '${intl.forgotPassword_error}?',
                       id: 2,
                     );
                   }

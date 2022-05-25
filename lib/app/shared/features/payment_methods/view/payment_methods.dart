@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/is_card_expired.dart';
 import '../../../helpers/last_n_chars.dart';
 import '../../add_circle_card/view/add_circle_card.dart';
@@ -20,6 +21,7 @@ class PaymentMethods extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(paymentMethodsNotipod);
     final notifier = useProvider(paymentMethodsNotipod.notifier);
@@ -28,11 +30,10 @@ class PaymentMethods extends HookWidget {
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       return sShowAlertPopup(
         context,
-        primaryText: 'Delete card?',
-        secondaryText: 'Are you sure you want to '
-            'delete your saved card?',
-        primaryButtonName: 'Delete',
-        secondaryButtonName: 'Cancel',
+        primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
+        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryText}?',
+        primaryButtonName: intl.paymentMethod_delete,
+        secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,
         onPrimaryButtonTap: onDelete,
         onSecondaryButtonTap: () => Navigator.pop(context),
@@ -51,10 +52,11 @@ class PaymentMethods extends HookWidget {
     }
 
     return SPageFrame(
+      loaderText: intl.paymentMethods_pleaseWait,
       loading: loader.value,
-      header: const SPaddingH24(
+      header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Payment methods',
+          title: intl.paymentMethods_paymentMethods,
         ),
       ),
       child: state.union.maybeWhen(
@@ -64,11 +66,11 @@ class PaymentMethods extends HookWidget {
               children: [
                 const Spacer(),
                 Text(
-                  'No saved cards',
+                  intl.paymentMethods_noSavedCards,
                   style: sTextH3Style,
                 ),
                 Text(
-                  'Add a bank card to conveniently purchase crypto',
+                  intl.paymentMethod_text,
                   style: sBodyText1Style.copyWith(
                     color: colors.grey1,
                   ),
@@ -92,7 +94,7 @@ class PaymentMethods extends HookWidget {
                   children: [
                     SPaddingH24(
                       child: Text(
-                        'Saved cards',
+                        intl.paymentMethods_savedCards,
                         style: sSubtitle3Style.copyWith(
                           color: colors.grey1,
                         ),

@@ -8,8 +8,10 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
+import '../../../helpers/is_buy_with_currency_available_for.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../../kyc/model/kyc_operation_status_model.dart';
 import '../../kyc/notifier/kyc/kyc_notipod.dart';
@@ -56,6 +58,8 @@ void _showBuyAction({
   required bool fromCard,
   required BuildContext context,
 }) {
+  final intl = context.read(intlPod);
+
   final showSearch = showBuyCurrencySearch(
     context,
     fromCard: fromCard,
@@ -67,7 +71,7 @@ void _showBuyAction({
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
-      name: 'Choose asset to buy',
+      name: intl.actionBuy_bottomSheetHeaderName1,
       showSearch: showSearch,
       onChanged: (String value) {
         context.read(actionSearchNotipod.notifier).search(value);
@@ -98,18 +102,21 @@ class _ActionBuy extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencies = useProvider(currenciesPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final state = useProvider(actionSearchNotipod);
+    final intl = useProvider(intlPod);
 
-    void onItemTap(CurrencyModel currency) {
+    void _onItemTap(CurrencyModel currency, bool fromCard) {
       sAnalytics.buyView(
         Source.quickActions,
         currency.description,
       );
+
       if (showRecurring) {
         showActionWithoutRecurringBuy(
           context: context,
-          title: 'Setup recurring buy',
+          title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
           onItemTap: (RecurringBuysType type) {
             Navigator.pop(context);
             navigatorPushReplacement(
@@ -137,7 +144,9 @@ class _ActionBuy extends HookWidget {
       children: [
         const SpaceH10(),
         ActionBuySubheader(
-          text: fromCard ? 'Buy from card' : 'Buy with credit card or crypto',
+          text: fromCard
+              ? intl.actionBuy_bottomSheetItemTitle1
+              : intl.actionBuy_bottomSheetItemTitle2,
         ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
@@ -157,34 +166,35 @@ class _ActionBuy extends HookWidget {
               ticker: currency.symbol,
               last: currency == state.buyFromCardCurrencies.last,
               percent: currency.dayPercentChange,
-              onTap: () => onItemTap(currency),
+              onTap: () => _onItemTap(currency, true),
             ),
         ],
         if (!fromCard) ...[
           const SpaceH10(),
-          const ActionBuySubheader(
-            text: 'Buy with crypto',
+          ActionBuySubheader(
+            text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
           ),
           for (final currency in state.filteredCurrencies) ...[
             if (!currency.supportsAtLeastOneBuyMethod)
-              SMarketItem(
-                icon: SNetworkSvg24(
-                  url: currency.iconUrl,
+              if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
+                SMarketItem(
+                  icon: SNetworkSvg24(
+                    url: currency.iconUrl,
+                  ),
+                  name: currency.description,
+                  price: marketFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: baseCurrency.symbol == currency.symbol
+                        ? Decimal.one
+                        : currency.currentPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                  ),
+                  ticker: currency.symbol,
+                  last: currency == state.filteredCurrencies.last,
+                  percent: currency.dayPercentChange,
+                  onTap: () => _onItemTap(currency, false),
                 ),
-                name: currency.description,
-                price: marketFormat(
-                  prefix: baseCurrency.prefix,
-                  decimal: baseCurrency.symbol == currency.symbol
-                      ? Decimal.one
-                      : currency.currentPrice,
-                  symbol: baseCurrency.symbol,
-                  accuracy: baseCurrency.accuracy,
-                ),
-                ticker: currency.symbol,
-                last: currency == state.filteredCurrencies.last,
-                percent: currency.dayPercentChange,
-                onTap: () => onItemTap(currency),
-              ),
           ],
         ],
       ],

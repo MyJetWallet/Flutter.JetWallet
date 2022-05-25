@@ -4,6 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../shared/providers/service_providers.dart';
+
 class ConvertAutoSizeAmount extends HookWidget {
   const ConvertAutoSizeAmount({
     Key? key,
@@ -18,6 +20,7 @@ class ConvertAutoSizeAmount extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Expanded(
@@ -25,7 +28,7 @@ class ConvertAutoSizeAmount extends HookWidget {
         onTap: onTap,
         child: AutoSizeText(
           // TODO add reactive value (blocked by backend)
-          value.isEmpty ? 'min 0.001' : value,
+          value.isEmpty ? '${intl.min} 0.001' : value,
           textAlign: TextAlign.end,
           minFontSize: 4.0,
           maxLines: 1,

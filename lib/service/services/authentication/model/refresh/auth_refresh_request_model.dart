@@ -7,6 +7,7 @@ part 'auth_refresh_request_model.g.dart';
 class AuthRefreshRequestModel with _$AuthRefreshRequestModel {
   const factory AuthRefreshRequestModel({
     @JsonKey(name: 'requestDataTime') String? requestTime,
+    required String lang,
     required String refreshToken,
     required String tokenDateTimeSignatureBase64,
   }) = _AuthRefreshRequestModel;
