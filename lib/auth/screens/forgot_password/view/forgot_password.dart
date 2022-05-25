@@ -76,10 +76,9 @@ class ForgotPassword extends HookWidget {
                   const SpaceH7(),
                   SPaddingH24(
                     child: Text(
-                      'Resetting a forgotten password will logout other '
-                      'devices and will result in a $forgotPasswordLockHours'
-                      '-hour restriction to all outgoing transfers.',
-                      // intl.forgotPassword_resettingPassword,
+                      '${intl.forgotPassword_resettingPassword1} '
+                      '$forgotPasswordLockHours'
+                      '${intl.forgotPassword_resettingPassword2}.',
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),
