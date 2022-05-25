@@ -6,7 +6,7 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../../operation_history/operation_history_service.dart';
 import '../../model/check_response_model.dart';
 
-Future<CheckResponseModel> checkService(Dio dio) async {
+Future<CheckResponseModel> checkService(Dio dio, String locale) async {
   final logger = OperationHistoryService.logger;
   const message = 'checkService';
 
@@ -15,7 +15,7 @@ Future<CheckResponseModel> checkService(Dio dio) async {
 
     try {
       final responseData = response.data as Map<String, dynamic>;
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, locale);
       return CheckResponseModel.fromJson(data);
     } catch (e) {
       logger.log(contract, message);
