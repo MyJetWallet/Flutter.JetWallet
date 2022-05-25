@@ -13,11 +13,17 @@ class DisclaimersService {
 
   static final logger = Logger('DisclaimersService');
 
-  Future<DisclaimersResponseModel> disclaimers() {
-    return getDisclaimersService(dio);
+  Future<DisclaimersResponseModel> disclaimers(String localeName) {
+    return getDisclaimersService(
+      dio,
+      localeName,
+    );
   }
 
-  Future<void> saveDisclaimer(DisclaimersRequestModel model) async {
-    await saveDisclaimerService(dio, model);
+  Future<void> saveDisclaimer(
+    DisclaimersRequestModel model,
+    String localeName,
+  ) async {
+    await saveDisclaimerService(dio, model, localeName);
   }
 }

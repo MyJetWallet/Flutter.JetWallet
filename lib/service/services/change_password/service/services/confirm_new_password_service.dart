@@ -9,6 +9,7 @@ import '../change_password_service.dart';
 Future<void> confirmNewPasswordService(
   Dio dio,
   ChangePasswordRequestModel model,
+  String localeName,
 ) async {
   final logger = ChangePasswordService.logger;
   const message = 'phoneVerificationRequestService';
@@ -22,7 +23,7 @@ Future<void> confirmNewPasswordService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message, e);
       rethrow;

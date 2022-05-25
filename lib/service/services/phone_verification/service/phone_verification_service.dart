@@ -15,15 +15,18 @@ class PhoneVerificationService {
 
   static final logger = Logger('PhoneVerificationService');
 
-  Future<void> request(PhoneVerificationRequestModel model) {
-    return phoneVerificationRequestService(dio, model);
+  Future<void> request(PhoneVerificationRequestModel model, String localeName) {
+    return phoneVerificationRequestService(dio, model, localeName);
   }
 
-  Future<void> verify(PhoneVerificationVerifyRequestModel model) {
-    return phoneVerificationVerifyService(dio, model);
+  Future<void> verify(
+    PhoneVerificationVerifyRequestModel model,
+    String localeName,
+  ) {
+    return phoneVerificationVerifyService(dio, model, localeName);
   }
 
-  Future<PhoneNumberResponseModel> phoneNumber() {
-    return phoneNumberService(dio);
+  Future<PhoneNumberResponseModel> phoneNumber(String localeName) {
+    return phoneNumberService(dio, localeName);
   }
 }

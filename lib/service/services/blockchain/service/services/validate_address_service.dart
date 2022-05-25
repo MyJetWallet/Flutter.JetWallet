@@ -10,6 +10,7 @@ import '../blockchain_service.dart';
 Future<ValidateAddressResponseModel> validateAddressService(
   Dio dio,
   ValidateAddressRequestModel model,
+  String localeName,
 ) async {
   final logger = BlockchainService.logger;
   const message = 'validateAddressService';
@@ -23,7 +24,7 @@ Future<ValidateAddressResponseModel> validateAddressService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return ValidateAddressResponseModel.fromJson(data);
     } catch (e) {

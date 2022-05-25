@@ -18,25 +18,29 @@ class ValidationService {
 
   Future<void> sendEmailVerificationCode(
     SendEmailVerificationCodeRequestModel model,
+    String localeName,
   ) {
-    return sendEmailVerificationCodeService(dio, model);
+    return sendEmailVerificationCodeService(dio, model, localeName);
   }
 
   Future<void> verifyEmailVerificationCode(
     VerifyEmailVerificationCodeRequestModel model,
+    String localeName,
   ) {
-    return verifyEmailVerificationCodeService(dio, model);
+    return verifyEmailVerificationCodeService(dio, model, localeName);
   }
 
   Future<void> verifyWithdrawalVerificationCode(
     VerifyWithdrawalVerificationCodeRequestModel model,
+    String localeName,
   ) {
-    return verifyWithdrawalVerificationCodeService(dio, model);
+    return verifyWithdrawalVerificationCodeService(dio, model, localeName);
   }
 
   Future<void> verifyTransferVerificationCode(
     VerifyWithdrawalVerificationCodeRequestModel model,
+    String localeName,
   ) {
-    return verifyTransferVerificationCodeService(dio, model);
+    return verifyTransferVerificationCodeService(dio, model, localeName);
   }
 }

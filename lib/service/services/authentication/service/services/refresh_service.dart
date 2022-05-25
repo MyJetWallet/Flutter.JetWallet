@@ -10,6 +10,7 @@ import '../authentication_service.dart';
 Future<AuthRefreshResponseModel> refreshService(
   Dio dio,
   AuthRefreshRequestModel model,
+  String localName,
 ) async {
   final logger = AuthenticationService.logger;
   const message = 'refreshService';
@@ -23,7 +24,7 @@ Future<AuthRefreshResponseModel> refreshService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localName);
 
       return AuthRefreshResponseModel.fromJson(data);
     } catch (e) {

@@ -25,8 +25,12 @@ class StartupNotifier extends StateNotifier<StartupState> {
 
   Future<void> _processStartupState() async {
     if (read(authorizationStpod).state is Authorized) {
+      final intl = read(intlPod);
+
       try {
-        final info = await read(infoServicePod).sessionInfo();
+        final info = await read(infoServicePod).sessionInfo(
+          intl.localeName,
+        );
 
         read(userInfoNotipod.notifier).updateWithValuesFromSessionInfo(
           twoFaEnabled: info.twoFaEnabled,
@@ -37,7 +41,8 @@ class StartupNotifier extends StateNotifier<StartupState> {
         _initSignalRSynchronously();
 
         if (info.emailVerified) {
-          final profileInfo = await read(profileServicePod).info();
+          final profileInfo =
+              await read(profileServicePod).info(intl.localeName);
 
           read(userInfoNotipod.notifier).updateWithValuesFromProfileInfo(
             emailConfirmed: profileInfo.emailConfirmed,
@@ -119,6 +124,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
 
     _updateAuthorizedUnion(const Home());
   }
+
   // <- Trigger AuthorizedUnion change [End]
 
   void _processPinState() {

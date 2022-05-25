@@ -6,7 +6,10 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/phone_number/phone_number_response_model.dart';
 import '../phone_verification_service.dart';
 
-Future<PhoneNumberResponseModel> phoneNumberService(Dio dio) async {
+Future<PhoneNumberResponseModel> phoneNumberService(
+  Dio dio,
+  String localeName,
+) async {
   final logger = PhoneVerificationService.logger;
   const message = 'phonenNumberService';
 
@@ -18,7 +21,7 @@ Future<PhoneNumberResponseModel> phoneNumberService(Dio dio) async {
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<String>(responseData);
+      final data = handleFullResponse<String>(responseData, localeName);
 
       return PhoneNumberResponseModel.fromJson(data);
     } catch (e) {

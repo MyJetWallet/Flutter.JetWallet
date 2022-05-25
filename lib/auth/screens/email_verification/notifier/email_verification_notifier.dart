@@ -69,7 +69,11 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         deviceType: deviceType,
       );
 
-      await read(validationServicePod).sendEmailVerificationCode(model);
+      final intl = read(intlPod);
+      await read(validationServicePod).sendEmailVerificationCode(
+        model,
+        intl.localeName,
+      );
 
       if (!mounted) return;
       _updateIsResending(false);
@@ -95,7 +99,11 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         code: state.controller.text,
       );
 
-      await read(validationServicePod).verifyEmailVerificationCode(model);
+      final intl = read(intlPod);
+      await read(validationServicePod).verifyEmailVerificationCode(
+        model,
+        intl.localeName,
+      );
 
       // Needed force refresh after successful emailVerification
       await refreshToken(read);

@@ -12,8 +12,9 @@ class ReferralCodeService {
   static final logger = Logger('ReferralCodeService');
 
   Future<void> validateReferralCode(
-      ValidateReferralCodeRequestModel model,
-      ) {
-    return validateReferralCodeService(dio, model);
+    ValidateReferralCodeRequestModel model,
+    String localeName,
+  ) {
+    return validateReferralCodeService(dio, model, localeName);
   }
 }

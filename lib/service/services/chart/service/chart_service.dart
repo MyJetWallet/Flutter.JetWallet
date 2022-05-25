@@ -21,7 +21,12 @@ class ChartService {
 
   Future<WalletHistoryResponseModel> walletHistory(
     WalletHistoryRequestModel model,
+    String localeName,
   ) {
-    return walletHistoryService(dio, model);
+    return walletHistoryService(
+      dio,
+      model,
+      localeName,
+    );
   }
 }
