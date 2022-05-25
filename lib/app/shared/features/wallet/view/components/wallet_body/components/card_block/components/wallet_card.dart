@@ -40,7 +40,7 @@ class WalletCard extends HookWidget {
         ? intl.earn_title
         : filteredActiveEarnOffers.length == 1
         ? '${filteredActiveEarnOffers[0].currentApy}%'
-        : 'Active';
+        : intl.recurringBuysStatus_active;
     final interestRateTextSize = _textSize(
         interestRateText,
         sSubtitle3Style,
