@@ -40,6 +40,7 @@ final errorCodesDescriptionEn = {
   'InvalidExpYear': 'Invalid expiration year',
   'CardCvvInvalid': 'Invalid CVV code',
   'CardExpired': 'Card is expired',
+  'PhoneDuplicate': 'Phone duplicate',
 };
 
 final errorCodesDescriptionRu = {
@@ -91,6 +92,7 @@ final errorCodesDescriptionRu = {
   'InvalidExpYear': 'Неверный год истечения срока действия',
   'CardCvvInvalid': 'Неверный код CVV',
   'CardExpired': 'Срок действия карты истек',
+  'PhoneDuplicate': 'Дубликат телефона',
 };
 
 const emailPasswordIncorrectEn =
