@@ -124,6 +124,8 @@ class RemoteConfigService {
     withdrawalConfirmResendCountdown = appConfig.withdrawConfirmResendCountdown;
     localPinLength = appConfig.localPinLength;
     maxPinAttempts = appConfig.maxPinAttempts;
+    changePasswordLockHours = appConfig.changePasswordLockHours;
+    changePhoneLockHours = appConfig.changePhoneLockHours;
   }
 
   void overrideVersioningValues() {

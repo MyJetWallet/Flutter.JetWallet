@@ -133,7 +133,8 @@
     "resetPassword_continue": "Continue",
     "profileDetails_continue": "Continue",
     "profileDetails_profileDetails": "Profile details",
-    "profileDetails_buttonSecondaryText": "Do you wish to proceed changing your phone number? You will need to enter an SMS code to complete this process",
+    "profileDetails_changePasswordAlert": "When changing the password, the withdrawal of funds will be locked for ",
+    "profileDetails_changePhoneAlert": "When changing the phone number, the withdrawal of funds will be locked for ",
     "profileDetails_cancel": "Cancel",
     "profileDetails_email": "Email",
     "profileDetails_payAttention": "Pay attention",
@@ -774,5 +775,7 @@
     "news": "News",
     "number": "number",
     "days": "days",
+    "hours": "hours",
+    "hour": "hour",
     "hoursLeft": "hours left"
 }
