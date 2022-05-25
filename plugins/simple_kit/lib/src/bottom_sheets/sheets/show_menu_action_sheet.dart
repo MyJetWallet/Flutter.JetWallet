@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../simple_kit.dart';
 
 void sShowMenuActionSheet({
+  bool isBuyAvailable = true,
   bool isDepositAvailable = true,
   bool isWithdrawAvailable = true,
-  bool isSendAvailable = true,
+  bool isBuyFromCardAvailable = true,
   bool isReceiveAvailable = true,
+  bool isSendAvailable = true,
   required BuildContext context,
   required void Function() onBuy,
   required void Function() onBuyFromCard,
@@ -30,14 +32,7 @@ void sShowMenuActionSheet({
     onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [
-      if (!isNotEmptyBalance)
-        SActionItem(
-          onTap: () => onBuyFromCard(),
-          icon: const SActionDepositIcon(),
-          name: actionItemLocalized[0]['name']!,
-          description: actionItemLocalized[0]['description']!,
-        ),
-      if (isNotEmptyBalance)
+      if (isNotEmptyBalance && isBuyAvailable)
         SActionItem(
           onTap: () => onBuy(),
           icon: const SActionBuyIcon(),
@@ -57,13 +52,14 @@ void sShowMenuActionSheet({
           name: actionItemLocalized[3]['name']!,
           description: actionItemLocalized[3]['description']!,
         ),
+      ],
+      if (isBuyFromCardAvailable)
         SActionItem(
           onTap: () => onBuyFromCard(),
           icon: const SActionDepositIcon(),
           name: actionItemLocalized[4]['name']!,
           description: actionItemLocalized[4]['description']!,
         ),
-      ],
       if (isReceiveAvailable) ...[
         SActionItem(
           onTap: onReceive,

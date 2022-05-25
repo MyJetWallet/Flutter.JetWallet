@@ -42,13 +42,10 @@ class CurrencyBuy extends StatefulHookWidget {
 class _CurrencyBuyState extends State<CurrencyBuy> {
   @override
   void initState() {
-    final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
-    notifier
-      ..initDefaultPaymentMethod(
-        fromCard: widget.fromCard,
-      )
-      ..initRecurringBuyType(widget.recurringBuysType);
     super.initState();
+    final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
+    notifier.initDefaultPaymentMethod(fromCard: widget.fromCard);
+    notifier.initRecurringBuyType(widget.recurringBuysType);
   }
 
   @override

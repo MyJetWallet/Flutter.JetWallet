@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -45,6 +44,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final storageService = read(localStorageServicePod);
     final rsaService = read(rsaServicePod);
     final deviceInfoModel = read(deviceInfoPod);
+    final intl = read(intlPod);
 
     try {
       state = const Loading();
@@ -62,6 +62,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         password: password,
         platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
+        lang: intl.localeName,
       );
 
       final registerRequest = RegisterRequestModel(
@@ -73,6 +74,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         deviceUid: deviceInfoModel.deviceUid,
         referralCode: referralCode,
         marketingEmailsAllowed: marketingEmailsAllowed,
+        lang: intl.localeName,
       );
 
       AuthenticationResponseModel authModel;
@@ -119,11 +121,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         sAnalytics.signUpFailure(email, e.toString());
       }
 
-      if (e is DioError && e.error == 'Http status error [401]') {
-        state = Input(intl.authentication_invalidLoginOrPassword);
-      } else {
-        state = Input('${intl.something_went_wrong_try_again}!');
-      }
+      state = Input(intl.something_went_wrong_try_again);
     }
   }
 }

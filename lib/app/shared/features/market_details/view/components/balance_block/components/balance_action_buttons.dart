@@ -9,6 +9,7 @@ import '../../../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../screens/market/model/market_item_model.dart';
 import '../../../../../../helpers/are_balances_empty.dart';
+import '../../../../../../helpers/is_buy_with_currency_available_for.dart';
 import '../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../crypto_deposit/view/crypto_deposit.dart';
 import '../../../../../currency_buy/view/curency_buy.dart';
@@ -42,48 +43,49 @@ class BalanceActionButtons extends HookWidget {
     return SPaddingH24(
       child: Row(
         children: [
-          Expanded(
-            child: SPrimaryButton1(
-              name: intl.balanceActionButtons_buy,
-              onTap: () {
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-                  sAnalytics.buyView(
-                    Source.assetScreen,
-                    currency.description,
-                  );
-                  navigatorPush(
-                    context,
-                    CurrencyBuy(
-                      currency: currency,
-                      fromCard: isBalanceEmpty,
-                    ),
-                  );
-                } else {
-                  kycAlertHandler.handle(
-                    status: kycState.sellStatus,
-                    kycVerified: kycState,
-                    isProgress: kycState.verificationInProgress,
-                    navigatePop: true,
-                    currentNavigate: () {
-                      sAnalytics.buyView(
-                        Source.assetScreen,
-                        currency.description,
-                      );
-                      navigatorPush(
-                        context,
-                        CurrencyBuy(
-                          currency: currency,
-                          fromCard: isBalanceEmpty,
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-              active: true,
+          if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
+            Expanded(
+              child: SPrimaryButton1(
+                name: 'Buy',
+                onTap: () {
+                  if (kycState.depositStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sAnalytics.buyView(
+                      Source.assetScreen,
+                      currency.description,
+                    );
+                    navigatorPush(
+                      context,
+                      CurrencyBuy(
+                        currency: currency,
+                        fromCard: isBalanceEmpty,
+                      ),
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      kycVerified: kycState,
+                      isProgress: kycState.verificationInProgress,
+                      navigatePop: true,
+                      currentNavigate: () {
+                        sAnalytics.buyView(
+                          Source.assetScreen,
+                          currency.description,
+                        );
+                        navigatorPush(
+                          context,
+                          CurrencyBuy(
+                            currency: currency,
+                            fromCard: isBalanceEmpty,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+                active: true,
+              ),
             ),
-          ),
           if (marketItem.isBalanceEmpty) ...[
             const SpaceW11(),
             Expanded(
