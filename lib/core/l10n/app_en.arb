@@ -745,6 +745,8 @@
     "portfolioWith_balanceProcess": "In progress",
     "portfolioWith_zeroWallets": "Hide zero wallets",
     "portfolioWith_showWallets": "Show all wallets",
+    "noInternetConnection_header": "No internet connection",
+    "noInternetConnection_descr": "Reconnect to WiFi or Cellular to continue using the app",
     "d": "D",
     "w": "W",
     "m": "M",
