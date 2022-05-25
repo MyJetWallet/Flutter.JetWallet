@@ -192,7 +192,7 @@ definitions:
     events:
       - push
     branch_patterns:
-      - pattern: ci/fix-ios
+      - pattern: develop
         include: true
         source: false
     cancel_previous_builds: false    
