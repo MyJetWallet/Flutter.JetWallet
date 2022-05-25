@@ -52,7 +52,8 @@ class BalanceBlock extends HookWidget {
               url: marketItem.iconUrl,
             ),
             primaryText: '${marketItem.name} ${intl.balanceBlock_wallet}',
-            isRecurring: recurringNotifier.activeOrPausedType(currency.symbol),
+            isRecurring:
+                recurringNotifier.activeOrPausedType(currency.symbol),
             amount: volumeFormat(
               prefix: baseCurrency.prefix,
               decimal: marketItem.baseBalance,
@@ -83,7 +84,7 @@ class BalanceBlock extends HookWidget {
             leftBlockTopPadding: _leftBlockTopPadding(),
             balanceTopMargin: 16,
             height: 75,
-            rightBlockTopPadding: 15,
+            rightBlockTopPadding: 7,
             showSecondaryText: !marketItem.isBalanceEmpty,
           ),
           BalanceActionButtons(
