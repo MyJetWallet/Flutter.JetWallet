@@ -21,6 +21,7 @@ import 'package:intl/intl.dart';
 /// 8. zero case: 0 => 0.00, 0.00 => 0.00
 String marketFormat({
   String? prefix,
+  bool? onlyFullPart,
   required Decimal decimal,
   required int accuracy,
   required String symbol,
@@ -31,7 +32,7 @@ String marketFormat({
     );
   }
 
-  final formatted = _formatNumber(decimal, accuracy);
+  final formatted = _formatNumber(decimal, accuracy, onlyFullPart);
 
   late String formattedWithSymbol;
 
@@ -48,7 +49,7 @@ String marketFormat({
   }
 }
 
-String _formatNumber(Decimal number, int accuracy) {
+String _formatNumber(Decimal number, int accuracy, bool? onlyFullPart) {
   final absNumber = number.abs();
 
   final rounded = absNumber.round(scale: accuracy);
@@ -77,7 +78,7 @@ String _formatNumber(Decimal number, int accuracy) {
   final wholePart2 = int.parse(wholePart.toString());
   final wholePart3 = formatter.format(wholePart2).replaceAll(',', ' ');
 
-  if (accuracy == 0) {
+  if (accuracy == 0 || (onlyFullPart != null && onlyFullPart)) {
     return wholePart3;
   }
 

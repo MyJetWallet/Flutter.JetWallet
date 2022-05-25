@@ -28,6 +28,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     TransferByPhoneInfo? transferByPhoneInfo,
     ReceiveByPhoneInfo? receiveByPhoneInfo,
     RecurringBuyInfo? recurringBuyInfo,
+    EarnInfo? earnInfo,
     required String operationId,
     required OperationType operationType,
     required String assetId,
@@ -65,6 +66,10 @@ enum OperationType {
   simplexBuy,
   @JsonValue(13)
   recurringBuy,
+  @JsonValue(14)
+  earningDeposit,
+  @JsonValue(15)
+  earningWithdrawal,
   unknown,
   buy,
   sell,
@@ -194,4 +199,28 @@ class RecurringBuyInfo with _$RecurringBuyInfo {
 
   factory RecurringBuyInfo.fromJson(Map<String, dynamic> json) =>
       _$RecurringBuyInfoFromJson(json);
+}
+
+@freezed
+class EarnInfo with _$EarnInfo {
+  const factory EarnInfo({
+    OfferInfo? offerInfo,
+    required String withdrawalReason,
+    @DecimalSerialiser() required Decimal apy,
+    @DecimalSerialiser() required Decimal totalBalance,
+  }) = _EarnInfo;
+
+  factory EarnInfo.fromJson(Map<String, dynamic> json) =>
+      _$EarnInfoFromJson(json);
+}
+
+@freezed
+class OfferInfo with _$OfferInfo {
+  const factory OfferInfo({
+    String? title,
+    required String offerTag,
+  }) = _OfferInfo;
+
+  factory OfferInfo.fromJson(Map<String, dynamic> json) =>
+      _$OfferInfoFromJson(json);
 }

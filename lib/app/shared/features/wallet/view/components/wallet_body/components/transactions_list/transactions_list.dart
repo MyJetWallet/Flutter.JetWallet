@@ -128,11 +128,9 @@ class _TransactionsListState extends State<TransactionsList> {
                         listToShow.length - 1) {
                       return Column(
                         children: [
-                          SPaddingH24(
-                            child: TransactionListItem(
-                              transactionListItem: transaction,
-                              removeDivider: removeDividerForLastInGroup,
-                            ),
+                          TransactionListItem(
+                            transactionListItem: transaction,
+                            removeDivider: removeDividerForLastInGroup,
                           ),
                           const SpaceH24(),
                           Container(
@@ -149,11 +147,9 @@ class _TransactionsListState extends State<TransactionsList> {
                         ],
                       );
                     } else {
-                      return SPaddingH24(
-                        child: TransactionListItem(
-                          transactionListItem: transaction,
-                          removeDivider: removeDividerForLastInGroup,
-                        ),
+                      return TransactionListItem(
+                        transactionListItem: transaction,
+                        removeDivider: removeDividerForLastInGroup,
                       );
                     }
                   },
@@ -205,11 +201,9 @@ class _TransactionsListState extends State<TransactionsList> {
                     }
                     final removeDividerForLastInGroup = currentDate != nextDate;
 
-                    return SPaddingH24(
-                      child: TransactionListItem(
-                        transactionListItem: transaction,
-                        removeDivider: removeDividerForLastInGroup,
-                      ),
+                    return TransactionListItem(
+                      transactionListItem: transaction,
+                      removeDivider: removeDividerForLastInGroup,
                     );
                   },
                 );
@@ -307,11 +301,9 @@ class _TransactionsListState extends State<TransactionsList> {
                         listToShow.length - 1) {
                       return Column(
                         children: [
-                          SPaddingH24(
-                            child: TransactionListItem(
-                              transactionListItem: transaction,
-                              removeDivider: removeDividerForLastInGroup,
-                            ),
+                          TransactionListItem(
+                            transactionListItem: transaction,
+                            removeDivider: removeDividerForLastInGroup,
                           ),
                           Container(
                             width: double.infinity,
@@ -381,11 +373,9 @@ class _TransactionsListState extends State<TransactionsList> {
                         ],
                       );
                     } else {
-                      return SPaddingH24(
-                        child: TransactionListItem(
-                          transactionListItem: transaction,
-                          removeDivider: removeDividerForLastInGroup,
-                        ),
+                      return TransactionListItem(
+                        transactionListItem: transaction,
+                        removeDivider: removeDividerForLastInGroup,
                       );
                     }
                   },
