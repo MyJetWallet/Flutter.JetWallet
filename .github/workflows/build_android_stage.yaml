@@ -25,6 +25,11 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: cd plugins/simple_networking
+      - run: flutter pub get
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: cd ..
+      - run: cd ..
       - run: flutter analyze
       - run: flutter test
 
