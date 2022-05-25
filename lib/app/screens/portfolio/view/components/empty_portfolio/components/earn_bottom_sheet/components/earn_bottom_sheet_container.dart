@@ -102,7 +102,8 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = useProvider(mediaQueryPod);
+    // TODO Fix mediaQuery
+    // final mediaQuery = useProvider(mediaQueryPod);
 
     void _onDissmisAction(BuildContext context) {
       widget.onDissmis?.call();
@@ -115,7 +116,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
           return Future.value(true);
         },
         child: Padding(
-          padding: mediaQuery.viewInsets,
+          padding: MediaQuery.of(context).viewInsets,
           child: LayoutBuilder(
             builder: (_, constraints) {
               final maxHeight = _listViewMaxHeight(
@@ -191,7 +192,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
                               ),
                               Positioned(
                                 child: Container(
-                                  width: mediaQuery.size.width - 44,
+                                  width: MediaQuery.of(context).size.width - 44,
                                   height: 180,
                                   color: Colors.transparent,
                                 ),
