@@ -52,6 +52,13 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
   Future<void> updateReferralCode(String code, String? jwCode) async {
     _timer.cancel();
 
+    if (code.isEmpty) {
+      state = state.copyWith(
+        bottomSheetReferralCodeValidation: const Input(),
+        referralCodeValidation: const Input(),
+      );
+    }
+
     state = state.copyWith(
       bottomSheetReferralCode: code,
       timer: 0,
