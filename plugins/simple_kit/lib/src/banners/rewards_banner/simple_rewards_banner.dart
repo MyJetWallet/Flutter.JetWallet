@@ -50,21 +50,21 @@ class SRewardBanner extends StatelessWidget {
                   : MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 177.0,
+                  width: 187.0,
                   child: Baseline(
                     baseline: 27.0,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
                       primaryText,
                       textAlign: TextAlign.start,
-                      maxLines: 2,
+                      maxLines: 3,
                       style: primaryTextStyle ?? sTextH4Style,
                     ),
                   ),
                 ),
                 if (secondaryText != null)
                   SizedBox(
-                    width: 177.0,
+                    width: 187.0,
                     child: Baseline(
                       baseline: 30.0,
                       baselineType: TextBaseline.alphabetic,

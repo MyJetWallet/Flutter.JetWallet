@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/constants.dart';
@@ -49,6 +50,7 @@ class _WalletBodyState extends State<WalletBody>
   Widget build(BuildContext context) {
     super.build(context);
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final recurring = useProvider(recurringBuysNotipod);
@@ -112,7 +114,8 @@ class _WalletBodyState extends State<WalletBody>
                     ),
                     SPaddingH24(
                       child: SSmallHeader(
-                        title: '${widget.currency.description} wallet',
+                        title: '${widget.currency.description}'
+                            ' ${intl.walletBody_wallet}',
                       ),
                     ),
                   ],
@@ -125,6 +128,7 @@ class _WalletBodyState extends State<WalletBody>
                   type: recurringN.type(widget.currency.symbol),
                   title: recurringN.recurringBannerTitle(
                     asset: widget.currency.symbol,
+                    context: context,
                   ),
                   onTap: () {
                     // Todo: need refactor
@@ -150,8 +154,8 @@ class _WalletBodyState extends State<WalletBody>
                           );
                         }
                       } else {
-                        showActionWithOutRecurringBuy(
-                          title: 'Setup recurring buy',
+                        showActionWithoutRecurringBuy(
+                          title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                           context: context,
                           onItemTap: (RecurringBuysType type) {
                             navigatorPushReplacement(
@@ -166,6 +170,11 @@ class _WalletBodyState extends State<WalletBody>
                         );
                       }
                     } else {
+                      sAnalytics.setupRecurringBuyView(
+                        widget.currency.description,
+                        Source.walletDetails,
+                      );
+
                       kycAlertHandler.handle(
                         status: kycState.sellStatus,
                         kycVerified: kycState,
@@ -183,7 +192,8 @@ class _WalletBodyState extends State<WalletBody>
                   children: [
                     const SpaceH36(),
                     Text(
-                      '${widget.currency.description} transactions',
+                      '${widget.currency.description}'
+                          ' ${intl.walletBody_transactions}',
                       style: sTextH4Style,
                     ),
                   ],

@@ -17,8 +17,14 @@ class WalletService {
   Future<ConversionPriceModel> conversionPrice(
     String baseAssetSymbol,
     String quotedAssetSymbol,
+    String localeName,
   ) {
-    return conversionPriceService(dio, baseAssetSymbol, quotedAssetSymbol);
+    return conversionPriceService(
+      dio,
+      baseAssetSymbol,
+      quotedAssetSymbol,
+      localeName,
+    );
   }
 
   Future<MarketInfoResponseModel> marketInfo(MarketInfoRequestModel model) {

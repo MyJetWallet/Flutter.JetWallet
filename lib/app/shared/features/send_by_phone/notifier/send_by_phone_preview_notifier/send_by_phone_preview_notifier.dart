@@ -62,7 +62,11 @@ class SendByPhonePreviewNotifier
         locale: read(intlPod).localeName,
       );
 
-      final response = await read(transferServicePod).transferByPhone(model);
+      final intl = read(intlPod);
+      final response = await read(transferServicePod).transferByPhone(
+        model,
+        intl.localeName,
+      );
 
       _updateOperationId(response.operationId);
       _updateReceiverIsRegistered(response.receiverIsRegistered);
@@ -99,11 +103,13 @@ class SendByPhonePreviewNotifier
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
@@ -112,11 +118,13 @@ class SendByPhonePreviewNotifier
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.sendByPhonePreview_failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.sendByPhonePreview_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -126,7 +134,7 @@ class SendByPhonePreviewNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.sendByPhonePreview_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

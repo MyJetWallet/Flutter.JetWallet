@@ -25,27 +25,52 @@ class BlockchainService {
 
   Future<DepositAddressResponseModel> depositAddress(
     DepositAddressRequestModel model,
+    String localeName,
   ) {
-    return depositAddressService(dio, model);
+    return depositAddressService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
   Future<ValidateAddressResponseModel> validateAddress(
     ValidateAddressRequestModel model,
+    String localeName,
   ) {
-    return validateAddressService(dio, model);
+    return validateAddressService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
-  Future<WithdrawResponseModel> withdraw(WithdrawRequestModel model) {
-    return withdrawService(dio, model);
+  Future<WithdrawResponseModel> withdraw(
+    WithdrawRequestModel model,
+    String localeName,
+  ) {
+    return withdrawService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
   Future<WithdrawalInfoResponseModel> withdrawalInfo(
     WithdrawalInfoRequestModel model,
+    String localeName,
   ) {
-    return withdrawalInfoService(dio, model);
+    return withdrawalInfoService(
+      dio,
+      model,
+      localeName,
+    );
   }
 
-  Future<void> withdrawalResend(WithdrawalResendRequestModel model) {
-    return withdrawalResendService(dio, model);
+  Future<void> withdrawalResend(
+    WithdrawalResendRequestModel model,
+    String localeName,
+  ) {
+    return withdrawalResendService(dio, model, localeName);
   }
 }

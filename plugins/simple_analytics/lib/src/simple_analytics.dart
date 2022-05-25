@@ -349,24 +349,36 @@ class SimpleAnalytics {
     await _analytics.regenerateDeviceId();
   }
 
-  void tapPreviewBuy(String assetName, String paymentMethod, String amount) {
+  void tapPreviewBuy({
+    required String assetName,
+    required String paymentMethod,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
     _analytics.logEvent(
       EventType.tapPreviewBuy,
       eventProperties: {
         PropertyType.assetName: assetName,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
+        PropertyType.frequency: frequency.name,
       },
     );
   }
 
-  void previewBuyView(String assetName, String paymentMethod, String amount) {
+  void previewBuyView({
+    required String assetName,
+    required String paymentMethod,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
     _analytics.logEvent(
       EventType.previewBuyView,
       eventProperties: {
         PropertyType.assetName: assetName,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
+        PropertyType.frequency: frequency.name,
       },
     );
   }
@@ -406,4 +418,138 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // [START] Recurring buy ->
+  // Possible source values for "Setup recurring buy" sheet:
+  // 1. Wallet details
+  // 2. Asset screen on the market
+  // 3. Success screen
+  void setupRecurringBuyView(String assetName, Source source) {
+    _analytics.logEvent(
+      EventType.setupRecurringBuyView,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.sourceScreen: source.name,
+      },
+    );
+  }
+
+  void pickRecurringBuyFrequency({
+    required String assetName,
+    required RecurringFrequency frequency,
+    required Source source,
+  }) {
+    _analytics.logEvent(
+      EventType.pickRecurringBuyFrequency,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.frequency: frequency.name,
+        PropertyType.sourceScreen: source.name,
+      },
+    );
+  }
+
+  void closeRecurringBuySheet(String assetName, Source source) {
+    _analytics.logEvent(
+      EventType.closeRecurringBuySheet,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.sourceScreen: source.name,
+      },
+    );
+  }
+
+  void recurringBuyView() => _analytics.logEvent(EventType.recurringBuyView);
+
+  void tapManageButton({
+    required String assetName,
+    required RecurringFrequency frequency,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapManageButton,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void recurringBuyDeletionSheetView({
+    required String assetName,
+    required RecurringFrequency frequency,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.recurringBuyDeletionSheetView,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void cancelRecurringBuyDeletion({
+    required String assetName,
+    required RecurringFrequency frequency,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.cancelRecurringBuyDeletion,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void deleteRecurringBuy({
+    required String assetName,
+    required RecurringFrequency frequency,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.deleteRecurringBuy,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void pauseRecurringBuy({
+    required String assetName,
+    required RecurringFrequency frequency,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.pauseRecurringBuy,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void startRecurringBuy({
+    required String assetName,
+    required RecurringFrequency frequency,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.startRecurringBuy,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  // <- Recurring buy [END]
 }

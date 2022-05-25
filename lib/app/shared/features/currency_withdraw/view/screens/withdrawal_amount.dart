@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
@@ -27,6 +28,7 @@ class WithdrawalAmount extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAmountNotipod(withdrawal));
     final notifier = useProvider(withdrawalAmountNotipod(withdrawal).notifier);
@@ -72,7 +74,8 @@ class WithdrawalAmount extends HookWidget {
                       symbol: state.baseCurrency!.symbol,
                     )}',
                     error: state.inputError == InputError.enterHigherAmount
-                        ? 'Enter more than ${currency.withdrawalFeeWithSymbol}'
+                        ? '${intl.withdrawalAmount_enterMoreThan} '
+                            '${currency.withdrawalFeeWithSymbol}'
                         : state.inputError.value,
                     isErrorActive: state.inputError.isActive,
                   ),
@@ -84,7 +87,8 @@ class WithdrawalAmount extends HookWidget {
                   ),
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    'Available: ${currency.volumeAssetBalance}',
+                    '${intl.withdrawalAmount_available}:'
+                    ' ${currency.volumeAssetBalance}',
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
                     ),
@@ -102,7 +106,11 @@ class WithdrawalAmount extends HookWidget {
                       const SFeeAlertIcon(),
                       const SpaceW10(),
                       Text(
-                        _feeDescription(state.addressIsInternal, state.amount),
+                        _feeDescription(
+                          state.addressIsInternal,
+                          state.amount,
+                          context,
+                        ),
                         style: sCaptionTextStyle.copyWith(
                           color: colors.grey2,
                         ),
@@ -120,7 +128,7 @@ class WithdrawalAmount extends HookWidget {
               color: colors.black,
             ),
             name: shortAddressForm(state.address),
-            description: '${currency.symbol} wallet',
+            description: '${currency.symbol} ${intl.withdrawalAmount_wallet}',
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -130,7 +138,7 @@ class WithdrawalAmount extends HookWidget {
             widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
-            preset3Name: 'MAX',
+            preset3Name: intl.max,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
               notifier.selectPercentFromBalance(preset);
@@ -140,7 +148,8 @@ class WithdrawalAmount extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.valid,
-            submitButtonName: 'Preview ${withdrawal.dictionary.verb}',
+            submitButtonName: '${intl.withdrawalAmount_preview}'
+                ' ${withdrawal.dictionary.verb}',
             onSubmitPressed: () {
               navigatorPush(
                 context,
@@ -155,8 +164,13 @@ class WithdrawalAmount extends HookWidget {
     );
   }
 
-  String _feeDescription(bool isInternal, String amount) {
+  String _feeDescription(
+    bool isInternal,
+    String amount,
+    BuildContext context,
+  ) {
     final currency = withdrawal.currency;
+    final intl = context.read(intlPod);
 
     final result = userWillreceive(
       amount: amount,
@@ -164,12 +178,12 @@ class WithdrawalAmount extends HookWidget {
       addressIsInternal: isInternal,
     );
 
-    final youWillReceive = 'You will receive: $result';
+    final youWillSend = '${intl.withdrawalAmount_youWillSend}: $result';
 
     if (isInternal) {
-      return 'No Fee / $youWillReceive';
+      return '${intl.noFee} / $youWillSend';
     } else {
-      return 'Fee: ${currency.withdrawalFeeWithSymbol} / $youWillReceive';
+      return '${intl.fee}: ${currency.withdrawalFeeWithSymbol} / $youWillSend';
     }
   }
 }

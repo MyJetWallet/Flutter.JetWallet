@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../components/dial_code_item.dart';
 import '../../notifier/set_phone_number_notipod.dart';
 
@@ -29,11 +30,12 @@ class _SearchPinned extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final notifier = useProvider(setPhoneNumberNotipod.notifier);
 
     return SStandardField(
       autofocus: true,
-      labelText: 'Search country',
+      labelText: intl.showCountryPhoneNumberPicker_searchCountry,
       onChanged: (value) {
         notifier.updateDialCodeSearch(value);
       },

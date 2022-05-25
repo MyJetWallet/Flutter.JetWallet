@@ -10,6 +10,7 @@ import '../transfer_service.dart';
 Future<TransferByPhoneResponseModel> transferByPhoneService(
   Dio dio,
   TransferByPhoneRequestModel model,
+  String localeName,
 ) async {
   final logger = TransferService.logger;
   const message = 'transferByPhoneService';
@@ -23,7 +24,7 @@ Future<TransferByPhoneResponseModel> transferByPhoneService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return TransferByPhoneResponseModel.fromJson(data);
     } catch (e) {

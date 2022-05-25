@@ -9,20 +9,20 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../helpers/remove_chars_from.dart';
 import '../../../logging/levels.dart';
+import '../../../notifiers/logout_notifier/logout_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_state.dart';
+import '../../../providers/service_providers.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
-import '../model/pin_lock_enum.dart';
 import '../view/components/shake_widget/shake_widget.dart';
 import 'pin_screen_state.dart';
 import 'pin_screen_union.dart';
 
 const pinBoxAnimationDuration = Duration(milliseconds: 800);
 const pinBoxErrorDuration = Duration(milliseconds: 400);
-const defaultEnterPinAttempts = 5;
 
 class PinScreenNotifier extends StateNotifier<PinScreenState> {
   PinScreenNotifier(
@@ -49,31 +49,32 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   late UserInfoNotifier _userInfoN;
   late BuildContext _context;
 
-  /// Attempts on every stage of the PinLock
-  int _enterPinAttempts = defaultEnterPinAttempts;
-  Timer _timer = Timer(Duration.zero, () {});
+  int attemptsLeft = maxPinAttempts;
 
   Future<void> _initDefaultScreen() async {
     final bioStatus = await biometricStatus();
     final hideBio = bioStatus == BiometricStatus.none;
+    final intl = read(intlPod);
 
     await flowUnion.when(
       change: () async {
-        await _initFlowThatStartsFromEnterPin('Change PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(
+            intl.pinScreen_changePin, hideBio,
+        );
       },
       disable: () async {
-        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.pinScreen_enterPin, hideBio);
       },
       enable: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader('Set PIN');
+        _updateScreenHeader(intl.pinScreen_setPin);
       },
       verification: () async {
-        await _initFlowThatStartsFromEnterPin('Enter PIN', hideBio);
+        await _initFlowThatStartsFromEnterPin(intl.pinScreen_enterPin, hideBio);
       },
       setup: () {
         _updateScreenUnion(const NewPin());
-        _updateScreenHeader('Set PIN');
+        _updateScreenHeader(intl.pinScreen_setPin);
       },
     );
   }
@@ -155,9 +156,18 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   Future<void> _enterPinFlow() async {
     if (state.enterPin != _userInfo.pin) {
       await _errorFlow();
-      _enterPinAttempts--;
-      if (_enterPinAttempts <= 0) {
-        _nextPinLock();
+      if (attemptsLeft > 1) {
+        attemptsLeft--;
+        read(sNotificationNotipod.notifier).showError(
+          'The PIN you entered is incorrect, $attemptsLeft attempts remaining.',
+        );
+      } else {
+        read(sNotificationNotipod.notifier).showError(
+          'Incorrect PIN has been entered more than $maxPinAttempts times, '
+          'you have been logged out of your account.',
+          duration: 5,
+        );
+        await read(logoutNotipod.notifier).logout();
       }
     } else {
       await flowUnion.maybeWhen(
@@ -265,10 +275,6 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     state = state.copyWith(hideBiometricButton: value);
   }
 
-  void _updatePinLock(PinLockEnum value) {
-    state = state.copyWith(pinLock: value);
-  }
-
   void _resetPin() {
     state.screenUnion.when(
       enterPin: () => _updateEnterPin(''),
@@ -311,7 +317,11 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   }
 
   Future<String> _authenticateWithBio() async {
-    final success = await makeAuthWithBiometrics();
+    final intl = read(intlPod);
+
+    final success = await makeAuthWithBiometrics(
+      intl.pinScreen_weNeedYouToConfirmYourIdentity,
+    );
 
     if (success) {
       return _userInfo.pin ?? '';
@@ -320,41 +330,19 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     }
   }
 
-  /// Increases lock time
-  void _nextPinLock() {
-    final length = PinLockEnum.values.length;
-    final index = state.pinLock.index;
+  String screenDescription() {
+    final intl = read(intlPod);
 
-    if (index < length - 1) {
-      _updatePinLock(PinLockEnum.values[index + 1]);
-      _startLockTimer(state.pinLock.seconds);
-    } else {
-      _startLockTimer(state.pinLock.seconds);
-    }
-  }
-
-  void _startLockTimer(int initial) {
-    _timer.cancel();
-    state = state.copyWith(lockTime: initial);
-
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        if (state.lockTime == 0) {
-          _enterPinAttempts = defaultEnterPinAttempts;
-          timer.cancel();
-        } else {
-          state = state.copyWith(
-            lockTime: state.lockTime - 1,
-          );
-        }
+    return state.screenUnion.when(
+      enterPin: () {
+        return intl.pinScreen_enterYourPIN;
+      },
+      newPin: () {
+        return intl.pinScreen_setNewPin;
+      },
+      confirmPin: () {
+        return intl.pinScreen_confirmNewPin;
       },
     );
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 }

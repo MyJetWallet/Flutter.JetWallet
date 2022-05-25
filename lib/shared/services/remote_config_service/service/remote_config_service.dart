@@ -123,6 +123,10 @@ class RemoteConfigService {
     emailResendCountdown = appConfig.emailResendCountdown;
     withdrawalConfirmResendCountdown = appConfig.withdrawConfirmResendCountdown;
     localPinLength = appConfig.localPinLength;
+    maxPinAttempts = appConfig.maxPinAttempts;
+    forgotPasswordLockHours = appConfig.forgotPasswordLockHours;
+    changePasswordLockHours = appConfig.changePasswordLockHours;
+    changePhoneLockHours = appConfig.changePhoneLockHours;
   }
 
   void overrideVersioningValues() {

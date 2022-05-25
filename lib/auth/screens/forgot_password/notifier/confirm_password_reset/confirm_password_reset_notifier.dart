@@ -44,16 +44,19 @@ class ConfirmPasswordResetNotifier
         deviceType: deviceType,
       );
 
-      await read(authServicePod).forgotPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).forgotPassword(model, intl.localeName);
 
       if (!mounted) return;
       _updateIsResending(false);
       onSuccess();
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+
+      final intl = read(intlPod);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.confirmPasswordReset_failedToResend}!',
       );
     }
   }

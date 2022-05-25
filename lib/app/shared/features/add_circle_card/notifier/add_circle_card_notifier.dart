@@ -87,15 +87,18 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
   }) async {
     _logger.log(notifier, 'addCard');
 
+    final intl = read(intlPod);
+
     state.loader!.startLoading();
 
     try {
-      final response = await read(circleServicePod).encryptionKey();
+      final response =
+          await read(circleServicePod).encryptionKey(intl.localeName);
 
       final base64Decoded = base64Decode(response.encryptionKey);
       final utf8Decoded = utf8.decode(base64Decoded);
       final encrypted = await OpenPGP.encrypt(
-        '{"number":"${state.cardNumber}","cvv": "${state.cvv}"}',
+        '{${intl.number}:"${state.cardNumber}","cvv": "${state.cvv}"}',
         utf8Decoded,
       );
       final utf8Encoded = utf8.encode(encrypted);
@@ -118,7 +121,10 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
         expYear: int.parse('20${expDate[1]}'),
       );
 
-      await read(circleServicePod).addCard(model);
+      await read(circleServicePod).addCard(
+        model,
+        intl.localeName,
+      );
       state.loader!.finishLoading(onFinish: onSuccess);
     } on ServerRejectException catch (error) {
       read(sNotificationNotipod.notifier).showError(
@@ -129,7 +135,7 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
       state.loader!.finishLoading(onFinish: onError);
     } catch (error) {
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong! Try again',
+        intl.something_went_wrong_try_again2,
         duration: 4,
         id: 1,
       );

@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/providers/service_providers.dart';
 import '../notifier/operation_history_notipod.dart';
 
 final operationHistoryInitFpod =
@@ -15,8 +16,10 @@ final operationHistoryInitFpod =
 
       await transactionHistoryN.initOperationHistory();
     } catch (_) {
+      final intl = ref.read(intlPod);
+
       ref.read(sNotificationNotipod.notifier).showError(
-            'Something went wrong',
+            intl.something_went_wrong,
             id: 2,
           );
     }

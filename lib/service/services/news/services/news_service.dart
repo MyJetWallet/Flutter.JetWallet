@@ -8,9 +8,10 @@ import '../model/news_request_model.dart';
 import '../model/news_response_model.dart';
 
 Future<NewsResponseModel> newsService(
-    Dio dio,
-    NewsRequestModel model,
-    ) async {
+  Dio dio,
+  NewsRequestModel model,
+  String localeName,
+) async {
   final logger = WalletService.logger;
   const message = 'newsService';
 
@@ -23,7 +24,7 @@ Future<NewsResponseModel> newsService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
       return NewsResponseModel.fromJson(data);
     } catch (e) {
       logger.log(contract, message);

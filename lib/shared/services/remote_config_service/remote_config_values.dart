@@ -18,9 +18,13 @@ late int minAmountOfCharsInPassword;
 late int maxAmountOfCharsInPassword;
 late int quoteRetryInterval;
 late String defaultAssetIcon;
-late double emailResendCountdown;
-late double withdrawalConfirmResendCountdown;
-late double localPinLength;
+late int emailResendCountdown;
+late int withdrawalConfirmResendCountdown;
+late int localPinLength;
+late int maxPinAttempts;
+late int forgotPasswordLockHours;
+late int changePasswordLockHours;
+late int changePhoneLockHours;
 
 // Versioning
 late String recommendedVersion;

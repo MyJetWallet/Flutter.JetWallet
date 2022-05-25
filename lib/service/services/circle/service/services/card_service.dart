@@ -10,6 +10,7 @@ import '../circle_service.dart';
 Future<CircleCard> cardService(
   Dio dio,
   CardRequestModel model,
+  String localeName,
 ) async {
   final logger = CircleService.logger;
   const message = 'cardService';
@@ -23,7 +24,10 @@ Future<CircleCard> cardService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(
+        responseData,
+        localeName,
+      );
 
       return CircleCard.fromJson(data);
     } catch (e) {
