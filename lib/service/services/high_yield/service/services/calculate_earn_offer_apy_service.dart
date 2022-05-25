@@ -10,6 +10,7 @@ import '../high_yield_service.dart';
 Future<CalculateEarnOfferApyResponseModel> calculateEarnOfferApyService(
   Dio dio,
   CalculateEarnOfferApyRequestModel model,
+  String localeName,
 ) async {
   final logger = HighYieldService.logger;
   const message = 'calculateEarnOfferApyService';
@@ -23,7 +24,7 @@ Future<CalculateEarnOfferApyResponseModel> calculateEarnOfferApyService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return CalculateEarnOfferApyResponseModel.fromJson(data);
     } catch (e) {

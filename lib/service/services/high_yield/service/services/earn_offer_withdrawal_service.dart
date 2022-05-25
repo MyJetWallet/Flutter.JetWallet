@@ -9,6 +9,7 @@ import '../high_yield_service.dart';
 Future<void> earnOfferWithdrawalService(
   Dio dio,
   EarnOfferWithdrawalRequestModel model,
+  String localeName,
 ) async {
   final logger = HighYieldService.logger;
   const message = 'earnOfferWithdrawalService';
@@ -22,7 +23,7 @@ Future<void> earnOfferWithdrawalService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

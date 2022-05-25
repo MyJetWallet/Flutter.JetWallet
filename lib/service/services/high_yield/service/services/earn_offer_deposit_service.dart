@@ -9,6 +9,7 @@ import '../high_yield_service.dart';
 Future<void> earnOfferDepositService(
   Dio dio,
   EarnOfferDepositRequestModel model,
+  String localeName,
 ) async {
   final logger = HighYieldService.logger;
   const message = 'earnOfferDepositService';
@@ -22,7 +23,7 @@ Future<void> earnOfferDepositService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

@@ -59,6 +59,7 @@ class PreviewReturnToWalletNotifier
     try {
       final response = await read(highYieldServicePod).calculateEarnOfferApy(
         model,
+        read(intlPod).localeName,
       );
 
       state = state.copyWith(
@@ -97,7 +98,10 @@ class PreviewReturnToWalletNotifier
         amount: state.fromAssetAmount ?? Decimal.zero,
       );
 
-      await read(highYieldServicePod).earnOfferWithdrawal(model);
+      await read(highYieldServicePod).earnOfferWithdrawal(
+        model,
+        read(intlPod).localeName,
+      );
 
       _showSuccessScreen();
     } on ServerRejectException catch (error) {
