@@ -3,9 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import 'components/change_password/change_password.dart';
@@ -43,7 +44,22 @@ class ProfileDetails extends HookWidget {
             label: intl.profileDetails_changePassword,
             value: '• • • • • • • • • • •',
             onTap: () {
-              navigatorPush(context, const ChangePassword());
+              sShowAlertPopup(
+                context,
+                willPopScope: false,
+                  primaryText: intl.profileDetails_payAttention,
+                secondaryText: '${intl.profileDetails_changePasswordAlert} '
+                    '$changePasswordLockHours ${intl.hours}.',
+                primaryButtonName: intl.profileDetails_continue,
+                image: _infoImage,
+                onPrimaryButtonTap: () {
+                  navigatorPushReplacement(context, const ChangePassword());
+                },
+                secondaryButtonName: intl.profileDetails_cancel,
+                onSecondaryButtonTap: () {
+                  Navigator.pop(context);
+                },
+              );
             },
           ),
           if (userInfo.isPhoneNumberSet)
@@ -55,11 +71,12 @@ class ProfileDetails extends HookWidget {
                   context,
                   willPopScope: false,
                   primaryText: intl.profileDetails_payAttention,
-                  secondaryText: '${intl.profileDetails_buttonSecondaryText}.',
+                  secondaryText: '${intl.profileDetails_changePhoneAlert} '
+                      '$changePhoneLockHours ${intl.hours}.',
                   primaryButtonName: intl.profileDetails_continue,
                   image: _infoImage,
                   onPrimaryButtonTap: () {
-                    PhoneVerification.push(
+                    PhoneVerification.pushReplacement(
                       context: context,
                       args: PhoneVerificationArgs(
                         phoneNumber: userInfo.phone,

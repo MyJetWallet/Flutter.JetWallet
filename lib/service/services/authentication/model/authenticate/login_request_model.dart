@@ -10,6 +10,7 @@ class LoginRequestModel with _$LoginRequestModel {
     String? deviceUid,
     String? captcha,
     @JsonKey(name: 'publicKeyPem') required String publicKey,
+    required String lang,
     required String email,
     required String password,
     @JsonKey(name: 'application') required int platform,
