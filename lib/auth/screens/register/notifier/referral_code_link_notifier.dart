@@ -277,6 +277,8 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
   void updateQrController(QRViewController controller) {
     _logger.log(notifier, 'updateQrController');
 
+    controller.resumeCamera();
+
     state = state.copyWith(qrController: controller);
   }
 
