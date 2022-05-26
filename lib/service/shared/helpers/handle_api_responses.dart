@@ -40,7 +40,7 @@ void _validateFullResponse(
     final expired = blocker['expired'] as String;
 
     throw ServerRejectException(_blockerMessage(timespanToDuration(expired)));
-  } else if (result == 'InvalidUserNameOrPassword1') {
+  } else if (result == 'InvalidUserNameOrPassword') {
     final data = json['data'] as Map<String, dynamic>;
     final attempts = data['attempts'] as Map<String, dynamic>?;
 
