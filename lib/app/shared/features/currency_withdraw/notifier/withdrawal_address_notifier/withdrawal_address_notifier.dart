@@ -284,8 +284,8 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       );
 
       final service = read(blockchainServicePod);
-
-      final response = await service.validateAddress(model);
+      final intl = read(intlPod);
+      final response = await service.validateAddress(model, intl.localeName);
 
       if (!mounted) return;
 
@@ -324,8 +324,9 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       );
 
       final service = read(blockchainServicePod);
+      final intl = read(intlPod);
 
-      final response = await service.validateAddress(model);
+      final response = await service.validateAddress(model, intl.localeName);
 
       if (!mounted) return;
 
@@ -388,14 +389,54 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   void _pushAllowCamera(BuildContext context) {
+    final intl = read(intlPod);
+
     AllowCamera.push(
       context: context,
-      permissionDescription:
-          'To scan the QR Code, give Simple permission to access your camera',
+      permissionDescription: intl.withdrawalAddress_pushAllowCamera,
       then: () {
         _pushQrView(context: context, fromSettings: true);
       },
     );
+  }
+
+  String get validationResult {
+    final intl = read(intlPod);
+
+    if (state.addressValidation is Loading || state.tagValidation is Loading) {
+      return '${intl.withdrawalAddress_checking}...';
+    } else if (state.addressValidation is Invalid) {
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address}';
+    } else if (state.tagValidation is Invalid) {
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.tag}';
+    } else if (state.addressValidation is Invalid &&
+        state.tagValidation is Invalid) {
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+    } else if (state.addressValidation is Valid &&
+        state.tagValidation is Valid) {
+      return '${intl.valid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+    } else if (state.addressValidation is Valid) {
+      return '${intl.valid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address}';
+    } else if (state.tagValidation is Valid) {
+      return '${intl.valid} ${currency.symbol} ${intl.tag}';
+    } else {
+      return intl.withdrawalAddress_error;
+    }
+  }
+
+  String get withdrawHint {
+    final intl = read(intlPod);
+
+    if (state.isReadyToContinue) {
+      return '${intl.withdrawHint_text1}.';
+    } else {
+      return '${intl.withdrawHint_text2}.';
+    }
   }
 
   @override

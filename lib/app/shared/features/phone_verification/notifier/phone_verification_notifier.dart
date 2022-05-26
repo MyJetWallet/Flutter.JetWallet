@@ -60,7 +60,8 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).request(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).request(model, intl.localeName);
       },
     );
   }
@@ -82,7 +83,8 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).verify(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).verify(model, intl.localeName);
 
         if (!mounted) return;
         args.onVerified();
@@ -100,7 +102,7 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
 
     try {
       await body();
-     } on ServerRejectException catch (e) {
+    } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
       sAnalytics.kycPhoneConfirmFailed(e.cause);
@@ -111,9 +113,13 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      sAnalytics.kycPhoneConfirmFailed('Something went wrong');
+      final intl = read(intlPod);
+
+      sAnalytics.kycPhoneConfirmFailed(
+        intl.something_went_wrong,
+      );
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 2,
       );
     }

@@ -139,8 +139,9 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
       );
 
       final service = read(referralCodeServicePod);
+      final intl = read(intlPod);
 
-      await service.validateReferralCode(model);
+      await service.validateReferralCode(model, intl.localeName);
 
       if (!mounted) return;
 
@@ -185,10 +186,11 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
   }
 
   void _pushAllowCamera(BuildContext context) {
+    final intl = context.read(intlPod);
+
     AllowCamera.push(
       context: context,
-      permissionDescription:
-          'To scan the QR Code, give Simple permission to access your camera',
+      permissionDescription: intl.referralCodeLink_pushAllowCamera,
       then: () {
         _pushQrView(context: context, fromSettings: true);
       },

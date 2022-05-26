@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 
 class SendByPhoneNotifyRecipient extends HookWidget {
   const SendByPhoneNotifyRecipient({
@@ -18,14 +19,15 @@ class SendByPhoneNotifyRecipient extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final userInfo = useProvider(userInfoNotipod);
     final canTapShare = useState(true);
 
     return SPageFrameWithPadding(
-      header: const SMegaHeader(
+      header: SMegaHeader(
         titleAlign: TextAlign.start,
-        title: 'Notify the recipient about sent',
+        title: intl.sendByPhoneRecipient_headerTitle,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +38,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
             style: sBodyText1Style,
           ),
           Text(
-            'This phone number is not linked to Simple account.',
+            '${intl.sendByPhoneRecipient_text1}.',
             maxLines: 4,
             style: sBodyText1Style.copyWith(
               color: colors.grey1,
@@ -44,7 +46,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
           ),
           const SpaceH24(),
           Text(
-            'Send a message how to receive funds.',
+            '${intl.sendByPhoneRecipient_text2}.',
             maxLines: 4,
             style: sBodyText1Style.copyWith(
               color: colors.grey1,
@@ -53,7 +55,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
           const Spacer(),
           SPrimaryButton2(
             active: true,
-            name: 'Send a message',
+            name: intl.sendByPhoneNotifyRecipient_sendAMessage,
             onTap: () {
               if (canTapShare.value) {
                 canTapShare.value = false;
@@ -62,8 +64,9 @@ class SendByPhoneNotifyRecipient extends HookWidget {
                   () => canTapShare.value = true,
                 );
                 Share.share(
-                  'I have sent you some money to $toPhoneNumber. Please '
-                  'install Simple app to get them.\n ${userInfo.referralLink}',
+                  '${intl.sendByPhoneRecipient_text3} $toPhoneNumber. '
+                      '${intl.sendByPhoneRecipient_text4}.\n '
+                      '${userInfo.referralLink}',
                 );
               }
             },
@@ -71,7 +74,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
           const SpaceH10(),
           STextButton1(
             active: true,
-            name: 'Later',
+            name: intl.sendByPhoneRecipient_later,
             onTap: () => Navigator.pop(context),
           ),
           const SpaceH24()

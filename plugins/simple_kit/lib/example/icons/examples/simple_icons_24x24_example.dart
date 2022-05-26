@@ -27,6 +27,8 @@ class SimpleIcons24X24Example extends StatelessWidget {
               SNotificationsIcon(),
               SLogOutIcon(),
               SFaqIcon(),
+              STopUpIcon(),
+              SForwardIcon(),
               SSecurityIcon(),
               SAboutUsIcon(),
               SProfileDetailsIcon(),

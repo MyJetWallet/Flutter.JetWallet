@@ -1,13 +1,17 @@
+import '../../../shared/helpers/timespan_to_duration.dart';
 import '../models/server_reject_exception.dart';
 import 'error_codes_description.dart';
 
 /// Handles common response with [result] and [data] from the API
 /// If data is a primitive type then pass [T] as primitive type
 /// else pass just [Map] in the generic field
-Map<String, dynamic> handleFullResponse<T>(Map<String, dynamic> json) {
+Map<String, dynamic> handleFullResponse<T>(
+  Map<String, dynamic> json,
+  String localName,
+) {
   final result = json['result'] as String;
 
-  _validateFullResponse(result, json);
+  _validateFullResponse(result, json, localName);
 
   final data = json['data'];
 
@@ -19,63 +23,89 @@ Map<String, dynamic> handleFullResponse<T>(Map<String, dynamic> json) {
 }
 
 /// Handles common response with just [result] from the API
-void handleResultResponse(Map<String, dynamic> json) {
+void handleResultResponse(Map<String, dynamic> json, String localName,) {
   final result = json['result'] as String;
 
   _validateResultResponse(result);
 }
 
-void _validateFullResponse(String result, Map<String, dynamic> json) {
+void _validateFullResponse(
+  String result,
+  Map<String, dynamic> json,
+  String localName,
+) {
   if (result == 'OperationBlocked') {
     final data = json['data'] as Map<String, dynamic>;
-    final expire = data['blockerExpired'] as String;
+    final blocker = data['blocker'] as Map<String, dynamic>;
+    final expired = blocker['expired'] as String;
 
-    throw ServerRejectException(_blockerMessage(expire));
+    throw ServerRejectException(_blockerMessage(timespanToDuration(expired)));
+  } else if (result == 'InvalidUserNameOrPassword1') {
+    final data = json['data'] as Map<String, dynamic>;
+    final attempts = data['attempts'] as Map<String, dynamic>?;
+
+    if (attempts == null) {
+      if (localName == 'ru') {
+        throw const ServerRejectException(
+          '$emailPasswordIncorrectRu.',
+        );
+      } else {
+        throw const ServerRejectException(
+          '$emailPasswordIncorrectEn.',
+        );
+      }
+
+    } else {
+      final left = attempts['left'] as int;
+
+      if (localName == 'ru') {
+        throw ServerRejectException(
+          '$emailPasswordIncorrectRu, '
+              '$left $attemptsRemainingRu.',
+        );
+      } else {
+        throw ServerRejectException(
+          '$emailPasswordIncorrectEn, '
+              '$left $attemptsRemainingEn.',
+        );
+      }
+    }
   } else if (result != 'OK') {
-    throw ServerRejectException(errorCodesDescription[result] ?? result);
+    if (localName == 'ru') {
+      throw ServerRejectException(errorCodesDescriptionRu[result] ?? result);
+    } else {
+      throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
+    }
   }
 }
 
 void _validateResultResponse(String result) {
   if (result != 'OK') {
-    throw ServerRejectException(errorCodesDescription[result] ?? result);
+    throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
 }
 
-String _blockerMessage(String expire) {
-  const phrase1 = 'Access to your account is temporarily restricted';
-  const phrase2 = ', time remaining -';
+String _blockerMessage(Duration duration) {
+  const phrase1 = 'Due to several failed log in attempts access '
+      'to this account will be suspended for';
 
-  final split = expire.split(':');
-  var hours = split[0];
-  final minutes = split[1];
-  var seconds = split[2];
+  final d = duration.inDays;
+  final h = duration.inHours;
+  final m = duration.inMinutes;
 
-  if (hours[0] == '-') {
-    hours = hours.substring(1);
-  }
+  final dEnd = _pluralEnd(d);
+  final hEnd = _pluralEnd(h);
+  final mEnd = _pluralEnd(m);
 
-  if (hours.contains('.')) {
-    return '$phrase1.';
-  }
-
-  seconds = seconds.substring(0, 2);
-
-  final hInt = int.parse(hours);
-  final mInt = int.parse(minutes);
-  final sInt = int.parse(seconds);
-
-  final hEnd = hInt == 1 ? '' : 's';
-  final mEnd = mInt == 1 ? '' : 's';
-  final sEnd = sInt == 1 ? '' : 's';
-
-  if (hInt != 0) {
-    return '$phrase1$phrase2 $hInt hour$hEnd $mInt minute$mEnd.';
-  } else if (mInt != 0) {
-    return '$phrase1$phrase2 $mInt minute$mEnd.';
-  } else if (sInt != 0) {
-    return '$phrase1$phrase2 $sInt second$sEnd.';
+  if (d != 0) {
+    return '$phrase1 $d day$dEnd $h hour$hEnd.';
+  } else if (h != 0) {
+    return '$phrase1 $h hour$hEnd $m minute$mEnd.';
+  } else if (m != 0) {
+    return '$phrase1 $m minute$mEnd.';
   } else {
-    return '$phrase1.';
+    return '$phrase1 < 1 minute.';
   }
 }
+
+String _pluralEnd(int number) => number == 1 ? '' : 's';

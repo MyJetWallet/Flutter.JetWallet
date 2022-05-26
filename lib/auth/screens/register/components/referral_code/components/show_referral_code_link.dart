@@ -4,20 +4,23 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../app/shared/features/actions/shared/components/action_bottom_sheet_header.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../notifier/referral_code_link_notipod.dart';
 import 'invalid_referral_code.dart';
 import 'loading_referral_code.dart';
 import 'valid_referral_code.dart';
 
 void showReferralCode(BuildContext context) {
+  final intl = context.read(intlPod);
   final colors = context.read(sColorPod);
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     expanded: true,
     color: colors.white,
-    pinned: const ActionBottomSheetHeader(
-      name: 'Enter referral code/link',
+    pinned: ActionBottomSheetHeader(
+      name: intl.showReferralCodeLink_enterReferralCodeLink,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -31,13 +34,14 @@ class _ReferralCodeBottom extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final state = useProvider(referralCodeLinkNotipod);
+    final intl = context.read(intlPod);
 
     return Column(
       children: [
         SPaddingH24(
           child: SPrimaryButton2(
             active: state.enableContinueButton,
-            name: 'Continue',
+            name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
               Navigator.pop(context);
             },
@@ -54,6 +58,7 @@ class _ReferralCodeLinkBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(referralCodeLinkNotipod);
     final notifier = useProvider(referralCodeLinkNotipod.notifier);
@@ -78,7 +83,7 @@ class _ReferralCodeLinkBody extends HookWidget {
                     child: SStandardField(
                       autofocus: true,
                       errorNotifier: state.referralCodeErrorNotifier,
-                      labelText: 'Referral code/link',
+                      labelText: intl.showReferralCodeLink_referralCodeLink,
                       controller: state.referralCodeController,
                       onChanged: (value) {
                         notifier.updateReferralCode(value, null);
@@ -141,8 +146,7 @@ class _ReferralCodeLinkBody extends HookWidget {
                     vertical: 11.0,
                   ),
                   child: Text(
-                    'Paste referral link or code. We recommend to click on '
-                        'the link or scanning a QR code.',
+                    intl.showReferralCode_pasteReferralLinkOrCode,
                     style: sCaptionTextStyle.copyWith(color: colors.grey6),
                     maxLines: 3,
                   ),

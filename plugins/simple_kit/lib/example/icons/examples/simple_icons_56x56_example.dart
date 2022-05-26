@@ -22,6 +22,8 @@ class SimpleIcons56X56Example extends StatelessWidget {
               SMarketDefaultIcon(),
               SNewsActiveIcon(),
               SNewsDefaultIcon(),
+              SEarnActiveIcon(),
+              SEarnDefaultIcon(),
               SPortfolioActiveIcon(),
               SPortfolioDefaultIcon(),
               SProfileActiveIcon(),

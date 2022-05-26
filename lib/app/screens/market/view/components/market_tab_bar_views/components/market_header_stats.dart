@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../provider/market_info_pod.dart';
 
 class MarketHeaderStats extends HookWidget {
@@ -11,14 +12,17 @@ class MarketHeaderStats extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final marketInfo = useProvider(marketInfoPod);
 
     return SPaddingH24(
       child: SMarketHeader(
-        title: 'Market',
+        title: intl.marketHeaderStats_market,
         percent: marketInfo.toString(),
         isPositive: marketInfo > Decimal.zero,
-        subtitle: 'Market is ${(marketInfo > Decimal.zero) ? 'up' : 'down'}',
+        subtitle:
+            '${intl.marketHeaderStats_marketIs} ${(marketInfo > Decimal.zero) ?
+            intl.marketHeaderStats_up : intl.marketHeaderStats_down}',
         showInfo: marketInfo != Decimal.zero,
       ),
     );

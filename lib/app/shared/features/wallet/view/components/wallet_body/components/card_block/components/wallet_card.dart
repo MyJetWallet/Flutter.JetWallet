@@ -4,11 +4,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../../../../screens/earn/components/earn_offer_details/earn_offer_details.dart';
+import '../../../../../../../../../screens/earn/components/earn_subscription/earn_subscriptions.dart';
 import '../../../../../../../../../screens/market/helper/format_day_percentage_change.dart';
-import '../../../../../../../../helpers/formatting/base/volume_format.dart';
-import '../../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../../../earn/provider/earn_offers_pod.dart';
 import '../../../../../../helper/show_interest_rate.dart';
 
 class WalletCard extends HookWidget {
@@ -21,18 +24,28 @@ class WalletCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
+    final navigation = useProvider(navigationStpod);
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
-    final interestRateText = '+${volumeFormat(
-      prefix: baseCurrency.prefix,
-      decimal: currency.baseTotalEarnAmount,
-      accuracy: baseCurrency.accuracy,
-      symbol: baseCurrency.symbol,
-    )}';
-    final interestRateTextSize = _textSize(interestRateText, sSubtitle3Style);
-    final isInterestRateVisible = currency.apy > Decimal.zero &&
-        !(currency.assetBalance == Decimal.zero &&
-            currency.isPendingDeposit);
+    final earnOffers = useProvider(earnOffersPod);
+
+    final filteredEarnOffers = earnOffers.where(
+          (element) => element.asset == currency.symbol,
+    ).toList();
+    final filteredActiveEarnOffers = filteredEarnOffers.where(
+      (element) => element.amount > Decimal.zero,
+    ).toList();
+    final interestRateText = filteredActiveEarnOffers.isEmpty
+        ? intl.earn_title
+        : filteredActiveEarnOffers.length == 1
+        ? '${filteredActiveEarnOffers[0].currentApy}%'
+        : intl.recurringBuysStatus_active;
+    final interestRateTextSize = _textSize(
+        interestRateText,
+        sSubtitle3Style,
+    );
+    final isInterestRateVisible = filteredEarnOffers.isNotEmpty;
     final isInProgress = currency.assetBalance == Decimal.zero &&
         currency.isPendingDeposit;
 
@@ -73,16 +86,21 @@ class WalletCard extends HookWidget {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
-                  showInterestRate(
-                    context: context,
-                    currency: currency,
-                    baseCurrency: baseCurrency,
-                    colors: colors,
-                    colorDayPercentage: colorDayPercentage(
-                      currency.dayPercentChange,
-                      colors,
-                    ),
-                  );
+                  if (filteredActiveEarnOffers.isEmpty) {
+                    showSubscriptionBottomSheet(
+                      context: context,
+                      offers: filteredEarnOffers,
+                      currency: currency,
+                    );
+                  } else if (filteredActiveEarnOffers.length == 1) {
+                    showEarnOfferDetails(
+                      context: context,
+                      earnOffer: filteredActiveEarnOffers[0],
+                    );
+                  } else {
+                    Navigator.pop(context);
+                    navigation.state = 2;
+                  }
                 },
                 child: Container(
                   height: 24,
@@ -114,7 +132,7 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                isInProgress ? 'In progress...'
+                isInProgress ? '${intl.walletCard_balanceInProcess}...'
                     : currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,

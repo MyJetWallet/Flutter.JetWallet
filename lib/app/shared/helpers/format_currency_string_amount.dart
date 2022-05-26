@@ -5,7 +5,11 @@ String formatCurrencyStringAmount({
   required String symbol,
 }) {
   if (prefix == null) {
-    return '$value $symbol';
+    if (symbol == 'USD') {
+      return '\$$value';
+    } else {
+      return '$value $symbol';
+    }
   } else {
     return '$prefix$value';
   }

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -45,6 +44,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final storageService = read(localStorageServicePod);
     final rsaService = read(rsaServicePod);
     final deviceInfoModel = read(deviceInfoPod);
+    final intl = read(intlPod);
 
     try {
       state = const Loading();
@@ -62,6 +62,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         password: password,
         platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
+        lang: intl.localeName,
       );
 
       final registerRequest = RegisterRequestModel(
@@ -73,15 +74,22 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         deviceUid: deviceInfoModel.deviceUid,
         referralCode: referralCode,
         marketingEmailsAllowed: marketingEmailsAllowed,
+        lang: intl.localeName,
       );
 
       AuthenticationResponseModel authModel;
 
       if (operation == AuthOperation.login) {
-        authModel = await authService.login(loginRequest);
+        authModel = await authService.login(
+          loginRequest,
+          intl.localeName,
+        );
         unawaited(sAnalytics.loginSuccess(email));
       } else {
-        authModel = await authService.register(registerRequest);
+        authModel = await authService.register(
+          registerRequest,
+          intl.localeName,
+        );
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
         read(appsFlyerServicePod).register(email);
@@ -110,17 +118,16 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       state = Input(error.cause);
     } catch (e) {
       _logger.log(stateFlow, 'authenticate', e);
+
+      final intl = read(intlPod);
+
       if (operation == AuthOperation.login) {
         sAnalytics.loginFailure(email, e.toString());
       } else {
         sAnalytics.signUpFailure(email, e.toString());
       }
 
-      if (e is DioError && e.error == 'Http status error [401]') {
-        state = const Input('Invalid login or password');
-      } else {
-        state = const Input('Something went wrong. Please try again later!');
-      }
+      state = Input(intl.something_went_wrong_try_again);
     }
   }
 }

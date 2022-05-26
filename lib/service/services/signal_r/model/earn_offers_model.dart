@@ -1,17 +1,21 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../shared/decimal_serialiser.dart';
+import 'earn_profile_model.dart';
+
 part 'earn_offers_model.freezed.dart';
 part 'earn_offers_model.g.dart';
 
 @freezed
-class EarnOffersModel with _$EarnOffersModel {
-  const factory EarnOffersModel({
+class EarnFullModel with _$EarnFullModel {
+  const factory EarnFullModel({
     required List<EarnOfferModel> earnOffers,
-  }) = _EarnOffersModel;
+    EarnProfileModel? earnProfile,
+  }) = _EarnFullModel;
 
-  factory EarnOffersModel.fromJson(Map<String, dynamic> json) =>
-      _$EarnOffersModelFromJson(json);
+  factory EarnFullModel.fromJson(Map<String, dynamic> json) =>
+      _$EarnFullModelFromJson(json);
 }
 
 @freezed
@@ -24,13 +28,13 @@ class EarnOfferModel with _$EarnOfferModel {
     required String title,
     required bool withdrawalEnabled,
     required bool topUpEnabled,
-    required Decimal amountBaseAsset,
-    required Decimal currentApy,
-    required Decimal totalEarned,
-    required Decimal amount,
-    required Decimal maxAmount,
-    required Term term,
-    required OfferTag offerTag,
+    @DecimalSerialiser() required Decimal amountBaseAsset,
+    @DecimalSerialiser() required Decimal currentApy,
+    @DecimalSerialiser() required Decimal totalEarned,
+    @DecimalSerialiser() required Decimal amount,
+    @DecimalSerialiser() required Decimal maxAmount,
+    required String term,
+    required String offerTag,
     required List<TierApySettingsModel> tiers,
   }) = _EarnOfferModel;
 
@@ -41,24 +45,12 @@ class EarnOfferModel with _$EarnOfferModel {
 @freezed
 class TierApySettingsModel with _$TierApySettingsModel {
   const factory TierApySettingsModel({
-    required Decimal fromUsd,
-    required Decimal toUsd,
-    required Decimal apy,
-    required bool active,
+    @DecimalSerialiser() required Decimal fromUsd,
+    @DecimalSerialiser() required Decimal toUsd,
+    @DecimalSerialiser() required Decimal apy,
+    @DecimalSerialiser() required bool active,
   }) = _TierApySettingsModel;
 
   factory TierApySettingsModel.fromJson(Map<String, dynamic> json) =>
       _$TierApySettingsModelFromJson(json);
-}
-
-enum Term {
-  @JsonValue(0)
-  flexible,
-}
-
-enum OfferTag {
-  @JsonValue(0)
-  none,
-  @JsonValue(1)
-  hot,
 }

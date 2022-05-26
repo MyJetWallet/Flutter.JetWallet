@@ -72,7 +72,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     if (paymentMethodInputError != null) {
       return paymentMethodInputError!;
     } else {
-      return inputError.value;
+      return inputError.value();
     }
   }
 

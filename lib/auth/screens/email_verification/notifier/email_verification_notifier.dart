@@ -69,16 +69,22 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         deviceType: deviceType,
       );
 
-      await read(validationServicePod).sendEmailVerificationCode(model);
+      final intl = read(intlPod);
+      await read(validationServicePod).sendEmailVerificationCode(
+        model,
+        intl.localeName,
+      );
 
       if (!mounted) return;
       _updateIsResending(false);
       onSuccess();
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+
+      final intl = read(intlPod);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.emailVerification_failedToResend}!',
       );
     }
   }
@@ -93,7 +99,11 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         code: state.controller.text,
       );
 
-      await read(validationServicePod).verifyEmailVerificationCode(model);
+      final intl = read(intlPod);
+      await read(validationServicePod).verifyEmailVerificationCode(
+        model,
+        intl.localeName,
+      );
 
       // Needed force refresh after successful emailVerification
       await refreshToken(read);

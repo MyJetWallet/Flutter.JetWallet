@@ -34,9 +34,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   static final _logger = Logger('CurrencyBuyNotifier');
 
   void _initCurrencies() {
-    final currencies = List<CurrencyModel>.from(
-      read(currenciesPod),
-    );
+    final currencies = List<CurrencyModel>.from(read(currenciesPod));
+
     sortCurrencies(currencies);
     removeEmptyCurrenciesFrom(currencies);
     removeCurrencyFrom(currencies, currencyModel);
@@ -59,7 +58,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     }
 
     if (state.currencies.isNotEmpty) {
-      // Case 1: If use has baseCurrency wallet with balance more than zero
+      // Case 1: If user has baseCurrency wallet with balance more than zero
       for (final currency in state.currencies) {
         if (currency.symbol == state.baseCurrency!.symbol) {
           updateSelectedCurrency(currency);
@@ -114,6 +113,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   void selectFixedSum(SKeyboardPreset preset) {
     late int value;
+
+    _updateSelectedPreset(preset);
 
     if (preset == SKeyboardPreset.preset1) {
       value = 50;
@@ -319,9 +320,11 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
       _updateInputValid(value >= min && value <= max);
 
+      final intl = read(intlPod);
+
       if (value < min) {
         _updatePaymentMethodInputError(
-          'Enter a higher amount. Min ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
             accuracy: state.baseCurrency!.accuracy,
             symbol: state.baseCurrency!.symbol,
@@ -330,7 +333,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         );
       } else if (value > max) {
         _updatePaymentMethodInputError(
-          'Enter smaller amount. Max ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
             accuracy: state.baseCurrency!.accuracy,
             symbol: state.baseCurrency!.symbol,
@@ -386,8 +389,13 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       toAsset: currencyModel.symbol,
     );
 
+    final intl = read(intlPod);
+
     try {
-      final response = await read(simplexServicePod).payment(model);
+      final response = await read(simplexServicePod).payment(
+        model,
+        intl.localeName,
+      );
 
       return response.paymentLink;
     } on ServerRejectException catch (error) {
@@ -400,8 +408,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     } catch (e) {
       _logger.log(stateFlow, 'makeSimplexRequest', e);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 1,
       );
     }

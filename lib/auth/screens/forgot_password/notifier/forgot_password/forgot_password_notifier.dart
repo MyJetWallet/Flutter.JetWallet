@@ -61,7 +61,8 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
         deviceType: deviceType,
       );
 
-      await read(authServicePod).forgotPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).forgotPassword(model, intl.localeName);
 
       unawaited(
         ConfirmPasswordReset.push(
@@ -76,8 +77,9 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
     } catch (e) {
       _logger.log(stateFlow, 'sendRecoveryLink', e);
 
+      final intl = read(intlPod);
       state = state.copyWith(
-        union: const Error('Something went wrong'),
+        union: Error(intl.something_went_wrong),
       );
     }
   }

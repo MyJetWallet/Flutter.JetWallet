@@ -39,8 +39,9 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
 
+      final intl = read(intlPod);
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 1,
       );
 
@@ -64,8 +65,9 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     } catch (e) {
       _logger.log(stateFlow, 'operationHistory', e);
 
+      final intl = read(intlPod);
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 2,
       );
 
@@ -92,9 +94,11 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     OperationHistoryRequestModel model,
   ) {
     state = state.copyWith(union: const Loading());
+    final intl = read(intlPod);
 
     return read(operationHistoryServicePod).operationHistory(
       model,
+      intl.localeName,
     );
   }
 }
@@ -115,7 +119,9 @@ List<OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == OperationType.feeSharePayment ||
         item.operationType == OperationType.rewardPayment ||
         item.operationType == OperationType.simplexBuy ||
-        item.operationType == OperationType.recurringBuy,
+        item.operationType == OperationType.recurringBuy ||
+        item.operationType == OperationType.earningDeposit ||
+        item.operationType == OperationType.earningWithdrawal,
   )
       .map((item) {
     if (item.operationType == OperationType.swap) {

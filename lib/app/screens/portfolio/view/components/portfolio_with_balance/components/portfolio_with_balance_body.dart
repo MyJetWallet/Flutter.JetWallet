@@ -10,6 +10,7 @@ import '../../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/features/chart/notifier/balance_chart_input_stpod.dart';
 import '../../../../../../shared/features/chart/notifier/chart_notipod.dart';
 import '../../../../../../shared/features/chart/notifier/chart_state.dart';
@@ -51,6 +52,7 @@ class PortfolioWithBalanceBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = useProvider(currenciesPod);
     final marketItems = useProvider(marketItemsPod);
@@ -153,7 +155,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               const SpaceW10(),
                               if (!isCurrentCandlesEmptyOrNull)
                                 Text(
-                                  _chartResolution(chart.resolution),
+                                  _chartResolution(chart.resolution, context),
                                   style: sBodyText2Style.copyWith(
                                     color: colors.grey3,
                                   ),
@@ -164,7 +166,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                           Row(
                             children: [
                               Text(
-                                'In progress...',
+                                '${intl.portfolioWith_balanceProcess}...',
                                 style: sTextH1Style.copyWith(
                                   color: colors.black,
                                 ),
@@ -220,7 +222,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                   child: Row(
                     children: [
                       Text(
-                        'Portfolio',
+                        intl.portfolioWithBalanceBody_portfolio,
                         style: sTextH4Style,
                       ),
                       const Spacer(),
@@ -294,7 +296,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                           ),
                           if (item.isPendingDeposit) ...[
                             BalanceInProcess(
-                              text: 'Deposit ${volumeFormat(
+                              text: '${intl.portfolioWithBalanceBody_deposit}'
+                                  ' ${volumeFormat(
                                 decimal: item.depositInProcess,
                                 accuracy: item.accuracy,
                                 symbol: item.symbol,
@@ -339,8 +342,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                         ],
                         if (!zeroBalanceWalletsEmpty(itemsWithoutBalance))
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 27.5,
+                            padding: EdgeInsets.only(
+                              top: showZeroBalanceWallets.state ? 10 : 27.5,
                             ),
                             child: Center(
                               child: InkWell(
@@ -349,8 +352,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                     !showZeroBalanceWallets.state,
                                 child: Text(
                                   showZeroBalanceWallets.state
-                                      ? 'Hide zero wallets'
-                                      : 'Show all wallets',
+                                      ? intl.portfolioWith_zeroWallets
+                                      : intl.portfolioWith_showWallets,
                                   style: sBodyText2Style,
                                 ),
                               ),
@@ -382,7 +385,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: 'Deposit ${volumeFormat(
+                                text: '${intl.portfolioWithBalanceBody_deposit}'
+                                    ' ${volumeFormat(
                                   decimal: item.depositInProcess,
                                   accuracy: item.accuracy,
                                   symbol: item.symbol,
@@ -423,8 +427,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                                       !showZeroBalanceWallets.state,
                                   child: Text(
                                     showZeroBalanceWallets.state
-                                        ? 'Hide zero wallets'
-                                        : 'Show all wallets',
+                                        ? intl.portfolioWith_zeroWallets
+                                        : intl
+                                            .portfolioWith_showWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -467,7 +472,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: 'Deposit ${volumeFormat(
+                                text: '${intl.portfolioWithBalanceBody_deposit}'
+                                    ' ${volumeFormat(
                                   decimal: item.depositInProcess,
                                   accuracy: item.accuracy,
                                   symbol: item.symbol,
@@ -517,8 +523,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                       !showZeroBalanceWallets.state,
                                   child: Text(
                                     showZeroBalanceWallets.state
-                                        ? 'Hide zero wallets'
-                                        : 'Show all wallets',
+                                        ? intl.portfolioWith_zeroWallets
+                                        : intl.portfolioWith_showWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -550,7 +556,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: 'Deposit ${volumeFormat(
+                                text: '${intl.portfolioWithBalanceBody_deposit}'
+                                    ' ${volumeFormat(
                                   decimal: item.depositInProcess,
                                   accuracy: item.accuracy,
                                   symbol: item.symbol,
@@ -591,8 +598,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                                       !showZeroBalanceWallets.state,
                                   child: Text(
                                     showZeroBalanceWallets.state
-                                        ? 'Hide zero wallets'
-                                        : 'Show all wallets',
+                                        ? intl.portfolioWith_zeroWallets
+                                        : intl.portfolioWith_showWallets,
                                     style: sBodyText2Style,
                                   ),
                                 ),
@@ -610,17 +617,22 @@ class PortfolioWithBalanceBody extends HookWidget {
     );
   }
 
-  String _chartResolution(String resolution) {
+  String _chartResolution(
+    String resolution,
+    BuildContext context,
+  ) {
+    final intl = context.read(intlPod);
+
     if (resolution == Period.week) {
-      return 'Week';
+      return intl.portfolioWithBalanceBody_week;
     }
     if (resolution == Period.month) {
-      return 'Month';
+      return intl.portfolioWithBalanceBody_month;
     }
     if (resolution == Period.all) {
-      return 'All';
+      return intl.portfolioWithBalanceBody_all;
     }
-    return 'Today';
+    return intl.portfolioWithBalanceBody_today;
   }
 
   String _price(

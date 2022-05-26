@@ -109,6 +109,9 @@ class _App extends HookWidget {
       debugShowCheckedModeBanner: debugShowCheckedModeBanner,
       builder: builder ?? (_, child) => AppBuilder(child),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // supportedLocales: const [
+      //   Locale('en', ''),
+      // ],
       supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: isStageEnv ? AppRouterStage.routeName : AppRouter.routeName,
       routes: {

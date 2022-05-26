@@ -63,11 +63,12 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
         code: args.code,
       );
 
-      await read(authServicePod).recoverPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).recoverPassword(model, intl.localeName);
 
       SuccessScreen.push(
         context: context,
-        secondaryText: 'Your password has been reset',
+        secondaryText: intl.resetPassword_yourPasswordHasBeenReset,
         then: () => navigatorPush(
           read(sNavigatorKeyPod).currentContext!,
           Login(

@@ -23,7 +23,8 @@ definitions:
     FLAVOR: "dev"
     BUNDLE_ID: "dev.app.simple.com"
     APP_STORE_ID: 1604368665
-    FIREBASE_APP_ID: 1:440447150598:android:a31f38c8dd14cb677fb187
+    FIREBASE_ANDROID_ID: 1:440447150598:android:a31f38c8dd14cb677fb187
+    FIREBASE_IOS_ID: 1:440447150598:ios:53f280b6b3bd4be77fb187
 
   flavor_staging_groups: &flavor_staging_groups
     groups:
@@ -37,7 +38,8 @@ definitions:
     FLAVOR: "stage"
     BUNDLE_ID: "stage.app.simple.com"
     APP_STORE_ID: 1604368566
-    FIREBASE_APP_ID: 1:709845370864:android:5dd30cc672286c1781ff35
+    FIREBASE_ANDROID_ID: 1:709845370864:android:5dd30cc672286c1781ff35
+    FIREBASE_IOS_ID: 1:709845370864:ios:527705551ac4b40081ff35
 
   flavor_production_groups: &flavor_production_groups
     groups:
@@ -51,7 +53,8 @@ definitions:
     FLAVOR: "prod"
     BUNDLE_ID: "app.simple.com"
     APP_STORE_ID: 1603406843
-    FIREBASE_APP_ID: 1:403762259621:android:e4cb6f9d00b51a0d020f4c
+    FIREBASE_ANDROID_ID: 1:403762259621:android:e4cb6f9d00b51a0d020f4c
+    FIREBASE_IOS_ID: 1:403762259621:ios:a8d8f569a60c9eec020f4c
 
   cache: &cache
     cache_paths:
@@ -111,6 +114,7 @@ definitions:
       script: |
         flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER
+  
   publishing: &publishing
     app_store_connect:             
       apple_id: $APPLE_ID    
@@ -125,10 +129,14 @@ definitions:
     firebase:
       firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
       android:
-        app_id: $FIREBASE_APP_ID
+        app_id: $FIREBASE_ANDROID_ID
         groups: 
           - main_group
         artifact_type: 'apk'
+      ios:
+        app_id: $FIREBASE_IOS_ID
+        groups: 
+          - main_group
 
     email:
       recipients:
@@ -158,14 +166,14 @@ definitions:
     - /tmp/xcodebuild_logs/*.log
     - flutter_drive.log    
   
-  dev_triggering: &dev_triggering
-    events:
-      - pull_request
-    branch_patterns:
-      - pattern: develop
-        include: true
-        source: false
-    cancel_previous_builds: false  
+  # dev_triggering: &dev_triggering
+  #   events:
+  #     - pull_request
+  #   branch_patterns:
+  #     - pattern: develop
+  #       include: true
+  #       source: false
+  #   cancel_previous_builds: false  
 
   stage_triggering: &stage_triggering
     events:
@@ -201,7 +209,6 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-    triggering: *dev_triggering 
 
   flavor_development_target_production:
     name: Flavor (Development) Target (Production)

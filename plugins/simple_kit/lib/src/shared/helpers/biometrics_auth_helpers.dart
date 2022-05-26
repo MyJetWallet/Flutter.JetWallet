@@ -1,7 +1,7 @@
 import 'package:local_auth/local_auth.dart';
 
 /// Returns [true] if BioAuth was successful else [false]
-Future<bool> makeAuthWithBiometrics() async {
+Future<bool> makeAuthWithBiometrics(String localizedReasonText) async {
   try {
     final auth = LocalAuthentication();
 
@@ -12,7 +12,7 @@ Future<bool> makeAuthWithBiometrics() async {
 
     if (face || fingerprint) {
       final result = await auth.authenticate(
-        localizedReason: 'We need you to confirm your identity',
+        localizedReason: localizedReasonText,
         stickyAuth: true,
         biometricOnly: true,
       );
