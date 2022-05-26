@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../../../../shared/providers/device_size/media_query_pod.dart';
 import '../../../../../../../market/view/components/change_on_scroll.dart';
 
 class EarnBottomSheetContainer extends StatefulHookWidget {
@@ -102,7 +100,8 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = useProvider(mediaQueryPod);
+    // TODO Fix mediaQuery
+    // final mediaQuery = useProvider(mediaQueryPod);
 
     void _onDissmisAction(BuildContext context) {
       widget.onDissmis?.call();
@@ -115,7 +114,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
           return Future.value(true);
         },
         child: Padding(
-          padding: mediaQuery.viewInsets,
+          padding: MediaQuery.of(context).viewInsets,
           child: LayoutBuilder(
             builder: (_, constraints) {
               final maxHeight = _listViewMaxHeight(
@@ -191,7 +190,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
                               ),
                               Positioned(
                                 child: Container(
-                                  width: mediaQuery.size.width - 44,
+                                  width: MediaQuery.of(context).size.width - 44,
                                   height: 180,
                                   color: Colors.transparent,
                                 ),

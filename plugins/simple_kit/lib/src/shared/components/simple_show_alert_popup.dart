@@ -15,6 +15,7 @@ void sShowAlertPopup(
   bool willPopScope = true,
   bool barrierDismissible = true,
   bool activePrimaryButton = true,
+  bool isNeedPrimaryButton = true,
   SButtonType primaryButtonType = SButtonType.primary1,
   required String primaryText,
   required String primaryButtonName,
@@ -77,34 +78,36 @@ void sShowAlertPopup(
                       ),
                     const SpaceH36(),
                     if (child != null) child,
-                    if (primaryButtonType == SButtonType.primary1)
-                      SPrimaryButton1(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      )
-                    else if (primaryButtonType == SButtonType.primary2)
-                      SPrimaryButton2(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      )
-                    else
-                      SPrimaryButton3(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      ),
-                    if (onSecondaryButtonTap != null &&
-                        secondaryButtonName != null) ...[
-                      const SpaceH10(),
-                      STextButton1(
-                        name: secondaryButtonName,
-                        active: true,
-                        onTap: () => onSecondaryButtonTap(),
-                      ),
+                    if (isNeedPrimaryButton) ...[
+                      if (primaryButtonType == SButtonType.primary1)
+                        SPrimaryButton1(
+                          name: primaryButtonName,
+                          active: activePrimaryButton,
+                          onTap: () => onPrimaryButtonTap(),
+                        )
+                      else if (primaryButtonType == SButtonType.primary2)
+                        SPrimaryButton2(
+                          name: primaryButtonName,
+                          active: activePrimaryButton,
+                          onTap: () => onPrimaryButtonTap(),
+                        )
+                      else
+                        SPrimaryButton3(
+                          name: primaryButtonName,
+                          active: activePrimaryButton,
+                          onTap: () => onPrimaryButtonTap(),
+                        ),
+                      if (onSecondaryButtonTap != null &&
+                          secondaryButtonName != null) ...[
+                        const SpaceH10(),
+                        STextButton1(
+                          name: secondaryButtonName,
+                          active: true,
+                          onTap: () => onSecondaryButtonTap(),
+                        ),
+                      ],
+                      const SpaceH20(),
                     ],
-                    const SpaceH20(),
                   ],
                 ),
               ),

@@ -64,6 +64,7 @@ final signalRServicePod = Provider<SignalRService>((ref) {
     ref.read(packageInfoPod).version,
     mediaQuery.size,
     mediaQuery.devicePixelRatio,
+    ref.read(deviceInfoPod).model,
   );
 });
 

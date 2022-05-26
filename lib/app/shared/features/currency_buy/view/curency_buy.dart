@@ -168,22 +168,25 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 small: () => const SizedBox(),
                 medium: () => const Spacer(),
               ),
-              Baseline(
-                baseline: deviceSize.when(
-                  small: () => 32,
-                  medium: () => 31,
-                ),
-                baselineType: TextBaseline.alphabetic,
-                child: SActionPriceField(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  price: formatCurrencyStringAmount(
-                    prefix: state.selectedCurrency?.prefixSymbol,
-                    value: state.inputValue,
-                    symbol: state.selectedCurrencySymbol,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Baseline(
+                  baseline: deviceSize.when(
+                    small: () => 32,
+                    medium: () => 31,
                   ),
-                  helper: state.conversionText(widget.currency),
-                  error: state.inputErrorValue,
-                  isErrorActive: state.isInputErrorActive,
+                  baselineType: TextBaseline.alphabetic,
+                  child: SActionPriceField(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    price: formatCurrencyStringAmount(
+                      prefix: state.selectedCurrency?.prefixSymbol,
+                      value: state.inputValue,
+                      symbol: state.selectedCurrencySymbol,
+                    ),
+                    helper: state.conversionText(widget.currency),
+                    error: state.inputErrorValue,
+                    isErrorActive: state.isInputErrorActive,
+                  ),
                 ),
               ),
               const Spacer(),
