@@ -277,7 +277,11 @@ class SignalRService {
 
     _connection?.on(clientDetailMessage, (data) {
       try {
-        final clientDetail = ClientDetailModel.fromJson(_json(data));
+        final map = {
+          for (final e in _json(data).entries) e.key: e.value,
+          'recivedAt': DateTime.now().toString(),
+        };
+        final clientDetail = ClientDetailModel.fromJson(map);
         _clientDetailController.add(clientDetail);
       } catch (e) {
         _logger.log(contract, clientDetailMessage, e);

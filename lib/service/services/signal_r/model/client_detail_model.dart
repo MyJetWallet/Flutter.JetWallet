@@ -13,9 +13,9 @@ class ClientDetailModel with _$ClientDetailModel {
     @Default([]) List<int> requiredDocuments,
     @Default([]) List<int> requiredVerifications,
     @Default([]) List<ClientBlockerInfoModel> clientBlockers,
+    required DateTime recivedAt,
     required String walletCreationDate,
   }) = _ClientDetailModel;
-
   factory ClientDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ClientDetailModelFromJson(json);
 }

@@ -23,9 +23,9 @@ void showSendAction(BuildContext context) {
   } else {
     for (final blocker in clientDetail.clientBlockers) {
       if (blocker.blockingType == BlockingType.transfer) {
-        return _showTimerAlert(context, blocker.timespanToExpire);
+        return _showTimerAlert(context, clientDetail, blocker.timespanToExpire);
       } else if (blocker.blockingType == BlockingType.withdrawal) {
-        return _showTimerAlert(context, blocker.timespanToExpire);
+        return _showTimerAlert(context, clientDetail, blocker.timespanToExpire);
       }
     }
     return _showActionSend(context);
@@ -52,14 +52,28 @@ void _showActionSend(BuildContext context) {
   );
 }
 
-void _showTimerAlert(BuildContext context, String expireTime) {
-  sShowTimerAlertPopup(
-    context: context,
-    buttonName: 'OK',
-    description: 'Time left until withdrawal is unlocked',
-    expireIn: timespanToDuration(expireTime),
-    onButtonTap: () => Navigator.pop(context),
-  );
+void _showTimerAlert(
+  BuildContext context,
+  ClientDetailModel clientDetail,
+  String expireIn,
+) {
+  final intl = context.read(intlPod);
+  final recivedAt = clientDetail.recivedAt;
+  final now = DateTime.now();
+
+  final difference = now.difference(recivedAt).inSeconds;
+  final expire = timespanToDuration(expireIn).inSeconds;
+  final result = expire - difference;
+
+  if (result > 0) {
+    sShowTimerAlertPopup(
+      context: context,
+      buttonName: intl.send_timer_alert_ok,
+      description: intl.send_timer_alert_description,
+      expireIn: Duration(seconds: result),
+      onButtonTap: () => Navigator.pop(context),
+    );
+  }
 }
 
 class _ActionSend extends HookWidget {
