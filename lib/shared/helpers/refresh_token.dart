@@ -1,15 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/authentication/model/refresh/auth_refresh_request_model.dart';
+import 'package:simple_networking/shared/models/refresh_token_status.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../router/provider/authorization_stpod/authorization_union.dart';
-import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
 import '../providers/service_providers.dart';
 import '../services/local_storage_service.dart';
 import 'navigate_to_router.dart';
-
-enum RefreshTokenStatus { success, caught }
 
 /// Returns [success] if
 /// Refreshed token successfully

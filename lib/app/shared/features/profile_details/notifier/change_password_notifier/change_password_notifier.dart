@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_networking/services/change_password/model/change_password_request_model.dart';
 
-import '../../../../../../service/services/change_password/model/change_password_request_model.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import 'change_password_state.dart';

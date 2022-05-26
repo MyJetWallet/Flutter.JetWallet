@@ -1,6 +1,5 @@
 import 'package:charts/simple_chart.dart';
-
-import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
+import 'package:simple_networking/services/chart/model/wallet_history_request_model.dart';
 
 TimeLength timeLengthFrom(String resolution) {
   if (resolution == Period.hour) {

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
-import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import 'components/earn_offer_details_body.dart';
 import 'components/earn_offer_details_pinned.dart';
 

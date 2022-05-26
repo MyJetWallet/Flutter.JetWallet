@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
 
-import '../../../../../../service/services/signal_r/model/campaign_response_model.dart';
 import '../../../../../screens/market/provider/market_campaigns_pod.dart';
 import 'campaign_notifier.dart';
 

@@ -1,4 +1,4 @@
-import '../../../../../service/services/signal_r/model/campaign_response_model.dart';
+import 'package:simple_networking/services/signal_r/model/campaign_response_model.dart';
 
 bool checkAllReferralConditionsPassed(
   List<CampaignConditionModel> conditions,

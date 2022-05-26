@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/price_accuracies.dart';
 
-import '../../../service/services/signal_r/model/price_accuracies.dart';
 import '../providers/price_accuracies_pod/price_accuarcies_pod.dart';
 
 int priceAccuracy(Reader read, String from, String to) {

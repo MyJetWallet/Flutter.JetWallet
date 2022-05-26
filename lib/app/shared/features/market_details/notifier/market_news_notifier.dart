@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_networking/services/market_news/model/market_news_request_model.dart';
+import 'package:simple_networking/services/market_news/model/market_news_response_model.dart';
 
-import '../../../../../service/services/market_news/model/market_news_request_model.dart';
-import '../../../../../service/services/market_news/model/market_news_response_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../provider/market_news_fpod.dart';

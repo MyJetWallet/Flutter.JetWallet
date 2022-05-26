@@ -1,8 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
-import '../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../models/currency_model.dart';
 import '../shared/notifier/action_search_notipod.dart';
 

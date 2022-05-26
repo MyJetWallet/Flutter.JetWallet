@@ -2,9 +2,11 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/shared/models/refresh_token_status.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../shared/helpers/refresh_token.dart';
+import '../../shared/notifiers/internet_checker_notifier/internet_checker_notipod.dart';
 import '../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../shared/providers/apps_flyer_service_pod.dart';
 import '../../shared/providers/service_providers.dart';
@@ -21,6 +23,7 @@ final appInitFpod = FutureProvider<void>(
     final userInfoN = ref.watch(userInfoNotipod.notifier);
     final storageService = ref.watch(localStorageServicePod);
     final appsFlyerService = ref.watch(appsFlyerServicePod);
+    final internetCheckerN = ref.watch(internetCheckerNotipod.notifier);
     final intl = ref.read(intlPod);
 
     final token = await storageService.getString(refreshTokenKey);
@@ -31,6 +34,7 @@ final appInitFpod = FutureProvider<void>(
       await AppTrackingTransparency.requestTrackingAuthorization();
 
       await appsFlyerService.init();
+      await internetCheckerN.initialise();
     } catch (error, stackTrace) {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
     }

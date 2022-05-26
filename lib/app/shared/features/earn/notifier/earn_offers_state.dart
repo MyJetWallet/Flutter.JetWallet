@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
+import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
 part 'earn_offers_state.freezed.dart';
 
