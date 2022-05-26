@@ -6,7 +6,10 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/disclaimers_response_model.dart';
 import '../disclaimers_service.dart';
 
-Future<DisclaimersResponseModel> getDisclaimersService(Dio dio) async {
+Future<DisclaimersResponseModel> getDisclaimersService(
+  Dio dio,
+  String localeName,
+) async {
   final logger = DisclaimersService.logger;
   const message = 'getDisclaimersService';
 
@@ -18,7 +21,10 @@ Future<DisclaimersResponseModel> getDisclaimersService(Dio dio) async {
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(
+        responseData,
+        localeName,
+      );
 
       return DisclaimersResponseModel.fromJson(data);
     } catch (e) {

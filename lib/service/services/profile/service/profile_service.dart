@@ -11,7 +11,7 @@ class ProfileService {
 
   static final logger = Logger('ProfileService');
 
-  Future<ProfileInfoResponseModel> info() {
-    return profileInfoService(dio);
+  Future<ProfileInfoResponseModel> info(String localeName) {
+    return profileInfoService(dio, localeName);
   }
 }

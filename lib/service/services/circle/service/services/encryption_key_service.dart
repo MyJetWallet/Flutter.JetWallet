@@ -6,7 +6,10 @@ import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../model/encryption_key/encryption_key_response_model.dart';
 import '../circle_service.dart';
 
-Future<EncryptionKeyResponseModel> encryptionKeyService(Dio dio) async {
+Future<EncryptionKeyResponseModel> encryptionKeyService(
+  Dio dio,
+  String localeName,
+) async {
   final logger = CircleService.logger;
   const message = 'encryptionKeyService';
 
@@ -18,7 +21,10 @@ Future<EncryptionKeyResponseModel> encryptionKeyService(Dio dio) async {
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(
+        responseData,
+        localeName,
+      );
 
       return EncryptionKeyResponseModel.fromJson(data);
     } catch (e) {

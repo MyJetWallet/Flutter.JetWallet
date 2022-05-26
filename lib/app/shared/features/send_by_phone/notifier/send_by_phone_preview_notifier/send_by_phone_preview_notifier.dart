@@ -62,7 +62,11 @@ class SendByPhonePreviewNotifier
         locale: read(intlPod).localeName,
       );
 
-      final response = await read(transferServicePod).transferByPhone(model);
+      final intl = read(intlPod);
+      final response = await read(transferServicePod).transferByPhone(
+        model,
+        intl.localeName,
+      );
 
       _updateOperationId(response.operationId);
       _updateReceiverIsRegistered(response.receiverIsRegistered);

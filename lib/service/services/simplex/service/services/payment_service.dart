@@ -10,6 +10,7 @@ import '../simplex_service.dart';
 Future<SimplexPaymentResponseModel> paymentService(
   Dio dio,
   SimplexPaymentRequestModel model,
+  String localeName,
 ) async {
   final logger = SimplexService.logger;
   const message = 'paymentService';
@@ -23,7 +24,7 @@ Future<SimplexPaymentResponseModel> paymentService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return SimplexPaymentResponseModel.fromJson(data);
     } catch (e) {

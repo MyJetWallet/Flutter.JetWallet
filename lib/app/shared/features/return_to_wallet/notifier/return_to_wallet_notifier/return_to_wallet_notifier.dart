@@ -61,6 +61,7 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     try {
       final response = await read(highYieldServicePod).calculateEarnOfferApy(
         model,
+        read(intlPod).localeName,
       );
 
       state = state.copyWith(

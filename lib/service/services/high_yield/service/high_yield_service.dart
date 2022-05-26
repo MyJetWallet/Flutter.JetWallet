@@ -18,19 +18,22 @@ class HighYieldService {
 
   Future<CalculateEarnOfferApyResponseModel> calculateEarnOfferApy(
     CalculateEarnOfferApyRequestModel model,
+    String localeName,
   ) {
-    return calculateEarnOfferApyService(dio, model);
+    return calculateEarnOfferApyService(dio, model, localeName);
   }
 
   Future<void> earnOfferDeposit(
     EarnOfferDepositRequestModel model,
+    String localeName,
   ) {
-    return earnOfferDepositService(dio, model);
+    return earnOfferDepositService(dio, model, localeName);
   }
 
   Future<void> earnOfferWithdrawal(
     EarnOfferWithdrawalRequestModel model,
+    String localeName,
   ) {
-    return earnOfferWithdrawalService(dio, model);
+    return earnOfferWithdrawalService(dio, model, localeName);
   }
 }

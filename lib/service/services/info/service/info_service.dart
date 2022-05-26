@@ -11,7 +11,10 @@ class InfoService {
 
   final Dio dio;
 
-  Future<SessionInfoResponseModel> sessionInfo() {
-    return sessionInfoService(dio);
+  Future<SessionInfoResponseModel> sessionInfo(String localeName) {
+    return sessionInfoService(
+      dio,
+      localeName,
+    );
   }
 }

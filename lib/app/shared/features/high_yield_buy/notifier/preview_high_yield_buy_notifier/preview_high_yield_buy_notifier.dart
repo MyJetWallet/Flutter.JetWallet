@@ -59,6 +59,7 @@ class PreviewHighYieldBuyNotifier
     try {
       final response = await read(highYieldServicePod).calculateEarnOfferApy(
         model,
+        read(intlPod).localeName,
       );
 
       state = state.copyWith(
@@ -98,7 +99,10 @@ class PreviewHighYieldBuyNotifier
         amount: state.fromAssetAmount ?? Decimal.zero,
       );
 
-      await read(highYieldServicePod).earnOfferDeposit(model);
+      await read(highYieldServicePod).earnOfferDeposit(
+        model,
+        read(intlPod).localeName,
+      );
 
       _showSuccessScreen();
     } on ServerRejectException catch (error) {

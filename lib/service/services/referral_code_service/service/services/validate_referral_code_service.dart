@@ -7,9 +7,10 @@ import '../../model/validate_referral_code_request_model.dart';
 import '../referral_code_service.dart';
 
 Future<void> validateReferralCodeService(
-    Dio dio,
-    ValidateReferralCodeRequestModel model,
-    ) async {
+  Dio dio,
+  ValidateReferralCodeRequestModel model,
+  String localeName,
+) async {
   final logger = ReferralCodeService.logger;
   const message = 'validateReferralCodeService';
 
@@ -22,7 +23,7 @@ Future<void> validateReferralCodeService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

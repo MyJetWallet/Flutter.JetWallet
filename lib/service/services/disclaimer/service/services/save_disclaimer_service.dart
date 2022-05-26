@@ -7,9 +7,10 @@ import '../../model/disclaimers_request_model.dart';
 import '../disclaimers_service.dart';
 
 Future<void> saveDisclaimerService(
-    Dio dio,
-    DisclaimersRequestModel model,
-    ) async {
+  Dio dio,
+  DisclaimersRequestModel model,
+  String localeName,
+) async {
   final logger = DisclaimersService.logger;
   const message = 'postDisclaimersService';
 
@@ -22,7 +23,7 @@ Future<void> saveDisclaimerService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData);
+      handleResultResponse(responseData, localeName);
     } catch (e) {
       logger.log(contract, message, e);
       rethrow;

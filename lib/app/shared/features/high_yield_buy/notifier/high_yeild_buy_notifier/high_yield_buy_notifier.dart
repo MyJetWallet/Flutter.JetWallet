@@ -145,6 +145,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     try {
       final response = await read(highYieldServicePod).calculateEarnOfferApy(
         model,
+        read(intlPod).localeName,
       );
 
       state = state.copyWith(
