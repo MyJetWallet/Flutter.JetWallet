@@ -61,7 +61,8 @@ class ForgotPasswordNotifier extends StateNotifier<ForgotPasswordState> {
         deviceType: deviceType,
       );
 
-      await read(authServicePod).forgotPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).forgotPassword(model, intl.localeName);
 
       unawaited(
         ConfirmPasswordReset.push(

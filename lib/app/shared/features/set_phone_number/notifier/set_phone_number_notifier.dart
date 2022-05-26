@@ -49,7 +49,8 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
         phoneIso: number.isoCode,
       );
 
-      await read(phoneVerificationServicePod).request(model);
+      final intl = read(intlPod);
+      await read(phoneVerificationServicePod).request(model, intl.localeName);
 
       sAnalytics.kycPhoneConfirmed();
       sAnalytics.kycChangePhoneNumber();

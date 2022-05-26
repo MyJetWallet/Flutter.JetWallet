@@ -25,31 +25,58 @@ class AuthenticationService {
 
   static final logger = Logger('AuthenticationService');
 
-  Future<AuthenticationResponseModel> register(RegisterRequestModel model) {
-    return registerService(dio, model);
+  Future<AuthenticationResponseModel> register(
+    RegisterRequestModel model,
+    String localName,
+  ) {
+    return registerService(
+      dio,
+      model,
+      localName,
+    );
   }
 
-  Future<AuthenticationResponseModel> login(LoginRequestModel model) {
-    return loginService(dio, model);
+  Future<AuthenticationResponseModel> login(
+    LoginRequestModel model,
+    String localName,
+  ) {
+    return loginService(
+      dio,
+      model,
+      localName,
+    );
   }
 
-  Future<AuthRefreshResponseModel> refresh(AuthRefreshRequestModel model) {
-    return refreshService(dio, model);
+  Future<AuthRefreshResponseModel> refresh(
+    AuthRefreshRequestModel model,
+    String localName,
+  ) {
+    return refreshService(
+      dio,
+      model,
+      localName,
+    );
   }
 
   Future<void> logout(LogoutRequestModel model) {
     return logoutService(dio, model);
   }
 
-  Future<void> forgotPassword(ForgotPasswordRequestModel model) {
-    return forgotPasswordService(dio, model);
+  Future<void> forgotPassword(
+    ForgotPasswordRequestModel model,
+    String localeName,
+  ) {
+    return forgotPasswordService(dio, model, localeName);
   }
 
-  Future<void> recoverPassword(PasswordRecoveryRequestModel model) {
-    return recoverPasswordService(dio, model);
+  Future<void> recoverPassword(
+    PasswordRecoveryRequestModel model,
+    String localeName,
+  ) {
+    return recoverPasswordService(dio, model, localeName);
   }
 
-  Future<ServerTimeResponseModel> serverTime() {
-    return serverTimeService(dio);
+  Future<ServerTimeResponseModel> serverTime(String localName) {
+    return serverTimeService(dio, localName);
   }
 }

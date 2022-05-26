@@ -75,7 +75,8 @@ Future<void> _registerToken(
     );
 
     try {
-      await service.registerToken(model);
+      final intl = read(intlPod);
+      await service.registerToken(model, intl.localeName);
     } catch (e) {
       _logger.log(pushNotifications, 'registerToken Failed', e);
     }

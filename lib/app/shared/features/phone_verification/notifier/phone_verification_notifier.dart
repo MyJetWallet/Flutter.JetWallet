@@ -60,7 +60,8 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).request(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).request(model, intl.localeName);
       },
     );
   }
@@ -82,7 +83,8 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).verify(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).verify(model, intl.localeName);
 
         if (!mounted) return;
         args.onVerified();

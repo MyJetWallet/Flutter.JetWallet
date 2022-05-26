@@ -7,20 +7,24 @@ class SSmallHeader extends StatelessWidget {
     Key? key,
     this.icon,
     this.onStarButtonTap,
+    this.onInfoButtonTap,
     this.onBackButtonTap,
     this.titleAlign = TextAlign.center,
     this.showBackButton = true,
     this.showStarButton = false,
+    this.showInfoButton = false,
     this.isStarSelected = false,
     required this.title,
   }) : super(key: key);
 
   final Widget? icon;
   final Function()? onStarButtonTap;
+  final Function()? onInfoButtonTap;
   final Function()? onBackButtonTap;
   final TextAlign titleAlign;
   final bool showBackButton;
   final bool showStarButton;
+  final bool showInfoButton;
   final bool isStarSelected;
   final String title;
 
@@ -61,6 +65,12 @@ class SSmallHeader extends StatelessWidget {
                       ? const SStarSelectedIcon()
                       : const SStarIcon(),
                   pressedIcon: const SStarPressedIcon(),
+                )
+              else if (showInfoButton)
+                SIconButton(
+                  onTap: onInfoButtonTap,
+                  defaultIcon: const SInfoIcon(),
+                  pressedIcon: const SInfoPressedIcon(),
                 )
               else
                 const _IconPlaceholder()

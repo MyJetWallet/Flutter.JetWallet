@@ -89,8 +89,10 @@ class SignalRService {
   final _referralInfoController = StreamController<ReferralInfoModel>();
   final _recurringBuyController =
       StreamController<RecurringBuysResponseModel>();
-  final _earnOfferController = StreamController<EarnOffersModel>();
-  final _earnProfileController = StreamController<EarnProfileModel>();
+  final _earnOfferController =
+      StreamController<List<EarnOfferModel>>();
+  final _earnProfileController =
+      StreamController<EarnProfileModel>();
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -131,11 +133,11 @@ class SignalRService {
       if (data != null) {
         final list = data.toList();
         try {
-          final earnOffers = EarnOffersModel.fromJson(
-            _json(list),
-          );
-
-          _earnOfferController.add(earnOffers);
+          final finalData = EarnFullModel.fromJson(_json(list));
+          _earnOfferController.add(finalData.earnOffers);
+          if (finalData.earnProfile != null) {
+            _earnProfileController.add(finalData.earnProfile!);
+          }
         } catch (e) {
           _logger.log(contract, earnOffersMessage, e);
         }
@@ -400,7 +402,8 @@ class SignalRService {
   Stream<RecurringBuysResponseModel> recurringBuy() =>
       _recurringBuyController.stream;
 
-  Stream<EarnOffersModel> earnOffers() => _earnOfferController.stream;
+  Stream<List<EarnOfferModel>> earnOffers() =>
+      _earnOfferController.stream;
 
   Stream<EarnProfileModel> earnProfile() => _earnProfileController.stream;
 

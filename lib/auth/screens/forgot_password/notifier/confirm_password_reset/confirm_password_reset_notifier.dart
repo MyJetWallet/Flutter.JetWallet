@@ -44,7 +44,8 @@ class ConfirmPasswordResetNotifier
         deviceType: deviceType,
       );
 
-      await read(authServicePod).forgotPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).forgotPassword(model, intl.localeName);
 
       if (!mounted) return;
       _updateIsResending(false);

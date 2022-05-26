@@ -284,8 +284,8 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       );
 
       final service = read(blockchainServicePod);
-
-      final response = await service.validateAddress(model);
+      final intl = read(intlPod);
+      final response = await service.validateAddress(model, intl.localeName);
 
       if (!mounted) return;
 
@@ -324,8 +324,9 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       );
 
       final service = read(blockchainServicePod);
+      final intl = read(intlPod);
 
-      final response = await service.validateAddress(model);
+      final response = await service.validateAddress(model, intl.localeName);
 
       if (!mounted) return;
 

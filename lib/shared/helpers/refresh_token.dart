@@ -29,7 +29,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final intl = read(intlPod);
 
   try {
-    final serverTime = await authService.serverTime();
+    final serverTime = await authService.serverTime(intl.localeName,);
     final privateKey = await storageService.getString(privateKeyKey);
     final refreshToken = authInfo.refreshToken;
 
@@ -45,7 +45,7 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
       lang: intl.localeName,
     );
 
-    final response = await authService.refresh(model);
+    final response = await authService.refresh(model, intl.localeName,);
 
     await storageService.setString(refreshTokenKey, response.refreshToken);
 
