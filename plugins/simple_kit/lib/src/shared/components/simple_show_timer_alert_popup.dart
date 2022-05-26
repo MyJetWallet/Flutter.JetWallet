@@ -44,6 +44,8 @@ class _TimerAlertPopup extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final expire = watch(_timerNotipod(expireIn));
 
+    if (expire.inSeconds == 0) Navigator.pop(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -110,7 +112,11 @@ class _TimerNotifier extends StateNotifier<Duration> {
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        state = Duration(seconds: state.inSeconds - 1);
+        if (duration.inSeconds > 0) {
+          state = Duration(seconds: state.inSeconds - 1);
+        } else {
+          timer.cancel();
+        }
       },
     );
   }
