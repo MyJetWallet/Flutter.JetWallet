@@ -49,13 +49,17 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Baseline(
-                baseline: 20.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  name,
-                  maxLines: 2,
-                  style: sTextH4Style,
+              Flexible(
+                child: Expanded(
+                  child: Baseline(
+                    baseline: 20.0,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      name,
+                      maxLines: 2,
+                      style: sTextH4Style,
+                    ),
+                  ),
                 ),
               ),
               const Spacer(),
@@ -94,20 +98,20 @@ class _ActionRecurringBuy extends HookWidget {
     return Column(
       children: [
         for (final element in recurring) ...[
-            RecurringBuysItem(
-              recurring: element,
-              removeDivider: element == recurring.last,
-              onTap: () {
-                Navigator.pop(context);
-                navigatorPush(
-                  context,
-                  ShowRecurringInfoAction(
-                    recurringItem: element,
-                    assetName: currency.description,
-                  ),
-                );
-              },
-            ),
+          RecurringBuysItem(
+            recurring: element,
+            removeDivider: element == recurring.last,
+            onTap: () {
+              Navigator.pop(context);
+              navigatorPush(
+                context,
+                ShowRecurringInfoAction(
+                  recurringItem: element,
+                  assetName: currency.description,
+                ),
+              );
+            },
+          ),
         ],
         const SpaceH40(),
       ],
