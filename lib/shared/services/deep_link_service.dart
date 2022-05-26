@@ -384,30 +384,36 @@ class DeepLinkService {
 
   void _marketsScreenCommand() {
     final auth = read(authorizationStpod);
+    final context = read(sNavigatorKeyPod).currentContext;
 
     if (auth.state == AuthorizationUnion.authorized.call()) {
       read(navigationStpod).state = 0;
     } else {
-      navigatorPush(
-        read(sNavigatorKeyPod).currentContext!,
-        const Login(),
-      );
+      if (context != null) {
+        navigatorPush(
+          context,
+          const Login(),
+        );
+      }
     }
   }
 
   void _authenticatorSettingsCommand() {
     final auth = read(authorizationStpod);
+    final context = read(sNavigatorKeyPod).currentContext;
 
-    if (auth.state == AuthorizationUnion.authorized.call()) {
-      navigatorPush(
-        read(sNavigatorKeyPod).currentContext!,
-        const SmsAuthenticator(),
-      );
-    } else {
-      navigatorPush(
-        read(sNavigatorKeyPod).currentContext!,
-        const Login(),
-      );
+    if (context != null) {
+      if (auth.state == AuthorizationUnion.authorized.call()) {
+        navigatorPush(
+          read(sNavigatorKeyPod).currentContext!,
+          const SmsAuthenticator(),
+        );
+      } else {
+        navigatorPush(
+          read(sNavigatorKeyPod).currentContext!,
+          const Login(),
+        );
+      }
     }
   }
 }
