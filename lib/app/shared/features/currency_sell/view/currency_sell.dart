@@ -134,16 +134,23 @@ class CurrencySell extends HookWidget {
             small: () => const SizedBox(),
             medium: () => const Spacer(),
           ),
-          SActionPriceField(
-            widgetSize: widgetSizeFrom(deviceSize),
-            price: formatCurrencyStringAmount(
-              prefix: currency.prefixSymbol,
-              value: state.inputValue,
-              symbol: currency.symbol,
+          Baseline(
+            baseline: deviceSize.when(
+              small: () => 32,
+              medium: () => 9,
             ),
-            helper: state.conversionText(),
-            error: state.inputError.value,
-            isErrorActive: state.inputError.isActive,
+            baselineType: TextBaseline.alphabetic,
+            child: SActionPriceField(
+              widgetSize: widgetSizeFrom(deviceSize),
+              price: formatCurrencyStringAmount(
+                prefix: currency.prefixSymbol,
+                value: state.inputValue,
+                symbol: currency.symbol,
+              ),
+              helper: state.conversionText(),
+              error: state.inputError.value(),
+              isErrorActive: state.inputError.isActive,
+            ),
           ),
           Baseline(
             baseline: deviceSize.when(

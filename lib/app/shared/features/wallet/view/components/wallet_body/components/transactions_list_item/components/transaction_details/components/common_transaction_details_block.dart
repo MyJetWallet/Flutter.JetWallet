@@ -107,6 +107,19 @@ class CommonTransactionDetailsBlock extends HookWidget {
         transactionListItem.recurringBuyInfo!.scheduleType ?? '',
         context,
       )} ${operationName(transactionListItem.operationType, context)}';
+    } else if (transactionListItem.operationType ==
+        OperationType.earningDeposit || transactionListItem.operationType ==
+        OperationType.earningWithdrawal) {
+      if (transactionListItem.earnInfo?.totalBalance !=
+          transactionListItem.balanceChange.abs() &&
+          transactionListItem.operationType == OperationType.earningDeposit) {
+        return operationName(
+          transactionListItem.operationType,
+          context,
+          isToppedUp: true,
+        );
+      }
+      return operationName(transactionListItem.operationType, context);
     } else {
       return '${operationName(transactionListItem.operationType, context)} '
           '${currency.description}';

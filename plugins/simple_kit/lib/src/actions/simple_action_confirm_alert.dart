@@ -23,12 +23,20 @@ class SActionConfirmAlert extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(16.0),
       ),
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(
+        top: 14,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SErrorIcon(
-            color: SColorsLight().red,
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: SErrorIcon(
+              color: SColorsLight().red,
+            ),
           ),
           const SpaceW10(),
           Expanded(
