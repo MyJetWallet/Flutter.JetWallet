@@ -107,6 +107,8 @@ dependencies:
     path: plugins/simple_chart
   simple_analytics:
     path: plugins/simple_analytics
+  simple_networking:
+    path: plugins/simple_networking
 
 dev_dependencies:
   flutter_test:

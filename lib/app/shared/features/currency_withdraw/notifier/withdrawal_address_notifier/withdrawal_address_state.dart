@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
-import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../models/currency_model.dart';
 import 'address_validation_union.dart';
 

@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
+import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-import '../../../service/services/signal_r/model/asset_model.dart';
-import '../../../service/services/signal_r/model/asset_payment_methods.dart';
-import '../../../service/services/signal_r/model/blockchains_model.dart';
-import '../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../helpers/formatting/formatting.dart';
 import '../providers/base_currency_pod/base_currency_model.dart';
 

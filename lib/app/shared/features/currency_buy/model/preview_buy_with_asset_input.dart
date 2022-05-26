@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../../models/currency_model.dart';
-import '../../recurring/helper/recurring_buys_operation_name.dart';
 
 part 'preview_buy_with_asset_input.freezed.dart';
 

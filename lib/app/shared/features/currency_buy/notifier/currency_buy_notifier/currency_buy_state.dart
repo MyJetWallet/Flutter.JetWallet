@@ -1,13 +1,13 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/base_currency_pod/base_currency_model.dart';
-import '../../../recurring/helper/recurring_buys_operation_name.dart';
 
 part 'currency_buy_state.freezed.dart';
 

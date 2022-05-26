@@ -1,4 +1,4 @@
-import '../../../shared/services/remote_config_service/remote_config_values.dart';
+import 'package:simple_networking/shared/api_urls.dart';
 
 String iconUrlFrom({
   required String assetSymbol,

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../../../../../../shared/constants.dart';
 import '../../../../../../../shared/helpers/navigator_push.dart';
@@ -20,7 +21,6 @@ import '../../../../actions/action_sell/action_sell.dart';
 import '../../../../currency_buy/view/curency_buy.dart';
 import '../../../../kyc/model/kyc_operation_status_model.dart';
 import '../../../../kyc/notifier/kyc/kyc_notipod.dart';
-import '../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../../../recurring/view/recurring_buy_banner.dart';
 import 'components/card_block/components/wallet_card.dart';
