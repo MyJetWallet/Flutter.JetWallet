@@ -52,6 +52,13 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
   Future<void> updateReferralCode(String code, String? jwCode) async {
     _timer.cancel();
 
+    if (code.isEmpty) {
+      state = state.copyWith(
+        bottomSheetReferralCodeValidation: const Input(),
+        referralCodeValidation: const Input(),
+      );
+    }
+
     state = state.copyWith(
       bottomSheetReferralCode: code,
       timer: 0,
@@ -276,6 +283,8 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
   void updateQrController(QRViewController controller) {
     _logger.log(notifier, 'updateQrController');
+
+    controller.resumeCamera();
 
     state = state.copyWith(qrController: controller);
   }

@@ -25,7 +25,7 @@ Future<DeviceInfoModel> deviceInfo() async {
       osName: 'iOS',
       version: iosInfo.systemVersion ?? '',
       manufacturer: iosInfo.name ?? '',
-      model: iosInfo.model ?? '',
+      model: iosInfo.utsname.machine ?? '',
     );
 
     return deviceInfo;
