@@ -26,7 +26,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                 child: SBottomNavigationBar(
                   animationController: animationController,
                   portfolioNotifications: 1,
-                  newsNotifications: 99,
+                  earnNotifications: 99,
                   profileNotifications: 100,
                   selectedIndex: 0,
                   actionActive: false,
@@ -164,7 +164,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
           SBottomNavigationBar(
             animationController: animationController,
             portfolioNotifications: 1,
-            newsNotifications: 99,
+            earnNotifications: 99,
             profileNotifications: 100,
             selectedIndex: selectedIndex.value,
             actionActive: actionActive.value,

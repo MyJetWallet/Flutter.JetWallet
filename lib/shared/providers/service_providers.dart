@@ -10,6 +10,7 @@ import 'package:simple_networking/services/change_password/service/change_passwo
 import 'package:simple_networking/services/chart/service/chart_service.dart';
 import 'package:simple_networking/services/circle/service/circle_service.dart';
 import 'package:simple_networking/services/disclaimer/service/disclaimers_service.dart';
+import 'package:simple_networking/services/high_yield/service/high_yield_service.dart';
 import 'package:simple_networking/services/info/service/info_service.dart';
 import 'package:simple_networking/services/key_value/key_value_service.dart';
 import 'package:simple_networking/services/kyc/service/kyc_service.dart';
@@ -33,6 +34,7 @@ import 'package:simple_networking/services/wallet/service/wallet_service.dart';
 
 import '../../app/shared/features/kyc/helper/kyc_alert_handler.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
 import '../dio/image_dio.dart';
@@ -254,4 +256,10 @@ final disclaimerServicePod = Provider<DisclaimersService>((ref) {
   final dio = ref.watch(dioPod);
 
   return DisclaimersService(dio);
+});
+
+final highYieldServicePod = Provider<HighYieldService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return HighYieldService(dio);
 });

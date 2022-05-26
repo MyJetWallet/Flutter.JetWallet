@@ -155,7 +155,7 @@ class ConvertRow extends HookWidget {
                       else ...[
                         const Spacer(),
                         Text(
-                          inputError!.value,
+                          inputError!.value(),
                           maxLines: 1,
                           style: sSubtitle3Style.copyWith(
                             color: colors.red,

@@ -40,15 +40,17 @@ class SActionPriceField extends StatelessWidget {
               ),
             ),
           ),
-          Baseline(
-            baseline: 13,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              isErrorActive ? error : helper,
-              maxLines: 1,
-              style: sSubtitle3Style.copyWith(
-                color:
-                    isErrorActive ? SColorsLight().red : SColorsLight().black,
+          SPaddingH24(
+            child: Baseline(
+              baseline: 13,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                isErrorActive ? error : helper,
+                maxLines: 1,
+                style: sSubtitle3Style.copyWith(
+                  color:
+                      isErrorActive ? SColorsLight().red : SColorsLight().black,
+                ),
               ),
             ),
           ),

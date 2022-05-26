@@ -14,6 +14,9 @@ String formatDateToHmFromDate(String time) =>
 String formatDateToDMYFromDate(String time) =>
     DateFormat('dd.MM.yyyy').format(DateTime.parse(time).toLocal());
 
+String formatDateToDMonthYFromDate(String time) =>
+    DateFormat('dd MMMM yyyy').format(DateTime.parse(time).toLocal());
+
 String formatDateToDMY(String? timeStamp) => timeStamp == null
     ? ''
     : DateFormat('dd.MM.yyyy')

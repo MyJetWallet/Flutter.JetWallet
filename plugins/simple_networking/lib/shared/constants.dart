@@ -23,8 +23,8 @@ const paymentMethodsMessage = 'payment-methods';
 const blockchainsMessage = 'blockchains';
 const referralInfoMessage = 'referral-info';
 const recurringBuyMessage = 'recurring-buys';
-const earnOffersMessage = 'earn-offers';
-const earnProfileMessage = 'earn-profile';
+const earnOffersMessage = 'high-yield-profile';
+const earnProfileMessage = 'EarnProfile';
 
 // KeyValue
 const watchlistKey = 'watchlist';

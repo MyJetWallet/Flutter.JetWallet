@@ -115,7 +115,7 @@ definitions:
         flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER
   
-  prod_publishing: &prod_publishing
+  publishing: &publishing
     app_store_connect:             
       apple_id: $APPLE_ID    
       password: $APPLE_APP_SPECIFIC_PASSWORD
@@ -126,19 +126,6 @@ definitions:
       in_app_update_priority: 0
       submit_as_draft: true
 
-    firebase:
-      firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
-      android:
-        app_id: $FIREBASE_ANDROID_ID
-        groups: 
-          - main_group
-        artifact_type: 'apk'
-      ios:
-        app_id: $FIREBASE_IOS_ID
-        groups: 
-          - main_group
-
-  dev_stage_publishing: &dev_stage_publishing
     firebase:
       firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
       android:
@@ -179,14 +166,14 @@ definitions:
     - /tmp/xcodebuild_logs/*.log
     - flutter_drive.log    
   
-  dev_triggering: &dev_triggering
-    events:
-      - pull_request
-    branch_patterns:
-      - pattern: develop
-        include: true
-        source: false
-    cancel_previous_builds: false  
+  # dev_triggering: &dev_triggering
+  #   events:
+  #     - pull_request
+  #   branch_patterns:
+  #     - pattern: develop
+  #       include: true
+  #       source: false
+  #   cancel_previous_builds: false  
 
   stage_triggering: &stage_triggering
     events:
@@ -220,9 +207,8 @@ workflows:
 
     cache: *cache
     scripts: *scripts
-    publishing: *dev_stage_publishing
+    publishing: *publishing
     artifacts: *artifacts
-    triggering: *dev_triggering 
 
   flavor_development_target_production:
     name: Flavor (Development) Target (Production)
@@ -238,7 +224,7 @@ workflows:
 
     cache: *cache
     scripts: *scripts
-    publishing: *dev_stage_publishing
+    publishing: *publishing
     artifacts: *artifacts
   
   flavor_stage_target_stage:
@@ -255,7 +241,7 @@ workflows:
 
     cache: *cache
     scripts: *scripts
-    publishing: *dev_stage_publishing
+    publishing: *publishing
     artifacts: *artifacts
 
   flavor_stage_target_production:
@@ -272,7 +258,7 @@ workflows:
 
     cache: *cache
     scripts: *scripts
-    publishing: *dev_stage_publishing
+    publishing: *publishing
     artifacts: *artifacts
     triggering: *stage_triggering
 
@@ -290,7 +276,7 @@ workflows:
 
     cache: *cache
     scripts: *scripts
-    publishing: *prod_publishing
+    publishing: *publishing
     artifacts: *artifacts
   
   flavor_production_target_production:
@@ -307,6 +293,6 @@ workflows:
 
     cache: *cache
     scripts: *scripts
-    publishing: *prod_publishing
+    publishing: *publishing
     artifacts: *artifacts
     triggering: *prod_triggering

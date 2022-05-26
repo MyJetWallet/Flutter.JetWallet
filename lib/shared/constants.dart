@@ -55,3 +55,7 @@ const watchlistKey = 'watchlist';
 // HTTP
 const postRequest = 'POST';
 const signatureHeader = 'signature';
+
+// Earn
+const earnBackgroundImageAsset = 'assets/images/earn_background.png';
+const earnEmptyStateImage = 'assets/images/earn_empty.png';

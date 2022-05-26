@@ -7,6 +7,7 @@ import 'package:simple_networking/services/operation_history/model/operation_his
 import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../helpers/currency_from.dart';
 import '../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../../../helper/format_date_to_hm.dart';
@@ -34,108 +35,133 @@ class TransactionListItem extends HookWidget {
       currencies,
       transactionListItem.assetId,
     );
+    final baseCurrency = useProvider(baseCurrencyPod);
 
     return InkWell(
       onTap: () => showTransactionDetails(
         context,
         transactionListItem,
       ),
-      child: SizedBox(
-        height: 80,
-        child: Column(
-          children: [
-            const SpaceH12(),
-            Row(
-              children: [
-                _iconFrom(transactionListItem.operationType),
-                const SpaceW10(),
-                Expanded(
-                  child: TransactionListItemHeaderText(
-                    text: _transactionItemTitle(
-                      transactionListItem,
-                      context,
+      splashColor: Colors.transparent,
+      highlightColor: colors.grey5,
+      hoverColor: Colors.transparent,
+      child: SPaddingH24(
+        child: SizedBox(
+          height: 80,
+          child: Column(
+            children: [
+              const SpaceH12(),
+              Row(
+                children: [
+                  _iconFrom(transactionListItem.operationType),
+                  const SpaceW10(),
+                  Expanded(
+                    child: TransactionListItemHeaderText(
+                      text: _transactionItemTitle(
+                        transactionListItem,
+                        context,
+                      ),
+                      color: transactionListItem.status == Status.declined
+                          ? colors.red
+                          : colors.black,
                     ),
-                    color: transactionListItem.status == Status.declined
-                        ? colors.red
-                        : colors.black,
                   ),
-                ),
-                Container(
-                  constraints: const BoxConstraints(
-                    maxWidth: 220,
-                    minWidth: 100,
-                  ),
-                  child: TransactionListItemHeaderText(
-                    text: volumeFormat(
-                      prefix: currency.prefixSymbol,
-                      decimal: transactionListItem.balanceChange,
-                      accuracy: currency.accuracy,
-                      symbol: currency.symbol,
+                  Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 220,
+                      minWidth: 100,
                     ),
-                    textAlign: TextAlign.end,
+                    child: TransactionListItemHeaderText(
+                      text: volumeFormat(
+                        prefix: currency.prefixSymbol,
+                        decimal: transactionListItem.balanceChange,
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const SpaceW30(),
-                if (transactionListItem.status != Status.inProgress)
-                  TransactionListItemText(
-                    text: '${formatDateToDMY(transactionListItem.timeStamp)} '
-                        '- ${formatDateToHm(transactionListItem.timeStamp)}',
-                    color: colors.grey2,
-                  ),
-                if (transactionListItem.status == Status.inProgress)
-                  TransactionListItemText(
-                    text: '${intl.transactionListItem_balanceInProcess}...',
-                    color: colors.grey2,
-                  ),
-                const Spacer(),
-                if (transactionListItem.operationType == OperationType.sell)
-                  TransactionListItemText(
-                    text: '${intl.transactionListItem_forText} ${volumeFormat(
-                      prefix: currency.prefixSymbol,
-                      decimal: transactionListItem.swapInfo!.buyAmount,
-                      accuracy: currency.accuracy,
-                      symbol: transactionListItem.swapInfo!.buyAssetId,
-                    )}',
-                    color: colors.grey2,
-                  ),
-                if (transactionListItem.operationType == OperationType.buy)
-                  TransactionListItemText(
-                    text: '${intl.withText} ${volumeFormat(
-                      prefix: currency.prefixSymbol,
-                      decimal: transactionListItem.swapInfo!.sellAmount,
-                      accuracy: currency.accuracy,
-                      symbol: transactionListItem.swapInfo!.sellAssetId,
-                    )}',
-                    color: colors.grey2,
-                  ),
-                if (transactionListItem.operationType ==
-                    OperationType.simplexBuy)
-                  TransactionListItemText(
-                    text: '${intl.withText} '
-                        '\$${transactionListItem.buyInfo!.sellAmount}',
-                    color: colors.grey2,
-                  ),
-                if (transactionListItem.operationType ==
-                    OperationType.recurringBuy)
-                  TransactionListItemText(
-                    text: '${intl.withText} ${volumeFormat(
-                      prefix: currency.prefixSymbol,
-                      decimal: transactionListItem.recurringBuyInfo!.sellAmount,
-                      accuracy: currency.accuracy,
-                      symbol:
-                          transactionListItem.recurringBuyInfo!.sellAssetId!,
-                    )}',
-                    color: colors.grey2,
-                  ),
-              ],
-            ),
-            const SpaceH18(),
-            if (!removeDivider) const SDivider(),
-          ],
+                ],
+              ),
+              Row(
+                children: [
+                  const SpaceW30(),
+                  if (transactionListItem.status != Status.inProgress)
+                    TransactionListItemText(
+                      text: '${formatDateToDMY(
+                          transactionListItem.timeStamp,
+                      )} '
+                          '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                      color: colors.grey2,
+                    ),
+                  if (transactionListItem.status == Status.inProgress)
+                    TransactionListItemText(
+                      text: '${intl.transactionListItem_balanceInProcess}...',
+                      color: colors.grey2,
+                    ),
+                  const Spacer(),
+                  if (transactionListItem.operationType == OperationType.sell)
+                    TransactionListItemText(
+                      text: '${intl.transactionListItem_forText} '
+                          '${volumeFormat(
+                        prefix: currency.prefixSymbol,
+                        decimal: transactionListItem.swapInfo!.buyAmount,
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.swapInfo!.buyAssetId,
+                      )}',
+                      color: colors.grey2,
+                    ),
+                  if (transactionListItem.operationType == OperationType.buy)
+                    TransactionListItemText(
+                      text: '${intl.withText} ${volumeFormat(
+                        prefix: currency.prefixSymbol,
+                        decimal: transactionListItem.swapInfo!.sellAmount,
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.swapInfo!.sellAssetId,
+                      )}',
+                      color: colors.grey2,
+                    ),
+                  if (transactionListItem.operationType ==
+                      OperationType.simplexBuy)
+                    TransactionListItemText(
+                      text: '${intl.withText} '
+                          '\$${transactionListItem.buyInfo!.sellAmount}',
+                      color: colors.grey2,
+                    ),
+                  if (transactionListItem.operationType ==
+                      OperationType.recurringBuy)
+                    TransactionListItemText(
+                      text: '${intl.withText} ${volumeFormat(
+                        prefix: currency.prefixSymbol,
+                        decimal: transactionListItem
+                            .recurringBuyInfo
+                            !.sellAmount,
+                        accuracy: currency.accuracy,
+                        symbol:
+                        transactionListItem.recurringBuyInfo!.sellAssetId!,
+                      )}',
+                      color: colors.grey2,
+                    ),
+                  if (transactionListItem.operationType ==
+                      OperationType.earningDeposit
+                      && transactionListItem.earnInfo?.totalBalance ==
+                          transactionListItem.balanceChange.abs())
+                    TransactionListItemText(
+                      text: '${intl.earn_with} ${volumeFormat(
+                        prefix: baseCurrency.prefix,
+                        decimal: transactionListItem.earnInfo!.totalBalance
+                            * currency.currentPrice,
+                        accuracy: baseCurrency.accuracy,
+                        symbol: baseCurrency.symbol,
+                      )}',
+                      color: colors.grey2,
+                    ),
+                ],
+              ),
+              const SpaceH18(),
+              if (!removeDivider) const SDivider(),
+            ],
+          ),
         ),
       ),
     );
@@ -165,6 +191,18 @@ class TransactionListItem extends HookWidget {
         transactionListItem.operationType,
         context,
       )}';
+    } else if (transactionListItem.operationType ==
+        OperationType.earningDeposit) {
+      if (transactionListItem.earnInfo?.totalBalance ==
+          transactionListItem.balanceChange.abs()) {
+        return operationName(transactionListItem.operationType, context);
+      } else {
+        return operationName(
+          transactionListItem.operationType,
+          context,
+          isToppedUp: true,
+        );
+      }
     } else {
       return operationName(
         transactionListItem.operationType,
@@ -201,6 +239,10 @@ class TransactionListItem extends HookWidget {
         return const SDepositIcon();
       case OperationType.recurringBuy:
         return const SPlusIcon();
+      case OperationType.earningWithdrawal:
+        return const SEarnWithdrawalIcon();
+      case OperationType.earningDeposit:
+        return const SEarnDepositIcon();
       case OperationType.unknown:
         return const SizedBox();
     }
