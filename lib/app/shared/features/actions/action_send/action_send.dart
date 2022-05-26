@@ -3,17 +3,39 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../service/services/signal_r/model/client_detail_model.dart';
+import '../../../../../shared/helpers/timespan_to_duration.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../providers/client_detail_pod/client_detail_pod.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 import 'components/send_options.dart';
 
 void showSendAction(BuildContext context) {
+  Navigator.pop(context);
+
+  final clientDetail = context.read(clientDetailPod);
+
+  if (clientDetail.clientBlockers.isEmpty) {
+    return _showActionSend(context);
+  } else {
+    for (final blocker in clientDetail.clientBlockers) {
+      if (blocker.blockingType == BlockingType.transfer) {
+        return _showTimerAlert(context, blocker.timespanToExpire);
+      } else if (blocker.blockingType == BlockingType.withdrawal) {
+        return _showTimerAlert(context, blocker.timespanToExpire);
+      }
+    }
+    return _showActionSend(context);
+  }
+}
+
+void _showActionSend(BuildContext context) {
   final intl = context.read(intlPod);
   final showSearch = showSendCurrencySearch(context);
-  Navigator.pop(context);
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -27,6 +49,16 @@ void showSendAction(BuildContext context) {
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [const _ActionSend()],
+  );
+}
+
+void _showTimerAlert(BuildContext context, String expireTime) {
+  sShowTimerAlertPopup(
+    context: context,
+    buttonName: 'OK',
+    description: 'Time left until withdrawal is unlocked',
+    expireIn: timespanToDuration(expireTime),
+    onButtonTap: () => Navigator.pop(context),
   );
 }
 

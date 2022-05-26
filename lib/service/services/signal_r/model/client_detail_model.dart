@@ -24,7 +24,7 @@ class ClientDetailModel with _$ClientDetailModel {
 class ClientBlockerInfoModel with _$ClientBlockerInfoModel {
   const factory ClientBlockerInfoModel({
     required BlockingType blockingType,
-    @JsonKey(name: 'ToExpired') required String timespanToExpire,
+    @JsonKey(name: 'toExpired') required String timespanToExpire,
   }) = _ClientBlockerInfoModel;
 
   factory ClientBlockerInfoModel.fromJson(Map<String, dynamic> json) =>
