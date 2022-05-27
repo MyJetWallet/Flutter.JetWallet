@@ -112,7 +112,7 @@ class SignalRService {
     final httpClient = _HttpClient(
       defaultHeaders: {
         'User-Agent': '$appVersion;$deviceType;$deviceSize;$devicePixelRatio;'
-            '${deviceInfo.model}',
+            '${deviceInfo.marketingName}',
       },
     );
 

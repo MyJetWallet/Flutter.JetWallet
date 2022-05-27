@@ -56,6 +56,7 @@ dependencies:
   share_plus: ^4.0.4 # sharing content via the platform share UI
   device_info_plus: ^3.1.1 # providing detailed information about the device
   connectivity_plus: ^2.3.0 # plugin allows Flutter apps to discover network connectivity
+  device_marketing_names: ^0.4.0
 
   # NETWORKING:
   http: ^0.13.4
