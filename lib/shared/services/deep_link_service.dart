@@ -29,6 +29,7 @@ import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../helpers/launch_url.dart';
 import '../helpers/navigator_push.dart';
 import '../notifiers/logout_notifier/logout_notipod.dart';
+import '../providers/device_size/media_query_pod.dart';
 import '../providers/referral_info_pod.dart';
 import '../providers/service_providers.dart';
 import 'local_storage_service.dart';
@@ -218,6 +219,7 @@ class DeepLinkService {
     final context = read(sNavigatorKeyPod).currentContext!;
     final referralInfo = read(referralInfoPod);
     final intl = read(intlPod);
+    final logoSize = read(mediaQueryPod).size.width * 0.2;
 
     sAnalytics.clickMarketBanner(
       MarketBannerSource.inviteFriend.name,
@@ -326,6 +328,7 @@ class DeepLinkService {
               showReadMore: referralInfo.descriptionLink.isNotEmpty,
               copiedText: intl.deepLinkService_referralLinkCopied,
               referralText: intl.deepLinkService_referralLink,
+              logoSize: logoSize,
               onReadMoreTap: () {
                 launchURL(
                   context,
