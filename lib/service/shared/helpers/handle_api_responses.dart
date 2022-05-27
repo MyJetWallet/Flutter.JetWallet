@@ -23,7 +23,10 @@ Map<String, dynamic> handleFullResponse<T>(
 }
 
 /// Handles common response with just [result] from the API
-void handleResultResponse(Map<String, dynamic> json, String localName,) {
+void handleResultResponse(
+  Map<String, dynamic> json,
+  String localName,
+) {
   final result = json['result'] as String;
 
   _validateResultResponse(result);
@@ -45,6 +48,8 @@ void _validateFullResponse(
     final attempts = data['attempts'] as Map<String, dynamic>?;
 
     if (attempts == null) {
+      /// @Refactor
+      /*
       if (localName == 'ru') {
         throw const ServerRejectException(
           '$emailPasswordIncorrectRu.',
@@ -54,10 +59,15 @@ void _validateFullResponse(
           '$emailPasswordIncorrectEn.',
         );
       }
-
+      */
+      throw const ServerRejectException(
+        '$emailPasswordIncorrectEn.',
+      );
     } else {
       final left = attempts['left'] as int;
 
+      /// @Refactor
+      /*
       if (localName == 'ru') {
         throw ServerRejectException(
           '$emailPasswordIncorrectRu, '
@@ -69,13 +79,22 @@ void _validateFullResponse(
               '$left $attemptsRemainingEn.',
         );
       }
+      */
+      throw ServerRejectException(
+        '$emailPasswordIncorrectEn, '
+        '$left $attemptsRemainingEn.',
+      );
     }
   } else if (result != 'OK') {
+    /// @Refactor
+    /*
     if (localName == 'ru') {
       throw ServerRejectException(errorCodesDescriptionRu[result] ?? result);
     } else {
       throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
     }
+    */
+    throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
 }
 
