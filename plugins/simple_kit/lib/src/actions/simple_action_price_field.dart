@@ -25,17 +25,19 @@ class SActionPriceField extends StatelessWidget {
       height: widgetSize == SWidgetSize.small ? 116 : null,
       child: Column(
         children: [
-          Baseline(
-            baseline: widgetSize == SWidgetSize.small ? 32 : 22,
-            baselineType: TextBaseline.alphabetic,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                price,
-                maxLines: 1,
-                style: sTextH1Style.copyWith(
-                  color:
-                      isErrorActive ? SColorsLight().red : SColorsLight().black,
+          SPaddingH24(
+            child: Baseline(
+              baseline: widgetSize == SWidgetSize.small ? 32 : 22,
+              baselineType: TextBaseline.alphabetic,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  price,
+                  maxLines: 1,
+                  style: sTextH1Style.copyWith(
+                    color:
+                        isErrorActive ? SColorsLight().red : SColorsLight().black,
+                  ),
                 ),
               ),
             ),
