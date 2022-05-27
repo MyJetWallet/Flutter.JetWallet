@@ -745,6 +745,8 @@
     "portfolioWith_balanceProcess": "В процессе",
     "portfolioWith_zeroWallets": "Скрыть нулевые кошельки",
     "portfolioWith_showWallets": "Показать все кошельки",
+    "noInternetConnection_header": "No internet connection",
+    "noInternetConnection_descr": "Reconnect to WiFi or Cellular to continue using the app",
     "d": "Д",
     "w": "Н",
     "m": "М",
