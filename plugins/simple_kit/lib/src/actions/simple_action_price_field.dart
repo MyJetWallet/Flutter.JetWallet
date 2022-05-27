@@ -35,8 +35,9 @@ class SActionPriceField extends StatelessWidget {
                   price,
                   maxLines: 1,
                   style: sTextH1Style.copyWith(
-                    color:
-                        isErrorActive ? SColorsLight().red : SColorsLight().black,
+                    color: isErrorActive
+                        ? SColorsLight().red
+                        : SColorsLight().black,
                   ),
                 ),
               ),
