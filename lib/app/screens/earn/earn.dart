@@ -20,8 +20,7 @@ class Earn extends HookWidget {
     final notifier = useProvider(earnOffersNotipod.notifier);
     final colors = useProvider(sColorPod);
 
-    final isActive = earnOffers.isNotEmpty &&
-        notifier.isActiveState(earnOffers);
+    final isActive = notifier.isActiveState(earnOffers);
 
     return SPageFrame(
       child: CustomScrollView(
@@ -37,8 +36,8 @@ class Earn extends HookWidget {
             primary: false,
             flexibleSpace: const EarnHeader(),
           ),
-          if (!isActive) const EarnAvailableState(),
           if (earnOffers.isEmpty) const EarnEmptyState(),
+          if (!isActive && earnOffers.isNotEmpty) const EarnAvailableState(),
           if (isActive) const EarnActiveState(),
         ],
       ),
