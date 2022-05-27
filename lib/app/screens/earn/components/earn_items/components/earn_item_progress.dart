@@ -16,7 +16,9 @@ class EarnItemProgress extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final width = (offer.amount.toDouble() / offer.maxAmount.toDouble()) * 24;
+    final width = (
+        offer.amountBaseAsset.toDouble() / offer.maxAmount.toDouble()
+    ) * 24;
 
     return Stack(
       children: [
