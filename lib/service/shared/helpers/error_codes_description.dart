@@ -103,5 +103,5 @@ const emailPasswordIncorrectEn =
 //const emailPasswordIncorrectRu =
 //'Электронная почта или пароль, которые вы ввели, неверны';
 
-const attemptsRemainingEn = 'осталось попыток';
+const attemptsRemainingEn = 'attempts left';
 //const attemptsRemainingRu = 'осталось попыток';
