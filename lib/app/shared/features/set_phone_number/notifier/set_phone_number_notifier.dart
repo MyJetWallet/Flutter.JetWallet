@@ -136,24 +136,7 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
 
   String _parsePhoneNumber(String phoneNumber) {
     if (phoneNumber.isNotEmpty) {
-      var body = _formatPhoneNumber(phoneNumber);
-      final dialCode = _formatPhoneNumber(state.dialCodeController.text);
-
-      if (phoneNumber.length >= dialCode.length) {
-        final codeFromBody = body.substring(0, dialCode.length);
-
-        if (codeFromBody == dialCode) {
-          body = body.substring(dialCode.length);
-        }
-      }
-
-      if (dialCode == '380') {
-        if (body.isNotEmpty && body[0] == '0') {
-          body = body.substring(1);
-        }
-      }
-
-      return body;
+      return _formatPhoneNumber(phoneNumber);
     } else {
       return phoneNumber;
     }
