@@ -28,7 +28,7 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
     final intl = useProvider(intlPod);
     final mediaQuery = useProvider(mediaQueryPod);
     final qrBoxSize = mediaQuery.size.width * 0.6;
-    final logoSize = mediaQuery.size.width * 0.24;
+    final logoSize = mediaQuery.size.width * 0.2;
     final deposit = useProvider(cryptoDepositNotipod(currency));
     final depositN = useProvider(
       cryptoDepositNotipod(currency).notifier,

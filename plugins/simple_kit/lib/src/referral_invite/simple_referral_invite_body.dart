@@ -7,6 +7,7 @@ import 'components/simple_conditions_referral_invite.dart';
 class SReferralInviteBody extends StatelessWidget {
   const SReferralInviteBody({
     Key? key,
+    required this.logoSize,
     required this.primaryText,
     required this.onReadMoreTap,
     required this.showReadMore,
@@ -16,6 +17,7 @@ class SReferralInviteBody extends StatelessWidget {
     required this.referralText,
   }) : super(key: key);
 
+  final double logoSize;
   final String primaryText;
   final void Function() onReadMoreTap;
   final bool showReadMore;
@@ -54,7 +56,7 @@ class SReferralInviteBody extends StatelessWidget {
                 package: 'simple_kit',
               ),
               embeddedImageStyle: QrEmbeddedImageStyle(
-                size: const Size(71.0, 71.0),
+                size: Size(logoSize, logoSize),
               ),
               size: 200.0,
             ),
