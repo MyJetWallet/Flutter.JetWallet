@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../../service/services/signal_r/model/asset_model.dart';
+import '../../../../helpers/supports_recurring_buy.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import 'action_search_state.dart';
@@ -39,9 +42,17 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
       }
     }
 
+    final fCurr = <CurrencyModel>[];
+
+    for (final currency in currencies) {
+      if (supportsRecurringBuy(currency.symbol, currencies)) {
+        fCurr.add(currency);
+      }
+    }
+
     state = state.copyWith(
-      currencies: currencies,
-      filteredCurrencies: currencies,
+      currencies: fCurr,
+      filteredCurrencies: fCurr,
       buyFromCardCurrencies: buyFromCardCurrencies,
       receiveCurrencies: receiveCurrencies,
       sendCurrencies: sendCurrencies,
