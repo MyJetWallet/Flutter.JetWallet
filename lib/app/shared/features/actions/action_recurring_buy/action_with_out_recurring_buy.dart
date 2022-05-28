@@ -61,6 +61,7 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
                   ),
                 ),
               ),
+              const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: const SErasePressedIcon(),
