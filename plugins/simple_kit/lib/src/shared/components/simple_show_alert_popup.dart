@@ -76,7 +76,11 @@ void sShowAlertPopup(
                           color: SColorsLight().grey1,
                         ),
                       ),
-                    const SpaceH36(),
+                    if (isNeedPrimaryButton) ...[
+                      const SpaceH36(),
+                    ] else ...[
+                      const SpaceH20(),
+                    ],
                     if (child != null) child,
                     if (isNeedPrimaryButton) ...[
                       if (primaryButtonType == SButtonType.primary1)

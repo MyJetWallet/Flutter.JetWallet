@@ -110,9 +110,11 @@ class SBottomNavigationBar extends StatelessWidget {
                     child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 2)
-                          const SEarnActiveIcon()
+                          //const SEarnActiveIcon()
+                          const SNewsActiveIcon()
                         else
-                          const SEarnDefaultIcon(),
+                          //const SEarnDefaultIcon(),
+                          const SNewsDefaultIcon(),
                         NotificationBox(
                           notifications: earnNotifications,
                         )

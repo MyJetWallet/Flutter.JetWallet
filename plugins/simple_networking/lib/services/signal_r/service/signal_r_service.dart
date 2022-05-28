@@ -1,16 +1,20 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
+import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../shared/helpers/device_type.dart';
-import '../../../shared/api_urls.dart';
+import '../../../../shared/helpers/refresh_token.dart';
+import '../../../../shared/logging/levels.dart';
+import '../../../../shared/providers/device_info_pod.dart';
+import '../../../../shared/providers/device_size/media_query_pod.dart';
+import '../../../../shared/providers/package_info_fpod.dart';
+import '../../../../shared/providers/service_providers.dart';
+import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/constants.dart';
-import '../../../shared/helpers/device_type.dart';
-import '../../../shared/models/refresh_token_status.dart';
 import '../model/asset_model.dart';
 import '../model/asset_payment_methods.dart';
 import '../model/balance_model.dart';
@@ -45,27 +49,9 @@ class _HttpClient extends http.BaseClient {
 }
 
 class SignalRService {
-  SignalRService(
-    this.read,
-    this.refreshToken,
-    this.token,
-    this.localeName,
-    this.deviceUid,
-    this.appVersion,
-    this.deviceSize,
-    this.devicePixelRatio,
-    this.deviceModel,
-  );
+  SignalRService(this.read);
 
   final Reader read;
-  final Future<RefreshTokenStatus> Function(Reader) refreshToken;
-  final String token;
-  final String localeName;
-  final String deviceUid;
-  final String appVersion;
-  final Size deviceSize;
-  final double devicePixelRatio;
-  final String deviceModel;
 
   static final _logger = Logger('SignalRService');
 
@@ -117,10 +103,16 @@ class SignalRService {
   Future<void> init() async {
     isDisconnecting = false;
 
+    final appVersion = read(packageInfoPod).version;
+    final mediaQuery = read(mediaQueryPod);
+    final deviceInfo = read(deviceInfoPod);
+    final deviceSize = mediaQuery.size;
+    final devicePixelRatio = mediaQuery.devicePixelRatio;
+
     final httpClient = _HttpClient(
       defaultHeaders: {
         'User-Agent': '$appVersion;$deviceType;$deviceSize;$devicePixelRatio;'
-            '$deviceModel',
+            '${deviceInfo.marketingName}',
       },
     );
 
@@ -343,6 +335,9 @@ class SignalRService {
       }
     });
 
+    final token = read(authInfoNotipod).token;
+    final localeName = read(intlPod).localeName;
+
     try {
       await _connection?.start();
     } catch (e) {
@@ -353,7 +348,7 @@ class SignalRService {
     try {
       await _connection?.invoke(
         initMessage,
-        args: [token, localeName, deviceUid, deviceType],
+        args: [token, localeName, deviceInfo.deviceUid, deviceType],
       );
     } catch (e) {
       _logger.log(signalR, 'Failed to invoke connection', e);
