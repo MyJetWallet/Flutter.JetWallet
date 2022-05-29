@@ -8,6 +8,8 @@ import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/is_card_expired.dart';
 import '../../../helpers/last_n_chars.dart';
 import '../../add_circle_card/view/add_circle_card.dart';
+import '../../kyc/model/kyc_operation_status_model.dart';
+import '../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../notifier/payment_methods_notipod.dart';
 import 'components/add_button.dart';
 import 'components/payment_card_item.dart';
@@ -26,6 +28,8 @@ class PaymentMethods extends HookWidget {
     final state = useProvider(paymentMethodsNotipod);
     final notifier = useProvider(paymentMethodsNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
+    final kycState = useProvider(kycNotipod);
+    final kycHandler = useProvider(kycAlertHandlerPod(context));
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       return sShowAlertPopup(
@@ -121,7 +125,19 @@ class PaymentMethods extends HookWidget {
                 ),
                 SFloatingButtonFrame(
                   button: AddButton(
-                    onTap: onAddCardTap,
+                    onTap: () {
+                      final status = kycOperationStatus(KycStatus.allowed);
+                      if (kycState.depositStatus == status) {
+                        onAddCardTap();
+                      } else {
+                        kycHandler.handle(
+                          status: kycState.depositStatus,
+                          kycVerified: kycState,
+                          isProgress: kycState.verificationInProgress,
+                          currentNavigate: () => onAddCardTap(),
+                        );
+                      }
+                    },
                   ),
                 ),
               ],
