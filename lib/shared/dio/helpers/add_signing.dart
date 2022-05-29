@@ -17,7 +17,7 @@ void addSigning(Dio dio, Reader read) {
           final rsaService = read(rsaServicePod);
           final storageService = read(localStorageServicePod);
 
-          final privateKey = await storageService.getString(privateKeyKey);
+          final privateKey = await storageService.getValue(privateKeyKey);
           final signature = privateKey != null
               ? rsaService.sign(
                   jsonEncode(requestBody),
