@@ -65,6 +65,7 @@ class CircleBillingAddress extends HookWidget {
               children: [
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.streetAddress1,
                     labelText: intl.circleBillingAddress_streetAddress,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress1,
@@ -72,6 +73,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.streetAddress2,
                     labelText: '${intl.circleBillingAddress_streetAddress} 2'
                         ' (${intl.circleBillingAddress_optional})',
                     textCapitalization: TextCapitalization.sentences,
@@ -80,6 +82,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.city,
                     labelText: intl.circleBillingAddress_city,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCity,
@@ -87,6 +90,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.district,
                     labelText: intl.circleBillingAddress_district,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateDistrict,
@@ -94,6 +98,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.postalCode,
                     labelText: intl.circleBillingAddress_postalCode,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
