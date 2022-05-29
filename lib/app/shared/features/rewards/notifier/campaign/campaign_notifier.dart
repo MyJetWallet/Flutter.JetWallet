@@ -87,9 +87,9 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
       final bannersIds = await _getBannersIdsFromStorage();
 
       if (bannersIds.isNotEmpty) {
-        await storage.setJson(bannersIdsKey, [...bannersIds, bannerId]);
+        await storage.setList(bannersIdsKey, [...bannersIds, bannerId]);
       } else {
-        await storage.setJson(bannersIdsKey, [bannerId]);
+        await storage.setList(bannersIdsKey, [bannerId]);
       }
     } catch (e) {
       _logger.log(stateFlow, '_setBannersIdsToStorage', e);
@@ -98,7 +98,7 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
 
   Future<List<String>> _getBannersIdsFromStorage() async {
     try {
-      final bannersIds = await storage.getJson(bannersIdsKey);
+      final bannersIds = await storage.getValue(bannersIdsKey);
       if (bannersIds != null) {
         final ids = jsonDecode(bannersIds);
         final arrayIds = (ids as List).map((item) => item as String).toList();

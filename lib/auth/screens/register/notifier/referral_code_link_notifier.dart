@@ -37,7 +37,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
   Future<void> _init() async {
     final storage = read(localStorageServicePod);
-    final referralCode = await storage.getString(referralCodeKey);
+    final referralCode = await storage.getValue(referralCodeKey);
 
     if (referralCode != null) {
       state = state.copyWith(
@@ -250,7 +250,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
   Future<CameraStatus> _checkCameraStatusAction() async {
     final storage = read(localStorageServicePod);
-    final storageStatus = await storage.getString(cameraStatusKey);
+    final storageStatus = await storage.getValue(cameraStatusKey);
     final permissionStatus = await Permission.camera.request();
 
     if (permissionStatus == PermissionStatus.denied ||
