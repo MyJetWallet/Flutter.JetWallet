@@ -43,6 +43,7 @@ class PaymentMethod with _$PaymentMethod {
 
 enum PaymentMethodType {
   simplex,
+  circleCard,
   unsupported,
 }
 
@@ -51,6 +52,8 @@ extension PaymentMethodTypeExtension on PaymentMethodType {
     switch (this) {
       case PaymentMethodType.simplex:
         return 'Simplex';
+      case PaymentMethodType.circleCard:
+        return 'CircleCard';
       default:
         return 'Unsupported';
     }
