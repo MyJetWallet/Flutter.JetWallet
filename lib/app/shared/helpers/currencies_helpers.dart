@@ -65,3 +65,13 @@ void removeCurrencyFrom(
 ) {
   currencies.removeWhere((element) => element.symbol == currency.symbol);
 }
+
+/// Used for [Portfolio] feature with empty balance
+/// Always provide a copy of List to avoid unexpected behaviour
+void sortByApyAndWeight(List<CurrencyModel> currencies) {
+  currencies.sort((a, b) {
+    final compare = b.apy.compareTo(a.apy);
+    if (compare != 0) return compare;
+    return a.weight.compareTo(b.weight);
+  });
+}
