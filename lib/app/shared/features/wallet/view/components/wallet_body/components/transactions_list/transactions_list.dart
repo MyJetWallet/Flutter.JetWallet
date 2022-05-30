@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
@@ -109,9 +110,7 @@ class _TransactionsListState extends State<TransactionsList> {
                   },
                   sort: false,
                   groupSeparatorBuilder: (String date) {
-                    return TransactionMonthSeparator(
-                      text: date,
-                    );
+                    return _displayMonthSeparator(date, listToShow);
                   },
                   itemBuilder: (context, transaction) {
                     final index = listToShow.indexOf(transaction);
@@ -186,9 +185,7 @@ class _TransactionsListState extends State<TransactionsList> {
                   },
                   sort: false,
                   groupSeparatorBuilder: (String date) {
-                    return TransactionMonthSeparator(
-                      text: date,
-                    );
+                    return _displayMonthSeparator(date, listToShow);
                   },
                   itemBuilder: (context, transaction) {
                     final index = listToShow.indexOf(transaction);
@@ -281,9 +278,7 @@ class _TransactionsListState extends State<TransactionsList> {
                     return formatDate(transaction.timeStamp);
                   },
                   groupSeparatorBuilder: (String date) {
-                    return TransactionMonthSeparator(
-                      text: date,
-                    );
+                    return _displayMonthSeparator(date, listToShow);
                   },
                   groupComparator: (date1, date2) => 0,
                   itemBuilder: (context, transaction) {
@@ -452,6 +447,44 @@ class _TransactionsListState extends State<TransactionsList> {
         },
       ),
     );
+  }
+
+  Widget _displayMonthSeparator(String date, List<OperationHistoryItem> list) {
+    final currentMonthInt = DateTime.now().month;
+    final month = DateFormat('MMM').format(DateTime(0, currentMonthInt));
+
+    final displaySeparator = _findTransactionInCurrentMonth(
+      list,
+      currentMonthInt,
+    );
+
+    if (date == month) {
+      return const SizedBox();
+    }
+
+    if (date != month && !displaySeparator) {
+      return const SizedBox();
+    }
+
+    return TransactionMonthSeparator(
+      text: date,
+    );
+  }
+
+  bool _findTransactionInCurrentMonth(
+    List<OperationHistoryItem> list,
+    int currentMonthInt,
+  ) {
+    for (final element in list) {
+      final elementDate =
+          DateTime.parse('${element.timeStamp}Z').toLocal().month;
+
+      if (elementDate == currentMonthInt) {
+        return true;
+      }
+    }
+
+    return true;
   }
 
   bool _addBottomPadding(OperationHistoryState transactionHistory) {
