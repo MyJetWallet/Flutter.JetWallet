@@ -96,7 +96,7 @@ class EarnActiveHeader extends HookWidget {
                 Table(
                   columnWidths: const {
                     0: FlexColumnWidth(),
-                    1: FixedColumnWidth(140),
+                    1: FixedColumnWidth(146),
                   },
                   children: [
                     TableRow(

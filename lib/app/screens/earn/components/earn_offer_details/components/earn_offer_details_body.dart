@@ -47,9 +47,9 @@ class EarnOfferDetailsBody extends HookWidget {
         ).toList();
 
     Decimal convertBaseRateToCurrency () {
-      final converted = '${earnOffer.totalEarned /
-          currentCurrency.currentPrice}';
-      return Decimal.parse(converted);
+      final converted = double.parse('${earnOffer.totalEarned}') /
+          double.parse('${currentCurrency.currentPrice}');
+      return Decimal.parse('$converted');
     }
 
     return SPaddingH24(

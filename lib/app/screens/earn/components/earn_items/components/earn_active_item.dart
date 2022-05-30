@@ -27,7 +27,13 @@ class EarnActiveItem extends HookWidget {
     final earnOffers = useProvider(earnOffersPod);
     final intl = useProvider(intlPod);
 
-    earnOffers.sort((a, b) => b.currentApy.compareTo(a.currentApy));
+    earnOffers.sort((a, b) {
+      final compare = b.currentApy.compareTo(a.currentApy);
+      final aCurrency = currencyFrom(currencies, a.asset);
+      final bCurrency = currencyFrom(currencies, b.asset);
+      if (compare != 0) return compare;
+      return aCurrency.weight.compareTo(bCurrency.weight);
+    });
 
     final currentCurrency = currencyFrom(currencies, earnOffer.asset);
 

@@ -813,6 +813,8 @@
     "earn_advantage4": "Look out for limited Hot Offers",
     "earn_for": "For",
     "earn_day": "day",
+    "earn_days_remaining": "days remaining",
+    "earn_day_remaining": "day remaining",
     "earn_empty": "No available offers",
     "earn_empty_description": "Please check back later",
     "earn_total_balance": "Total balance",

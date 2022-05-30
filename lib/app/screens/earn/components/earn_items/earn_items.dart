@@ -6,6 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../shared/features/earn/provider/earn_offers_pod.dart';
+import '../../../../shared/features/market_details/helper/currency_from.dart';
+import '../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/earn_active_item.dart';
 import 'components/earn_item.dart';
 
@@ -22,13 +24,20 @@ class EarnItems extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final earnOffers = useProvider(earnOffersPod);
+    final currencies = useProvider(currenciesPod);
     final useAnotherItem = useState(false);
     final currenciesByEarn = <String>[];
     final offersByEarn = <EarnOfferModel>[];
     final maxApyForCurrencies = <Decimal>[];
     var filteredOffers = earnOffers;
 
-    earnOffers.sort((a, b) => b.currentApy.compareTo(a.currentApy));
+    earnOffers.sort((a, b) {
+      final compare = b.currentApy.compareTo(a.currentApy);
+      final aCurrency = currencyFrom(currencies, a.asset);
+      final bCurrency = currencyFrom(currencies, b.asset);
+      if (compare != 0) return compare;
+      return aCurrency.weight.compareTo(bCurrency.weight);
+    });
 
     if (!emptyBalance) {
       if (isActiveEarn) {
