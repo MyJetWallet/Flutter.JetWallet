@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../models/currency_model.dart';
@@ -62,7 +62,7 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
                   ),
                 ),
               ),
-              // const Spacer(),
+              const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: const SErasePressedIcon(),
@@ -98,20 +98,20 @@ class _ActionRecurringBuy extends HookWidget {
     return Column(
       children: [
         for (final element in recurring) ...[
-            RecurringBuysItem(
-              recurring: element,
-              removeDivider: element == recurring.last,
-              onTap: () {
-                Navigator.pop(context);
-                navigatorPush(
-                  context,
-                  ShowRecurringInfoAction(
-                    recurringItem: element,
-                    assetName: currency.description,
-                  ),
-                );
-              },
-            ),
+          RecurringBuysItem(
+            recurring: element,
+            removeDivider: element == recurring.last,
+            onTap: () {
+              Navigator.pop(context);
+              navigatorPush(
+                context,
+                ShowRecurringInfoAction(
+                  recurringItem: element,
+                  assetName: currency.description,
+                ),
+              );
+            },
+          ),
         ],
         const SpaceH40(),
       ],

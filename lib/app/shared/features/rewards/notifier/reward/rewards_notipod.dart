@@ -1,18 +1,52 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../../service/services/signal_r/model/campaign_response_model.dart';
-import '../../../../../../service/services/signal_r/model/referral_stats_response_model.dart';
 import '../../../referral_stats/provider/referral_stats_pod.dart';
 import '../../model/campaign_or_referral_model.dart';
 import '../../provider/rewards_pod.dart';
 import 'rewards_notifier.dart';
 import 'rewards_state.dart';
 
-final rewardsNotipod = StateNotifierProvider.autoDispose<RewardsNotifier,
-    RewardsState>(
+final rewardsNotipod =
+    StateNotifierProvider.autoDispose<RewardsNotifier, RewardsState>(
   (ref) {
-    final campaigns = ref.watch(rewardsPod);
-    final referralStats = ref.watch(referralStatsPod);
+    final campaigns = ref
+        .watch(rewardsPod)
+        .map(
+          (e) => CampaignModel(
+            conditions: e.conditions
+                ?.map(
+                  (e) => CampaignConditionModel(
+                    deepLink: e.deepLink,
+                    type: e.type,
+                    description: e.description,
+                  ),
+                )
+                .toList(),
+            imageUrl: e.imageUrl,
+            showReferrerStats: e.showReferrerStats,
+            timeToComplete: e.timeToComplete,
+            weight: e.weight,
+            title: e.title,
+            description: e.description,
+            campaignId: e.campaignId,
+            deepLink: e.deepLink,
+          ),
+        )
+        .toList();
+    final referralStats = ref
+        .watch(referralStatsPod)
+        .map(
+          (e) => ReferralStatsModel(
+            weight: e.weight,
+            referralInvited: e.referralInvited,
+            referralActivated: e.referralActivated,
+            descriptionLink: e.descriptionLink,
+            bonusEarned: e.bonusEarned,
+            commissionEarned: e.commissionEarned,
+            total: e.total,
+          ),
+        )
+        .toList();
 
     final sortedCampaigns = _sort(campaigns, referralStats);
 
@@ -25,13 +59,12 @@ final rewardsNotipod = StateNotifierProvider.autoDispose<RewardsNotifier,
 );
 
 List<CampaignOrReferralModel> _sort(
-    List<CampaignModel> campaigns,
-    List<ReferralStatsModel> referralStats,
-    ) {
+  List<CampaignModel> campaigns,
+  List<ReferralStatsModel> referralStats,
+) {
   final combinedArray = <CampaignOrReferralModel>[];
   final campaignsArray = List<CampaignModel>.from(campaigns);
-  final referralStatsArray =
-  List<ReferralStatsModel>.from(referralStats);
+  final referralStatsArray = List<ReferralStatsModel>.from(referralStats);
 
   for (final campaign in campaignsArray) {
     combinedArray.add(CampaignOrReferralModel(campaign: campaign));

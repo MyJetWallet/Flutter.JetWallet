@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
-import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../../shared/providers/service_providers.dart';
 
 final earnOffersSpod =

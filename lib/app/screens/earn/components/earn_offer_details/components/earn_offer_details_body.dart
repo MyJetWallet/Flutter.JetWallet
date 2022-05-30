@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
-import '../../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/market_details/helper/currency_from.dart';
 import '../../../../../shared/features/wallet/helper/format_date_to_hm.dart';

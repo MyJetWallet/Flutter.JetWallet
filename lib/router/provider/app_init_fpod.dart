@@ -2,6 +2,7 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/shared/models/refresh_token_status.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../shared/helpers/refresh_token.dart';
@@ -25,8 +26,8 @@ final appInitFpod = FutureProvider<void>(
     final internetCheckerN = ref.watch(internetCheckerNotipod.notifier);
     final intl = ref.read(intlPod);
 
-    final token = await storageService.getString(refreshTokenKey);
-    final email = await storageService.getString(userEmailKey);
+    final token = await storageService.getValue(refreshTokenKey);
+    final email = await storageService.getValue(userEmailKey);
     final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
 
     try {

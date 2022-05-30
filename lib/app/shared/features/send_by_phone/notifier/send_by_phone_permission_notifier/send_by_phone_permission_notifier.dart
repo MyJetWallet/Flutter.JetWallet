@@ -63,7 +63,7 @@ class SendByPhonePermissionNotifier
 
   Future<void> _initPhonebookStatus() async {
     final storage = read(localStorageServicePod);
-    final status = await storage.getString(phonebookStatusKey);
+    final status = await storage.getValue(phonebookStatusKey);
 
     if (status == PhonebookStatus.granted.name) {
       _updatePhonebookStatus(PhonebookStatus.granted);

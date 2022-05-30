@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-import '../../../../../../service/services/signal_r/model/recurring_buys_model.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../market_details/helper/currency_from.dart';
 import '../../../recurring/helper/recurring_buys_operation_name.dart';
-import '../../../recurring/helper/recurring_buys_status_name.dart';
 import '../../../recurring/notifier/recurring_buys_notipod.dart';
 
 class RecurringBuysItem extends HookWidget {

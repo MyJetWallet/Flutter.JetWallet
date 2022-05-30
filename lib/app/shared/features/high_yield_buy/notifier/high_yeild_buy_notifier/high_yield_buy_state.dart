@@ -1,8 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_response_model.dart';
 
-import '../../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_response_model.dart';
 import '../../../../helpers/formatting/base/market_format.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';

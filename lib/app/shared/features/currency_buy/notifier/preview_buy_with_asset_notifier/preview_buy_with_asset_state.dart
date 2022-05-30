@@ -1,9 +1,9 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_response_model.dart';
 
-import '../../../../../../service/services/swap/model/get_quote/get_quote_response_model.dart';
-import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import 'preview_buy_with_asset_union.dart';
 
 part 'preview_buy_with_asset_state.freezed.dart';

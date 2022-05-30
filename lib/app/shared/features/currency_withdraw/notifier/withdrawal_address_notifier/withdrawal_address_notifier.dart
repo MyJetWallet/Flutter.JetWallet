@@ -5,9 +5,9 @@ import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/blockchain/model/validate_address/validate_address_request_model.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
-import '../../../../../../service/services/blockchain/model/validate_address/validate_address_request_model.dart';
-import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -185,7 +185,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   Future<CameraStatus> _checkCameraStatusAction() async {
     final storage = read(localStorageServicePod);
-    final storageStatus = await storage.getString(cameraStatusKey);
+    final storageStatus = await storage.getValue(cameraStatusKey);
     final permissionStatus = await Permission.camera.request();
 
     if (permissionStatus == PermissionStatus.denied ||

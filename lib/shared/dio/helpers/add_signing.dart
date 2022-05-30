@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../service/shared/constants.dart';
+import '../../constants.dart';
 import '../../providers/service_providers.dart';
 import '../../services/local_storage_service.dart';
 
@@ -17,7 +17,7 @@ void addSigning(Dio dio, Reader read) {
           final rsaService = read(rsaServicePod);
           final storageService = read(localStorageServicePod);
 
-          final privateKey = await storageService.getString(privateKeyKey);
+          final privateKey = await storageService.getValue(privateKeyKey);
           final signature = privateKey != null
               ? rsaService.sign(
                   jsonEncode(requestBody),
