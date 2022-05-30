@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
 part 'withdrawal_preview_state.freezed.dart';
 

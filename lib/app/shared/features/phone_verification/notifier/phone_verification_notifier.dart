@@ -3,10 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
-import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/helpers/decompose_phone_number.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';

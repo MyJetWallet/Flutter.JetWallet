@@ -3,9 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
+import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
-import '../../../../../service/services/signal_r/model/asset_model.dart';
-import '../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';

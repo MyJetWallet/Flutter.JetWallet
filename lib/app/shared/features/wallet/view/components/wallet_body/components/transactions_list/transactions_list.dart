@@ -4,8 +4,8 @@ import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../helper/format_date.dart';
 import '../../../../../notifier/operation_history_notipod.dart';

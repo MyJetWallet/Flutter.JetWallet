@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../model/disclaimer_model.dart';
+import 'package:simple_networking/services/disclaimer/model/disclaimers_response_model.dart';
 
 part 'disclaimer_state.freezed.dart';
 

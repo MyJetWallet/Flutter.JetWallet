@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
-import '../../../../../service/services/signal_r/model/blockchains_model.dart';
 import 'crypto_deposit_union.dart';
 
 part 'crypto_deposit_state.freezed.dart';
