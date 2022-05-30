@@ -97,10 +97,12 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
       final response =
           await read(circleServicePod).encryptionKey(intl.localeName);
 
+      final cardNumber = state.cardNumber.replaceAll('\u{2005}', '');
+
       final base64Decoded = base64Decode(response.encryptionKey);
       final utf8Decoded = utf8.decode(base64Decoded);
       final encrypted = await OpenPGP.encrypt(
-        '{${intl.number}:"${state.cardNumber}","cvv": "${state.cvv}"}',
+        '{"number":"$cardNumber","cvv":"${state.cvv}"}',
         utf8Decoded,
       );
       final utf8Encoded = utf8.encode(encrypted);
