@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_model.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import 'action_search_state.dart';
