@@ -484,7 +484,7 @@ class _TransactionsListState extends State<TransactionsList> {
       }
     }
 
-    return true;
+    return false;
   }
 
   bool _addBottomPadding(OperationHistoryState transactionHistory) {
