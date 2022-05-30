@@ -2,11 +2,12 @@ import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
+import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/simplex/model/simplex_payment_request_model.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../../service/services/signal_r/model/asset_model.dart';
-import '../../../../../../service/services/signal_r/model/asset_payment_methods.dart';
-import '../../../../../../service/services/simplex/model/simplex_payment_request_model.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/calculate_base_balance.dart';
@@ -18,7 +19,6 @@ import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
-import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import 'currency_buy_state.dart';
 
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
 import '../../../../../shared/constants.dart';
-import 'recurring_buys_status_name.dart';
 
 Widget recurringBuysImage(RecurringBuysStatus type) {
   switch (type) {

@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
-import 'recurring_buys_status_name.dart';
 
 String recurringBuysName(
   RecurringBuysStatus type,

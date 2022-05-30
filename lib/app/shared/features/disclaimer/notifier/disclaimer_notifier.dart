@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/disclaimer/model/disclaimers_request_model.dart';
+import 'package:simple_networking/services/disclaimer/model/disclaimers_response_model.dart';
 
-import '../../../../../service/services/disclaimer/model/disclaimers_request_model.dart';
 import '../../../../../shared/constants.dart';
 import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../helpers/disclaimer_questions_parser.dart';
-import '../model/disclaimer_model.dart';
 import '../view/components/disclaimer_checkbox.dart';
 import '../view/disclaimer.dart';
 import 'disclaimer_state.dart';

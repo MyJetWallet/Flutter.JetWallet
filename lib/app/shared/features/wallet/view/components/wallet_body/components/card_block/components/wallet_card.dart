@@ -31,24 +31,28 @@ class WalletCard extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
     final earnOffers = useProvider(earnOffersPod);
 
-    final filteredEarnOffers = earnOffers.where(
+    final filteredEarnOffers = earnOffers
+        .where(
           (element) => element.asset == currency.symbol,
-    ).toList();
-    final filteredActiveEarnOffers = filteredEarnOffers.where(
-      (element) => element.amount > Decimal.zero,
-    ).toList();
+        )
+        .toList();
+    final filteredActiveEarnOffers = filteredEarnOffers
+        .where(
+          (element) => element.amount > Decimal.zero,
+        )
+        .toList();
     final interestRateText = filteredActiveEarnOffers.isEmpty
         ? intl.earn_title
         : filteredActiveEarnOffers.length == 1
-        ? '${filteredActiveEarnOffers[0].currentApy}%'
-        : intl.recurringBuysStatus_active;
+            ? '${filteredActiveEarnOffers[0].currentApy}%'
+            : intl.recurringBuysStatus_active;
     final interestRateTextSize = _textSize(
-        interestRateText,
-        sSubtitle3Style,
+      interestRateText,
+      sSubtitle3Style,
     );
     final isInterestRateVisible = filteredEarnOffers.isNotEmpty;
-    final isInProgress = currency.assetBalance == Decimal.zero &&
-        currency.isPendingDeposit;
+    final isInProgress =
+        currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
 
     return Container(
       height: 150,
@@ -140,7 +144,8 @@ class WalletCard extends HookWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                isInProgress ? '${intl.walletCard_balanceInProcess}...'
+                isInProgress
+                    ? '${intl.walletCard_balanceInProcess}...'
                     : currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,
@@ -149,46 +154,46 @@ class WalletCard extends HookWidget {
             ),
           ),
           if (!isInProgress)
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 98,
-            ),
-            child: SBaselineChild(
-              baseline: 24,
-              child: Text(
-                currency.volumeAssetBalance,
-                style: sBodyText2Style.copyWith(
-                  color: colors.grey1,
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 98,
+              ),
+              child: SBaselineChild(
+                baseline: 24,
+                child: Text(
+                  currency.volumeAssetBalance,
+                  style: sBodyText2Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
-          ),
           if (!isInProgress)
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 20,
-            ),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: InkWell(
-                onTap: () {
-                  showInterestRate(
-                    context: context,
-                    currency: currency,
-                    baseCurrency: baseCurrency,
-                    colors: colors,
-                    colorDayPercentage: colorDayPercentage(
-                      currency.dayPercentChange,
-                      colors,
-                    ),
-                  );
-                },
-                child: const SInfoIcon(),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20,
               ),
-            ),
-          )
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: InkWell(
+                  onTap: () {
+                    showInterestRate(
+                      context: context,
+                      currency: currency,
+                      baseCurrency: baseCurrency,
+                      colors: colors,
+                      colorDayPercentage: colorDayPercentage(
+                        currency.dayPercentChange,
+                        colors,
+                      ),
+                    );
+                  },
+                  child: const SInfoIcon(),
+                ),
+              ),
+            )
         ],
       ),
     );

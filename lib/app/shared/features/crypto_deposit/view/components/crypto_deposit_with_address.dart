@@ -45,7 +45,7 @@ class CryptoDepositWithAddress extends HookWidget {
             loading: deposit.union is Loading,
             data: deposit.address,
             qrBoxSize: qrCodeSize,
-            logoSize: screenWidth * 0.24,
+            logoSize: screenWidth * 0.2,
           ),
           const Spacer(),
           SAddressFieldWithCopy(
