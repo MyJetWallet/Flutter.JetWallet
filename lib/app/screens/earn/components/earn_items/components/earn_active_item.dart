@@ -59,7 +59,7 @@ class EarnActiveItem extends HookWidget {
     }
 
     final isWidthDifferenceSmall = (currentWidth - processWidth) < 16;
-    final showProgress = (earnOffer.amount.toDouble() /
+    final showProgress = (earnOffer.amountBaseAsset.toDouble() /
         earnOffer.maxAmount.toDouble()) >= 0.3;
 
     Color getColorByTiers() {
