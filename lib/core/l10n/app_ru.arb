@@ -362,6 +362,8 @@
     "emptyEarnWalletBody_earn": "Зарабатывать",
     "emptyEarnWalletBody_text": "Инвестируйте в биткойн и начните зарабатывать ежедневно",
     "emptyEarnWalletBody_interest": "интерес",
+    "emptyEarnWalletBody_investIn": "Инвестируй в",
+    "emptyEarnWalletBody_startEarningDaily": "и начните зарабатывать ежедневно",
     "walletCardCollapsed_balanceInProcess": "В ходе выполнения",
     "transactionDetailsStatus_balanceInProcess": "В ходе выполнения",
     "transactionDetailsStatus_status": "Статус",
