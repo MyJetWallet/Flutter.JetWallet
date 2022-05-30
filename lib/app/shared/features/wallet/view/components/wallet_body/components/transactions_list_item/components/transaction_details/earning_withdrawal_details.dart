@@ -66,7 +66,7 @@ class EarningWithdrawalDetails extends HookWidget {
           ),
           const SpaceH14(),
           TransactionDetailsItem(
-            text: intl.earn_total_balance,
+            text: intl.earn_remaining_balance,
             value: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

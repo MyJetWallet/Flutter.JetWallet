@@ -104,7 +104,7 @@ class HighYieldBuy extends HookWidget {
           if (!state.singleTier)
             for (var i = 0; i < state.simpleTiers.length; i++)
               SActionConfirmText(
-                name: '${intl.earn_buy_tier} ${i + 1} ${intl.earn_apy} '
+                name: '${intl.earn_buy_tier} ${i + 1} ${intl.earn_buy_apy} '
                     '(${intl.earn_buy_limit}: '
                     '${volumeFormat(
                   prefix: state.baseCurrency?.prefix ?? '\$',
