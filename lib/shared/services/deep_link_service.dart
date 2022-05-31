@@ -406,17 +406,22 @@ class DeepLinkService {
     final context = read(sNavigatorKeyPod).currentContext;
 
     if (context != null) {
-      if (auth.state == AuthorizationUnion.authorized.call()) {
-        navigatorPush(
-          read(sNavigatorKeyPod).currentContext!,
-          const SmsAuthenticator(),
-        );
-      } else {
-        navigatorPush(
-          read(sNavigatorKeyPod).currentContext!,
-          const Login(),
-        );
-      }
+      navigatorPush(
+        read(sNavigatorKeyPod).currentContext!,
+        const SmsAuthenticator(),
+      );
+
+      // if (auth.state == AuthorizationUnion.authorized.call()) {
+      //   navigatorPush(
+      //     read(sNavigatorKeyPod).currentContext!,
+      //     const SmsAuthenticator(),
+      //   );
+      // } else {
+      //   navigatorPush(
+      //     read(sNavigatorKeyPod).currentContext!,
+      //     const Login(),
+      //   );
+      // }
     }
   }
 }
