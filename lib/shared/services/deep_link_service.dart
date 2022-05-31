@@ -402,7 +402,7 @@ class DeepLinkService {
   }
 
   void _authenticatorSettingsCommand() {
-    final auth = read(authorizationStpod);
+    // final auth = read(authorizationStpod);
     final context = read(sNavigatorKeyPod).currentContext;
 
     if (context != null) {
