@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -58,13 +59,25 @@ class EarnOfferDetailsBody extends HookWidget {
           const SpaceH42(),
           Column(
             children: [
-              Text(
+              AutoSizeText(
                 volumeFormat(
                   decimal: earnOffer.amount,
                   accuracy: currentCurrency.accuracy,
                   symbol: currentCurrency.symbol,
                 ),
-                style: sTextH1Style.copyWith(
+                textAlign: TextAlign.center,
+                minFontSize: 4.0,
+                maxLines: 1,
+                strutStyle: const StrutStyle(
+                  height: 1.20,
+                  fontSize: 40.0,
+                  fontFamily: 'Gilroy',
+                ),
+                style: TextStyle(
+                  height: 1.20,
+                  fontSize: 40.0,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w600,
                   color: colors.black,
                 ),
               ),

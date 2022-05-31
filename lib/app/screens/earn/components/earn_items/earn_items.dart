@@ -112,7 +112,7 @@ class EarnItems extends HookWidget {
               EarnItem(
                 name: element,
                 apy: maxApyForCurrencies[
-                currenciesByEarn.indexOf(element)
+                  currenciesByEarn.indexOf(element)
                 ],
               ),
             ],
