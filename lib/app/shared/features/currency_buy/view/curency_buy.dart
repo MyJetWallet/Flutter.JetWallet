@@ -167,7 +167,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 onTap: () {
                   AddCircleCard.pushReplacement(
                     context: context,
-                    onCardAdded: notifier.onCircleCardAdded,
+                    onCardAdded: (card) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      notifier.onCircleCardAdded(card);
+                    },
                   );
                 },
                 helper: '≈10-30 ${intl.min}',
