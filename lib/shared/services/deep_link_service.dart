@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -402,26 +404,37 @@ class DeepLinkService {
   }
 
   void _authenticatorSettingsCommand() {
-    // final auth = read(authorizationStpod);
+    final auth = read(authorizationStpod);
     final context = read(sNavigatorKeyPod).currentContext;
 
     if (context != null) {
-      navigatorPush(
-        read(sNavigatorKeyPod).currentContext!,
-        const SmsAuthenticator(),
-      );
+      // navigatorPush(
+      //   read(sNavigatorKeyPod).currentContext!,
+      //   const SmsAuthenticator(),
+      // );
 
-      // if (auth.state == AuthorizationUnion.authorized.call()) {
-      //   navigatorPush(
-      //     read(sNavigatorKeyPod).currentContext!,
-      //     const SmsAuthenticator(),
-      //   );
-      // } else {
-      //   navigatorPush(
-      //     read(sNavigatorKeyPod).currentContext!,
-      //     const Login(),
-      //   );
-      // }
+      if (Platform.isAndroid) {
+        if (auth.state == AuthorizationUnion.authorized.call()) {
+          navigatorPush(
+            read(sNavigatorKeyPod).currentContext!,
+            const SmsAuthenticator(),
+          );
+        } else {
+          navigatorPush(
+            read(sNavigatorKeyPod).currentContext!,
+            const Login(),
+          );
+        }
+      }
+
+      if (Platform.isIOS) {
+        if (auth.state == AuthorizationUnion.authorized.call()) {
+          navigatorPush(
+            read(sNavigatorKeyPod).currentContext!,
+            const SmsAuthenticator(),
+          );
+        }
+      }
     }
   }
 }
