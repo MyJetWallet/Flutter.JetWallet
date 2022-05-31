@@ -27,6 +27,7 @@ class AssetModel with _$AssetModel {
     required String symbol,
     required String description,
     required double accuracy,
+    required int weight,
     required int depositMode,
     required int withdrawalMode,
     required TagType tagType,

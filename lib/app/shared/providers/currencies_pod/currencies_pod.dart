@@ -66,6 +66,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
               assetSymbol: asset.symbol,
               selected: true,
             ),
+            weight: asset.weight,
             prefixSymbol: asset.prefixSymbol,
             apy: Decimal.zero,
             apr: Decimal.zero,
