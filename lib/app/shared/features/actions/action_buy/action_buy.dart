@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/helpers/supports_recurring_buy.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
@@ -150,24 +151,25 @@ class _ActionBuy extends HookWidget {
         ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
-            SMarketItem(
-              icon: SNetworkSvg24(
-                url: currency.iconUrl,
+            if (supportsRecurringBuy(currency.symbol, currencies))
+              SMarketItem(
+                icon: SNetworkSvg24(
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: baseCurrency.symbol == currency.symbol
+                      ? Decimal.one
+                      : currency.currentPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                ticker: currency.symbol,
+                last: currency == state.buyFromCardCurrencies.last,
+                percent: currency.dayPercentChange,
+                onTap: () => _onItemTap(currency, true),
               ),
-              name: currency.description,
-              price: marketFormat(
-                prefix: baseCurrency.prefix,
-                decimal: baseCurrency.symbol == currency.symbol
-                    ? Decimal.one
-                    : currency.currentPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              ticker: currency.symbol,
-              last: currency == state.buyFromCardCurrencies.last,
-              percent: currency.dayPercentChange,
-              onTap: () => _onItemTap(currency, true),
-            ),
         ],
         if (!fromCard) ...[
           const SpaceH10(),
