@@ -47,7 +47,7 @@ enum PaymentMethodType {
   unsupported,
 }
 
-extension PaymentMethodTypeExtension on PaymentMethodType {
+extension _PaymentMethodTypeExtension on PaymentMethodType {
   String get name {
     switch (this) {
       case PaymentMethodType.simplex:
@@ -70,6 +70,8 @@ class PaymentTypeSerialiser
 
     if (value == 'Simplex') {
       return PaymentMethodType.simplex;
+    } else if (value == 'CircleCard') {
+      return PaymentMethodType.circleCard;
     } else {
       return PaymentMethodType.unsupported;
     }

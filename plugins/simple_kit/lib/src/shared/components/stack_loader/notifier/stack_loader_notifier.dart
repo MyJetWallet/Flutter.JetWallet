@@ -7,6 +7,8 @@ class StackLoaderNotifier extends ValueNotifier<bool> {
 
   Timer _timer = Timer(Duration.zero, () {});
 
+  void startLoadingImmediately() => value = true;
+
   void startLoading() {
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       if (timer.tick == 2) {

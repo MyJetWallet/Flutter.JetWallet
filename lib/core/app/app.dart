@@ -37,6 +37,7 @@ final _providerTypes = <String>[
   'AutoDisposeProvider<List<CampaignModel>>',
   'AutoDisposeStateNotifierProvider<CampaignNotifier, List<CampaignModel>>',
   'AutoDisposeStateNotifierProvider<CurrencyBuyNotifier, CurrencyBuyState>',
+  'AutoDisposeStateNotifierProvider<ActionSearchNotifier, ActionSearchState>',
 ];
 
 final _providerNames = <String>[

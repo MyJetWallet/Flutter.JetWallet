@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'circle_card.freezed.dart';
 part 'circle_card.g.dart';
@@ -50,8 +53,8 @@ enum CircleCardVerificationError {
 class CircleCardInfoPayment with _$CircleCardInfoPayment {
   const factory CircleCardInfoPayment({
     required double feePercentage,
-    required double minAmount,
-    required double maxAmount,
+    @DecimalSerialiser() required Decimal minAmount,
+    @DecimalSerialiser() required Decimal maxAmount,
     required String settlementAsset,
   }) = _CircleCardInfoPayment;
 

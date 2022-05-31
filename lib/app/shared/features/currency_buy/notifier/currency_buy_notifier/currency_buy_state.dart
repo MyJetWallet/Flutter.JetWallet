@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
@@ -8,6 +9,7 @@ import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/base_currency_pod/base_currency_model.dart';
+import '../../model/formatted_circle_card.dart';
 
 part 'currency_buy_state.freezed.dart';
 
@@ -16,6 +18,8 @@ class CurrencyBuyState with _$CurrencyBuyState {
   const factory CurrencyBuyState({
     Decimal? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
+    CircleCard? pickedCircleCard,
+    FormattedCircleCard? selectedCircleCard,
     PaymentMethod? selectedPaymentMethod,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
@@ -27,7 +31,9 @@ class CurrencyBuyState with _$CurrencyBuyState {
     @Default('0') String baseConversionValue,
     @Default(false) bool inputValid,
     @Default([]) List<CurrencyModel> currencies,
+    @Default([]) List<CircleCard> circleCards,
     @Default(InputError.none) InputError inputError,
+    required StackLoaderNotifier loader,
   }) = _CurrencyBuyState;
 
   const CurrencyBuyState._();

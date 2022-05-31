@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../helper/masked_text_input_formatter.dart';
 import '../notifier/add_circle_card_notipod.dart';
@@ -19,13 +21,25 @@ class AddCircleCard extends HookWidget {
     required this.onCardAdded,
   }) : super(key: key);
 
-  final VoidCallback onCardAdded;
+  final Function(CircleCard) onCardAdded;
 
   static void push({
     required BuildContext context,
-    required VoidCallback onCardAdded,
+    required Function(CircleCard) onCardAdded,
   }) {
     navigatorPush(
+      context,
+      AddCircleCard(
+        onCardAdded: onCardAdded,
+      ),
+    );
+  }
+
+  static void pushReplacement({
+    required BuildContext context,
+    required Function(CircleCard) onCardAdded,
+  }) {
+    navigatorPushReplacement(
       context,
       AddCircleCard(
         onCardAdded: onCardAdded,

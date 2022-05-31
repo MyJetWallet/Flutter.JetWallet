@@ -47,7 +47,7 @@ class PaymentMethods extends HookWidget {
     void onAddCardTap() {
       AddCircleCard.push(
         context: context,
-        onCardAdded: () {
+        onCardAdded: (_) {
           Navigator.pop(context);
           Navigator.pop(context);
           notifier.getCards();

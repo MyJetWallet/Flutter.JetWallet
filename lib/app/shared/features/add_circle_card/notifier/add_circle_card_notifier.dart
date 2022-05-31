@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:openpgp/openpgp.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/add_card/add_card_request_model.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 import 'package:uuid/uuid.dart';
 
@@ -84,7 +85,7 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
   }
 
   Future<void> addCard({
-    required VoidCallback onSuccess,
+    required Function(CircleCard) onSuccess,
     required VoidCallback onError,
   }) async {
     _logger.log(notifier, 'addCard');
@@ -125,12 +126,12 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
         expYear: int.parse('20${expDate[1]}'),
       );
 
-      await read(circleServicePod).addCard(
+      final card = await read(circleServicePod).addCard(
         model,
         intl.localeName,
       );
       _saveBillingAddressToStorage();
-      state.loader!.finishLoading(onFinish: onSuccess);
+      state.loader!.finishLoading(onFinish: () => onSuccess(card));
     } on ServerRejectException catch (error) {
       read(sNotificationNotipod.notifier).showError(
         error.cause,
