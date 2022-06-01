@@ -138,6 +138,7 @@ class EarnOfferDetailsBody extends HookWidget {
                           tiers: tiers,
                           colors: colors,
                           isHot: isHot,
+                          title: intl.earn_buy_annual_percentage_yield,
                         );
                       },
                       child: SInfoIcon(
