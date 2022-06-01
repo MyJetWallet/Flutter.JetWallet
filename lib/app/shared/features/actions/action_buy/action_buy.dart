@@ -166,7 +166,7 @@ class _ActionBuy extends HookWidget {
               ticker: currency.symbol,
               last: currency == state.buyFromCardCurrencies.last,
               percent: currency.dayPercentChange,
-              onTap: () => _onItemTap(currency, true),
+              onTap: () => _onItemTap(currency, fromCard),
             ),
         ],
         if (!fromCard) ...[
