@@ -7,7 +7,6 @@ part 'add_card_request_model.g.dart';
 class AddCardRequestModel with _$AddCardRequestModel {
   const factory AddCardRequestModel({
     String? billingLine2,
-    @Default('Undefined') String cardName,
     required String requestGuid,
     required String keyId,
     required String encryptedData,

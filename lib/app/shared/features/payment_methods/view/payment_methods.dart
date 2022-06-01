@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/is_card_expired.dart';
-import '../../../helpers/last_n_chars.dart';
 import '../../add_circle_card/view/add_circle_card.dart';
 import '../../kyc/model/kyc_operation_status_model.dart';
 import '../../kyc/notifier/kyc/kyc_notipod.dart';
@@ -107,8 +106,7 @@ class PaymentMethods extends HookWidget {
                     const SpaceH30(),
                     for (final card in state.cards)
                       PaymentCardItem(
-                        name: '${card.network} •••• '
-                            '${lastNChars(card.cardName, 4)}',
+                        name: '${card.network} •••• ${card.last4}',
                         expirationDate: 'Exp. ${card.expMonth}/${card.expYear}',
                         expired: isCardExpired(card.expMonth, card.expYear),
                         onDelete: () => showDeleteDisclaimer(
