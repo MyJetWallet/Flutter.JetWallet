@@ -113,7 +113,9 @@ final currenciesWithHiddenPod =
             final index = currencies.indexOf(currency);
 
             currencies[index] = currency.copyWith(
+              reserve: balance.reserve,
               lastUpdate: balance.lastUpdate,
+              sequenceId: balance.sequenceId,
               assetBalance: balance.balance,
               assetTotalEarnAmount: balance.totalEarnAmount,
               assetCurrentEarnAmount: balance.currentEarnAmount,
