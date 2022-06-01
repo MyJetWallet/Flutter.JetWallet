@@ -140,9 +140,6 @@ definitions:
 
     email:
       recipients:
-        - illia.s@smplt.net
-        - vladimir.m@smplt.net
-        - vovkamedvedev5@gmail.com
         - novichikhin.au@gmail.com
         - andrey.p@smplt.net
         - andrey.v@smplt.net

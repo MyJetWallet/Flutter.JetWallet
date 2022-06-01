@@ -49,6 +49,7 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
         SPaddingH24(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
                 child: Baseline(
@@ -61,7 +62,6 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
                   ),
                 ),
               ),
-              const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: const SErasePressedIcon(),
