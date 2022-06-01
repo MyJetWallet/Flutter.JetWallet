@@ -16,6 +16,7 @@ class SBottomNavigationBar extends StatelessWidget {
     required this.actionActive,
     required this.onActionTap,
     required this.onChanged,
+    required this.earnEnabled,
   }) : super(key: key);
 
   final int marketNotifications;
@@ -25,6 +26,7 @@ class SBottomNavigationBar extends StatelessWidget {
   final AnimationController animationController;
   final int selectedIndex;
   final bool actionActive;
+  final bool earnEnabled;
   final void Function() onActionTap;
   final void Function(int) onChanged;
 
@@ -109,12 +111,19 @@ class SBottomNavigationBar extends StatelessWidget {
                     onTap: () => onChanged(2),
                     child: _MenuItemFrame(
                       children: [
-                        if (selectedIndex == 2)
-                          const SEarnActiveIcon()
-                          // const SNewsActiveIcon()
-                        else
-                          const SEarnDefaultIcon(),
-                          // const SNewsDefaultIcon(),
+                        if (selectedIndex == 2) ...[
+                          if (earnEnabled) ...[
+                            const SEarnActiveIcon(),
+                          ] else ...[
+                            const SNewsActiveIcon()
+                          ],
+                        ] else ...[
+                          if (earnEnabled) ...[
+                            const SEarnDefaultIcon(),
+                          ] else ...[
+                            const SNewsDefaultIcon()
+                          ],
+                        ],
                         NotificationBox(
                           notifications: earnNotifications,
                         )
