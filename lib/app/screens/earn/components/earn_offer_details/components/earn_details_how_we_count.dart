@@ -14,6 +14,7 @@ void showDetailsHowWeCountSheet({
   required SimpleColors colors,
   required bool isHot,
   required String title,
+  required String subtitle,
 }) {
   final colorTheme = isHot
     ? [colors.orange, colors.brown, colors.darkBrown]
@@ -40,6 +41,15 @@ void showDetailsHowWeCountSheet({
             fontFamily: 'Gilroy',
             fontWeight: FontWeight.w600,
             color: colors.black,
+          ),
+        ),
+      ),
+      const SpaceH11(),
+      Center(
+        child: Text(
+          subtitle,
+          style: sBodyText1Style.copyWith(
+            color: colors.grey1,
           ),
         ),
       ),

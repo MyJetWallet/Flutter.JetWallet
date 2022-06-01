@@ -84,7 +84,7 @@ class HighYieldBuy extends HookWidget {
           const SpaceH4(),
           Center(
             child: AutoSizeText(
-              intl.earn_buy_annual_percentage_yield,
+              intl.earn_buy_annual_calculation_plan,
               textAlign: TextAlign.center,
               minFontSize: 4.0,
               maxLines: 1,
@@ -99,6 +99,15 @@ class HighYieldBuy extends HookWidget {
                 fontFamily: 'Gilroy',
                 fontWeight: FontWeight.w600,
                 color: colors.black,
+              ),
+            ),
+          ),
+          const SpaceH11(),
+          Center(
+            child: Text(
+              intl.earn_buy_annual_percentage_yield,
+              style: sBodyText1Style.copyWith(
+                color: colors.grey1,
               ),
             ),
           ),
