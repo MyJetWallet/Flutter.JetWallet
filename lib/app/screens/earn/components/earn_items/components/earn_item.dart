@@ -31,7 +31,7 @@ class EarnItem extends HookWidget {
       final aCurrency = currencyFrom(currencies, a.asset);
       final bCurrency = currencyFrom(currencies, b.asset);
       if (compare != 0) return compare;
-      return aCurrency.weight.compareTo(bCurrency.weight);
+      return bCurrency.weight.compareTo(aCurrency.weight);
     });
 
     final currentCurrency = currencyFrom(currencies, name);
