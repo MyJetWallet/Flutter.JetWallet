@@ -365,6 +365,8 @@
     "emptyEarnWalletBody_earn": "Earn",
     "emptyEarnWalletBody_text": "Invest in Bitcoin and start earning daily",
     "emptyEarnWalletBody_interest": "interest",
+    "emptyEarnWalletBody_investIn": "Invest in",
+    "emptyEarnWalletBody_startEarningDaily": "and start earning daily",
     "walletCardCollapsed_balanceInProcess": "In progress",
     "transactionDetailsStatus_balanceInProcess": "In progress",
     "transactionDetailsStatus_status": "Status",
