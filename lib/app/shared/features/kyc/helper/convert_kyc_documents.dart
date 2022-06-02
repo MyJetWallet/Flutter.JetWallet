@@ -23,7 +23,7 @@ Future<FormData> convertKycDocuments(
 
     formData.files.addAll([
       MapEntry(
-        '${intl.convertKycDocuments_fileSide}1',
+        'FileSide1',
         await MultipartFile.fromFile(
           documentFirstSide.path,
           contentType: MediaType(mimee, type),
@@ -40,7 +40,7 @@ Future<FormData> convertKycDocuments(
 
     formData.files.addAll([
       MapEntry(
-        '${intl.convertKycDocuments_fileSide}2',
+        'FileSide2',
         await MultipartFile.fromFile(
           documentSecondSide.path,
           contentType: MediaType(mimee1, type1),
