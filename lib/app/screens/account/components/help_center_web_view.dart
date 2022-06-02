@@ -6,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/providers/service_providers.dart';
 
-class HelpCenterWebView extends StatelessWidget {
+class HelpCenterWebView extends StatefulWidget {
   const HelpCenterWebView({
     Key? key,
     required this.link,
@@ -25,6 +25,13 @@ class HelpCenterWebView extends StatelessWidget {
   }
 
   @override
+  State<HelpCenterWebView> createState() => _HelpCenterWebViewState();
+}
+
+class _HelpCenterWebViewState extends State<HelpCenterWebView> {
+  late WebViewController controller;
+
+  @override
   Widget build(BuildContext context) {
     final intl = context.read(intlPod);
 
@@ -32,14 +39,24 @@ class HelpCenterWebView extends StatelessWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.helpCenterWebView,
+          onBackButtonTap: () async {
+            if (await controller.canGoBack()) {
+              await controller.goBack();
+            } else {
+              Navigator.pop(context);
+            }
+          },
         ),
       ),
       child: Column(
         children: [
           Expanded(
             child: WebView(
-              initialUrl: link,
+              initialUrl: widget.link,
               javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (controller) {
+                this.controller = controller;
+              },
             ),
           ),
         ],
