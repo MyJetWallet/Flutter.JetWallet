@@ -65,7 +65,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
           state = state.copyWith(circleCards: response.cards);
         }
       } finally {
-        state.loader.finishLoading();
+        state.loader.finishLoadingImmediately();
       }
     }
   }
@@ -99,10 +99,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       if (currencyModel.supportsCircle) {
         // Case 3: If user has at least one saved circle card
         if (state.circleCards.isNotEmpty) {
-          final method = currencyModel.buyMethods.where((method) {
-            return method.type == PaymentMethodType.circleCard;
-          });
-          updateSelectedPaymentMethod(method.first);
           return updateSelectedCircleCard(state.circleCards.first);
         }
       }
@@ -133,6 +129,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
     if (method?.type == PaymentMethodType.simplex) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
+    } else if (method?.type == PaymentMethodType.circleCard) {
+      updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
 
@@ -148,10 +146,15 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void updateSelectedCircleCard(CircleCard card) {
     _logger.log(notifier, 'updateSelectedCircleCard');
 
+    final method = currencyModel.buyMethods.where((method) {
+      return method.type == PaymentMethodType.circleCard;
+    });
+
     state = state.copyWith(
       pickedCircleCard: card,
       selectedCircleCard: formattedCircleCard(card, state.baseCurrency!),
     );
+    updateSelectedPaymentMethod(method.first);
   }
 
   void selectFixedSum(SKeyboardPreset preset) {
@@ -247,7 +250,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _calculateTargetConversion() {
-    if (state.selectedPaymentMethod != null) {
+    if (state.selectedPaymentMethod?.type == PaymentMethodType.simplex) {
       _calculateTargetConversionForSimplex();
     } else {
       _calculateTargetConversionForCrypto();
@@ -358,8 +361,13 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       }
 
       final value = double.parse(state.inputValue);
-      final min = state.selectedPaymentMethod!.minAmount;
-      final max = state.selectedPaymentMethod!.maxAmount;
+      var min = state.selectedPaymentMethod!.minAmount;
+      var max = state.selectedPaymentMethod!.maxAmount;
+
+      if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard) {
+        min = state.pickedCircleCard?.paymentDetails.minAmount.toDouble() ?? 0;
+        max = state.pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
+      }
 
       _updateInputValid(value >= min && value <= max);
 

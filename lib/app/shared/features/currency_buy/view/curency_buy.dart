@@ -20,10 +20,12 @@ import '../../add_circle_card/view/add_circle_card.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../helper/formatted_circle_card.dart';
 import '../model/preview_buy_with_asset_input.dart';
+import '../model/preview_buy_with_circle_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'components/recurring_selector.dart';
-import 'preview_buy_with_asset.dart';
-import 'simplex_web_view.dart';
+import 'screens/preview_buy_with_asset.dart';
+import 'screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
+import 'screens/simplex_web_view.dart';
 
 class CurrencyBuy extends StatefulHookWidget {
   const CurrencyBuy({
@@ -240,8 +242,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
               const Spacer(),
               RecurringSelector(
-                oneTimePurchaseOnly: state.selectedPaymentMethod?.type ==
-                    PaymentMethodType.simplex,
+                oneTimePurchaseOnly: state.isOneTimePurchaseOnly,
                 currentSelection: state.recurringBuyType,
                 onSelect: (selection) {
                   notifier.updateRecurringBuyType(selection);
@@ -358,7 +359,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     frequency: state.recurringBuyType.toFrequency,
                   );
 
-                  if (state.selectedPaymentMethod != null) {
+                  if (state.selectedPaymentMethod?.type ==
+                      PaymentMethodType.simplex) {
                     disableSubmit.value = true;
                     state.loader.startLoading();
                     final response = await notifier.makeSimplexRequest();
@@ -372,6 +374,19 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                         SimplexWebView(response),
                       );
                     }
+                  } else if (state.selectedPaymentMethod?.type ==
+                      PaymentMethodType.circleCard) {
+                    navigatorPush(
+                      context,
+                      PreviewBuyWithCircle(
+                        input: PreviewBuyWithCircleInput(
+                          fromCard: widget.fromCard,
+                          amount: state.inputValue,
+                          card: state.pickedCircleCard!,
+                          currency: widget.currency,
+                        ),
+                      ),
+                    );
                   } else {
                     navigatorPush(
                       context,

@@ -125,4 +125,11 @@ class CurrencyBuyState with _$CurrencyBuyState {
       return '≈ $target ($base)';
     }
   }
+
+  bool get isOneTimePurchaseOnly {
+    final cond1 = selectedPaymentMethod?.type == PaymentMethodType.simplex;
+    final cond2 = selectedPaymentMethod?.type == PaymentMethodType.circleCard;
+
+    return cond1 || cond2;
+  }
 }

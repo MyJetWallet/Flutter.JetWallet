@@ -10,6 +10,10 @@ import '../model/create_payment/create_payment_response_model.dart';
 import '../model/delete_card/delete_card_request_model.dart';
 import '../model/delete_card/delete_card_response_model.dart';
 import '../model/encryption_key/encryption_key_response_model.dart';
+import '../model/payment_info/payment_info_request_model.dart';
+import '../model/payment_info/payment_info_response_model.dart';
+import '../model/payment_preview/payment_preview_request_model.dart';
+import '../model/payment_preview/payment_preview_response_model.dart';
 import '../model/wire_countries/wire_countries_response_model.dart';
 import 'services/add_card_service.dart';
 import 'services/all_cards_service.dart';
@@ -17,6 +21,8 @@ import 'services/card_service.dart';
 import 'services/create_payment_service.dart';
 import 'services/delete_card_service.dart';
 import 'services/encryption_key_service.dart';
+import 'services/payment_info_service.dart';
+import 'services/payment_preview_service.dart';
 import 'services/wire_countries_service.dart';
 
 class CircleService {
@@ -58,5 +64,19 @@ class CircleService {
 
   Future<WireCountriesResponseModel> wireCountries(String localeName) {
     return wireCountriesService(dio, localeName);
+  }
+
+  Future<PaymentInfoResponseModel> paymentInfo(
+    PaymentInfoRequestModel model,
+    String localeName,
+  ) {
+    return paymentInfoService(dio, model, localeName);
+  }
+
+  Future<PaymentPreviewResponseModel> paymentPreview(
+    PaymentPreviewRequestModel model,
+    String localeName,
+  ) {
+    return paymentPreviewService(dio, model, localeName);
   }
 }

@@ -51,7 +51,6 @@ class CircleCardInfoPayment with _$CircleCardInfoPayment {
     required double feePercentage,
     @DecimalSerialiser() required Decimal minAmount,
     @DecimalSerialiser() required Decimal maxAmount,
-    required String settlementAsset,
   }) = _CircleCardInfoPayment;
 
   factory CircleCardInfoPayment.fromJson(Map<String, dynamic> json) =>
