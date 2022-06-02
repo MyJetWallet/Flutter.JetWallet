@@ -55,7 +55,11 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     final model = CalculateEarnOfferApyRequestModel(
       offerId: input.earnOffer.offerId,
       assetSymbol: state.baseCurrency?.symbol ?? 'USD',
-      amount: Decimal.parse(state.inputValue),
+      amount: Decimal.parse(
+          state.inputValue == '0'
+              ? '0.0000000001'
+              : state.inputValue,
+      ),
     );
 
     try {

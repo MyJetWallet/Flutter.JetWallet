@@ -255,7 +255,7 @@ class TransactionListItem extends HookWidget {
       case OperationType.recurringBuy:
         return const SPlusIcon();
       case OperationType.earningWithdrawal:
-        return const SEarnWithdrawalIcon();
+        return const SPaidInterestRateIcon();
       case OperationType.earningDeposit:
         return const SEarnDepositIcon();
       case OperationType.unknown:

@@ -66,20 +66,26 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     _validateInput();
   }
 
-  void selectPercentFromBalance(SKeyboardPreset preset) {
+  void selectPercentFromBalance(SKeyboardPreset preset, {bool topUp = false}) {
     _logger.log(notifier, 'selectPercentFromBalance');
 
     _updateSelectedPreset(preset);
 
     final percent = _percentFromPreset(preset);
-
-    final value = valueBasedOnSelectedPercent(
+    final maxAvailable = Decimal.parse('${(input.earnOffer.maxAmount.toDouble()
+        - input.earnOffer.amountBaseAsset.toDouble() ) /
+        input.currency.currentPrice.toDouble()}',);
+    final percentageOfAll = valueBasedOnSelectedPercent(
       selected: percent,
       currency: input.currency,
     );
 
+    final value = topUp && Decimal.parse(percentageOfAll) > maxAvailable
+        ? maxAvailable
+        : percentageOfAll;
+
     _updateInputValue(
-      valueAccordingToAccuracy(value, input.currency.accuracy),
+      valueAccordingToAccuracy('$value', input.currency.accuracy),
     );
     if (state.inputError == InputError.amountTooLarge ||
         state.inputError == InputError.amountTooLow) {
@@ -139,7 +145,11 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     final model = CalculateEarnOfferApyRequestModel(
       offerId: input.earnOffer.offerId,
       assetSymbol: state.baseCurrency?.symbol ?? 'USD',
-      amount: Decimal.parse(state.inputValue),
+      amount: Decimal.parse(
+        state.inputValue == '0'
+            ? '0.0000000000001'
+            : state.inputValue,
+      ),
     );
 
     try {

@@ -48,7 +48,7 @@ class WalletCard extends HookWidget {
         ? intl.earn_title
         : filteredActiveEarnOffers.length == 1
             ? '${filteredActiveEarnOffers[0].currentApy}%'
-            : intl.recurringBuysStatus_active;
+            : '${intl.earn_title}: ${filteredActiveEarnOffers.length}';
     final interestRateDisabledText = '+${volumeFormat(
       prefix: baseCurrency.prefix,
       decimal: currency.baseTotalEarnAmount,

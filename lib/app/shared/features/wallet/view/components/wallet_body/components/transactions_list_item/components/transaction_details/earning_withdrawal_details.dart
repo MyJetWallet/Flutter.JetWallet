@@ -72,8 +72,19 @@ class EarningWithdrawalDetails extends HookWidget {
               children: [
                 TransactionDetailsValueText(
                   text: volumeFormat(
-                    decimal: transactionListItem.earnInfo?.totalBalance
-                        ?? Decimal.zero,
+                    decimal: transactionListItem.earnInfo != null &&
+                        transactionListItem.earnInfo!.totalBalance !=
+                            Decimal.zero &&
+                        currentCurrency.currentPrice != Decimal.zero
+                        ? Decimal.parse('${transactionListItem
+                            .earnInfo
+                            !.totalBalance
+                            .toDouble() / currentCurrency
+                              .currentPrice
+                              .toDouble()
+                            }',
+                          )
+                        : Decimal.zero,
                     accuracy: currentCurrency.accuracy,
                     symbol: currentCurrency.symbol,
                   ),
@@ -82,10 +93,8 @@ class EarningWithdrawalDetails extends HookWidget {
                   Text(
                     volumeFormat(
                       prefix: baseCurrency.prefix,
-                      decimal: transactionListItem.earnInfo != null
-                          ? (transactionListItem.earnInfo!.totalBalance *
-                          currentCurrency.currentPrice)
-                          : Decimal.zero,
+                      decimal: transactionListItem.earnInfo?.totalBalance
+                          ?? Decimal.zero,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
                     ),

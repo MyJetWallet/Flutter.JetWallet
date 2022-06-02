@@ -248,7 +248,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: (topUp ? intl.earn_buy_top_up : '') + earnOffer.title,
+          title: (topUp ? '${intl.earn_buy_top_up} ' : '') + earnOffer.title,
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
@@ -314,7 +314,7 @@ class HighYieldBuy extends HookWidget {
             preset3Name: intl.earn_buy_max_preset,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
-              notifier.selectPercentFromBalance(preset);
+              notifier.selectPercentFromBalance(preset, topUp: topUp);
             },
             onKeyPressed: (value) {
               notifier.updateInputValue(value);
