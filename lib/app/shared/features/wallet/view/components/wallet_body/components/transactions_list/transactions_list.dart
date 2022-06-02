@@ -89,6 +89,11 @@ class _TransactionsListState extends State<TransactionsList> {
             .toList()
         : transactionHistory.operationHistoryItems;
 
+    if (transactionHistory.operationHistoryItems.isNotEmpty) {
+      transactionHistory.operationHistoryItems
+          .sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+    }
+
     return SliverPadding(
       padding: EdgeInsets.only(
         top: transactionHistory.union != const OperationHistoryUnion.error()
@@ -451,40 +456,15 @@ class _TransactionsListState extends State<TransactionsList> {
 
   Widget _displayMonthSeparator(String date, List<OperationHistoryItem> list) {
     final currentMonthInt = DateTime.now().month;
-    final month = DateFormat('MMM').format(DateTime(0, currentMonthInt));
-
-    final displaySeparator = _findTransactionInCurrentMonth(
-      list,
-      currentMonthInt,
-    );
+    final month = DateFormat('MMMM').format(DateTime(0, currentMonthInt));
 
     if (date == month) {
-      return const SizedBox();
-    }
-
-    if (date != month && !displaySeparator) {
       return const SizedBox();
     }
 
     return TransactionMonthSeparator(
       text: date,
     );
-  }
-
-  bool _findTransactionInCurrentMonth(
-    List<OperationHistoryItem> list,
-    int currentMonthInt,
-  ) {
-    for (final element in list) {
-      final elementDate =
-          DateTime.parse('${element.timeStamp}Z').toLocal().month;
-
-      if (elementDate == currentMonthInt) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   bool _addBottomPadding(OperationHistoryState transactionHistory) {
