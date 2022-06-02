@@ -49,8 +49,9 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
   }
 
   void search(String value) {
-    if (value.isNotEmpty && state.filteredCurrencies.isNotEmpty) {
+    if (value.isNotEmpty && state.currencies.isNotEmpty) {
       final search = value.toLowerCase();
+      final buyFromCardCurrencies = <CurrencyModel>[];
 
       final currencies = List<CurrencyModel>.from(state.currencies);
 
@@ -58,8 +59,6 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
         return !(element.description.toLowerCase()).startsWith(search) &&
             !(element.symbol.toLowerCase()).startsWith(search);
       });
-
-      final buyFromCardCurrencies = <CurrencyModel>[];
 
       for (final element in currencies) {
         if (element.supportsAtLeastOneBuyMethod) {
@@ -72,9 +71,18 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
         buyFromCardCurrencies: buyFromCardCurrencies,
       );
     } else if (value.isEmpty) {
+      final currencies = List<CurrencyModel>.from(state.currencies);
+      final buyFromCardCurrencies = <CurrencyModel>[];
+
+      for (final element in currencies) {
+        if (element.supportsAtLeastOneBuyMethod) {
+          buyFromCardCurrencies.add(element);
+        }
+      }
+
       state = state.copyWith(
-        filteredCurrencies: state.currencies,
-        buyFromCardCurrencies: state.currencies,
+        filteredCurrencies: currencies,
+        buyFromCardCurrencies: buyFromCardCurrencies,
       );
     }
   }
