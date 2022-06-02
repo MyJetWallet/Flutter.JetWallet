@@ -59,9 +59,15 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
             !(element.symbol.toLowerCase()).startsWith(search);
       });
 
-      state = state.copyWith(filteredCurrencies: currencies);
+      state = state.copyWith(
+        filteredCurrencies: currencies,
+        buyFromCardCurrencies: currencies,
+      );
     } else {
-      state = state.copyWith(filteredCurrencies: state.currencies);
+      state = state.copyWith(
+        filteredCurrencies: state.currencies,
+        buyFromCardCurrencies: state.currencies,
+      );
     }
   }
 }
