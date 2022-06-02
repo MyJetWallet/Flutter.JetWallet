@@ -71,7 +71,7 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
         filteredCurrencies: currencies,
         buyFromCardCurrencies: buyFromCardCurrencies,
       );
-    } else {
+    } else if (value.isEmpty) {
       state = state.copyWith(
         filteredCurrencies: state.currencies,
         buyFromCardCurrencies: state.currencies,
