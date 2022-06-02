@@ -5,15 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 
-import '../../../../../shared/providers/service_providers.dart';
-
 Future<FormData> convertKycDocuments(
   File? documentFirstSide,
   File? documentSecondSide,
   Reader read,
 ) async {
   final formData = FormData();
-  final intl = read(intlPod);
 
   if (documentFirstSide != null) {
     final documentFirstSideName = documentFirstSide.path.split('/').last;
