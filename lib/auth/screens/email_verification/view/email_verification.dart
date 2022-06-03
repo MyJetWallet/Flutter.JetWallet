@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:universal_io/io.dart';
@@ -144,7 +145,26 @@ class _EmailVerificationState extends State<EmailVerification>
                   const SpaceH17(),
                   SClickableLinkText(
                     text: intl.emailVerification_openEmail,
-                    onTap: () => openEmailApp(context),
+                    onTap: () async {
+                      if (Platform.isIOS) {
+                        final result = await OpenMailApp.openMailApp();
+
+                        if (!result.didOpen && !result.canOpen) {
+                          if(!mounted) return;
+                          showNoMailAppsDialog(context);
+                        } else if (!result.didOpen && result.canOpen) {
+                          await showDialog(
+                            context: context,
+                            builder: (_) {
+                              return MailAppPickerDialog(
+                                mailApps: result.options,
+                              );
+                            },
+                          );
+                        }
+                      }
+                    },
+                    // onTap: () => openEmailApp(context),
                   ),
                   const Spacer(),
                   GestureDetector(

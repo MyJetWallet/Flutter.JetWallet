@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'show_plain_snackbar.dart';
@@ -23,28 +22,6 @@ Future<void> openEmailApp(BuildContext context) async {
       showPlainSnackbar(context, '$e');
     }
   } else if (Platform.isIOS) {
-
-    final result = await OpenMailApp.openMailApp();
-
-    if (!result.didOpen && !result.canOpen) {
-      showNoMailAppsDialog(context);
-
-      // iOS: if multiple mail apps found, show dialog to select.
-      // There is no native intent/default app system in iOS so
-      // you have to do it yourself.
-    } else if (!result.didOpen && result.canOpen) {
-      await showDialog(
-        context: context,
-        builder: (_) {
-          return MailAppPickerDialog(
-            mailApps: result.options,
-          );
-        },
-      );
-    }
-
-
-
     try {
       await launchUrl(Uri.parse('message://'));
     } catch (e) {
