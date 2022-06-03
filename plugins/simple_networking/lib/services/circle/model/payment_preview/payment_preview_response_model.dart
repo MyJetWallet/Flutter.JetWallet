@@ -10,9 +10,8 @@ part 'payment_preview_response_model.g.dart';
 class PaymentPreviewResponseModel with _$PaymentPreviewResponseModel {
   const factory PaymentPreviewResponseModel({
     required String cardId,
-    @JsonKey(name: 'calculatedAmount')
-    @DecimalSerialiser()
-        required Decimal amount,
+    @DecimalSerialiser() required Decimal calculatedAmount,
+    @DecimalSerialiser() required Decimal paymentAmount,
     @DecimalSerialiser() required Decimal feeAmount,
     @DecimalSerialiser() required Decimal feePercentage,
     @JsonKey(name: 'currency') required String currencySymbol,

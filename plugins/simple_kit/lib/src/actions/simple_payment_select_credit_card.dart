@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
 
-class SPaymentSelectAsset extends StatelessWidget {
-  const SPaymentSelectAsset({
+class SPaymentSelectCreditCard extends StatelessWidget {
+  const SPaymentSelectCreditCard({
     Key? key,
     this.onTap,
     this.helper = '',
@@ -70,7 +70,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                               const SpaceW16(),
                               if (amount.isNotEmpty)
                                 SizedBox(
-                                  width: 110.0,
+                                  width: 90.0,
                                   child: Text(
                                     amount,
                                     textAlign: TextAlign.end,
@@ -86,7 +86,8 @@ class SPaymentSelectAsset extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
+                              SizedBox(
+                                width: 90.0,
                                 child: Text(
                                   description,
                                   style: sCaptionTextStyle.copyWith(
@@ -95,8 +96,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                                 ),
                               ),
                               const SpaceW16(),
-                              SizedBox(
-                                width: 110.0,
+                              Expanded(
                                 child: Text(
                                   helper,
                                   textAlign: TextAlign.end,

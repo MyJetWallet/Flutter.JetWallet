@@ -257,7 +257,6 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   PaymentMethodType.simplex)
                 SPaymentSelectAsset(
                   widgetSize: widgetSizeFrom(deviceSize),
-                  isCreditCard: true,
                   icon: SActionDepositIcon(
                     color: colors.black,
                   ),
@@ -276,16 +275,15 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     onTap: () => _showAssetSelector(),
                   )
                 else
-                  SPaymentSelectAsset(
+                  SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    isCreditCard: true,
                     icon: SActionDepositIcon(
                       color: colors.black,
                     ),
                     name: state.selectedCircleCard!.name,
                     amount: state.selectedCircleCard!.last4Digits,
-                    helper: state.selectedCircleCard!.expDate,
-                    description: state.selectedCircleCard!.limit,
+                    helper: state.selectedCircleCard!.limit,
+                    description: state.selectedCircleCard!.expDate,
                     onTap: () => _showAssetSelector(),
                   )
               else if (state.selectedCurrency?.type == AssetType.crypto)

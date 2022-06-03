@@ -74,7 +74,8 @@ class PreviewBuyWithCircleNotifier
       );
 
       state = state.copyWith(
-        amountToPay: response.amount,
+        amountToPay: response.paymentAmount,
+        amountToGet: response.calculatedAmount,
         currencySymbol: response.currencySymbol,
         feeAmount: response.feeAmount,
         feePercentage: response.feePercentage,

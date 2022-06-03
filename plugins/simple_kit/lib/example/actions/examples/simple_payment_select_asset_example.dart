@@ -243,7 +243,6 @@ class SimplePaymentSelectAssetExample extends StatelessWidget {
             SPaymentSelectAsset(
               widgetSize: SWidgetSize.medium,
               icon: const SActionBuyIcon(),
-              isCreditCard: true,
               name: 'Card name',
               amount: '•••• 0000',
               description: 'Date',

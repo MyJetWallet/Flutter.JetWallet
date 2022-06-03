@@ -36,6 +36,7 @@ export 'src/actions/simple_payment_select_contact_without_name.dart';
 export 'src/actions/simple_payment_select_default.dart';
 export 'src/actions/simple_payment_select_empty_balance.dart';
 export 'src/actions/simple_payment_select_fiat.dart';
+export 'src/actions/simple_payment_select_credit_card.dart';
 
 /// Agreements
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
