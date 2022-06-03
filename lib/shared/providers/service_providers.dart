@@ -4,41 +4,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/authentication/service/authentication_service.dart';
+import 'package:simple_networking/services/blockchain/service/blockchain_service.dart';
+import 'package:simple_networking/services/change_password/service/change_password_service.dart';
+import 'package:simple_networking/services/chart/service/chart_service.dart';
+import 'package:simple_networking/services/circle/service/circle_service.dart';
+import 'package:simple_networking/services/disclaimer/service/disclaimers_service.dart';
+import 'package:simple_networking/services/high_yield/service/high_yield_service.dart';
+import 'package:simple_networking/services/info/service/info_service.dart';
+import 'package:simple_networking/services/key_value/key_value_service.dart';
+import 'package:simple_networking/services/kyc/service/kyc_service.dart';
+import 'package:simple_networking/services/kyc_documents/kyc_documents_service.dart';
+import 'package:simple_networking/services/market_info/market_info_service.dart';
+import 'package:simple_networking/services/market_news/market_news_service.dart';
+import 'package:simple_networking/services/news/news_service.dart';
+import 'package:simple_networking/services/notification/service/notification_service.dart';
+import 'package:simple_networking/services/operation_history/operation_history_service.dart';
+import 'package:simple_networking/services/phone_verification/service/phone_verification_service.dart';
+import 'package:simple_networking/services/profile/service/profile_service.dart';
+import 'package:simple_networking/services/recurring_manage/recurring_manage_service.dart';
+import 'package:simple_networking/services/referral_code_service/service/referral_code_service.dart';
+import 'package:simple_networking/services/signal_r/service/signal_r_service.dart';
+import 'package:simple_networking/services/simplex/service/simplex_service.dart';
+import 'package:simple_networking/services/swap/service/swap_service.dart';
+import 'package:simple_networking/services/transfer/service/transfer_service.dart';
+import 'package:simple_networking/services/two_fa/service/two_fa_service.dart';
+import 'package:simple_networking/services/validation/service/validation_service.dart';
+import 'package:simple_networking/services/wallet/service/wallet_service.dart';
 
 import '../../app/shared/features/kyc/helper/kyc_alert_handler.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-import '../../service/services/authentication/service/authentication_service.dart';
-import '../../service/services/blockchain/service/blockchain_service.dart';
-import '../../service/services/change_password/service/change_password_service.dart';
-import '../../service/services/chart/service/chart_service.dart';
-import '../../service/services/circle/service/circle_service.dart';
-import '../../service/services/disclaimer/service/disclaimers_service.dart';
-import '../../service/services/info/service/info_service.dart';
-import '../../service/services/key_value/key_value_service.dart';
-import '../../service/services/kyc/service/kyc_service.dart';
-import '../../service/services/kyc_documents/kyc_documents_service.dart';
-import '../../service/services/market_info/market_info_service.dart';
-import '../../service/services/market_news/market_news_service.dart';
-import '../../service/services/news/news_service.dart';
-import '../../service/services/notification/service/notification_service.dart';
-import '../../service/services/operation_history/operation_history_service.dart';
-import '../../service/services/phone_verification/service/phone_verification_service.dart';
-import '../../service/services/profile/service/profile_service.dart';
-import '../../service/services/recurring_manage/recurring_manage_service.dart';
-import '../../service/services/referral_code_service/service/referral_code_service.dart';
-import '../../service/services/signal_r/service/signal_r_service.dart';
-import '../../service/services/simplex/service/simplex_service.dart';
-import '../../service/services/swap/service/swap_service.dart';
-import '../../service/services/transfer/service/transfer_service.dart';
-import '../../service/services/two_fa/service/two_fa_service.dart';
-import '../../service/services/validation/service/validation_service.dart';
-import '../../service/services/wallet/service/wallet_service.dart';
+
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
 import '../dio/image_dio.dart';
+import '../helpers/refresh_token.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
+import 'device_info_pod.dart';
+import 'device_size/media_query_pod.dart';
+import 'package_info_fpod.dart';
 
 final intlPod = Provider<AppLocalizations>((ref) {
   final key = ref.watch(sNavigatorKeyPod);
@@ -47,7 +53,19 @@ final intlPod = Provider<AppLocalizations>((ref) {
 });
 
 final signalRServicePod = Provider<SignalRService>((ref) {
-  return SignalRService(ref.read);
+  final mediaQuery = ref.read(mediaQueryPod);
+
+  return SignalRService(
+    ref.read,
+    refreshToken,
+    ref.read(authInfoNotipod).token,
+    ref.read(intlPod).localeName,
+    ref.read(deviceInfoPod).deviceUid,
+    ref.read(packageInfoPod).version,
+    mediaQuery.size,
+    mediaQuery.devicePixelRatio,
+    ref.read(deviceInfoPod).model,
+  );
 });
 
 final dioPod = Provider<Dio>((ref) {
@@ -190,7 +208,7 @@ final kycAlertHandlerPod =
 final kycServicePod = Provider<KycService>((ref) {
   final dio = ref.watch(dioPod);
 
-  return KycService(dio);
+  return KycService(dio, 'en');
 });
 
 final kycDocumentsServicePod = Provider<KycDocumentsService>((ref) {
@@ -239,4 +257,10 @@ final disclaimerServicePod = Provider<DisclaimersService>((ref) {
   final dio = ref.watch(dioPod);
 
   return DisclaimersService(dio);
+});
+
+final highYieldServicePod = Provider<HighYieldService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return HighYieldService(dio);
 });

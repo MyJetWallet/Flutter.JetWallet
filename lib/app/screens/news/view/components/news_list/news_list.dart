@@ -3,9 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/market_news/model/market_news_response_model.dart';
 
-import '../../../../../../service/services/news/model/news_response_model.dart';
 import '../../../../../../shared/helpers/launch_url.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/market_details/helper/format_news_date.dart';
 import '../../../notifier/news_notipod.dart';
 import '../../../notifier/news_state.dart';
@@ -47,6 +48,7 @@ class _NewsListState extends State<NewsList> {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final newsN = useProvider(newsNotipod.notifier);
     final news = useProvider(newsNotipod);
@@ -95,6 +97,8 @@ class _NewsListState extends State<NewsList> {
                               news.newsItems[index].topic,
                             );
                           },
+                          text1: intl.marketNewsBlock_discussOn,
+                          text2: intl.newsList_cryptoPanic,
                         ),
                         const SpaceH24(),
                         Container(
@@ -124,6 +128,8 @@ class _NewsListState extends State<NewsList> {
                         context,
                         news.newsItems[index].urlAddress,
                       ),
+                      text1: intl.marketNewsBlock_discussOn,
+                      text2: intl.newsList_cryptoPanic,
                     );
                   }
                 },
@@ -141,11 +147,11 @@ class _NewsListState extends State<NewsList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'No news yet',
+                      intl.newsList_noNewsYet,
                       style: sTextH3Style,
                     ),
                     Text(
-                      'Your news will appear here',
+                      intl.newsList_text1,
                       style: sBodyText1Style.copyWith(
                         color: colors.grey1,
                       ),
@@ -174,6 +180,8 @@ class _NewsListState extends State<NewsList> {
                         news.newsItems[index].topic,
                       );
                     },
+                    text1: intl.marketNewsBlock_discussOn,
+                    text2: intl.newsList_cryptoPanic,
                   );
                 },
                 childCount: news.newsItems.length,
@@ -229,8 +237,7 @@ class _NewsListState extends State<NewsList> {
                                     baseline: 38,
                                     baselineType: TextBaseline.alphabetic,
                                     child: Text(
-                                      'Something went wrong when '
-                                      'loading your data',
+                                      intl.newsList_wentWrongText,
                                       style: sBodyText1Style,
                                       maxLines: 2,
                                     ),
@@ -242,7 +249,7 @@ class _NewsListState extends State<NewsList> {
                         ),
                         STextButton1(
                           active: true,
-                          name: 'Retry',
+                          name: intl.news_retry,
                           onTap: () {
                             newsN.init(widget.scrollController);
                           },
@@ -273,6 +280,8 @@ class _NewsListState extends State<NewsList> {
                             context,
                             news.newsItems[index].urlAddress,
                           ),
+                          text1: intl.marketNewsBlock_discussOn,
+                          text2: intl.newsList_cryptoPanic,
                         ),
                         Container(
                           width: double.infinity,
@@ -316,9 +325,7 @@ class _NewsListState extends State<NewsList> {
                                           baseline: 38,
                                           baselineType: TextBaseline.alphabetic,
                                           child: Text(
-                                            'Something went wrong '
-                                            'when '
-                                            'loading your data',
+                                            intl.newsList_wentWrongText,
                                             style: sBodyText1Style,
                                             maxLines: 2,
                                           ),
@@ -330,7 +337,7 @@ class _NewsListState extends State<NewsList> {
                               ),
                               STextButton1(
                                 active: true,
-                                name: 'Retry',
+                                name: intl.news_retry,
                                 onTap: () {
                                   newsN.news(widget.scrollController);
                                 },
@@ -354,6 +361,8 @@ class _NewsListState extends State<NewsList> {
                         context,
                         news.newsItems[index].urlAddress,
                       ),
+                      text1: intl.marketNewsBlock_discussOn,
+                      text2: intl.newsList_cryptoPanic,
                     );
                   }
                 },

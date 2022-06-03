@@ -1,8 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
-import '../../../../service/services/signal_r/model/asset_payment_methods.dart';
-import '../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../features/recurring/provider/recurring_buys_spod.dart';
 import '../../helpers/calculate_base_balance.dart';
 import '../../helpers/icon_url_from.dart';
@@ -14,8 +14,8 @@ import '../signal_r/balances_spod.dart';
 import '../signal_r/base_prices_spod.dart';
 import '../signal_r/blockchains_spod.dart';
 
-final currenciesWithHiddenPod = Provider.autoDispose<List<CurrencyModel>>(
-        (ref) {
+final currenciesWithHiddenPod =
+    Provider.autoDispose<List<CurrencyModel>>((ref) {
   final assets = ref.watch(assetsSpod);
   final balances = ref.watch(balancesSpod);
   final baseCurrency = ref.watch(baseCurrencyPod);
@@ -113,9 +113,7 @@ final currenciesWithHiddenPod = Provider.autoDispose<List<CurrencyModel>>(
             final index = currencies.indexOf(currency);
 
             currencies[index] = currency.copyWith(
-              reserve: balance.reserve,
               lastUpdate: balance.lastUpdate,
-              sequenceId: balance.sequenceId,
               assetBalance: balance.balance,
               assetTotalEarnAmount: balance.totalEarnAmount,
               assetCurrentEarnAmount: balance.currentEarnAmount,

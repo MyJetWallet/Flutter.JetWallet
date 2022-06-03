@@ -22,6 +22,7 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: cd plugins/simple_networking ; flutter pub get ; flutter pub run build_runner build --delete-conflicting-outputs
       - run: flutter analyze
       - run: flutter test
       # - run: flutter build apk -t lib/main_production.dart --flavor prod --build-number=${{ github.run_number }}

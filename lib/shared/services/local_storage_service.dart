@@ -17,7 +17,7 @@ const referralCodeKey = 'referralCodeKey';
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
 
-  Future<String?> getString(String key) async {
+  Future<String?> getValue(String key) async {
     return _storage.read(key: key);
   }
 
@@ -25,12 +25,12 @@ class LocalStorageService {
     await _storage.write(key: key, value: value);
   }
 
-  Future<void> setJson(String key, List<String> json) async {
-    await _storage.write(key: key, value: jsonEncode(json));
+  Future<void> setList(String key, List<String> list) async {
+    await _storage.write(key: key, value: jsonEncode(list));
   }
 
-  Future<String?> getJson(String key) async {
-    return _storage.read(key: key);
+  Future<void> setJson(String key, Map<String, dynamic> json) async {
+    await _storage.write(key: key, value: jsonEncode(json));
   }
 
   Future<void> clearStorage() async {

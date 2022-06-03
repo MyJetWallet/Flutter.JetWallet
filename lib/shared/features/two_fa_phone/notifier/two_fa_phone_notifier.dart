@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_enable/two_fa_enable_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_verification/two_fa_verification_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_verify/two_fa_verify_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
-import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_enable/two_fa_enable_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_verification/two_fa_verification_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_verify/two_fa_verify_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../helpers/decompose_phone_number.dart';
 import '../../../helpers/device_type.dart';
 import '../../../logging/levels.dart';
@@ -47,11 +47,14 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
   static final _logger = Logger('TwoFaPhoneNotifier');
 
   Future<void> _initDefaultState() async {
+    final intl = read(intlPod);
+
     await _requestTemplate(
       requestName: 'sessionInfoRequest',
       body: () async {
-        final info = await read(infoServicePod).sessionInfo();
-        final phone = await read(phoneVerificationServicePod).phoneNumber();
+        final info = await read(infoServicePod).sessionInfo(intl.localeName);
+        final phone = await read(phoneVerificationServicePod)
+            .phoneNumber(intl.localeName);
 
         if (!mounted) return;
         _updatePhoneVerified(info.phoneVerified);
@@ -115,13 +118,24 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
 
         await trigger.when(
           startup: () async {
-            await read(twoFaServicePod).requestVerification(model);
+            final intl = read(intlPod);
+            await read(twoFaServicePod).requestVerification(
+              model,
+              intl.localeName,
+            );
           },
           security: (_) async {
+            final intl = read(intlPod);
             if (_userInfo.twoFaEnabled) {
-              await read(twoFaServicePod).requestDisable(model);
+              await read(twoFaServicePod).requestDisable(
+                model,
+                intl.localeName,
+              );
             } else {
-              await read(twoFaServicePod).requestEnable(model);
+              await read(twoFaServicePod).requestEnable(
+                model,
+                intl.localeName,
+              );
             }
           },
         );
@@ -141,7 +155,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           code: state.controller.text,
         );
 
-        await read(twoFaServicePod).verify(model);
+        final intl = read(intlPod);
+        await read(twoFaServicePod).verify(model, intl.localeName);
 
         read(startupNotipod.notifier).twoFaVerified();
       },
@@ -157,7 +172,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           code: state.controller.text,
         );
 
-        await read(twoFaServicePod).enable(model);
+        final intl = read(intlPod);
+        await read(twoFaServicePod).enable(model, intl.localeName);
 
         if (!mounted) return;
         _userInfoN.updateTwoFaStatus(enabled: true);
@@ -176,7 +192,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           code: state.controller.text,
         );
 
-        await read(twoFaServicePod).disable(model);
+        final intl = read(intlPod);
+        await read(twoFaServicePod).disable(model, intl.localeName);
 
         if (!mounted) return;
         _userInfoN.updateTwoFaStatus(enabled: false);
@@ -203,7 +220,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).request(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).request(model, intl.localeName);
 
         if (!mounted) return;
         state = state.copyWith(union: const Input());
@@ -230,7 +248,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).verify(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).verify(model, intl.localeName);
 
         if (!mounted) return;
 
@@ -259,7 +278,8 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      _updateError(const Error('Error occured'));
+      final intl = read(intlPod);
+      _updateError(Error(intl.twoFaPhone_errorOccured));
     }
   }
 

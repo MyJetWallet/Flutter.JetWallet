@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
-
-import '../../model/disclaimer_model.dart';
+import 'package:simple_networking/services/disclaimer/model/disclaimers_response_model.dart';
 
 void sShowDisclaimerPopup(
   BuildContext context, {

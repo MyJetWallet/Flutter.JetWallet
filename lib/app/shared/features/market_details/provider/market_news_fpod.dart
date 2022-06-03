@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/market_news/model/market_news_request_model.dart';
 
-import '../../../../../service/services/market_news/model/market_news_request_model.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../notifier/market_news_notipod.dart';
 

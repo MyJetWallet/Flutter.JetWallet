@@ -3,9 +3,9 @@ import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_networking/services/chart/model/candles_request_model.dart';
+import 'package:simple_networking/services/chart/model/wallet_history_request_model.dart';
 
-import '../../../../../service/services/chart/model/candles_request_model.dart';
-import '../../../../../service/services/chart/model/wallet_history_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -84,6 +84,8 @@ class ChartNotifier extends StateNotifier<ChartState> {
   Future<void> fetchBalanceCandles(String resolution) async {
     _logger.log(notifier, 'fetchBalanceCandles');
 
+    final intl = read(intlPod);
+
     try {
       state = state.copyWith(union: const Loading());
 
@@ -92,7 +94,10 @@ class ChartNotifier extends StateNotifier<ChartState> {
         period: timeLengthFrom(resolution),
       );
 
-      final walletHistory = await read(chartServicePod).walletHistory(model);
+      final walletHistory = await read(chartServicePod).walletHistory(
+        model,
+        intl.localeName,
+      );
       updateCandles(candlesFrom(walletHistory.graph), resolution);
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
@@ -121,7 +126,16 @@ class ChartNotifier extends StateNotifier<ChartState> {
       );
 
       final candles = await read(chartServicePod).candles(model);
-      updateCandles(candles.candles, resolution);
+      // TODO reconsider this
+      final candles1 = candles.candles.map(
+        (e) => CandleModel(
+          open: e.open,
+          close: e.close,
+          high: e.high,
+          low: e.low,
+        ),
+      );
+      updateCandles(candles1.toList(), resolution);
     } catch (e) {
       _logger.log(stateFlow, 'fetchAssetCandles', e);
 

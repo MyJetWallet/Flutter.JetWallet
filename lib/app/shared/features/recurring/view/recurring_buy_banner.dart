@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
 import '../helper/recurring_buys_image.dart';
-import '../helper/recurring_buys_status_name.dart';
 
 class RecurringBuyBanner extends HookWidget {
   const RecurringBuyBanner({
@@ -41,6 +41,7 @@ class RecurringBuyBanner extends HookWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SpaceW8(),
               Container(
                 height: 48,
                 width: 48,
@@ -52,15 +53,18 @@ class RecurringBuyBanner extends HookWidget {
                 child: recurringBuysImage(type),
               ),
               const SpaceW20(),
-              Container(
-                margin: const EdgeInsets.only(
-                  bottom: 4.0,
-                  right: 7.0,
-                ),
-                child: Text(
-                  title,
-                  style: sSubtitle3Style.copyWith(
-                    color: _textColor(type, colors),
+              Flexible(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    bottom: 4.0,
+                    right: 7.0,
+                  ),
+                  child: Text(
+                    title,
+                    maxLines: 2,
+                    style: sSubtitle3Style.copyWith(
+                      color: _textColor(type, colors),
+                    ),
                   ),
                 ),
               ),

@@ -1,20 +1,19 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/services/authentication/model/authenticate/authentication_response_model.dart';
+import 'package:simple_networking/services/authentication/model/authenticate/login_request_model.dart';
+import 'package:simple_networking/services/authentication/model/authenticate/register_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../service/services/authentication/model/authenticate/login_request_model.dart';
-import '../../../../../service/services/authentication/model/authenticate/register_request_model.dart';
-import '../../../../../service/shared/constants.dart';
 import '../../../../../shared/helpers/current_platform.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
-import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
-import '../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../shared/constants.dart';
 import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
@@ -45,11 +44,12 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final storageService = read(localStorageServicePod);
     final rsaService = read(rsaServicePod);
     final deviceInfoModel = read(deviceInfoPod);
+    final intl = read(intlPod);
 
     try {
       state = const Loading();
 
-      final referralCode = await storageService.getString(referralCodeKey);
+      final referralCode = await storageService.getValue(referralCodeKey);
 
       rsaService.init();
       await rsaService.savePrivateKey(storageService);
@@ -62,6 +62,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         password: password,
         platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
+        lang: intl.localeName,
       );
 
       final registerRequest = RegisterRequestModel(
@@ -73,15 +74,22 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         deviceUid: deviceInfoModel.deviceUid,
         referralCode: referralCode,
         marketingEmailsAllowed: marketingEmailsAllowed,
+        lang: intl.localeName,
       );
 
       AuthenticationResponseModel authModel;
 
       if (operation == AuthOperation.login) {
-        authModel = await authService.login(loginRequest);
+        authModel = await authService.login(
+          loginRequest,
+          intl.localeName,
+        );
         unawaited(sAnalytics.loginSuccess(email));
       } else {
-        authModel = await authService.register(registerRequest);
+        authModel = await authService.register(
+          registerRequest,
+          intl.localeName,
+        );
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
         read(appsFlyerServicePod).register(email);
@@ -110,17 +118,16 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       state = Input(error.cause);
     } catch (e) {
       _logger.log(stateFlow, 'authenticate', e);
+
+      final intl = read(intlPod);
+
       if (operation == AuthOperation.login) {
         sAnalytics.loginFailure(email, e.toString());
       } else {
         sAnalytics.signUpFailure(email, e.toString());
       }
 
-      if (e is DioError && e.error == 'Http status error [401]') {
-        state = const Input('Invalid login or password');
-      } else {
-        state = const Input('Something went wrong. Please try again later!');
-      }
+      state = Input(intl.something_went_wrong_try_again);
     }
   }
 }

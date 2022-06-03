@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/validation/model/send_email_verification_code_request_model.dart';
+import 'package:simple_networking/services/validation/model/verify_email_verification_code_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../../service/services/validation/model/send_email_verification_code_request_model.dart';
-import '../../../../service/services/validation/model/verify_email_verification_code_request_model.dart';
-import '../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/device_type.dart';
 import '../../../../shared/helpers/refresh_token.dart';
@@ -69,16 +69,22 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         deviceType: deviceType,
       );
 
-      await read(validationServicePod).sendEmailVerificationCode(model);
+      final intl = read(intlPod);
+      await read(validationServicePod).sendEmailVerificationCode(
+        model,
+        intl.localeName,
+      );
 
       if (!mounted) return;
       _updateIsResending(false);
       onSuccess();
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+
+      final intl = read(intlPod);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.emailVerification_failedToResend}!',
       );
     }
   }
@@ -93,7 +99,11 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         code: state.controller.text,
       );
 
-      await read(validationServicePod).verifyEmailVerificationCode(model);
+      final intl = read(intlPod);
+      await read(validationServicePod).verifyEmailVerificationCode(
+        model,
+        intl.localeName,
+      );
 
       // Needed force refresh after successful emailVerification
       await refreshToken(read);

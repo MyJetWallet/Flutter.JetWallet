@@ -39,6 +39,7 @@ class AccountBannerList extends HookWidget {
       onTwoFaBannerTap: onTwoFaBannerTap,
       onKycBannerTap: onKycBannerTap,
       colors: colors,
+      context: context,
     );
 
     return Column(

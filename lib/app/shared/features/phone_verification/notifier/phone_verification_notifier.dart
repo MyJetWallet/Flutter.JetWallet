@@ -3,10 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
-import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/helpers/decompose_phone_number.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -60,7 +60,8 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).request(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).request(model, intl.localeName);
       },
     );
   }
@@ -82,7 +83,8 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
           phoneIso: number.isoCode,
         );
 
-        await read(phoneVerificationServicePod).verify(model);
+        final intl = read(intlPod);
+        await read(phoneVerificationServicePod).verify(model, intl.localeName);
 
         if (!mounted) return;
         args.onVerified();
@@ -100,7 +102,7 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
 
     try {
       await body();
-     } on ServerRejectException catch (e) {
+    } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
       sAnalytics.kycPhoneConfirmFailed(e.cause);
@@ -111,9 +113,13 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      sAnalytics.kycPhoneConfirmFailed('Something went wrong');
+      final intl = read(intlPod);
+
+      sAnalytics.kycPhoneConfirmFailed(
+        intl.something_went_wrong,
+      );
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 2,
       );
     }

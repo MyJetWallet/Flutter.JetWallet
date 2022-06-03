@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import 'components/without_recurring_buy_item.dart';
@@ -48,16 +49,19 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
         SPaddingH24(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Baseline(
-                baseline: 20.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  name,
-                  style: sTextH4Style,
+              Flexible(
+                child: Baseline(
+                  baseline: 20.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    name,
+                    maxLines: 2,
+                    style: sTextH4Style,
+                  ),
                 ),
               ),
-              const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: const SErasePressedIcon(),
@@ -94,6 +98,7 @@ class _ActionRecurringBuy extends HookWidget {
               WithoutRecurringBuysItem(
                 primaryText: recurringBuysOperationName(
                   RecurringBuysType.oneTimePurchase,
+                  context,
                 ),
                 selected: currentType == RecurringBuysType.oneTimePurchase,
                 onTap: () {
@@ -107,6 +112,7 @@ class _ActionRecurringBuy extends HookWidget {
             WithoutRecurringBuysItem(
               primaryText: recurringBuysOperationName(
                 RecurringBuysType.daily,
+                context,
               ),
               selected: currentType == RecurringBuysType.daily,
               onTap: () {
@@ -117,7 +123,10 @@ class _ActionRecurringBuy extends HookWidget {
               child: SDivider(),
             ),
             WithoutRecurringBuysItem(
-              primaryText: recurringBuysOperationName(RecurringBuysType.weekly),
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.weekly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.weekly,
               onTap: () {
                 onItemTap(RecurringBuysType.weekly);
@@ -127,8 +136,10 @@ class _ActionRecurringBuy extends HookWidget {
               child: SDivider(),
             ),
             WithoutRecurringBuysItem(
-              primaryText:
-                  recurringBuysOperationName(RecurringBuysType.biWeekly),
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.biWeekly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.biWeekly,
               onTap: () {
                 onItemTap(RecurringBuysType.biWeekly);
@@ -138,8 +149,10 @@ class _ActionRecurringBuy extends HookWidget {
               child: SDivider(),
             ),
             WithoutRecurringBuysItem(
-              primaryText:
-                  recurringBuysOperationName(RecurringBuysType.monthly),
+              primaryText: recurringBuysOperationName(
+                RecurringBuysType.monthly,
+                context,
+              ),
               selected: currentType == RecurringBuysType.monthly,
               onTap: () {
                 onItemTap(RecurringBuysType.monthly);

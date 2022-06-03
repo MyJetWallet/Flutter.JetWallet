@@ -1,9 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_request_model.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../service/services/operation_history/model/operation_history_request_model.dart';
-import '../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import 'operation_history_state.dart';
@@ -39,8 +39,9 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
 
+      final intl = read(intlPod);
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 1,
       );
 
@@ -64,8 +65,9 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     } catch (e) {
       _logger.log(stateFlow, 'operationHistory', e);
 
+      final intl = read(intlPod);
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 2,
       );
 
@@ -92,9 +94,11 @@ class OperationHistoryNotifier extends StateNotifier<OperationHistoryState> {
     OperationHistoryRequestModel model,
   ) {
     state = state.copyWith(union: const Loading());
+    final intl = read(intlPod);
 
     return read(operationHistoryServicePod).operationHistory(
       model,
+      intl.localeName,
     );
   }
 }
@@ -115,7 +119,9 @@ List<OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == OperationType.feeSharePayment ||
         item.operationType == OperationType.rewardPayment ||
         item.operationType == OperationType.simplexBuy ||
-        item.operationType == OperationType.recurringBuy,
+        item.operationType == OperationType.recurringBuy ||
+        item.operationType == OperationType.earningDeposit ||
+        item.operationType == OperationType.earningWithdrawal,
   )
       .map((item) {
     if (item.operationType == OperationType.swap) {

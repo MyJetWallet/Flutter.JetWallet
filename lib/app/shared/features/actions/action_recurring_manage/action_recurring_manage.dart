@@ -3,10 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
-import '../../recurring/helper/recurring_buys_status_name.dart';
 import '../../recurring/notifier/recurring_buys_notipod.dart';
 import 'components/action_recurring_manage_item.dart';
 
@@ -16,11 +16,12 @@ void showRecurringManageAction({
   required String sellCurrencyAmount,
   required RecurringBuysModel recurringItem,
 }) {
+  final intl = context.read(intlPod);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: const _RecurringManageActionBottomSheetHeader(
-      name: 'Manage',
+    pinned: _RecurringManageActionBottomSheetHeader(
+      name: intl.actionRecurringManage_manage,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -87,6 +88,7 @@ class _ActionRecurringManage extends HookWidget {
   Widget build(BuildContext context) {
     final recurringBuysN = useProvider(recurringBuysNotipod.notifier);
 
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Column(
@@ -99,7 +101,7 @@ class _ActionRecurringManage extends HookWidget {
             if (recurringItem.status != RecurringBuysStatus.paused)
               ActionRecurringManageItem(
                 icon: const SPauseIcon(),
-                primaryText: 'Pause',
+                primaryText: intl.actionRecurringManage_pause,
                 color: colors.grey5,
                 onTap: () {
                   recurringBuysN.switchRecurringStatus(
@@ -125,7 +127,7 @@ class _ActionRecurringManage extends HookWidget {
                   ),
                   child: const SStartIcon(),
                 ),
-                primaryText: 'Start',
+                primaryText: intl.actionRecurringManage_start,
                 color: colors.grey5,
                 onTap: () {
                   recurringBuysN.switchRecurringStatus(
@@ -147,7 +149,7 @@ class _ActionRecurringManage extends HookWidget {
             ),
             ActionRecurringManageItem(
               icon: const SDeleteManageIcon(),
-              primaryText: 'Delete',
+              primaryText: intl.actionRecurringManage_delete,
               color: colors.grey5,
               onTap: () {
                 sAnalytics.recurringBuyDeletionSheetView(
@@ -159,10 +161,11 @@ class _ActionRecurringManage extends HookWidget {
                 sShowAlertPopup(
                   context,
                   willPopScope: false,
-                  primaryText: 'Delete Recurring buy?',
-                  secondaryText: 'Are you sure you want to delete '
-                      'your Recurring buy?',
-                  primaryButtonName: 'Delete',
+                  primaryText:
+                      '${intl.actionRecurringManage_manageItemPrimaryText}?',
+                  secondaryText:
+                      '${intl.actionRecurringManage_manageItemSecondaryText}?',
+                  primaryButtonName: intl.actionRecurringManage_delete,
                   onPrimaryButtonTap: () {
                     recurringBuysN.removeRecurringBuy(recurringItem.id!);
                     Navigator.of(context)
@@ -176,7 +179,7 @@ class _ActionRecurringManage extends HookWidget {
                     );
                   },
                   primaryButtonType: SButtonType.primary3,
-                  secondaryButtonName: 'Cancel',
+                  secondaryButtonName: intl.actionRecurringManage_cancel,
                   onSecondaryButtonTap: () {
                     Navigator.pop(context);
                     sAnalytics.cancelRecurringBuyDeletion(

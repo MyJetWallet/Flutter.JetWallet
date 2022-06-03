@@ -1,10 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../../helpers/price_accuracy.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
@@ -14,7 +16,7 @@ import '../../../../../../../../market_details/helper/currency_from.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
-class BuySellDetails extends StatelessWidget {
+class BuySellDetails extends HookWidget {
   const BuySellDetails({
     Key? key,
     required this.transactionListItem,
@@ -26,7 +28,8 @@ class BuySellDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = context.read(currenciesPod);
+    final intl = useProvider(intlPod);
+    final currencies = useProvider(currenciesPod);
 
     final buyCurrency = currencyFrom(
       currencies,
@@ -69,7 +72,7 @@ class BuySellDetails extends StatelessWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: 'Transaction ID',
+            text: '${intl.transaction} ID',
             value: Row(
               children: [
                 TransactionDetailsValueText(
@@ -84,7 +87,7 @@ class BuySellDetails extends StatelessWidget {
                       ),
                     );
 
-                    onCopyAction('Transaction ID');
+                    onCopyAction('${intl.transaction} ID');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
@@ -95,7 +98,7 @@ class BuySellDetails extends StatelessWidget {
           const SpaceH14(),
           if (transactionListItem.operationType == OperationType.buy) ...[
             TransactionDetailsItem(
-              text: 'With',
+              text: intl.withText,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
                   prefix: sellCurrency.prefixSymbol,
@@ -107,14 +110,14 @@ class BuySellDetails extends StatelessWidget {
             ),
             const SpaceH14(),
             TransactionDetailsItem(
-              text: 'Fee',
+              text: intl.fee,
               value: TransactionDetailsValueText(
                 text: _feeValue(transactionListItem),
               ),
             ),
             const SpaceH14(),
             TransactionDetailsItem(
-              text: 'Rate',
+              text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(buyCurrency, sellCurrency),
               ),
@@ -122,7 +125,7 @@ class BuySellDetails extends StatelessWidget {
           ],
           if (transactionListItem.operationType == OperationType.sell) ...[
             TransactionDetailsItem(
-              text: 'For',
+              text: intl.buySellDetails_forText,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
                   prefix: buyCurrency.prefixSymbol,
@@ -134,14 +137,14 @@ class BuySellDetails extends StatelessWidget {
             ),
             const SpaceH14(),
             TransactionDetailsItem(
-              text: 'Fee',
+              text: intl.fee,
               value: TransactionDetailsValueText(
                 text: _feeValue(transactionListItem),
               ),
             ),
             const SpaceH14(),
             TransactionDetailsItem(
-              text: 'Rate',
+              text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(sellCurrency, buyCurrency),
               ),

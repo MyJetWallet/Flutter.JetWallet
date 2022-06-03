@@ -15,19 +15,20 @@ bool firstZeroInputCase(String string) {
 }
 
 String valueBasedOnSelectedPercent({
+  Decimal? availableBalance,
   required SelectedPercent selected,
   required CurrencyModel currency,
 }) {
-  if (currency.isAssetBalanceEmpty) {
-    return zero;
-  } else if (selected == SelectedPercent.pct25) {
-    final value = currency.assetBalance * Decimal.parse('0.25');
+  if (selected == SelectedPercent.pct25) {
+    final value =
+        (availableBalance ?? currency.assetBalance) * Decimal.parse('0.25');
     return '$value';
   } else if (selected == SelectedPercent.pct50) {
-    final value = currency.assetBalance * Decimal.parse('0.50');
+    final value =
+        (availableBalance ?? currency.assetBalance) * Decimal.parse('0.50');
     return '$value';
   } else if (selected == SelectedPercent.pct100) {
-    final value = currency.assetBalance;
+    final value = availableBalance ?? currency.assetBalance;
     return '$value';
   } else {
     return zero;
@@ -104,14 +105,20 @@ enum InputError {
   none,
   notEnoughFunds,
   enterHigherAmount,
+  amountTooLarge,
+  amountTooLow,
 }
 
 extension InputErrorValue on InputError {
-  String get value {
+  String value({String errorInfo = ''}) {
     if (this == InputError.notEnoughFunds) {
       return 'Insufficient available balance';
     } else if (this == InputError.enterHigherAmount) {
       return 'Enter a higher amount';
+    } else if (this == InputError.amountTooLarge) {
+      return 'Enter smaller amount. $errorInfo';
+    } else if (this == InputError.amountTooLow) {
+      return 'Enter higher amount. $errorInfo';
     } else {
       return 'None';
     }
@@ -124,11 +131,12 @@ InputError onTradeInputErrorHandler(
   String input,
   CurrencyModel currency, {
   bool addressIsInternal = false,
+  Decimal? availableBalance,
 }) {
   if (input.isNotEmpty) {
     final value = Decimal.parse(input);
 
-    if (currency.assetBalance < value) {
+    if ((availableBalance ?? currency.assetBalance) < value) {
       return InputError.notEnoughFunds;
     }
   }

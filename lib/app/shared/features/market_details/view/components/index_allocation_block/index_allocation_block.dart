@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/indices_model.dart';
 
-import '../../../../../../../service/services/signal_r/model/indices_model.dart';
+import '../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../screens/market/model/market_item_model.dart';
 import '../../../provider/indices_details_pod.dart';
 import '../index_overview_block/components/index_allocation_item.dart';
@@ -18,6 +19,7 @@ class IndexAllocationBlock extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final indicesDetails = useProvider(indicesDetailsPod);
     final indexDetails = _indexDetailsFrom(indicesDetails);
 
@@ -29,7 +31,7 @@ class IndexAllocationBlock extends HookWidget {
             SBaselineChild(
               baseline: 56,
               child: Text(
-                'Index allocation',
+                intl.indexAllocationBlock_indexAllocation,
                 style: sTextH4Style,
               ),
             ),

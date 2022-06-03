@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../../helpers/currency_from.dart';
 import '../../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
@@ -25,6 +26,7 @@ class WithdrawDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final currency = currencyFrom(
       useProvider(currenciesPod),
       transactionListItem.assetId,
@@ -34,7 +36,7 @@ class WithdrawDetails extends HookWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: 'Amount',
+            text: intl.withdrawDetails_amount,
             value: TransactionDetailsValueText(
               text: volumeFormat(
                 prefix: currency.prefixSymbol,
@@ -46,17 +48,17 @@ class WithdrawDetails extends HookWidget {
           ),
           const SpaceH10(),
           TransactionDetailsItem(
-            text: 'Transaction fee',
+            text: '${intl.transaction} ${intl.withdrawDetails_fee}',
             value: transactionListItem.withdrawalInfo!.isInternal
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       TransactionDetailsValueText(
-                        text: 'No Fee',
+                        text: intl.noFee,
                       ),
                       Text(
-                        'Internal transfer',
-                        style: TextStyle(
+                        intl.withdrawDetails_internalTransfer,
+                        style: const TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600,
                         ),
@@ -84,7 +86,7 @@ class WithdrawDetails extends HookWidget {
           ),
           const SpaceH10(),
           TransactionDetailsItem(
-            text: 'Transaction ID',
+            text: '${intl.transaction} ID',
             value: Row(
               children: [
                 TransactionDetailsValueText(
@@ -100,7 +102,7 @@ class WithdrawDetails extends HookWidget {
                       ),
                     );
 
-                    onCopyAction('Transaction ID');
+                    onCopyAction('${intl.transaction} ID');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
@@ -111,7 +113,7 @@ class WithdrawDetails extends HookWidget {
           const SpaceH10(),
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             TransactionDetailsItem(
-              text: 'Withdrawal to',
+              text: intl.withdrawDetails_withdrawalTo,
               value: Row(
                 children: [
                   TransactionDetailsValueText(
@@ -131,7 +133,7 @@ class WithdrawDetails extends HookWidget {
                         ),
                       );
 
-                      onCopyAction('Withdrawal to');
+                      onCopyAction(intl.withdrawDetails_withdrawalTo);
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),

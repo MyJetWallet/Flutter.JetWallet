@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
+import 'package:simple_networking/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../../service/services/blockchain/model/withdrawal_resend/withdrawal_resend_request.dart';
-import '../../../../../../service/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
@@ -42,11 +42,13 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   void updateCode(String code, String operationId) {
     _logger.log(notifier, 'updateCode');
 
+    final intl = read(intlPod);
+
     if (operationId == _operationId) {
       state.controller.text = code;
     } else {
       read(sNotificationNotipod.notifier).showError(
-        'You have confirmed an incorrect operation',
+        intl.showError_youHaveConfirmed,
         id: 1,
       );
     }
@@ -55,18 +57,21 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   Future<void> withdrawalResend({required Function() onSuccess}) async {
     _logger.log(notifier, 'withdrawalResend');
 
+    final intl = read(intlPod);
+
     state = state.copyWith(union: const Loading());
 
     _updateIsResending(true);
 
     try {
       final service = read(blockchainServicePod);
+      final intl = read(intlPod);
 
       final model = WithdrawalResendRequestModel(
         operationId: _operationId,
       );
 
-      await service.withdrawalResend(model);
+      await service.withdrawalResend(model, intl.localeName);
 
       if (!mounted) return;
       _updateIsResending(false);
@@ -75,7 +80,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
       _logger.log(stateFlow, 'withdrawalResend', error);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.withdrawalConfirm_failedToResend}!',
         id: 1,
       );
     }
@@ -88,6 +93,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
 
     try {
       final service = read(validationServicePod);
+      final intl = read(intlPod);
 
       final model = VerifyWithdrawalVerificationCodeRequestModel(
         operationId: _operationId,
@@ -95,7 +101,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
         brand: 'simple',
       );
 
-      await service.verifyWithdrawalVerificationCode(model);
+      await service.verifyWithdrawalVerificationCode(model, intl.localeName);
 
       state = state.copyWith(union: const Input());
 
@@ -122,10 +128,14 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Your ${withdrawal.currency.symbol} $_verb '
-          'request has been submitted',
+      secondaryText:
+          '${intl.withdrawalConfirm_your} ${withdrawal.currency.symbol}'
+              ' $_verb '
+              '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -133,11 +143,13 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
   }
 
   void _showFailureScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
-      secondaryText: 'Failed to $_verb',
-      primaryButtonName: 'Edit Order',
+      primaryText: intl.withdrawalConfirm_failure,
+      secondaryText: '${intl.withdrawalConfirm_failedTo} $_verb',
+      primaryButtonName: intl.withdrawalConfirm_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -149,7 +161,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.withdrawalConfirm_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

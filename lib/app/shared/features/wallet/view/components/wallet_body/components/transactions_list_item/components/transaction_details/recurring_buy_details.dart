@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../../helpers/price_accuracy.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
@@ -26,6 +27,7 @@ class RecurringBuyDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = context.read(intlPod);
     final currencies = context.read(currenciesPod);
 
     final buyCurrency = currencyFrom(
@@ -86,7 +88,7 @@ class RecurringBuyDetails extends StatelessWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: 'Transaction ID',
+            text: '${intl.transaction} ID',
             value: Row(
               children: [
                 TransactionDetailsValueText(
@@ -101,7 +103,7 @@ class RecurringBuyDetails extends StatelessWidget {
                       ),
                     );
 
-                    onCopyAction('Transaction ID');
+                    onCopyAction('${intl.transaction} ID');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
@@ -111,7 +113,7 @@ class RecurringBuyDetails extends StatelessWidget {
           ),
           const SpaceH14(),
           TransactionDetailsItem(
-            text: 'With',
+            text: intl.withText,
             value: TransactionDetailsValueText(
               text: volumeFormat(
                 prefix: sellCurrency.prefixSymbol,
@@ -123,14 +125,14 @@ class RecurringBuyDetails extends StatelessWidget {
           ),
           const SpaceH14(),
           TransactionDetailsItem(
-            text: 'Fee',
+            text: intl.fee,
             value: TransactionDetailsValueText(
               text: _feeValue(transactionListItem),
             ),
           ),
           const SpaceH14(),
           TransactionDetailsItem(
-            text: 'Rate',
+            text: intl.recurringBuyDetails_rate,
             value: TransactionDetailsValueText(
               text: _rateFor(buyCurrency, sellCurrency),
             ),

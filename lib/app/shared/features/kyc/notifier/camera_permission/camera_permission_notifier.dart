@@ -28,7 +28,7 @@ class CameraPermissionNotifier extends StateNotifier<CameraPermissionState> {
 
   Future<void> _initState() async {
     final storage = read(localStorageServicePod);
-    final status = await storage.getString(cameraStatusKey);
+    final status = await storage.getValue(cameraStatusKey);
 
     if (status == null) {
       _updateCameraStatus(CameraStatus.undefined);

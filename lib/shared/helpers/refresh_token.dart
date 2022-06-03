@@ -1,15 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/authentication/model/refresh/auth_refresh_request_model.dart';
+import 'package:simple_networking/shared/models/refresh_token_status.dart';
 
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../router/provider/authorization_stpod/authorization_union.dart';
-import '../../service/services/authentication/model/refresh/auth_refresh_request_model.dart';
 import '../providers/service_providers.dart';
 import '../services/local_storage_service.dart';
 import 'navigate_to_router.dart';
-
-enum RefreshTokenStatus { success, caught }
 
 /// Returns [success] if
 /// Refreshed token successfully
@@ -26,10 +25,13 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final authService = read(authServicePod);
   final storageService = read(localStorageServicePod);
   final rsaService = read(rsaServicePod);
+  final intl = read(intlPod);
 
   try {
-    final serverTime = await authService.serverTime();
-    final privateKey = await storageService.getString(privateKeyKey);
+    final serverTime = await authService.serverTime(
+      intl.localeName,
+    );
+    final privateKey = await storageService.getValue(privateKeyKey);
     final refreshToken = authInfo.refreshToken;
 
     final tokenDateTimeSignatureBase64 = rsaService.sign(
@@ -41,9 +43,13 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
       refreshToken: refreshToken,
       requestTime: serverTime.time,
       tokenDateTimeSignatureBase64: tokenDateTimeSignatureBase64,
+      lang: intl.localeName,
     );
 
-    final response = await authService.refresh(model);
+    final response = await authService.refresh(
+      model,
+      intl.localeName,
+    );
 
     await storageService.setString(refreshTokenKey, response.refreshToken);
 

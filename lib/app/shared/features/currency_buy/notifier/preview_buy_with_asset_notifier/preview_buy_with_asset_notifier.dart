@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/execute_quote/execute_quote_request_model.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../../../../service/services/swap/model/execute_quote/execute_quote_request_model.dart';
-import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
@@ -19,7 +19,6 @@ import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../../components/quote_updated_dialog.dart';
 import '../../../../helpers/are_balances_empty.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
-import '../../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../../recurring/view/components/recurring_success_screen.dart';
 import '../../model/preview_buy_with_asset_input.dart';
 import '../../view/curency_buy.dart';
@@ -74,7 +73,11 @@ class PreviewBuyWithAssetNotifier
     );
 
     try {
-      final response = await read(swapServicePod).getQuote(model);
+      final intl = read(intlPod);
+      final response = await read(swapServicePod).getQuote(
+        model,
+        intl.localeName,
+      );
 
       state = state.copyWith(
         operationId: response.operationId,
@@ -112,6 +115,8 @@ class PreviewBuyWithAssetNotifier
 
     state = state.copyWith(union: const ExecuteLoading());
 
+    final intl = read(intlPod);
+
     try {
       final model = ExecuteQuoteRequestModel(
         operationId: state.operationId!,
@@ -123,7 +128,10 @@ class PreviewBuyWithAssetNotifier
         recurringBuyInfo: state.recurringBuyInfo,
       );
 
-      final response = await read(swapServicePod).executeQuote(model);
+      final response = await read(swapServicePod).executeQuote(
+        model,
+        intl.localeName,
+      );
 
       if (response.isExecuted) {
         _timer.cancel();
@@ -187,10 +195,12 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     if (state.recurring) {
       SuccessScreen.push(
         context: _context,
-        secondaryText: 'Order processing',
+        secondaryText: intl.previewBuyWithAsset_orderProcessing,
         then: () {
           read(navigationStpod).state = 1;
         },
@@ -204,11 +214,13 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
@@ -217,11 +229,13 @@ class PreviewBuyWithAssetNotifier
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.previewBuyWithAsset_failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.previewBuyWithAsset_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -236,16 +250,20 @@ class PreviewBuyWithAssetNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.previewBuyWithAsset_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 
   String get previewHeader {
+    final intl = read(intlPod);
+
     if (input.recurringType == RecurringBuysType.oneTimePurchase) {
-      return 'Confirm Buy ${input.toCurrency.description}';
+      return '${intl.previewBuyWithAsset_confirmBuy}'
+          ' ${input.toCurrency.description}';
     } else {
-      return 'Confirm ${input.toCurrency.description} Recurring Buy';
+      return '${intl.previewBuyWithAsset_confirm}'
+          ' ${input.toCurrency.description} ${intl.recurringBuysName_active}';
     }
   }
 

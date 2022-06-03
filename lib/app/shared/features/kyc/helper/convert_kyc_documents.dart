@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
@@ -7,6 +8,7 @@ import 'package:mime_type/mime_type.dart';
 Future<FormData> convertKycDocuments(
   File? documentFirstSide,
   File? documentSecondSide,
+  Reader read,
 ) async {
   final formData = FormData();
 

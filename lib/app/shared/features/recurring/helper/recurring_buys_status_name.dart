@@ -1,24 +1,23 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-enum RecurringBuysStatus {
-  @JsonValue(0)
-  active,
-  @JsonValue(1)
-  paused,
-  @JsonValue(2)
-  deleted,
-  empty,
-}
+import '../../../../../shared/providers/service_providers.dart';
 
-String recurringBuysStatusName(RecurringBuysStatus status) {
+String recurringBuysStatusName(
+  RecurringBuysStatus status,
+  BuildContext context,
+) {
+  final intl = context.read(intlPod);
+
   switch (status) {
     case RecurringBuysStatus.active:
-      return 'Active';
+      return intl.recurringBuysStatus_active;
     case RecurringBuysStatus.paused:
-      return 'Paused';
+      return intl.recurringBuysStatus_paused;
     case RecurringBuysStatus.deleted:
-      return 'Deleted';
+      return intl.recurringBuysStatus_deleted;
     default:
-      return 'Empty';
+      return intl.recurringBuysStatus_empty;
   }
 }

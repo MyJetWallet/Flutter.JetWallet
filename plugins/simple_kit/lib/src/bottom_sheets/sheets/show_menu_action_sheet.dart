@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../simple_kit.dart';
 
 void sShowMenuActionSheet({
+  bool isBuyAvailable = true,
   bool isDepositAvailable = true,
   bool isWithdrawAvailable = true,
-  bool isSendAvailable = true,
+  bool isBuyFromCardAvailable = true,
   bool isReceiveAvailable = true,
+  bool isSendAvailable = true,
   required BuildContext context,
   required void Function() onBuy,
   required void Function() onBuyFromCard,
@@ -20,6 +22,7 @@ void sShowMenuActionSheet({
   required void Function() whenComplete,
   required AnimationController transitionAnimationController,
   required bool isNotEmptyBalance,
+  required List<Map<String, String>> actionItemLocalized,
 }) {
   return sShowBasicBottomSheet(
     context: context,
@@ -29,54 +32,48 @@ void sShowMenuActionSheet({
     onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [
-      if (!isNotEmptyBalance)
-        SActionItem(
-          onTap: () => onBuyFromCard(),
-          icon: const SActionDepositIcon(),
-          name: 'Buy from card',
-          description: 'Buy crypto with your bank card',
-        ),
-      if (isNotEmptyBalance)
+      if (isNotEmptyBalance && isBuyAvailable)
         SActionItem(
           onTap: () => onBuy(),
           icon: const SActionBuyIcon(),
-          name: 'Buy',
-          description: 'Buy any crypto available on the platform',
+          name: actionItemLocalized[1]['name']!,
+          description: actionItemLocalized[1]['description']!,
         ),
       if (isNotEmptyBalance) ...[
         SActionItem(
           onTap: onSell,
           icon: const SActionSellIcon(),
-          name: 'Sell',
-          description: 'Sell crypto from your portfolio',
+          name: actionItemLocalized[2]['name']!,
+          description: actionItemLocalized[2]['description']!,
         ),
         SActionItem(
           onTap: onConvert,
           icon: const SActionConvertIcon(),
-          name: 'Convert',
-          description: 'Quickly swap one crypto for another',
+          name: actionItemLocalized[3]['name']!,
+          description: actionItemLocalized[3]['description']!,
         ),
+      ],
+      if (isBuyFromCardAvailable)
         SActionItem(
           onTap: () => onBuyFromCard(),
           icon: const SActionDepositIcon(),
-          name: 'Buy from card',
-          description: 'Buy crypto with your bank card',
+          name: actionItemLocalized[4]['name']!,
+          description: actionItemLocalized[4]['description']!,
         ),
-      ],
       if (isReceiveAvailable) ...[
         SActionItem(
           onTap: onReceive,
           icon: const SActionReceiveIcon(),
-          name: 'Receive',
-          description: 'Receive crypto from another wallet',
+          name: actionItemLocalized[5]['name']!,
+          description: actionItemLocalized[5]['description']!,
         ),
       ],
       if (isSendAvailable && isNotEmptyBalance) ...[
         SActionItem(
           onTap: onSend,
           icon: const SActionSendIcon(),
-          name: 'Send',
-          description: 'Send crypto to another wallet or phone',
+          name: actionItemLocalized[6]['name']!,
+          description: actionItemLocalized[6]['description']!,
         ),
       ],
       const SpaceH20(),

@@ -4,14 +4,19 @@ import 'package:rive/rive.dart';
 import '../../../../../../simple_kit.dart';
 
 class LoaderSpinner extends StatelessWidget {
-  const LoaderSpinner({Key? key}) : super(key: key);
+  const LoaderSpinner({
+    Key? key,
+    this.size = 24,
+  }) : super(key: key);
+
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 24.0,
-      height: 24.0,
-      child: RiveAnimation.asset(loadingAnimationAsset),
+    return SizedBox(
+      width: size,
+      height: size,
+      child: const RiveAnimation.asset(loadingAnimationAsset),
     );
   }
 }

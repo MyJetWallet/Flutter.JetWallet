@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/execute_quote/execute_quote_request_model.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../../../../service/services/swap/model/execute_quote/execute_quote_request_model.dart';
-import '../../../../../../../../service/services/swap/model/get_quote/get_quote_request_model.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
@@ -62,7 +62,11 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
     );
 
     try {
-      final response = await read(swapServicePod).getQuote(model);
+      final intl = read(intlPod);
+      final response = await read(swapServicePod).getQuote(
+        model,
+        intl.localeName,
+      );
 
       state = state.copyWith(
         operationId: response.operationId,
@@ -101,6 +105,8 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
 
     state = state.copyWith(union: const ExecuteLoading());
 
+    final intl = read(intlPod);
+
     try {
       final model = ExecuteQuoteRequestModel(
         operationId: state.operationId!,
@@ -112,7 +118,10 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
         isFromFixed: !input.toAssetEnabled,
       );
 
-      final response = await read(swapServicePod).executeQuote(model);
+      final response = await read(swapServicePod).executeQuote(
+        model,
+        intl.localeName,
+      );
 
       if (response.isExecuted) {
         _timer.cancel();
@@ -176,9 +185,11 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Order processing',
+      secondaryText: intl.previewConvert_orderProcessing,
       then: () {
         navigateToRouter(read);
       },
@@ -186,11 +197,13 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         navigateToRouter(read);
       },
@@ -198,11 +211,13 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.previewConvert_failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.previewConvert_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -212,14 +227,16 @@ class PreviewConvertNotifier extends StateNotifier<PreviewConvertState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.previewConvert_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
 
   String get previewHeader {
-    return 'Confirm Convert\n${input.fromCurrency.symbol} '
-        'to ${input.toCurrency.symbol}';
+    final intl = read(intlPod);
+
+    return '${intl.previewConvert_confirmConvert}\n'
+        '${input.fromCurrency.symbol} ${intl.to} ${input.toCurrency.symbol}';
   }
 
   @override

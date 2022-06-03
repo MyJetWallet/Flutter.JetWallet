@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../helpers/input_helpers.dart';
@@ -27,6 +28,7 @@ class SendByPhoneAmount extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(sendByPhoneAmountNotipod(currency));
     final notifier = useProvider(sendByPhoneAmountNotipod(currency).notifier);
@@ -34,7 +36,7 @@ class SendByPhoneAmount extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Send ${currency.description}',
+          title: '${intl.sendByPhoneAmount_send} ${currency.description}',
         ),
       ),
       child: Column(
@@ -57,8 +59,9 @@ class SendByPhoneAmount extends HookWidget {
               symbol: state.baseCurrency!.symbol,
             )}',
             error: state.inputError == InputError.enterHigherAmount
-                ? '${state.inputError.value}. ${minimumAmount(currency)}'
-                : state.inputError.value,
+                ? '${state.inputError.value}. '
+                '${minimumAmount(currency, context)}'
+                : state.inputError.value(),
             isErrorActive: state.inputError.isActive,
           ),
           Baseline(
@@ -68,7 +71,8 @@ class SendByPhoneAmount extends HookWidget {
             ),
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              'Available: ${currency.volumeAssetBalance}',
+              '${intl.sendByPhoneAmount_available}:'
+                  ' ${currency.volumeAssetBalance}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),
@@ -100,7 +104,7 @@ class SendByPhoneAmount extends HookWidget {
             widgetSize: widgetSizeFrom(deviceSize),
             preset1Name: '25%',
             preset2Name: '50%',
-            preset3Name: 'MAX',
+            preset3Name: intl.max,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
               notifier.selectPercentFromBalance(preset);
@@ -110,7 +114,7 @@ class SendByPhoneAmount extends HookWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: state.valid,
-            submitButtonName: 'Preview Send',
+            submitButtonName: intl.sendByPhoneAmount_previewSend,
             onSubmitPressed: () {
               navigatorPush(
                 context,

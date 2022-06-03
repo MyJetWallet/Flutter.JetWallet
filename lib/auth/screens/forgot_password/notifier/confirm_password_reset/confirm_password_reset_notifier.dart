@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/authentication/model/forgot_password/forgot_password_request_model.dart';
 
-import '../../../../../service/services/authentication/model/forgot_password/forgot_password_request_model.dart';
 import '../../../../../shared/helpers/device_type.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -44,16 +44,19 @@ class ConfirmPasswordResetNotifier
         deviceType: deviceType,
       );
 
-      await read(authServicePod).forgotPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).forgotPassword(model, intl.localeName);
 
       if (!mounted) return;
       _updateIsResending(false);
       onSuccess();
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+
+      final intl = read(intlPod);
       _updateIsResending(false);
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.confirmPasswordReset_failedToResend}!',
       );
     }
   }

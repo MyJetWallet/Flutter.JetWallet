@@ -44,15 +44,18 @@ class KycSelfieNotifier extends StateNotifier<KycSelfieState> {
   ) async {
     _logger.log(notifier, 'uploadDocuments');
 
+    final intl = read(intlPod);
+
     try {
       final service = read(kycDocumentsServicePod);
 
       final formData = await convertKycDocuments(
         state.selfie,
         null,
+        read,
       );
 
-      await service.upload(formData, type);
+      await service.upload(formData, type, intl.localeName);
 
       sAnalytics.kycSelfieUploaded();
 
@@ -62,7 +65,7 @@ class KycSelfieNotifier extends StateNotifier<KycSelfieState> {
 
       state = state.copyWith(union: KycSelfieUnion.error(error));
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong. Please try again',
+        intl.something_went_wrong_try_again,
         id: 1,
       );
     }

@@ -4,11 +4,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
-import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
+import '../../../../../shared/providers/service_providers.dart';
+import '../../../helpers/currency_from.dart';
 import '../../../helpers/formatting/base/volume_format.dart';
+import '../../../helpers/formatting/formatting.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
-import '../../market_details/helper/currency_from.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../../wallet/view/components/wallet_body/components/transactions_list/transactions_list.dart';
 import '../action_recurring_manage/action_recurring_manage.dart';
@@ -27,6 +29,7 @@ class ShowRecurringInfoAction extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final currencies = context.read(currenciesPod);
     final scrollController = useScrollController();
@@ -58,7 +61,7 @@ class ShowRecurringInfoAction extends HookWidget {
         ),
         child: SSecondaryButton1(
           active: true,
-          name: 'Manage',
+          name: intl.actionRecurringInfo_manage,
           onTap: () {
             sAnalytics.tapManageButton(
               assetName: assetName,
@@ -93,7 +96,8 @@ class ShowRecurringInfoAction extends HookWidget {
                   child: Column(
                     children: [
                       SSmallHeader(
-                        title: '$assetName recurring buy',
+                        title: '$assetName'
+                            ' ${intl.actionRecurringInfo_recurringBuy}',
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,

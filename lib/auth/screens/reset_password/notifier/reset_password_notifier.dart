@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/authentication/model/password_recovery/password_recovery_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../shared/logging/levels.dart';
-import '../../../../service/services/authentication/model/password_recovery/password_recovery_request_model.dart';
-import '../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/navigator_push.dart';
 import '../../../../shared/providers/service_providers.dart';
@@ -63,11 +63,12 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
         code: args.code,
       );
 
-      await read(authServicePod).recoverPassword(model);
+      final intl = read(intlPod);
+      await read(authServicePod).recoverPassword(model, intl.localeName);
 
       SuccessScreen.push(
         context: context,
-        secondaryText: 'Your password has been reset',
+        secondaryText: intl.resetPassword_yourPasswordHasBeenReset,
         then: () => navigatorPush(
           read(sNavigatorKeyPod).currentContext!,
           Login(

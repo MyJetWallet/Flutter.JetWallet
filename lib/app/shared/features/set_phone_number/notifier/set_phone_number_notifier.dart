@@ -3,9 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/helpers/decompose_phone_number.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -49,7 +49,8 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
         phoneIso: number.isoCode,
       );
 
-      await read(phoneVerificationServicePod).request(model);
+      final intl = read(intlPod);
+      await read(phoneVerificationServicePod).request(model, intl.localeName);
 
       sAnalytics.kycPhoneConfirmed();
       sAnalytics.kycChangePhoneNumber();
@@ -62,8 +63,10 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong',
+        intl.something_went_wrong,
         id: 1,
       );
     } finally {
@@ -133,24 +136,7 @@ class SetPhoneNumberNotifier extends StateNotifier<SetPhoneNumberState> {
 
   String _parsePhoneNumber(String phoneNumber) {
     if (phoneNumber.isNotEmpty) {
-      var body = _formatPhoneNumber(phoneNumber);
-      final dialCode = _formatPhoneNumber(state.dialCodeController.text);
-
-      if (phoneNumber.length >= dialCode.length) {
-        final codeFromBody = body.substring(0, dialCode.length);
-
-        if (codeFromBody == dialCode) {
-          body = body.substring(dialCode.length);
-        }
-      }
-
-      if (dialCode == '380') {
-        if (body.isNotEmpty && body[0] == '0') {
-          body = body.substring(1);
-        }
-      }
-
-      return body;
+      return _formatPhoneNumber(phoneNumber);
     } else {
       return phoneNumber;
     }

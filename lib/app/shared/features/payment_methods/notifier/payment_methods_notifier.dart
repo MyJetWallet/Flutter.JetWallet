@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/delete_card/delete_card_request_model.dart';
 
-import '../../../../../service/services/circle/model/delete_card/delete_card_request_model.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import 'payment_methods_state.dart';
@@ -43,15 +43,22 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
   Future<void> deleteCard(String cardId) async {
     _logger.log(notifier, 'deleteCard');
 
+    final intl = read(intlPod);
+
     try {
       final model = DeleteCardRequestModel(cardId: cardId);
 
-      await read(circleServicePod).deleteCard(model);
+      await read(circleServicePod).deleteCard(
+        model,
+        intl.localeName,
+      );
 
       _deleteCardFromCardsBy(cardId);
     } catch (e) {
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Something went wrong! Try again',
+        intl.something_went_wrong_try_again2,
         id: 1,
       );
     }

@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../../shared/providers/service_providers.dart';
 
 String formatDateToHm(String? timeStamp) => timeStamp == null
     ? ''
@@ -10,12 +14,17 @@ String formatDateToHmFromDate(String time) =>
 String formatDateToDMYFromDate(String time) =>
     DateFormat('dd.MM.yyyy').format(DateTime.parse(time).toLocal());
 
+String formatDateToDMonthYFromDate(String time) =>
+    DateFormat('dd MMMM yyyy').format(DateTime.parse(time).toLocal());
+
 String formatDateToDMY(String? timeStamp) => timeStamp == null
     ? ''
     : DateFormat('dd.MM.yyyy')
         .format(DateTime.parse('${timeStamp}Z').toLocal());
 
-String convertDateToTomorrowOrDate(String? timeStamp) {
+String convertDateToTomorrowOrDate(String? timeStamp, BuildContext context,) {
+  final intl = context.read(intlPod);
+
   if (timeStamp == null) {
     return '';
   } else {
@@ -26,6 +35,6 @@ String convertDateToTomorrowOrDate(String? timeStamp) {
             .inDays ==
         1;
 
-    return isTomorrow ? 'Tomorrow' : DateFormat('dd.MM.yyyy').format(date);
+    return isTomorrow ? intl.tomorrow : DateFormat('dd.MM.yyyy').format(date);
   }
 }

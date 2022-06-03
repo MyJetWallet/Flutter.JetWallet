@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../shared/providers/service_providers.dart';
+
 class MailingCheckbox extends HookWidget {
   const MailingCheckbox({
     Key? key,
@@ -15,6 +17,7 @@ class MailingCheckbox extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     late Widget icon;
 
@@ -38,8 +41,7 @@ class MailingCheckbox extends HookWidget {
             children: [
               const SpaceH4(),
               Text(
-                'I want to subscribe to the marketing communications ' +
-                    'upon the new Products, Services and features of Simple',
+                intl.mailingCheckbox_wantSubscibe,
                 maxLines: 4,
                 style: sCaptionTextStyle.copyWith(
                   fontFamily: 'Gilroy',

@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/disclaimer/model/disclaimers_request_model.dart';
+import 'package:simple_networking/services/disclaimer/model/disclaimers_response_model.dart';
 
-import '../../../../../service/services/disclaimer/model/disclaimers_request_model.dart';
 import '../../../../../shared/constants.dart';
 import '../../../../../shared/helpers/launch_url.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../helpers/disclaimer_questions_parser.dart';
-import '../model/disclaimer_model.dart';
 import '../view/components/disclaimer_checkbox.dart';
 import '../view/disclaimer.dart';
 import 'disclaimer_state.dart';
@@ -33,8 +33,11 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
   Future<void> _init() async {
     _logger.log(notifier, 'init DisclaimerNotifier');
 
+    final intl = read(intlPod);
+
     try {
-      final response = await read(disclaimerServicePod).disclaimers();
+      final response =
+          await read(disclaimerServicePod).disclaimers(intl.localeName);
 
       if (response.disclaimers != null) {
         final disclaimers = <DisclaimerModel>[];
@@ -77,6 +80,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     required int disclaimerIndex,
   }) {
     final context = read(sNavigatorKeyPod).currentContext!;
+    final intl = read(intlPod);
     final colors = read(sColorPod);
 
     showsDisclaimer(
@@ -185,7 +189,7 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
                           ),
                           SFloatingButtonFrame2(
                             button: SPrimaryButton1(
-                              name: 'Continue',
+                              name: intl.disclaimer_continue,
                               active: state.activeButton,
                               onTap: () async {
                                 await _sendAnswers(
@@ -269,7 +273,8 @@ class DisclaimerNotifier extends StateNotifier<DisclaimerState> {
     );
 
     try {
-      await read(disclaimerServicePod).saveDisclaimer(model);
+      final intl = read(intlPod);
+      await read(disclaimerServicePod).saveDisclaimer(model, intl.localeName);
 
       if (disclaimerIndex <= state.disclaimers.length) {
         if (!mounted) return;

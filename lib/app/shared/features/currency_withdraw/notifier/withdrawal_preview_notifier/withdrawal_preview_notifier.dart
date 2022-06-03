@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/blockchain/model/withdraw/withdraw_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../../service/services/blockchain/model/withdraw/withdraw_request_model.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
@@ -47,6 +47,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   Future<void> withdraw() async {
     _logger.log(notifier, 'withdraw');
 
+    final intl = read(intlPod);
     state = state.copyWith(loading: true);
 
     try {
@@ -58,7 +59,10 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
         blockchain: state.blockchain.id,
       );
 
-      final response = await read(blockchainServicePod).withdraw(model);
+      final response = await read(blockchainServicePod).withdraw(
+        model,
+        intl.localeName,
+      );
 
       _updateOperationId(response.operationId);
 
@@ -90,11 +94,13 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   }
 
   void _showNoResponseScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'No Response From Server',
-      secondaryText: 'Failed to place Order',
-      primaryButtonName: 'OK',
+      primaryText: intl.showNoResponseScreen_text,
+      secondaryText: intl.showNoResponseScreen_text2,
+      primaryButtonName: intl.serverCode0_ok,
       onPrimaryButtonTap: () {
         read(navigationStpod).state = 1; // Portfolio
         navigateToRouter(read);
@@ -103,11 +109,13 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
   }
 
   void _showFailureScreen(ServerRejectException error) {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
+      primaryText: intl.withdrawalPreview_failure,
       secondaryText: error.cause,
-      primaryButtonName: 'Edit Order',
+      primaryButtonName: intl.withdrawalPreview_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -117,7 +125,7 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.withdrawalPreview_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

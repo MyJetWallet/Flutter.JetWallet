@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../../service/services/signal_r/model/recurring_buys_model.dart';
-import '../helper/recurring_buys_status_name.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
 part 'recurring_buys_state.freezed.dart';
 

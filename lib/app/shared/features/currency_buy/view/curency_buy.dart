@@ -3,12 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/asset_model.dart';
+import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
-import '../../../../../service/services/signal_r/model/asset_model.dart';
-import '../../../../../service/services/signal_r/model/asset_payment_methods.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
+import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/are_balances_empty.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../models/currency_model.dart';
@@ -41,18 +43,16 @@ class CurrencyBuy extends StatefulHookWidget {
 class _CurrencyBuyState extends State<CurrencyBuy> {
   @override
   void initState() {
-    final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
-    notifier
-      ..initDefaultPaymentMethod(
-        fromCard: widget.fromCard,
-      )
-      ..initRecurringBuyType(widget.recurringBuysType);
     super.initState();
+    final notifier = context.read(currencyBuyNotipod(widget.currency).notifier);
+    notifier.initDefaultPaymentMethod(fromCard: widget.fromCard);
+    notifier.initRecurringBuyType(widget.recurringBuysType);
   }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
@@ -73,8 +73,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     void _showAssetSelector() {
       sShowBasicModalBottomSheet(
         scrollable: true,
-        pinned: const SBottomSheetHeader(
-          name: 'Pay from',
+        pinned: SBottomSheetHeader(
+          name: intl.curencyBuy_payFrom,
         ),
         children: [
           for (final currency in state.currencies)
@@ -115,7 +115,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 onTap: () => Navigator.pop(context, currency),
               ),
           for (final method in widget.currency.buyMethods)
-            if (method.type == PaymentMethodType.simplex)
+            if (method.type == PaymentMethodType.simplex) ...[
+              const SpaceH20(),
               SActionItem(
                 isSelected: state.selectedCurrency == null,
                 icon: SActionDepositIcon(
@@ -123,10 +124,12 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       ? colors.blue
                       : colors.black,
                 ),
-                name: 'Bank Card - Simplex',
-                description: 'Visa, Mastercard, Apple Pay',
+                name: intl.curencyBuy_actionItemName,
+                description: intl.curencyBuy_actionItemDescription,
                 onTap: () => Navigator.pop(context, method),
+                helper: '≈10-30 ${intl.min}',
               ),
+            ],
           const SpaceH40(),
         ],
         context: context,
@@ -150,10 +153,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     }
 
     return SPageFrame(
+      loaderText: intl.curencyBuy_pleaseWait,
       loading: loader.value,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Buy ${widget.currency.description}',
+          title: '${intl.curencyBuy_buy} ${widget.currency.description}',
         ),
       ),
       child: Stack(
@@ -164,22 +168,25 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 small: () => const SizedBox(),
                 medium: () => const Spacer(),
               ),
-              Baseline(
-                baseline: deviceSize.when(
-                  small: () => 32,
-                  medium: () => 31,
-                ),
-                baselineType: TextBaseline.alphabetic,
-                child: SActionPriceField(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  price: formatCurrencyStringAmount(
-                    prefix: state.selectedCurrency?.prefixSymbol,
-                    value: state.inputValue,
-                    symbol: state.selectedCurrencySymbol,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Baseline(
+                  baseline: deviceSize.when(
+                    small: () => 32,
+                    medium: () => 31,
                   ),
-                  helper: state.conversionText(widget.currency),
-                  error: state.inputErrorValue,
-                  isErrorActive: state.isInputErrorActive,
+                  baselineType: TextBaseline.alphabetic,
+                  child: SActionPriceField(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    price: formatCurrencyStringAmount(
+                      prefix: state.selectedCurrency?.prefixSymbol,
+                      value: state.inputValue,
+                      symbol: state.selectedCurrencySymbol,
+                    ),
+                    helper: state.conversionText(widget.currency),
+                    error: state.inputErrorValue,
+                    isErrorActive: state.isInputErrorActive,
+                  ),
                 ),
               ),
               const Spacer(),
@@ -199,6 +206,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
+                  text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
                 )
               else if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)
@@ -208,9 +216,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   icon: SActionDepositIcon(
                     color: colors.black,
                   ),
-                  name: 'Bank Card - Simplex',
-                  helper: '≈ 10-30 min',
-                  description: 'Visa, Mastercard, Apple Pay',
+                  name: intl.curencyBuy_actionItemName,
+                  helper: '≈ 10-30 ${intl.min}',
+                  description: intl.curencyBuy_actionItemDescription,
                   onTap: () => _showAssetSelector(),
                 )
               else if (state.selectedCurrency?.type == AssetType.crypto)
@@ -264,13 +272,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     !disableSubmit.value,
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
-                        ? 'Preview Recurring Buy'
-                        : 'Preview Buy',
+                        ? intl.curencyBuy_NumericKeyboardButtonName1
+                        : intl.curencyBuy_NumericKeyboardButtonName2,
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
                     assetName: widget.currency.description,
-                    paymentMethod:
-                        state.selectedPaymentMethod?.type.name ?? 'Crypto',
+                    paymentMethod: state.selectedPaymentMethod?.type.name ??
+                        intl.curencyBuy_crypto,
                     amount: formatCurrencyStringAmount(
                       prefix: state.selectedCurrency?.prefixSymbol,
                       value: state.inputValue,

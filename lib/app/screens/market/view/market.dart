@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
+import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/components/bottom_tabs/bottom_tabs.dart';
 import '../../../shared/components/bottom_tabs/components/bottom_tab.dart';
 import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
@@ -19,6 +20,7 @@ class Market extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     useProvider(keyValueNotipod);
     useProvider(watchlistIdsNotipod);
     final allItems = useProvider(marketItemsPod);
@@ -65,11 +67,20 @@ class Market extends HookWidget {
               alignment: FractionalOffset.bottomCenter,
               child: BottomTabs(
                 tabs: [
-                  const BottomTab(text: 'All'),
-                  const BottomTab(text: 'Watchlist'),
-                  if (indices.isNotEmpty) const BottomTab(text: 'Crypto Sets'),
-                  if (gainers.isNotEmpty) const BottomTab(text: 'Gainers'),
-                  if (losers.isNotEmpty) const BottomTab(text: 'Losers'),
+                  BottomTab(text: intl.market_all),
+                  BottomTab(text: intl.market_bottomTabLabel2),
+                  if (indices.isNotEmpty)
+                    BottomTab(
+                      text: intl.market_bottomTabLabel3,
+                    ),
+                  if (gainers.isNotEmpty)
+                    BottomTab(
+                      text: intl.market_bottomTabLabel4,
+                    ),
+                  if (losers.isNotEmpty)
+                    BottomTab(
+                      text: intl.market_bottomTabLabel5,
+                    ),
                 ],
               ),
             ),

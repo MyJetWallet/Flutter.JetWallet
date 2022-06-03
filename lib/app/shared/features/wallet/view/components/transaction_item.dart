@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_simplex_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/deposit_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/earning_deposit_details.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/earning_withdrawal_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/receive_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/recurring_buy_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/transfer_details.dart';
@@ -23,6 +26,7 @@ class TransactionItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 200),
@@ -71,7 +75,7 @@ class TransactionItem extends HookWidget {
                       width: double.infinity,
                       child: Center(
                         child: Text(
-                          '${copiedText.value} copied',
+                          '${copiedText.value} ${intl.transactionItem_copied}',
                           style: sBodyText1Style.copyWith(
                             color: Colors.green,
                           ),
@@ -123,6 +127,32 @@ class TransactionItem extends HookWidget {
                   Material(
                     color: colors.white,
                     child: RecurringBuyDetails(
+                      transactionListItem: transactionListItem,
+                      onCopyAction: (String text) {
+                        copiedText.value = text;
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (transactionListItem.operationType ==
+                    OperationType.earningDeposit) ...[
+                  Material(
+                    color: colors.white,
+                    child: EarningDepositDetails(
+                      transactionListItem: transactionListItem,
+                      onCopyAction: (String text) {
+                        copiedText.value = text;
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (transactionListItem.operationType ==
+                    OperationType.earningWithdrawal) ...[
+                  Material(
+                    color: colors.white,
+                    child: EarningWithdrawalDetails(
                       transactionListItem: transactionListItem,
                       onCopyAction: (String text) {
                         copiedText.value = text;

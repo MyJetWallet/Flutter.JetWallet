@@ -3,8 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/helpers/navigator_push.dart';
+import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../../shared/providers/service_providers.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
 import 'components/change_password/change_password.dart';
@@ -14,6 +16,7 @@ class ProfileDetails extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final userInfo = useProvider(userInfoNotipod);
 
     final _infoImage = Image.asset(
@@ -26,40 +29,54 @@ class ProfileDetails extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Profile details',
+          title: intl.profileDetails_profileDetails,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
       child: Column(
         children: [
           SProfileDetailsButton(
-            label: 'Email',
+            label: intl.profileDetails_email,
             value: userInfo.email,
             onTap: () {},
           ),
           SProfileDetailsButton(
-            label: 'Change password',
+            label: intl.profileDetails_changePassword,
             value: '• • • • • • • • • • •',
             onTap: () {
-              navigatorPush(context, const ChangePassword());
+              sShowAlertPopup(
+                context,
+                willPopScope: false,
+                  primaryText: intl.profileDetails_payAttention,
+                secondaryText: '${intl.profileDetails_changePasswordAlert} '
+                    '$changePasswordLockHours ${intl.hours}.',
+                primaryButtonName: intl.profileDetails_continue,
+                image: _infoImage,
+                onPrimaryButtonTap: () {
+                  navigatorPushReplacement(context, const ChangePassword());
+                },
+                secondaryButtonName: intl.profileDetails_cancel,
+                onSecondaryButtonTap: () {
+                  Navigator.pop(context);
+                },
+              );
             },
           ),
           if (userInfo.isPhoneNumberSet)
             SProfileDetailsButton(
-              label: 'Change phone number',
+              label: intl.profileDetails_changePhoneNumber,
               value: userInfo.phone,
               onTap: () {
                 sShowAlertPopup(
                   context,
                   willPopScope: false,
-                  primaryText: 'Pay attention',
-                  secondaryText: 'Do you wish to proceed changing your '
-                      'phone number? You will need to enter an SMS code '
-                      'to complete this process.',
-                  primaryButtonName: 'Continue',
+                  primaryText: intl.profileDetails_payAttention,
+                  secondaryText: '${intl.profileDetails_changePhoneAlert} '
+                      '$changePhoneLockHours ${intl.hours}.',
+                  primaryButtonName: intl.profileDetails_continue,
                   image: _infoImage,
                   onPrimaryButtonTap: () {
-                    PhoneVerification.push(
+                    PhoneVerification.pushReplacement(
                       context: context,
                       args: PhoneVerificationArgs(
                         phoneNumber: userInfo.phone,
@@ -67,13 +84,14 @@ class ProfileDetails extends HookWidget {
                         onVerified: () {
                           SetPhoneNumber.pushReplacement(
                             context: context,
-                            successText: 'New phone number confirmed',
+                            successText:
+                                intl.profileDetails_newPhoneNumberConfirmed,
                           );
                         },
                       ),
                     );
                   },
-                  secondaryButtonName: 'Cancel',
+                  secondaryButtonName: intl.profileDetails_cancel,
                   onSecondaryButtonTap: () {
                     Navigator.pop(context);
                   },

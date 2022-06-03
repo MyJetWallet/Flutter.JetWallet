@@ -55,13 +55,16 @@ class SimpleAccountBanner extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     top: 14,
                   ),
-                  child: Baseline(
-                    baseline: 20,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      header,
-                      maxLines: 2,
-                      style: sTextH5Style,
+                  child: SizedBox(
+                    width: 207,
+                    child: Baseline(
+                      baseline: 20,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        header,
+                        maxLines: 2,
+                        style: sTextH5Style,
+                      ),
                     ),
                   ),
                 ),

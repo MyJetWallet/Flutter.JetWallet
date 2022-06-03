@@ -5,9 +5,9 @@ import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/blockchain/model/validate_address/validate_address_request_model.dart';
+import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
-import '../../../../../../service/services/blockchain/model/validate_address/validate_address_request_model.dart';
-import '../../../../../../service/services/signal_r/model/blockchains_model.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -54,6 +54,8 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   void updateQrController(QRViewController controller) {
     _logger.log(notifier, 'updateQrController');
+
+    controller.resumeCamera();
 
     state = state.copyWith(qrController: controller);
   }
@@ -183,7 +185,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   Future<CameraStatus> _checkCameraStatusAction() async {
     final storage = read(localStorageServicePod);
-    final storageStatus = await storage.getString(cameraStatusKey);
+    final storageStatus = await storage.getValue(cameraStatusKey);
     final permissionStatus = await Permission.camera.request();
 
     if (permissionStatus == PermissionStatus.denied ||
@@ -284,8 +286,8 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       );
 
       final service = read(blockchainServicePod);
-
-      final response = await service.validateAddress(model);
+      final intl = read(intlPod);
+      final response = await service.validateAddress(model, intl.localeName);
 
       if (!mounted) return;
 
@@ -324,8 +326,9 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       );
 
       final service = read(blockchainServicePod);
+      final intl = read(intlPod);
 
-      final response = await service.validateAddress(model);
+      final response = await service.validateAddress(model, intl.localeName);
 
       if (!mounted) return;
 
@@ -388,14 +391,54 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   void _pushAllowCamera(BuildContext context) {
+    final intl = read(intlPod);
+
     AllowCamera.push(
       context: context,
-      permissionDescription:
-          'To scan the QR Code, give Simple permission to access your camera',
+      permissionDescription: intl.withdrawalAddress_pushAllowCamera,
       then: () {
         _pushQrView(context: context, fromSettings: true);
       },
     );
+  }
+
+  String get validationResult {
+    final intl = read(intlPod);
+
+    if (state.addressValidation is Loading || state.tagValidation is Loading) {
+      return '${intl.withdrawalAddress_checking}...';
+    } else if (state.addressValidation is Invalid) {
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address}';
+    } else if (state.tagValidation is Invalid) {
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.tag}';
+    } else if (state.addressValidation is Invalid &&
+        state.tagValidation is Invalid) {
+      return '${intl.withdrawalAddress_invalid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+    } else if (state.addressValidation is Valid &&
+        state.tagValidation is Valid) {
+      return '${intl.valid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+    } else if (state.addressValidation is Valid) {
+      return '${intl.valid} ${currency.symbol}'
+          ' ${intl.withdrawalAddress_address}';
+    } else if (state.tagValidation is Valid) {
+      return '${intl.valid} ${currency.symbol} ${intl.tag}';
+    } else {
+      return intl.withdrawalAddress_error;
+    }
+  }
+
+  String get withdrawHint {
+    final intl = read(intlPod);
+
+    if (state.isReadyToContinue) {
+      return '${intl.withdrawHint_text1}.';
+    } else {
+      return '${intl.withdrawHint_text2}.';
+    }
   }
 
   @override

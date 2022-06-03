@@ -9,7 +9,7 @@ class SBottomNavigationBar extends StatelessWidget {
     Key? key,
     this.marketNotifications = 0,
     this.portfolioNotifications = 0,
-    this.newsNotifications = 0,
+    this.earnNotifications = 0,
     this.profileNotifications = 0,
     required this.animationController,
     required this.selectedIndex,
@@ -20,7 +20,7 @@ class SBottomNavigationBar extends StatelessWidget {
 
   final int marketNotifications;
   final int portfolioNotifications;
-  final int newsNotifications;
+  final int earnNotifications;
   final int profileNotifications;
   final AnimationController animationController;
   final int selectedIndex;
@@ -110,11 +110,13 @@ class SBottomNavigationBar extends StatelessWidget {
                     child: _MenuItemFrame(
                       children: [
                         if (selectedIndex == 2)
+                          //const SEarnActiveIcon()
                           const SNewsActiveIcon()
                         else
+                          //const SEarnDefaultIcon(),
                           const SNewsDefaultIcon(),
                         NotificationBox(
-                          notifications: newsNotifications,
+                          notifications: earnNotifications,
                         )
                       ],
                     ),

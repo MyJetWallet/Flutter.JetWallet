@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../recurring/helper/recurring_buys_operation_name.dart';
 
@@ -20,6 +22,7 @@ class RecurringSelector extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Row(
@@ -27,7 +30,8 @@ class RecurringSelector extends HookWidget {
         const Spacer(),
         if (oneTimePurchaseOnly)
           Text(
-            'One-time purchase only',
+            '${intl.recurringBuysType_oneTimePurchase}'
+                ' ${intl.recurringBuysType_only}',
             style: sSubtitle3Style.copyWith(
               color: colors.grey1,
             ),
@@ -37,7 +41,8 @@ class RecurringSelector extends HookWidget {
             onTap: () {
               showActionWithoutRecurringBuy(
                 context: context,
-                title: 'Repeat this purchase?',
+                title:
+                    '${intl.recurringSelector_withOutRecurringBuyTitle}?',
                 showOneTimePurchase: true,
                 currentType: currentSelection,
                 onItemTap: onSelect,
@@ -59,7 +64,10 @@ class RecurringSelector extends HookWidget {
                     baseline: 14,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      recurringBuysOperationName(currentSelection),
+                      recurringBuysOperationName(
+                        currentSelection,
+                        context,
+                      ),
                       style: sSubtitle3Style.copyWith(
                         color: colors.white,
                       ),

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/transfer/model/transfer_resend_request_model/transfer_resend_request_model.dart';
+import 'package:simple_networking/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../../service/services/transfer/model/transfer_resend_request_model/transfer_resend_request_model.dart';
-import '../../../../../../service/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
@@ -48,11 +48,13 @@ class SendByPhoneConfirmNotifier
   void updateCode(String code, String operationId) {
     _logger.log(notifier, 'updateCode');
 
+    final intl = read(intlPod);
+
     if (operationId == _operationId) {
       state.controller.text = code;
     } else {
       read(sNotificationNotipod.notifier).showError(
-        'You have confirmed an incorrect operation',
+        intl.showError_youHaveConfirmed,
         id: 1,
       );
     }
@@ -72,7 +74,8 @@ class SendByPhoneConfirmNotifier
         operationId: _operationId,
       );
 
-      await service.transferResend(model);
+      final intl = read(intlPod);
+      await service.transferResend(model, intl.localeName);
 
       if (!mounted) return;
       _updateIsResending(false);
@@ -81,8 +84,10 @@ class SendByPhoneConfirmNotifier
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);
 
+      final intl = read(intlPod);
+
       read(sNotificationNotipod.notifier).showError(
-        'Failed to resend. Try again!',
+        '${intl.sendByPhoneConfirm_failedToResend}!',
         id: 1,
       );
     }
@@ -95,6 +100,7 @@ class SendByPhoneConfirmNotifier
 
     try {
       final service = read(validationServicePod);
+      final intl = read(intlPod);
 
       final model = VerifyWithdrawalVerificationCodeRequestModel(
         operationId: _operationId,
@@ -102,7 +108,7 @@ class SendByPhoneConfirmNotifier
         brand: 'simple',
       );
 
-      await service.verifyTransferVerificationCode(model);
+      await service.verifyTransferVerificationCode(model, intl.localeName);
 
       state = state.copyWith(union: const Input());
 
@@ -129,10 +135,14 @@ class SendByPhoneConfirmNotifier
   }
 
   void _showSuccessScreen() {
+    final intl = read(intlPod);
+
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Your ${currency.symbol} send '
-          'request has been submitted',
+      secondaryText:
+          '${intl.sendByPhoneConfirm_your} ${currency.symbol}'
+              ' ${intl.sendByPhoneConfirm_send} '
+              '${intl.sendByPhoneConfirm_requestHasBeenSubmitted}',
       then: () {
         if (!_receiverIsRegistered) {
           navigatorPush(
@@ -148,11 +158,14 @@ class SendByPhoneConfirmNotifier
   }
 
   void _showFailureScreen() {
+    final intl = read(intlPod);
+
     return FailureScreen.push(
       context: _context,
-      primaryText: 'Failure',
-      secondaryText: 'Failed to send',
-      primaryButtonName: 'Edit Order',
+      primaryText: intl.sendByPhoneConfirm_failure,
+      secondaryText: '${intl.sendByPhoneConfirm_failedTo}'
+          ' ${intl.sendByPhoneConfirm_send}',
+      primaryButtonName: intl.sendByPhoneConfirm_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pushAndRemoveUntil(
           _context,
@@ -164,7 +177,7 @@ class SendByPhoneConfirmNotifier
           (route) => route.isFirst,
         );
       },
-      secondaryButtonName: 'Close',
+      secondaryButtonName: intl.sendByPhoneConfirm_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }
