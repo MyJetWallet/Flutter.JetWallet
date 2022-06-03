@@ -666,7 +666,7 @@
     "recurringBuysItem_paused": "Paused",
     "recurringBuysItem_total": "Total",
     "send_timer_alert_ok": "OK",
-    "send_timer_alert_description": "Time left until withdrawal is unlocked",
+    "send_timer_alert_description": "Withdrawals have been temporarily blocked. Time remaining:",
     "sendHelperText_text": "Start typing phone number or name from your phonebook",
     "sendInfoText_text": "I want to use my phonebook",
     "showContactPicker_phoneNumber": "Phone number",
