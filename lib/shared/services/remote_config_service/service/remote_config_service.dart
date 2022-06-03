@@ -100,7 +100,7 @@ class RemoteConfigService {
   }
 
   CircleModel get circle {
-    final values = _config.getString('CircleModel');
+    final values = _config.getString('Circle');
 
     final json = jsonDecode(values) as Map<String, dynamic>;
 
