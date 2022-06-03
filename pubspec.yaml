@@ -93,6 +93,7 @@ dependencies:
   logging: ^1.0.2 # APIs for debugging and error logging
   uuid: ^3.0.6 # UUID Generator and Parser
   app_tracking_transparency: ^2.0.2+2
+  open_mail_app: ^0.4.5
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
