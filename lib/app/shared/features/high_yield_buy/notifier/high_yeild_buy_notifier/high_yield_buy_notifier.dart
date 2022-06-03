@@ -80,7 +80,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
       currency: input.currency,
     );
 
-    final value = topUp && Decimal.parse(percentageOfAll) > maxAvailable
+    final value = Decimal.parse(percentageOfAll) > maxAvailable
         ? maxAvailable
         : percentageOfAll;
 
@@ -121,6 +121,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
 
   void updateInputValue(String value) {
     _logger.log(notifier, 'updateInputValue');
+    _validateInput();
 
     _updateInputValue(
       responseOnInputAction(
@@ -185,6 +186,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
         } else {
           _updateInputError(InputError.none);
           _updateInputValid(true);
+          _validateInput();
         }
       }
     } on ServerRejectException catch (error) {
