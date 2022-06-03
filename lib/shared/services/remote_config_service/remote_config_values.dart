@@ -35,3 +35,6 @@ late String simplexOrigin;
 // AppsFlyer
 late String appsFlyerKey;
 late String iosAppId;
+
+// Circle
+late bool cvvEnabled;
