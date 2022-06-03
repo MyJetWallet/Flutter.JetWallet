@@ -44,16 +44,16 @@ class Circle3dSecureWebView extends HookWidget {
                 navigationDelegate: (request) {
                   final uri = Uri.parse(request.url);
 
-                  if (uri.path == 'circle/success') {
+                  if (uri.path == '/circle/success') {
                     SuccessScreen.push(
                       context: context,
-                      secondaryText: 'Your payment will be processed within'
+                      secondaryText: 'Your payment will be processed within \n'
                           ' ≈ 10-30 minutes',
                       then: () {
                         context.read(navigationStpod).state = 1;
                       },
                     );
-                  } else if (uri.path == 'circle/failure') {
+                  } else if (uri.path == '/circle/failure') {
                     FailureScreen.push(
                       context: context,
                       primaryText: intl.previewBuyWithAsset_failure,

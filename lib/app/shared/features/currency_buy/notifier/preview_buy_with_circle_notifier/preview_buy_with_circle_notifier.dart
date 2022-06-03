@@ -135,7 +135,10 @@ class PreviewBuyWithCircleNotifier
 
       final base64Decoded = base64Decode(encryption.encryptionKey);
       final utf8Decoded = utf8.decode(base64Decoded);
-      final encrypted = await OpenPGP.encrypt('{${state.cvv}}', utf8Decoded);
+      final encrypted = await OpenPGP.encrypt(
+        '{"cvv":"${state.cvv}"}',
+        utf8Decoded,
+      );
       final utf8Encoded = utf8.encode(encrypted);
       final base64Encoded = base64Encode(utf8Encoded);
 
@@ -213,7 +216,7 @@ class PreviewBuyWithCircleNotifier
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Your payment will be processed within'
+      secondaryText: 'Your payment will be processed within \n'
           ' ≈ 10-30 minutes',
       then: () {
         read(navigationStpod).state = 1;
