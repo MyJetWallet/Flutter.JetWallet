@@ -24,7 +24,7 @@ Future<void> openEmailApp(BuildContext context) async {
     }
   } else if (Platform.isIOS) {
 
-    var result = await OpenMailApp.openMailApp();
+    final result = await OpenMailApp.openMailApp();
 
     if (!result.didOpen && !result.canOpen) {
       showNoMailAppsDialog(context);
@@ -59,14 +59,14 @@ void showNoMailAppsDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text("Open Mail App"),
-        content: Text("No mail apps installed"),
+        title: const Text('Open Mail App'),
+        content: const Text('No mail apps installed'),
         actions: <Widget>[
-          FlatButton(
-            child: Text("OK"),
-            onPressed: () {
+          InkWell(
+            onTap: () {
               Navigator.pop(context);
             },
+            child: const Text('OK'),
           )
         ],
       );
