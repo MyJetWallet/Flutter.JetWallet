@@ -210,11 +210,10 @@ class PreviewBuyWithCircleNotifier
   }
 
   void _showSuccessScreen() {
-    final intl = read(intlPod);
-
     return SuccessScreen.push(
       context: _context,
-      secondaryText: intl.previewBuyWithAsset_orderProcessing,
+      secondaryText: 'Your payment will be processed within'
+          ' ≈ 10-30 minutes',
       then: () {
         read(navigationStpod).state = 1;
       },
