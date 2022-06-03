@@ -1,3 +1,5 @@
+/// @Refactor
+
 final errorCodesDescriptionEn = {
   'InternalServerError': 'Something went wrong. Please try again later.',
   'WalletDoNotExist': 'Wallet is not found.',
@@ -98,8 +100,8 @@ final errorCodesDescriptionRu = {
 const emailPasswordIncorrectEn =
     'The email or password you entered is incorrect';
 
-const emailPasswordIncorrectRu =
-    'Электронная почта или пароль, которые вы ввели, неверны';
+//const emailPasswordIncorrectRu =
+//'Электронная почта или пароль, которые вы ввели, неверны';
 
-const attemptsRemainingEn = 'осталось попыток';
-const attemptsRemainingRu = 'осталось попыток';
+const attemptsRemainingEn = 'attempts remaining';
+//const attemptsRemainingRu = 'осталось попыток';

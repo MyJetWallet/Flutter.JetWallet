@@ -35,6 +35,7 @@ class ResolutionButton extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'Gilroy',
               ),
             ),
           ),

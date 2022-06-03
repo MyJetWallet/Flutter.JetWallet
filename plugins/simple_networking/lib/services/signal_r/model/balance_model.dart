@@ -21,9 +21,7 @@ class BalanceModel with _$BalanceModel {
   const factory BalanceModel({
     required String assetId,
     @DecimalSerialiser() required Decimal balance,
-    required double reserve,
     required String lastUpdate,
-    required double sequenceId,
     @DecimalSerialiser() required Decimal totalEarnAmount,
     @DecimalSerialiser() required Decimal currentEarnAmount,
     required String nextPaymentDate,

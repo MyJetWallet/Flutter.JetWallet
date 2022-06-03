@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,7 +17,9 @@ class InternetCheckerNotifier extends StateNotifier<InternetCheckerState> {
   final _connectivity = Connectivity();
   late BuildContext _context;
 
+  bool isWaitAlert = false;
   bool isAlertOpen = false;
+  Duration secondsBeforeOpen = const Duration(seconds: 5);
 
   Future<void> initialise() async {
     final result = await _connectivity.checkConnectivity();
@@ -50,16 +54,25 @@ class InternetCheckerNotifier extends StateNotifier<InternetCheckerState> {
 
   void showNoConnectionAlert() {
     final intl = read(intlPod);
-    isAlertOpen = true;
+    isWaitAlert = true;
 
-    sShowAlertPopup(
-      _context,
-      willPopScope: false,
-      primaryText: intl.noInternetConnection_header,
-      secondaryText: intl.noInternetConnection_descr,
-      isNeedPrimaryButton: false,
-      primaryButtonName: '',
-      onPrimaryButtonTap: () => () {},
-    );
+    Future.delayed(secondsBeforeOpen, () {
+      if (state.internetAvailable == true) {
+        isWaitAlert = false;
+        return;
+      } else {
+        isAlertOpen = true;
+
+        sShowAlertPopup(
+          _context,
+          willPopScope: false,
+          primaryText: intl.noInternetConnection_header,
+          secondaryText: intl.noInternetConnection_descr,
+          isNeedPrimaryButton: false,
+          primaryButtonName: '',
+          onPrimaryButtonTap: () => () {},
+        );
+      }
+    });
   }
 }

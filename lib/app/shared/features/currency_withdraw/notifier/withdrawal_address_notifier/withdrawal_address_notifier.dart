@@ -185,7 +185,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
 
   Future<CameraStatus> _checkCameraStatusAction() async {
     final storage = read(localStorageServicePod);
-    final storageStatus = await storage.getString(cameraStatusKey);
+    final storageStatus = await storage.getValue(cameraStatusKey);
     final permissionStatus = await Permission.camera.request();
 
     if (permissionStatus == PermissionStatus.denied ||

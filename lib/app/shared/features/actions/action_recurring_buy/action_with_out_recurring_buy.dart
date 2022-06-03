@@ -49,6 +49,7 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
         SPaddingH24(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
                 child: Baseline(

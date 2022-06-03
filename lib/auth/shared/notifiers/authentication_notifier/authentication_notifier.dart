@@ -49,7 +49,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
-      final referralCode = await storageService.getString(referralCodeKey);
+      final referralCode = await storageService.getValue(referralCodeKey);
 
       rsaService.init();
       await rsaService.savePrivateKey(storageService);

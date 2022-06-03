@@ -68,7 +68,7 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     _logger.log(notifier, 'initPinStatus');
 
     final storage = read(localStorageServicePod);
-    final pin = await storage.getString(pinStatusKey);
+    final pin = await storage.getValue(pinStatusKey);
 
     if (pin == null || pin.isEmpty) {
       _updatePin(null);
@@ -76,7 +76,7 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       _updatePin(pin);
     }
 
-    final pinDisabled = await storage.getString(pinDisabledKey);
+    final pinDisabled = await storage.getValue(pinDisabledKey);
 
     if (pinDisabled == null) {
       _updatePinDisabled(false);

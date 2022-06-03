@@ -28,8 +28,10 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
   final intl = read(intlPod);
 
   try {
-    final serverTime = await authService.serverTime(intl.localeName,);
-    final privateKey = await storageService.getString(privateKeyKey);
+    final serverTime = await authService.serverTime(
+      intl.localeName,
+    );
+    final privateKey = await storageService.getValue(privateKeyKey);
     final refreshToken = authInfo.refreshToken;
 
     final tokenDateTimeSignatureBase64 = rsaService.sign(
@@ -44,7 +46,10 @@ Future<RefreshTokenStatus> refreshToken(Reader read) async {
       lang: intl.localeName,
     );
 
-    final response = await authService.refresh(model, intl.localeName,);
+    final response = await authService.refresh(
+      model,
+      intl.localeName,
+    );
 
     await storageService.setString(refreshTokenKey, response.refreshToken);
 

@@ -12,5 +12,6 @@ class DeviceInfoModel with _$DeviceInfoModel {
     @Default('') String model,
     @Default('') String sdk,
     @Default('') String name,
+    @Default('') String marketingName,
   }) = _DeviceInfoModel;
 }

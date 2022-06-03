@@ -26,8 +26,8 @@ final appInitFpod = FutureProvider<void>(
     final internetCheckerN = ref.watch(internetCheckerNotipod.notifier);
     final intl = ref.read(intlPod);
 
-    final token = await storageService.getString(refreshTokenKey);
-    final email = await storageService.getString(userEmailKey);
+    final token = await storageService.getValue(refreshTokenKey);
+    final email = await storageService.getValue(userEmailKey);
     final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
 
     try {
