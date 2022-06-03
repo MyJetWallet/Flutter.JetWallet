@@ -35,32 +35,38 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
   Widget build(BuildContext context) {
     final intl = context.read(intlPod);
 
-    return SPageFrame(
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.helpCenterWebView,
-          onBackButtonTap: () async {
-            if (await controller.canGoBack()) {
-              await controller.goBack();
-            } else {
-              Navigator.pop(context);
-            }
-          },
+    return WillPopScope(
+      onWillPop: () => _onWillPop(),
+      child: SPageFrame(
+        header: SPaddingH24(
+          child: SSmallHeader(
+            title: intl.helpCenterWebView,
+            onBackButtonTap: () => _onWillPop(),
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: WebView(
+                initialUrl: widget.link,
+                javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (controller) {
+                  this.controller = controller;
+                },
+              ),
+            ),
+          ],
         ),
       ),
-      child: Column(
-        children: [
-          Expanded(
-            child: WebView(
-              initialUrl: widget.link,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (controller) {
-                this.controller = controller;
-              },
-            ),
-          ),
-        ],
-      ),
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    if (await controller.canGoBack()) {
+      await controller.goBack();
+    } else {
+      Navigator.pop(context);
+    }
+    return Future.value(false);
   }
 }
