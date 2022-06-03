@@ -93,14 +93,14 @@ class CurrencyBuyState with _$CurrencyBuyState {
   }
 
   String conversionText(CurrencyModel currency) {
-    final target = marketFormat(
+    final target = volumeFormat(
       decimal: Decimal.parse(targetConversionValue),
       symbol: currency.symbol,
       prefix: currency.prefixSymbol,
       accuracy: currency.accuracy,
     );
 
-    final base = marketFormat(
+    final base = volumeFormat(
       accuracy: baseCurrency!.accuracy,
       prefix: baseCurrency!.prefix,
       decimal: Decimal.parse(baseConversionValue),
