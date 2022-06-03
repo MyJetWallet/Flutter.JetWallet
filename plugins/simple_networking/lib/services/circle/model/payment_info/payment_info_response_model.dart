@@ -6,8 +6,7 @@ part 'payment_info_response_model.g.dart';
 @freezed
 class PaymentInfoResponseModel with _$PaymentInfoResponseModel {
   const factory PaymentInfoResponseModel({
-    @Default('https://web-sandbox.circle.com/v1/3ds/session/0da484b7-29c1-3914-b69d-89ed76e3ba58')
-        String redirectUrl,
+    String? redirectedUrl,
     required PaymentStatus status,
   }) = _PaymentInfoResponseModel;
 

@@ -18,12 +18,14 @@ import 'package:simple_networking/shared/models/server_reject_exception.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
+import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../model/preview_buy_with_circle_input.dart';
-import '../../view/screens/preview_buy_with_circle/circle_web_view/circle_web_view.dart';
+import '../../view/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
 import 'preview_buy_with_circle_state.dart';
 
 class PreviewBuyWithCircleNotifier
@@ -96,7 +98,7 @@ class PreviewBuyWithCircleNotifier
     await _requestPayment(() async {
       await _requestPaymentInfo((url) {
         if (!mounted) return;
-        navigatorPush(_context, CircleWebView(url));
+        navigatorPush(_context, Circle3dSecureWebView(url));
         state.loader.finishLoadingImmediately();
       });
     });
@@ -146,7 +148,7 @@ class PreviewBuyWithCircleNotifier
     }
   }
 
-  Future<void> _requestPaymentInfo(void Function(String) onSuccess) async {
+  Future<void> _requestPaymentInfo(Function(String) on3Secure) async {
     _logger.log(notifier, '_requestPaymentInfo');
 
     try {
@@ -159,10 +161,21 @@ class PreviewBuyWithCircleNotifier
         _intl.localeName,
       );
 
-      if (response.status == PaymentStatus.confirmed) {
-        onSuccess(response.redirectUrl);
+      final pending = response.status == PaymentStatus.pending;
+      final confirmed = response.status == PaymentStatus.confirmed;
+      final complete = response.status == PaymentStatus.complete;
+      final paid = response.status == PaymentStatus.paid;
+      final failed = response.status == PaymentStatus.failed;
+
+      if (pending) {
+        await Future.delayed(const Duration(seconds: 1));
+        await _requestPaymentInfo(on3Secure);
+      } else if (complete || confirmed || paid) {
+        _showSuccessScreen();
+      } else if (failed) {
+        throw Exception();
       } else {
-        throw ServerRejectException(response.status.toString());
+        on3Secure(response.redirectedUrl!);
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, '_requestPaymentInfo', error.cause);
@@ -175,32 +188,17 @@ class PreviewBuyWithCircleNotifier
     }
   }
 
-  // void _showSuccessScreen() {
-  //   final intl = read(intlPod);
+  void _showSuccessScreen() {
+    final intl = read(intlPod);
 
-  //   return SuccessScreen.push(
-  //     context: _context,
-  //     secondaryText: intl.previewBuyWithAsset_orderProcessing,
-  //     then: () {
-  //       read(navigationStpod).state = 1;
-  //     },
-  //   );
-  // }
-
-  // void _showNoResponseScreen() {
-  //   final intl = read(intlPod);
-
-  //   return FailureScreen.push(
-  //     context: _context,
-  //     primaryText: intl.showNoResponseScreen_text,
-  //     secondaryText: intl.showNoResponseScreen_text2,
-  //     primaryButtonName: intl.serverCode0_ok,
-  //     onPrimaryButtonTap: () {
-  //       read(navigationStpod).state = 1; // Portfolio
-  //       navigateToRouter(read);
-  //     },
-  //   );
-  // }
+    return SuccessScreen.push(
+      context: _context,
+      secondaryText: intl.previewBuyWithAsset_orderProcessing,
+      then: () {
+        read(navigationStpod).state = 1;
+      },
+    );
+  }
 
   void _showFailureScreen(String error) {
     final intl = read(intlPod);

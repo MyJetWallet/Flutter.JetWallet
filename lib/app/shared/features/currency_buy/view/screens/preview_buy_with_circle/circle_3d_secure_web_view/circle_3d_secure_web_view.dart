@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class CircleWebView extends StatelessWidget {
-  const CircleWebView(this.url);
+class Circle3dSecureWebView extends StatelessWidget {
+  const Circle3dSecureWebView(this.url);
 
   final String url;
 
