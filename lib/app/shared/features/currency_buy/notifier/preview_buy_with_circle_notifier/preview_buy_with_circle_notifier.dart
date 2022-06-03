@@ -23,9 +23,11 @@ import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../model/preview_buy_with_circle_input.dart';
 import '../../view/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
+import '../../view/screens/preview_buy_with_circle/show_circle_cvv_bottom_sheet.dart';
 import 'preview_buy_with_circle_state.dart';
 
 class PreviewBuyWithCircleNotifier
@@ -90,8 +92,27 @@ class PreviewBuyWithCircleNotifier
     }
   }
 
-  Future<void> createPayment() async {
-    _logger.log(notifier, 'createPayment');
+  void onConfirm() {
+    _logger.log(notifier, 'onConfirm');
+
+    if (cvvEnabled) {
+      showCircleCvvBottomSheet(
+        context: _context,
+        header: 'Enter CVC for \n'
+            '${state.card?.network} •••• ${state.card?.last4}',
+        onCompleted: (cvv) {
+          Navigator.pop(_context);
+          state = state.copyWith(cvv: cvv);
+          _createPayment();
+        },
+      );
+    } else {
+      _createPayment();
+    }
+  }
+
+  Future<void> _createPayment() async {
+    _logger.log(notifier, '_createPayment');
 
     state.loader.startLoadingImmediately();
 

@@ -107,7 +107,7 @@ class PreviewBuyWithCircle extends HookWidget {
                 SPrimaryButton2(
                   active: !state.loader.value,
                   name: intl.previewBuyWithAsset_confirm,
-                  onTap: () => notifier.createPayment(),
+                  onTap: () => notifier.onConfirm(),
                 ),
                 const SpaceH24(),
               ],
