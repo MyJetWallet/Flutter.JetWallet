@@ -9,11 +9,21 @@ import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
 import '../shared/notifier/action_search_notipod.dart';
 import 'components/send_options.dart';
+import 'components/show_send_timer_alert_or.dart';
 
 void showSendAction(BuildContext context) {
+  Navigator.pop(context);
+
+  showSendTimerAlertOr(
+    context: context,
+    or: () => _showSendAction(context),
+  );
+}
+
+void _showSendAction(BuildContext context) {
   final intl = context.read(intlPod);
   final showSearch = showSendCurrencySearch(context);
-  Navigator.pop(context);
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
