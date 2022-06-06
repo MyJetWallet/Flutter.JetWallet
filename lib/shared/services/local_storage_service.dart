@@ -13,6 +13,7 @@ const bannersIdsKey = 'bannersIds';
 const phonebookStatusKey = 'phonebookStatusKey';
 const cameraStatusKey = 'cameraStatusKey';
 const referralCodeKey = 'referralCodeKey';
+const firstInitAppCodeKey = 'firstInitAppCodeKey';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();

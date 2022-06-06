@@ -83,6 +83,7 @@ dependencies:
   firebase_dynamic_links: ^3.0.1
   firebase_remote_config: ^0.11.0+2
   firebase_crashlytics: ^2.6.1
+  firebase_analytics: ^9.1.9
 
   # NOTIFICATIONS
   flutter_local_notifications: ^9.1.0

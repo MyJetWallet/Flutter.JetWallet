@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,9 +14,12 @@ import '../../auth/screens/register/register_password_screen.dart';
 import '../../auth/screens/reset_password/view/reset_password.dart';
 import '../../router/view/router.dart';
 import '../../shared/logging/provider_logger.dart';
+import '../../shared/model/device_info/device_info_model.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
 import '../../shared/providers/device_info_pod.dart';
 import '../../shared/providers/package_info_fpod.dart';
+import '../../shared/providers/service_providers.dart';
+import '../../shared/services/local_storage_service.dart';
 import '../stage/app_router_stage/app_router_stage.dart';
 import '../stage/components/app_init.dart';
 import 'app_builder.dart';
@@ -99,7 +103,11 @@ class _App extends HookWidget {
     useProvider(deviceInfoPod);
     useProvider(packageInfoFpod);
     final navigatorKey = useProvider(sNavigatorKeyPod);
+    final deviceInfo = useProvider(deviceInfoPod);
     final theme = useProvider(sThemePod);
+    final storage = useProvider(localStorageServicePod);
+
+    checkInitAppForFBAnalytics(storage, deviceInfo);
 
     return CupertinoApp(
       restorationScopeId: 'app',
@@ -146,5 +154,25 @@ class _App extends HookWidget {
         },
       },
     );
+  }
+
+  Future<void> checkInitAppForFBAnalytics(
+    LocalStorageService storage,
+    DeviceInfoModel deviceInfo,
+  ) async {
+    final firstInitAppStorage = await storage.getValue(firstInitAppCodeKey);
+    final referralCode = await storage.getValue(referralCodeKey);
+
+    if (firstInitAppStorage == null || firstInitAppStorage == 'false') {
+      await FirebaseAnalytics.instance.logEvent(
+        name: 'first_initialize_app',
+        parameters: {
+          'device_id': deviceInfo.deviceUid,
+          'referral_code': referralCode ?? '',
+        },
+      );
+
+      await storage.setString(firstInitAppCodeKey, 'true');
+    }
   }
 }
