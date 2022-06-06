@@ -163,7 +163,7 @@ class _App extends HookWidget {
     final firstInitAppStorage = await storage.getValue(firstInitAppCodeKey);
     final referralCode = await storage.getValue(referralCodeKey);
 
-    if (firstInitAppStorage == null || firstInitAppStorage == 'false') {
+    if (firstInitAppStorage == null) {
       await FirebaseAnalytics.instance.logEvent(
         name: 'first_initialize_app',
         parameters: {
