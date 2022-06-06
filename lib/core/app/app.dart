@@ -111,7 +111,7 @@ class _App extends HookWidget {
       builder: builder ?? (_, child) => AppBuilder(child),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: const [
-        Locale('en', ''),
+        Locale('en', 'ru'),
       ],
       // supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: isStageEnv ? AppRouterStage.routeName : AppRouter.routeName,
