@@ -164,7 +164,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 icon: SActionDepositIcon(
                   color: colors.black,
                 ),
-                name: 'Add Bank Card - Circle',
+                name: '${intl.currencyBuy_addBankCard} - Circle',
                 description: 'Visa, Mastercard, Apple Pay',
                 onTap: () {
                   AddCircleCard.pushReplacement(
@@ -271,7 +271,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   SPaymentSelectDefault(
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: const SActionBuyIcon(),
-                    name: 'Choose payment method',
+                    name: intl.currencyBuy_choosePaymentMethod,
                     onTap: () => _showAssetSelector(),
                   )
                 else

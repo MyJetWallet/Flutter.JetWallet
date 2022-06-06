@@ -28,7 +28,8 @@ class PreviewBuyWithCircle extends HookWidget {
     final notifier = useProvider(previewBuyWithCircleNotipod(input).notifier);
     useValueListenable(state.loader);
     final title =
-        '${intl.previewBuyWithAsset_confirm} Buy ${input.currency.description}';
+        '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
+        '${input.currency.description}';
 
     return SPageFrameWithPadding(
       loading: state.loader,
@@ -61,16 +62,16 @@ class PreviewBuyWithCircle extends HookWidget {
                 ),
                 const Spacer(),
                 SActionConfirmText(
-                  name: 'Pay From',
+                  name: intl.previewBuyWithCircle_payFrom,
                   value: '${state.card?.network} •••• ${state.card?.last4}',
                 ),
                 SActionConfirmText(
-                  name: 'Credit card transaction fee',
+                  name: intl.previewBuyWithCircle_creditCardFee,
                   contentLoading: state.loader.value,
                   value: '${state.feePercentage}%',
                 ),
                 SActionConfirmText(
-                  name: 'You will get',
+                  name: intl.previewBuyWithCircle_youWillGet,
                   contentLoading: state.loader.value,
                   value: volumeFormat(
                     prefix: input.currency.prefixSymbol,
@@ -81,9 +82,7 @@ class PreviewBuyWithCircle extends HookWidget {
                 ),
                 const SpaceH20(),
                 Text(
-                  'Final price will be recalculated based on the market '
-                  'price at the very moment we get your payment '
-                  'confirmation.',
+                  intl.previewBuyWithCircle_description,
                   maxLines: 3,
                   style: sCaptionTextStyle.copyWith(
                     color: colors.grey3,
@@ -93,7 +92,7 @@ class PreviewBuyWithCircle extends HookWidget {
                 const SDivider(),
                 const SpaceH24(),
                 SActionConfirmText(
-                  name: 'You will pay',
+                  name: intl.previewBuyWithCircle_youWillPay,
                   contentLoading: state.loader.value,
                   valueColor: colors.blue,
                   value: volumeFormat(

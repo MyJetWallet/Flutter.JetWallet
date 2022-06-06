@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../../shared/providers/service_providers.dart';
+
 void showCircleCvvBottomSheet({
   required BuildContext context,
   required String header,
@@ -35,6 +37,7 @@ class CvvBottomSheetBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
 
     return Column(
@@ -42,7 +45,7 @@ class CvvBottomSheetBody extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'This is used for card verification',
+          intl.previewBuyWithCircle_cvvDescription,
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),

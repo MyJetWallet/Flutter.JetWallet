@@ -216,8 +216,8 @@ class PreviewBuyWithCircleNotifier
   void _showSuccessScreen() {
     return SuccessScreen.push(
       context: _context,
-      secondaryText: 'Your payment will be processed within \n'
-          ' ≈ 10-30 minutes',
+      secondaryText: '${_intl.buyWithCircle_paymentWillBeProcessed} \n'
+                          ' ≈ 10-30 ${_intl.buyWithCircle_minutes}',
       then: () {
         read(navigationStpod).state = 1;
       },
@@ -225,18 +225,16 @@ class PreviewBuyWithCircleNotifier
   }
 
   void _showFailureScreen(String error) {
-    final intl = read(intlPod);
-
     return FailureScreen.push(
       context: _context,
-      primaryText: intl.previewBuyWithAsset_failure,
+      primaryText: _intl.previewBuyWithAsset_failure,
       secondaryText: error,
-      primaryButtonName: intl.previewBuyWithAsset_editOrder,
+      primaryButtonName: _intl.previewBuyWithAsset_editOrder,
       onPrimaryButtonTap: () {
         Navigator.pop(_context);
         Navigator.pop(_context);
       },
-      secondaryButtonName: intl.previewBuyWithAsset_close,
+      secondaryButtonName: _intl.previewBuyWithAsset_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
   }

@@ -47,8 +47,9 @@ class Circle3dSecureWebView extends HookWidget {
                   if (uri.path == '/circle/success') {
                     SuccessScreen.push(
                       context: context,
-                      secondaryText: 'Your payment will be processed within \n'
-                          ' ≈ 10-30 minutes',
+                      secondaryText:
+                          '${intl.buyWithCircle_paymentWillBeProcessed} \n'
+                          ' ≈ 10-30 ${intl.buyWithCircle_minutes}',
                       then: () {
                         context.read(navigationStpod).state = 1;
                       },
