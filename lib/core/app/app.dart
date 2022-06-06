@@ -107,7 +107,7 @@ class _App extends HookWidget {
     final theme = useProvider(sThemePod);
     final storage = useProvider(localStorageServicePod);
 
-    checkInitAppForFBAnalytics(storage, deviceInfo);
+    checkInitAppFBAnalytics(storage, deviceInfo);
 
     return CupertinoApp(
       restorationScopeId: 'app',
@@ -156,7 +156,7 @@ class _App extends HookWidget {
     );
   }
 
-  Future<void> checkInitAppForFBAnalytics(
+  Future<void> checkInitAppFBAnalytics(
     LocalStorageService storage,
     DeviceInfoModel deviceInfo,
   ) async {
