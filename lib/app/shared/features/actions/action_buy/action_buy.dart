@@ -143,11 +143,12 @@ class _ActionBuy extends HookWidget {
     return Column(
       children: [
         const SpaceH10(),
-        ActionBuySubheader(
-          text: fromCard
-              ? intl.actionBuy_bottomSheetItemTitle1
-              : intl.actionBuy_bottomSheetItemTitle2,
-        ),
+        if (_displayDivider(state.filteredCurrencies, currencies))
+          ActionBuySubheader(
+            text: fromCard
+                ? intl.actionBuy_bottomSheetItemTitle1
+                : intl.actionBuy_bottomSheetItemTitle2,
+          ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
             SMarketItem(
@@ -171,9 +172,13 @@ class _ActionBuy extends HookWidget {
         ],
         if (!fromCard) ...[
           const SpaceH10(),
-          ActionBuySubheader(
-            text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
-          ),
+          if (_displayDividerCurrencyAvailable(
+            state.filteredCurrencies,
+            currencies,
+          ))
+            ActionBuySubheader(
+              text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
+            ),
           for (final currency in state.filteredCurrencies) ...[
             if (!currency.supportsAtLeastOneBuyMethod)
               if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
@@ -199,5 +204,31 @@ class _ActionBuy extends HookWidget {
         ],
       ],
     );
+  }
+
+  bool _displayDivider(
+    List<CurrencyModel> filteredCurrencies,
+    List<CurrencyModel> currencies,
+  ) {
+    for (final currency in filteredCurrencies) {
+      if (currency.supportsAtLeastOneBuyMethod) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool _displayDividerCurrencyAvailable(
+    List<CurrencyModel> filteredCurrencies,
+    List<CurrencyModel> currencies,
+  ) {
+    for (final currency in filteredCurrencies) {
+      if (!currency.supportsAtLeastOneBuyMethod) {
+        if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
