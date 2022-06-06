@@ -25,6 +25,7 @@ const referralInfoMessage = 'referral-info';
 const recurringBuyMessage = 'recurring-buys';
 const earnOffersMessage = 'high-yield-profile';
 const earnProfileMessage = 'EarnProfile';
+const initFinished = 'init-finished';
 
 // KeyValue
 const watchlistKey = 'watchlist';
