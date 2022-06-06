@@ -43,7 +43,7 @@ class PaymentMethods extends HookWidget {
       );
     }
 
-    void onAddCardTap() {
+    void _onAddCardTap() {
       AddCircleCard.push(
         context: context,
         onCardAdded: (_) {
@@ -52,6 +52,20 @@ class PaymentMethods extends HookWidget {
           notifier.getCards();
         },
       );
+    }
+
+    void checkKyc() {
+      final status = kycOperationStatus(KycStatus.allowed);
+      if (kycState.depositStatus == status) {
+        _onAddCardTap();
+      } else {
+        kycHandler.handle(
+          status: kycState.depositStatus,
+          kycVerified: kycState,
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () => _onAddCardTap(),
+        );
+      }
     }
 
     return SPageFrame(
@@ -81,7 +95,7 @@ class PaymentMethods extends HookWidget {
                 const Spacer(),
                 SPaddingH24(
                   child: AddButton(
-                    onTap: onAddCardTap,
+                    onTap: () => checkKyc(),
                   ),
                 ),
                 const SpaceH24(),
@@ -123,19 +137,7 @@ class PaymentMethods extends HookWidget {
                 ),
                 SFloatingButtonFrame(
                   button: AddButton(
-                    onTap: () {
-                      final status = kycOperationStatus(KycStatus.allowed);
-                      if (kycState.depositStatus == status) {
-                        onAddCardTap();
-                      } else {
-                        kycHandler.handle(
-                          status: kycState.depositStatus,
-                          kycVerified: kycState,
-                          isProgress: kycState.verificationInProgress,
-                          currentNavigate: () => onAddCardTap(),
-                        );
-                      }
-                    },
+                    onTap: () => checkKyc(),
                   ),
                 ),
               ],
