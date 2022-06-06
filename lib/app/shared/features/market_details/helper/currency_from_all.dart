@@ -21,6 +21,12 @@ CurrencyModel currencyFromAll(
         apy: Decimal.zero,
         apr: Decimal.zero,
         depositInProcess: Decimal.zero,
+        earnInProcessTotal: Decimal.zero,
+        buysInProcessTotal: Decimal.zero,
+        transfersInProcessTotal: Decimal.zero,
+        earnInProcessCount: 0,
+        buysInProcessCount: 0,
+        transfersInProcessCount: 0,
       );
     },
   );
