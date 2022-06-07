@@ -49,17 +49,13 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                child: Expanded(
-                  child: Baseline(
-                    baseline: 20.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      name,
-                      maxLines: 2,
-                      style: sTextH4Style,
-                    ),
-                  ),
+              Baseline(
+                baseline: 20.0,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  name,
+                  maxLines: 2,
+                  style: sTextH4Style,
                 ),
               ),
               const Spacer(),
