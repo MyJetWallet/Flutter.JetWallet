@@ -32,6 +32,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
       if (state.updateApy) {
         state = state.copyWith(
           updateApy: false,
+          updatingNow: true,
         );
         calculateEarnOfferApy();
       }
@@ -174,6 +175,7 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
         minSubscribeAmount: response.minSubscribeAmount,
         error: false,
         updateApy: false,
+        updatingNow: false,
       );
 
       if (Decimal.parse(state.inputValue) > Decimal.zero) {

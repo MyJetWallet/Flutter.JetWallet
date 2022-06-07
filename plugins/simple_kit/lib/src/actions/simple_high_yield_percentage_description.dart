@@ -69,32 +69,35 @@ class SHighYieldPercentageDescription extends StatelessWidget {
                     tiers: tiers,
                     isHot: hot,
                   ),
-                  if (error) const SpaceW37() else const SpaceW20(),
-                  if (error)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: SColorsLight().grey5,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const LoaderSpinner(
-                        size: 32,
-                      ),
-                    )
-                  else
-                    Baseline(
-                      baseline: 27,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        apy,
-                        style: sTextH2Style.copyWith(
-                          color: textColor,
+                  const SpaceW20(),
+                  Stack(
+                    children: [
+                      if (error)
+                        Container(
+                          decoration: BoxDecoration(
+                            color: SColorsLight().grey5,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const LoaderSpinner(
+                            size: 32,
+                          ),
+                        ),
+                      Baseline(
+                        baseline: 27,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Opacity(
+                          opacity: error ? 0 : 1,
+                          child: Text(
+                            apy,
+                            style: sTextH2Style.copyWith(
+                              color: textColor,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  if (error)
-                    const SpaceW27() // + 1 px border
-                  else
-                    const SpaceW19(), // + 1 px border
+                    ],
+                  ),
+                  const SpaceW19(), // + 1 px border
                 ],
               ),
               // + 1 px border

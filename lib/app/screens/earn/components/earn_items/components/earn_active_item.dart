@@ -133,7 +133,7 @@ class EarnActiveItem extends HookWidget {
                             ? colors.yellowDarkLight.withOpacity(0.1)
                             : colors.greenDarkLight.withOpacity(0.1),
                       ),
-                      width: processWidth,
+                      width: processWidth > 20 ? processWidth : 20,
                     ),
                   ],
                   Padding(
