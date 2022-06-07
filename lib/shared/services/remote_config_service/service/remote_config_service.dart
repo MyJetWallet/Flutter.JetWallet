@@ -22,7 +22,7 @@ class RemoteConfigService {
 
   static final _service = RemoteConfigService._internal();
 
-  final _config = RemoteConfig.instance;
+  final _config = FirebaseRemoteConfig.instance;
 
   Future<void> fetchAndActivate() async {
     await _config.setConfigSettings(
