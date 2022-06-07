@@ -130,7 +130,7 @@ class Account extends HookWidget {
                             },
                           ),
                           SimpleAccountCategoryButton(
-                            title: 'Payment methods',
+                            title: intl.account_paymentMethods,
                             icon: SActionDepositIcon(
                               color: colors.black,
                             ),
