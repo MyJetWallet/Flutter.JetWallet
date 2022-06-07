@@ -31,9 +31,32 @@ class AppInit extends HookWidget {
       data: (_) {
         return router.state.when(
           authorized: () {
-            final isAppLoaded = useProvider(initFinishedSpod);
+            //final isAppLoaded = useProvider(initFinishedSpod);
 
-            return isAppLoaded.maybeWhen(
+            return startup.authorized.when(
+              loading: () => const SplashScreen(),
+              emailVerification: () => const EmailVerification(),
+              twoFaVerification: () {
+                return const TwoFaPhone(
+                  trigger: TwoFaPhoneTriggerUnion.startup(),
+                );
+              },
+              pinSetup: () {
+                return const PinScreen(
+                  union: Setup(),
+                  cannotLeave: true,
+                );
+              },
+              pinVerification: () {
+                return const PinScreen(
+                  union: Verification(),
+                  cannotLeave: true,
+                );
+              },
+              home: () => Navigation(),
+            );
+
+            /* return isAppLoaded.maybeWhen(
               data: (value) {
                 if (value) {
                   return startup.authorized.when(
@@ -64,6 +87,7 @@ class AppInit extends HookWidget {
               },
               orElse: () => const SplashScreen(),
             );
+            */
           },
           unauthorized: () => const OnboardingScreen(),
         );
