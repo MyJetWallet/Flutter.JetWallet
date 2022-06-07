@@ -14,6 +14,7 @@ import '../../../../../models/currency_model.dart';
 import '../../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../../actions/action_deposit/components/deposit_options.dart';
 import '../../../../actions/action_send/components/send_options.dart';
+import '../../../../actions/action_send/components/show_send_timer_alert_or.dart';
 import '../../../../actions/action_withdraw/components/withdraw_options.dart';
 import '../../../../convert/view/convert.dart';
 import '../../../../crypto_deposit/view/crypto_deposit.dart';
@@ -648,9 +649,13 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                showSendOptions(
-                                  context,
-                                  widget.currency,
+                                Navigator.pop(context);
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => showSendOptions(
+                                    context,
+                                    widget.currency,
+                                  ),
                                 );
                               } else {
                                 defineKycVerificationsScope(
@@ -662,10 +667,16 @@ class _ActionButtonState extends State<ActionButton> {
                                   status: kycState.sellStatus,
                                   kycVerified: kycState,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () => showSendOptions(
-                                    context,
-                                    widget.currency,
-                                  ),
+                                  currentNavigate: () {
+                                    Navigator.pop(context);
+                                    showSendTimerAlertOr(
+                                      context: context,
+                                      or: () => showSendOptions(
+                                        context,
+                                        widget.currency,
+                                      ),
+                                    );
+                                  },
                                 );
                               }
                             },
