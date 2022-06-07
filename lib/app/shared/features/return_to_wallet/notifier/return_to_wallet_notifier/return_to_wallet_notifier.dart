@@ -4,10 +4,10 @@ import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../../../shared/logging/levels.dart';
-import '../../../../../../service/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
-import '../../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
@@ -55,7 +55,11 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     final model = CalculateEarnOfferApyRequestModel(
       offerId: input.earnOffer.offerId,
       assetSymbol: state.baseCurrency?.symbol ?? 'USD',
-      amount: Decimal.parse(state.inputValue),
+      amount: Decimal.parse(
+          state.inputValue == '0'
+              ? '0.0000000001'
+              : state.inputValue,
+      ),
     );
 
     try {

@@ -137,19 +137,29 @@ class PhoneVerification extends HookWidget {
                 onTap: () => Navigator.pop(context),
               ),
             const SpaceH18(),
-            PinCodeField(
-              focusNode: focusNode,
-              length: codeLength,
-              controller: phone.controller,
-              autoFocus: true,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              onCompleted: (_) => phoneN.verifyCode(),
-              onChanged: (_) {
-                phone.pinFieldError!.disableError();
+            GestureDetector(
+              onLongPress: () => phoneN.pasteCode(),
+              onDoubleTap: () => phoneN.pasteCode(),
+              onTap: () {
+                if (!focusNode.hasFocus) {
+                  focusNode.requestFocus();
+                }
               },
-              pinError: phone.pinFieldError!,
+              child: AbsorbPointer(
+                child: PinCodeField(
+                  focusNode: focusNode,
+                  length: codeLength,
+                  controller: phone.controller,
+                  autoFocus: true,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  onCompleted: (_) => phoneN.verifyCode(),
+                  onChanged: (_) {
+                    phone.pinFieldError!.disableError();
+                  },
+                  pinError: phone.pinFieldError!,
+                ),
+              ),
             ),
-
             /// TODO update legacy resend
             if (timer > 0 && !phone.showResend)
               ResendInText(

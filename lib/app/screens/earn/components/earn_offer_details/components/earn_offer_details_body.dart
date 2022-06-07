@@ -1,10 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
-import '../../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/features/market_details/helper/currency_from.dart';
 import '../../../../../shared/features/wallet/helper/format_date_to_hm.dart';
@@ -47,9 +48,9 @@ class EarnOfferDetailsBody extends HookWidget {
         ).toList();
 
     Decimal convertBaseRateToCurrency () {
-      final converted = '${earnOffer.totalEarned /
-          currentCurrency.currentPrice}';
-      return Decimal.parse(converted);
+      final converted = double.parse('${earnOffer.totalEarned}') /
+          double.parse('${currentCurrency.currentPrice}');
+      return Decimal.parse('$converted');
     }
 
     return SPaddingH24(
@@ -58,13 +59,25 @@ class EarnOfferDetailsBody extends HookWidget {
           const SpaceH42(),
           Column(
             children: [
-              Text(
+              AutoSizeText(
                 volumeFormat(
                   decimal: earnOffer.amount,
                   accuracy: currentCurrency.accuracy,
                   symbol: currentCurrency.symbol,
                 ),
-                style: sTextH1Style.copyWith(
+                textAlign: TextAlign.center,
+                minFontSize: 4.0,
+                maxLines: 1,
+                strutStyle: const StrutStyle(
+                  height: 1.20,
+                  fontSize: 40.0,
+                  fontFamily: 'Gilroy',
+                ),
+                style: TextStyle(
+                  height: 1.20,
+                  fontSize: 40.0,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w600,
                   color: colors.black,
                 ),
               ),
@@ -125,6 +138,8 @@ class EarnOfferDetailsBody extends HookWidget {
                           tiers: tiers,
                           colors: colors,
                           isHot: isHot,
+                          title: intl.earn_buy_annual_calculation_plan,
+                          subtitle: intl.earn_buy_annual_percentage_yield,
                         );
                       },
                       child: SInfoIcon(

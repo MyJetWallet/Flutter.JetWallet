@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../../service/services/signal_r/model/earn_profile_model.dart';
+import 'package:simple_networking/services/signal_r/model/earn_profile_model.dart';
 
 part 'earn_profile_state.freezed.dart';
 

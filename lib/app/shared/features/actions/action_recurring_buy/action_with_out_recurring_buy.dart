@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import 'components/without_recurring_buy_item.dart';
@@ -48,6 +49,7 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
         SPaddingH24(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Baseline(
                 baseline: 20.0,
@@ -58,7 +60,6 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
                   style: sTextH4Style,
                 ),
               ),
-              const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: const SErasePressedIcon(),
@@ -155,7 +156,6 @@ class _ActionRecurringBuy extends HookWidget {
                 onItemTap(RecurringBuysType.monthly);
               },
             ),
-            const SpaceH40(),
           ],
         ),
       ],

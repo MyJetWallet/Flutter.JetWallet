@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
-
-enum RecurringBuysStatus {
-  @JsonValue(0)
-  active,
-  @JsonValue(1)
-  paused,
-  @JsonValue(2)
-  deleted,
-  empty,
-}
 
 String recurringBuysStatusName(
   RecurringBuysStatus status,

@@ -30,6 +30,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                   profileNotifications: 100,
                   selectedIndex: 0,
                   actionActive: false,
+                  earnEnabled: true,
                   onActionTap: () {},
                   onChanged: (value) {},
                 ),
@@ -168,6 +169,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
             profileNotifications: 100,
             selectedIndex: selectedIndex.value,
             actionActive: actionActive.value,
+            earnEnabled: true,
             onActionTap: () {
               actionActive.value = !actionActive.value;
             },

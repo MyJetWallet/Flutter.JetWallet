@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
-import '../../../../../service/services/signal_r/model/earn_offers_model.dart';
 import '../../../../shared/models/currency_model.dart';
 import 'components/earn_subscription_pinned.dart';
 import 'components/subscriptions_item.dart';

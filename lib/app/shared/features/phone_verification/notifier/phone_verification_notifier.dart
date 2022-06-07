@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
-import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../../../shared/helpers/decompose_phone_number.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -92,6 +93,22 @@ class PhoneVerificationNotifier extends StateNotifier<PhoneVerificationState> {
     );
 
     state.loader!.finishLoading();
+  }
+
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pasteCode');
+
+    final data = await Clipboard.getData('text/plain');
+    final code = data?.text?.trim() ?? '';
+
+    if (code.length == 4) {
+      try {
+        int.parse(code);
+        state.controller.text = code;
+      } catch (e) {
+        return;
+      }
+    }
   }
 
   Future<void> _requestTemplate({

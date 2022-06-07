@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_networking/services/key_value/model/key_value_request_model.dart';
+import 'package:simple_networking/services/key_value/model/key_value_response_model.dart';
 
-import '../../../../../service/services/key_value/model/key_value_request_model.dart';
-import '../../../../../service/services/key_value/model/key_value_response_model.dart';
-import '../../../../../service/shared/constants.dart';
+import '../../../../../shared/constants.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../shared/features/key_value/notifier/key_value_notipod.dart';
 

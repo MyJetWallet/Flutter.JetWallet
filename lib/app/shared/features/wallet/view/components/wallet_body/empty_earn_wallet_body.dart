@@ -90,7 +90,8 @@ class EmptyEarnWalletBody extends HookWidget {
         ),
         const SpaceH13(),
         Text(
-          intl.emptyEarnWalletBody_text,
+          '${intl.emptyEarnWalletBody_investIn} $assetName'
+              ' ${intl.emptyEarnWalletBody_startEarningDaily}',
           textAlign: TextAlign.center,
           maxLines: 2,
           style: sBodyText1Style.copyWith(

@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/authentication/model/forgot_password/forgot_password_request_model.dart';
 
-import '../../../../../service/services/authentication/model/forgot_password/forgot_password_request_model.dart';
 import '../../../../../shared/helpers/device_type.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -58,6 +59,22 @@ class ConfirmPasswordResetNotifier
       read(sNotificationNotipod.notifier).showError(
         '${intl.confirmPasswordReset_failedToResend}!',
       );
+    }
+  }
+
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pasteCode');
+
+    final data = await Clipboard.getData('text/plain');
+    final code = data?.text?.trim() ?? '';
+
+    if (code.length == 6) {
+      try {
+        int.parse(code);
+        state.controller.text = code;
+      } catch (e) {
+        return;
+      }
     }
   }
 

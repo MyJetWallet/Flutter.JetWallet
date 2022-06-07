@@ -7,10 +7,10 @@ import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/referral_code_service/model/validate_referral_code_request_model.dart';
 
 import '../../../../app/shared/features/currency_withdraw/notifier/withdrawal_address_notifier/withdrawal_address_notifier.dart';
 import '../../../../app/shared/features/kyc/view/components/allow_camera/allow_camera.dart';
-import '../../../../service/services/referral_code_service/model/validate_referral_code_request_model.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
@@ -37,7 +37,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
   Future<void> _init() async {
     final storage = read(localStorageServicePod);
-    final referralCode = await storage.getString(referralCodeKey);
+    final referralCode = await storage.getValue(referralCodeKey);
 
     if (referralCode != null) {
       state = state.copyWith(
@@ -250,7 +250,7 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
   Future<CameraStatus> _checkCameraStatusAction() async {
     final storage = read(localStorageServicePod);
-    final storageStatus = await storage.getString(cameraStatusKey);
+    final storageStatus = await storage.getValue(cameraStatusKey);
     final permissionStatus = await Permission.camera.request();
 
     if (permissionStatus == PermissionStatus.denied ||

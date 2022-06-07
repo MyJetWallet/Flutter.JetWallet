@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
+import 'package:simple_networking/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_enable/two_fa_enable_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_verification/two_fa_verification_request_model.dart';
+import 'package:simple_networking/services/two_fa/model/two_fa_verify/two_fa_verify_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../router/notifier/startup_notifier/startup_notipod.dart';
-import '../../../../../service/services/phone_verification/model/phone_verification/phone_verification_request_model.dart';
-import '../../../../../service/services/phone_verification/model/phone_verification_verify/phone_verification_verify_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_disable/two_fa_disable_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_enable/two_fa_enable_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_verification/two_fa_verification_request_model.dart';
-import '../../../../../service/services/two_fa/model/two_fa_verify/two_fa_verify_request_model.dart';
-import '../../../../../service/shared/models/server_reject_exception.dart';
 import '../../../helpers/decompose_phone_number.dart';
 import '../../../helpers/device_type.dart';
 import '../../../logging/levels.dart';
@@ -85,6 +86,22 @@ class TwoFaPhoneNotifier extends StateNotifier<TwoFaPhoneState> {
       await _sendTwoFaVerificationCode();
     } else {
       await _sendPhoneVerificationCode();
+    }
+  }
+
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pasteCode');
+
+    final data = await Clipboard.getData('text/plain');
+    final code = data?.text?.trim() ?? '';
+
+    if (code.length == 4) {
+      try {
+        int.parse(code);
+        state.controller.text = code;
+      } catch (e) {
+        return;
+      }
     }
   }
 

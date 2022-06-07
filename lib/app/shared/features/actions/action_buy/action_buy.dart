@@ -4,18 +4,19 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/is_buy_with_currency_available_for.dart';
+import '../../../helpers/supports_recurring_buy.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
 import '../../currency_buy/view/curency_buy.dart';
 import '../../kyc/model/kyc_operation_status_model.dart';
 import '../../kyc/notifier/kyc/kyc_notipod.dart';
-import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
@@ -143,37 +144,43 @@ class _ActionBuy extends HookWidget {
     return Column(
       children: [
         const SpaceH10(),
-        ActionBuySubheader(
-          text: fromCard
-              ? intl.actionBuy_bottomSheetItemTitle1
-              : intl.actionBuy_bottomSheetItemTitle2,
-        ),
+        if (_displayDivider(state.filteredCurrencies, currencies))
+          ActionBuySubheader(
+            text: fromCard
+                ? intl.actionBuy_bottomSheetItemTitle1
+                : intl.actionBuy_bottomSheetItemTitle2,
+          ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
-            SMarketItem(
-              icon: SNetworkSvg24(
-                url: currency.iconUrl,
+            if (supportsRecurringBuy(currency.symbol, currencies))
+              SMarketItem(
+                icon: SNetworkSvg24(
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: baseCurrency.symbol == currency.symbol
+                      ? Decimal.one
+                      : currency.currentPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                ticker: currency.symbol,
+                last: currency == state.buyFromCardCurrencies.last,
+                percent: currency.dayPercentChange,
+                onTap: () => _onItemTap(currency, fromCard),
               ),
-              name: currency.description,
-              price: marketFormat(
-                prefix: baseCurrency.prefix,
-                decimal: baseCurrency.symbol == currency.symbol
-                    ? Decimal.one
-                    : currency.currentPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              ticker: currency.symbol,
-              last: currency == state.buyFromCardCurrencies.last,
-              percent: currency.dayPercentChange,
-              onTap: () => _onItemTap(currency, true),
-            ),
         ],
         if (!fromCard) ...[
           const SpaceH10(),
-          ActionBuySubheader(
-            text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
-          ),
+          if (_displayDividerCurrencyAvailable(
+            state.filteredCurrencies,
+            currencies,
+          ))
+            ActionBuySubheader(
+              text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
+            ),
           for (final currency in state.filteredCurrencies) ...[
             if (!currency.supportsAtLeastOneBuyMethod)
               if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
@@ -199,5 +206,31 @@ class _ActionBuy extends HookWidget {
         ],
       ],
     );
+  }
+
+  bool _displayDivider(
+    List<CurrencyModel> filteredCurrencies,
+    List<CurrencyModel> currencies,
+  ) {
+    for (final currency in filteredCurrencies) {
+      if (currency.supportsAtLeastOneBuyMethod) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool _displayDividerCurrencyAvailable(
+    List<CurrencyModel> filteredCurrencies,
+    List<CurrencyModel> currencies,
+  ) {
+    for (final currency in filteredCurrencies) {
+      if (!currency.supportsAtLeastOneBuyMethod) {
+        if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

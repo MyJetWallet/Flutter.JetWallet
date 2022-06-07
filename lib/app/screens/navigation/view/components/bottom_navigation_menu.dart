@@ -15,6 +15,7 @@ import '../../../../shared/features/actions/action_sell/action_sell.dart';
 import '../../../../shared/features/actions/action_send/action_send.dart';
 import '../../../../shared/features/actions/action_withdraw/action_withdraw.dart';
 import '../../../../shared/features/convert/view/convert.dart';
+import '../../../../shared/features/earn/notifier/earn_profile_notipod.dart';
 import '../../../../shared/features/kyc/helper/kyc_alert_handler.dart';
 import '../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../../../shared/features/kyc/model/kyc_verified_model.dart';
@@ -42,6 +43,8 @@ class BottomNavigationMenu extends HookWidget {
     final userInfo = useProvider(userInfoNotipod);
     final kycState = useProvider(kycNotipod);
     final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
+    final earnProfile = useProvider(earnProfileNotipod);
+
     useProvider(kycCountriesNotipod);
     final openBottomMenu = useProvider(openBottomMenuSpod);
 
@@ -72,6 +75,7 @@ class BottomNavigationMenu extends HookWidget {
       ),
       selectedIndex: navigation.state,
       actionActive: actionActive.value,
+      earnEnabled: earnProfile.earnProfile?.earnEnabled ?? false,
       animationController: transitionAnimationController,
       onActionTap: () {
         _openBottomMenu(

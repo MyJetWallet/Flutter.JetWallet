@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/operation_history/model/operation_history_response_model.dart';
 
-import '../../../../../../../../../../../service/services/operation_history/model/operation_history_response_model.dart';
 import '../../../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
@@ -66,14 +66,25 @@ class EarningWithdrawalDetails extends HookWidget {
           ),
           const SpaceH14(),
           TransactionDetailsItem(
-            text: intl.earn_total_balance,
+            text: intl.earn_remaining_balance,
             value: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TransactionDetailsValueText(
                   text: volumeFormat(
-                    decimal: transactionListItem.earnInfo?.totalBalance
-                        ?? Decimal.zero,
+                    decimal: transactionListItem.earnInfo != null &&
+                        transactionListItem.earnInfo!.totalBalance !=
+                            Decimal.zero &&
+                        currentCurrency.currentPrice != Decimal.zero
+                        ? Decimal.parse('${transactionListItem
+                            .earnInfo
+                            !.totalBalance
+                            .toDouble() / currentCurrency
+                              .currentPrice
+                              .toDouble()
+                            }',
+                          )
+                        : Decimal.zero,
                     accuracy: currentCurrency.accuracy,
                     symbol: currentCurrency.symbol,
                   ),
@@ -82,10 +93,8 @@ class EarningWithdrawalDetails extends HookWidget {
                   Text(
                     volumeFormat(
                       prefix: baseCurrency.prefix,
-                      decimal: transactionListItem.earnInfo != null
-                          ? (transactionListItem.earnInfo!.totalBalance *
-                          currentCurrency.currentPrice)
-                          : Decimal.zero,
+                      decimal: transactionListItem.earnInfo?.totalBalance
+                          ?? Decimal.zero,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
                     ),

@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_networking/services/signal_r/model/earn_profile_model.dart';
 
-import '../../../../../service/services/signal_r/model/earn_profile_model.dart';
 import 'earn_profile_state.dart';
 
 class EarnProfileNotifier extends StateNotifier<EarnProfileState> {

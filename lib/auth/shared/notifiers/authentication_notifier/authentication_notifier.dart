@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/services/authentication/model/authenticate/authentication_response_model.dart';
+import 'package:simple_networking/services/authentication/model/authenticate/login_request_model.dart';
+import 'package:simple_networking/services/authentication/model/authenticate/register_request_model.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../../service/services/authentication/model/authenticate/login_request_model.dart';
-import '../../../../../service/services/authentication/model/authenticate/register_request_model.dart';
-import '../../../../../service/shared/constants.dart';
 import '../../../../../shared/helpers/current_platform.dart';
 import '../../../../../shared/logging/levels.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
-import '../../../../service/services/authentication/model/authenticate/authentication_response_model.dart';
-import '../../../../service/shared/models/server_reject_exception.dart';
+import '../../../../shared/constants.dart';
 import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
@@ -49,7 +49,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     try {
       state = const Loading();
 
-      final referralCode = await storageService.getString(referralCodeKey);
+      final referralCode = await storageService.getValue(referralCodeKey);
 
       rsaService.init();
       await rsaService.savePrivateKey(storageService);

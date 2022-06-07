@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
-
-import '../../../../../../service/services/signal_r/model/earn_offers_model.dart';
+import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
 class EarnItemProgress extends HookWidget {
   const EarnItemProgress({
@@ -16,7 +15,9 @@ class EarnItemProgress extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final width = (offer.amount.toDouble() / offer.maxAmount.toDouble()) * 24;
+    final width = (
+        offer.amountBaseAsset.toDouble() / offer.maxAmount.toDouble()
+    ) * 24;
 
     return Stack(
       children: [
