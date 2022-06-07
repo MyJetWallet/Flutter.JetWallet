@@ -106,6 +106,8 @@ class SignalRService {
   final _earnOfferController = StreamController<List<EarnOfferModel>>();
   final _earnProfileController = StreamController<EarnProfileModel>();
 
+  final _inifFinishedController = StreamController<bool>();
+
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
   /// recevies only prices that changed, this results in overriding prices
@@ -127,6 +129,14 @@ class SignalRService {
     _connection = HubConnectionBuilder()
         .withUrl(walletApiSignalR, HttpConnectionOptions(client: httpClient))
         .build();
+
+    _connection?.on(initFinished, (data) {
+      try {
+        _inifFinishedController.add(true);
+      } catch (e) {
+        _logger.log(contract, initFinished, e);
+      }
+    });
 
     _connection?.on(earnProfileMessage, (data) {
       try {
@@ -413,6 +423,8 @@ class SignalRService {
   Stream<List<EarnOfferModel>> earnOffers() => _earnOfferController.stream;
 
   Stream<EarnProfileModel> earnProfile() => _earnProfileController.stream;
+
+  Stream<bool> isAppLoaded() => _inifFinishedController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(
