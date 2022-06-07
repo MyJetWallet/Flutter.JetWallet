@@ -23,6 +23,8 @@ class EarnActiveHeader extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
 
     var checkSizeOfText = sTextH1Style;
+    var checkSizeOfSmallText = sSubtitle2Style;
+
     final lengthForCheck = volumeFormat(
       prefix: baseCurrency.prefix,
       decimal: earnProfile
@@ -31,7 +33,38 @@ class EarnActiveHeader extends HookWidget {
           Decimal.zero,
       symbol: baseCurrency.symbol,
       accuracy: baseCurrency.accuracy,
+      onlyFullPart: (earnProfile
+          .earnProfile
+          ?.earnBalance ??
+          Decimal.zero) > 10000.toDecimal(),
     ).length;
+
+    final lengthForSmallCheck = '${volumeFormat(
+      prefix: baseCurrency.prefix,
+      decimal: earnProfile
+          .earnProfile
+          ?.dayEarnProfit ??
+          Decimal.zero,
+      symbol: baseCurrency.symbol,
+      accuracy: baseCurrency.accuracy,
+      onlyFullPart: (earnProfile
+          .earnProfile
+          ?.dayEarnProfit ??
+          Decimal.zero) > 10000.toDecimal(),
+    )
+    } (${volumeFormat(
+      prefix: baseCurrency.prefix,
+      decimal: earnProfile
+          .earnProfile
+          ?.yearEarnProfit ??
+          Decimal.zero,
+      symbol: baseCurrency.symbol,
+      accuracy: baseCurrency.accuracy,
+      onlyFullPart: (earnProfile
+          .earnProfile
+          ?.yearEarnProfit ??
+          Decimal.zero) > 10000.toDecimal(),
+    )})'.length;
 
     if (lengthForCheck > 15) {
       checkSizeOfText = sTextH4Style;
@@ -39,6 +72,12 @@ class EarnActiveHeader extends HookWidget {
       checkSizeOfText = sTextH3Style;
     } else if (lengthForCheck > 9) {
       checkSizeOfText = sTextH2Style;
+    }
+
+    if (lengthForSmallCheck > 24) {
+      checkSizeOfSmallText = sOverlineTextStyle;
+    } else if (lengthForSmallCheck > 18) {
+      checkSizeOfSmallText = sSubtitle3Style;
     }
 
     return SizedBox(
@@ -57,7 +96,7 @@ class EarnActiveHeader extends HookWidget {
                 Table(
                   columnWidths: const {
                     0: FlexColumnWidth(),
-                    1: FixedColumnWidth(140),
+                    1: FixedColumnWidth(146),
                   },
                   children: [
                     TableRow(
@@ -75,6 +114,10 @@ class EarnActiveHeader extends HookWidget {
                                       Decimal.zero,
                                   symbol: baseCurrency.symbol,
                                   accuracy: baseCurrency.accuracy,
+                                  onlyFullPart: (earnProfile
+                                      .earnProfile
+                                      ?.earnBalance ??
+                                      Decimal.zero) > 10000.toDecimal(),
                                 ),
                                 style: checkSizeOfText.copyWith(
                                   color: colors.black,
@@ -134,6 +177,10 @@ class EarnActiveHeader extends HookWidget {
                                       Decimal.zero,
                                   symbol: baseCurrency.symbol,
                                   accuracy: baseCurrency.accuracy,
+                                  onlyFullPart: (earnProfile
+                                      .earnProfile
+                                      ?.dayEarnProfit ??
+                                      Decimal.zero) > 10000.toDecimal(),
                                 )
                                 } (${volumeFormat(
                                   prefix: baseCurrency.prefix,
@@ -143,8 +190,12 @@ class EarnActiveHeader extends HookWidget {
                                       Decimal.zero,
                                   symbol: baseCurrency.symbol,
                                   accuracy: baseCurrency.accuracy,
+                                  onlyFullPart: (earnProfile
+                                      .earnProfile
+                                      ?.yearEarnProfit ??
+                                      Decimal.zero) > 10000.toDecimal(),
                                 )})',
-                                style: sSubtitle2Style.copyWith(
+                                style: checkSizeOfSmallText.copyWith(
                                   color: colors.black,
                                 ),
                               ),
@@ -174,7 +225,7 @@ class EarnActiveHeader extends HookWidget {
                                       symbol: baseCurrency.symbol,
                                       accuracy: baseCurrency.accuracy,
                                     ),
-                                    style: sSubtitle2Style.copyWith(
+                                    style: checkSizeOfSmallText.copyWith(
                                       color: colors.green,
                                     ),
                                   ),

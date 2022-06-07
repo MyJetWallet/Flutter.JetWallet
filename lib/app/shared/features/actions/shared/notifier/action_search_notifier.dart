@@ -1,7 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
-import '../../../../helpers/supports_recurring_buy.dart';
 import '../../../../models/currency_model.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import 'action_search_state.dart';
@@ -40,17 +39,9 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
       }
     }
 
-    final fCurr = <CurrencyModel>[];
-
-    for (final currency in currencies) {
-      if (supportsRecurringBuy(currency.symbol, currencies)) {
-        fCurr.add(currency);
-      }
-    }
-
     state = state.copyWith(
-      currencies: fCurr,
-      filteredCurrencies: fCurr,
+      currencies: currencies,
+      filteredCurrencies: currencies,
       buyFromCardCurrencies: buyFromCardCurrencies,
       receiveCurrencies: receiveCurrencies,
       sendCurrencies: sendCurrencies,
@@ -58,8 +49,9 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
   }
 
   void search(String value) {
-    if (value.isNotEmpty && state.filteredCurrencies.isNotEmpty) {
+    if (value.isNotEmpty && state.currencies.isNotEmpty) {
       final search = value.toLowerCase();
+      final buyFromCardCurrencies = <CurrencyModel>[];
 
       final currencies = List<CurrencyModel>.from(state.currencies);
 
@@ -68,9 +60,30 @@ class ActionSearchNotifier extends StateNotifier<ActionSearchState> {
             !(element.symbol.toLowerCase()).startsWith(search);
       });
 
-      state = state.copyWith(filteredCurrencies: currencies);
-    } else {
-      state = state.copyWith(filteredCurrencies: state.currencies);
+      for (final element in currencies) {
+        if (element.supportsAtLeastOneBuyMethod) {
+          buyFromCardCurrencies.add(element);
+        }
+      }
+
+      state = state.copyWith(
+        filteredCurrencies: currencies,
+        buyFromCardCurrencies: buyFromCardCurrencies,
+      );
+    } else if (value.isEmpty) {
+      final currencies = List<CurrencyModel>.from(state.currencies);
+      final buyFromCardCurrencies = <CurrencyModel>[];
+
+      for (final element in currencies) {
+        if (element.supportsAtLeastOneBuyMethod) {
+          buyFromCardCurrencies.add(element);
+        }
+      }
+
+      state = state.copyWith(
+        filteredCurrencies: currencies,
+        buyFromCardCurrencies: buyFromCardCurrencies,
+      );
     }
   }
 }

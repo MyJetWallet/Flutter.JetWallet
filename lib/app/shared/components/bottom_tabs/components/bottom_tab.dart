@@ -31,7 +31,7 @@ class BottomTab extends HookWidget {
           Radius.circular(24),
         ),
         border: Border.all(
-          color: colors.black.withOpacity(0.3),
+          color: colors.grey2.withOpacity(0.4),
         ),
       ),
       child: Text(text),

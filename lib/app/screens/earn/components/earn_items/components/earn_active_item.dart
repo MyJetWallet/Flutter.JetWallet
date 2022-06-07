@@ -27,7 +27,13 @@ class EarnActiveItem extends HookWidget {
     final earnOffers = useProvider(earnOffersPod);
     final intl = useProvider(intlPod);
 
-    earnOffers.sort((a, b) => b.currentApy.compareTo(a.currentApy));
+    earnOffers.sort((a, b) {
+      final compare = b.currentApy.compareTo(a.currentApy);
+      final aCurrency = currencyFrom(currencies, a.asset);
+      final bCurrency = currencyFrom(currencies, b.asset);
+      if (compare != 0) return compare;
+      return bCurrency.weight.compareTo(aCurrency.weight);
+    });
 
     final currentCurrency = currencyFrom(currencies, earnOffer.asset);
 
@@ -53,6 +59,8 @@ class EarnActiveItem extends HookWidget {
     }
 
     final isWidthDifferenceSmall = (currentWidth - processWidth) < 16;
+    final showProgress = (earnOffer.amountBaseAsset.toDouble() /
+        earnOffer.maxAmount.toDouble()) >= 0.3;
 
     Color getColorByTiers() {
       if (earnOffer.offerTag == 'Hot') {
@@ -135,52 +143,59 @@ class EarnActiveItem extends HookWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                SNetworkSvg24(
-                                  url: currentCurrency.iconUrl,
-                                ),
-                                const SpaceW10(),
-                                Text(
-                                  '${currentCurrency.description} '
-                                      '${earnOffer.offerTag == 'Hot'
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SNetworkSvg24(
+                                    url: currentCurrency.iconUrl,
+                                  ),
+                                  const SpaceW10(),
+                                  Expanded(
+                                    child: Text(
+                                      '${currentCurrency.description} '
+                                          '${earnOffer.offerTag == 'Hot'
                                           ? intl.earn_hot
                                           : intl.earn_flexible}',
-                                  style: sSubtitle2Style.copyWith(
-                                    color: colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.zero,
-                              child: Row(
-                                children: [
-                                  if (earnOffer.offerTag == 'Hot') ...[
-                                    EarnItemProgress(offer: earnOffer),
-                                    const SpaceW10(),
-                                  ] else ...[
-                                    const SpaceW34(),
-                                  ],
-                                  Text(
-                                    volumeFormat(
-                                      decimal: earnOffer.amount,
-                                      accuracy: currentCurrency.accuracy,
-                                      symbol: currentCurrency.symbol,
-                                    ),
-                                    style: sBodyText2Style.copyWith(
-                                      color: colors.grey1,
+                                      style: sSubtitle2Style.copyWith(
+                                        color: colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: EdgeInsets.zero,
+                                child: Row(
+                                  children: [
+                                    if (earnOffer.offerTag == 'Hot'
+                                        && showProgress) ...[
+                                      EarnItemProgress(offer: earnOffer),
+                                      const SpaceW10(),
+                                    ] else ...[
+                                      const SpaceW34(),
+                                    ],
+                                    Text(
+                                      volumeFormat(
+                                        decimal: earnOffer.amount,
+                                        accuracy: currentCurrency.accuracy,
+                                        symbol: currentCurrency.symbol,
+                                      ),
+                                      style: sBodyText2Style.copyWith(
+                                        color: colors.grey1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        const SpaceW20(),
                         Text(
                           '${earnOffer.currentApy}%',
                           style: sTextH2Style.copyWith(

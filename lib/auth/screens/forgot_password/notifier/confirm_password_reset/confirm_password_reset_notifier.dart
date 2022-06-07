@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -58,6 +59,22 @@ class ConfirmPasswordResetNotifier
       read(sNotificationNotipod.notifier).showError(
         '${intl.confirmPasswordReset_failedToResend}!',
       );
+    }
+  }
+
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pasteCode');
+
+    final data = await Clipboard.getData('text/plain');
+    final code = data?.text?.trim() ?? '';
+
+    if (code.length == 6) {
+      try {
+        int.parse(code);
+        state.controller.text = code;
+      } catch (e) {
+        return;
+      }
     }
   }
 

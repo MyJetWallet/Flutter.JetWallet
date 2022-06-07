@@ -20,8 +20,6 @@ class BalancesModel with _$BalancesModel {
 class BalanceModel with _$BalanceModel {
   const factory BalanceModel({
     required String assetId,
-    required double reserve,
-    required double sequenceId,
     @DecimalSerialiser() required Decimal balance,
     required String lastUpdate,
     @DecimalSerialiser() required Decimal totalEarnAmount,

@@ -59,6 +59,7 @@ class PinCodeField extends HookWidget {
       textStyle: sTextH2Style.copyWith(
         color: pinError.value ? colors.red : colors.black,
       ),
+      beforeTextPaste: (_) => false,
       onCompleted: onCompleted,
       onChanged: onChanged, // required field
     );
