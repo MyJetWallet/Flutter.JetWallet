@@ -43,7 +43,7 @@ class CurrencySellState with _$CurrencySellState {
   }
 
   String conversionText() {
-    final base = marketFormat(
+    final base = volumeFormat(
       accuracy: baseCurrency!.accuracy,
       prefix: baseCurrency?.prefix,
       decimal: Decimal.parse(baseConversionValue),
@@ -55,7 +55,7 @@ class CurrencySellState with _$CurrencySellState {
     } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
       return '≈ $base';
     } else {
-      final target = marketFormat(
+      final target = volumeFormat(
         decimal: Decimal.parse(targetConversionValue),
         symbol: selectedCurrency!.symbol,
         prefix: selectedCurrency!.prefixSymbol,
