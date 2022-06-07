@@ -122,8 +122,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   state.baseCurrency!,
                 );
 
-                return SAssetItem(
-                  isCreditCard: true,
+                return SCreditCardItem(
                   isSelected: state.pickedCircleCard?.id == card.id,
                   icon: SActionDepositIcon(
                     color: state.pickedCircleCard?.id == card.id

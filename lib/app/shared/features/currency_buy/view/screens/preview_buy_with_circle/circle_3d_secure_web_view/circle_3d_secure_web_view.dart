@@ -29,7 +29,7 @@ class Circle3dSecureWebView extends HookWidget {
           child: SSmallHeader(
             titleAlign: TextAlign.left,
             icon: const SCloseIcon(),
-            title: 'Webview',
+            title: intl.previewBuyWithCircle_paymentVerification,
             onBackButtonTap: () {
               navigateToRouter(context.read);
             },

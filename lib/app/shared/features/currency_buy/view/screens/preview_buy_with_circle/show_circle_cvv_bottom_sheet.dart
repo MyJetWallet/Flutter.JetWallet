@@ -50,7 +50,7 @@ class CvvBottomSheetBody extends HookWidget {
             color: colors.grey1,
           ),
         ),
-        const SpaceH24(),
+        const SpaceH60(),
         Center(
           child: SizedBox(
             width: 168,
@@ -85,7 +85,7 @@ class CvvBottomSheetBody extends HookWidget {
             ),
           ),
         ),
-        const SpaceH24(),
+        const SpaceH60(),
       ],
     );
   }

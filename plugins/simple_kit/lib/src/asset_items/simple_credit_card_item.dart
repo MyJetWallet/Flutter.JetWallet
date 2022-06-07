@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../simple_kit.dart';
 import '../colors/view/simple_colors_light.dart';
 
-class SAssetItem extends StatelessWidget {
-  const SAssetItem({
+class SCreditCardItem extends StatelessWidget {
+  const SCreditCardItem({
     Key? key,
     this.helper = '',
     this.isSelected = false,
@@ -71,7 +71,7 @@ class SAssetItem extends StatelessWidget {
                               baseline: 18.0,
                               baselineType: TextBaseline.alphabetic,
                               child: SizedBox(
-                                width: 120.0,
+                                width: 90.0,
                                 child: Text(
                                   amount,
                                   textAlign: TextAlign.end,
@@ -87,36 +87,34 @@ class SAssetItem extends StatelessWidget {
                           textBaseline: TextBaseline.alphabetic,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
-                            Expanded(
+                            Baseline(
+                              baseline: 14.0,
+                              baselineType: TextBaseline.alphabetic,
                               child: SizedBox(
-                                child: Baseline(
-                                  baseline: 14.0,
-                                  baselineType: TextBaseline.alphabetic,
-                                  child: Text(
-                                    description,
-                                    style: sCaptionTextStyle.copyWith(
-                                      color: SColorsLight().grey3,
-                                    ),
+                                width: 90.0,
+                                child: Text(
+                                  helper,
+                                  textAlign: TextAlign.start,
+                                  style: sCaptionTextStyle.copyWith(
+                                    color: SColorsLight().grey3,
                                   ),
                                 ),
                               ),
                             ),
                             const SpaceW16(),
-                            if (helper.isEmpty)
-                              Baseline(
-                                baseline: 14.0,
-                                baselineType: TextBaseline.alphabetic,
-                                child: SizedBox(
-                                  width: 90.0,
-                                  child: Text(
-                                    helper,
-                                    textAlign: TextAlign.end,
-                                    style: sCaptionTextStyle.copyWith(
-                                      color: SColorsLight().grey3,
-                                    ),
+                            const Spacer(),
+                            Baseline(
+                              baseline: 14.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Expanded(
+                                child: Text(
+                                  description,
+                                  style: sCaptionTextStyle.copyWith(
+                                    color: SColorsLight().grey3,
                                   ),
                                 ),
                               ),
+                            ),
                           ],
                         ),
                       ],

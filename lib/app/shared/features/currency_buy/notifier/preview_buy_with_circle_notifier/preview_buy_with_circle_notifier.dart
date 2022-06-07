@@ -99,7 +99,8 @@ class PreviewBuyWithCircleNotifier
     if (cvvEnabled) {
       showCircleCvvBottomSheet(
         context: _context,
-        header: 'Enter CVC for \n'
+        header: '${_intl.previewBuyWithCircle_enter} CVV '
+            '${_intl.previewBuyWithCircle_for} \n'
             '${state.card?.network} •••• ${state.card?.last4}',
         onCompleted: (cvv) {
           Navigator.pop(_context);
@@ -217,7 +218,7 @@ class PreviewBuyWithCircleNotifier
     return SuccessScreen.push(
       context: _context,
       secondaryText: '${_intl.buyWithCircle_paymentWillBeProcessed} \n'
-                          ' ≈ 10-30 ${_intl.buyWithCircle_minutes}',
+          ' ≈ 10-30 ${_intl.buyWithCircle_minutes}',
       then: () {
         read(navigationStpod).state = 1;
       },

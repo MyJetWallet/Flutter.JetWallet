@@ -143,11 +143,10 @@ class _ActionBuy extends HookWidget {
     return Column(
       children: [
         const SpaceH10(),
-        ActionBuySubheader(
-          text: fromCard
-              ? intl.actionBuy_bottomSheetItemTitle1
-              : intl.actionBuy_bottomSheetItemTitle2,
-        ),
+        if (!fromCard)
+          ActionBuySubheader(
+            text: intl.actionBuy_bottomSheetItemTitle2,
+          ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
             SMarketItem(
