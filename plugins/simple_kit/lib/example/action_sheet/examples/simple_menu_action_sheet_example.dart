@@ -69,6 +69,7 @@ class _CustomBottomNavigationBar extends HookWidget {
       animationController: transitionAnimationController,
       selectedIndex: 1,
       actionActive: actionActive.value,
+      earnEnabled: true,
       onActionTap: () {
         if (!actionActive.value) {
           sShowMenuActionSheet(

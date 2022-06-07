@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -12,6 +13,8 @@ void showDetailsHowWeCountSheet({
   required List<SimpleTierModel> tiers,
   required SimpleColors colors,
   required bool isHot,
+  required String title,
+  required String subtitle,
 }) {
   final colorTheme = isHot
     ? [colors.orange, colors.brown, colors.darkBrown]
@@ -22,16 +25,29 @@ void showDetailsHowWeCountSheet({
     children: [
       const SpaceH4(),
       Center(
-        child: Text(
-          tiers.length == 1 ? 'Conditions' : 'How we count',
-          // 'Conditions',
-          style: sTextH1Style,
+        child: AutoSizeText(
+          title,
+          textAlign: TextAlign.center,
+          minFontSize: 4.0,
+          maxLines: 1,
+          strutStyle: const StrutStyle(
+            height: 1.20,
+            fontSize: 40.0,
+            fontFamily: 'Gilroy',
+          ),
+          style: TextStyle(
+            height: 1.20,
+            fontSize: 40.0,
+            fontFamily: 'Gilroy',
+            fontWeight: FontWeight.w600,
+            color: colors.black,
+          ),
         ),
       ),
       const SpaceH11(),
       Center(
         child: Text(
-          'Annual percentage yield',
+          subtitle,
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),

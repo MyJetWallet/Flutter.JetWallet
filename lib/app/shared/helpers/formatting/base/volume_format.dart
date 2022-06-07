@@ -24,6 +24,7 @@ String volumeFormat({
   required Decimal decimal,
   required int accuracy,
   required String symbol,
+  bool onlyFullPart = false,
 }) {
   if (accuracy.isNegative) {
     throw ArgumentError(
@@ -31,7 +32,7 @@ String volumeFormat({
     );
   }
   
-  final formatted = _formatNumber(decimal, accuracy);
+  final formatted = _formatNumber(decimal, accuracy, onlyFullPart);
 
   late String formattedWithSymbol;
 
@@ -48,7 +49,7 @@ String volumeFormat({
   }
 }
 
-String _formatNumber(Decimal decimal, int accuracy) {
+String _formatNumber(Decimal decimal, int accuracy, bool onlyFullPart) {
   final absNumber = decimal.abs();
 
   final rounded = absNumber.round(scale: accuracy);
@@ -77,7 +78,7 @@ String _formatNumber(Decimal decimal, int accuracy) {
   final wholePart2 = int.parse(wholePart.toString());
   final wholePart3 = formatter.format(wholePart2).replaceAll(',', ' ');
 
-  if (decimalPart.isEmpty) {
+  if (decimalPart.isEmpty || onlyFullPart) {
     return wholePart3;
   } else {
     return '$wholePart3.${decimalPart.toString()}';

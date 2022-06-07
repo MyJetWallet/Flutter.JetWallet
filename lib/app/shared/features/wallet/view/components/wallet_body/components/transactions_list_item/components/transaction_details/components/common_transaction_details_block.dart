@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -63,9 +64,25 @@ class CommonTransactionDetailsBlock extends HookWidget {
             style: sTextH5Style,
           ),
         const SpaceH67(),
-        Text(
-          '${operationAmount(transactionListItem)} ${currency.symbol}',
-          style: sTextH1Style,
+        SPaddingH24(
+          child: AutoSizeText(
+            '${operationAmount(transactionListItem)} ${currency.symbol}',
+            textAlign: TextAlign.center,
+            minFontSize: 4.0,
+            maxLines: 1,
+            strutStyle: const StrutStyle(
+              height: 1.20,
+              fontSize: 40.0,
+              fontFamily: 'Gilroy',
+            ),
+            style: TextStyle(
+              height: 1.20,
+              fontSize: 40.0,
+              fontFamily: 'Gilroy',
+              fontWeight: FontWeight.w600,
+              color: colors.black,
+            ),
+          ),
         ),
         if (transactionListItem.status == Status.completed)
           Text(
