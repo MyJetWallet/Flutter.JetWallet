@@ -52,13 +52,15 @@ class CurrencyWithdraw extends HookWidget {
                     highlightColor: colors.grey5,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      showNetworkBottomSheet(
-                        context,
-                        state.network,
-                        currency.withdrawalBlockchains,
-                        currency.iconUrl,
-                        notifier.updateNetwork,
-                      );
+                      if (currency.withdrawalBlockchains.length > 1) {
+                        showNetworkBottomSheet(
+                          context,
+                          state.network,
+                          currency.withdrawalBlockchains,
+                          currency.iconUrl,
+                          notifier.updateNetwork,
+                        );
+                      }
                     },
                     child: SPaddingH24(
                       child: SStandardField(
@@ -67,8 +69,9 @@ class CurrencyWithdraw extends HookWidget {
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
-                        suffixIcons: const [
-                          SAngleDownIcon(),
+                        suffixIcons: [
+                          if (currency.withdrawalBlockchains.length > 1)
+                            const SAngleDownIcon()
                         ],
                       ),
                     ),
