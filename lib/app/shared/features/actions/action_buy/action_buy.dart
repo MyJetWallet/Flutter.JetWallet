@@ -206,18 +206,6 @@ class _ActionBuy extends HookWidget {
     );
   }
 
-  bool _displayDivider(
-    List<CurrencyModel> filteredCurrencies,
-    List<CurrencyModel> currencies,
-  ) {
-    for (final currency in filteredCurrencies) {
-      if (currency.supportsAtLeastOneBuyMethod) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   bool _displayDividerCurrencyAvailable(
     List<CurrencyModel> filteredCurrencies,
     List<CurrencyModel> currencies,
