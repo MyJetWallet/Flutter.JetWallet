@@ -141,6 +141,28 @@ class _ActionBuy extends HookWidget {
       }
     }
 
+    Widget marketItem(
+      String iconUrl,
+      String name,
+      String price,
+      String ticker,
+      bool last,
+      double percent,
+      dynamic Function() onTap,
+    ) {
+      return SMarketItem(
+        icon: SNetworkSvg24(
+          url: iconUrl,
+        ),
+        name: name,
+        price: price,
+        ticker: ticker,
+        last: last,
+        percent: percent,
+        onTap: onTap,
+      );
+    }
+
     return Column(
       children: [
         const SpaceH10(),
@@ -152,13 +174,29 @@ class _ActionBuy extends HookWidget {
           ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
-            if (supportsRecurringBuy(currency.symbol, currencies))
-              SMarketItem(
-                icon: SNetworkSvg24(
-                  url: currency.iconUrl,
+            if (showRecurring) ...[
+              if (supportsRecurringBuy(currency.symbol, currencies))
+                marketItem(
+                  currency.iconUrl,
+                  currency.description,
+                  marketFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: baseCurrency.symbol == currency.symbol
+                        ? Decimal.one
+                        : currency.currentPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                  ),
+                  currency.symbol,
+                  currency == state.buyFromCardCurrencies.last,
+                  currency.dayPercentChange,
+                  () => _onItemTap(currency, fromCard),
                 ),
-                name: currency.description,
-                price: marketFormat(
+            ] else ...[
+              marketItem(
+                currency.iconUrl,
+                currency.description,
+                marketFormat(
                   prefix: baseCurrency.prefix,
                   decimal: baseCurrency.symbol == currency.symbol
                       ? Decimal.one
@@ -166,11 +204,12 @@ class _ActionBuy extends HookWidget {
                   symbol: baseCurrency.symbol,
                   accuracy: baseCurrency.accuracy,
                 ),
-                ticker: currency.symbol,
-                last: currency == state.buyFromCardCurrencies.last,
-                percent: currency.dayPercentChange,
-                onTap: () => _onItemTap(currency, fromCard),
+                currency.symbol,
+                currency == state.buyFromCardCurrencies.last,
+                currency.dayPercentChange,
+                () => _onItemTap(currency, fromCard),
               ),
+            ]
         ],
         if (!fromCard) ...[
           const SpaceH10(),
