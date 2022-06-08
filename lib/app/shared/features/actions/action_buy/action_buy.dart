@@ -146,10 +146,10 @@ class _ActionBuy extends HookWidget {
       String name,
       String price,
       String ticker,
-      bool last,
       double percent,
-      dynamic Function() onTap,
-    ) {
+      dynamic Function() onTap, {
+      bool isLast = false,
+    }) {
       return SMarketItem(
         icon: SNetworkSvg24(
           url: iconUrl,
@@ -157,7 +157,7 @@ class _ActionBuy extends HookWidget {
         name: name,
         price: price,
         ticker: ticker,
-        last: last,
+        last: isLast,
         percent: percent,
         onTap: onTap,
       );
@@ -188,9 +188,9 @@ class _ActionBuy extends HookWidget {
                     accuracy: baseCurrency.accuracy,
                   ),
                   currency.symbol,
-                  currency == state.buyFromCardCurrencies.last,
                   currency.dayPercentChange,
                   () => _onItemTap(currency, fromCard),
+                  isLast: currency == state.buyFromCardCurrencies.last,
                 ),
             ] else ...[
               marketItem(
@@ -205,9 +205,9 @@ class _ActionBuy extends HookWidget {
                   accuracy: baseCurrency.accuracy,
                 ),
                 currency.symbol,
-                currency == state.buyFromCardCurrencies.last,
                 currency.dayPercentChange,
                 () => _onItemTap(currency, fromCard),
+                isLast: currency == state.buyFromCardCurrencies.last,
               ),
             ]
         ],
