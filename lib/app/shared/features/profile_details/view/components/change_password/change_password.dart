@@ -47,23 +47,6 @@ class ChangePassword extends HookWidget {
           children: [
             Container(
               color: colors.white,
-              padding: const EdgeInsets.only(bottom: 14.0),
-              child: SPaddingH24(
-                child: Baseline(
-                  baseline: 24.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    '${intl.changePassword_enterCurrentPassword}.',
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
-                      overflow: TextOverflow.visible,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              color: colors.white,
               child: SPaddingH24(
                 child: SStandardFieldObscure(
                   autofillHints: const [AutofillHints.password],
