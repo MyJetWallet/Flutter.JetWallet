@@ -102,15 +102,17 @@ class SCreditCardItem extends StatelessWidget {
                               ),
                             ),
                             const SpaceW16(),
-                            const Spacer(),
-                            Baseline(
-                              baseline: 14.0,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Expanded(
-                                child: Text(
-                                  description,
-                                  style: sCaptionTextStyle.copyWith(
-                                    color: SColorsLight().grey3,
+                            Expanded(
+                              child: Baseline(
+                                baseline: 14.0,
+                                baselineType: TextBaseline.alphabetic,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    description,
+                                    style: sCaptionTextStyle.copyWith(
+                                      color: SColorsLight().grey3,
+                                    ),
                                   ),
                                 ),
                               ),

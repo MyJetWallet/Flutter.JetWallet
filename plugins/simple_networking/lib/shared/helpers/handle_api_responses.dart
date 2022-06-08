@@ -86,12 +86,6 @@ void _validateFullResponse(
       );
     }
   } else if (result != 'OK') {
-    if (localName == 'ru') {
-      throw ServerRejectException(errorCodesDescriptionRu[result] ?? result);
-    } else {
-      throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
-    }
-
     /// @Refactor
     /*
     if (localName == 'ru') {
@@ -100,7 +94,7 @@ void _validateFullResponse(
       throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
     }
     */
-    // throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
+    throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
 }
 
