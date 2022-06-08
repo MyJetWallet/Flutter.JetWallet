@@ -895,5 +895,11 @@
     "earn_details_subscription": "Subscription",
     "earn_details_reason": "Reason",
     "earn_details_subscription_expired": "Subscription expired",
-    "earn_in_progress": "The funds will be credited to the \nwallet during 24 hours"
+    "earn_in_progress": "The funds will be credited to the \nwallet during 24 hours",
+    "earn_terms_title": "Terms & Conditions",
+    "earn_terms_description": "By proceeding to the earn section you agree to terms and conditions set below.",
+    "earn_terms_checkbox": "I have read and agreed to ",
+    "earn_terms_link": "Earn T&C",
+    "earn_terms_continue": "Continue",
+    "earn_terms_cancel": "Cancel"
 }

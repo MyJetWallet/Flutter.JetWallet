@@ -5,12 +5,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
+import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../shared/features/high_yield_buy/view/high_yield_buy.dart';
 import '../../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../../shared/models/currency_model.dart';
+import '../../../../account/components/help_center_web_view.dart';
+import 'earn_terms_checkbox.dart';
 
 class SubscriptionsItem extends HookWidget {
   const SubscriptionsItem({
@@ -34,6 +38,8 @@ class SubscriptionsItem extends HookWidget {
     final handler = context.read(kycAlertHandlerPod(context));
     var apy = Decimal.zero;
 
+    final isCheckedTerms = useState(false);
+
     for (final element in earnOffer.tiers) {
       if (element.apy > apy) {
         apy = element.apy;
@@ -47,6 +53,40 @@ class SubscriptionsItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
+            // sShowAlertPopup(
+            //   context,
+            //   willPopScope: false,
+            //   image: Image.asset(
+            //     disclaimerAsset,
+            //     width: 80,
+            //     height: 80,
+            //   ),
+            //   primaryText:
+            //   intl.earn_terms_title,
+            //   secondaryText: intl.earn_terms_description,
+            //   primaryButtonName: intl.earn_terms_continue,
+            //   onPrimaryButtonTap: () {
+            //     Navigator.pop(context);
+            //   },
+            //   secondaryButtonName: intl.earn_terms_cancel,
+            //   child: EarnTermsCheckbox(
+            //       firstText: intl.earn_terms_checkbox,
+            //       privacyPolicyText: intl.earn_terms_link,
+            //       isChecked: isCheckedTerms.value,
+            //       onCheckboxTap: () => isCheckedTerms.value =
+            //         !isCheckedTerms.value,
+            //       onPrivacyPolicyTap: () {
+            //         HelpCenterWebView.push(
+            //           context: context,
+            //           link: privacyEarnLink,
+            //         );
+            //       },
+            //       colors: colors,
+            //   ),
+            //   onSecondaryButtonTap: () {
+            //     Navigator.pop(context);
+            //   },
+            // );
             if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
               navigatorPushReplacement(
                 context,

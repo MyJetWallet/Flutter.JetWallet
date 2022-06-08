@@ -28,6 +28,8 @@ class HighYieldBuyState with _$HighYieldBuyState {
     Decimal? amount,
     Decimal? apy,
     Decimal? currentApy,
+    Decimal? amountBaseAsset,
+    Decimal? currentBalanceBaseAsset,
     Decimal? currentBalance,
     Decimal? expectedYearlyProfit,
     Decimal? expectedYearlyProfitBaseAsset,
