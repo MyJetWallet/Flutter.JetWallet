@@ -144,11 +144,9 @@ class _ActionBuy extends HookWidget {
     return Column(
       children: [
         const SpaceH10(),
-        if (_displayDivider(state.filteredCurrencies, currencies))
+        if (!fromCard)
           ActionBuySubheader(
-            text: fromCard
-                ? intl.actionBuy_bottomSheetItemTitle1
-                : intl.actionBuy_bottomSheetItemTitle2,
+            text: intl.actionBuy_bottomSheetItemTitle2,
           ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
@@ -206,18 +204,6 @@ class _ActionBuy extends HookWidget {
         ],
       ],
     );
-  }
-
-  bool _displayDivider(
-    List<CurrencyModel> filteredCurrencies,
-    List<CurrencyModel> currencies,
-  ) {
-    for (final currency in filteredCurrencies) {
-      if (currency.supportsAtLeastOneBuyMethod) {
-        return true;
-      }
-    }
-    return false;
   }
 
   bool _displayDividerCurrencyAvailable(

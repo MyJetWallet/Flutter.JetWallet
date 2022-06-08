@@ -102,6 +102,15 @@ class CurrencyModel with _$CurrencyModel {
     return buyMethods.isNotEmpty;
   }
 
+  bool get supportsCircle {
+    for (final method in buyMethods) {
+      if (method.type == PaymentMethodType.circleCard) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   bool get supportsAtLeastOneFiatDepositMethod {
     return supportsCardDeposit || supportsSepaDeposit || supportsSwiftDeposit;
   }

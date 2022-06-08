@@ -3,22 +3,21 @@ import 'package:dio/dio.dart';
 import '../../../../shared/api_urls.dart';
 import '../../../../shared/constants.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
-import '../../model/add_card/add_card_request_model.dart';
-import '../../model/circle_card.dart';
+import '../../model/payment_info/payment_info_request_model.dart';
+import '../../model/payment_info/payment_info_response_model.dart';
 import '../circle_service.dart';
 
-Future<CircleCard> addCardService(
+Future<PaymentInfoResponseModel> paymentInfoService(
   Dio dio,
-  AddCardRequestModel model,
+  PaymentInfoRequestModel model,
   String localeName,
 ) async {
   final logger = CircleService.logger;
-  const message = 'addCardService';
+  const message = 'paymentInfoService';
 
   try {
-    final response = await dio.post(
-      '$walletApi/circle/add-card',
-      data: model.toJson(),
+    final response = await dio.get(
+      '$walletApi/circle/get-payment-info/${model.depositId}',
     );
 
     try {
@@ -26,7 +25,7 @@ Future<CircleCard> addCardService(
 
       final data = handleFullResponse<Map>(responseData, localeName);
 
-      return CircleCard.fromJson(data);
+      return PaymentInfoResponseModel.fromJson(data);
     } catch (e) {
       logger.log(contract, message);
       rethrow;

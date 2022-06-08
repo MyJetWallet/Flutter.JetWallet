@@ -1,4 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/decimal_serialiser.dart';
 
 part 'circle_card.freezed.dart';
 part 'circle_card.g.dart';
@@ -6,17 +9,13 @@ part 'circle_card.g.dart';
 @freezed
 class CircleCard with _$CircleCard {
   const factory CircleCard({
-    CircleCardVerificationError? errorCode,
     required String id,
-    required String cardName,
     required String last4,
     required String network,
     required int expMonth,
     required int expYear,
     required CircleCardStatus status,
-    required bool isActive,
-    required DateTime createDate,
-    required DateTime updateDate,
+    required bool lastUsed,
     required CircleCardInfoPayment paymentDetails,
   }) = _CircleCard;
 
@@ -50,9 +49,8 @@ enum CircleCardVerificationError {
 class CircleCardInfoPayment with _$CircleCardInfoPayment {
   const factory CircleCardInfoPayment({
     required double feePercentage,
-    required double minAmount,
-    required double maxAmount,
-    required String settlementAsset,
+    @DecimalSerialiser() required Decimal minAmount,
+    @DecimalSerialiser() required Decimal maxAmount,
   }) = _CircleCardInfoPayment;
 
   factory CircleCardInfoPayment.fromJson(Map<String, dynamic> json) =>
