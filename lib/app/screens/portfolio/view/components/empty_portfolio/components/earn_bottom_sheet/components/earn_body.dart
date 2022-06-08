@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../../../shared/helpers/currencies_helpers.dart';
 import '../../../../../../../../shared/models/currency_model.dart';
 import '../../../../../../../../shared/providers/currencies_pod/currencies_pod.dart';
 import 'components/earn_advantages.dart';
@@ -23,9 +24,8 @@ class EarnBody extends HookWidget {
     final intl = useProvider(intlPod);
 
     final sortedByApyCurrencies = currencies;
-    sortedByApyCurrencies.sort((a, b) =>
-        b.apy.compareTo(a.apy),
-    );
+
+    sortByApyAndWeight(sortedByApyCurrencies);
 
     return Column(
       children: [

@@ -6,9 +6,10 @@ import 'client_detail_spod.dart';
 final clientDetailPod = Provider.autoDispose<ClientDetailModel>((ref) {
   final clientDetail = ref.watch(clientDetailSpod);
 
-  var value = const ClientDetailModel(
+  var value = ClientDetailModel(
     baseAssetSymbol: 'USD',
     walletCreationDate: '',
+    recivedAt: DateTime.now(),
   );
 
   clientDetail.whenData((data) => value = data);

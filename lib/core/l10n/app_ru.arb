@@ -679,6 +679,8 @@
     "recurringBuys_buy2": "покупать",
     "recurringBuysItem_paused": "Приостановлено",
     "recurringBuysItem_total": "Всего",
+    "send_timer_alert_ok": "ОК",
+    "send_timer_alert_description": "Времени осталось для разблокировки",
     "sendHelperText_text": "Начните вводить номер телефона или имя из телефонной книги",
     "sendInfoText_text": "Я хочу использовать свою телефонную книгу",
     "showContactPicker_phoneNumber": "Номер телефона",

@@ -14,6 +14,7 @@ class EarnProfileModel with _$EarnProfileModel {
     @DecimalSerialiser() required Decimal totalInterestEarned,
     @DecimalSerialiser() required Decimal dayEarnProfit,
     @DecimalSerialiser() required Decimal yearEarnProfit,
+    required bool earnEnabled,
   }) = _EarnProfileModel;
 
   factory EarnProfileModel.fromJson(Map<String, dynamic> json) =>

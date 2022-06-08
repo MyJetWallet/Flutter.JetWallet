@@ -12,15 +12,11 @@ import 'earn_page_bottom_sheet/earn_page_bottom_sheet.dart';
 class EarnHeader extends HookWidget {
   const EarnHeader({
     Key? key,
-    required this.isActive,
   }) : super(key: key);
-
-  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
     final earnOffers = useProvider(earnOffersPod);
-    final colors = useProvider(sColorPod);
     final intl = useProvider(intlPod);
 
     return Column(
@@ -37,7 +33,7 @@ class EarnHeader extends HookWidget {
             children: [
               Text(
                 intl.earn_title,
-                style: isActive ? sTextH5Style : sTextH2Style,
+                style: earnOffers.isNotEmpty ? sTextH5Style : sTextH2Style,
               ),
               SIconButton(
                 onTap: () {
@@ -59,32 +55,7 @@ class EarnHeader extends HookWidget {
             ],
           ),
         ),
-        if (earnOffers.isNotEmpty && !isActive)
-          SPaddingH24(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 11,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    intl.earn_asset,
-                    style: sCaptionTextStyle.copyWith(
-                      color: colors.grey2,
-                    ),
-                  ),
-                  Text(
-                    intl.earn_apy,
-                    style: sCaptionTextStyle.copyWith(
-                      color: colors.grey2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        if (!isActive) const SDivider(),
+        if (earnOffers.isEmpty) const SDivider(),
       ],
     );
   }

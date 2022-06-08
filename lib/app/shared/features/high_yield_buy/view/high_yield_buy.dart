@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -44,6 +45,15 @@ class HighYieldBuy extends HookWidget {
     );
     final state = useProvider(highYieldBuyNotipod(input));
     final notifier = useProvider(highYieldBuyNotipod(input).notifier);
+    final defaultTiers = earnOffer.tiers
+        .map(
+          (tier) => SimpleTierModel(
+            active: tier.active,
+            toUsd: tier.toUsd.toString(),
+            fromUsd: tier.fromUsd.toString(),
+            apy: tier.apy.toString(),
+          ),
+        ).toList();
 
     String _inputError(InputError error) {
       if (error == InputError.amountTooLarge) {
@@ -73,12 +83,23 @@ class HighYieldBuy extends HookWidget {
         children: [
           const SpaceH4(),
           Center(
-            child: Text(
-              state.singleTier
-                  ? intl.earn_buy_conditions
-                  : intl.earn_buy_how_we_count,
-              // 'Conditions',
-              style: sTextH1Style,
+            child: AutoSizeText(
+              intl.earn_buy_annual_calculation_plan,
+              textAlign: TextAlign.center,
+              minFontSize: 4.0,
+              maxLines: 1,
+              strutStyle: const StrutStyle(
+                height: 1.20,
+                fontSize: 40.0,
+                fontFamily: 'Gilroy',
+              ),
+              style: TextStyle(
+                height: 1.20,
+                fontSize: 40.0,
+                fontFamily: 'Gilroy',
+                fontWeight: FontWeight.w600,
+                color: colors.black,
+              ),
             ),
           ),
           const SpaceH11(),
@@ -94,7 +115,9 @@ class HighYieldBuy extends HookWidget {
           Row(
             children: [
               SimplePercentageIndicator(
-                tiers: state.simpleTiers,
+                tiers: state.simpleTiers.isNotEmpty
+                    ? state.simpleTiers
+                    : defaultTiers,
                 expanded: true,
                 isHot: earnOffer.offerTag == 'Hot',
               ),
@@ -104,7 +127,7 @@ class HighYieldBuy extends HookWidget {
           if (!state.singleTier)
             for (var i = 0; i < state.simpleTiers.length; i++)
               SActionConfirmText(
-                name: '${intl.earn_buy_tier} ${i + 1} ${intl.earn_apy} '
+                name: '${intl.earn_buy_tier} ${i + 1} ${intl.earn_buy_apy} '
                     '(${intl.earn_buy_limit}: '
                     '${volumeFormat(
                   prefix: state.baseCurrency?.prefix ?? '\$',
@@ -225,7 +248,7 @@ class HighYieldBuy extends HookWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: (topUp ? intl.earn_buy_top_up : '') + earnOffer.title,
+          title: (topUp ? '${intl.earn_buy_top_up} ' : '') + earnOffer.title,
           showInfoButton: true,
           onInfoButtonTap: _showHowWeCountSheet,
         ),
@@ -270,11 +293,16 @@ class HighYieldBuy extends HookWidget {
           const Spacer(),
           SHighYieldPercentageDescription(
             widgetSize: widgetSizeFrom(deviceSize),
-            apy: state.apy != null ? '${state.apy}%' : '',
-            onTap: state.simpleTiers.isNotEmpty ? _showHowWeCountSheet : null,
-            tiers: state.simpleTiers,
+            apy: state.apy != null
+                ? '${state.apy}%'
+                : '${earnOffer.currentApy}%',
+            onTap: _showHowWeCountSheet,
+            tiers: state.simpleTiers.isNotEmpty
+                ? state.simpleTiers
+                : defaultTiers,
             hot: earnOffer.offerTag == 'Hot',
-            error: state.error,
+            error: (state.error && state.simpleTiers.isNotEmpty) ||
+                state.updatingNow,
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -287,7 +315,7 @@ class HighYieldBuy extends HookWidget {
             preset3Name: intl.earn_buy_max_preset,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
-              notifier.selectPercentFromBalance(preset);
+              notifier.selectPercentFromBalance(preset, topUp: topUp);
             },
             onKeyPressed: (value) {
               notifier.updateInputValue(value);

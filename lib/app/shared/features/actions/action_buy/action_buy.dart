@@ -10,6 +10,7 @@ import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/is_buy_with_currency_available_for.dart';
+import '../../../helpers/supports_recurring_buy.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
@@ -149,30 +150,35 @@ class _ActionBuy extends HookWidget {
           ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
-            SMarketItem(
-              icon: SNetworkSvg24(
-                url: currency.iconUrl,
+            if (supportsRecurringBuy(currency.symbol, currencies))
+              SMarketItem(
+                icon: SNetworkSvg24(
+                  url: currency.iconUrl,
+                ),
+                name: currency.description,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: baseCurrency.symbol == currency.symbol
+                      ? Decimal.one
+                      : currency.currentPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                ),
+                ticker: currency.symbol,
+                last: currency == state.buyFromCardCurrencies.last,
+                percent: currency.dayPercentChange,
+                onTap: () => _onItemTap(currency, fromCard),
               ),
-              name: currency.description,
-              price: marketFormat(
-                prefix: baseCurrency.prefix,
-                decimal: baseCurrency.symbol == currency.symbol
-                    ? Decimal.one
-                    : currency.currentPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              ticker: currency.symbol,
-              last: currency == state.buyFromCardCurrencies.last,
-              percent: currency.dayPercentChange,
-              onTap: () => _onItemTap(currency, true),
-            ),
         ],
         if (!fromCard) ...[
           const SpaceH10(),
-          ActionBuySubheader(
-            text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
-          ),
+          if (_displayDividerCurrencyAvailable(
+            state.filteredCurrencies,
+            currencies,
+          ))
+            ActionBuySubheader(
+              text: intl.actionBuy_actionWithOutRecurringBuyTitle2,
+            ),
           for (final currency in state.filteredCurrencies) ...[
             if (!currency.supportsAtLeastOneBuyMethod)
               if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
@@ -198,5 +204,31 @@ class _ActionBuy extends HookWidget {
         ],
       ],
     );
+  }
+
+  bool _displayDivider(
+    List<CurrencyModel> filteredCurrencies,
+    List<CurrencyModel> currencies,
+  ) {
+    for (final currency in filteredCurrencies) {
+      if (currency.supportsAtLeastOneBuyMethod) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool _displayDividerCurrencyAvailable(
+    List<CurrencyModel> filteredCurrencies,
+    List<CurrencyModel> currencies,
+  ) {
+    for (final currency in filteredCurrencies) {
+      if (!currency.supportsAtLeastOneBuyMethod) {
+        if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

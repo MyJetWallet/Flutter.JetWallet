@@ -97,25 +97,36 @@ class ConfirmPasswordReset extends HookWidget {
             onTap: () => openEmailApp(context),
           ),
           const SpaceH29(),
-          PinCodeField(
-            focusNode: focusNode,
-            controller: state.controller,
-            length: emailVerificationCodeLength,
-            onCompleted: (_) {
-              ResetPassword.push(
-                context: context,
-                args: ResetPasswordArgs(
-                  email: email,
-                  code: state.controller.text,
-                ),
-              );
-              state.controller.clear();
+          GestureDetector(
+            onLongPress: () => notifier.pasteCode(),
+            onDoubleTap: () => notifier.pasteCode(),
+            onTap: () {
+              if (!focusNode.hasFocus) {
+                focusNode.requestFocus();
+              }
             },
-            autoFocus: true,
-            onChanged: (_) {
-              pinError.value.disableError();
-            },
-            pinError: pinError.value,
+            child: AbsorbPointer(
+              child: PinCodeField(
+                focusNode: focusNode,
+                controller: state.controller,
+                length: emailVerificationCodeLength,
+                onCompleted: (_) {
+                  ResetPassword.push(
+                    context: context,
+                    args: ResetPasswordArgs(
+                      email: email,
+                      code: state.controller.text,
+                    ),
+                  );
+                  state.controller.clear();
+                },
+                autoFocus: true,
+                onChanged: (_) {
+                  pinError.value.disableError();
+                },
+                pinError: pinError.value,
+              ),
+            ),
           ),
           SResendButton(
             active: !state.isResending,

@@ -48,8 +48,8 @@ class Convert extends HookWidget {
     final toAssetWithBalance = currenciesWithBalance(state.toAssetList);
     final toAssetWithoutBalance = currenciesWithoutBalance(state.toAssetList);
 
-    sortCurrenciesByWeight(fromAssetWithoutBalance);
-    sortCurrenciesByWeight(toAssetWithoutBalance);
+    sortByWeight(fromAssetWithoutBalance);
+    sortByWeight(toAssetWithoutBalance);
 
     return SPageFrame(
       header: SPaddingH24(
