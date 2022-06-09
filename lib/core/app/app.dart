@@ -106,6 +106,7 @@ class _App extends HookWidget {
     final storage = useProvider(localStorageServicePod);
 
     checkInitAppFBAnalytics(storage, deviceInfo);
+    testEvent();
 
     return CupertinoApp(
       restorationScopeId: 'app',

@@ -4,9 +4,9 @@ import '../model/device_info/device_info_model.dart';
 import '../services/local_storage_service.dart';
 
 Future<void> checkInitAppFBAnalytics(
-    LocalStorageService storage,
-    DeviceInfoModel deviceInfo,
-    ) async {
+  LocalStorageService storage,
+  DeviceInfoModel deviceInfo,
+) async {
   final firstInitAppStorage = await storage.getValue(firstInitAppCodeKey);
   final referralCode = await storage.getValue(referralCodeKey);
 
@@ -20,5 +20,15 @@ Future<void> checkInitAppFBAnalytics(
     );
 
     await storage.setString(firstInitAppCodeKey, 'true');
+  }
+}
+
+Future<void> testEvent() async {
+  try {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'some_test_event',
+    );
+  } catch (e) {
+    rethrow;
   }
 }
