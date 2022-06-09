@@ -7,6 +7,7 @@ part 'asset_payment_methods.g.dart';
 class AssetPaymentMethods with _$AssetPaymentMethods {
   const factory AssetPaymentMethods({
     required List<AssetPaymentInfo> assets,
+    @Default(false) bool showCardsInProfile,
   }) = _AssetPaymentMethods;
 
   factory AssetPaymentMethods.fromJson(Map<String, dynamic> json) =>

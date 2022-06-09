@@ -23,6 +23,7 @@ class BalanceModel with _$BalanceModel {
     @DecimalSerialiser() required Decimal balance,
     required String lastUpdate,
     @DecimalSerialiser() required Decimal totalEarnAmount,
+    @DecimalSerialiser() required Decimal cardReserve,
     @DecimalSerialiser() required Decimal currentEarnAmount,
     required String nextPaymentDate,
     @DecimalSerialiser() required Decimal apy,

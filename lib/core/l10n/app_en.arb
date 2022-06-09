@@ -415,6 +415,8 @@
     "previewBuyWithCircle_buy": "Buy",
     "previewBuyWithCircle_youWillGet": "You will get",
     "previewBuyWithCircle_paymentVerification": "Payment verification",
+    "previewBuyWithCircle_disclaimer": "Funds from card deposits are usable for trading as soon as they are credited and are withdrawable",
+    "previewBuyWithCircle_disclaimerEnd": "days after.",
     "buyWithCircle_paymentWillBeProcessed": "Your payment will be processed within",
     "buyWithCircle_minutes": "minutes",
     "previewBuyWithAsset_youPay": "You Pay",

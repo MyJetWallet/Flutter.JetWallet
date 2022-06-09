@@ -127,6 +127,7 @@ class RemoteConfigService {
     referralPolicyLink = appConfig.referralPolicyLink;
     infoRewardsLink = appConfig.infoRewardsLink;
     infoEarnLink = appConfig.infoEarnLink;
+    paymentDelayDays = appConfig.paymentDelayDays;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;

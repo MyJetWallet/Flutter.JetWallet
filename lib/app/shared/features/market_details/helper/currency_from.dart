@@ -12,6 +12,7 @@ CurrencyModel currencyFrom(List<CurrencyModel> currencies, String symbol) {
         currentPrice: Decimal.zero,
         dayPriceChange: Decimal.zero,
         assetTotalEarnAmount: Decimal.zero,
+        cardReserve: Decimal.zero,
         baseTotalEarnAmount: Decimal.zero,
         assetCurrentEarnAmount: Decimal.zero,
         baseCurrentEarnAmount: Decimal.zero,

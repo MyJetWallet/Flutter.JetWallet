@@ -17,6 +17,7 @@ CurrencyModel currencyFromAll(
         assetTotalEarnAmount: Decimal.zero,
         baseTotalEarnAmount: Decimal.zero,
         assetCurrentEarnAmount: Decimal.zero,
+        cardReserve: Decimal.zero,
         baseCurrentEarnAmount: Decimal.zero,
         apy: Decimal.zero,
         apr: Decimal.zero,
