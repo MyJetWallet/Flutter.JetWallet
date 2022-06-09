@@ -65,7 +65,9 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         controller: state.networkController,
-                        labelText: intl.currencyWithdraw_chooseNetwork,
+                        labelText: (currency.withdrawalBlockchains.length > 1)
+                            ? intl.currencyWithdraw_chooseNetwork
+                            : intl.cryptoDeposit_network,
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
