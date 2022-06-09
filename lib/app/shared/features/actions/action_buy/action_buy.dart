@@ -141,22 +141,62 @@ class _ActionBuy extends HookWidget {
       }
     }
 
+    Widget marketItem(
+      String iconUrl,
+      String name,
+      String price,
+      String ticker,
+      double percent,
+      dynamic Function() onTap, {
+      bool isLast = false,
+    }) {
+      return SMarketItem(
+        icon: SNetworkSvg24(
+          url: iconUrl,
+        ),
+        name: name,
+        price: price,
+        ticker: ticker,
+        last: isLast,
+        percent: percent,
+        onTap: onTap,
+      );
+    }
+
     return Column(
       children: [
         const SpaceH10(),
-        if (!fromCard)
+        if (_displayDivider(state.filteredCurrencies, currencies))
           ActionBuySubheader(
-            text: intl.actionBuy_bottomSheetItemTitle2,
+            text: fromCard
+                ? intl.actionBuy_bottomSheetItemTitle1
+                : intl.actionBuy_bottomSheetItemTitle2,
           ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
-            if (supportsRecurringBuy(currency.symbol, currencies))
-              SMarketItem(
-                icon: SNetworkSvg24(
-                  url: currency.iconUrl,
+            if (showRecurring) ...[
+              if (supportsRecurringBuy(currency.symbol, currencies))
+                marketItem(
+                  currency.iconUrl,
+                  currency.description,
+                  marketFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: baseCurrency.symbol == currency.symbol
+                        ? Decimal.one
+                        : currency.currentPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                  ),
+                  currency.symbol,
+                  currency.dayPercentChange,
+                  () => _onItemTap(currency, fromCard),
+                  isLast: currency == state.buyFromCardCurrencies.last,
                 ),
-                name: currency.description,
-                price: marketFormat(
+            ] else ...[
+              marketItem(
+                currency.iconUrl,
+                currency.description,
+                marketFormat(
                   prefix: baseCurrency.prefix,
                   decimal: baseCurrency.symbol == currency.symbol
                       ? Decimal.one
@@ -164,11 +204,12 @@ class _ActionBuy extends HookWidget {
                   symbol: baseCurrency.symbol,
                   accuracy: baseCurrency.accuracy,
                 ),
-                ticker: currency.symbol,
-                last: currency == state.buyFromCardCurrencies.last,
-                percent: currency.dayPercentChange,
-                onTap: () => _onItemTap(currency, fromCard),
+                currency.symbol,
+                currency.dayPercentChange,
+                () => _onItemTap(currency, fromCard),
+                isLast: currency == state.buyFromCardCurrencies.last,
               ),
+            ]
         ],
         if (!fromCard) ...[
           const SpaceH10(),
@@ -204,6 +245,18 @@ class _ActionBuy extends HookWidget {
         ],
       ],
     );
+  }
+
+  bool _displayDivider(
+    List<CurrencyModel> filteredCurrencies,
+    List<CurrencyModel> currencies,
+  ) {
+    for (final currency in filteredCurrencies) {
+      if (currency.supportsAtLeastOneBuyMethod) {
+        return true;
+      }
+    }
+    return false;
   }
 
   bool _displayDividerCurrencyAvailable(
