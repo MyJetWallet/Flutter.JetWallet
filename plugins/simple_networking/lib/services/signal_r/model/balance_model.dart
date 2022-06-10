@@ -29,6 +29,12 @@ class BalanceModel with _$BalanceModel {
     @DecimalSerialiser() required Decimal apy,
     @DecimalSerialiser() required Decimal apr,
     @DecimalSerialiser() required Decimal depositInProcess,
+    @DecimalSerialiser() required Decimal buysInProcessTotal,
+    @DecimalSerialiser() required Decimal transfersInProcessTotal,
+    @DecimalSerialiser() required Decimal earnInProcessTotal,
+    required int buysInProcessCount,
+    required int transfersInProcessCount,
+    required int earnInProcessCount,
   }) = _BalanceModel;
 
   factory BalanceModel.fromJson(Map<String, dynamic> json) =>
