@@ -223,11 +223,11 @@ class _KChartWidgetState extends State<KChartWidget>
             ),
           if (!isLongPress && widget.isAssetChart)
             const DashedDivider(
-              topPadding: 120,
+              topPadding: 118,
             ),
           if (!isLongPress && widget.isAssetChart)
             const DashedDivider(
-              topPadding: 219,
+              topPadding: 212,
             ),
           CustomPaint(
             size: Size(widget.chartWidth + 3, double.infinity),

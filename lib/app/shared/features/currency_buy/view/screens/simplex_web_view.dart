@@ -7,12 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
-import '../../../../../shared/components/result_screens/success_screen/success_screen.dart';
-import '../../../../../shared/helpers/navigate_to_router.dart';
-import '../../../../../shared/providers/service_providers.dart';
-import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
+import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
+import '../../../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../../../shared/providers/service_providers.dart';
+import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 
 class SimplexWebView extends HookWidget {
   const SimplexWebView(this.url);

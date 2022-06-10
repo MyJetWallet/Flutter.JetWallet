@@ -8,7 +8,6 @@ class SAssetItem extends StatelessWidget {
     Key? key,
     this.helper = '',
     this.isSelected = false,
-    this.isCreditCard = false,
     this.divider = true,
     this.removeDivider = false,
     required this.icon,
@@ -20,7 +19,6 @@ class SAssetItem extends StatelessWidget {
 
   final String helper;
   final bool isSelected;
-  final bool isCreditCard;
   final bool divider;
   final bool removeDivider;
   final Widget icon;
@@ -73,7 +71,7 @@ class SAssetItem extends StatelessWidget {
                               baseline: 18.0,
                               baselineType: TextBaseline.alphabetic,
                               child: SizedBox(
-                                width: isCreditCard ? 90.0 : 120.0,
+                                width: 120.0,
                                 child: Text(
                                   amount,
                                   textAlign: TextAlign.end,
@@ -104,7 +102,7 @@ class SAssetItem extends StatelessWidget {
                               ),
                             ),
                             const SpaceW16(),
-                            if (isCreditCard)
+                            if (helper.isEmpty)
                               Baseline(
                                 baseline: 14.0,
                                 baselineType: TextBaseline.alphabetic,

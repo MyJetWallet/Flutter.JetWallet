@@ -22,6 +22,7 @@ import '../../../../../../shared/features/recurring/notifier/recurring_buys_noti
 import '../../../../../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../../../../../shared/features/wallet/helper/market_item_from.dart';
 import '../../../../../../shared/features/wallet/helper/navigate_to_wallet.dart';
+import '../../../../../../shared/helpers/actual_in_progress_operation.dart';
 import '../../../../../../shared/helpers/are_balances_empty.dart';
 import '../../../../../../shared/helpers/formatting/base/market_format.dart';
 import '../../../../../../shared/helpers/formatting/base/volume_format.dart';
@@ -98,6 +99,42 @@ class PortfolioWithBalanceBody extends HookWidget {
     final balancesEmpty = areBalancesEmpty(currencies);
 
     final notifier = useProvider(recurringBuysNotipod.notifier);
+
+    String _balanceInProgressText(
+      CurrencyModel currency,
+    ) {
+      if (currency.isSingleTypeInProgress) {
+        return '${actualInProcessOperationName(
+            currency,
+            intl.portfolioWithBalanceBody_send,
+            intl.portfolioWithBalanceBody_earn,
+            intl.portfolioWithBalanceBody_simplex,
+        )} ${volumeFormat(
+          decimal: currency.totalAmountInProcess,
+          accuracy: currency.accuracy,
+          symbol: currency.symbol,
+          prefix: currency.prefixSymbol,
+        )}';
+      }
+      return '${counterOfOperationInProgressTransactions(currency)} '
+          '${intl.portfolioWithBalanceBody_transactions}';
+    }
+
+    Widget _balanceInProgressIcon(
+        CurrencyModel currency,
+    ) {
+      if (!currency.isSingleTypeInProgress) {
+        return const SDepositTotalIcon();
+      }
+      if (currency.transfersInProcessTotal > Decimal.zero) {
+        return const SDepositSendIcon();
+      } else if (currency.earnInProcessTotal > Decimal.zero) {
+        return const SDepositEarnIcon();
+      } else if (currency.buysInProcessTotal > Decimal.zero) {
+        return const SDepositBuyIcon();
+      }
+      return const SDepositTotalIcon();
+    }
 
     return SingleChildScrollView(
       child: Stack(
@@ -296,14 +333,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                           ),
                           if (item.isPendingDeposit) ...[
                             BalanceInProcess(
-                              text: '${intl.portfolioWithBalanceBody_deposit}'
-                                  ' ${volumeFormat(
-                                decimal: item.depositInProcess,
-                                accuracy: item.accuracy,
-                                symbol: item.symbol,
-                                prefix: item.prefixSymbol,
-                              )}',
+                              text: _balanceInProgressText(item),
                               removeDivider: item == itemsWithBalance.last,
+                              icon: _balanceInProgressIcon(item),
                             ),
                           ]
                         ],
@@ -385,14 +417,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: '${intl.portfolioWithBalanceBody_deposit}'
-                                    ' ${volumeFormat(
-                                  decimal: item.depositInProcess,
-                                  accuracy: item.accuracy,
-                                  symbol: item.symbol,
-                                  prefix: item.prefixSymbol,
-                                )}',
+                                text: _balanceInProgressText(item),
                                 removeDivider: item == cryptosWithBalance.last,
+                                icon: _balanceInProgressIcon(item),
                               ),
                             ]
                           ],
@@ -472,14 +499,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: '${intl.portfolioWithBalanceBody_deposit}'
-                                    ' ${volumeFormat(
-                                  decimal: item.depositInProcess,
-                                  accuracy: item.accuracy,
-                                  symbol: item.symbol,
-                                  prefix: item.prefixSymbol,
-                                )}',
+                                text: _balanceInProgressText(item),
                                 removeDivider: item == indicesWithBalance.last,
+                                icon: _balanceInProgressIcon(item),
                               ),
                             ]
                           ],
@@ -556,14 +578,9 @@ class PortfolioWithBalanceBody extends HookWidget {
                             ),
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
-                                text: '${intl.portfolioWithBalanceBody_deposit}'
-                                    ' ${volumeFormat(
-                                  decimal: item.depositInProcess,
-                                  accuracy: item.accuracy,
-                                  symbol: item.symbol,
-                                  prefix: item.prefixSymbol,
-                                )}',
+                                text: _balanceInProgressText(item),
                                 removeDivider: item == fiatsWithBalance.last,
+                                icon: _balanceInProgressIcon(item),
                               ),
                             ]
                           ],
@@ -717,14 +734,14 @@ class PortfolioWithBalanceBody extends HookWidget {
       var depositInProccess = 0;
 
       for (final item in itemsWithBalance) {
-        if (item.depositInProcess != Decimal.zero) {
+        if (item.totalAmountInProcess != Decimal.zero) {
           depositInProccess++;
         }
       }
 
       if (showZeroBalanceWallets) {
         for (final item in itemsWithoutBalance) {
-          if (item.depositInProcess != Decimal.zero) {
+          if (item.totalAmountInProcess != Decimal.zero) {
             depositInProccess++;
           }
         }
@@ -743,14 +760,14 @@ class PortfolioWithBalanceBody extends HookWidget {
       var depositInProccess = 0;
 
       for (final item in cryptosWithBalance) {
-        if (item.depositInProcess != Decimal.zero) {
+        if (item.totalAmountInProcess != Decimal.zero) {
           depositInProccess++;
         }
       }
 
       if (showZeroBalanceWallets) {
         for (final item in cryptosWithoutBalance) {
-          if (item.depositInProcess != Decimal.zero) {
+          if (item.totalAmountInProcess != Decimal.zero) {
             depositInProccess++;
           }
         }
@@ -769,14 +786,14 @@ class PortfolioWithBalanceBody extends HookWidget {
       var depositInProccess = 0;
 
       for (final item in indicesWithBalance) {
-        if (item.depositInProcess != Decimal.zero) {
+        if (item.totalAmountInProcess != Decimal.zero) {
           depositInProccess++;
         }
       }
 
       if (showZeroBalanceWallets) {
         for (final item in indicesWithoutBalance) {
-          if (item.depositInProcess != Decimal.zero) {
+          if (item.totalAmountInProcess != Decimal.zero) {
             depositInProccess++;
           }
         }
@@ -795,14 +812,14 @@ class PortfolioWithBalanceBody extends HookWidget {
       var depositInProccess = 0;
 
       for (final item in fiatsWithBalance) {
-        if (item.depositInProcess != Decimal.zero) {
+        if (item.totalAmountInProcess != Decimal.zero) {
           depositInProccess++;
         }
       }
 
       if (showZeroBalanceWallets) {
         for (final item in fiatsWithoutBalance) {
-          if (item.depositInProcess != Decimal.zero) {
+          if (item.totalAmountInProcess != Decimal.zero) {
             depositInProccess++;
           }
         }

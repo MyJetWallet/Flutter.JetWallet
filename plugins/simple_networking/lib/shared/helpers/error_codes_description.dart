@@ -43,6 +43,7 @@ final errorCodesDescriptionEn = {
   'CardCvvInvalid': 'Invalid CVV code',
   'CardExpired': 'Card is expired',
   'PhoneDuplicate': 'Phone duplicate',
+  'InvalidCardNumber': 'Invalid card number',
 };
 
 final errorCodesDescriptionRu = {
@@ -95,6 +96,7 @@ final errorCodesDescriptionRu = {
   'CardCvvInvalid': 'Неверный код CVV',
   'CardExpired': 'Срок действия карты истек',
   'PhoneDuplicate': 'Дубликат телефона',
+  'InvalidCardNumber': 'Инвалидная карта',
 };
 
 const emailPasswordIncorrectEn =

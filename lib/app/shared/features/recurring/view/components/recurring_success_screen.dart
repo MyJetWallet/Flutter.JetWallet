@@ -14,7 +14,7 @@ import '../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../../currency_buy/model/preview_buy_with_asset_input.dart';
-import '../../../currency_buy/view/preview_buy_with_asset.dart';
+import '../../../currency_buy/view/screens/preview_buy_with_asset.dart';
 import '../../helper/recurring_buys_operation_name.dart';
 
 class RecurringSuccessScreen extends HookWidget {

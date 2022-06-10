@@ -24,7 +24,7 @@ Future<CircleCard> addCardService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData, localeName,);
+      final data = handleFullResponse<Map>(responseData, localeName);
 
       return CircleCard.fromJson(data);
     } catch (e) {
