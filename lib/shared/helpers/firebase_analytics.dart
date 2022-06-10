@@ -22,13 +22,3 @@ Future<void> checkInitAppFBAnalytics(
     await storage.setString(firstInitAppCodeKey, 'true');
   }
 }
-
-Future<void> testEvent() async {
-  try {
-    await FirebaseAnalytics.instance.logEvent(
-      name: 'some_test_event',
-    );
-  } catch (e) {
-    rethrow;
-  }
-}
