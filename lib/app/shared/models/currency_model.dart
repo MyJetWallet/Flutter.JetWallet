@@ -36,6 +36,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default('') String nextPaymentDate,
     @Default(0.0) double dayPercentChange,
     @Default(0) int weight,
+    required Decimal cardReserve,
     required Decimal assetBalance,
     required Decimal baseBalance,
     required Decimal currentPrice,

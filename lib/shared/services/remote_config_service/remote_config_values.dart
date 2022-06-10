@@ -6,6 +6,7 @@ late String privacyPolicyLink;
 late String referralPolicyLink;
 late String infoRewardsLink;
 late String infoEarnLink;
+late int paymentDelayDays;
 late int minAmountOfCharsInPassword;
 late int maxAmountOfCharsInPassword;
 late int quoteRetryInterval;
