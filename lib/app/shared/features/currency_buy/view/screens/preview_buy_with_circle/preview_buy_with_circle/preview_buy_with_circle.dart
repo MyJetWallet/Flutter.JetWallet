@@ -69,6 +69,7 @@ class PreviewBuyWithCircle extends HookWidget {
                 name: intl.previewBuyWithCircle_creditCardFee,
                 contentLoading: state.loader.value,
                 value: '${state.feePercentage}%',
+                maxValueWidth: 140,
               ),
               SActionConfirmText(
                 name: intl.previewBuyWithCircle_youWillGet,
@@ -88,9 +89,8 @@ class PreviewBuyWithCircle extends HookWidget {
                   color: colors.grey3,
                 ),
               ),
-              const SpaceH34(),
-              const SDivider(),
               const SpaceH24(),
+              const SDivider(),
               SActionConfirmText(
                 name: intl.previewBuyWithCircle_youWillPay,
                 contentLoading: state.loader.value,
@@ -102,7 +102,7 @@ class PreviewBuyWithCircle extends HookWidget {
                   decimal: state.amountToPay!,
                 ),
               ),
-              const SpaceH34(),
+              const SpaceH20(),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),
