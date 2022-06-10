@@ -10,10 +10,12 @@ class BalanceInProcess extends HookWidget {
   const BalanceInProcess({
     this.removeDivider = false,
     required this.text,
+    required this.icon,
   });
 
   final bool removeDivider;
   final String text;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,7 @@ class BalanceInProcess extends HookWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 12),
-                  child: SPlusIcon(
-                    color: colors.grey2,
-                  ),
+                  child: icon,
                 ),
                 const SpaceW12(),
                 Baseline(

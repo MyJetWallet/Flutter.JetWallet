@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/providers/service_providers.dart';
@@ -19,11 +20,11 @@ class CircleBillingAddress extends HookWidget {
     required this.onCardAdded,
   }) : super(key: key);
 
-  final VoidCallback onCardAdded;
+  final Function(CircleCard) onCardAdded;
 
   static void push({
     required BuildContext context,
-    required VoidCallback onCardAdded,
+    required Function(CircleCard) onCardAdded,
   }) {
     navigatorPush(
       context,
@@ -65,6 +66,7 @@ class CircleBillingAddress extends HookWidget {
               children: [
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.streetAddress1,
                     labelText: intl.circleBillingAddress_streetAddress,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress1,
@@ -72,6 +74,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.streetAddress2,
                     labelText: '${intl.circleBillingAddress_streetAddress} 2'
                         ' (${intl.circleBillingAddress_optional})',
                     textCapitalization: TextCapitalization.sentences,
@@ -80,6 +83,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.city,
                     labelText: intl.circleBillingAddress_city,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCity,
@@ -87,6 +91,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.district,
                     labelText: intl.circleBillingAddress_district,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateDistrict,
@@ -94,6 +99,7 @@ class CircleBillingAddress extends HookWidget {
                 ),
                 SFieldDividerFrame(
                   child: SStandardField(
+                    initialValue: state.postalCode,
                     labelText: intl.circleBillingAddress_postalCode,
                     keyboardType: TextInputType.number,
                     inputFormatters: [

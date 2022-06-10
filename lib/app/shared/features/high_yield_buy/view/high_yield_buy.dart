@@ -301,7 +301,8 @@ class HighYieldBuy extends HookWidget {
                 ? state.simpleTiers
                 : defaultTiers,
             hot: earnOffer.offerTag == 'Hot',
-            error: state.error && state.simpleTiers.isNotEmpty,
+            error: (state.error && state.simpleTiers.isNotEmpty) ||
+                state.updatingNow,
           ),
           deviceSize.when(
             small: () => const Spacer(),

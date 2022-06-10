@@ -13,7 +13,7 @@ const bannersIdsKey = 'bannersIds';
 const phonebookStatusKey = 'phonebookStatusKey';
 const cameraStatusKey = 'cameraStatusKey';
 const referralCodeKey = 'referralCodeKey';
-const firstInitAppCodeKey = 'firstInitAppCodeKey';
+const billingInformationKey = 'billingInformationKey';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
@@ -46,5 +46,6 @@ class LocalStorageService {
     await _storage.delete(key: bannersIdsKey);
     await _storage.delete(key: phonebookStatusKey);
     await _storage.delete(key: referralCodeKey);
+    await _storage.delete(key: billingInformationKey);
   }
 }

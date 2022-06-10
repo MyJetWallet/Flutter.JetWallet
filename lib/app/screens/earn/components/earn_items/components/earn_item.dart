@@ -36,7 +36,9 @@ class EarnItem extends HookWidget {
 
     final currentCurrency = currencyFrom(currencies, name);
     final currentOffers = earnOffers
-        .where((element) => element.asset == name)
+        .where((element) => element.asset == name &&
+          element.amount == Decimal.zero,
+        )
         .toList();
 
     return Column(

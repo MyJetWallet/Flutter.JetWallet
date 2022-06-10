@@ -39,6 +39,7 @@ final _providerTypes = <String>[
   'AutoDisposeProvider<List<CampaignModel>>',
   'AutoDisposeStateNotifierProvider<CampaignNotifier, List<CampaignModel>>',
   'AutoDisposeStateNotifierProvider<CurrencyBuyNotifier, CurrencyBuyState>',
+  'AutoDisposeStateNotifierProvider<ActionSearchNotifier, ActionSearchState>',
 ];
 
 final _providerNames = <String>[
@@ -116,7 +117,7 @@ class _App extends HookWidget {
       builder: builder ?? (_, child) => AppBuilder(child),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: const [
-        Locale('en', ''),
+        Locale('en'),
       ],
       // supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: isStageEnv ? AppRouterStage.routeName : AppRouter.routeName,

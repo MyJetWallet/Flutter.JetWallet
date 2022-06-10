@@ -37,6 +37,7 @@ class HighYieldBuyState with _$HighYieldBuyState {
     Decimal? minSubscribeAmount,
     @Default(false) bool error,
     @Default(false) bool updateApy,
+    @Default(false) bool updatingNow,
   }) = _HighYieldBuyState;
 
   const HighYieldBuyState._();

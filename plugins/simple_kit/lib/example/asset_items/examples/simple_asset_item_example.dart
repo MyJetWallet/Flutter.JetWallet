@@ -162,7 +162,6 @@ class SimpleAssetItemExample extends StatelessWidget {
                   child: SAssetItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
-                    isCreditCard: true,
                     name: 'Card Name',
                     amount: '•••• 0000',
                     description: 'Date',
@@ -291,7 +290,6 @@ class SimpleAssetItemExample extends StatelessWidget {
             SAssetItem(
               onTap: () {},
               icon: const SActionBuyIcon(),
-              isCreditCard: true,
               name: 'Card Name',
               amount: '•••• 0000',
               description: 'Date',
