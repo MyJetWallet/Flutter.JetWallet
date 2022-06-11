@@ -38,6 +38,7 @@ flutter:
     - assets/icons/light/18x18/paid_interest_rate/
     - assets/icons/light/18x18/earn_deposit/
     - assets/icons/light/20x20/deposit/
+    - assets/icons/light/20x20/deposit_in_progress/
     - assets/icons/light/20x20/minus/
     - assets/icons/light/20x20/plus/
     - assets/icons/light/20x20/receive_by_phone/

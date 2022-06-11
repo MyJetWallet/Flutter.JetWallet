@@ -23,7 +23,7 @@ class RemoteConfigService {
 
   static final _service = RemoteConfigService._internal();
 
-  final _config = RemoteConfig.instance;
+  final _config = FirebaseRemoteConfig.instance;
 
   Future<void> fetchAndActivate() async {
     await _config.setConfigSettings(
@@ -127,6 +127,7 @@ class RemoteConfigService {
     referralPolicyLink = appConfig.referralPolicyLink;
     infoRewardsLink = appConfig.infoRewardsLink;
     infoEarnLink = appConfig.infoEarnLink;
+    paymentDelayDays = appConfig.paymentDelayDays;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;

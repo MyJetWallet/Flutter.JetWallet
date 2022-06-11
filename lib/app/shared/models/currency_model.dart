@@ -36,6 +36,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default('') String nextPaymentDate,
     @Default(0.0) double dayPercentChange,
     @Default(0) int weight,
+    required Decimal cardReserve,
     required Decimal assetBalance,
     required Decimal baseBalance,
     required Decimal currentPrice,
@@ -47,6 +48,12 @@ class CurrencyModel with _$CurrencyModel {
     required Decimal apy,
     required Decimal apr,
     required Decimal depositInProcess,
+    required Decimal buysInProcessTotal,
+    required Decimal transfersInProcessTotal,
+    required Decimal earnInProcessTotal,
+    required int buysInProcessCount,
+    required int transfersInProcessCount,
+    required int earnInProcessCount,
     @Default(false) bool earnProgramEnabled,
   }) = _CurrencyModel;
 
@@ -56,9 +63,27 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isWithdrawalMode => withdrawalMode == 0;
 
-  bool get noPendingDeposit => depositInProcess == Decimal.zero;
+  bool get noPendingDeposit => buysInProcessTotal == Decimal.zero &&
+      transfersInProcessTotal == Decimal.zero &&
+      earnInProcessTotal == Decimal.zero;
 
-  bool get isPendingDeposit => depositInProcess != Decimal.zero;
+  bool get isPendingDeposit => buysInProcessTotal != Decimal.zero ||
+      transfersInProcessTotal != Decimal.zero ||
+      earnInProcessTotal != Decimal.zero;
+
+  bool get isSingleTypeInProgress => buysInProcessTotal != Decimal.zero &&
+      (transfersInProcessTotal == Decimal.zero &&
+          earnInProcessTotal == Decimal.zero) ||
+      transfersInProcessTotal != Decimal.zero &&
+        (buysInProcessTotal == Decimal.zero &&
+          earnInProcessTotal == Decimal.zero) ||
+      earnInProcessTotal != Decimal.zero &&
+        (buysInProcessTotal == Decimal.zero &&
+          transfersInProcessTotal == Decimal.zero);
+
+  Decimal get totalAmountInProcess => transfersInProcessTotal +
+      earnInProcessTotal +
+      buysInProcessTotal;
 
   bool get isAssetBalanceEmpty => assetBalance == Decimal.zero;
 

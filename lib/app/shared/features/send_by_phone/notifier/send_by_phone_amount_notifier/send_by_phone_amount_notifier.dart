@@ -53,6 +53,9 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
     final value = valueBasedOnSelectedPercent(
       selected: percent,
       currency: currency,
+      availableBalance: Decimal.parse(
+        '${currency.assetBalance.toDouble() - currency.cardReserve.toDouble()}',
+      ),
     );
 
     _updateAmount(

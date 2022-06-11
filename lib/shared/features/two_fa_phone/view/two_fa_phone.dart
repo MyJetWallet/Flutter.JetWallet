@@ -114,9 +114,13 @@ class TwoFaPhone extends HookWidget {
                     onLongPress: () => twoFaN.pasteCode(),
                     onDoubleTap: () => twoFaN.pasteCode(),
                     onTap: () {
-                      if (!focusNode.hasFocus) {
-                        focusNode.requestFocus();
-                      }
+                      focusNode.unfocus();
+
+                      Future.delayed(const Duration(microseconds: 100), () {
+                        if (!focusNode.hasFocus) {
+                          focusNode.requestFocus();
+                        }
+                      });
                     },
                     child: AbsorbPointer(
                       child: PinCodeField(

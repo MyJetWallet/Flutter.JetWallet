@@ -115,95 +115,97 @@ class Login extends HookWidget {
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Material(
-                    color: colors.white,
-                    child: SPaddingH24(
-                      child: SStandardField(
-                        labelText: intl.login_emailTextFieldLabel,
-                        autofocus: true,
-                        autofillHints: const [AutofillHints.email],
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        initialValue: email ?? '',
-                        inputFormatters: [
-                          FilteringTextInputFormatter.deny(RegExp('[ ]'))
-                        ],
-                        onChanged: (value) {
-                          emailError.value.disableError();
-                          passwordError.value.disableError();
-                          credentialsN.updateAndValidateEmail(value);
-                        },
-                        onErrorIconTap: () {
-                          notificationN.showError(
-                            intl.login_credentialsError,
-                            id: 2,
-                          );
-                        },
-                        errorNotifier: emailError.value,
+              child: AutofillGroup(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Material(
+                      color: colors.white,
+                      child: SPaddingH24(
+                        child: SStandardField(
+                          labelText: intl.login_emailTextFieldLabel,
+                          autofocus: true,
+                          autofillHints: const [AutofillHints.email],
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          initialValue: email ?? '',
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                          ],
+                          onChanged: (value) {
+                            emailError.value.disableError();
+                            passwordError.value.disableError();
+                            credentialsN.updateAndValidateEmail(value);
+                          },
+                          onErrorIconTap: () {
+                            notificationN.showError(
+                              intl.login_credentialsError,
+                              id: 2,
+                            );
+                          },
+                          errorNotifier: emailError.value,
+                        ),
                       ),
                     ),
-                  ),
-                  const SDivider(),
-                  Material(
-                    color: colors.white,
-                    child: SPaddingH24(
-                      child: SStandardFieldObscure(
-                        focusNode: _focus,
-                        autofillHints: const [AutofillHints.password],
-                        controller: _controller,
-                        onChanged: (String password) {
-                          credentialsN.checkOnUpdateOrRemovePassword(
-                            passwordError,
-                            emailError,
-                            password,
-                            _controller,
-                          );
-                        },
-                        labelText: intl.login_password,
-                        onErrorIconTap: () {
-                          notificationN.showError(
-                            intl.login_credentialsError,
-                            id: 2,
-                          );
-                        },
-                        errorNotifier: passwordError.value,
+                    const SDivider(),
+                    Material(
+                      color: colors.white,
+                      child: SPaddingH24(
+                        child: SStandardFieldObscure(
+                          focusNode: _focus,
+                          autofillHints: const [AutofillHints.password],
+                          controller: _controller,
+                          onChanged: (String password) {
+                            credentialsN.checkOnUpdateOrRemovePassword(
+                              passwordError,
+                              emailError,
+                              password,
+                              _controller,
+                            );
+                          },
+                          labelText: intl.login_password,
+                          onErrorIconTap: () {
+                            notificationN.showError(
+                              intl.login_credentialsError,
+                              id: 2,
+                            );
+                          },
+                          errorNotifier: passwordError.value,
+                        ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                  SPaddingH24(
-                    child: SPolicyText(
-                      firstText: intl.login_policyText1,
-                      userAgreementText: ' ${intl.login_userAgreementText} ',
-                      betweenText: '${intl.login_andThe} ',
-                      privacyPolicyText: intl.login_privacyPolicy,
-                      onUserAgreementTap: () =>
-                          launchURL(context, userAgreementLink),
-                      onPrivacyPolicyTap: () =>
-                          launchURL(context, privacyPolicyLink),
+                    const Spacer(),
+                    SPaddingH24(
+                      child: SPolicyText(
+                        firstText: intl.login_policyText1,
+                        userAgreementText: ' ${intl.login_userAgreementText} ',
+                        betweenText: '${intl.login_andThe} ',
+                        privacyPolicyText: intl.login_privacyPolicy,
+                        onUserAgreementTap: () =>
+                            launchURL(context, userAgreementLink),
+                        onPrivacyPolicyTap: () =>
+                            launchURL(context, privacyPolicyLink),
+                      ),
                     ),
-                  ),
-                  const SpaceH10(),
-                  SPaddingH24(
-                    child: SPrimaryButton2(
-                      active: isButtonActive(),
-                      name: intl.login_continue,
-                      onTap: () {
-                        disableContinue.value = true;
-                        loader.value.startLoading();
-                        authenticationN.authenticate(
-                          email: email ?? credentials.email,
-                          password: credentials.password,
-                          operation: AuthOperation.login,
-                        );
-                      },
+                    const SpaceH10(),
+                    SPaddingH24(
+                      child: SPrimaryButton2(
+                        active: isButtonActive(),
+                        name: intl.login_continue,
+                        onTap: () {
+                          disableContinue.value = true;
+                          loader.value.startLoading();
+                          authenticationN.authenticate(
+                            email: email ?? credentials.email,
+                            password: credentials.password,
+                            operation: AuthOperation.login,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const SpaceH24(),
-                ],
+                    const SpaceH24(),
+                  ],
+                ),
               ),
             ),
           ],

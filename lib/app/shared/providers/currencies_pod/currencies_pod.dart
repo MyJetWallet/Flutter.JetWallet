@@ -73,6 +73,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             assetBalance: Decimal.zero,
             assetCurrentEarnAmount: Decimal.zero,
             assetTotalEarnAmount: Decimal.zero,
+            cardReserve: Decimal.zero,
             baseBalance: Decimal.zero,
             baseCurrentEarnAmount: Decimal.zero,
             baseTotalEarnAmount: Decimal.zero,
@@ -80,6 +81,12 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             dayPriceChange: Decimal.zero,
             earnProgramEnabled: asset.earnProgramEnabled,
             depositInProcess: Decimal.zero,
+            earnInProcessTotal: Decimal.zero,
+            buysInProcessTotal: Decimal.zero,
+            transfersInProcessTotal: Decimal.zero,
+            earnInProcessCount: 0,
+            buysInProcessCount: 0,
+            transfersInProcessCount: 0,
           ),
         );
       }
@@ -119,10 +126,17 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
               assetBalance: balance.balance,
               assetTotalEarnAmount: balance.totalEarnAmount,
               assetCurrentEarnAmount: balance.currentEarnAmount,
+              cardReserve: balance.cardReserve,
               nextPaymentDate: balance.nextPaymentDate,
               apy: balance.apy,
               apr: balance.apr,
               depositInProcess: balance.depositInProcess,
+              earnInProcessTotal: balance.earnInProcessTotal,
+              buysInProcessTotal: balance.buysInProcessTotal,
+              transfersInProcessTotal: balance.transfersInProcessTotal,
+              earnInProcessCount: balance.earnInProcessCount,
+              buysInProcessCount: balance.buysInProcessCount,
+              transfersInProcessCount: balance.transfersInProcessCount,
             );
           }
         }
