@@ -17,10 +17,17 @@ CurrencyModel currencyFromAll(
         assetTotalEarnAmount: Decimal.zero,
         baseTotalEarnAmount: Decimal.zero,
         assetCurrentEarnAmount: Decimal.zero,
+        cardReserve: Decimal.zero,
         baseCurrentEarnAmount: Decimal.zero,
         apy: Decimal.zero,
         apr: Decimal.zero,
         depositInProcess: Decimal.zero,
+        earnInProcessTotal: Decimal.zero,
+        buysInProcessTotal: Decimal.zero,
+        transfersInProcessTotal: Decimal.zero,
+        earnInProcessCount: 0,
+        buysInProcessCount: 0,
+        transfersInProcessCount: 0,
       );
     },
   );

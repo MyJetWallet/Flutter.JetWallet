@@ -5,12 +5,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../shared/providers/service_providers.dart';
-//import '../../../../../../../../../screens/earn/components/earn_offer_details/earn_offer_details.dart';
-//import '../../../../../../../../../screens/earn/components/earn_subscription/earn_subscriptions.dart';
+import '../../../../../../../../../screens/earn/components/earn_offer_details/earn_offer_details.dart';
+import '../../../../../../../../../screens/earn/components/earn_subscription/earn_subscriptions.dart';
+import '../../../../../../../../../screens/earn/earn.dart';
 import '../../../../../../../../../screens/market/helper/format_day_percentage_change.dart';
-//import '../../../../../../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../../../../../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../../../../../../../helpers/formatting/formatting.dart';
 import '../../../../../../../../models/currency_model.dart';
 import '../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../../../../../../earn/notifier/earn_profile_notipod.dart';
 import '../../../../../../../earn/provider/earn_offers_pod.dart';
 import '../../../../../../helper/show_interest_rate.dart';
 
@@ -25,10 +28,11 @@ class WalletCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
-    //final navigation = useProvider(navigationStpod);
+    final navigation = useProvider(navigationStpod);
     final colors = useProvider(sColorPod);
     final baseCurrency = useProvider(baseCurrencyPod);
     final earnOffers = useProvider(earnOffersPod);
+    final earnProfile = useProvider(earnProfileNotipod);
 
     final filteredEarnOffers = earnOffers
         .where(
@@ -44,7 +48,17 @@ class WalletCard extends HookWidget {
         ? intl.earn_title
         : filteredActiveEarnOffers.length == 1
             ? '${filteredActiveEarnOffers[0].currentApy}%'
-            : intl.recurringBuysStatus_active;
+            : '${intl.earn_title}: ${filteredActiveEarnOffers.length}';
+    final interestRateDisabledText = '+${volumeFormat(
+      prefix: baseCurrency.prefix,
+      decimal: currency.baseTotalEarnAmount,
+      accuracy: baseCurrency.accuracy,
+      symbol: baseCurrency.symbol,
+    )}';
+    final isInterestRateDisabledVisible = currency.apy > Decimal.zero &&
+        !(currency.assetBalance == Decimal.zero &&
+            currency.isPendingDeposit);
+    final earnEnabled = earnProfile.earnProfile?.earnEnabled ?? false;
     final interestRateTextSize = _textSize(
       interestRateText,
       sSubtitle3Style,
@@ -85,38 +99,48 @@ class WalletCard extends HookWidget {
               ),
             ),
           ),
-          if (isInterestRateVisible)
+          if (earnEnabled
+              ? isInterestRateVisible
+              : isInterestRateDisabledVisible)
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
-                  showInterestRate(
-                    context: context,
-                    currency: currency,
-                    baseCurrency: baseCurrency,
-                    colors: colors,
-                    colorDayPercentage: colorDayPercentage(
-                      currency.dayPercentChange,
-                      colors,
-                    ),
-                  );
-
-                  /* if (filteredActiveEarnOffers.isEmpty) {
-                    showSubscriptionBottomSheet(
+                  if (!earnEnabled) {
+                    showInterestRate(
                       context: context,
-                      offers: filteredEarnOffers,
                       currency: currency,
-                    );
-                  } else if (filteredActiveEarnOffers.length == 1) {
-                    showEarnOfferDetails(
-                      context: context,
-                      earnOffer: filteredActiveEarnOffers[0],
+                      baseCurrency: baseCurrency,
+                      colors: colors,
+                      colorDayPercentage: colorDayPercentage(
+                        currency.dayPercentChange,
+                        colors,
+                      ),
                     );
                   } else {
-                    Navigator.pop(context);
-                    navigation.state = 2;
+                    if (filteredActiveEarnOffers.isEmpty) {
+                      showSubscriptionBottomSheet(
+                        context: context,
+                        offers: filteredEarnOffers,
+                        currency: currency,
+                      );
+                    } else if (filteredActiveEarnOffers.length == 1) {
+                      showEarnOfferDetails(
+                        context: context,
+                        earnOffer: filteredActiveEarnOffers[0],
+                      );
+                    } else {
+                      navigation.state = 2;
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const Earn(),
+                        ),
+                            (route) => route.isFirst,
+                      );
+                      Navigator.pop(context);
+                    }
                   }
-                  */
                 },
                 child: Container(
                   height: 24,
@@ -132,7 +156,7 @@ class WalletCard extends HookWidget {
                   child: SBaselineChild(
                     baseline: 17,
                     child: Text(
-                      interestRateText,
+                      earnEnabled ? interestRateText : interestRateDisabledText,
                       style: sSubtitle3Style.copyWith(
                         color: colors.white,
                       ),

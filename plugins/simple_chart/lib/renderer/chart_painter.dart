@@ -294,7 +294,7 @@ class ChartPainter extends BaseChartPainter {
           ),
           color: ChartColors.maxMinTextColor,
         );
-        tp.paint(canvas, Offset(x, (y - tp.height / 2) + 2));
+        tp.paint(canvas, Offset(x, (y - tp.height / 0.8) + 2));
       } else {
         final tp = getTextPainter(
           formatPrice(

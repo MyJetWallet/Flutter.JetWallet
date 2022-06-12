@@ -151,9 +151,13 @@ class _EmailVerificationState extends State<EmailVerification>
                     onLongPress: () => verificationN.pasteCode(),
                     onDoubleTap: () => verificationN.pasteCode(),
                     onTap: () {
-                      if (!focusNode.hasFocus) {
-                        focusNode.requestFocus();
-                      }
+                      focusNode.unfocus();
+
+                      Future.delayed(const Duration(microseconds: 100), () {
+                        if (!focusNode.hasFocus) {
+                          focusNode.requestFocus();
+                        }
+                      });
                     },
                     // AbsorbPointer needed to avoid TextField glitch onTap
                     // when it's focused

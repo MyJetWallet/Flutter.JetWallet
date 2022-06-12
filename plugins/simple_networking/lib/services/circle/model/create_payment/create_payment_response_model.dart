@@ -7,7 +7,7 @@ part 'create_payment_response_model.g.dart';
 class CreatePaymentResponseModel with _$CreatePaymentResponseModel {
   const factory CreatePaymentResponseModel({
     required CirclePaymentStatus status,
-    required String depoistId,
+    required int depositId,
   }) = _CreatePaymentResponseModel;
 
   factory CreatePaymentResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -15,12 +15,20 @@ class CreatePaymentResponseModel with _$CreatePaymentResponseModel {
 }
 
 enum CirclePaymentStatus {
+  @JsonValue(0)
   ok,
+  @JsonValue(1)
   cardNotFound,
+  @JsonValue(2)
   paymentFailed,
+  @JsonValue(3)
   cardFailed,
+  @JsonValue(4)
   cardAddressMismatch,
+  @JsonValue(5)
   cardZipMismatch,
+  @JsonValue(6)
   cardCvvInvalid,
+  @JsonValue(7)
   cardExpired,
 }

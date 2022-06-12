@@ -9,7 +9,6 @@ class SPaymentSelectAsset extends StatelessWidget {
     this.onTap,
     this.helper = '',
     this.amount = '',
-    this.isCreditCard = false,
     required this.icon,
     required this.name,
     required this.description,
@@ -19,7 +18,6 @@ class SPaymentSelectAsset extends StatelessWidget {
   final Function()? onTap;
   final String helper;
   final String amount;
-  final bool isCreditCard;
   final Widget icon;
   final String name;
   final String description;
@@ -72,7 +70,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                               const SpaceW16(),
                               if (amount.isNotEmpty)
                                 SizedBox(
-                                  width: isCreditCard ? 90.0 : 110.0,
+                                  width: 110.0,
                                   child: Text(
                                     amount,
                                     textAlign: TextAlign.end,
@@ -98,7 +96,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                               ),
                               const SpaceW16(),
                               SizedBox(
-                                width: isCreditCard ? 90.0 : 110.0,
+                                width: 110.0,
                                 child: Text(
                                   helper,
                                   textAlign: TextAlign.end,

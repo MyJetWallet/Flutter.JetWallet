@@ -51,15 +51,13 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
-                child: Baseline(
-                  baseline: 20.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    name,
-                    maxLines: 2,
-                    style: sTextH4Style,
-                  ),
+              Baseline(
+                baseline: 20.0,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  name,
+                  maxLines: 2,
+                  style: sTextH4Style,
                 ),
               ),
               GestureDetector(
@@ -158,7 +156,6 @@ class _ActionRecurringBuy extends HookWidget {
                 onItemTap(RecurringBuysType.monthly);
               },
             ),
-            const SpaceH40(),
           ],
         ),
       ],

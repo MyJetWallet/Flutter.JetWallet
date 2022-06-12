@@ -52,23 +52,28 @@ class CurrencyWithdraw extends HookWidget {
                     highlightColor: colors.grey5,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      showNetworkBottomSheet(
-                        context,
-                        state.network,
-                        currency.withdrawalBlockchains,
-                        currency.iconUrl,
-                        notifier.updateNetwork,
-                      );
+                      if (currency.withdrawalBlockchains.length > 1) {
+                        showNetworkBottomSheet(
+                          context,
+                          state.network,
+                          currency.withdrawalBlockchains,
+                          currency.iconUrl,
+                          notifier.updateNetwork,
+                        );
+                      }
                     },
                     child: SPaddingH24(
                       child: SStandardField(
                         controller: state.networkController,
-                        labelText: intl.currencyWithdraw_chooseNetwork,
+                        labelText: (currency.withdrawalBlockchains.length > 1)
+                            ? intl.currencyWithdraw_chooseNetwork
+                            : intl.cryptoDeposit_network,
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
-                        suffixIcons: const [
-                          SAngleDownIcon(),
+                        suffixIcons: [
+                          if (currency.withdrawalBlockchains.length > 1)
+                            const SAngleDownIcon()
                         ],
                       ),
                     ),

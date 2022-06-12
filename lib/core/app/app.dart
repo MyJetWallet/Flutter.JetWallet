@@ -12,10 +12,12 @@ import '../../auth/screens/register/register.dart';
 import '../../auth/screens/register/register_password_screen.dart';
 import '../../auth/screens/reset_password/view/reset_password.dart';
 import '../../router/view/router.dart';
+import '../../shared/helpers/firebase_analytics.dart';
 import '../../shared/logging/provider_logger.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
 import '../../shared/providers/device_info_pod.dart';
 import '../../shared/providers/package_info_fpod.dart';
+import '../../shared/providers/service_providers.dart';
 import '../stage/app_router_stage/app_router_stage.dart';
 import '../stage/components/app_init.dart';
 import 'app_builder.dart';
@@ -37,6 +39,7 @@ final _providerTypes = <String>[
   'AutoDisposeProvider<List<CampaignModel>>',
   'AutoDisposeStateNotifierProvider<CampaignNotifier, List<CampaignModel>>',
   'AutoDisposeStateNotifierProvider<CurrencyBuyNotifier, CurrencyBuyState>',
+  'AutoDisposeStateNotifierProvider<ActionSearchNotifier, ActionSearchState>',
 ];
 
 final _providerNames = <String>[
@@ -99,7 +102,11 @@ class _App extends HookWidget {
     useProvider(deviceInfoPod);
     useProvider(packageInfoFpod);
     final navigatorKey = useProvider(sNavigatorKeyPod);
+    final deviceInfo = useProvider(deviceInfoPod);
     final theme = useProvider(sThemePod);
+    final storage = useProvider(localStorageServicePod);
+
+    checkInitAppFBAnalytics(storage, deviceInfo);
 
     return CupertinoApp(
       restorationScopeId: 'app',
@@ -110,7 +117,7 @@ class _App extends HookWidget {
       builder: builder ?? (_, child) => AppBuilder(child),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: const [
-        Locale('en', ''),
+        Locale('en'),
       ],
       // supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: isStageEnv ? AppRouterStage.routeName : AppRouter.routeName,

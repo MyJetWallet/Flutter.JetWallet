@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
-import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/onboarding/onboarding_screen.dart';
 import '../../../auth/screens/splash/splash_screen.dart';
@@ -31,9 +30,32 @@ class AppInit extends HookWidget {
       data: (_) {
         return router.state.when(
           authorized: () {
-            final isAppLoaded = useProvider(initFinishedSpod);
+            //final isAppLoaded = useProvider(initFinishedSpod);
 
-            return isAppLoaded.maybeWhen(
+            return startup.authorized.when(
+              loading: () => const SplashScreen(),
+              emailVerification: () => const EmailVerification(),
+              twoFaVerification: () {
+                return const TwoFaPhone(
+                  trigger: TwoFaPhoneTriggerUnion.startup(),
+                );
+              },
+              pinSetup: () {
+                return const PinScreen(
+                  union: Setup(),
+                  cannotLeave: true,
+                );
+              },
+              pinVerification: () {
+                return const PinScreen(
+                  union: Verification(),
+                  cannotLeave: true,
+                );
+              },
+              home: () => Navigation(),
+            );
+
+            /* return isAppLoaded.maybeWhen(
               data: (value) {
                 if (value) {
                   return startup.authorized.when(
@@ -64,6 +86,7 @@ class AppInit extends HookWidget {
               },
               orElse: () => const SplashScreen(),
             );
+            */
           },
           unauthorized: () => const OnboardingScreen(),
         );

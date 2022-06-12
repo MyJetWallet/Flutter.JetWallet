@@ -13,7 +13,7 @@ class CreatePaymentRequestModel with _$CreatePaymentRequestModel {
     required String keyId,
     required String cardId,
     @DecimalSerialiser() required Decimal amount,
-    required String currency,
+    @JsonKey(name: 'currency') required String currencySymbol,
     required String encryptedData,
   }) = _CreatePaymentRequestModel;
 

@@ -169,7 +169,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Text(
-                        '${tiers[0].apy}%',
+                        ' ${tiers[0].apy}% ',
                         style: sSubtitle3Style.copyWith(
                           color: SColorsLight().white,
                         ),
@@ -190,7 +190,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Text(
-                        '${tiers[1].apy}%',
+                        ' ${tiers[1].apy}% ',
                         style: sSubtitle3Style.copyWith(
                           color: tiers[1].active
                               ? SColorsLight().white
@@ -213,7 +213,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                         child: Text(
-                          '${tiers[2].apy}%',
+                          ' ${tiers[2].apy}% ',
                           style: sSubtitle3Style.copyWith(
                             color: tiers[2].active
                                 ? SColorsLight().white

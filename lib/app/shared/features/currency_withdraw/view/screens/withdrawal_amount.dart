@@ -87,8 +87,15 @@ class WithdrawalAmount extends HookWidget {
                   ),
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
-                    '${intl.withdrawalAmount_available}:'
-                    ' ${currency.volumeAssetBalance}',
+                    '${intl.withdrawalAmount_available}: '
+                        '${volumeFormat(
+                      decimal: Decimal.parse(
+                      '${currency.assetBalance.toDouble() -
+                          currency.cardReserve.toDouble()}',
+                      ),
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    )}',
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
                     ),

@@ -36,6 +36,7 @@ export 'src/actions/simple_payment_select_contact_without_name.dart';
 export 'src/actions/simple_payment_select_default.dart';
 export 'src/actions/simple_payment_select_empty_balance.dart';
 export 'src/actions/simple_payment_select_fiat.dart';
+export 'src/actions/simple_payment_select_credit_card.dart';
 
 /// Agreements
 export 'src/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
@@ -47,6 +48,7 @@ export 'src/asset_items/simple_asset_item.dart';
 export 'src/asset_items/simple_fiat_item.dart';
 export 'src/asset_items/simple_market_item.dart';
 export 'src/asset_items/simple_wallet_item.dart';
+export 'src/asset_items/simple_credit_card_item.dart';
 
 /// Market Banners
 export 'src/banners/market_banner/simple_market_banner.dart';
@@ -117,7 +119,12 @@ export 'src/icons/16x16/public/smiles/simple_smile_neutral_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_icon.dart';
 export 'src/icons/16x16/public/tick/simple_tick_selected_icon.dart';
 export 'src/icons/18x18/public/paid_interest_rate/simple_paid_interest_rate_icon.dart';
+export 'src/icons/18x18/public/earn/simple_earn_deposit_icon.dart';
 export 'src/icons/20x20/public/deposit/simple_deposit_icon.dart';
+export 'src/icons/20x20/public/deposit_in_progress/simple_deposit_buy_icon.dart';
+export 'src/icons/20x20/public/deposit_in_progress/simple_deposit_send_icon.dart';
+export 'src/icons/20x20/public/deposit_in_progress/simple_deposit_earn_icon.dart';
+export 'src/icons/20x20/public/deposit_in_progress/simple_deposit_total_icon.dart';
 export 'src/icons/20x20/public/minus/simple_minus_icon.dart';
 export 'src/icons/20x20/public/plus/simple_plus_icon.dart';
 export 'src/icons/20x20/public/receive_by_phone/simple_receive_by_phone_icon.dart';
@@ -159,7 +166,6 @@ export 'src/icons/24x24/public/delete/simple_delete_manage_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_market_icon.dart';
 export 'src/icons/24x24/public/erase/simple_erase_pressed_icon.dart';
-export 'src/icons/24x24/public/earn/simple_earn_deposit_icon.dart';
 export 'src/icons/24x24/public/earn/simple_earn_withdrawal_icon.dart';
 export 'src/icons/24x24/public/error/simple_error_icon.dart';
 export 'src/icons/24x24/public/error/simple_error_pressed_icon.dart';
@@ -283,6 +289,7 @@ export 'src/shared/components/simple_transparent_ink_well.dart';
 export 'src/shared/components/simple_widget_bottom_size.dart';
 export 'src/shared/components/stack_loader/notifier/stack_loader_notifier.dart';
 export 'src/shared/components/stack_loader/view/components/loader_spinner.dart';
+export 'src/shared/components/simple_show_timer_alert_popup.dart';
 
 /// Constants
 export 'src/shared/constants.dart';

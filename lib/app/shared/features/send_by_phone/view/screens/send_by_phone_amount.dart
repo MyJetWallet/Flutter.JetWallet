@@ -52,7 +52,7 @@ class SendByPhoneAmount extends HookWidget {
               value: state.amount,
               symbol: currency.symbol,
             ),
-            helper: '≈ ${marketFormat(
+            helper: '≈ ${volumeFormat(
               accuracy: state.baseCurrency!.accuracy,
               prefix: state.baseCurrency!.prefix,
               decimal: Decimal.parse(state.baseConversionValue),
@@ -60,7 +60,7 @@ class SendByPhoneAmount extends HookWidget {
             )}',
             error: state.inputError == InputError.enterHigherAmount
                 ? '${state.inputError.value}. '
-                '${minimumAmount(currency, context)}'
+                    '${minimumAmount(currency, context)}'
                 : state.inputError.value(),
             isErrorActive: state.inputError.isActive,
           ),
@@ -71,8 +71,15 @@ class SendByPhoneAmount extends HookWidget {
             ),
             baselineType: TextBaseline.alphabetic,
             child: Text(
-              '${intl.sendByPhoneAmount_available}:'
-                  ' ${currency.volumeAssetBalance}',
+              '${intl.sendByPhoneAmount_available}: '
+              '${volumeFormat(
+                  decimal: Decimal.parse(
+                    '${currency.assetBalance.toDouble() -
+                        currency.cardReserve.toDouble()}',
+                  ),
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+              )}',
               style: sSubtitle3Style.copyWith(
                 color: colors.grey2,
               ),

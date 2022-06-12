@@ -110,20 +110,35 @@ class TwoFaPhone extends HookWidget {
                     boldText: twoFa.phoneNumber,
                   ),
                   const SpaceH60(),
-                  PinCodeField(
-                    focusNode: focusNode,
-                    length: 4,
-                    autoFocus: true,
-                    controller: twoFa.controller,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    onCompleted: (_) async {
-                      loader.value.startLoading();
-                      await twoFaN.verifyCode();
+                  GestureDetector(
+                    onLongPress: () => twoFaN.pasteCode(),
+                    onDoubleTap: () => twoFaN.pasteCode(),
+                    onTap: () {
+                      focusNode.unfocus();
+
+                      Future.delayed(const Duration(microseconds: 100), () {
+                        if (!focusNode.hasFocus) {
+                          focusNode.requestFocus();
+                        }
+                      });
                     },
-                    onChanged: (_) {
-                      pinError.value.disableError();
-                    },
-                    pinError: pinError.value,
+                    child: AbsorbPointer(
+                      child: PinCodeField(
+                        focusNode: focusNode,
+                        length: 4,
+                        autoFocus: true,
+                        controller: twoFa.controller,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        onCompleted: (_) async {
+                          loader.value.startLoading();
+                          await twoFaN.verifyCode();
+                        },
+                        onChanged: (_) {
+                          pinError.value.disableError();
+                        },
+                        pinError: pinError.value,
+                      ),
+                    ),
                   ),
                   const SpaceH7(),
                   if (timer > 0 && !twoFa.showResend)
