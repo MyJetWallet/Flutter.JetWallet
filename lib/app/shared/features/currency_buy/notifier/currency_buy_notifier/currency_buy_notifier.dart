@@ -88,6 +88,15 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       }
 
       if (!cardPreferred) {
+        // Case 3: If the user has a crypt, then we choose the largest
+        for (final currency in state.currencies) {
+          if (currency.type != AssetType.fiat) {
+            return updateSelectedCurrency(currency);
+          }
+        }
+      }
+
+      if (!cardPreferred) {
         // Case 2: If user has at least one fiat wallet
         for (final currency in state.currencies) {
           if (currency.type == AssetType.fiat) {
@@ -97,18 +106,18 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       }
 
       if (currencyModel.supportsCircle) {
-        // Case 3: If user has at least one saved circle card
+        // Case 4: If user has at least one saved circle card
         if (state.circleCards.isNotEmpty) {
           return updateSelectedCircleCard(state.circleCards.first);
         }
       }
 
-      // Case 4: If asset supports al least one Payment method
+      // Case 5: If asset supports at least one Payment method
       if (currencyModel.supportsAtLeastOneBuyMethod) {
         return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
       }
 
-      // Case 5: If user has at least one crypto wallet
+      // Case 6: If user has at least one crypto wallet
       return updateSelectedCurrency(state.currencies.first);
     }
   }
