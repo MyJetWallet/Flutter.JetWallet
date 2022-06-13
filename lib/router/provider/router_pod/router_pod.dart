@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/providers/signal_r/init_finished_spod.dart';
+import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
 
 import '../../../shared/providers/package_info_fpod.dart';
 import '../../notifier/remote_config_notifier/remote_config_notipod.dart';
