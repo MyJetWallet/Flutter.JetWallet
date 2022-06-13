@@ -119,6 +119,18 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
       // Case 6: If user has at least one crypto wallet
       return updateSelectedCurrency(state.currencies.first);
+    } else {
+      if (currencyModel.supportsCircle) {
+        // Case 1: If user has at least one saved circle card
+        if (state.circleCards.isNotEmpty) {
+          return updateSelectedCircleCard(state.circleCards.first);
+        }
+      }
+
+      // Case 2: If asset supports al least one Payment method
+      if (currencyModel.supportsAtLeastOneBuyMethod) {
+        return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
+      }
     }
   }
 
