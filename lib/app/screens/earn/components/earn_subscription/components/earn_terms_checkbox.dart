@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class EarnTermsCheckbox extends StatelessWidget {
+class EarnTermsCheckbox extends HookWidget {
   const EarnTermsCheckbox({
     Key? key,
     required this.firstText,
@@ -23,8 +24,9 @@ class EarnTermsCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late Widget icon;
+    final checked = useState(isChecked);
 
-    if (isChecked) {
+    if (checked.value) {
       icon = const SCheckboxSelectedIcon();
     } else {
       icon = const SCheckboxIcon();
@@ -43,38 +45,39 @@ class EarnTermsCheckbox extends StatelessWidget {
                 children: [
                   const SpaceH21(),
                   SIconButton(
-                    onTap: onCheckboxTap,
+                    onTap: () {
+                      checked.value = !checked.value;
+                      onCheckboxTap();
+                    },
                     defaultIcon: icon,
                     pressedIcon: icon,
                   ),
                 ],
               ),
               const SpaceW10(),
-              Expanded(
-                child: Column(
-                  children: [
-                    const SpaceH25(),
-                    RichText(
-                      text: TextSpan(
-                        text: firstText,
-                        style: sCaptionTextStyle.copyWith(
-                          fontFamily: 'Gilroy',
-                          color: colors.black,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: privacyPolicyText,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = onPrivacyPolicyTap,
-                            style: TextStyle(
-                              color: colors.blue,
-                            ),
-                          ),
-                        ],
+              Column(
+                children: [
+                  const SpaceH25(),
+                  RichText(
+                    text: TextSpan(
+                      text: firstText,
+                      style: sCaptionTextStyle.copyWith(
+                        fontFamily: 'Gilroy',
+                        color: colors.black,
                       ),
-                    )
-                  ],
-                ),
+                      children: [
+                        TextSpan(
+                          text: privacyPolicyText,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = onPrivacyPolicyTap,
+                          style: TextStyle(
+                            color: colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ],
           ),

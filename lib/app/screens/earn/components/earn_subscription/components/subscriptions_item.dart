@@ -7,9 +7,11 @@ import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart
 
 import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/helpers/navigator_push_replacement.dart';
+import '../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../shared/features/high_yield_buy/view/high_yield_buy.dart';
+import '../../../../../shared/features/high_yield_disclaimer/notifier/high_yield_disclaimer_notipod.dart';
 import '../../../../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../../shared/models/currency_model.dart';
@@ -35,16 +37,18 @@ class SubscriptionsItem extends HookWidget {
     final colors = useProvider(sColorPod);
     final intl = useProvider(intlPod);
     final kyc = context.read(kycNotipod);
+    final disclaimer = useProvider(highYieldDisclaimerNotipod);
+    final disclaimerN = context.read(highYieldDisclaimerNotipod.notifier);
     final handler = context.read(kycAlertHandlerPod(context));
+    final userInfo = useProvider(userInfoNotipod);
     var apy = Decimal.zero;
-
-    final isCheckedTerms = useState(false);
 
     for (final element in earnOffer.tiers) {
       if (element.apy > apy) {
         apy = element.apy;
       }
     }
+
 
     return Column(
       children: [
@@ -53,41 +57,69 @@ class SubscriptionsItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
-            // sShowAlertPopup(
-            //   context,
-            //   willPopScope: false,
-            //   image: Image.asset(
-            //     disclaimerAsset,
-            //     width: 80,
-            //     height: 80,
-            //   ),
-            //   primaryText:
-            //   intl.earn_terms_title,
-            //   secondaryText: intl.earn_terms_description,
-            //   primaryButtonName: intl.earn_terms_continue,
-            //   onPrimaryButtonTap: () {
-            //     Navigator.pop(context);
-            //   },
-            //   secondaryButtonName: intl.earn_terms_cancel,
-            //   child: EarnTermsCheckbox(
-            //       firstText: intl.earn_terms_checkbox,
-            //       privacyPolicyText: intl.earn_terms_link,
-            //       isChecked: isCheckedTerms.value,
-            //       onCheckboxTap: () => isCheckedTerms.value =
-            //         !isCheckedTerms.value,
-            //       onPrivacyPolicyTap: () {
-            //         HelpCenterWebView.push(
-            //           context: context,
-            //           link: privacyEarnLink,
-            //         );
-            //       },
-            //       colors: colors,
-            //   ),
-            //   onSecondaryButtonTap: () {
-            //     Navigator.pop(context);
-            //   },
-            // );
-            if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+            if (userInfo.hasHighYieldDisclaimers &&
+                !disclaimer.send) {
+              sShowAlertPopup(
+                context,
+                willPopScope: false,
+                image: Image.asset(
+                  disclaimerAsset,
+                  width: 80,
+                  height: 80,
+                ),
+                primaryText: intl.earn_terms_title,
+                secondaryText: intl.earn_terms_description,
+                primaryButtonName: intl.earn_terms_continue,
+                onPrimaryButtonTap: () {
+                  disclaimerN.sendAnswers(
+                    () {
+                      if (kyc.depositStatus ==
+                          kycOperationStatus(KycStatus.allowed)) {
+                        navigatorPushReplacement(
+                          context,
+                          HighYieldBuy(
+                            currency: currency,
+                            earnOffer: earnOffer,
+                          ),
+                        );
+                      } else {
+                        handler.handle(
+                          status: kyc.depositStatus,
+                          kycVerified: kyc,
+                          isProgress: kyc.verificationInProgress,
+                          currentNavigate: () => SubscriptionsItem(
+                            days: days,
+                            isHot: isHot,
+                            earnOffer: earnOffer,
+                            currency: currency,
+                          ),
+                        );
+                      }
+                    },
+                  );
+                },
+                secondaryButtonName: intl.earn_terms_cancel,
+                child: EarnTermsCheckbox(
+                  firstText: intl.earn_terms_checkbox,
+                  privacyPolicyText: intl.earn_terms_link,
+                  isChecked: disclaimerN.isCheckBoxActive(),
+                  onCheckboxTap: () {
+                    disclaimerN.onCheckboxTap();
+                  },
+                  onPrivacyPolicyTap: () {
+                    HelpCenterWebView.push(
+                      context: context,
+                      link: privacyEarnLink,
+                    );
+                  },
+                  colors: colors,
+                ),
+                onSecondaryButtonTap: () {
+                  Navigator.pop(context);
+                },
+              );
+            } else if (kyc.depositStatus ==
+                kycOperationStatus(KycStatus.allowed)) {
               navigatorPushReplacement(
                 context,
                 HighYieldBuy(
