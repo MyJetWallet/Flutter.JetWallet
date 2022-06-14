@@ -18,11 +18,13 @@ import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/debug_info/debug_info.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
+import '../../shared/features/payment_methods/view/payment_methods.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
 import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/transaction_history/components/history_recurring_buys.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../shared/helpers/check_kyc_status.dart';
+import '../../shared/providers/show_payment_methods_pod/show_payment_methods_pod.dart';
 import 'components/account_banner_list.dart';
 import 'components/crisp.dart';
 import 'components/help_center_web_view.dart';
@@ -39,6 +41,7 @@ class Account extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
+    final showPaymentMethods = useProvider(showPaymentsMethodsPod);
 
     final colors = useProvider(sColorPod);
 
@@ -128,15 +131,15 @@ class Account extends HookWidget {
                               navigatorPush(context, const AccountSecurity());
                             },
                           ),
-                          // TODO uncomment when Circle will be ready
-                          // SimpleAccountCategoryButton(
-                          //   title: 'Payment methods',
-                          //   icon: SActionDepositIcon(
-                          //     color: colors.black,
-                          //   ),
-                          //   isSDivider: true,
-                          //   onTap: () => PaymentMethods.push(context),
-                          // ),
+                          if (showPaymentMethods)
+                            SimpleAccountCategoryButton(
+                              title: intl.account_paymentMethods,
+                              icon: SActionDepositIcon(
+                                color: colors.black,
+                              ),
+                              isSDivider: true,
+                              onTap: () => PaymentMethods.push(context),
+                            ),
                           SimpleAccountCategoryButton(
                             title: intl.account_recurringBuy,
                             icon: const SRecurringBuysIcon(),

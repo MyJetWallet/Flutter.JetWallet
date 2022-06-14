@@ -26,9 +26,11 @@ import '../../auth/screens/forgot_password/view/confirm_password_reset.dart';
 import '../../auth/screens/login/login.dart';
 import '../../router/notifier/startup_notifier/authorized_union.dart';
 import '../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../helpers/firebase_analytics.dart';
 import '../helpers/launch_url.dart';
 import '../helpers/navigator_push.dart';
 import '../notifiers/logout_notifier/logout_notipod.dart';
+import '../providers/device_info_pod.dart';
 import '../providers/device_size/media_query_pod.dart';
 import '../providers/referral_info_pod.dart';
 import '../providers/service_providers.dart';
@@ -342,11 +344,13 @@ class DeepLinkService {
     );
   }
 
-  void _referralRedirectCommand(Map<String, String> parameters) {
+  Future<void> _referralRedirectCommand(Map<String, String> parameters) async {
     final storage = read(localStorageServicePod);
+    final deviceInfo = read(deviceInfoPod);
     final referralCode = parameters[_code];
 
-    storage.setString(referralCodeKey, referralCode);
+    await storage.setString(referralCodeKey, referralCode);
+    await checkInitAppFBAnalytics(storage, deviceInfo);
   }
 
   void _earnLandingCommand(SourceScreen? source) {

@@ -7,6 +7,7 @@ part 'asset_payment_methods.g.dart';
 class AssetPaymentMethods with _$AssetPaymentMethods {
   const factory AssetPaymentMethods({
     required List<AssetPaymentInfo> assets,
+    @Default(false) bool showCardsInProfile,
   }) = _AssetPaymentMethods;
 
   factory AssetPaymentMethods.fromJson(Map<String, dynamic> json) =>
@@ -43,14 +44,17 @@ class PaymentMethod with _$PaymentMethod {
 
 enum PaymentMethodType {
   simplex,
+  circleCard,
   unsupported,
 }
 
-extension PaymentMethodTypeExtension on PaymentMethodType {
+extension _PaymentMethodTypeExtension on PaymentMethodType {
   String get name {
     switch (this) {
       case PaymentMethodType.simplex:
         return 'Simplex';
+      case PaymentMethodType.circleCard:
+        return 'CircleCard';
       default:
         return 'Unsupported';
     }
@@ -67,6 +71,8 @@ class PaymentTypeSerialiser
 
     if (value == 'Simplex') {
       return PaymentMethodType.simplex;
+    } else if (value == 'CircleCard') {
+      return PaymentMethodType.circleCard;
     } else {
       return PaymentMethodType.unsupported;
     }

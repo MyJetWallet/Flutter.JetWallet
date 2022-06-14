@@ -141,9 +141,13 @@ class PhoneVerification extends HookWidget {
               onLongPress: () => phoneN.pasteCode(),
               onDoubleTap: () => phoneN.pasteCode(),
               onTap: () {
-                if (!focusNode.hasFocus) {
-                  focusNode.requestFocus();
-                }
+                focusNode.unfocus();
+
+                Future.delayed(const Duration(microseconds: 100), () {
+                  if (!focusNode.hasFocus) {
+                    focusNode.requestFocus();
+                  }
+                });
               },
               child: AbsorbPointer(
                 child: PinCodeField(
@@ -160,6 +164,7 @@ class PhoneVerification extends HookWidget {
                 ),
               ),
             ),
+
             /// TODO update legacy resend
             if (timer > 0 && !phone.showResend)
               ResendInText(

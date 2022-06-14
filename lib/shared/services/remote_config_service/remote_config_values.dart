@@ -6,6 +6,7 @@ late String privacyPolicyLink;
 late String referralPolicyLink;
 late String infoRewardsLink;
 late String infoEarnLink;
+late int paymentDelayDays;
 late String privacyEarnLink;
 late int minAmountOfCharsInPassword;
 late int maxAmountOfCharsInPassword;
@@ -36,3 +37,6 @@ late String simplexOrigin;
 // AppsFlyer
 late String appsFlyerKey;
 late String iosAppId;
+
+// Circle
+late bool cvvEnabled;

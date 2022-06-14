@@ -6,12 +6,14 @@ import 'package:logging/logging.dart';
 import 'package:openpgp/openpgp.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/add_card/add_card_request_model.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../shared/logging/levels.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../../../shared/services/local_storage_service.dart';
 import 'add_circle_card_state.dart';
 
 class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
@@ -30,6 +32,7 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
           ),
         ) {
     _initState();
+    _updateBillingAddressFromStorage();
   }
 
   final Reader read;
@@ -82,7 +85,7 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
   }
 
   Future<void> addCard({
-    required VoidCallback onSuccess,
+    required Function(CircleCard) onSuccess,
     required VoidCallback onError,
   }) async {
     _logger.log(notifier, 'addCard');
@@ -95,10 +98,12 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
       final response =
           await read(circleServicePod).encryptionKey(intl.localeName);
 
+      final cardNumber = state.cardNumber.replaceAll('\u{2005}', '');
+
       final base64Decoded = base64Decode(response.encryptionKey);
       final utf8Decoded = utf8.decode(base64Decoded);
       final encrypted = await OpenPGP.encrypt(
-        '{${intl.number}:"${state.cardNumber}","cvv": "${state.cvv}"}',
+        '{"number":"$cardNumber","cvv":"${state.cvv}"}',
         utf8Decoded,
       );
       final utf8Encoded = utf8.encode(encrypted);
@@ -121,11 +126,12 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
         expYear: int.parse('20${expDate[1]}'),
       );
 
-      await read(circleServicePod).addCard(
+      final card = await read(circleServicePod).addCard(
         model,
         intl.localeName,
       );
-      state.loader!.finishLoading(onFinish: onSuccess);
+      _saveBillingAddressToStorage();
+      state.loader!.finishLoading(onFinish: () => onSuccess(card));
     } on ServerRejectException catch (error) {
       read(sNotificationNotipod.notifier).showError(
         error.cause,
@@ -240,5 +246,39 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
       district: '',
       postalCode: '',
     );
+  }
+
+  void _saveBillingAddressToStorage() {
+    final json = {
+      'streetAddress1': state.streetAddress1,
+      'streetAddress2': state.streetAddress2,
+      'city': state.city,
+      'district': state.district,
+      'postalCode': state.postalCode,
+      'billingCountry': state.selectedCountry!.isoCode,
+    };
+
+    read(localStorageServicePod).setJson(billingInformationKey, json);
+  }
+
+  Future<void> _updateBillingAddressFromStorage() async {
+    final storage = read(localStorageServicePod);
+    final string = await storage.getValue(billingInformationKey);
+
+    if (string != null) {
+      final json = jsonDecode(string) as Map<String, dynamic>;
+
+      final isoCode = json['billingCountry'] as String;
+      final country = sPhoneNumbers.firstWhere((e) => e.isoCode == isoCode);
+
+      state = state.copyWith(
+        streetAddress1: json['streetAddress1'] as String,
+        streetAddress2: json['streetAddress2'] as String,
+        city: json['city'] as String,
+        district: json['district'] as String,
+        postalCode: json['postalCode'] as String,
+        selectedCountry: country,
+      );
+    }
   }
 }

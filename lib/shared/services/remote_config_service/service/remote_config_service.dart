@@ -6,6 +6,7 @@ import 'package:simple_networking/shared/api_urls.dart';
 import '../model/analytics_model.dart';
 import '../model/app_config_model.dart';
 import '../model/apps_flyer_model.dart';
+import '../model/circle_model.dart';
 import '../model/connection_flavor_model.dart';
 import '../model/simplex_model.dart';
 import '../model/support_model.dart';
@@ -22,7 +23,7 @@ class RemoteConfigService {
 
   static final _service = RemoteConfigService._internal();
 
-  final _config = RemoteConfig.instance;
+  final _config = FirebaseRemoteConfig.instance;
 
   Future<void> fetchAndActivate() async {
     await _config.setConfigSettings(
@@ -39,6 +40,7 @@ class RemoteConfigService {
     overrideAnalyticsValues();
     overrideSimplexValues();
     overrideAppsFlyerValues();
+    overrideCircleValues();
   }
 
   ConnectionFlavorsModel get connectionFlavors {
@@ -97,6 +99,14 @@ class RemoteConfigService {
     return AppsFlyerModel.fromJson(json);
   }
 
+  CircleModel get circle {
+    final values = _config.getString('Circle');
+
+    final json = jsonDecode(values) as Map<String, dynamic>;
+
+    return CircleModel.fromJson(json);
+  }
+
   /// Each index respresents different flavor (backend environment)
   void overrideApisFrom(int index) {
     final flavor = connectionFlavors.flavors[index];
@@ -117,6 +127,7 @@ class RemoteConfigService {
     referralPolicyLink = appConfig.referralPolicyLink;
     infoRewardsLink = appConfig.infoRewardsLink;
     infoEarnLink = appConfig.infoEarnLink;
+    paymentDelayDays = appConfig.paymentDelayDays;
     privacyEarnLink = appConfig.privacyEarnLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
@@ -152,5 +163,9 @@ class RemoteConfigService {
   void overrideAppsFlyerValues() {
     appsFlyerKey = appsFlyer.devKey;
     iosAppId = appsFlyer.iosAppId;
+  }
+
+  void overrideCircleValues() {
+    cvvEnabled = circle.cvvEnabled;
   }
 }

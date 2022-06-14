@@ -34,8 +34,8 @@ class AppInit extends HookWidget {
             final isAppLoaded = useProvider(initFinishedSpod);
 
             return isAppLoaded.maybeWhen(
-              data: (value) {
-                if (value) {
+              data: (loaded) {
+                if (loaded) {
                   return startup.authorized.when(
                     loading: () => const SplashScreen(),
                     emailVerification: () => const EmailVerification(),

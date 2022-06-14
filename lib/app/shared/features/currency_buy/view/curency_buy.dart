@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
@@ -11,18 +12,20 @@ import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../../../helpers/are_balances_empty.dart';
 import '../../../helpers/format_currency_string_amount.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../add_circle_card/view/add_circle_card.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
+import '../helper/formatted_circle_card.dart';
 import '../model/preview_buy_with_asset_input.dart';
+import '../model/preview_buy_with_circle_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'components/recurring_selector.dart';
-import 'preview_buy_with_asset.dart';
-import 'simplex_web_view.dart';
+import 'screens/preview_buy_with_asset.dart';
+import 'screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
+import 'screens/simplex_web_view.dart';
 
 class CurrencyBuy extends StatefulHookWidget {
   const CurrencyBuy({
@@ -56,7 +59,6 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     final colors = useProvider(sColorPod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
-    final emptyBalances = areBalancesEmpty(useProvider(currenciesPod));
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
@@ -66,9 +68,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
         ),
       ),
     );
-    final loader = useValueNotifier(StackLoaderNotifier());
     final disableSubmit = useState(false);
-    useListenable(loader.value);
 
     void _showAssetSelector() {
       sShowBasicModalBottomSheet(
@@ -114,19 +114,67 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
                 onTap: () => Navigator.pop(context, currency),
               ),
+          for (final card in state.circleCards)
+            Builder(
+              builder: (context) {
+                final formatted = formattedCircleCard(
+                  card,
+                  state.baseCurrency!,
+                );
+
+                return SCreditCardItem(
+                  isSelected: state.pickedCircleCard?.id == card.id,
+                  icon: SActionDepositIcon(
+                    color: state.pickedCircleCard?.id == card.id
+                        ? colors.blue
+                        : colors.black,
+                  ),
+                  name: formatted.name,
+                  amount: formatted.last4Digits,
+                  helper: formatted.expDate,
+                  description: formatted.limit,
+                  onTap: () => Navigator.pop(context, card),
+                );
+              },
+            ),
           for (final method in widget.currency.buyMethods)
             if (method.type == PaymentMethodType.simplex) ...[
               const SpaceH20(),
+              Builder(
+                builder: (context) {
+                  final isSelected = state.selectedPaymentMethod?.type ==
+                      PaymentMethodType.simplex;
+
+                  return SActionItem(
+                    isSelected: isSelected,
+                    icon: SActionDepositIcon(
+                      color: isSelected ? colors.blue : colors.black,
+                    ),
+                    name: intl.curencyBuy_actionItemName,
+                    description: intl.curencyBuy_actionItemDescription,
+                    onTap: () => Navigator.pop(context, method),
+                    helper: '≈10-30 ${intl.min}',
+                  );
+                },
+              ),
+            ] else if (method.type == PaymentMethodType.circleCard) ...[
+              const SpaceH20(),
               SActionItem(
-                isSelected: state.selectedCurrency == null,
                 icon: SActionDepositIcon(
-                  color: state.selectedCurrency == null
-                      ? colors.blue
-                      : colors.black,
+                  color: colors.black,
                 ),
-                name: intl.curencyBuy_actionItemName,
-                description: intl.curencyBuy_actionItemDescription,
-                onTap: () => Navigator.pop(context, method),
+                name: '${intl.currencyBuy_addBankCard} - Circle',
+                description: 'Visa, Mastercard, Apple Pay',
+                onTap: () {
+                  AddCircleCard.pushReplacement(
+                    context: context,
+                    onCardAdded: (card) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      notifier.onCircleCardAdded(card);
+                    },
+                  );
+                },
                 helper: '≈10-30 ${intl.min}',
               ),
             ],
@@ -147,6 +195,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               notifier.updateSelectedCurrency(value);
               notifier.resetValuesToZero();
             }
+          } else if (value is CircleCard) {
+            notifier.updateSelectedCircleCard(value);
           }
         },
       );
@@ -154,7 +204,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
 
     return SPageFrame(
       loaderText: intl.curencyBuy_pleaseWait,
-      loading: loader.value,
+      loading: state.loader,
       header: SPaddingH24(
         child: SSmallHeader(
           title: '${intl.curencyBuy_buy} ${widget.currency.description}',
@@ -191,8 +241,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
               const Spacer(),
               RecurringSelector(
-                oneTimePurchaseOnly: state.selectedPaymentMethod?.type ==
-                    PaymentMethodType.simplex,
+                oneTimePurchaseOnly: state.isOneTimePurchaseOnly,
                 currentSelection: state.recurringBuyType,
                 onSelect: (selection) {
                   notifier.updateRecurringBuyType(selection);
@@ -203,16 +252,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 small: () => const SpaceH8(),
                 medium: () => const SpaceH16(),
               ),
-              if (emptyBalances && !widget.currency.supportsAtLeastOneBuyMethod)
-                SPaymentSelectEmptyBalance(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
-                )
-              else if (state.selectedPaymentMethod?.type ==
+              if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)
                 SPaymentSelectAsset(
                   widgetSize: widgetSizeFrom(deviceSize),
-                  isCreditCard: true,
                   icon: SActionDepositIcon(
                     color: colors.black,
                   ),
@@ -221,6 +264,27 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   description: intl.curencyBuy_actionItemDescription,
                   onTap: () => _showAssetSelector(),
                 )
+              else if (state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.circleCard)
+                if (state.circleCards.isEmpty)
+                  SPaymentSelectDefault(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    icon: const SActionBuyIcon(),
+                    name: intl.currencyBuy_choosePaymentMethod,
+                    onTap: () => _showAssetSelector(),
+                  )
+                else
+                  SPaymentSelectCreditCard(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    icon: SActionDepositIcon(
+                      color: colors.black,
+                    ),
+                    name: state.selectedCircleCard!.name,
+                    amount: state.selectedCircleCard!.last4Digits,
+                    helper: state.selectedCircleCard!.limit,
+                    description: state.selectedCircleCard!.expDate,
+                    onTap: () => _showAssetSelector(),
+                  )
               else if (state.selectedCurrency?.type == AssetType.crypto)
                 SPaymentSelectAsset(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -234,7 +298,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   description: state.selectedCurrency!.volumeAssetBalance,
                   onTap: () => _showAssetSelector(),
                 )
-              else
+              else if (state.selectedCurrency?.type == AssetType.fiat)
                 SPaymentSelectFiat(
                   widgetSize: widgetSizeFrom(deviceSize),
                   icon: SNetworkSvg24(
@@ -245,6 +309,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     state.baseCurrency!,
                   ),
                   onTap: () => _showAssetSelector(),
+                )
+              else
+                SPaymentSelectEmptyBalance(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
                 ),
               deviceSize.when(
                 small: () => const SpaceH9(),
@@ -268,7 +337,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 },
                 buttonType: SButtonType.primary2,
                 submitButtonActive: state.inputValid &&
-                    !loader.value.value &&
+                    !state.loader.value &&
                     !disableSubmit.value,
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
@@ -287,11 +356,12 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     frequency: state.recurringBuyType.toFrequency,
                   );
 
-                  if (state.selectedPaymentMethod != null) {
+                  if (state.selectedPaymentMethod?.type ==
+                      PaymentMethodType.simplex) {
                     disableSubmit.value = true;
-                    loader.value.startLoading();
+                    state.loader.startLoading();
                     final response = await notifier.makeSimplexRequest();
-                    loader.value.finishLoading();
+                    state.loader.finishLoading();
                     disableSubmit.value = false;
 
                     if (response != null) {
@@ -301,6 +371,19 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                         SimplexWebView(response),
                       );
                     }
+                  } else if (state.selectedPaymentMethod?.type ==
+                      PaymentMethodType.circleCard) {
+                    navigatorPush(
+                      context,
+                      PreviewBuyWithCircle(
+                        input: PreviewBuyWithCircleInput(
+                          fromCard: widget.fromCard,
+                          amount: state.inputValue,
+                          card: state.pickedCircleCard!,
+                          currency: widget.currency,
+                        ),
+                      ),
+                    );
                   } else {
                     navigatorPush(
                       context,

@@ -133,6 +133,7 @@ class ChartNotifier extends StateNotifier<ChartState> {
           close: e.close,
           high: e.high,
           low: e.low,
+          date: e.date,
         ),
       );
       updateCandles(candles1.toList(), resolution);
