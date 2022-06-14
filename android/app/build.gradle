@@ -39,7 +39,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "dev.app.simple.com"
+        applicationId "stage.app.simple.com"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
