@@ -120,12 +120,10 @@ class AddCircleCard extends HookWidget {
                   ),
                   Expanded(
                     child: SFieldDividerFrame(
-                      child: SStandardField(
+                      child: SStandardFieldObscure(
                         labelText: 'CVV',
                         keyboardType: TextInputType.number,
                         errorNotifier: state.cvvError,
-                        enableInteractiveSelection: false,
-                        disableErrorOnChanged: false,
                         inputFormatters: [
                           MaskedTextInputFormatter(
                             mask: 'xxx',
