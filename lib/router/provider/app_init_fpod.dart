@@ -33,13 +33,12 @@ final appInitFpod = FutureProvider<void>(
     final token = await storageService.getValue(refreshTokenKey);
     final email = await storageService.getValue(userEmailKey);
     final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
-    final storage = useProvider(localStorageServicePod);
-    final deviceInfo = useProvider(deviceInfoPod);
+    final deviceInfo = ref.read(deviceInfoPod);
 
     try {
       await AppTrackingTransparency.requestTrackingAuthorization();
 
-      unawaited(checkInitAppFBAnalytics(storage, deviceInfo));
+      unawaited(checkInitAppFBAnalytics(storageService, deviceInfo));
 
       await appsFlyerService.init();
       await internetCheckerN.initialise();
