@@ -137,7 +137,7 @@ class PreviewBuyWithCircleNotifier
       final base64Decoded = base64Decode(encryption.encryptionKey);
       final utf8Decoded = utf8.decode(base64Decoded);
       final encrypted = await OpenPGP.encrypt(
-        '{"cvv":"${state.cvv}"}',
+        state.cvv.isNotEmpty ? '{"cvv":"${state.cvv}"}' : '{}',
         utf8Decoded,
       );
       final utf8Encoded = utf8.encode(encrypted);
