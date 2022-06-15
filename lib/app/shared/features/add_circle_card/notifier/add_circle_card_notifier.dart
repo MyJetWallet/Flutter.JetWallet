@@ -189,7 +189,7 @@ class AddCircleCardNotifier extends StateNotifier<AddCircleCardState> {
     state = state.copyWith(expiryDate: expiryDate);
 
     // [xx/xx]
-    if (expiryDate.length == 5) {
+    if (expiryDate.length >= 4) {
       if (state.isExpiryDateValid) {
         state.expiryDateError!.disableError();
       } else {
