@@ -83,6 +83,7 @@ class SubscriptionsItem extends HookWidget {
                           ),
                         );
                       } else {
+                        Navigator.pop(context);
                         handler.handle(
                           status: kyc.depositStatus,
                           kycVerified: kyc,
