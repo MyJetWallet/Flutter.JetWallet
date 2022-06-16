@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -50,7 +49,6 @@ class _NavigationState extends State<Navigation>
     final earnProfile = useProvider(earnProfileNotipod);
     useListenable(animationController);
 
-    log('$earnProfile');
     final earnEnabled = earnProfile.earnProfile?.earnEnabled ?? false;
 
     return Scaffold(

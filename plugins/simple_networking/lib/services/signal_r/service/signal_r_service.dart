@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -148,6 +149,7 @@ class SignalRService {
     });
 
     _connection?.on(earnOffersMessage, (data) {
+      log('$data');
       if (data != null) {
         final list = data.toList();
         try {
@@ -157,6 +159,7 @@ class SignalRService {
             _earnProfileController.add(finalData.earnProfile!);
           }
         } catch (e) {
+          log('$e');
           _logger.log(contract, earnOffersMessage, e);
         }
       }
