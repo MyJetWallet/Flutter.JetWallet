@@ -12,6 +12,7 @@ void setupHeaders(Dio dio, Reader read, [String? token]) {
   final deviceInfo = read(deviceInfoPod);
   final appVersion = read(packageInfoPod).version;
   final mediaQuery = read(mediaQueryPod);
+  final packageInfo = read(packageInfoPod);
   final deviceSize = mediaQuery.size;
   final devicePixelRatio = mediaQuery.devicePixelRatio;
 
@@ -21,6 +22,6 @@ void setupHeaders(Dio dio, Reader read, [String? token]) {
   dio.options.headers['Accept-Language'] = locale;
   dio.options.headers['From'] = deviceInfo.deviceUid;
   dio.options.headers['User-Agent'] =
-      '$appVersion;$deviceType;$deviceSize;$devicePixelRatio;'
-      '${deviceInfo.marketingName}';
+      '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
+      '$devicePixelRatio;${deviceInfo.marketingName}';
 }
