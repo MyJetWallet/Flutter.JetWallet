@@ -146,6 +146,7 @@ class AddCircleCard extends HookWidget {
                     labelText: intl.addCircleCard_cardholderName,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCardholderName,
+                    hideSpace: true,
                   ),
                 ),
               ),
