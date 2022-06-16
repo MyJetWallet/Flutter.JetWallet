@@ -70,12 +70,12 @@ void showDetailsHowWeCountSheet({
             name: 'Tier ${i + 1} APY (limit: '
                 '${marketFormat(
               prefix: '\$',
-              decimal: Decimal.parse(tiers[i].fromUsd),
+              decimal: Decimal.parse(tiers[i].from),
               accuracy: 0,
               symbol: 'USD',
             )}-${marketFormat(
               prefix: '\$',
-              decimal: Decimal.parse(tiers[i].toUsd),
+              decimal: Decimal.parse(tiers[i].to),
               accuracy: 0,
               symbol: 'USD',
             )})',
@@ -93,7 +93,7 @@ void showDetailsHowWeCountSheet({
         SActionConfirmText(
           name: 'Limit',
           baseline: 35.0,
-          value: '\$${tiers[0].fromUsd}-${tiers[0].toUsd}',
+          value: '\$${tiers[0].from}-${tiers[0].to}',
           minValueWidth: 50,
           maxValueWidth: 200,
         ),

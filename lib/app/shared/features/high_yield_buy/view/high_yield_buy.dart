@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +50,8 @@ class HighYieldBuy extends HookWidget {
         .map(
           (tier) => SimpleTierModel(
             active: tier.active,
-            toUsd: tier.toUsd.toString(),
-            fromUsd: tier.fromUsd.toString(),
+            to: tier.to.toString(),
+            from: tier.from.toString(),
             apy: tier.apy.toString(),
           ),
         ).toList();
@@ -131,12 +132,12 @@ class HighYieldBuy extends HookWidget {
                     '(${intl.earn_buy_limit}: '
                     '${volumeFormat(
                   prefix: state.baseCurrency?.prefix ?? '\$',
-                  decimal: Decimal.parse(state.simpleTiers[i].fromUsd),
+                  decimal: Decimal.parse(state.simpleTiers[i].from),
                   accuracy: 0,
                   symbol: state.baseCurrency?.symbol ?? 'USD',
                 )}-${volumeFormat(
                   prefix: state.baseCurrency?.prefix ?? '\$',
-                  decimal: Decimal.parse(state.simpleTiers[i].toUsd),
+                  decimal: Decimal.parse(state.simpleTiers[i].to),
                   accuracy: 0,
                   symbol: state.baseCurrency?.symbol ?? 'USD',
                 )})',
@@ -162,12 +163,12 @@ class HighYieldBuy extends HookWidget {
               baseline: 35.0,
               value: '${volumeFormat(
                 prefix: state.baseCurrency?.prefix ?? '\$',
-                decimal: Decimal.parse(state.simpleTiers[0].fromUsd),
+                decimal: Decimal.parse(state.simpleTiers[0].from),
                 accuracy: 0,
                 symbol: state.baseCurrency?.symbol ?? 'USD',
               )}-${volumeFormat(
                 prefix: state.baseCurrency?.prefix ?? '\$',
-                decimal: Decimal.parse(state.simpleTiers[0].toUsd),
+                decimal: Decimal.parse(state.simpleTiers[0].to),
                 accuracy: 0,
                 symbol: state.baseCurrency?.symbol ?? 'USD',
               )}',
