@@ -140,6 +140,7 @@ class EarnOfferDetailsBody extends HookWidget {
                           isHot: isHot,
                           title: intl.earn_buy_annual_calculation_plan,
                           subtitle: intl.earn_buy_annual_percentage_yield,
+                          currency: currentCurrency,
                         );
                       },
                       child: SInfoIcon(

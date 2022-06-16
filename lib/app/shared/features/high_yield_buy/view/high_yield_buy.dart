@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +59,10 @@ class HighYieldBuy extends HookWidget {
       if (error == InputError.amountTooLarge) {
         return state.inputError.value(
           errorInfo: '${intl.earn_buy_max} ${volumeFormat(
-            decimal: state.maxSubscribeAmount ?? Decimal.zero,
+            decimal: Decimal.parse(
+              '${(state.maxSubscribeAmount ?? Decimal.zero).toDouble() -
+                  (state.currentBalance ?? Decimal.zero).toDouble()}',
+            ),
             accuracy: state.selectedCurrencyAccuracy,
             symbol: state.selectedCurrencySymbol,
           )}',
@@ -131,15 +133,14 @@ class HighYieldBuy extends HookWidget {
                 name: '${intl.earn_buy_tier} ${i + 1} ${intl.earn_buy_apy} '
                     '(${intl.earn_buy_limit}: '
                     '${volumeFormat(
-                  prefix: state.baseCurrency?.prefix ?? '\$',
                   decimal: Decimal.parse(state.simpleTiers[i].from),
-                  accuracy: 0,
-                  symbol: state.baseCurrency?.symbol ?? 'USD',
+                  accuracy: currency.accuracy,
+                  prefix: '',
+                  symbol: '',
                 )}-${volumeFormat(
-                  prefix: state.baseCurrency?.prefix ?? '\$',
                   decimal: Decimal.parse(state.simpleTiers[i].to),
-                  accuracy: 0,
-                  symbol: state.baseCurrency?.symbol ?? 'USD',
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
                 )})',
                 baseline: 35.0,
                 value: '${state.simpleTiers[i].apy}%',
@@ -162,15 +163,14 @@ class HighYieldBuy extends HookWidget {
               name: intl.earn_buy_limit1,
               baseline: 35.0,
               value: '${volumeFormat(
-                prefix: state.baseCurrency?.prefix ?? '\$',
+                prefix: '',
                 decimal: Decimal.parse(state.simpleTiers[0].from),
-                accuracy: 0,
-                symbol: state.baseCurrency?.symbol ?? 'USD',
+                accuracy: currency.accuracy,
+                symbol: '',
               )}-${volumeFormat(
-                prefix: state.baseCurrency?.prefix ?? '\$',
                 decimal: Decimal.parse(state.simpleTiers[0].to),
-                accuracy: 0,
-                symbol: state.baseCurrency?.symbol ?? 'USD',
+                accuracy: currency.accuracy,
+                symbol: currency.symbol,
               )}',
               minValueWidth: 50,
               maxValueWidth: 200,
@@ -186,7 +186,7 @@ class HighYieldBuy extends HookWidget {
           const SpaceH35(),
           const SDivider(),
           const SpaceH25(),
-          if (topUp)
+          if (topUp) ...[
             SActionConfirmText(
               name: intl.earn_buy_current_balance,
               baseline: 14.0,
@@ -198,7 +198,23 @@ class HighYieldBuy extends HookWidget {
               minValueWidth: 200,
               maxValueWidth: 200,
             ),
-          if (topUp)
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                volumeFormat(
+                  prefix: '\$',
+                  decimal: Decimal.parse(
+                    '${(state.currentBalance ?? Decimal.zero).toDouble() *
+                        currency.currentPrice.toDouble()}',
+                  ),
+                  accuracy: 2,
+                  symbol: 'USD',
+                ),
+                style: sBodyText2Style.copyWith(
+                  color: colors.grey1,
+                ),
+              ),
+            ),
             SActionConfirmText(
               name: intl.earn_buy_current_apy,
               baseline: 34.0,
@@ -206,6 +222,7 @@ class HighYieldBuy extends HookWidget {
               minValueWidth: 50,
               maxValueWidth: 50,
             ),
+          ],
           SActionConfirmText(
             name: topUp
                 ? intl.earn_buy_top_up_amount
@@ -218,6 +235,23 @@ class HighYieldBuy extends HookWidget {
             ),
             minValueWidth: 200,
             maxValueWidth: 200,
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              volumeFormat(
+                prefix: '\$',
+                decimal: Decimal.parse(
+                  '${Decimal.parse(state.inputValue).toDouble() *
+                      currency.currentPrice.toDouble()}',
+                ),
+                accuracy: 2,
+                symbol: 'USD',
+              ),
+              style: sBodyText2Style.copyWith(
+                color: colors.grey1,
+              ),
+            ),
           ),
           SActionConfirmText(
             name: topUp ? intl.earn_buy_top_up_apy : intl.earn_buy_your_apy,

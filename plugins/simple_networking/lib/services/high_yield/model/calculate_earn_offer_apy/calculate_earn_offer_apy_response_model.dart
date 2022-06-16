@@ -33,8 +33,8 @@ class CalculateEarnOfferApyResponseModel
 @freezed
 class TierModel with _$TierModel {
   const factory TierModel({
-    @DecimalSerialiser() Decimal? fromUsd,
-    @DecimalSerialiser() Decimal? toUsd,
+    @DecimalSerialiser() required Decimal fromUsd,
+    @DecimalSerialiser() required Decimal toUsd,
     @DecimalSerialiser() required Decimal from,
     @DecimalSerialiser() required Decimal to,
     @DecimalSerialiser() required Decimal apy,
