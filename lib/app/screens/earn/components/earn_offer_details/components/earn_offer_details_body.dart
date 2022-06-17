@@ -41,8 +41,8 @@ class EarnOfferDetailsBody extends HookWidget {
         .map(
           (tier) => SimpleTierModel(
             active: tier.active,
-            toUsd: tier.toUsd.toString(),
-            fromUsd: tier.fromUsd.toString(),
+            to: tier.to.toString(),
+            from: tier.from.toString(),
             apy: tier.apy.toString(),
           ),
         ).toList();
@@ -140,6 +140,7 @@ class EarnOfferDetailsBody extends HookWidget {
                           isHot: isHot,
                           title: intl.earn_buy_annual_calculation_plan,
                           subtitle: intl.earn_buy_annual_percentage_yield,
+                          currency: currentCurrency,
                         );
                       },
                       child: SInfoIcon(

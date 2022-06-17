@@ -62,7 +62,11 @@ class WalletCard extends HookWidget {
     final interestRateTextSize = _textSize(
       interestRateText,
       sSubtitle3Style,
-    );
+    ).width + 20;
+    final interestRateDisabledTextSize = _textSize(
+      interestRateDisabledText,
+      sSubtitle3Style,
+    ).width + 20;
     final isInterestRateVisible = filteredEarnOffers.isNotEmpty;
     final isInProgress =
         currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
@@ -89,7 +93,9 @@ class WalletCard extends HookWidget {
           Padding(
             padding: EdgeInsets.only(
               left: 34,
-              right: interestRateTextSize.width + 20,
+              right: earnEnabled
+                  ? interestRateTextSize
+                  : interestRateDisabledTextSize,
             ),
             child: SBaselineChild(
               baseline: 50,
@@ -144,7 +150,9 @@ class WalletCard extends HookWidget {
                 },
                 child: Container(
                   height: 24,
-                  width: interestRateTextSize.width + 20,
+                  width: earnEnabled
+                      ? interestRateTextSize
+                      : interestRateDisabledTextSize,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
                   ),

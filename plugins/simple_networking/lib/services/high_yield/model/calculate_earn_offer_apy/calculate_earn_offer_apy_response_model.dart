@@ -35,6 +35,8 @@ class TierModel with _$TierModel {
   const factory TierModel({
     @DecimalSerialiser() required Decimal fromUsd,
     @DecimalSerialiser() required Decimal toUsd,
+    @DecimalSerialiser() required Decimal from,
+    @DecimalSerialiser() required Decimal to,
     @DecimalSerialiser() required Decimal apy,
     required bool active,
   }) = _TierModel;

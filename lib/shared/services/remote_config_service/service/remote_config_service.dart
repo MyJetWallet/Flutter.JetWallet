@@ -128,6 +128,7 @@ class RemoteConfigService {
     infoRewardsLink = appConfig.infoRewardsLink;
     infoEarnLink = appConfig.infoEarnLink;
     paymentDelayDays = appConfig.paymentDelayDays;
+    privacyEarnLink = appConfig.privacyEarnLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;

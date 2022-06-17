@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../shared/features/market_details/view/components/about_block/components/clickable_underlined_text.dart';
 import '../../../../../shared/helpers/formatting/formatting.dart';
+import '../../../../../shared/models/currency_model.dart';
 import '../../../../account/components/help_center_web_view.dart';
 
 void showDetailsHowWeCountSheet({
@@ -15,6 +16,7 @@ void showDetailsHowWeCountSheet({
   required bool isHot,
   required String title,
   required String subtitle,
+  required CurrencyModel currency,
 }) {
   final colorTheme = isHot
     ? [colors.orange, colors.brown, colors.darkBrown]
@@ -68,16 +70,15 @@ void showDetailsHowWeCountSheet({
         for (var i = 0; i < tiers.length; i++)
           SActionConfirmText(
             name: 'Tier ${i + 1} APY (limit: '
-                '${marketFormat(
-              prefix: '\$',
-              decimal: Decimal.parse(tiers[i].fromUsd),
-              accuracy: 0,
-              symbol: 'USD',
-            )}-${marketFormat(
-              prefix: '\$',
-              decimal: Decimal.parse(tiers[i].toUsd),
-              accuracy: 0,
-              symbol: 'USD',
+                '${volumeFormat(
+              decimal: Decimal.parse(tiers[i].from),
+              accuracy: currency.accuracy,
+              prefix: '',
+              symbol: '',
+            )}-${volumeFormat(
+              decimal: Decimal.parse(tiers[i].to),
+              accuracy: currency.accuracy,
+              symbol: currency.symbol,
             )})',
             baseline: 35.0,
             value: '${tiers[i].apy}%',
@@ -93,7 +94,16 @@ void showDetailsHowWeCountSheet({
         SActionConfirmText(
           name: 'Limit',
           baseline: 35.0,
-          value: '\$${tiers[0].fromUsd}-${tiers[0].toUsd}',
+          value: '${volumeFormat(
+            prefix: '',
+            decimal: Decimal.parse(tiers[0].from),
+            accuracy: currency.accuracy,
+            symbol: '',
+          )}-${volumeFormat(
+            decimal: Decimal.parse(tiers[0].to),
+            accuracy: currency.accuracy,
+            symbol: currency.symbol,
+          )}',
           minValueWidth: 50,
           maxValueWidth: 200,
         ),

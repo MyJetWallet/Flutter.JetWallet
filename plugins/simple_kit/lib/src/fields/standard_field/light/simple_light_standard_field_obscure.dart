@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
@@ -13,6 +14,8 @@ class SimpleLightStandardFieldObscure extends HookWidget {
     this.errorNotifier,
     this.onErrorIconTap,
     this.onChanged,
+    this.keyboardType,
+    this.inputFormatters,
     this.autofocus = false,
     required this.labelText,
   }) : super(key: key);
@@ -25,6 +28,8 @@ class SimpleLightStandardFieldObscure extends HookWidget {
   final Function(String)? onChanged;
   final String labelText;
   final bool autofocus;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +51,8 @@ class SimpleLightStandardFieldObscure extends HookWidget {
       onErrorIconTap: onErrorIconTap,
       autofocus: autofocus,
       hideIconsIfError: false,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       suffixIcons: [
         if (focusNode2.hasFocus || controller2.text.isNotEmpty)
           GestureDetector(
