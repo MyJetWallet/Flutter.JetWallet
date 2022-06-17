@@ -31,6 +31,7 @@ class SStandardField extends ConsumerWidget {
     this.readOnly = false,
     this.alignLabelWithHint = false,
     this.enabled = true,
+    this.hideSpace = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -56,6 +57,7 @@ class SStandardField extends ConsumerWidget {
   final bool readOnly;
   final bool alignLabelWithHint;
   final bool enabled;
+  final bool hideSpace;
   final String labelText;
 
   @override
@@ -84,6 +86,7 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
+        hideSpace: hideSpace,
         disableErrorOnChanged: disableErrorOnChanged,
         enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,
@@ -110,6 +113,7 @@ class SStandardField extends ConsumerWidget {
         hideIconsIfError: hideIconsIfError,
         hideIconsIfNotEmpty: hideIconsIfNotEmpty,
         enabled: enabled,
+        hideSpace: hideSpace,
         disableErrorOnChanged: disableErrorOnChanged,
         enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,

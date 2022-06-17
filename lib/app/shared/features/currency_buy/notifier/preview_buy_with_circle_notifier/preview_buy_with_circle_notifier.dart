@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -100,13 +101,14 @@ class PreviewBuyWithCircleNotifier
       showCircleCvvBottomSheet(
         context: _context,
         header: '${_intl.previewBuyWithCircle_enter} CVV '
-            '${_intl.previewBuyWithCircle_for} \n'
+            '${_intl.previewBuyWithCircle_for} '
             '${state.card?.network} •••• ${state.card?.last4}',
         onCompleted: (cvv) {
           Navigator.pop(_context);
           state = state.copyWith(cvv: cvv);
           _createPayment();
         },
+        input: input,
       );
     } else {
       _createPayment();
@@ -223,6 +225,25 @@ class PreviewBuyWithCircleNotifier
         read(navigationStpod).state = 1;
       },
     );
+  }
+
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pasteCode');
+
+    final data = await Clipboard.getData('text/plain');
+    final code = data?.text?.trim() ?? '';
+
+    if (code.length == 3) {
+      try {
+        int.parse(code);
+        state = state.copyWith(cvv: code);
+        if (!mounted) return;
+        Navigator.pop(_context);
+        await _createPayment();
+      } catch (e) {
+        return;
+      }
+    }
   }
 
   void _showFailureScreen(String error) {
