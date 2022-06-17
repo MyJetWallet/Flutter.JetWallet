@@ -66,8 +66,8 @@ class HighYieldBuyState with _$HighYieldBuyState {
       .map(
         (tier) => SimpleTierModel(
           active: tier.active,
-          toUsd: tier.toUsd.toString(),
-          fromUsd: tier.fromUsd.toString(),
+          to: tier.to.toString(),
+          from: tier.from.toString(),
           apy: tier.apy.toString(),
         ),
       )

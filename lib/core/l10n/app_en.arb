@@ -893,7 +893,7 @@
     "preview_earn_buy_return_warning": "You can reclaim funds to your wallet at any time.\nIt normally takes up to 24 hours.",
     "preview_earn_buy_error": "Some error occurred.",
     "success_earn_top_up_message": "Your subscription has been topped up",
-    "success_earn_buy_message": "You has been subscribed",
+    "success_earn_buy_message": "You have been subscribed",
     "failure_earn_buy_message": "Failure",
     "failure_earn_buy_close": "Close",
     "return_to_wallet_return_to_wallet": "Reclaim to wallet",

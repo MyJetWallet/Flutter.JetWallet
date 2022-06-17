@@ -47,6 +47,8 @@ class TierApySettingsModel with _$TierApySettingsModel {
   const factory TierApySettingsModel({
     @DecimalSerialiser() required Decimal fromUsd,
     @DecimalSerialiser() required Decimal toUsd,
+    @DecimalSerialiser() required Decimal from,
+    @DecimalSerialiser() required Decimal to,
     @DecimalSerialiser() required Decimal apy,
     @DecimalSerialiser() required bool active,
   }) = _TierApySettingsModel;
