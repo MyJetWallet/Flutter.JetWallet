@@ -71,3 +71,9 @@ void sortByApyAndWeight(List<CurrencyModel> currencies) {
     return b.weight.compareTo(a.weight);
   });
 }
+
+List<CurrencyModel> filterByApy(List<CurrencyModel> currencies) {
+  return currencies.where((element) {
+    return element.apy != Decimal.zero;
+  }).toList();
+}
