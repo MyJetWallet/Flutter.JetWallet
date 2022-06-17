@@ -239,6 +239,7 @@ class PreviewBuyWithCircleNotifier
         state = state.copyWith(cvv: code);
         if (!mounted) return;
         Navigator.pop(_context);
+        await _createPayment();
       } catch (e) {
         return;
       }

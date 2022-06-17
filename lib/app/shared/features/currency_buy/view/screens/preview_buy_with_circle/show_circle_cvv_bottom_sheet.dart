@@ -46,6 +46,7 @@ class CvvBottomSheetBody extends HookWidget {
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final notifier = useProvider(previewBuyWithCircleNotipod(input).notifier);
+    final focusNode = FocusNode();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -65,8 +66,17 @@ class CvvBottomSheetBody extends HookWidget {
             GestureDetector(
               onLongPress: () => notifier.pasteCode(),
               onDoubleTap: () => notifier.pasteCode(),
+              onTap: () {
+                focusNode.unfocus();
+                Future.delayed(const Duration(microseconds: 100), () {
+                  if (!focusNode.hasFocus) {
+                    focusNode.requestFocus();
+                  }
+                });
+              },
               child: AbsorbPointer(
                 child: PinCodeTextField(
+                  focusNode: focusNode,
                   length: 3,
                   autoFocus: true,
                   appContext: context,
