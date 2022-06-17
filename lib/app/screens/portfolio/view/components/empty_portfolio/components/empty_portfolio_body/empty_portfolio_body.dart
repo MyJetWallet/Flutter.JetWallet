@@ -57,7 +57,7 @@ class EmptyPortfolioBody extends HookWidget {
               ),
             ],
           ),
-          const SpaceH56(),
+          const SpaceH50(),
           Text(
             intl.emptyEarnWalletBody_mainText1,
             textAlign: TextAlign.center,
@@ -70,9 +70,11 @@ class EmptyPortfolioBody extends HookWidget {
               color: colors.blue,
             ),
           ),
-          const SpaceH17(),
+          const SpaceH16(),
           Text(
             intl.emptyEarnWalletBody_subText,
+            textAlign: TextAlign.center,
+            maxLines: 3,
             style: sBodyText1Style.copyWith(
               color: colors.grey1,
             ),
