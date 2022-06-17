@@ -18,9 +18,14 @@ class SBottomSheetHeader extends StatelessWidget {
         Baseline(
           baseline: 20.0,
           baselineType: TextBaseline.alphabetic,
-          child: Text(
-            name,
-            style: sTextH4Style,
+          child:
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 72,
+            child: Text(
+              name,
+              style: sTextH4Style,
+              maxLines: 2,
+            ),
           ),
         ),
         const Spacer(),

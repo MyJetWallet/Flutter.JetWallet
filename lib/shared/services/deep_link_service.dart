@@ -7,8 +7,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
-import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
-import '../../app/screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../app/screens/portfolio/view/components/empty_apy_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
+import '../../app/screens/portfolio/view/components/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../app/shared/components/show_start_earn_options.dart';
 import '../../app/shared/features/actions/action_buy/action_buy.dart';
 import '../../app/shared/features/actions/action_deposit/action_deposit.dart';

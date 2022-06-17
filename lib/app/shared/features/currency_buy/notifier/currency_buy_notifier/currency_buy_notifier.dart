@@ -404,6 +404,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
           )}',
         );
       } else if (value > max) {
+        if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard &&
+            state.pickedCircleCard == null) {
+          return;
+        }
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),

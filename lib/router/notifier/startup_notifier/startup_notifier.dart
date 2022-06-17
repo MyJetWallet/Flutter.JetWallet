@@ -36,6 +36,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
           twoFaEnabled: info.twoFaEnabled,
           phoneVerified: info.phoneVerified,
           hasDisclaimers: info.hasDisclaimers,
+          hasHighYieldDisclaimers: info.hasHighYieldDisclaimers,
         );
 
         _initSignalRSynchronously();

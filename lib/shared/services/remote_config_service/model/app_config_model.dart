@@ -14,6 +14,7 @@ class AppConfigModel with _$AppConfigModel {
     required String infoRewardsLink,
     required String infoEarnLink,
     required int paymentDelayDays,
+    required String privacyEarnLink,
     required int minAmountOfCharsInPassword,
     required int maxAmountOfCharsInPassword,
     required int quoteRetryInterval,

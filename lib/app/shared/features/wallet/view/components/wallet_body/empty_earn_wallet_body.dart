@@ -7,7 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../../shared/providers/service_providers.dart';
-import '../../../../../../screens/portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import '../../../../../../screens/portfolio/view/components/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import '../../../../../components/show_start_earn_options.dart';
 import '../../../../../models/currency_model.dart';
 import 'components/empty_wallet_balance_text.dart';
@@ -91,7 +91,7 @@ class EmptyEarnWalletBody extends HookWidget {
         const SpaceH13(),
         Text(
           '${intl.emptyEarnWalletBody_investIn} $assetName'
-              ' ${intl.emptyEarnWalletBody_startEarningDaily}',
+          ' ${intl.emptyEarnWalletBody_startEarningDaily}',
           textAlign: TextAlign.center,
           maxLines: 2,
           style: sBodyText1Style.copyWith(

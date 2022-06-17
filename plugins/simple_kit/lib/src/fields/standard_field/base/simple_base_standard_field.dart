@@ -27,6 +27,7 @@ class SimpleBaseStandardField extends HookWidget {
     this.obscureText = false,
     this.alignLabelWithHint = false,
     this.enabled = true,
+    this.hideSpace = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -49,6 +50,7 @@ class SimpleBaseStandardField extends HookWidget {
   final bool obscureText;
   final bool alignLabelWithHint;
   final bool enabled;
+  final bool hideSpace;
   final String labelText;
 
   @override
@@ -103,7 +105,8 @@ class SimpleBaseStandardField extends HookWidget {
                   if (suffixIcons != null)
                     for (final icon in suffixIcons!) ...[
                       icon,
-                      if (icon != suffixIcons!.last) const SpaceW20(),
+                      if (icon != suffixIcons!.last && !hideSpace)
+                        const SpaceW20(),
                     ],
                 if (errorValue) ...[
                   const SpaceW40(),
