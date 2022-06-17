@@ -2,17 +2,14 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/constants.dart';
 import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
-import '../../../../../../../shared/components/show_start_earn_options.dart';
+import '../../../../../../../shared/features/actions/action_buy/action_buy.dart';
 import '../../../../../../../shared/helpers/formatting/formatting.dart';
-import '../../../../../../../shared/models/currency_model.dart';
 import '../../../../../../../shared/providers/base_currency_pod/base_currency_pod.dart';
-import '../earn_bottom_sheet/earn_bottom_sheet.dart';
 
 class EmptyPortfolioBody extends HookWidget {
   const EmptyPortfolioBody({Key? key}) : super(key: key);
@@ -85,19 +82,11 @@ class EmptyPortfolioBody extends HookWidget {
             active: true,
             name: intl.emptyEarnWalletBody_buyWithCash,
             onTap: () {
-              showStartEarnBottomSheet(
+              showBuyAction(
+                shouldPop: false,
+                fromCard: true,
                 context: context,
-                onTap: (CurrencyModel currency) {
-                  Navigator.pop(context);
-                  sAnalytics.earnDetailsView(currency.description);
-
-                  showStartEarnOptions(
-                    currency: currency,
-                    read: context.read,
-                  );
-                },
               );
-              sAnalytics.earnProgramView(Source.emptyPorfolioScreen);
             },
           ),
           const SpaceH24(),
