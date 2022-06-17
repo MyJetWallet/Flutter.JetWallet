@@ -21,6 +21,7 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     required bool twoFaEnabled,
     required bool phoneVerified,
     required bool hasDisclaimers,
+    required bool hasHighYieldDisclaimers,
   }) {
     _logger.log(notifier, 'updateWithValuesFromSessionInfo');
 
@@ -28,6 +29,7 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
       twoFaEnabled: twoFaEnabled,
       phoneVerified: phoneVerified,
       hasDisclaimers: hasDisclaimers,
+      hasHighYieldDisclaimers: hasHighYieldDisclaimers,
     );
   }
 
