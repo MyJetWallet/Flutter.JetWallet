@@ -3,8 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../shared/helpers/are_balances_empty.dart';
+import '../../../shared/helpers/currencies_helpers.dart';
 import '../../../shared/models/currency_model.dart';
 import '../../../shared/providers/currencies_pod/currencies_pod.dart';
+import 'components/empty_apy_portfolio/empty_apy_portfolio.dart';
 import 'components/empty_portfolio/empty_porfolio.dart';
 import 'components/portfolio_with_balance/portfolio_with_balance.dart';
 
@@ -18,8 +20,14 @@ class Portfolio extends HookWidget {
     final balancesEmpty = areBalancesEmpty(currencies);
     final noDeposits = _noDepositsInProccess(currencies);
 
+    final apyCurrencies = filterByApy(currencies);
+
     if (balancesEmpty && noDeposits) {
-      return const EmptyPortfolio();
+      if (apyCurrencies.isEmpty) {
+        return const EmptyPortfolio();
+      } else {
+        return const EmptyApyPortfolio();
+      }
     } else {
       return const PortfolioWithBalance();
     }
