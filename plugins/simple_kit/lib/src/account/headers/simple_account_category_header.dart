@@ -27,13 +27,36 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
       height: 120.0,
       child: Row(
         children: <Widget>[
-          CircleAvatar(
-            radius: 24.0,
-            backgroundColor: SColorsLight().blue,
-            child: Text(
-              userEmail.substring(0, 2).toUpperCase(),
-              style: sSubtitle2Style,
-            ),
+          Stack(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: SColorsLight().blue,
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+              ),
+              Positioned(
+                top: 8.5,
+                left: 0,
+                child: SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: Text(
+                    showUserName
+                        ? '${userFirstName.substring(0, 1).toUpperCase()}'
+                            '${userLastName.substring(0, 1).toUpperCase()}'
+                        : userEmail.substring(0, 1).toUpperCase(),
+                    style: sSubtitle2Style.copyWith(
+                      color: SColorsLight().white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SpaceW20(),
           Expanded(
@@ -43,12 +66,12 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               children: <Widget>[
                 const SpaceH2(),
                 if (showUserName)
-                Text(
-                  '$userFirstName $userLastName',
-                  style: sTextH5Style.copyWith(
-                    color: SColorsLight().black,
+                  Text(
+                    '$userFirstName $userLastName',
+                    style: sTextH5Style.copyWith(
+                      color: SColorsLight().black,
+                    ),
                   ),
-                ),
                 Text(
                   userEmail,
                   style: sSubtitle3Style.copyWith(
