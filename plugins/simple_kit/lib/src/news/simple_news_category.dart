@@ -31,7 +31,10 @@ class SNewsCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPaddingH24(
       child: Container(
-        padding: const EdgeInsets.only(bottom: 24),
+        padding: const EdgeInsets.only(
+          bottom: 15,
+          top: 20,
+        ),
         height: height,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +83,7 @@ class SNewsCategory extends StatelessWidget {
               onTap: onTap,
               highlightColor: SColorsLight().grey5,
               child: Baseline(
-                baseline: 30,
+                baseline: 28,
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   newsText,
