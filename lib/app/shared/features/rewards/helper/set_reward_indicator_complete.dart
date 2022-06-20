@@ -12,8 +12,6 @@ Widget? setRewardIndicatorComplete(
   var completeIndicator = 0;
   var isDisplayIndicator = false;
 
-  print(conditions);
-
   for (final condition in conditions) {
     if (condition.parameters != null) {
       if (condition.parameters!.passed == 'true') {
