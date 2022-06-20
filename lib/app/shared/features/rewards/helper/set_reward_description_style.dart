@@ -34,8 +34,10 @@ Color setRewardDescriptionStyle(
           : colors.black;
     }
   } else {
-    return (condition.parameters!.passed == 'false')
-        ? colors.blue
+    return condition.parameters != null
+        ? (condition.parameters!.passed == 'false')
+            ? colors.blue
+            : colors.black
         : colors.black;
   }
 }
