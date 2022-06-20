@@ -11,10 +11,6 @@ final rewardsNotipod =
     StateNotifierProvider.autoDispose<RewardsNotifier, RewardsState>(
   (ref) {
     final campaigns = ref.watch(rewardsPod).map((e) {
-      if ((e.conditions ?? []).isNotEmpty) {
-        print(e.conditions!.first.parameters);
-      }
-
       return CampaignModel(
         conditions: e.conditions?.map((e) {
           if (e.parameters != null && e.reward != null) {
