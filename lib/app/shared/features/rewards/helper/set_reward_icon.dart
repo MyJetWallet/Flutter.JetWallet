@@ -10,6 +10,10 @@ Widget setRewardIcon(
   final currentIndexCondition = conditions.indexOf(condition);
   if (currentIndexCondition > 0) {
     final prevCondition = conditions[currentIndexCondition - 1];
+
+    if (prevCondition.parameters == null) {
+      return const SizedBox();
+    }
     if (prevCondition.parameters!.passed == 'false') {
       return const SizedBox();
     }

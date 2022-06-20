@@ -13,8 +13,11 @@ Color setRewardDescriptionStyle(
     final currentIndexCondition = conditions.indexOf(condition);
     if (currentIndexCondition > 0) {
       final prevCondition = conditions[currentIndexCondition - 1];
-      if (prevCondition.parameters!.passed == 'false') {
-        return colors.grey1;
+
+      if (prevCondition.parameters != null) {
+        if (prevCondition.parameters!.passed == 'false') {
+          return colors.grey1;
+        }
       }
     }
     if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition)) {
@@ -25,12 +28,16 @@ Color setRewardDescriptionStyle(
       final currentIndexCondition = conditions.indexOf(condition);
       if (currentIndexCondition > 0) {
         final prevCondition = conditions[currentIndexCondition - 1];
-        if (prevCondition.parameters!.passed == 'false') {
-          return colors.grey1;
+        if (prevCondition.parameters != null) {
+          if (prevCondition.parameters!.passed == 'false') {
+            return colors.grey1;
+          }
         }
       }
-      return (condition.parameters!.passed == 'false')
-          ? colors.blue
+      return condition.parameters != null
+          ? (condition.parameters!.passed == 'false')
+              ? colors.blue
+              : colors.black
           : colors.black;
     }
   } else {
