@@ -84,6 +84,7 @@
     "pinScreen_enterPin": "Enter PIN",
     "pinScreen_setPin": "Set PIN",
     "pinScreen_changePin": "Change PIN",
+    "pinScreen_forgotYourPin": "Forgot your PIN",
     "pinScreen_weNeedYouToConfirmYourIdentity": "We need you to confirm your identity",
     "accountSecurity_changePin": "Change PIN",
     "accountSecurity_accountCategoryButtonTitle1": "Face / Touch ID & PIN",
