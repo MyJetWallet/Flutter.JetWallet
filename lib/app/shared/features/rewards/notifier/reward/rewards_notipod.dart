@@ -50,8 +50,6 @@ final rewardsNotipod =
 
     final sortedCampaigns = _sort(campaigns, referralStats);
 
-    print(sortedCampaigns);
-
     return RewardsNotifier(
       read: ref.read,
       sortedCampaigns: sortedCampaigns,
