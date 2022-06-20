@@ -40,7 +40,6 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               ),
               Positioned(
                 top: 8.5,
-                left: 0,
                 child: SizedBox(
                   width: 48,
                   height: 48,
