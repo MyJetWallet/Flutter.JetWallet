@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../referral_stats/provider/referral_stats_pod.dart';
@@ -9,30 +10,48 @@ import 'rewards_state.dart';
 final rewardsNotipod =
     StateNotifierProvider.autoDispose<RewardsNotifier, RewardsState>(
   (ref) {
-    final campaigns = ref
-        .watch(rewardsPod)
-        .map(
-          (e) => CampaignModel(
-            conditions: e.conditions
-                ?.map(
-                  (e) => CampaignConditionModel(
-                    deepLink: e.deepLink,
-                    type: e.type,
-                    description: e.description,
-                  ),
-                )
-                .toList(),
-            imageUrl: e.imageUrl,
-            showReferrerStats: e.showReferrerStats,
-            timeToComplete: e.timeToComplete,
-            weight: e.weight,
-            title: e.title,
-            description: e.description,
-            campaignId: e.campaignId,
-            deepLink: e.deepLink,
-          ),
-        )
-        .toList();
+    final campaigns = ref.watch(rewardsPod).map((e) {
+      if ((e.conditions ?? []).isNotEmpty) {
+        print(e.conditions!.first.parameters);
+      }
+
+      return CampaignModel(
+        conditions: e.conditions?.map((e) {
+          if (e.parameters != null && e.reward != null) {
+            return CampaignConditionModel(
+              parameters: CampaignConditionParametersModel(
+                passed: e.parameters?.passed ?? '',
+                asset: e.parameters?.asset ?? '',
+                requiredAmount: e.parameters?.requiredAmount ?? '',
+                tradedAmount: e.parameters?.tradedAmount ?? '',
+              ),
+              reward: RewardModel(
+                amount: e.reward?.amount ?? Decimal.zero,
+                asset: e.reward?.asset ?? '',
+              ),
+              deepLink: e.deepLink,
+              type: e.type,
+              description: e.description,
+            );
+          } else {
+            return CampaignConditionModel(
+              deepLink: e.deepLink,
+              type: e.type,
+              description: e.description,
+            );
+          }
+        }).toList(),
+        imageUrl: e.imageUrl,
+        showReferrerStats: e.showReferrerStats,
+        timeToComplete: e.timeToComplete,
+        weight: e.weight,
+        title: e.title,
+        description: e.description,
+        campaignId: e.campaignId,
+        deepLink: e.deepLink,
+      );
+    }).toList();
+
     final referralStats = ref
         .watch(referralStatsPod)
         .map(
