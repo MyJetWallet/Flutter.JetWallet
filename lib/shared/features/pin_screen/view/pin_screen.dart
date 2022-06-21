@@ -61,40 +61,32 @@ class PinScreen extends HookWidget {
       onWillPop: () => Future.value(!cannotLeave),
       child: SPageFrame(
         header: SPaddingH24(
-          child: SBigHeader(
-            title: pin.screenUnion.when(
-              enterPin: () {
-                if (displayHeader) {
-                  return pinN.screenDescription();
-                } else {
-                  return '';
-                }
-              },
-              newPin: () => pinN.screenDescription(),
-              confirmPin: () => pinN.screenDescription(),
-            ),
-            customIconButton: pin.screenUnion.when(
-              enterPin: () {
-                if (displayHeader) {
-                  return null;
-                } else {
-                  return const SizedBox.shrink();
-                }
-              },
-              newPin: () => null,
-              confirmPin: () => null,
-            ),
-            onBackButtonTap: pin.screenUnion.when(
-              enterPin: () {
-                if (displayHeader) {
-                  return null;
-                } else {
-                  return onbackButton;
-                }
-              },
-              newPin: () => onbackButton,
-              confirmPin: () => onbackButton,
-            ),
+          child: pin.screenUnion.when(
+            enterPin: () {
+              if (displayHeader) {
+                return SBigHeader(
+                  title: pinN.screenDescription(),
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+            confirmPin: () {
+              return SBigHeader(
+                title: pinN.screenDescription(),
+                onBackButtonTap: () {
+                  onbackButton!();
+                },
+              );
+            },
+            newPin: () {
+              return SBigHeader(
+                title: pinN.screenDescription(),
+                onBackButtonTap: () {
+                  onbackButton!();
+                },
+              );
+            },
           ),
         ),
         child: Column(
