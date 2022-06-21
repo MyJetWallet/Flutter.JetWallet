@@ -54,7 +54,6 @@ class AppRouter extends HookWidget {
         return const PinScreen(
           union: Setup(),
           cannotLeave: true,
-          displayHeader: false,
         );
       },
       pinVerification: () {
