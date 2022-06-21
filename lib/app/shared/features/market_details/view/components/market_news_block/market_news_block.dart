@@ -39,56 +39,110 @@ class MarketNewsBlock extends HookWidget {
     }
 
     if (news.isNotEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      return Stack(
         children: [
-          const SpaceH27(),
-          SPaddingH24(
-            child: Text(
-              intl.news,
-              style: sTextH4Style,
+          Positioned(
+            top: 52,
+            child: Container(
+              width: 300,
+              height: 30,
+              color: Colors.red.withOpacity(0.6),
+              child: Text('30dp'),
             ),
           ),
-          const SpaceH22(),
-          ListView.builder(
-            itemCount: news.length,
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) => SNewsCategory(
-              newsLabel: news[index].source,
-              newsText: news[index].topic,
-              sentiment: _newsColor(
-                news[index].sentiment,
-              ),
-              timestamp: formatNewsDate(
-                news[index].timestamp,
-              ),
-              onTap: () => launchURL(
-                context,
-                news[index].urlAddress,
-              ),
-              text1: intl.marketNewsBlock_discussOn,
-              text2: intl.marketNewsBlock_cryptoPanic,
+          Positioned(
+            top: 82,
+            child: Container(
+              width: 300,
+              height: 20,
+              color: Colors.blue.withOpacity(0.6),
+              child: Text('20dp'),
             ),
           ),
-          if (news.length >= newsPortionAmount) ...[
-            SPaddingH24(
-              child: ClickableUnderlinedText(
-                text: newsN.canLoadMore
-                    ? intl.marketNewsBlock_readMore
-                    : intl.marketNewsBlock_readLess,
-                onTap: () {
-                  if (newsN.canLoadMore) {
-                    newsN.loadMoreNews(assetId);
-                  } else {
-                    newsN.cutNewToDefaultSize();
-                  }
-                },
-              ),
+
+          Positioned(
+            top: 117,
+            child: Container(
+              width: 300,
+              height: 30,
+              color: Colors.red.withOpacity(0.6),
+              child: Text('30dp'),
             ),
-          ],
-          const SpaceH74(),
+          ),
+
+          Positioned(
+            top: 171,
+            child: Container(
+              width: 300,
+              height: 20,
+              color: Colors.blue.withOpacity(0.6),
+              child: Text('20dp'),
+            ),
+          ),
+
+          Positioned(
+            top: 191,
+            child: Container(
+              width: 300,
+              height: 20,
+              color: Colors.red.withOpacity(0.6),
+              child: Text('20dp'),
+            ),
+          ),
+
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SpaceH27(),
+              SPaddingH24(
+                child: Text(
+                  intl.news,
+                  style: sTextH4Style,
+                ),
+              ),
+              const SpaceH22(),
+              ListView.builder(
+                itemCount: news.length,
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) => SNewsCategory(
+                  newsLabel: news[index].source,
+                  newsText: news[index].topic,
+                  sentiment: _newsColor(
+                    news[index].sentiment,
+                  ),
+                  timestamp: formatNewsDate(
+                    news[index].timestamp,
+                  ),
+                  onTap: () => launchURL(
+                    context,
+                    news[index].urlAddress,
+                  ),
+                  text1: intl.marketNewsBlock_discussOn,
+                  text2: intl.marketNewsBlock_cryptoPanic,
+                ),
+              ),
+              if (news.length >= newsPortionAmount) ...[
+                SPaddingH24(
+                  child: ClickableUnderlinedText(
+                    text: newsN.canLoadMore
+                        ? intl.marketNewsBlock_readMore
+                        : intl.marketNewsBlock_readLess,
+                    onTap: () {
+                      if (newsN.canLoadMore) {
+                        newsN.loadMoreNews(assetId);
+                      } else {
+                        newsN.cutNewToDefaultSize();
+                      }
+                    },
+                  ),
+                ),
+              ],
+              const SpaceH74(),
+            ],
+          ),
         ],
       );
     } else {
