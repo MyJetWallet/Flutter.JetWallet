@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../current_theme_stpod.dart';
@@ -14,6 +15,8 @@ class SStandardFieldObscure extends ConsumerWidget {
     this.autofillHints,
     this.errorNotifier,
     this.onErrorIconTap,
+    this.keyboardType,
+    this.inputFormatters,
     required this.onChanged,
     required this.labelText,
   }) : super(key: key);
@@ -26,6 +29,8 @@ class SStandardFieldObscure extends ConsumerWidget {
   final Function(String) onChanged;
   final String labelText;
   final bool autofocus;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -41,6 +46,8 @@ class SStandardFieldObscure extends ConsumerWidget {
         labelText: labelText,
         autofillHints: autofillHints,
         autofocus: autofocus,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
       );
     } else {
       return SimpleLightStandardFieldObscure(
@@ -52,6 +59,8 @@ class SStandardFieldObscure extends ConsumerWidget {
         labelText: labelText,
         autofillHints: autofillHints,
         autofocus: autofocus,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
       );
     }
   }

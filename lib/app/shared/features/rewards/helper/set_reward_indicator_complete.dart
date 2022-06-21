@@ -13,12 +13,14 @@ Widget? setRewardIndicatorComplete(
   var isDisplayIndicator = false;
 
   for (final condition in conditions) {
-    if (condition.parameters!.passed == 'true') {
-      completeIndicator += 1;
-    }
+    if (condition.parameters != null) {
+      if (condition.parameters!.passed == 'true') {
+        completeIndicator += 1;
+      }
 
-    if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition)) {
-      isDisplayIndicator = true;
+      if (condition.type == conditionTypeSwitch(ConditionType.tradeCondition)) {
+        isDisplayIndicator = true;
+      }
     }
   }
 

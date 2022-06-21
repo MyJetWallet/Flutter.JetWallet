@@ -4,8 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/service_providers.dart';
-import '../../../../../portfolio/view/components/empty_portfolio/components/earn_bottom_sheet/components/components/earn_advantage_item.dart';
-
+import '../../../../../portfolio/view/components/empty_apy_portfolio/components/earn_bottom_sheet/components/components/earn_advantage_item.dart';
 
 class EarnPageAdvantages extends HookWidget {
   const EarnPageAdvantages({Key? key}) : super(key: key);

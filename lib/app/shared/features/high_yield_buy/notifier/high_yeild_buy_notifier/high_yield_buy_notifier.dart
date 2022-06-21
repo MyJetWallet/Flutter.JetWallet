@@ -73,9 +73,8 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     _updateSelectedPreset(preset);
 
     final percent = _percentFromPreset(preset);
-    final maxAvailable = Decimal.parse('${(input.earnOffer.maxAmount.toDouble()
-        - input.earnOffer.amountBaseAsset.toDouble() ) /
-        input.currency.currentPrice.toDouble()}',);
+    final maxAvailable = Decimal.parse('${input.earnOffer.maxAmount.toDouble()
+        - input.earnOffer.amount.toDouble()}',);
     final percentageOfAll = valueBasedOnSelectedPercent(
       selected: percent,
       currency: input.currency,

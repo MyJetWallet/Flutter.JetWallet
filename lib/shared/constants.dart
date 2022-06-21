@@ -6,6 +6,7 @@ const failureAnimationAsset = 'assets/animations/failure.riv';
 // Other
 const watchlistImageAsset = 'assets/images/watchlist.png';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
+const simpleEllipseAsset = 'assets/images/simple_ellipse.png';
 
 // Portfolio
 const earnImageAsset = 'assets/images/earn.png';

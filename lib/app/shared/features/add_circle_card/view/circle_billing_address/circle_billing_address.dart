@@ -70,6 +70,7 @@ class CircleBillingAddress extends HookWidget {
                     labelText: intl.circleBillingAddress_streetAddress,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress1,
+                    hideSpace: true,
                   ),
                 ),
                 SFieldDividerFrame(
@@ -79,6 +80,7 @@ class CircleBillingAddress extends HookWidget {
                         ' (${intl.circleBillingAddress_optional})',
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateAddress2,
+                    hideSpace: true,
                   ),
                 ),
                 SFieldDividerFrame(
@@ -87,6 +89,7 @@ class CircleBillingAddress extends HookWidget {
                     labelText: intl.circleBillingAddress_city,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateCity,
+                    hideSpace: true,
                   ),
                 ),
                 SFieldDividerFrame(
@@ -95,6 +98,7 @@ class CircleBillingAddress extends HookWidget {
                     labelText: intl.circleBillingAddress_district,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: notifier.updateDistrict,
+                    hideSpace: true,
                   ),
                 ),
                 SFieldDividerFrame(
@@ -106,6 +110,7 @@ class CircleBillingAddress extends HookWidget {
                       FilteringTextInputFormatter.digitsOnly,
                     ],
                     onChanged: notifier.updatePostalCode,
+                    hideSpace: true,
                   ),
                 ),
                 CountrySelectorButton(
