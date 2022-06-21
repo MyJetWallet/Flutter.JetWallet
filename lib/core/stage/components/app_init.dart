@@ -54,6 +54,7 @@ class AppInit extends HookWidget {
                       return const PinScreen(
                         union: Verification(),
                         cannotLeave: true,
+                        displayHeader: false,
                       );
                     },
                     home: () => Navigation(),
