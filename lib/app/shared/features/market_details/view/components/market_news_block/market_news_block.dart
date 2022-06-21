@@ -47,16 +47,17 @@ class MarketNewsBlock extends HookWidget {
               width: 300,
               height: 30,
               color: Colors.red.withOpacity(0.6),
-              child: Text('30dp'),
+              child: const Text('30dp'),
             ),
           ),
+
           Positioned(
             top: 82,
             child: Container(
               width: 300,
               height: 20,
               color: Colors.blue.withOpacity(0.6),
-              child: Text('20dp'),
+              child: const Text('20dp'),
             ),
           ),
 
@@ -66,7 +67,7 @@ class MarketNewsBlock extends HookWidget {
               width: 300,
               height: 30,
               color: Colors.red.withOpacity(0.6),
-              child: Text('30dp'),
+              child: const Text('30dp'),
             ),
           ),
 
@@ -76,7 +77,7 @@ class MarketNewsBlock extends HookWidget {
               width: 300,
               height: 20,
               color: Colors.blue.withOpacity(0.6),
-              child: Text('20dp'),
+              child: const Text('20dp'),
             ),
           ),
 
@@ -86,10 +87,9 @@ class MarketNewsBlock extends HookWidget {
               width: 300,
               height: 20,
               color: Colors.red.withOpacity(0.6),
-              child: Text('20dp'),
+              child: const Text('20dp'),
             ),
           ),
-
 
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
