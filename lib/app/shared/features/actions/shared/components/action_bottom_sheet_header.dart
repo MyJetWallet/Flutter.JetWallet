@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/service_providers.dart';
+import '../../helpers/show_currency_search.dart';
 
 class ActionBottomSheetHeader extends HookWidget {
   const ActionBottomSheetHeader({
@@ -36,11 +37,12 @@ class ActionBottomSheetHeader extends HookWidget {
                 ),
               ),
               const Spacer(),
-              SIconButton(
-                onTap: () => Navigator.pop(context),
-                defaultIcon: const SEraseIcon(),
-                pressedIcon: const SErasePressedIcon(),
-              ),
+              if (!showSearch)
+                SIconButton(
+                  onTap: () => Navigator.pop(context),
+                  defaultIcon: const SEraseIcon(),
+                  pressedIcon: const SErasePressedIcon(),
+                ),
             ],
           ),
         ),
