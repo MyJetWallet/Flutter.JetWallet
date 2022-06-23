@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
+
+import '../../../../../../shared/providers/service_providers.dart';
 
 class PaymentCardItem extends HookWidget {
   const PaymentCardItem({
@@ -11,6 +14,7 @@ class PaymentCardItem extends HookWidget {
     required this.expirationDate,
     required this.expired,
     required this.onDelete,
+    required this.status,
   }) : super(key: key);
 
   final bool removeDivider;
@@ -18,10 +22,13 @@ class PaymentCardItem extends HookWidget {
   final String expirationDate;
   final bool expired;
   final Function() onDelete;
+  final CircleCardStatus status;
 
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
+    final intl = useProvider(intlPod);
+    final isDisabled = expired || status == CircleCardStatus.failed;
 
     return Container(
       height: 88.0,
@@ -36,7 +43,7 @@ class PaymentCardItem extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SActionDepositIcon(
-                color: colors.black,
+                color: isDisabled ? colors.grey2 : colors.black,
               ),
               const SpaceW20(),
               Expanded(
@@ -51,7 +58,7 @@ class PaymentCardItem extends HookWidget {
                             child: Text(
                               name,
                               style: sSubtitle2Style.copyWith(
-                                color: colors.black,
+                                color: isDisabled ? colors.grey2 : colors.black,
                               ),
                             ),
                           ),
@@ -71,9 +78,13 @@ class PaymentCardItem extends HookWidget {
                               baseline: 14.0,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                expirationDate,
+                                status == CircleCardStatus.pending
+                                    ? intl.paymentMethod_CardIsProcessing
+                                    : status == CircleCardStatus.failed
+                                    ? intl.paymentMethod_Failed
+                                    : expirationDate,
                                 style: sCaptionTextStyle.copyWith(
-                                  color: expired ? colors.red : colors.grey3,
+                                  color: isDisabled ? colors.red : colors.grey3,
                                 ),
                               ),
                             ),

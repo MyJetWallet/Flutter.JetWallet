@@ -17,6 +17,7 @@ import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/blockchains_model.dart';
 import '../model/campaign_response_model.dart';
+import '../model/cards_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/earn_offers_model.dart';
 import '../model/earn_profile_model.dart';
@@ -105,6 +106,7 @@ class SignalRService {
       StreamController<RecurringBuysResponseModel>();
   final _earnOfferController = StreamController<List<EarnOfferModel>>();
   final _earnProfileController = StreamController<EarnProfileModel>();
+  final _cardsController = StreamController<CardsModel>();
 
   final _inifFinishedController = StreamController<bool>();
 
@@ -130,20 +132,20 @@ class SignalRService {
         .withUrl(walletApiSignalR, HttpConnectionOptions(client: httpClient))
         .build();
 
+    _connection?.on(cardsMessage, (data) {
+      try {
+        final cardsList = CardsModel.fromJson(_json(data));
+        _cardsController.add(cardsList);
+      } catch (e) {
+        _logger.log(contract, cardsMessage, e);
+      }
+    });
+
     _connection?.on(initFinished, (data) {
       try {
         _inifFinishedController.add(true);
       } catch (e) {
         _logger.log(contract, initFinished, e);
-      }
-    });
-
-    _connection?.on(earnProfileMessage, (data) {
-      try {
-        final earnProfileInfo = EarnProfileModel.fromJson(_json(data));
-        _earnProfileController.add(earnProfileInfo);
-      } catch (e) {
-        _logger.log(contract, earnProfileMessage, e);
       }
     });
 
@@ -425,6 +427,8 @@ class SignalRService {
   Stream<EarnProfileModel> earnProfile() => _earnProfileController.stream;
 
   Stream<bool> isAppLoaded() => _inifFinishedController.stream;
+
+  Stream<CardsModel> cards() => _cardsController.stream;
 
   void _startPing() {
     _pingTimer = Timer.periodic(

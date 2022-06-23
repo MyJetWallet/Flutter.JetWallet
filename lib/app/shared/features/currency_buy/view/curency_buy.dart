@@ -131,7 +131,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   ),
                   name: formatted.name,
                   amount: formatted.last4Digits,
-                  helper: formatted.expDate,
+                  helper: card.status == CircleCardStatus.pending
+                      ? intl.paymentMethod_CardIsProcessing
+                      : formatted.expDate,
                   description: formatted.limit,
                   onTap: () => Navigator.pop(context, card),
                 );
@@ -282,7 +284,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     name: state.selectedCircleCard!.name,
                     amount: state.selectedCircleCard!.last4Digits,
                     helper: state.selectedCircleCard!.limit,
-                    description: state.selectedCircleCard!.expDate,
+                    description: state.pickedCircleCard?.status ==
+                        CircleCardStatus.pending
+                        ? intl.paymentMethod_CardIsProcessing
+                        : state.selectedCircleCard!.expDate,
                     onTap: () => _showAssetSelector(),
                   )
               else if (state.selectedCurrency?.type == AssetType.crypto)

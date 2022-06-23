@@ -10,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:openpgp/openpgp.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/circle/model/create_payment/create_payment_request_model.dart';
 import 'package:simple_networking/services/circle/model/create_payment/create_payment_response_model.dart';
 import 'package:simple_networking/services/circle/model/payment_info/payment_info_request_model.dart';
@@ -41,6 +42,7 @@ class PreviewBuyWithCircleNotifier
     _intl = read(intlPod);
     _initState();
     _requestPreview();
+    _requestCards();
   }
 
   final Reader read;
@@ -127,6 +129,27 @@ class PreviewBuyWithCircleNotifier
         state.loader.finishLoadingImmediately();
       });
     });
+  }
+
+  Future<void> _requestCards() async {
+    _logger.log(notifier, '_requestCards');
+    try {
+      final response = await read(circleServicePod).allCards();
+      if (response.cards.isNotEmpty) {
+        final actualCard = response.cards.where(
+            (element) => element.id == state.card?.id,
+        ).toList();
+        if (actualCard.isNotEmpty) {
+          state = state.copyWith(
+            isPending: actualCard[0].status == CircleCardStatus.pending,
+            wasPending: actualCard[0].status == CircleCardStatus.pending,
+          );
+        }
+      }
+    } catch (e) {
+      await Future.delayed(const Duration(seconds: 5));
+      await _requestCards();
+    }
   }
 
   Future<void> _requestPayment(void Function() onSuccess) async {
@@ -258,6 +281,18 @@ class PreviewBuyWithCircleNotifier
       },
       secondaryButtonName: _intl.previewBuyWithAsset_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
+    );
+  }
+
+  void setWasPending({required bool wasPending}) {
+    state = state.copyWith(
+      wasPending: wasPending,
+    );
+  }
+
+  void setIsPending({required bool isPending}) {
+    state = state.copyWith(
+      isPending: isPending,
     );
   }
 }

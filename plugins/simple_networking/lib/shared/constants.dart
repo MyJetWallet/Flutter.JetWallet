@@ -24,8 +24,8 @@ const blockchainsMessage = 'blockchains';
 const referralInfoMessage = 'referral-info';
 const recurringBuyMessage = 'recurring-buys';
 const earnOffersMessage = 'high-yield-profile';
-const earnProfileMessage = 'EarnProfile';
 const initFinished = 'init-finished';
+const cardsMessage = 'cards';
 
 // KeyValue
 const watchlistKey = 'watchlist';
