@@ -11,6 +11,7 @@ class AppConfigModel with _$AppConfigModel {
     required String userAgreementLink,
     required String privacyPolicyLink,
     required String referralPolicyLink,
+    required String refundPolicyLink,
     required String infoRewardsLink,
     required String infoEarnLink,
     required int paymentDelayDays,

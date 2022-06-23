@@ -4,6 +4,7 @@ late int phoneVerificationCodeLength;
 late String userAgreementLink;
 late String privacyPolicyLink;
 late String referralPolicyLink;
+late String refundPolicyLink;
 late String infoRewardsLink;
 late String infoEarnLink;
 late int paymentDelayDays;

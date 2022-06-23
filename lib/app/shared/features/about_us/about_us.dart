@@ -95,6 +95,15 @@ class AboutUs extends HookWidget {
               ),
             ],
           ),
+          const SpaceH20(),
+          Row(
+            children: [
+              SimpleAccountTermButton(
+                name: intl.aboutUs_termButton5,
+                onTap: () => launchURL(context, refundPolicyLink),
+              ),
+            ],
+          ),
           const SpaceH60(),
         ],
       ),
