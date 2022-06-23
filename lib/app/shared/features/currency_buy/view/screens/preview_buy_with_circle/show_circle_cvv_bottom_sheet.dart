@@ -101,6 +101,7 @@ class CvvBottomSheetBody extends HookWidget {
                   ),
                   textStyle: sTextH2Style.copyWith(
                     color: colors.black,
+                    fontSize: 16,
                   ),
                   onChanged: (_) => {},
                   onCompleted: onCompleted,
