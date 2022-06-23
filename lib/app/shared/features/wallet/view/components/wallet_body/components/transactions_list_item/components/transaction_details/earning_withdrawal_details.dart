@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,16 +75,11 @@ class EarningWithdrawalDetails extends HookWidget {
                 TransactionDetailsValueText(
                   text: volumeFormat(
                     decimal: transactionListItem.earnInfo != null &&
-                        transactionListItem.earnInfo!.totalBalance !=
-                            Decimal.zero &&
-                        currentCurrency.currentPrice != Decimal.zero
-                        ? Decimal.parse('${transactionListItem
-                            .earnInfo
-                            !.totalBalance
-                            .toDouble() / currentCurrency
-                              .currentPrice
-                              .toDouble()
-                            }',
+                            transactionListItem.earnInfo!.totalBalance !=
+                                Decimal.zero &&
+                            currentCurrency.currentPrice != Decimal.zero
+                        ? Decimal.parse(
+                            '${transactionListItem.earnInfo!.totalBalance.toDouble() / currentCurrency.currentPrice.toDouble()}',
                           )
                         : Decimal.zero,
                     accuracy: currentCurrency.accuracy,
@@ -93,8 +90,8 @@ class EarningWithdrawalDetails extends HookWidget {
                   Text(
                     volumeFormat(
                       prefix: baseCurrency.prefix,
-                      decimal: transactionListItem.earnInfo?.totalBalance
-                          ?? Decimal.zero,
+                      decimal: transactionListItem.earnInfo?.totalBalance ??
+                          Decimal.zero,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
                     ),
@@ -112,8 +109,7 @@ class EarningWithdrawalDetails extends HookWidget {
               text: '${transactionListItem.earnInfo?.apy}%',
             ),
           ),
-          if (transactionListItem.earnInfo?.withdrawalReason ==
-              'Auto') ...[
+          if (transactionListItem.earnInfo?.withdrawalReason == 'Auto') ...[
             const SpaceH14(),
             TransactionDetailsItem(
               text: intl.earn_details_reason,
@@ -126,6 +122,7 @@ class EarningWithdrawalDetails extends HookWidget {
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
+          const SpaceH40(),
           if (transactionListItem.status == Status.inProgress) ...[
             const SpaceH14(),
             Container(
@@ -135,7 +132,7 @@ class EarningWithdrawalDetails extends HookWidget {
                   color: colors.grey4,
                 ),
               ),
-              child:  Padding(
+              child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,6 +156,7 @@ class EarningWithdrawalDetails extends HookWidget {
                 ),
               ),
             ),
+            if (Platform.isAndroid) const SpaceH24(),
           ],
         ],
       ),

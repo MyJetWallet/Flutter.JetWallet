@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +49,7 @@ class EarnOfferDetailsBody extends HookWidget {
           ),
         ).toList();
 
-    Decimal convertBaseRateToCurrency () {
+    Decimal convertBaseRateToCurrency() {
       final converted = double.parse('${earnOffer.totalEarned}') /
           double.parse('${currentCurrency.currentPrice}');
       return Decimal.parse('$converted');
@@ -172,38 +174,42 @@ class EarnOfferDetailsBody extends HookWidget {
             children: [
               TransactionDetailsNameText(
                 text: isHot
-                  ? intl.earn_expected_profit
-                  : intl.earn_details_interest,
+                    ? intl.earn_expected_profit
+                    : intl.earn_details_interest,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    isHot ? volumeFormat(
-                      decimal: convertBaseRateToCurrency(),
-                      accuracy: currentCurrency.accuracy,
-                      symbol: currentCurrency.symbol,
-                    ) : volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: earnOffer.totalEarned,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    ),
+                    isHot
+                        ? volumeFormat(
+                            decimal: convertBaseRateToCurrency(),
+                            accuracy: currentCurrency.accuracy,
+                            symbol: currentCurrency.symbol,
+                          )
+                        : volumeFormat(
+                            prefix: baseCurrency.prefix,
+                            decimal: earnOffer.totalEarned,
+                            accuracy: baseCurrency.accuracy,
+                            symbol: baseCurrency.symbol,
+                          ),
                     style: sSubtitle3Style.copyWith(
                       color: isHot ? colors.black : colors.green,
                     ),
                   ),
                   Text(
-                    isHot ? '${intl.earn_aprox} ${volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: earnOffer.totalEarned,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    )}' : volumeFormat(
-                      decimal: convertBaseRateToCurrency(),
-                      accuracy: currentCurrency.accuracy,
-                      symbol: currentCurrency.symbol,
-                    ),
+                    isHot
+                        ? '${intl.earn_aprox} ${volumeFormat(
+                            prefix: baseCurrency.prefix,
+                            decimal: earnOffer.totalEarned,
+                            accuracy: baseCurrency.accuracy,
+                            symbol: baseCurrency.symbol,
+                          )}'
+                        : volumeFormat(
+                            decimal: convertBaseRateToCurrency(),
+                            accuracy: currentCurrency.accuracy,
+                            symbol: currentCurrency.symbol,
+                          ),
                     style: sBodyText2Style.copyWith(
                       color: colors.grey1,
                     ),
@@ -224,7 +230,7 @@ class EarnOfferDetailsBody extends HookWidget {
                 );
               },
             ),
-            const SpaceH24(),
+            if (Platform.isAndroid) const SpaceH24(),
           ],
         ],
       ),
