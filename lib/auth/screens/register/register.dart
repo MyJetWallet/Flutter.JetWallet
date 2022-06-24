@@ -92,7 +92,7 @@ class Register extends HookWidget {
                 ),
                 const SpaceH19(),
                 const ReferralCode(),
-                const SpaceH36(),
+                const Spacer(),
                 Container(
                   color: colors.grey5,
                   child: SPaddingH24(
