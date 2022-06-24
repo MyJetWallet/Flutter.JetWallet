@@ -4,12 +4,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jetwallet/app/shared/features/delete_profile/notifier/delete_profile_notipod.dart';
 import 'package:jetwallet/app/shared/features/delete_profile/view/components/dp_checkbox.dart';
+import 'package:jetwallet/app/shared/features/delete_profile/view/delete_reasons_screen.dart';
 import 'package:jetwallet/app/shared/features/earn/notifier/earn_offers_notipod.dart';
 import 'package:jetwallet/app/shared/features/earn/provider/earn_offers_pod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/helpers/navigate_to_router.dart';
+import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../helpers/formatting/base/market_format.dart';
@@ -122,7 +124,7 @@ class DeleteProfile extends ConsumerWidget {
                     state.confitionCheckbox,
                 name: intl.deleteProfileConditions_buttonText,
                 onTap: () async {
-                  print('asd');
+                  navigatorPush(context, const DeleteReasonsScreen());
                 },
               ),
             ),

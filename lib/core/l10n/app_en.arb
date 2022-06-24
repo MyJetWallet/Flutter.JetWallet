@@ -157,6 +157,8 @@
     "deleteProfileConditions_menuTwoSubTitle3": "You don’t have any subscrioption",
     "deleteProfileConditions_warning": "This process is irreversible! All remaining funds on your balance will be lost. \n\nYou’ll be instantly logged out of Simple on all your devices.",
     "deleteProfileConditions_checkbox": "I confirm that I followed all the steps and I want to delete my profile.",
+    "deleteProfileReasons_header": "Why have you\ndeleted your profile?",
+    "deleteProfileReasons_subText": "Let us know what made you delete your profile. Select all that apply:",
     "showBasicModalBottomSheet_continue": "Continue",
     "kycAlertHandler_continue": "Continue",
     "kycAlertHandler_verifyYourProfile": "Verify your profile",
