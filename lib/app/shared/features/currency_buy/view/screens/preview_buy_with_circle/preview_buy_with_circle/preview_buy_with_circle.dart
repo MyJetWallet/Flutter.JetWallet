@@ -229,6 +229,7 @@ class PreviewBuyWithCircle extends HookWidget {
             ],
           ),
           SFloatingButtonFrame(
+            hidePadding: true,
             button: SPrimaryButton2(
               active: !state.loader.value && !state.isPending,
               name: intl.previewBuyWithAsset_confirm,
