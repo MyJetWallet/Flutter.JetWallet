@@ -2,14 +2,15 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/shared/features/delete_profile/notifier/delete_profile_notipod.dart';
 import 'package:jetwallet/app/shared/features/delete_profile/view/components/dp_checkbox.dart';
+import 'package:jetwallet/app/shared/features/earn/notifier/earn_offers_notipod.dart';
+import 'package:jetwallet/app/shared/features/earn/provider/earn_offers_pod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../../../../screens/market/provider/market_crypto_pod.dart';
-import '../../../../screens/market/provider/market_fiats_pod.dart';
 import '../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../helpers/formatting/base/market_format.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
@@ -27,6 +28,13 @@ class DeleteProfile extends ConsumerWidget {
     final currencies = watch(currenciesPod);
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final baseCurrency = watch(baseCurrencyPod);
+    final earnOffers = watch(earnOffersPod);
+    final earnNotifier = watch(earnOffersNotipod.notifier);
+
+    final state = watch(deleteProfileNotipod);
+    final stateNotifier = watch(deleteProfileNotipod.notifier);
+
+    final isEarnSubscriptionActive = earnNotifier.isActiveState(earnOffers);
 
     var totalBalance = Decimal.zero;
     for (final item in itemsWithBalance) {
@@ -75,12 +83,15 @@ class DeleteProfile extends ConsumerWidget {
             ),
             DPConditionMenu(
               title: intl.deleteProfileConditions_menuTwoTitle,
-              subTitle: intl.deleteProfileConditions_menuTwoSubTitle,
+              subTitle: isEarnSubscriptionActive
+                  ? '${intl.deleteProfileConditions_menuTwoSubTitle}2 '
+                      '${intl.deleteProfileConditions_menuTwoSubTitle2}'
+                  : intl.deleteProfileConditions_menuTwoSubTitle3,
               onTap: () {
                 watch(navigationStpod).state = 2; // Portfolio
                 navigateToRouter(watch);
               },
-              isLinkActie: true,
+              isLinkActie: isEarnSubscriptionActive,
             ),
             const SizedBox(
               height: 39,
@@ -96,7 +107,9 @@ class DeleteProfile extends ConsumerWidget {
             const Spacer(),
             DPCheckbox(
               text: intl.deleteProfileConditions_conditions,
-              onCheckboxTap: () {},
+              onCheckboxTap: () {
+                stateNotifier.clickCheckbox();
+              },
             ),
             const SizedBox(
               height: 20,
@@ -104,9 +117,13 @@ class DeleteProfile extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 24),
               child: SPrimaryButton3(
-                active: true,
+                active: totalBalance == Decimal.zero &&
+                    !isEarnSubscriptionActive &&
+                    state.confitionCheckbox,
                 name: intl.deleteProfileConditions_buttonText,
-                onTap: () async {},
+                onTap: () async {
+                  print('asd');
+                },
               ),
             ),
           ],
