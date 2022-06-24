@@ -6,11 +6,13 @@
 	<array>
 		<string>en</string>
 		<string>Russia</string>
+		<string>pl</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<array>
         <string>en-US</string>
         <string>ru-RU</string>
+		<string>pl-PL</string>
     </array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
