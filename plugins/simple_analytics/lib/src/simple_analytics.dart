@@ -27,7 +27,7 @@ class SimpleAnalytics {
     await _analytics.init(environmentKey);
 
     if (userEmail != null) {
-      await _analytics.setUserId(hashString(userEmail));
+      await _analytics.setUserId(userEmail);
     }
   }
 
@@ -40,7 +40,7 @@ class SimpleAnalytics {
   }
 
   Future<void> signUpSuccess(String userEmail) async {
-    await _analytics.setUserId(hashString(userEmail));
+    await _analytics.setUserId(userEmail);
 
     final identify = Identify()
       ..setOnce(UserType.signUpDate, '${DateTime.now()}')
@@ -74,7 +74,7 @@ class SimpleAnalytics {
   }
 
   Future<void> loginSuccess(String userEmail) async {
-    await _analytics.setUserId(hashString(userEmail));
+    await _analytics.setUserId(userEmail);
     await _analytics.logEvent(EventType.loginSuccess);
   }
 
@@ -346,7 +346,6 @@ class SimpleAnalytics {
   Future<void> logout() async {
     await _analytics.logEvent(EventType.logout);
     await _analytics.setUserId(null);
-    await _analytics.regenerateDeviceId();
   }
 
   void tapPreviewBuy({
