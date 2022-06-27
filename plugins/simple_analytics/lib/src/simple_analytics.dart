@@ -354,6 +354,7 @@ class SimpleAnalytics {
     required String paymentMethod,
     required String amount,
     required RecurringFrequency frequency,
+    String? preset,
   }) {
     _analytics.logEvent(
       EventType.tapPreviewBuy,
@@ -362,6 +363,7 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
         PropertyType.frequency: frequency.name,
+        PropertyType.preset: preset,
       },
     );
   }

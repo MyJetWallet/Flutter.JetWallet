@@ -178,6 +178,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     updateSelectedPaymentMethod(method.first);
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   void selectFixedSum(SKeyboardPreset preset) {
     late int value;
 
