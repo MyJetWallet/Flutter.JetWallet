@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
+import '../notifier/delete_profile_notipod.dart';
 
 class DeleteReasonsScreen extends ConsumerWidget {
   const DeleteReasonsScreen({Key? key}) : super(key: key);
@@ -12,23 +14,74 @@ class DeleteReasonsScreen extends ConsumerWidget {
     final intl = watch(intlPod);
     final colors = watch(sColorPod);
 
+    final state = watch(deleteProfileNotipod);
+    final stateNotifier = watch(deleteProfileNotipod.notifier);
+
     return SPageFrame(
       header: SPaddingH24(
-        child: SBigHeader(
+        child: SMegaHeader(
+          titleAlign: TextAlign.start,
           title: intl.deleteProfileReasons_header,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
-      child: SPaddingH24(
-        child: Column(
-          children: [
-            Text(
-              intl.deleteProfileReasons_subText,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(24),
+        child: SPrimaryButton2(
+          active: true,
+          onTap: () async {},
+          name: intl.deleteProfileReasons_continue,
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: SPaddingH24(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 7,
               ),
-            ),
-          ],
+              Text(
+                intl.deleteProfileReasons_subText,
+                maxLines: 3,
+                style: sBodyText1Style.copyWith(
+                  color: colors.grey1,
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ListView.separated(
+                itemCount: state.deleteReason.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => const SDivider(),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      stateNotifier.selectDeleteReason(index);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      child: Row(
+                        children: [
+                          Text(
+                            state.deleteReason[index].reasonText ?? '',
+                            style: sSubtitle2Style,
+                          ),
+                          const Spacer(),
+                          SCompleteIcon(
+                            color: stateNotifier.isAlreadySelected(index)
+                                ? colors.blue
+                                : colors.grey1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

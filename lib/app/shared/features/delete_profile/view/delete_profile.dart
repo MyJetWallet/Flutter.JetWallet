@@ -7,8 +7,12 @@ import 'package:jetwallet/app/shared/features/delete_profile/view/components/dp_
 import 'package:jetwallet/app/shared/features/delete_profile/view/delete_reasons_screen.dart';
 import 'package:jetwallet/app/shared/features/earn/notifier/earn_offers_notipod.dart';
 import 'package:jetwallet/app/shared/features/earn/provider/earn_offers_pod.dart';
+import 'package:jetwallet/app/shared/features/email_confirmation/email_confirmation_screen.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../auth/screens/email_verification/view/email_verification.dart';
+import '../../../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import '../../../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
 import '../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
@@ -124,7 +128,8 @@ class DeleteProfile extends ConsumerWidget {
                     state.confitionCheckbox,
                 name: intl.deleteProfileConditions_buttonText,
                 onTap: () async {
-                  navigatorPush(context, const DeleteReasonsScreen());
+                  navigatorPush(context, const EmailConfirmationScreen());
+                  //navigatorPush(context, const DeleteReasonsScreen());
                 },
               ),
             ),
