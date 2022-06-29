@@ -358,7 +358,7 @@
     "earnCurrencysItem_apy": "APY",
     "showInterestRate_apy": "APY",
     "showInterestRate_interestEarned": "Reward earned",
-    "showInterestRate_nextPay": "Net payment",
+    "showInterestRate_nextPay": "Next payment",
     "earnBody_startEarn": "Start earning",
     "emptyPortfolioBody_startEarn": "Start earning",
     "emptyPortfolioBody_cryptoWorkForYou": "Let you crypto work for you",
