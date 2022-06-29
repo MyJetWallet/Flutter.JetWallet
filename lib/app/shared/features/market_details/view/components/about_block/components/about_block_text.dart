@@ -79,7 +79,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
             ClickableUnderlinedText(
               text: intl.aboutBlockText_whitepaper,
               onTap: () {
-                _checkUrl(widget.marketInfo.whitepaperUrl!);
+                _openUrl(widget.marketInfo.whitepaperUrl!);
               },
             ),
           ],
@@ -106,7 +106,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
 
   bool _urlValid(String? url) => url != null && url.isNotEmpty;
 
-  void _checkUrl(String url) {
+  void _openUrl(String url) {
     if (url.contains('.pdf')) {
       navigatorPush(context, PDFViewScreen(url: url));
       return;
