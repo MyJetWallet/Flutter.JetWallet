@@ -8,6 +8,8 @@ class SendEmailConfirmationRequest with _$SendEmailConfirmationRequest {
   factory SendEmailConfirmationRequest({
     required String language,
     required String deviceType,
+    required int reason,
+    required int type,
   }) = _SendEmailConfirmationRequest;
 
   factory SendEmailConfirmationRequest.fromJson(Map<String, dynamic> json) =>

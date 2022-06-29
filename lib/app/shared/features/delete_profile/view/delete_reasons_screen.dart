@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -29,7 +28,9 @@ class DeleteReasonsScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(24),
         child: SPrimaryButton2(
           active: true,
-          onTap: () async {},
+          onTap: () async {
+            await stateNotifier.deleteProfile();
+          },
           name: intl.deleteProfileReasons_continue,
         ),
       ),

@@ -1,18 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/delete_profile/notifier/delete_profile_notipod.dart';
-import 'package:jetwallet/app/shared/features/delete_profile/view/components/dp_checkbox.dart';
-import 'package:jetwallet/app/shared/features/delete_profile/view/delete_reasons_screen.dart';
-import 'package:jetwallet/app/shared/features/earn/notifier/earn_offers_notipod.dart';
-import 'package:jetwallet/app/shared/features/earn/provider/earn_offers_pod.dart';
-import 'package:jetwallet/app/shared/features/email_confirmation/email_confirmation_screen.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../auth/screens/email_verification/view/email_verification.dart';
-import '../../../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import '../../../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
 import '../../../../../shared/helpers/currencies_with_balance_from.dart';
 import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
@@ -21,6 +11,11 @@ import '../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../helpers/formatting/base/market_format.dart';
 import '../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../providers/currencies_pod/currencies_pod.dart';
+import '../../earn/notifier/earn_offers_notipod.dart';
+import '../../earn/provider/earn_offers_pod.dart';
+import '../../email_confirmation/email_confirmation_screen.dart';
+import '../notifier/delete_profile_notipod.dart';
+import 'components/dp_checkbox.dart';
 import 'components/dp_condition_menu.dart';
 
 class DeleteProfile extends ConsumerWidget {

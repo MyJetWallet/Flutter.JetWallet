@@ -4,11 +4,11 @@ import '../../../../shared/api_urls.dart';
 import '../../../../shared/constants.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../authentication/service/authentication_service.dart';
-import '../../validation/model/verify_email_verification_code_request_model.dart';
+import '../model/verify_email_confirmation_request.dart';
 
 Future<void> verifyEmailConfirmationService(
   Dio dio,
-  VerifyEmailVerificationCodeRequestModel model,
+  VerifyEmailConfirmationRequest model,
   String localeName,
 ) async {
   final logger = AuthenticationService.logger;

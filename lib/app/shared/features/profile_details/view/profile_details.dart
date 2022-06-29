@@ -105,7 +105,7 @@ class ProfileDetails extends HookWidget {
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
             child: SSecondaryButton1(
               active: true,
-              icon: SMinusIcon(),
+              icon: const SCircleMinusIcon(),
               name: intl.profileDetails_deleteProfile,
               onTap: () {
                 sShowAlertPopup(

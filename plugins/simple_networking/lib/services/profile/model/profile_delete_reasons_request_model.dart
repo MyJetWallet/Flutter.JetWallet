@@ -10,6 +10,7 @@ class ProfileDeleteReasonsRequestModel with _$ProfileDeleteReasonsRequestModel {
   }) = _ProfileDeleteReasonsRequestModel;
 
   factory ProfileDeleteReasonsRequestModel.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$ProfileDeleteReasonsRequestModelFromJson(json);
 }

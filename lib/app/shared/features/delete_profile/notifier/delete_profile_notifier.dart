@@ -1,5 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import 'delete_profile_state.dart';
@@ -18,7 +20,6 @@ class DPNotifier extends StateNotifier<DPState> {
   void _init() {
     read(profileServicePod).deleteReasons(read(intlPod).localeName).then(
           (value) => {
-            print(value),
             state = state.copyWith(selectedDeleteReason: []),
             state = state.copyWith(deleteReason: value),
           },
@@ -47,11 +48,18 @@ class DPNotifier extends StateNotifier<DPState> {
   }
 
   Future<void> deleteProfile() async {
-    await read(logoutNotipod.notifier).logout().then(
-          (value) => read(profileServicePod).deleteProfile(
-            state.selectedDeleteReason.map((e) => e.reasonId!).toList(),
-          ),
-        );
+    await read(profileServicePod)
+        .deleteProfile(
+      read(authInfoNotipod).deleteToken,
+      state.selectedDeleteReason.map((e) => e.reasonId!).toList(),
+    )
+        .then(
+      (value) async {
+        await read(logoutNotipod.notifier).logout().then(
+              (value) => navigateToRouter(read),
+            );
+      },
+    );
   }
 
   void clickCheckbox() {

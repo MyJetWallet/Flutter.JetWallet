@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/app/shared/features/email_confirmation/notifier/email_confirmation_notipod.dart';
-import 'package:jetwallet/app/shared/features/email_confirmation/notifier/email_confirmation_state.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
@@ -12,6 +10,8 @@ import '../../../../shared/helpers/open_email_app.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
+import 'notifier/email_confirmation_notipod.dart';
+import 'notifier/email_confirmation_state.dart';
 
 class EmailConfirmationScreen extends StatefulHookWidget {
   const EmailConfirmationScreen({Key? key}) : super(key: key);

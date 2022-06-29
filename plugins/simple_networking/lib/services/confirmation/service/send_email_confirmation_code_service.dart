@@ -4,11 +4,12 @@ import '../../../../shared/api_urls.dart';
 import '../../../../shared/constants.dart';
 import '../../../../shared/helpers/handle_api_responses.dart';
 import '../../authentication/service/authentication_service.dart';
-import '../../validation/model/send_email_verification_code_request_model.dart';
+import '../model/send_email_confirmation_request.dart';
+import '../model/send_email_confirmation_response.dart';
 
-Future<void> sendEmailConfirmationCodeService(
+Future<SendEmailConfirmationResponse> sendEmailConfirmationCodeService(
   Dio dio,
-  SendEmailVerificationCodeRequestModel model,
+  SendEmailConfirmationRequest model,
   String localeName,
 ) async {
   final logger = AuthenticationService.logger;
@@ -23,7 +24,9 @@ Future<void> sendEmailConfirmationCodeService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      handleResultResponse(responseData, localeName);
+      final data = handleFullResponse<Map>(responseData, localeName);
+
+      return SendEmailConfirmationResponse.fromJson(data);
     } catch (e) {
       logger.log(contract, message, e);
       rethrow;

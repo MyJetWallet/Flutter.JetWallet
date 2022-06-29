@@ -22,7 +22,7 @@ class ProfileService {
     return profileDeleteReasonsService(dio, localeName);
   }
 
-  Future<void> deleteProfile(List<String> deletionReasonIds) {
-    return profileDeleteService(dio, deletionReasonIds);
+  Future<void> deleteProfile(String tokenId, List<String> deletionReasonIds) {
+    return profileDeleteService(dio, tokenId, deletionReasonIds);
   }
 }

@@ -8,6 +8,7 @@ import '../profile_service.dart';
 
 Future<void> profileDeleteService(
   Dio dio,
+  String tokenId,
   List<String> deletionReasonIds,
 ) async {
   final logger = ProfileService.logger;
@@ -17,13 +18,13 @@ Future<void> profileDeleteService(
     final response = await dio.post(
       '$walletApi/profile/delete-profile',
       data: ProfileDeleteAccountRequest(
-        tokenId: 'tokenID',
+        tokenId: tokenId,
         deletionReasonIds: deletionReasonIds,
       ).toJson(),
     );
 
     try {
-      final responseData = response.data as Map<String, dynamic>;
+      final _ = response.data as Map<String, dynamic>;
 
       return;
     } catch (e) {
