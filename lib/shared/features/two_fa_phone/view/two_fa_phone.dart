@@ -98,7 +98,7 @@ class TwoFaPhone extends HookWidget {
               header: SBigHeader(
                 title: intl.twoFaPhone_phoneConfirmation,
                 onBackButtonTap: () => trigger.when(
-                  startup: () => logoutN.logout(),
+                  startup: () => logoutN.logout(withLoading: false),
                   security: (_) => Navigator.pop(context),
                 ),
               ),
