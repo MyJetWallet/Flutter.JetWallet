@@ -5,8 +5,10 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/market_info/model/market_info_response_model.dart';
 
 import '../../../../../../../../shared/helpers/launch_url.dart';
+import '../../../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import 'clickable_underlined_text.dart';
+import 'pdf_view_screen.dart';
 
 class AboutBlockText extends StatefulHookWidget {
   const AboutBlockText({
@@ -77,12 +79,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
             ClickableUnderlinedText(
               text: intl.aboutBlockText_whitepaper,
               onTap: () {
-                if (canTapOnLink) {
-                  setState(() {
-                    canTapOnLink = false;
-                  });
-                  launchURL(context, widget.marketInfo.whitepaperUrl!);
-                }
+                _openUrl(widget.marketInfo.whitepaperUrl!);
               },
             ),
           ],
@@ -108,4 +105,18 @@ class _AboutBlockTextState extends State<AboutBlockText>
   }
 
   bool _urlValid(String? url) => url != null && url.isNotEmpty;
+
+  void _openUrl(String url) {
+    if (url.contains('.pdf')) {
+      navigatorPush(context, PDFViewScreen(url: url));
+      return;
+    }
+
+    if (canTapOnLink) {
+      setState(() {
+        canTapOnLink = false;
+      });
+      launchURL(context, url);
+    }
+  }
 }
