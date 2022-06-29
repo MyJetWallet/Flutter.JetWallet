@@ -21,13 +21,13 @@ class DeleteReasonsScreen extends ConsumerWidget {
         child: SMegaHeader(
           titleAlign: TextAlign.start,
           title: intl.deleteProfileReasons_header,
-          onBackButtonTap: () => Navigator.pop(context),
+          showBackButton: false,
         ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(24),
         child: SPrimaryButton2(
-          active: true,
+          active: state.selectedDeleteReason.isNotEmpty,
           onTap: () async {
             await stateNotifier.deleteProfile();
           },
@@ -35,54 +35,59 @@ class DeleteReasonsScreen extends ConsumerWidget {
         ),
       ),
       child: SingleChildScrollView(
-        child: SPaddingH24(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 7,
-              ),
-              Text(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 7,
+            ),
+            SPaddingH24(
+              child: Text(
                 intl.deleteProfileReasons_subText,
                 maxLines: 3,
                 style: sBodyText1Style.copyWith(
                   color: colors.grey1,
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
-              ListView.separated(
-                itemCount: state.deleteReason.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) => const SDivider(),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      stateNotifier.selectDeleteReason(index);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      child: Row(
-                        children: [
-                          Text(
-                            state.deleteReason[index].reasonText ?? '',
-                            style: sSubtitle2Style,
-                          ),
-                          const Spacer(),
-                          SCompleteIcon(
-                            color: stateNotifier.isAlreadySelected(index)
-                                ? colors.blue
-                                : colors.grey1,
-                          ),
-                        ],
-                      ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ListView.separated(
+              itemCount: state.deleteReason.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => const SDivider(),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  highlightColor: colors.grey5,
+                  onTap: () {
+                    stateNotifier.selectDeleteReason(index);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 18,
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          state.deleteReason[index].reasonText ?? '',
+                          style: sSubtitle2Style,
+                        ),
+                        const Spacer(),
+                        SCompleteIcon(
+                          color: stateNotifier.isAlreadySelected(index)
+                              ? colors.blue
+                              : colors.grey1,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

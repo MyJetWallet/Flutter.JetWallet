@@ -21,8 +21,22 @@ class EmailConfirmationScreen extends StatefulHookWidget {
       _EmailConfirmationScreenState();
 }
 
-class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
+class _EmailConfirmationScreenState extends State<EmailConfirmationScreen>
+    with WidgetsBindingObserver {
   final focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +47,6 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     final confirmation = useProvider(emailConfirmationNotipod);
     final confirmationN = useProvider(emailConfirmationNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
-    final showResend = useState(authInfo.showResendButton);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
 
@@ -58,9 +71,9 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
         );
       },
       child: SPageFrameWithPadding(
-        header: SBigHeader(
-          title: intl.emailVerification_emailVerification,
-          onBackButtonTap: () => {},
+        header: SSmallHeader(
+          title: intl.emailConfirmation_title,
+          showBackButton: false,
         ),
         child: CustomScrollView(
           slivers: [
@@ -120,14 +133,14 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
                   const SpaceH7(),
                   SResendButton(
                     active: !confirmation.isResending,
-                    timer: showResend.value ? 0 : timer,
+                    timer: confirmation.showResendButton ? 0 : timer,
                     onTap: () {
                       confirmation.controller.clear();
 
                       confirmationN.resendCode(
                         onSuccess: () {
                           timerN.refreshTimer();
-                          showResend.value = false;
+                          confirmationN.updateResendButton(false);
                         },
                       );
                     },

@@ -55,49 +55,48 @@ class DeleteProfile extends ConsumerWidget {
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
-      child: SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SPaddingH24(
+            child: Text(
               intl.deleteProfileConditions_subTitle,
               style: sBodyText1Style.copyWith(
                 color: colors.grey1,
               ),
             ),
-            const SizedBox(
-              height: 31,
-            ),
-            DPConditionMenu(
-              title: intl.deleteProfileConditions_menuOneTitle,
-              subTitle: '${intl.deleteProfileConditions_menuOneSubTitle}'
-                  '$totalBalanceStr',
-              onTap: () {
-                watch(navigationStpod).state = 1; // Portfolio
-                navigateToRouter(watch);
-              },
-              isLinkActie: totalBalance != Decimal.zero,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: SDivider(),
-            ),
-            DPConditionMenu(
-              title: intl.deleteProfileConditions_menuTwoTitle,
-              subTitle: isEarnSubscriptionActive
-                  ? '${intl.deleteProfileConditions_menuTwoSubTitle}2 '
-                      '${intl.deleteProfileConditions_menuTwoSubTitle2}'
-                  : intl.deleteProfileConditions_menuTwoSubTitle3,
-              onTap: () {
-                watch(navigationStpod).state = 2; // Portfolio
-                navigateToRouter(watch);
-              },
-              isLinkActie: isEarnSubscriptionActive,
-            ),
-            const SizedBox(
-              height: 39,
-            ),
-            Text(
+          ),
+          const SizedBox(
+            height: 31,
+          ),
+          DPConditionMenu(
+            title: intl.deleteProfileConditions_menuOneTitle,
+            subTitle: '${intl.deleteProfileConditions_menuOneSubTitle}'
+                '$totalBalanceStr',
+            onTap: () {
+              watch(navigationStpod).state = 1; // Portfolio
+              navigateToRouter(watch);
+            },
+            isLinkActie: totalBalance != Decimal.zero,
+          ),
+          const SDivider(),
+          DPConditionMenu(
+            title: intl.deleteProfileConditions_menuTwoTitle,
+            subTitle: isEarnSubscriptionActive
+                ? '${intl.deleteProfileConditions_menuTwoSubTitle}2 '
+                    '${intl.deleteProfileConditions_menuTwoSubTitle2}'
+                : intl.deleteProfileConditions_menuTwoSubTitle3,
+            onTap: () {
+              watch(navigationStpod).state = 2; // Portfolio
+              navigateToRouter(watch);
+            },
+            isLinkActie: isEarnSubscriptionActive,
+          ),
+          const SizedBox(
+            height: 23,
+          ),
+          SPaddingH24(
+            child: Text(
               intl.deleteProfileConditions_warning,
               textAlign: TextAlign.start,
               maxLines: 8,
@@ -105,31 +104,32 @@ class DeleteProfile extends ConsumerWidget {
                 color: colors.grey1,
               ),
             ),
-            const Spacer(),
-            DPCheckbox(
+          ),
+          const Spacer(),
+          SPaddingH24(
+            child: DPCheckbox(
               text: intl.deleteProfileConditions_conditions,
               onCheckboxTap: () {
                 stateNotifier.clickCheckbox();
               },
             ),
-            const SizedBox(
-              height: 20,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            child: SPrimaryButton3(
+              active: totalBalance == Decimal.zero &&
+                  !isEarnSubscriptionActive &&
+                  state.confitionCheckbox,
+              name: intl.deleteProfileConditions_buttonText,
+              onTap: () async {
+                navigatorPush(context, const EmailConfirmationScreen());
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 24),
-              child: SPrimaryButton3(
-                active: totalBalance == Decimal.zero &&
-                    !isEarnSubscriptionActive &&
-                    state.confitionCheckbox,
-                name: intl.deleteProfileConditions_buttonText,
-                onTap: () async {
-                  navigatorPush(context, const EmailConfirmationScreen());
-                  //navigatorPush(context, const DeleteReasonsScreen());
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

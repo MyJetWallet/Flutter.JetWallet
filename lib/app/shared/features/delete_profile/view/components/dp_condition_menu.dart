@@ -22,33 +22,42 @@ class DPConditionMenu extends HookWidget {
     final colors = useProvider(sColorPod);
 
     return InkWell(
+      highlightColor: colors.grey5,
       onTap: isLinkActie ? onTap : null,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: sSubtitle2Style.copyWith(
-                  color: isLinkActie ? colors.blue : colors.black,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 24,
+          right: 24,
+          top: 8,
+          bottom: 16,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: sSubtitle2Style.copyWith(
+                    color: isLinkActie ? colors.blue : colors.black,
+                  ),
                 ),
-              ),
-              Text(
-                subTitle,
-                style: sBodyText2Style.copyWith(
-                  color: colors.grey1,
+                Text(
+                  subTitle,
+                  style: sBodyText2Style.copyWith(
+                    color: colors.grey1,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          if (isLinkActie) ...[
-            const SBlueRightArrowIcon()
-          ] else ...[
-            const SCompleteIcon()
-          ]
-        ],
+              ],
+            ),
+            if (isLinkActie) ...[
+              const SBlueRightArrowIcon()
+            ] else ...[
+              const SCompleteIcon()
+            ]
+          ],
+        ),
       ),
     );
   }

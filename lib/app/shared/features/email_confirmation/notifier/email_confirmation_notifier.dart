@@ -12,7 +12,9 @@ import '../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipo
 import '../../../../../shared/helpers/device_type.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/logging/levels.dart';
+import '../../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../delete_profile/view/delete_reasons_screen.dart';
 import 'email_confirmation_state.dart';
 import 'email_confirmation_union.dart';
@@ -27,6 +29,13 @@ class EmailConfirmationNotifier extends StateNotifier<EmailConfirmationState> {
         ) {
     _context = read(sNavigatorKeyPod).currentContext!;
     _updateEmail(read(authInfoNotipod).email);
+
+    resendCode(
+      onSuccess: () {
+        read(timerNotipod(emailResendCountdown).notifier).refreshTimer();
+        state = state.copyWith(showResendButton: false);
+      },
+    );
   }
 
   final Reader read;
@@ -36,6 +45,11 @@ class EmailConfirmationNotifier extends StateNotifier<EmailConfirmationState> {
   static final _logger = Logger('EmailVerificationNotifier');
 
   SendEmailConfirmationResponse? sendEmailResponse;
+
+  // ignore: avoid_positional_boolean_parameters
+  void updateResendButton(bool value) {
+    state = state.copyWith(showResendButton: value);
+  }
 
   void updateCode(String? code) {
     _logger.log(notifier, 'updateCode');

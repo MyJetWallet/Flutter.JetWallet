@@ -11,6 +11,7 @@ class EmailConfirmationState with _$EmailConfirmationState {
     @Default('') String email,
     @Default(Input()) EmailConfirmationUnion union,
     required TextEditingController controller,
-    @Default(false) bool isResending,
+    @Default(true) bool isResending,
+    @Default(false) bool showResendButton,
   }) = _EmailConfirmationState;
 }
