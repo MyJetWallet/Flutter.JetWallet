@@ -138,6 +138,11 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     }
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 
   Future<void> calculateEarnOfferApy() async {

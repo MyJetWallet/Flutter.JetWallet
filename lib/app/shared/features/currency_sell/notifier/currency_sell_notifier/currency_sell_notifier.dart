@@ -99,6 +99,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void updateTargetConversionPrice(Decimal? price) {
@@ -179,5 +180,9 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     }
 
     _updateInputError(error);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }
