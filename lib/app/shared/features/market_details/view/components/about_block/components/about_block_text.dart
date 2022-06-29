@@ -109,6 +109,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
   void _checkUrl(String url) {
     if (url.contains('.pdf')) {
       navigatorPush(context, PDFViewScreen(url: url));
+      return;
     }
 
     if (canTapOnLink) {
