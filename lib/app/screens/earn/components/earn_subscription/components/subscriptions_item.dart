@@ -174,7 +174,9 @@ class SubscriptionsItem extends HookWidget {
                         ),
                         if (days > 0)
                           Text(
-                            '$days ${days == 1 ? intl.earn_day_remaining : intl.earn_days_remaining}',
+                            '$days ${days == 1
+                            ? intl.earn_day_remaining
+                            : intl.earn_days_remaining}',
                             style: sBodyText2Style.copyWith(
                               color: colors.grey2,
                             ),
