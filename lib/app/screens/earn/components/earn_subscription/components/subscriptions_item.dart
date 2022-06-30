@@ -49,7 +49,6 @@ class SubscriptionsItem extends HookWidget {
       }
     }
 
-
     return Column(
       children: [
         InkWell(
@@ -57,8 +56,7 @@ class SubscriptionsItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
-            if (userInfo.hasHighYieldDisclaimers &&
-                !disclaimer.send) {
+            if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
               sShowAlertPopup(
                 context,
                 willPopScope: false,
@@ -70,6 +68,7 @@ class SubscriptionsItem extends HookWidget {
                 primaryText: intl.earn_terms_title,
                 secondaryText: intl.earn_terms_description,
                 primaryButtonName: intl.earn_terms_continue,
+                activePrimaryButton: disclaimerN.isCheckBoxActive(),
                 onPrimaryButtonTap: () {
                   disclaimerN.sendAnswers(
                     () {
@@ -175,9 +174,7 @@ class SubscriptionsItem extends HookWidget {
                         ),
                         if (days > 0)
                           Text(
-                            '$days ${days == 1
-                                ? intl.earn_day_remaining
-                                : intl.earn_days_remaining}',
+                            '$days ${days == 1 ? intl.earn_day_remaining : intl.earn_days_remaining}',
                             style: sBodyText2Style.copyWith(
                               color: colors.grey2,
                             ),
