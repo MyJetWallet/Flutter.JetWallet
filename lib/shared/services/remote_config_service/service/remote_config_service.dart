@@ -141,6 +141,7 @@ class RemoteConfigService {
     forgotPasswordLockHours = appConfig.forgotPasswordLockHours;
     changePasswordLockHours = appConfig.changePasswordLockHours;
     changePhoneLockHours = appConfig.changePhoneLockHours;
+    refundPolicyLink = appConfig.refundPolicyLink;
   }
 
   void overrideVersioningValues() {

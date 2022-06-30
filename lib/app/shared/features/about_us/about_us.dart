@@ -99,6 +99,15 @@ class AboutUs extends HookWidget {
           Row(
             children: [
               SimpleAccountTermButton(
+                name: intl.aboutUs_termButton5,
+                onTap: () => launchURL(context, refundPolicyLink),
+              ),
+            ],
+          ),
+          const SpaceH20(),
+          Row(
+            children: [
+              SimpleAccountTermButton(
                 name: intl.aboutUs_termButton6,
                 onTap: () => launchURL(context, amlKycPolicyLink),
               ),
