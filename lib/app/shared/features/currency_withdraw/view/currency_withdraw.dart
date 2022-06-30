@@ -90,15 +90,21 @@ class CurrencyWithdraw extends HookWidget {
                           '${intl.currencyWithdraw_address}',
                       focusNode: state.addressFocus,
                       controller: state.addressController,
-                      onChanged: (value) => notifier.updateAddress(value),
+                      onChanged: (value) {
+                        notifier.scrollToBottom(_scrollController);
+                        notifier.updateAddress(value);
+                      },
                       onErase: () => notifier.eraseAddress(),
                       suffixIcons: [
                         SIconButton(
-                          onTap: () => notifier.pasteAddress(),
+                          onTap: () => notifier.pasteAddress(_scrollController),
                           defaultIcon: const SPasteIcon(),
                         ),
                         SIconButton(
-                          onTap: () => notifier.scanAddressQr(context),
+                          onTap: () => notifier.scanAddressQr(
+                            context,
+                            _scrollController,
+                          ),
                           defaultIcon: const SQrCodeIcon(),
                         ),
                       ],
@@ -120,11 +126,14 @@ class CurrencyWithdraw extends HookWidget {
                         onErase: () => notifier.eraseTag(),
                         suffixIcons: [
                           SIconButton(
-                            onTap: () => notifier.pasteTag(),
+                            onTap: () => notifier.pasteTag(_scrollController),
                             defaultIcon: const SPasteIcon(),
                           ),
                           SIconButton(
-                            onTap: () => notifier.scanTagQr(context),
+                            onTap: () => notifier.scanTagQr(
+                              context,
+                              _scrollController,
+                            ),
                             defaultIcon: const SQrCodeIcon(),
                           ),
                         ],

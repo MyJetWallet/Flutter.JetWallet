@@ -129,6 +129,7 @@ class RemoteConfigService {
     infoEarnLink = appConfig.infoEarnLink;
     paymentDelayDays = appConfig.paymentDelayDays;
     privacyEarnLink = appConfig.privacyEarnLink;
+    amlKycPolicyLink = appConfig.amlKycPolicyLink;
     minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
     maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = appConfig.quoteRetryInterval;
