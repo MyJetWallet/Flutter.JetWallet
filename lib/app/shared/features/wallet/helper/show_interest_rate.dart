@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -127,10 +128,13 @@ void showInterestRate({
                   padding: const EdgeInsets.only(top: 5),
                   child: STransparentInkWell(
                     onTap: () {
-                      navigatorPush(context, InfoWebView(
-                        link: infoEarnLink,
-                        title: intl.showInterestRate_interestEarned,
-                      ),);
+                      navigatorPush(
+                        context,
+                        InfoWebView(
+                          link: infoEarnLink,
+                          title: intl.showInterestRate_interestEarned,
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
@@ -175,42 +179,43 @@ void showInterestRate({
           ),
         ),
       ),
-      Row(
-        children: [
-          SizedBox(
-            height: 30,
-            child: Baseline(
-              baseline: 26,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                intl.showInterestRate_nextPay,
-                style: sBodyText2Style.copyWith(
-                  color: colors.grey1,
+      if (currency.apy != Decimal.zero)
+        Row(
+          children: [
+            SizedBox(
+              height: 30,
+              child: Baseline(
+                baseline: 26,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  intl.showInterestRate_nextPay,
+                  style: sBodyText2Style.copyWith(
+                    color: colors.grey1,
+                  ),
                 ),
               ),
             ),
-          ),
-          const Spacer(),
-          SizedBox(
-            height: 30,
-            child: Baseline(
-              baseline: 26,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                '${DateFormat('d MMM').format(
-                  DateTime.parse(currency.nextPaymentDate).toLocal(),
-                )}, ${volumeFormat(
-                  prefix: baseCurrency.prefix,
-                  decimal: currency.baseCurrentEarnAmount,
-                  accuracy: baseCurrency.accuracy,
-                  symbol: baseCurrency.symbol,
-                )}',
-                style: sBodyText1Style,
+            const Spacer(),
+            SizedBox(
+              height: 30,
+              child: Baseline(
+                baseline: 26,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  '${DateFormat('d MMM').format(
+                    DateTime.parse(currency.nextPaymentDate).toLocal(),
+                  )}, ${volumeFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: currency.baseCurrentEarnAmount,
+                    accuracy: baseCurrency.accuracy,
+                    symbol: baseCurrency.symbol,
+                  )}',
+                  style: sBodyText1Style,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       Row(
         children: [
           SizedBox(

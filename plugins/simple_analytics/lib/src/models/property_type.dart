@@ -17,4 +17,5 @@ class PropertyType {
   static const paymentMethod = 'Payment method';
   static const url = 'URL';
   static const frequency = 'Frequency';
+  static const preset = '% from balance';
 }

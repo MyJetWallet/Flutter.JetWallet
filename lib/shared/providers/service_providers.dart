@@ -9,6 +9,7 @@ import 'package:simple_networking/services/blockchain/service/blockchain_service
 import 'package:simple_networking/services/change_password/service/change_password_service.dart';
 import 'package:simple_networking/services/chart/service/chart_service.dart';
 import 'package:simple_networking/services/circle/service/circle_service.dart';
+import 'package:simple_networking/services/confirmation/confirmation_service.dart';
 import 'package:simple_networking/services/disclaimer/service/disclaimers_service.dart';
 import 'package:simple_networking/services/high_yield/service/high_yield_service.dart';
 import 'package:simple_networking/services/info/service/info_service.dart';
@@ -132,6 +133,12 @@ final validationServicePod = Provider<ValidationService>((ref) {
   final dio = ref.watch(dioPod);
 
   return ValidationService(dio);
+});
+
+final confirmationServicePod = Provider<ConfirmationService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return ConfirmationService(dio);
 });
 
 final infoServicePod = Provider<InfoService>((ref) {

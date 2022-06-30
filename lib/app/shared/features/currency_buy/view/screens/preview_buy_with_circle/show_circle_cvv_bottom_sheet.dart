@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -101,6 +103,7 @@ class CvvBottomSheetBody extends HookWidget {
                   ),
                   textStyle: sTextH2Style.copyWith(
                     color: colors.black,
+                    fontSize: (Platform.isIOS) ? 24 : 16,
                   ),
                   onChanged: (_) => {},
                   onCompleted: onCompleted,
