@@ -146,6 +146,7 @@ class WithdrawDetails extends HookWidget {
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
+          const SpaceH40(),
         ],
       ),
     );

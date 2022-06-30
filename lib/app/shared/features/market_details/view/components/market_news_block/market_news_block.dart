@@ -49,7 +49,7 @@ class MarketNewsBlock extends HookWidget {
               style: sTextH4Style,
             ),
           ),
-          const SpaceH31(),
+          const SpaceH22(),
           ListView.builder(
             itemCount: news.length,
             padding: EdgeInsets.zero,

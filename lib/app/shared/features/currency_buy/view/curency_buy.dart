@@ -326,6 +326,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 preset3Name: state.preset3Name,
                 selectedPreset: state.selectedPreset,
                 onPresetChanged: (preset) {
+                  notifier.tapPreset(
+                      preset.index == 0
+                          ? state.preset1Name
+                          : preset.index == 1
+                          ? state.preset2Name
+                          : state.preset3Name,
+                  );
                   if (state.selectedPaymentMethod != null) {
                     notifier.selectFixedSum(preset);
                   } else {
@@ -354,6 +361,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       symbol: state.selectedCurrencySymbol,
                     ),
                     frequency: state.recurringBuyType.toFrequency,
+                    preset: state.tappedPreset,
                   );
 
                   if (state.selectedPaymentMethod?.type ==
