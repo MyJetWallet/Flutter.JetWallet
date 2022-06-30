@@ -11,6 +11,7 @@ class PropertyType {
   static const documentType = 'Document type';
   static const marketFilter = 'Filter';
   static const campaignName = 'Campaign Name';
+  static const campaignId = 'Campaign Id';
   static const action = 'Action';
   static const kycPhoneConfirmFailed = 'Kyc error';
   static const amount = 'Amount';

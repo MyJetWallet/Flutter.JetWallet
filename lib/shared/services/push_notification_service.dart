@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../logging/levels.dart';
 
@@ -51,6 +52,7 @@ class PushNotificationService {
   void _onMessageOpenedApp(RemoteMessage message) {
     if (_nullChecked(message)) {
       final notification = message.notification!;
+      sAnalytics.openPushNotification(campaignId: message.from ?? '');
 
       _logger.log(
         pushNotifications,

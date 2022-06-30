@@ -116,4 +116,7 @@ class EventType {
   static const pauseRecurringBuy = 'Pause recurring buy';
   static const startRecurringBuy = 'Start recurring buy';
   // <- Recurring buy [END]
+
+  /// Push notification
+  static const clickNotification = 'Click on push notification';
 }

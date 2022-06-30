@@ -552,4 +552,16 @@ class SimpleAnalytics {
   }
 
   // <- Recurring buy [END]
+/// Push notification
+  void openPushNotification({
+    required String campaignId,
+  }) {
+    _analytics.logEvent(
+      EventType.clickNotification,
+      eventProperties: {
+        PropertyType.campaignId: campaignId,
+      },
+    );
+  }
+
 }
