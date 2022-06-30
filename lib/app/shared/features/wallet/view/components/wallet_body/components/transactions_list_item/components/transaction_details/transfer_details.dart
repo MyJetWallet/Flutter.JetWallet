@@ -58,6 +58,7 @@ class TransferDetails extends HookWidget {
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
+          const SpaceH40(),
         ],
       ),
     );

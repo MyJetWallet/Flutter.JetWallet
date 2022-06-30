@@ -197,7 +197,6 @@ class TransactionItem extends HookWidget {
             ),
           ],
         ),
-        const SpaceH40(),
       ],
     );
   }
