@@ -262,6 +262,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void updateTargetConversionPrice(Decimal? price) {
@@ -506,5 +507,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
     await _fetchCircleCards();
     updateSelectedCircleCard(card);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }

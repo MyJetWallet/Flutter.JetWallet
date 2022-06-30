@@ -52,6 +52,7 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
     );
     _validateAmount();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void selectPercentFromBalance(SKeyboardPreset preset) {
@@ -138,5 +139,9 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
 
   void _updateValid(bool value) {
     state = state.copyWith(valid: value);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }
