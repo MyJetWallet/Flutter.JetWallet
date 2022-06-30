@@ -16,6 +16,7 @@ import '../../../../../shared/features/kyc/model/kyc_operation_status_model.dart
 import '../../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../account/components/help_center_web_view.dart';
+import 'earn_terms_alert.dart';
 import 'earn_terms_checkbox.dart';
 
 class SubscriptionsItem extends HookWidget {
@@ -57,7 +58,7 @@ class SubscriptionsItem extends HookWidget {
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
             if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
-              sShowAlertPopup(
+              sShowEarnTermsAlertPopup(
                 context,
                 willPopScope: false,
                 image: Image.asset(
@@ -68,7 +69,6 @@ class SubscriptionsItem extends HookWidget {
                 primaryText: intl.earn_terms_title,
                 secondaryText: intl.earn_terms_description,
                 primaryButtonName: intl.earn_terms_continue,
-                activePrimaryButton: disclaimerN.isCheckBoxActive(),
                 onPrimaryButtonTap: () {
                   disclaimerN.sendAnswers(
                     () {
