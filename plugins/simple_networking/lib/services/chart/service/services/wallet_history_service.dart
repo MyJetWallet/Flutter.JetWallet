@@ -24,7 +24,10 @@ Future<WalletHistoryResponseModel> walletHistoryService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData, localeName,);
+      final data = handleFullResponse<Map>(
+        responseData,
+        localeName,
+      );
 
       return WalletHistoryResponseModel.fromJson(data);
     } catch (e) {
