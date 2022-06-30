@@ -105,6 +105,7 @@ class PushNotificationService {
 /// (e.g. not a class method which requires initialization)
 Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  sAnalytics.openPushNotification(campaignId: message.from ?? '');
   _logger.log(
     pushNotifications,
     'A background message just showed up: ${message.messageId}',
