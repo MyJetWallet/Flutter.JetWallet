@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../simple_kit.dart';
+import '../../../colors/view/simple_colors_light.dart';
 import '../base/simple_base_standard_field.dart';
 
 class SimpleLightStandardFieldObscure extends HookWidget {
@@ -55,9 +56,15 @@ class SimpleLightStandardFieldObscure extends HookWidget {
       inputFormatters: inputFormatters,
       suffixIcons: [
         if (focusNode2.hasFocus || controller2.text.isNotEmpty)
-          GestureDetector(
+          InkWell(
             onTap: () => obscure.value = !obscure.value,
-            child: obscure.value ? const SEyeOpenIcon() : const SEyeCloseIcon(),
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: SColorsLight().white,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child:
+                  obscure.value ? const SEyeOpenIcon() : const SEyeCloseIcon(),
+            ),
           )
       ],
     );

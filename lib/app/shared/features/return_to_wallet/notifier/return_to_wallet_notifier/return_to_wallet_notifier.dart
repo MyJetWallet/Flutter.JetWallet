@@ -166,6 +166,7 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void updateTargetConversionPrice(Decimal? price) {
@@ -247,5 +248,9 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     }
 
     _updateInputError(error);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }

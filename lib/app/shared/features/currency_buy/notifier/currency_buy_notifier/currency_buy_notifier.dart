@@ -178,6 +178,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     updateSelectedPaymentMethod(method.first);
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   void selectFixedSum(SKeyboardPreset preset) {
     late int value;
 
@@ -258,6 +262,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void updateTargetConversionPrice(Decimal? price) {
@@ -502,5 +507,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
     await _fetchCircleCards();
     updateSelectedCircleCard(card);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }

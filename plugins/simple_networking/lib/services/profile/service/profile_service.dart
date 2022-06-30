@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
+import '../model/profile_delete_reasons_model.dart';
 import '../model/profile_info_reponse_model.dart';
+import 'services/profile_delete.dart';
+import 'services/profile_delete_reasons_service.dart';
 import 'services/profile_info_service.dart';
 
 class ProfileService {
@@ -13,5 +16,13 @@ class ProfileService {
 
   Future<ProfileInfoResponseModel> info(String localeName) {
     return profileInfoService(dio, localeName);
+  }
+
+  Future<List<ProfileDeleteReasonsModel>> deleteReasons(String localeName) {
+    return profileDeleteReasonsService(dio, localeName);
+  }
+
+  Future<void> deleteProfile(String tokenId, List<String> deletionReasonIds) {
+    return profileDeleteService(dio, tokenId, deletionReasonIds);
   }
 }

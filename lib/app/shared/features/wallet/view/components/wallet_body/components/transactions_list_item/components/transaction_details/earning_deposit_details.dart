@@ -117,6 +117,7 @@ class EarningDepositDetails extends HookWidget {
               text: transactionListItem.earnInfo?.offerInfo?.title ?? '',
             ),
           ),
+          const SpaceH40(),
         ],
       ),
     );
