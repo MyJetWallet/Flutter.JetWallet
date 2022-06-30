@@ -58,7 +58,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     if (selectedPaymentMethod != null) {
       return '\$500';
     } else {
-      return '100%';
+      return 'MAX';
     }
   }
 
