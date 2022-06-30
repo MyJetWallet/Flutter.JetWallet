@@ -14,7 +14,6 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../shared/constants.dart';
-import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
@@ -92,7 +91,6 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         );
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
-        read(appsFlyerServicePod).register(email);
       }
 
       await storageService.setString(refreshTokenKey, authModel.refreshToken);
