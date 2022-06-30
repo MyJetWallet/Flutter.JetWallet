@@ -86,7 +86,7 @@ class EarnTermsAlert extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final colors = useProvider(sColorPod);
-    final disclaimerN = context.read(highYieldDisclaimerNotipod.notifier);
+    final disclaimer = useProvider(highYieldDisclaimerNotipod);
 
     return WillPopScope(
       onWillPop: () {
@@ -151,19 +151,19 @@ class EarnTermsAlert extends HookWidget {
                     if (primaryButtonType == SButtonType.primary1)
                       SPrimaryButton1(
                         name: primaryButtonName,
-                        active: disclaimerN.isCheckBoxActive(),
+                        active: disclaimer.activeButton,
                         onTap: () => onPrimaryButtonTap(),
                       )
                     else if (primaryButtonType == SButtonType.primary2)
                       SPrimaryButton2(
                         name: primaryButtonName,
-                        active: disclaimerN.isCheckBoxActive(),
+                        active: disclaimer.activeButton,
                         onTap: () => onPrimaryButtonTap(),
                       )
                     else
                       SPrimaryButton3(
                         name: primaryButtonName,
-                        active: disclaimerN.isCheckBoxActive(),
+                        active: disclaimer.activeButton,
                         onTap: () => onPrimaryButtonTap(),
                       ),
                     if (onSecondaryButtonTap != null &&

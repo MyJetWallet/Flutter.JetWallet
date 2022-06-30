@@ -30,7 +30,7 @@ class HighYieldDisclaimerNotifier
 
     try {
       final response = await read(disclaimerServicePod)
-              .highYieldDisclaimers(intl.localeName);
+          .highYieldDisclaimers(intl.localeName);
 
       if (response.disclaimers != null) {
         final disclaimers = <DisclaimerModel>[];
@@ -85,7 +85,6 @@ class HighYieldDisclaimerNotifier
         send: true,
       );
       afterRequest();
-
     } catch (error) {
       _logger.log(stateFlow, '_sendAnswers', error);
     }
@@ -117,6 +116,12 @@ class HighYieldDisclaimerNotifier
   void onCheckboxTap() {
     state = state.copyWith(
       activeButton: !state.activeButton,
+    );
+  }
+
+  void disableCheckbox() {
+    state = state.copyWith(
+      activeButton: false,
     );
   }
 }
