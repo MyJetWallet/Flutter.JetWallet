@@ -56,17 +56,18 @@ class WalletCard extends HookWidget {
       symbol: baseCurrency.symbol,
     )}';
     final isInterestRateDisabledVisible = currency.apy > Decimal.zero &&
-        !(currency.assetBalance == Decimal.zero &&
-            currency.isPendingDeposit);
+        !(currency.assetBalance == Decimal.zero && currency.isPendingDeposit);
     final earnEnabled = earnProfile.earnProfile?.earnEnabled ?? false;
     final interestRateTextSize = _textSize(
-      interestRateText,
-      sSubtitle3Style,
-    ).width + 20;
+          interestRateText,
+          sSubtitle3Style,
+        ).width +
+        20;
     final interestRateDisabledTextSize = _textSize(
-      interestRateDisabledText,
-      sSubtitle3Style,
-    ).width + 20;
+          interestRateDisabledText,
+          sSubtitle3Style,
+        ).width +
+        20;
     final isInterestRateVisible = filteredEarnOffers.isNotEmpty;
     final isInProgress =
         currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
@@ -142,7 +143,7 @@ class WalletCard extends HookWidget {
                         MaterialPageRoute(
                           builder: (BuildContext context) => const Earn(),
                         ),
-                            (route) => route.isFirst,
+                        (route) => route.isFirst,
                       );
                       Navigator.pop(context);
                     }
@@ -206,6 +207,7 @@ class WalletCard extends HookWidget {
                 ),
               ),
             ),
+          /*
           if (!isInProgress)
             Padding(
               padding: const EdgeInsets.only(
@@ -230,6 +232,7 @@ class WalletCard extends HookWidget {
                 ),
               ),
             )
+          */
         ],
       ),
     );

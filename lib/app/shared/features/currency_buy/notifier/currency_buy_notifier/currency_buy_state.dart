@@ -23,6 +23,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     PaymentMethod? selectedPaymentMethod,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
+    String? tappedPreset,
     String? paymentMethodInputError,
     @Default(RecurringBuysType.oneTimePurchase)
         RecurringBuysType recurringBuyType,
