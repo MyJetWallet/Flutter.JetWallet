@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
-import 'package:crypto/crypto.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AppsFlyerService {
@@ -30,16 +27,6 @@ class AppsFlyerService {
       registerOnAppOpenAttributionCallback: true,
       registerOnDeepLinkingCallback: true,
     );
-  }
-
-  void register(String email) {
-    final bytes = utf8.encode(email);
-    final hashEmail = sha256.convert(bytes).toString();
-
-    appsflyerSdk.logEvent('af_complete_registration', {
-      'af_registration_method': 'email',
-      'af_email': hashEmail,
-    });
   }
 
   Future<void> updateServerUninstallToken() async {
