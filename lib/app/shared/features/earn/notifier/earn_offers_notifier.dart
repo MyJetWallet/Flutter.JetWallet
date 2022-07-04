@@ -24,7 +24,7 @@ class EarnOffersNotifier extends StateNotifier<EarnOffersState> {
     state = state.copyWith(earnOffers: [...earnOffers]);
   }
 
-  bool isActiveState (List<EarnOfferModel> array) {
+  bool isActiveState(List<EarnOfferModel> array) {
     var isActive = false;
     for (final element in array) {
       if (element.amount > Decimal.zero) {
@@ -32,5 +32,9 @@ class EarnOffersNotifier extends StateNotifier<EarnOffersState> {
       }
     }
     return isActive;
+  }
+
+  int getActiveLength(List<EarnOfferModel> array) {
+    return array.map((e) => e.amount > Decimal.zero).toList().length;
   }
 }
