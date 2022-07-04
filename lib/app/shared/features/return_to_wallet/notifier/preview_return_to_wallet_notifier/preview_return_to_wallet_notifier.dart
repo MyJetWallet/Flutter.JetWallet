@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
 import 'package:simple_networking/services/high_yield/model/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
@@ -14,7 +13,6 @@ import '../../../../../../shared/components/result_screens/success_screen/succes
 import '../../../../../../shared/helpers/navigate_to_router.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
-import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../model/preview_return_to_wallet_input.dart';
 import 'preview_return_to_wallet_state.dart';
 import 'preview_return_to_wallet_union.dart';
@@ -27,7 +25,7 @@ class PreviewReturnToWalletNotifier
   ) : super(const PreviewReturnToWalletState()) {
     _context = read(sNavigatorKeyPod).currentContext!;
     _updateFrom(input);
-    calculateEarnOfferApy();
+    initBaseData();
   }
 
   final Reader read;
@@ -45,44 +43,11 @@ class PreviewReturnToWalletNotifier
     );
   }
 
-  Future<void> calculateEarnOfferApy() async {
-    _logger.log(notifier, 'calculateEarnOfferApy');
-
-    state = state.copyWith(union: const QuoteLoading());
-
-    final model = CalculateEarnOfferApyRequestModel(
-      offerId: input.earnOffer.offerId,
-      assetSymbol: read(baseCurrencyPod).symbol,
-      amount: Decimal.parse(input.amount),
+  Future<void> initBaseData() async {
+    _logger.log(notifier, 'initBaseData');
+    state = state.copyWith(
+      union: const QuoteSuccess(),
     );
-
-    try {
-      final response = await read(highYieldServicePod).calculateEarnOfferApy(
-        model,
-        read(intlPod).localeName,
-      );
-
-      state = state.copyWith(
-        apy: response.apy,
-        expectedYearlyProfit: response.expectedYearlyProfit,
-        expectedYearlyProfitBase: response.expectedYearlyProfitBaseAsset,
-        union: const QuoteSuccess(),
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, 'calculateEarnOfferApy', error.cause);
-
-      read(sNotificationNotipod.notifier).showError(
-        error.cause,
-        id: 1,
-      );
-    } catch (error) {
-      _logger.log(stateFlow, 'calculateEarnOfferApy', error);
-
-      read(sNotificationNotipod.notifier).showError(
-        error.toString(),
-        id: 1,
-      );
-    }
   }
 
   Future<void> earnOfferWithdrawal(String offerId) async {
