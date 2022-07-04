@@ -107,6 +107,10 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     }
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 

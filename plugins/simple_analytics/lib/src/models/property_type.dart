@@ -18,4 +18,15 @@ class PropertyType {
   static const url = 'URL';
   static const frequency = 'Frequency';
   static const preset = '% from balance';
+  static const asset = 'Asset';
+  static const offerType  = 'Offer type';
+  static const source = 'Source';
+  static const apy = 'APY';
+  static const term = 'Term';
+  static const percentage = '25%, 50%, MAX';
+  static const offerId = 'Offer ID';
+  static const topUpAmount = 'Top up Amount';
+  static const topUpAPY = 'Top up APY';
+  static const reclaimAmount = 'Reclaim Amount';
+  static const reclaimAPY = 'APY after Reclaim';
 }

@@ -116,4 +116,32 @@ class EventType {
   static const pauseRecurringBuy = 'Pause recurring buy';
   static const startRecurringBuy = 'Start recurring buy';
   // <- Recurring buy [END]
+
+  /// Earn
+  static const earnClickInfoButton = 'Click on Info button - onboarding';
+  static const earnOnBoardingView = 'Onboarding sheet view';
+  static const earnClickMore = "Click on 'Learn more' - onboarding";
+  static const earnCloseOnboarding = "Close 'Onboarding' sheet";
+  static const earnTapAvailable = 'Tap on Asset available for Earn';
+  static const earnAvailableView = 'Offers per asset sheet view';
+  static const earnSelectOffer = 'Select offer';
+  static const earnProgressBar = 'Tap on progress bar(%)';
+  static const earnCalculationView = 'Calculation plan sheet view';
+  static const earnPreview = 'Preview Earn';
+  static const earnConfirm = 'Tap on Confirm Earn button';
+  static const earnSuccessPage = 'Earn Success Page View';
+  static const earnTapActive = 'Tap on Active Subscription';
+  static const earnActiveSheetView = 'Active Subscription Sheet View';
+  static const earnCloseActiveSheet = 'Close Active Subscription Sheet View';
+  static const earnTapManage = 'Tap on Manage button';
+  static const earnManageView = 'Manage Sheet View';
+  static const earnCloseManage = 'Close Manage Sheet View';
+  static const earnClickTopUp = 'Click on Top up Button';
+  static const earnPreviewTopUp = 'Preview Top up';
+  static const earnConfirmTopUp = 'Confirm Top up';
+  static const earnSuccessTopUp = 'Success Top up page';
+  static const earnClickReclaim = 'Click on Reclaim Earn Button';
+  static const earnPreviewReclaim = 'Preview Reclaim Earn';
+  static const earnConfirmReclaim = 'Confirm Reclaim Earn';
+  static const earnSuccessReclaim = 'Success Reclaim Earn Page';
 }

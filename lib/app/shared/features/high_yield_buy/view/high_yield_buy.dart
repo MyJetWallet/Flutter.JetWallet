@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
@@ -80,7 +81,10 @@ class HighYieldBuy extends HookWidget {
       }
     }
 
-    void _showHowWeCountSheet() {
+    void _showHowWeCountSheet(String source) {
+      sAnalytics.earnCalculationView(
+        source: source,
+      );
       sShowBasicModalBottomSheet(
         horizontalPadding: 24,
         children: [
@@ -285,7 +289,11 @@ class HighYieldBuy extends HookWidget {
         child: SSmallHeader(
           title: (topUp ? '${intl.earn_buy_top_up} ' : '') + earnOffer.title,
           showInfoButton: true,
-          onInfoButtonTap: _showHowWeCountSheet,
+          onInfoButtonTap: () {
+            final source = topUp ? 'Info (Top up)' : 'Info (Subscription)';
+            sAnalytics.earnProgressBar(source: source);
+            _showHowWeCountSheet(source);
+          },
         ),
       ),
       child: Column(
@@ -331,7 +339,11 @@ class HighYieldBuy extends HookWidget {
             apy: state.apy != null
                 ? '${state.apy}%'
                 : '${earnOffer.currentApy}%',
-            onTap: _showHowWeCountSheet,
+            onTap:  () {
+              final source = topUp ? 'Top up' : 'Subscription';
+              sAnalytics.earnProgressBar(source: source);
+              _showHowWeCountSheet(source);
+            },
             tiers: state.simpleTiers.isNotEmpty
                 ? state.simpleTiers
                 : defaultTiers,
@@ -350,6 +362,13 @@ class HighYieldBuy extends HookWidget {
             preset3Name: intl.earn_buy_max_preset,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
+              notifier.tapPreset(
+                preset.index == 0
+                    ? '25%'
+                    : preset.index == 1
+                    ? '50%'
+                    : 'Max',
+              );
               notifier.selectPercentFromBalance(preset, topUp: topUp);
             },
             onKeyPressed: (value) {
@@ -359,6 +378,25 @@ class HighYieldBuy extends HookWidget {
             submitButtonActive: state.inputValid && !state.error,
             submitButtonName: intl.earn_buy_preview,
             onSubmitPressed: () {
+              if (topUp) {
+                sAnalytics.earnPreviewTopUp(
+                  assetName: currency.description,
+                  amount: state.inputValue,
+                  apy: state.apy.toString(),
+                  term: earnOffer.term,
+                  percentage: state.tappedPreset ?? '',
+                  offerId: earnOffer.offerId,
+                );
+              } else {
+                sAnalytics.earnPreview(
+                  assetName: currency.description,
+                  amount: state.inputValue,
+                  apy: state.apy.toString(),
+                  term: earnOffer.term,
+                  percentage: state.tappedPreset ?? '',
+                  offerId: earnOffer.offerId,
+                );
+              }
               navigatorPush(
                 context,
                 PreviewHighYieldBuy(

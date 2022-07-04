@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
 import 'package:simple_networking/services/high_yield/model/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
@@ -103,6 +104,13 @@ class PreviewReturnToWalletNotifier
         read(intlPod).localeName,
       );
 
+      sAnalytics.earnSuccessReclaim(
+        assetName: input.fromCurrency.description,
+        amount: input.amount,
+        offerId: input.earnOffer.offerId,
+        apy: input.apy,
+        term: input.earnOffer.term,
+      );
       _showSuccessScreen();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'earnOfferWithdrawal', error.cause);
