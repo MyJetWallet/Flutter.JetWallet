@@ -18,6 +18,24 @@ class EventType {
   static const loginSuccess = 'Login';
   static const loginFailure = 'Login failed';
 
+  /// Account page
+  static const account = 'Click on Profile Details tab';
+  static const accountChangePassword = 'Click on Change Password ';
+  static const accountChangePasswordWarning =
+      'Change password warning pop-up view';
+  static const accountChangePasswordContinue = 'Continue Changing Password';
+  static const accountChangePasswordCancel = 'Cancel Changing Password';
+  static const accountEnterOldPassword = 'Continue after entering old password';
+  static const accountSetNewPassword = 'Set new password';
+  static const accountSuccessChange = 'Success page - Password was changed';
+  static const accountChangePhone = 'Click on Change Phone Number';
+  static const accountChangePhoneWarning =
+      'Change phone number warning pop-up view';
+  static const accountChangePhoneContinue = 'Continue Changing Phone Number';
+  static const accountChangePhoneCancel = 'Cancel Changing Phone Number';
+  static const accountEnterNumber = 'Continue after entering new phone number';
+  static const accountSuccessPhone = 'Success page - Phone number was changed';
+
   /// User visits Asset details screen with Chart/About....
   static const assetView = 'Asset View';
 

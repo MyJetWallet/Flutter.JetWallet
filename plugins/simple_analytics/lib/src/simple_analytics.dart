@@ -89,6 +89,91 @@ class SimpleAnalytics {
     );
   }
 
+  /// Account
+  void account() {
+    _analytics.logEvent(
+      EventType.account,
+    );
+  }
+
+  void accountChangePassword() {
+    _analytics.logEvent(
+      EventType.accountChangePassword,
+    );
+  }
+
+  void accountChangePasswordWarning() {
+    _analytics.logEvent(
+      EventType.accountChangePasswordWarning,
+    );
+  }
+
+  void accountChangePasswordContinue() {
+    _analytics.logEvent(
+      EventType.accountChangePasswordContinue,
+    );
+  }
+
+  void accountChangePasswordCancel() {
+    _analytics.logEvent(
+      EventType.accountChangePasswordCancel,
+    );
+  }
+
+  void accountEnterOldPassword() {
+    _analytics.logEvent(
+      EventType.accountEnterOldPassword,
+    );
+  }
+
+  void accountSetNewPassword() {
+    _analytics.logEvent(
+      EventType.accountSetNewPassword,
+    );
+  }
+
+  void accountSuccessChange() {
+    _analytics.logEvent(
+      EventType.accountSuccessChange,
+    );
+  }
+
+  void accountChangePhone() {
+    _analytics.logEvent(
+      EventType.accountChangePhone,
+    );
+  }
+
+  void accountChangePhoneWarning() {
+    _analytics.logEvent(
+      EventType.accountChangePhoneWarning,
+    );
+  }
+
+  void accountChangePhoneContinue() {
+    _analytics.logEvent(
+      EventType.accountChangePhoneContinue,
+    );
+  }
+
+  void accountChangePhoneCancel() {
+    _analytics.logEvent(
+      EventType.accountChangePhoneCancel,
+    );
+  }
+
+  void accountEnterNumber() {
+    _analytics.logEvent(
+      EventType.accountEnterNumber,
+    );
+  }
+
+  void accountSuccessPhone() {
+    _analytics.logEvent(
+      EventType.accountSuccessPhone,
+    );
+  }
+
   /// Full name must be provided e.g. Bitcoin, and not BTC (ticker)
   void assetView(String assetName) {
     _analytics.logEvent(
