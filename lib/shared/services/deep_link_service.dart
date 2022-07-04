@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jetwallet/app/screens/earn/earn.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -57,6 +58,7 @@ const _kycVerification = 'KycVerification';
 const _tradingStart = 'TradingStart';
 const _earnLanding = 'EarnLanding';
 const _recurringBuyStart = 'RecurringBuyStart';
+const _highYield = 'HighYield';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -120,9 +122,18 @@ class DeepLinkService {
       _depositStartCommand(source);
     } else if (command == _recurringBuyStart) {
       _recurringBuyStartCommand();
+    } else if (command == _highYield) {
+      _highYieldStartCommand();
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  void _highYieldStartCommand() {
+    navigatorPush(
+      read(sNavigatorKeyPod).currentContext!,
+      const Earn(),
+    );
   }
 
   void _recurringBuyStartCommand() {
