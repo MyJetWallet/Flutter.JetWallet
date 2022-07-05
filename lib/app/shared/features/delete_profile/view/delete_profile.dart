@@ -36,6 +36,13 @@ class DeleteProfile extends ConsumerWidget {
     final stateNotifier = watch(deleteProfileNotipod.notifier);
 
     final isEarnSubscriptionActive = earnNotifier.isActiveState(earnOffers);
+    final earnSubscriptionLength = earnNotifier.getActiveLength(earnOffers);
+
+    var earnTotalBalance = Decimal.zero;
+    earnTotalBalance = earnOffers.fold(
+      Decimal.zero,
+      (previousValue, element) => previousValue + element.amount,
+    );
 
     var totalBalance = Decimal.zero;
     for (final item in itemsWithBalance) {
@@ -77,20 +84,21 @@ class DeleteProfile extends ConsumerWidget {
               watch(navigationStpod).state = 1; // Portfolio
               navigateToRouter(watch);
             },
-            isLinkActie: totalBalance != Decimal.zero,
+            isLinkActie: totalBalance > Decimal.ten,
           ),
           const SDivider(),
           DPConditionMenu(
             title: intl.deleteProfileConditions_menuTwoTitle,
             subTitle: isEarnSubscriptionActive
-                ? '${intl.deleteProfileConditions_menuTwoSubTitle}2 '
+                ? '${intl.deleteProfileConditions_menuTwoSubTitle}'
+                    '$earnSubscriptionLength '
                     '${intl.deleteProfileConditions_menuTwoSubTitle2}'
                 : intl.deleteProfileConditions_menuTwoSubTitle3,
             onTap: () {
               watch(navigationStpod).state = 2; // Portfolio
               navigateToRouter(watch);
             },
-            isLinkActie: isEarnSubscriptionActive,
+            isLinkActie: earnTotalBalance > Decimal.ten,
           ),
           const SizedBox(
             height: 23,
@@ -120,8 +128,8 @@ class DeleteProfile extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
             child: SPrimaryButton3(
-              active: totalBalance == Decimal.zero &&
-                  !isEarnSubscriptionActive &&
+              active: totalBalance <= Decimal.ten &&
+                  earnTotalBalance <= Decimal.ten &&
                   state.confitionCheckbox,
               name: intl.deleteProfileConditions_buttonText,
               onTap: () async {
