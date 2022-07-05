@@ -1,5 +1,4 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
 
 import '../../../shared/providers/package_info_fpod.dart';
 import '../../notifier/remote_config_notifier/remote_config_notipod.dart';
@@ -34,37 +33,25 @@ final routerPod = Provider<RouterUnion>(
                     authorization.state.when(
                       authorized: () {
                         final startup = ref.watch(startupNotipod);
-                        final isAppLoaded = ref.watch(initFinishedSpod);
 
-                        isAppLoaded.maybeWhen(
-                          data: (loaded) {
-                            if (loaded) {
-                              startup.authorized.when(
-                                loading: () {
-                                  union = const RouterUnion.loading();
-                                },
-                                emailVerification: () {
-                                  union = const RouterUnion.emailVerification();
-                                },
-                                twoFaVerification: () {
-                                  union = const RouterUnion.twoFaVerification();
-                                },
-                                pinSetup: () {
-                                  union = const RouterUnion.pinSetup();
-                                },
-                                pinVerification: () {
-                                  union = const RouterUnion.pinVerification();
-                                },
-                                home: () {
-                                  union = const RouterUnion.home();
-                                },
-                              );
-                            } else {
-                              union = const RouterUnion.loading();
-                            }
-                          },
-                          orElse: () {
+                        startup.authorized.when(
+                          loading: () {
                             union = const RouterUnion.loading();
+                          },
+                          emailVerification: () {
+                            union = const RouterUnion.emailVerification();
+                          },
+                          twoFaVerification: () {
+                            union = const RouterUnion.twoFaVerification();
+                          },
+                          pinSetup: () {
+                            union = const RouterUnion.pinSetup();
+                          },
+                          pinVerification: () {
+                            union = const RouterUnion.pinVerification();
+                          },
+                          home: () {
+                            union = const RouterUnion.home();
                           },
                         );
                       },

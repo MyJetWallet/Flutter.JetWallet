@@ -31,39 +31,28 @@ class AppInit extends HookWidget {
       data: (_) {
         return router.state.when(
           authorized: () {
-            final isAppLoaded = useProvider(initFinishedSpod);
-
-            return isAppLoaded.maybeWhen(
-              data: (loaded) {
-                if (loaded) {
-                  return startup.authorized.when(
-                    loading: () => const SplashScreen(),
-                    emailVerification: () => const EmailVerification(),
-                    twoFaVerification: () {
-                      return const TwoFaPhone(
-                        trigger: TwoFaPhoneTriggerUnion.startup(),
-                      );
-                    },
-                    pinSetup: () {
-                      return const PinScreen(
-                        union: Setup(),
-                        cannotLeave: true,
-                      );
-                    },
-                    pinVerification: () {
-                      return const PinScreen(
-                        union: Verification(),
-                        cannotLeave: true,
-                        displayHeader: false,
-                      );
-                    },
-                    home: () => Navigation(),
-                  );
-                } else {
-                  return const SplashScreen();
-                }
+            return startup.authorized.when(
+              loading: () => const SplashScreen(),
+              emailVerification: () => const EmailVerification(),
+              twoFaVerification: () {
+                return const TwoFaPhone(
+                  trigger: TwoFaPhoneTriggerUnion.startup(),
+                );
               },
-              orElse: () => const SplashScreen(),
+              pinSetup: () {
+                return const PinScreen(
+                  union: Setup(),
+                  cannotLeave: true,
+                );
+              },
+              pinVerification: () {
+                return const PinScreen(
+                  union: Verification(),
+                  cannotLeave: true,
+                  displayHeader: false,
+                );
+              },
+              home: () => Navigation(),
             );
           },
           unauthorized: () => const OnboardingScreen(),
