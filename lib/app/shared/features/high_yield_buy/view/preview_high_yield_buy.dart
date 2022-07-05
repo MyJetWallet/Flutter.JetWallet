@@ -191,7 +191,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                     name: intl.preview_earn_buy_confirm,
                     onTap: () {
                       if (widget.input.topUp) {
-                        sAnalytics.earnConfirm(
+                        sAnalytics.earnConfirmTopUp(
                           assetName: from.description,
                           amount: widget.input.amount,
                           apy: widget.input.apy,
@@ -199,7 +199,7 @@ class _PreviewHighYieldBuy extends State<PreviewHighYieldBuy> {
                           offerId: widget.input.earnOffer.offerId,
                         );
                       } else {
-                        sAnalytics.earnConfirmTopUp(
+                        sAnalytics.earnConfirm(
                           assetName: from.description,
                           amount: widget.input.amount,
                           apy: widget.input.apy,

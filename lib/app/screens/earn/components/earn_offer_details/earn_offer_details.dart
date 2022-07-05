@@ -19,7 +19,13 @@ void showEarnOfferDetails({
     offerId: earnOffer.offerId,
   );
   sShowBasicModalBottomSheet(
-    onDissmis: () {
+    context: context,
+    removePinnedPadding: true,
+    removeBarPadding: true,
+    pinned: EarnOfferDetailsPinned(earnOffer: earnOffer),
+    horizontalPinnedPadding: 0,
+    scrollable: true,
+    then: (value) {
       sAnalytics.earnCloseActiveSheet(
         assetName: assetName,
         amount: earnOffer.amount.toString(),
@@ -28,12 +34,6 @@ void showEarnOfferDetails({
         offerId: earnOffer.offerId,
       );
     },
-    context: context,
-    removePinnedPadding: true,
-    removeBarPadding: true,
-    pinned: EarnOfferDetailsPinned(earnOffer: earnOffer),
-    horizontalPinnedPadding: 0,
-    scrollable: true,
     children: [
       EarnOfferDetailsBody(earnOffer: earnOffer),
     ],
