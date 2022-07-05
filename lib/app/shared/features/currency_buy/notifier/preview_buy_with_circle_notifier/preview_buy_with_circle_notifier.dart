@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:openpgp/openpgp.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/create_payment/create_payment_request_model.dart';
 import 'package:simple_networking/services/circle/model/create_payment/create_payment_response_model.dart';
@@ -98,6 +99,7 @@ class PreviewBuyWithCircleNotifier
     _logger.log(notifier, 'onConfirm');
 
     if (cvvEnabled) {
+      sAnalytics.circleCVVView();
       showCircleCvvBottomSheet(
         context: _context,
         header: '${_intl.previewBuyWithCircle_enter} CVV '
@@ -123,7 +125,14 @@ class PreviewBuyWithCircleNotifier
     await _requestPayment(() async {
       await _requestPaymentInfo((url) {
         if (!mounted) return;
-        navigatorPush(_context, Circle3dSecureWebView(url));
+        sAnalytics.circleRedirect();
+        navigatorPush(
+          _context, Circle3dSecureWebView(
+            url,
+            input.currency.description,
+            input.amount,
+          ),
+        );
         state.loader.finishLoadingImmediately();
       });
     });
@@ -199,6 +208,11 @@ class PreviewBuyWithCircleNotifier
         await Future.delayed(const Duration(seconds: 1));
         await _requestPaymentInfo(on3Secure);
       } else if (complete || confirmed || paid) {
+        sAnalytics.circleSuccess(
+          asset: input.currency.description,
+          amount: input.amount,
+          frequency: RecurringFrequency.oneTime,
+        );
         _showSuccessScreen();
       } else if (failed) {
         throw Exception();
