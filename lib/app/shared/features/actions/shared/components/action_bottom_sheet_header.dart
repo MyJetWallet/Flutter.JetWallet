@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/service_providers.dart';
@@ -38,7 +39,10 @@ class ActionBottomSheetHeader extends HookWidget {
               const Spacer(),
               if (!showSearch)
                 SIconButton(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () {
+                    sAnalytics.sellChooseAssetClose();
+                    Navigator.pop(context);
+                  },
                   defaultIcon: const SEraseIcon(),
                   pressedIcon: const SErasePressedIcon(),
                 ),

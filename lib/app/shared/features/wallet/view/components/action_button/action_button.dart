@@ -195,6 +195,7 @@ class _ActionButtonState extends State<ActionButton> {
                               _onBuy(true);
                             },
                             onSell: () {
+                              sAnalytics.sellClick(source: 'wallet -> action');
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -226,10 +227,14 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onConvert: () {
+                              sAnalytics.convertClick(
+                                  source: 'wallet -> action',
+                              );
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.convertPageView();
                                 navigatorPush(
                                   context,
                                   Convert(
@@ -465,6 +470,7 @@ class _ActionButtonState extends State<ActionButton> {
                               _onBuy(true);
                             },
                             onSell: () {
+                              sAnalytics.sellClick(source: 'wallet -> action');
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -508,10 +514,14 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onConvert: () {
+                              sAnalytics.convertClick(
+                                source: 'wallet -> action',
+                              );
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.convertPageView();
                                 navigatorPush(
                                   context,
                                   Convert(

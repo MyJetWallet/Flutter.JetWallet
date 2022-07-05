@@ -85,6 +85,24 @@ class EventType {
   static const kycIdentityScreenView = 'KYC - Identity screen view';
   static const kycEnterPhoneNumber = 'KYC - Enter phone number';
 
+  /// Sell
+  static const sellClick = 'Click on Sell';
+  static const sellChooseAsset = 'Choose asset to sell sheet view';
+  static const sellChooseAssetClose = 'Close Choose asset to sell sheet';
+  static const sellChooseDestination = 'Tap on Choose destination';
+  static const sellForView = 'For sheet view';
+  static const sellCloseFor = 'Close For sheet';
+  static const sellTapPreview = 'Tap on Preview Sell';
+  static const sellConfirm = 'Confirm Sell';
+  static const sellSuccess = 'Success Page - Sell';
+
+  /// Convert
+  static const convertClick = 'Tap on Convert';
+  static const convertPageView = 'Convert Page View';
+  static const convertTapPreview = 'Tap on Preview Convert';
+  static const convertConfirm = 'Tap on Confirm Convert Button';
+  static const convertSuccess = 'Success Page - Convert';
+
   /// Buy screen
   static const tapPreviewBuy = 'Tap preview buy';
   static const previewBuyView = 'Preview buy view';

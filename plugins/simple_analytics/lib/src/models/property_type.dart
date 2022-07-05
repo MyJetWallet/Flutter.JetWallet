@@ -4,6 +4,12 @@ class PropertyType {
   static const email = 'Email';
   static const error = 'Error text';
   static const assetName = 'Asset name';
+  static const sellSource = 'Source';
+  static const sourceCurrency = 'Source Currency';
+  static const sourceAmount = 'Source Amount';
+  static const destinationCurrency = 'Destination Currency';
+  static const destinationAmount = 'Destination Amount';
+  static const sellPercentage = '25%, 50%, MAX';
   static const sourceScreen = 'Source screen';
   static const kysScope = 'KYC scope';
   static const country = 'Country code';
