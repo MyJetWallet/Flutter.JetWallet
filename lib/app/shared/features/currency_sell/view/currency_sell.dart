@@ -64,9 +64,6 @@ class CurrencySell extends HookWidget {
         pinned: SBottomSheetHeader(
           name: intl.currencySell_forText,
         ),
-        onDissmis: () {
-          sAnalytics.sellCloseFor();
-        },
         children: [
           for (final currency in assetWithBalance)
             SAssetItem(
@@ -115,6 +112,7 @@ class CurrencySell extends HookWidget {
         ],
         context: context,
         then: (value) {
+          sAnalytics.sellCloseFor();
           if (value is CurrencyModel) {
             if (value != state.selectedCurrency) {
               if (value.symbol != state.baseCurrency!.symbol) {
