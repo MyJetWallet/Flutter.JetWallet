@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/logging/levels.dart';
+import '../../../../helpers/country_code_by_user_register.dart';
 import '../../../../helpers/is_phone_number_valid.dart';
 import '../../model/contact_model.dart';
 import '../send_by_phone_permission_notifier/send_by_phone_permission_state.dart';
@@ -18,7 +19,8 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
           SendByPhoneInputState(
             activeDialCode: sPhoneNumbers[0],
             dialCodeController: TextEditingController(
-              text: sPhoneNumbers[0].countryCode,
+              text: countryCodeByUserRegister(read)?.countryCode ??
+                  sPhoneNumbers[0].countryCode,
             ),
             phoneNumberController: TextEditingController(),
           ),
