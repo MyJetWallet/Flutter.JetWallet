@@ -8,7 +8,8 @@ String sortWordDependingLang({
   bool isCapitalize = false,
 }) {
   if (languageCode == languageCodePl) {
-    return '${isCapitalize ? capitalizeText(swappedText) : swappedText}'' $text';
+    return '${isCapitalize ? capitalizeText(swappedText)
+        : swappedText}'' $text';
   } else {
     return '$text $swappedText';
   }
