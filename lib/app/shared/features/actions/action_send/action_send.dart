@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
@@ -37,6 +38,9 @@ void _showSendAction(BuildContext context) {
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [const _ActionSend()],
+    then: (value) {
+      sAnalytics.sendChooseAssetClose();
+    },
   );
 }
 

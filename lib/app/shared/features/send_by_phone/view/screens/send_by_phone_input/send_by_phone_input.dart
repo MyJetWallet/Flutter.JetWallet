@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/helpers/navigator_push.dart';
@@ -77,6 +78,10 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
           title:
               '${intl.sendByPhoneInput_send} ${widget.currency.description}'
                   ' ${intl.sendByPhoneInput_byPhone}',
+          onBackButtonTap: () {
+            sAnalytics.sendChoosePhoneClose();
+            Navigator.pop(context);
+          },
         ),
       ),
       child: Stack(
@@ -142,6 +147,8 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                 active: input.isReadyToContinue,
                 name: intl.sendByPhoneInput_continue,
                 onTap: () {
+                  sAnalytics.sendContinuePhone();
+                  sAnalytics.sendViews();
                   navigatorPush(
                     context,
                     SendByPhoneAmount(

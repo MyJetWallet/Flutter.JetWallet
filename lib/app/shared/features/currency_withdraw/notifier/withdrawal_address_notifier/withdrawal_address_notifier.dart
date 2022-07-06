@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/blockchain/model/validate_address/validate_address_request_model.dart';
 import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
@@ -331,6 +332,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _logger.log(notifier, 'validateAddressAndTag');
 
     if (state.credentialsValid) {
+      sAnalytics.sendViews();
       _pushWithdrawalAmount(context);
       return;
     }
@@ -362,6 +364,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       }
 
       if (state.credentialsValid) {
+        sAnalytics.sendViews();
         _pushWithdrawalAmount(context);
       }
     } catch (error) {

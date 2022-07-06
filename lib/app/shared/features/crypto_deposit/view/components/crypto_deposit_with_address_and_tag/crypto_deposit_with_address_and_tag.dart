@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../shared/providers/device_size/media_query_pod.dart';
@@ -58,6 +59,7 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
                 depositN.switchAddress();
               },
               then: () {
+                sAnalytics.receiveCopy(asset: currency.description);
                 if (scrollController.offset >
                     _copyMessageFullyVisiblePosition) {
                   scrollController.animateTo(
@@ -92,6 +94,9 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
               realValue: deposit.tag,
               afterCopyText: intl.cryptoDepositWithAddress_tagCopied,
               valueLoading: deposit.union is Loading,
+              then: () {
+                sAnalytics.receiveCopy(asset: currency.description);
+              },
               actionIcon: deposit.isAddressOpen
                   ? const SAngleDownIcon()
                   : const SAngleUpIcon(),

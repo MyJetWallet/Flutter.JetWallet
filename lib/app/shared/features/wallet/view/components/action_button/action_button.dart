@@ -350,10 +350,12 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onSend: () {
+                              sAnalytics.sendClick(source: 'Wallet -> Actions');
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.sendToView();
                                 showSendOptions(
                                   context,
                                   widget.currency,
@@ -376,10 +378,16 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onReceive: () {
+                              sAnalytics.receiveClick(
+                                source: 'Wallet -> Actions',
+                              );
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.receiveAssetView(
+                                    asset: widget.currency.description,
+                                );
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(
@@ -645,6 +653,7 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onSend: () {
+                              sAnalytics.sendClick(source: 'Wallet -> Actions');
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -652,10 +661,13 @@ class _ActionButtonState extends State<ActionButton> {
                                 Navigator.pop(context);
                                 showSendTimerAlertOr(
                                   context: context,
-                                  or: () => showSendOptions(
-                                    context,
-                                    widget.currency,
-                                  ),
+                                  or: () {
+                                    sAnalytics.sendToView();
+                                    showSendOptions(
+                                      context,
+                                      widget.currency,
+                                    );
+                                  },
                                 );
                               } else {
                                 defineKycVerificationsScope(
@@ -681,10 +693,16 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onReceive: () {
+                              sAnalytics.receiveClick(
+                                source: 'Wallet -> Actions',
+                              );
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
+                                sAnalytics.receiveAssetView(
+                                    asset: widget.currency.description,
+                                );
                                 navigatorPushReplacement(
                                   context,
                                   CryptoDeposit(

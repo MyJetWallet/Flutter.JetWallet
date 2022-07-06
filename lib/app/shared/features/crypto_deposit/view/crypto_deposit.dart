@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
@@ -100,6 +101,7 @@ class CryptoDeposit extends HookWidget {
                         ),
                         () => canTapShare.value = true,
                       );
+                      sAnalytics.receiveShare(asset: currency.description);
                       Share.share(
                         '${intl.cryptoDeposit_my} ${currency.symbol}'
                             ' ${intl.cryptoDeposit_address}: '

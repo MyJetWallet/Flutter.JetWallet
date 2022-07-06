@@ -420,6 +420,140 @@ class SimpleAnalytics {
     );
   }
 
+  /// Receive
+  void receiveClick({required String source}) {
+    _analytics.logEvent(
+      EventType.receiveClick,
+      eventProperties: {
+        PropertyType.sourceReceive: source,
+      },
+    );
+  }
+
+  void receiveChooseAsset() {
+    _analytics.logEvent(EventType.receiveChooseAsset);
+  }
+
+  void receiveChooseAssetClose() {
+    _analytics.logEvent(EventType.receiveChooseAssetClose);
+  }
+
+  void receiveAssetView({required String asset}) {
+    _analytics.logEvent(
+      EventType.receiveAssetView,
+      eventProperties: {
+        PropertyType.assetReceive: asset,
+      },
+    );
+  }
+
+  void receiveCopy({required String asset}) {
+    _analytics.logEvent(
+      EventType.receiveCopy,
+      eventProperties: {
+        PropertyType.assetReceive: asset,
+      },
+    );
+  }
+
+  void receiveShare({required String asset}) {
+    _analytics.logEvent(
+      EventType.receiveShare,
+      eventProperties: {
+        PropertyType.assetReceive: asset,
+      },
+    );
+  }
+
+  /// Send
+  void sendClick({required String source}) {
+    _analytics.logEvent(
+      EventType.sendClick,
+      eventProperties: {
+        PropertyType.sourceReceive: source,
+      },
+    );
+  }
+
+  void sendChooseAsset() {
+    _analytics.logEvent(EventType.sendChooseAsset);
+  }
+
+  void sendChooseAssetClose() {
+    _analytics.logEvent(EventType.sendChooseAssetClose);
+  }
+
+  void sendToView() {
+    _analytics.logEvent(EventType.sendToView);
+  }
+
+  void sendToViewClose() {
+    _analytics.logEvent(EventType.sendToViewClose);
+  }
+
+  void sendChoosePhone() {
+    _analytics.logEvent(EventType.sendChoosePhone);
+  }
+
+  void sendChoosePhoneClose() {
+    _analytics.logEvent(EventType.sendChoosePhoneClose);
+  }
+
+  void sendContinuePhone() {
+    _analytics.logEvent(EventType.sendContinuePhone);
+  }
+
+  void sendContinueAddress() {
+    _analytics.logEvent(EventType.sendContinueAddress);
+  }
+
+  void sendViews() {
+    _analytics.logEvent(EventType.sendViews);
+  }
+
+  void sendTapPreview({
+    required String currency,
+    required String amount,
+    required String type,
+    required String percentage,
+  }) {
+    _analytics.logEvent(
+      EventType.sendTapPreview,
+      eventProperties: {
+        PropertyType.percentageReceive: percentage,
+        PropertyType.amount: amount,
+        PropertyType.currency: currency,
+        PropertyType.sendType: type,
+      },
+    );
+  }
+
+  void sendConfirm({
+    required String currency,
+    required String amount,
+    required String type,
+  }) {
+    _analytics.logEvent(
+      EventType.sendConfirm,
+      eventProperties: {
+        PropertyType.amount: amount,
+        PropertyType.currency: currency,
+        PropertyType.sendType: type,
+      },
+    );
+  }
+
+  void sendSuccess({
+    required String type,
+  }) {
+    _analytics.logEvent(
+      EventType.sendSuccess,
+      eventProperties: {
+        PropertyType.sendType: type,
+      },
+    );
+  }
+
   // [START] Recurring buy ->
   // Possible source values for "Setup recurring buy" sheet:
   // 1. Wallet details

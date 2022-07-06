@@ -66,6 +66,10 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
     _calculateBaseConversion();
   }
 
+  void tapPreset(String preset) {
+    state = state.copyWith(tappedPreset: preset);
+  }
+
   void _updateSelectedPreset(SKeyboardPreset preset) {
     state = state.copyWith(selectedPreset: preset);
   }
