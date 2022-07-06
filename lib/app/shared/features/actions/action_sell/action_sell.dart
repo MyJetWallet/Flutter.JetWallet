@@ -21,7 +21,7 @@ void showSellAction(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    onDissmis: () {
+    then: (value) {
       sAnalytics.sellChooseAssetClose();
     },
     pinned: ActionBottomSheetHeader(
