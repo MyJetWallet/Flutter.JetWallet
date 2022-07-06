@@ -60,60 +60,73 @@ class AboutUs extends HookWidget {
             ),
           ),
           const SpaceH30(),
-          Row(
-            children: [
-              SimpleAccountTermButton(
-                name: intl.aboutUs_termButton1,
-                onTap: () => launchURL(context, userAgreementLink),
-              ),
-            ],
-          ),
-          const SpaceH20(),
-          Row(
-            children: [
-              SimpleAccountTermButton(
-                name: intl.aboutUs_termButton4,
-                onTap: () => launchURL(context, privacyEarnLink),
-              ),
-            ],
-          ),
-          const SpaceH20(),
-          Row(
-            children: [
-              SimpleAccountTermButton(
-                name: intl.aboutUs_privacyPolicy,
-                onTap: () => launchURL(context, privacyPolicyLink),
-              ),
-            ],
-          ),
-          const SpaceH20(),
-          Row(
-            children: [
-              SimpleAccountTermButton(
-                name: intl.aboutUs_termButton3,
-                onTap: () => launchURL(context, referralPolicyLink),
-              ),
-            ],
-          ),
-          const SpaceH20(),
-          Row(
-            children: [
-              SimpleAccountTermButton(
-                name: intl.aboutUs_termButton5,
-                onTap: () => launchURL(context, refundPolicyLink),
-              ),
-            ],
-          ),
-          const SpaceH20(),
-          Row(
-            children: [
-              SimpleAccountTermButton(
-                name: intl.aboutUs_termButton6,
-                onTap: () => launchURL(context, amlKycPolicyLink),
-              ),
-            ],
-          ),
-          const SpaceH60(),
+          if (userAgreementLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_termButton1,
+                  onTap: () => launchURL(context, userAgreementLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (privacyEarnLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_termButton4,
+                  onTap: () => launchURL(context, privacyEarnLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (privacyPolicyLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_privacyPolicy,
+                  onTap: () => launchURL(context, privacyPolicyLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (referralPolicyLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_termButton3,
+                  onTap: () => launchURL(context, referralPolicyLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (refundPolicyLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_termButton5,
+                  onTap: () => launchURL(context, refundPolicyLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (amlKycPolicyLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_termButton6,
+                  onTap: () => launchURL(context, amlKycPolicyLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          const SpaceH40(),
         ],
       ),
     );
