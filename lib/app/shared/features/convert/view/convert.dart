@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
@@ -122,6 +123,13 @@ class Convert extends HookWidget {
             preset3Name: intl.max,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
+              notifier.tapPreset(
+                preset.index == 0
+                    ? '25%'
+                    : preset.index == 1
+                    ? '50%'
+                    : 'Max',
+              );
               notifier.selectPercentFromBalance(preset);
             },
             onKeyPressed: (value) {
@@ -135,6 +143,13 @@ class Convert extends HookWidget {
             submitButtonActive: state.convertValid,
             submitButtonName: intl.convert_previewConvert,
             onSubmitPressed: () {
+              sAnalytics.convertTapPreview(
+                sourceCurrency: state.fromAsset.description,
+                sourceAmount: state.fromAssetAmount,
+                destinationCurrency: state.toAsset.description,
+                destinationAmount: state.toAssetAmount,
+                sellPercentage: state.tappedPreset ?? '',
+              );
               navigatorPush(
                 context,
                 PreviewConvert(

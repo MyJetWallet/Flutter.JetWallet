@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/transfer/model/transfer_resend_request_model/transfer_resend_request_model.dart';
 import 'package:simple_networking/services/validation/model/verify_withdrawal_verification_code_request_model.dart';
@@ -114,6 +115,7 @@ class SendByPhoneConfirmNotifier
 
       if (!mounted) return;
 
+      sAnalytics.sendSuccess(type: 'By phone');
       _showSuccessScreen();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);

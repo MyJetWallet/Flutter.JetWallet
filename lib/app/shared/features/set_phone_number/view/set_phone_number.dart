@@ -147,6 +147,7 @@ class SetPhoneNumber extends HookWidget {
               name: intl.setPhoneNumber_continue,
               onTap: () {
                 sAnalytics.kycEnterPhoneNumber();
+                sAnalytics.accountEnterNumber();
                 notifier.sendCode(
                   then: () {
                     PhoneVerification.push(
@@ -163,6 +164,7 @@ class SetPhoneNumber extends HookWidget {
                           userInfoN.updateTwoFaStatus(enabled: true);
                           userInfoN.updatePhone(state.phoneNumber);
 
+                          sAnalytics.accountSuccessPhone();
                           SuccessScreen.push(
                             context: context,
                             secondaryText: successText,

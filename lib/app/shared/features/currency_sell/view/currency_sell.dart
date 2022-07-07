@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
@@ -56,6 +57,7 @@ class CurrencySell extends HookWidget {
 
     void _showAssetSelector(BuildContext context) {
       final intl = context.read(intlPod);
+      sAnalytics.sellForView();
 
       sShowBasicModalBottomSheet(
         scrollable: true,
@@ -110,6 +112,7 @@ class CurrencySell extends HookWidget {
         ],
         context: context,
         then: (value) {
+          sAnalytics.sellCloseFor();
           if (value is CurrencyModel) {
             if (value != state.selectedCurrency) {
               if (value.symbol != state.baseCurrency!.symbol) {
@@ -171,7 +174,10 @@ class CurrencySell extends HookWidget {
               widgetSize: widgetSizeFrom(deviceSize),
               icon: const SActionWithdrawIcon(),
               name: intl.currencySell_chooseDestination,
-              onTap: () => _showAssetSelector(context),
+              onTap: () {
+                sAnalytics.sellChooseDestination();
+                _showAssetSelector(context);
+              },
             )
           else if (state.selectedCurrency!.type == AssetType.crypto)
             SPaymentSelectAsset(
@@ -209,6 +215,13 @@ class CurrencySell extends HookWidget {
             preset3Name: intl.max,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
+              notifier.tapPreset(
+                preset.index == 0
+                    ? '25%'
+                    : preset.index == 1
+                    ? '50%'
+                    : 'Max',
+              );
               notifier.selectPercentFromBalance(preset);
             },
             onKeyPressed: (value) {
@@ -218,6 +231,13 @@ class CurrencySell extends HookWidget {
             submitButtonActive: state.inputValid,
             submitButtonName: intl.currencySell_previewSell,
             onSubmitPressed: () {
+              sAnalytics.sellTapPreview(
+                sourceCurrency: currency.description,
+                sourceAmount: state.inputValue,
+                destinationCurrency: state.selectedCurrency!.description,
+                destinationAmount: state.conversionText(),
+                sellPercentage: state.tappedPreset ?? '',
+              );
               navigatorPush(
                 context,
                 PreviewSell(

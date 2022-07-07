@@ -71,6 +71,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     final disableSubmit = useState(false);
 
     void _showAssetSelector() {
+      sAnalytics.circleChooseMethod();
+      sAnalytics.circlePayFromView();
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
@@ -166,6 +168,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 name: '${intl.currencyBuy_addBankCard} - Circle',
                 description: 'Visa, Mastercard, Apple Pay',
                 onTap: () {
+                  sAnalytics.circleTapAddCard();
                   AddCircleCard.pushReplacement(
                     context: context,
                     onCardAdded: (card) {
@@ -381,6 +384,17 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     }
                   } else if (state.selectedPaymentMethod?.type ==
                       PaymentMethodType.circleCard) {
+                    sAnalytics.previewBuyView(
+                      assetName: widget.currency.description,
+                      paymentMethod: state.selectedPaymentMethod?.type.name ??
+                          intl.curencyBuy_crypto,
+                      amount: formatCurrencyStringAmount(
+                        prefix: state.selectedCurrency?.prefixSymbol,
+                        value: state.inputValue,
+                        symbol: state.selectedCurrencySymbol,
+                      ),
+                      frequency: state.recurringBuyType.toFrequency,
+                    );
                     navigatorPush(
                       context,
                       PreviewBuyWithCircle(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
@@ -15,11 +16,31 @@ import 'components/earn_details_manage_item.dart';
 void showEarnDetailsManage({
   required BuildContext context,
   required EarnOfferModel earnOffer,
+  required String assetName,
 }) {
+  sAnalytics.earnManageView(
+    assetName: assetName,
+    amount: earnOffer.amount.toString(),
+    apy: earnOffer.currentApy.toString(),
+    term: earnOffer.term,
+    offerId: earnOffer.offerId,
+  );
   sShowBasicModalBottomSheet(
     context: context,
+    onDissmis: () {
+      sAnalytics.earnCloseManage(
+        assetName: assetName,
+        amount: earnOffer.amount.toString(),
+        apy: earnOffer.currentApy.toString(),
+        term: earnOffer.term,
+        offerId: earnOffer.offerId,
+      );
+    },
     scrollable: true,
-    pinned: const _EarnDetailsManageBottomSheetHeader(),
+    pinned: _EarnDetailsManageBottomSheetHeader(
+      assetName: assetName,
+      earnOffer: earnOffer,
+    ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
@@ -31,7 +52,12 @@ void showEarnDetailsManage({
 class _EarnDetailsManageBottomSheetHeader extends HookWidget {
   const _EarnDetailsManageBottomSheetHeader({
     Key? key,
+    required this.earnOffer,
+    required this.assetName,
   }) : super(key: key);
+
+  final String assetName;
+  final EarnOfferModel earnOffer;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +79,16 @@ class _EarnDetailsManageBottomSheetHeader extends HookWidget {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  sAnalytics.earnCloseManage(
+                    assetName: assetName,
+                    amount: earnOffer.amount.toString(),
+                    apy: earnOffer.currentApy.toString(),
+                    term: earnOffer.term,
+                    offerId: earnOffer.offerId,
+                  );
+                  Navigator.pop(context);
+                },
                 child: const SErasePressedIcon(),
               ),
             ],
@@ -93,6 +128,13 @@ class _EarnDetailsManage extends HookWidget {
                 primaryText: intl.earn_top_up,
                 onTap: () {
                   Navigator.of(context).pop();
+                  sAnalytics.earnClickTopUp(
+                    assetName: currency.description,
+                    amount: earnOffer.amount.toString(),
+                    apy: earnOffer.currentApy.toString(),
+                    term: earnOffer.term,
+                    offerId: earnOffer.offerId,
+                  );
                   navigatorPushReplacement(
                     context,
                     HighYieldBuy(
@@ -112,6 +154,13 @@ class _EarnDetailsManage extends HookWidget {
                 primaryText: intl.earn_return_to_wallet,
                 onTap: () {
                   Navigator.of(context).pop();
+                  sAnalytics.earnClickReclaim(
+                    assetName: currency.description,
+                    amount: earnOffer.amount.toString(),
+                    apy: earnOffer.currentApy.toString(),
+                    term: earnOffer.term,
+                    offerId: earnOffer.offerId,
+                  );
                   navigatorPushReplacement(
                     context,
                     ReturnToWallet(

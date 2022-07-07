@@ -6,9 +6,11 @@ class SBottomSheetHeader extends StatelessWidget {
   const SBottomSheetHeader({
     Key? key,
     required this.name,
+    this.onTap,
   }) : super(key: key);
 
   final String name;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,10 @@ class SBottomSheetHeader extends StatelessWidget {
         ),
         const Spacer(),
         SIconButton(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            onTap?.call();
+            Navigator.pop(context);
+          },
           defaultIcon: const SEraseIcon(),
           pressedIcon: const SErasePressedIcon(),
         ),

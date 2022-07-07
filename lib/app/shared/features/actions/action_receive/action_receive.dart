@@ -15,10 +15,14 @@ import '../shared/notifier/action_search_notipod.dart';
 void showReceiveAction(BuildContext context) {
   final intl = context.read(intlPod);
   final showSearch = showReceiveCurrencySearch(context);
+  sAnalytics.receiveChooseAsset();
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
+    then: (value) {
+      sAnalytics.receiveChooseAssetClose();
+    },
     pinned: ActionBottomSheetHeader(
       name: intl.actionReceive_bottomSheetHeaderName1,
       showSearch: showSearch,
@@ -54,7 +58,7 @@ class _ActionReceive extends HookWidget {
                 removeDivider: currency == state.receiveCurrencies.last,
                 onTap: () {
                   sAnalytics.depositCryptoView(currency.description);
-
+                  sAnalytics.receiveAssetView(asset: currency.description);
                   navigatorPushReplacement(
                     context,
                     CryptoDeposit(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
@@ -46,6 +47,8 @@ class ProfileDetails extends HookWidget {
             label: intl.profileDetails_changePassword,
             value: '• • • • • • • • • • •',
             onTap: () {
+              sAnalytics.accountChangePassword();
+              sAnalytics.accountChangePasswordWarning();
               sShowAlertPopup(
                 context,
                 willPopScope: false,
@@ -55,10 +58,12 @@ class ProfileDetails extends HookWidget {
                 primaryButtonName: intl.profileDetails_continue,
                 image: _infoImage,
                 onPrimaryButtonTap: () {
+                  sAnalytics.accountChangePasswordContinue();
                   navigatorPushReplacement(context, const ChangePassword());
                 },
                 secondaryButtonName: intl.profileDetails_cancel,
                 onSecondaryButtonTap: () {
+                  sAnalytics.accountChangePasswordCancel();
                   Navigator.pop(context);
                 },
               );
@@ -69,6 +74,8 @@ class ProfileDetails extends HookWidget {
               label: intl.profileDetails_changePhoneNumber,
               value: userInfo.phone,
               onTap: () {
+                sAnalytics.accountChangePhone();
+                sAnalytics.accountChangePhoneWarning();
                 sShowAlertPopup(
                   context,
                   willPopScope: false,
@@ -78,6 +85,7 @@ class ProfileDetails extends HookWidget {
                   primaryButtonName: intl.profileDetails_continue,
                   image: _infoImage,
                   onPrimaryButtonTap: () {
+                    sAnalytics.accountChangePhoneContinue();
                     PhoneVerification.pushReplacement(
                       context: context,
                       args: PhoneVerificationArgs(
@@ -95,6 +103,7 @@ class ProfileDetails extends HookWidget {
                   },
                   secondaryButtonName: intl.profileDetails_cancel,
                   onSecondaryButtonTap: () {
+                    sAnalytics.accountChangePhoneCancel();
                     Navigator.pop(context);
                   },
                 );
