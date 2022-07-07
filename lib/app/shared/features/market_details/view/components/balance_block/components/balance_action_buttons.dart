@@ -92,10 +92,11 @@ class BalanceActionButtons extends HookWidget {
               child: SSecondaryButton1(
                 name: intl.balanceActionButtons_receive,
                 onTap: () {
+                  sAnalytics.receiveClick(source: 'Market -> Asset -> Receive');
                   if (kycState.withdrawalStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
                     sAnalytics.depositCryptoView(currency.description);
-
+                    sAnalytics.receiveAssetView(asset: currency.description);
                     navigatorPushReplacement(
                       context,
                       CryptoDeposit(
@@ -110,7 +111,9 @@ class BalanceActionButtons extends HookWidget {
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () {
                         sAnalytics.depositCryptoView(currency.description);
-
+                        sAnalytics.receiveAssetView(
+                          asset: currency.description,
+                        );
                         navigatorPushReplacement(
                           context,
                           CryptoDeposit(

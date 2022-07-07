@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push_replacement.dart';
@@ -18,6 +19,9 @@ void showSendOptions(
   Navigator.pop(context);
   sShowBasicModalBottomSheet(
     context: context,
+    then: (value) {
+      sAnalytics.sendToViewClose();
+    },
     pinned: SBottomSheetHeader(
       name: intl.sendOptions_sendTo,
     ),
@@ -48,6 +52,7 @@ class _SendOptions extends HookWidget {
           name: intl.sendOptions_actionItemName1,
           description: intl.sendOptions_actionItemDescription1,
           onTap: () {
+            sAnalytics.sendChoosePhone();
             navigatorPushReplacement(
               context,
               SendByPhoneInput(

@@ -22,6 +22,11 @@ class PropertyType {
   static const amount = 'Amount';
   static const paymentMethod = 'Payment method';
   static const url = 'URL';
+  static const sourceReceive = 'Source';
+  static const assetReceive = 'Asset';
+  static const percentageReceive = '25%, 50%, MAX';
+  static const currency = 'Currency';
+  static const sendType = 'Send type';
   static const frequency = 'Frequency';
   static const preset = '% from balance';
   static const asset = 'Asset';

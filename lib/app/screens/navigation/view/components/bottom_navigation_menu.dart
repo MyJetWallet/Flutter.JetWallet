@@ -177,8 +177,10 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onSend: () {
+          sAnalytics.sendClick(source: 'S Menu');
           if (kycState.withdrawalStatus ==
               kycOperationStatus(KycStatus.allowed)) {
+            sAnalytics.sendChooseAsset();
             showSendAction(context);
           } else {
             Navigator.of(context).pop();
@@ -191,6 +193,7 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onReceive: () {
+          sAnalytics.receiveClick(source: 'S Menu');
           if (kycState.withdrawalStatus ==
               kycOperationStatus(KycStatus.allowed)) {
             showReceiveAction(context);

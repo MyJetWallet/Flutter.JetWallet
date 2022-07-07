@@ -129,6 +129,30 @@ class EventType {
   /// User taps on "Buy" in Quick Actions
   static const tapOnBuy = 'Tap on buy';
 
+  /// Receive
+  static const receiveClick = 'Tap on Receive';
+  static const receiveChooseAsset = 'Choose asset to receive sheet view';
+  static const receiveChooseAssetClose = 'Close Choose asset to receive sheet';
+  static const receiveAssetView = 'Receive Asset Sheet View';
+  static const receiveCopy = 'Copy wallet adderss';
+  static const receiveShare = 'Tap on Share button';
+
+  /// Send
+  static const sendClick = 'Tap on Send';
+  static const sendChooseAsset = 'Choose asset to send sheet view';
+  static const sendChooseAssetClose = 'Close Choose asset to send sheet';
+  static const sendToView = 'Send to sheet view';
+  static const sendToViewClose = 'Close Send to sheet view';
+  static const sendChoosePhone = 'Choose Phone number sheet view';
+  static const sendChoosePhoneClose = 'Close Choose Phone Number sheet';
+  static const sendContinuePhone = 'Continue with phone number';
+  static const sendContinueAddress = 'Continue with wallet address';
+  static const sendViews = 'Send View';
+  static const sendTapPreview = 'Tap on Preview Send';
+  static const sendConfirm = 'Tap on Confirm Send';
+  static const sendSuccess = 'Success Page - Send';
+  static const sendConfirmSend = 'Phone 2FA Confirmation View';
+
   /// User taps on "Buy from card" in Quick Actions
   static const tapOnBuyFromCard = 'Tap on buy from card';
 
