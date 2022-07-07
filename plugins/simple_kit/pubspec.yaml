@@ -11,7 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+
+  auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds
   flutter_riverpod: ^0.14.0+3 # state management
   flutter_hooks: ^0.18.0 # manages a Widget life-cycles
   flutter_svg: ^0.22.0 # SVG rendering and widget library
@@ -19,6 +20,7 @@ dependencies:
   flash: ^2.0.3 # alerting library
   rive: ^0.7.22 # rive animations
   qr_flutter: ^4.0.0 # QR code rendering
+
 
 dev_dependencies:
   flutter_test:
