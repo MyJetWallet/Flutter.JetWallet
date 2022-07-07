@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -75,7 +76,7 @@ class ForgotPassword extends HookWidget {
                 children: [
                   const SpaceH7(),
                   SPaddingH24(
-                    child: Text(
+                    child: AutoSizeText(
                       '${intl.forgotPassword_resettingPassword1} '
                       '$forgotPasswordLockHours'
                       '${intl.forgotPassword_resettingPassword2}.',
