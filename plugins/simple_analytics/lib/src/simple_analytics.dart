@@ -632,4 +632,403 @@ class SimpleAnalytics {
   }
 
   // <- Recurring buy [END]
+
+  /// Earn
+
+  void earnClickInfoButton() {
+    _analytics.logEvent(
+      EventType.earnClickInfoButton,
+    );
+  }
+
+  void earnOnBoardingView() {
+    _analytics.logEvent(
+      EventType.earnOnBoardingView,
+    );
+  }
+
+  void earnClickMore() {
+    _analytics.logEvent(
+      EventType.earnClickMore,
+    );
+  }
+
+  void earnCloseOnboarding() {
+    _analytics.logEvent(
+      EventType.earnCloseOnboarding,
+    );
+  }
+
+  void earnTapAvailable({
+    required String assetName,
+  }) {
+    _analytics.logEvent(
+      EventType.earnTapAvailable,
+      eventProperties: {
+        PropertyType.asset: assetName,
+      },
+    );
+  }
+
+  void earnAvailableView({
+    required String assetName,
+  }) {
+    _analytics.logEvent(
+      EventType.earnAvailableView,
+      eventProperties: {
+        PropertyType.asset: assetName,
+      },
+    );
+  }
+
+  void earnSelectOffer({
+    required String assetName,
+    required String offerType,
+  }) {
+    _analytics.logEvent(
+      EventType.earnSelectOffer,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.offerType: offerType,
+      },
+    );
+  }
+
+  void earnProgressBar({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.earnProgressBar,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void earnCalculationView({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.earnCalculationView,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void earnPreview({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String percentage,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnPreview,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.percentage: percentage,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnConfirm({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnConfirm,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnSuccessPage() {
+    _analytics.logEvent(
+      EventType.earnSuccessPage,
+    );
+  }
+
+  void earnTapActive({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnTapActive,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnActiveSheetView({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnActiveSheetView,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnCloseActiveSheet({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnCloseActiveSheet,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnTapManage({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnTapManage,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnManageView({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnManageView,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnCloseManage({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnCloseManage,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnClickTopUp({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnClickTopUp,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnPreviewTopUp({
+    required String assetName,
+    required String amount,
+    required String offerId,
+    required String apy,
+    required String term,
+    required String percentage,
+  }) {
+    _analytics.logEvent(
+      EventType.earnPreviewTopUp,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.topUpAmount: amount,
+        PropertyType.topUpAPY: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+        PropertyType.percentage: percentage,
+      },
+    );
+  }
+
+  void earnConfirmTopUp({
+    required String assetName,
+    required String amount,
+    required String offerId,
+    required String apy,
+    required String term,
+  }) {
+    _analytics.logEvent(
+      EventType.earnConfirmTopUp,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.topUpAmount: amount,
+        PropertyType.topUpAPY: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnSuccessTopUp({
+    required String assetName,
+    required String amount,
+    required String offerId,
+    required String apy,
+    required String term,
+  }) {
+    _analytics.logEvent(
+      EventType.earnSuccessTopUp,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.topUpAmount: amount,
+        PropertyType.topUpAPY: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnClickReclaim({
+    required String assetName,
+    required String amount,
+    required String apy,
+    required String term,
+    required String offerId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnClickReclaim,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.amount: amount,
+        PropertyType.apy: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnPreviewReclaim({
+    required String assetName,
+    required String amount,
+    required String offerId,
+    required String apy,
+    required String term,
+    required String percentage,
+  }) {
+    _analytics.logEvent(
+      EventType.earnPreviewReclaim,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.reclaimAmount: amount,
+        PropertyType.reclaimAPY: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+        PropertyType.percentage: percentage,
+      },
+    );
+  }
+
+  void earnConfirmReclaim({
+    required String assetName,
+    required String amount,
+    required String offerId,
+    required String apy,
+    required String term,
+  }) {
+    _analytics.logEvent(
+      EventType.earnConfirmReclaim,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.reclaimAmount: amount,
+        PropertyType.reclaimAPY: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
+
+  void earnSuccessReclaim({
+    required String assetName,
+    required String amount,
+    required String offerId,
+    required String apy,
+    required String term,
+  }) {
+    _analytics.logEvent(
+      EventType.earnSuccessReclaim,
+      eventProperties: {
+        PropertyType.asset: assetName,
+        PropertyType.reclaimAmount: amount,
+        PropertyType.reclaimAPY: apy,
+        PropertyType.term: term,
+        PropertyType.offerId: offerId,
+      },
+    );
+  }
 }

@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
@@ -126,6 +127,13 @@ class _PreviewReturnToWallet extends State<PreviewReturnToWallet> {
                     active: state.union is QuoteSuccess,
                     name: intl.preview_return_to_wallet_confirm,
                     onTap: () {
+                      sAnalytics.earnConfirmReclaim(
+                        assetName: from.description,
+                        amount: widget.input.amount,
+                        apy: widget.input.apy,
+                        term: widget.input.earnOffer.term,
+                        offerId: widget.input.earnOffer.offerId,
+                      );
                       notifier.earnOfferWithdrawal(
                         widget.input.earnOffer.offerId,
                       );
