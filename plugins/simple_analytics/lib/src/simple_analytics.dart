@@ -348,6 +348,135 @@ class SimpleAnalytics {
     await _analytics.setUserId(null);
   }
 
+  /// Sell
+  void sellClick({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.sellClick,
+      eventProperties: {
+        PropertyType.sellSource: source,
+      },
+    );
+  }
+
+  void sellChooseAsset() {
+    _analytics.logEvent(EventType.sellChooseAsset);
+  }
+
+  void sellChooseAssetClose() {
+    _analytics.logEvent(EventType.sellChooseAssetClose);
+  }
+
+  void sellChooseDestination() {
+    _analytics.logEvent(EventType.sellChooseDestination);
+  }
+
+  void sellForView() {
+    _analytics.logEvent(EventType.sellForView);
+  }
+
+  void sellCloseFor() {
+    _analytics.logEvent(EventType.sellCloseFor);
+  }
+
+  void sellTapPreview({
+    required String sourceCurrency,
+    required String sourceAmount,
+    required String destinationCurrency,
+    required String destinationAmount,
+    required String sellPercentage,
+  }) {
+    _analytics.logEvent(
+      EventType.sellTapPreview,
+      eventProperties: {
+        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.sourceAmount: sourceAmount,
+        PropertyType.destinationCurrency: destinationCurrency,
+        PropertyType.destinationAmount: destinationAmount,
+        PropertyType.sellPercentage: sellPercentage,
+      },
+    );
+  }
+
+  void sellConfirm({
+    required String sourceCurrency,
+    required String sourceAmount,
+    required String destinationCurrency,
+    required String destinationAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.sellConfirm,
+      eventProperties: {
+        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.sourceAmount: sourceAmount,
+        PropertyType.destinationCurrency: destinationCurrency,
+        PropertyType.destinationAmount: destinationAmount,
+      },
+    );
+  }
+
+  void sellSuccess() {
+    _analytics.logEvent(EventType.sellSuccess);
+  }
+
+  /// Sell
+  void convertClick({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.convertClick,
+      eventProperties: {
+        PropertyType.sellSource: source,
+      },
+    );
+  }
+
+  void convertPageView() {
+    _analytics.logEvent(EventType.convertPageView);
+  }
+
+  void convertSuccess() {
+    _analytics.logEvent(EventType.convertSuccess);
+  }
+
+  void convertTapPreview({
+    required String sourceCurrency,
+    required String sourceAmount,
+    required String destinationCurrency,
+    required String destinationAmount,
+    required String sellPercentage,
+  }) {
+    _analytics.logEvent(
+      EventType.convertTapPreview,
+      eventProperties: {
+        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.sourceAmount: sourceAmount,
+        PropertyType.destinationCurrency: destinationCurrency,
+        PropertyType.destinationAmount: destinationAmount,
+        PropertyType.sellPercentage: sellPercentage,
+      },
+    );
+  }
+
+  void convertConfirm({
+    required String sourceCurrency,
+    required String sourceAmount,
+    required String destinationCurrency,
+    required String destinationAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.convertConfirm,
+      eventProperties: {
+        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.sourceAmount: sourceAmount,
+        PropertyType.destinationCurrency: destinationCurrency,
+        PropertyType.destinationAmount: destinationAmount,
+      },
+    );
+  }
+
+  /// Buy
   void tapPreviewBuy({
     required String assetName,
     required String paymentMethod,

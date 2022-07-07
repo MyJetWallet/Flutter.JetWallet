@@ -21,6 +21,9 @@ void showSellAction(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
+    then: (value) {
+      sAnalytics.sellChooseAssetClose();
+    },
     pinned: ActionBottomSheetHeader(
       name: intl.actionSell_bottomSheetHeaderName,
       showSearch: showSearch,
@@ -51,6 +54,8 @@ class _ActionSell extends HookWidget {
         assetWithBalance.add(currency);
       }
     }
+
+    sAnalytics.sellChooseAsset();
 
     return Column(
       children: [
