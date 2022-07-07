@@ -44,6 +44,35 @@ final errorCodesDescriptionEn = {
   'CardExpired': 'Card is expired',
   'PhoneDuplicate': 'Phone duplicate',
   'InvalidCardNumber': 'Invalid card number',
+
+  'VerificationFailed': 'Verification failed',
+  'VerificationNotSupportedByIssuer': 'Bank failed verification',
+  'CardInvalid': 'Invalid card number',
+  'CardNotHonored': 'Payment failed',
+  'CardAccountIneligible': 'Card account ineligible',
+  'CardLimitViolated': 'Card limit exceeded',
+  'CardCvvRequired': 'Incorrect CVV',
+  'ThreeDSecureNotSupported': '3DS not supported by bank',
+  'ThreeDSecureActionExpired': '3DS expired',
+  'ThreeDSecureInvalidRequest': '3DS invalid',
+
+  'PaymentNotSupportedByIssuer': 'Bank processing error',
+  'PaymentNotFunded': 'Insufficient funds',
+  'PaymentFailedBalanceCheck': 'Insufficient funds',
+  'CardRestricted': 'Transaction not permitted',
+
+  'InvalidAccountNumber': 'Invalid account number',
+  'BankAccountIneligible': 'Bank account ineligible',
+  'InvalidWireRtn': 'Invalid routing number',
+  'RefIdInvalid': 'Reference id invalid',
+  'AccountNameMismatch': "Account name didn't match",
+  'AccountNumberMismatch': "Account number didn't match",
+  'AccountIneligible': 'Account ineligible',
+  'WalletAddressMismatch': 'Wallet addresses mismatch',
+  'CustomerNameMismatch': 'Name mismatch',
+  'InstitutionNameMismatch': 'Institution name mismatch',
+  'TransferFailed': 'Transfer failed',
+  'InsufficientFunds': 'Insufficient funds',
 };
 
 final errorCodesDescriptionRu = {
@@ -97,6 +126,35 @@ final errorCodesDescriptionRu = {
   'CardExpired': 'Срок действия карты истек',
   'PhoneDuplicate': 'Дубликат телефона',
   'InvalidCardNumber': 'Инвалидная карта',
+
+  'VerificationFailed': 'Ошибка проверки',
+  'VerificationNotSupportedByIssuer': 'Банк не прошел проверку',
+  'CardInvalid': 'Неверный номер карты',
+  'CardNotHonored': 'Платеж не прошел',
+  'CardAccountIneligible': 'Карточный счет не соответствует требованиям',
+  'CardLimitViolated': 'Превышен лимит карты',
+  'CardCvvRequired': 'Неверный CVV',
+  'ThreeDSecureNotSupported': '3DS не поддерживается банком',
+  'ThreeDSecureActionExpired': 'Срок действия 3DS истек',
+  'ThreeDSecureInvalidRequest': '3DS недействителен',
+
+  'PaymentNotSupportedByIssuer': 'Ошибка обработки банком',
+  'PaymentNotFunded': 'Недостаточно средств',
+  'PaymentFailedBalanceCheck': 'Недостаточно средств',
+  'CardRestricted': 'Транзакция не разрешена',
+
+  'InvalidAccountNumber': 'Неверный номер счета',
+  'BankAccountIneligible': 'Банковский счет не соответствует требованиям',
+  'InvalidWireRtn': 'Неверный номер маршрутизации',
+  'RefIdInvalid': 'Идентификатор ссылки недействителен',
+  'AccountNameMismatch': 'Имя учетной записи не совпадает',
+  'AccountNumberMismatch': 'Номер счета не совпадает',
+  'AccountIneligible': 'Учетная запись не соответствует требованиям',
+  'WalletAddressMismatch': 'Несоответствие адресов кошельков',
+  'CustomerNameMismatch': 'Несоответствие имени',
+  'InstitutionNameMismatch': 'Несоответствие названия учреждения',
+  'TransferFailed': 'Ошибка переноса',
+  'InsufficientFunds': 'Insufficient funds',
 };
 
 const emailPasswordIncorrectEn =
