@@ -384,6 +384,23 @@ class SimpleAnalytics {
     );
   }
 
+  void tapConfirmBuy({
+    required String assetName,
+    required String paymentMethod,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
+    _analytics.logEvent(
+      EventType.tapConfirmBuy,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.amount: amount,
+        PropertyType.frequency: frequency.name,
+      },
+    );
+  }
+
   void simplexView(String url) {
     _analytics.logEvent(
       EventType.simplexView,
@@ -399,6 +416,68 @@ class SimpleAnalytics {
 
   void simplexFailureView(String url) {
     _analytics.logEvent(EventType.simplexFailureView);
+  }
+
+  /// Circle
+  void circleChooseMethod() {
+    _analytics.logEvent(EventType.circleChooseMethod);
+  }
+
+  void circlePayFromView() {
+    _analytics.logEvent(EventType.circlePayFromView);
+  }
+
+  void circleTapAddCard() {
+    _analytics.logEvent(EventType.circleTapAddCard);
+  }
+
+  void circleContinueDetails() {
+    _analytics.logEvent(EventType.circleContinueDetails);
+  }
+
+  void circleContinueAddress() {
+    _analytics.logEvent(EventType.circleContinueAddress);
+  }
+
+  void circleCVVView() {
+    _analytics.logEvent(EventType.circleCVVView);
+  }
+
+  void circleCloseCVV() {
+    _analytics.logEvent(EventType.circleCloseCVV);
+  }
+
+  void circleRedirect() {
+    _analytics.logEvent(
+      EventType.circleRedirect,
+    );
+  }
+
+  void circleSuccess({
+    required String asset,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
+    _analytics.logEvent(
+      EventType.circleSuccess,
+      eventProperties: {
+        PropertyType.assetName: asset,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void circleFailed() {
+    _analytics.logEvent(EventType.circleFailed);
+  }
+
+  void circleAdd() {
+    _analytics.logEvent(EventType.circleAdd);
+  }
+
+  void circleCancel() {
+    _analytics.logEvent(EventType.circleCancel);
   }
 
   /// Quick actions

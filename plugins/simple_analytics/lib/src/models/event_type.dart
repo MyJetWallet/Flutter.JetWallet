@@ -87,10 +87,25 @@ class EventType {
 
   /// Buy screen
   static const tapPreviewBuy = 'Tap preview buy';
-  static const previewBuyView = 'Preview buy view';
+  static const previewBuyView = 'Confirm buy view';
   static const simplexView = 'Simplex view';
   static const simplexSucsessView = 'Simplex success view';
   static const simplexFailureView = 'Simplex failure view';
+  static const tapConfirmBuy = 'Tap on Confirm Buy';
+
+  /// Circle
+  static const circleChooseMethod = 'Click on Choose Payment Method';
+  static const circlePayFromView = 'Pay from sheet view';
+  static const circleTapAddCard = 'Click on Add Bank Card - Circle';
+  static const circleContinueDetails = 'Continue with Card Details';
+  static const circleContinueAddress = 'Continue with Billing Address';
+  static const circleCVVView = 'CVV Sheet view';
+  static const circleCloseCVV = 'Close CVV Sheet ';
+  static const circleRedirect = 'Redirect to 3D-S';
+  static const circleSuccess = 'Success Page';
+  static const circleFailed = 'Card Failed Screen View';
+  static const circleAdd = 'Click Add Bank Card after Fail';
+  static const circleCancel = 'Click Cancel after Fail';
 
   /// Quick actions
   /// User taps on "Buy" in Quick Actions

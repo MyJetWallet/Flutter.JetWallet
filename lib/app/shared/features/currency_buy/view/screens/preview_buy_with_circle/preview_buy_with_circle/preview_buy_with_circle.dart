@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../shared/services/remote_config_service/remote_config_values.dart';
+import '../../../../../../helpers/format_currency_string_amount.dart';
 import '../../../../../../helpers/formatting/base/volume_format.dart';
 import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../model/preview_buy_with_circle_input.dart';
@@ -143,7 +145,19 @@ class PreviewBuyWithCircle extends HookWidget {
               SPrimaryButton2(
                 active: !state.loader.value,
                 name: intl.previewBuyWithAsset_confirm,
-                onTap: () => notifier.onConfirm(),
+                onTap: () {
+                  sAnalytics.tapConfirmBuy(
+                    assetName: input.currency.description,
+                    paymentMethod: 'circleCard',
+                    amount: formatCurrencyStringAmount(
+                      prefix: baseCurrency.prefix,
+                      value: input.amount,
+                      symbol: baseCurrency.symbol,
+                    ),
+                    frequency: RecurringFrequency.oneTime,
+                  );
+                  notifier.onConfirm();
+                },
               ),
               const SpaceH24(),
             ],

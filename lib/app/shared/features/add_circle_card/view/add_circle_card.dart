@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/circle_card.dart';
 
@@ -154,6 +155,7 @@ class AddCircleCard extends HookWidget {
                   active: state.isCardDetailsValid,
                   name: intl.addCircleCard_continue,
                   onTap: () async {
+                    sAnalytics.circleContinueDetails();
                     CircleBillingAddress.push(
                       context: context,
                       onCardAdded: onCardAdded,
