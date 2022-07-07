@@ -554,6 +554,10 @@ class SimpleAnalytics {
     );
   }
 
+  void sendConfirmSend() {
+    _analytics.logEvent(EventType.sendConfirmSend);
+  }
+
   // [START] Recurring buy ->
   // Possible source values for "Setup recurring buy" sheet:
   // 1. Wallet details

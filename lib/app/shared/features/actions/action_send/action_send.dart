@@ -67,6 +67,7 @@ class _ActionSend extends HookWidget {
                 amount: currency.volumeBaseBalance(baseCurrency),
                 secondaryText: currency.volumeAssetBalance,
                 onTap: () {
+                  sAnalytics.sendToView();
                   showSendOptions(context, currency);
                 },
               ),

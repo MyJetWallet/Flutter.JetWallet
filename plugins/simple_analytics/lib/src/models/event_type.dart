@@ -118,6 +118,7 @@ class EventType {
   static const sendTapPreview = 'Tap on Preview Send';
   static const sendConfirm = 'Tap on Confirm Send';
   static const sendSuccess = 'Success Page - Send';
+  static const sendConfirmSend = 'Phone 2FA Confirmation View';
 
   /// User taps on "Buy from card" in Quick Actions
   static const tapOnBuyFromCard = 'Tap on buy from card';
