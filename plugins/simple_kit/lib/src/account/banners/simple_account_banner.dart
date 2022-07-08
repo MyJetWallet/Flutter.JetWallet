@@ -25,7 +25,7 @@ class SimpleAccountBanner extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.only(top: 20, left: 20, bottom: 24),
+        padding: const EdgeInsets.only(top: 20, left: 20, bottom: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: color,
@@ -77,10 +77,12 @@ class SimpleAccountBanner extends StatelessWidget {
                       maxLines: 4,
                       strutStyle: StrutStyle(
                         fontSize: sBodyText2Style.fontSize,
-                        fontFamily: 'Gilroy',
+                        height: 0.9,
+                        fontFamily: sBodyText2Style.fontFamily,
                       ),
                       style: sBodyText1Style.copyWith(
                         color: SColorsLight().grey1,
+                        height: 1.2,
                       ),
                     ),
                   )
