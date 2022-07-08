@@ -51,9 +51,9 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
 
     _slides = [
       intl.onboarding_simpleApp,
-      intl.onboarding_dontJustBuy,
-      intl.onboarding_tradeTwenty,
-      intl.onboarding_inviteFriends,
+      intl.onboarding_buy_crypto,
+      intl.onboarding_free_worldwide_transfers,
+      intl.onboarding_exchange_any_crypto,
     ];
 
 
