@@ -33,32 +33,28 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
 
   Future<void> _initState() async {
     if (permission.permissionStatus == PermissionStatus.granted) {
-      final contacts = await ContactsService.getContacts();
-
-      final parsedContacts = <ContactModel>[];
-
+      final contacts = await ContactsService.getContacts(withThumbnails: false);
+      final parsedContacts = <ContactModel>{};
       for (final contact in contacts) {
-        if (contact.phones != null) {
-          if (contact.phones!.isNotEmpty) {
-            for (final phoneNumber in contact.phones!) {
-              if (phoneNumber.value != null) {
-                if (await isInternationalPhoneNumberValid(phoneNumber.value!)) {
-                  parsedContacts.add(
-                    ContactModel(
-                      name: contact.displayName ?? phoneNumber.value!,
-                      phoneNumber: phoneNumber.value!,
-                    ),
-                  );
-                }
+        if (contact.phones!.isNotEmpty) {
+          for (final phoneNumber in contact.phones!) {
+            if (phoneNumber.value != null) {
+              if (await isInternationalPhoneNumberValid(phoneNumber.value!)) {
+                parsedContacts.add(
+                  ContactModel(
+                    name: contact.displayName ?? phoneNumber.value!,
+                    phoneNumber: phoneNumber.value!.replaceAll(' ', ''),
+                  ),
+                );
               }
             }
           }
         }
       }
-
+      final result = parsedContacts.toList();
       state = state.copyWith(
-        contacts: parsedContacts,
-        sortedContacts: parsedContacts,
+        contacts: result,
+        sortedContacts: result,
       );
     }
   }
