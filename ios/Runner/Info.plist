@@ -92,5 +92,18 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb345814027560448</string>
+      </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>345814027560448</string>
+    <key>FacebookDisplayName</key>
+    <string>Simple iOS</string>
 </dict>
 </plist>
