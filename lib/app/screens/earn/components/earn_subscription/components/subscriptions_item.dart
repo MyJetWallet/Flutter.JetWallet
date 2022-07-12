@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
@@ -57,6 +58,10 @@ class SubscriptionsItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
+            sAnalytics.earnSelectOffer(
+              assetName: currency.description,
+              offerType: earnOffer.term,
+            );
             if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
               sShowEarnTermsAlertPopup(
                 context,

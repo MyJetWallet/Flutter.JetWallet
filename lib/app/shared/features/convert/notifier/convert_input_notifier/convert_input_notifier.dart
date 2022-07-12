@@ -50,6 +50,10 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     state = state.copyWith(inputError: error);
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   /// ConversionPrice can be null if request to API failed
   void updateConversionPrice(Decimal? price) {
     _logger.log(notifier, 'updateConversionPrice');

@@ -12,6 +12,7 @@ class SendByPhoneAmountState with _$SendByPhoneAmountState {
   const factory SendByPhoneAmountState({
     BaseCurrencyModel? baseCurrency,
     SKeyboardPreset? selectedPreset,
+    String? tappedPreset,
     ContactModel? pickedContact,
     @Default('0') String amount,
     @Default('0') String baseConversionValue,

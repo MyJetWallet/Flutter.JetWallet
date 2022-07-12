@@ -60,6 +60,10 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     );
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 

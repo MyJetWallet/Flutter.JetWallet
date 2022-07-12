@@ -4,11 +4,8 @@ import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
-import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../../../shared/logging/levels.dart';
-import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/calculate_base_balance.dart';
 import '../../../../helpers/currencies_helpers.dart';
 import '../../../../helpers/input_helpers.dart';
@@ -26,7 +23,7 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     _initCurrencies();
     _initBaseCurrency();
     updateSelectedCurrency(input.currency);
-    calculateEarnOfferApy();
+    initBaseData();
   }
 
   final Reader read;
@@ -49,62 +46,19 @@ class ReturnToWalletNotifier extends StateNotifier<ReturnToWalletState> {
     );
   }
 
-  Future<void> calculateEarnOfferApy() async {
-    _logger.log(notifier, 'calculateEarnOfferApy');
-
-    final model = CalculateEarnOfferApyRequestModel(
+  Future<void> initBaseData() async {
+    _logger.log(notifier, 'initBaseData');
+    state = state.copyWith(
       offerId: input.earnOffer.offerId,
-      assetSymbol: state.baseCurrency?.symbol ?? 'USD',
-      amount: Decimal.parse(
-          state.inputValue == '0'
-              ? '0.0000000001'
-              : state.inputValue,
-      ),
+      amount: input.earnOffer.amount,
+      apy: input.earnOffer.currentApy,
+      currentApy: input.earnOffer.currentApy,
+      currentBalance: input.earnOffer.amount,
     );
+  }
 
-    try {
-      final response = await read(highYieldServicePod).calculateEarnOfferApy(
-        model,
-        read(intlPod).localeName,
-      );
-
-      state = state.copyWith(
-        offerId: response.offerId ?? '',
-        tiers: response.tiers ?? [],
-        amount: response.amount,
-        apy: response.apy,
-        currentApy: response.currentApy,
-        currentBalance: response.currentBalance,
-        expectedYearlyProfit: response.expectedYearlyProfit,
-        expectedYearlyProfitBaseAsset: response.expectedYearlyProfitBaseAsset,
-        amountTooLarge: response.amountTooLarge,
-        maxSubscribeAmount: response.maxSubscribeAmount,
-        amountTooLow: response.amountTooLow,
-        minSubscribeAmount: response.minSubscribeAmount,
-      );
-
-      if (Decimal.parse(state.inputValue) > Decimal.zero) {
-        if (response.amountTooLarge) {
-          _updateInputError(InputError.amountTooLarge);
-        } else if (response.amountTooLow) {
-          _updateInputError(InputError.amountTooLow);
-        }
-      }
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, 'calculateEarnOfferApy', error.cause);
-
-      read(sNotificationNotipod.notifier).showError(
-        error.cause,
-        id: 1,
-      );
-    } catch (error) {
-      _logger.log(stateFlow, 'calculateEarnOfferApy', error);
-
-      read(sNotificationNotipod.notifier).showError(
-        error.toString(),
-        id: 1,
-      );
-    }
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
   }
 
   void updateSelectedCurrency(CurrencyModel? currency) {

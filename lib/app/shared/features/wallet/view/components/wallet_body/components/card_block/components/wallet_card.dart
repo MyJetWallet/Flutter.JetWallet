@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../shared/providers/service_providers.dart';
@@ -126,15 +127,26 @@ class WalletCard extends HookWidget {
                     );
                   } else {
                     if (filteredActiveEarnOffers.isEmpty) {
+                      sAnalytics.earnTapAvailable(
+                        assetName: currency.description,
+                      );
                       showSubscriptionBottomSheet(
                         context: context,
                         offers: filteredEarnOffers,
                         currency: currency,
                       );
                     } else if (filteredActiveEarnOffers.length == 1) {
+                      sAnalytics.earnTapActive(
+                        assetName: currency.description,
+                        amount: filteredActiveEarnOffers[0].amount.toString(),
+                        apy: filteredActiveEarnOffers[0].currentApy.toString(),
+                        term: filteredActiveEarnOffers[0].term,
+                        offerId: filteredActiveEarnOffers[0].offerId,
+                      );
                       showEarnOfferDetails(
                         context: context,
                         earnOffer: filteredActiveEarnOffers[0],
+                        assetName: currency.description,
                       );
                     } else {
                       navigation.state = 2;

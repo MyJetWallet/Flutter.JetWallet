@@ -38,7 +38,9 @@ class ActionBottomSheetHeader extends HookWidget {
               const Spacer(),
               if (!showSearch)
                 SIconButton(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   defaultIcon: const SEraseIcon(),
                   pressedIcon: const SErasePressedIcon(),
                 ),
