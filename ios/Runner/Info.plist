@@ -119,5 +119,7 @@
     <string>Simple iOS</string>
     <key>FacebookAutoLogAppEventsEnabled</key>
     <true/>
+    <key>FacebookClientToken</key>
+    		<string>030e78eed767bb317d750d54ed8adab9</string>
 </dict>
 </plist>
