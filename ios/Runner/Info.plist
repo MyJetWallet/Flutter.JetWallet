@@ -38,6 +38,18 @@
 				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			</array>
 		</dict>
+		<array>
+        			<dict>
+        				<key>CFBundleURLSchemes</key>
+        				<array>
+        					<string>fb345814027560448</string>
+        				</array>
+        			</dict>
+        		</array>
+        		<string>FacebookAppID</string>
+        		<string>345814027560448</string>
+        		<string>FacebookDisplayName</string>
+        		<string>Simple iOS</string>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -105,5 +117,9 @@
     <string>345814027560448</string>
     <key>FacebookDisplayName</key>
     <string>Simple iOS</string>
+    <key>FacebookAutoLogAppEventsEnabled</key>
+    <true/>
+    <key>FacebookClientToken</key>
+    		<string>030e78eed767bb317d750d54ed8adab9</string>
 </dict>
 </plist>
