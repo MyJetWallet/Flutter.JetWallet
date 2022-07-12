@@ -10,8 +10,6 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		31B5F653267244BF00553BAF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31B5F652267244BF00553BAF /* GoogleService-Info.plist */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		593B569A287D9E150050FDD0 /* facebook_app_events.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 593B5699287D9E150050FDD0 /* facebook_app_events.framework */; };
-		593B569B287D9E150050FDD0 /* facebook_app_events.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 593B5699287D9E150050FDD0 /* facebook_app_events.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6B4F1B5CFF1FA9319F3220FF /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE92868D8AC059569680165 /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		8A24A518283BE42700935F05 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A24A51A283BE42700935F05 /* InfoPlist.strings */; };
@@ -25,20 +23,6 @@
 		FBC63ADC278D58260059201C /* Debug-stage.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FBC63ADB278D58260059201C /* Debug-stage.xcconfig */; };
 		FBC63ADE278D58340059201C /* Release-stage.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FBC63ADD278D58340059201C /* Release-stage.xcconfig */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				593B569B287D9E150050FDD0 /* facebook_app_events.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0467BE17F9236E304C10C7F3 /* Pods-Runner.release-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"; sourceTree = "<group>"; };
@@ -80,7 +64,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B4F1B5CFF1FA9319F3220FF /* Pods_Runner.framework in Frameworks */,
-				593B569A287D9E150050FDD0 /* facebook_app_events.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +159,6 @@
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
-				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				FB3525C12803BBC10030532D /* Crashlitics Script */,
 				FBFF70F521890D21EE98D7F9 /* [CP] Embed Pods Frameworks */,
