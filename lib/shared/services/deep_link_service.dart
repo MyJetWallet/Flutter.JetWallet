@@ -130,10 +130,10 @@ class DeepLinkService {
   }
 
   void _highYieldStartCommand() {
-    navigatorPush(
-      read(sNavigatorKeyPod).currentContext!,
-      const Earn(),
-    );
+    final ctx = read(sNavigatorKeyPod).currentContext!;
+    final navigation = read(navigationStpod);
+    navigation.state = 2;
+    Navigator.pop(ctx);
   }
 
   void _recurringBuyStartCommand() {
