@@ -10,6 +10,8 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		31B5F653267244BF00553BAF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31B5F652267244BF00553BAF /* GoogleService-Info.plist */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		593B569A287D9E150050FDD0 /* facebook_app_events.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 593B5699287D9E150050FDD0 /* facebook_app_events.framework */; };
+		593B569B287D9E150050FDD0 /* facebook_app_events.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 593B5699287D9E150050FDD0 /* facebook_app_events.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6B4F1B5CFF1FA9319F3220FF /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE92868D8AC059569680165 /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		8A24A518283BE42700935F05 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A24A51A283BE42700935F05 /* InfoPlist.strings */; };
@@ -31,6 +33,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				593B569B287D9E150050FDD0 /* facebook_app_events.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +49,7 @@
 		31B18285266FDEE100492B73 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		31B5F652267244BF00553BAF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		593B5699287D9E150050FDD0 /* facebook_app_events.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = facebook_app_events.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BE92868D8AC059569680165 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		624739785F98DAD95DA87692 /* Pods-Runner.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B4F1B5CFF1FA9319F3220FF /* Pods_Runner.framework in Frameworks */,
+				593B569A287D9E150050FDD0 /* facebook_app_events.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +106,7 @@
 		539820E5698085482ACD5E5C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				593B5699287D9E150050FDD0 /* facebook_app_events.framework */,
 				5BE92868D8AC059569680165 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
