@@ -5,7 +5,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../app/screens/earn/earn.dart';
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
 import '../../app/screens/portfolio/view/components/empty_apy_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
