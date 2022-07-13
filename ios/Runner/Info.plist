@@ -36,20 +36,9 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+				 <string>fb345814027560448</string>
 			</array>
 		</dict>
-		<array>
-        			<dict>
-        				<key>CFBundleURLSchemes</key>
-        				<array>
-        					<string>fb345814027560448</string>
-        				</array>
-        			</dict>
-        		</array>
-        		<string>FacebookAppID</string>
-        		<string>345814027560448</string>
-        		<string>FacebookDisplayName</string>
-        		<string>Simple iOS</string>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -104,22 +93,11 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb345814027560448</string>
-      </array>
-      </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>345814027560448</string>
-    <key>FacebookDisplayName</key>
-    <string>Simple iOS</string>
-    <key>FacebookAutoLogAppEventsEnabled</key>
-    <true/>
-    <key>FacebookClientToken</key>
-    		<string>030e78eed767bb317d750d54ed8adab9</string>
+	<key>FacebookAppID</key>
+        <string>345814027560448</string>
+        <key>FacebookDisplayName</key>
+        <string>Simple iOS</string>
+        <key>FacebookAutoLogAppEventsEnabled</key>
+        <true/>
 </dict>
 </plist>
