@@ -21,8 +21,6 @@
         android:fullBackupContent="false"
         tools:replace="android:fullBackupContent">
         <meta-data android:name="com.facebook.sdk.ApplicationId"  android:value="@string/facebook_app_id"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="cdbf603a8431c37751eb7a64f4df2804"/>
-
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

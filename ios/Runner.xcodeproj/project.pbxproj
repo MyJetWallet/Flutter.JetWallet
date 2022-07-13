@@ -420,6 +420,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -558,6 +561,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -584,6 +590,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -667,6 +676,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -748,6 +760,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS";
+				FACEBOOK_ID = 345814027560448;
+				FACEBOOK_URL_SCHEMA = fb345814027560448;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -826,6 +841,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -909,6 +927,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -990,6 +1011,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1068,6 +1092,9 @@
 				DEVELOPMENT_TEAM = DV7K3P4F5L;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				FACEBOOK_DISPLAY_NAME = "Simple iOS - Test1";
+				FACEBOOK_ID = 370892708519877;
+				FACEBOOK_URL_SCHEMA = fb370892708519877;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
