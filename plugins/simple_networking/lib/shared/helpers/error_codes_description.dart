@@ -19,6 +19,14 @@ final errorCodesDescriptionEn = {
   'NotSupported':
       'There was a problem loading wallet address. Try again in a moment.',
   'PaymentFailed': 'Payment failed. Please try again later or contact support.',
+  'CannotExecuteQuoteRequest': 'Cannot execute quote request.',
+  'InvalidAccountNumber': 'Invalid account number.',
+  'InvalidRoutingNumber': 'Invalid routing number.',
+  'InvalidIban': 'Invalid IBAN.',
+  'BankAccountNotFound': 'Bank account not found.',
+  'ExistingRequestId': 'Existing request ID.',
+  'OperationBlocked': 'Operation blocked.',
+  'DisclaimerConfirmRequired': 'Disclaimer confirm required.',
 
   //Auth
   'InvalidUserNameOrPassword': 'Invalid login or password',
