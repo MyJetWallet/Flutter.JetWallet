@@ -1,31 +1,66 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:logging/logging.dart';
+import 'dart:async';
+import 'dart:isolate';
 
-import 'core/app/app.dart';
-import 'core/app/app_builder.dart';
-import 'core/app/app_initialization.dart';
-import 'shared/logging/debug_logging.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:jetwallet/features/app/app.dart';
+import 'package:jetwallet/features/app/app_initialization.dart';
+import 'package:logging/logging.dart';
+import 'package:mobx/mobx.dart';
 
 Future<void> main() async {
-  await appInitialization();
+  mainContext.onReactionError((_, rxn) {
+    //log.error('A mobx reaction error occured.',error: rxn.errorValue!.exception,);
+  });
 
-  Logger.root.onRecord.listen((record) => debugLogging(record));
+  await appInitialization(Environment.dev);
 
-  runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) {
-        return App(
-          debugShowCheckedModeBanner: false,
-          builder: (context, child) {
-            child = DevicePreview.appBuilder(context, child);
-            child = AppBuilder(child);
-            return child;
-          },
-          locale: DevicePreview.locale(context),
-        );
-      },
-    ),
+  runZonedGuarded(() => runApp(const AppScreen()), (error, stackTrace) {
+    Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
+
+  Isolate.current.addErrorListener(
+    RawReceivePort((pair) async {
+      final errorAndStacktrace = pair as List;
+
+      /*
+      log.error(
+        'An error was captured by main.Isolate.current.addErrorListener',
+        error: errorAndStacktrace.first,
+      );
+      */
+    }).sendPort,
   );
 }
+
+/* List of features
+- Auth
+  - onboarding
+  - email_verification
+  - forgot_password
+  - login
+  - register
+  - reset_password
+  - splash
+- Market
+  - Asset
+- Portfolio
+  - Wallets
+- News
+- Earn
+- Profile
+  - Profile details
+  - Security
+  - About us
+  - Support
+- Action
+  - Buy
+  - Deposit
+  - Receive
+  - Sell
+  - Send
+  - Withdraw
+  - Recurring buy
+*/

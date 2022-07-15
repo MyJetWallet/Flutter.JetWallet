@@ -32,16 +32,26 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
-        applicationId "dev.app.simple.com"
+        applicationId "stage.app.simple.com"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -71,7 +81,7 @@ android {
     }
 
     flavorDimensions "app"
-    productFlavors { 
+    productFlavors {
         prod {
             dimension "app"
             applicationId "app.simple.com"
@@ -79,7 +89,7 @@ android {
         stage {
             dimension "app"
             applicationId "stage.app.simple.com"
-        }        
+        }
         dev {
             dimension "app"
             applicationId "dev.app.simple.com"
@@ -90,7 +100,7 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            useProguard true
+            // useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
         debug {
