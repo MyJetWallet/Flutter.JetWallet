@@ -111,9 +111,9 @@ class PreviewBuyWithCircle extends HookWidget {
                 name: intl.previewBuyWithCircle_rate,
                 contentLoading: state.loader.value,
                 value: '≈ ${volumeFormat(
-                  prefix: input.currency.prefixSymbol,
-                  symbol: input.currency.symbol,
-                  accuracy: input.currency.accuracy,
+                  prefix: baseCurrency.prefix,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
                   decimal: state.rate ?? Decimal.zero,
                 )}',
               ),

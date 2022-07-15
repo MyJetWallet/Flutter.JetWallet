@@ -27,6 +27,7 @@ final errorCodesDescriptionEn = {
   'ExistingRequestId': 'Existing request ID.',
   'OperationBlocked': 'Operation blocked.',
   'DisclaimerConfirmRequired': 'Disclaimer confirm required.',
+  'BadRequest': 'Bad request',
 
   //Auth
   'InvalidUserNameOrPassword': 'Invalid login or password',

@@ -130,7 +130,7 @@ class PreviewBuyWithCircleNotifier
     state.loader.startLoadingImmediately();
 
     await _requestPayment(() async {
-      await _requestPaymentInfo((url) {
+      await _requestPaymentInfo((url, onSuccess, paymentId) {
         if (!mounted) return;
         sAnalytics.circleRedirect();
         navigatorPush(
@@ -139,10 +139,12 @@ class PreviewBuyWithCircleNotifier
             url,
             input.amount,
             state.currencySymbol,
+            onSuccess,
+            paymentId,
           ),
         );
         state.loader.finishLoadingImmediately();
-      });
+      }, '',);
     });
   }
 
@@ -189,7 +191,10 @@ class PreviewBuyWithCircleNotifier
     }
   }
 
-  Future<void> _requestPaymentInfo(Function(String) onAction) async {
+  Future<void> _requestPaymentInfo(
+      Function(String, Function(String, String), String) onAction,
+      String lastAction,
+    ) async {
     _logger.log(notifier, '_requestPaymentInfo');
     try {
       final model = CardBuyInfoRequestModel(
@@ -209,9 +214,11 @@ class PreviewBuyWithCircleNotifier
       final actionRequired =
           response.status == CardBuyPaymentStatus.requireAction;
 
-      if (pending) {
+      if (pending ||
+          (actionRequired && lastAction == response.clientAction!.checkoutUrl)
+      ) {
         await Future.delayed(const Duration(seconds: 5));
-        await _requestPaymentInfo(onAction);
+        await _requestPaymentInfo(onAction, lastAction);
       } else if (complete) {
         sAnalytics.circleSuccess(
           asset: input.currency.description,
@@ -222,7 +229,16 @@ class PreviewBuyWithCircleNotifier
       } else if (failed) {
         throw Exception();
       } else if (actionRequired) {
-        onAction(response.clientAction!.checkoutUrl ?? '');
+        onAction(
+          response.clientAction!.checkoutUrl ?? '',
+          (payment, lastAction) {
+            Navigator.pop(_context);
+            state.copyWith(paymentId: payment);
+            state.loader.startLoadingImmediately();
+            _requestPaymentInfo(onAction, lastAction);
+          },
+          state.paymentId,
+        );
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, '_requestPaymentInfo', error.cause);
@@ -236,6 +252,11 @@ class PreviewBuyWithCircleNotifier
   }
 
   void _showSuccessScreen() {
+    sAnalytics.circleSuccess(
+      asset: state.currencySymbol,
+      amount: input.amount,
+      frequency: RecurringFrequency.oneTime,
+    );
     return SuccessScreen.push(
       context: _context,
       secondaryText: '${_intl.buyWithCircle_paymentWillBeProcessed} \n'
