@@ -63,4 +63,3 @@ const earnEmptyStateImage = 'assets/images/earn_empty.png';
 
 // Earn Type
 const earnRipple = 'Ripple';
-
