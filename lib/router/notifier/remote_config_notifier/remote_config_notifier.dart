@@ -35,12 +35,15 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
     state = const Loading();
 
     try {
-      _startStopwatch();
+      //_startStopwatch();
 
-      await RemoteConfigService().fetchAndActivate();
+      //await RemoteConfigService().fetchAndActivate();
 
-      stopwatch.stop();
+      //stopwatch.stop();
 
+      state = const Success();
+
+      /*
       if (stopwatch.elapsedMilliseconds < _splashScreenDuration) {
         _durationTimer = Timer(
           Duration(
@@ -53,6 +56,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
       } else {
         state = const Success();
       }
+      */
     } catch (e) {
       _logger.log(stateFlow, '_fetchAndActivate', e);
 
