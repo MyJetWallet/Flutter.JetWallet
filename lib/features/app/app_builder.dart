@@ -3,6 +3,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 
 class AppBuilder extends StatelessWidget {
   const AppBuilder(this.child);
@@ -31,11 +32,18 @@ class AppBuilder extends StatelessWidget {
           );
         }
 
-        return MediaQuery(
-          data: reactiveMediaQuery.copyWith(
-            textScaleFactor: 1.0,
-          ),
-          child: child ?? const SizedBox(),
+        return FutureBuilder(
+          future: getIt.allReady(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return snapshot.hasData
+                ? MediaQuery(
+                    data: reactiveMediaQuery.copyWith(
+                      textScaleFactor: 1.0,
+                    ),
+                    child: child ?? const SizedBox(),
+                  )
+                : const SplashScreen();
+          },
         );
       },
     );

@@ -7,7 +7,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/core/services/networking/simple_networking.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/auth/register/models/referral_code_link_union.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/loggind.dart';

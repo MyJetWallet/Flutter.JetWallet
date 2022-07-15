@@ -29,7 +29,7 @@ class InitGuard extends AutoRouteGuard {
             print('InitGuard: emailVerification');
 
             router.push(
-              const SplashRoute(),
+              const EmailVerificationRoute(),
             );
           },
           twoFaVerification: () {

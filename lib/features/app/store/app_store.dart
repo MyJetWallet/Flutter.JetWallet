@@ -2,17 +2,17 @@ import 'dart:async';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/apps_flyer_service.dart';
-import 'package:jetwallet/core/services/authentication/authentication_service.dart';
-import 'package:jetwallet/core/services/authentication/models/authorization_union.dart';
-import 'package:jetwallet/core/services/authentication/models/authorized_union.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/core/services/networking/simple_networking.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
+import 'package:jetwallet/features/app/store/models/authorization_union.dart';
+import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -24,6 +24,7 @@ part 'app_store.g.dart';
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
+  /// Variable for storing the Auth user's state. Can be: authorized/unauthorized
   @observable
   AuthorizationUnion authStatus = const AuthorizationUnion.unauthorized();
   @action
@@ -38,6 +39,9 @@ abstract class _AppStoreBase with Store {
 
     authorizedStatus = value;
   }
+
+  @observable
+  AuthInfoState authState = const AuthInfoState();
 
   @observable
   bool actionMenuActive = false;
@@ -68,6 +72,9 @@ abstract class _AppStoreBase with Store {
 
       await deviceInfo.deviceInfo();
 
+      /// Init out API client
+      await getIt.get<SNetwork>().init();
+
       unawaited(
         checkInitAppFBAnalytics(
           storageService,
@@ -92,11 +99,13 @@ abstract class _AppStoreBase with Store {
 
       authStatus = const AuthorizationUnion.unauthorized();
     } else {
-      getIt.get<AuthenticationService>().updateRefreshToken(token);
-      getIt.get<AuthenticationService>().updateEmail(parsedEmail);
+      updateAuthState(
+        refreshToken: token,
+        email: parsedEmail,
+      );
 
       /// Recreating a dio object with a token
-      getIt.get<SNetwork>().recreateDio();
+      await getIt.get<SNetwork>().recreateDio();
 
       try {
         final result = await refreshToken();
@@ -122,5 +131,32 @@ abstract class _AppStoreBase with Store {
         authStatus = const AuthorizationUnion.unauthorized();
       }
     }
+  }
+
+  @action
+  void updateAuthState({
+    String? token,
+    String? refreshToken,
+    String? email,
+    String? deleteToken,
+  }) {
+    authState = authState.copyWith(
+      token: token ?? authState.token,
+      refreshToken: refreshToken ?? authState.refreshToken,
+      email: email ?? authState.email,
+      deleteToken: deleteToken ?? authState.deleteToken,
+    );
+  }
+
+  /// Whether to show ResendButton in EmailVerification Screen at first open
+  void updateResendButton() {
+    authState = authState.copyWith(
+      showResendButton: !authState.showResendButton,
+    );
+  }
+
+  /// Resets ResendButton state to the default one
+  void resetResendButton() {
+    authState = authState.copyWith(showResendButton: true);
   }
 }

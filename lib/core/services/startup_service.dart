@@ -1,27 +1,15 @@
 import 'dart:async';
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/apps_flyer_service.dart';
-import 'package:jetwallet/core/services/authentication/authentication_service.dart';
-import 'package:jetwallet/core/services/authentication/models/authorization_union.dart';
-import 'package:jetwallet/core/services/authentication/models/authorized_union.dart';
-import 'package:jetwallet/core/services/device_info/device_info.dart';
-import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/core/services/networking/simple_networking.dart';
-import 'package:jetwallet/core/services/refresh_token_service.dart';
-import 'package:jetwallet/core/services/remote_config/models/app_config_model.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
+import 'package:jetwallet/features/app/store/models/authorization_union.dart';
+import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/utils/loggind.dart';
 import 'package:logging/logging.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 
 @lazySingleton
 class StartupService {

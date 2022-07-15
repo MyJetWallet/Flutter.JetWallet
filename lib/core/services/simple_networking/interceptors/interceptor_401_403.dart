@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/authentication/authentication_service.dart';
-import 'package:jetwallet/core/services/networking/helpers/retry_request.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
+import 'package:jetwallet/core/services/simple_networking/helpers/retry_request.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 
 Future<void> interceptor401_403({
@@ -12,7 +12,7 @@ Future<void> interceptor401_403({
   try {
     final result = await refreshToken();
 
-    final authModel = getIt.get<AuthenticationService>().authState;
+    final authModel = getIt.get<AppStore>().authState;
 
     if (result == RefreshTokenStatus.success) {
       final response = await retryRequest(

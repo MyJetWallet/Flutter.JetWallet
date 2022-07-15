@@ -11,6 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../services/simple_networking/simple_networking.dart';
 import 'di.config.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -33,15 +34,23 @@ Future<GetIt> getItInit({
   );
   */
 
-  getIt.registerSingleton<RemoteConfig>(
-    RemoteConfig(),
+  getIt.registerLazySingleton<SNetwork>(
+    () => SNetwork(),
+  );
+
+  getIt.registerSingletonAsync<RemoteConfig>(
+    () async => RemoteConfig().fetchAndActivate(),
+    dependsOn: [],
   );
 
   getIt.registerSingleton<AppStore>(
     AppStore(),
   );
 
-  getIt.registerLazySingleton<SimpleAnalytics>(() => SimpleAnalytics());
+  getIt.registerSingletonWithDependencies<SimpleAnalytics>(
+    () => SimpleAnalytics(),
+    dependsOn: [RemoteConfig],
+  );
 
   getIt.registerSingleton<AppRouter>(
     AppRouter(initGuard: InitGuard()),

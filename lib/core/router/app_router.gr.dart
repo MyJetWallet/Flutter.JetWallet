@@ -44,6 +44,18 @@ class _$AppRouter extends RootStackRouter {
       return CupertinoPageX<dynamic>(
           routeData: routeData, child: const RegisterPasswordScreen());
     },
+    EmailVerificationRoute.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+          routeData: routeData, child: const EmailVerificationScreen());
+    },
+    ForgotPasswordRoute.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+          routeData: routeData, child: const ForgotPasswordScreen());
+    },
+    ResetPasswordRoute.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+          routeData: routeData, child: const ResetPasswordScreen());
+    },
     AllowCameraRoute.name: (routeData) {
       final args = routeData.argsAs<AllowCameraRouteArgs>();
       return CupertinoPageX<dynamic>(
@@ -84,6 +96,9 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(LoginScreenRoute.name, path: '/login'),
         RouteConfig(RegisterRoute.name, path: '/register'),
         RouteConfig(RegisterPasswordRoute.name, path: '/register_password'),
+        RouteConfig(EmailVerificationRoute.name, path: '/email_verification'),
+        RouteConfig(ForgotPasswordRoute.name, path: '/forgot_password'),
+        RouteConfig(ResetPasswordRoute.name, path: '/reset_password'),
         RouteConfig(AllowCameraRoute.name, path: '/allow_camera'),
         RouteConfig(HomeRouter.name, path: '/home', guards: [
           initGuard
@@ -158,6 +173,33 @@ class RegisterPasswordRoute extends PageRouteInfo<void> {
       : super(RegisterPasswordRoute.name, path: '/register_password');
 
   static const String name = 'RegisterPasswordRoute';
+}
+
+/// generated route for
+/// [EmailVerificationScreen]
+class EmailVerificationRoute extends PageRouteInfo<void> {
+  const EmailVerificationRoute()
+      : super(EmailVerificationRoute.name, path: '/email_verification');
+
+  static const String name = 'EmailVerificationRoute';
+}
+
+/// generated route for
+/// [ForgotPasswordScreen]
+class ForgotPasswordRoute extends PageRouteInfo<void> {
+  const ForgotPasswordRoute()
+      : super(ForgotPasswordRoute.name, path: '/forgot_password');
+
+  static const String name = 'ForgotPasswordRoute';
+}
+
+/// generated route for
+/// [ResetPasswordScreen]
+class ResetPasswordRoute extends PageRouteInfo<void> {
+  const ResetPasswordRoute()
+      : super(ResetPasswordRoute.name, path: '/reset_password');
+
+  static const String name = 'ResetPasswordRoute';
 }
 
 /// generated route for

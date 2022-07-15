@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/authentication/authentication_service.dart';
-import 'package:jetwallet/core/services/authentication/models/authorization_union.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/core/services/networking/simple_networking.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -114,8 +113,6 @@ abstract class _CredentialsServiceBase with Store {
       final authService =
           getIt.get<SNetwork>().simpleNetworking.getAuthModule();
 
-      print(getIt.get<DeviceInfo>().model);
-
       if (operation == AuthOperation.login) {
         final loginRequestModel = LoginRequestModel(
           publicKey: publicKey,
@@ -162,7 +159,7 @@ abstract class _CredentialsServiceBase with Store {
           onData: (data) async {
             await successAuth(data);
 
-            getIt.get<AuthenticationService>().updateResendButton();
+            getIt.get<AppStore>().updateResendButton();
             unawaited(sAnalytics.signUpSuccess(email));
           },
           onError: (error) {
@@ -193,16 +190,16 @@ abstract class _CredentialsServiceBase with Store {
     );
     await storageService.setString(userEmailKey, email);
 
-    getIt.get<AuthenticationService>().updateToken(authModel.token);
-    getIt
-        .get<AuthenticationService>()
-        .updateRefreshToken(authModel.refreshToken);
-    getIt.get<AuthenticationService>().updateEmail(email);
+    getIt.get<AppStore>().updateAuthState(
+          token: authModel.token,
+          refreshToken: authModel.refreshToken,
+          email: email,
+        );
 
     getIt.get<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
 
     /// Recreating a dio object with a token
-    getIt.get<SNetwork>().recreateDio();
+    await getIt.get<SNetwork>().recreateDio();
 
     getIt.get<StartupService>().successfullAuthentication();
   }

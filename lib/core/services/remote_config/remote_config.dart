@@ -3,7 +3,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
-import 'package:jetwallet/core/services/networking/simple_networking.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/remote_config/models/analytics_model.dart';
 import 'package:jetwallet/core/services/remote_config/models/app_config_model.dart';
 import 'package:jetwallet/core/services/remote_config/models/apps_flyer_model.dart';
@@ -19,14 +19,9 @@ const _defaultFlavorIndex = 0;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfig {
-  factory RemoteConfig() => _service;
-  RemoteConfig._internal();
-
-  static final _service = RemoteConfig._internal()..fetchAndActivate();
-
   final _config = FirebaseRemoteConfig.instance;
 
-  Future<void> fetchAndActivate() async {
+  Future<RemoteConfig> fetchAndActivate() async {
     await _config.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(seconds: 60),
@@ -42,6 +37,8 @@ class RemoteConfig {
     overrideSimplexValues();
     overrideAppsFlyerValues();
     overrideCircleValues();
+
+    return this;
   }
 
   ConnectionFlavorsModel get connectionFlavors {
@@ -112,16 +109,14 @@ class RemoteConfig {
   void overrideApisFrom(int index) {
     final flavor = connectionFlavors.flavors[index];
 
-    getIt.get<SNetwork>().init(
-          SimpleOptions(
-            candlesApi: flavor.candlesApi,
-            authApi: flavor.authApi,
-            walletApi: flavor.walletApi,
-            walletApiSignalR: flavor.walletApiSignalR,
-            validationApi: flavor.validationApi,
-            iconApi: flavor.iconApi,
-          ),
-        );
+    getIt.get<SNetwork>().simpleOptions = SimpleOptions(
+      candlesApi: flavor.candlesApi,
+      authApi: flavor.authApi,
+      walletApi: flavor.walletApi,
+      walletApiSignalR: flavor.walletApiSignalR,
+      validationApi: flavor.validationApi,
+      iconApi: flavor.iconApi,
+    );
   }
 
   void overrideAppConfigValues() {
