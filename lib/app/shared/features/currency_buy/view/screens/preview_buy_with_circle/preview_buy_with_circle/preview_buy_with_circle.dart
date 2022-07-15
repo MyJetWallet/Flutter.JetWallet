@@ -87,7 +87,7 @@ class PreviewBuyWithCircle extends HookWidget {
                 maxValueWidth: 140,
               ),
               SActionConfirmText(
-                name: intl.previewBuyWithCircle_creditCardFee,
+                name: intl.previewBuyWithCircle_transactionFee,
                 contentLoading: state.loader.value,
                 value: volumeFormat(
                   prefix: input.currency.prefixSymbol,
@@ -104,7 +104,7 @@ class PreviewBuyWithCircle extends HookWidget {
                   prefix: input.currency.prefixSymbol,
                   symbol: input.currency.symbol,
                   accuracy: input.currency.accuracy,
-                  decimal: state.amountToGet!,
+                  decimal: state.buyAmount ?? Decimal.zero,
                 )}',
               ),
               SActionConfirmText(
@@ -114,7 +114,7 @@ class PreviewBuyWithCircle extends HookWidget {
                   prefix: input.currency.prefixSymbol,
                   symbol: input.currency.symbol,
                   accuracy: input.currency.accuracy,
-                  decimal: state.amountToGet!,
+                  decimal: state.rate ?? Decimal.zero,
                 )}',
               ),
               const SpaceH20(),

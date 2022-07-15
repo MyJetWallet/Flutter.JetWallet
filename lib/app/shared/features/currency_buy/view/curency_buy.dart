@@ -141,13 +141,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             ),
           for (final method in widget.currency.buyMethods)
             if (method.type == PaymentMethodType.simplex) ...[
-              const SpaceH20(),
               Builder(
                 builder: (context) {
                   final isSelected = state.selectedPaymentMethod?.type ==
                       PaymentMethodType.simplex;
 
                   return SActionItem(
+                    expanded: true,
                     isSelected: isSelected,
                     icon: SActionDepositIcon(
                       color: isSelected ? colors.blue : colors.black,
@@ -160,13 +160,14 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 },
               ),
             ] else if (method.type == PaymentMethodType.circleCard) ...[
-              const SpaceH20(),
               SActionItem(
                 icon: SActionDepositIcon(
                   color: colors.black,
                 ),
                 name: '${intl.currencyBuy_addBankCard} - Circle',
                 description: 'Visa, Mastercard, Apple Pay',
+                withDivider: true,
+                expanded: true,
                 onTap: () {
                   sAnalytics.circleTapAddCard();
                   AddCircleCard.pushReplacement(
