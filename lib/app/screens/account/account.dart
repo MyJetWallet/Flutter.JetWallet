@@ -76,7 +76,7 @@ class Account extends HookWidget {
                 SPaddingH24(
                   child: SimpleAccountCategoryHeader(
                     onIconTap: () {
-                      if (debugTapCounter.value >= 5) {
+                      if (debugTapCounter.value >= 3) {
                         navigatorPush(context, const LogsScreen());
                       } else {
                         debugTapCounter.value++;
