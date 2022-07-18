@@ -50,21 +50,24 @@ class _DialCodes extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(setPhoneNumberNotipod);
     final notifier = useProvider(setPhoneNumberNotipod.notifier);
-    return ListView.builder(
-        itemCount: state.sortedDialCodes.length,
-        itemBuilder: (BuildContext context, int code) {
-          return DialCodeItem(
-            dialCode: state.sortedDialCodes[code],
-            active: state.activeDialCode?.isoCode == state.sortedDialCodes[code]
-                .isoCode,
-            onTap: () {
-              sAnalytics.changeCountryCode(state.sortedDialCodes[code]
-                  .countryName,);
-              notifier.pickDialCodeFromSearch(state.sortedDialCodes[code]);
-              Navigator.pop(context);
-            },
-          );
-        },);
 
+    return ListView.builder(
+      itemCount: state.sortedDialCodes.length,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int code) {
+        return DialCodeItem(
+          dialCode: state.sortedDialCodes[code],
+          active: state.activeDialCode?.isoCode ==
+              state.sortedDialCodes[code].isoCode,
+          onTap: () {
+            sAnalytics.changeCountryCode(
+              state.sortedDialCodes[code].countryName,
+            );
+            notifier.pickDialCodeFromSearch(state.sortedDialCodes[code]);
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
   }
 }
