@@ -7,5 +7,6 @@ List<CurrencyModel> currenciesWithoutBalanceFrom(
       .where(
         (currency) => currency.isAssetBalanceEmpty && currency.noPendingDeposit,
       )
-      .toList();
+      .toList()
+    ..sort((a, b) => a.weight.compareTo(b.weight));
 }
