@@ -75,46 +75,36 @@ class CvvBottomSheetBody extends HookWidget {
             GestureDetector(
               onLongPress: () => notifier.pasteCode(),
               onDoubleTap: () => notifier.pasteCode(),
-              onTap: () {
-                focusNode.unfocus();
-                Future.delayed(const Duration(microseconds: 100), () {
-                  if (!focusNode.hasFocus) {
-                    focusNode.requestFocus();
-                  }
-                });
-              },
-              child: AbsorbPointer(
-                child: PinCodeTextField(
-                  focusNode: focusNode,
-                  length: 3,
-                  autoFocus: true,
-                  appContext: context,
-                  obscureText: true,
-                  autoDisposeControllers: false,
-                  animationType: AnimationType.fade,
-                  useExternalAutoFillGroup: true,
-                  animationDuration: const Duration(milliseconds: 300),
-                  backgroundColor: colors.white,
-                  cursorColor: colors.blue,
-                  hintCharacter: 'X',
-                  keyboardType: TextInputType.number,
-                  pinTheme: PinTheme(
-                    fieldWidth: 56.0,
-                    fieldHeight: 42.0,
-                    selectedColor: colors.white,
-                    activeColor: colors.white,
-                    inactiveColor: colors.white,
-                  ),
-                  hintStyle: sTextH2Style.copyWith(
-                    color: colors.grey4,
-                  ),
-                  textStyle: sTextH2Style.copyWith(
-                    color: colors.black,
-                    fontSize: (Platform.isIOS) ? 24 : 16,
-                  ),
-                  onChanged: (_) => {},
-                  onCompleted: onCompleted,
+              child: PinCodeTextField(
+                focusNode: focusNode,
+                length: 3,
+                autoFocus: true,
+                appContext: context,
+                obscureText: true,
+                autoDisposeControllers: false,
+                animationType: AnimationType.fade,
+                useExternalAutoFillGroup: true,
+                animationDuration: const Duration(milliseconds: 300),
+                backgroundColor: colors.white,
+                cursorColor: colors.blue,
+                hintCharacter: 'X',
+                keyboardType: TextInputType.number,
+                pinTheme: PinTheme(
+                  fieldWidth: 56.0,
+                  fieldHeight: 42.0,
+                  selectedColor: colors.white,
+                  activeColor: colors.white,
+                  inactiveColor: colors.white,
                 ),
+                hintStyle: sTextH2Style.copyWith(
+                  color: colors.grey4,
+                ),
+                textStyle: sTextH2Style.copyWith(
+                  color: colors.black,
+                  fontSize: (Platform.isIOS) ? 24 : 16,
+                ),
+                onChanged: (_) => {},
+                onCompleted: onCompleted,
               ),
             ),
           ),
