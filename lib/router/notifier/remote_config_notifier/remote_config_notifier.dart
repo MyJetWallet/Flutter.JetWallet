@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jetwallet/shared/providers/flavor_pod.dart';
-import 'package:jetwallet/shared/services/remote_config_service/model/connection_flavor_model.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_networking/shared/api_urls.dart';
 
 import '../../../shared/logging/levels.dart';
+import '../../../shared/providers/flavor_pod.dart';
 //import '../../../shared/services/remote_config_service/service/remote_config_service.dart';
 import 'remote_config_union.dart';
 
