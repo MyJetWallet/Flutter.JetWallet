@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/src/shared/components/simple_contact_icon_preview.dart';
 
 import '../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
+import 'simple_contact_icon_preview.dart';
 
 class SContactItem extends StatelessWidget {
   const SContactItem({
     Key? key,
     this.onTap,
     this.valid = true,
-    required this.isManualEnter ,
+    required this.isManualEnter,
     required this.name,
     required this.phone,
   }) : super(key: key);
@@ -41,7 +41,7 @@ class SContactItem extends StatelessWidget {
                 child: SContactIconPreview(
                   phone: phone,
                   name: name,
-                  valid:valid ,
+                  valid: valid,
                   isManualEnter: isManualEnter,
                 ),
               ),
