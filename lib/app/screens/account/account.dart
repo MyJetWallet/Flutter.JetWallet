@@ -5,6 +5,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../../core/stage/logs_screen/view/logs_screen.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
@@ -50,6 +51,8 @@ class Account extends HookWidget {
       kycAlertHandlerPod(context),
     );
 
+    final debugTapCounter = useState(0);
+
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
       onChange: (context, union) {
@@ -72,6 +75,13 @@ class Account extends HookWidget {
               children: <Widget>[
                 SPaddingH24(
                   child: SimpleAccountCategoryHeader(
+                    onIconTap: () {
+                      if (debugTapCounter.value >= 5) {
+                        navigatorPush(context, const LogsScreen());
+                      } else {
+                        debugTapCounter.value++;
+                      }
+                    },
                     userEmail: authInfo.email,
                     userFirstName: userInfo.firstName,
                     userLastName: userInfo.lastName,
