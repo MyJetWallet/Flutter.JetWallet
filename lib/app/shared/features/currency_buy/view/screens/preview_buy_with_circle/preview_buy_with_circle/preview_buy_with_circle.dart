@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,6 +24,7 @@ class PreviewBuyWithCircle extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    late Widget icon;
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
@@ -33,6 +35,12 @@ class PreviewBuyWithCircle extends HookWidget {
     final title =
         '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
         '${input.currency.description}';
+
+    if (state.isChecked) {
+      icon = const SCheckboxSelectedIcon();
+    } else {
+      icon = const SCheckboxIcon();
+    }
 
     return SPageFrameWithPadding(
       loading: state.loader,
@@ -70,18 +78,44 @@ class PreviewBuyWithCircle extends HookWidget {
               SActionConfirmText(
                 name: intl.previewBuyWithCircle_creditCardFee,
                 contentLoading: state.loader.value,
-                value: '${state.feePercentage}%',
+                value: volumeFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: state.depositFeeAmount ?? Decimal.zero,
+                  accuracy: baseCurrency.accuracy,
+                  symbol: baseCurrency.symbol,
+                ),
+                maxValueWidth: 140,
+              ),
+              SActionConfirmText(
+                name: intl.previewBuyWithCircle_transactionFee,
+                contentLoading: state.loader.value,
+                value: volumeFormat(
+                  prefix: input.currency.prefixSymbol,
+                  decimal: state.tradeFeeAmount ?? Decimal.zero,
+                  accuracy: input.currency.accuracy,
+                  symbol: input.currency.symbol,
+                ),
                 maxValueWidth: 140,
               ),
               SActionConfirmText(
                 name: intl.previewBuyWithCircle_youWillGet,
                 contentLoading: state.loader.value,
-                value: volumeFormat(
+                value: '≈ ${volumeFormat(
                   prefix: input.currency.prefixSymbol,
                   symbol: input.currency.symbol,
                   accuracy: input.currency.accuracy,
-                  decimal: state.amountToGet!,
-                ),
+                  decimal: state.buyAmount ?? Decimal.zero,
+                )}',
+              ),
+              SActionConfirmText(
+                name: intl.previewBuyWithCircle_rate,
+                contentLoading: state.loader.value,
+                value: '≈ ${volumeFormat(
+                  prefix: baseCurrency.prefix,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                  decimal: state.rate ?? Decimal.zero,
+                )}',
               ),
               const SpaceH20(),
               Text(
@@ -105,45 +139,39 @@ class PreviewBuyWithCircle extends HookWidget {
                 ),
               ),
               const SpaceH20(),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(
-                    color: colors.grey4,
-                  ),
-                ),
-                child:  Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 3,
-                        ),
-                        child: SErrorIcon(),
-                      ),
-                      const SpaceW10(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 124,
-                        child: RichText(
-                          text: TextSpan(
-                            text: '${intl.previewBuyWithCircle_disclaimer} '
-                                '$paymentDelayDays '
-                                '${intl.previewBuyWithCircle_disclaimerEnd}',
-                            style: sBodyText1Style.copyWith(
-                              color: colors.black,
-                            ),
-                          ),
-                        ),
+                      SIconButton(
+                        onTap: () {
+                          notifier.checkSetter();
+                        },
+                        defaultIcon: icon,
+                        pressedIcon: icon,
                       ),
                     ],
                   ),
-                ),
+                  const SpaceW10(),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 82,
+                    child: RichText(
+                      text: TextSpan(
+                        text: '${intl.previewBuyWithCircle_disclaimer} '
+                            '$paymentDelayDays '
+                            '${intl.previewBuyWithCircle_disclaimerEnd}',
+                        style: sCaptionTextStyle.copyWith(
+                          color: colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SpaceH16(),
               SPrimaryButton2(
-                active: !state.loader.value,
+                active: !state.loader.value && state.isChecked,
                 name: intl.previewBuyWithAsset_confirm,
                 onTap: () {
                   sAnalytics.tapConfirmBuy(

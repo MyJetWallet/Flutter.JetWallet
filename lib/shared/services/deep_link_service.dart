@@ -5,6 +5,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../app/screens/earn/earn.dart';
 import '../../app/screens/navigation/provider/navigation_stpod.dart';
 import '../../app/screens/navigation/provider/open_bottom_menu_spod.dart';
 import '../../app/screens/portfolio/view/components/empty_apy_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
@@ -57,6 +58,7 @@ const _kycVerification = 'KycVerification';
 const _tradingStart = 'TradingStart';
 const _earnLanding = 'EarnLanding';
 const _recurringBuyStart = 'RecurringBuyStart';
+const _highYield = 'HighYield';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -120,9 +122,25 @@ class DeepLinkService {
       _depositStartCommand(source);
     } else if (command == _recurringBuyStart) {
       _recurringBuyStartCommand();
+    } else if (command == _highYield) {
+      _highYieldStartCommand();
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  void _highYieldStartCommand() {
+    final ctx = read(sNavigatorKeyPod).currentContext!;
+    final navigation = read(navigationStpod);
+    navigation.state = 2;
+    Navigator.pushAndRemoveUntil(
+      ctx,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const Earn(),
+      ),
+      (route) => route.isFirst,
+    );
+    Navigator.pop(ctx);
   }
 
   void _recurringBuyStartCommand() {

@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/authentication/service/authentication_service.dart';
 import 'package:simple_networking/services/blockchain/service/blockchain_service.dart';
+import 'package:simple_networking/services/card_buy/service/card_buy_service.dart';
 import 'package:simple_networking/services/change_password/service/change_password_service.dart';
 import 'package:simple_networking/services/chart/service/chart_service.dart';
 import 'package:simple_networking/services/circle/service/circle_service.dart';
@@ -237,6 +238,15 @@ final circleServicePod = Provider<CircleService>(
     return CircleService(dio);
   },
   name: 'circleServicePod',
+);
+
+final cardBuyServicePod = Provider<CardBuyService>(
+  (ref) {
+    final dio = ref.watch(dioPod);
+
+    return CardBuyService(dio);
+  },
+  name: 'cardBuyServicePod',
 );
 
 final simplexServicePod = Provider<SimplexService>(
