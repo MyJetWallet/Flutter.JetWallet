@@ -4,11 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../shared/logging/levels.dart';
-import '../../../shared/services/remote_config_service/service/remote_config_service.dart';
+//import '../../../shared/services/remote_config_service/service/remote_config_service.dart';
 import 'remote_config_union.dart';
 
 const _retryTime = 10; // in seconds
-const _splashScreenDuration = 3000; // in milliseconds
+//const _splashScreenDuration = 3000; // in milliseconds
 
 class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
   RemoteConfigNotifier() : super(const Loading()) {
@@ -23,6 +23,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
   final stopwatch = Stopwatch();
   bool isStopwatchStarted = false;
 
+  /*
   void _startStopwatch() {
     isStopwatchStarted = true;
 
@@ -30,17 +31,21 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
       stopwatch.start();
     }
   }
+  */
 
   Future<void> _fetchAndActivate() async {
     state = const Loading();
 
     try {
-      _startStopwatch();
+      //_startStopwatch();
 
-      await RemoteConfigService().fetchAndActivate();
+      //await RemoteConfigService().fetchAndActivate();
 
-      stopwatch.stop();
+      //stopwatch.stop();
 
+      state = const Success();
+
+      /*
       if (stopwatch.elapsedMilliseconds < _splashScreenDuration) {
         _durationTimer = Timer(
           Duration(
@@ -53,6 +58,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
       } else {
         state = const Success();
       }
+      */
     } catch (e) {
       _logger.log(stateFlow, '_fetchAndActivate', e);
 
