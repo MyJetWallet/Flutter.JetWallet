@@ -35,9 +35,9 @@ void validateRejectResponse(
     Map<String, dynamic> json,
     String localName,
     ) {
-  final result = json['data']['rejectCode'] == null
+  final result = (json['data'] as Map<String, dynamic>)['rejectCode'] == null
       ? 'null'
-      : json['data']['rejectCode'] as String;
+      : (json['data'] as Map<String, dynamic>)['rejectCode'] as String;
 
   _validateRejectResponse(result);
 }
