@@ -241,7 +241,7 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
       required String depositFeeAsset,
       @DecimalSerialiser() required Decimal tradeFeeAmount,
       required String tradeFeeAsset,
-      required String cardLast4}) = _CryptoBuyInfo;
+      required String cardLast4,}) = _CryptoBuyInfo;
 
   factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) =>
       _$CryptoBuyInfoFromJson(json);
