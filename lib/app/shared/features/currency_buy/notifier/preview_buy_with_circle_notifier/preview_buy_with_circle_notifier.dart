@@ -11,11 +11,11 @@ import 'package:logging/logging.dart';
 import 'package:openpgp/openpgp.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/card_buy/model/create/card_buy_create_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/info/card_buy_info_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/info/card_buy_info_response_model.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
@@ -352,12 +352,14 @@ class PreviewBuyWithCircleNotifier
     if (!mounted) return;
     if (!state.failureShowed) {
       setFailureShowed(failureShowed: true);
+      sAnalytics.circleFailed();
       FailureScreen.push(
         context: _context,
         primaryText: intl.previewBuyWithCircle_failure,
         secondaryText: intl.previewBuyWithCircle_failureDescription,
         primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
         onPrimaryButtonTap: () {
+          sAnalytics.circleAdd();
           AddCircleCard.pushReplacement(
             context: _context,
             onCardAdded: (card) {
@@ -369,6 +371,7 @@ class PreviewBuyWithCircleNotifier
         },
         secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
         onSecondaryButtonTap: () {
+          sAnalytics.circleCancel();
           Navigator.pop(_context);
           Navigator.pop(_context);
           Navigator.pop(_context);
