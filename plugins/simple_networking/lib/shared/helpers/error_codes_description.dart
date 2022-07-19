@@ -70,7 +70,6 @@ final errorCodesDescriptionEn = {
   'PaymentFailedBalanceCheck': 'Insufficient funds',
   'CardRestricted': 'Transaction not permitted',
 
-  'InvalidAccountNumber': 'Invalid account number',
   'BankAccountIneligible': 'Bank account ineligible',
   'InvalidWireRtn': 'Invalid routing number',
   'RefIdInvalid': 'Reference id invalid',
