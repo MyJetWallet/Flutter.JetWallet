@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/features/earn/provider/earn_offers_pod.dart';
@@ -48,6 +49,7 @@ class EarnItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
+            sAnalytics.earnTapAvailable(assetName: currentCurrency.description);
             showSubscriptionBottomSheet(
               context: context,
               offers: currentOffers,

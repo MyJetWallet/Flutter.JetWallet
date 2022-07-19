@@ -119,6 +119,7 @@ class BottomNavigationMenu extends HookWidget {
           );
         },
         onSell: () {
+          sAnalytics.sellClick(source: 's Menu');
           if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
             showSellAction(context);
           } else {
@@ -132,8 +133,10 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onConvert: () {
+          sAnalytics.convertClick(source: 's Menu');
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
             Navigator.of(context).pop();
+            sAnalytics.convertPageView();
             navigatorPush(context, const Convert());
           } else {
             Navigator.of(context).pop();
@@ -174,8 +177,10 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onSend: () {
+          sAnalytics.sendClick(source: 'S Menu');
           if (kycState.withdrawalStatus ==
               kycOperationStatus(KycStatus.allowed)) {
+            sAnalytics.sendChooseAsset();
             showSendAction(context);
           } else {
             Navigator.of(context).pop();
@@ -188,6 +193,7 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onReceive: () {
+          sAnalytics.receiveClick(source: 'S Menu');
           if (kycState.withdrawalStatus ==
               kycOperationStatus(KycStatus.allowed)) {
             showReceiveAction(context);

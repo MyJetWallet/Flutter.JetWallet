@@ -71,6 +71,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     final disableSubmit = useState(false);
 
     void _showAssetSelector() {
+      sAnalytics.circleChooseMethod();
+      sAnalytics.circlePayFromView();
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
@@ -139,13 +141,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             ),
           for (final method in widget.currency.buyMethods)
             if (method.type == PaymentMethodType.simplex) ...[
-              const SpaceH20(),
               Builder(
                 builder: (context) {
                   final isSelected = state.selectedPaymentMethod?.type ==
                       PaymentMethodType.simplex;
 
                   return SActionItem(
+                    expanded: true,
                     isSelected: isSelected,
                     icon: SActionDepositIcon(
                       color: isSelected ? colors.blue : colors.black,
@@ -158,14 +160,16 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 },
               ),
             ] else if (method.type == PaymentMethodType.circleCard) ...[
-              const SpaceH20(),
               SActionItem(
                 icon: SActionDepositIcon(
                   color: colors.black,
                 ),
                 name: '${intl.currencyBuy_addBankCard} - Circle',
                 description: 'Visa, Mastercard, Apple Pay',
+                withDivider: true,
+                expanded: true,
                 onTap: () {
+                  sAnalytics.circleTapAddCard();
                   AddCircleCard.pushReplacement(
                     context: context,
                     onCardAdded: (card) {
@@ -381,6 +385,17 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     }
                   } else if (state.selectedPaymentMethod?.type ==
                       PaymentMethodType.circleCard) {
+                    sAnalytics.previewBuyView(
+                      assetName: widget.currency.description,
+                      paymentMethod: state.selectedPaymentMethod?.type.name ??
+                          intl.curencyBuy_crypto,
+                      amount: formatCurrencyStringAmount(
+                        prefix: state.selectedCurrency?.prefixSymbol,
+                        value: state.inputValue,
+                        symbol: state.selectedCurrencySymbol,
+                      ),
+                      frequency: state.recurringBuyType.toFrequency,
+                    );
                     navigatorPush(
                       context,
                       PreviewBuyWithCircle(
