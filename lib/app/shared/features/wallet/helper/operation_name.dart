@@ -43,7 +43,7 @@ String operationName(
           ? intl.operationName_topped_up
           : intl.operationName_subscribed_to_earn;
     case OperationType.cryptoInfo:
-      return '';
+      return intl.operationName_buy;
     case OperationType.earningWithdrawal:
       return intl.operationName_return_from_earn;
     case OperationType.unknown:
