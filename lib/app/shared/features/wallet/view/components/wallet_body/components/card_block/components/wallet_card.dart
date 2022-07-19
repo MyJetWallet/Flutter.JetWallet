@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../../shared/providers/service_providers.dart';
@@ -56,17 +57,18 @@ class WalletCard extends HookWidget {
       symbol: baseCurrency.symbol,
     )}';
     final isInterestRateDisabledVisible = currency.apy > Decimal.zero &&
-        !(currency.assetBalance == Decimal.zero &&
-            currency.isPendingDeposit);
+        !(currency.assetBalance == Decimal.zero && currency.isPendingDeposit);
     final earnEnabled = earnProfile.earnProfile?.earnEnabled ?? false;
     final interestRateTextSize = _textSize(
-      interestRateText,
-      sSubtitle3Style,
-    ).width + 20;
+          interestRateText,
+          sSubtitle3Style,
+        ).width +
+        20;
     final interestRateDisabledTextSize = _textSize(
-      interestRateDisabledText,
-      sSubtitle3Style,
-    ).width + 20;
+          interestRateDisabledText,
+          sSubtitle3Style,
+        ).width +
+        20;
     final isInterestRateVisible = filteredEarnOffers.isNotEmpty;
     final isInProgress =
         currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
@@ -125,15 +127,26 @@ class WalletCard extends HookWidget {
                     );
                   } else {
                     if (filteredActiveEarnOffers.isEmpty) {
+                      sAnalytics.earnTapAvailable(
+                        assetName: currency.description,
+                      );
                       showSubscriptionBottomSheet(
                         context: context,
                         offers: filteredEarnOffers,
                         currency: currency,
                       );
                     } else if (filteredActiveEarnOffers.length == 1) {
+                      sAnalytics.earnTapActive(
+                        assetName: currency.description,
+                        amount: filteredActiveEarnOffers[0].amount.toString(),
+                        apy: filteredActiveEarnOffers[0].currentApy.toString(),
+                        term: filteredActiveEarnOffers[0].term,
+                        offerId: filteredActiveEarnOffers[0].offerId,
+                      );
                       showEarnOfferDetails(
                         context: context,
                         earnOffer: filteredActiveEarnOffers[0],
+                        assetName: currency.description,
                       );
                     } else {
                       navigation.state = 2;
@@ -142,7 +155,7 @@ class WalletCard extends HookWidget {
                         MaterialPageRoute(
                           builder: (BuildContext context) => const Earn(),
                         ),
-                            (route) => route.isFirst,
+                        (route) => route.isFirst,
                       );
                       Navigator.pop(context);
                     }
@@ -206,6 +219,7 @@ class WalletCard extends HookWidget {
                 ),
               ),
             ),
+          /*
           if (!isInProgress)
             Padding(
               padding: const EdgeInsets.only(
@@ -230,6 +244,7 @@ class WalletCard extends HookWidget {
                 ),
               ),
             )
+          */
         ],
       ),
     );

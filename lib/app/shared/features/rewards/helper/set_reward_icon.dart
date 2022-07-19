@@ -10,6 +10,10 @@ Widget setRewardIcon(
   final currentIndexCondition = conditions.indexOf(condition);
   if (currentIndexCondition > 0) {
     final prevCondition = conditions[currentIndexCondition - 1];
+
+    if (prevCondition.parameters == null) {
+      return const SizedBox();
+    }
     if (prevCondition.parameters!.passed == 'false') {
       return const SizedBox();
     }
@@ -19,8 +23,10 @@ Widget setRewardIcon(
     margin: const EdgeInsets.only(right: 17.0),
     height: 24.0,
     width: 24.0,
-    child: (condition.parameters!.passed == 'true')
-        ? const SCompleteIcon()
+    child: condition.parameters != null
+        ? (condition.parameters!.passed == 'true')
+            ? const SCompleteIcon()
+            : const SBlueRightArrowIcon()
         : const SBlueRightArrowIcon(),
   );
 }

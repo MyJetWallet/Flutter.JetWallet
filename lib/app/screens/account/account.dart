@@ -122,6 +122,7 @@ class Account extends HookWidget {
                             icon: const SProfileDetailsIcon(),
                             isSDivider: true,
                             onTap: () {
+                              sAnalytics.account();
                               navigatorPush(context, const ProfileDetails());
                             },
                           ),

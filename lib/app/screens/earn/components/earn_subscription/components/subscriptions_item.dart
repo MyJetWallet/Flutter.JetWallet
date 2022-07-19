@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
@@ -16,6 +17,7 @@ import '../../../../../shared/features/kyc/model/kyc_operation_status_model.dart
 import '../../../../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../../../../shared/models/currency_model.dart';
 import '../../../../account/components/help_center_web_view.dart';
+import 'earn_terms_alert.dart';
 import 'earn_terms_checkbox.dart';
 
 class SubscriptionsItem extends HookWidget {
@@ -49,7 +51,6 @@ class SubscriptionsItem extends HookWidget {
       }
     }
 
-
     return Column(
       children: [
         InkWell(
@@ -57,9 +58,12 @@ class SubscriptionsItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
-            if (userInfo.hasHighYieldDisclaimers &&
-                !disclaimer.send) {
-              sShowAlertPopup(
+            sAnalytics.earnSelectOffer(
+              assetName: currency.description,
+              offerType: earnOffer.term,
+            );
+            if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
+              sShowEarnTermsAlertPopup(
                 context,
                 willPopScope: false,
                 image: Image.asset(
@@ -116,6 +120,7 @@ class SubscriptionsItem extends HookWidget {
                   colors: colors,
                 ),
                 onSecondaryButtonTap: () {
+                  disclaimerN.disableCheckbox();
                   Navigator.pop(context);
                 },
               );
@@ -175,9 +180,9 @@ class SubscriptionsItem extends HookWidget {
                         ),
                         if (days > 0)
                           Text(
-                            '$days ${days == 1
-                                ? intl.earn_day_remaining
-                                : intl.earn_days_remaining}',
+                            '$days ${days == 1 
+                            ? intl.earn_day_remaining 
+                            : intl.earn_days_remaining}',
                             style: sBodyText2Style.copyWith(
                               color: colors.grey2,
                             ),

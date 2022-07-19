@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
@@ -47,7 +50,7 @@ class EarnOfferDetailsBody extends HookWidget {
           ),
         ).toList();
 
-    Decimal convertBaseRateToCurrency () {
+    Decimal convertBaseRateToCurrency() {
       final converted = double.parse('${earnOffer.totalEarned}') /
           double.parse('${currentCurrency.currentPrice}');
       return Decimal.parse('$converted');
@@ -172,38 +175,42 @@ class EarnOfferDetailsBody extends HookWidget {
             children: [
               TransactionDetailsNameText(
                 text: isHot
-                  ? intl.earn_expected_profit
-                  : intl.earn_details_interest,
+                    ? intl.earn_expected_profit
+                    : intl.earn_details_interest,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    isHot ? volumeFormat(
-                      decimal: convertBaseRateToCurrency(),
-                      accuracy: currentCurrency.accuracy,
-                      symbol: currentCurrency.symbol,
-                    ) : volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: earnOffer.totalEarned,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    ),
+                    isHot
+                        ? volumeFormat(
+                            decimal: convertBaseRateToCurrency(),
+                            accuracy: currentCurrency.accuracy,
+                            symbol: currentCurrency.symbol,
+                          )
+                        : volumeFormat(
+                            prefix: baseCurrency.prefix,
+                            decimal: earnOffer.totalEarned,
+                            accuracy: baseCurrency.accuracy,
+                            symbol: baseCurrency.symbol,
+                          ),
                     style: sSubtitle3Style.copyWith(
                       color: isHot ? colors.black : colors.green,
                     ),
                   ),
                   Text(
-                    isHot ? '${intl.earn_aprox} ${volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: earnOffer.totalEarned,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    )}' : volumeFormat(
-                      decimal: convertBaseRateToCurrency(),
-                      accuracy: currentCurrency.accuracy,
-                      symbol: currentCurrency.symbol,
-                    ),
+                    isHot
+                        ? '${intl.earn_aprox} ${volumeFormat(
+                            prefix: baseCurrency.prefix,
+                            decimal: earnOffer.totalEarned,
+                            accuracy: baseCurrency.accuracy,
+                            symbol: baseCurrency.symbol,
+                          )}'
+                        : volumeFormat(
+                            decimal: convertBaseRateToCurrency(),
+                            accuracy: currentCurrency.accuracy,
+                            symbol: currentCurrency.symbol,
+                          ),
                     style: sBodyText2Style.copyWith(
                       color: colors.grey1,
                     ),
@@ -218,13 +225,21 @@ class EarnOfferDetailsBody extends HookWidget {
               active: true,
               name: intl.earn_manage,
               onTap: () {
+                sAnalytics.earnTapManage(
+                  assetName: currentCurrency.description,
+                  amount: earnOffer.amount.toString(),
+                  apy: earnOffer.currentApy.toString(),
+                  term: earnOffer.term,
+                  offerId: earnOffer.offerId,
+                );
                 showEarnDetailsManage(
                   context: context,
                   earnOffer: earnOffer,
+                  assetName: currentCurrency.description,
                 );
               },
             ),
-            const SpaceH24(),
+            if (Platform.isAndroid) const SpaceH24(),
           ],
         ],
       ),

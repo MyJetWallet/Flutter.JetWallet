@@ -12,6 +12,7 @@ class WithdrawalAmountState with _$WithdrawalAmountState {
   const factory WithdrawalAmountState({
     BaseCurrencyModel? baseCurrency,
     SKeyboardPreset? selectedPreset,
+    String? tappedPreset,
     @Default('') String tag,
     @Default('') String address,
     @Default('0') String amount,

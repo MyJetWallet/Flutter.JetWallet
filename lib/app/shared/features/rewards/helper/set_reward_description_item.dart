@@ -11,6 +11,10 @@ Widget createRewardDescriptionItem(
   double width,
   Function(String) onTap,
 ) {
+  if (condition.parameters == null) {
+    return const SizedBox();
+  }
+
   return GestureDetector(
     onTap: () {
       if (condition.parameters!.passed == 'false') {

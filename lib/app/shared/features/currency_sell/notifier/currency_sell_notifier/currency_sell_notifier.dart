@@ -41,6 +41,10 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     );
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
@@ -99,6 +103,7 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void updateTargetConversionPrice(Decimal? price) {
@@ -179,5 +184,9 @@ class CurrencySellNotifier extends StateNotifier<CurrencySellState> {
     }
 
     _updateInputError(error);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }

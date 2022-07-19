@@ -50,10 +50,10 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
     final intl = context.read(intlPod);
 
     _slides = [
-      '${intl.onboarding_simpleApp}\n${intl.onboarding_forYourFinance}',
-      '${intl.onboarding_dontJustBuy}\n${intl.onboarding_cryptoEarnIt}',
-      '${intl.onboarding_tradeTwenty}\n${intl.onboarding_topCryptoAssets}',
-      '${intl.onboarding_inviteFriends}\n${intl.onboarding_andEarnMore}',
+      intl.onboarding_simpleApp,
+      intl.onboarding_buy_crypto,
+      intl.onboarding_free_worldwide_transfers,
+      intl.onboarding_exchange_any_crypto,
     ];
 
 

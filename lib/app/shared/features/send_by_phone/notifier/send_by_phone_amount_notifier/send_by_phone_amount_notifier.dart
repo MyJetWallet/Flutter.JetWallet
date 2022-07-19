@@ -41,6 +41,7 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
     );
     _validateAmount();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void selectPercentFromBalance(SKeyboardPreset preset) {
@@ -63,6 +64,10 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
     );
     _validateAmount();
     _calculateBaseConversion();
+  }
+
+  void tapPreset(String preset) {
+    state = state.copyWith(tappedPreset: preset);
   }
 
   void _updateSelectedPreset(SKeyboardPreset preset) {
@@ -126,5 +131,9 @@ class SendByPhoneAmountNotifier extends StateNotifier<SendByPhoneAmountState> {
 
   void _updateValid(bool value) {
     state = state.copyWith(valid: value);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }

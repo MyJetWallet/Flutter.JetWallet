@@ -71,6 +71,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     final disableSubmit = useState(false);
 
     void _showAssetSelector() {
+      sAnalytics.circleChooseMethod();
+      sAnalytics.circlePayFromView();
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
@@ -141,13 +143,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             ),
           for (final method in widget.currency.buyMethods)
             if (method.type == PaymentMethodType.simplex) ...[
-              const SpaceH20(),
               Builder(
                 builder: (context) {
                   final isSelected = state.selectedPaymentMethod?.type ==
                       PaymentMethodType.simplex;
 
                   return SActionItem(
+                    expanded: true,
                     isSelected: isSelected,
                     icon: SActionDepositIcon(
                       color: isSelected ? colors.blue : colors.black,
@@ -160,14 +162,16 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 },
               ),
             ] else if (method.type == PaymentMethodType.circleCard) ...[
-              const SpaceH20(),
               SActionItem(
                 icon: SActionDepositIcon(
                   color: colors.black,
                 ),
                 name: '${intl.currencyBuy_addBankCard} - Circle',
                 description: 'Visa, Mastercard, Apple Pay',
+                withDivider: true,
+                expanded: true,
                 onTap: () {
+                  sAnalytics.circleTapAddCard();
                   AddCircleCard.pushReplacement(
                     context: context,
                     onCardAdded: (card) {
@@ -331,6 +335,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 preset3Name: state.preset3Name,
                 selectedPreset: state.selectedPreset,
                 onPresetChanged: (preset) {
+                  notifier.tapPreset(
+                      preset.index == 0
+                          ? state.preset1Name
+                          : preset.index == 1
+                          ? state.preset2Name
+                          : state.preset3Name,
+                  );
                   if (state.selectedPaymentMethod != null) {
                     notifier.selectFixedSum(preset);
                   } else {
@@ -359,6 +370,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       symbol: state.selectedCurrencySymbol,
                     ),
                     frequency: state.recurringBuyType.toFrequency,
+                    preset: state.tappedPreset,
                   );
 
                   if (state.selectedPaymentMethod?.type ==
@@ -378,6 +390,17 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     }
                   } else if (state.selectedPaymentMethod?.type ==
                       PaymentMethodType.circleCard) {
+                    sAnalytics.previewBuyView(
+                      assetName: widget.currency.description,
+                      paymentMethod: state.selectedPaymentMethod?.type.name ??
+                          intl.curencyBuy_crypto,
+                      amount: formatCurrencyStringAmount(
+                        prefix: state.selectedCurrency?.prefixSymbol,
+                        value: state.inputValue,
+                        symbol: state.selectedCurrencySymbol,
+                      ),
+                      frequency: state.recurringBuyType.toFrequency,
+                    );
                     navigatorPush(
                       context,
                       PreviewBuyWithCircle(

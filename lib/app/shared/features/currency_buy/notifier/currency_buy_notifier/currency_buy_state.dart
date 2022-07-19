@@ -23,6 +23,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     PaymentMethod? selectedPaymentMethod,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
+    String? tappedPreset,
     String? paymentMethodInputError,
     @Default(RecurringBuysType.oneTimePurchase)
         RecurringBuysType recurringBuyType,
@@ -58,7 +59,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     if (selectedPaymentMethod != null) {
       return '\$500';
     } else {
-      return '100%';
+      return 'MAX';
     }
   }
 

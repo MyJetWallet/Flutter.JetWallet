@@ -6,7 +6,7 @@ import 'remote_config_union.dart';
 final remoteConfigNotipod =
     StateNotifierProvider<RemoteConfigNotifier, RemoteConfigUnion>(
   (ref) {
-    return RemoteConfigNotifier();
+    return RemoteConfigNotifier(ref.read);
   },
   name: 'remoteConfigNotipod',
 );

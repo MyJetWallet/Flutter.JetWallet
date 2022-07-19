@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/high_yield/model/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
 import 'package:simple_networking/services/high_yield/model/earn_offer_deposit/earn_offer_deposit_request_model.dart';
@@ -104,6 +105,17 @@ class PreviewHighYieldBuyNotifier
         read(intlPod).localeName,
       );
 
+      if (input.topUp) {
+        sAnalytics.earnSuccessTopUp(
+          assetName: input.fromCurrency.description,
+          amount: input.amount,
+          offerId: input.earnOffer.offerId,
+          apy: input.apy,
+          term: input.earnOffer.term,
+        );
+      } else {
+        sAnalytics.earnSuccessPage();
+      }
       _showSuccessScreen();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'earnOfferDeposit', error.cause);

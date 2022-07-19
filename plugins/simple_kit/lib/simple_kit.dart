@@ -133,6 +133,7 @@ export 'src/icons/20x20/public/send/simple_send_icon.dart';
 export 'src/icons/20x20/public/send_by_phone/simple_send_by_phone_icon.dart';
 export 'src/icons/20x20/public/swap/simple_swap_icon.dart';
 export 'src/icons/20x20/public/withdrawal_fee/simple_withdrawal_fee_icon.dart';
+export 'src/icons/20x20/public/circle_minus/simple_circle_minus_icon.dart';
 export 'src/icons/24x24/public/about_us/simple_about_us_icon.dart';
 export 'src/icons/24x24/public/action_buy/simple_action_buy_icon.dart';
 export 'src/icons/24x24/public/action_convert/simple_action_convert_icon.dart';
