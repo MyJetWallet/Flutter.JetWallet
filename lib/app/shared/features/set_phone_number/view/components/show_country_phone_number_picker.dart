@@ -54,6 +54,7 @@ class _DialCodes extends HookWidget {
     return ListView.builder(
       itemCount: state.sortedDialCodes.length,
       shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
       itemBuilder: (BuildContext context, int code) {
         return DialCodeItem(
           dialCode: state.sortedDialCodes[code],
