@@ -25,6 +25,7 @@ import '../../shared/features/transaction_history/components/history_recurring_b
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../shared/helpers/check_kyc_status.dart';
 import '../../shared/providers/show_payment_methods_pod/show_payment_methods_pod.dart';
+import '../navigation/provider/bottom_navigation_notipod.dart';
 import 'components/account_banner_list.dart';
 import 'components/crisp.dart';
 import 'components/help_center_web_view.dart';
@@ -42,6 +43,7 @@ class Account extends HookWidget {
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
     final showPaymentMethods = useProvider(showPaymentsMethodsPod);
+    final cardFailed = useProvider(bottomNavigationNotipod);
 
     final colors = useProvider(sColorPod);
 
@@ -138,6 +140,7 @@ class Account extends HookWidget {
                                 color: colors.black,
                               ),
                               isSDivider: true,
+                              notification: cardFailed.cardNotification,
                               onTap: () => PaymentMethods.push(context),
                             ),
                           SimpleAccountCategoryButton(

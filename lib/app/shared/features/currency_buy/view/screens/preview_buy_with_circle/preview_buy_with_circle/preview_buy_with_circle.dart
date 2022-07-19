@@ -53,14 +53,23 @@ class PreviewBuyWithCircle extends HookWidget {
             },
           );
         }
-        Timer(
-          const Duration(
-            milliseconds: 1000,
-          ),
-          () {
-            notifier.setIsPending(isPending: pendingNow);
-          },
-        );
+        if (actualCard[0].status == CircleCardStatus.failed) {
+          Timer(
+            const Duration(
+              seconds: 1,
+            ),
+            () => notifier.showFailure(),
+          );
+        } else {
+          Timer(
+            const Duration(
+              milliseconds: 1000,
+            ),
+            () {
+              notifier.setIsPending(isPending: pendingNow);
+            },
+          );
+        }
       }
     }
 

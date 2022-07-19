@@ -58,7 +58,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       try {
         final response = await read(circleServicePod).allCards();
         response.cards.removeWhere((card) {
-          return isCardExpired(card.expMonth, card.expYear);
+          return isCardExpired(card.expMonth, card.expYear) ||
+              card.status == CircleCardStatus.failed;
         });
 
         if (response.cards.isNotEmpty) {

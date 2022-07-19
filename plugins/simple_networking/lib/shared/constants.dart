@@ -29,6 +29,7 @@ const cardsMessage = 'cards';
 
 // KeyValue
 const watchlistKey = 'watchlist';
+const cardsKey = 'cards';
 
 // Logging levels
 const transport = Level('🚚Transport', 1);

@@ -6,17 +6,19 @@ class NotificationBox extends StatelessWidget {
   const NotificationBox({
     Key? key,
     required this.notifications,
+    this.cardsFailed = false,
   }) : super(key: key);
 
   final int notifications;
+  final bool cardsFailed;
 
   @override
   Widget build(BuildContext context) {
-    var text = '$notifications';
+    var text = cardsFailed ? ' ! ' : '$notifications';
 
-    if (notifications >= 100) text = '99+';
+    if (notifications >= 100 && !cardsFailed) text = '99+';
 
-    if (notifications == 0) {
+    if (notifications == 0 && !cardsFailed) {
       return const SizedBox();
     } else {
       return Positioned(
@@ -39,7 +41,9 @@ class NotificationBox extends StatelessWidget {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: SColorsLight().blue,
+                  color: cardsFailed
+                    ? SColorsLight().red
+                    : SColorsLight().blue,
                   borderRadius: BorderRadius.circular(18.0),
                 ),
                 child: Padding(
