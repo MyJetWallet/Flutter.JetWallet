@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/circle/model/delete_card/delete_card_request_model.dart';
@@ -123,12 +124,14 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
   void showFailure() {
     if (!mounted) return;
     final intl = read(intlPod);
+    sAnalytics.circleFailed();
     return FailureScreen.push(
       context: _context,
       primaryText: intl.previewBuyWithCircle_failure,
       secondaryText: intl.previewBuyWithCircle_failureDescription,
       primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
       onPrimaryButtonTap: () {
+        sAnalytics.circleAdd();
         AddCircleCard.pushReplacement(
           context: _context,
           onCardAdded: (card) {
@@ -138,6 +141,7 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
       },
       secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
       onSecondaryButtonTap: () {
+        sAnalytics.circleCancel();
         Navigator.pop(_context);
       },
     );
