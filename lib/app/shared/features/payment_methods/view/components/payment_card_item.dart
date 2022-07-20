@@ -68,7 +68,9 @@ class PaymentCardItem extends HookWidget {
                               child: Text(
                                 name,
                                 style: sSubtitle2Style.copyWith(
-                                  color: isDisabled ? colors.grey2 : colors.black,
+                                  color: isDisabled
+                                      ? colors.grey2
+                                      : colors.black,
                                 ),
                               ),
                             ),
@@ -94,7 +96,9 @@ class PaymentCardItem extends HookWidget {
                                       ? intl.paymentMethod_Failed
                                       : expirationDate,
                                   style: sCaptionTextStyle.copyWith(
-                                    color: isDisabled ? colors.red : colors.grey3,
+                                    color: isDisabled
+                                        ? colors.red
+                                        : colors.grey3,
                                   ),
                                 ),
                               ),
