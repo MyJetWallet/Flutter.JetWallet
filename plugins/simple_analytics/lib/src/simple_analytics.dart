@@ -552,7 +552,7 @@ class SimpleAnalytics {
   }
 
   // <- Recurring buy [END]
-/// Push notification
+  /// Push notification
   void openPushNotification({
     required String campaignId,
   }) {
@@ -563,5 +563,4 @@ class SimpleAnalytics {
       },
     );
   }
-
 }

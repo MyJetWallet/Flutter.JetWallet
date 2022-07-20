@@ -50,9 +50,10 @@ class PushNotificationService {
   }
 
   void _onMessageOpenedApp(RemoteMessage message) {
+    sAnalytics.openPushNotification(campaignId: message.from ?? '');
+
     if (_nullChecked(message)) {
       final notification = message.notification!;
-      sAnalytics.openPushNotification(campaignId: message.from ?? '');
 
       _logger.log(
         pushNotifications,
