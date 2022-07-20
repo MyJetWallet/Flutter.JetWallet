@@ -5,6 +5,7 @@ String userAgreementLink = 'https://simple.app/terms-and-conditions';
 String privacyPolicyLink = 'https://simple.app/privacy-policy';
 String referralPolicyLink = 'https://simple.app/referral-policy';
 String refundPolicyLink = 'https://simple.app/refund-policy';
+String cardLimitsLearnMoreLink = '';
 String infoRewardsLink =
     'https://helpcenter.simple.app/en/article/when-do-i-receive-my-rewards-1rt8dyu';
 String infoEarnLink =

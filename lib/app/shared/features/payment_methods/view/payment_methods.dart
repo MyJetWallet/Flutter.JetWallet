@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'dart:developer';
 
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/is_card_expired.dart';
 import '../../add_circle_card/view/add_circle_card.dart';
+import '../../card_limits/notifier/card_limits_notipod.dart';
 import '../../kyc/model/kyc_operation_status_model.dart';
 import '../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../notifier/payment_methods_notipod.dart';
 import 'components/add_button.dart';
+import 'components/card_limit.dart';
 import 'components/payment_card_item.dart';
 
 class PaymentMethods extends HookWidget {
@@ -28,6 +31,7 @@ class PaymentMethods extends HookWidget {
     final notifier = useProvider(paymentMethodsNotipod.notifier);
     final loader = useValueNotifier(StackLoaderNotifier());
     final kycState = useProvider(kycNotipod);
+    final cardLimitsState = useProvider(cardLimitsNotipod);
     final kycHandler = useProvider(kycAlertHandlerPod(context));
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
@@ -109,15 +113,9 @@ class PaymentMethods extends HookWidget {
                     bottom: 100.0,
                   ),
                   children: [
-                    SPaddingH24(
-                      child: Text(
-                        intl.paymentMethods_savedCards,
-                        style: sSubtitle3Style.copyWith(
-                          color: colors.grey1,
-                        ),
-                      ),
-                    ),
-                    const SpaceH30(),
+                    if (cardLimitsState.cardLimits != null)
+                      CardLimit(cardLimit: cardLimitsState.cardLimits!),
+                    const SpaceH10(),
                     for (final card in state.cards)
                       PaymentCardItem(
                         name: '${card.network} •••• ${card.last4}',
