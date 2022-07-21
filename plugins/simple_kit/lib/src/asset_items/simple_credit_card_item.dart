@@ -10,6 +10,7 @@ class SCreditCardItem extends StatelessWidget {
     this.isSelected = false,
     this.divider = true,
     this.removeDivider = false,
+    this.disabled = false,
     required this.icon,
     required this.name,
     required this.amount,
@@ -21,6 +22,7 @@ class SCreditCardItem extends StatelessWidget {
   final bool isSelected;
   final bool divider;
   final bool removeDivider;
+  final bool disabled;
   final Widget icon;
   final String name;
   final String amount;
@@ -29,7 +31,11 @@ class SCreditCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mainColor = isSelected ? SColorsLight().blue : SColorsLight().black;
+    final mainColor = disabled
+        ? SColorsLight().grey2
+        : isSelected
+        ? SColorsLight().blue
+        : SColorsLight().black;
 
     return InkWell(
       highlightColor: SColorsLight().grey5,

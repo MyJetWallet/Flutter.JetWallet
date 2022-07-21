@@ -135,7 +135,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 return SCreditCardItem(
                   isSelected: state.pickedCircleCard?.id == card.id,
                   icon: SActionDepositIcon(
-                    color: state.pickedCircleCard?.id == card.id
+                    color: cardLimit.cardLimits?.barProgress == 100
+                        ? colors.grey2
+                        : state.pickedCircleCard?.id == card.id
                         ? colors.blue
                         : colors.black,
                   ),
@@ -143,7 +145,12 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   amount: formatted.last4Digits,
                   helper: formatted.expDate,
                   description: formatted.limit,
-                  onTap: () => Navigator.pop(context, card),
+                  disabled: cardLimit.cardLimits?.barProgress == 100,
+                  onTap: () {
+                    if (cardLimit.cardLimits?.barProgress != 100) {
+                      Navigator.pop(context, card);
+                    }
+                  },
                 );
               },
             ),
