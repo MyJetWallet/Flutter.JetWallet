@@ -4,5 +4,7 @@ part 'transaction_cancel_state.freezed.dart';
 
 @freezed
 class TransactionCancelState with _$TransactionCancelState {
-  const factory TransactionCancelState() = _TransactionCancelState;
+  const factory TransactionCancelState({
+    @Default(false) bool loading,
+  }) = _TransactionCancelState;
 }
