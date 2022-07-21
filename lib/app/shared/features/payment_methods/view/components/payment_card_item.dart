@@ -32,21 +32,21 @@ class PaymentCardItem extends HookWidget {
     final notifier = useProvider(paymentMethodsNotipod.notifier);
     final isDisabled = expired || status == CircleCardStatus.failed;
 
-    return Container(
-      height: 88.0,
-      padding: const EdgeInsets.only(
-        top: 24.0,
-        left: 24.0,
-        right: 24.0,
-      ),
-      child: InkWell(
-        highlightColor: colors.grey5,
-        splashColor: Colors.transparent,
-        onTap: () {
-          if (status == CircleCardStatus.failed) {
-            notifier.showFailure();
-          }
-        },
+    return InkWell(
+      highlightColor: colors.grey5,
+      splashColor: Colors.transparent,
+      onTap: () {
+        if (status == CircleCardStatus.failed) {
+          notifier.showFailure();
+        }
+      },
+      child: Container(
+        height: 88.0,
+        padding: const EdgeInsets.only(
+          top: 24.0,
+          left: 24.0,
+          right: 24.0,
+        ),
         child: Column(
           children: [
             Row(
