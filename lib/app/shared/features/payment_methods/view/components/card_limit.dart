@@ -4,11 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/card_limits_model.dart';
-import 'dart:developer';
 
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import 'card_limits_bottom_sheet.dart';
 
 class CardLimit extends HookWidget {
   const CardLimit({
@@ -78,7 +78,10 @@ class CardLimit extends HookWidget {
               const Spacer(),
               SIconButton(
                 onTap: () {
-                  log('$currentWidth');
+                  showCardLimitsBottomSheet(
+                    context: context,
+                    cardLimits: cardLimit,
+                  );
                 },
                 defaultIcon: Padding(
                   padding: const EdgeInsets.symmetric(

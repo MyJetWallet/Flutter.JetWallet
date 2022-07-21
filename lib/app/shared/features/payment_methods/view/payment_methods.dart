@@ -26,6 +26,7 @@ class PaymentMethods extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
+
     final colors = useProvider(sColorPod);
     final state = useProvider(paymentMethodsNotipod);
     final notifier = useProvider(paymentMethodsNotipod.notifier);

@@ -13,8 +13,6 @@ void showCardLimitsBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,
-    removeBottomSheetBar: true,
-    removeBarPadding: true,
     horizontalPinnedPadding: 0,
     scrollable: true,
     children: [
