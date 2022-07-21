@@ -360,7 +360,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 buttonType: SButtonType.primary2,
                 submitButtonActive: state.inputValid &&
                     !state.loader.value &&
-                    !disableSubmit.value,
+                    !disableSubmit.value &&
+                    !(state.selectedPaymentMethod?.type ==
+                        PaymentMethodType.circleCard &&
+                        cardLimit.cardLimits?.barProgress == 100),
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
                         ? intl.curencyBuy_NumericKeyboardButtonName1
