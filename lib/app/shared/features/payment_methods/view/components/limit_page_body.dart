@@ -4,13 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/card_limits_model.dart';
-import 'dart:developer';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/account/components/help_center_web_view.dart';
-import '../../../../components/info_web_view.dart';
 import '../../../../helpers/formatting/formatting.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../market_details/view/components/about_block/components/clickable_underlined_text.dart';
@@ -49,6 +47,21 @@ class LimitPageBody extends HookWidget {
         accuracy: baseCurrency.accuracy,
         onlyFullPart: true,
       )}';
+    }
+
+    String hoursLeftText() {
+      final left = cardLimit.leftHours;
+      final fullPart = left ~/ 24;
+      if (left == 1) {
+        return '1 ${intl.paymentMethodsSheet_hourLeft}';
+      } else if (fullPart == 0) {
+        return '$left ${intl.paymentMethodsSheet_hoursLeft}';
+      } else if (fullPart == 1) {
+        return '1 ${intl.paymentMethodsSheet_dayLeft}';
+      } else if (fullPart > 1) {
+        return '$fullPart ${intl.paymentMethodsSheet_daysLeft}';
+      }
+      return '1 ${intl.paymentMethodsSheet_hourLeft}';
     }
 
     return SPaddingH24(
@@ -101,7 +114,30 @@ class LimitPageBody extends HookWidget {
               ),
             ],
           ),
-          const SpaceH42(),
+          if (cardLimit.leftHours > 0) ...[
+            const SpaceH10(),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                color: colors.grey5,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 10,
+                ),
+                child: Text(
+                  hoursLeftText(),
+                  style: sCaptionTextStyle.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
+              ),
+            ),
+            const SpaceH29(),
+          ] else ...[
+            const SpaceH42(),
+          ],
           TransactionDetailsItem(
             text: intl.paymentMethodsSheet_minTransaction,
             value: TransactionDetailsValueText(
