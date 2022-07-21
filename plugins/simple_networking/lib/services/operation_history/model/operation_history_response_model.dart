@@ -28,6 +28,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     TransferByPhoneInfo? transferByPhoneInfo,
     ReceiveByPhoneInfo? receiveByPhoneInfo,
     RecurringBuyInfo? recurringBuyInfo,
+    CryptoBuyInfo? cryptoBuyInfo,
     EarnInfo? earnInfo,
     required String operationId,
     required OperationType operationType,
@@ -70,6 +71,8 @@ enum OperationType {
   earningDeposit,
   @JsonValue(15)
   earningWithdrawal,
+  @JsonValue(17)
+  cryptoInfo,
   unknown,
   buy,
   sell,
@@ -224,4 +227,23 @@ class OfferInfo with _$OfferInfo {
 
   factory OfferInfo.fromJson(Map<String, dynamic> json) =>
       _$OfferInfoFromJson(json);
+}
+
+@freezed
+class CryptoBuyInfo with _$CryptoBuyInfo {
+  const factory CryptoBuyInfo(
+      {required String paymentAssetId,
+      @DecimalSerialiser() required Decimal paymentAmount,
+      required String buyAssetId,
+      @DecimalSerialiser() required Decimal buyAmount,
+      @DecimalSerialiser() required Decimal baseRate,
+      @DecimalSerialiser() required Decimal quoteRate,
+      @DecimalSerialiser() required Decimal depositFeeAmount,
+      required String depositFeeAsset,
+      @DecimalSerialiser() required Decimal tradeFeeAmount,
+      required String tradeFeeAsset,
+      required String cardLast4,}) = _CryptoBuyInfo;
+
+  factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) =>
+      _$CryptoBuyInfoFromJson(json);
 }

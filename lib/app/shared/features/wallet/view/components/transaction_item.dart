@@ -7,6 +7,7 @@ import 'package:simple_networking/services/operation_history/model/operation_his
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../helper/is_operation_support_copy.dart';
 import '../../notifier/cancel_transaction_notifier/transaction_cancel_notipod.dart';
+import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_crypto_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_simplex_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
@@ -193,6 +194,20 @@ class TransactionItem extends HookWidget {
                     color: colors.white,
                     child: ReceiveDetails(
                       transactionListItem: transactionListItem,
+                    ),
+                  ),
+                ],
+                if (
+                  transactionListItem.operationType == OperationType.cryptoInfo
+                ) ...[
+                  Material(
+                    color: colors.white,
+                    child: BuyCryptoDetails(
+                      transactionListItem: transactionListItem,
+                      onCopyAction: (String text) {
+                        copiedText.value = text;
+                        _onCopyAction();
+                      },
                     ),
                   ),
                 ],
