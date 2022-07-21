@@ -289,7 +289,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: SActionDepositIcon(
-                      color: colors.black,
+                      color: cardLimit.cardLimits?.barProgress == 100
+                          ? colors.grey2
+                          : colors.black,
                     ),
                     name: state.selectedCircleCard!.name,
                     amount: state.selectedCircleCard!.last4Digits,

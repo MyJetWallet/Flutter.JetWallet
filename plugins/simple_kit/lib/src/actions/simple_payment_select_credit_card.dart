@@ -70,7 +70,11 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   name,
-                                  style: sSubtitle2Style,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: limit == 100
+                                      ? SColorsLight().grey2
+                                      : SColorsLight().black,
+                                  ),
                                 ),
                               ),
                               const SpaceW16(),
@@ -80,7 +84,11 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                                   child: Text(
                                     amount,
                                     textAlign: TextAlign.end,
-                                    style: sSubtitle2Style,
+                                    style: sSubtitle2Style.copyWith(
+                                      color: limit == 100
+                                          ? SColorsLight().grey2
+                                          : SColorsLight().black,
+                                    ),
                                   ),
                                 ),
                             ],
