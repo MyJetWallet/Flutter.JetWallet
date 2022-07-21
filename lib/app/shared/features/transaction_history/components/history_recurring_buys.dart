@@ -37,7 +37,7 @@ class HistoryRecurringBuys extends HookWidget {
 
     final screenHeight = MediaQuery.of(context).size.height;
 
-    analytics(() => sAnalytics.recurringBuyView);
+    analytics(() => sAnalytics.recurringBuyView());
 
     return Material(
       color: colors.white,

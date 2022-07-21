@@ -250,6 +250,10 @@ class MarketDetails extends HookWidget {
                             ),
                           );
                         },
+                        onDissmis: () => sAnalytics.closeRecurringBuySheet(
+                          currency.description,
+                          Source.marketScreen,
+                        ),
                       );
                     }
                   } else {

@@ -13,6 +13,7 @@ enum Source {
   actionButton,
   walletDetails,
   successScreen,
+  marketScreen,
 }
 
 extension SourceExtension on Source {
@@ -44,6 +45,8 @@ extension SourceExtension on Source {
        return 'Wallet details';
       case Source.successScreen:
         return 'Success screen';
+      case Source.marketScreen:
+        return 'Market screen';
     }
   }
 }

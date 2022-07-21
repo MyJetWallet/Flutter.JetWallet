@@ -57,7 +57,6 @@ class _ActionReceive extends HookWidget {
                 secondaryText: currency.symbol,
                 removeDivider: currency == state.receiveCurrencies.last,
                 onTap: () {
-                  sAnalytics.depositCryptoView(currency.description);
                   sAnalytics.receiveAssetView(asset: currency.description);
                   navigatorPushReplacement(
                     context,
