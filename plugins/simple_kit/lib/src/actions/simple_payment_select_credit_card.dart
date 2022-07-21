@@ -13,6 +13,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
     required this.name,
     required this.description,
     required this.widgetSize,
+    required this.limit,
   }) : super(key: key);
 
   final Function()? onTap;
@@ -22,16 +23,20 @@ class SPaymentSelectCreditCard extends StatelessWidget {
   final String name;
   final String description;
   final SWidgetSize widgetSize;
+  final int limit;
 
   @override
   Widget build(BuildContext context) {
+    final currentWidth = MediaQuery.of(context).size.width - 48;
+    final width = currentWidth / 100 * limit;
+
     return SPaddingH24(
       child: InkWell(
         highlightColor: SColorsLight().grey4,
         splashColor: Colors.transparent,
         borderRadius: BorderRadius.circular(16.0),
         onTap: onTap,
-        child: Ink(
+        child: Container(
           height: widgetSize == SWidgetSize.small ? 64.0 : 88.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
@@ -39,6 +44,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
               color: SColorsLight().grey4,
             ),
           ),
+          clipBehavior: Clip.hardEdge,
           child: Column(
             children: [
               // + 1 px border
@@ -112,6 +118,30 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                     ),
                   ),
                   const SpaceW19(), // 1 px border
+                ],
+              ),
+              const Spacer(),
+              Stack(
+                children: [
+                  Container(
+                    width: currentWidth,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(6)),
+                      color: SColorsLight().blueLight,
+                    ),
+                  ),
+                  Positioned(
+                    child: Container(
+                      width: width,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: limit == 100
+                            ? SColorsLight().red
+                            : SColorsLight().blue,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

@@ -17,6 +17,8 @@ import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../add_circle_card/view/add_circle_card.dart';
+import '../../card_limits/notifier/card_limits_notipod.dart';
+import '../../payment_methods/view/components/card_limit.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../helper/formatted_circle_card.dart';
 import '../model/preview_buy_with_asset_input.dart';
@@ -57,6 +59,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     final deviceSize = useProvider(deviceSizePod);
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
+    final cardLimit = useProvider(cardLimitsNotipod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
     useProvider(
@@ -79,6 +82,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
           name: intl.curencyBuy_payFrom,
         ),
         children: [
+          if (cardLimit.cardLimits != null)
+            CardLimit(
+              cardLimit: cardLimit.cardLimits!,
+              small: true,
+            ),
           for (final currency in state.currencies)
             if (currency.type == AssetType.crypto)
               SAssetItem(
@@ -287,6 +295,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     amount: state.selectedCircleCard!.last4Digits,
                     helper: state.selectedCircleCard!.limit,
                     description: state.selectedCircleCard!.expDate,
+                    limit: cardLimit.cardLimits?.barProgress ?? 0,
                     onTap: () => _showAssetSelector(),
                   )
               else if (state.selectedCurrency?.type == AssetType.crypto)

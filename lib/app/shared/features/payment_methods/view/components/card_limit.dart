@@ -14,9 +14,11 @@ class CardLimit extends HookWidget {
   const CardLimit({
     Key? key,
     required this.cardLimit,
+    this.small = false,
   }) : super(key: key);
 
   final CardLimitsModel cardLimit;
+  final bool small;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,7 @@ class CardLimit extends HookWidget {
             children: [
               Container(
                 width: currentWidth,
-                height: 12,
+                height: small ? 4 : 12,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(6)),
                   color: colors.blueLight,
@@ -106,7 +108,7 @@ class CardLimit extends HookWidget {
               Positioned(
                 child: Container(
                   width: width,
-                  height: 12,
+                  height: small ? 4 : 12,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(6),
