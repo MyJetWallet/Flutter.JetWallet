@@ -675,6 +675,7 @@
     "recurringBuysStatus_paused": "Приостановлено",
     "recurringBuysStatus_deleted": "Удалено",
     "recurringBuysStatus_empty": "Пустой",
+    "recurringBuys_recurring_pl_prefix": "",
     "recurringBuys_recurring": "повторяющийся",
     "recurringBuys_buy2": "покупать",
     "recurringBuysItem_paused": "Приостановлено",

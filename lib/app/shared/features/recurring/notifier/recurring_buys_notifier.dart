@@ -185,7 +185,8 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     }
 
     if (array.length == 1 && array.first.status == RecurringBuysStatus.active) {
-      return '${recurringBuysOperationName(
+      return '${intl.recurringBuys_recurring_pl_prefix}${
+          recurringBuysOperationName(
         array.first.scheduleType,
         context,
       )} ${intl.recurringBuys_recurring}'

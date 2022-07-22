@@ -46,7 +46,7 @@ class BalanceActionButtons extends HookWidget {
           if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
             Expanded(
               child: SPrimaryButton1(
-                name: 'Buy',
+                name: intl.balanceActionButtons_buy,
                 onTap: () {
                   if (kycState.depositStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
