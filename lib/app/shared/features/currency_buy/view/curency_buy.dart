@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/signal_r/model/card_limits_model.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
@@ -13,6 +15,7 @@ import '../../../../../shared/helpers/widget_size_from.dart';
 import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/format_currency_string_amount.dart';
+import '../../../helpers/formatting/formatting.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
@@ -72,6 +75,45 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
       ),
     );
     final disableSubmit = useState(false);
+
+    String checkLimitText() {
+      var amount = Decimal.zero;
+      var limit = Decimal.zero;
+      if (state.baseCurrency != null && cardLimit.cardLimits != null) {
+        if (cardLimit.cardLimits!.barInterval == StateBarType.day1) {
+          amount = cardLimit.cardLimits!.day1Amount;
+          limit = cardLimit.cardLimits!.day1Limit;
+        } else if (cardLimit.cardLimits!.barInterval == StateBarType.day7) {
+          amount = cardLimit.cardLimits!.day7Amount;
+          limit = cardLimit.cardLimits!.day7Limit;
+        } else {
+          amount = cardLimit.cardLimits!.day30Amount;
+          limit = cardLimit.cardLimits!.day30Limit;
+        }
+        return '${volumeFormat(
+          prefix: state.baseCurrency!.prefix,
+          decimal: amount,
+          symbol: state.baseCurrency!.symbol,
+          accuracy: state.baseCurrency!.accuracy,
+          onlyFullPart: true,
+        )} / ${volumeFormat(
+          prefix: state.baseCurrency!.prefix,
+          decimal: limit,
+          symbol: state.baseCurrency!.symbol,
+          accuracy: state.baseCurrency!.accuracy,
+          onlyFullPart: true,
+        )}';
+      }
+      return '';
+    }
+
+    final limitText = cardLimit.cardLimits != null ? '${
+        cardLimit.cardLimits!.barInterval == StateBarType.day1
+            ? intl.paymentMethods_oneDay
+            : cardLimit.cardLimits!.barInterval == StateBarType.day7
+            ? intl.paymentMethods_sevenDays
+            : intl.paymentMethods_thirtyDays
+    } ${intl.currencyBuy_limit}: ${checkLimitText()}' : '';
 
     void _showAssetSelector() {
       sAnalytics.circleChooseMethod();
@@ -302,7 +344,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     ),
                     name: state.selectedCircleCard!.name,
                     amount: state.selectedCircleCard!.last4Digits,
-                    helper: state.selectedCircleCard!.limit,
+                    helper: limitText,
                     description: state.selectedCircleCard!.expDate,
                     limit: cardLimit.cardLimits?.barProgress ?? 0,
                     onTap: () => _showAssetSelector(),
