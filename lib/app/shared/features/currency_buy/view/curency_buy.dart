@@ -91,6 +91,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   );
 
                   return SCreditCardItem(
+                    lightDivider: true,
                     isSelected: state.pickedCircleCard?.id == card.id,
                     icon: SActionDepositIcon(
                       color: state.pickedCircleCard?.id == card.id
@@ -107,7 +108,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 },
               ),
             const SpaceH10(),
-            Divider(
+            SDivider(
               color: colors.grey3,
             ),
             const SpaceH10(),
@@ -115,6 +116,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
           for (final currency in state.currencies)
             if (currency.type == AssetType.crypto)
               SAssetItem(
+                lightDivider: true,
                 isSelected: currency == state.selectedCurrency,
                 icon: SNetworkSvg24(
                   color: currency == state.selectedCurrency
@@ -127,6 +129,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   state.baseCurrency!,
                 ),
                 description: currency.volumeAssetBalance,
+                removeDivider: currency == state.currencies.last,
                 onTap: () => Navigator.pop(context, currency),
               )
             else
@@ -154,9 +157,14 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             SPaddingH24(
               child: SSecondaryButton1(
                 active: true,
-                name: intl.addButton_addBankCard,
-                icon: SActionBuyIcon(
-                  color: colors.black,
+                name: intl.currencyBuy_addPaymentMethod,
+                icon: Container(
+                  margin: const EdgeInsets.only(
+                    top: 32,
+                  ),
+                  child: SActionBuyIcon(
+                    color: colors.black,
+                  ),
                 ),
                 onTap: () {
                   showAddPaymentBottomSheet(

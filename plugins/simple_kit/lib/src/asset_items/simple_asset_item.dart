@@ -10,6 +10,7 @@ class SAssetItem extends StatelessWidget {
     this.isSelected = false,
     this.divider = true,
     this.removeDivider = false,
+    this.lightDivider = false,
     required this.icon,
     required this.name,
     required this.amount,
@@ -21,6 +22,7 @@ class SAssetItem extends StatelessWidget {
   final bool isSelected;
   final bool divider;
   final bool removeDivider;
+  final bool lightDivider;
   final Widget icon;
   final String name;
   final String amount;
@@ -128,8 +130,11 @@ class SAssetItem extends StatelessWidget {
             const Spacer(),
             if (!removeDivider)
               if (divider)
-                const SPaddingH24(
+                SPaddingH24(
                   child: SDivider(
+                    color: lightDivider
+                        ? SColorsLight().grey4
+                        : SColorsLight().grey3,
                     width: double.infinity,
                   ),
                 )
@@ -137,7 +142,9 @@ class SAssetItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: SDivider(
-                    color: SColorsLight().grey3,
+                    color: lightDivider
+                        ? SColorsLight().blue
+                        : SColorsLight().red,
                     width: double.infinity,
                   ),
                 )

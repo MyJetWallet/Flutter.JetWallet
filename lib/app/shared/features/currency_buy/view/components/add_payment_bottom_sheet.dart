@@ -42,7 +42,10 @@ void showAddPaymentBottomSheet({
                 ),
                 name: intl.curencyBuy_actionItemName,
                 description: intl.curencyBuy_actionItemDescription,
-                onTap: () => Navigator.pop(context, method),
+                onTap: () {
+                  Navigator.pop(context, method);
+                  Navigator.pop(context, method);
+                },
                 helper: '≈10-30 ${intl.min}',
               );
             },
