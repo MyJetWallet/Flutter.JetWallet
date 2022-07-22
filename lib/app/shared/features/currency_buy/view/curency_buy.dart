@@ -101,7 +101,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     name: formatted.name,
                     amount: formatted.last4Digits,
                     helper: formatted.expDate,
-                    description: formatted.limit,
+                    description: '',
                     removeDivider: card.id == state.circleCards.last.id,
                     onTap: () => Navigator.pop(context, card),
                   );
