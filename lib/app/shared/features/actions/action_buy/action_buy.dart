@@ -129,6 +129,10 @@ class _ActionBuy extends HookWidget {
               ),
             );
           },
+          onDissmis: () => sAnalytics.closeRecurringBuySheet(
+            currency.description,
+            Source.profile,
+          ),
         );
       } else {
         navigatorPushReplacement(
