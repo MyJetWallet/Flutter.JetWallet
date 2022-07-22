@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../shared/providers/service_providers.dart';
@@ -59,8 +58,7 @@ class _Contacts extends HookWidget {
             name: contact.name,
             phone: contact.phoneNumber,
             valid: contact.valid,
-            isManualEnter:
-                notifier.permission.permissionStatus == PermissionStatus.denied,
+            isManualEnter: contact.isCustomContact,
             onTap: () {
               notifier.pickNumberFromSearch(contact);
               Navigator.pop(context);
