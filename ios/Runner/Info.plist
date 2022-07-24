@@ -40,6 +40,18 @@
 			</array>
 		</dict>
 	</array>
+	<array>
+	<dict>
+	<key>CFBundleURLSchemes</key>
+	<array>
+	<string>fb$(FACEBOOK_ID)</string>
+	</array>
+	</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>$(FACEBOOK_ID)</string>
+	<key>FacebookDisplayName</key>
+	<string>$(FACEBOOK_DISPLAY_NAME)</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -93,10 +105,6 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>FacebookAppID</key>
-	<string>$(FACEBOOK_ID)</string>
-	<key>FacebookDisplayName</key>
-	<string>$(FACEBOOK_DISPLAY_NAME)</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<true/>
 </dict>

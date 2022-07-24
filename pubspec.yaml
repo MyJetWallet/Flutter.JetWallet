@@ -43,6 +43,7 @@ dependencies:
   flutter_webview_pro: ^1.0.3 # provides a WebView widget on Android and iOS
   appsflyer_sdk: ^6.5.2+2  # plugin for AppsFlyer SDK with Android and iOS support
   credit_card_validator: ^2.0.1 # Credit card validation helpers
+  facebook_app_events: ^0.16.0
 
   # RESPONSIVE UI
   device_preview: ^0.7.4
