@@ -80,7 +80,7 @@ class EmptyPortfolioBody extends HookWidget {
                 shouldPop: false,
                 fromCard: true,
                 context: context,
-                  from:Source.profile
+                  from:Source.profile,
               );
             },
           ),
