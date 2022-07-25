@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,8 +26,8 @@ class EarnBodyHeader extends HookWidget {
     return Row(
       children: [
         Flexible(
-          child: RichText(
-            text: TextSpan(
+          child:AutoSizeText.rich(
+             TextSpan(
               children: [
                 TextSpan(
                   text: '${intl.earnBodyHeader_upTo} '
@@ -44,6 +45,7 @@ class EarnBodyHeader extends HookWidget {
                 ),
               ],
             ),
+            maxLines: 2,
           ),
         ),
       ],
