@@ -1,7 +1,10 @@
 {
+    "onboarding_simpleApp": "Simple app",
+    "onboarding_buy_crypto": "Compra criptos con una tarjeta bancaria",
+    "onboarding_free_worldwide_transfers": "Transferencias gratuitas alrededor del mundo",
+    "onboarding_exchange_any_crypto": "Intercambia cualquier cripto",
     "onboarding_getStarted": "Empezar",
     "onboarding_signIn": "Iniciar sesión",
-    "onboarding_simpleApp": "Simple app",
     "onboarding_forYourFinance": "para tus finanzas",
     "onboarding_dontJustBuy": "No solo compres",
     "onboarding_cryptoEarnIt": "criptomonedas, gánalas",
