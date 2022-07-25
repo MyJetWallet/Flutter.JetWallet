@@ -15,6 +15,7 @@ enum Source {
   successScreen,
   marketScreen,
   profile,
+  banner,
 }
 
 extension SourceExtension on Source {
@@ -48,8 +49,10 @@ extension SourceExtension on Source {
         return 'Success screen';
       case Source.marketScreen:
         return 'Market screen';
-        case Source.profile:
+      case Source.profile:
         return 'Profile';
+      case Source.banner:
+        return 'Banner';
     }
   }
 }
