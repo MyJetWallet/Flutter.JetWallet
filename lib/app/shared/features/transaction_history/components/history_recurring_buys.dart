@@ -21,8 +21,8 @@ import '../../recurring/notifier/recurring_buys_notipod.dart';
 import '../../wallet/view/components/wallet_body/components/transaction_month_separator.dart';
 
 class HistoryRecurringBuys extends HookWidget {
-  const HistoryRecurringBuys({Key? key}) : super(key: key);
-
+  const HistoryRecurringBuys({Key? key,  this.from}) : super(key: key);
+  final Source? from;
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
@@ -127,7 +127,7 @@ class HistoryRecurringBuys extends HookWidget {
                           onTap: () {
                             if (kycState.sellStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {
-                              notifier.handleNavigate(context);
+                              notifier.handleNavigate(context, from);
                             } else {
                               kycAlertHandler.handle(
                                 status: kycState.sellStatus,
