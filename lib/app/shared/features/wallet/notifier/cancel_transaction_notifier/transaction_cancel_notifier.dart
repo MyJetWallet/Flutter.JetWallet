@@ -51,7 +51,7 @@ class TransactionCancelNotifier extends StateNotifier<TransactionCancelState> {
       primaryText: intl.cancel_transfer_dialog_text,
       primaryButtonName: intl.cancel_transfer_dialog_btn_gotIt,
       image: Image.asset(
-        phoneChangeAsset,
+        ellipsisAsset,
         width: 80,
         height: 80,
         package: 'simple_kit',
