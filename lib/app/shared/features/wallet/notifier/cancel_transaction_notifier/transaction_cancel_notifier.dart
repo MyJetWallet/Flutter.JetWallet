@@ -3,8 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/transfer/model/transfer_cancel/transfer_cancel_request_model.dart';
-
-import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import 'transaction_cancel_state.dart';
@@ -46,15 +44,21 @@ class TransactionCancelNotifier extends StateNotifier<TransactionCancelState> {
 
   void _showSuccessScreen() {
     final intl = read(intlPod);
-    return FailureScreen.push(
-      context: _context,
+    Navigator.pop(_context);
+    sShowAlertPopup(
+      _context,
+      willPopScope: false,
       primaryText: intl.cancel_transfer_dialog_text,
       primaryButtonName: intl.cancel_transfer_dialog_btn_gotIt,
+      image: Image.asset(
+        phoneChangeAsset,
+        width: 80,
+        height: 80,
+        package: 'simple_kit',
+      ),
       onPrimaryButtonTap: () {
         Navigator.pop(_context);
-        Navigator.pop(_context);
         Navigator.maybePop(_context);
-
       },
     );
   }

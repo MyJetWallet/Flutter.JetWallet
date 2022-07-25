@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -197,9 +198,8 @@ class TransactionItem extends HookWidget {
                     ),
                   ),
                 ],
-                if (
-                  transactionListItem.operationType == OperationType.cryptoInfo
-                ) ...[
+                if (transactionListItem.operationType ==
+                    OperationType.cryptoInfo) ...[
                   Material(
                     color: colors.white,
                     child: BuyCryptoDetails(
@@ -216,8 +216,11 @@ class TransactionItem extends HookWidget {
                       transactionListItem.transferByPhoneInfo?.transferId !=
                           null,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                    padding: EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: Platform.isAndroid ? 24 : 0,
+                    ),
                     child: SSecondaryButton1(
                       active: !cancelTransfer.loading,
                       name: intl.transactionItem_cancel_cancel,
