@@ -10,16 +10,16 @@ Future<Response> retryRequest(
   Reader read,
   String token,
 ) async {
-  final _dio = Dio();
+  final dio = Dio();
 
-  setupHeaders(_dio, read, token);
+  setupHeaders(dio, read, token);
 
   final options = Options(
     method: requestOptions.method,
     headers: requestOptions.headers,
   );
 
-  return _dio.request(
+  return dio.request(
     requestOptions.path,
     data: requestOptions.data,
     options: options,

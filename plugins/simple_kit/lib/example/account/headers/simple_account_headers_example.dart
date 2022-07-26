@@ -15,7 +15,7 @@ class SimpleAccountHeadersExample extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
+            DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
                   color: SColorsLight().black,
