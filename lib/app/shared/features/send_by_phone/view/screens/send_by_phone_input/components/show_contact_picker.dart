@@ -61,7 +61,7 @@ class _Contacts extends HookWidget {
               name: state.sortedContacts[index].name,
               phone: state.sortedContacts[index].phoneNumber,
               valid: state.sortedContacts[index].valid,
-              isManualEnter: contact.isCustomContact,
+              isManualEnter: state.sortedContacts[index].isCustomContact,
               onTap: () {
                 notifier.pickNumberFromSearch(state.sortedContacts[index]);
                 Navigator.pop(context);
