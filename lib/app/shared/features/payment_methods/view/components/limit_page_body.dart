@@ -124,7 +124,7 @@ class LimitPageBody extends HookWidget {
           ),
           if (cardLimit.leftHours > 0) ...[
             const SpaceH10(),
-            Container(
+            DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 color: colors.grey5,
