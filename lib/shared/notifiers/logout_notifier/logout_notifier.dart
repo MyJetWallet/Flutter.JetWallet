@@ -36,7 +36,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
       );
 
       _syncLogout(model);
-    } catch (e, _) {
+    } catch (e) {
       _logger.log(stateFlow, 'logout', e);
     } finally {
       await read(localStorageServicePod).clearStorage();

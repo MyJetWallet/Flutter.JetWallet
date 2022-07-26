@@ -73,7 +73,7 @@ class SHighYieldPercentageDescription extends StatelessWidget {
                   Stack(
                     children: [
                       if (error)
-                        Container(
+                        DecoratedBox(
                           decoration: BoxDecoration(
                             color: SColorsLight().grey5,
                             shape: BoxShape.circle,

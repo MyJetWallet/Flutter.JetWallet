@@ -31,7 +31,7 @@ class Register extends HookWidget {
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
-    final _controller = useScrollController();
+    final controller = useScrollController();
 
     analytics(() => sAnalytics.signUpView());
 
@@ -50,8 +50,8 @@ class Register extends HookWidget {
     }
 
     void _scrollToBottom() {
-      _controller.animateTo(
-        _controller.position.maxScrollExtent,
+      controller.animateTo(
+        controller.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
         curve: Curves.ease,
       );
@@ -65,7 +65,7 @@ class Register extends HookWidget {
         ),
       ),
       child: CustomScrollView(
-        controller: _controller,
+        controller: controller,
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
