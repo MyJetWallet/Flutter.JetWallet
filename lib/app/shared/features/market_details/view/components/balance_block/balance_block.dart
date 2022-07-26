@@ -16,6 +16,7 @@ import '../../../../transaction_history/view/transaction_hisotry.dart';
 import '../../../../wallet/helper/navigate_to_wallet.dart';
 import '../../../../wallet/notifier/operation_history_notipod.dart';
 import '../../../helper/currency_from.dart';
+import '../../../helper/swap_words.dart';
 import 'components/balance_action_buttons.dart';
 
 class BalanceBlock extends HookWidget {
@@ -40,7 +41,7 @@ class BalanceBlock extends HookWidget {
       ),
     );
     final recurringNotifier = useProvider(recurringBuysNotipod.notifier);
-
+    final languageCode = Localizations.localeOf(context).languageCode;
     return SizedBox(
       height: 156,
       child: Column(
@@ -51,7 +52,11 @@ class BalanceBlock extends HookWidget {
             icon: SNetworkSvg24(
               url: marketItem.iconUrl,
             ),
-            primaryText: '${marketItem.name} ${intl.balanceBlock_wallet}',
+            primaryText: sortWordDependingLang(
+               text: marketItem.name,
+                swappedText :intl.balanceBlock_wallet,
+                languageCode: languageCode,
+            isCapitalize: true,),
             isRecurring: recurringNotifier.activeOrPausedType(currency.symbol),
             amount: volumeFormat(
               prefix: baseCurrency.prefix,

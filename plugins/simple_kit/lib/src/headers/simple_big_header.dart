@@ -69,9 +69,11 @@ class SBigHeader extends StatelessWidget {
                 child: Baseline(
                   baseline: 56.0,
                   baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    title,
-                    style: sTextH2Style,
+                  child: FittedBox(
+                    child: Text(
+                      title,
+                      style: sTextH2Style,
+                    ),
                   ),
                 ),
               ),

@@ -116,7 +116,7 @@ class EarnActiveItem extends HookWidget {
             height: 88,
             width: double.infinity,
             color: Colors.transparent,
-            child: Container(
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 color: earnOffer.offerTag == 'Hot'

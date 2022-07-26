@@ -81,7 +81,7 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
     final size = MediaQuery.of(context).size;
 
     analytics(() => sAnalytics.kycAllowCameraView());
-
+    _sendEvent(state);
     return SPageFrameWithPadding(
       header: deviceSize.when(
         small: () {
@@ -106,6 +106,11 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
         child: SPrimaryButton2(
           active: true,
           onTap: () async {
+            if(state.permissionDenied){
+              sAnalytics.kycTapOnGoToSettings();
+            }else{
+              sAnalytics.kycTapOnEnableCamera();
+            }
             await notifier.handleCameraPermission(context);
           },
           name: state.permissionDenied
@@ -172,5 +177,13 @@ class _AllowCameraState extends State<AllowCamera> with WidgetsBindingObserver {
     } else {
       return intl.allowCamera_headerTitle2;
     }
+  }
+  void _sendEvent(CameraPermissionState state){
+    if(state.permissionDenied){
+      sAnalytics.kycGiveCameraPermission();
+    }else{
+      sAnalytics.kycAllowCamera();
+    }
+
   }
 }

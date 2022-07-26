@@ -19,6 +19,7 @@ class SShadeAnimationStack extends StatelessWidget {
         child,
         if (controller.value != 0)
           Container(
+            width: double.infinity,
             /// black54 is default system color for shading
             color: Colors.black54.withOpacity(
               (controller.value * 100).round() * 0.0054,

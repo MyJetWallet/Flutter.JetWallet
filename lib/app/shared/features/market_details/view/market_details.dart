@@ -237,6 +237,7 @@ class MarketDetails extends HookWidget {
                         );
                       }
                     } else {
+                      var dismissWasCall= false;
                       showActionWithoutRecurringBuy(
                         title: intl.recurringBuysName_empty,
                         context: context,
@@ -249,6 +250,22 @@ class MarketDetails extends HookWidget {
                               recurringBuysType: type,
                             ),
                           );
+                        },
+                        onDissmis: () => {
+                          dismissWasCall= true,
+                          sAnalytics.closeRecurringBuySheet(
+                            currency.description,
+                            Source.marketScreen,
+                          ),
+                        },
+                        then: (val) => {
+                          if (val == null && !dismissWasCall)
+                            {
+                              sAnalytics.closeRecurringBuySheet(
+                                currency.description,
+                                Source.marketScreen,
+                              ),
+                            }
                         },
                       );
                     }

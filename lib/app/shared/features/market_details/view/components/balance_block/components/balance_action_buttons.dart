@@ -46,7 +46,7 @@ class BalanceActionButtons extends HookWidget {
           if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
             Expanded(
               child: SPrimaryButton1(
-                name: 'Buy',
+                name: intl.balanceActionButtons_buy,
                 onTap: () {
                   if (kycState.depositStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
@@ -95,7 +95,6 @@ class BalanceActionButtons extends HookWidget {
                   sAnalytics.receiveClick(source: 'Market -> Asset -> Receive');
                   if (kycState.withdrawalStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
-                    sAnalytics.depositCryptoView(currency.description);
                     sAnalytics.receiveAssetView(asset: currency.description);
                     navigatorPushReplacement(
                       context,
@@ -110,7 +109,6 @@ class BalanceActionButtons extends HookWidget {
                       kycVerified: kycState,
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () {
-                        sAnalytics.depositCryptoView(currency.description);
                         sAnalytics.receiveAssetView(
                           asset: currency.description,
                         );
@@ -137,10 +135,6 @@ class BalanceActionButtons extends HookWidget {
                 onTap: () {
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
-                    sAnalytics.sellView(
-                      Source.assetScreen,
-                      currency.description,
-                    );
                     navigatorPush(
                       context,
                       CurrencySell(
@@ -153,10 +147,6 @@ class BalanceActionButtons extends HookWidget {
                       kycVerified: kycState,
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () {
-                        sAnalytics.sellView(
-                          Source.assetScreen,
-                          currency.description,
-                        );
                         navigatorPush(
                           context,
                           CurrencySell(

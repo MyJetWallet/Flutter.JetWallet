@@ -13,6 +13,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
     required this.isSDivider,
     this.onSwitchChanged,
     this.switchValue = false,
+    this.notification = false,
   }) : super(key: key);
 
   final Widget icon;
@@ -21,6 +22,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
   final bool isSDivider;
   final Function(bool)? onSwitchChanged;
   final bool switchValue;
+  final bool notification;
 
   @override
   Widget build(BuildContext context) {
@@ -35,33 +37,43 @@ class SimpleAccountCategoryButton extends StatelessWidget {
               margin: const EdgeInsets.symmetric(
                 vertical: 18.0,
               ),
-              child: Row(
-                children: <Widget>[
-                  icon,
-                  const SpaceW20(),
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: sSubtitle1Style,
-                    ),
+              child: Stack(
+                children: [
+                  Row(
+                    children: <Widget>[
+                      icon,
+                      const SpaceW20(),
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: sSubtitle1Style,
+                        ),
+                      ),
+                      if (onSwitchChanged != null)
+                        Container(
+                          width: 40.0,
+                          height: 22.0,
+                          decoration: BoxDecoration(
+                            color: switchValue ? Colors.black : Colors.grey,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Switch(
+                            value: switchValue,
+                            onChanged: onSwitchChanged,
+                            activeColor: Colors.white,
+                            activeTrackColor: Colors.black,
+                            inactiveThumbColor: Colors.white,
+                            inactiveTrackColor: Colors.grey,
+                          ),
+                        )
+                    ],
                   ),
-                  if (onSwitchChanged != null)
-                    Container(
-                      width: 40.0,
-                      height: 22.0,
-                      decoration: BoxDecoration(
-                        color: switchValue ? Colors.black : Colors.grey,
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Switch(
-                        value: switchValue,
-                        onChanged: onSwitchChanged,
-                        activeColor: Colors.white,
-                        activeTrackColor: Colors.black,
-                        inactiveThumbColor: Colors.white,
-                        inactiveTrackColor: Colors.grey,
-                      ),
-                    )
+                  if (notification)
+                    const Positioned(
+                      right: 0,
+                      top: 3,
+                      child: SErrorIcon(),
+                    ),
                 ],
               ),
             ),

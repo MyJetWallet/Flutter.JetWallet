@@ -128,9 +128,7 @@ class DeleteProfile extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
             child: SPrimaryButton3(
-              active: totalBalance <= Decimal.ten &&
-                  earnTotalBalance <= Decimal.ten &&
-                  state.confitionCheckbox,
+              active: state.confitionCheckbox,
               name: intl.deleteProfileConditions_buttonText,
               onTap: () async {
                 navigatorPush(context, const EmailConfirmationScreen());

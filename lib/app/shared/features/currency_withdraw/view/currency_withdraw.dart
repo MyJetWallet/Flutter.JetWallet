@@ -26,7 +26,7 @@ class CurrencyWithdraw extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAddressNotipod(withdrawal));
     final notifier = useProvider(withdrawalAddressNotipod(withdrawal).notifier);
-    final _scrollController = useScrollController();
+    final scrollController = useScrollController();
     useValueListenable(state.addressErrorNotifier!);
     useValueListenable(state.tagErrorNotifier!);
 
@@ -41,7 +41,7 @@ class CurrencyWithdraw extends HookWidget {
         ),
       ),
       child: CustomScrollView(
-        controller: _scrollController,
+        controller: scrollController,
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
@@ -92,19 +92,19 @@ class CurrencyWithdraw extends HookWidget {
                       focusNode: state.addressFocus,
                       controller: state.addressController,
                       onChanged: (value) {
-                        notifier.scrollToBottom(_scrollController);
+                        notifier.scrollToBottom(scrollController);
                         notifier.updateAddress(value);
                       },
                       onErase: () => notifier.eraseAddress(),
                       suffixIcons: [
                         SIconButton(
-                          onTap: () => notifier.pasteAddress(_scrollController),
+                          onTap: () => notifier.pasteAddress(scrollController),
                           defaultIcon: const SPasteIcon(),
                         ),
                         SIconButton(
                           onTap: () => notifier.scanAddressQr(
                             context,
-                            _scrollController,
+                            scrollController,
                           ),
                           defaultIcon: const SQrCodeIcon(),
                         ),
@@ -127,13 +127,13 @@ class CurrencyWithdraw extends HookWidget {
                         onErase: () => notifier.eraseTag(),
                         suffixIcons: [
                           SIconButton(
-                            onTap: () => notifier.pasteTag(_scrollController),
+                            onTap: () => notifier.pasteTag(scrollController),
                             defaultIcon: const SPasteIcon(),
                           ),
                           SIconButton(
                             onTap: () => notifier.scanTagQr(
                               context,
-                              _scrollController,
+                              scrollController,
                             ),
                             defaultIcon: const SQrCodeIcon(),
                           ),

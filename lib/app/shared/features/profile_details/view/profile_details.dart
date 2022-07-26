@@ -22,7 +22,7 @@ class ProfileDetails extends HookWidget {
     final intl = useProvider(intlPod);
     final userInfo = useProvider(userInfoNotipod);
 
-    final _infoImage = Image.asset(
+    final infoImage = Image.asset(
       phoneChangeAsset,
       width: 80,
       height: 80,
@@ -56,7 +56,7 @@ class ProfileDetails extends HookWidget {
                 secondaryText: '${intl.profileDetails_changePasswordAlert} '
                     '$changePasswordLockHours ${intl.hours}.',
                 primaryButtonName: intl.profileDetails_continue,
-                image: _infoImage,
+                image: infoImage,
                 onPrimaryButtonTap: () {
                   sAnalytics.accountChangePasswordContinue();
                   navigatorPushReplacement(context, const ChangePassword());
@@ -83,7 +83,7 @@ class ProfileDetails extends HookWidget {
                   secondaryText: '${intl.profileDetails_changePhoneAlert} '
                       '$changePhoneLockHours ${intl.hours}.',
                   primaryButtonName: intl.profileDetails_continue,
-                  image: _infoImage,
+                  image: infoImage,
                   onPrimaryButtonTap: () {
                     sAnalytics.accountChangePhoneContinue();
                     PhoneVerification.pushReplacement(
