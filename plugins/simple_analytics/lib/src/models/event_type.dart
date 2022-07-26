@@ -226,4 +226,7 @@ class EventType {
   static const earnPreviewReclaim = 'Preview Reclaim Earn';
   static const earnConfirmReclaim = 'Confirm Reclaim Earn';
   static const earnSuccessReclaim = 'Success Reclaim Earn Page';
+
+  /// Push notification
+  static const clickNotification = 'Click on push notification';
 }

@@ -7,9 +7,11 @@ class SFloatingButtonFrame extends StatelessWidget {
   const SFloatingButtonFrame({
     Key? key,
     required this.button,
+    this.hidePadding = false,
   }) : super(key: key);
 
   final Widget button;
+  final bool hidePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +39,9 @@ class SFloatingButtonFrame extends StatelessWidget {
             color: SColorsLight().white,
             child: Column(
               children: [
-                SPaddingH24(
-                  child: button,
-                ),
+                if (hidePadding) button else SPaddingH24(
+                    child: button,
+                  ),
                 const SpaceH24(),
               ],
             ),

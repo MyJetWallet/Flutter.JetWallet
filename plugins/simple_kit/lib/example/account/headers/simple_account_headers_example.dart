@@ -21,7 +21,8 @@ class SimpleAccountHeadersExample extends StatelessWidget {
                   color: SColorsLight().black,
                 ),
               ),
-              child: const SimpleAccountCategoryHeader(
+              child: SimpleAccountCategoryHeader(
+                onIconTap: () {},
                 userEmail: 'email@smplt.net',
                 userFirstName: 'FirstName',
                 userLastName: 'LastName',

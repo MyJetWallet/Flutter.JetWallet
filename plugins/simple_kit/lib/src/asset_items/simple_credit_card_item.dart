@@ -99,7 +99,7 @@ class SCreditCardItem extends StatelessWidget {
                               baseline: 14.0,
                               baselineType: TextBaseline.alphabetic,
                               child: SizedBox(
-                                width: 90.0,
+                                width: 120.0,
                                 child: Text(
                                   helper,
                                   textAlign: TextAlign.start,

@@ -173,7 +173,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     ),
                     name: formatted.name,
                     amount: formatted.last4Digits,
-                    helper: formatted.expDate,
+                    helper: card.status == CircleCardStatus.pending
+                      ? intl.paymentMethod_CardIsProcessing
+                      : formatted.expDate,
                     description: '',
 
                     removeDivider: card.id == state.circleCards.last.id,
@@ -368,7 +370,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     name: state.selectedCircleCard!.name,
                     amount: state.selectedCircleCard!.last4Digits,
                     helper: limitText,
-                    description: state.selectedCircleCard!.expDate,
+                    description: state.pickedCircleCard?.status ==
+                        CircleCardStatus.pending
+                        ? intl.paymentMethod_CardIsProcessing
+                        : state.selectedCircleCard!.expDate,
                     limit: isLimitBlock
                         ? 100
                         : cardLimit.cardLimits?.barProgress ?? 0,

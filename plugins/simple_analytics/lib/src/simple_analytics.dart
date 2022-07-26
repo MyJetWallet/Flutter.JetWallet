@@ -1404,4 +1404,15 @@ class SimpleAnalytics {
       EventType.kycScanDoc,
     );
   }
+  /// Push notification
+  void openPushNotification({
+    required String campaignId,
+  }) {
+    _analytics.logEvent(
+      EventType.clickNotification,
+      eventProperties: {
+        PropertyType.campaignId: campaignId,
+      },
+    );
+  }
 }
