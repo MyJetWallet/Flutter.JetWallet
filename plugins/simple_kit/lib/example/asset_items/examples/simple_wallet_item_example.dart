@@ -15,8 +15,8 @@ class SimpleWalletItemExample extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Container(
-                color: Colors.grey[200],
+              ColoredBox(
+                color: Colors.grey[200]!,
                 child: SWalletItem(
                   onTap: () {},
                   icon: const SActionBuyIcon(),

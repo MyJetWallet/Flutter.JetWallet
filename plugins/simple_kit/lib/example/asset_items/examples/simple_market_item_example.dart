@@ -16,8 +16,8 @@ class SimpleMarketItemExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  color: Colors.grey[200],
+                ColoredBox(
+                  color: Colors.grey[200]!,
                   child: SMarketItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
@@ -107,8 +107,8 @@ class SimpleMarketItemExample extends StatelessWidget {
             const SpaceH40(),
             Stack(
               children: [
-                Container(
-                  color: Colors.grey[200],
+                ColoredBox(
+                  color: Colors.grey[200]!,
                   child: SMarketItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
