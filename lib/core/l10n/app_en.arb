@@ -330,7 +330,7 @@
     "market_bottomTabLabel3": "Crypto Sets",
     "market_bottomTabLabel4": "Gainers",
     "market_bottomTabLabel5": "Losers",
-    "operationName_transferByPhone": "Transfer by Phone",
+    "operationName_transferByPhone": "Transfer by phone",
     "operationName_receiveByPhone": "Receive by Phone",
     "operationName_interestRate": "Interest Rate",
     "operationName_withdrawal": "Withdrawal",
@@ -965,5 +965,9 @@
     "earn_terms_checkbox": "I have read and agreed to ",
     "earn_terms_link": "Earn T&C",
     "earn_terms_continue": "Continue",
-    "earn_terms_cancel": "Cancel"
+    "earn_terms_cancel": "Cancel",
+    "transactionItem_cancel_cancel": "Cancel transfer",
+    "cancel_transfer_dialog_btn_gotIt": "Got it",
+    "cancel_transfer_dialog_text": "Transfer has been canceled",
+    "cancel_transfer_we_could_not_cancel": "We couldn’t cancel the transaction"
 }
