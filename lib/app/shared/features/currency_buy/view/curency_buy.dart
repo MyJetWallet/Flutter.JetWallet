@@ -412,7 +412,14 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     !disableSubmit.value &&
                     !(state.selectedPaymentMethod?.type ==
                         PaymentMethodType.circleCard &&
-                        cardLimit.cardLimits?.barProgress == 100),
+                        cardLimit.cardLimits?.barProgress == 100) &&
+                    !(state.selectedPaymentMethod?.type ==
+                        PaymentMethodType.circleCard &&
+                        (cardLimit.cardLimits?.day1State == StateLimitType.block
+                          || cardLimit.cardLimits?.day7State ==
+                                StateLimitType.block
+                          || cardLimit.cardLimits?.day30State ==
+                                StateLimitType.block)),
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
                         ? intl.curencyBuy_NumericKeyboardButtonName1
