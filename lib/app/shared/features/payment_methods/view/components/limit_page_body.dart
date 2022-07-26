@@ -30,8 +30,16 @@ class LimitPageBody extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
 
     final currentWidth = MediaQuery.of(context).size.width - 48;
-    final width = currentWidth / 100 * cardLimit.barProgress;
-    final isWidthDifferenceSmall = (currentWidth - width) < 6;
+    var width = currentWidth / 100 * cardLimit.barProgress;
+    var colorToUse = colors.blue;
+    var isWidthDifferenceSmall = (currentWidth - width) < 6;
+    if (cardLimit.day1State == StateLimitType.block
+        || cardLimit.day7State == StateLimitType.block
+        || cardLimit.day30State == StateLimitType.block) {
+      isWidthDifferenceSmall = true;
+      width = currentWidth;
+      colorToUse = colors.red;
+    }
 
     String checkLimitText(Decimal amount, Decimal limit) {
       return '${volumeFormat(
@@ -108,7 +116,7 @@ class LimitPageBody extends HookWidget {
                     ),
                     color: cardLimit.barProgress == 100
                       ? colors.red
-                      : colors.blue,
+                      : colorToUse,
                   ),
                 ),
               ),

@@ -75,12 +75,26 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
       ),
     );
     final disableSubmit = useState(false);
+    final isLimitBlock = cardLimit.cardLimits?.day1State == StateLimitType.block
+        || cardLimit.cardLimits?.day7State ==
+            StateLimitType.block
+        || cardLimit.cardLimits?.day30State ==
+            StateLimitType.block;
 
     String checkLimitText() {
       var amount = Decimal.zero;
       var limit = Decimal.zero;
       if (state.baseCurrency != null && cardLimit.cardLimits != null) {
-        if (cardLimit.cardLimits!.barInterval == StateBarType.day1) {
+        if (cardLimit.cardLimits!.day1State == StateLimitType.block) {
+          amount = cardLimit.cardLimits!.day1Amount;
+          limit = cardLimit.cardLimits!.day1Limit;
+        } else if (cardLimit.cardLimits!.day7State == StateLimitType.block) {
+          amount = cardLimit.cardLimits!.day7Amount;
+          limit = cardLimit.cardLimits!.day7Limit;
+        } else if (cardLimit.cardLimits!.day30State == StateLimitType.block) {
+          amount = cardLimit.cardLimits!.day30Amount;
+          limit = cardLimit.cardLimits!.day30Limit;
+        } else  if (cardLimit.cardLimits!.barInterval == StateBarType.day1) {
           amount = cardLimit.cardLimits!.day1Amount;
           limit = cardLimit.cardLimits!.day1Limit;
         } else if (cardLimit.cardLimits!.barInterval == StateBarType.day7) {
@@ -108,9 +122,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     }
 
     final limitText = cardLimit.cardLimits != null ? '${
-        cardLimit.cardLimits!.barInterval == StateBarType.day1
+        (cardLimit.cardLimits!.barInterval == StateBarType.day1
+            || cardLimit.cardLimits!.day1State == StateLimitType.block)
             ? intl.paymentMethods_oneDay
-            : cardLimit.cardLimits!.barInterval == StateBarType.day7
+            : (cardLimit.cardLimits!.barInterval == StateBarType.day7
+            || cardLimit.cardLimits!.day7State == StateLimitType.block)
             ? intl.paymentMethods_sevenDays
             : intl.paymentMethods_thirtyDays
     } ${intl.currencyBuy_limit}: ${checkLimitText()}' : '';
@@ -177,7 +193,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 return SCreditCardItem(
                   isSelected: state.pickedCircleCard?.id == card.id,
                   icon: SActionDepositIcon(
-                    color: cardLimit.cardLimits?.barProgress == 100
+                    color: (cardLimit.cardLimits?.barProgress == 100 ||
+                        isLimitBlock)
                         ? colors.grey2
                         : state.pickedCircleCard?.id == card.id
                         ? colors.blue
@@ -187,9 +204,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   amount: formatted.last4Digits,
                   helper: formatted.expDate,
                   description: formatted.limit,
-                  disabled: cardLimit.cardLimits?.barProgress == 100,
+                  disabled: cardLimit.cardLimits?.barProgress == 100 ||
+                      isLimitBlock,
                   onTap: () {
-                    if (cardLimit.cardLimits?.barProgress != 100) {
+                    if (cardLimit.cardLimits?.barProgress != 100 &&
+                        !isLimitBlock) {
                       Navigator.pop(context, card);
                     }
                   },
@@ -338,7 +357,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: SActionDepositIcon(
-                      color: cardLimit.cardLimits?.barProgress == 100
+                      color: (cardLimit.cardLimits?.barProgress == 100 ||
+                          isLimitBlock)
                           ? colors.grey2
                           : colors.black,
                     ),
@@ -346,7 +366,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     amount: state.selectedCircleCard!.last4Digits,
                     helper: limitText,
                     description: state.selectedCircleCard!.expDate,
-                    limit: cardLimit.cardLimits?.barProgress ?? 0,
+                    limit: isLimitBlock
+                        ? 100
+                        : cardLimit.cardLimits?.barProgress ?? 0,
                     onTap: () => _showAssetSelector(),
                   )
               else if (state.selectedCurrency?.type == AssetType.crypto)
@@ -414,12 +436,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                         PaymentMethodType.circleCard &&
                         cardLimit.cardLimits?.barProgress == 100) &&
                     !(state.selectedPaymentMethod?.type ==
-                        PaymentMethodType.circleCard &&
-                        (cardLimit.cardLimits?.day1State == StateLimitType.block
-                          || cardLimit.cardLimits?.day7State ==
-                                StateLimitType.block
-                          || cardLimit.cardLimits?.day30State ==
-                                StateLimitType.block)),
+                        PaymentMethodType.circleCard && isLimitBlock),
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
                         ? intl.curencyBuy_NumericKeyboardButtonName1

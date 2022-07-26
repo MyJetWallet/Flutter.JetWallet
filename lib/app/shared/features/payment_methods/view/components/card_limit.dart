@@ -27,13 +27,30 @@ class CardLimit extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
 
     final currentWidth = MediaQuery.of(context).size.width - 48;
-    final width = currentWidth / 100 * cardLimit.barProgress;
-    final isWidthDifferenceSmall = (currentWidth - width) < 6;
+    var width = currentWidth / 100 * cardLimit.barProgress;
+    var colorToUse = colors.blue;
+    var isWidthDifferenceSmall = (currentWidth - width) < 6;
+    if (cardLimit.day1State == StateLimitType.block
+        || cardLimit.day7State == StateLimitType.block
+        || cardLimit.day30State == StateLimitType.block) {
+      isWidthDifferenceSmall = true;
+      width = currentWidth;
+      colorToUse = colors.red;
+    }
 
     String checkLimitText() {
       var amount = Decimal.zero;
       var limit = Decimal.zero;
-      if (cardLimit.barInterval == StateBarType.day1) {
+      if (cardLimit.day1State == StateLimitType.block) {
+        amount = cardLimit.day1Amount;
+        limit = cardLimit.day1Limit;
+      } else if (cardLimit.day7State == StateLimitType.block) {
+        amount = cardLimit.day7Amount;
+        limit = cardLimit.day7Limit;
+      } else if (cardLimit.day30State == StateLimitType.block) {
+        amount = cardLimit.day30Amount;
+        limit = cardLimit.day30Limit;
+      } else if (cardLimit.barInterval == StateBarType.day1) {
         amount = cardLimit.day1Amount;
         limit = cardLimit.day1Limit;
       } else if (cardLimit.barInterval == StateBarType.day7) {
@@ -59,9 +76,11 @@ class CardLimit extends HookWidget {
     }
 
     final text = '${
-      cardLimit.barInterval == StateBarType.day1
+      (cardLimit.barInterval == StateBarType.day1 ||
+          cardLimit.day1State == StateLimitType.block)
         ? intl.paymentMethods_oneDay
-        : cardLimit.barInterval == StateBarType.day7
+        : (cardLimit.barInterval == StateBarType.day7 ||
+          cardLimit.day7State == StateLimitType.block)
         ? intl.paymentMethods_sevenDays
         : intl.paymentMethods_thirtyDays
     } ${intl.paymentMethods_cardsLimit}: ${checkLimitText()}';
@@ -122,7 +141,7 @@ class CardLimit extends HookWidget {
                     ),
                     color: cardLimit.barProgress == 100
                       ? colors.red
-                      : colors.blue,
+                      : colorToUse,
                   ),
                 ),
               ),
