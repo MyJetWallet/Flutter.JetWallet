@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/signal_r/model/card_limits_model.dart';
 import 'package:simple_networking/services/simplex/model/simplex_payment_request_model.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
@@ -21,6 +22,7 @@ import '../../../../models/currency_model.dart';
 import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
+import '../../../card_limits/notifier/card_limits_notipod.dart';
 import '../../helper/formatted_circle_card.dart';
 import 'currency_buy_state.dart';
 
@@ -29,6 +31,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       : super(CurrencyBuyState(loader: StackLoaderNotifier())) {
     _initCurrencies();
     _initBaseCurrency();
+    _initCardLimit();
   }
 
   final Reader read;
@@ -48,6 +51,13 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   void _initBaseCurrency() {
     state = state.copyWith(
       baseCurrency: read(baseCurrencyPod),
+    );
+  }
+
+  void _initCardLimit() {
+    final cardLimit = read(cardLimitsNotipod);
+    state = state.copyWith(
+      cardLimit: cardLimit.cardLimits,
     );
   }
 
@@ -178,6 +188,10 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     updateSelectedPaymentMethod(method.first);
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   void selectFixedSum(SKeyboardPreset preset) {
     late int value;
 
@@ -258,6 +272,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
   }
 
   void updateTargetConversionPrice(Decimal? price) {
@@ -386,8 +401,23 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       var max = state.selectedPaymentMethod!.maxAmount;
 
       if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard) {
+        var limitMax = state.pickedCircleCard?.paymentDetails.maxAmount
+            .toDouble();
+        if (state.cardLimit != null) {
+          limitMax = state.cardLimit!.barInterval == StateBarType.day1
+              ? (state.cardLimit!.day1Limit - state.cardLimit!.day1Amount)
+                .toDouble()
+              : state.cardLimit!.barInterval == StateBarType.day7
+              ? (state.cardLimit!.day7Limit - state.cardLimit!.day7Amount)
+                .toDouble()
+              : (state.cardLimit!.day30Limit - state.cardLimit!.day30Amount)
+                .toDouble();
+        }
         min = state.pickedCircleCard?.paymentDetails.minAmount.toDouble() ?? 0;
-        max = state.pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
+        max = (limitMax ?? 0) <
+            (state.pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0)
+            ? limitMax ?? 0
+            : state.pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
       }
 
       _updateInputValid(value >= min && value <= max);
@@ -502,5 +532,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
     await _fetchCircleCards();
     updateSelectedCircleCard(card);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }

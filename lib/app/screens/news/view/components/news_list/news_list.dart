@@ -67,7 +67,7 @@ class _NewsListState extends State<NewsList> {
 
     return SliverPadding(
       padding: EdgeInsets.only(
-        top: news.union != const NewsUnion.error() ? 15 : 0,
+        top: news.union != const NewsUnion.error() ? 20 : 0,
         bottom: _addBottomPadding(news) ? 72 : 0,
       ),
       sliver: news.union.when(

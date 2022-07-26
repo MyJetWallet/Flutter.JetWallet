@@ -120,6 +120,7 @@ class Account extends HookWidget {
                             icon: const SProfileDetailsIcon(),
                             isSDivider: true,
                             onTap: () {
+                              sAnalytics.account();
                               navigatorPush(context, const ProfileDetails());
                             },
                           ),
@@ -147,7 +148,8 @@ class Account extends HookWidget {
                             onTap: () {
                               navigatorPush(
                                 context,
-                                const HistoryRecurringBuys(),
+                                const HistoryRecurringBuys(from:Source.profile,
+                                ),
                               );
                             },
                           ),

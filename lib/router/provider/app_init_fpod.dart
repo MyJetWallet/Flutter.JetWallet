@@ -41,6 +41,7 @@ final appInitFpod = FutureProvider<void>(
       unawaited(checkInitAppFBAnalytics(storageService, deviceInfo));
 
       await appsFlyerService.init();
+      await appsFlyerService.updateServerUninstallToken();
       await internetCheckerN.initialise();
     } catch (error, stackTrace) {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);

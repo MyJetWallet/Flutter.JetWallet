@@ -85,7 +85,7 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
           ),
         ];
       },
-      body: Container(
+      body: ColoredBox(
         color: colors.white,
         child: ListView(
           padding: EdgeInsets.zero,

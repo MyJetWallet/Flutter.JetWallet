@@ -12,6 +12,7 @@ class ConvertInputState with _$ConvertInputState {
   const factory ConvertInputState({
     Decimal? converstionPrice,
     SKeyboardPreset? selectedPreset,
+    String? tappedPreset,
     @Default('') String fromAssetAmount,
     @Default('') String toAssetAmount,
     @Default(true) bool fromAssetEnabled,

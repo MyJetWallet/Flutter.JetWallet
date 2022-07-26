@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
@@ -117,6 +118,13 @@ class ReturnToWallet extends HookWidget {
             preset3Name: intl.return_to_wallet_max_preset,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
+              notifier.tapPreset(
+                preset.index == 0
+                    ? '25%'
+                    : preset.index == 1
+                    ? '50%'
+                    : 'Max',
+              );
               notifier.selectPercentFromBalance(preset);
             },
             onKeyPressed: (value) {
@@ -126,6 +134,14 @@ class ReturnToWallet extends HookWidget {
             submitButtonActive: state.inputValid,
             submitButtonName: intl.return_to_wallet_preview,
             onSubmitPressed: () {
+              sAnalytics.earnPreviewReclaim(
+                assetName: currency.description,
+                amount: state.inputValue,
+                apy: state.apy.toString(),
+                term: earnOffer.term,
+                percentage: state.tappedPreset ?? '',
+                offerId: earnOffer.offerId,
+              );
               navigatorPush(
                 context,
                 PreviewReturnToWallet(

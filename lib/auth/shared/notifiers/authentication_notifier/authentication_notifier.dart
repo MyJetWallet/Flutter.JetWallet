@@ -14,10 +14,10 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../shared/constants.dart';
-import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
+import '../../../screens/register/notifier/referral_code_link_notipod.dart';
 import '../auth_info_notifier/auth_info_notipod.dart';
 import 'authentication_union.dart';
 
@@ -45,11 +45,10 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final rsaService = read(rsaServicePod);
     final deviceInfoModel = read(deviceInfoPod);
     final intl = read(intlPod);
+    final referralCodeLink = read(referralCodeLinkNotipod);
 
     try {
       state = const Loading();
-
-      final referralCode = await storageService.getValue(referralCodeKey);
 
       rsaService.init();
       await rsaService.savePrivateKey(storageService);
@@ -72,7 +71,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         platformType: platformType,
         platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
-        referralCode: referralCode,
+        referralCode: referralCodeLink.referralCode,
         marketingEmailsAllowed: marketingEmailsAllowed,
         lang: intl.localeName,
       );
@@ -92,7 +91,6 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         );
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
-        read(appsFlyerServicePod).register(email);
       }
 
       await storageService.setString(refreshTokenKey, authModel.refreshToken);

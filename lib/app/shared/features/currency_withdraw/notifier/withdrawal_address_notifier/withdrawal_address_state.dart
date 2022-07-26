@@ -4,6 +4,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 
+import '../../../../../../shared/constants.dart';
 import '../../../../models/currency_model.dart';
 import 'address_validation_union.dart';
 
@@ -47,7 +48,7 @@ class WithdrawalAddressState with _$WithdrawalAddressState {
     final condition1 = addressValidation is Hide || addressValidation is Valid;
     final condition2 = tagValidation is Hide || tagValidation is Valid;
     final condition3 = address.isNotEmpty;
-    final condition4 = tag.isNotEmpty;
+    final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
     if (currency!.hasTag) {
       return condition1 && condition2 && condition3 && condition4;

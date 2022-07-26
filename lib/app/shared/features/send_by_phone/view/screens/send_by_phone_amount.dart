@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/helpers/navigator_push.dart';
@@ -114,6 +115,13 @@ class SendByPhoneAmount extends HookWidget {
             preset3Name: intl.max,
             selectedPreset: state.selectedPreset,
             onPresetChanged: (preset) {
+              notifier.tapPreset(
+                preset.index == 0
+                    ? '25%'
+                    : preset.index == 1
+                    ? '50%'
+                    : 'Max',
+              );
               notifier.selectPercentFromBalance(preset);
             },
             onKeyPressed: (value) {
@@ -123,6 +131,12 @@ class SendByPhoneAmount extends HookWidget {
             submitButtonActive: state.valid,
             submitButtonName: intl.sendByPhoneAmount_previewSend,
             onSubmitPressed: () {
+              sAnalytics.sendTapPreview(
+                currency: currency.symbol,
+                amount: state.amount,
+                type: 'By phone',
+                percentage: state.tappedPreset ?? '',
+              );
               navigatorPush(
                 context,
                 SendByPhonePreview(

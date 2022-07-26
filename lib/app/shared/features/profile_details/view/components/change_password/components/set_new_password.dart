@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../auth/shared/components/password_validation/password_validation.dart';
@@ -57,7 +58,7 @@ class SetNewPassword extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            ColoredBox(
               color: colors.white,
               child: SPaddingH24(
                 child: SStandardFieldObscure(
@@ -81,6 +82,7 @@ class SetNewPassword extends HookWidget {
                 active: changePassword.isNewPasswordButtonActive,
                 name: intl.setNewPassword_setNewPassword,
                 onTap: () {
+                  sAnalytics.accountSetNewPassword();
                   loading.value.startLoading();
                   changePasswordN.confirmNewPassword();
                 },

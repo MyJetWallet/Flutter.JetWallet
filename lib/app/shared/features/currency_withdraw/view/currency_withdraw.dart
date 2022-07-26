@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
@@ -25,7 +26,7 @@ class CurrencyWithdraw extends HookWidget {
     final colors = useProvider(sColorPod);
     final state = useProvider(withdrawalAddressNotipod(withdrawal));
     final notifier = useProvider(withdrawalAddressNotipod(withdrawal).notifier);
-    final _scrollController = useScrollController();
+    final scrollController = useScrollController();
     useValueListenable(state.addressErrorNotifier!);
     useValueListenable(state.tagErrorNotifier!);
 
@@ -40,7 +41,7 @@ class CurrencyWithdraw extends HookWidget {
         ),
       ),
       child: CustomScrollView(
-        controller: _scrollController,
+        controller: scrollController,
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
@@ -90,15 +91,21 @@ class CurrencyWithdraw extends HookWidget {
                           '${intl.currencyWithdraw_address}',
                       focusNode: state.addressFocus,
                       controller: state.addressController,
-                      onChanged: (value) => notifier.updateAddress(value),
+                      onChanged: (value) {
+                        notifier.scrollToBottom(scrollController);
+                        notifier.updateAddress(value);
+                      },
                       onErase: () => notifier.eraseAddress(),
                       suffixIcons: [
                         SIconButton(
-                          onTap: () => notifier.pasteAddress(),
+                          onTap: () => notifier.pasteAddress(scrollController),
                           defaultIcon: const SPasteIcon(),
                         ),
                         SIconButton(
-                          onTap: () => notifier.scanAddressQr(context),
+                          onTap: () => notifier.scanAddressQr(
+                            context,
+                            scrollController,
+                          ),
                           defaultIcon: const SQrCodeIcon(),
                         ),
                       ],
@@ -120,11 +127,14 @@ class CurrencyWithdraw extends HookWidget {
                         onErase: () => notifier.eraseTag(),
                         suffixIcons: [
                           SIconButton(
-                            onTap: () => notifier.pasteTag(),
+                            onTap: () => notifier.pasteTag(scrollController),
                             defaultIcon: const SPasteIcon(),
                           ),
                           SIconButton(
-                            onTap: () => notifier.scanTagQr(context),
+                            onTap: () => notifier.scanTagQr(
+                              context,
+                              scrollController,
+                            ),
                             defaultIcon: const SQrCodeIcon(),
                           ),
                         ],
@@ -165,7 +175,10 @@ class CurrencyWithdraw extends HookWidget {
                     child: SPrimaryButton2(
                       active: state.isReadyToContinue,
                       name: intl.currencyWithdraw_continue,
-                      onTap: () => notifier.validateOnContinue(context),
+                      onTap: () {
+                        sAnalytics.sendContinueAddress();
+                        notifier.validateOnContinue(context);
+                      },
                     ),
                   ),
                 ),

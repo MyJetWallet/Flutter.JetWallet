@@ -23,18 +23,20 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
 
   static final _logger = Logger('LogoutNotifier');
 
-  Future<void> logout() async {
+  Future<void> logout({bool withLoading = true}) async {
     _logger.log(notifier, 'logout');
 
     try {
-      state = const Loading();
+      if (withLoading) {
+        state = const Loading();
+      }
 
       final model = LogoutRequestModel(
         token: read(authInfoNotipod).token,
       );
 
       _syncLogout(model);
-    } catch (e, _) {
+    } catch (e) {
       _logger.log(stateFlow, 'logout', e);
     } finally {
       await read(localStorageServicePod).clearStorage();
