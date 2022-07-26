@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/blockchain/model/validate_address/validate_address_request_model.dart';
 import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
@@ -103,7 +104,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _updateTagValidation(const Hide());
   }
 
-  Future<void> pasteAddress() async {
+  Future<void> pasteAddress(ScrollController scrollController) async {
     _logger.log(notifier, 'pasteAddress');
 
     final copiedText = await _copiedText();
@@ -115,9 +116,11 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       _updateAddressValidation,
       _triggerErrorOfAddressField,
     );
+
+    scrollToBottom(scrollController);
   }
 
-  Future<void> pasteTag() async {
+  Future<void> pasteTag(ScrollController scrollController) async {
     _logger.log(notifier, 'pasteTag');
 
     final copiedText = await _copiedText();
@@ -129,9 +132,14 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       _updateTagValidation,
       _triggerErrorOfTagField,
     );
+
+    scrollToBottom(scrollController);
   }
 
-  Future<void> scanAddressQr(BuildContext context) async {
+  Future<void> scanAddressQr(
+    BuildContext context,
+    ScrollController scrollController,
+  ) async {
     _logger.log(notifier, 'scanAddressQr');
 
     final status = await _checkCameraStatusAction();
@@ -153,11 +161,23 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
           _updateAddressValidation,
           _triggerErrorOfAddressField,
         );
+        scrollToBottom(scrollController);
       }
     }
   }
 
-  Future<void> scanTagQr(BuildContext context) async {
+  void scrollToBottom(ScrollController scrollController) {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+  }
+
+  Future<void> scanTagQr(
+    BuildContext context,
+    ScrollController scrollController,
+  ) async {
     _logger.log(notifier, 'scanTagQr');
 
     final status = await _checkCameraStatusAction();
@@ -179,6 +199,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
           _updateTagValidation,
           _triggerErrorOfTagField,
         );
+        scrollToBottom(scrollController);
       }
     }
   }
@@ -311,6 +332,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
     _logger.log(notifier, 'validateAddressAndTag');
 
     if (state.credentialsValid) {
+      sAnalytics.sendViews();
       _pushWithdrawalAmount(context);
       return;
     }
@@ -342,6 +364,7 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
       }
 
       if (state.credentialsValid) {
+        sAnalytics.sendViews();
         _pushWithdrawalAmount(context);
       }
     } catch (error) {

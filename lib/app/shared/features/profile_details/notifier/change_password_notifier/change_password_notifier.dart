@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/services/change_password/model/change_password_request_model.dart';
 
 import '../../../../../../shared/logging/levels.dart';
@@ -44,6 +45,7 @@ class ChangePasswordNotifier extends StateNotifier<ChangePasswordState> {
       );
 
       state = state.copyWith(union: const Done());
+      sAnalytics.accountSuccessChange();
     } catch (e) {
       _logger.log(stateFlow, 'confirmNewPassword', e);
 

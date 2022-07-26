@@ -21,6 +21,9 @@ void showSellAction(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
+    then: (value) {
+      sAnalytics.sellChooseAssetClose();
+    },
     pinned: ActionBottomSheetHeader(
       name: intl.actionSell_bottomSheetHeaderName,
       showSearch: showSearch,
@@ -32,8 +35,6 @@ void showSellAction(BuildContext context) {
     removePinnedPadding: true,
     children: [const _ActionSell()],
   );
-
-  sAnalytics.sellSheetView();
 }
 
 class _ActionSell extends HookWidget {
@@ -52,6 +53,8 @@ class _ActionSell extends HookWidget {
       }
     }
 
+    sAnalytics.sellChooseAsset();
+
     return Column(
       children: [
         for (final currency in assetWithBalance) ...[
@@ -66,11 +69,6 @@ class _ActionSell extends HookWidget {
               secondaryText: currency.volumeAssetBalance,
               removeDivider: currency == assetWithBalance.last,
               onTap: () {
-                sAnalytics.sellView(
-                  Source.quickActions,
-                  currency.description,
-                );
-
                 navigatorPushReplacement(
                   context,
                   CurrencySell(

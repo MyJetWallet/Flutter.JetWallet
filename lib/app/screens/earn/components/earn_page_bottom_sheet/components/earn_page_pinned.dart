@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../../shared/constants.dart';
 
@@ -47,7 +48,10 @@ class EarnPagePinned extends StatelessWidget {
           top: 26.0,
           right: 26.0,
           child: GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              sAnalytics.earnCloseOnboarding();
+              Navigator.pop(context);
+            },
             child: const SEraseMarketIcon(),
           ),
         ),

@@ -80,7 +80,7 @@ void showStartEarnOptions({
       SActionItem(
         onTap: () {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-            sAnalytics.depositCryptoView(currency.description);
+            sAnalytics.receiveAssetView(asset: currency.description);
             navigatorPushReplacement(
               context,
               CryptoDeposit(

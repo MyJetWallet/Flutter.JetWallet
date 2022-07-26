@@ -60,6 +60,10 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     );
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
@@ -138,6 +142,11 @@ class HighYieldBuyNotifier extends StateNotifier<HighYieldBuyState> {
     }
     _calculateTargetConversion();
     _calculateBaseConversion();
+    _clearPercent();
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 
   Future<void> calculateEarnOfferApy() async {

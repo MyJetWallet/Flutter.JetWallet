@@ -5,10 +5,10 @@ import 'package:simple_networking/services/operation_history/model/operation_his
 import '../../../../../shared/providers/service_providers.dart';
 
 String operationName(
-    OperationType type,
-    BuildContext context,
-    { bool? isToppedUp, }
-) {
+  OperationType type,
+  BuildContext context, {
+  bool? isToppedUp,
+}) {
   final intl = context.read(intlPod);
 
   switch (type) {
@@ -42,6 +42,8 @@ String operationName(
       return isToppedUp != null
           ? intl.operationName_topped_up
           : intl.operationName_subscribed_to_earn;
+    case OperationType.cryptoInfo:
+      return intl.operationName_buy;
     case OperationType.earningWithdrawal:
       return intl.operationName_return_from_earn;
     case OperationType.unknown:

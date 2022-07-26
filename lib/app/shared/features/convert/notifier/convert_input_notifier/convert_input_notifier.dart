@@ -50,6 +50,10 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     state = state.copyWith(inputError: error);
   }
 
+  void tapPreset(String presetName) {
+    state = state.copyWith(tappedPreset: presetName);
+  }
+
   /// ConversionPrice can be null if request to API failed
   void updateConversionPrice(Decimal? price) {
     _logger.log(notifier, 'updateConversionPrice');
@@ -117,6 +121,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     );
     _calculateConversion();
     _validateInput();
+    _clearPercent();
   }
 
   void updateToAssetAmount(String amount) {
@@ -131,6 +136,7 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     );
     _calculateConversion();
     _validateInput();
+    _clearPercent();
   }
 
   void enableToAsset() {
@@ -300,5 +306,9 @@ class ConvertInputNotifier extends StateNotifier<ConvertInputState> {
     final newList = removeCurrencyFromList(state.fromAsset, currencies);
 
     state = state.copyWith(toAssetList: newList);
+  }
+
+  void _clearPercent() {
+    state = state.copyWith(selectedPreset: null);
   }
 }

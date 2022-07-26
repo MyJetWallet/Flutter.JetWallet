@@ -137,6 +137,7 @@ class RecurringBuyDetails extends StatelessWidget {
               text: _rateFor(buyCurrency, sellCurrency),
             ),
           ),
+          const SpaceH40(),
         ],
       ),
     );

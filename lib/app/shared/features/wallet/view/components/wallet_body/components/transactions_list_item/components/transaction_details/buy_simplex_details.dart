@@ -76,6 +76,7 @@ class BuySimplexDetails extends HookWidget {
           ),
           const SpaceH16(),
           TransactionDetailsStatus(status: transactionListItem.status),
+          const SpaceH40(),
         ],
       ),
     );

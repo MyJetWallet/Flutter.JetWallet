@@ -54,6 +54,7 @@ class ReceiveDetails extends HookWidget {
               ],
             ),
           ),
+          const SpaceH40(),
         ],
       ),
     );

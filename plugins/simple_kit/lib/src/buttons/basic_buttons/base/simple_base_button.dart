@@ -47,7 +47,7 @@ class SimpleBaseButton extends StatelessWidget {
                 if (icon != null) ...[
                   Baseline(
                     baselineType: TextBaseline.alphabetic,
-                    baseline: 27.0,
+                    baseline: 23,
                     child: icon,
                   ),
                   const SpaceW10(),

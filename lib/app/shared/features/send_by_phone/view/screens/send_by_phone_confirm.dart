@@ -58,7 +58,7 @@ class SendByPhoneConfirm extends HookWidget {
       }
     });
 
-    analytics(() => sAnalytics.kycPhoneConfirmationView());
+    analytics(() => sAnalytics.sendConfirmSend());
 
     return ProviderListener<SendByPhoneConfirmState>(
       provider: sendByPhoneConfirmNotipod(currency),

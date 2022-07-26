@@ -104,20 +104,29 @@ class PortfolioWithBalanceBody extends HookWidget {
       CurrencyModel currency,
     ) {
       if (currency.isSingleTypeInProgress) {
-        return '${actualInProcessOperationName(
-            currency,
-            intl.portfolioWithBalanceBody_send,
-            intl.portfolioWithBalanceBody_earn,
-            intl.portfolioWithBalanceBody_simplex,
-        )} ${volumeFormat(
+        return volumeFormat(
           decimal: currency.totalAmountInProcess,
           accuracy: currency.accuracy,
           symbol: currency.symbol,
           prefix: currency.prefixSymbol,
-        )}';
+        );
+      }
+      return
+          intl.portfolioWithBalanceBody_transactions;
+    }
+    String _balanceInProgressLeadText(
+        CurrencyModel currency,
+        ) {
+      if (currency.isSingleTypeInProgress) {
+        return actualInProcessOperationName(
+          currency,
+          intl.portfolioWithBalanceBody_send,
+          intl.portfolioWithBalanceBody_earn,
+          intl.portfolioWithBalanceBody_simplex,
+        );
       }
       return '${counterOfOperationInProgressTransactions(currency)} '
-          '${intl.portfolioWithBalanceBody_transactions}';
+      ;
     }
 
     Widget _balanceInProgressIcon(
@@ -334,6 +343,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                           if (item.isPendingDeposit) ...[
                             BalanceInProcess(
                               text: _balanceInProgressText(item),
+                              leadText: _balanceInProgressLeadText(item),
                               removeDivider: item == itemsWithBalance.last,
                               icon: _balanceInProgressIcon(item),
                             ),
@@ -418,6 +428,8 @@ class PortfolioWithBalanceBody extends HookWidget {
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
                                 text: _balanceInProgressText(item),
+                                leadText: _balanceInProgressLeadText(item),
+
                                 removeDivider: item == cryptosWithBalance.last,
                                 icon: _balanceInProgressIcon(item),
                               ),
@@ -500,6 +512,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
                                 text: _balanceInProgressText(item),
+                                leadText: _balanceInProgressLeadText(item),
                                 removeDivider: item == indicesWithBalance.last,
                                 icon: _balanceInProgressIcon(item),
                               ),
@@ -579,6 +592,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                             if (item.isPendingDeposit) ...[
                               BalanceInProcess(
                                 text: _balanceInProgressText(item),
+                                leadText: _balanceInProgressLeadText(item),
                                 removeDivider: item == fiatsWithBalance.last,
                                 icon: _balanceInProgressIcon(item),
                               ),
