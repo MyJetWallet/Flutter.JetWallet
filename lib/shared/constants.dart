@@ -60,3 +60,9 @@ const signatureHeader = 'signature';
 // Earn
 const earnBackgroundImageAsset = 'assets/images/earn_background.png';
 const earnEmptyStateImage = 'assets/images/earn_empty.png';
+
+// Earn Type
+const earnRipple = 'Ripple';
+
+// Item of asset selected
+const itemSelected = 'itemSelected';

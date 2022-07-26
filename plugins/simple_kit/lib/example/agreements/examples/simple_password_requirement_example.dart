@@ -24,7 +24,7 @@ class SimplePasswordRequirementExample extends StatelessWidget {
           const SpaceH10(),
           Stack(
             children: [
-              Container(
+              ColoredBox(
                 color: Colors.grey.withOpacity(0.3),
                 child: const SRequirement(
                   passed: false,

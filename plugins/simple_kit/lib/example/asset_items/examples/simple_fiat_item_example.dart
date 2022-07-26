@@ -16,8 +16,8 @@ class SimpleFiatItemExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  color: Colors.grey[200],
+                ColoredBox(
+                  color: Colors.grey[200]!,
                   child: SFiatItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),

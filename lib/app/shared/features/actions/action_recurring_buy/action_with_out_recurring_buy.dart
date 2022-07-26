@@ -19,6 +19,7 @@ void showActionWithoutRecurringBuy({
     context: context,
     scrollable: true,
     pinned: _RecurringActionBottomSheetHeader(
+      onDissmis:onDissmis,
       name: title,
     ),
     then: then,
@@ -37,9 +38,9 @@ void showActionWithoutRecurringBuy({
 class _RecurringActionBottomSheetHeader extends HookWidget {
   const _RecurringActionBottomSheetHeader({
     Key? key,
-    required this.name,
+    required this.name, this.onDissmis,
   }) : super(key: key);
-
+  final VoidCallback? onDissmis;
   final String name;
 
   @override
@@ -61,7 +62,9 @@ class _RecurringActionBottomSheetHeader extends HookWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () =>{ Navigator.pop(context),
+                  onDissmis?.call()
+                },
                 child: const SErasePressedIcon(),
               ),
             ],

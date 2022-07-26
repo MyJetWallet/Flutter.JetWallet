@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../shared/helpers/analytics.dart';
 import '../../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 
@@ -23,6 +25,7 @@ class SendByPhoneNotifyRecipient extends HookWidget {
     final colors = useProvider(sColorPod);
     final userInfo = useProvider(userInfoNotipod);
     final canTapShare = useState(true);
+    analytics(() => sAnalytics.sendNotifyRecipient());
 
     return SPageFrameWithPadding(
       header: SMegaHeader(
@@ -57,11 +60,12 @@ class SendByPhoneNotifyRecipient extends HookWidget {
             active: true,
             name: intl.sendByPhoneNotifyRecipient_sendAMessage,
             onTap: () {
+              sAnalytics.sendTapOnSendMessage();
               if (canTapShare.value) {
                 canTapShare.value = false;
                 Timer(
                   const Duration(seconds: 1),
-                  () => canTapShare.value = true,
+                      () => canTapShare.value = true,
                 );
                 Share.share(
                   '${intl.sendByPhoneRecipient_text3} $toPhoneNumber. '
@@ -75,7 +79,10 @@ class SendByPhoneNotifyRecipient extends HookWidget {
           STextButton1(
             active: true,
             name: intl.sendByPhoneRecipient_later,
-            onTap: () => Navigator.pop(context),
+            onTap: () => {
+              sAnalytics.sendTapOnSendLater(),
+            Navigator.pop(context),
+          },
           ),
           const SpaceH24()
         ],

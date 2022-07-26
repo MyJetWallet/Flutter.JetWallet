@@ -32,7 +32,7 @@ class PinBox extends HookWidget {
       padding: state == PinBoxEnum.empty ? const EdgeInsets.all(2.0) : null,
       margin: const EdgeInsets.symmetric(horizontal: 15.0),
       child: state == PinBoxEnum.empty
-          ? Container(
+          ? DecoratedBox(
               decoration: BoxDecoration(
                 color: colors.white,
                 shape: BoxShape.circle,

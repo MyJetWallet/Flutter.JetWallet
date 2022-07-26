@@ -16,8 +16,8 @@ class SimpleActionItemExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  color: Colors.grey[200],
+                ColoredBox(
+                  color: Colors.grey[200]!,
                   child: SActionItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
