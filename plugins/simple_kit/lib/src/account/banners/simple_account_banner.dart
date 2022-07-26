@@ -62,7 +62,7 @@ class SimpleAccountBanner extends StatelessWidget {
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
                         header,
-                        maxLines: 2,
+                        maxLines: 3,
                         style: sTextH5Style,
                       ),
                     ),
