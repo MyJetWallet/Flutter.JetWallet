@@ -151,7 +151,8 @@ class Account extends HookWidget {
                             onTap: () {
                               navigatorPush(
                                 context,
-                                const HistoryRecurringBuys(),
+                                const HistoryRecurringBuys(from:Source.profile,
+                                ),
                               );
                             },
                           ),

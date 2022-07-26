@@ -73,15 +73,12 @@ class EventType {
 
   /// Quick actions screens
   static const buyView = 'Buy view';
-  static const sellView = 'Sell view';
   static const convertView = 'Convert view';
-  static const depositView = 'Deposit view';
   static const receiveView = 'Receive view';
   static const sendView = 'Send view';
 
   /// Quick actions bottom sheet
   static const buySheetView = 'Buy sheet view';
-  static const sellSheetView = 'Sell sheet view';
   static const convertSheetView = 'Convert sheet view';
   static const depositSheetView = 'Deposit sheet view';
   static const receiveSheetView = 'Receive sheet view';
@@ -102,6 +99,12 @@ class EventType {
   static const kycChangePhoneNumber = 'KYC - Change Phone Number';
   static const kycIdentityScreenView = 'KYC - Identity screen view';
   static const kycEnterPhoneNumber = 'KYC - Enter phone number';
+  static const kycScanDoc = 'KYC - Upload identity document view';
+  static const kycAllowCamera = 'KYC - Allow camera access page view';
+  static const kycGiveCameraPermission =
+      'KYC - Give Permission to allow the use of camera page view';
+  static const kycTapOnGoToSettings = 'KYC - Tap on button Go to Settings';
+  static const kycTapOnEnableCamera = 'KYC - Tap on Enable Camera button';
 
   /// Sell
   static const sellClick = 'Click on Sell';
@@ -138,7 +141,7 @@ class EventType {
   static const circleCVVView = 'CVV Sheet view';
   static const circleCloseCVV = 'Close CVV Sheet ';
   static const circleRedirect = 'Redirect to 3D-S';
-  static const circleSuccess = 'Success Page';
+  static const circleSuccess = 'Success Page - Circle';
   static const circleFailed = 'Card Failed Screen View';
   static const circleAdd = 'Click Add Bank Card after Fail';
   static const circleCancel = 'Click Cancel after Fail';
@@ -170,6 +173,10 @@ class EventType {
   static const sendConfirm = 'Tap on Confirm Send';
   static const sendSuccess = 'Success Page - Send';
   static const sendConfirmSend = 'Phone 2FA Confirmation View';
+  static const sendNotifyRecipient =
+      "Notify the recepient about sent' page view'";
+  static const sendTapOnSendMessage = "Tap on 'Send a Message'";
+  static const sendTapOnSendLater = "Tap on 'Later'";
 
   /// User taps on "Buy from card" in Quick Actions
   static const tapOnBuyFromCard = 'Tap on buy from card';

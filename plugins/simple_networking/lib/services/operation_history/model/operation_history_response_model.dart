@@ -164,6 +164,7 @@ class WithdrawalFeeInfo with _$WithdrawalFeeInfo {
 class TransferByPhoneInfo with _$TransferByPhoneInfo {
   const factory TransferByPhoneInfo({
     String? toPhoneNumber,
+    String? transferId,
     String? receiverName,
     required String withdrawalAssetId,
     required double withdrawalAmount,

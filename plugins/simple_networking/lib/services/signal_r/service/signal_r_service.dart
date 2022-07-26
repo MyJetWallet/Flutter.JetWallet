@@ -17,6 +17,7 @@ import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/blockchains_model.dart';
 import '../model/campaign_response_model.dart';
+import '../model/card_limits_model.dart';
 import '../model/cards_model.dart';
 import '../model/client_detail_model.dart';
 import '../model/earn_offers_model.dart';
@@ -106,6 +107,7 @@ class SignalRService {
       StreamController<RecurringBuysResponseModel>();
   final _earnOfferController = StreamController<List<EarnOfferModel>>();
   final _earnProfileController = StreamController<EarnProfileModel>();
+  final _cardLimitsController = StreamController<CardLimitsModel>();
   final _cardsController = StreamController<CardsModel>();
 
   final _inifFinishedController = StreamController<bool>();
@@ -146,6 +148,15 @@ class SignalRService {
         _inifFinishedController.add(true);
       } catch (e) {
         _logger.log(contract, initFinished, e);
+      }
+    });
+
+    _connection?.on(cardLimitsMessage, (data) {
+      try {
+        final cardLimits = CardLimitsModel.fromJson(_json(data));
+        _cardLimitsController.add(cardLimits);
+      } catch (e) {
+        _logger.log(contract, cardLimitsMessage, e);
       }
     });
 
@@ -423,6 +434,8 @@ class SignalRService {
       _recurringBuyController.stream;
 
   Stream<List<EarnOfferModel>> earnOffers() => _earnOfferController.stream;
+
+  Stream<CardLimitsModel> cardLimits() => _cardLimitsController.stream;
 
   Stream<EarnProfileModel> earnProfile() => _earnProfileController.stream;
 
