@@ -5,6 +5,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
+import '../../../core/stage/logs_screen/view/logs_screen.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
@@ -25,6 +26,7 @@ import '../../shared/features/transaction_history/components/history_recurring_b
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../shared/helpers/check_kyc_status.dart';
 import '../../shared/providers/show_payment_methods_pod/show_payment_methods_pod.dart';
+import '../navigation/provider/bottom_navigation_notipod.dart';
 import 'components/account_banner_list.dart';
 import 'components/crisp.dart';
 import 'components/help_center_web_view.dart';
@@ -42,6 +44,7 @@ class Account extends HookWidget {
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
     final showPaymentMethods = useProvider(showPaymentsMethodsPod);
+    final cardFailed = useProvider(bottomNavigationNotipod);
 
     final colors = useProvider(sColorPod);
 
@@ -49,6 +52,8 @@ class Account extends HookWidget {
     final kycAlertHandler = useProvider(
       kycAlertHandlerPod(context),
     );
+
+    final debugTapCounter = useState(0);
 
     return ProviderListener<LogoutUnion>(
       provider: logoutNotipod,
@@ -72,6 +77,13 @@ class Account extends HookWidget {
               children: <Widget>[
                 SPaddingH24(
                   child: SimpleAccountCategoryHeader(
+                    onIconTap: () {
+                      if (debugTapCounter.value >= 5) {
+                        navigatorPush(context, const LogsScreen());
+                      } else {
+                        debugTapCounter.value++;
+                      }
+                    },
                     userEmail: authInfo.email,
                     userFirstName: userInfo.firstName,
                     userLastName: userInfo.lastName,
@@ -139,6 +151,7 @@ class Account extends HookWidget {
                                 color: colors.black,
                               ),
                               isSDivider: true,
+                              notification: cardFailed.cardNotification,
                               onTap: () => PaymentMethods.push(context),
                             ),
                           SimpleAccountCategoryButton(

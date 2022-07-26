@@ -8,6 +8,9 @@ part 'preview_buy_with_circle_state.freezed.dart';
 @freezed
 class PreviewBuyWithCircleState with _$PreviewBuyWithCircleState {
   const factory PreviewBuyWithCircleState({
+    @Default(false) bool wasPending,
+    @Default(false) bool isPending,
+    @Default(false) bool failureShowed,
     CircleCard? card,
     Decimal? amountToGet,
     Decimal? amountToPay,

@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../../../simple_kit.dart';
 import '../../colors/view/simple_colors_light.dart';
+import 'simple_contact_icon_preview.dart';
 
 class SContactItem extends StatelessWidget {
   const SContactItem({
     Key? key,
     this.onTap,
     this.valid = true,
+    required this.isManualEnter,
     required this.name,
     required this.phone,
   }) : super(key: key);
 
   final Function()? onTap;
   final bool valid;
+  final bool isManualEnter;
   final String name;
   final String phone;
 
@@ -35,23 +38,11 @@ class SContactItem extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   top: 20.0,
                 ),
-                child: Container(
-                  width: 40.0,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: valid ? SColorsLight().blue : SColorsLight().grey4,
-                  ),
-                  child: valid
-                      ? Center(
-                          child: Text(
-                            (name != phone) ? initialsFrom(name) : '#',
-                            style: sSubtitle3Style.copyWith(
-                              color: SColorsLight().white,
-                            ),
-                          ),
-                        )
-                      : null,
+                child: SContactIconPreview(
+                  phone: phone,
+                  name: name,
+                  valid: valid,
+                  isManualEnter: isManualEnter,
                 ),
               ),
               const SpaceW20(),

@@ -121,6 +121,7 @@ class PaymentMethods extends HookWidget {
                         name: '${card.network} •••• ${card.last4}',
                         expirationDate: 'Exp. ${card.expMonth}/${card.expYear}',
                         expired: isCardExpired(card.expMonth, card.expYear),
+                        status: card.status,
                         onDelete: () => showDeleteDisclaimer(
                           onDelete: () async {
                             loader.value.startLoading();

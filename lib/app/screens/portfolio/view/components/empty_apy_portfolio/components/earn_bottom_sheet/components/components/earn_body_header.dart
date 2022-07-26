@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,27 +26,26 @@ class EarnBodyHeader extends HookWidget {
     return Row(
       children: [
         Flexible(
-          child: FittedBox(
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: '${intl.earnBodyHeader_upTo} '
-                        '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
-                    style: sTextH2Style.copyWith(
-                      color: colors.green,
-                    ),
+          child:AutoSizeText.rich(
+             TextSpan(
+              children: [
+                TextSpan(
+                  text: '${intl.earnBodyHeader_upTo} '
+                      '${maxCurrencyApy(currencies).toStringAsFixed(0)}%',
+                  style: sTextH2Style.copyWith(
+                    color: colors.green,
                   ),
-                  TextSpan(
-                    text: ' ${intl.earnBodyHeader_text1Part1}\n'
-                        '${intl.earnBodyHeader_text1Part2}',
-                    style: sTextH2Style.copyWith(
-                      color: colors.black,
-                    ),
+                ),
+                TextSpan(
+                  text: ' ${intl.earnBodyHeader_text1Part1}\n'
+                      '${intl.earnBodyHeader_text1Part2}',
+                  style: sTextH2Style.copyWith(
+                    color: colors.black,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            maxLines: 2,
           ),
         ),
       ],

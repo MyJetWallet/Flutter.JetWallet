@@ -52,6 +52,7 @@ const platformType = 2;
 
 // KeyValue
 const watchlistKey = 'watchlist';
+const cardsKey = 'cards';
 
 // HTTP
 const postRequest = 'POST';
