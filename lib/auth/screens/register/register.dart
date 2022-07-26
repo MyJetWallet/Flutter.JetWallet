@@ -73,7 +73,7 @@ class Register extends HookWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  ColoredBox(
                     color: colors.white,
                     child: SPaddingH24(
                       child: SStandardField(
@@ -94,7 +94,7 @@ class Register extends HookWidget {
                   const SpaceH19(),
                   const ReferralCode(),
                   const Spacer(),
-                  Container(
+                  ColoredBox(
                     color: colors.grey5,
                     child: SPaddingH24(
                       child: SPolicyCheckbox(

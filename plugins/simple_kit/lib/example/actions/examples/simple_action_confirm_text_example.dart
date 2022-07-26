@@ -21,8 +21,8 @@ class SimpleActionConfirmTextExample extends HookWidget {
               const SpaceH20(),
               Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[200],
+                  ColoredBox(
+                    color: Colors.grey[200]!,
                     child: const SActionConfirmText(
                       name: 'You will get really los ',
                       value: '≈ 0,0192455 BTC',
@@ -39,8 +39,8 @@ class SimpleActionConfirmTextExample extends HookWidget {
               const SpaceH20(),
               Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[200],
+                  ColoredBox(
+                    color: Colors.grey[200]!,
                     child: const SActionConfirmText(
                       name: 'You will get really long text about this '
                           'transaction, go more text, I need more text '
@@ -59,8 +59,8 @@ class SimpleActionConfirmTextExample extends HookWidget {
               const SpaceH20(),
               Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[200],
+                  ColoredBox(
+                    color: Colors.grey[200]!,
                     child: const SActionConfirmText(
                       name: 'You will get really long text '
                           'about go to this just more',
@@ -73,8 +73,8 @@ class SimpleActionConfirmTextExample extends HookWidget {
               const SpaceH20(),
               Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[200],
+                  ColoredBox(
+                    color: Colors.grey[200]!,
                     child: const SActionConfirmText(
                       name: 'You will get really long text '
                           'about go to this just more',
@@ -87,8 +87,8 @@ class SimpleActionConfirmTextExample extends HookWidget {
               const SpaceH20(),
               Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[200],
+                  ColoredBox(
+                    color: Colors.grey[200]!,
                     child: const SActionConfirmText(
                       name: 'You will get really long text '
                           'about go to this just more',
@@ -101,8 +101,8 @@ class SimpleActionConfirmTextExample extends HookWidget {
               const SpaceH20(),
               Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[200],
+                  ColoredBox(
+                    color: Colors.grey[200]!,
                     child: const SActionConfirmText(
                       contentLoading: true,
                       name: 'You will get really long text '
@@ -116,8 +116,8 @@ class SimpleActionConfirmTextExample extends HookWidget {
               const SpaceH20(),
               Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[200],
+                  ColoredBox(
+                    color: Colors.grey[200]!,
                     child: SActionConfirmText(
                       animation: controller,
                       name: 'You will get really long text '

@@ -16,8 +16,8 @@ class SimpleNotificationsExample extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            color: Colors.green[200],
+          ColoredBox(
+            color: Colors.green[200]!,
             child: const SNotificationBox(
               text: 'Perhaps you missed “.” or “@” somewhere?”',
             ),

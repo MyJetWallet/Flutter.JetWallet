@@ -7,7 +7,7 @@ class LoaderBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: SColorsLight().black.withOpacity(0.5),
     );
   }

@@ -55,7 +55,7 @@ class OnboardingFullScreenGradient extends StatelessWidget {
               onLongPress: onLongPress,
               onLongPressEnd: onLongPressEnd,
               onPanEnd: onPanEnd,
-              child: Container(
+              child: ColoredBox(
                 color: Colors.transparent,
               ),
             ),
@@ -70,7 +70,7 @@ class OnboardingFullScreenGradient extends StatelessWidget {
               onLongPress: onLongPress,
               onLongPressEnd: onLongPressEnd,
               onPanEnd: onPanEnd,
-              child: Container(
+              child: ColoredBox(
                 color: Colors.transparent,
               ),
             ),
