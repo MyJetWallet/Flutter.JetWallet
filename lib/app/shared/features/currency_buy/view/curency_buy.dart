@@ -92,9 +92,13 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
 
                   return SCreditCardItem(
                     lightDivider: true,
-                    isSelected: state.pickedCircleCard?.id == card.id,
+                    isSelected: state.pickedCircleCard?.id == card.id &&
+                        state.selectedPaymentMethod?.type ==
+                            PaymentMethodType.circleCard,
                     icon: SActionDepositIcon(
-                      color: state.pickedCircleCard?.id == card.id
+                      color: state.pickedCircleCard?.id == card.id &&
+                          state.selectedPaymentMethod?.type ==
+                              PaymentMethodType.circleCard
                           ? colors.blue
                           : colors.black,
                     ),
