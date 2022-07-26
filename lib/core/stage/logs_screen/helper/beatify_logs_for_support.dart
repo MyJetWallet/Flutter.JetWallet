@@ -12,3 +12,14 @@ String beatifyLogsForSupport(Iterable<LogRecord> logs) {
 
   return buffer.toString();
 }
+
+String beatifyLogsForShare(Iterable<LogRecord> logs) {
+  final buffer = StringBuffer();
+
+  for (final log in logs) {
+    buffer.write(makeLogPretty(log, '\n'));
+    buffer.write('\n');
+  }
+
+  return buffer.toString();
+}

@@ -10,12 +10,14 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
     required this.userFirstName,
     required this.userLastName,
     required this.showUserName,
+    required this.onIconTap,
   }) : super(key: key);
 
   final String userEmail;
   final String userFirstName;
   final String userLastName;
   final bool showUserName;
+  final Function() onIconTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,35 +29,38 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
       height: 120.0,
       child: Row(
         children: <Widget>[
-          Stack(
-            children: [
-              Container(
-                alignment: Alignment.center,
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: SColorsLight().blue,
-                  borderRadius: BorderRadius.circular(24.0),
-                ),
-              ),
-              Positioned(
-                top: 8.5,
-                child: SizedBox(
+          STransparentInkWell(
+            onTap: onIconTap,
+            child: Stack(
+              children: [
+                Container(
+                  alignment: Alignment.center,
                   width: 48,
                   height: 48,
-                  child: Text(
-                    showUserName
-                        ? '${userFirstName.substring(0, 1).toUpperCase()}'
-                            '${userLastName.substring(0, 1).toUpperCase()}'
-                        : userEmail.substring(0, 1).toUpperCase(),
-                    style: sSubtitle2Style.copyWith(
-                      color: SColorsLight().white,
-                    ),
-                    textAlign: TextAlign.center,
+                  decoration: BoxDecoration(
+                    color: SColorsLight().blue,
+                    borderRadius: BorderRadius.circular(24.0),
                   ),
                 ),
-              ),
-            ],
+                Positioned(
+                  top: 8.5,
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Text(
+                      showUserName
+                          ? '${userFirstName.substring(0, 1).toUpperCase()}'
+                              '${userLastName.substring(0, 1).toUpperCase()}'
+                          : userEmail.substring(0, 1).toUpperCase(),
+                      style: sSubtitle2Style.copyWith(
+                        color: SColorsLight().white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           const SpaceW20(),
           Expanded(
