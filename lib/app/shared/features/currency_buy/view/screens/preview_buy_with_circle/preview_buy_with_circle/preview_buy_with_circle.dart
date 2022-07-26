@@ -40,6 +40,11 @@ class PreviewBuyWithCircle extends HookWidget {
         '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
         '${input.currency.description}';
     final cards = useProvider(cardsPod);
+    var heightWidget = MediaQuery.of(context).size.height - 690;
+    deviceSize.when(
+        small: () => heightWidget = heightWidget - 120,
+        medium: () => heightWidget = heightWidget - 180,
+    );
 
     if (cards.cardInfos.isNotEmpty) {
       final actualCard = cards.cardInfos.where(
@@ -115,6 +120,11 @@ class PreviewBuyWithCircle extends HookWidget {
                       iconUrl: input.currency.iconUrl,
                     ),
                   ),
+                  if (!state.wasPending && heightWidget > 0) ...[
+                    SizedBox(
+                      height: heightWidget,
+                    ),
+                  ],
                   // const Spacer(),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_payFrom,
