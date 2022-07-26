@@ -29,7 +29,7 @@ class KeyboardIcon extends HookWidget {
     return KeyboardKeySize(
       child: hide ?? false
           ? const SizedBox()
-          : Container(
+          : DecoratedBox(
               decoration: BoxDecoration(
                 color: highlighted.value
                     ? SColorsLight().white

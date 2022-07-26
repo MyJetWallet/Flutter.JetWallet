@@ -104,7 +104,7 @@ class TransactionListItem extends HookWidget {
                   if (transactionListItem.status != Status.inProgress)
                     TransactionListItemText(
                       text: '${formatDateToDMY(
-                          transactionListItem.timeStamp,
+                        transactionListItem.timeStamp,
                       )} '
                           '- ${formatDateToHm(transactionListItem.timeStamp)}',
                       color: colors.grey2,
@@ -148,24 +148,23 @@ class TransactionListItem extends HookWidget {
                     TransactionListItemText(
                       text: '${intl.withText} ${volumeFormat(
                         prefix: currency.prefixSymbol,
-                        decimal: transactionListItem
-                            .recurringBuyInfo
-                            !.sellAmount,
+                        decimal:
+                            transactionListItem.recurringBuyInfo!.sellAmount,
                         accuracy: currency.accuracy,
                         symbol:
-                        transactionListItem.recurringBuyInfo!.sellAssetId!,
+                            transactionListItem.recurringBuyInfo!.sellAssetId!,
                       )}',
                       color: colors.grey2,
                     ),
                   if (transactionListItem.operationType ==
-                      OperationType.earningDeposit
-                      && transactionListItem.earnInfo?.totalBalance ==
+                          OperationType.earningDeposit &&
+                      transactionListItem.earnInfo?.totalBalance ==
                           transactionListItem.balanceChange.abs())
                     TransactionListItemText(
                       text: '${intl.earn_with} ${volumeFormat(
                         prefix: baseCurrency.prefix,
-                        decimal: transactionListItem.earnInfo!.totalBalance
-                            * currency.currentPrice,
+                        decimal: transactionListItem.earnInfo!.totalBalance *
+                            currency.currentPrice,
                         accuracy: baseCurrency.accuracy,
                         symbol: baseCurrency.symbol,
                       )}',
@@ -260,6 +259,8 @@ class TransactionListItem extends HookWidget {
         return const SEarnDepositIcon();
       case OperationType.unknown:
         return const SizedBox();
+      case OperationType.cryptoInfo:
+        return const SDepositIcon();
     }
   }
 }

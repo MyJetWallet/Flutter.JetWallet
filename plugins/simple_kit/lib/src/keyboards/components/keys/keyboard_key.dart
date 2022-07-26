@@ -25,7 +25,7 @@ class KeyboardKey extends HookWidget {
     final highlighted = useState(false);
 
     return KeyboardKeySize(
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: highlighted.value
               ? SColorsLight().white

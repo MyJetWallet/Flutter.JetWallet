@@ -9,17 +9,17 @@ import 'helpers/add_proxy.dart';
 import 'helpers/setup_image_headers.dart';
 
 Dio imageDio(AuthInfoState authModel, Reader read) {
-  final _dio = Dio();
+  final dio = Dio();
 
-  setupImageHeaders(_dio, read, authModel.token);
+  setupImageHeaders(dio, read, authModel.token);
 
   if (read(flavorPod) == Flavor.dev) {
-    addLogger(_dio);
+    addLogger(dio);
   }
 
-  addInterceptors(_dio, read);
+  addInterceptors(dio, read);
 
-  addProxy(_dio, read);
+  addProxy(dio, read);
 
-  return _dio;
+  return dio;
 }

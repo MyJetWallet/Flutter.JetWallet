@@ -21,7 +21,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
           const Spacer(),
           Stack(
             children: [
-              Container(
+              ColoredBox(
                 color: Colors.grey,
                 child: SBottomNavigationBar(
                   animationController: animationController,
@@ -38,8 +38,8 @@ class SimpleBottomNavigationBarExample extends HookWidget {
               ),
               Column(
                 children: [
-                  Container(
-                    color: Colors.blue[100],
+                  ColoredBox(
+                    color: Colors.blue[100]!,
                     child: const SizedBox(
                       height: 14.0,
                       width: double.infinity,
@@ -148,8 +148,8 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                       const Spacer(),
                     ],
                   ),
-                  Container(
-                    color: Colors.blue[100],
+                  ColoredBox(
+                    color: Colors.blue[100]!,
                     child: const SizedBox(
                       height: 26.0,
                       width: double.infinity,

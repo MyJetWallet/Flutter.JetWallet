@@ -39,7 +39,7 @@ class NotificationBox extends StatelessWidget {
                 minWidth: 18.0,
                 minHeight: 18.0,
               ),
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: cardsFailed
                     ? SColorsLight().red
