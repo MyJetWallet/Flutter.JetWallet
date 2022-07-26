@@ -195,7 +195,7 @@ class PreviewBuyWithCircle extends HookWidget {
                   ),
                   const SpaceH20(),
                   if (state.wasPending) ...[
-                    Container(
+                    DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
                         border: Border.all(
@@ -212,7 +212,7 @@ class PreviewBuyWithCircle extends HookWidget {
                                 bottom: 3,
                               ),
                               child: state.isPending
-                                  ? Container(
+                                  ? DecoratedBox(
                                       decoration: BoxDecoration(
                                         color: colors.grey5,
                                         shape: BoxShape.circle,
