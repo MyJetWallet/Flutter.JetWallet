@@ -131,7 +131,7 @@ class EarningWithdrawalDetails extends HookWidget {
           const SpaceH40(),
          if (transactionListItem.status == Status.inProgress) ...[
             const SpaceH14(),
-            Container(
+            DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(

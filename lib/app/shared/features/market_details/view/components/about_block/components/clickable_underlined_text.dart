@@ -25,7 +25,7 @@ class ClickableUnderlinedText extends HookWidget {
       },
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(

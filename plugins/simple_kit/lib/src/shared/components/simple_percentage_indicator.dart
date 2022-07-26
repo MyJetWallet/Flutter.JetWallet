@@ -76,7 +76,7 @@ class SimplePercentageIndicator extends StatelessWidget {
         );
       } else if (doubleTier) {
         return Expanded(
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               color: tiers[1].active
                   ? colorTheme[1]
@@ -135,7 +135,7 @@ class SimplePercentageIndicator extends StatelessWidget {
         );
       } else {
         return Expanded(
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               color: tiers[2].active
                   ? colorTheme[2]
