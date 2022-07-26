@@ -61,6 +61,8 @@ const signatureHeader = 'signature';
 // Earn
 const earnBackgroundImageAsset = 'assets/images/earn_background.png';
 const earnEmptyStateImage = 'assets/images/earn_empty.png';
+//Languages codes
+const languageCodePl = 'pl';
 
 // Earn Type
 const earnRipple = 'Ripple';

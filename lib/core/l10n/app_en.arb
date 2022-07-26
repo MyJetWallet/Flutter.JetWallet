@@ -736,6 +736,7 @@
     "recurringBuysStatus_paused": "Paused",
     "recurringBuysStatus_deleted": "Deleted",
     "recurringBuysStatus_empty": "Empty",
+    "recurringBuys_recurring_pl_prefix": "",
     "recurringBuys_recurring": "recurring",
     "recurringBuys_buy2": "buy",
     "recurringBuysItem_paused": "Paused",
