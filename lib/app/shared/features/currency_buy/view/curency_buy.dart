@@ -158,16 +158,14 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
 
                   return SCreditCardItem(
                     lightDivider: true,
-                    isSelected:  (cardLimit.cardLimits?.barProgress == 100 ||
-                        isLimitBlock)
-                        ? colors.grey2
-                        : state.pickedCircleCard?.id == card.id &&
+                    isSelected: state.pickedCircleCard?.id == card.id &&
                         state.selectedPaymentMethod?.type ==
                             PaymentMethodType.circleCard,
                     icon: SActionDepositIcon(
-                      color: state.pickedCircleCard?.id == card.id &&
-                          state.selectedPaymentMethod?.type ==
-                              PaymentMethodType.circleCard
+                      color: (cardLimit.cardLimits?.barProgress == 100 ||
+                          isLimitBlock)
+                          ? colors.grey2
+                          : state.pickedCircleCard?.id == card.id
                           ? colors.blue
                           : colors.black,
                     ),
