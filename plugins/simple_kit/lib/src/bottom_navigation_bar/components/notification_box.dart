@@ -37,7 +37,7 @@ class NotificationBox extends StatelessWidget {
                 minWidth: 18.0,
                 minHeight: 18.0,
               ),
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: SColorsLight().blue,
                   borderRadius: BorderRadius.circular(18.0),

@@ -16,8 +16,8 @@ class SimpleAssetItemExample extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  color: Colors.grey[200],
+                ColoredBox(
+                  color: Colors.grey[200]!,
                   child: SAssetItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),
@@ -157,8 +157,8 @@ class SimpleAssetItemExample extends StatelessWidget {
             const SpaceH20(),
             Stack(
               children: [
-                Container(
-                  color: Colors.grey[200],
+                ColoredBox(
+                  color: Colors.grey[200]!,
                   child: SAssetItem(
                     onTap: () {},
                     icon: const SActionBuyIcon(),

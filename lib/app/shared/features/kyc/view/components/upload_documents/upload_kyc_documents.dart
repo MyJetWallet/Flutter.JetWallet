@@ -50,7 +50,7 @@ class UploadKycDocuments extends HookWidget {
     final activeDocument =
         useProvider(chooseDocumentsNotipod.notifier).getActiveDocument();
 
-    final _banners = createKycBannersList(
+    final banners = createKycBannersList(
       documentFirstSide: state.documentFirstSide,
       documentSecondSide: state.documentSecondSide,
       colors: colors,
@@ -120,7 +120,7 @@ class UploadKycDocuments extends HookWidget {
                         itemCount: _documentPageViewCount(
                           activeDocument.document,
                         ),
-                        banners: _banners,
+                        banners: banners,
                       ),
                       const SpaceH18(),
                       PageIndicator(
