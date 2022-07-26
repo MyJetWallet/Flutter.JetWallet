@@ -15,6 +15,7 @@ import 'package:simple_networking/services/card_buy/model/create/card_buy_create
 import 'package:simple_networking/services/card_buy/model/execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/info/card_buy_info_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/info/card_buy_info_response_model.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
@@ -25,6 +26,7 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../../add_circle_card/view/add_circle_card.dart';
 import '../../model/preview_buy_with_circle_input.dart';
 import '../../view/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
 import '../../view/screens/preview_buy_with_circle/show_circle_cvv_bottom_sheet.dart';
@@ -40,6 +42,7 @@ class PreviewBuyWithCircleNotifier
     _intl = read(intlPod);
     _initState();
     _requestPreview();
+    _requestCards();
   }
 
   final Reader read;
@@ -146,6 +149,27 @@ class PreviewBuyWithCircleNotifier
         state.loader.finishLoadingImmediately();
       }, '',);
     });
+  }
+
+  Future<void> _requestCards() async {
+    _logger.log(notifier, '_requestCards');
+    try {
+      final response = await read(circleServicePod).allCards();
+      if (response.cards.isNotEmpty) {
+        final actualCard = response.cards.where(
+            (element) => element.id == state.card?.id,
+        ).toList();
+        if (actualCard.isNotEmpty) {
+          state = state.copyWith(
+            isPending: actualCard[0].status == CircleCardStatus.pending,
+            wasPending: actualCard[0].status == CircleCardStatus.pending,
+          );
+        }
+      }
+    } catch (e) {
+      await Future.delayed(const Duration(seconds: 5));
+      await _requestCards();
+    }
   }
 
   Future<void> _requestPayment(void Function() onSuccess) async {
@@ -303,5 +327,56 @@ class PreviewBuyWithCircleNotifier
 
   void checkSetter() {
     state = state.copyWith(isChecked: !state.isChecked);
+  }
+
+  void setWasPending({required bool wasPending}) {
+    state = state.copyWith(
+      wasPending: wasPending,
+    );
+  }
+
+  void setIsPending({required bool isPending}) {
+    state = state.copyWith(
+      isPending: isPending,
+    );
+  }
+
+  void setFailureShowed({required bool failureShowed}) {
+    state = state.copyWith(
+      failureShowed: failureShowed,
+    );
+  }
+
+  void showFailure() {
+    final intl = read(intlPod);
+    if (!mounted) return;
+    if (!state.failureShowed) {
+      setFailureShowed(failureShowed: true);
+      sAnalytics.circleFailed();
+      FailureScreen.push(
+        context: _context,
+        primaryText: intl.previewBuyWithCircle_failure,
+        secondaryText: intl.previewBuyWithCircle_failureDescription,
+        primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
+        onPrimaryButtonTap: () {
+          sAnalytics.circleAdd();
+          AddCircleCard.pushReplacement(
+            context: _context,
+            onCardAdded: (card) {
+              Navigator.pop(_context);
+              Navigator.pop(_context);
+              Navigator.pop(_context);
+            },
+          );
+        },
+        secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
+        onSecondaryButtonTap: () {
+          sAnalytics.circleCancel();
+          Navigator.pop(_context);
+          Navigator.pop(_context);
+          Navigator.pop(_context);
+        },
+      );
+    }
   }
 }

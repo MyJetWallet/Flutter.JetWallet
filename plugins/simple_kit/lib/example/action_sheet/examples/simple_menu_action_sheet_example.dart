@@ -70,6 +70,7 @@ class _CustomBottomNavigationBar extends HookWidget {
       selectedIndex: 1,
       actionActive: actionActive.value,
       earnEnabled: true,
+      cardNotifications: false,
       onActionTap: () {
         if (!actionActive.value) {
           sShowMenuActionSheet(

@@ -24,12 +24,13 @@ const blockchainsMessage = 'blockchains';
 const referralInfoMessage = 'referral-info';
 const recurringBuyMessage = 'recurring-buys';
 const earnOffersMessage = 'high-yield-profile';
-const earnProfileMessage = 'EarnProfile';
 const initFinished = 'init-finished';
+const cardsMessage = 'cards';
 const cardLimitsMessage = 'cards-limits';
 
 // KeyValue
 const watchlistKey = 'watchlist';
+const cardsKey = 'cards';
 
 // Logging levels
 const transport = Level('🚚Transport', 1);

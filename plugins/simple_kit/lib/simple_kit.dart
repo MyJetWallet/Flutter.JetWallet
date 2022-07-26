@@ -161,6 +161,7 @@ export 'src/icons/24x24/public/close/simple_close_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_pressed_icon.dart';
 export 'src/icons/24x24/public/close/simple_close_with_border_icon.dart';
 export 'src/icons/24x24/public/complete/simple_complete_icon.dart';
+export 'src/icons/24x24/public/complete/simple_complete_done_icon.dart';
 export 'src/icons/24x24/public/copy/simple_copy_icon.dart';
 export 'src/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
 export 'src/icons/24x24/public/delete/simple_delete_manage_icon.dart';
