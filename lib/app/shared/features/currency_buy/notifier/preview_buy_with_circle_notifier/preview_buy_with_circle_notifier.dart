@@ -9,14 +9,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:openpgp/openpgp.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/services/circle/model/create_payment/create_payment_request_model.dart';
-import 'package:simple_networking/services/circle/model/create_payment/create_payment_response_model.dart';
-import 'package:simple_networking/services/circle/model/payment_info/payment_info_request_model.dart';
-import 'package:simple_networking/services/circle/model/payment_info/payment_info_response_model.dart';
-import 'package:simple_networking/services/circle/model/payment_preview/payment_preview_request_model.dart';
+import 'package:simple_networking/services/card_buy/model/create/card_buy_create_request_model.dart';
+import 'package:simple_networking/services/card_buy/model/execute/card_buy_execute_request_model.dart';
+import 'package:simple_networking/services/card_buy/model/info/card_buy_info_request_model.dart';
+import 'package:simple_networking/services/card_buy/model/info/card_buy_info_response_model.dart';
+import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../../shared/components/result_screens/success_screen/success_screen.dart';
@@ -26,6 +26,7 @@ import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
+import '../../../add_circle_card/view/add_circle_card.dart';
 import '../../model/preview_buy_with_circle_input.dart';
 import '../../view/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
 import '../../view/screens/preview_buy_with_circle/show_circle_cvv_bottom_sheet.dart';
@@ -41,6 +42,7 @@ class PreviewBuyWithCircleNotifier
     _intl = read(intlPod);
     _initState();
     _requestPreview();
+    _requestCards();
   }
 
   final Reader read;
@@ -62,24 +64,33 @@ class PreviewBuyWithCircleNotifier
   Future<void> _requestPreview() async {
     state.loader.startLoadingImmediately();
 
-    final model = PaymentPreviewRequestModel(
-      cardId: state.card!.id,
-      amount: Decimal.parse(input.amount),
-      currencySymbol: input.currency.symbol,
+    final model = CardBuyCreateRequestModel(
+      paymentMethod: CirclePaymentMethod.circle,
+      paymentAmount: state.amountToPay!,
+      buyAsset: input.currency.symbol,
+      paymentAsset: 'USD',
+      circlePaymentData: CirclePaymentDataModel(
+        cardId: state.card!.id,
+      ),
     );
 
     try {
-      final response = await read(circleServicePod).paymentPreview(
+      final response = await read(cardBuyServicePod).cardBuyCreatePayment(
         model,
         _intl.localeName,
       );
 
       state = state.copyWith(
-        amountToPay: response.paymentAmount,
-        amountToGet: response.calculatedAmount,
-        currencySymbol: response.currencySymbol,
-        feeAmount: response.feeAmount,
-        feePercentage: response.feePercentage,
+        paymentAmount: response.paymentAmount,
+        paymentAsset: response.paymentAsset,
+        buyAmount: response.buyAmount,
+        buyAsset: response.buyAsset,
+        depositFeeAmount: response.depositFeeAmount,
+        depositFeeAsset: response.depositFeeAsset,
+        tradeFeeAmount: response.tradeFeeAmount,
+        tradeFeeAsset: response.tradeFeeAsset,
+        rate: response.rate,
+        paymentId: response.paymentId ?? '',
       );
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'requestPreview', error.cause);
@@ -98,6 +109,7 @@ class PreviewBuyWithCircleNotifier
     _logger.log(notifier, 'onConfirm');
 
     if (cvvEnabled) {
+      sAnalytics.circleCVVView();
       showCircleCvvBottomSheet(
         context: _context,
         header: '${_intl.previewBuyWithCircle_enter} CVV '
@@ -121,12 +133,43 @@ class PreviewBuyWithCircleNotifier
     state.loader.startLoadingImmediately();
 
     await _requestPayment(() async {
-      await _requestPaymentInfo((url) {
+      await _requestPaymentInfo((url, onSuccess, paymentId) {
         if (!mounted) return;
-        navigatorPush(_context, Circle3dSecureWebView(url));
+        sAnalytics.circleRedirect();
+        navigatorPush(
+          _context,
+          Circle3dSecureWebView(
+            url,
+            input.amount,
+            state.currencySymbol,
+            onSuccess,
+            paymentId,
+          ),
+        );
         state.loader.finishLoadingImmediately();
-      });
+      }, '',);
     });
+  }
+
+  Future<void> _requestCards() async {
+    _logger.log(notifier, '_requestCards');
+    try {
+      final response = await read(circleServicePod).allCards();
+      if (response.cards.isNotEmpty) {
+        final actualCard = response.cards.where(
+            (element) => element.id == state.card?.id,
+        ).toList();
+        if (actualCard.isNotEmpty) {
+          state = state.copyWith(
+            isPending: actualCard[0].status == CircleCardStatus.pending,
+            wasPending: actualCard[0].status == CircleCardStatus.pending,
+          );
+        }
+      }
+    } catch (e) {
+      await Future.delayed(const Duration(seconds: 5));
+      await _requestCards();
+    }
   }
 
   Future<void> _requestPayment(void Function() onSuccess) async {
@@ -145,26 +188,22 @@ class PreviewBuyWithCircleNotifier
       final utf8Encoded = utf8.encode(encrypted);
       final base64Encoded = base64Encode(utf8Encoded);
 
-      final model = CreatePaymentRequestModel(
-        requestGuid: const Uuid().v4(),
-        keyId: encryption.keyId,
-        cardId: state.card!.id,
-        amount: state.amountToPay!,
-        currencySymbol: state.currencySymbol,
-        encryptedData: base64Encoded,
+      final model = CardBuyExecuteRequestModel(
+        paymentId: state.paymentId,
+        paymentMethod: CirclePaymentMethod.circle,
+        circlePaymentData: CirclePaymentDataExecuteModel(
+          cardId: state.card!.id,
+          keyId: encryption.keyId,
+          encryptedData: base64Encoded,
+        ),
       );
 
-      final response = await read(circleServicePod).createPayment(
+      await read(cardBuyServicePod).cardBuyExecutePayment(
         model,
         _intl.localeName,
       );
 
-      if (response.status == CirclePaymentStatus.ok) {
-        state = state.copyWith(depositId: response.depositId);
-        onSuccess();
-      } else {
-        throw ServerRejectException(response.status.toString());
-      }
+      onSuccess();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, '_requestPayment', error.cause);
 
@@ -176,34 +215,54 @@ class PreviewBuyWithCircleNotifier
     }
   }
 
-  Future<void> _requestPaymentInfo(Function(String) on3Secure) async {
+  Future<void> _requestPaymentInfo(
+      Function(String, Function(String, String), String) onAction,
+      String lastAction,
+    ) async {
     _logger.log(notifier, '_requestPaymentInfo');
-
     try {
-      final model = PaymentInfoRequestModel(
-        depositId: state.depositId,
+      final model = CardBuyInfoRequestModel(
+        paymentId: state.paymentId,
       );
 
-      final response = await read(circleServicePod).paymentInfo(
+      final response = await read(cardBuyServicePod).cardBuyInfo(
         model,
         _intl.localeName,
       );
 
-      final pending = response.status == PaymentStatus.pending;
-      final confirmed = response.status == PaymentStatus.confirmed;
-      final complete = response.status == PaymentStatus.complete;
-      final paid = response.status == PaymentStatus.paid;
-      final failed = response.status == PaymentStatus.failed;
+      final pending = response.status == CardBuyPaymentStatus.inProcess ||
+          response.status == CardBuyPaymentStatus.preview ||
+          response.status == CardBuyPaymentStatus.waitForPayment;
+      final complete = response.status == CardBuyPaymentStatus.success;
+      final failed = response.status == CardBuyPaymentStatus.fail;
+      final actionRequired =
+          response.status == CardBuyPaymentStatus.requireAction;
 
-      if (pending) {
-        await Future.delayed(const Duration(seconds: 1));
-        await _requestPaymentInfo(on3Secure);
-      } else if (complete || confirmed || paid) {
+      if (pending ||
+          (actionRequired && lastAction == response.clientAction!.checkoutUrl)
+      ) {
+        await Future.delayed(const Duration(seconds: 5));
+        await _requestPaymentInfo(onAction, lastAction);
+      } else if (complete) {
+        sAnalytics.circleSuccess(
+          asset: input.currency.description,
+          amount: input.amount,
+          frequency: RecurringFrequency.oneTime,
+        );
         _showSuccessScreen();
       } else if (failed) {
         throw Exception();
-      } else {
-        on3Secure(response.redirectedUrl!);
+      } else if (actionRequired) {
+        onAction(
+          response.clientAction!.checkoutUrl ?? '',
+          (payment, lastAction) {
+            Navigator.pop(_context);
+            state.copyWith(paymentId: payment);
+            state.loader.startLoadingImmediately();
+            _requestPaymentInfo(onAction, lastAction);
+          },
+          state.paymentId,
+        );
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, '_requestPaymentInfo', error.cause);
@@ -217,6 +276,11 @@ class PreviewBuyWithCircleNotifier
   }
 
   void _showSuccessScreen() {
+    sAnalytics.circleSuccess(
+      asset: state.currencySymbol,
+      amount: input.amount,
+      frequency: RecurringFrequency.oneTime,
+    );
     return SuccessScreen.push(
       context: _context,
       secondaryText: '${_intl.buyWithCircle_paymentWillBeProcessed} \n'
@@ -259,5 +323,60 @@ class PreviewBuyWithCircleNotifier
       secondaryButtonName: _intl.previewBuyWithAsset_close,
       onSecondaryButtonTap: () => navigateToRouter(read),
     );
+  }
+
+  void checkSetter() {
+    state = state.copyWith(isChecked: !state.isChecked);
+  }
+
+  void setWasPending({required bool wasPending}) {
+    state = state.copyWith(
+      wasPending: wasPending,
+    );
+  }
+
+  void setIsPending({required bool isPending}) {
+    state = state.copyWith(
+      isPending: isPending,
+    );
+  }
+
+  void setFailureShowed({required bool failureShowed}) {
+    state = state.copyWith(
+      failureShowed: failureShowed,
+    );
+  }
+
+  void showFailure() {
+    final intl = read(intlPod);
+    if (!mounted) return;
+    if (!state.failureShowed) {
+      setFailureShowed(failureShowed: true);
+      sAnalytics.circleFailed();
+      FailureScreen.push(
+        context: _context,
+        primaryText: intl.previewBuyWithCircle_failure,
+        secondaryText: intl.previewBuyWithCircle_failureDescription,
+        primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
+        onPrimaryButtonTap: () {
+          sAnalytics.circleAdd();
+          AddCircleCard.pushReplacement(
+            context: _context,
+            onCardAdded: (card) {
+              Navigator.pop(_context);
+              Navigator.pop(_context);
+              Navigator.pop(_context);
+            },
+          );
+        },
+        secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
+        onSecondaryButtonTap: () {
+          sAnalytics.circleCancel();
+          Navigator.pop(_context);
+          Navigator.pop(_context);
+          Navigator.pop(_context);
+        },
+      );
+    }
   }
 }

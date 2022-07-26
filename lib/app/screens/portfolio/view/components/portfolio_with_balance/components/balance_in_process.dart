@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,10 +11,12 @@ class BalanceInProcess extends HookWidget {
   const BalanceInProcess({
     this.removeDivider = false,
     required this.text,
+    required this.leadText,
     required this.icon,
   });
 
   final bool removeDivider;
+  final String leadText;
   final String text;
   final Widget icon;
 
@@ -41,17 +44,33 @@ class BalanceInProcess extends HookWidget {
                   child: icon,
                 ),
                 const SpaceW12(),
-                Baseline(
-                  baseline: 27.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    text,
-                    style: sBodyText2Style.copyWith(
-                      color: colors.grey2,
+                Expanded(child: Row(children: [
+                  Flexible(
+                    child: Baseline(
+                      baseline: 27.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        leadText,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: sBodyText2Style.copyWith(
+                          color: colors.grey2,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                const Spacer(),
+                  Baseline(
+                    baseline: 27.0,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      text,
+                      style: sBodyText2Style.copyWith(
+                        color: colors.grey2,
+                      ),
+                    ),
+                  ),
+                  const SpaceW4(),
+                ],),),
                 Baseline(
                   baseline: 27.0,
                   baselineType: TextBaseline.alphabetic,

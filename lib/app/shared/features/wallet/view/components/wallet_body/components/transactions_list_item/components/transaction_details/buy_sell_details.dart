@@ -149,6 +149,7 @@ class BuySellDetails extends HookWidget {
                 text: _rateFor(sellCurrency, buyCurrency),
               ),
             ),
+            const SpaceH40(),
           ],
         ],
       ),

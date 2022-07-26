@@ -69,7 +69,7 @@ class _ReferralCodeLinkBody extends HookWidget {
           MediaQuery.of(context).viewInsets.bottom -
           140,
       ),
-      child: Container(
+      child: ColoredBox(
         color: colors.grey5,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

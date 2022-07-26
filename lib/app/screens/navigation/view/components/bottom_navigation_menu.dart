@@ -24,6 +24,7 @@ import '../../../../shared/features/kyc/notifier/kyc_countries/kyc_countries_not
 import '../../../../shared/helpers/are_balances_empty.dart';
 import '../../../../shared/helpers/check_kyc_status.dart';
 import '../../../../shared/providers/currencies_pod/currencies_pod.dart';
+import '../../provider/bottom_navigation_notipod.dart';
 import '../../provider/navigation_stpod.dart';
 import '../../provider/open_bottom_menu_spod.dart';
 
@@ -44,6 +45,7 @@ class BottomNavigationMenu extends HookWidget {
     final kycState = useProvider(kycNotipod);
     final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
     final earnProfile = useProvider(earnProfileNotipod);
+    final bottomMenuNotifier = useProvider(bottomNavigationNotipod);
 
     useProvider(kycCountriesNotipod);
     final openBottomMenu = useProvider(openBottomMenuSpod);
@@ -73,6 +75,7 @@ class BottomNavigationMenu extends HookWidget {
         kycState,
         userInfo.twoFaEnabled,
       ),
+      cardNotifications: bottomMenuNotifier.cardNotification,
       selectedIndex: navigation.state,
       actionActive: actionActive.value,
       earnEnabled: earnProfile.earnProfile?.earnEnabled ?? false,
@@ -119,6 +122,7 @@ class BottomNavigationMenu extends HookWidget {
           );
         },
         onSell: () {
+          sAnalytics.sellClick(source: 's Menu');
           if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
             showSellAction(context);
           } else {
@@ -132,8 +136,10 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onConvert: () {
+          sAnalytics.convertClick(source: 's Menu');
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
             Navigator.of(context).pop();
+            sAnalytics.convertPageView();
             navigatorPush(context, const Convert());
           } else {
             Navigator.of(context).pop();
@@ -174,8 +180,10 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onSend: () {
+          sAnalytics.sendClick(source: 'S Menu');
           if (kycState.withdrawalStatus ==
               kycOperationStatus(KycStatus.allowed)) {
+            sAnalytics.sendChooseAsset();
             showSendAction(context);
           } else {
             Navigator.of(context).pop();
@@ -188,6 +196,7 @@ class BottomNavigationMenu extends HookWidget {
           }
         },
         onReceive: () {
+          sAnalytics.receiveClick(source: 'S Menu');
           if (kycState.withdrawalStatus ==
               kycOperationStatus(KycStatus.allowed)) {
             showReceiveAction(context);

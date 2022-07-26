@@ -6,3 +6,4 @@ const referralInviteFriendsAsset = 'assets/images/referral_invite_friends.png';
 const recurringBuysAsset = 'assets/images/recurring.png';
 const phoneChangeAsset = 'assets/images/phone_change.png';
 const timerAsset = 'assets/images/timer.png';
+const contactAsset = 'assets/images/contact.svg';

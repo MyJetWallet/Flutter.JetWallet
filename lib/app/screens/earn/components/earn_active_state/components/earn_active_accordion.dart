@@ -55,7 +55,7 @@ class EarnActiveAccordion extends HookWidget {
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onTap: onTap,
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(24.0),
@@ -81,7 +81,7 @@ class EarnActiveAccordion extends HookWidget {
                         padding: const EdgeInsets.only(
                           right: 25,
                         ),
-                        child: Container(
+                        child: DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(
                               Radius.circular(20),

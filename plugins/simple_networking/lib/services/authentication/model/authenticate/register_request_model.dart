@@ -17,6 +17,7 @@ class RegisterRequestModel with _$RegisterRequestModel {
     required String password,
     required int platformType,
     @JsonKey(name: 'application') required int platform,
+    String? appsflyerId,
   }) = _RegisterRequestModel;
 
   factory RegisterRequestModel.fromJson(Map<String, dynamic> json) =>

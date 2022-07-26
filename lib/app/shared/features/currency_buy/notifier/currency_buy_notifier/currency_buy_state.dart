@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/signal_r/model/card_limits_model.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
 import '../../../../helpers/formatting/formatting.dart';
@@ -16,6 +17,7 @@ part 'currency_buy_state.freezed.dart';
 @freezed
 class CurrencyBuyState with _$CurrencyBuyState {
   const factory CurrencyBuyState({
+    CardLimitsModel? cardLimit,
     Decimal? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
     CircleCard? pickedCircleCard,
@@ -23,6 +25,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     PaymentMethod? selectedPaymentMethod,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
+    String? tappedPreset,
     String? paymentMethodInputError,
     @Default(RecurringBuysType.oneTimePurchase)
         RecurringBuysType recurringBuyType,
@@ -58,7 +61,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     if (selectedPaymentMethod != null) {
       return '\$500';
     } else {
-      return '100%';
+      return 'MAX';
     }
   }
 

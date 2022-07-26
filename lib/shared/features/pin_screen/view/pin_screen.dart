@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../helpers/navigator_push.dart';
 import '../../../notifiers/logout_notifier/logout_notipod.dart';
+import '../../../providers/service_providers.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_flow_union.dart';
 import '../notifier/pin_screen_notifier.dart';
@@ -15,10 +16,12 @@ import 'components/shake_widget/shake_widget.dart';
 class PinScreen extends HookWidget {
   const PinScreen({
     Key? key,
+    this.displayHeader = true,
     this.cannotLeave = false,
     required this.union,
   }) : super(key: key);
 
+  final bool displayHeader;
   final bool cannotLeave;
   final PinFlowUnion union;
 
@@ -41,6 +44,8 @@ class PinScreen extends HookWidget {
     final pin = useProvider(pinScreenNotipod(union));
     final pinN = useProvider(pinScreenNotipod(union).notifier);
     final logoutN = useProvider(logoutNotipod.notifier);
+    final colors = useProvider(sColorPod);
+    final intl = useProvider(intlPod);
 
     Function()? onbackButton;
 
@@ -56,9 +61,32 @@ class PinScreen extends HookWidget {
       onWillPop: () => Future.value(!cannotLeave),
       child: SPageFrame(
         header: SPaddingH24(
-          child: SBigHeader(
-            title: pinN.screenDescription(),
-            onBackButtonTap: onbackButton,
+          child: pin.screenUnion.when(
+            enterPin: () {
+              if (displayHeader) {
+                return SBigHeader(
+                  title: pinN.screenDescription(),
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+            confirmPin: () {
+              return SBigHeader(
+                title: pinN.screenDescription(),
+                onBackButtonTap: () {
+                  onbackButton!();
+                },
+              );
+            },
+            newPin: () {
+              return SBigHeader(
+                title: pinN.screenDescription(),
+                onBackButtonTap: () {
+                  onbackButton!();
+                },
+              );
+            },
           ),
         ),
         child: Column(
@@ -78,6 +106,44 @@ class PinScreen extends HookWidget {
               ),
             ),
             const Spacer(),
+            if (!displayHeader)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${intl.pinScreen_forgotYourPin}? ',
+                    style: sBodyText2Style.copyWith(
+                      color: colors.grey2,
+                    ),
+                  ),
+                  InkWell(
+                    highlightColor: colors.grey5,
+                    onTap: () => logoutN.logout(),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 2,
+                            color: colors.black,
+                          ),
+                        ),
+                      ),
+                      child: Baseline(
+                        baselineType: TextBaseline.alphabetic,
+                        baseline: 22,
+                        child: Text(
+                          intl.log_out,
+                          style: sBodyText2Style.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            if (!displayHeader) const SpaceH34(),
+            if (displayHeader) const SpaceH40(),
             SNumericKeyboardPin(
               hideBiometricButton: pin.hideBiometricButton,
               onKeyPressed: (value) => pinN.updatePin(value),

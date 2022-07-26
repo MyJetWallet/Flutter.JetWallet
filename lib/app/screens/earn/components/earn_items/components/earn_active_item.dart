@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/signal_r/model/earn_offers_model.dart';
 
@@ -98,16 +99,24 @@ class EarnActiveItem extends HookWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
+            sAnalytics.earnTapActive(
+              assetName: currentCurrency.description,
+              amount: earnOffer.amount.toString(),
+              apy: earnOffer.currentApy.toString(),
+              term: earnOffer.term,
+              offerId: earnOffer.offerId,
+            );
             showEarnOfferDetails(
               context: context,
               earnOffer: earnOffer,
+              assetName: currentCurrency.description,
             );
           },
           child: Ink(
             height: 88,
             width: double.infinity,
             color: Colors.transparent,
-            child: Container(
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 color: earnOffer.offerTag == 'Hot'

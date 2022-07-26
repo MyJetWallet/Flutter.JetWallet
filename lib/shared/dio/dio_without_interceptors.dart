@@ -7,15 +7,15 @@ import 'helpers/add_proxy.dart';
 import 'helpers/setup_headers.dart';
 
 Dio dioWithoutInterceptors(Reader read) {
-  final _dio = Dio();
+  final dio = Dio();
 
-  setupHeaders(_dio, read);
+  setupHeaders(dio, read);
 
   if (read(flavorPod) == Flavor.dev) {
-    addLogger(_dio);
+    addLogger(dio);
   }
 
-  addProxy(_dio, read);
+  addProxy(dio, read);
 
-  return _dio;
+  return dio;
 }

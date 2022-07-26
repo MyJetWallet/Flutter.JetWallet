@@ -31,7 +31,7 @@ class Register extends HookWidget {
     final credentialsN = useProvider(credentialsNotipod.notifier);
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
-    final _controller = useScrollController();
+    final controller = useScrollController();
 
     analytics(() => sAnalytics.signUpView());
 
@@ -50,8 +50,8 @@ class Register extends HookWidget {
     }
 
     void _scrollToBottom() {
-      _controller.animateTo(
-        _controller.position.maxScrollExtent,
+      controller.animateTo(
+        controller.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
         curve: Curves.ease,
       );
@@ -65,73 +65,75 @@ class Register extends HookWidget {
         ),
       ),
       child: CustomScrollView(
-        controller: _controller,
+        controller: controller,
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  color: colors.white,
-                  child: SPaddingH24(
-                    child: SStandardField(
-                      labelText: intl.login_emailTextFieldLabel,
-                      autofocus: true,
-                      keyboardType: TextInputType.emailAddress,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.deny(RegExp('[ ]'))
-                      ],
-                      onChanged: (value) {
-                        credentialsN.updateAndValidateEmail(value);
-                      },
-                      onErrorIconTap: () => _showError(),
-                      errorNotifier: emailError.value,
+            child: AutofillGroup(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ColoredBox(
+                    color: colors.white,
+                    child: SPaddingH24(
+                      child: SStandardField(
+                        labelText: intl.login_emailTextFieldLabel,
+                        autofocus: true,
+                        keyboardType: TextInputType.emailAddress,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                        ],
+                        onChanged: (value) {
+                          credentialsN.updateAndValidateEmail(value);
+                        },
+                        onErrorIconTap: () => _showError(),
+                        errorNotifier: emailError.value,
+                      ),
                     ),
                   ),
-                ),
-                const SpaceH19(),
-                const ReferralCode(),
-                const SpaceH36(),
-                Container(
-                  color: colors.grey5,
-                  child: SPaddingH24(
-                    child: SPolicyCheckbox(
-                      firstText: '${intl.register_herebyConfirm} ',
-                      userAgreementText: intl.register_TAndC,
-                      betweenText: ' ${intl.register_andThe} ',
-                      privacyPolicyText: intl.register_privacyPolicy,
-                      isChecked: credentials.policyChecked,
-                      onCheckboxTap: () {
-                        _scrollToBottom();
-                        credentialsN.checkPolicy();
-                      },
-                      onUserAgreementTap: () {
-                        launchURL(context, userAgreementLink);
-                      },
-                      onPrivacyPolicyTap: () {
-                        launchURL(context, privacyPolicyLink);
+                  const SpaceH19(),
+                  const ReferralCode(),
+                  const Spacer(),
+                  ColoredBox(
+                    color: colors.grey5,
+                    child: SPaddingH24(
+                      child: SPolicyCheckbox(
+                        firstText: '${intl.register_herebyConfirm} ',
+                        userAgreementText: intl.register_TAndC,
+                        betweenText: ' ${intl.register_andThe} ',
+                        privacyPolicyText: intl.register_privacyPolicy,
+                        isChecked: credentials.policyChecked,
+                        onCheckboxTap: () {
+                          _scrollToBottom();
+                          credentialsN.checkPolicy();
+                        },
+                        onUserAgreementTap: () {
+                          launchURL(context, userAgreementLink);
+                        },
+                        onPrivacyPolicyTap: () {
+                          launchURL(context, privacyPolicyLink);
+                        },
+                      ),
+                    ),
+                  ),
+                  const SpaceH16(),
+                  SPaddingH24(
+                    child: SPrimaryButton2(
+                      active: credentials.emailIsNotEmptyAndPolicyChecked,
+                      name: intl.register_continue,
+                      onTap: () {
+                        if (credentials.emailValid) {
+                          RegisterPasswordScreen.push(context);
+                        } else {
+                          emailError.value.enableError();
+                          _showError();
+                        }
                       },
                     ),
                   ),
-                ),
-                const SpaceH16(),
-                SPaddingH24(
-                  child: SPrimaryButton2(
-                    active: credentials.emailIsNotEmptyAndPolicyChecked,
-                    name: intl.register_continue,
-                    onTap: () {
-                      if (credentials.emailValid) {
-                        RegisterPasswordScreen.push(context);
-                      } else {
-                        emailError.value.enableError();
-                        _showError();
-                      }
-                    },
-                  ),
-                ),
-                const SpaceH24(),
-              ],
+                  const SpaceH24(),
+                ],
+              ),
             ),
           ),
         ],

@@ -17,6 +17,7 @@ class HighYieldBuyState with _$HighYieldBuyState {
     BaseCurrencyModel? baseCurrency,
     CurrencyModel? selectedCurrency,
     SKeyboardPreset? selectedPreset,
+    String? tappedPreset,
     @Default('0') String inputValue,
     @Default('0') String targetConversionValue,
     @Default('0') String baseConversionValue,

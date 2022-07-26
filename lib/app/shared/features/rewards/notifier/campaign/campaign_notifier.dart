@@ -55,7 +55,7 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
   Future<List<CampaignModel>> _filteredBanners(
     List<CampaignModel> campaigns,
   ) async {
-    final _bannersForRemove = <CampaignModel>[];
+    final bannersForRemove = <CampaignModel>[];
 
     try {
       final storageBannerIds = await _getBannersIdsFromStorage();
@@ -63,14 +63,14 @@ class CampaignNotifier extends StateNotifier<List<CampaignModel>> {
         for (final storageBannerId in storageBannerIds) {
           for (final campaign in campaigns) {
             if (storageBannerId == campaign.campaignId) {
-              _bannersForRemove.add(campaign);
+              bannersForRemove.add(campaign);
             }
           }
         }
       }
 
-      if (_bannersForRemove.isNotEmpty) {
-        for (final banner in _bannersForRemove) {
+      if (bannersForRemove.isNotEmpty) {
+        for (final banner in bannersForRemove) {
           campaigns.removeWhere(
             (CampaignModel element) => element.campaignId == banner.campaignId,
           );

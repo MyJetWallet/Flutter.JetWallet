@@ -131,10 +131,12 @@ class _EmailVerificationState extends State<EmailVerification>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SpaceH7(),
-                  Text(
-                    intl.emailVerification_enterCode,
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
+                  FittedBox(
+                    child: Text(
+                      intl.emailVerification_enterCode,
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
+                      ),
                     ),
                   ),
                   Text(

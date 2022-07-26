@@ -38,9 +38,9 @@ class Login extends HookWidget {
     final passwordError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
     final disableContinue = useState(false);
-    final _controller = useTextEditingController();
-    final _customScrollController = useScrollController();
-    final _focus = useFocusNode();
+    final controller = useTextEditingController();
+    final customScrollController = useScrollController();
+    final focus = useFocusNode();
 
     analytics(() => sAnalytics.loginView());
 
@@ -57,16 +57,16 @@ class Login extends HookWidget {
     }
 
     void _onFocusChange() {
-      if (_focus.hasFocus) {
-        _customScrollController.animateTo(
-          _customScrollController.position.maxScrollExtent,
+      if (focus.hasFocus) {
+        customScrollController.animateTo(
+          customScrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 300),
           curve: Curves.ease,
         );
       }
     }
 
-    _focus.addListener(_onFocusChange);
+    focus.addListener(_onFocusChange);
 
     return ProviderListener<AuthenticationUnion>(
       provider: authenticationNotipod,
@@ -111,7 +111,7 @@ class Login extends HookWidget {
           ),
         ),
         child: CustomScrollView(
-          controller: _customScrollController,
+          controller: customScrollController,
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
@@ -152,15 +152,15 @@ class Login extends HookWidget {
                       color: colors.white,
                       child: SPaddingH24(
                         child: SStandardFieldObscure(
-                          focusNode: _focus,
+                          focusNode: focus,
                           autofillHints: const [AutofillHints.password],
-                          controller: _controller,
+                          controller: controller,
                           onChanged: (String password) {
                             credentialsN.checkOnUpdateOrRemovePassword(
                               passwordError,
                               emailError,
                               password,
-                              _controller,
+                              controller,
                             );
                           },
                           labelText: intl.login_password,

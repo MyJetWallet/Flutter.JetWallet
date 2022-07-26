@@ -36,11 +36,14 @@ class ActionBottomSheetHeader extends HookWidget {
                 ),
               ),
               const Spacer(),
-              SIconButton(
-                onTap: () => Navigator.pop(context),
-                defaultIcon: const SEraseIcon(),
-                pressedIcon: const SErasePressedIcon(),
-              ),
+              if (!showSearch)
+                SIconButton(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  defaultIcon: const SEraseIcon(),
+                  pressedIcon: const SErasePressedIcon(),
+                ),
             ],
           ),
         ),

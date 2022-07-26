@@ -19,12 +19,12 @@ class EmptyWatchlist extends HookWidget {
 
     return Column(
       children: [
-        Container(
+        const ColoredBox(
           color: Colors.white,
-          child: const MarketHeaderStats(),
+          child: MarketHeaderStats(),
         ),
         Expanded(
-          child: Container(
+          child: ColoredBox(
             color: colors.white,
             child: CustomScrollView(
               slivers: [

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -126,9 +128,10 @@ class EarningWithdrawalDetails extends HookWidget {
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
-          if (transactionListItem.status == Status.inProgress) ...[
+          const SpaceH40(),
+         if (transactionListItem.status == Status.inProgress) ...[
             const SpaceH14(),
-            Container(
+            DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(
@@ -159,6 +162,7 @@ class EarningWithdrawalDetails extends HookWidget {
                 ),
               ),
             ),
+            if (Platform.isAndroid) const SpaceH24(),
           ],
         ],
       ),

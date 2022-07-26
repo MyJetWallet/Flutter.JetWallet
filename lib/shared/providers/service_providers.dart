@@ -6,9 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/authentication/service/authentication_service.dart';
 import 'package:simple_networking/services/blockchain/service/blockchain_service.dart';
+import 'package:simple_networking/services/card_buy/service/card_buy_service.dart';
 import 'package:simple_networking/services/change_password/service/change_password_service.dart';
 import 'package:simple_networking/services/chart/service/chart_service.dart';
 import 'package:simple_networking/services/circle/service/circle_service.dart';
+import 'package:simple_networking/services/confirmation/confirmation_service.dart';
 import 'package:simple_networking/services/disclaimer/service/disclaimers_service.dart';
 import 'package:simple_networking/services/high_yield/service/high_yield_service.dart';
 import 'package:simple_networking/services/info/service/info_service.dart';
@@ -134,6 +136,12 @@ final validationServicePod = Provider<ValidationService>((ref) {
   return ValidationService(dio);
 });
 
+final confirmationServicePod = Provider<ConfirmationService>((ref) {
+  final dio = ref.watch(dioPod);
+
+  return ConfirmationService(dio);
+});
+
 final infoServicePod = Provider<InfoService>((ref) {
   final dio = ref.watch(dioPod);
 
@@ -230,6 +238,15 @@ final circleServicePod = Provider<CircleService>(
     return CircleService(dio);
   },
   name: 'circleServicePod',
+);
+
+final cardBuyServicePod = Provider<CardBuyService>(
+  (ref) {
+    final dio = ref.watch(dioPod);
+
+    return CardBuyService(dio);
+  },
+  name: 'cardBuyServicePod',
 );
 
 final simplexServicePod = Provider<SimplexService>(

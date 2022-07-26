@@ -138,8 +138,7 @@ class CommonTransactionDetailsBlock extends HookWidget {
       }
       return operationName(transactionListItem.operationType, context);
     } else {
-      return '${operationName(transactionListItem.operationType, context)} '
-          '${currency.description}';
+      return operationName(transactionListItem.operationType, context);
     }
   }
 
