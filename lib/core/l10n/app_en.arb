@@ -434,6 +434,7 @@
     "currencyBuy_choosePaymentMethod": "Choose payment method",
     "currencyBuy_addBankCard": "Add bank card",
     "currencyBuy_limit": "limit",
+    "currencyBuy_addPaymentMethod": "Add payment method",
     "previewBuyWithCircle_enter": "Enter",
     "previewBuyWithCircle_for": "for",
     "previewBuyWithCircle_cvvDescription": "This is used for card verification",

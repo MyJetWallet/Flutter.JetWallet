@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,7 +21,6 @@ import '../../../helpers/formatting/formatting.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
-import '../../add_circle_card/view/add_circle_card.dart';
 import '../../card_limits/notifier/card_limits_notipod.dart';
 import '../../payment_methods/view/components/card_limit.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
@@ -27,6 +28,7 @@ import '../helper/formatted_circle_card.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../model/preview_buy_with_circle_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
+import 'components/add_payment_bottom_sheet.dart';
 import 'components/recurring_selector.dart';
 import 'screens/preview_buy_with_asset.dart';
 import 'screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
@@ -145,9 +147,57 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               cardLimit: cardLimit.cardLimits!,
               small: true,
             ),
+          if (state.circleCards.isNotEmpty) ...[
+            for (final card in state.circleCards)
+              Builder(
+                builder: (context) {
+                  final formatted = formattedCircleCard(
+                    card,
+                    state.baseCurrency!,
+                  );
+
+                  return SCreditCardItem(
+                    lightDivider: true,
+                    isSelected: state.pickedCircleCard?.id == card.id &&
+                        state.selectedPaymentMethod?.type ==
+                            PaymentMethodType.circleCard,
+                    icon: SActionDepositIcon(
+                      color: (cardLimit.cardLimits?.barProgress == 100 ||
+                          isLimitBlock)
+                          ? colors.grey2
+                          : state.pickedCircleCard?.id == card.id
+                          ? colors.blue
+                          : colors.black,
+                    ),
+                    name: formatted.name,
+                    amount: formatted.last4Digits,
+                    helper: card.status == CircleCardStatus.pending
+                      ? intl.paymentMethod_CardIsProcessing
+                      : formatted.expDate,
+                    description: '',
+
+                    removeDivider: card.id == state.circleCards.last.id,
+                    disabled: cardLimit.cardLimits?.barProgress == 100 ||
+                        isLimitBlock,
+                    onTap: () {
+                      if (cardLimit.cardLimits?.barProgress != 100 &&
+                          !isLimitBlock) {
+                        Navigator.pop(context, card);
+                      }
+                    },
+                  );
+                },
+              ),
+            const SpaceH10(),
+            SDivider(
+              color: colors.grey3,
+            ),
+            const SpaceH10(),
+          ],
           for (final currency in state.currencies)
             if (currency.type == AssetType.crypto)
               SAssetItem(
+                lightDivider: true,
                 isSelected: currency == state.selectedCurrency,
                 icon: SNetworkSvg24(
                   color: currency == state.selectedCurrency
@@ -160,6 +210,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   state.baseCurrency!,
                 ),
                 description: currency.volumeAssetBalance,
+                removeDivider: currency == state.currencies.last,
                 onTap: () => Navigator.pop(context, currency),
               )
             else
@@ -182,85 +233,35 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
                 onTap: () => Navigator.pop(context, currency),
               ),
-          for (final card in state.circleCards)
-            Builder(
-              builder: (context) {
-                final formatted = formattedCircleCard(
-                  card,
-                  state.baseCurrency!,
-                );
-
-                return SCreditCardItem(
-                  isSelected: state.pickedCircleCard?.id == card.id,
-                  icon: SActionDepositIcon(
-                    color: (cardLimit.cardLimits?.barProgress == 100 ||
-                        isLimitBlock)
-                        ? colors.grey2
-                        : state.pickedCircleCard?.id == card.id
-                        ? colors.blue
-                        : colors.black,
+          if (widget.currency.buyMethods.isNotEmpty) ...[
+            const SpaceH24(),
+            SPaddingH24(
+              child: SSecondaryButton1(
+                active: true,
+                name: intl.currencyBuy_addPaymentMethod,
+                icon: Container(
+                  margin: const EdgeInsets.only(
+                    top: 32,
                   ),
-                  name: formatted.name,
-                  amount: formatted.last4Digits,
-                  helper: card.status == CircleCardStatus.pending
-                      ? intl.paymentMethod_CardIsProcessing
-                      : formatted.expDate,
-                  description: formatted.limit,
-                  disabled: cardLimit.cardLimits?.barProgress == 100 ||
-                      isLimitBlock,
-                  onTap: () {
-                    if (cardLimit.cardLimits?.barProgress != 100 &&
-                        !isLimitBlock) {
-                      Navigator.pop(context, card);
-                    }
-                  },
-                );
-              },
-            ),
-          for (final method in widget.currency.buyMethods)
-            if (method.type == PaymentMethodType.simplex) ...[
-              Builder(
-                builder: (context) {
-                  final isSelected = state.selectedPaymentMethod?.type ==
-                      PaymentMethodType.simplex;
-
-                  return SActionItem(
-                    expanded: true,
-                    isSelected: isSelected,
-                    icon: SActionDepositIcon(
-                      color: isSelected ? colors.blue : colors.black,
-                    ),
-                    name: intl.curencyBuy_actionItemName,
-                    description: intl.curencyBuy_actionItemDescription,
-                    onTap: () => Navigator.pop(context, method),
-                    helper: '≈10-30 ${intl.min}',
-                  );
-                },
-              ),
-            ] else if (method.type == PaymentMethodType.circleCard) ...[
-              SActionItem(
-                icon: SActionDepositIcon(
-                  color: colors.black,
+                  child: SActionBuyIcon(
+                    color: colors.black,
+                  ),
                 ),
-                name: '${intl.currencyBuy_addBankCard} - Circle',
-                description: 'Visa, Mastercard, Apple Pay',
-                withDivider: true,
-                expanded: true,
                 onTap: () {
-                  sAnalytics.circleTapAddCard();
-                  AddCircleCard.pushReplacement(
+                  showAddPaymentBottomSheet(
                     context: context,
-                    onCardAdded: (card) {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                    paymentMethods: widget.currency.buyMethods,
+                    selectedPaymentMethod: state.selectedPaymentMethod,
+                    colors: colors,
+                    onCircleCardAdded: (CircleCard card) {
                       notifier.onCircleCardAdded(card);
                     },
                   );
                 },
-                helper: '≈10-30 ${intl.min}',
               ),
-            ],
-          const SpaceH40(),
+            ),
+          ],
+          if (Platform.isAndroid) const SpaceH24(),
         ],
         context: context,
         then: (value) {
