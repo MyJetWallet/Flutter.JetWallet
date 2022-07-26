@@ -26,6 +26,7 @@ const recurringBuyMessage = 'recurring-buys';
 const earnOffersMessage = 'high-yield-profile';
 const earnProfileMessage = 'EarnProfile';
 const initFinished = 'init-finished';
+const cardLimitsMessage = 'cards-limits';
 
 // KeyValue
 const watchlistKey = 'watchlist';
