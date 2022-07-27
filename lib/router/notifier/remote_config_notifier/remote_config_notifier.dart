@@ -57,7 +57,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
       var remoteConfigURL = '';
 
       if (flavor == Flavor.prod) {
-        remoteConfigURL = 'https://wallet-api-uat.simple-spot.biz/api/v1';
+        remoteConfigURL = 'https://wallet-api.simple-spot.biz/api/v1/';
       } else {
         remoteConfigURL = 'https://wallet-api-uat.simple-spot.biz/api/v1';
       }
