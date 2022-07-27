@@ -21,12 +21,13 @@ class SimpleBottomNavigationBarExample extends HookWidget {
           const Spacer(),
           Stack(
             children: [
-              Container(
+              ColoredBox(
                 color: Colors.grey,
                 child: SBottomNavigationBar(
                   animationController: animationController,
                   portfolioNotifications: 1,
                   earnNotifications: 99,
+                  cardNotifications: false,
                   profileNotifications: 100,
                   selectedIndex: 0,
                   actionActive: false,
@@ -37,8 +38,8 @@ class SimpleBottomNavigationBarExample extends HookWidget {
               ),
               Column(
                 children: [
-                  Container(
-                    color: Colors.blue[100],
+                  ColoredBox(
+                    color: Colors.blue[100]!,
                     child: const SizedBox(
                       height: 14.0,
                       width: double.infinity,
@@ -147,8 +148,8 @@ class SimpleBottomNavigationBarExample extends HookWidget {
                       const Spacer(),
                     ],
                   ),
-                  Container(
-                    color: Colors.blue[100],
+                  ColoredBox(
+                    color: Colors.blue[100]!,
                     child: const SizedBox(
                       height: 26.0,
                       width: double.infinity,
@@ -165,6 +166,7 @@ class SimpleBottomNavigationBarExample extends HookWidget {
           SBottomNavigationBar(
             animationController: animationController,
             portfolioNotifications: 1,
+            cardNotifications: false,
             earnNotifications: 99,
             profileNotifications: 100,
             selectedIndex: selectedIndex.value,

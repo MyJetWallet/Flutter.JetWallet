@@ -6,8 +6,8 @@ part 'send_email_confirmation_response.g.dart';
 @freezed
 class SendEmailConfirmationResponse with _$SendEmailConfirmationResponse {
   factory SendEmailConfirmationResponse({
-    final String? tokenId,
-    final String? verificationId,
+    String? tokenId,
+    String? verificationId,
   }) = _SendEmailConfirmationResponse;
 
   factory SendEmailConfirmationResponse.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,6 +7,7 @@ import 'package:simple_networking/services/operation_history/model/operation_his
 
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../helper/is_operation_support_copy.dart';
+import '../../notifier/cancel_transaction_notifier/transaction_cancel_notipod.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_crypto_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/components/transactions_list_item/components/transaction_details/buy_simplex_details.dart';
@@ -29,6 +31,8 @@ class TransactionItem extends HookWidget {
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
+    final cancelTransferN = useProvider(transferCancelNotipod.notifier);
+    final cancelTransfer = useProvider(transferCancelNotipod);
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 200),
       reverseDuration: const Duration(milliseconds: 200),
@@ -194,9 +198,8 @@ class TransactionItem extends HookWidget {
                     ),
                   ),
                 ],
-                if (
-                  transactionListItem.operationType == OperationType.cryptoInfo
-                ) ...[
+                if (transactionListItem.operationType ==
+                    OperationType.cryptoInfo) ...[
                   Material(
                     color: colors.white,
                     child: BuyCryptoDetails(
@@ -208,6 +211,27 @@ class TransactionItem extends HookWidget {
                     ),
                   ),
                 ],
+                Visibility(
+                  visible: transactionListItem.status == Status.inProgress &&
+                      transactionListItem.transferByPhoneInfo?.transferId !=
+                          null,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: Platform.isAndroid ? 24 : 0,
+                    ),
+                    child: SSecondaryButton1(
+                      active: !cancelTransfer.loading,
+                      name: intl.transactionItem_cancel_cancel,
+                      onTap: () {
+                        cancelTransferN.cancelTransaction(
+                          transactionListItem.transferByPhoneInfo?.transferId,
+                        );
+                      },
+                    ),
+                  ),
+                )
               ],
             ),
           ],

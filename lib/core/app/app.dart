@@ -112,6 +112,7 @@ class _App extends HookWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: const [
         Locale('en'),
+        Locale('pl'),
         Locale('es'),
       ],
       // supportedLocales: AppLocalizations.supportedLocales,

@@ -6,6 +6,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 
+import '../../../../../shared/constants.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/formatting/formatting.dart';
@@ -27,6 +28,7 @@ import 'components/action_buy_subheader.dart';
 void showBuyAction({
   bool shouldPop = true,
   bool showRecurring = false,
+  Source? from,
   required bool fromCard,
   required BuildContext context,
 }) {
@@ -38,6 +40,7 @@ void showBuyAction({
         showRecurring: showRecurring,
         context: context,
         fromCard: fromCard,
+        from: from,
       );
 
   if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
@@ -58,6 +61,7 @@ void _showBuyAction({
   required bool showRecurring,
   required bool fromCard,
   required BuildContext context,
+  Source? from,
 }) {
   final intl = context.read(intlPod);
 
@@ -84,6 +88,7 @@ void _showBuyAction({
       _ActionBuy(
         fromCard: fromCard,
         showRecurring: showRecurring,
+        from: from,
       )
     ],
   );
@@ -96,10 +101,12 @@ class _ActionBuy extends HookWidget {
     Key? key,
     required this.fromCard,
     required this.showRecurring,
+    this.from,
   }) : super(key: key);
 
   final bool fromCard;
   final bool showRecurring;
+  final Source? from;
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +122,12 @@ class _ActionBuy extends HookWidget {
       );
 
       if (showRecurring) {
+        var dismissWasCall = false;
         showActionWithoutRecurringBuy(
           context: context,
           title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
           onItemTap: (RecurringBuysType type) {
-            Navigator.pop(context);
+            Navigator.pop(context, itemSelected);
             navigatorPushReplacement(
               context,
               CurrencyBuy(
@@ -128,6 +136,25 @@ class _ActionBuy extends HookWidget {
                 recurringBuysType: type,
               ),
             );
+          },
+          onDissmis: () => {
+            if (from != null)
+              {
+                dismissWasCall = true,
+                sAnalytics.closeRecurringBuySheet(
+                  currency.description,
+                  from!,
+                ),
+              }
+          },
+          then: (val) => {
+            if (val == null && !dismissWasCall && from != null)
+              {
+                sAnalytics.closeRecurringBuySheet(
+                  currency.description,
+                  from!,
+                ),
+              }
           },
         );
       } else {

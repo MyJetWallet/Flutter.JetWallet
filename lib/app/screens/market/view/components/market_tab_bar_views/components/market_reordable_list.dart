@@ -20,7 +20,7 @@ class MarketReorderableList extends HookWidget {
     final baseCurrency = useProvider(baseCurrencyPod);
     final colors = useProvider(sColorPod);
 
-    return Container(
+    return ColoredBox(
       color: colors.white,
       child: ReorderableListView.builder(
         itemCount: items.length,

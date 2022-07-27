@@ -24,7 +24,7 @@ Future<void> profileDeleteService(
     );
 
     try {
-      final _ = response.data as Map<String, dynamic>;
+      response.data as Map<String, dynamic>;
 
       return;
     } catch (e) {

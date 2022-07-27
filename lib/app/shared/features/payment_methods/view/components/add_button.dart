@@ -21,8 +21,13 @@ class AddButton extends HookWidget {
     return SSecondaryButton1(
       active: true,
       name: intl.addButton_addBankCard,
-      icon: SActionBuyIcon(
-        color: colors.black,
+      icon: Container(
+        margin: const EdgeInsets.only(
+          top: 32,
+        ),
+        child: SActionBuyIcon(
+          color: colors.black,
+        ),
       ),
       onTap: onTap,
     );
