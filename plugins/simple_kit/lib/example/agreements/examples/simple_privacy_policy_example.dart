@@ -30,8 +30,8 @@ class SimplePrivacyPolicyExample extends HookWidget {
           ),
           Stack(
             children: [
-              Container(
-                color: Colors.grey[200],
+              ColoredBox(
+                color: Colors.grey[200]!,
                 child: SPolicyCheckbox(
                   firstText: 'By clicking Agree and Continue, '
                       'I hereby agree and consent to the ',
@@ -67,8 +67,8 @@ class SimplePrivacyPolicyExample extends HookWidget {
           ),
           Stack(
             children: [
-              Container(
-                color: Colors.grey[200],
+              ColoredBox(
+                color: Colors.grey[200]!,
                 child: SPolicyText(
                   firstText: 'By logging in and Continue, '
                       'I hereby agree and consent to the ',

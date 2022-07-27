@@ -10,6 +10,8 @@ class SCreditCardItem extends StatelessWidget {
     this.isSelected = false,
     this.divider = true,
     this.removeDivider = false,
+    this.disabled = false,
+    this.lightDivider = false,
     required this.icon,
     required this.name,
     required this.amount,
@@ -21,6 +23,8 @@ class SCreditCardItem extends StatelessWidget {
   final bool isSelected;
   final bool divider;
   final bool removeDivider;
+  final bool disabled;
+  final bool lightDivider;
   final Widget icon;
   final String name;
   final String amount;
@@ -29,7 +33,11 @@ class SCreditCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mainColor = isSelected ? SColorsLight().blue : SColorsLight().black;
+    final mainColor = disabled
+        ? SColorsLight().grey2
+        : isSelected
+        ? SColorsLight().blue
+        : SColorsLight().black;
 
     return InkWell(
       highlightColor: SColorsLight().grey5,
@@ -91,7 +99,7 @@ class SCreditCardItem extends StatelessWidget {
                               baseline: 14.0,
                               baselineType: TextBaseline.alphabetic,
                               child: SizedBox(
-                                width: 90.0,
+                                width: 120.0,
                                 child: Text(
                                   helper,
                                   textAlign: TextAlign.start,
@@ -128,8 +136,11 @@ class SCreditCardItem extends StatelessWidget {
             const Spacer(),
             if (!removeDivider)
               if (divider)
-                const SPaddingH24(
+                SPaddingH24(
                   child: SDivider(
+                    color: lightDivider
+                        ? SColorsLight().grey4
+                        : SColorsLight().grey3,
                     width: double.infinity,
                   ),
                 )
@@ -137,7 +148,9 @@ class SCreditCardItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: SDivider(
-                    color: SColorsLight().grey3,
+                    color: lightDivider
+                        ? SColorsLight().grey4
+                        : SColorsLight().grey3,
                     width: double.infinity,
                   ),
                 )

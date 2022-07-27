@@ -119,7 +119,7 @@ class PinScreen extends HookWidget {
                   InkWell(
                     highlightColor: colors.grey5,
                     onTap: () => logoutN.logout(),
-                    child: Container(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(

@@ -59,7 +59,7 @@ class EarnItem extends HookWidget {
           child: Ink(
             height: 88,
             width: double.infinity,
-            child: Container(
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(

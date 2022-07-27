@@ -10,19 +10,19 @@ import 'helpers/add_signing.dart';
 import 'helpers/setup_headers.dart';
 
 Dio basicDio(AuthInfoState authModel, Reader read) {
-  final _dio = Dio();
+  final dio = Dio();
 
-  setupHeaders(_dio, read, authModel.token);
+  setupHeaders(dio, read, authModel.token);
 
-  addSigning(_dio, read);
+  addSigning(dio, read);
 
   if (read(flavorPod) == Flavor.dev) {
-    addLogger(_dio);
+    addLogger(dio);
   }
 
-  addInterceptors(_dio, read);
+  addInterceptors(dio, read);
 
-  addProxy(_dio, read);
+  addProxy(dio, read);
 
-  return _dio;
+  return dio;
 }

@@ -24,6 +24,7 @@ Future<CardBuyInfoResponseModel> cardBuyInfoService(
       final responseData = response.data as Map<String, dynamic>;
 
       final data = handleFullResponse<Map>(responseData, localeName);
+      validateRejectResponse(responseData, localeName);
 
       return CardBuyInfoResponseModel.fromJson(data);
     } catch (e) {

@@ -35,8 +35,6 @@ void showSellAction(BuildContext context) {
     removePinnedPadding: true,
     children: [const _ActionSell()],
   );
-
-  sAnalytics.sellSheetView();
 }
 
 class _ActionSell extends HookWidget {
@@ -71,11 +69,6 @@ class _ActionSell extends HookWidget {
               secondaryText: currency.volumeAssetBalance,
               removeDivider: currency == assetWithBalance.last,
               onTap: () {
-                sAnalytics.sellView(
-                  Source.quickActions,
-                  currency.description,
-                );
-
                 navigatorPushReplacement(
                   context,
                   CurrencySell(

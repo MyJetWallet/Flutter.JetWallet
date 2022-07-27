@@ -65,7 +65,7 @@ class RegisterPasswordScreen extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              ColoredBox(
                 color: colors.white,
                 child: SPaddingH24(
                   child: SStandardFieldObscure(

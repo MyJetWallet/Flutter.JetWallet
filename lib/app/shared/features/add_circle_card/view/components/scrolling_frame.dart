@@ -16,7 +16,7 @@ class ScrollingFrame extends HookWidget {
     final colors = useProvider(sColorPod);
 
     return Expanded(
-      child: Container(
+      child: ColoredBox(
         color: colors.grey5,
         child: CustomScrollView(
           slivers: [

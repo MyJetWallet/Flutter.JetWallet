@@ -8,6 +8,7 @@ class SBottomNavigationBar extends StatelessWidget {
   const SBottomNavigationBar({
     Key? key,
     this.marketNotifications = 0,
+    required this.cardNotifications,
     this.portfolioNotifications = 0,
     this.earnNotifications = 0,
     this.profileNotifications = 0,
@@ -27,6 +28,7 @@ class SBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final bool actionActive;
   final bool earnEnabled;
+  final bool cardNotifications;
   final void Function() onActionTap;
   final void Function(int) onChanged;
 
@@ -144,6 +146,7 @@ class SBottomNavigationBar extends StatelessWidget {
                           const SProfileDefaultIcon(),
                         NotificationBox(
                           notifications: profileNotifications,
+                          cardsFailed: cardNotifications,
                         )
                       ],
                     ),

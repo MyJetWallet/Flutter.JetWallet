@@ -143,6 +143,7 @@ class RemoteConfigService {
     changePasswordLockHours = appConfig.changePasswordLockHours;
     changePhoneLockHours = appConfig.changePhoneLockHours;
     refundPolicyLink = appConfig.refundPolicyLink;
+    cardLimitsLearnMoreLink = appConfig.cardLimitsLearnMoreLink;
   }
 
   void overrideVersioningValues() {

@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/services/recurring_manage/model/recurring_delete_request_model.dart';
 import 'package:simple_networking/services/recurring_manage/model/recurring_manage_request_model.dart';
 import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
@@ -86,7 +87,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     return RecurringBuysStatus.empty;
   }
 
-  void handleNavigate(BuildContext context) {
+  void handleNavigate(BuildContext context, [Source? from]) {
     if (typeByAllRecurringBuys() == RecurringBuysStatus.active) {
       navigatorPush(context, const HistoryRecurringBuys());
       return;
@@ -94,6 +95,7 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
 
     if (typeByAllRecurringBuys() == RecurringBuysStatus.empty) {
       showBuyAction(
+        from:from,
         context: context,
         fromCard: false,
         shouldPop: false,
@@ -185,7 +187,8 @@ class RecurringBuysNotifier extends StateNotifier<RecurringBuysState> {
     }
 
     if (array.length == 1 && array.first.status == RecurringBuysStatus.active) {
-      return '${recurringBuysOperationName(
+      return '${intl.recurringBuys_recurring_pl_prefix}${
+          recurringBuysOperationName(
         array.first.scheduleType,
         context,
       )} ${intl.recurringBuys_recurring}'
