@@ -61,7 +61,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
         remoteConfigURL = 'https://wallet-api-uat.simple-spot.biz/api/v1';
       }
 
-      final _ = await read(remoteConfigPod)
+      await read(remoteConfigPod)
           .getRemoteConfig(
         remoteConfigURL,
         read(intlPod).localeName,
