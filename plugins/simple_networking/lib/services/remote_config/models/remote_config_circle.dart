@@ -6,7 +6,7 @@ part 'remote_config_circle.g.dart';
 @freezed
 class RemoteConfigCircle with _$RemoteConfigCircle {
   factory RemoteConfigCircle({
-    required final bool cvvEnabled,
+    required bool cvvEnabled,
   }) = _RemoteConfigCircle;
 
   factory RemoteConfigCircle.fromJson(Map<String, dynamic> json) =>
