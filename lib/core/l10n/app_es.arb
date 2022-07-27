@@ -22,7 +22,7 @@
     },
     "login_continue": "Continuar",
     "login_privacyPolicy": "Política de privacidad",
-    "login_andThe": "y el la",
+    "login_andThe": "y la",
     "serverCode0_ok": "OK",
     "serverCode1_internalServerError": "Error de servidor interno",
     "serverCode2_walletDoNotExist": "Esta wallet no existe",
@@ -280,7 +280,7 @@
     "createBanners_bannerText1": "De acuerdo con la Política KYC y AML, debe pasar el proceso de verificación.",
     "createBanners_bannerText2": "Se le notificará cuando completemos el proceso. Por lo general, es dentro de unas pocas horas",
     "createBanners_header2": "Verificando ahora",
-    "createBanners_enable2Factor": "Habilitar la autenticación de 2 factores",
+    "createBanners_enable2Factor": "Habilitar la autenticación",
     "createBanners_bannerText3": "Para proteger su cuenta, se recomienda activar",
     "createBanners_bannerText4Part1": "Tiene alguna pregunta",
     "createBanners_header4": "Chatear con soporte",
@@ -353,7 +353,7 @@
     "earnAdvantages_paidOnTheFirstDayOfEveryMonth": "pagado el primer día de cada mes",
     "earnAdvantages_theMarketSituation": "la situación del mercado",
     "earnBodyHeader_upTo": "Hasta un",
-    "earnBodyHeader_text1Part2": "en cripto depositado",
+    "earnBodyHeader_text1Part2": "",
     "earnBodyHeader_text1Part1": "de interés por cripto depositada",
     "earnCurrencysItem_apy": "Rendimiento porcentual anual",
     "showInterestRate_apy": "Rendimiento porcentual anual",
@@ -931,6 +931,8 @@
     "onboarding_buy_crypto": "Compra criptos con una tarjeta bancaria",
     "onboarding_free_worldwide_transfers": "Transferencias gratuitas alrededor del mundo",
     "onboarding_exchange_any_crypto": "Intercambia cualquier cripto",
+    "pinScreen_forgotYourPin": "",
     "aboutUs_termButton5": "Política de reembolso",
-    "aboutUs_termButton6": "Políticas de AMK/KYC"
+    "aboutUs_termButton6": "Políticas de AMK/KYC",
+    "recurringBuys_recurring_pl_prefix": ""
 }
