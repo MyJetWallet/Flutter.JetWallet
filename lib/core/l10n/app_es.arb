@@ -638,7 +638,7 @@
     "chooseDocument_chooseDocument": "Elegir documento",
     "chooseDocuments_permissionDescriptionText1": "No podemos verificarlo sin usar su",
     "kycSelfie_successKycScreenSecondaryText": "Se le notificará cuando completemos el proceso, por lo general, en unos minutos.",
-    "kycSelfie_compareWithYourDocument": "Lo compararemos con su documento.",
+    "kycSelfie_compareWithYourDocument": "Lo compararemos con su documento",
     "kycSelfie_selfieShouldClearly": "La selfie debe mostrar claramente",
     "kycSelfie_faceForwardAndMakeSure": "Mire hacia adelante y asegúrese de que sus ojos",
     "kycSelfie_removeYourGlasses": "Quítate las gafas, si es necesario.",
