@@ -162,6 +162,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
     changePasswordLockHours = remoteConfig!.appConfig.changePasswordLockHours;
     changePhoneLockHours = remoteConfig!.appConfig.changePhoneLockHours;
     refundPolicyLink = remoteConfig!.appConfig.refundPolicyLink;
+    cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
   }
 
   void overrideVersioningValues() {
