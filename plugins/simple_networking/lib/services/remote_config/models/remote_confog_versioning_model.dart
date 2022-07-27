@@ -6,8 +6,8 @@ part 'remote_confog_versioning_model.g.dart';
 @freezed
 class RemoteConfogVersioningModel with _$RemoteConfogVersioningModel {
   factory RemoteConfogVersioningModel({
-    required final String recommendedVersion,
-    required final String minimumVersion,
+    required String recommendedVersion,
+    required String minimumVersion,
   }) = _RemoteConfogVersioningModel;
 
   factory RemoteConfogVersioningModel.fromJson(Map<String, dynamic> json) =>

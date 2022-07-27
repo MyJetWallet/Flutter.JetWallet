@@ -15,19 +15,16 @@ part 'remote_config_model.g.dart';
 @freezed
 class RemoteConfigModel with _$RemoteConfigModel {
   factory RemoteConfigModel({
-    @JsonKey(name: 'Analytics')
-        required final RemoteConfigAnalyticsModel analytics,
-    @JsonKey(name: 'AppConfig')
-        required final RemoteConfigAppconfigModel appConfig,
-    @JsonKey(name: 'AppsFlyer') required final RemoteConfigAppsflyer appsFlyer,
-    @JsonKey(name: 'Circle') required final RemoteConfigCircle circle,
+    @JsonKey(name: 'Analytics') required RemoteConfigAnalyticsModel analytics,
+    @JsonKey(name: 'AppConfig') required RemoteConfigAppconfigModel appConfig,
+    @JsonKey(name: 'AppsFlyer') required RemoteConfigAppsflyer appsFlyer,
+    @JsonKey(name: 'Circle') required RemoteConfigCircle circle,
     @JsonKey(name: 'ConnectionFlavors')
-        required final List<RemoteConfigConnectionFlavorModel>
-            connectionFlavors,
-    @JsonKey(name: 'Simplex') required final RemoteConfogSimplexModel simplex,
-    @JsonKey(name: 'Support') required final RemoteConfigSupportModel support,
+        required List<RemoteConfigConnectionFlavorModel> connectionFlavors,
+    @JsonKey(name: 'Simplex') required RemoteConfogSimplexModel simplex,
+    @JsonKey(name: 'Support') required RemoteConfigSupportModel support,
     @JsonKey(name: 'Versioning')
-        required final RemoteConfogVersioningModel versioning,
+        required RemoteConfogVersioningModel versioning,
   }) = _RemoteConfigModel;
 
   factory RemoteConfigModel.fromJson(Map<String, dynamic> json) =>

@@ -6,8 +6,8 @@ part 'remote_config_support_model.g.dart';
 @freezed
 class RemoteConfigSupportModel with _$RemoteConfigSupportModel {
   factory RemoteConfigSupportModel({
-    required final String faqLink,
-    required final String crispWebsiteId,
+    required String faqLink,
+    required String crispWebsiteId,
   }) = _RemoteConfigSupportModel;
 
   factory RemoteConfigSupportModel.fromJson(Map<String, dynamic> json) =>

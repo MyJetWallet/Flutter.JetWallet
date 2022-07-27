@@ -6,8 +6,8 @@ part 'remote_config_appsflyer.g.dart';
 @freezed
 class RemoteConfigAppsflyer with _$RemoteConfigAppsflyer {
   factory RemoteConfigAppsflyer({
-    required final String devKey,
-    required final String iosAppId,
+    required String devKey,
+    required String iosAppId,
   }) = _RemoteConfigAppsflyer;
 
   factory RemoteConfigAppsflyer.fromJson(Map<String, dynamic> json) =>

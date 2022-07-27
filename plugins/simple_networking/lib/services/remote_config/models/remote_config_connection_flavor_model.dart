@@ -7,12 +7,12 @@ part 'remote_config_connection_flavor_model.g.dart';
 class RemoteConfigConnectionFlavorModel
     with _$RemoteConfigConnectionFlavorModel {
   factory RemoteConfigConnectionFlavorModel({
-    required final String candlesApi,
-    required final String authApi,
-    required final String walletApi,
-    required final String walletApiSignalR,
-    required final String validationApi,
-    required final String iconApi,
+    required String candlesApi,
+    required String authApi,
+    required String walletApi,
+    required String walletApiSignalR,
+    required String validationApi,
+    required String iconApi,
   }) = _RemoteConfigConnectionFlavorModel;
 
   factory RemoteConfigConnectionFlavorModel.fromJson(
