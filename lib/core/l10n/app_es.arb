@@ -14,7 +14,7 @@
     "login_credentialsError": "El correo electrónico y la contraseña que ingresó no coinciden con nuestros registros. Corrija y vuelva a intentarlo.",
     "login_signIn": "Iniciar sesión",
     "login_password": "Clave",
-    "login_forgotPassword": "¿Se te olvidó tu contraseña?",
+    "login_forgotPassword": "¿Olvidaste tu clave",
     "login_policyText1": "Al iniciar sesión y continuar, por la presente acepto y doy mi consentimiento de los",
     "login_policyText2": "Términos y condiciones",
     "@login_policyText2": {

@@ -59,6 +59,7 @@ class BalanceInProcess extends HookWidget {
                       ),
                     ),
                   ),
+                  const SpaceW2(),
                   Baseline(
                     baseline: 27.0,
                     baselineType: TextBaseline.alphabetic,
