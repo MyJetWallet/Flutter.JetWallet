@@ -5,9 +5,9 @@ import '../../../shared/providers/cards_pod/cards_pod.dart';
 import 'bottom_navigation_notifier.dart';
 import 'bottom_navigation_state.dart';
 
-final bottomNavigationNotipod = StateNotifierProvider
-    .autoDispose<BottomNavigationNotifier, BottomNavigationState>(
-      (ref) {
+final bottomNavigationNotipod = StateNotifierProvider.autoDispose<
+    BottomNavigationNotifier, BottomNavigationState>(
+  (ref) {
     final keyValue = ref.watch(keyValueNotipod);
     final cards = ref.watch(cardsPod);
 
