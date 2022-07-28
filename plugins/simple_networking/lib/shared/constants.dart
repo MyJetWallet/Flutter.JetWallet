@@ -31,6 +31,7 @@ const cardLimitsMessage = 'cards-limits';
 // KeyValue
 const watchlistKey = 'watchlist';
 const cardsKey = 'cards';
+const lastUsedPaymentMethod = 'lastUsedPaymentMethod';
 
 // Logging levels
 const transport = Level('🚚Transport', 1);

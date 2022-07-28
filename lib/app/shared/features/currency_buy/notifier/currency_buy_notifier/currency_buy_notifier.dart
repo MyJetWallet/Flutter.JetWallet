@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:decimal/decimal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/circle/model/circle_card.dart';
+import 'package:simple_networking/services/key_value/model/key_value_request_model.dart';
+import 'package:simple_networking/services/key_value/model/key_value_response_model.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
 import 'package:simple_networking/services/signal_r/model/card_limits_model.dart';
@@ -10,6 +14,7 @@ import 'package:simple_networking/services/simplex/model/simplex_payment_request
 import 'package:simple_networking/services/swap/model/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
+import '../../../../../../shared/constants.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/calculate_base_balance.dart';
@@ -23,11 +28,12 @@ import '../../../../models/selected_percent.dart';
 import '../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../providers/currencies_pod/currencies_pod.dart';
 import '../../../card_limits/notifier/card_limits_notipod.dart';
+import '../../../key_value/notifier/key_value_notipod.dart';
 import '../../helper/formatted_circle_card.dart';
 import 'currency_buy_state.dart';
 
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
-  CurrencyBuyNotifier(this.read, this.currencyModel)
+  CurrencyBuyNotifier(this.read, this.currencyModel, this.lastUsedPaymentMethod)
       : super(CurrencyBuyState(loader: StackLoaderNotifier())) {
     _initCurrencies();
     _initBaseCurrency();
@@ -36,6 +42,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   final Reader read;
   final CurrencyModel currencyModel;
+  final String? lastUsedPaymentMethod;
 
   static final _logger = Logger('CurrencyBuyNotifier');
 
@@ -87,6 +94,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     await _fetchCircleCards();
 
     final cardPreferred = fromCard && currencyModel.supportsAtLeastOneBuyMethod;
+    final buyMethods = currencyModel.buyMethods;
 
     if (state.currencies.isNotEmpty) {
       if (!cardPreferred) {
@@ -116,31 +124,91 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         }
       }
 
-      if (currencyModel.supportsCircle) {
-        // Case 4: If user has at least one saved circle card
+
+      if (lastUsedPaymentMethod == '"circleCard"' &&
+          currencyModel.supportsCircle) {
+        // Case 4: If user has at least one saved circle
+        // card and use circle last time
         if (state.circleCards.isNotEmpty) {
           return updateSelectedCircleCard(state.circleCards.first);
         }
       }
 
-      // Case 5: If asset supports at least one Payment method
-      if (currencyModel.supportsAtLeastOneBuyMethod) {
-        return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
+      // Case 5: If asset supports only one Payment method
+      if (currencyModel.supportsAtLeastOneBuyMethod &&
+          currencyModel.buyMethods.length == 1) {
+        if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.circleCard) {
+          if (state.circleCards.isNotEmpty) {
+            return updateSelectedCircleCard(state.circleCards.first);
+          }
+        } else {
+          return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
+        }
       }
 
-      // Case 6: If user has at least one crypto wallet
-      return updateSelectedCurrency(state.currencies.first);
+      // Case 6: If asset supports more then one Payment method and use unlimint
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.unlimintCard,).isNotEmpty &&
+          lastUsedPaymentMethod == '"unlimintCard"') {
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.unlimintCard,
+        ).first,);
+      }
+
+      // Case 7: If asset supports more then one Payment method and use simplex
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.simplex,).isNotEmpty &&
+          lastUsedPaymentMethod == '"simplex"') {
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.simplex,
+        ).first,);
+      }
+
+      // Case 8: If user has at least one crypto wallet and haven't any
+      // another buy method
+      if (!currencyModel.supportsAtLeastOneBuyMethod) {
+        return updateSelectedCurrency(state.currencies.first);
+      }
     } else {
-      if (currencyModel.supportsCircle) {
-        // Case 1: If user has at least one saved circle card
+      if (lastUsedPaymentMethod == '"circleCard"' &&
+          currencyModel.supportsCircle) {
+        // Case 1: If user has at least one saved circle
+        // card and use circle last time
         if (state.circleCards.isNotEmpty) {
           return updateSelectedCircleCard(state.circleCards.first);
         }
       }
 
-      // Case 2: If asset supports al least one Payment method
-      if (currencyModel.supportsAtLeastOneBuyMethod) {
-        return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
+      // Case 2: If asset supports only one Payment method
+      if (currencyModel.supportsAtLeastOneBuyMethod &&
+          currencyModel.buyMethods.length == 1) {
+        if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.circleCard) {
+          if (state.circleCards.isNotEmpty) {
+            return updateSelectedCircleCard(state.circleCards.first);
+          }
+        } else {
+          return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
+        }
+      }
+
+      // Case 3: If asset supports more then one Payment method and use unlimint
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.unlimintCard,).isNotEmpty &&
+          lastUsedPaymentMethod == '"unlimintCard"') {
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.unlimintCard,
+        ).first,);
+      }
+
+      // Case 4: If asset supports more then one Payment method and use simplex
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.simplex,).isNotEmpty &&
+          lastUsedPaymentMethod == '"simplex"') {
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.simplex,
+        ).first,);
       }
     }
   }
@@ -162,6 +230,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     if (method?.type == PaymentMethodType.simplex) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     } else if (method?.type == PaymentMethodType.circleCard) {
+      updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
+    } if (method?.type == PaymentMethodType.unlimintCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -401,7 +471,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       var min = state.selectedPaymentMethod!.minAmount;
       var max = state.selectedPaymentMethod!.maxAmount;
 
-      if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard) {
+      if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard ||
+          state.selectedPaymentMethod?.type == PaymentMethodType.unlimintCard) {
         var limitMax = state.pickedCircleCard?.paymentDetails.maxAmount
             .toDouble();
         if (state.cardLimit != null) {
@@ -414,11 +485,20 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
               : (state.cardLimit!.day30Limit - state.cardLimit!.day30Amount)
                 .toDouble();
         }
-        min = state.pickedCircleCard?.paymentDetails.minAmount.toDouble() ?? 0;
-        max = (limitMax ?? 0) <
-            (state.pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0)
-            ? limitMax ?? 0
-            : state.pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
+        if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard) {
+          min = state.pickedCircleCard?.paymentDetails.minAmount.toDouble()
+              ?? 0;
+          max = (limitMax ?? 0) <
+              (state.pickedCircleCard?.paymentDetails.maxAmount.toDouble()
+                  ?? 0)
+              ? limitMax ?? 0
+              : state.pickedCircleCard?.paymentDetails.maxAmount.toDouble()
+                ?? 0;
+        }
+        if (state.selectedPaymentMethod?.type ==
+            PaymentMethodType.unlimintCard) {
+          max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
+        }
       }
 
       _updateInputValid(value >= min && value <= max);
@@ -491,6 +571,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   Future<String?> makeSimplexRequest() async {
     _logger.log(notifier, 'makeSimplexRequest');
+    await setLastUsedPaymentMethod();
 
     final model = SimplexPaymentRequestModel(
       fromAmount: Decimal.parse(state.inputValue),
@@ -526,6 +607,25 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     }
 
     return null;
+  }
+
+  Future<void> setLastUsedPaymentMethod() async {
+    _logger.log(notifier, 'setLastUsedPaymentMethod');
+
+    try {
+      await read(keyValueNotipod.notifier).addToKeyValue(
+        KeyValueRequestModel(
+          keys: [
+            KeyValueResponseModel(
+              key: lastUsedPaymentMethodKey,
+              value: jsonEncode('simplex'),
+            )
+          ],
+        ),
+      );
+    } catch (e) {
+      _logger.log(stateFlow, 'setLastUsedPaymentMethod', e);
+    }
   }
 
   Future<void> onCircleCardAdded(CircleCard card) async {

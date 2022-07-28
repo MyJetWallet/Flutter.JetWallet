@@ -3,19 +3,15 @@ import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:openpgp/openpgp.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/card_buy/model/create/card_buy_create_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/info/card_buy_info_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/info/card_buy_info_response_model.dart';
-import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/key_value/model/key_value_request_model.dart';
 import 'package:simple_networking/services/key_value/model/key_value_response_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
@@ -28,42 +24,36 @@ import '../../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../../shared/logging/levels.dart';
 import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/local_storage_service.dart';
-import '../../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
-import '../../../add_circle_card/view/add_circle_card.dart';
 import '../../../key_value/notifier/key_value_notipod.dart';
-import '../../model/preview_buy_with_circle_input.dart';
+import '../../model/preview_buy_with_unlimint_input.dart';
 import '../../view/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
-import '../../view/screens/preview_buy_with_circle/show_circle_cvv_bottom_sheet.dart';
-import 'preview_buy_with_circle_state.dart';
+import 'preview_buy_with_unlimint_state.dart';
 
-class PreviewBuyWithCircleNotifier
-    extends StateNotifier<PreviewBuyWithCircleState> {
-  PreviewBuyWithCircleNotifier(
+class PreviewBuyWithUnlimintNotifier
+    extends StateNotifier<PreviewBuyWithUnlimintState> {
+  PreviewBuyWithUnlimintNotifier(
     this.input,
     this.read,
-  ) : super(PreviewBuyWithCircleState(loader: StackLoaderNotifier())) {
+  ) : super(PreviewBuyWithUnlimintState(loader: StackLoaderNotifier())) {
     _context = read(sNavigatorKeyPod).currentContext!;
     _intl = read(intlPod);
     _initState();
     _requestPreview();
-    _requestCards();
-    _isChecked();
   }
 
   final Reader read;
-  final PreviewBuyWithCircleInput input;
+  final PreviewBuyWithUnlimintInput input;
 
   late BuildContext _context;
   late AppLocalizations _intl;
 
-  static final _logger = Logger('PreviewBuyWithCircleNotifier');
+  static final _logger = Logger('PreviewBuyWithUnlimintNotifier');
 
   void _initState() {
     state = state.copyWith(
       amountToGet: Decimal.parse(input.amount),
       amountToPay: Decimal.parse(input.amount),
-      card: input.card,
     );
   }
 
@@ -71,13 +61,10 @@ class PreviewBuyWithCircleNotifier
     state.loader.startLoadingImmediately();
 
     final model = CardBuyCreateRequestModel(
-      paymentMethod: CirclePaymentMethod.circle,
+      paymentMethod: CirclePaymentMethod.unlimint,
       paymentAmount: state.amountToPay!,
       buyAsset: input.currency.symbol,
       paymentAsset: 'USD',
-      circlePaymentData: CirclePaymentDataModel(
-        cardId: state.card!.id,
-      ),
     );
 
     try {
@@ -108,31 +95,17 @@ class PreviewBuyWithCircleNotifier
       _showFailureScreen(_intl.something_went_wrong);
     } finally {
       state.loader.finishLoading();
+      Timer(const Duration(milliseconds: 500), () {
+        _isChecked();
+      });
     }
   }
 
   void onConfirm() {
     _logger.log(notifier, 'onConfirm');
     final storage = read(localStorageServicePod);
-    storage.setString(checkedCircle, 'true');
-
-    if (cvvEnabled) {
-      sAnalytics.circleCVVView();
-      showCircleCvvBottomSheet(
-        context: _context,
-        header: '${_intl.previewBuyWithCircle_enter} CVV '
-            '${_intl.previewBuyWithCircle_for} '
-            '${state.card?.network} •••• ${state.card?.last4}',
-        onCompleted: (cvv) {
-          Navigator.pop(_context);
-          state = state.copyWith(cvv: cvv);
-          _createPayment();
-        },
-        input: input,
-      );
-    } else {
-      _createPayment();
-    }
+    storage.setString(checkedUnlimint, 'true');
+    _createPayment();
   }
 
   Future<void> _createPayment() async {
@@ -143,7 +116,6 @@ class PreviewBuyWithCircleNotifier
     await _requestPayment(() async {
       await _requestPaymentInfo((url, onSuccess, paymentId) {
         if (!mounted) return;
-        sAnalytics.circleRedirect();
         navigatorPush(
           _context,
           Circle3dSecureWebView(
@@ -160,41 +132,6 @@ class PreviewBuyWithCircleNotifier
     await setLastUsedPaymentMethod();
   }
 
-  Future<void> _requestCards() async {
-    _logger.log(notifier, '_requestCards');
-    try {
-      final response = await read(circleServicePod).allCards();
-      if (response.cards.isNotEmpty) {
-        final actualCard = response.cards.where(
-            (element) => element.id == state.card?.id,
-        ).toList();
-        if (actualCard.isNotEmpty) {
-          state = state.copyWith(
-            isPending: actualCard[0].status == CircleCardStatus.pending,
-            wasPending: actualCard[0].status == CircleCardStatus.pending,
-          );
-        }
-      }
-    } catch (e) {
-      await Future.delayed(const Duration(seconds: 5));
-      await _requestCards();
-    }
-  }
-
-  Future<void> _isChecked() async {
-    try {
-      final storage = read(localStorageServicePod);
-      final status = await storage.getValue(checkedCircle);
-      if (status != null) {
-        state = state.copyWith(
-          isChecked: true,
-        );
-      }
-    } catch (e) {
-      _logger.log(notifier, '_isChecked');
-    }
-  }
-
   Future<void> setLastUsedPaymentMethod() async {
     _logger.log(notifier, 'setLastUsedPaymentMethod');
 
@@ -204,7 +141,7 @@ class PreviewBuyWithCircleNotifier
           keys: [
             KeyValueResponseModel(
               key: lastUsedPaymentMethodKey,
-              value: jsonEncode('circleCard'),
+              value: jsonEncode('unlimintCard'),
             )
           ],
         ),
@@ -218,26 +155,9 @@ class PreviewBuyWithCircleNotifier
     _logger.log(notifier, '_requestPayment');
 
     try {
-      final encryption =
-          await read(circleServicePod).encryptionKey(_intl.localeName);
-
-      final base64Decoded = base64Decode(encryption.encryptionKey);
-      final utf8Decoded = utf8.decode(base64Decoded);
-      final encrypted = await OpenPGP.encrypt(
-        state.cvv.isNotEmpty ? '{"cvv":"${state.cvv}"}' : '{}',
-        utf8Decoded,
-      );
-      final utf8Encoded = utf8.encode(encrypted);
-      final base64Encoded = base64Encode(utf8Encoded);
-
       final model = CardBuyExecuteRequestModel(
         paymentId: state.paymentId,
-        paymentMethod: CirclePaymentMethod.circle,
-        circlePaymentData: CirclePaymentDataExecuteModel(
-          cardId: state.card!.id,
-          keyId: encryption.keyId,
-          encryptedData: base64Encoded,
-        ),
+        paymentMethod: CirclePaymentMethod.unlimint,
       );
 
       await read(cardBuyServicePod).cardBuyExecutePayment(
@@ -286,11 +206,6 @@ class PreviewBuyWithCircleNotifier
         await Future.delayed(const Duration(seconds: 5));
         await _requestPaymentInfo(onAction, lastAction);
       } else if (complete) {
-        sAnalytics.circleSuccess(
-          asset: input.currency.description,
-          amount: input.amount,
-          frequency: RecurringFrequency.oneTime,
-        );
         _showSuccessScreen();
       } else if (failed) {
         throw Exception();
@@ -318,11 +233,6 @@ class PreviewBuyWithCircleNotifier
   }
 
   void _showSuccessScreen() {
-    sAnalytics.circleSuccess(
-      asset: state.currencySymbol,
-      amount: input.amount,
-      frequency: RecurringFrequency.oneTime,
-    );
     return SuccessScreen.push(
       context: _context,
       secondaryText: '${_intl.buyWithCircle_paymentWillBeProcessed} \n'
@@ -331,25 +241,6 @@ class PreviewBuyWithCircleNotifier
         read(navigationStpod).state = 1;
       },
     );
-  }
-
-  Future<void> pasteCode() async {
-    _logger.log(notifier, 'pasteCode');
-
-    final data = await Clipboard.getData('text/plain');
-    final code = data?.text?.trim() ?? '';
-
-    if (code.length == 3) {
-      try {
-        int.parse(code);
-        state = state.copyWith(cvv: code);
-        if (!mounted) return;
-        Navigator.pop(_context);
-        await _createPayment();
-      } catch (e) {
-        return;
-      }
-    }
   }
 
   void _showFailureScreen(String error) {
@@ -367,58 +258,21 @@ class PreviewBuyWithCircleNotifier
     );
   }
 
+  Future<void> _isChecked() async {
+    try {
+      final storage = read(localStorageServicePod);
+      final status = await storage.getValue(checkedUnlimint);
+      if (status != null) {
+        state = state.copyWith(
+          isChecked: true,
+        );
+      }
+    } catch (e) {
+      _logger.log(notifier, '_isChecked');
+    }
+  }
+
   void checkSetter() {
     state = state.copyWith(isChecked: !state.isChecked);
-  }
-
-  void setWasPending({required bool wasPending}) {
-    state = state.copyWith(
-      wasPending: wasPending,
-    );
-  }
-
-  void setIsPending({required bool isPending}) {
-    state = state.copyWith(
-      isPending: isPending,
-    );
-  }
-
-  void setFailureShowed({required bool failureShowed}) {
-    state = state.copyWith(
-      failureShowed: failureShowed,
-    );
-  }
-
-  void showFailure() {
-    final intl = read(intlPod);
-    if (!mounted) return;
-    if (!state.failureShowed) {
-      setFailureShowed(failureShowed: true);
-      sAnalytics.circleFailed();
-      FailureScreen.push(
-        context: _context,
-        primaryText: intl.previewBuyWithCircle_failure,
-        secondaryText: intl.previewBuyWithCircle_failureDescription,
-        primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
-        onPrimaryButtonTap: () {
-          sAnalytics.circleAdd();
-          AddCircleCard.pushReplacement(
-            context: _context,
-            onCardAdded: (card) {
-              Navigator.pop(_context);
-              Navigator.pop(_context);
-              Navigator.pop(_context);
-            },
-          );
-        },
-        secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
-        onSecondaryButtonTap: () {
-          sAnalytics.circleCancel();
-          Navigator.pop(_context);
-          Navigator.pop(_context);
-          Navigator.pop(_context);
-        },
-      );
-    }
   }
 }

@@ -55,8 +55,8 @@ void showAddPaymentBottomSheet({
             icon: SActionDepositIcon(
               color: colors.blue,
             ),
-            name: '${intl.currencyBuy_addBankCard} - Circle',
-            description: 'Visa, Mastercard, Apple Pay',
+            name: intl.currencyBuy_addBankCard,
+            description: intl.curencyBuy_actionItemDescription,
             onTap: () {
               sAnalytics.circleTapAddCard();
               AddCircleCard.pushReplacement(
@@ -69,6 +69,29 @@ void showAddPaymentBottomSheet({
               );
             },
             helper: '≈10-30 ${intl.min}',
+          ),
+        ],
+      for (final method in paymentMethods)
+        if (method.type == PaymentMethodType.unlimintCard) ...[
+          Builder(
+            builder: (context) {
+              final isSelected = selectedPaymentMethod?.type ==
+                  PaymentMethodType.unlimintCard;
+              return SActionItem(
+                isSelected: isSelected,
+                icon: SActionDepositIcon(
+                  color: colors.blue,
+                ),
+                name: intl.curencyBuy_unlimint,
+                description:
+                intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                onTap: () {
+                  Navigator.pop(context, method);
+                  Navigator.pop(context, method);
+                },
+                helper: '≈10-30 ${intl.min}',
+              );
+            },
           ),
         ],
     ],

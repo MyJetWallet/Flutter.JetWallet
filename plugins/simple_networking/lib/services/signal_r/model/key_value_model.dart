@@ -12,6 +12,7 @@ class KeyValueModel with _$KeyValueModel {
   const factory KeyValueModel({
     WatchlistModel? watchlist,
     WatchlistModel? cards,
+    String? lastUsedPaymentMethod,
     required double now,
     required List<KeyValueResponseModel> keys,
   }) = _KeyValueModel;
@@ -31,6 +32,10 @@ class KeyValueModel with _$KeyValueModel {
       } else if (pair.key == cardsKey) {
         parsedKeyValue = keyValue.copyWith(
           cards: WatchlistModel.fromJson(pair.toJson()),
+        );
+      } else if (pair.key == lastUsedPaymentMethod) {
+        parsedKeyValue = keyValue.copyWith(
+          lastUsedPaymentMethod: pair.value,
         );
       }
     }
