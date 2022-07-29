@@ -281,18 +281,7 @@ class SimpleAnalytics {
     );
   }
 
-  void sellView(Source source, String assetName) {
-    _analytics.logEvent(
-      EventType.sellView,
-      eventProperties: {
-        PropertyType.sourceScreen: source.name,
-        PropertyType.assetName: assetName,
-      },
-    );
-  }
-
   void buySheetView() => _analytics.logEvent(EventType.buySheetView);
-  void sellSheetView() => _analytics.logEvent(EventType.sellSheetView);
 
   void earnDetailsView(String assetName) {
     _analytics.logEvent(
@@ -303,14 +292,6 @@ class SimpleAnalytics {
     );
   }
 
-  void depositCryptoView(String assetName) {
-    _analytics.logEvent(
-      EventType.depositView,
-      eventProperties: {
-        PropertyType.assetName: assetName,
-      },
-    );
-  }
 
   void walletAssetView(Source source, String assetName) {
     _analytics.logEvent(
@@ -422,6 +403,26 @@ class SimpleAnalytics {
   void kycSuccessPageView() {
     _analytics.logEvent(
       EventType.kycSuccessPageView,
+    );
+  }
+  void kycAllowCamera () {
+    _analytics.logEvent(
+      EventType.kycAllowCamera,
+    );
+  }
+  void kycGiveCameraPermission () {
+    _analytics.logEvent(
+      EventType.kycGiveCameraPermission,
+    );
+  }
+  void kycTapOnGoToSettings () {
+    _analytics.logEvent(
+      EventType.kycTapOnGoToSettings,
+    );
+  }
+  void kycTapOnEnableCamera () {
+    _analytics.logEvent(
+      EventType.kycTapOnEnableCamera,
     );
   }
 
@@ -849,6 +850,21 @@ class SimpleAnalytics {
 
   void sendConfirmSend() {
     _analytics.logEvent(EventType.sendConfirmSend);
+  }
+  void sendNotifyRecipient () {
+    _analytics.logEvent(
+      EventType.sendNotifyRecipient,
+    );
+  }
+  void sendTapOnSendMessage () {
+    _analytics.logEvent(
+      EventType.sendTapOnSendMessage,
+    );
+  }
+  void sendTapOnSendLater () {
+    _analytics.logEvent(
+      EventType.sendTapOnSendLater,
+    );
   }
 
   // [START] Recurring buy ->
@@ -1380,6 +1396,22 @@ class SimpleAnalytics {
         PropertyType.reclaimAPY: apy,
         PropertyType.term: term,
         PropertyType.offerId: offerId,
+      },
+    );
+  }
+  void uploadIdentityDocument () {
+    _analytics.logEvent(
+      EventType.kycScanDoc,
+    );
+  }
+  /// Push notification
+  void openPushNotification({
+    required String campaignId,
+  }) {
+    _analytics.logEvent(
+      EventType.clickNotification,
+      eventProperties: {
+        PropertyType.campaignId: campaignId,
       },
     );
   }

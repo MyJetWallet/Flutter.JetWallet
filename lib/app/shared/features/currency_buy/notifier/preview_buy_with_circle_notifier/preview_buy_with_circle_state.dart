@@ -8,14 +8,27 @@ part 'preview_buy_with_circle_state.freezed.dart';
 @freezed
 class PreviewBuyWithCircleState with _$PreviewBuyWithCircleState {
   const factory PreviewBuyWithCircleState({
+    @Default(false) bool wasPending,
+    @Default(false) bool isPending,
+    @Default(false) bool failureShowed,
     CircleCard? card,
     Decimal? amountToGet,
     Decimal? amountToPay,
     Decimal? feeAmount,
     Decimal? feePercentage,
-    @Default(0) int depositId,
+    Decimal? paymentAmount,
+    String? paymentAsset,
+    Decimal? buyAmount,
+    String? buyAsset,
+    Decimal? depositFeeAmount,
+    String? depositFeeAsset,
+    Decimal? tradeFeeAmount,
+    String? tradeFeeAsset,
+    Decimal? rate,
+    @Default('') String paymentId,
     @Default('') String cvv,
     @Default('') String currencySymbol,
+    @Default(false) bool isChecked,
     required StackLoaderNotifier loader,
   }) = _PreviewBuyWithCircleState;
 }

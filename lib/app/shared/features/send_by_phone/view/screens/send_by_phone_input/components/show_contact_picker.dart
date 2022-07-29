@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,19 +52,22 @@ class _Contacts extends HookWidget {
     final state = useProvider(sendByPhoneInputNotipod);
     final notifier = useProvider(sendByPhoneInputNotipod.notifier);
 
-    return Column(
-      children: [
-        for (final contact in state.sortedContacts)
-          SContactItem(
-            name: contact.name,
-            phone: contact.phoneNumber,
-            valid: contact.valid,
-            onTap: () {
-              notifier.pickNumberFromSearch(contact);
-              Navigator.pop(context);
-            },
-          )
-      ],
-    );
+     return SizedBox(
+       height: MediaQuery.of(context).size.height,
+       child: ListView.builder(
+          itemCount: state.sortedContacts.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SContactItem(
+              name: state.sortedContacts[index].name,
+              phone: state.sortedContacts[index].phoneNumber,
+              valid: state.sortedContacts[index].valid,
+              isManualEnter: state.sortedContacts[index].isCustomContact,
+              onTap: () {
+                notifier.pickNumberFromSearch(state.sortedContacts[index]);
+                Navigator.pop(context);
+              },
+            );
+          },),
+     );
   }
 }

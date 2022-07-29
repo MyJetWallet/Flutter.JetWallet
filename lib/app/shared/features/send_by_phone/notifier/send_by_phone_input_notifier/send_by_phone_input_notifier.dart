@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/logging/levels.dart';
+import '../../../../helpers/country_code_by_user_register.dart';
 import '../../../../helpers/is_phone_number_valid.dart';
 import '../../model/contact_model.dart';
 import '../send_by_phone_permission_notifier/send_by_phone_permission_state.dart';
@@ -18,7 +19,8 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
           SendByPhoneInputState(
             activeDialCode: sPhoneNumbers[0],
             dialCodeController: TextEditingController(
-              text: sPhoneNumbers[0].countryCode,
+              text: countryCodeByUserRegister(read)?.countryCode ??
+                  sPhoneNumbers[0].countryCode,
             ),
             phoneNumberController: TextEditingController(),
           ),
@@ -33,32 +35,28 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
 
   Future<void> _initState() async {
     if (permission.permissionStatus == PermissionStatus.granted) {
-      final contacts = await ContactsService.getContacts();
-
-      final parsedContacts = <ContactModel>[];
-
+      final contacts = await ContactsService.getContacts(withThumbnails: false);
+      final parsedContacts = <ContactModel>{};
       for (final contact in contacts) {
-        if (contact.phones != null) {
-          if (contact.phones!.isNotEmpty) {
-            for (final phoneNumber in contact.phones!) {
-              if (phoneNumber.value != null) {
-                if (await isInternationalPhoneNumberValid(phoneNumber.value!)) {
-                  parsedContacts.add(
-                    ContactModel(
-                      name: contact.displayName ?? phoneNumber.value!,
-                      phoneNumber: phoneNumber.value!,
-                    ),
-                  );
-                }
+        if (contact.phones!.isNotEmpty) {
+          for (final phoneNumber in contact.phones!) {
+            if (phoneNumber.value != null) {
+              if (await isInternationalPhoneNumberValid(phoneNumber.value!)) {
+                parsedContacts.add(
+                  ContactModel(
+                    name: contact.displayName ?? phoneNumber.value!,
+                    phoneNumber: phoneNumber.value!.replaceAll(' ', ''),
+                  ),
+                );
               }
             }
           }
         }
       }
-
+      final result = parsedContacts.toList();
       state = state.copyWith(
-        contacts: parsedContacts,
-        sortedContacts: parsedContacts,
+        contacts: result,
+        sortedContacts: result,
       );
     }
   }

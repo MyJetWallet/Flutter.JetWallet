@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/authentication/service/authentication_service.dart';
 import 'package:simple_networking/services/blockchain/service/blockchain_service.dart';
+import 'package:simple_networking/services/card_buy/service/card_buy_service.dart';
 import 'package:simple_networking/services/change_password/service/change_password_service.dart';
 import 'package:simple_networking/services/chart/service/chart_service.dart';
 import 'package:simple_networking/services/circle/service/circle_service.dart';
@@ -25,6 +26,7 @@ import 'package:simple_networking/services/phone_verification/service/phone_veri
 import 'package:simple_networking/services/profile/service/profile_service.dart';
 import 'package:simple_networking/services/recurring_manage/recurring_manage_service.dart';
 import 'package:simple_networking/services/referral_code_service/service/referral_code_service.dart';
+import 'package:simple_networking/services/remote_config/service/remote_config_service.dart';
 import 'package:simple_networking/services/signal_r/service/signal_r_service.dart';
 import 'package:simple_networking/services/simplex/service/simplex_service.dart';
 import 'package:simple_networking/services/swap/service/swap_service.dart';
@@ -35,7 +37,6 @@ import 'package:simple_networking/services/wallet/service/wallet_service.dart';
 
 import '../../app/shared/features/kyc/helper/kyc_alert_handler.dart';
 import '../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
-
 import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
 import '../dio/image_dio.dart';
@@ -163,6 +164,10 @@ final keyValueServicePod = Provider<KeyValueService>((ref) {
   return KeyValueService(dio);
 });
 
+final remoteConfigPod = Provider<RemoteConfigService>((ref) {
+  return RemoteConfigService();
+});
+
 final marketNewsServicePod = Provider<MarketNewsService>((ref) {
   final dio = ref.watch(dioPod);
 
@@ -237,6 +242,15 @@ final circleServicePod = Provider<CircleService>(
     return CircleService(dio);
   },
   name: 'circleServicePod',
+);
+
+final cardBuyServicePod = Provider<CardBuyService>(
+  (ref) {
+    final dio = ref.watch(dioPod);
+
+    return CardBuyService(dio);
+  },
+  name: 'cardBuyServicePod',
 );
 
 final simplexServicePod = Provider<SimplexService>(

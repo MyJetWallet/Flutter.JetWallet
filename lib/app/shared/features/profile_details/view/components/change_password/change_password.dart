@@ -46,7 +46,7 @@ class ChangePassword extends HookWidget {
         ),
         child: Column(
           children: [
-            Container(
+            ColoredBox(
               color: colors.white,
               child: SPaddingH24(
                 child: SStandardFieldObscure(

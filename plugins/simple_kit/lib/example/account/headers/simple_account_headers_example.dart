@@ -15,13 +15,14 @@ class SimpleAccountHeadersExample extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
+            DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
                   color: SColorsLight().black,
                 ),
               ),
-              child: const SimpleAccountCategoryHeader(
+              child: SimpleAccountCategoryHeader(
+                onIconTap: () {},
                 userEmail: 'email@smplt.net',
                 userFirstName: 'FirstName',
                 userLastName: 'LastName',

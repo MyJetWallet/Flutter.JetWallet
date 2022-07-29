@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -142,6 +143,7 @@ class RemoteConfigService {
     changePasswordLockHours = appConfig.changePasswordLockHours;
     changePhoneLockHours = appConfig.changePhoneLockHours;
     refundPolicyLink = appConfig.refundPolicyLink;
+    cardLimitsLearnMoreLink = appConfig.cardLimitsLearnMoreLink;
   }
 
   void overrideVersioningValues() {
@@ -171,3 +173,4 @@ class RemoteConfigService {
     cvvEnabled = circle.cvvEnabled;
   }
 }
+*/

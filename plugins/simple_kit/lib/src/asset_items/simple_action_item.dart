@@ -9,6 +9,7 @@ class SActionItem extends StatelessWidget {
     this.helper = '',
     this.withDivider = false,
     this.isSelected = false,
+    this.expanded = false,
     required this.icon,
     required this.name,
     required this.onTap,
@@ -18,6 +19,7 @@ class SActionItem extends StatelessWidget {
   final String helper;
   final bool withDivider;
   final bool isSelected;
+  final bool expanded;
   final Widget icon;
   final String name;
   final Function() onTap;
@@ -33,10 +35,14 @@ class SActionItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 64.0,
+          height: expanded ? 88.0 : 64.0,
           child: Column(
             children: [
-              const SpaceH10(),
+              if (expanded) ...[
+                const SpaceH22(),
+              ] else ...[
+                const SpaceH10(),
+              ],
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -14,6 +14,7 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
 import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../shared/constants.dart';
+import '../../../../shared/providers/apps_flyer_service_pod.dart';
 import '../../../../shared/providers/device_info_pod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/local_storage_service.dart';
@@ -46,6 +47,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
     final deviceInfoModel = read(deviceInfoPod);
     final intl = read(intlPod);
     final referralCodeLink = read(referralCodeLinkNotipod);
+    final appsFlyerService = read(appsFlyerServicePod);
 
     try {
       state = const Loading();
@@ -64,6 +66,9 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         lang: intl.localeName,
       );
 
+      final appsFluterID =
+          await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+
       final registerRequest = RegisterRequestModel(
         publicKey: publicKey,
         email: email,
@@ -74,6 +79,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         referralCode: referralCodeLink.referralCode,
         marketingEmailsAllowed: marketingEmailsAllowed,
         lang: intl.localeName,
+        appsflyerId: appsFluterID ?? '',
       );
 
       AuthenticationResponseModel authModel;

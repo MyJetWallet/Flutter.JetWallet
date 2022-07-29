@@ -139,7 +139,7 @@ class PreviewBuyWithAssetNotifier
       } else {
         state = state.copyWith(union: const QuoteSuccess());
         _timer.cancel();
-        if (!mounted) return;
+        if (!mounted || state.recurring) return;
         showQuoteUpdatedDialog(
           context: _context,
           onPressed: () => requestQuote(),
