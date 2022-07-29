@@ -22,7 +22,7 @@ void showAddPaymentBottomSheet({
     removePinnedPadding: true,
     pinned: SPaddingH24(
       child: SBottomSheetHeader(
-        name: intl.currencyBuy_addPaymentMethod,
+        name: intl.currencyBuy_choosePaymentMethod,
       ),
     ),
     horizontalPinnedPadding: 0,

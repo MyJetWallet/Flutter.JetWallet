@@ -227,11 +227,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       selectedPaymentMethod: method,
     );
 
-    if (method?.type == PaymentMethodType.simplex) {
-      updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
-    } else if (method?.type == PaymentMethodType.circleCard) {
-      updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
-    } if (method?.type == PaymentMethodType.unlimintCard) {
+    if (method?.type == PaymentMethodType.simplex ||
+        method?.type == PaymentMethodType.circleCard ||
+        method?.type == PaymentMethodType.unlimintCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -472,7 +470,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       var max = state.selectedPaymentMethod!.maxAmount;
 
       if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard ||
-          state.selectedPaymentMethod?.type == PaymentMethodType.unlimintCard) {
+          state.selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
+          state.selectedPaymentMethod?.type == PaymentMethodType.simplex
+      ) {
         var limitMax = state.pickedCircleCard?.paymentDetails.maxAmount
             .toDouble();
         if (state.cardLimit != null) {
@@ -496,7 +496,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
                 ?? 0;
         }
         if (state.selectedPaymentMethod?.type ==
-            PaymentMethodType.unlimintCard) {
+            PaymentMethodType.unlimintCard ||
+            state.selectedPaymentMethod?.type == PaymentMethodType.simplex) {
           max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
         }
       }
@@ -571,7 +572,6 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   Future<String?> makeSimplexRequest() async {
     _logger.log(notifier, 'makeSimplexRequest');
-    await setLastUsedPaymentMethod();
 
     final model = SimplexPaymentRequestModel(
       fromAmount: Decimal.parse(state.inputValue),
@@ -587,6 +587,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         intl.localeName,
       );
 
+      await setLastUsedPaymentMethod();
       return response.paymentLink;
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'makeSimplexRequest', error.cause);

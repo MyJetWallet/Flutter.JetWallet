@@ -86,7 +86,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             StateLimitType.block;
     final cardType = state.selectedPaymentMethod?.type ==
         PaymentMethodType.circleCard || state.selectedPaymentMethod?.type ==
-        PaymentMethodType.unlimintCard;
+        PaymentMethodType.unlimintCard || state.selectedPaymentMethod?.type ==
+        PaymentMethodType.simplex;
 
     String checkLimitText() {
       var amount = Decimal.zero;
@@ -170,7 +171,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       color: (cardLimit.cardLimits?.barProgress == 100 ||
                           isLimitBlock)
                           ? colors.grey2
-                          : state.pickedCircleCard?.id == card.id
+                          : state.pickedCircleCard?.id == card.id &&
+                            state.selectedPaymentMethod?.type ==
+                              PaymentMethodType.circleCard
                           ? colors.blue
                           : colors.black,
                     ),
@@ -242,15 +245,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             SPaddingH24(
               child: SSecondaryButton1(
                 active: true,
-                name: intl.currencyBuy_addPaymentMethod,
-                icon: Container(
-                  margin: const EdgeInsets.only(
-                    top: 32,
-                  ),
-                  child: SActionBuyIcon(
-                    color: colors.black,
-                  ),
-                ),
+                name: intl.currencyBuy_morePaymentMethod,
                 onTap: () {
                   showAddPaymentBottomSheet(
                     context: context,
@@ -341,14 +336,19 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
               if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)
-                SPaymentSelectAsset(
+                SPaymentSelectCreditCard(
                   widgetSize: widgetSizeFrom(deviceSize),
                   icon: SActionDepositIcon(
-                    color: colors.black,
+                  color: (cardLimit.cardLimits?.barProgress == 100 ||
+                    isLimitBlock)
+                    ? colors.grey2
+                      : colors.black,
                   ),
                   name: intl.curencyBuy_actionItemName,
-                  helper: '≈ 10-30 ${intl.min}',
-                  description: intl.curencyBuy_actionItemDescription,
+                  description: limitText,
+                  limit: isLimitBlock
+                    ? 100
+                    : cardLimit.cardLimits?.barProgress ?? 0,
                   onTap: () => _showAssetSelector(),
                 )
               else if (state.selectedPaymentMethod?.type ==
