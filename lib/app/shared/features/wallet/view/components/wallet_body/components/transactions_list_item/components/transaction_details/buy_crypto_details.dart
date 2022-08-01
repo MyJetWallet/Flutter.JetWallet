@@ -69,6 +69,15 @@ class BuyCryptoDetails extends HookWidget {
               text: '\$${transactionListItem.cryptoBuyInfo!.paymentAmount}',
             ),
           ),
+          if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty) ...[
+            const SpaceH14(),
+            TransactionDetailsItem(
+              text: intl.previewBuyWithCircle_payFrom,
+              value: TransactionDetailsValueText(
+                text: '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
+              ),
+            ),
+          ],
           const SpaceH14(),
           TransactionDetailsItem(
             text: intl.previewBuyWithCircle_creditCardFee,

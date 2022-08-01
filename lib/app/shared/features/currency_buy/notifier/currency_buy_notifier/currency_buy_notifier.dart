@@ -495,8 +495,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
           state.selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
           state.selectedPaymentMethod?.type == PaymentMethodType.simplex
       ) {
-        var limitMax = state.pickedCircleCard?.paymentDetails.maxAmount
-            .toDouble();
+        double? limitMax = max;
         if (state.cardLimit != null) {
           limitMax = state.cardLimit!.barInterval == StateBarType.day1
               ? (state.cardLimit!.day1Limit - state.cardLimit!.day1Amount)
@@ -508,6 +507,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
                 .toDouble();
         }
         if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard) {
+          limitMax = state.pickedCircleCard?.paymentDetails.maxAmount
+              .toDouble();
           min = state.pickedCircleCard?.paymentDetails.minAmount.toDouble()
               ?? 0;
           max = (limitMax ?? 0) <
