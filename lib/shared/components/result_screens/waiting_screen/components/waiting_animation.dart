@@ -20,18 +20,7 @@ class WaitingAnimation extends StatelessWidget {
       child: Stack(
         children: const [
           RiveAnimation.asset(
-            confirmActionAnimationAsset,
-          ),
-          Positioned.fill(
-            child: Align(
-              child: SizedBox(
-                width: 80,
-                height: 80,
-                child: RiveAnimation.asset(
-                  loaderAnimationAsset,
-                ),
-              ),
-            ),
+            processingAnimationAsset,
           ),
         ],
       ),

@@ -3,6 +3,7 @@ const successAnimationAsset = 'assets/animations/success.riv';
 const splashAnimationAsset = 'assets/animations/splash.riv';
 const failureAnimationAsset = 'assets/animations/failure.riv';
 const loaderAnimationAsset = 'assets/animations/loader.riv';
+const processingAnimationAsset = 'assets/animations/processing.riv';
 
 // Other
 const watchlistImageAsset = 'assets/images/watchlist.png';

@@ -170,6 +170,14 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       if (!currencyModel.supportsAtLeastOneBuyMethod) {
         return updateSelectedCurrency(state.currencies.first);
       }
+
+      if (currencyModel.supportsCircle) {
+        // Case 9: If user has at least one saved circle
+        // card and haven't saved methods
+        if (state.circleCards.isNotEmpty) {
+          return updateSelectedCircleCard(state.circleCards.first);
+        }
+      }
     } else {
       if (lastUsedPaymentMethod == '"circleCard"' &&
           currencyModel.supportsCircle) {
@@ -209,6 +217,14 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         return updateSelectedPaymentMethod(buyMethods.where(
               (element) => element.type == PaymentMethodType.simplex,
         ).first,);
+      }
+
+      if (currencyModel.supportsCircle) {
+        // Case 5: If user has at least one saved circle
+        // card and haven't saved methods
+        if (state.circleCards.isNotEmpty) {
+          return updateSelectedCircleCard(state.circleCards.first);
+        }
       }
     }
   }
@@ -459,6 +475,12 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _validateInput() {
+    if (double.parse(state.inputValue) == 0.0) {
+      _updateInputValid(true);
+      _updateInputError(InputError.none);
+      _updatePaymentMethodInputError(null);
+      return;
+    }
     if (state.selectedPaymentMethod != null) {
       if (!isInputValid(state.inputValue)) {
         _updateInputValid(false);

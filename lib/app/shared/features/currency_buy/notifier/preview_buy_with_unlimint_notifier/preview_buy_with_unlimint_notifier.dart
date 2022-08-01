@@ -114,7 +114,7 @@ class PreviewBuyWithUnlimintNotifier
     state.loader.startLoadingImmediately();
 
     await _requestPayment(() async {
-      await _requestPaymentInfo((url, onSuccess, paymentId) {
+      await _requestPaymentInfo((url, onSuccess, onCancel, paymentId) {
         if (!mounted) return;
         navigatorPush(
           _context,
@@ -123,6 +123,7 @@ class PreviewBuyWithUnlimintNotifier
             input.amount,
             state.currencySymbol,
             onSuccess,
+            onCancel,
             paymentId,
           ),
         );
@@ -178,7 +179,12 @@ class PreviewBuyWithUnlimintNotifier
   }
 
   Future<void> _requestPaymentInfo(
-      Function(String, Function(String, String), String) onAction,
+      Function(
+        String,
+        Function(String, String),
+        Function(String),
+        String,
+      ) onAction,
       String lastAction,
     ) async {
     _logger.log(notifier, '_requestPaymentInfo');
@@ -203,7 +209,7 @@ class PreviewBuyWithUnlimintNotifier
       if (pending ||
           (actionRequired && lastAction == response.clientAction!.checkoutUrl)
       ) {
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 1));
         await _requestPaymentInfo(onAction, lastAction);
       } else if (complete) {
         _showSuccessScreen();
@@ -217,6 +223,9 @@ class PreviewBuyWithUnlimintNotifier
             state.copyWith(paymentId: payment);
             state.loader.startLoadingImmediately();
             _requestPaymentInfo(onAction, lastAction);
+          },
+          (payment) {
+            Navigator.pop(_context);
           },
           state.paymentId,
         );

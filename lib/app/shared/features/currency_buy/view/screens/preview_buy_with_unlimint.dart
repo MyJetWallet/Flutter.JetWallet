@@ -8,7 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../shared/services/remote_config_service/remote_config_values.dart';
-// import '../../../../../../shared/components/result_screens/waiting_screen/waiting_screen.dart';
+import '../../../../../../shared/components/result_screens/waiting_screen/waiting_screen.dart';
 import '../../../../../../shared/helpers/launch_url.dart';
 import '../../../../helpers/format_currency_string_amount.dart';
 import '../../../../helpers/formatting/formatting.dart';
@@ -37,7 +37,7 @@ class PreviewBuyWithUnlimint extends HookWidget {
     final title =
         '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
         '${input.currency.description}';
-    var heightWidget = MediaQuery.of(context).size.height - 650;
+    var heightWidget = MediaQuery.of(context).size.height - 625;
     deviceSize.when(
         small: () => heightWidget = heightWidget - 120,
         medium: () => heightWidget = heightWidget - 180,
@@ -51,7 +51,7 @@ class PreviewBuyWithUnlimint extends HookWidget {
 
     return SPageFrameWithPadding(
       loading: state.loader,
-      // customLoader: state.isChecked ? const WaitingScreen() : null,
+      customLoader: state.isChecked ? const WaitingScreen() : null,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(

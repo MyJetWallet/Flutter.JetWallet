@@ -151,6 +151,7 @@ class PreviewBuyWithCircleNotifier
             input.amount,
             state.currencySymbol,
             onSuccess,
+            (value) {},
             paymentId,
           ),
         );
@@ -283,7 +284,7 @@ class PreviewBuyWithCircleNotifier
       if (pending ||
           (actionRequired && lastAction == response.clientAction!.checkoutUrl)
       ) {
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 1));
         await _requestPaymentInfo(onAction, lastAction);
       } else if (complete) {
         sAnalytics.circleSuccess(
