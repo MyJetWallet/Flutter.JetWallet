@@ -38,6 +38,8 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+				<string>$(FACEBOOK_URL_SCHEMA)</string>
+				<string>fb$(FACEBOOK_ID)</string>
 			</array>
 		</dict>
 	</array>
@@ -93,6 +95,12 @@
 		<string>https://promo.simple.app</string>
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>FacebookAppID</key>
+	<string>$(FACEBOOK_ID)</string>
+	<key>FacebookDisplayName</key>
+	<string>$(FACEBOOK_DISPLAY_NAME)</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
 	<true/>
 </dict>
 </plist>

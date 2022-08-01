@@ -1,30 +1,28 @@
-import 'dart:async';
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/services/circle/model/circle_card.dart';
 
 import '../../../../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../shared/services/remote_config_service/remote_config_values.dart';
-import '../../../../../../helpers/format_currency_string_amount.dart';
-import '../../../../../../helpers/formatting/base/volume_format.dart';
-import '../../../../../../providers/base_currency_pod/base_currency_pod.dart';
-import '../../../../../../providers/cards_pod/cards_pod.dart';
-import '../../../../model/preview_buy_with_circle_input.dart';
-import '../../../../notifier/preview_buy_with_circle_notifier/preview_buy_with_circle_notipod.dart';
+import '../../../../../../shared/components/result_screens/waiting_screen/waiting_screen.dart';
+import '../../../../../../shared/helpers/launch_url.dart';
+import '../../../../helpers/format_currency_string_amount.dart';
+import '../../../../helpers/formatting/formatting.dart';
+import '../../../../providers/base_currency_pod/base_currency_pod.dart';
+import '../../model/preview_buy_with_unlimint_input.dart';
+import '../../notifier/preview_buy_with_unlimint_notifier/preview_buy_with_unlimint_notipod.dart';
 
-class PreviewBuyWithCircle extends HookWidget {
-  const PreviewBuyWithCircle({
+class PreviewBuyWithUnlimint extends HookWidget {
+  const PreviewBuyWithUnlimint({
     Key? key,
     required this.input,
   }) : super(key: key);
 
-  final PreviewBuyWithCircleInput input;
+  final PreviewBuyWithUnlimintInput input;
 
   @override
   Widget build(BuildContext context) {
@@ -33,54 +31,17 @@ class PreviewBuyWithCircle extends HookWidget {
     final colors = useProvider(sColorPod);
     final deviceSize = useProvider(deviceSizePod);
     final baseCurrency = useProvider(baseCurrencyPod);
-    final state = useProvider(previewBuyWithCircleNotipod(input));
-    final notifier = useProvider(previewBuyWithCircleNotipod(input).notifier);
+    final state = useProvider(previewBuyWithUnlimintNotipod(input));
+    final notifier = useProvider(previewBuyWithUnlimintNotipod(input).notifier);
     useValueListenable(state.loader);
     final title =
         '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
         '${input.currency.description}';
-    final cards = useProvider(cardsPod);
-    var heightWidget = MediaQuery.of(context).size.height - 690;
+    var heightWidget = MediaQuery.of(context).size.height - 625;
     deviceSize.when(
         small: () => heightWidget = heightWidget - 120,
         medium: () => heightWidget = heightWidget - 180,
     );
-
-    if (cards.cardInfos.isNotEmpty) {
-      final actualCard = cards.cardInfos.where(
-            (element) => element.id == state.card?.id,
-      ).toList();
-      if (actualCard.isNotEmpty) {
-        final pendingNow = actualCard[0].status == CircleCardStatus.pending;
-        if (!pendingNow && state.wasPending) {
-          Timer(
-            const Duration(
-              milliseconds: 3000,
-            ),
-                () {
-              notifier.setWasPending(wasPending: false);
-            },
-          );
-        }
-        if (actualCard[0].status == CircleCardStatus.failed) {
-          Timer(
-            const Duration(
-              seconds: 1,
-            ),
-            () => notifier.showFailure(),
-          );
-        } else {
-          Timer(
-            const Duration(
-              milliseconds: 1000,
-            ),
-            () {
-              notifier.setIsPending(isPending: pendingNow);
-            },
-          );
-        }
-      }
-    }
 
     if (state.isChecked) {
       icon = const SCheckboxSelectedIcon();
@@ -90,7 +51,7 @@ class PreviewBuyWithCircle extends HookWidget {
 
     return SPageFrameWithPadding(
       loading: state.loader,
-      loaderText: intl.previewBuyWithCircle_pleaseWait ,
+      customLoader: state.isChecked ? const WaitingScreen() : null,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(
@@ -121,16 +82,12 @@ class PreviewBuyWithCircle extends HookWidget {
                       iconUrl: input.currency.iconUrl,
                     ),
                   ),
-                  if (!state.wasPending && heightWidget > 0) ...[
+                  if (heightWidget > 0) ...[
                     SizedBox(
                       height: heightWidget,
                     ),
                   ],
                   // const Spacer(),
-                  SActionConfirmText(
-                    name: intl.previewBuyWithCircle_payFrom,
-                    value: '${state.card?.network} •••• ${state.card?.last4}',
-                  ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_creditCardFee,
                     contentLoading: state.loader.value,
@@ -195,54 +152,6 @@ class PreviewBuyWithCircle extends HookWidget {
                     ),
                   ),
                   const SpaceH20(),
-                  if (state.wasPending) ...[
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16.0),
-                        border: Border.all(
-                          color: colors.grey4,
-                        ),
-                      ),
-                      child:  Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 3,
-                              ),
-                              child: state.isPending
-                                  ? DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        color: colors.grey5,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const LoaderSpinner(),
-                                    )
-                                  : const SCompleteDoneIcon(),
-                            ),
-                            const SpaceW10(),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width - 124,
-                              child: RichText(
-                                text: TextSpan(
-                                  text: state.isPending
-                                      ? intl
-                                        .previewBuyWithCircle_cardIsProcessing
-                                      : intl.previewBuyWithCircle_cardIsReady,
-                                  style: sBodyText1Style.copyWith(
-                                    color: colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SpaceH10(),
-                  ],
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -260,15 +169,17 @@ class PreviewBuyWithCircle extends HookWidget {
                       const SpaceW10(),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 82,
-                        child: RichText(
-                          text: TextSpan(
-                            text: '${intl.previewBuyWithCircle_disclaimer} '
-                                '$paymentDelayDays '
-                                '${intl.previewBuyWithCircle_disclaimerEnd}',
-                            style: sCaptionTextStyle.copyWith(
-                              color: colors.black,
-                            ),
-                          ),
+                        child: SPolicyText(
+                          firstText: intl.previewBuyWithUmlimint_disclaimer,
+                          userAgreementText:
+                            ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                          betweenText: ', ',
+                          privacyPolicyText:
+                          intl.previewBuyWithUmlimint_disclaimerPolicy,
+                          onUserAgreementTap: () =>
+                              launchURL(context, userAgreementLink),
+                          onPrivacyPolicyTap: () =>
+                              launchURL(context, privacyPolicyLink),
                         ),
                       ),
                     ],
@@ -281,14 +192,12 @@ class PreviewBuyWithCircle extends HookWidget {
           SFloatingButtonFrame(
             hidePadding: true,
             button: SPrimaryButton2(
-              active: !state.loader.value &&
-                  !state.isPending
-                  && state.isChecked,
+              active: !state.loader.value && state.isChecked,
               name: intl.previewBuyWithAsset_confirm,
               onTap: () {
                 sAnalytics.tapConfirmBuy(
                   assetName: input.currency.description,
-                  paymentMethod: 'circleCard',
+                  paymentMethod: 'unlimintCard',
                   amount: formatCurrencyStringAmount(
                     prefix: baseCurrency.prefix,
                     value: input.amount,

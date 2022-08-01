@@ -14,6 +14,7 @@ class Circle3dSecureWebView extends HookWidget {
     this.asset,
     this.amount,
     this.onSuccess,
+    this.onCancel,
     this.paymentId,
   );
 
@@ -22,6 +23,7 @@ class Circle3dSecureWebView extends HookWidget {
   final String amount;
   final String paymentId;
   final Function(String, String) onSuccess;
+  final Function(String)? onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,8 @@ class Circle3dSecureWebView extends HookWidget {
                 navigationDelegate: (request) {
                   final uri = Uri.parse(request.url);
 
-                  if (uri.path == '/circle/failure') {
+                  if (uri.path == '/circle/failure' ||
+                      uri.path == '/unlimint/failure') {
                     FailureScreen.push(
                       context: context,
                       primaryText: intl.previewBuyWithAsset_failure,
@@ -68,8 +71,11 @@ class Circle3dSecureWebView extends HookWidget {
                         navigateToRouter(context.read);
                       },
                     );
-                  } else if (uri.path == '/circle/success') {
+                  } else if (uri.path == '/circle/success' ||
+                      uri.path == '/unlimint/success') {
                     onSuccess(paymentId, url);
+                  } else if (uri.path == '/unlimint/cancel') {
+                    onCancel?.call(paymentId);
                   }
 
                   return NavigationDecision.navigate;

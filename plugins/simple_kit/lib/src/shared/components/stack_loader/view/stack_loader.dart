@@ -11,11 +11,13 @@ class StackLoader extends HookWidget {
     Key? key,
     this.loadSuccess,
     this.loaderText,
+    this.customLoader,
     required this.child,
     required this.loading,
   }) : super(key: key);
 
   final Widget child;
+  final Widget? customLoader;
   final String? loaderText;
   final StackLoaderNotifier? loading;
   final StackLoaderNotifier? loadSuccess;
@@ -32,10 +34,14 @@ class StackLoader extends HookWidget {
       children: [
         child,
         if (loadingValue) ...[
-          const LoaderBackground(),
-          LoaderContainer(
-            loadingText: loaderText,
-          ),
+          if (customLoader != null) ...[
+            customLoader!,
+          ] else ...[
+            const LoaderBackground(),
+            LoaderContainer(
+              loadingText: loaderText,
+            ),
+          ],
         ],
         if (loadSuccessValue) ...[
           const LoaderBackground(),

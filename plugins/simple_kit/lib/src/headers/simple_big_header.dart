@@ -78,15 +78,18 @@ class SBigHeader extends StatelessWidget {
                 ),
               ),
               if (showLink)
-                Baseline(
-                  baseline: 56.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: GestureDetector(
-                    onTap: onLinkTap,
-                    child: Text(
-                      linkText,
-                      style: sBodyText2Style.copyWith(
-                        color: SColorsLight().blue,
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Baseline(
+                    baseline: 56.0,
+                    baselineType: TextBaseline.alphabetic,
+                    child: GestureDetector(
+                      onTap: onLinkTap,
+                      child: Text(
+                        linkText,
+                        style: sBodyText2Style.copyWith(
+                          color: SColorsLight().blue,
+                        ),
                       ),
                     ),
                   ),
