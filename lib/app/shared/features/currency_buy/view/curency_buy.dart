@@ -153,6 +153,48 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               cardLimit: cardLimit.cardLimits!,
               small: true,
             ),
+          if (widget.currency.buyMethods.length == 1 &&
+              state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.simplex) ...[
+            SActionItem(
+              isSelected: true,
+              expanded: true,
+              icon: SActionDepositIcon(
+                color: colors.blue,
+              ),
+              name: intl.curencyBuy_actionItemName,
+              description: intl.curencyBuy_actionItemDescription,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SpaceH10(),
+            SDivider(
+              color: colors.grey3,
+            ),
+            const SpaceH10(),
+          ],
+          if (widget.currency.buyMethods.length == 1 &&
+              state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.unlimintCard) ...[
+            SActionItem(
+              isSelected: true,
+              expanded: true,
+              icon: SActionDepositIcon(
+                color: colors.blue,
+              ),
+              name: intl.curencyBuy_unlimint,
+              description: intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SpaceH10(),
+            SDivider(
+              color: colors.grey3,
+            ),
+            const SpaceH10(),
+          ],
           if (state.circleCards.isNotEmpty) ...[
             for (final card in state.circleCards)
               Builder(
@@ -240,7 +282,12 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
                 onTap: () => Navigator.pop(context, currency),
               ),
-          if (widget.currency.buyMethods.isNotEmpty) ...[
+          if (widget.currency.buyMethods.isNotEmpty && !(
+              widget.currency.buyMethods.length == 1 &&
+              (state.selectedPaymentMethod?.type == PaymentMethodType.simplex ||
+                state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.unlimintCard)
+          )) ...[
             const SpaceH24(),
             SPaddingH24(
               child: SSecondaryButton1(
@@ -260,6 +307,17 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
             ),
           ],
+          deviceSize.when(
+            small: () {
+              if (Platform.isIOS) {
+                return const SpaceH24();
+              }
+              return const SizedBox();
+            },
+            medium: () {
+              return const SizedBox();
+            },
+          ),
           if (Platform.isAndroid) const SpaceH24(),
         ],
         context: context,
