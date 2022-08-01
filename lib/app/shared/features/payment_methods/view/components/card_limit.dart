@@ -105,8 +105,8 @@ class CardLimit extends HookWidget {
                   );
                 },
                 defaultIcon: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
+                  padding: const EdgeInsets.only(
+                    left: 10,
                   ),
                   child: SInfoIcon(color: colors.grey3),
                 ),

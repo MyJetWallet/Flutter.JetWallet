@@ -132,7 +132,8 @@ class CurrencyBuyState with _$CurrencyBuyState {
   bool get isOneTimePurchaseOnly {
     final cond1 = selectedPaymentMethod?.type == PaymentMethodType.simplex;
     final cond2 = selectedPaymentMethod?.type == PaymentMethodType.circleCard;
+    final cond3 = selectedPaymentMethod?.type == PaymentMethodType.unlimintCard;
 
-    return cond1 || cond2;
+    return cond1 || cond2 || cond3;
   }
 }

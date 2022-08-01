@@ -7,6 +7,7 @@ import 'package:simple_networking/services/operation_history/model/operation_his
 
 import '../../../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../../../helpers/formatting/formatting.dart';
+import '../../../../../../../../../helpers/price_accuracy.dart';
 import '../../../../../../../../../helpers/short_address_form.dart';
 import '../../../../../../../../../providers/base_currency_pod/base_currency_pod.dart';
 import '../../../../../../../../../providers/currencies_pod/currencies_pod.dart';
@@ -34,6 +35,35 @@ class BuyCryptoDetails extends HookWidget {
       currencies,
       transactionListItem.assetId,
     );
+
+    final buyCurrency = currencyFrom(
+      currencies,
+      transactionListItem.cryptoBuyInfo!.buyAssetId,
+    );
+
+    String _rateFor() {
+      final accuracy = priceAccuracy(
+        context.read,
+        buyCurrency.symbol,
+        baseCurrency.symbol,
+      );
+
+      final base = volumeFormat(
+        prefix: buyCurrency.prefixSymbol,
+        decimal: transactionListItem.cryptoBuyInfo!.baseRate,
+        accuracy: buyCurrency.accuracy,
+        symbol: buyCurrency.symbol,
+      );
+
+      final quote = volumeFormat(
+        prefix: baseCurrency.prefix,
+        decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
+        accuracy: accuracy,
+        symbol: baseCurrency.symbol,
+      );
+
+      return '$base = $quote';
+    }
 
     return SPaddingH24(
       child: Column(
@@ -69,6 +99,16 @@ class BuyCryptoDetails extends HookWidget {
               text: '\$${transactionListItem.cryptoBuyInfo!.paymentAmount}',
             ),
           ),
+          if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty) ...[
+            const SpaceH14(),
+            TransactionDetailsItem(
+              text: intl.previewBuyWithCircle_payFrom,
+              value: TransactionDetailsValueText(
+                text: '${transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
+                    '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
+              ),
+            ),
+          ],
           const SpaceH14(),
           TransactionDetailsItem(
             text: intl.previewBuyWithCircle_creditCardFee,
@@ -91,6 +131,13 @@ class BuyCryptoDetails extends HookWidget {
                 accuracy: currentCurrency.accuracy,
                 symbol: currentCurrency.symbol,
               ),
+            ),
+          ),
+          const SpaceH14(),
+          TransactionDetailsItem(
+            text: intl.previewBuyWithCircle_payFrom,
+            value: TransactionDetailsValueText(
+              text: _rateFor(),
             ),
           ),
           const SpaceH16(),

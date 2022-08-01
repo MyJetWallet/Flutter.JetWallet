@@ -34,4 +34,6 @@ class CirclePaymentDataModel with _$CirclePaymentDataModel {
 enum CirclePaymentMethod {
   @JsonValue(0)
   circle,
+  @JsonValue(1)
+  unlimint,
 }
