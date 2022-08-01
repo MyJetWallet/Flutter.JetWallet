@@ -26,15 +26,15 @@ class KeyValueModel with _$KeyValueModel {
 
     for (final pair in keyValue.keys) {
       if (pair.key == watchlistKey) {
-        parsedKeyValue = keyValue.copyWith(
+        parsedKeyValue = parsedKeyValue.copyWith(
           watchlist: WatchlistModel.fromJson(pair.toJson()),
         );
       } else if (pair.key == cardsKey) {
-        parsedKeyValue = keyValue.copyWith(
+        parsedKeyValue = parsedKeyValue.copyWith(
           cards: WatchlistModel.fromJson(pair.toJson()),
         );
       } else if (pair.key == lastUsedPaymentMethod) {
-        parsedKeyValue = keyValue.copyWith(
+        parsedKeyValue = parsedKeyValue.copyWith(
           lastUsedPaymentMethod: pair.value,
         );
       }

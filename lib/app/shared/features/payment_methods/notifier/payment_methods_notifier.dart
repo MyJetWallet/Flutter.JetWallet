@@ -51,12 +51,12 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
       ).toList();
       if (cardsFailing.isNotEmpty &&
           cardsFailing.any((element) => !cardsIds.contains(element.id))) {
-        showFailure();
-      }
-      for (final card in cardsFailing) {
-        if (!cardsIds.contains(card.id)) {
-          await addCardToKeyValue(card.id);
+        for (final card in cardsFailing) {
+          if (!cardsIds.contains(card.id)) {
+            await addCardToKeyValue(card.id);
+          }
         }
+        showFailure();
       }
       _updateUnion(const Success());
     } catch (e) {
