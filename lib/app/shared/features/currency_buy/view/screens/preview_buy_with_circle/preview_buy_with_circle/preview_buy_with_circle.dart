@@ -90,6 +90,7 @@ class PreviewBuyWithCircle extends HookWidget {
 
     return SPageFrameWithPadding(
       loading: state.loader,
+      loaderText: intl.previewBuyWithCircle_pleaseWait ,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(
