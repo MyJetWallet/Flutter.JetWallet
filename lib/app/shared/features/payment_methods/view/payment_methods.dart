@@ -92,6 +92,8 @@ class PaymentMethods extends HookWidget {
                 ),
                 Text(
                   intl.paymentMethod_text,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
                   style: sBodyText1Style.copyWith(
                     color: colors.grey1,
                   ),

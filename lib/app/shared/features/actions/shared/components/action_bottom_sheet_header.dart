@@ -27,15 +27,17 @@ class ActionBottomSheetHeader extends HookWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Baseline(
-                baseline: 20.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  name,
-                  style: sTextH4Style,
+              Expanded(
+                child: Baseline(
+                  baseline: 20.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    name,
+                    style: sTextH4Style,
+                    maxLines: 2,
+                  ),
                 ),
               ),
-              const Spacer(),
               if (!showSearch)
                 SIconButton(
                   onTap: () {

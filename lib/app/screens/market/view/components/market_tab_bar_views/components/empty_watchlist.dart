@@ -53,10 +53,14 @@ class EmptyWatchlist extends HookWidget {
                         style: sTextH4Style,
                       ),
                       const SpaceH5(),
-                      Text(
-                        intl.emptyWatchlist_starAnAsset,
-                        style: sBodyText1Style.copyWith(
-                          color: colors.grey1,
+                      SPaddingH24(
+                        child: Text(
+                          intl.emptyWatchlist_starAnAsset,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          style: sBodyText1Style.copyWith(
+                            color: colors.grey1,
+                          ),
                         ),
                       ),
                       const SpaceH40(),
