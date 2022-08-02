@@ -232,17 +232,21 @@ class OfferInfo with _$OfferInfo {
 @freezed
 class CryptoBuyInfo with _$CryptoBuyInfo {
   const factory CryptoBuyInfo(
-      {required String paymentAssetId,
-      @DecimalSerialiser() required Decimal paymentAmount,
-      required String buyAssetId,
-      @DecimalSerialiser() required Decimal buyAmount,
-      @DecimalSerialiser() required Decimal baseRate,
-      @DecimalSerialiser() required Decimal quoteRate,
-      @DecimalSerialiser() required Decimal depositFeeAmount,
-      required String depositFeeAsset,
-      @DecimalSerialiser() required Decimal tradeFeeAmount,
-      required String tradeFeeAsset,
-      required String cardLast4,}) = _CryptoBuyInfo;
+      {
+        required String paymentAssetId,
+        @DecimalSerialiser() required Decimal paymentAmount,
+        required String buyAssetId,
+        @DecimalSerialiser() required Decimal buyAmount,
+        @DecimalSerialiser() required Decimal baseRate,
+        @DecimalSerialiser() required Decimal quoteRate,
+        @DecimalSerialiser() required Decimal depositFeeAmount,
+        required String depositFeeAsset,
+        @DecimalSerialiser() required Decimal tradeFeeAmount,
+        required String tradeFeeAsset,
+        required String cardLast4,
+        String? cardType,
+      }
+    ) = _CryptoBuyInfo;
 
   factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) =>
       _$CryptoBuyInfoFromJson(json);

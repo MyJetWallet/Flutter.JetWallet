@@ -15,6 +15,8 @@ const cameraStatusKey = 'cameraStatusKey';
 const referralCodeKey = 'referralCodeKey';
 const billingInformationKey = 'billingInformationKey';
 const firstInitAppCodeKey = 'firstInitAppCodeKey';
+const checkedCircle = 'circleWasChecked';
+const checkedUnlimint = 'unlimintWasChecked';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
@@ -48,5 +50,7 @@ class LocalStorageService {
     await _storage.delete(key: phonebookStatusKey);
     await _storage.delete(key: referralCodeKey);
     await _storage.delete(key: firstInitAppCodeKey);
+    await _storage.delete(key: checkedCircle);
+    await _storage.delete(key: checkedUnlimint);
   }
 }

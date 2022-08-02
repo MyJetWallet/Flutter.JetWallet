@@ -2,6 +2,8 @@
 const successAnimationAsset = 'assets/animations/success.riv';
 const splashAnimationAsset = 'assets/animations/splash.riv';
 const failureAnimationAsset = 'assets/animations/failure.riv';
+const loaderAnimationAsset = 'assets/animations/loader.riv';
+const processingAnimationAsset = 'assets/animations/processing.riv';
 
 // Other
 const watchlistImageAsset = 'assets/images/watchlist.png';
@@ -53,6 +55,7 @@ const platformType = 2;
 // KeyValue
 const watchlistKey = 'watchlist';
 const cardsKey = 'cards';
+const lastUsedPaymentMethodKey = 'lastUsedPaymentMethod';
 
 // HTTP
 const postRequest = 'POST';

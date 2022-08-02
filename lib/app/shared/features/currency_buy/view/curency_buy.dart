@@ -27,11 +27,13 @@ import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../helper/formatted_circle_card.dart';
 import '../model/preview_buy_with_asset_input.dart';
 import '../model/preview_buy_with_circle_input.dart';
+import '../model/preview_buy_with_unlimint_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'components/add_payment_bottom_sheet.dart';
 import 'components/recurring_selector.dart';
 import 'screens/preview_buy_with_asset.dart';
 import 'screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
+import 'screens/preview_buy_with_unlimint.dart';
 import 'screens/simplex_web_view.dart';
 
 class CurrencyBuy extends StatefulHookWidget {
@@ -82,6 +84,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             StateLimitType.block
         || cardLimit.cardLimits?.day30State ==
             StateLimitType.block;
+    final cardType = state.selectedPaymentMethod?.type ==
+        PaymentMethodType.circleCard || state.selectedPaymentMethod?.type ==
+        PaymentMethodType.unlimintCard || state.selectedPaymentMethod?.type ==
+        PaymentMethodType.simplex;
 
     String checkLimitText() {
       var amount = Decimal.zero;
@@ -147,6 +153,48 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               cardLimit: cardLimit.cardLimits!,
               small: true,
             ),
+          if (widget.currency.buyMethods.length == 1 &&
+              state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.simplex) ...[
+            SActionItem(
+              isSelected: true,
+              expanded: true,
+              icon: SActionDepositIcon(
+                color: colors.blue,
+              ),
+              name: intl.curencyBuy_actionItemName,
+              description: intl.curencyBuy_actionItemDescription,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SpaceH10(),
+            SDivider(
+              color: colors.grey3,
+            ),
+            const SpaceH10(),
+          ],
+          if (widget.currency.buyMethods.length == 1 &&
+              state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.unlimintCard) ...[
+            SActionItem(
+              isSelected: true,
+              expanded: true,
+              icon: SActionDepositIcon(
+                color: colors.blue,
+              ),
+              name: intl.curencyBuy_unlimint,
+              description: intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SpaceH10(),
+            SDivider(
+              color: colors.grey3,
+            ),
+            const SpaceH10(),
+          ],
           if (state.circleCards.isNotEmpty) ...[
             for (final card in state.circleCards)
               Builder(
@@ -165,7 +213,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       color: (cardLimit.cardLimits?.barProgress == 100 ||
                           isLimitBlock)
                           ? colors.grey2
-                          : state.pickedCircleCard?.id == card.id
+                          : state.pickedCircleCard?.id == card.id &&
+                            state.selectedPaymentMethod?.type ==
+                              PaymentMethodType.circleCard
                           ? colors.blue
                           : colors.black,
                     ),
@@ -175,7 +225,6 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       ? intl.paymentMethod_CardIsProcessing
                       : formatted.expDate,
                     description: '',
-
                     removeDivider: card.id == state.circleCards.last.id,
                     disabled: cardLimit.cardLimits?.barProgress == 100 ||
                         isLimitBlock,
@@ -233,20 +282,17 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
                 onTap: () => Navigator.pop(context, currency),
               ),
-          if (widget.currency.buyMethods.isNotEmpty) ...[
+          if (widget.currency.buyMethods.isNotEmpty && !(
+              widget.currency.buyMethods.length == 1 &&
+              (state.selectedPaymentMethod?.type == PaymentMethodType.simplex ||
+                state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.unlimintCard)
+          )) ...[
             const SpaceH24(),
             SPaddingH24(
               child: SSecondaryButton1(
                 active: true,
-                name: intl.currencyBuy_addPaymentMethod,
-                icon: Container(
-                  margin: const EdgeInsets.only(
-                    top: 32,
-                  ),
-                  child: SActionBuyIcon(
-                    color: colors.black,
-                  ),
-                ),
+                name: intl.currencyBuy_morePaymentMethod,
                 onTap: () {
                   showAddPaymentBottomSheet(
                     context: context,
@@ -261,6 +307,17 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
             ),
           ],
+          deviceSize.when(
+            small: () {
+              if (Platform.isIOS) {
+                return const SpaceH24();
+              }
+              return const SizedBox();
+            },
+            medium: () {
+              return const SizedBox();
+            },
+          ),
           if (Platform.isAndroid) const SpaceH24(),
         ],
         context: context,
@@ -337,14 +394,36 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               ),
               if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.simplex)
-                SPaymentSelectAsset(
+                SPaymentSelectCreditCard(
                   widgetSize: widgetSizeFrom(deviceSize),
                   icon: SActionDepositIcon(
-                    color: colors.black,
+                  color: (cardLimit.cardLimits?.barProgress == 100 ||
+                    isLimitBlock)
+                    ? colors.grey2
+                      : colors.black,
                   ),
                   name: intl.curencyBuy_actionItemName,
-                  helper: '≈ 10-30 ${intl.min}',
-                  description: intl.curencyBuy_actionItemDescription,
+                  description: limitText,
+                  limit: isLimitBlock
+                    ? 100
+                    : cardLimit.cardLimits?.barProgress ?? 0,
+                  onTap: () => _showAssetSelector(),
+                )
+              else if (state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.unlimintCard)
+                SPaymentSelectCreditCard(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  icon: SActionDepositIcon(
+                    color: (cardLimit.cardLimits?.barProgress == 100 ||
+                        isLimitBlock)
+                        ? colors.grey2
+                        : colors.black,
+                  ),
+                  name: intl.curencyBuy_unlimint,
+                  description: limitText,
+                  limit: isLimitBlock
+                      ? 100
+                      : cardLimit.cardLimits?.barProgress ?? 0,
                   onTap: () => _showAssetSelector(),
                 )
               else if (state.selectedPaymentMethod?.type ==
@@ -402,6 +481,14 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                   ),
                   onTap: () => _showAssetSelector(),
                 )
+              else if (widget.fromCard &&
+                widget.currency.supportsAtLeastOneBuyMethod)
+                SPaymentSelectDefault(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  icon: const SActionBuyIcon(),
+                  name: intl.currencyBuy_choosePaymentMethod,
+                  onTap: () => _showAssetSelector(),
+                )
               else
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -438,11 +525,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 submitButtonActive: state.inputValid &&
                     !state.loader.value &&
                     !disableSubmit.value &&
-                    !(state.selectedPaymentMethod?.type ==
-                        PaymentMethodType.circleCard &&
+                    !(cardType &&
                         cardLimit.cardLimits?.barProgress == 100) &&
-                    !(state.selectedPaymentMethod?.type ==
-                        PaymentMethodType.circleCard && isLimitBlock),
+                    !(cardType && isLimitBlock),
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
                         ? intl.curencyBuy_NumericKeyboardButtonName1
@@ -496,6 +581,28 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                           fromCard: widget.fromCard,
                           amount: state.inputValue,
                           card: state.pickedCircleCard!,
+                          currency: widget.currency,
+                        ),
+                      ),
+                    );
+                  } else if (state.selectedPaymentMethod?.type ==
+                      PaymentMethodType.unlimintCard) {
+                    sAnalytics.previewBuyView(
+                      assetName: widget.currency.description,
+                      paymentMethod: state.selectedPaymentMethod?.type.name ??
+                          intl.curencyBuy_crypto,
+                      amount: formatCurrencyStringAmount(
+                        prefix: state.selectedCurrency?.prefixSymbol,
+                        value: state.inputValue,
+                        symbol: state.selectedCurrencySymbol,
+                      ),
+                      frequency: state.recurringBuyType.toFrequency,
+                    );
+                    navigatorPush(
+                      context,
+                      PreviewBuyWithUnlimint(
+                        input: PreviewBuyWithUnlimintInput(
+                          amount: state.inputValue,
                           currency: widget.currency,
                         ),
                       ),
