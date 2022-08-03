@@ -410,7 +410,13 @@ class WithdrawalAddressNotifier extends StateNotifier<WithdrawalAddressState> {
   }
 
   void _pushWithdrawalAmount(BuildContext context) {
-    navigatorPush(context, WithdrawalAmount(withdrawal: withdrawal));
+    navigatorPush(
+      context,
+      WithdrawalAmount(
+        withdrawal: withdrawal,
+        network: state.networkController.text,
+      ),
+    );
   }
 
   void _pushAllowCamera(BuildContext context) {

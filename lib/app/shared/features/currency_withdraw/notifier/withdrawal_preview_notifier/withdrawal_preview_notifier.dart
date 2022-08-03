@@ -120,7 +120,10 @@ class WithdrawalPreviewNotifier extends StateNotifier<WithdrawalPreviewState> {
         Navigator.pushAndRemoveUntil(
           _context,
           MaterialPageRoute(
-            builder: (_) => WithdrawalAmount(withdrawal: withdrawal),
+            builder: (_) => WithdrawalAmount(
+              withdrawal: withdrawal,
+              network: state.blockchain.id,
+            ),
           ),
           (route) => route.isFirst,
         );

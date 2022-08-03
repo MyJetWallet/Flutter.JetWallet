@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 import 'package:simple_networking/services/signal_r/model/asset_payment_methods.dart';
+import 'package:simple_networking/services/signal_r/model/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/services/signal_r/model/blockchains_model.dart';
 import 'package:simple_networking/services/signal_r/model/recurring_buys_model.dart';
 
@@ -28,6 +29,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default([]) List<WithdrawalMethods> withdrawalMethods,
     @Default([]) List<BlockchainModel> depositBlockchains,
     @Default([]) List<BlockchainModel> withdrawalBlockchains,
+    @Default([]) List<AssetFeeModel> assetWithdrawalFees,
     @Default(0.0) double reserve,
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
@@ -89,16 +91,18 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isAssetBalanceNotEmpty => assetBalance != Decimal.zero;
 
-  Decimal get withdrawalFeeSize => fees.withdrawalFee?.size ?? Decimal.zero;
+
+  Decimal withdrawalFeeSize(String network) {
+    var feeCollection = assetWithdrawalFees;
+    feeCollection = feeCollection.where((element) => element.network == network)
+        .toList();
+    return feeCollection.isNotEmpty ? feeCollection[0].size : Decimal.zero;
+  }
 
   bool get isGrowing => dayPercentChange > 0;
 
-  String get withdrawalFeeWithSymbol {
-    if (withdrawalFeeSize == Decimal.zero) {
-      return '0 $symbol';
-    } else {
-      return '$withdrawalFeeSize ${fees.withdrawalFee?.assetSymbol}';
-    }
+  String withdrawalFeeWithSymbol(String network) {
+    return '${withdrawalFeeSize(network)} $symbol';
   }
 
   String get emptyWithdrawalFee => '0 $symbol';

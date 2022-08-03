@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -243,7 +242,6 @@ class SignalRService {
     _connection?.on(assetsMessage, (data) {
       try {
         final assets = AssetsModel.fromJson(_json(data));
-        log('$assets');
         _assetsController.add(assets);
       } catch (e) {
         _logger.log(contract, assetsMessage, e);
@@ -329,10 +327,8 @@ class SignalRService {
     _connection?.on(assetWithdrawalFeeMessage, (data) {
       try {
         final assetFees = AssetWithdrawalFeeModel.fromJson(_json(data));
-        log('$assetFees');
         _assetWithdrawalFeeController.add(assetFees);
       } catch (e) {
-        log('$e');
         _logger.log(contract, assetWithdrawalFeeMessage, e);
       }
     });
