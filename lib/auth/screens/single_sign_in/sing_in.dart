@@ -36,6 +36,7 @@ class SingIn extends HookWidget {
         loading: loader.value,
         header: SPaddingH24(
           child: SBigHeader(
+            customIconButton: const SpaceH24(),
             title: intl.register_enterYourEmail,
           ),
         ),
