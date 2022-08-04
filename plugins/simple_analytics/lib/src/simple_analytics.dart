@@ -1415,4 +1415,71 @@ class SimpleAnalytics {
       },
     );
   }
+
+  /// Time tracking
+  void timeStartMarket({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartMarket,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeStartInitFinished({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartInitFinished,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeStartConfig({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartConfig,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeSignalRCheckIF({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeSignalRCheckIF,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeSignalRReceiveIF({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeSignalRReceiveIF,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void initFinishedOnMarket({
+    required String isFinished,
+  }) {
+    _analytics.logEvent(
+      EventType.initFinishedOnMarket,
+      eventProperties: {
+        PropertyType.isLoaded: isFinished,
+      },
+    );
+  }
 }

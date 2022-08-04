@@ -41,6 +41,7 @@ import '../dio/basic_dio.dart';
 import '../dio/dio_without_interceptors.dart';
 import '../dio/image_dio.dart';
 import '../helpers/refresh_token.dart';
+import '../notifiers/time_tracking_notifier/time_tracking_notipod.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/local_storage_service.dart';
 import '../services/rsa_service.dart';
@@ -56,6 +57,8 @@ final intlPod = Provider<AppLocalizations>((ref) {
 
 final signalRServicePod = Provider<SignalRService>((ref) {
   final mediaQuery = ref.read(mediaQueryPod);
+  final timeTrackerN = ref.read(timeTrackingNotipod.notifier);
+  timeTrackerN.updateSignalRStarted(DateTime.now());
 
   return SignalRService(
     ref.read,

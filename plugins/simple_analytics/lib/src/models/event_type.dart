@@ -229,4 +229,14 @@ class EventType {
 
   /// Push notification
   static const clickNotification = 'Click on push notification';
+
+  /// Time tracking
+  static const timeStartMarket = 'Time: Start -> Market';
+  static const timeStartInitFinished = 'Time: Start -> initFinished';
+  static const timeStartConfig = 'Time: Start -> config';
+  static const timeSignalRCheckIF = 'Time: signalR start -> check initFinished';
+  static const timeSignalRReceiveIF =
+      'Time: signalR start -> receive initFinished';
+  static const initFinishedOnMarket = 'initFinished received on market screen';
+
 }

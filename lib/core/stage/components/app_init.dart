@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
+import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/onboarding/onboarding_screen.dart';
 import '../../../auth/screens/splash/splash_screen.dart';
@@ -13,6 +14,7 @@ import '../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import '../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
+import '../../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
 
 /// Launches application goes after [RemoteConfigInit]
 class AppInit extends HookWidget {
@@ -25,11 +27,24 @@ class AppInit extends HookWidget {
     final router = useProvider(authorizationStpod);
     final appInit = useProvider(appInitFpod);
     final startup = useProvider(startupNotipod);
+    final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
 
     return appInit.maybeWhen(
       data: (_) {
         return router.state.when(
           authorized: () {
+            final isAppLoaded = useProvider(initFinishedSpod);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              timeTrackerN.updateInitFinishedFirstCheck(DateTime.now());
+            });
+            isAppLoaded.maybeWhen(
+              data: (loaded) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  timeTrackerN.updateInitFinishedReceived(DateTime.now());
+                });
+              },
+              orElse: () {},
+            );
             return startup.authorized.when(
               loading: () => const SplashScreen(),
               emailVerification: () => const EmailVerification(),
