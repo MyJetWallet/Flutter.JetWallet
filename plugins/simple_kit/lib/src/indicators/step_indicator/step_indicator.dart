@@ -13,23 +13,23 @@ class SStepIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _flex = loadedPercent;
+    var flex = loadedPercent;
     if(loadedPercent < 0){
-      _flex = 0;
+      flex = 0;
     } else if (loadedPercent > 100){
-      _flex = 100;
+      flex = 100;
     }
     return Row(
       children: [
         Expanded(
-          flex: _flex,
+          flex: flex,
           child: Container(
             color: SColorsLight().blue,
             height: 4,
           ),
         ),
         Expanded(
-          flex: 100 - _flex,
+          flex: 100 - flex,
           child: Container(
             color: SColorsLight().white,
             height: 4,

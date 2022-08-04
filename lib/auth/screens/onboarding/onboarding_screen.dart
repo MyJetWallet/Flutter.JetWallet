@@ -11,7 +11,7 @@ import '../../../shared/helpers/analytics.dart';
 import '../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
-import '../single_sign_in/singIn.dart';
+import '../single_sign_in/sing_in.dart';
 import 'components/animated_slide.dart';
 
 const _slidesAnimationDuration = Duration(seconds: 4);
