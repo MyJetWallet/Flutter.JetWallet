@@ -16,6 +16,8 @@ export 'src/account/headers/simple_account_category_header.dart';
 export 'src/account/indicator/simple_account_protection_indicator.dart';
 export 'src/account/indicator/simple_verify_indicator.dart';
 export 'src/account/phone_number/simple_number.dart';
+export 'src/account/phone_number/simple_number.dart';
+export 'src/indicators/step_indicator/step_indicator.dart';
 
 /// Countries
 export 'src/account/phone_number/simple_phone_numbers.dart';
@@ -73,6 +75,7 @@ export 'src/bottom_sheets/sheets/show_menu_action_sheet.dart';
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_1.dart';
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_2.dart';
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_3.dart';
+export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_1.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_2.dart';
 export 'src/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
@@ -181,6 +184,7 @@ export 'src/icons/24x24/public/forward/simple_forward_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_pressed_icon.dart';
 export 'src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
+export 'src/icons/24x24/public/gift_referral/simple_gift_referral_icon.dart';
 export 'src/icons/24x24/public/index_history/simple_index_history_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_pressed_icon.dart';
