@@ -184,7 +184,6 @@ export 'src/icons/24x24/public/forward/simple_forward_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_icon.dart';
 export 'src/icons/24x24/public/gift/simple_gift_pressed_icon.dart';
 export 'src/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dart';
-export 'src/icons/24x24/public/gift_referral/simple_gift_referral_icon.dart';
 export 'src/icons/24x24/public/index_history/simple_index_history_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_icon.dart';
 export 'src/icons/24x24/public/info/simple_info_pressed_icon.dart';

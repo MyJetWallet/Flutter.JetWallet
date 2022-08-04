@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/authentication/model/confirm_email_login/confirm_email_login_request_model.dart';
 import 'package:simple_networking/services/authentication/model/start_email_login/start_email_login_request_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
-
 
 import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
 import '../../../../shared/helpers/current_platform.dart';
@@ -85,7 +83,7 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         appsflyerId: appsFlyerID ?? '',
       );
       final response =
-      await authService.startEmailLogin(model, intl.localeName);
+          await authService.startEmailLogin(model, intl.localeName);
       authInfoN.updateEmail(credentials.email);
       authInfoN.updateVerificationToken(response.verificationToken);
       read(timerNotipod(emailResendCountdown).notifier).refreshTimer();
@@ -120,14 +118,14 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         verificationToken: authInfo.verificationToken,
         code: state.controller.text,
         publicKeyPem: publicKey,
-        email:authInfo.email,
+        email: authInfo.email,
       );
 
       final intl = read(intlPod);
       final response =
           await authService.confirmEmailLogin(model, intl.localeName);
       read(authInfoNotipod.notifier).state.copyWith(token: response.token);
-      await storageService.setString(refreshTokenKey,   response.refreshToken);
+      await storageService.setString(refreshTokenKey, response.refreshToken);
       await storageService.setString(userEmailKey, authInfo.email);
       authInfoN.updateToken(response.token);
       authInfoN.updateRefreshToken(response.refreshToken);
@@ -141,7 +139,6 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
           email: state.email,
         ),
       );
-
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 

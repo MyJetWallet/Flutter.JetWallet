@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -29,8 +28,6 @@ class SingIn extends HookWidget {
     final controller = useScrollController();
     final loader = useValueNotifier(StackLoaderNotifier());
     useListenable(loader.value);
-
-
 
     return ProviderListener<SingleSingInState>(
       provider: singleSingInNotipod,
@@ -67,9 +64,8 @@ class SingIn extends HookWidget {
                           onChanged: (value) {
                             credentialsN.updateAndValidateEmail(value);
                           },
-
-                          onErrorIconTap: () =>
-                              notificationN.showError(intl.register_invalidEmail),
+                          onErrorIconTap: () => notificationN
+                              .showError(intl.register_invalidEmail),
                           errorNotifier: emailError.value,
                         ),
                       ),
@@ -133,12 +129,14 @@ class SingIn extends HookWidget {
         } else if (value.union is ErrorSrting) {
           loader.value.finishLoading();
           notificationN.showError((value.union as ErrorSrting).error!);
-        } else if(value.union is Success) {
+        } else if (value.union is Success) {
           loader.value.finishLoading();
-           Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>
-               const EmailVerification(),),);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const EmailVerification(),
+            ),
+          );
         }
       },
     );

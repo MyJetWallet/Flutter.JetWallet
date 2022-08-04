@@ -16,4 +16,3 @@ class StartEmailLoginRequestModel with _$StartEmailLoginRequestModel {
   factory StartEmailLoginRequestModel.fromJson(Map<String, dynamic> json) =>
       _$StartEmailLoginRequestModelFromJson(json);
 }
-
