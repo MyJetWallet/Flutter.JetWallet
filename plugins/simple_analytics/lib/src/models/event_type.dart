@@ -49,10 +49,10 @@ class EventType {
   static const kycVerifyProfile = 'KYC - Verify your profile';
 
   /// Change country code, send country name
-  static const changeCountryCode = 'Change country code';
+  static const changeCountryCode = 'KYC - Change country code';
 
   /// Choose country name and document type in kyc
-  static const identityParametersChoosed = 'Identity parameters choosed';
+  static const identityParametersChoosed = 'KYC - Identity parameters choosed';
 
   /// Market filters
   static const marketFilters = 'Filters';

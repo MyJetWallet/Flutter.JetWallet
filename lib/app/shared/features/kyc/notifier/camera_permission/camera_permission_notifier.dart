@@ -48,8 +48,8 @@ class CameraPermissionNotifier extends StateNotifier<CameraPermissionState> {
       await _setCameraStatusInStorage();
 
       if (status == PermissionStatus.granted) {
-        if (!mounted) return;
         sAnalytics.kycCameraAllowed();
+        if (!mounted) return;
         UploadKycDocuments.pushReplacement(context);
       } else {
         sAnalytics.kycCameraNotAllowed();
