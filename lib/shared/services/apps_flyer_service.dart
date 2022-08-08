@@ -13,7 +13,7 @@ class AppsFlyerService {
       afDevKey: devKey,
       appId: iosAppId,
       disableAdvertisingIdentifier: true,
-      timeToWaitForATTUserAuthorization: 30,
+      timeToWaitForATTUserAuthorization: 50,
     );
 
     appsflyerSdk = AppsflyerSdk(options);
