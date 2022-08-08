@@ -35,9 +35,9 @@ class Market extends HookWidget {
       indices.isEmpty,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      timeTrackerN.updateMarketOpened();
-      timeTrackerN.isFinishedOnMarketCheck();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await timeTrackerN.updateMarketOpened();
+      await timeTrackerN.isFinishedOnMarketCheck();
     });
 
     return Scaffold(

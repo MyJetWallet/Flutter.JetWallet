@@ -23,8 +23,8 @@ class RemoteConfigInit extends HookWidget {
 
     return remoteConfig.when(
       success: () {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          timeTrackerN.updateConfigReceived(DateTime.now());
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await timeTrackerN.updateConfigReceived(DateTime.now());
         });
         return child;
       },

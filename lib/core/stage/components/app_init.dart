@@ -34,13 +34,13 @@ class AppInit extends HookWidget {
         return router.state.when(
           authorized: () {
             final isAppLoaded = useProvider(initFinishedSpod);
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              timeTrackerN.updateInitFinishedFirstCheck(DateTime.now());
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              await timeTrackerN.updateInitFinishedFirstCheck(DateTime.now());
             });
             isAppLoaded.maybeWhen(
               data: (loaded) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  timeTrackerN.updateInitFinishedReceived(DateTime.now());
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  await timeTrackerN.updateInitFinishedReceived(DateTime.now());
                 });
               },
               orElse: () {},

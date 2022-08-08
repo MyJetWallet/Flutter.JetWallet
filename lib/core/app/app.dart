@@ -13,6 +13,7 @@ import '../../auth/screens/register/register_password_screen.dart';
 import '../../auth/screens/reset_password/view/reset_password.dart';
 import '../../router/view/router.dart';
 import '../../shared/logging/provider_logger.dart';
+import '../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
 import '../../shared/providers/device_info_pod.dart';
 import '../../shared/providers/package_info_fpod.dart';
@@ -101,6 +102,12 @@ class _App extends HookWidget {
     useProvider(packageInfoFpod);
     final navigatorKey = useProvider(sNavigatorKeyPod);
     final theme = useProvider(sThemePod);
+    final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await timeTrackerN.clear();
+      await timeTrackerN.updateAppStarted(DateTime.now());
+      await timeTrackerN.updateSignalRStarted(DateTime.now());
+    });
 
     return CupertinoApp(
       restorationScopeId: 'app',

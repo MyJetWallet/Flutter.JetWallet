@@ -6,7 +6,7 @@ import 'time_tracking_state.dart';
 final timeTrackingNotipod =
     StateNotifierProvider.autoDispose<TimeTrackingNotifier, TimeTrackingState>(
       (ref) {
-    return TimeTrackingNotifier();
+    return TimeTrackingNotifier(read: ref.read);
   },
   name: 'timeTrackingNotipod',
 );
