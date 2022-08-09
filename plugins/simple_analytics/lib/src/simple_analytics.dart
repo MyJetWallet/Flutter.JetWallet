@@ -1482,4 +1482,16 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void initFinished() {
+    _analytics.logEvent(
+      EventType.initFinished,
+    );
+  }
+
+  void remoteConfig() {
+    _analytics.logEvent(
+      EventType.remoteConfig,
+    );
+  }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
@@ -26,6 +28,9 @@ class TimeTrackingNotifier extends StateNotifier<TimeTrackingState> {
     final storage = read(localStorageServicePod);
     final startAppSaved = await storage.getValue(startApp);
     final wasSent = await storage.getValue(timeStartMarketSent);
+    Timer(const Duration(milliseconds: 5000), () {
+      storage.clearedChange();
+    });
     if (!mounted) return;
     if (startAppSaved != null && wasSent == null) {
       final startMs = int.parse(startAppSaved);

@@ -238,5 +238,7 @@ class EventType {
   static const timeSignalRReceiveIF =
       'Time: signalR start -> receive initFinished';
   static const initFinishedOnMarket = 'initFinished received on market screen';
+  static const initFinished = 'initFinished received';
+  static const remoteConfig = 'remoteConfig received';
 
 }

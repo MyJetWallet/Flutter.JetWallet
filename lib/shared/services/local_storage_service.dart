@@ -79,5 +79,10 @@ class LocalStorageService {
     await _storage.delete(key: timeSignalRCheckIFSent);
     await _storage.delete(key: timeSignalRReceiveIFSent);
     await _storage.delete(key: initFinishedOnMarketSent);
+    await setString('cleared', 'true');
+  }
+
+  Future<void> clearedChange() async {
+    await _storage.delete(key: 'cleared');
   }
 }

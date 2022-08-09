@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
 import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
@@ -40,6 +41,7 @@ class AppInit extends HookWidget {
             isAppLoaded.maybeWhen(
               data: (loaded) {
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  sAnalytics.initFinished();
                   await timeTrackerN.updateInitFinishedReceived(DateTime.now());
                 });
               },
