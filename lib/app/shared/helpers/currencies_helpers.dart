@@ -72,6 +72,16 @@ void sortByApyAndWeight(List<CurrencyModel> currencies) {
   });
 }
 
+/// Used for [Buy] [Receive] [Convert] features with empty balance
+/// Always provide a copy of List to avoid unexpected behaviour
+void sortByBalanceAndWeight(List<CurrencyModel> currencies) {
+  currencies.sort((a, b) {
+    final compare = b.baseBalance.compareTo(a.baseBalance);
+    if (compare != 0) return compare;
+    return b.weight.compareTo(a.weight);
+  });
+}
+
 List<CurrencyModel> filterByApy(List<CurrencyModel> currencies) {
   return currencies.where((element) {
     return element.apy != Decimal.zero;
