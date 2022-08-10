@@ -5,8 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/providers/service_providers.dart';
 
-class ValidReferralCode extends HookWidget {
-  const ValidReferralCode({
+class ValidReferralCodeInside extends HookWidget {
+  const ValidReferralCodeInside({
     Key? key,
     this.referralCode,
   }) : super(key: key);

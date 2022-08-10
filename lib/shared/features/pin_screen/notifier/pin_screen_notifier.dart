@@ -14,6 +14,7 @@ import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_state.dart';
 import '../../../providers/service_providers.dart';
+import '../../../services/local_storage_service.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
@@ -59,7 +60,8 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     await flowUnion.when(
       change: () async {
         await _initFlowThatStartsFromEnterPin(
-            intl.pinScreen_changePin, hideBio,
+          intl.pinScreen_changePin,
+          hideBio,
         );
       },
       disable: () async {
@@ -86,7 +88,11 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     _updateScreenUnion(const EnterPin());
     _updateScreenHeader(title);
     _updateHideBiometricButton(hideBio);
-    await updatePin(await _authenticateWithBio());
+    final storageService = read(localStorageServicePod);
+    final usingBio = await storageService.getValue(useBioKey);
+    if (usingBio != null || usingBio == true.toString()) {
+      await updatePin(await _authenticateWithBio());
+    }
   }
 
   Future<void> updatePin(String value) async {
@@ -154,7 +160,11 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   }
 
   Future<void> _enterPinFlow() async {
-    if (state.enterPin != _userInfo.pin) {
+    final intl = read(intlPod);
+    final resp =
+        await read(pinServicePod).checkPin(intl.localeName, state.enterPin);
+    _logger.log(notifier, resp);
+    if (resp.result != 'OK') {
       await _errorFlow();
       if (attemptsLeft > 1) {
         attemptsLeft--;
@@ -191,28 +201,27 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   }
 
   Future<void> _newPinFlow() async {
-    await _animateCorrect();
-    _updateScreenUnion(const ConfirmPin());
+    final intl = read(intlPod);
+    final resp =
+        await read(pinServicePod).setupPin(intl.localeName, state.newPin);
+    if (resp.result == 'OK') {
+      await _animateCorrect();
+      _updateScreenUnion(const ConfirmPin());
+    } else if (resp.result == 'PinCodeAlreadyExist') {
+      _updateScreenUnion(const ConfirmPin());
+    }
   }
 
   Future<void> _confirmPinFlow() async {
-    if (state.confrimPin != state.newPin) {
-      await _errorFlow();
-      _updateNewPin('');
-      _updateScreenUnion(const NewPin());
+    final intl = read(intlPod);
+    final resp =
+        await read(pinServicePod).checkPin(intl.localeName, state.confrimPin);
+    if (resp.result == 'OK') {
+      await _animateCorrect();
+      await _userInfoN.setPin(state.confrimPin);
+      read(startupNotipod.notifier).pinSet();
     } else {
-      await flowUnion.maybeWhen(
-        setup: () async {
-          await _animateSuccess();
-          await _userInfoN.setPin(state.confrimPin);
-          read(startupNotipod.notifier).pinSet();
-        },
-        orElse: () async {
-          await _successFlow(
-            _userInfoN.setPin(state.confrimPin),
-          );
-        },
-      );
+      _updateNewPin('');
     }
   }
 

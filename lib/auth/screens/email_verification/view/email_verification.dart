@@ -19,6 +19,17 @@ import '../notifier/email_verification_state.dart';
 class EmailVerification extends StatefulHookWidget {
   const EmailVerification({Key? key}) : super(key: key);
 
+  static const routeName = '/email_verification';
+
+  static Future push({
+    required BuildContext context,
+  }) {
+    return Navigator.pushNamed(
+      context,
+      routeName,
+    );
+  }
+
   @override
   State<EmailVerification> createState() => _EmailVerificationState();
 }
@@ -155,7 +166,7 @@ class _EmailVerificationState extends State<EmailVerification>
                       text: intl.emailVerification_openEmail,
                       onTap: () => openEmailApp(context),
                     ),
-                    const Spacer(),
+                    const SpaceH62(),
                     GestureDetector(
                       onLongPress: () => verificationN.pasteCode(),
                       onDoubleTap: () => verificationN.pasteCode(),
@@ -175,7 +186,7 @@ class _EmailVerificationState extends State<EmailVerification>
                           controller: verification.controller,
                           length: emailVerificationCodeLength,
                           onCompleted: (_) {
-                            loader.value.startLoading();
+                            loader.value.startLoadingImmediately();
                             verificationN.verifyCode();
                           },
                           autoFocus: true,
@@ -199,9 +210,9 @@ class _EmailVerificationState extends State<EmailVerification>
                       STextButton1(
                         active: true,
                         name: intl.twoFaPhone_resend,
-                        onTap: ()  {
+                        onTap: () {
                           timerN.refreshTimer();
-                           verificationN.resendCode();
+                          verificationN.resendCode();
                         },
                       ),
                     ],

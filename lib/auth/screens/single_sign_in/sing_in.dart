@@ -16,6 +16,17 @@ import 'notifier/single_sing_in_union.dart';
 class SingIn extends HookWidget {
   const SingIn({Key? key}) : super(key: key);
 
+  static const routeName = '/sing_in';
+
+  static Future push({
+    required BuildContext context,
+  }) {
+    return Navigator.pushNamed(
+      context,
+      routeName,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
@@ -25,6 +36,7 @@ class SingIn extends HookWidget {
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final singleSingInN = useProvider(singleSingInNotipod.notifier);
     final emailError = useValueNotifier(StandardFieldErrorNotifier());
+
     final controller = useScrollController();
     final loader = useValueNotifier(StackLoaderNotifier());
     useListenable(loader.value);
@@ -55,19 +67,22 @@ class SingIn extends HookWidget {
                     ColoredBox(
                       color: colors.white,
                       child: SPaddingH24(
-                        child: SStandardField(
-                          labelText: intl.login_emailTextFieldLabel,
-                          autofocus: true,
-                          keyboardType: TextInputType.emailAddress,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.deny(RegExp('[ ]'))
-                          ],
-                          onChanged: (value) {
-                            credentialsN.updateAndValidateEmail(value);
-                          },
-                          onErrorIconTap: () => notificationN
-                              .showError(intl.register_invalidEmail),
-                          errorNotifier: emailError.value,
+                        child: AutofillGroup(
+                          child: SStandardField(
+                            labelText: intl.login_emailTextFieldLabel,
+                            autofocus: true,
+                            autofillHints: const [AutofillHints.email],
+                            keyboardType: TextInputType.emailAddress,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                            ],
+                            onChanged: (value) {
+                              credentialsN.updateAndValidateEmail(value);
+                            },
+                            onErrorIconTap: () => notificationN
+                                .showError(intl.register_invalidEmail),
+                            errorNotifier: emailError.value,
+                          ),
                         ),
                       ),
                     ),
@@ -99,6 +114,7 @@ class SingIn extends HookWidget {
                       ),
                     ),
                     const SpaceH16(),
+                    const Spacer(),
                     SPaddingH24(
                       child: SPrimaryButton4(
                         active: credentials.emailIsNotEmptyAndPolicyChecked,
@@ -132,12 +148,7 @@ class SingIn extends HookWidget {
           notificationN.showError((value.union as ErrorSrting).error!);
         } else if (value.union is Success) {
           loader.value.finishLoading();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const EmailVerification(),
-            ),
-          );
+          EmailVerification.push(context: context);
         }
       },
     );

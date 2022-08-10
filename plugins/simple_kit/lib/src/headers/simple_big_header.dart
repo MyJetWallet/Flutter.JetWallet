@@ -32,7 +32,7 @@ class SBigHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180.0,
+      height: 200.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,11 +69,10 @@ class SBigHeader extends StatelessWidget {
                 child: Baseline(
                   baseline: 56.0,
                   baselineType: TextBaseline.alphabetic,
-                  child: FittedBox(
-                    child: Text(
-                      title,
-                      style: sTextH2Style,
-                    ),
+                  child: Text(
+                    title,
+                    maxLines: 2,
+                    style: sTextH2Style,
                   ),
                 ),
               ),

@@ -17,6 +17,7 @@ const billingInformationKey = 'billingInformationKey';
 const firstInitAppCodeKey = 'firstInitAppCodeKey';
 const checkedCircle = 'circleWasChecked';
 const checkedUnlimint = 'unlimintWasChecked';
+const useBioKey = 'useBio';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();

@@ -6,6 +6,7 @@ import '../model/authenticate/login_request_model.dart';
 import '../model/authenticate/register_request_model.dart';
 import '../model/confirm_email_login/confirm_email_login_request_model.dart';
 import '../model/confirm_email_login/confirm_email_login_response_model.dart';
+import '../model/country/country_response_model.dart';
 import '../model/forgot_password/forgot_password_request_model.dart';
 import '../model/logout/logout_request_model.dart';
 import '../model/password_recovery/password_recovery_request_model.dart';
@@ -23,6 +24,7 @@ import 'services/refresh_service.dart';
 import 'services/register_service.dart';
 import 'services/server_time_service.dart';
 import 'services/start_email_login_service.dart';
+import 'services/user_country_code_service.dart';
 
 class AuthenticationService {
   AuthenticationService(this.dio);
@@ -94,9 +96,15 @@ class AuthenticationService {
   }
 
   Future<ConfirmEmailLoginResponseModel> confirmEmailLogin(
-      ConfirmEmailLoginRequestModel model,
-      String localeName,
-      ) {
+    ConfirmEmailLoginRequestModel model,
+    String localeName,
+  ) {
     return confirmEmailLoginService(dio, model, localeName);
+  }
+
+  Future<CountryResponseModel> getUserCountry(
+    String localeName,
+  ) {
+    return userCountryService(dio, localeName);
   }
 }

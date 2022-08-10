@@ -11,17 +11,15 @@ class NoReferralCode extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
-    final colors = useProvider(sColorPod);
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SInfoPressedIcon(
-          color: colors.blue,
-        ),
+        const SGiftReferralIcon(),
         const SpaceW12(),
         Text(
           intl.noReferralCode_havePromoCode,
-          style: sCaptionTextStyle.copyWith(color: colors.blue),
+          style: sButtonTextStyle,
         ),
       ],
     );

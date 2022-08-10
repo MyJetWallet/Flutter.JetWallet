@@ -28,50 +28,23 @@ class StartupNotifier extends StateNotifier<StartupState> {
       final intl = read(intlPod);
 
       try {
-        final info = await read(infoServicePod).sessionInfo(
+        final info = await read(checkSessionServicePod).sessionCheck(
           intl.localeName,
         );
-
-        read(userInfoNotipod.notifier).updateWithValuesFromSessionInfo(
-          twoFaEnabled: info.twoFaEnabled,
-          phoneVerified: info.phoneVerified,
-          hasDisclaimers: info.hasDisclaimers,
-          hasHighYieldDisclaimers: info.hasHighYieldDisclaimers,
-        );
-
         _initSignalRSynchronously();
 
-        if (info.emailVerified) {
-          final profileInfo =
-              await read(profileServicePod).info(intl.localeName);
-
-          read(userInfoNotipod.notifier).updateWithValuesFromProfileInfo(
-            emailConfirmed: profileInfo.emailConfirmed,
-            phoneConfirmed: profileInfo.phoneConfirmed,
-            kycPassed: profileInfo.kycPassed,
-            email: profileInfo.email ?? '',
-            phone: profileInfo.phone ?? '',
-            referralLink: profileInfo.referralLink ?? '',
-            referralCode: profileInfo.referralCode ?? '',
-            countryOfRegistration: profileInfo.countryOfRegistration ?? '',
-            countryOfResidence: profileInfo.countryOfResidence ?? '',
-            countryOfCitizenship: profileInfo.countryOfCitizenship ?? '',
-            firstName: profileInfo.firstName ?? '',
-            lastName: profileInfo.lastName ?? '',
-          );
-          if (!info.twoFaPassed) {
-            _updateAuthorizedUnion(const TwoFaVerification());
-          } else {
-            _processPinState();
-          }
+        if (info.toCheckSimpleKyc) {
+          _updateAuthorizedUnion(const UserDataVerification());
+        } else if (info.toSetupPin) {
+          _updateAuthorizedUnion(const PinSetup());
+        } else if (info.toCheckPin) {
+          _updateAuthorizedUnion(const PinVerification());
         } else {
-          _updateAuthorizedUnion(const EmailVerification());
+          _updateAuthorizedUnion(const PinVerification());
         }
       } catch (e) {
-        // TODO (discuss this flow)
-        // In this case app will keep loading and nothing will happen
-        // In order to retry user will need to reboot application
         _logger.log(stateFlow, 'Failed to fetch session info', e);
+        _updateAuthorizedUnion(const SingleIn());
       }
     }
   }
@@ -112,11 +85,10 @@ class StartupNotifier extends StateNotifier<StartupState> {
     _processPinState();
   }
 
-  /// Called after 2FA when user login or register
   void pinSet() {
     _logger.log(notifier, 'pinSet');
 
-    _updateAuthorizedUnion(const Home());
+    _updateAuthorizedUnion(const AskBioUsing());
   }
 
   /// Called after 2FA when user is authenticated and makes cold boot
@@ -136,8 +108,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
     } else {
       if (state.fromLoginRegister || !userInfo.pinDisabled) {
         _updateAuthorizedUnion(const PinSetup());
-      } else {
-        _updateAuthorizedUnion(const Home());
       }
     }
   }

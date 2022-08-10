@@ -54,7 +54,6 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
       intl.onboarding_exchange_any_crypto,
     ];
 
-
     _slidesAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
@@ -172,12 +171,7 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                   SPrimaryButton1(
                     active: true,
                     name: intl.onboarding_getStarted,
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>
-                        const SingIn(),),)
-                    },
+                    onTap: () => {SingIn.push(context: context)},
                   ),
                   const SpaceH24(),
                 ],

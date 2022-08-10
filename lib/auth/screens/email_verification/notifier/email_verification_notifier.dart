@@ -7,7 +7,9 @@ import 'package:simple_networking/services/authentication/model/confirm_email_lo
 import 'package:simple_networking/services/authentication/model/start_email_login/start_email_login_request_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
-import '../../../../shared/components/result_screens/success_screen/success_screen.dart';
+import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../../../../router/provider/authorization_stpod/authorization_stpod.dart';
+import '../../../../router/provider/authorization_stpod/authorization_union.dart';
 import '../../../../shared/helpers/current_platform.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
@@ -19,7 +21,6 @@ import '../../../../shared/services/remote_config_service/remote_config_values.d
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 
 import '../../../shared/notifiers/credentials_notifier/credentials_notipod.dart';
-import '../view/components/email_confirmed_success_text.dart';
 import 'email_verification_state.dart';
 import 'email_verification_union.dart';
 
@@ -31,13 +32,10 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
             controller: TextEditingController(),
           ),
         ) {
-    _context = read(sNavigatorKeyPod).currentContext!;
     _updateEmail(read(authInfoNotipod).email);
   }
 
   final Reader read;
-
-  late BuildContext _context;
 
   static final _logger = Logger('EmailVerificationNotifier');
 
@@ -109,6 +107,8 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
     final rsaService = read(rsaServicePod);
     final authInfo = read(authInfoNotipod);
     final authInfoN = read(authInfoNotipod.notifier);
+    final router = read(authorizationStpod.notifier);
+
     rsaService.init();
     await rsaService.savePrivateKey(storageService);
     final publicKey = rsaService.publicKey;
@@ -129,16 +129,10 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       await storageService.setString(userEmailKey, authInfo.email);
       authInfoN.updateToken(response.token);
       authInfoN.updateRefreshToken(response.refreshToken);
+      router.state = const Authorized();
+      read(startupNotipod.notifier).successfullAuthentication();
+
       state = state.copyWith(union: const Input());
-
-      if (!mounted) return;
-
-      SuccessScreen.push(
-        context: _context,
-        specialTextWidget: EmailConfirmedSuccessText(
-          email: state.email,
-        ),
-      );
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 

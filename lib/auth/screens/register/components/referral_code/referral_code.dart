@@ -4,11 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../notifier/referral_code_link_notipod.dart';
-import 'components/invalid_referral_code.dart';
-import 'components/loading_referral_code.dart';
+
 import 'components/no_referral_code.dart';
 import 'components/show_referral_code_link.dart';
-import 'components/valid_referral_code.dart';
+import 'components/valid_referral_code_outside.dart';
 
 class ReferralCode extends HookWidget {
   const ReferralCode({Key? key}) : super(key: key);
@@ -31,15 +30,13 @@ class ReferralCode extends HookWidget {
                 return const NoReferralCode();
               },
               loading: () {
-                return const LoadingReferralCode();
+                return const NoReferralCode();
               },
               valid: () {
-                return ValidReferralCode(
-                  referralCode: state.referralCode,
-                );
+                return const ValidReferralCodeOutSide();
               },
               invalid: () {
-                return const InvalidReferralCode();
+                return const NoReferralCode();
               },
               orElse: () {
                 return const SizedBox();
