@@ -20,11 +20,11 @@ class PinService {
     return changePinService(dio, localeName, oldPin, newPin,);
   }
 
-  Future<CheckPinResponseModel> checkPin(String localeName, String pin) {
-    return checkPinService(dio, localeName, pin);
+  Future<CheckPinResponseModel> checkPin(String localeName, String pin,) {
+    return checkPinService(dio, localeName, pin,);
   }
 
-  Future<SetupPinResponseModel> setupPin(String localeName, String pin) {
-    return setupPinService(dio, localeName, pin);
+  Future<SetupPinResponseModel> setupPin(String localeName, String pin,) {
+    return setupPinService(dio, localeName, pin,);
   }
 }
