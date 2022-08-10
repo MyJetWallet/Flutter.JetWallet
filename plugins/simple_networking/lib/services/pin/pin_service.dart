@@ -16,8 +16,8 @@ class PinService {
   static final logger = Logger('PinService');
 
   Future<ChangePinResponseModel> changePin(
-      String localeName, String oldPin, String newPin) {
-    return changePinService(dio, localeName, oldPin, newPin);
+      String localeName, String oldPin, String newPin,) {
+    return changePinService(dio, localeName, oldPin, newPin,);
   }
 
   Future<CheckPinResponseModel> checkPin(String localeName, String pin) {

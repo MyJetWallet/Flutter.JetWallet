@@ -95,7 +95,7 @@ class UserDataScreen extends HookWidget {
                               labelText: intl.user_data_date_of_birth,
                               hideClearButton: true,
                               readOnly: true,
-                              controller: birthDateController),
+                              controller: birthDateController,),
                         ),
                       ),
                     ),
