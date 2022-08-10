@@ -35,6 +35,7 @@ class AppsFlyerService {
   void startSession(String source, String email, String appsFlyerId) {
     final bytes = utf8.encode(email);
     final hashEmail = sha256.convert(bytes).toString();
+    appsflyerSdk.setCustomerUserId(hashEmail);
     appsflyerSdk.logEvent('Start Session', {
       'Customer User iD': hashEmail,
       'Appsflyer ID': appsFlyerId,
