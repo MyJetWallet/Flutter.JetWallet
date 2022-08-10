@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/constants.dart';
@@ -81,6 +82,7 @@ List<Widget> createBannersList({
             '${intl.createBanners_bannerText4Part2}',
         canClose: true,
         onClose: () async {
+          sAnalytics.bannerClose(bannerName: 'Chat with support');
           final closed = await storage.getValue(closedSupportBannerKey);
           userInfoN.updateChatClosed();
           var closedCounter = 1;

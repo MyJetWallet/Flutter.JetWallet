@@ -1404,6 +1404,30 @@ class SimpleAnalytics {
       EventType.kycScanDoc,
     );
   }
+
+  /// Banner account
+  void bannerClick({
+    required String bannerName,
+  }) {
+    _analytics.logEvent(
+      EventType.accountBannerClick,
+      eventProperties: {
+        PropertyType.bannerName: bannerName,
+      },
+    );
+  }
+
+  void bannerClose({
+    required String bannerName,
+  }) {
+    _analytics.logEvent(
+      EventType.accountBannerClose,
+      eventProperties: {
+        PropertyType.bannerName: bannerName,
+      },
+    );
+  }
+
   /// Push notification
   void openPushNotification({
     required String campaignId,
