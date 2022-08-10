@@ -95,7 +95,6 @@ class Account extends HookWidget {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      const SpaceH20(),
                       AccountBannerList(
                         kycPassed: checkKycPassed(
                           kycState.depositStatus,
@@ -124,7 +123,6 @@ class Account extends HookWidget {
                           );
                         },
                       ),
-                      const SpaceH20(),
                       Column(
                         children: <Widget>[
                           SimpleAccountCategoryButton(

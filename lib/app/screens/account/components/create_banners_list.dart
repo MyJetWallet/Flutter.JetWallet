@@ -3,12 +3,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../shared/constants.dart';
+import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
+import '../../../../shared/services/local_storage_service.dart';
 
 List<Widget> createBannersList({
   Function()? onChatBannerTap,
   Function()? onTwoFaBannerTap,
   Function()? onKycBannerTap,
+  String? showChatChecker,
   required bool kycPassed,
   required bool twoFaEnabled,
   required bool phoneVerified,
@@ -17,6 +20,9 @@ List<Widget> createBannersList({
   required BuildContext context,
 }) {
   final intl = context.read(intlPod);
+  final storage = context.read(localStorageServicePod);
+  final userInfo = context.read(userInfoNotipod);
+  final userInfoN = context.read(userInfoNotipod.notifier);
   final bannersList = <Widget>[];
 
   if (!verificationInProgress && !kycPassed) {
@@ -62,18 +68,30 @@ List<Widget> createBannersList({
     );
   }
 
-  bannersList.add(
-    SimpleAccountBanner(
-      onTap: () {
-        onChatBannerTap?.call();
-      },
-      imageUrl: chatWithSupportAsset,
-      color: colors.violet,
-      header: intl.createBanners_header4,
-      description: '${intl.createBanners_bannerText4Part1}?\n'
-          '${intl.createBanners_bannerText4Part2}',
-    ),
-  );
+  if (showChatChecker != '3' && !userInfo.chatClosedOnThisSession) {
+    bannersList.add(
+      SimpleAccountBanner(
+        onTap: () {
+          onChatBannerTap?.call();
+        },
+        imageUrl: chatWithSupportAsset,
+        color: colors.violet,
+        header: intl.createBanners_header4,
+        description: '${intl.createBanners_bannerText4Part1}?\n'
+            '${intl.createBanners_bannerText4Part2}',
+        canClose: true,
+        onClose: () async {
+          final closed = await storage.getValue(closedSupportBannerKey);
+          userInfoN.updateChatClosed();
+          var closedCounter = 1;
+          if (closed != null) {
+            closedCounter = int.parse(closed) + 1;
+          }
+          await storage.setString(closedSupportBannerKey, '$closedCounter');
+        },
+      ),
+    );
+  }
 
   return bannersList;
 }
