@@ -16,8 +16,10 @@ Future<SetupPinResponseModel> setupPinService(
   const message = 'setupPinService';
 
   try {
-    final response = await dio.post('$authApi/pin/SetupPin',
-        data: SetupPinRequestModel(pin: pin));
+    final response = await dio.post(
+      '$authApi/pin/SetupPin',
+      data: SetupPinRequestModel(pin: pin),
+    );
 
     try {
       final responseData = response.data as Map<String, dynamic>;
