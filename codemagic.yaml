@@ -7,7 +7,7 @@ definitions:
   # and GOOGLE_SERVICE_IOS to IOS_FIREBASE_SECRET
 
   versioning: &versioning
-    flutter: 3.0.2
+    flutter: 3.0.5
     xcode: latest
     cocoapods: default
 
@@ -172,14 +172,14 @@ definitions:
   #       source: false
   #   cancel_previous_builds: false  
 
-  stage_triggering: &stage_triggering
-    events:
-      - push
-    branch_patterns:
-      - pattern: develop
-        include: true
-        source: false
-    cancel_previous_builds: false    
+  # stage_triggering: &stage_triggering
+  #  events:
+  #    - push
+  #  branch_patterns:
+  #    - pattern: develop
+  #      include: true
+  #      source: false
+  #  cancel_previous_builds: false    
   
   prod_triggering: &prod_triggering
     events:
@@ -257,7 +257,7 @@ workflows:
     scripts: *scripts
     publishing: *publishing
     artifacts: *artifacts
-    triggering: *stage_triggering
+    #triggering: *stage_triggering
 
   flavor_production_target_stage:
     name: Flavor (Production) Target (Stage)
