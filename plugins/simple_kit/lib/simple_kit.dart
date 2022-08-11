@@ -98,6 +98,7 @@ export 'src/fields/standard_field/public/simple_standard_field_obscure.dart';
 
 /// Headers
 export 'src/headers/simple_big_header.dart';
+export 'src/headers/simple_auth_header.dart';
 export 'src/headers/simple_market_header/simple_market_header.dart';
 export 'src/headers/simple_market_header/simple_market_header_closed.dart';
 export 'src/headers/simple_mega_header.dart';

@@ -11,6 +11,7 @@ import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../shared/helpers/date_helper.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../register/notifier/referral_code_link_notipod.dart';
+import '../../single_sign_in/sing_in.dart';
 import '../components/birth_date/notifier/selected_date_notipod.dart';
 import '../components/country/notifier/kyc_profile_countries_notipod.dart';
 import 'user_data_state.dart';
@@ -19,10 +20,13 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
   UserDataNotifier(this.read)
       : super(
           const UserDataState(),
-        );
+        ) {
+    _context = read(sNavigatorKeyPod).currentContext!;
+  }
 
   final Reader read;
   static final _logger = Logger('AuthModelNotifier');
+  late BuildContext _context;
 
   RegExp nameRegEx = RegExp('^[A-Za-z]{1,}\$');
 
@@ -32,7 +36,7 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
       firstName: name,
       firstNameError: StandardFieldErrorNotifier()..enableError(),
     );
-    if (nameRegEx.hasMatch(state.firstName)) {
+    if (nameRegEx.hasMatch(state.firstName)||state.firstName.isEmpty) {
       state.firstNameError?.disableError();
     } else {
       state.firstNameError?.enableError();
@@ -47,7 +51,7 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
       lastName: name,
       lastNameError: StandardFieldErrorNotifier()..enableError(),
     );
-    if (nameRegEx.hasMatch(state.lastName)) {
+    if (nameRegEx.hasMatch(state.lastName)||state.lastName.isEmpty) {
       state.lastNameError!.disableError();
     } else {
       state.lastNameError!.enableError();
@@ -83,9 +87,16 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
     final countryInfo = read(kycProfileCountriesNotipod);
     final referralCodeLink = read(referralCodeLinkNotipod);
     final notificationN = read(sNotificationNotipod.notifier);
-
-    final service = read(kycProfileServicePod);
     final intl = read(intlPod);
+
+    if (countryInfo.activeCountry!.isBlocked) {
+      notificationN.showError(
+        intl.user_data_bottom_sheet_country,
+        id: 1,
+      );
+      return;
+    }
+    final service = read(kycProfileServicePod);
     final model = ApplyUseDataRequestModel(
       countyOfResidence: countryInfo.activeCountry!.countryCode,
       dateOfBirth: formatDateForBackEnd(birthDateInfo.selectedDate),
@@ -99,9 +110,11 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
       read(startupNotipod.notifier).authenticatedBoot();
     } on ServerRejectException catch (error) {
       notificationN.showError(
-        error.toString(),
+        error.cause,
         id: 1,
       );
+      await SingIn.push(context: _context);
+
     } catch (error) {
       if (!mounted) return;
       _logger.log(stateFlow, 'saveUserData', error);

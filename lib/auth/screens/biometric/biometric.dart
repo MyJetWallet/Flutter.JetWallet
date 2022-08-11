@@ -41,11 +41,9 @@ class Biometric extends HookWidget {
       image = bioTouchId;
     }
     return SPageFrame(
-      header: SPaddingH24(
-        child: SBigHeader(
-          customIconButton: const SpaceH24(),
-          title: headerText,
-        ),
+      header: SAuthHeader(
+        customIconButton: const SpaceH24(),
+        title: headerText,
       ),
       child: SPaddingH24(
         child: Column(
@@ -64,7 +62,7 @@ class Biometric extends HookWidget {
                 color: colors.grey1,
               ),
             ),
-            const SpaceH38(),
+            const SpaceH40(),
             SPrimaryButton4(
               active: true,
               name: buttonText,
@@ -72,6 +70,7 @@ class Biometric extends HookWidget {
                 biometric.useBio(useBio: true);
               },
             ),
+            const SpaceH10(),
             STextButton1(
               active: true,
               name: intl.bio_screen_button_late_text,

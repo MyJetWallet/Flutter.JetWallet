@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -28,11 +29,9 @@ class UserDataScreen extends HookWidget {
     return SPageFrame(
       loading: loader.value,
       color: colors.grey5,
-      header: SPaddingH24(
-        child: SBigHeader(
-          customIconButton: const SpaceH24(),
-          title: intl.user_data_whats_your_name,
-        ),
+      header: SAuthHeader(
+        customIconButton: const SpaceH24(),
+        title: intl.user_data_whats_your_name,
       ),
       child: CustomScrollView(
         slivers: [
@@ -55,9 +54,13 @@ class UserDataScreen extends HookWidget {
                               child: SPaddingH24(
                                 child: SStandardField(
                                   labelText: intl.user_data_first_name,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                                  ],
                                   errorNotifier: userData.firstNameError,
+                                  textCapitalization: TextCapitalization.words,
                                   onChanged: (val) {
-                                    userDataN.updateFirstName(val);
+                                    userDataN.updateFirstName(val.trim());
                                   },
                                 ),
                               ),
@@ -70,9 +73,13 @@ class UserDataScreen extends HookWidget {
                               child: SPaddingH24(
                                 child: SStandardField(
                                   labelText: intl.user_data_last_name,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                                  ],
                                   errorNotifier: userData.lastNameError,
+                                  textCapitalization: TextCapitalization.words,
                                   onChanged: (val) {
-                                    userDataN.updateLastName(val);
+                                    userDataN.updateLastName(val.trim());
                                   },
                                 ),
                               ),
@@ -100,10 +107,9 @@ class UserDataScreen extends HookWidget {
                       ),
                     ),
                   ),
-                  const SpaceH1(),
                   const CountryProfileField(),
-                  const SpaceH16(),
                   const Spacer(),
+                  const SpaceH8(),
                   SPaddingH24(
                     child: SPrimaryButton4(
                       name: intl.register_continue,
@@ -113,7 +119,7 @@ class UserDataScreen extends HookWidget {
                       active: userData.activeButton,
                     ),
                   ),
-                  const SpaceH24(),
+                  const SpaceH10(),
                   const ReferralCode(),
                   const SpaceH24(),
                 ],

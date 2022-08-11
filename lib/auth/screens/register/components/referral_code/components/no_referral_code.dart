@@ -12,16 +12,19 @@ class NoReferralCode extends HookWidget {
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SGiftReferralIcon(),
-        const SpaceW12(),
-        Text(
-          intl.noReferralCode_havePromoCode,
-          style: sButtonTextStyle,
-        ),
-      ],
+    return SizedBox(
+      height: 56,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SGiftReferralIcon(),
+          const SpaceW12(),
+          Text(
+            intl.noReferralCode_havePromoCode,
+            style: sButtonTextStyle,
+          ),
+        ],
+      ),
     );
   }
 }

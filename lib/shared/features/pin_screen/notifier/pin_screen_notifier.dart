@@ -347,10 +347,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         return intl.pinScreen_enterYourPIN;
       },
       newPin: () {
-        return intl.pinScreen_setNewPin;
+        return intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
-        return intl.pinScreen_confirmNewPin;
+        return intl.pin_screen_confirm_newPin;
       },
     );
   }

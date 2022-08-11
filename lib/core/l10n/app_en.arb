@@ -1048,5 +1048,7 @@
     "forgot_pass_dialog_title": "Forgot your PIN?",
     "forgot_pass_dialog_text": "You can reset it. After logging in, create a new PIN",
     "forgot_pass_dialog_btn_reset": "Reset PIN & Log out",
-    "forgot_pass_dialog_btn_cancel": "Cancel"
+    "forgot_pass_dialog_btn_cancel": "Cancel",
+    "pin_screen_set_new_pin": "Create a PIN code",
+    "pin_screen_confirm_newPin": "Confirm PIN code"
 }

@@ -14,9 +14,10 @@ import 'notifier/single_sing_in_state.dart';
 import 'notifier/single_sing_in_union.dart';
 
 class SingIn extends HookWidget {
-  const SingIn({Key? key}) : super(key: key);
+  const SingIn({Key? key, this.email}) : super(key: key);
 
   static const routeName = '/sing_in';
+  final String? email ;
 
   static Future push({
     required BuildContext context,
@@ -46,11 +47,11 @@ class SingIn extends HookWidget {
       child: SPageFrame(
         color: colors.grey5,
         loading: loader.value,
-        header: SPaddingH24(
-          child: SBigHeader(
-            customIconButton: const SpaceH24(),
-            title: intl.register_enterYourEmail,
-          ),
+        header: SAuthHeader(
+          customIconButton: const SpaceH24(),
+          title: intl.register_enterYourEmail,
+          showSupportButton: true,
+          progressValue: 20,
         ),
         child: CustomScrollView(
           controller: controller,
@@ -61,9 +62,6 @@ class SingIn extends HookWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SStepIndicator(
-                      loadedPercent: 20,
-                    ),
                     ColoredBox(
                       color: colors.white,
                       child: SPaddingH24(
@@ -71,6 +69,7 @@ class SingIn extends HookWidget {
                           child: SStandardField(
                             labelText: intl.login_emailTextFieldLabel,
                             autofocus: true,
+                            initialValue: email,
                             autofillHints: const [AutofillHints.email],
                             keyboardType: TextInputType.emailAddress,
                             inputFormatters: [
@@ -86,7 +85,7 @@ class SingIn extends HookWidget {
                         ),
                       ),
                     ),
-                    const SpaceH19(),
+                    const Spacer(),
                     ColoredBox(
                       color: colors.grey5,
                       child: SPaddingH24(
@@ -114,7 +113,6 @@ class SingIn extends HookWidget {
                       ),
                     ),
                     const SpaceH16(),
-                    const Spacer(),
                     SPaddingH24(
                       child: SPrimaryButton4(
                         active: credentials.emailIsNotEmptyAndPolicyChecked,

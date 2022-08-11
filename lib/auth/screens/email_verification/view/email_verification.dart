@@ -129,17 +129,9 @@ class _EmailVerificationState extends State<EmailVerification>
       },
       child: SPageFrame(
         loading: loader.value,
-        header: Column(
-          children: [
-            SPaddingH24(
-              child: SBigHeader(
-                title: intl.emailVerification_emailVerification,
-              ),
-            ),
-            const SStepIndicator(
-              loadedPercent: 40,
-            ),
-          ],
+        header: SAuthHeader(
+          title: intl.emailVerification_emailVerification,
+          progressValue: 40,
         ),
         child: CustomScrollView(
           slivers: [
@@ -197,7 +189,7 @@ class _EmailVerificationState extends State<EmailVerification>
                         ),
                       ),
                     ),
-                    const Spacer(),
+                    // const Spacer(),
                     if (timer > 0 && !verification.isResending)
                       ResendInText(
                         text: '${intl.twoFaPhone_youCanResendIn} $timer'

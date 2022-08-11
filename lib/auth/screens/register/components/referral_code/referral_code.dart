@@ -18,31 +18,27 @@ class ReferralCode extends HookWidget {
     final notifier = useProvider(referralCodeLinkNotipod.notifier);
 
     return SPaddingH24(
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           notifier.resetBottomSheetReferralCodeValidation();
           showReferralCode(context);
         },
-        child: Column(
-          children: [
-            state.referralCodeValidation.maybeWhen(
-              input: () {
-                return const NoReferralCode();
-              },
-              loading: () {
-                return const NoReferralCode();
-              },
-              valid: () {
-                return const ValidReferralCodeOutSide();
-              },
-              invalid: () {
-                return const NoReferralCode();
-              },
-              orElse: () {
-                return const SizedBox();
-              },
-            ),
-          ],
+        child: state.referralCodeValidation.maybeWhen(
+          input: () {
+            return const NoReferralCode();
+          },
+          loading: () {
+            return const NoReferralCode();
+          },
+          valid: () {
+            return const ValidReferralCodeOutSide();
+          },
+          invalid: () {
+            return const NoReferralCode();
+          },
+          orElse: () {
+            return const SizedBox();
+          },
         ),
       ),
     );

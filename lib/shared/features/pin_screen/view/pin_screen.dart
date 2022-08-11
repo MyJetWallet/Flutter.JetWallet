@@ -62,61 +62,40 @@ class PinScreen extends HookWidget {
       child: SPageFrame(
         header: Column(
           children: [
-            SPaddingH24(
-              child: pin.screenUnion.when(
-                enterPin: () {
-                  if (displayHeader) {
-                    return SBigHeader(
-                      title: pinN.screenDescription(),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-                confirmPin: () {
-                  return SBigHeader(
-                    title: pinN.screenDescription(),
-                    onBackButtonTap: () {
-                      onbackButton!();
-                    },
-                  );
-                },
-                newPin: () {
-                  return SBigHeader(
-                    title: pinN.screenDescription(),
-                    onBackButtonTap: () {
-                      onbackButton!();
-                    },
-                  );
-                },
-              ),
-            ),
             pin.screenUnion.when(
               enterPin: () {
                 if (displayHeader) {
-                  return const SStepIndicator(
-                    loadedPercent: 100,
+                  return SAuthHeader(
+                    title: pinN.screenDescription(),
                   );
                 } else {
                   return const SizedBox();
                 }
               },
-              newPin: () {
-                return const SStepIndicator(
-                  loadedPercent: 80,
-                );
-              },
               confirmPin: () {
-                return const SStepIndicator(
-                  loadedPercent: 100,
+                return SAuthHeader(
+                  title: pinN.screenDescription(),
+                    progressValue: 100,
+                  onBackButtonTap: () {
+                    onbackButton!();
+                  },
                 );
               },
-            )
+              newPin: () {
+                return SAuthHeader(
+                  title: pinN.screenDescription(),
+                  progressValue: 80,
+                  onBackButtonTap: () {
+                    onbackButton!();
+                  },
+                );
+              },
+            ),
           ],
         ),
         child: Column(
           children: [
-            const Spacer(),
+            Spacer(flex: displayHeader?1:2,),
             ShakeWidget(
               key: pin.shakePinKey,
               shakeDuration: pinBoxErrorDuration,
@@ -169,9 +148,7 @@ class PinScreen extends HookWidget {
                     baseline: 22,
                     child: Text(
                       '${intl.pinScreen_forgotYourPin}?',
-                      style: sBodyText2Style.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: sBodyText2Style
                     ),
                   ),
                 ),

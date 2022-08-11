@@ -53,14 +53,13 @@ class StartupNotifier extends StateNotifier<StartupState> {
   /// Called when user is authenticated and makes cold boot
   void authenticatedBoot() {
     _logger.log(notifier, 'authenticatedBoot');
-
     _processStartupState();
   }
 
-  /// Called after successfull authentication
+
+  // /// Called after successfull authentication
   void successfullAuthentication() {
     _logger.log(notifier, 'successfullAuthentication');
-
     TextInput.finishAutofillContext(); // prompt to save credentials
     _updatefromLoginRegister(fromLoginRegister: true);
     _processStartupState().then((value) {
@@ -68,6 +67,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
       navigateToRouter(read);
     });
   }
+
 
   /// Called after successfull email verification
   void emailVerified() {
@@ -94,7 +94,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
   /// Called after 2FA when user is authenticated and makes cold boot
   void pinVerified() {
     _logger.log(notifier, 'pinVerified');
-
     _updateAuthorizedUnion(const Home());
   }
 

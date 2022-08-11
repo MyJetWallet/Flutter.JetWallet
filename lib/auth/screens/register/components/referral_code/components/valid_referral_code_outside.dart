@@ -14,16 +14,19 @@ class ValidReferralCodeOutSide extends HookWidget {
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SCompleteSolidIcon(),
-        const SpaceW12(),
-        Text(
-          intl.validReferralCode_validReferralCode,
-          style: sButtonTextStyle,
-        ),
-      ],
+    return SizedBox(
+      height: 56,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SCompleteSolidIcon(),
+          const SpaceW12(),
+          Text(
+            intl.validReferralCode_validReferralCode,
+            style: sButtonTextStyle,
+          ),
+        ],
+      ),
     );
   }
 }

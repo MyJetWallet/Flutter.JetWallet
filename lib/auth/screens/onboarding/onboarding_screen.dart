@@ -171,7 +171,8 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                   SPrimaryButton1(
                     active: true,
                     name: intl.onboarding_getStarted,
-                    onTap: () => {SingIn.push(context: context)},
+                    onTap: () => {
+                      SingIn.push(context: context)},
                   ),
                   const SpaceH24(),
                 ],

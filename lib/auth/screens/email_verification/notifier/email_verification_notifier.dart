@@ -120,7 +120,6 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
         publicKeyPem: publicKey,
         email: authInfo.email,
       );
-
       final intl = read(intlPod);
       final response =
           await authService.confirmEmailLogin(model, intl.localeName);
@@ -131,8 +130,8 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       authInfoN.updateRefreshToken(response.refreshToken);
       router.state = const Authorized();
       read(startupNotipod.notifier).successfullAuthentication();
-
       state = state.copyWith(union: const Input());
+      _logger.log(stateFlow, 'verifyCode1', state);
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 
