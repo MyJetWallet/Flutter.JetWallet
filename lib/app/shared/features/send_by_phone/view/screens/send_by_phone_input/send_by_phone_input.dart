@@ -106,6 +106,9 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                               readOnly: true,
                               hideClearButton: true,
                               controller: input.dialCodeController,
+                              hasManualError:
+                                input.dialCodeController.text ==
+                                    intl.sendByPhoneInput_select,
                             ),
                           ),
                         ),
@@ -129,7 +132,55 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                   ),
                 ),
               ),
-              const SendHelperText(),
+              if (!input.isReadyToContinue)
+                const SendHelperText(),
+              if (input.dialCodeController.text ==
+                  intl.sendByPhoneInput_select) ...[
+                const SpaceH20(),
+                SPaddingH24(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        width: 2,
+                        color: colors.grey4,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SErrorIcon(
+                              color: colors.red,
+                            ),
+                            const SpaceW10(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  intl.sendByPhoneInput_codeLocalNumber,
+                                  style: sBodyText1Style.copyWith(
+                                    color: colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  intl.sendByPhoneInput_codeSelectCountry,
+                                  style: sBodyText1Style.copyWith(
+                                    color: colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
               const SpaceH20(),
               if (permission.permissionStatus == PermissionStatus.denied)
                 SendInfoText(
@@ -144,7 +195,9 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
             child: Material(
               color: Colors.transparent,
               child: SPrimaryButton2(
-                active: input.isReadyToContinue,
+                active: input.isReadyToContinue &&
+                    !(input.dialCodeController.text ==
+                        intl.sendByPhoneInput_select),
                 name: intl.sendByPhoneInput_continue,
                 onTap: () {
                   sAnalytics.sendContinuePhone();
