@@ -55,7 +55,8 @@ class UserDataScreen extends HookWidget {
                                 child: SStandardField(
                                   labelText: intl.user_data_first_name,
                                   inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp('[ ]'))
                                   ],
                                   errorNotifier: userData.firstNameError,
                                   textCapitalization: TextCapitalization.words,
@@ -74,7 +75,8 @@ class UserDataScreen extends HookWidget {
                                 child: SStandardField(
                                   labelText: intl.user_data_last_name,
                                   inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp('[ ]'))
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp('[ ]'),)
                                   ],
                                   errorNotifier: userData.lastNameError,
                                   textCapitalization: TextCapitalization.words,
@@ -99,10 +101,11 @@ class UserDataScreen extends HookWidget {
                       child: AbsorbPointer(
                         child: SPaddingH24(
                           child: SStandardField(
-                              labelText: intl.user_data_date_of_birth,
-                              hideClearButton: true,
-                              readOnly: true,
-                              controller: birthDateController,),
+                            labelText: intl.user_data_date_of_birth,
+                            hideClearButton: true,
+                            readOnly: true,
+                            controller: birthDateController,
+                          ),
                         ),
                       ),
                     ),

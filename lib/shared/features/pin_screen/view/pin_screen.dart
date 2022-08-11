@@ -149,7 +149,7 @@ class PinScreen extends HookWidget {
                     child: Text(
                       '${intl.pinScreen_forgotYourPin}?',
                       style: sBodyText2Style
-                    ),
+                    ,),
                   ),
                 ),
               ),

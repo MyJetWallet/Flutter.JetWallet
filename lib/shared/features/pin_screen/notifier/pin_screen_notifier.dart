@@ -90,7 +90,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     _updateHideBiometricButton(hideBio);
     final storageService = read(localStorageServicePod);
     final usingBio = await storageService.getValue(useBioKey);
-    if (usingBio != null || usingBio == true.toString()) {
+    if (usingBio == true.toString()) {
       await updatePin(await _authenticateWithBio());
     }
   }
