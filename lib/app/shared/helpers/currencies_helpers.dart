@@ -78,7 +78,7 @@ void sortByBalanceAndWeight(List<CurrencyModel> currencies) {
   currencies.sort((a, b) {
     final compare = b.baseBalance.compareTo(a.baseBalance);
     if (compare != 0) return compare;
-    return b.weight.compareTo(a.weight);
+    return a.weight.compareTo(b.weight);
   });
 }
 
