@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../app/shared/components/flag_item.dart';
-import 'country_profile_name.dart';
-import 'country_profile_warning.dart';
+import 'components/country_profile_name.dart';
+import 'components/country_profile_warning.dart';
 
 class CountryProfileItem extends HookWidget {
   const CountryProfileItem({

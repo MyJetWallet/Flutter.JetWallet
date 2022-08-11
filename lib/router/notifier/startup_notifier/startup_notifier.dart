@@ -18,6 +18,7 @@ class StartupNotifier extends StateNotifier<StartupState> {
   final Reader read;
 
   static final _logger = Logger('StartupNotifier');
+  bool initSignaWasCall = false;
 
   void _initSignalRSynchronously() {
     read(signalRServicePod).init();
@@ -31,8 +32,10 @@ class StartupNotifier extends StateNotifier<StartupState> {
         final info = await read(checkSessionServicePod).sessionCheck(
           intl.localeName,
         );
-        _initSignalRSynchronously();
-
+        if(!initSignaWasCall) {
+          _initSignalRSynchronously();
+          initSignaWasCall = true;
+        }
         if (info.toCheckSimpleKyc) {
           _updateAuthorizedUnion(const UserDataVerification());
         } else if (info.toSetupPin) {
@@ -56,7 +59,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
     _processStartupState();
   }
 
-
   // /// Called after successfull authentication
   void successfullAuthentication() {
     _logger.log(notifier, 'successfullAuthentication');
@@ -67,7 +69,6 @@ class StartupNotifier extends StateNotifier<StartupState> {
       navigateToRouter(read);
     });
   }
-
 
   /// Called after successfull email verification
   void emailVerified() {
@@ -91,13 +92,11 @@ class StartupNotifier extends StateNotifier<StartupState> {
     _updateAuthorizedUnion(const AskBioUsing());
   }
 
-  /// Called after 2FA when user is authenticated and makes cold boot
   void pinVerified() {
     _logger.log(notifier, 'pinVerified');
     _updateAuthorizedUnion(const Home());
   }
 
-  // <- Trigger AuthorizedUnion change [End]
 
   void _processPinState() {
     final userInfo = read(userInfoNotipod);
