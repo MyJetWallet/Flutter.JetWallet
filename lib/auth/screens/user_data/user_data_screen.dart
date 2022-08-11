@@ -56,7 +56,7 @@ class UserDataScreen extends HookWidget {
                                   labelText: intl.user_data_first_name,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(
-                                        RegExp('[ ]'))
+                                        RegExp('[ ]'),)
                                   ],
                                   errorNotifier: userData.firstNameError,
                                   textCapitalization: TextCapitalization.words,
