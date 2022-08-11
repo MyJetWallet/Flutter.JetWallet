@@ -115,9 +115,9 @@ dependencies:
 
   # OWN LIBS:
   simple_kit:
-    path: C:\Users\Dmtrii\Documents\GitHub\Flutter.SimpleKit
+    path: /Users/gravio/Documents/Work/Flutter.SimpleKit
   simple_networking:
-    path: C:\Users\Dmtrii\Documents\GitHub\Flutter.SimpleNetworking
+    path: /Users/gravio/Documents/Work/Flutter.SimpleNetworking
   simple_analytics:
     path: plugins/simple_analytics
 
@@ -137,8 +137,19 @@ dev_dependencies:
   mobx_codegen: ^2.0.7
   auto_route_generator : ^4.2.0
 
+
 dependency_overrides:
-  analyzer: ^4.2.0
+  analyzer: ^4.3.1
+  auto_route:
+    git:
+      url: https://github.com/foxanna/auto_route_library.git
+      path: auto_route
+      ref: 6d57004aa7a4d9dfa2a743ba2e154c7a50285a29
+  auto_route_generator:
+    git:
+      url: https://github.com/foxanna/auto_route_library.git
+      path: auto_route_generator
+      ref: 6d57004aa7a4d9dfa2a743ba2e154c7a50285a29
 
 flutter:
   generate: true
