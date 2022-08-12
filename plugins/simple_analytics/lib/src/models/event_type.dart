@@ -240,5 +240,6 @@ class EventType {
   static const initFinishedOnMarket = 'initFinished received on market screen';
   static const initFinished = 'initFinished received';
   static const remoteConfig = 'remoteConfig received';
+  static const remoteConfigError = 'remoteConfig error';
 
 }

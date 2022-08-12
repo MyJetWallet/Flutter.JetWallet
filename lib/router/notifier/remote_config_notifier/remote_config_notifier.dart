@@ -82,12 +82,12 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
           overrideAppsFlyerValues();
           overrideCircleValues();
 
-          sAnalytics.remoteConfig();
-          await timeTrackerN.updateConfigReceived(DateTime.now());
-
           state = const Success();
         },
       );
+
+      sAnalytics.remoteConfig();
+      await timeTrackerN.updateConfigReceived(DateTime.now());
 
       /*
       if (stopwatch.elapsedMilliseconds < _splashScreenDuration) {
@@ -105,6 +105,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
       */
     } catch (e) {
       _logger.log(stateFlow, '_fetchAndActivate', e);
+      sAnalytics.remoteConfigError();
 
       state = const Loading();
 

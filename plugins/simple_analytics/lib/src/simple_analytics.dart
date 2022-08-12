@@ -1494,4 +1494,10 @@ class SimpleAnalytics {
       EventType.remoteConfig,
     );
   }
+
+  void remoteConfigError() {
+    _analytics.logEvent(
+      EventType.remoteConfigError,
+    );
+  }
 }
