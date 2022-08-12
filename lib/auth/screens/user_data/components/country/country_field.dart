@@ -20,6 +20,7 @@ class CountryProfileField extends HookWidget {
       color: colors.white,
       child: GestureDetector(
         onTap: () {
+          FocusScope.of(context).unfocus();
           showUserDataCountryPicker(context);
         },
         child: AbsorbPointer(

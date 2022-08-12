@@ -96,6 +96,7 @@ class UserDataScreen extends HookWidget {
                     color: colors.white,
                     child: GestureDetector(
                       onTap: () {
+                        FocusScope.of(context).unfocus();
                         showBirthDatePicker(context);
                       },
                       child: AbsorbPointer(
