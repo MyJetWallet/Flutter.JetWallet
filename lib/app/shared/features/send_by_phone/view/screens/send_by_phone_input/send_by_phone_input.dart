@@ -224,17 +224,6 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                               children: [
                                 SizedBox(
                                   width:
-                                    MediaQuery.of(context).size.width - 126,
-                                  child: Text(
-                                    intl.sendByPhoneInput_doubleCheckPhone,
-                                    style: sBodyText1Style.copyWith(
-                                      color: colors.black,
-                                    ),
-                                    maxLines: 2,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
                                   MediaQuery.of(context).size.width - 126,
                                   child:
                                   Text(
