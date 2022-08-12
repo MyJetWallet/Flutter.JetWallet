@@ -37,7 +37,7 @@ class SingleSingInNotifier extends StateNotifier<SingleSingInState> {
         platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
         lang: intl.localeName,
-        application: currentPlatform,
+        application: currentAppPlatform,
         appsflyerId: appsFlyerID ?? '',
       );
       final response =
