@@ -160,16 +160,89 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  intl.sendByPhoneInput_codeLocalNumber,
-                                  style: sBodyText1Style.copyWith(
-                                    color: colors.black,
+                                SizedBox(
+                                  width:
+                                  MediaQuery.of(context).size.width - 126,
+                                  child:
+                                  Text(
+                                    intl.sendByPhoneInput_codeLocalNumber,
+                                    style: sBodyText1Style.copyWith(
+                                      color: colors.black,
+                                    ),
+                                    maxLines: 2,
                                   ),
                                 ),
-                                Text(
-                                  intl.sendByPhoneInput_codeSelectCountry,
-                                  style: sBodyText1Style.copyWith(
-                                    color: colors.black,
+                                SizedBox(
+                                  width:
+                                  MediaQuery.of(context).size.width - 126,
+                                  child:
+                                  Text(
+                                    intl.sendByPhoneInput_codeSelectCountry,
+                                    style: sBodyText1Style.copyWith(
+                                      color: colors.black,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              if (input.dialCodeController.text.isNotEmpty &&
+                  input.phoneNumberController.text.isNotEmpty &&
+                  input.dialCodeController
+                  .text[input.dialCodeController.text.length - 1] ==
+                  input.phoneNumberController.text[0]) ...[
+                const SpaceH20(),
+                SPaddingH24(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        width: 2,
+                        color: colors.grey4,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SErrorIcon(
+                              color: colors.black,
+                            ),
+                            const SpaceW10(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width:
+                                    MediaQuery.of(context).size.width - 126,
+                                  child: Text(
+                                    intl.sendByPhoneInput_doubleCheckPhone,
+                                    style: sBodyText1Style.copyWith(
+                                      color: colors.black,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                  MediaQuery.of(context).size.width - 126,
+                                  child:
+                                  Text(
+                                    intl.sendByPhoneInput_makeSureIsCorrect,
+                                    style: sBodyText1Style.copyWith(
+                                      color: colors.black,
+                                    ),
+                                    maxLines: 2,
                                   ),
                                 ),
                               ],
