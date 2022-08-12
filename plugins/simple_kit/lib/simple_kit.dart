@@ -78,6 +78,7 @@ export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_3.
 export 'src/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_1.dart';
 export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_2.dart';
+export 'src/buttons/basic_buttons/secondary_button/public/simple_secondary_button_3.dart';
 export 'src/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
 export 'src/buttons/basic_buttons/text_button/public/simple_text_button_2.dart';
 export 'src/buttons/kyc_button/simple_choose_document_button.dart';
