@@ -1050,5 +1050,6 @@
     "forgot_pass_dialog_btn_reset": "Reset PIN & Log out",
     "forgot_pass_dialog_btn_cancel": "Cancel",
     "pin_screen_set_new_pin": "Create a PIN code",
-    "pin_screen_confirm_newPin": "Confirm PIN code"
+    "pin_screen_confirm_newPin": "Confirm PIN code",
+    "user_data_date_of_birth_is_not_valid": "You have to be 18 years old to complete the registration"
 }

@@ -16,7 +16,7 @@ void showBirthDatePicker(BuildContext context) {
     removePinnedPadding: true,
     pinned: const _Header(),
     children: [
-      const _SDatePickerA(),
+      const _SDatePicker(),
       const SpaceH24(),
     ],
   );
@@ -34,15 +34,15 @@ class _Header extends HookWidget {
   }
 }
 
-class _SDatePickerA extends HookWidget {
-  const _SDatePickerA({Key? key}) : super(key: key);
+class _SDatePicker extends HookWidget {
+  const _SDatePicker({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final selectedDateN = useProvider(selectedDateNotipod.notifier);
-    var date = formatDateForUi(getMinBirtDate());
+    var date = formatDateForUi(getMinBirthDate());
     return Column(
       children: [
         Stack(
@@ -67,7 +67,7 @@ class _SDatePickerA extends HookWidget {
               ),
             ),
             DatePickerWidget(
-              lastDate: getMinBirtDate(),
+             initialDate: getDateForPicker(),
               dateFormat: 'd/MMM/yyyy',
               pickerTheme: DateTimePickerTheme(
                 dividerColor: Colors.transparent,

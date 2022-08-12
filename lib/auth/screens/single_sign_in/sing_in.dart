@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../app/screens/account/components/crisp.dart';
 import '../../../shared/helpers/launch_url.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
@@ -51,6 +52,10 @@ class SingIn extends HookWidget {
           customIconButton: const SpaceH24(),
           title: intl.register_enterYourEmail,
           showSupportButton: true,
+          onSupportButtonTap: () => Crisp.push(
+            context,
+            intl.crispSendMessage_hi,
+          ),
           progressValue: 20,
         ),
         child: CustomScrollView(
