@@ -16,9 +16,10 @@ Future<CheckPinResponseModel> checkPinService(
   const message = 'CheckPinService';
 
   try {
+    final model = CheckPinRequestModel(pin: pin);
     final response = await dio.post(
       '$authApi/pin/CheckPin',
-      data: CheckPinRequestModel(pin: pin),
+      data: model.toJson(),
     );
 
     try {

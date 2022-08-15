@@ -31,6 +31,7 @@ class UserDataScreen extends HookWidget {
       color: colors.grey5,
       header: SAuthHeader(
         customIconButton: const SpaceH24(),
+        progressValue: 60,
         title: intl.user_data_whats_your_name,
       ),
       child: CustomScrollView(
@@ -41,9 +42,7 @@ class UserDataScreen extends HookWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SStepIndicator(
-                    loadedPercent: 60,
-                  ),
+
                   Column(
                     children: [
                       Row(

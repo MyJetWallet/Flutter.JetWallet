@@ -16,15 +16,33 @@ class PinService {
   static final logger = Logger('PinService');
 
   Future<ChangePinResponseModel> changePin(
-      String localeName, String oldPin, String newPin,) {
-    return changePinService(dio, localeName, oldPin, newPin,);
+    String localeName,
+    String oldPin,
+    String newPin,
+  ) {
+    return changePinService(
+      dio,
+      localeName,
+      oldPin,
+      newPin,
+    );
   }
 
-  Future<CheckPinResponseModel> checkPin(String localeName, String pin,) {
-    return checkPinService(dio, localeName, pin,);
+  Future<CheckPinResponseModel> checkPin(
+    String localeName,
+    String pin,
+  ) {
+    return checkPinService(dio, pin, localeName);
   }
 
-  Future<SetupPinResponseModel> setupPin(String localeName, String pin,) {
-    return setupPinService(dio, localeName, pin,);
+  Future<SetupPinResponseModel> setupPin(
+    String localeName,
+    String pin,
+  ) {
+    return setupPinService(
+      dio,
+      pin,
+      localeName,
+    );
   }
 }

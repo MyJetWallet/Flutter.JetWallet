@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart' as simple_kit;
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../helpers/remove_chars_from.dart';
@@ -202,25 +203,39 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
 
   Future<void> _newPinFlow() async {
     final intl = read(intlPod);
-    final resp =
-        await read(pinServicePod).setupPin(intl.localeName, state.newPin);
-    if (resp.result == 'OK') {
+    try {
+      await read(pinServicePod).setupPin(intl.localeName, state.newPin);
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
-    } else if (resp.result == 'PinCodeAlreadyExist') {
-      _updateScreenUnion(const ConfirmPin());
+    } on ServerRejectException catch (error) {
+      _updateNewPin('');
+      if (error.cause == 'PinCodeAlreadyExist') {
+        _updateScreenUnion(const ConfirmPin());
+      }
+
+      read(sNotificationNotipod.notifier).showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (e) {
+      _updateNewPin('');
     }
   }
 
   Future<void> _confirmPinFlow() async {
     final intl = read(intlPod);
-    final resp =
-        await read(pinServicePod).checkPin(intl.localeName, state.confrimPin);
-    if (resp.result == 'OK') {
+    try {
+      await read(pinServicePod).checkPin(intl.localeName, state.confrimPin);
       await _animateCorrect();
       await _userInfoN.setPin(state.confrimPin);
       read(startupNotipod.notifier).pinSet();
-    } else {
+    } on ServerRejectException catch (error) {
+      _updateConfirmPin('');
+      read(sNotificationNotipod.notifier).showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (e) {
       _updateNewPin('');
     }
   }
