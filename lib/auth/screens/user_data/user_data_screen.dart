@@ -112,6 +112,8 @@ class UserDataScreen extends HookWidget {
                   ),
                   const SpaceH1(),
                   const CountryProfileField(),
+                  const SpaceH22(),
+                  const ReferralCode(),
                   const Spacer(),
                   const SpaceH8(),
                   SPaddingH24(
@@ -123,8 +125,6 @@ class UserDataScreen extends HookWidget {
                       active: userData.activeButton,
                     ),
                   ),
-                  const SpaceH10(),
-                  const ReferralCode(),
                   const SpaceH24(),
                 ],
               ),
