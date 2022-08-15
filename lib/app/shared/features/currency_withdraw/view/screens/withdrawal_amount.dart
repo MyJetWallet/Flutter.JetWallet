@@ -22,9 +22,11 @@ class WithdrawalAmount extends HookWidget {
   const WithdrawalAmount({
     Key? key,
     required this.withdrawal,
+    required this.network,
   }) : super(key: key);
 
   final WithdrawalModel withdrawal;
+  final String network;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +78,7 @@ class WithdrawalAmount extends HookWidget {
                     )}',
                     error: state.inputError == InputError.enterHigherAmount
                         ? '${intl.withdrawalAmount_enterMoreThan} '
-                        '${currency.withdrawalFeeWithSymbol}'
+                        '${currency.withdrawalFeeWithSymbol(network)}'
                         : state.inputError.value(),
                     isErrorActive: state.inputError.isActive,
                   ),
@@ -176,6 +178,7 @@ class WithdrawalAmount extends HookWidget {
                 context,
                 WithdrawalPreview(
                   withdrawal: withdrawal,
+                  network: network,
                 ),
               );
             },
@@ -197,6 +200,7 @@ class WithdrawalAmount extends HookWidget {
       amount: amount,
       currency: currency,
       addressIsInternal: isInternal,
+      network: network,
     );
 
     final youWillSend = '${intl.withdrawalAmount_youWillSend}: $result';
@@ -204,7 +208,8 @@ class WithdrawalAmount extends HookWidget {
     if (isInternal) {
       return '${intl.noFee} / $youWillSend';
     } else {
-      return '${intl.fee}: ${currency.withdrawalFeeWithSymbol} / $youWillSend';
+      return '${intl.fee}: '
+          '${currency.withdrawalFeeWithSymbol(network)} / $youWillSend';
     }
   }
 }

@@ -158,6 +158,7 @@ class WithdrawalConfirmNotifier extends StateNotifier<WithdrawalConfirmState> {
           MaterialPageRoute(
             builder: (_) => WithdrawalAmount(
               withdrawal: withdrawal,
+              network: '',
             ),
           ),
           (route) => route.isFirst,

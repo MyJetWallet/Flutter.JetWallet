@@ -10,6 +10,7 @@ import '../../models/currency_model.dart';
 import '../base_currency_pod/base_currency_pod.dart';
 import '../signal_r/asset_payment_methods_spod.dart';
 import '../signal_r/assets_spod.dart';
+import '../signal_r/assets_withdrawal_fees_spod.dart';
 import '../signal_r/balances_spod.dart';
 import '../signal_r/base_prices_spod.dart';
 import '../signal_r/blockchains_spod.dart';
@@ -22,6 +23,7 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
   final paymentMethods = ref.watch(assetPaymentMethodsSpod);
   final blockchains = ref.watch(blockchainsSpod);
   final recurringBuy = ref.watch(recurringBuySpod);
+  final assetsWithdrawalFees = ref.watch(assetsWithdrawalFeesSpod);
 
   final currencies = <CurrencyModel>[];
 
@@ -89,6 +91,24 @@ final currenciesPod = Provider.autoDispose<List<CurrencyModel>>((ref) {
             transfersInProcessCount: 0,
           ),
         );
+      }
+    }
+  });
+
+  assetsWithdrawalFees.whenData((value) {
+    if (currencies.isNotEmpty) {
+      for (final assetFee in value.assetFees) {
+        for (final currency in currencies) {
+          if (currency.symbol == assetFee.asset) {
+            final index = currencies.indexOf(currency);
+            final assetWithdrawalFees = currencies[index].assetWithdrawalFees
+                .toList();
+            assetWithdrawalFees.add(assetFee);
+            currencies[index] = currency.copyWith(
+              assetWithdrawalFees: assetWithdrawalFees,
+            );
+          }
+        }
       }
     }
   });
