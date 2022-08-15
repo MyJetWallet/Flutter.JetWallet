@@ -19,7 +19,9 @@ class RemoteConfigInit extends HookWidget {
     final remoteConfig = useProvider(remoteConfigNotipod);
 
     return remoteConfig.when(
-      success: () => child,
+      success: () {
+        return child;
+      },
       loading: () => const SplashScreen(),
     );
   }

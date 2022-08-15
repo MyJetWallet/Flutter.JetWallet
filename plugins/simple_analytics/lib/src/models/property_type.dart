@@ -42,4 +42,6 @@ class PropertyType {
   static const topUpAPY = 'Top up APY';
   static const reclaimAmount = 'Reclaim Amount';
   static const reclaimAPY = 'APY after Reclaim';
+  static const time = 'Time';
+  static const isLoaded = 'Is initFinished loaded';
 }
