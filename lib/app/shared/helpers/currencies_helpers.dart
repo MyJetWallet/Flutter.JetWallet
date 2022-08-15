@@ -16,7 +16,7 @@ void sortCurrencies(List<CurrencyModel> currencies) {
 /// Used for [Convert] feature
 /// Always provide a copy of List to avoid unexpected behaviour
 void sortByWeight(List<CurrencyModel> currencies) {
-  currencies.sort((a, b) => b.weight.compareTo(a.weight));
+  currencies.sort((a, b) => a.weight.compareTo(b.weight));
 }
 
 List<CurrencyModel> currenciesWithBalance(List<CurrencyModel> currencies) {
@@ -69,6 +69,18 @@ void sortByApyAndWeight(List<CurrencyModel> currencies) {
     final compare = b.apy.compareTo(a.apy);
     if (compare != 0) return compare;
     return b.weight.compareTo(a.weight);
+  });
+}
+
+/// Used for [Buy] [Receive] [Convert] features with empty balance
+/// Always provide a copy of List to avoid unexpected behaviour
+void sortByBalanceAndWeight(List<CurrencyModel> currencies) {
+  currencies.sort((a, b) {
+    final compare = b.baseBalance.compareTo(a.baseBalance);
+    if (compare != 0) return compare;
+    final compareWeight = a.weight.compareTo(b.weight);
+    if (compareWeight != 0) return compareWeight;
+    return a.symbol.compareTo(b.symbol);
   });
 }
 
