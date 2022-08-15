@@ -6,10 +6,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../../../models/currency_model.dart';
+import '../../kyc/model/kyc_operation_status_model.dart';
+import '../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../notifier/crypto_deposit_notipod.dart';
 import '../provider/crypto_deposit_disclaimer_fpod.dart';
 import 'components/crypto_deposit_with_address.dart';
@@ -29,6 +32,7 @@ class CryptoDeposit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pageController = PageController(viewportFraction: 0.9);
     final controller = useScrollController();
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
@@ -40,6 +44,77 @@ class CryptoDeposit extends HookWidget {
     final depositN = useProvider(
       cryptoDepositNotipod(currency).notifier,
     );
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
+    );
+    final showAlert = kycState.withdrawalStatus !=
+        kycOperationStatus(KycStatus.allowed);
+
+    Widget slidesControllers () {
+      return Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: SmoothPageIndicator(
+            controller: pageController,
+            count: 2,
+            effect: ScrollingDotsEffect(
+              spacing: 2,
+              radius: 4,
+              dotWidth: 24,
+              dotHeight: 2,
+              maxVisibleDots: 11,
+              activeDotScale: 1,
+              dotColor: colors.black.withOpacity(0.3),
+              activeDotColor: colors.black,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget? alertWidget () {
+      if (showAlert) {
+        return GestureDetector(
+          onTap: () {
+            sShowAlertPopup(
+              context,
+              primaryText: intl.actionBuy_alertPopup,
+              primaryButtonName: intl.actionBuy_goToKYC,
+              onPrimaryButtonTap: () {
+                kycAlertHandler.handle(
+                  status: kycState.depositStatus,
+                  kycVerified: kycState,
+                  isProgress: kycState.verificationInProgress,
+                  currentNavigate: () {},
+                );
+              },
+              secondaryButtonName: intl.actionBuy_gotIt,
+              onSecondaryButtonTap: () {
+                Navigator.pop(context);
+              },
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SErrorIcon(
+                color: colors.green,
+              ),
+              const SpaceW10(),
+              Text(
+                intl.actionBuy_kycRequired,
+                style: sCaptionTextStyle.copyWith(
+                  color: colors.grey2,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+      return null;
+    }
 
     return ProviderListener<AsyncValue<CryptoDepositDisclaimer>>(
       provider: cryptoDepositDisclaimerFpod(currency.symbol),
@@ -47,9 +122,13 @@ class CryptoDeposit extends HookWidget {
         asyncValue.whenData((value) {
           if (value == CryptoDepositDisclaimer.notAccepted) {
             showDepositDisclaimer(
+              slidesControllers: slidesControllers(),
               context: context,
+              controller: pageController,
               assetSymbol: currency.symbol,
               screenTitle: header,
+              kycAlertHandler: kycAlertHandler,
+              kycState: kycState,
               onDismiss: currency.isSingleNetwork
                   ? null
                   : () => showNetworkBottomSheet(
@@ -202,10 +281,14 @@ class CryptoDeposit extends HookWidget {
               CryptoDepositWithAddressAndTag(
                 currency: currency,
                 scrollController: controller,
+                alert: alertWidget(),
+                showAlert: showAlert,
               )
             else
               CryptoDepositWithAddress(
                 currency: currency,
+                alert: alertWidget(),
+                showAlert: showAlert,
               ),
           ],
         ),
