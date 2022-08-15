@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -128,10 +131,12 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       await storageService.setString(userEmailKey, authInfo.email);
       authInfoN.updateToken(response.token);
       authInfoN.updateRefreshToken(response.refreshToken);
+
       router.state = const Authorized();
       read(startupNotipod.notifier).successfullAuthentication();
       state = state.copyWith(union: const Input());
-      _logger.log(stateFlow, 'verifyCode1', state);
+      await startSession(authInfo.email);
+      _logger.log(stateFlow, 'verifyCode', state);
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 
@@ -149,5 +154,18 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
 
   void _updateIsResending(bool value) {
     state = state.copyWith(isResending: value);
+  }
+
+  Future<void> startSession(String email) async {
+    final appsFlyerService = read(appsFlyerServicePod);
+    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+    final bytes = utf8.encode(email);
+    final hashEmail = sha256.convert(bytes).toString();
+    appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
+    await appsFlyerService.appsflyerSdk.logEvent('Start Session', {
+      'Customer User iD': hashEmail,
+      'Appsflyer ID': appsFlyerID,
+      'Registration/Login/SSO': 'SSO',
+    });
   }
 }
