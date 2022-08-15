@@ -13,6 +13,7 @@ import '../../../shared/helpers/device_type.dart';
 import '../../../shared/models/refresh_token_status.dart';
 import '../model/asset_model.dart';
 import '../model/asset_payment_methods.dart';
+import '../model/asset_withdrawal_fee_model.dart';
 import '../model/balance_model.dart';
 import '../model/base_prices_model.dart';
 import '../model/blockchains_model.dart';
@@ -91,6 +92,8 @@ class SignalRService {
   final _basePricesController = StreamController<BasePricesModel>();
   final _periodPricesController = StreamController<PeriodPricesModel>();
   final _clientDetailController = StreamController<ClientDetailModel>();
+  final _assetWithdrawalFeeController =
+      StreamController<AssetWithdrawalFeeModel>();
   final _keyValueController = StreamController<KeyValueModel>();
   final _campaignsBannersController = StreamController<CampaignResponseModel>();
   final _referralStatsController =
@@ -321,6 +324,15 @@ class SignalRService {
       }
     });
 
+    _connection?.on(assetWithdrawalFeeMessage, (data) {
+      try {
+        final assetFees = AssetWithdrawalFeeModel.fromJson(_json(data));
+        _assetWithdrawalFeeController.add(assetFees);
+      } catch (e) {
+        _logger.log(contract, assetWithdrawalFeeMessage, e);
+      }
+    });
+
     _connection?.on(keyValueMessage, (data) {
       try {
         final keyValue = KeyValueModel.parsed(
@@ -404,6 +416,9 @@ class SignalRService {
   Stream<PeriodPricesModel> periodPrices() => _periodPricesController.stream;
 
   Stream<ClientDetailModel> clientDetail() => _clientDetailController.stream;
+
+  Stream<AssetWithdrawalFeeModel> assetWithdrawalFee() =>
+      _assetWithdrawalFeeController.stream;
 
   Stream<KeyValueModel> keyValue() => _keyValueController.stream;
 

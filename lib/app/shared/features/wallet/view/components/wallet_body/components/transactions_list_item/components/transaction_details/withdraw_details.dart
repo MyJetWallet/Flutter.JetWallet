@@ -69,7 +69,8 @@ class WithdrawDetails extends HookWidget {
                     builder: (context) {
                       final currency = currencyFrom(
                         context.read(currenciesPod),
-                        transactionListItem.withdrawalInfo!.feeAssetId!,
+                        transactionListItem.withdrawalInfo!.feeAssetId ??
+                          transactionListItem.withdrawalInfo!.withdrawalAssetId,
                       );
 
                       return TransactionDetailsValueText(

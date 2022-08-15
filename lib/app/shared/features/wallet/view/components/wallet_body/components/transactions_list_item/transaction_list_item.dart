@@ -75,7 +75,10 @@ class TransactionListItem extends HookWidget {
                     child: AutoSizeText(
                       volumeFormat(
                         prefix: currency.prefixSymbol,
-                        decimal: transactionListItem.balanceChange,
+                        decimal: transactionListItem.operationType ==
+                            OperationType.withdraw
+                            ? transactionListItem.balanceChange.abs()
+                            : transactionListItem.balanceChange,
                         accuracy: currency.accuracy,
                         symbol: currency.symbol,
                       ),
