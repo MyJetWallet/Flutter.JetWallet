@@ -22,6 +22,6 @@ class BiometricNotifier extends StateNotifier<BiometricState> {
     _logger.log(notifier, useBio);
     final storageService = read(localStorageServicePod);
     storageService.setString(useBioKey, useBio.toString());
-    read(startupNotipod.notifier).authenticatedBoot();
+    read(startupNotipod.notifier).pinVerified();
   }
 }
