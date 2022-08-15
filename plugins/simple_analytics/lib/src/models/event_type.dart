@@ -199,6 +199,10 @@ class EventType {
   static const startRecurringBuy = 'Start recurring buy';
   // <- Recurring buy [END]
 
+  /// Banners account
+  static const accountBannerClick = 'Account Banner Click.';
+  static const accountBannerClose = 'Close Account Banner.';
+
   /// Earn
   static const earnClickInfoButton = 'Click on Info button - onboarding';
   static const earnOnBoardingView = 'Onboarding sheet view';

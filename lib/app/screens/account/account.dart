@@ -95,7 +95,6 @@ class Account extends HookWidget {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      const SpaceH20(),
                       AccountBannerList(
                         kycPassed: checkKycPassed(
                           kycState.depositStatus,
@@ -105,12 +104,25 @@ class Account extends HookWidget {
                         verificationInProgress: kycState.inVerificationProgress,
                         twoFaEnabled: userInfo.twoFaEnabled,
                         phoneVerified: userInfo.phoneVerified,
-                        onTwoFaBannerTap: () => SmsAuthenticator.push(context),
-                        onChatBannerTap: () => Crisp.push(
-                          context,
-                          intl.crispSendMessage_hi,
-                        ),
+                        onTwoFaBannerTap: () {
+                          sAnalytics.bannerClick(
+                              bannerName: '2-Factor Authentication',
+                          );
+                          SmsAuthenticator.push(context);
+                        },
+                        onChatBannerTap: () {
+                          sAnalytics.bannerClick(
+                            bannerName: 'Chat with support',
+                          );
+                          Crisp.push(
+                            context,
+                            intl.crispSendMessage_hi,
+                          );
+                        },
                         onKycBannerTap: () {
+                          sAnalytics.bannerClick(
+                            bannerName: 'KYC banner',
+                          );
                           defineKycVerificationsScope(
                             kycState.requiredVerifications.length,
                             Source.accountBanner,
@@ -124,7 +136,6 @@ class Account extends HookWidget {
                           );
                         },
                       ),
-                      const SpaceH20(),
                       Column(
                         children: <Widget>[
                           SimpleAccountCategoryButton(

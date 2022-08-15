@@ -21,6 +21,7 @@ class PropertyType {
   static const action = 'Action';
   static const kycPhoneConfirmFailed = 'Kyc error';
   static const amount = 'Amount';
+  static const bannerName = 'Banner Name';
   static const paymentMethod = 'Payment method';
   static const url = 'URL';
   static const sourceReceive = 'Source';

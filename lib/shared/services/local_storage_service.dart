@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // KEYS
 const refreshTokenKey = 'refreshToken';
 const userEmailKey = 'userEmail';
+const closedSupportBannerKey = 'closedSupportBanner';
 const privateKeyKey = 'privateKey';
 const pinStatusKey = 'pinStatusKey';
 const contactsPermissionKey = 'contactsPermissionKey';
@@ -52,5 +53,6 @@ class LocalStorageService {
     await _storage.delete(key: firstInitAppCodeKey);
     await _storage.delete(key: checkedCircle);
     await _storage.delete(key: checkedUnlimint);
+    await _storage.delete(key: closedSupportBannerKey);
   }
 }
