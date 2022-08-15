@@ -31,6 +31,7 @@ class SimpleLightStandardField extends HookWidget {
     this.alignLabelWithHint = false,
     this.enabled = true,
     this.hideSpace = false,
+    this.hasManualError = false,
     required this.labelText,
   })  : assert(
           (controller == null && initialValue != null) ||
@@ -63,6 +64,7 @@ class SimpleLightStandardField extends HookWidget {
   final bool alignLabelWithHint;
   final bool enabled;
   final bool hideSpace;
+  final bool hasManualError;
   final String labelText;
 
   @override
@@ -92,6 +94,7 @@ class SimpleLightStandardField extends HookWidget {
       enableInteractiveSelection: enableInteractiveSelection,
       inputFormatters: inputFormatters,
       hideSpace: hideSpace,
+      hasManualError: hasManualError,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,

@@ -28,6 +28,7 @@ class SimpleBaseStandardField extends HookWidget {
     this.alignLabelWithHint = false,
     this.enabled = true,
     this.hideSpace = false,
+    this.hasManualError = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -51,6 +52,7 @@ class SimpleBaseStandardField extends HookWidget {
   final bool alignLabelWithHint;
   final bool enabled;
   final bool hideSpace;
+  final bool hasManualError;
   final String labelText;
 
   @override
@@ -84,7 +86,9 @@ class SimpleBaseStandardField extends HookWidget {
           cursorColor: SColorsLight().blue,
           cursorRadius: Radius.zero,
           style: sSubtitle2Style.copyWith(
-            color: errorValue ? SColorsLight().red : SColorsLight().black,
+            color: (errorValue || hasManualError)
+                ? SColorsLight().red
+                : SColorsLight().black,
           ),
           decoration: InputDecoration(
             border: InputBorder.none,

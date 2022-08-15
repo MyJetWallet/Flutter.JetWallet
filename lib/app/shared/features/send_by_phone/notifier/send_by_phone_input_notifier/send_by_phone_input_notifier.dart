@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../shared/logging/levels.dart';
+import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../helpers/country_code_by_user_register.dart';
 import '../../../../helpers/is_phone_number_valid.dart';
 import '../../model/contact_model.dart';
@@ -41,14 +42,12 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
         if (contact.phones!.isNotEmpty) {
           for (final phoneNumber in contact.phones!) {
             if (phoneNumber.value != null) {
-              if (await isInternationalPhoneNumberValid(phoneNumber.value!)) {
-                parsedContacts.add(
-                  ContactModel(
-                    name: contact.displayName ?? phoneNumber.value!,
-                    phoneNumber: phoneNumber.value!.replaceAll(' ', ''),
-                  ),
-                );
-              }
+              parsedContacts.add(
+                ContactModel(
+                  name: contact.displayName ?? phoneNumber.value!,
+                  phoneNumber: phoneNumber.value!.replaceAll(' ', ''),
+                ),
+              );
             }
           }
         }
@@ -108,8 +107,9 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
 
     final dialCode = state.dialCodeController.text;
     final phoneNumber = state.phoneNumberController.text;
+    final intl = read(intlPod);
 
-    if (dialCode.isEmpty) {
+    if (dialCode.isEmpty || dialCode == intl.sendByPhoneInput_select) {
       updatePhoneSearch(phoneNumber);
     } else if (phoneNumber.isEmpty) {
       updatePhoneSearch('');
@@ -161,39 +161,51 @@ class SendByPhoneInputNotifier extends StateNotifier<SendByPhoneInputState> {
   Future<void> pickNumberFromSearch(ContactModel contact) async {
     _logger.log(notifier, 'pickNumberFromSearch');
 
-    final info = await PhoneNumber.getRegionInfoFromPhoneNumber(
-      contact.phoneNumber,
-    );
+    if (contact.phoneNumber[0] == '+') {
+      final info = await PhoneNumber.getRegionInfoFromPhoneNumber(
+        contact.phoneNumber,
+      );
 
-    final phoneNumber = PhoneNumber(
-      phoneNumber: info.phoneNumber,
-      isoCode: info.isoCode,
-    );
+      final phoneNumber = PhoneNumber(
+        phoneNumber: info.phoneNumber,
+        isoCode: info.isoCode,
+      );
 
-    final parsable = await PhoneNumber.getParsableNumber(phoneNumber);
+      final parsable = await PhoneNumber.getParsableNumber(phoneNumber);
 
-    var validNumber = false;
-    var code = sPhoneNumbers[0];
+      var validNumber = false;
+      var code = sPhoneNumbers[0];
 
-    for (final sNumber in sPhoneNumbers) {
-      if (sNumber.isoCode == info.isoCode) {
-        validNumber = true;
-        code = sNumber;
+      for (final sNumber in sPhoneNumbers) {
+        if (sNumber.isoCode == info.isoCode) {
+          validNumber = true;
+          code = sNumber;
+        }
       }
-    }
 
-    if (info.dialCode != null && validNumber) {
-      state.dialCodeController.text = '+${info.dialCode!}';
-      state.phoneNumberController.text = parsable;
-      updateActiveDialCode(code);
-    } else {
-      state.dialCodeController.clear();
-      updateActiveDialCode(null);
-      if (contact.phoneNumber.startsWith('+')) {
-        state.phoneNumberController.text = contact.phoneNumber.substring(1);
+      if (info.dialCode != null && validNumber) {
+        state.dialCodeController.text = '+${info.dialCode!}';
+        state.phoneNumberController.text = parsable;
+        updateActiveDialCode(code);
       } else {
-        state.phoneNumberController.text = contact.phoneNumber;
+        state.dialCodeController.clear();
+        updateActiveDialCode(null);
+        if (contact.phoneNumber.startsWith('+')) {
+          state.phoneNumberController.text = contact.phoneNumber.substring(1);
+        } else {
+          state.phoneNumberController.text = contact.phoneNumber;
+        }
       }
+    } else {
+      final intl = read(intlPod);
+      final finalCode = contact.phoneNumber.replaceAll('(', ' ')
+          .replaceAll(')', ' ')
+          .replaceAll('-', ' ');
+      state.phoneNumberController.text = finalCode;
+      state.dialCodeController.text = intl.sendByPhoneInput_select;
+      state.copyWith(
+        contactWithoutCode: true,
+      );
     }
 
     if (contact.isCustomContact) {
