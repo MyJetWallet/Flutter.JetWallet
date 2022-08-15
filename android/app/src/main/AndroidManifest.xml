@@ -16,18 +16,18 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="Simple"
-        android:exported="true"
         android:usesCleartextTraffic="true"
         android:allowBackup="false"
         android:fullBackupContent="false"
         tools:replace="android:fullBackupContent">
-        
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
