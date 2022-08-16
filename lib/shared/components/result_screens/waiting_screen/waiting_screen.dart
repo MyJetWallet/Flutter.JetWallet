@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../app/screens/navigation/provider/navigation_stpod.dart';
+import '../../../helpers/navigate_to_router.dart';
 import '../../../helpers/widget_size_from.dart';
 import '../../../providers/device_size/device_size_pod.dart';
 import '../../../providers/service_providers.dart';
@@ -15,6 +17,7 @@ class WaitingScreen extends HookWidget {
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
+    this.wasAction = false,
   }) : super(key: key);
 
   // Triggered when SuccessScreen is done
@@ -22,12 +25,14 @@ class WaitingScreen extends HookWidget {
   final String? primaryText;
   final String? secondaryText;
   final Widget? specialTextWidget;
+  final bool wasAction;
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final intl = useProvider(intlPod);
+    final navigation = useProvider(navigationStpod);
 
     return SPageFrameWithPadding(
       child: Column(
@@ -59,7 +64,21 @@ class WaitingScreen extends HookWidget {
               ),
             ),
           ),
-          if (specialTextWidget != null) specialTextWidget!
+          if (specialTextWidget != null) specialTextWidget!,
+          if (wasAction) ...[
+            const Spacer(),
+            SPaddingH24(
+              child: SSecondaryButton1(
+                active: true,
+                name: intl.previewBuyWithUmlimint_skipWait,
+                onTap: () {
+                  navigateToRouter(context.read);
+                  navigation.state = 1;
+                },
+              ),
+            ),
+            const SpaceH24(),
+          ],
         ],
       ),
     );

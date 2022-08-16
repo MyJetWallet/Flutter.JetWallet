@@ -23,6 +23,7 @@ class PreviewBuyWithUnlimintState with _$PreviewBuyWithUnlimintState {
     @Default('') String paymentId,
     @Default('') String currencySymbol,
     @Default(false) bool isChecked,
+    @Default(false) bool wasAction,
     required StackLoaderNotifier loader,
   }) = _PreviewBuyWithUnlimintState;
 }

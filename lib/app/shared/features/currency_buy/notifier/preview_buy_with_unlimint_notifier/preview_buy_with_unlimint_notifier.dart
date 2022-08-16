@@ -220,12 +220,16 @@ class PreviewBuyWithUnlimintNotifier
           response.clientAction!.checkoutUrl ?? '',
           (payment, lastAction) {
             Navigator.pop(_context);
-            state.copyWith(paymentId: payment);
+            state = state.copyWith(
+              paymentId: payment,
+              wasAction: true,
+            );
             state.loader.startLoadingImmediately();
             _requestPaymentInfo(onAction, lastAction);
           },
           (payment) {
-            Navigator.pop(_context);
+            navigateToRouter(_context.read);
+            read(navigationStpod).state = 1;
           },
           state.paymentId,
         );
@@ -237,7 +241,9 @@ class PreviewBuyWithUnlimintNotifier
     } catch (error) {
       _logger.log(stateFlow, '_requestPaymentInfo', error);
 
-      _showFailureScreen(_intl.something_went_wrong);
+      if (!error.toString().contains('Bad state:')) {
+        _showFailureScreen(_intl.something_went_wrong);
+      }
     }
   }
 
