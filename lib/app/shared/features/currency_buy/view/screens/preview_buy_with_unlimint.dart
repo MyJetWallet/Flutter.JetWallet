@@ -175,7 +175,7 @@ class PreviewBuyWithUnlimint extends HookWidget {
                             ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
                           betweenText: ', ',
                           privacyPolicyText:
-                          intl.previewBuyWithUmlimint_disclaimerPolicy,
+                          '${intl.previewBuyWithUmlimint_disclaimerPolicy}.',
                           onUserAgreementTap: () =>
                               launchURL(context, userAgreementLink),
                           onPrivacyPolicyTap: () =>
