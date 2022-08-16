@@ -5,12 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../auth/screens/forgot_password/view/confirm_password_reset.dart';
-import '../../auth/screens/forgot_password/view/forgot_password.dart';
-import '../../auth/screens/login/login.dart';
-import '../../auth/screens/register/register.dart';
-import '../../auth/screens/register/register_password_screen.dart';
-import '../../auth/screens/reset_password/view/reset_password.dart';
+import '../../auth/screens/email_verification/view/email_verification.dart';
+
+
+import '../../auth/screens/single_sign_in/sing_in.dart';
 import '../../router/view/router.dart';
 import '../../shared/logging/provider_logger.dart';
 import '../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
@@ -133,6 +131,12 @@ class _App extends HookWidget {
         AppRouter.routeName: (_) {
           return const AppRouter();
         },
+        SingIn.routeName: (_) {
+          return const SingIn();
+        },
+        EmailVerification.routeName: (_) {
+          return const EmailVerification();
+        },
         // [START] Stage only routes ->
         AppRouterStage.routeName: (_) {
           return const AppRouterStage();
@@ -140,25 +144,7 @@ class _App extends HookWidget {
         AppInit.routeName: (_) {
           return const AppInit();
         },
-        // <- Stage only routes [END]
-        RegisterPasswordScreen.routeName: (_) {
-          return const RegisterPasswordScreen();
-        },
-        ResetPassword.routeName: (_) {
-          return const ResetPassword();
-        },
-        Login.routeName: (_) {
-          return const Login();
-        },
-        Register.routeName: (_) {
-          return const Register();
-        },
-        ForgotPassword.routeName: (_) {
-          return const ForgotPassword();
-        },
-        ConfirmPasswordReset.routeName: (_) {
-          return const ConfirmPasswordReset();
-        },
+
       },
     );
   }

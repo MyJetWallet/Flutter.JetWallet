@@ -61,7 +61,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         publicKey: publicKey,
         email: email,
         password: password,
-        platform: currentPlatform,
+        platform: currentAppPlatform,
         deviceUid: deviceInfoModel.deviceUid,
         lang: intl.localeName,
       );
@@ -74,7 +74,7 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         email: email,
         password: password,
         platformType: platformType,
-        platform: currentPlatform,
+        platform: currentAppPlatform,
         deviceUid: deviceInfoModel.deviceUid,
         referralCode: referralCodeLink.referralCode,
         marketingEmailsAllowed: marketingEmailsAllowed,

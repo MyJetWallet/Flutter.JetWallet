@@ -32,6 +32,11 @@ class AuthInfoNotifier extends StateNotifier<AuthInfoState> {
 
     state = state.copyWith(deleteToken: deleteToken);
   }
+  void updateVerificationToken(String verificationToken) {
+    _logger.log(notifier, 'updateVerificationToken');
+
+    state = state.copyWith(verificationToken: verificationToken);
+  }
 
   /// Whether to show ResendButton in EmailVerification Screen at first open
   void updateResendButton() {

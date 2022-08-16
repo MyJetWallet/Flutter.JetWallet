@@ -86,4 +86,7 @@ class SColorsLight implements SimpleColors {
 
   @override
   Color blueLight2 = const Color(0xFFB8D4FF);
+
+  @override
+  Color blue2 = const Color(0x66374DFB);
 }
