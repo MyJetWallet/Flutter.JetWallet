@@ -205,6 +205,9 @@ class PreviewBuyWithUnlimintNotifier
       final failed = response.status == CardBuyPaymentStatus.fail;
       final actionRequired =
           response.status == CardBuyPaymentStatus.requireAction;
+      if (state.isWaitingSkipped) {
+        return;
+      }
 
       if (pending ||
           (actionRequired && lastAction == response.clientAction!.checkoutUrl)
@@ -289,5 +292,9 @@ class PreviewBuyWithUnlimintNotifier
 
   void checkSetter() {
     state = state.copyWith(isChecked: !state.isChecked);
+  }
+
+  void skippedWaiting() {
+    state = state.copyWith(isWaitingSkipped: true);
   }
 }

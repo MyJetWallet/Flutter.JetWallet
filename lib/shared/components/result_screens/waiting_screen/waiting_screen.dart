@@ -13,15 +13,15 @@ import 'components/waiting_animation.dart';
 class WaitingScreen extends HookWidget {
   const WaitingScreen({
     Key? key,
-    this.onSuccess,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
     this.wasAction = false,
+    required this.onSkip,
   }) : super(key: key);
 
   // Triggered when SuccessScreen is done
-  final Function(BuildContext)? onSuccess;
+  final Function() onSkip;
   final String? primaryText;
   final String? secondaryText;
   final Widget? specialTextWidget;
@@ -72,6 +72,7 @@ class WaitingScreen extends HookWidget {
                 active: true,
                 name: intl.previewBuyWithUmlimint_skipWait,
                 onTap: () {
+                  onSkip();
                   navigateToRouter(context.read);
                   navigation.state = 1;
                 },

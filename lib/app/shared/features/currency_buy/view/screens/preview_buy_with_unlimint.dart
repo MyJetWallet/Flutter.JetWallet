@@ -53,6 +53,9 @@ class PreviewBuyWithUnlimint extends HookWidget {
       loading: state.loader,
       customLoader: state.isChecked ? WaitingScreen(
         wasAction: state.wasAction,
+        onSkip: () {
+          notifier.skippedWaiting();
+        },
       ) : null,
       header: deviceSize.when(
         small: () {
