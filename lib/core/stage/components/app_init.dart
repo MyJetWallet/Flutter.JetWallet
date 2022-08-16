@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
+import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
+import '../../../auth/screens/biometric/biometric.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/onboarding/onboarding_screen.dart';
 import '../../../auth/screens/single_sign_in/sing_in.dart';
