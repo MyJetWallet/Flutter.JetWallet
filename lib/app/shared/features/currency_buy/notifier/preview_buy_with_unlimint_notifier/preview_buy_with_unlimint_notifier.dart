@@ -215,8 +215,16 @@ class PreviewBuyWithUnlimintNotifier
         await Future.delayed(const Duration(seconds: 1));
         await _requestPaymentInfo(onAction, lastAction);
       } else if (complete) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (state.isWaitingSkipped) {
+          return;
+        }
         _showSuccessScreen();
       } else if (failed) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (state.isWaitingSkipped) {
+          return;
+        }
         throw Exception();
       } else if (actionRequired) {
         onAction(
