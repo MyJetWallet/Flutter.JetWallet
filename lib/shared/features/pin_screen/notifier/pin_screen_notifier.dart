@@ -184,65 +184,30 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
       );
     } on ServerRejectException catch (error) {
       await _errorFlow();
-      if(error.cause =='InvalidCode') {
+      if (error.cause == 'InvalidCode') {
         if (attemptsLeft > 1) {
           attemptsLeft--;
           read(sNotificationNotipod.notifier).showError(
-            'The PIN you entered is incorrect, $attemptsLeft attempts remaining.',
+            'The PIN you entered is incorrect,$attemptsLeft attempts remaining.'
+            ,
           );
         } else {
           read(sNotificationNotipod.notifier).showError(
             'Incorrect PIN has been entered more than $maxPinAttempts times, '
-                'you have been logged out of your account.',
+            'you have been logged out of your account.',
             duration: 5,
           );
           await read(logoutNotipod.notifier).logout();
         }
       } else {
         read(sNotificationNotipod.notifier).showError(error.cause);
-        }
+      }
     } catch (e) {
       read(sNotificationNotipod.notifier).showError(
         e.toString(),
         id: 1,
       );
     }
-
-    // _logger.log(notifier, resp);
-    // if (resp.result != 'OK') {
-    //   await _errorFlow();
-    //   if (attemptsLeft > 1) {
-    //     attemptsLeft--;
-    //     read(sNotificationNotipod.notifier).showError(
-    //       'The PIN you entered is incorrect, $attemptsLeft attempts remaining.',
-    //     );
-    //   } else {
-    //     read(sNotificationNotipod.notifier).showError(
-    //       'Incorrect PIN has been entered more than $maxPinAttempts times, '
-    //       'you have been logged out of your account.',
-    //       duration: 5,
-    //     );
-    //     await read(logoutNotipod.notifier).logout();
-    //   }
-    // } else {
-    //   await flowUnion.maybeWhen(
-    //     disable: () async {
-    //       await _userInfoN.disablePin();
-    //       await _successFlow(
-    //         _userInfoN.resetPin(),
-    //       );
-    //     },
-    //     verification: () async {
-    //       await _animateSuccess();
-    //       read(startupNotipod.notifier).pinVerified();
-    //     },
-    //     orElse: () async {
-    //       await _animateCorrect();
-    //       _updateHideBiometricButton(true);
-    //       _updateScreenUnion(const NewPin());
-    //     },
-    //   );
-    // }
   }
 
   Future<void> _newPinFlow() async {
