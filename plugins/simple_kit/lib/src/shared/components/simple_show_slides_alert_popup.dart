@@ -42,13 +42,14 @@ void sShowSlideAlertPopup(
   required Function() onPrimaryButtonTap1,
   required PageController controller,
   required Widget slidesControllers,
+  required SWidgetSize size,
 }) {
   final alerts = [
     Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Dialog(
-          insetPadding: (Platform.isAndroid)
+          insetPadding: (Platform.isAndroid || size == SWidgetSize.small)
               ? const EdgeInsets.symmetric(
                   horizontal: 6,
                   vertical: 24.0,
@@ -266,18 +267,21 @@ void sShowSlideAlertPopup(
                   height: 468,
                   child: PageView.builder(
                     controller: controller,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: 2,
                     itemBuilder: (_, index) {
-                      return Container(
-                        child: alerts[index],
+                      return Stack(
+                        children: [
+                          alerts[index],
+                          Positioned.fill(
+                            top: 20,
+                            child: Align(
+                              child: slidesControllers,
+                            ),
+                          ),
+                        ],
                       );
                     },
-                  ),
-                ),
-                Positioned.fill(
-                  top: 20,
-                  child: Align(
-                    child: slidesControllers,
                   ),
                 ),
               ],

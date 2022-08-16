@@ -16,6 +16,7 @@ void showDepositDisclaimer({
   required Widget slidesControllers,
   required KycAlertHandler kycAlertHandler,
   required KycModel kycState,
+  required SWidgetSize size,
 }) {
   final intl = context.read(intlPod);
   final action =
@@ -30,6 +31,7 @@ void showDepositDisclaimer({
     primaryButtonName: intl.showDepositDisclaimer_next,
     barrierDismissible: false,
     willPopScope: false,
+    size: size,
     onPrimaryButtonTap: () {
       controller.animateToPage(
         1,

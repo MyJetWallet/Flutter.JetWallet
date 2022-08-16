@@ -8,6 +8,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../../shared/helpers/widget_size_from.dart';
+import '../../../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../components/network_bottom_sheet/show_network_bottom_sheet.dart';
 import '../../../models/currency_model.dart';
@@ -37,6 +39,7 @@ class CryptoDeposit extends HookWidget {
     final intl = useProvider(intlPod);
     final colors = useProvider(sColorPod);
     final canTapShare = useState(true);
+    final deviceSize = useProvider(deviceSizePod);
     useProvider(
       cryptoDepositDisclaimerFpod(currency.symbol).select((_) {}),
     );
@@ -138,6 +141,7 @@ class CryptoDeposit extends HookWidget {
                         currency.iconUrl,
                         depositN.setNetwork,
                       ),
+              size: widgetSizeFrom(deviceSize),
             );
           } else {
             if (!currency.isSingleNetwork) {
