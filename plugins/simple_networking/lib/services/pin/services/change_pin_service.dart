@@ -8,10 +8,10 @@ import '../model/change_pin/change_pin_response_model.dart';
 import '../pin_service.dart';
 
 Future<ChangePinResponseModel> changePinService(
-  Dio dio,
+  Dio dio, String localeName,
   String oldPin,
   String newPin,
-  String localeName,
+
 ) async {
   final logger = PinService.logger;
   const message = 'ChangePinService';
