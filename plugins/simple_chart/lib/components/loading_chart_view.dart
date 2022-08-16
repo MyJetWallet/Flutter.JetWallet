@@ -47,7 +47,7 @@ class LoadingChartView extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            bottom: isBalanceChart ? 40 : 0,
+            bottom: isBalanceChart ? 20 : 0,
             child: SizedBox(
               height: 36,
               child: Row(

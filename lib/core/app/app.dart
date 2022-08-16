@@ -11,9 +11,11 @@ import '../../auth/screens/email_verification/view/email_verification.dart';
 import '../../auth/screens/single_sign_in/sing_in.dart';
 import '../../router/view/router.dart';
 import '../../shared/logging/provider_logger.dart';
+import '../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
 import '../../shared/providers/background/initialize_background_providers.dart';
 import '../../shared/providers/device_info_pod.dart';
 import '../../shared/providers/package_info_fpod.dart';
+import '../../shared/providers/service_providers.dart';
 import '../stage/app_router_stage/app_router_stage.dart';
 import '../stage/components/app_init.dart';
 import 'app_builder.dart';
@@ -99,6 +101,16 @@ class _App extends HookWidget {
     useProvider(packageInfoFpod);
     final navigatorKey = useProvider(sNavigatorKeyPod);
     final theme = useProvider(sThemePod);
+    final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
+    final storage = useProvider(localStorageServicePod);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final isCleared = await storage.getValue('cleared');
+      if (isCleared == null) {
+        await timeTrackerN.clear();
+        await timeTrackerN.updateAppStarted(DateTime.now());
+        await timeTrackerN.updateSignalRStarted(DateTime.now());
+      }
+    });
 
     return CupertinoApp(
       restorationScopeId: 'app',

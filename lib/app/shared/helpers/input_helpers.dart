@@ -146,6 +146,7 @@ InputError onTradeInputErrorHandler(
 
 InputError onWithdrawInputErrorHandler(
   String input,
+  String network,
   CurrencyModel currency, {
   bool addressIsInternal = false,
 }) {
@@ -154,7 +155,7 @@ InputError onWithdrawInputErrorHandler(
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
-    } else if (currency.withdrawalFeeSize >= value) {
+    } else if (currency.withdrawalFeeSize(network) >= value) {
       if (addressIsInternal) {
         return InputError.none;
       } else {

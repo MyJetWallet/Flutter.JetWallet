@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // KEYS
 const refreshTokenKey = 'refreshToken';
 const userEmailKey = 'userEmail';
+const closedSupportBannerKey = 'closedSupportBanner';
 const privateKeyKey = 'privateKey';
 const pinStatusKey = 'pinStatusKey';
 const contactsPermissionKey = 'contactsPermissionKey';
@@ -18,6 +19,18 @@ const firstInitAppCodeKey = 'firstInitAppCodeKey';
 const checkedCircle = 'circleWasChecked';
 const checkedUnlimint = 'unlimintWasChecked';
 const useBioKey = 'useBio';
+const startApp = 'startApp';
+const marketOpened = 'marketOpened';
+const signalRStarted = 'signalRStarted';
+const initFinishedFirstCheck = 'initFinishedFirstCheck';
+const initFinishedReceived = 'initFinishedReceived';
+const configReceived = 'configReceived';
+const timeStartMarketSent = 'timeStartMarketSent';
+const timeStartInitFinishedSent = 'timeStartInitFinishedSent';
+const timeStartConfigSent = 'timeStartConfigSent';
+const timeSignalRCheckIFSent = 'timeSignalRCheckIFSent';
+const timeSignalRReceiveIFSent = 'timeSignalRReceiveIFSent';
+const initFinishedOnMarketSent = 'initFinishedOnMarketSent';
 
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
@@ -53,5 +66,26 @@ class LocalStorageService {
     await _storage.delete(key: firstInitAppCodeKey);
     await _storage.delete(key: checkedCircle);
     await _storage.delete(key: checkedUnlimint);
+    await _storage.delete(key: closedSupportBannerKey);
+  }
+
+  Future<void> clearTimeTracker() async {
+    await _storage.delete(key: startApp);
+    await _storage.delete(key: marketOpened);
+    await _storage.delete(key: signalRStarted);
+    await _storage.delete(key: initFinishedFirstCheck);
+    await _storage.delete(key: initFinishedReceived);
+    await _storage.delete(key: configReceived);
+    await _storage.delete(key: timeStartMarketSent);
+    await _storage.delete(key: timeStartInitFinishedSent);
+    await _storage.delete(key: timeStartConfigSent);
+    await _storage.delete(key: timeSignalRCheckIFSent);
+    await _storage.delete(key: timeSignalRReceiveIFSent);
+    await _storage.delete(key: initFinishedOnMarketSent);
+    await setString('cleared', 'true');
+  }
+
+  Future<void> clearedChange() async {
+    await _storage.delete(key: 'cleared');
   }
 }

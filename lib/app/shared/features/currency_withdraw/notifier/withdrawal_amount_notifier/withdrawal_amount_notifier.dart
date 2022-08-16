@@ -118,6 +118,7 @@ class WithdrawalAmountNotifier extends StateNotifier<WithdrawalAmountState> {
   void _validateAmount() {
     final error = onWithdrawInputErrorHandler(
       state.amount,
+      state.blockchain.description,
       currency,
       addressIsInternal: state.addressIsInternal,
     );
