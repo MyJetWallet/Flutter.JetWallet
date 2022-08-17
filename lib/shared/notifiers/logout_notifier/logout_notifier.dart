@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/services/authentication/model/logout/logout_request_model.dart';
 
+import '../../../app/shared/providers/currencies_pod/currencies_pod.dart';
 import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../router/notifier/startup_notifier/authorized_union.dart'
     as authorized_union;
@@ -39,7 +40,9 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
     } catch (e) {
       _logger.log(stateFlow, 'logout', e);
     } finally {
+      final currencies = read(currenciesPod);
       await read(localStorageServicePod).clearStorage();
+      await read(localStorageServicePod).clearStorageForCrypto(currencies);
 
       if (read(startupNotipod).authorized is authorized_union.Home) {
         await read(signalRServicePod).disconnect();

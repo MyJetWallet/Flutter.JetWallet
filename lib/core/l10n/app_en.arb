@@ -457,6 +457,10 @@
     "actionBuy_bottomSheetItemTitle2": "Buy with credit card or crypto",
     "actionBuy_actionWithOutRecurringBuyTitle1": "Setup recurring buy",
     "actionBuy_actionWithOutRecurringBuyTitle2": "Buy with crypto",
+    "actionBuy_kycRequired": "KYC required to withdraw",
+    "actionBuy_gotIt": "Got It",
+    "actionBuy_goToKYC": "Go to KYC",
+    "actionBuy_alertPopup": "You may perform only one transaction for up to $1000. Withdrawal or adding more funds will require completing KYC.",
     "depositOptions_depositWith": "Deposit With",
     "depositOptions_wireTransfer": "Wire transfer",
     "depositOptions_addBankCard": "Add bank card",
@@ -553,6 +557,7 @@
     "depositInfo_text": "Ensure the network you choose to deposit matches the withdrawal network",
     "showDepositDisclaimer_primatyText": "to this deposit address. Receiving any other coin or token to this address may result in loss of the transfer amount.",
     "showDepositDisclaimer_gotIt": "Got it",
+    "showDepositDisclaimer_next": "Next",
     "showDepositDisclaimer_only": "only",
     "accepted": "accepted",
     "cryptoDeposit_share": "Share",
@@ -1033,7 +1038,8 @@
     "curencyBuy_unlimint": "Bank Card",
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "More payment methods",
-    "previewBuyWithUmlimint_disclaimer": "I have read, understand and agree to",
+    "previewBuyWithUmlimint_disclaimer": "I have read and agreed to",
     "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
-    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy"
+    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
+    "previewBuyWithUmlimint_skipWait": "Skip waiting"
 }

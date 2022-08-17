@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../app/shared/models/currency_model.dart';
+
 // KEYS
 const refreshTokenKey = 'refreshToken';
 const userEmailKey = 'userEmail';
@@ -66,6 +68,12 @@ class LocalStorageService {
     await _storage.delete(key: checkedCircle);
     await _storage.delete(key: checkedUnlimint);
     await _storage.delete(key: closedSupportBannerKey);
+  }
+
+  Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
+    for (final element in currencies) {
+      await _storage.delete(key: element.symbol);
+    }
   }
 
   Future<void> clearTimeTracker() async {
