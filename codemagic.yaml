@@ -81,6 +81,9 @@ definitions:
     - name: Add GoogleService-Info.plist
       script: echo $GOOGLE_SERVICE_IOS | base64 --decode > ./ios/Runner/GoogleService-Info.plist
 
+    - name: Add Facebook Android
+      script: echo $FACEBOOK_ANDROID | base64 --decode > ./android/app/src/main/res/values/strings.xml
+
     - name: Get packages
       script: flutter pub get ; cd plugins/simple_networking ; flutter pub get
 
