@@ -1022,14 +1022,3 @@ class SpaceW2 extends StatelessWidget {
     );
   }
 }
-
-class SpaceW1 extends StatelessWidget {
-  const SpaceW1({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 1.0,
-    );
-  }
-}

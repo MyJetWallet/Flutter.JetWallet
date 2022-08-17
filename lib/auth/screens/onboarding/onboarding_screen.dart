@@ -8,10 +8,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/constants.dart';
 import '../../../shared/helpers/analytics.dart';
+import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../shared/components/gradients/onboarding_full_screen_gradient.dart';
-import '../single_sign_in/sing_in.dart';
+import '../login/login.dart';
+import '../register/register.dart';
 import 'components/animated_slide.dart';
 
 const _slidesAnimationDuration = Duration(seconds: 4);
@@ -53,6 +55,7 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
       intl.onboarding_free_worldwide_transfers,
       intl.onboarding_exchange_any_crypto,
     ];
+
 
     _slidesAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -171,8 +174,16 @@ class _OnBoardingScreenState extends State<OnboardingScreen>
                   SPrimaryButton1(
                     active: true,
                     name: intl.onboarding_getStarted,
-                    onTap: () => {
-                      SingIn.push(context: context)},
+                    onTap: () => Register.push(context),
+                  ),
+                  const SpaceH10(),
+                  STextButton1(
+                    active: true,
+                    name: intl.onboarding_signIn,
+                    onTap: () => navigatorPush(
+                      context,
+                      const Login(),
+                    ),
                   ),
                   const SpaceH24(),
                 ],
