@@ -9,7 +9,6 @@ class AuthInfoState with _$AuthInfoState {
     @Default('') String refreshToken,
     @Default('') String email,
     @Default('') String deleteToken,
-    @Default('') String verificationToken,
     @Default(true) bool showResendButton,
   }) = _AuthInfoState;
 }

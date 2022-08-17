@@ -86,8 +86,8 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
   void resetBottomSheetReferralCodeValidation() {
     state = state.copyWith(
       bottomSheetReferralCodeValidation: const Input(),
-      referralCodeController: TextEditingController()
-        ..text = state.referralCode ?? '',
+      bottomSheetReferralCode: null,
+      referralCodeController: TextEditingController(),
       referralCodeErrorNotifier: StandardFieldErrorNotifier(),
     );
   }
