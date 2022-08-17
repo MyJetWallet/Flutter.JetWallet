@@ -19,9 +19,13 @@ class PortfolioHeader extends HookWidget {
   const PortfolioHeader({
     Key? key,
     this.emptyBalance = false,
+    this.price = '',
+    this.showPrice = false,
   }) : super(key: key);
 
   final bool emptyBalance;
+  final bool showPrice;
+  final String price;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,7 @@ class PortfolioHeader extends HookWidget {
             children: [
               const SpaceW24(),
               Text(
-                intl.portfolioHeader_balance,
+                '${intl.portfolioHeader_balance}${showPrice ? ': $price' : ''}',
                 style: sTextH5Style,
               ),
               const Spacer(),

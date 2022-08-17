@@ -12,6 +12,7 @@ const marketReferenceMessage = 'market-reference';
 const periodPricesMessage = 'base-prices';
 const basePricesMessage = 'prices-base-currency';
 const clientDetailMessage = 'client-detail';
+const assetWithdrawalFeeMessage = 'asset-withdrawal-fees';
 const keyValueMessage = 'key-values';
 const campaignsBannersMessage = 'campaigns-banners';
 const referralStatsMessage = 'referrer-stats';

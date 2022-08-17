@@ -6,6 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../../components/dial_code_item.dart';
+import '../../../../../../../helpers/country_code_by_user_register.dart';
 import '../../../../../notifier/send_by_phone_input_notifier/send_by_phone_input_notipod.dart';
 
 void showDialCodePicker(BuildContext context) {
@@ -50,20 +51,35 @@ class _DialCodes extends HookWidget {
   Widget build(BuildContext context) {
     final state = useProvider(sendByPhoneInputNotipod);
     final notifier = useProvider(sendByPhoneInputNotipod.notifier);
+    final userCountryCode = state.sortedDialCodes.where(
+      (element) => element.countryCode ==
+          countryCodeByUserRegister(context.read)?.countryCode,
+    ).toList();
 
     return Column(
       children: [
-        for (final code in state.sortedDialCodes)
+        if (userCountryCode.isNotEmpty)
           DialCodeItem(
-            dialCode: code,
-            active: state.activeDialCode?.isoCode == code.isoCode,
+            dialCode: userCountryCode[0],
+            active: state.activeDialCode?.isoCode == userCountryCode[0].isoCode,
             onTap: () {
-              sAnalytics.changeCountryCode(code.countryName);
-
-              notifier.pickDialCodeFromSearch(code);
+              sAnalytics.changeCountryCode(userCountryCode[0].countryName);
+              notifier.pickDialCodeFromSearch(userCountryCode[0]);
               Navigator.pop(context);
             },
           ),
+        for (final code in state.sortedDialCodes)
+          if (code.countryCode !=
+              countryCodeByUserRegister(context.read)?.countryCode)
+            DialCodeItem(
+              dialCode: code,
+              active: state.activeDialCode?.isoCode == code.isoCode,
+              onTap: () {
+                sAnalytics.changeCountryCode(code.countryName);
+                notifier.pickDialCodeFromSearch(code);
+                Navigator.pop(context);
+              },
+            ),
       ],
     );
   }

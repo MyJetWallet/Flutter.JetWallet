@@ -1404,6 +1404,30 @@ class SimpleAnalytics {
       EventType.kycScanDoc,
     );
   }
+
+  /// Banner account
+  void bannerClick({
+    required String bannerName,
+  }) {
+    _analytics.logEvent(
+      EventType.accountBannerClick,
+      eventProperties: {
+        PropertyType.bannerName: bannerName,
+      },
+    );
+  }
+
+  void bannerClose({
+    required String bannerName,
+  }) {
+    _analytics.logEvent(
+      EventType.accountBannerClose,
+      eventProperties: {
+        PropertyType.bannerName: bannerName,
+      },
+    );
+  }
+
   /// Push notification
   void openPushNotification({
     required String campaignId,
@@ -1413,6 +1437,91 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.campaignId: campaignId,
       },
+    );
+  }
+
+  /// Time tracking
+  void timeStartMarket({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartMarket,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeStartInitFinished({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartInitFinished,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeStartConfig({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartConfig,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeSignalRCheckIF({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeSignalRCheckIF,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeSignalRReceiveIF({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeSignalRReceiveIF,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void initFinishedOnMarket({
+    required String isFinished,
+  }) {
+    _analytics.logEvent(
+      EventType.initFinishedOnMarket,
+      eventProperties: {
+        PropertyType.isLoaded: isFinished,
+      },
+    );
+  }
+
+  void initFinished() {
+    _analytics.logEvent(
+      EventType.initFinished,
+    );
+  }
+
+  void remoteConfig() {
+    _analytics.logEvent(
+      EventType.remoteConfig,
+    );
+  }
+
+  void remoteConfigError() {
+    _analytics.logEvent(
+      EventType.remoteConfigError,
     );
   }
 }

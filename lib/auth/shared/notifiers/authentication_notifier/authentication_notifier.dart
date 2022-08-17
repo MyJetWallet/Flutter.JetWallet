@@ -90,6 +90,11 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
           intl.localeName,
         );
         unawaited(sAnalytics.loginSuccess(email));
+        read(appsFlyerServicePod).startSession(
+          'Login',
+          email,
+          appsFluterID ?? '',
+        );
       } else {
         authModel = await authService.register(
           registerRequest,
@@ -97,6 +102,11 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
         );
         authInfoN.updateResendButton();
         unawaited(sAnalytics.signUpSuccess(email));
+        read(appsFlyerServicePod).startSession(
+          'Registration',
+          email,
+          appsFluterID ?? '',
+        );
       }
 
       await storageService.setString(refreshTokenKey, authModel.refreshToken);

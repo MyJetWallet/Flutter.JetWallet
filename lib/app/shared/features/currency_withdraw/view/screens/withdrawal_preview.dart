@@ -16,9 +16,11 @@ class WithdrawalPreview extends HookWidget {
   const WithdrawalPreview({
     Key? key,
     required this.withdrawal,
+    required this.network,
   }) : super(key: key);
 
   final WithdrawalModel withdrawal;
+  final String network;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class WithdrawalPreview extends HookWidget {
                       currency: currency,
                       amount: state.amount,
                       addressIsInternal: state.addressIsInternal,
+                      network: network,
                     ),
                   ),
                   SActionConfirmText(
@@ -85,7 +88,7 @@ class WithdrawalPreview extends HookWidget {
                     baseline: 35.0,
                     value: state.addressIsInternal
                         ? intl.noFee
-                        : currency.withdrawalFeeWithSymbol,
+                        : currency.withdrawalFeeWithSymbol(network),
                   ),
                   const SBaselineChild(
                     baseline: 34.0,

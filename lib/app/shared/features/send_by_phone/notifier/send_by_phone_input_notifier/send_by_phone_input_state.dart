@@ -11,6 +11,7 @@ class SendByPhoneInputState with _$SendByPhoneInputState {
   const factory SendByPhoneInputState({
     SPhoneNumber? activeDialCode,
     ContactModel? pickedContact,
+    @Default(false) bool contactWithoutCode,
     @Default('') String dialCodeSearch,
     @Default([]) List<SPhoneNumber> sortedDialCodes,
     @Default('') String phoneSearch,
