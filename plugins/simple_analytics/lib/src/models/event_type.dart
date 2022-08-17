@@ -49,10 +49,10 @@ class EventType {
   static const kycVerifyProfile = 'KYC - Verify your profile';
 
   /// Change country code, send country name
-  static const changeCountryCode = 'Change country code';
+  static const changeCountryCode = 'KYC - Change country code';
 
   /// Choose country name and document type in kyc
-  static const identityParametersChoosed = 'Identity parameters choosed';
+  static const identityParametersChoosed = 'KYC - Identity parameters choosed';
 
   /// Market filters
   static const marketFilters = 'Filters';
@@ -199,6 +199,10 @@ class EventType {
   static const startRecurringBuy = 'Start recurring buy';
   // <- Recurring buy [END]
 
+  /// Banners account
+  static const accountBannerClick = 'Account Banner Click.';
+  static const accountBannerClose = 'Close Account Banner.';
+
   /// Earn
   static const earnClickInfoButton = 'Click on Info button - onboarding';
   static const earnOnBoardingView = 'Onboarding sheet view';
@@ -229,4 +233,17 @@ class EventType {
 
   /// Push notification
   static const clickNotification = 'Click on push notification';
+
+  /// Time tracking
+  static const timeStartMarket = 'Time: Start -> Market';
+  static const timeStartInitFinished = 'Time: Start -> initFinished';
+  static const timeStartConfig = 'Time: Start -> config';
+  static const timeSignalRCheckIF = 'Time: signalR start -> check initFinished';
+  static const timeSignalRReceiveIF =
+      'Time: signalR start -> receive initFinished';
+  static const initFinishedOnMarket = 'initFinished received on market screen';
+  static const initFinished = 'initFinished received';
+  static const remoteConfig = 'remoteConfig received';
+  static const remoteConfigError = 'remoteConfig error';
+
 }

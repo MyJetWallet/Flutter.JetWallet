@@ -9,6 +9,7 @@ import 'package:simple_networking/services/swap/model/get_quote/get_quote_reques
 import '../../../../../shared/constants.dart';
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../helpers/currencies_helpers.dart';
 import '../../../helpers/formatting/formatting.dart';
 import '../../../helpers/is_buy_with_currency_available_for.dart';
 import '../../../helpers/supports_recurring_buy.dart';
@@ -115,6 +116,8 @@ class _ActionBuy extends HookWidget {
     final state = useProvider(actionSearchNotipod);
     final intl = useProvider(intlPod);
 
+    sortByBalanceAndWeight(state.filteredCurrencies);
+
     void _onItemTap(CurrencyModel currency, bool fromCard) {
       sAnalytics.buyView(
         Source.quickActions,
@@ -217,7 +220,7 @@ class _ActionBuy extends HookWidget {
                   currency.symbol,
                   currency.dayPercentChange,
                   () => _onItemTap(currency, fromCard),
-                  isLast: currency == state.buyFromCardCurrencies.last,
+                  isLast: currency == state.filteredCurrencies.last,
                 ),
             ] else ...[
               marketItem(
@@ -234,7 +237,7 @@ class _ActionBuy extends HookWidget {
                 currency.symbol,
                 currency.dayPercentChange,
                 () => _onItemTap(currency, fromCard),
-                isLast: currency == state.buyFromCardCurrencies.last,
+                isLast: currency == state.filteredCurrencies.last,
               ),
             ]
         ],

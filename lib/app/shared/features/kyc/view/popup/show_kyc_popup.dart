@@ -7,12 +7,12 @@ void showKycPopup({
   Function()? onSecondaryButtonTap,
   Widget? child,
   bool activePrimaryButton = true,
+  SWidgetSize size = SWidgetSize.medium,
   required BuildContext context,
   required String primaryText,
   required String secondaryText,
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
-
 }) {
   sShowAlertPopup(
     context,
@@ -29,5 +29,6 @@ void showKycPopup({
     onPrimaryButtonTap: onPrimaryButtonTap,
     onSecondaryButtonTap: onSecondaryButtonTap,
     activePrimaryButton: activePrimaryButton,
+    size: size,
   );
 }

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
+import '../../../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/components/bottom_tabs/bottom_tabs.dart';
 import '../../../shared/components/bottom_tabs/components/bottom_tab.dart';
@@ -27,11 +28,17 @@ class Market extends HookWidget {
     final indices = useProvider(marketIndicesPod);
     final gainers = useProvider(marketGainersPod);
     final losers = useProvider(marketLosersPod);
+    final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
     final marketTabsLength = _marketTabsLength(
       gainers.isEmpty,
       losers.isEmpty,
       indices.isEmpty,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await timeTrackerN.updateMarketOpened();
+      await timeTrackerN.isFinishedOnMarketCheck();
+    });
 
     return Scaffold(
       body: DefaultTabController(

@@ -136,6 +136,12 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     state = state.copyWith(emailConfirmed: emailConfirmed);
   }
 
+  void updateChatClosed() {
+    _logger.log(notifier, 'chatClosedOnThisSession');
+
+    state = state.copyWith(chatClosedOnThisSession: true);
+  }
+
   void updatePhoneConfirmed({required bool phoneConfirmed}) {
     _logger.log(notifier, 'updatePhoneConfirmed');
 

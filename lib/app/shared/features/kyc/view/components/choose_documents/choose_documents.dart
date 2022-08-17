@@ -140,6 +140,7 @@ class ChooseDocuments extends HookWidget {
                 final status = await Permission.camera.request();
 
                 if (status == PermissionStatus.granted) {
+                  sAnalytics.kycCameraAllowed();
                   UploadKycDocuments.push(
                     context: context,
                   );
