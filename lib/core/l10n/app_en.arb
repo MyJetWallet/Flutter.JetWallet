@@ -1035,5 +1035,6 @@
     "currencyBuy_morePaymentMethod": "More payment methods",
     "previewBuyWithUmlimint_disclaimer": "I have read, understand and agree to",
     "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
-    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy"
+    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
+    "previewBuyWithUmlimint_saveCard": "Save this card"
 }

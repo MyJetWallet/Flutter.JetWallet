@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -206,6 +207,8 @@ class PreviewBuyWithUnlimintNotifier
       final actionRequired =
           response.status == CardBuyPaymentStatus.requireAction;
 
+      log('${response.status}');
+      log('${response.clientAction}');
       if (pending ||
           (actionRequired && lastAction == response.clientAction!.checkoutUrl)
       ) {
@@ -236,6 +239,7 @@ class PreviewBuyWithUnlimintNotifier
       _showFailureScreen(error.cause);
     } catch (error) {
       _logger.log(stateFlow, '_requestPaymentInfo', error);
+      log('$error');
 
       _showFailureScreen(_intl.something_went_wrong);
     }
@@ -249,6 +253,10 @@ class PreviewBuyWithUnlimintNotifier
       then: () {
         read(navigationStpod).state = 1;
       },
+      time: 5,
+      showActionButton: true,
+      buttonText: _intl.previewBuyWithUmlimint_saveCard,
+      showProgressBar: true,
     );
   }
 
