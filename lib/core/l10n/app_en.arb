@@ -1033,7 +1033,8 @@
     "curencyBuy_unlimint": "Bank Card",
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "More payment methods",
-    "previewBuyWithUmlimint_disclaimer": "I have read, understand and agree to",
+    "previewBuyWithUmlimint_disclaimer": "I have read and agreed to",
     "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
-    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy"
+    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
+    "previewBuyWithUmlimint_skipWait": "Skip waiting"
 }
