@@ -45,9 +45,10 @@ void sShowSlideAlertPopup(
   required SWidgetSize size,
 }) {
   final widgetSizeSmall = size == SWidgetSize.small;
+  final useSmallSizes = Platform.isAndroid || widgetSizeSmall;
   final alerts = [
     Dialog(
-      insetPadding: (Platform.isAndroid || widgetSizeSmall)
+      insetPadding: useSmallSizes
           ? const EdgeInsets.symmetric(
               horizontal: 6,
               vertical: 24.0,
@@ -65,7 +66,10 @@ void sShowSlideAlertPopup(
           child: Column(
             children: [
               topSpacer1 ??
-                  (widgetSizeSmall ? const SpaceH18() : const SpaceH62()),
+                  (widgetSizeSmall
+                      ? const SpaceH18()
+                      : Platform.isAndroid ? const SpaceH32()
+                      :  const SpaceH62()),
               if (image != null)
                 image
               else
@@ -98,12 +102,12 @@ void sShowSlideAlertPopup(
                   ),
                 ),
               if (isNeedPrimaryButton) ...[
-                if (widgetSizeSmall)
+                if (useSmallSizes)
                   const SpaceH22()
                 else
                   const SpaceH36(),
               ] else ...[
-                if (widgetSizeSmall)
+                if (useSmallSizes)
                   const SpaceH10()
                 else
                   const SpaceH20(),
@@ -170,7 +174,10 @@ void sShowSlideAlertPopup(
         child: Column(
           children: [
             topSpacer1 ??
-                (widgetSizeSmall ? const SpaceH18() : const SpaceH62()),
+                (widgetSizeSmall
+                    ? const SpaceH18()
+                    : Platform.isAndroid ? const SpaceH32()
+                    :  const SpaceH62()),
             if (image1 != null)
               image1
             else
@@ -203,12 +210,12 @@ void sShowSlideAlertPopup(
                 ),
               ),
             if (isNeedPrimaryButton1) ...[
-              if (widgetSizeSmall)
+              if (useSmallSizes)
                 const SpaceH22()
               else
                 const SpaceH36(),
             ] else ...[
-              if (widgetSizeSmall)
+              if (useSmallSizes)
                 const SpaceH10()
               else
                 const SpaceH20(),
