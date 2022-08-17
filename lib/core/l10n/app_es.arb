@@ -956,7 +956,7 @@
     "emailConfirmation_cancel": "Cancelar",
     "previewBuyWithCircle_transactionFee": "Comisión de la operación",
     "previewBuyWithCircle_rate": "Tasa de cambio",
-    "recurringBuys_recurring_pl_prefix": "Compras recurrentes",
+    "recurringBuys_recurring_pl_prefix": "",
     "transactionItem_cancel_cancel": "Cancelar transferencia",
     "cancel_transfer_dialog_btn_gotIt": "Entendido",
     "cancel_transfer_dialog_text": "La transferencia ha sido cancelada",
