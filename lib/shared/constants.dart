@@ -72,7 +72,3 @@ const earnRipple = 'Ripple';
 
 // Item of asset selected
 const itemSelected = 'itemSelected';
-
-// Biometric
-const bioFaceId = 'assets/images/face_id.png';
-const bioTouchId = 'assets/images/touch_id.png';

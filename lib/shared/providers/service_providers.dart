@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-
 // ignore: depend_on_referenced_packages
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,19 +17,16 @@ import 'package:simple_networking/services/info/service/info_service.dart';
 import 'package:simple_networking/services/key_value/key_value_service.dart';
 import 'package:simple_networking/services/kyc/service/kyc_service.dart';
 import 'package:simple_networking/services/kyc_documents/kyc_documents_service.dart';
-import 'package:simple_networking/services/kyc_profile/kyc_profile_service.dart';
 import 'package:simple_networking/services/market_info/market_info_service.dart';
 import 'package:simple_networking/services/market_news/market_news_service.dart';
 import 'package:simple_networking/services/news/news_service.dart';
 import 'package:simple_networking/services/notification/service/notification_service.dart';
 import 'package:simple_networking/services/operation_history/operation_history_service.dart';
 import 'package:simple_networking/services/phone_verification/service/phone_verification_service.dart';
-import 'package:simple_networking/services/pin/pin_service.dart';
 import 'package:simple_networking/services/profile/service/profile_service.dart';
 import 'package:simple_networking/services/recurring_manage/recurring_manage_service.dart';
 import 'package:simple_networking/services/referral_code_service/service/referral_code_service.dart';
 import 'package:simple_networking/services/remote_config/service/remote_config_service.dart';
-import 'package:simple_networking/services/session_chek/session_check_service.dart';
 import 'package:simple_networking/services/signal_r/service/signal_r_service.dart';
 import 'package:simple_networking/services/simplex/service/simplex_service.dart';
 import 'package:simple_networking/services/swap/service/swap_service.dart';
@@ -288,20 +284,4 @@ final highYieldServicePod = Provider<HighYieldService>((ref) {
   final dio = ref.watch(dioPod);
 
   return HighYieldService(dio);
-});
-
-final checkSessionServicePod = Provider<SessionCheckService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return SessionCheckService(dio);
-});
-final kycProfileServicePod = Provider<KycProfileService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return KycProfileService(dio);
-});
-final pinServicePod = Provider<PinService>((ref) {
-  final dio = ref.watch(dioPod);
-
-  return PinService(dio);
 });

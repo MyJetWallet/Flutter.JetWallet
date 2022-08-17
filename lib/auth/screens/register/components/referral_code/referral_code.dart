@@ -8,7 +8,7 @@ import 'components/invalid_referral_code.dart';
 import 'components/loading_referral_code.dart';
 import 'components/no_referral_code.dart';
 import 'components/show_referral_code_link.dart';
-import 'components/valid_referral_code_inside.dart';
+import 'components/valid_referral_code.dart';
 
 class ReferralCode extends HookWidget {
   const ReferralCode({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class ReferralCode extends HookWidget {
                 return const LoadingReferralCode();
               },
               valid: () {
-                return ValidReferralCodeInside(
+                return ValidReferralCode(
                   referralCode: state.referralCode,
                 );
               },

@@ -9,7 +9,6 @@ class ActionBottomSheetHeader extends HookWidget {
   const ActionBottomSheetHeader({
     Key? key,
     this.showSearch = false,
-    this.removePadding = false,
     this.onChanged,
     required this.name,
   }) : super(key: key);
@@ -17,7 +16,6 @@ class ActionBottomSheetHeader extends HookWidget {
   final String name;
   final Function(String)? onChanged;
   final bool showSearch;
-  final bool removePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +23,7 @@ class ActionBottomSheetHeader extends HookWidget {
 
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: removePadding ? 0 : 24),
+        SPaddingH24(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

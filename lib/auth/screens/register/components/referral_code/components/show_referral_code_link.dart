@@ -8,7 +8,7 @@ import '../../../../../../shared/providers/service_providers.dart';
 import '../../../notifier/referral_code_link_notipod.dart';
 import 'invalid_referral_code.dart';
 import 'loading_referral_code.dart';
-import 'valid_referral_code_inside.dart';
+import 'valid_referral_code.dart';
 
 void showReferralCode(BuildContext context) {
   final intl = context.read(intlPod);
@@ -39,7 +39,7 @@ class _ReferralCodeBottom extends HookWidget {
     return Column(
       children: [
         SPaddingH24(
-          child: SPrimaryButton4(
+          child: SPrimaryButton2(
             active: state.enableContinueButton,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
@@ -66,8 +66,8 @@ class _ReferralCodeLinkBody extends HookWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: MediaQuery.of(context).size.height -
-            MediaQuery.of(context).viewInsets.bottom -
-            140,
+          MediaQuery.of(context).viewInsets.bottom -
+          140,
       ),
       child: ColoredBox(
         color: colors.grey5,
@@ -119,7 +119,7 @@ class _ReferralCodeLinkBody extends HookWidget {
                         return Column(
                           children: const [
                             SpaceH24(),
-                            ValidReferralCodeInside(),
+                            ValidReferralCode(),
                             SpaceH10(),
                           ],
                         );

@@ -42,12 +42,6 @@ class SimplePrimaryButtonExample extends StatelessWidget {
                 name: 'Primary',
                 onTap: () {},
               ),
-              const SpaceH20(),
-              SPrimaryButton4(
-                active: false,
-                name: 'Primary',
-                onTap: () {},
-              ),
             ],
           ),
         ),
