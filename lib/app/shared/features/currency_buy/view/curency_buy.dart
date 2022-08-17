@@ -397,7 +397,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       primaryButtonName: intl.actionBuy_goToKYC,
                       onPrimaryButtonTap: () {
                         kycAlertHandler.handle(
-                          status: kycState.depositStatus,
+                          status: kycState.withdrawalStatus,
                           kycVerified: kycState,
                           isProgress: kycState.verificationInProgress,
                           currentNavigate: () {},
@@ -407,6 +407,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       onSecondaryButtonTap: () {
                         Navigator.pop(context);
                       },
+                      size: widgetSizeFrom(deviceSize),
                     );
                   },
                   child: Row(

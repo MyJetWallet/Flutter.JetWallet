@@ -43,10 +43,11 @@ void showDepositDisclaimer({
     primaryButtonName1: intl.actionBuy_goToKYC,
     onPrimaryButtonTap1: () {
       kycAlertHandler.handle(
-        status: kycState.depositStatus,
+        status: kycState.withdrawalStatus,
         kycVerified: kycState,
         isProgress: kycState.verificationInProgress,
         currentNavigate: () {},
+        size: size,
       );
     },
     secondaryButtonName1: intl.actionBuy_gotIt,

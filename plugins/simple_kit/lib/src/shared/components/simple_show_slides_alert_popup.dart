@@ -44,114 +44,117 @@ void sShowSlideAlertPopup(
   required Widget slidesControllers,
   required SWidgetSize size,
 }) {
+  final widgetSizeSmall = size == SWidgetSize.small;
   final alerts = [
-    Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Dialog(
-          insetPadding: (Platform.isAndroid || size == SWidgetSize.small)
-              ? const EdgeInsets.symmetric(
-                  horizontal: 6,
-                  vertical: 24.0,
-                )
-              : const EdgeInsets.symmetric(horizontal: 6),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.0),
+    Dialog(
+      insetPadding: (Platform.isAndroid || widgetSizeSmall)
+          ? const EdgeInsets.symmetric(
+              horizontal: 6,
+              vertical: 24.0,
+            )
+          : const EdgeInsets.symmetric(horizontal: 6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24.0),
+      ),
+      child: SizedBox(
+        height: 468,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
           ),
-          child: SizedBox(
-            height: 468,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
-              child: Column(
-                children: [
-                  topSpacer ?? const SpaceH62(),
-                  if (image != null)
-                    image
-                  else
-                    Image.asset(
-                      ellipsisAsset,
-                      height: 80,
-                      width: 80,
-                      package: 'simple_kit',
-                    ),
-                  Baseline(
-                    baseline: 40.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      primaryText,
-                      maxLines: (secondaryText != null) ? 5 : 12,
-                      textAlign: TextAlign.center,
-                      style: sTextH5Style.copyWith(
-                        overflow: TextOverflow.visible,
-                      ),
-                    ),
+          child: Column(
+            children: [
+              topSpacer1 ??
+                  (widgetSizeSmall ? const SpaceH18() : const SpaceH62()),
+              if (image != null)
+                image
+              else
+                Image.asset(
+                  ellipsisAsset,
+                  height: 80,
+                  width: 80,
+                  package: 'simple_kit',
+                ),
+              Baseline(
+                baseline: 40.0,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  primaryText,
+                  maxLines: (secondaryText != null) ? 5 : 12,
+                  textAlign: TextAlign.center,
+                  style: sTextH5Style.copyWith(
+                    overflow: TextOverflow.visible,
                   ),
-                  const SpaceH7(),
-                  if (secondaryText != null)
-                    Text(
-                      secondaryText,
-                      maxLines: 6,
-                      textAlign: TextAlign.center,
-                      style: sBodyText1Style.copyWith(
-                        color: SColorsLight().grey1,
-                      ),
-                    ),
-                  if (isNeedPrimaryButton) ...[
-                    const SpaceH36(),
-                  ] else ...[
-                    const SpaceH20(),
-                  ],
-                  if (child != null) child,
-                  const Spacer(),
-                  if (isNeedPrimaryButton) ...[
-                    if (primaryButtonType == SButtonType.primary1)
-                      SPrimaryButton1(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      )
-                    else if (primaryButtonType == SButtonType.primary2)
-                      SPrimaryButton2(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      )
-                    else
-                      SPrimaryButton3(
-                        name: primaryButtonName,
-                        active: activePrimaryButton,
-                        onTap: () => onPrimaryButtonTap(),
-                      ),
-                    if (onSecondaryButtonTap != null &&
-                        secondaryButtonName != null) ...[
-                      const SpaceH10(),
-                      STextButton1(
-                        name: secondaryButtonName,
-                        active: true,
-                        onTap: () => onSecondaryButtonTap(),
-                      ),
-                    ],
-                  ],
-                  if (isNeedCancelButton) ...[
-                    const SpaceH10(),
-                    STextButton1(
-                      active: true,
-                      name: cancelText ?? '',
-                      onTap: () => onCancelButtonTap!(),
-                    ),
-                  ],
-                  const SpaceH20(),
-                ],
+                ),
               ),
-            ),
+              const SpaceH7(),
+              if (secondaryText != null)
+                Text(
+                  secondaryText,
+                  maxLines: 6,
+                  textAlign: TextAlign.center,
+                  style: sBodyText1Style.copyWith(
+                    color: SColorsLight().grey1,
+                  ),
+                ),
+              if (isNeedPrimaryButton) ...[
+                if (widgetSizeSmall)
+                  const SpaceH22()
+                else
+                  const SpaceH36(),
+              ] else ...[
+                if (widgetSizeSmall)
+                  const SpaceH10()
+                else
+                  const SpaceH20(),
+              ],
+              if (child != null) child,
+              const Spacer(),
+              if (isNeedPrimaryButton) ...[
+                if (primaryButtonType == SButtonType.primary1)
+                  SPrimaryButton1(
+                    name: primaryButtonName,
+                    active: activePrimaryButton,
+                    onTap: () => onPrimaryButtonTap(),
+                  )
+                else if (primaryButtonType == SButtonType.primary2)
+                  SPrimaryButton2(
+                    name: primaryButtonName,
+                    active: activePrimaryButton,
+                    onTap: () => onPrimaryButtonTap(),
+                  )
+                else
+                  SPrimaryButton3(
+                    name: primaryButtonName,
+                    active: activePrimaryButton,
+                    onTap: () => onPrimaryButtonTap(),
+                  ),
+                if (onSecondaryButtonTap != null &&
+                    secondaryButtonName != null) ...[
+                  const SpaceH10(),
+                  STextButton1(
+                    name: secondaryButtonName,
+                    active: true,
+                    onTap: () => onSecondaryButtonTap(),
+                  ),
+                ],
+              ],
+              if (isNeedCancelButton) ...[
+                const SpaceH10(),
+                STextButton1(
+                  active: true,
+                  name: cancelText ?? '',
+                  onTap: () => onCancelButtonTap!(),
+                ),
+              ],
+              const SpaceH20(),
+            ],
           ),
         ),
-      ],
+      ),
     ),
     Dialog(
-      insetPadding: (Platform.isAndroid)
+      insetPadding: (Platform.isAndroid || size == SWidgetSize.small)
           ? const EdgeInsets.symmetric(
               horizontal: 6,
               vertical: 24.0,
@@ -166,7 +169,8 @@ void sShowSlideAlertPopup(
         ),
         child: Column(
           children: [
-            topSpacer1 ?? const SpaceH62(),
+            topSpacer1 ??
+                (widgetSizeSmall ? const SpaceH18() : const SpaceH62()),
             if (image1 != null)
               image1
             else
@@ -199,9 +203,15 @@ void sShowSlideAlertPopup(
                 ),
               ),
             if (isNeedPrimaryButton1) ...[
-              const SpaceH36(),
+              if (widgetSizeSmall)
+                const SpaceH22()
+              else
+                const SpaceH36(),
             ] else ...[
-              const SpaceH20(),
+              if (widgetSizeSmall)
+                const SpaceH10()
+              else
+                const SpaceH20(),
             ],
             if (child1 != null) child1,
             const Spacer(),

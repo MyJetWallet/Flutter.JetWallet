@@ -87,16 +87,18 @@ class CryptoDeposit extends HookWidget {
               primaryButtonName: intl.actionBuy_goToKYC,
               onPrimaryButtonTap: () {
                 kycAlertHandler.handle(
-                  status: kycState.depositStatus,
+                  status: kycState.withdrawalStatus,
                   kycVerified: kycState,
                   isProgress: kycState.verificationInProgress,
                   currentNavigate: () {},
+                  size: widgetSizeFrom(deviceSize),
                 );
               },
               secondaryButtonName: intl.actionBuy_gotIt,
               onSecondaryButtonTap: () {
                 Navigator.pop(context);
               },
+              size: widgetSizeFrom(deviceSize),
             );
           },
           child: Row(
