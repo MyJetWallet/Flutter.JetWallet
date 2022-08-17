@@ -3,9 +3,11 @@ import 'package:logging/logging.dart';
 
 import 'model/change_pin/change_pin_response_model.dart';
 import 'model/check_pin/check_pin_response_model.dart';
+import 'model/reset_pin/reset_pin_response_model.dart';
 import 'model/setup_pin/setup_pin_response_model.dart';
 import 'services/change_pin_service.dart';
 import 'services/check_pin_service.dart';
+import 'services/reset_pin_service.dart';
 import 'services/setup_pin_service.dart';
 
 class PinService {
@@ -42,6 +44,14 @@ class PinService {
     return setupPinService(
       dio,
       pin,
+      localeName,
+    );
+  }
+  Future<ResetPinResponseModel> resetPin(
+    String localeName,
+  ) {
+    return resetPinService(
+      dio,
       localeName,
     );
   }
