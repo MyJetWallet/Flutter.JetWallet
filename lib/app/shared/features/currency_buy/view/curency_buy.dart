@@ -22,6 +22,8 @@ import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../card_limits/notifier/card_limits_notipod.dart';
+import '../../kyc/model/kyc_operation_status_model.dart';
+import '../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../../payment_methods/view/components/card_limit.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../helper/formatted_circle_card.dart';
@@ -69,6 +71,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     final cardLimit = useProvider(cardLimitsNotipod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
+    );
+
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
@@ -380,14 +387,55 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               ),
               const Spacer(),
-              RecurringSelector(
-                oneTimePurchaseOnly: state.isOneTimePurchaseOnly,
-                currentSelection: state.recurringBuyType,
-                onSelect: (selection) {
-                  notifier.updateRecurringBuyType(selection);
-                  Navigator.pop(context);
-                },
-              ),
+              if (kycState.withdrawalStatus !=
+                  kycOperationStatus(KycStatus.allowed)) ...[
+                GestureDetector(
+                  onTap: () {
+                    sShowAlertPopup(
+                      context,
+                      primaryText: intl.actionBuy_alertPopup,
+                      primaryButtonName: intl.actionBuy_goToKYC,
+                      onPrimaryButtonTap: () {
+                        kycAlertHandler.handle(
+                          status: kycState.withdrawalStatus,
+                          kycVerified: kycState,
+                          isProgress: kycState.verificationInProgress,
+                          currentNavigate: () {},
+                        );
+                      },
+                      secondaryButtonName: intl.actionBuy_gotIt,
+                      onSecondaryButtonTap: () {
+                        Navigator.pop(context);
+                      },
+                      size: widgetSizeFrom(deviceSize),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SErrorIcon(
+                        color: colors.green,
+                      ),
+                      const SpaceW10(),
+                      Text(
+                        intl.actionBuy_kycRequired,
+                        style: sCaptionTextStyle.copyWith(
+                          color: colors.grey2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ] else ...[
+                RecurringSelector(
+                  oneTimePurchaseOnly: state.isOneTimePurchaseOnly,
+                  currentSelection: state.recurringBuyType,
+                  onSelect: (selection) {
+                    notifier.updateRecurringBuyType(selection);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
               deviceSize.when(
                 small: () => const SpaceH8(),
                 medium: () => const SpaceH16(),

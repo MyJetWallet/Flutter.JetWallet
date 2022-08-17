@@ -57,7 +57,7 @@ class _ActionDeposit extends HookWidget {
           ),
           for (final currency in fiat)
             SWalletItem(
-              removeDivider: currency.symbol == crypto.last.symbol,
+              removeDivider: currency.symbol == fiat.last.symbol,
               icon: SNetworkSvg24(
                 url: currency.iconUrl,
               ),

@@ -9,15 +9,18 @@ import '../../../core/stage/logs_screen/view/logs_screen.dart';
 import '../../../shared/components/loaders/loader.dart';
 import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/helpers/show_plain_snackbar.dart';
+import '../../../shared/helpers/widget_size_from.dart';
 import '../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../shared/notifiers/logout_notifier/logout_union.dart';
 import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../shared/providers/device_size/device_size_pod.dart';
 import '../../../shared/providers/flavor_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../shared/features/about_us/about_us.dart';
 import '../../shared/features/account_security/view/account_security.dart';
 import '../../shared/features/debug_info/debug_info.dart';
+import '../../shared/features/kyc/model/kyc_operation_status_model.dart';
 import '../../shared/features/kyc/notifier/kyc/kyc_notipod.dart';
 import '../../shared/features/payment_methods/view/payment_methods.dart';
 import '../../shared/features/profile_details/view/profile_details.dart';
@@ -45,6 +48,7 @@ class Account extends HookWidget {
     final userInfo = useProvider(userInfoNotipod);
     final showPaymentMethods = useProvider(showPaymentsMethodsPod);
     final cardFailed = useProvider(bottomNavigationNotipod);
+    final deviceSize = useProvider(deviceSizePod);
 
     final colors = useProvider(sColorPod);
 
@@ -127,12 +131,21 @@ class Account extends HookWidget {
                             kycState.requiredVerifications.length,
                             Source.accountBanner,
                           );
+                          final isDepositAllow = kycState.depositStatus ==
+                              kycOperationStatus(KycStatus.kycRequired);
+                          final isWithdrawalAllow = kycState.withdrawalStatus ==
+                              kycOperationStatus(KycStatus.kycRequired);
 
                           kycAlertHandler.handle(
-                            status: kycState.depositStatus,
+                            status: isDepositAllow
+                                ? kycState.depositStatus
+                                : isWithdrawalAllow
+                                ? kycState.withdrawalStatus
+                                : kycState.sellStatus,
                             kycVerified: kycState,
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () {},
+                            size: widgetSizeFrom(deviceSize),
                           );
                         },
                       ),

@@ -19,10 +19,14 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
     Key? key,
     required this.currency,
     required this.scrollController,
+    this.showAlert = false,
+    this.alert,
   }) : super(key: key);
 
   final CurrencyModel currency;
   final ScrollController scrollController;
+  final bool showAlert;
+  final Widget? alert;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +83,8 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
                 data: deposit.address,
                 qrBoxSize: qrBoxSize,
                 logoSize: logoSize,
+                showAlert: showAlert,
+                alert: alert,
               ),
               const SpaceH17(),
             ],
@@ -113,6 +119,8 @@ class CryptoDepositWithAddressAndTag extends HookWidget {
                 data: deposit.tag!,
                 qrBoxSize: qrBoxSize,
                 logoSize: logoSize,
+                showAlert: showAlert,
+                alert: alert,
               ),
             ],
           ),
