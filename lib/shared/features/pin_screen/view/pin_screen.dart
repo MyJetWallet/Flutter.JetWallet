@@ -84,7 +84,7 @@ class PinScreen extends HookWidget {
               newPin: () {
                 return SAuthHeader(
                   title: pinN.screenDescription(),
-                  progressValue: 80,
+                  progressValue: 100,
                   onBackButtonTap: () {
                     onbackButton!();
                   },
