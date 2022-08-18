@@ -197,13 +197,13 @@ class BottomNavigationMenu extends HookWidget {
         },
         onReceive: () {
           sAnalytics.receiveClick(source: 'S Menu');
-          if (kycState.withdrawalStatus ==
+          if (kycState.depositStatus ==
               kycOperationStatus(KycStatus.allowed)) {
             showReceiveAction(context);
           } else {
             Navigator.of(context).pop();
             kycAlertHandler.handle(
-              status: kycState.withdrawalStatus,
+              status: kycState.depositStatus,
               kycVerified: kycState,
               isProgress: kycState.verificationInProgress,
               currentNavigate: () => showReceiveAction(context),
