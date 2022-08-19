@@ -6,9 +6,11 @@ class ProgressBar extends StatefulHookWidget {
   const ProgressBar({
     Key? key,
     required this.time,
+    required this.colors,
   }) : super(key: key);
 
   final int time;
+  final SimpleColors colors;
 
   @override
   State<ProgressBar> createState() => _ProgressBarState();
@@ -26,6 +28,7 @@ class _ProgressBarState extends State<ProgressBar>
     )..addListener(() {
       setState(() {});
     });
+    controller.repeat();
     super.initState();
   }
 
@@ -38,11 +41,10 @@ class _ProgressBarState extends State<ProgressBar>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SPaddingH24(
-        child: LinearProgressIndicator(
-          value: controller.value,
-          semanticsLabel: 'Linear progress indicator',
-        ),
+      body: LinearProgressIndicator(
+        value: controller.value,
+        backgroundColor: widget.colors.grey4,
+        valueColor: AlwaysStoppedAnimation<Color>(widget.colors.black),
       ),
     );
   }

@@ -9,6 +9,8 @@ import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/circle/model/delete_card/delete_card_request_model.dart';
 import 'package:simple_networking/services/key_value/model/key_value_request_model.dart';
 import 'package:simple_networking/services/key_value/model/key_value_response_model.dart';
+import 'package:simple_networking/services/signal_r/model/cards_model.dart';
+import 'package:simple_networking/services/unlimint/model/delete_unlimint_card_request_model.dart';
 
 import '../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
 import '../../../../../shared/constants.dart';
@@ -23,6 +25,7 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
   PaymentMethodsNotifier(
     this.read,
     this.cardsIds,
+    this.cards,
   ) : super(const PaymentMethodsState()) {
     _context = read(sNavigatorKeyPod).currentContext!;
     getCards();
@@ -30,6 +33,7 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
 
   final Reader read;
   final List<String> cardsIds;
+  final CardsModel cards;
   late BuildContext _context;
 
   static final _logger = Logger('PaymentMethodsNotifier');
@@ -43,7 +47,7 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
       final response = await read(circleServicePod).allCards();
 
       state = state.copyWith(
-        cards: response.cards,
+        cards: cards.cardInfos,
       );
 
       final cardsFailing = response.cards.where(
@@ -69,20 +73,29 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
     state = state.copyWith(union: union);
   }
 
-  Future<void> deleteCard(String cardId) async {
+  Future<void> deleteCard(CircleCard card) async {
     _logger.log(notifier, 'deleteCard');
 
     final intl = read(intlPod);
 
     try {
-      final model = DeleteCardRequestModel(cardId: cardId);
 
-      await read(circleServicePod).deleteCard(
-        model,
-        intl.localeName,
-      );
+      if (card.integration == IntegrationType.circle ||
+          card.integration == null) {
+        final model = DeleteCardRequestModel(cardId: card.id);
+        await read(circleServicePod).deleteCard(
+          model,
+          intl.localeName,
+        );
+      } else if (card.integration == IntegrationType.unlimint) {
+        final model = DeleteUnlimintCardRequestModel(cardId: card.id);
+        await read(unlimintServicePod).deleteUnlimintCard(
+          model,
+          intl.localeName,
+        );
+      }
 
-      _deleteCardFromCardsBy(cardId);
+      _deleteCardFromCardsBy(card.id);
     } catch (e) {
       final intl = read(intlPod);
 

@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,6 +16,7 @@ class SuccessScreen extends HookWidget {
   const SuccessScreen({
     Key? key,
     this.onSuccess,
+    this.onActionButton,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
@@ -30,6 +28,7 @@ class SuccessScreen extends HookWidget {
 
   // Triggered when SuccessScreen is done
   final Function(BuildContext)? onSuccess;
+  final Function()? onActionButton;
   final String? primaryText;
   final String? secondaryText;
   final String? buttonText;
@@ -41,6 +40,7 @@ class SuccessScreen extends HookWidget {
   static void push({
     Key? key,
     Function()? then,
+    Function()? onActionButton,
     Function(BuildContext)? onSuccess,
     String? primaryText,
     String? secondaryText,
@@ -51,19 +51,11 @@ class SuccessScreen extends HookWidget {
     String? buttonText,
     required BuildContext context,
   }) {
-    log('+++++++++');
-    log('$onSuccess');
-    log('$primaryText');
-    log('$secondaryText');
-    log('$specialTextWidget');
-    log('$showActionButton');
-    log('$showProgressBar');
-    log('$buttonText');
-    log('$time');
     navigatorPush(
       context,
       SuccessScreen(
         onSuccess: onSuccess,
+        onActionButton: onActionButton,
         primaryText: primaryText,
         secondaryText: secondaryText,
         specialTextWidget: specialTextWidget,
@@ -81,18 +73,8 @@ class SuccessScreen extends HookWidget {
     final deviceSize = useProvider(deviceSizePod);
     final colors = useProvider(sColorPod);
     final intl = useProvider(intlPod);
-    final showBottomSpace = (Platform.isAndroid ||
-        widgetSizeFrom(deviceSize) == SWidgetSize.small) &&
-        (showProgressBar || showActionButton);
-    log('------------');
-    log('$onSuccess');
-    log('$primaryText');
-    log('$secondaryText');
-    log('$specialTextWidget');
-    log('$showActionButton');
-    log('$showProgressBar');
-    log('$buttonText');
-    log('$time');
+    final showBottomSpace = showProgressBar || showActionButton;
+    final shouldPop = useState(true);
 
     return WillPopScope(
       onWillPop: () {
@@ -102,7 +84,7 @@ class SuccessScreen extends HookWidget {
         provider: timerNotipod(time),
         onChange: (context, value) {
           if (value == 0) {
-            if (onSuccess == null) {
+            if (onSuccess == null && shouldPop.value) {
               navigateToRouter(context.read);
             } else {
               onSuccess?.call(context);
@@ -143,30 +125,40 @@ class SuccessScreen extends HookWidget {
                       ),
                     ),
                   if (specialTextWidget != null) specialTextWidget!,
-                  Positioned(
-                    bottom: 24,
-                    child: Column(
-                      children: [
-                        if (showProgressBar)
-                          const ProgressBar(time: 5),
-                        if (showActionButton)
-                          SSecondaryButton1(
-                            active: true,
-                            name: intl.previewBuyWithUmlimint_saveCard,
-                            icon: Container(
-                              margin: const EdgeInsets.only(
-                                top: 32,
-                              ),
-                              child: SActionBuyIcon(
-                                color: colors.black,
-                              ),
-                            ),
-                            onTap: () {},
+                  const Spacer(),
+                  Column(
+                    children: [
+                      if (showProgressBar) ...[
+                        SizedBox(
+                          height: 2,
+                          width: MediaQuery.of(context).size.width,
+                          child: ProgressBar(
+                            time: 5,
+                            colors: colors,
                           ),
-                        if (showBottomSpace)
-                          const SpaceH24(),
+                        ),
+                        const SpaceH24(),
                       ],
-                    ),
+                      if (showActionButton)
+                        SSecondaryButton1(
+                          active: true,
+                          name: intl.previewBuyWithUmlimint_saveCard,
+                          icon: Container(
+                            margin: const EdgeInsets.only(
+                              top: 32,
+                            ),
+                            child: SActionBuyIcon(
+                              color: colors.black,
+                            ),
+                          ),
+                          onTap: () {
+                            shouldPop.value = false;
+                            onActionButton?.call();
+                          },
+                        ),
+                      if (showBottomSpace)
+                        const SpaceH24(),
+                    ],
                   ),
                 ],
               ),

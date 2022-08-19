@@ -33,7 +33,12 @@ import '../../helper/formatted_circle_card.dart';
 import 'currency_buy_state.dart';
 
 class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
-  CurrencyBuyNotifier(this.read, this.currencyModel, this.lastUsedPaymentMethod)
+  CurrencyBuyNotifier(
+      this.read,
+      this.currencyModel,
+      this.lastUsedPaymentMethod,
+      this.unlimintCards,
+  )
       : super(CurrencyBuyState(loader: StackLoaderNotifier())) {
     _initCurrencies();
     _initBaseCurrency();
@@ -43,6 +48,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   final Reader read;
   final CurrencyModel currencyModel;
   final String? lastUsedPaymentMethod;
+  final List<CircleCard> unlimintCards;
 
   static final _logger = Logger('CurrencyBuyNotifier');
 
@@ -62,6 +68,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   }
 
   void _initCardLimit() {
+    state = state.copyWith(unlimintCards: unlimintCards);
     final cardLimit = read(cardLimitsNotipod);
     state = state.copyWith(
       cardLimit: cardLimit.cardLimits,
@@ -235,12 +242,16 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     updateRecurringBuyType(type ?? RecurringBuysType.oneTimePurchase);
   }
 
-  void updateSelectedPaymentMethod(PaymentMethod? method) {
+  void updateSelectedPaymentMethod(PaymentMethod? method,
+      {
+        bool isLocalUse = false,
+      }) {
     _logger.log(notifier, 'updateSelectedPaymentMethod');
 
     state = state.copyWith(
       selectedCurrency: null,
       selectedPaymentMethod: method,
+      pickedUnlimintCard: isLocalUse ? state.pickedUnlimintCard : null,
     );
 
     if (method?.type == PaymentMethodType.simplex ||
@@ -271,6 +282,19 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       selectedCircleCard: formattedCircleCard(card, state.baseCurrency!),
     );
     updateSelectedPaymentMethod(method.first);
+  }
+
+  void updateSelectedUnlimintCard(CircleCard card) {
+    _logger.log(notifier, 'updateSelectedUnlimintCard');
+
+    final method = currencyModel.buyMethods.where((method) {
+      return method.type == PaymentMethodType.unlimintCard;
+    });
+
+    state = state.copyWith(
+      pickedUnlimintCard: card,
+    );
+    updateSelectedPaymentMethod(method.first, isLocalUse: true);
   }
 
   void tapPreset(String presetName) {
