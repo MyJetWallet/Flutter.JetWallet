@@ -163,9 +163,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               cardLimit: cardLimit.cardLimits!,
               small: true,
             ),
-          if (widget.currency.buyMethods.length == 1 &&
-              state.selectedPaymentMethod?.type ==
-                  PaymentMethodType.simplex) ...[
+          if (state.selectedPaymentMethod?.type ==
+            PaymentMethodType.simplex) ...[
             SActionItem(
               isSelected: true,
               expanded: true,
@@ -184,9 +183,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             ),
             const SpaceH10(),
           ],
-          if (widget.currency.buyMethods.length == 1 &&
-              state.selectedPaymentMethod?.type ==
-                  PaymentMethodType.unlimintCard && state.unlimintCards.isEmpty
+          if (state.selectedPaymentMethod?.type ==
+            PaymentMethodType.unlimintCard && state.pickedUnlimintCard == null
           ) ...[
             SActionItem(
               isSelected: true,
@@ -466,6 +464,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                           kycVerified: kycState,
                           isProgress: kycState.verificationInProgress,
                           currentNavigate: () {},
+                          kycFlowOnly: true,
                         );
                       },
                       secondaryButtonName: intl.actionBuy_gotIt,

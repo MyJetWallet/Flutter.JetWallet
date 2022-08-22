@@ -161,7 +161,7 @@ class PreviewBuyWithUnlimintNotifier
       final model = CardBuyExecuteRequestModel(
         paymentId: state.paymentId,
         paymentMethod: CirclePaymentMethod.unlimint,
-        circlePaymentData: CirclePaymentDataExecuteModel(
+        unlimintPaymentData: UnlimintPaymentDataExecuteModel(
           cardId: input.card?.id,
         ),
       );

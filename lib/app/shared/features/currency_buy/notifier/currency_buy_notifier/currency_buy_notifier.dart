@@ -158,6 +158,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       if (buyMethods.where((element) => element.type ==
           PaymentMethodType.unlimintCard,).isNotEmpty &&
           lastUsedPaymentMethod == '"unlimintCard"') {
+        if (state.unlimintCards.isNotEmpty) {
+          return updateSelectedUnlimintCard(state.unlimintCards[0]);
+        }
         return updateSelectedPaymentMethod(buyMethods.where(
               (element) => element.type == PaymentMethodType.unlimintCard,
         ).first,);
@@ -212,6 +215,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       if (buyMethods.where((element) => element.type ==
           PaymentMethodType.unlimintCard,).isNotEmpty &&
           lastUsedPaymentMethod == '"unlimintCard"') {
+        if (state.unlimintCards.isNotEmpty) {
+          return updateSelectedUnlimintCard(state.unlimintCards[0]);
+        }
         return updateSelectedPaymentMethod(buyMethods.where(
               (element) => element.type == PaymentMethodType.unlimintCard,
         ).first,);
