@@ -238,7 +238,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     final intl = read(intlPod);
     try {
       await read(pinServicePod).checkPin(intl.localeName, state.confrimPin);
-      await _animateCorrect();
+      await _animateCorrect(isConfirm: true);
       await _userInfoN.setPin(state.confrimPin);
       read(startupNotipod.notifier).pinSet();
     } on ServerRejectException catch (error) {
@@ -294,8 +294,14 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     Navigator.pop(_context);
   }
 
-  Future<void> _animateCorrect() async {
-    _updatePinBoxState(PinBoxEnum.correct);
+  Future<void> _animateCorrect({
+    bool isConfirm = false,
+  }) async {
+    if (isConfirm) {
+      _updatePinBoxState(PinBoxEnum.success);
+    } else {
+      _updatePinBoxState(PinBoxEnum.correct);
+    }
     await _waitToShowAnimation(pinBoxErrorDuration);
     _updatePinBoxState(PinBoxEnum.empty);
   }
