@@ -23,8 +23,6 @@ import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confi
 import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
 import '../../auth/screens/single_sign_in/sing_in.dart';
-import '../../router/notifier/startup_notifier/authorized_union.dart';
-import '../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../helpers/firebase_analytics.dart';
 import '../helpers/launch_url.dart';
 import '../helpers/navigator_push.dart';
@@ -191,11 +189,9 @@ class DeepLinkService {
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
-    if (read(startupNotipod).authorized is EmailVerification) {
-      final notifier = read(emailVerificationNotipod.notifier);
+    final notifier = read(emailVerificationNotipod.notifier);
 
-      notifier.updateCode(parameters[_code]);
-    }
+    notifier.updateCode(parameters[_code]);
   }
 
   void _loginCommand(Map<String, String> parameters) {
