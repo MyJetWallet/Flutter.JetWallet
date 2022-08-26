@@ -67,16 +67,14 @@ class WaitingScreen extends HookWidget {
           if (specialTextWidget != null) specialTextWidget!,
           if (wasAction) ...[
             const Spacer(),
-            SPaddingH24(
-              child: SSecondaryButton1(
-                active: true,
-                name: intl.previewBuyWithUmlimint_skipWait,
-                onTap: () {
-                  onSkip();
-                  navigateToRouter(context.read);
-                  navigation.state = 1;
-                },
-              ),
+            SSecondaryButton1(
+              active: true,
+              name: intl.previewBuyWithUmlimint_skipWait,
+              onTap: () {
+                onSkip();
+                navigateToRouter(context.read);
+                navigation.state = 1;
+              },
             ),
             const SpaceH24(),
           ],

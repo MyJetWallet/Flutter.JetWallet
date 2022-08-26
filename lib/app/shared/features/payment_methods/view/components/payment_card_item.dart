@@ -76,10 +76,13 @@ class PaymentCardItem extends HookWidget {
                             ),
                           ),
                           const SpaceW10(),
-                          SIconButton(
-                            onTap: onDelete,
-                            defaultIcon: const SDeleteIcon(),
-                          )
+                          Container(
+                            transform: Matrix4.translationValues(9, 0, 0),
+                            child: SIconButton(
+                              onTap: onDelete,
+                              defaultIcon: const SDeleteIcon(),
+                            ),
+                          ),
                         ],
                       ),
                       Row(

@@ -48,6 +48,7 @@ void showDepositDisclaimer({
         isProgress: kycState.verificationInProgress,
         currentNavigate: () {},
         size: size,
+        kycFlowOnly: true,
       );
     },
     secondaryButtonName1: intl.actionBuy_gotIt,

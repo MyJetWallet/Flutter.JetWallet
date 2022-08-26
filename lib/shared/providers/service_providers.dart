@@ -36,6 +36,7 @@ import 'package:simple_networking/services/simplex/service/simplex_service.dart'
 import 'package:simple_networking/services/swap/service/swap_service.dart';
 import 'package:simple_networking/services/transfer/service/transfer_service.dart';
 import 'package:simple_networking/services/two_fa/service/two_fa_service.dart';
+import 'package:simple_networking/services/unlimint/service/unlimint_service.dart';
 import 'package:simple_networking/services/validation/service/validation_service.dart';
 import 'package:simple_networking/services/wallet/service/wallet_service.dart';
 
@@ -246,6 +247,15 @@ final circleServicePod = Provider<CircleService>(
     return CircleService(dio);
   },
   name: 'circleServicePod',
+);
+
+final unlimintServicePod = Provider<UnlimintService>(
+  (ref) {
+    final dio = ref.watch(dioPod);
+
+    return UnlimintService(dio);
+  },
+  name: 'unlimintServicePod',
 );
 
 final cardBuyServicePod = Provider<CardBuyService>(

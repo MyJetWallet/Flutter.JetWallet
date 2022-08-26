@@ -128,7 +128,7 @@ class PaymentMethods extends HookWidget {
                           onDelete: () async {
                             loader.value.startLoading();
                             Navigator.pop(context);
-                            await notifier.deleteCard(card.id);
+                            await notifier.deleteCard(card);
                             loader.value.finishLoading();
                           },
                         ),

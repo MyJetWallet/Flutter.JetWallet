@@ -102,6 +102,6 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       tabsLength--;
     }
 
-    return tabsLength;
+    return tabsLength == 2 ? 1 : tabsLength;
   }
 }
