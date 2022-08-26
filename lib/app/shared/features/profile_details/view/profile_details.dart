@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
@@ -19,6 +20,7 @@ class ProfileDetails extends HookWidget {
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
     final userInfo = useProvider(userInfoNotipod);
+    final authInfo = useProvider(authInfoNotipod);
 
     final infoImage = Image.asset(
       phoneChangeAsset,
@@ -38,7 +40,7 @@ class ProfileDetails extends HookWidget {
         children: [
           SProfileDetailsButton(
             label: intl.profileDetails_email,
-            value: userInfo.email,
+            value: authInfo.email,
             onTap: () {},
           ),
           if (userInfo.isPhoneNumberSet)
