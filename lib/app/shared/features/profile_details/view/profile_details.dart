@@ -5,14 +5,12 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../delete_profile/view/delete_profile.dart';
 import '../../phone_verification/view/phone_verification.dart';
 import '../../set_phone_number/view/set_phone_number.dart';
-import 'components/change_password/change_password.dart';
 
 class ProfileDetails extends HookWidget {
   const ProfileDetails({Key? key}) : super(key: key);
@@ -42,32 +40,6 @@ class ProfileDetails extends HookWidget {
             label: intl.profileDetails_email,
             value: userInfo.email,
             onTap: () {},
-          ),
-          SProfileDetailsButton(
-            label: intl.profileDetails_changePassword,
-            value: '• • • • • • • • • • •',
-            onTap: () {
-              sAnalytics.accountChangePassword();
-              sAnalytics.accountChangePasswordWarning();
-              sShowAlertPopup(
-                context,
-                willPopScope: false,
-                primaryText: intl.profileDetails_payAttention,
-                secondaryText: '${intl.profileDetails_changePasswordAlert} '
-                    '$changePasswordLockHours ${intl.hours}.',
-                primaryButtonName: intl.profileDetails_continue,
-                image: infoImage,
-                onPrimaryButtonTap: () {
-                  sAnalytics.accountChangePasswordContinue();
-                  navigatorPushReplacement(context, const ChangePassword());
-                },
-                secondaryButtonName: intl.profileDetails_cancel,
-                onSecondaryButtonTap: () {
-                  sAnalytics.accountChangePasswordCancel();
-                  Navigator.pop(context);
-                },
-              );
-            },
           ),
           if (userInfo.isPhoneNumberSet)
             SProfileDetailsButton(

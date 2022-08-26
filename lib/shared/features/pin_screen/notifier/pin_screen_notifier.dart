@@ -211,11 +211,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   }
 
   Future<void> _newPinFlow() async {
-    final intl = read(intlPod);
     try {
-      await read(pinServicePod).setupPin(intl.localeName, state.newPin);
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
+      _resetPin();
     } on ServerRejectException catch (error) {
       await _errorFlow();
       if (error.cause == 'PinCodeAlreadyExist') {
@@ -237,16 +236,20 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   Future<void> _confirmPinFlow() async {
     final intl = read(intlPod);
     try {
-      await read(pinServicePod).checkPin(intl.localeName, state.confrimPin);
-      await _animateCorrect(isConfirm: true);
-      await _userInfoN.setPin(state.confrimPin);
-      read(startupNotipod.notifier).pinSet();
-    } on ServerRejectException catch (error) {
-      _updateConfirmPin('');
-      read(sNotificationNotipod.notifier).showError(
-        error.cause,
-        id: 1,
-      );
+      if (state.newPin == state.confrimPin) {
+        await read(pinServicePod).setupPin(intl.localeName, state.newPin);
+        await _animateCorrect(isConfirm: true);
+        await _userInfoN.setPin(state.confrimPin);
+        read(startupNotipod.notifier).pinSet();
+      } else {
+        _updateScreenUnion(const NewPin());
+        await _animateError();
+        _resetPin();
+      }
+    } on ServerRejectException {
+      _updateScreenUnion(const NewPin());
+      await _animateError();
+      _resetPin();
     } catch (e) {
       await _errorFlow();
       read(sNotificationNotipod.notifier).showError(

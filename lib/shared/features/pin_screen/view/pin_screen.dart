@@ -95,7 +95,7 @@ class PinScreen extends HookWidget {
         ),
         child: Column(
           children: [
-            Spacer(flex: displayHeader?1:2,),
+            Spacer(flex: displayHeader ? 1 : 2),
             ShakeWidget(
               key: pin.shakePinKey,
               shakeDuration: pinBoxErrorDuration,
