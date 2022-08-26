@@ -21,6 +21,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     Decimal? targetConversionPrice,
     BaseCurrencyModel? baseCurrency,
     CircleCard? pickedCircleCard,
+    CircleCard? pickedUnlimintCard,
     FormattedCircleCard? selectedCircleCard,
     PaymentMethod? selectedPaymentMethod,
     CurrencyModel? selectedCurrency,
@@ -35,6 +36,7 @@ class CurrencyBuyState with _$CurrencyBuyState {
     @Default(false) bool inputValid,
     @Default([]) List<CurrencyModel> currencies,
     @Default([]) List<CircleCard> circleCards,
+    @Default([]) List<CircleCard> unlimintCards,
     @Default(InputError.none) InputError inputError,
     required StackLoaderNotifier loader,
   }) = _CurrencyBuyState;

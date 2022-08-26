@@ -92,6 +92,7 @@ class CryptoDeposit extends HookWidget {
                   isProgress: kycState.verificationInProgress,
                   currentNavigate: () {},
                   size: widgetSizeFrom(deviceSize),
+                  kycFlowOnly: true,
                 );
               },
               secondaryButtonName: intl.actionBuy_gotIt,

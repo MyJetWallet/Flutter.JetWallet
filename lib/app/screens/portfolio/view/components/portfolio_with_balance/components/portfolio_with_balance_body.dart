@@ -147,6 +147,12 @@ class PortfolioWithBalanceBody extends HookWidget {
       }
       return const SDepositTotalIcon();
     }
+    final isCryptoVisible = cryptosWithBalance.isNotEmpty &&
+        (indicesWithBalance.isNotEmpty || fiatsWithBalance.isNotEmpty);
+    final isFiatVisible = fiatsWithBalance.isNotEmpty &&
+        (indicesWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
+    final isIndicesVisible = indicesWithBalance.isNotEmpty &&
+        (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
 
     return CustomScrollView(
       controller: scrollController,
@@ -437,7 +443,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                               ),
                           ],
                         ),
-                        if (cryptosWithBalance.isNotEmpty)
+                        if (isCryptoVisible)
                           ListView(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
@@ -514,7 +520,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 ),
                             ],
                           ),
-                        if (indicesWithBalance.isNotEmpty)
+                        if (isIndicesVisible)
                           ListView(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
@@ -610,7 +616,7 @@ class PortfolioWithBalanceBody extends HookWidget {
                                 ),
                             ],
                           ),
-                        if (fiatsWithBalance.isNotEmpty)
+                        if (isFiatVisible)
                           ListView(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,

@@ -4,9 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../app/screens/navigation/view/navigation.dart';
 import '../../app/shared/features/disclaimer/notifier/disclaimer_notipod.dart';
+import '../../auth/screens/biometric/biometric.dart';
 import '../../auth/screens/email_verification/view/email_verification.dart';
 import '../../auth/screens/onboarding/onboarding_screen.dart';
+import '../../auth/screens/single_sign_in/sing_in.dart';
 import '../../auth/screens/splash/splash_screen.dart';
+import '../../auth/screens/user_data/user_data_screen.dart';
 import '../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -74,6 +77,18 @@ class AppRouter extends HookWidget {
       },
       unauthorized: () {
         return const OnboardingScreen();
+      },
+      userDataVerification: () {
+        if (userInfo.hasDisclaimers) {
+          useProvider(disclaimerNotipod);
+        }
+        return const UserDataScreen();
+      },
+      singleIn: () {
+        return const SingIn();
+      },
+      askBioUsing: () {
+        return const Biometric();
       },
     );
   }

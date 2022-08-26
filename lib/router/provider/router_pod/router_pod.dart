@@ -53,6 +53,15 @@ final routerPod = Provider<RouterUnion>(
                           home: () {
                             union = const RouterUnion.home();
                           },
+                          askBioUsing: () {
+                            union = const RouterUnion.askBioUsing();
+                          },
+                          userDataVerification: () {
+                            union = const RouterUnion.userDataVerification();
+                          },
+                          singleIn: () {
+                            union = const RouterUnion.singleIn();
+                          },
                         );
                       },
                       unauthorized: () {

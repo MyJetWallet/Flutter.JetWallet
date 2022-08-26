@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_kit/simple_kit.dart' as simple_kit;
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../helpers/remove_chars_from.dart';
@@ -14,6 +15,7 @@ import '../../../notifiers/user_info_notifier/user_info_notifier.dart';
 import '../../../notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../notifiers/user_info_notifier/user_info_state.dart';
 import '../../../providers/service_providers.dart';
+import '../../../services/local_storage_service.dart';
 import '../../../services/remote_config_service/remote_config_values.dart';
 import '../model/pin_box_enum.dart';
 import '../model/pin_flow_union.dart';
@@ -59,7 +61,8 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     await flowUnion.when(
       change: () async {
         await _initFlowThatStartsFromEnterPin(
-            intl.pinScreen_changePin, hideBio,
+          intl.pinScreen_changePin,
+          hideBio,
         );
       },
       disable: () async {
@@ -86,7 +89,11 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     _updateScreenUnion(const EnterPin());
     _updateScreenHeader(title);
     _updateHideBiometricButton(hideBio);
-    await updatePin(await _authenticateWithBio());
+    final storageService = read(localStorageServicePod);
+    final usingBio = await storageService.getValue(useBioKey);
+    if (usingBio == true.toString()) {
+      await updatePin(await _authenticateWithBio());
+    }
   }
 
   Future<void> updatePin(String value) async {
@@ -120,8 +127,8 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
       change: () {
         state.screenUnion.when(
           enterPin: () => _enterPinFlow(),
-          newPin: () => _newPinFlow(),
-          confirmPin: () => _confirmPinFlow(),
+          newPin: () => _changePinFlow(),
+          confirmPin: () => {},
         );
       },
       disable: () {
@@ -154,22 +161,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   }
 
   Future<void> _enterPinFlow() async {
-    if (state.enterPin != _userInfo.pin) {
-      await _errorFlow();
-      if (attemptsLeft > 1) {
-        attemptsLeft--;
-        read(sNotificationNotipod.notifier).showError(
-          'The PIN you entered is incorrect, $attemptsLeft attempts remaining.',
-        );
-      } else {
-        read(sNotificationNotipod.notifier).showError(
-          'Incorrect PIN has been entered more than $maxPinAttempts times, '
-          'you have been logged out of your account.',
-          duration: 5,
-        );
-        await read(logoutNotipod.notifier).logout();
-      }
-    } else {
+    final intl = read(intlPod);
+    try {
+      await read(pinServicePod).checkPin(intl.localeName, state.enterPin);
+
       await flowUnion.maybeWhen(
         disable: () async {
           await _userInfoN.disablePin();
@@ -187,32 +182,106 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
           _updateScreenUnion(const NewPin());
         },
       );
+    } on ServerRejectException catch (error) {
+      await _errorFlow();
+      if (error.cause == 'InvalidCode') {
+        if (attemptsLeft > 1) {
+          attemptsLeft--;
+          read(sNotificationNotipod.notifier).showError(
+            'The PIN you entered is incorrect,$attemptsLeft attempts remaining.'
+            ,
+          );
+        } else {
+          read(sNotificationNotipod.notifier).showError(
+            'Incorrect PIN has been entered more than $maxPinAttempts times, '
+            'you have been logged out of your account.',
+            duration: 5,
+          );
+          await read(logoutNotipod.notifier).logout();
+        }
+      } else {
+        read(sNotificationNotipod.notifier).showError(error.cause);
+      }
+    } catch (e) {
+      read(sNotificationNotipod.notifier).showError(
+        e.toString(),
+        id: 1,
+      );
     }
   }
 
   Future<void> _newPinFlow() async {
-    await _animateCorrect();
-    _updateScreenUnion(const ConfirmPin());
+    try {
+      await _animateCorrect();
+      _updateScreenUnion(const ConfirmPin());
+      _resetPin();
+    } on ServerRejectException catch (error) {
+      await _errorFlow();
+      if (error.cause == 'PinCodeAlreadyExist') {
+        read(sNotificationNotipod.notifier).showError(
+          error.cause,
+          id: 1,
+        );
+        _updateScreenUnion(const ConfirmPin());
+      }
+      read(sNotificationNotipod.notifier).showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (e) {
+      _updateNewPin('');
+    }
   }
 
   Future<void> _confirmPinFlow() async {
-    if (state.confrimPin != state.newPin) {
-      await _errorFlow();
-      _updateNewPin('');
+    final intl = read(intlPod);
+    try {
+      if (state.newPin == state.confrimPin) {
+        await read(pinServicePod).setupPin(intl.localeName, state.newPin);
+        await _animateCorrect(isConfirm: true);
+        await _userInfoN.setPin(state.confrimPin);
+        read(startupNotipod.notifier).pinSet();
+      } else {
+        _updateScreenUnion(const NewPin());
+        await _animateError();
+        _resetPin();
+      }
+    } on ServerRejectException {
       _updateScreenUnion(const NewPin());
-    } else {
-      await flowUnion.maybeWhen(
-        setup: () async {
-          await _animateSuccess();
-          await _userInfoN.setPin(state.confrimPin);
-          read(startupNotipod.notifier).pinSet();
-        },
-        orElse: () async {
-          await _successFlow(
-            _userInfoN.setPin(state.confrimPin),
-          );
-        },
+      await _animateError();
+      _resetPin();
+    } catch (e) {
+      await _errorFlow();
+      read(sNotificationNotipod.notifier).showError(
+        e.toString(),
+        id: 1,
       );
+      await _errorFlow();
+      _updateConfirmPin('');
+    }
+  }
+
+  Future<void> _changePinFlow() async {
+    final intl = read(intlPod);
+    try {
+      await read(pinServicePod).changePin(
+        intl.localeName,
+        state.enterPin,
+        state.newPin,
+      );
+      await _animateCorrect();
+      await _userInfoN.setPin(state.newPin);
+      _updateNewPin('');
+      await _successFlow(
+        _userInfoN.setPin(state.newPin),
+      );
+    } on ServerRejectException catch (error) {
+      read(sNotificationNotipod.notifier).showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (e) {
+      _updateNewPin('');
     }
   }
 
@@ -228,8 +297,14 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     Navigator.pop(_context);
   }
 
-  Future<void> _animateCorrect() async {
-    _updatePinBoxState(PinBoxEnum.correct);
+  Future<void> _animateCorrect({
+    bool isConfirm = false,
+  }) async {
+    if (isConfirm) {
+      _updatePinBoxState(PinBoxEnum.success);
+    } else {
+      _updatePinBoxState(PinBoxEnum.correct);
+    }
     await _waitToShowAnimation(pinBoxErrorDuration);
     _updatePinBoxState(PinBoxEnum.empty);
   }
@@ -338,10 +413,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         return intl.pinScreen_enterYourPIN;
       },
       newPin: () {
-        return intl.pinScreen_setNewPin;
+        return intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
-        return intl.pinScreen_confirmNewPin;
+        return intl.pin_screen_confirm_newPin;
       },
     );
   }

@@ -20,6 +20,7 @@ const billingInformationKey = 'billingInformationKey';
 const firstInitAppCodeKey = 'firstInitAppCodeKey';
 const checkedCircle = 'circleWasChecked';
 const checkedUnlimint = 'unlimintWasChecked';
+const useBioKey = 'useBio';
 const startApp = 'startApp';
 const marketOpened = 'marketOpened';
 const signalRStarted = 'signalRStarted';

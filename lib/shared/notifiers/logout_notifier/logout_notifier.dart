@@ -24,9 +24,14 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
 
   static final _logger = Logger('LogoutNotifier');
 
-  Future<void> logout({bool withLoading = true}) async {
+  Future<void> logout({bool withLoading = true, bool resetPin = false}) async {
     _logger.log(notifier, 'logout');
-
+    if (resetPin) {
+      final intl = read(intlPod);
+      await read(pinServicePod).resetPin(
+        intl.localeName,
+      );
+    }
     try {
       if (withLoading) {
         state = const Loading();
