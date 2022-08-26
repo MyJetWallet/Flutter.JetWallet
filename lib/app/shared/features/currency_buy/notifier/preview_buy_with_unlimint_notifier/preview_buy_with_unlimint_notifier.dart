@@ -14,6 +14,7 @@ import 'package:simple_networking/services/card_buy/model/info/card_buy_info_req
 import 'package:simple_networking/services/card_buy/model/info/card_buy_info_response_model.dart';
 import 'package:simple_networking/services/key_value/model/key_value_request_model.dart';
 import 'package:simple_networking/services/key_value/model/key_value_response_model.dart';
+import 'package:simple_networking/services/unlimint/model/add_unlimint_card_request_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
 
 import '../../../../../../shared/components/result_screens/failure_screen/failure_screen.dart';
@@ -26,6 +27,7 @@ import '../../../../../../shared/providers/service_providers.dart';
 import '../../../../../../shared/services/local_storage_service.dart';
 import '../../../../../screens/navigation/provider/navigation_stpod.dart';
 import '../../../key_value/notifier/key_value_notipod.dart';
+import '../../../payment_methods/view/payment_methods.dart';
 import '../../model/preview_buy_with_unlimint_input.dart';
 import '../../view/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
 import 'preview_buy_with_unlimint_state.dart';
@@ -159,6 +161,9 @@ class PreviewBuyWithUnlimintNotifier
       final model = CardBuyExecuteRequestModel(
         paymentId: state.paymentId,
         paymentMethod: CirclePaymentMethod.unlimint,
+        unlimintPaymentData: UnlimintPaymentDataExecuteModel(
+          cardId: input.card?.id,
+        ),
       );
 
       await read(cardBuyServicePod).cardBuyExecutePayment(
@@ -205,6 +210,9 @@ class PreviewBuyWithUnlimintNotifier
       final failed = response.status == CardBuyPaymentStatus.fail;
       final actionRequired =
           response.status == CardBuyPaymentStatus.requireAction;
+      if (state.isWaitingSkipped) {
+        return;
+      }
 
       if (pending ||
           (actionRequired && lastAction == response.clientAction!.checkoutUrl)
@@ -212,20 +220,32 @@ class PreviewBuyWithUnlimintNotifier
         await Future.delayed(const Duration(seconds: 1));
         await _requestPaymentInfo(onAction, lastAction);
       } else if (complete) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (state.isWaitingSkipped) {
+          return;
+        }
         _showSuccessScreen();
       } else if (failed) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (state.isWaitingSkipped) {
+          return;
+        }
         throw Exception();
       } else if (actionRequired) {
         onAction(
           response.clientAction!.checkoutUrl ?? '',
           (payment, lastAction) {
             Navigator.pop(_context);
-            state.copyWith(paymentId: payment);
+            state = state.copyWith(
+              paymentId: payment,
+              wasAction: true,
+            );
             state.loader.startLoadingImmediately();
             _requestPaymentInfo(onAction, lastAction);
           },
           (payment) {
-            Navigator.pop(_context);
+            navigateToRouter(_context.read);
+            read(navigationStpod).state = 1;
           },
           state.paymentId,
         );
@@ -237,17 +257,33 @@ class PreviewBuyWithUnlimintNotifier
     } catch (error) {
       _logger.log(stateFlow, '_requestPaymentInfo', error);
 
-      _showFailureScreen(_intl.something_went_wrong);
+      if (!error.toString().contains('Bad state:')) {
+        _showFailureScreen(_intl.something_went_wrong);
+      }
     }
   }
 
   void _showSuccessScreen() {
+    final unlimintService = read(unlimintServicePod);
+    final model = AddUnlimintCardRequestModel(
+      buyPaymentId: state.paymentId,
+    );
     return SuccessScreen.push(
       context: _context,
       secondaryText: '${_intl.buyWithCircle_paymentWillBeProcessed} \n'
           ' ≈ 10-30 ${_intl.buyWithCircle_minutes}',
       then: () {
         read(navigationStpod).state = 1;
+      },
+      time: input.card != null ? 3 : 5,
+      showActionButton: input.card == null,
+      buttonText: _intl.previewBuyWithUmlimint_saveCard,
+      showProgressBar: input.card == null,
+      onActionButton: () async {
+        await unlimintService.addUnlimintCard(model, _intl.localeName);
+        if (!mounted) return;
+        navigateToRouter(_context.read);
+        PaymentMethods.push(_context);
       },
     );
   }
@@ -283,5 +319,9 @@ class PreviewBuyWithUnlimintNotifier
 
   void checkSetter() {
     state = state.copyWith(isChecked: !state.isChecked);
+  }
+
+  void skippedWaiting() {
+    state = state.copyWith(isWaitingSkipped: true);
   }
 }

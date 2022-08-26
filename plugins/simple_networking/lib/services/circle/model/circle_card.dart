@@ -15,6 +15,7 @@ class CircleCard with _$CircleCard {
     required int expMonth,
     required int expYear,
     required CircleCardStatus status,
+    IntegrationType? integration,
     required bool lastUsed,
     required CircleCardInfoPayment paymentDetails,
   }) = _CircleCard;
@@ -30,6 +31,13 @@ enum CircleCardStatus {
   complete,
   @JsonValue(2)
   failed,
+}
+
+enum IntegrationType {
+  @JsonValue(0)
+  circle,
+  @JsonValue(1)
+  unlimint,
 }
 
 enum CircleCardVerificationError {
@@ -48,9 +56,9 @@ enum CircleCardVerificationError {
 @freezed
 class CircleCardInfoPayment with _$CircleCardInfoPayment {
   const factory CircleCardInfoPayment({
-    required double feePercentage,
     @DecimalSerialiser() required Decimal minAmount,
     @DecimalSerialiser() required Decimal maxAmount,
+    @DecimalSerialiser() required Decimal feePercentage,
   }) = _CircleCardInfoPayment;
 
   factory CircleCardInfoPayment.fromJson(Map<String, dynamic> json) =>

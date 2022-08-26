@@ -32,6 +32,7 @@ class SStandardField extends ConsumerWidget {
     this.alignLabelWithHint = false,
     this.enabled = true,
     this.hideSpace = false,
+    this.hasManualError = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -48,6 +49,7 @@ class SStandardField extends ConsumerWidget {
   final String? initialValue;
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
+  final bool hasManualError;
   final bool disableErrorOnChanged;
   final bool enableInteractiveSelection;
   final bool hideClearButton;
@@ -90,6 +92,7 @@ class SStandardField extends ConsumerWidget {
         disableErrorOnChanged: disableErrorOnChanged,
         enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,
+        hasManualError: hasManualError,
       );
     } else {
       return SimpleLightStandardField(
@@ -117,6 +120,7 @@ class SStandardField extends ConsumerWidget {
         disableErrorOnChanged: disableErrorOnChanged,
         enableInteractiveSelection: enableInteractiveSelection,
         inputFormatters: inputFormatters,
+        hasManualError: hasManualError,
       );
     }
   }

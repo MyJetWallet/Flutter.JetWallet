@@ -51,7 +51,12 @@ class PreviewBuyWithUnlimint extends HookWidget {
 
     return SPageFrameWithPadding(
       loading: state.loader,
-      customLoader: state.isChecked ? const WaitingScreen() : null,
+      customLoader: state.isChecked ? WaitingScreen(
+        wasAction: state.wasAction,
+        onSkip: () {
+          notifier.skippedWaiting();
+        },
+      ) : null,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(
@@ -175,7 +180,7 @@ class PreviewBuyWithUnlimint extends HookWidget {
                             ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
                           betweenText: ', ',
                           privacyPolicyText:
-                          intl.previewBuyWithUmlimint_disclaimerPolicy,
+                          '${intl.previewBuyWithUmlimint_disclaimerPolicy}.',
                           onUserAgreementTap: () =>
                               launchURL(context, userAgreementLink),
                           onPrivacyPolicyTap: () =>

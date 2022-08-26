@@ -22,6 +22,8 @@ import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
 import '../../card_limits/notifier/card_limits_notipod.dart';
+import '../../kyc/model/kyc_operation_status_model.dart';
+import '../../kyc/notifier/kyc/kyc_notipod.dart';
 import '../../payment_methods/view/components/card_limit.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../helper/formatted_circle_card.dart';
@@ -69,6 +71,14 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
     final cardLimit = useProvider(cardLimitsNotipod);
     final state = useProvider(currencyBuyNotipod(widget.currency));
     final notifier = useProvider(currencyBuyNotipod(widget.currency).notifier);
+    final kycState = useProvider(kycNotipod);
+    final kycAlertHandler = useProvider(
+      kycAlertHandlerPod(context),
+    );
+
+    final unlimintIncludes = widget.currency.buyMethods.where(
+      (element) => element.type == PaymentMethodType.unlimintCard,
+    );
     useProvider(
       conversionPriceFpod(
         ConversionPriceInput(
@@ -153,9 +163,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               cardLimit: cardLimit.cardLimits!,
               small: true,
             ),
-          if (widget.currency.buyMethods.length == 1 &&
-              state.selectedPaymentMethod?.type ==
-                  PaymentMethodType.simplex) ...[
+          if (state.selectedPaymentMethod?.type ==
+            PaymentMethodType.simplex) ...[
             SActionItem(
               isSelected: true,
               expanded: true,
@@ -174,9 +183,9 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             ),
             const SpaceH10(),
           ],
-          if (widget.currency.buyMethods.length == 1 &&
-              state.selectedPaymentMethod?.type ==
-                  PaymentMethodType.unlimintCard) ...[
+          if (state.selectedPaymentMethod?.type ==
+            PaymentMethodType.unlimintCard && state.pickedUnlimintCard == null
+          ) ...[
             SActionItem(
               isSelected: true,
               expanded: true,
@@ -225,7 +234,61 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       ? intl.paymentMethod_CardIsProcessing
                       : formatted.expDate,
                     description: '',
-                    removeDivider: card.id == state.circleCards.last.id,
+                    removeDivider: card.id == state.circleCards.last.id &&
+                        !(state.unlimintCards.isNotEmpty &&
+                            unlimintIncludes.isNotEmpty),
+                    disabled: cardLimit.cardLimits?.barProgress == 100 ||
+                        isLimitBlock,
+                    onTap: () {
+                      if (cardLimit.cardLimits?.barProgress != 100 &&
+                          !isLimitBlock) {
+                        Navigator.pop(context, card);
+                      }
+                    },
+                  );
+                },
+              ),
+            const SpaceH10(),
+            if (!(state.unlimintCards.isNotEmpty &&
+                unlimintIncludes.isNotEmpty)) ...[
+              SDivider(
+                color: colors.grey3,
+              ),
+              const SpaceH10(),
+            ],
+          ],
+          if (state.unlimintCards.isNotEmpty &&
+              unlimintIncludes.isNotEmpty) ...[
+            for (final card in state.unlimintCards)
+              Builder(
+                builder: (context) {
+                  final formatted = formattedCircleCard(
+                    card,
+                    state.baseCurrency!,
+                  );
+
+                  return SCreditCardItem(
+                    lightDivider: true,
+                    isSelected: state.pickedUnlimintCard?.id == card.id &&
+                        state.selectedPaymentMethod?.type ==
+                            PaymentMethodType.unlimintCard,
+                    icon: SActionDepositIcon(
+                      color: (cardLimit.cardLimits?.barProgress == 100 ||
+                          isLimitBlock)
+                          ? colors.grey2
+                          : state.pickedUnlimintCard?.id == card.id &&
+                            state.selectedPaymentMethod?.type ==
+                              PaymentMethodType.unlimintCard
+                          ? colors.blue
+                          : colors.black,
+                    ),
+                    name: formatted.name,
+                    amount: formatted.last4Digits,
+                    helper: card.status == CircleCardStatus.pending
+                      ? intl.paymentMethod_CardIsProcessing
+                      : formatted.expDate,
+                    description: '',
+                    removeDivider: card.id == state.unlimintCards.last.id,
                     disabled: cardLimit.cardLimits?.barProgress == 100 ||
                         isLimitBlock,
                     onTap: () {
@@ -285,8 +348,8 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
           if (widget.currency.buyMethods.isNotEmpty && !(
               widget.currency.buyMethods.length == 1 &&
               (state.selectedPaymentMethod?.type == PaymentMethodType.simplex ||
-                state.selectedPaymentMethod?.type ==
-                  PaymentMethodType.unlimintCard)
+                (state.selectedPaymentMethod?.type ==
+                PaymentMethodType.unlimintCard && state.unlimintCards.isEmpty))
           )) ...[
             const SpaceH24(),
             SPaddingH24(
@@ -323,7 +386,10 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
         context: context,
         then: (value) {
           if (value is PaymentMethod) {
-            if (value != state.selectedPaymentMethod) {
+            if (value != state.selectedPaymentMethod ||
+                (value == state.selectedPaymentMethod && value.type ==
+                    PaymentMethodType.unlimintCard &&
+                    state.pickedUnlimintCard != null)) {
               notifier.updateSelectedPaymentMethod(value);
               notifier.resetValuesToZero();
             }
@@ -336,7 +402,11 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
               notifier.resetValuesToZero();
             }
           } else if (value is CircleCard) {
-            notifier.updateSelectedCircleCard(value);
+            if (value.integration == IntegrationType.unlimint) {
+              notifier.updateSelectedUnlimintCard(value);
+            } else {
+              notifier.updateSelectedCircleCard(value);
+            }
           }
         },
       );
@@ -380,14 +450,56 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 ),
               ),
               const Spacer(),
-              RecurringSelector(
-                oneTimePurchaseOnly: state.isOneTimePurchaseOnly,
-                currentSelection: state.recurringBuyType,
-                onSelect: (selection) {
-                  notifier.updateRecurringBuyType(selection);
-                  Navigator.pop(context);
-                },
-              ),
+              if (kycState.withdrawalStatus !=
+                  kycOperationStatus(KycStatus.allowed)) ...[
+                GestureDetector(
+                  onTap: () {
+                    sShowAlertPopup(
+                      context,
+                      primaryText: intl.actionBuy_alertPopup,
+                      primaryButtonName: intl.actionBuy_goToKYC,
+                      onPrimaryButtonTap: () {
+                        kycAlertHandler.handle(
+                          status: kycState.withdrawalStatus,
+                          kycVerified: kycState,
+                          isProgress: kycState.verificationInProgress,
+                          currentNavigate: () {},
+                          kycFlowOnly: true,
+                        );
+                      },
+                      secondaryButtonName: intl.actionBuy_gotIt,
+                      onSecondaryButtonTap: () {
+                        Navigator.pop(context);
+                      },
+                      size: widgetSizeFrom(deviceSize),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SErrorIcon(
+                        color: colors.green,
+                      ),
+                      const SpaceW10(),
+                      Text(
+                        intl.actionBuy_kycRequired,
+                        style: sCaptionTextStyle.copyWith(
+                          color: colors.grey2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ] else ...[
+                RecurringSelector(
+                  oneTimePurchaseOnly: state.isOneTimePurchaseOnly,
+                  currentSelection: state.recurringBuyType,
+                  onSelect: (selection) {
+                    notifier.updateRecurringBuyType(selection);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
               deviceSize.when(
                 small: () => const SpaceH8(),
                 medium: () => const SpaceH16(),
@@ -411,21 +523,42 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 )
               else if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.unlimintCard)
-                SPaymentSelectCreditCard(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  icon: SActionDepositIcon(
-                    color: (cardLimit.cardLimits?.barProgress == 100 ||
-                        isLimitBlock)
-                        ? colors.grey2
-                        : colors.black,
-                  ),
-                  name: intl.curencyBuy_unlimint,
-                  description: limitText,
-                  limit: isLimitBlock
-                      ? 100
-                      : cardLimit.cardLimits?.barProgress ?? 0,
-                  onTap: () => _showAssetSelector(),
-                )
+                if (state.pickedUnlimintCard != null)
+                  SPaymentSelectCreditCard(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    icon: SActionDepositIcon(
+                      color: (cardLimit.cardLimits?.barProgress == 100 ||
+                          isLimitBlock) ? colors.grey2 : colors.black,
+                    ),
+                    name: state.pickedUnlimintCard!.network,
+                    amount: state.pickedUnlimintCard!.last4,
+                    helper: limitText,
+                    description: state.pickedUnlimintCard?.status ==
+                        CircleCardStatus.pending
+                        ? intl.paymentMethod_CardIsProcessing
+                        : '${state.pickedUnlimintCard!.expMonth}/'
+                        '${state.pickedUnlimintCard!.expYear}',
+                    limit: isLimitBlock
+                        ? 100
+                        : cardLimit.cardLimits?.barProgress ?? 0,
+                    onTap: () => _showAssetSelector(),
+                  )
+                else
+                  SPaymentSelectCreditCard(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    icon: SActionDepositIcon(
+                      color: (cardLimit.cardLimits?.barProgress == 100 ||
+                          isLimitBlock)
+                          ? colors.grey2
+                          : colors.black,
+                    ),
+                    name: intl.curencyBuy_unlimint,
+                    description: limitText,
+                    limit: isLimitBlock
+                        ? 100
+                        : cardLimit.cardLimits?.barProgress ?? 0,
+                    onTap: () => _showAssetSelector(),
+                  )
               else if (state.selectedPaymentMethod?.type ==
                   PaymentMethodType.circleCard)
                 if (state.circleCards.isEmpty)
@@ -604,6 +737,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                         input: PreviewBuyWithUnlimintInput(
                           amount: state.inputValue,
                           currency: widget.currency,
+                          card: state.pickedUnlimintCard,
                         ),
                       ),
                     );

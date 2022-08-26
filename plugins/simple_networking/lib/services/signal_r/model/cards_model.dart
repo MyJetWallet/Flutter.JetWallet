@@ -11,7 +11,7 @@ part 'cards_model.g.dart';
 class CardsModel with _$CardsModel {
   const factory CardsModel({
     required double now,
-    required List<CardModel> cardInfos,
+    required List<CircleCard> cardInfos,
   }) = _CardsModel;
 
   factory CardsModel.fromJson(Map<String, dynamic> json) =>

@@ -23,6 +23,8 @@ class KycAlertHandler {
 
   void handle({
     bool navigatePop = false,
+    bool kycFlowOnly = false,
+    SWidgetSize size = SWidgetSize.medium,
     required Function() currentNavigate,
     required int status,
     required KycModel kycVerified,
@@ -33,9 +35,19 @@ class KycAlertHandler {
       return;
     }
 
+    if (kycFlowOnly) {
+      _navigateVerifiedNavigate(
+        kycVerified.requiredVerifications,
+        kycVerified.requiredDocuments,
+      );
+      return;
+    }
+
     if (status == kycOperationStatus(KycStatus.kycRequired)) {
       _showKycRequiredAlert(
         kycVerified,
+        status,
+        size,
       );
     } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
       _showVerifyingAlert();
@@ -52,6 +64,8 @@ class KycAlertHandler {
 
   void _showKycRequiredAlert(
     KycModel kycVerified,
+    int status,
+    SWidgetSize size,
   ) {
     final intl = context.read(intlPod);
     showKycPopup(
@@ -62,7 +76,7 @@ class KycAlertHandler {
           '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
       primaryButtonName: intl.kycAlertHandler_continue,
       secondaryButtonName: intl.kycAlertHandler_later,
-      activePrimaryButton: kycVerified.requiredVerifications.isNotEmpty,
+      activePrimaryButton: status == kycOperationStatus(KycStatus.kycRequired),
       onPrimaryButtonTap: () {
         Navigator.pop(context);
         _navigateVerifiedNavigate(
@@ -73,6 +87,7 @@ class KycAlertHandler {
       onSecondaryButtonTap: () {
         Navigator.pop(context);
       },
+      size: size,
       child: _showDocuments(kycVerified.requiredVerifications),
     );
   }
@@ -162,7 +177,9 @@ class KycAlertHandler {
       ChooseDocuments.push(
         context: context,
         headerTitle: stringRequiredVerified(
-          requiredVerifications.first,
+          requiredVerifications.isEmpty
+              ? RequiredVerified.proofOfIdentity
+              : requiredVerifications.first,
           context,
         ),
         documents: documents,

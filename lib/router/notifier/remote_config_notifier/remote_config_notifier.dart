@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/services/remote_config/models/remote_config_model.dart';
 import 'package:simple_networking/shared/api_urls.dart';
 
 import '../../../shared/logging/levels.dart';
+import '../../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
 import '../../../shared/providers/flavor_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import '../../../shared/services/remote_config_service/remote_config_values.dart';
@@ -52,6 +54,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
       //stopwatch.stop();
 
       final flavor = read(flavorPod);
+      final timeTrackerN = read(timeTrackingNotipod.notifier);
 
       var remoteConfigURL = '';
 
@@ -67,7 +70,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
         read(intlPod).localeName,
       )
           .then(
-        (value) {
+        (value) async {
           remoteConfig = value;
 
           overrideAppConfigValues();
@@ -82,6 +85,9 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
           state = const Success();
         },
       );
+
+      sAnalytics.remoteConfig();
+      await timeTrackerN.updateConfigReceived(DateTime.now());
 
       /*
       if (stopwatch.elapsedMilliseconds < _splashScreenDuration) {
@@ -99,6 +105,7 @@ class RemoteConfigNotifier extends StateNotifier<RemoteConfigUnion> {
       */
     } catch (e) {
       _logger.log(stateFlow, '_fetchAndActivate', e);
+      sAnalytics.remoteConfigError();
 
       state = const Loading();
 

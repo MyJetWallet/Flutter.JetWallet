@@ -9,6 +9,7 @@ String userWillreceive({
   required String amount,
   required CurrencyModel currency,
   required bool addressIsInternal,
+  required String network,
 }) {
   final value = Decimal.parse(amount);
 
@@ -16,7 +17,7 @@ String userWillreceive({
     return '$amount ${currency.symbol}';
   }
 
-  final fee = currency.withdrawalFeeSize;
+  final fee = currency.withdrawalFeeSize(network);
 
   if (value <= fee) {
     return '0 ${currency.symbol}';

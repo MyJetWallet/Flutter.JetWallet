@@ -19,9 +19,13 @@ class CryptoDepositWithAddress extends HookWidget {
   const CryptoDepositWithAddress({
     Key? key,
     required this.currency,
+    this.showAlert = false,
+    this.alert,
   }) : super(key: key);
 
   final CurrencyModel currency;
+  final bool showAlert;
+  final Widget? alert;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,8 @@ class CryptoDepositWithAddress extends HookWidget {
             data: deposit.address,
             qrBoxSize: qrCodeSize,
             logoSize: screenWidth * 0.2,
+            showAlert: showAlert,
+            alert: alert,
           ),
           const Spacer(),
           SAddressFieldWithCopy(

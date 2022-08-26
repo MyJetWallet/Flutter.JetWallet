@@ -10,7 +10,6 @@ import '../../../../../shared/components/bottom_tabs/components/bottom_tab.dart'
 import '../../../../market/provider/market_crypto_pod.dart';
 import '../../../../market/provider/market_currencies_indices_pod.dart';
 import '../../../../market/provider/market_fiats_pod.dart';
-import '../portfolio_header.dart';
 import 'components/portfolio_with_balance_body.dart';
 
 class PortfolioWithBalance extends StatefulHookWidget {
@@ -71,7 +70,6 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
         isFiatVisible || isIndicesVisible;
 
     return SPageFrame(
-      header: const PortfolioHeader(),
       bottomNavigationBar: BottomTabs(
         tabController: tabController,
         tabs: [

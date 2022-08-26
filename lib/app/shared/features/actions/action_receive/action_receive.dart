@@ -7,6 +7,7 @@ import 'package:simple_networking/services/signal_r/model/asset_model.dart';
 
 import '../../../../../shared/helpers/navigator_push_replacement.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import '../../../helpers/currencies_helpers.dart';
 import '../../crypto_deposit/view/crypto_deposit.dart';
 import '../helpers/show_currency_search.dart';
 import '../shared/components/action_bottom_sheet_header.dart';
@@ -43,6 +44,7 @@ class _ActionReceive extends HookWidget {
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
     final state = useProvider(actionSearchNotipod);
+    sortByBalanceAndWeight(state.filteredCurrencies);
 
     return Column(
       children: [
@@ -55,7 +57,7 @@ class _ActionReceive extends HookWidget {
                 ),
                 primaryText: currency.description,
                 secondaryText: currency.symbol,
-                removeDivider: currency == state.receiveCurrencies.last,
+                removeDivider: currency == state.filteredCurrencies.last,
                 onTap: () {
                   sAnalytics.receiveAssetView(asset: currency.description);
                   navigatorPushReplacement(
