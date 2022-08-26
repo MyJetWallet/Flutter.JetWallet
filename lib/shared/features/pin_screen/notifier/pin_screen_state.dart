@@ -23,7 +23,7 @@ class PinScreenState with _$PinScreenState {
     @Default('') String confrimPin,
 
     /// Where we currently are in the PIN flow
-    @Default(NewPin()) PinScreenUnion screenUnion,
+    @Default(EnterPin()) PinScreenUnion screenUnion,
 
     /// How to animate pinState
     @Default(PinBoxEnum.empty) PinBoxEnum pinState,
