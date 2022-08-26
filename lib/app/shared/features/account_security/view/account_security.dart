@@ -32,19 +32,20 @@ class AccountSecurity extends HookWidget {
             child: SecurityProtection(),
           ),
           const SpaceH40(),
-          SimpleAccountCategoryButton(
-            title: intl.accountSecurity_accountCategoryButtonTitle1,
-            icon: const SLockIcon(),
-            isSDivider: true,
-            onSwitchChanged: (value) {
-              if (userInfo.pinEnabled) {
-                PinScreen.push(context, const Disable());
-              } else {
-                PinScreen.push(context, const Enable());
-              }
-            },
-            switchValue: userInfo.pinEnabled,
-          ),
+          /// Temporary comment for release
+          // SimpleAccountCategoryButton(
+          //   title: intl.accountSecurity_accountCategoryButtonTitle1,
+          //   icon: const SLockIcon(),
+          //   isSDivider: true,
+          //   onSwitchChanged: (value) {
+          //     if (userInfo.pinEnabled) {
+          //       PinScreen.push(context, const Disable());
+          //     } else {
+          //       PinScreen.push(context, const Enable());
+          //     }
+          //   },
+          //   switchValue: userInfo.pinEnabled,
+          // ),
           if (userInfo.pinEnabled)
             SimpleAccountCategoryButton(
               title: intl.accountSecurity_changePin,

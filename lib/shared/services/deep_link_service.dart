@@ -22,11 +22,7 @@ import '../../app/shared/features/send_by_phone/notifier/send_by_phone_confirm_n
 import '../../app/shared/features/send_by_phone/view/screens/send_by_phone_confirm.dart';
 import '../../app/shared/models/currency_model.dart';
 import '../../auth/screens/email_verification/notifier/email_verification_notipod.dart';
-import '../../auth/screens/forgot_password/notifier/confirm_password_reset/confirm_password_reset_notipod.dart';
-import '../../auth/screens/forgot_password/view/confirm_password_reset.dart';
-import '../../auth/screens/login/login.dart';
-import '../../router/notifier/startup_notifier/authorized_union.dart';
-import '../../router/notifier/startup_notifier/startup_notipod.dart';
+import '../../auth/screens/single_sign_in/sing_in.dart';
 import '../helpers/firebase_analytics.dart';
 import '../helpers/launch_url.dart';
 import '../helpers/navigator_push.dart';
@@ -48,7 +44,6 @@ const _action = 'action';
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
 const _login = 'Login';
-const _forgotPassword = 'ForgotPassword';
 const _confirmWithdraw = 'VerifyWithdrawal';
 const _confirmSendByPhone = 'VerifyTransfer';
 const _inviteFriend = 'InviteFriend';
@@ -102,8 +97,6 @@ class DeepLinkService {
       _confirmEmailCommand(parameters);
     } else if (command == _login) {
       _loginCommand(parameters);
-    } else if (command == _forgotPassword) {
-      _forgotPasswordCommand(parameters);
     } else if (command == _confirmWithdraw) {
       _confirmWithdrawCommand(parameters);
     } else if (command == _confirmSendByPhone) {
@@ -196,11 +189,9 @@ class DeepLinkService {
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
-    if (read(startupNotipod).authorized is EmailVerification) {
-      final notifier = read(emailVerificationNotipod.notifier);
+    final notifier = read(emailVerificationNotipod.notifier);
 
-      notifier.updateCode(parameters[_code]);
-    }
+    notifier.updateCode(parameters[_code]);
   }
 
   void _loginCommand(Map<String, String> parameters) {
@@ -208,17 +199,13 @@ class DeepLinkService {
 
     navigatorPush(
       read(sNavigatorKeyPod).currentContext!,
-      Login(
+      SingIn(
         email: parameters[_email],
       ),
     );
   }
 
-  void _forgotPasswordCommand(Map<String, String> parameters) {
-    final notifier = read(confirmPasswordResetNotipod(email).notifier);
 
-    notifier.updateCode(parameters[_code]);
-  }
 
   void _confirmWithdrawCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;

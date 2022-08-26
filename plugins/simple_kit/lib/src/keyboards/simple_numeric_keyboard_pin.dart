@@ -18,11 +18,11 @@ final _biometricStatusFpod = FutureProvider.autoDispose<BiometricStatus>(
 /// BiometricButton.
 class SNumericKeyboardPin extends ConsumerWidget {
   const SNumericKeyboardPin({
-    this.hideBiometricButton,
+    this.hideBiometricButton = false,
     required this.onKeyPressed,
   });
 
-  final bool? hideBiometricButton;
+  final bool hideBiometricButton;
   final void Function(String) onKeyPressed;
 
   @override
@@ -32,21 +32,22 @@ class SNumericKeyboardPin extends ConsumerWidget {
     late Widget biometricIcon;
     late Widget biometricPressedIcon;
     late String biometricIconValue;
+    late bool biometricHide;
 
     biometricStatus.maybeWhen(
       data: (data) {
         biometricIcon = _iconBasedOnBiometricStatus(data);
         biometricPressedIcon = _iconPressedBasedOnBiometricStatus(data);
         biometricIconValue = _realValueOfBiometricButton(data);
+        biometricHide = _hideBiometricButton(data);
       },
       orElse: () {
         biometricIcon = const SizedBox();
         biometricPressedIcon = const SizedBox();
         biometricIconValue = '';
+        biometricHide = true;
       },
     );
-
-    bool _hideBiometricButton() => biometricIcon is SizedBox;
 
     return NumericKeyboardFrame(
       height: 354.0,
@@ -56,7 +57,7 @@ class SNumericKeyboardPin extends ConsumerWidget {
         icon1: biometricIcon,
         iconPressed1: biometricPressedIcon,
         realValue1: biometricIconValue,
-        hideIcon1: hideBiometricButton ?? _hideBiometricButton(),
+        hideIcon1: hideBiometricButton || biometricHide,
         frontKey2: zero,
         realValue2: zero,
         icon3: const SNumericKeyboardEraseIcon(),
@@ -67,6 +68,10 @@ class SNumericKeyboardPin extends ConsumerWidget {
       onKeyPressed: onKeyPressed,
     );
   }
+}
+
+bool _hideBiometricButton(BiometricStatus bioStatus) {
+  return bioStatus == BiometricStatus.none;
 }
 
 String _realValueOfBiometricButton(BiometricStatus bioStatus) {

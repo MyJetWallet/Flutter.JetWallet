@@ -6,9 +6,9 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:universal_io/io.dart';
 
 import '../../../../shared/components/pin_code_field.dart';
+import '../../../../shared/components/texts/resend_in_text.dart';
 import '../../../../shared/helpers/analytics.dart';
 import '../../../../shared/helpers/open_email_app.dart';
-import '../../../../shared/notifiers/logout_notifier/logout_notipod.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
@@ -18,6 +18,17 @@ import '../notifier/email_verification_state.dart';
 
 class EmailVerification extends StatefulHookWidget {
   const EmailVerification({Key? key}) : super(key: key);
+
+  static const routeName = '/email_verification';
+
+  static Future push({
+    required BuildContext context,
+  }) {
+    return Navigator.pushNamed(
+      context,
+      routeName,
+    );
+  }
 
   @override
   State<EmailVerification> createState() => _EmailVerificationState();
@@ -83,11 +94,9 @@ class _EmailVerificationState extends State<EmailVerification>
     final colors = useProvider(sColorPod);
     final timer = useProvider(timerNotipod(emailResendCountdown));
     final timerN = useProvider(timerNotipod(emailResendCountdown).notifier);
-    final logoutN = useProvider(logoutNotipod.notifier);
     final verification = useProvider(emailVerificationNotipod);
     final verificationN = useProvider(emailVerificationNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
-    final showResend = useState(authInfo.showResendButton);
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
@@ -118,89 +127,90 @@ class _EmailVerificationState extends State<EmailVerification>
           orElse: () {},
         );
       },
-      child: SPageFrameWithPadding(
+      child: SPageFrame(
         loading: loader.value,
-        header: SBigHeader(
+        header: SAuthHeader(
           title: intl.emailVerification_emailVerification,
-          onBackButtonTap: () => logoutN.logout(),
+          progressValue: 40,
         ),
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SpaceH7(),
-                  FittedBox(
-                    child: Text(
-                      intl.emailVerification_enterCode,
-                      style: sBodyText1Style.copyWith(
-                        color: colors.grey1,
+              child: SPaddingH24(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpaceH7(),
+                    FittedBox(
+                      child: Text(
+                        intl.emailVerification_enterCode,
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    authInfo.email,
-                    style: sBodyText1Style,
-                  ),
-                  const SpaceH17(),
-                  SClickableLinkText(
-                    text: intl.emailVerification_openEmail,
-                    onTap: () => openEmailApp(context),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                    onLongPress: () => verificationN.pasteCode(),
-                    onDoubleTap: () => verificationN.pasteCode(),
-                    onTap: () {
-                      focusNode.unfocus();
-
-                      Future.delayed(const Duration(microseconds: 100), () {
-                        if (!focusNode.hasFocus) {
-                          focusNode.requestFocus();
-                        }
-                      });
-                    },
-                    // AbsorbPointer needed to avoid TextField glitch onTap
-                    // when it's focused
-                    child: AbsorbPointer(
-                      child: PinCodeField(
-                        focusNode: focusNode,
-                        controller: verification.controller,
-                        length: emailVerificationCodeLength,
-                        onCompleted: (_) {
-                          loader.value.startLoading();
-                          verificationN.verifyCode();
-                        },
-                        autoFocus: true,
-                        onChanged: (_) {
-                          pinError.value.disableError();
-                        },
-                        pinError: pinError.value,
+                    Text(
+                      authInfo.email,
+                      style: sBodyText1Style,
+                    ),
+                    const SpaceH17(),
+                    SClickableLinkText(
+                      text: intl.emailVerification_openEmail,
+                      onTap: () => openEmailApp(context),
+                    ),
+                    const SpaceH62(),
+                    GestureDetector(
+                      onLongPress: () => verificationN.pasteCode(),
+                      onDoubleTap: () => verificationN.pasteCode(),
+                      onTap: () {
+                        focusNode.unfocus();
+                        Future.delayed(const Duration(microseconds: 100), () {
+                          if (!focusNode.hasFocus) {
+                            focusNode.requestFocus();
+                          }
+                        });
+                      },
+                      // AbsorbPointer needed to avoid TextField glitch onTap
+                      // when it's focused
+                      child: AbsorbPointer(
+                        child: PinCodeField(
+                          focusNode: focusNode,
+                          controller: verification.controller,
+                          length: emailVerificationCodeLength,
+                          onCompleted: (_) {
+                            loader.value.startLoadingImmediately();
+                            verificationN.verifyCode();
+                          },
+                          autoFocus: true,
+                          onChanged: (_) {
+                            pinError.value.disableError();
+                          },
+                          pinError: pinError.value,
+                        ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                  SResendButton(
-                    active: !verification.isResending,
-                    timer: showResend.value ? 0 : timer,
-                    onTap: () {
-                      verification.controller.clear();
-
-                      verificationN.resendCode(
-                        onSuccess: () {
+                    // const Spacer(),
+                    if (timer > 0 && !verification.isResending)
+                      ResendInText(
+                        text: '${intl.twoFaPhone_youCanResendIn} $timer'
+                            ' ${intl.twoFaPhone_seconds}',
+                      )
+                    else ...[
+                      ResendInText(
+                        text: '${intl.twoFaPhone_didntReceiveTheCode}?',
+                      ),
+                      STextButton1(
+                        active: true,
+                        name: intl.twoFaPhone_resend,
+                        onTap: () {
                           timerN.refreshTimer();
-                          showResend.value = false;
+                          verificationN.resendCode();
                         },
-                      );
-                    },
-                    text1: intl.emailVerification_youCanResendIn,
-                    text2: intl.emailVerification_seconds,
-                    text3: intl.emailVerification_didntReceiveTheCode,
-                    textResend: intl.emailVerification_resend,
-                  ),
-                  const SpaceH24(),
-                ],
+                      ),
+                    ],
+                    const SpaceH24(),
+                  ],
+                ),
               ),
             ),
           ],

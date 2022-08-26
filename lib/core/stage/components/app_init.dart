@@ -5,9 +5,12 @@ import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
 import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
+import '../../../auth/screens/biometric/biometric.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
 import '../../../auth/screens/onboarding/onboarding_screen.dart';
+import '../../../auth/screens/single_sign_in/sing_in.dart';
 import '../../../auth/screens/splash/splash_screen.dart';
+import '../../../auth/screens/user_data/user_data_screen.dart';
 import '../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../router/provider/app_init_fpod.dart';
 import '../../../router/provider/authorization_stpod/authorization_stpod.dart';
@@ -69,6 +72,9 @@ class AppInit extends HookWidget {
                 );
               },
               home: () => Navigation(),
+              userDataVerification: () => const UserDataScreen(),
+              singleIn: () => const SingIn(),
+              askBioUsing: () => const Biometric(),
             );
           },
           unauthorized: () => const OnboardingScreen(),
