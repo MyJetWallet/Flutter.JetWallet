@@ -1041,5 +1041,7 @@
     "previewBuyWithUmlimint_disclaimer": "I have read and agreed to",
     "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
     "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
-    "previewBuyWithUmlimint_skipWait": "Skip waiting"
+    "previewBuyWithUmlimint_skipWait": "Skip waiting",
+    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
+    "previewBuyWithUmlimint_saveCard": "Save this card"
 }

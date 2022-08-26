@@ -42,4 +42,6 @@ enum BlockingType {
   login,
   @JsonValue(4)
   phoneNumberUpdate,
+  @JsonValue(5)
+  deposit,
 }

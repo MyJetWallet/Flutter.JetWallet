@@ -23,6 +23,7 @@ class KycAlertHandler {
 
   void handle({
     bool navigatePop = false,
+    bool kycFlowOnly = false,
     SWidgetSize size = SWidgetSize.medium,
     required Function() currentNavigate,
     required int status,
@@ -31,6 +32,14 @@ class KycAlertHandler {
   }) {
     if (isProgress) {
       _showVerifyingAlert();
+      return;
+    }
+
+    if (kycFlowOnly) {
+      _navigateVerifiedNavigate(
+        kycVerified.requiredVerifications,
+        kycVerified.requiredDocuments,
+      );
       return;
     }
 

@@ -33,10 +33,7 @@ void showAddPaymentBottomSheet({
         if (method.type == PaymentMethodType.simplex) ...[
           Builder(
             builder: (context) {
-              final isSelected = selectedPaymentMethod?.type ==
-                  PaymentMethodType.simplex;
               return SActionItem(
-                isSelected: isSelected,
                 icon: SActionDepositIcon(
                   color: colors.blue,
                 ),
@@ -75,10 +72,7 @@ void showAddPaymentBottomSheet({
         if (method.type == PaymentMethodType.unlimintCard) ...[
           Builder(
             builder: (context) {
-              final isSelected = selectedPaymentMethod?.type ==
-                  PaymentMethodType.unlimintCard;
               return SActionItem(
-                isSelected: isSelected,
                 icon: SActionDepositIcon(
                   color: colors.blue,
                 ),
