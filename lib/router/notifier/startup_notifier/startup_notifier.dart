@@ -42,10 +42,8 @@ class StartupNotifier extends StateNotifier<StartupState> {
           _updateAuthorizedUnion(const PinSetup());
         } else if (info.toCheckPin) {
           _updateAuthorizedUnion(const PinVerification());
-        } else if (info.toCheckSelfie) {
-          _updateAuthorizedUnion(const PinVerification());
         } else {
-          _updateAuthorizedUnion(const PinSetup());
+          _updateAuthorizedUnion(const PinVerification());
         }
       } catch (e) {
         _logger.log(stateFlow, 'Failed to fetch session info', e);
