@@ -62,7 +62,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
       change: () async {
         await _initFlowThatStartsFromEnterPin(
           intl.pinScreen_changePin,
-          hideBio,
+          true,
         );
       },
       disable: () async {
@@ -91,7 +91,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     _updateHideBiometricButton(hideBio);
     final storageService = read(localStorageServicePod);
     final usingBio = await storageService.getValue(useBioKey);
-    if (usingBio == true.toString()) {
+    if (usingBio == true.toString() && !hideBio) {
       await updatePin(await _authenticateWithBio());
     }
   }
