@@ -88,6 +88,7 @@ class _ReferralCodeLinkBody extends HookWidget {
                       onChanged: (value) {
                         notifier.updateReferralCode(value, null);
                       },
+                      hideIconsIfError: false,
                       onErase: () => notifier.clearBottomSheetReferralCode(),
                       suffixIcons: [
                         SIconButton(

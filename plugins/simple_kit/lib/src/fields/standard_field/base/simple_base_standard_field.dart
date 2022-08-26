@@ -113,7 +113,7 @@ class SimpleBaseStandardField extends HookWidget {
                         const SpaceW20(),
                     ],
                 if (errorValue) ...[
-                  const SpaceW40(),
+                  if (!hideIconsIfError) const SpaceW20() else const SpaceW40(),
                   GestureDetector(
                     onTap: onErrorIconTap,
                     child: const SErrorIcon(),

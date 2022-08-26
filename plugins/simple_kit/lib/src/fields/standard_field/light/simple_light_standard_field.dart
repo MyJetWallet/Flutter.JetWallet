@@ -95,6 +95,7 @@ class SimpleLightStandardField extends HookWidget {
       inputFormatters: inputFormatters,
       hideSpace: hideSpace,
       hasManualError: hasManualError,
+      hideIconsIfError: hideIconsIfError,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,

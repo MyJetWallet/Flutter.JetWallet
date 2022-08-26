@@ -291,6 +291,8 @@ class ReferralCodeLinkNotifier extends StateNotifier<ReferralCodeLinkState> {
 
   void clearBottomSheetReferralCode() {
     state = state.copyWith(bottomSheetReferralCode: null);
+    updateReferralCode('', null);
+    resetBottomSheetReferralCodeValidation();
   }
 
   Future<String> _copiedText() async {
