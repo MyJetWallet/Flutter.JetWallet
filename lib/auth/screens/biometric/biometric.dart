@@ -75,7 +75,7 @@ class Biometric extends HookWidget {
               active: true,
               name: intl.bio_screen_button_late_text,
               onTap: () async {
-                final success = await makeAuthWithBiometrics(
+                await makeAuthWithBiometrics(
                   intl.pinScreen_weNeedYouToConfirmYourIdentity,
                 );
 
