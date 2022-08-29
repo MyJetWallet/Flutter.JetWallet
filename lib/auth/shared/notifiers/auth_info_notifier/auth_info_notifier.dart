@@ -2,12 +2,27 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../../shared/logging/levels.dart';
+import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
+import '../../../../shared/providers/service_providers.dart';
 import 'auth_info_state.dart';
 
 class AuthInfoNotifier extends StateNotifier<AuthInfoState> {
-  AuthInfoNotifier() : super(const AuthInfoState());
+  AuthInfoNotifier(this.read) : super(const AuthInfoState());
 
   static final _logger = Logger('AuthModelNotifier');
+  final Reader read;
+
+  Future<void> initSessionInfo() async {
+    final intl = read(intlPod);
+    final userInfo = read(userInfoNotipod.notifier);
+    final info = await read(infoServicePod).sessionInfo(intl.localeName);
+    userInfo.updateWithValuesFromSessionInfo(
+      twoFaEnabled: info.twoFaEnabled,
+      phoneVerified: info.phoneVerified,
+      hasDisclaimers: info.hasDisclaimers,
+      hasHighYieldDisclaimers: info.hasHighYieldDisclaimers,
+    );
+  }
 
   void updateToken(String token) {
     _logger.log(notifier, 'updateToken');
