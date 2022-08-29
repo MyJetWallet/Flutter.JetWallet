@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
 
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
@@ -27,6 +28,12 @@ class BiometricNotifier extends StateNotifier<BiometricState> {
     _logger.log(notifier, useBio);
     final storageService = read(localStorageServicePod);
     storageService.setString(useBioKey, useBio.toString());
+    final auth = LocalAuthentication();
+    auth.authenticate(
+      localizedReason: 'We need you to confirm your identity',
+      stickyAuth: true,
+      biometricOnly: true,
+    );
     if (isAccSettings) {
       Navigator.pop(context);
     } else {
