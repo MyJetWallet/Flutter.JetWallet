@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 
@@ -18,10 +19,18 @@ class BiometricNotifier extends StateNotifier<BiometricState> {
 
   static final _logger = Logger('BiometricNotifier');
 
-  void useBio({required bool useBio}) {
+  void useBio({
+    required bool useBio,
+    bool isAccSettings = false,
+    required BuildContext context,
+  }) {
     _logger.log(notifier, useBio);
     final storageService = read(localStorageServicePod);
     storageService.setString(useBioKey, useBio.toString());
-    read(startupNotipod.notifier).pinVerified();
+    if (isAccSettings) {
+      Navigator.pop(context);
+    } else {
+      read(startupNotipod.notifier).pinVerified();
+    }
   }
 }
