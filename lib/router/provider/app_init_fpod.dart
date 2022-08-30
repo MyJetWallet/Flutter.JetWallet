@@ -57,6 +57,7 @@ final appInitFpod = FutureProvider<void>(
 
       try {
         final result = await refreshToken(ref.read);
+        await authInfoN.initSessionInfo();
 
         if (result == RefreshTokenStatus.success) {
           await userInfoN.initPinStatus();

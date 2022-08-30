@@ -11,6 +11,7 @@ import '../../../auth/screens/onboarding/onboarding_screen.dart';
 import '../../../auth/screens/single_sign_in/sing_in.dart';
 import '../../../auth/screens/splash/splash_screen.dart';
 import '../../../auth/screens/user_data/user_data_screen.dart';
+import '../../../auth/shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
 import '../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../router/provider/app_init_fpod.dart';
 import '../../../router/provider/authorization_stpod/authorization_stpod.dart';
@@ -30,6 +31,7 @@ class AppInit extends HookWidget {
   Widget build(BuildContext context) {
     final router = useProvider(authorizationStpod);
     final appInit = useProvider(appInitFpod);
+    final authInfoN = useProvider(authInfoNotipod.notifier);
     final startup = useProvider(startupNotipod);
     final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
 
@@ -71,7 +73,10 @@ class AppInit extends HookWidget {
                   displayHeader: false,
                 );
               },
-              home: () => Navigation(),
+              home: () {
+                authInfoN.initSessionInfo();
+                return Navigation();
+              },
               userDataVerification: () => const UserDataScreen(),
               singleIn: () => const SingIn(),
               askBioUsing: () => const Biometric(),
