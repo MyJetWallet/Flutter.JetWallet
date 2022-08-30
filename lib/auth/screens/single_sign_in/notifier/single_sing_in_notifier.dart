@@ -54,10 +54,22 @@ class SingleSingInNotifier extends StateNotifier<SingleSingInState> {
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'singleSingIn', error.cause);
-      state = state.copyWith(union: Error(error.cause));
+      if (error.cause.contains('500')) {
+        state = state.copyWith(
+            union: Error(intl.something_went_wrong_try_again),
+        );
+      } else {
+        state = state.copyWith(union: Error(error.cause));
+      }
     } catch (e) {
       _logger.log(stateFlow, 'singleSingIn', e);
-      state = state.copyWith(union: Error(e));
+      if (e.toString().contains('500')) {
+        state = state.copyWith(
+          union: Error(intl.something_went_wrong_try_again),
+        );
+      } else {
+        state = state.copyWith(union: Error(e));
+      }
     }
   }
 }
