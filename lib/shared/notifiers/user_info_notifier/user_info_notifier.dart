@@ -87,6 +87,14 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     }
   }
 
+  Future<void> initBiometricStatus() async {
+    _logger.log(notifier, 'initBiometricStatus');
+
+    final bioStatus = await storage.getValue(useBioKey);
+    final hideBio = bioStatus != 'true';
+    _updateBiometric(hideBio);
+  }
+
   Future<void> disablePin() async {
     _logger.log(notifier, 'disablePin');
 
@@ -98,7 +106,7 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     state = state.copyWith(isJustLogged: value);
   }
 
-  /// Set PIN/Biometrics information
+  /// Set PIN information
   Future<void> setPin(String value) async {
     _logger.log(notifier, 'setPin');
 
@@ -116,6 +124,15 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
 
   void _updatePin(String? value) {
     state = state.copyWith(pin: value);
+  }
+
+  void _updateBiometric(bool hideBio) {
+    state = state.copyWith(biometricDisabled: hideBio);
+  }
+
+  Future<void> disableBiometric() async {
+    state = state.copyWith(biometricDisabled: true);
+    await storage.setString(useBioKey, false.toString());
   }
 
   void _updatePinDisabled(bool value) {

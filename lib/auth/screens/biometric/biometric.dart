@@ -4,21 +4,28 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/constants.dart';
+import '../../../shared/helpers/navigator_push.dart';
 import '../../../shared/providers/service_providers.dart';
 import 'notifier/biometric_notipod.dart';
 import 'notifier/biometric_status_notifier.dart';
 
 class Biometric extends HookWidget {
-  const Biometric({Key? key}) : super(key: key);
+  const Biometric({
+    Key? key,
+    this.isAccSettings = false,
+  }) : super(key: key);
+
+  final bool isAccSettings;
 
   static const routeName = '/bio';
 
-  static Future push({
+  static void push({
     required BuildContext context,
+    bool isAccSettings = false,
   }) {
-    return Navigator.pushNamed(
+    navigatorPush(
       context,
-      routeName,
+      Biometric(isAccSettings: isAccSettings),
     );
   }
 
@@ -67,7 +74,11 @@ class Biometric extends HookWidget {
               active: true,
               name: buttonText,
               onTap: () {
-                biometric.useBio(useBio: true);
+                biometric.useBio(
+                  useBio: true,
+                  isAccSettings: isAccSettings,
+                  context: context,
+                );
               },
             ),
             const SpaceH10(),
@@ -75,11 +86,17 @@ class Biometric extends HookWidget {
               active: true,
               name: intl.bio_screen_button_late_text,
               onTap: () async {
-                await makeAuthWithBiometrics(
-                  intl.pinScreen_weNeedYouToConfirmYourIdentity,
-                );
-
-                biometric.useBio(useBio: false);
+                if (isAccSettings) {
+                  Navigator.pop(context);
+                } else {
+                  await makeAuthWithBiometrics(
+                    intl.pinScreen_weNeedYouToConfirmYourIdentity,
+                  );
+                  biometric.useBio(
+                    useBio: false,
+                    context: context,
+                  );
+                }
               },
             ),
             const SpaceH24(),

@@ -16,11 +16,26 @@ class AuthInfoNotifier extends StateNotifier<AuthInfoState> {
     final intl = read(intlPod);
     final userInfo = read(userInfoNotipod.notifier);
     final info = await read(infoServicePod).sessionInfo(intl.localeName);
+    final profileInfo = await read(profileServicePod).info(intl.localeName);
     userInfo.updateWithValuesFromSessionInfo(
       twoFaEnabled: info.twoFaEnabled,
       phoneVerified: info.phoneVerified,
       hasDisclaimers: info.hasDisclaimers,
       hasHighYieldDisclaimers: info.hasHighYieldDisclaimers,
+    );
+    userInfo.updateWithValuesFromProfileInfo(
+        emailConfirmed: profileInfo.emailConfirmed,
+        phoneConfirmed: profileInfo.phoneConfirmed,
+        kycPassed: profileInfo.kycPassed,
+        email: profileInfo.email ?? '',
+        phone: profileInfo.phone ?? '',
+        referralLink: profileInfo.referralLink ?? '',
+        referralCode: profileInfo.referralCode ?? '',
+        countryOfRegistration: profileInfo.countryOfRegistration ?? '',
+        countryOfResidence: profileInfo.countryOfResidence ?? '',
+        countryOfCitizenship: profileInfo.countryOfCitizenship ?? '',
+        firstName: profileInfo.firstName ?? '',
+        lastName: profileInfo.lastName ?? '',
     );
   }
 

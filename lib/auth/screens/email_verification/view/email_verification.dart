@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -102,6 +104,7 @@ class _EmailVerificationState extends State<EmailVerification>
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
+    final isSent = useState(false);
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
@@ -206,8 +209,18 @@ class _EmailVerificationState extends State<EmailVerification>
                         active: true,
                         name: intl.twoFaPhone_resend,
                         onTap: () {
-                          timerN.refreshTimer();
-                          verificationN.resendCode();
+                          if (!isSent.value) {
+                            isSent.value = true;
+                            timerN.refreshTimer();
+                            verificationN.resendCode();
+                            Timer(const Duration(seconds: 2), () {
+                              if (!mounted) {
+                                return;
+                              } else {
+                                isSent.value = false;
+                              }
+                            });
+                          }
                         },
                       ),
                     ],
